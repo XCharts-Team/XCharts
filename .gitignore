@@ -1,0 +1,17 @@
+/.vs
+
+.vs
+/Library
+/Temp
+/UnityPackageManager
+/Assets/XLua/Examples
+
+XChart.sln
+XChart.csproj
+XChart.Editor.csproj
+XChart.Plugins.csproj
+
+*.vcxproj.filters
+*.vcxproj.user
+*.pdb
+*.exp

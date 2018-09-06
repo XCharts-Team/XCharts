@@ -131,6 +131,10 @@ namespace xchart
         [SerializeField]
         private int graduationStep = 10;
         [SerializeField]
+        private float arrowLen = 12;
+        [SerializeField]
+        private float arrowSize = 6;
+        [SerializeField]
         private List<Text> graduationList = new List<Text>();
         [SerializeField]
         private List<LineData> lineList = new List<LineData>();
@@ -301,7 +305,7 @@ namespace xchart
             // draw coordinate
             Vector3 coordZero = Vector3.zero;
 
-            DrawLine(vh, new Vector3(chartWid + 5, -5), new Vector3(chartWid + 5, chartHigh+0.5f), 1, Color.grey);
+            DrawLine(vh, new Vector3(chartWid + 5, -5), new Vector3(chartWid + 5, chartHigh + 0.5f), 1, Color.grey);
             for (int i = 0; i < graduationList.Count; i++)
             {
                 Vector3 sp = new Vector3(-5, chartHigh * i / (graduationList.Count - 1));
@@ -338,8 +342,16 @@ namespace xchart
                 }
             }
 
-            DrawLine(vh, new Vector3(0, -6.5f), new Vector3(0, chartHigh + 15), 1.5f, Color.white);
-            DrawLine(vh, new Vector3(0, -5), new Vector3(chartWid + 25, -5), 1.5f, Color.white);
+            //draw x,y axis
+            float xLen = chartWid + 25;
+            float yLen = chartHigh + 15;
+            float xPos = 0;
+            float yPos = -5;
+            DrawLine(vh, new Vector3(xPos, yPos - 1.5f), new Vector3(xPos, yLen), 1.5f, Color.white);
+            DrawLine(vh, new Vector3(xPos, yPos), new Vector3(xLen, yPos), 1.5f, Color.white);
+            //draw arrows
+            DrawTriangle(vh, new Vector3(xPos - arrowSize, yLen - arrowLen), new Vector3(xPos, yLen + 4), new Vector3(xPos + arrowSize, yLen - arrowLen), Color.white);
+            DrawTriangle(vh, new Vector3(xLen - arrowLen, yPos + arrowSize), new Vector3(xLen + 4, yPos), new Vector3(xLen - arrowLen, yPos - arrowSize), Color.white);
         }
 
         private void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color color)
@@ -373,5 +385,61 @@ namespace xchart
             }
             vh.AddUIVertexQuad(vertex);
         }
+
+        private void DrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color color)
+        {
+            List<UIVertex> vertexs = new List<UIVertex>();
+            vh.GetUIVertexStream(vertexs);
+            DrawTriangle(vh, vertexs, p1, p2, p3, color);
+        }
+
+        private void DrawTriangle(VertexHelper vh, List<UIVertex> vertexs, Vector3 p1, Vector3 p2, Vector3 p3, Color color)
+        {
+            UIVertex v1 = new UIVertex();
+            v1.position = p1;
+            v1.color = color;
+            v1.uv0 = Vector3.zero;
+            vertexs.Add(v1);
+            UIVertex v2 = new UIVertex();
+            v2.position = p2;
+            v2.color = color;
+            v2.uv0 = Vector3.zero;
+            vertexs.Add(v2);
+            UIVertex v3 = new UIVertex();
+            v3.position = p3;
+            v3.color = color;
+            v3.uv0 = Vector3.zero;
+            vertexs.Add(v3);
+            vh.AddUIVertexTriangleStream(vertexs);
+        }
+
+        private void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color, int segments)
+        {
+            List<UIVertex> vertexs = new List<UIVertex>();
+            vh.GetUIVertexStream(vertexs);
+            float angle = 2 * Mathf.PI / segments;
+            float cos = Mathf.Cos(angle);
+            float sin = Mathf.Sin(angle);
+            float cx = radius, cy = 0;
+
+            List<UIVertex> vs = new List<UIVertex>();
+
+            segments--;
+            Vector3 p2, p3;
+            for (int i = 0; i < segments; i++)
+            {
+                p2 = new Vector3(p.x + cx, p.y + cy);
+                float temp = cx;
+                cx = cos * cx - sin * cy;
+                cy = sin * temp + cos * cy;
+                p3 = new Vector3(p.x + cx, p.y + cy);
+                DrawTriangle(vh, vertexs, p, p2, p3, color);
+            }
+            p2 = new Vector3(p.x + cx, p.y + cy);
+            cx = radius;
+            cy = 0;
+            p3 = new Vector3(p.x + cx, p.y + cy);
+            DrawTriangle(vh, vertexs, p, p2, p3, color);
+        }  
     }
 }

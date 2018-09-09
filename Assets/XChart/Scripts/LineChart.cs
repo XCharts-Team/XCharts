@@ -135,18 +135,21 @@ namespace xchart
         [SerializeField]
         private float arrowSize = 6;
         [SerializeField]
-        private List<Text> graduationList = new List<Text>();
+        private Color backgroundColor;
+        [SerializeField]
+        private Font font;
+        
         [SerializeField]
         private List<LineData> lineList = new List<LineData>();
 
+        private List<Text> graduationList = new List<Text>();
         private Dictionary<string, LineData> lineMap = new Dictionary<string, LineData>();
-        private RectTransform rectTrans;
         private float lastMax = 0;
+        private float lastHig = 0;
 
         protected override void Awake()
         {
             base.Awake();
-            rectTrans = GetComponent<RectTransform>();
             for (int i = 0; i < lineList.Count; i++)
             {
                 LineData line = lineList[i];
@@ -161,6 +164,42 @@ namespace xchart
                     });
                 }
                 AddLineToLineMap(line);
+            }
+            InitGraduation();
+        }
+
+        private void InitGraduation()
+        {
+            float chartHigh = rectTransform.sizeDelta.y;
+            float graduationHig = chartHigh / 4;
+            for (int i = 0; i < 5; i++)
+            {
+                GameObject g1;
+                if (transform.Find("graduation" + i))
+                {
+                    g1 = transform.Find("graduation" + i).gameObject;
+                    graduationList.Add(g1.GetComponent<Text>());
+                }
+                else
+                {
+                    g1 = new GameObject();
+                    g1.name = "graduation" + i;
+                    g1.transform.parent = transform;
+                    g1.transform.localPosition = Vector3.zero;
+                    g1.transform.localScale = Vector3.one;
+                    g1.AddComponent<Text>();
+                    Text txtg1 = g1.GetComponent<Text>();
+                    txtg1.font = font;
+                    txtg1.text = (i * 100).ToString();
+                    txtg1.alignment = TextAnchor.MiddleRight;
+                    RectTransform rect = g1.GetComponent<RectTransform>();
+                    rect.anchorMax = Vector2.zero;
+                    rect.anchorMin = Vector2.zero;
+                    rect.sizeDelta = new Vector2(50, 20);
+                    rect.localPosition = new Vector3(-33, i * graduationHig, 0);
+                    graduationList.Add(txtg1);
+                }
+                
             }
         }
 
@@ -293,6 +332,18 @@ namespace xchart
                     graduationList[i].text = ((int)(dataMax * i / graduationList.Count)).ToString();
                 }
             }
+            float chartHigh = rectTransform.sizeDelta.y;
+            Debug.LogError("hig:"+chartHigh);
+            if (lastHig != chartHigh)
+            {
+                lastHig = chartHigh;
+                for (int i = 0; i < graduationList.Count; i++)
+                {              
+                    Vector3 pos = graduationList[i].rectTransform.localPosition;
+                    print("i:"+pos);
+                    graduationList[i].rectTransform.localPosition = new Vector3(pos.x, lastHig * i / (graduationList.Count-1), pos.z);
+                }
+            }
         }
 
         protected override void OnPopulateMesh(VertexHelper vh)
@@ -301,11 +352,16 @@ namespace xchart
             float chartHigh = rectTransform.sizeDelta.y;
             int chartWid = (int)(rectTransform.sizeDelta.x / pointWidth) * pointWidth;
             float dataMax = GetAllLineMax();
-
+            // draw bg
+            Vector3 p1 = new Vector3(-50, chartHigh + 30);
+            Vector3 p2 = new Vector3(chartWid + 50, chartHigh + 30);
+            Vector3 p3 = new Vector3(chartWid + 50, -20);
+            Vector3 p4 = new Vector3(-50, -20);
+            DrawCube(vh, p1, p2, p3, p4, backgroundColor);
             // draw coordinate
             Vector3 coordZero = Vector3.zero;
-
             DrawLine(vh, new Vector3(chartWid + 5, -5), new Vector3(chartWid + 5, chartHigh + 0.5f), 1, Color.grey);
+            // draw graduation
             for (int i = 0; i < graduationList.Count; i++)
             {
                 Vector3 sp = new Vector3(-5, chartHigh * i / (graduationList.Count - 1));
@@ -378,6 +434,21 @@ namespace xchart
             vertex[1].position = new Vector3(p.x + pointSize, p.y - pointSize);
             vertex[2].position = new Vector3(p.x + pointSize, p.y + pointSize);
             vertex[3].position = new Vector3(p.x - pointSize, p.y + pointSize);
+            for (int j = 0; j < 4; j++)
+            {
+                vertex[j].color = color;
+                vertex[j].uv0 = Vector2.zero;
+            }
+            vh.AddUIVertexQuad(vertex);
+        }
+
+        private void DrawCube(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, Color color)
+        {
+            UIVertex[] vertex = new UIVertex[4];
+            vertex[0].position = p1;
+            vertex[1].position = p2;
+            vertex[2].position = p3;
+            vertex[3].position = p4;
             for (int j = 0; j < 4; j++)
             {
                 vertex[j].color = color;

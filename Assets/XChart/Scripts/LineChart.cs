@@ -122,6 +122,8 @@ namespace xchart
 
     public class LineChart : MaskableGraphic
     {
+        private const int MAX_GRADUATION = 10;
+
         [SerializeField]
         private int pointWidth = 15;
         [SerializeField]
@@ -129,11 +131,13 @@ namespace xchart
         [SerializeField]
         private float pointSize = 1.5f;
         [SerializeField]
+        private int graduationCount = 4;
+        [SerializeField]
         private int graduationStep = 10;
-        [SerializeField]
-        private float arrowLen = 12;
-        [SerializeField]
+
+        private float arrowLen = 10;
         private float arrowSize = 6;
+
         [SerializeField]
         private Color backgroundColor;
         [SerializeField]
@@ -150,6 +154,8 @@ namespace xchart
         protected override void Awake()
         {
             base.Awake();
+            InitGraduation();
+            InitButton();
             for (int i = 0; i < lineList.Count; i++)
             {
                 LineData line = lineList[i];
@@ -165,41 +171,98 @@ namespace xchart
                 }
                 AddLineToLineMap(line);
             }
-            InitGraduation();
         }
 
         private void InitGraduation()
         {
             float chartHigh = rectTransform.sizeDelta.y;
-            float graduationHig = chartHigh / 4;
-            for (int i = 0; i < 5; i++)
+            float graduationHig = chartHigh / graduationCount;
+            
+            for (int i = 0; i < MAX_GRADUATION; i++)
             {
-                GameObject g1;
-                if (transform.Find("graduation" + i))
+                if (i >= graduationCount + 1)
                 {
-                    g1 = transform.Find("graduation" + i).gameObject;
-                    graduationList.Add(g1.GetComponent<Text>());
+                    if (transform.Find("graduation" + i))
+                    {
+                        transform.Find("graduation" + i).gameObject.SetActive(false);
+                    }
                 }
                 else
                 {
-                    g1 = new GameObject();
-                    g1.name = "graduation" + i;
-                    g1.transform.parent = transform;
-                    g1.transform.localPosition = Vector3.zero;
-                    g1.transform.localScale = Vector3.one;
-                    g1.AddComponent<Text>();
-                    Text txtg1 = g1.GetComponent<Text>();
-                    txtg1.font = font;
-                    txtg1.text = (i * 100).ToString();
-                    txtg1.alignment = TextAnchor.MiddleRight;
+                    GameObject g1;
+                    if (transform.Find("graduation" + i))
+                    {
+                        g1 = transform.Find("graduation" + i).gameObject;
+                        g1.SetActive(true);
+                    }
+                    else
+                    {
+                        g1 = new GameObject();
+                        g1.name = "graduation" + i;
+                        g1.transform.parent = transform;
+                        g1.transform.localPosition = Vector3.zero;
+                        g1.transform.localScale = Vector3.one;
+                        Text txtg1 = g1.AddComponent<Text>();
+                        txtg1.font = font;
+                        txtg1.text = (i * 100).ToString();
+                        txtg1.alignment = TextAnchor.MiddleRight;
+                    }
                     RectTransform rect = g1.GetComponent<RectTransform>();
                     rect.anchorMax = Vector2.zero;
                     rect.anchorMin = Vector2.zero;
                     rect.sizeDelta = new Vector2(50, 20);
                     rect.localPosition = new Vector3(-33, i * graduationHig, 0);
-                    graduationList.Add(txtg1);
+                    graduationList.Add(g1.GetComponent<Text>());
                 }
-                
+            }
+        }
+
+        private void InitButton()
+        {
+            float chartHigh = rectTransform.sizeDelta.y;
+            for (int i = 0; i < lineList.Count; i++)
+            {
+                if (lineList[i].button) continue;
+
+                GameObject goBtn;
+                if (transform.Find("button" + i))
+                {
+                    goBtn = transform.Find("button" + i).gameObject;
+                    lineList[i].button = goBtn.GetComponent<Button>();
+                }
+                else
+                {
+                    goBtn = new GameObject();
+                    goBtn.name = "button" + i;
+                    goBtn.transform.parent = transform;
+                    goBtn.transform.localPosition = Vector3.zero;
+                    goBtn.transform.localScale = Vector3.one;
+                    goBtn.AddComponent<Image>();
+                    goBtn.AddComponent<Button>();
+
+                    GameObject goTxt = new GameObject();
+                    goTxt.name = "Text";
+                    goTxt.transform.parent = goBtn.transform;
+                    goTxt.transform.localPosition = Vector3.zero;
+                    goTxt.transform.localScale = Vector3.one;
+                    goTxt.AddComponent<Text>();
+                    Text txtg1 = goTxt.GetComponent<Text>();
+                    txtg1.font = font;
+                    txtg1.text = (i * 100).ToString();
+                    txtg1.alignment = TextAnchor.MiddleCenter;
+                }
+                RectTransform rect = goBtn.GetComponent<RectTransform>();
+                if (rect == null)
+                {
+                    rect = goBtn.AddComponent<RectTransform>();
+                }
+                rect.anchorMax = Vector2.zero;
+                rect.anchorMin = Vector2.zero;
+                rect.pivot = Vector2.zero;
+                rect.sizeDelta = new Vector2(50, 20);
+                rect.localPosition = new Vector3(i*50, chartHigh + 30, 0);
+                Button btn = goBtn.GetComponent<Button>();
+                lineList[i].button = btn;
             }
         }
 
@@ -333,14 +396,12 @@ namespace xchart
                 }
             }
             float chartHigh = rectTransform.sizeDelta.y;
-            Debug.LogError("hig:"+chartHigh);
             if (lastHig != chartHigh)
             {
                 lastHig = chartHigh;
                 for (int i = 0; i < graduationList.Count; i++)
                 {              
                     Vector3 pos = graduationList[i].rectTransform.localPosition;
-                    print("i:"+pos);
                     graduationList[i].rectTransform.localPosition = new Vector3(pos.x, lastHig * i / (graduationList.Count-1), pos.z);
                 }
             }

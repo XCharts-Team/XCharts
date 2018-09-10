@@ -146,6 +146,8 @@ namespace xchart
         [SerializeField]
         private List<LineData> lineList = new List<LineData>();
 
+        private Button btnAll;
+        private bool isShowAll;
         private List<Text> graduationList = new List<Text>();
         private Dictionary<string, LineData> lineMap = new Dictionary<string, LineData>();
         private float lastMax = 0;
@@ -155,7 +157,8 @@ namespace xchart
         {
             base.Awake();
             InitGraduation();
-            InitButton();
+            InitLineButton();
+            InitHideAndShowButton();
             for (int i = 0; i < lineList.Count; i++)
             {
                 LineData line = lineList[i];
@@ -217,7 +220,7 @@ namespace xchart
             }
         }
 
-        private void InitButton()
+        private void InitLineButton()
         {
             float chartHigh = rectTransform.sizeDelta.y;
             for (int i = 0; i < lineList.Count; i++)
@@ -228,7 +231,6 @@ namespace xchart
                 if (transform.Find("button" + i))
                 {
                     goBtn = transform.Find("button" + i).gameObject;
-                    lineList[i].button = goBtn.GetComponent<Button>();
                 }
                 else
                 {
@@ -264,6 +266,59 @@ namespace xchart
                 Button btn = goBtn.GetComponent<Button>();
                 lineList[i].button = btn;
             }
+        }
+
+        private void InitHideAndShowButton()
+        {
+            if (lineList.Count <= 0) return;
+            GameObject goBtn;
+            float chartHigh = rectTransform.sizeDelta.y;
+            if (transform.Find("buttonall"))
+            {
+                goBtn = transform.Find("buttonall").gameObject;
+            }
+            else
+            {
+                goBtn = new GameObject();
+                goBtn.name = "buttonall";
+                goBtn.transform.parent = transform;
+                goBtn.transform.localPosition = Vector3.zero;
+                goBtn.transform.localScale = Vector3.one;
+                goBtn.AddComponent<Image>();
+                goBtn.AddComponent<Button>();
+
+                GameObject goTxt = new GameObject();
+                goTxt.name = "Text";
+                goTxt.transform.parent = goBtn.transform;
+                goTxt.transform.localPosition = Vector3.zero;
+                goTxt.transform.localScale = Vector3.one;
+                goTxt.AddComponent<Text>();
+                Text txtg1 = goTxt.GetComponent<Text>();
+                txtg1.font = font;
+                txtg1.text = "显示";
+                txtg1.alignment = TextAnchor.MiddleCenter;
+            }
+            RectTransform rect = goBtn.GetComponent<RectTransform>();
+            if (rect == null)
+            {
+                rect = goBtn.AddComponent<RectTransform>();
+            }
+            rect.anchorMax = new Vector2(1, 0);
+            rect.anchorMin = new Vector2(1, 0);
+            rect.pivot = new Vector2(1, 0);
+            rect.sizeDelta = new Vector2(50, 20);
+            rect.localPosition = new Vector3(0, chartHigh + 30, 0);
+            btnAll = goBtn.GetComponent<Button>();
+            btnAll.GetComponent<Image>().color = backgroundColor;
+            btnAll.onClick.AddListener(delegate ()
+            {
+                isShowAll = !isShowAll;
+                btnAll.GetComponentInChildren<Text>().text = isShowAll ? "隐藏" : "显示";
+                foreach(var line in lineList)
+                {
+                    line.visible = isShowAll;
+                }
+            });
         }
 
         private float time;

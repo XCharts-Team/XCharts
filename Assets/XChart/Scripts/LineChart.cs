@@ -134,6 +134,8 @@ namespace xchart
         private int graduationCount = 4;
         [SerializeField]
         private int graduationStep = 10;
+        [SerializeField]
+        private int graduationWidth = 50;
 
         private float arrowLen = 10;
         private float arrowSize = 6;
@@ -150,8 +152,9 @@ namespace xchart
         private bool isShowAll;
         private List<Text> graduationList = new List<Text>();
         private Dictionary<string, LineData> lineMap = new Dictionary<string, LineData>();
-        private float lastMax = 0;
-        private float lastHig = 0;
+        private float lastMaxData = 0;
+        private float lastChartHig = 0;
+        private float lastGraduationWid = 0;
 
         protected override void Awake()
         {
@@ -165,7 +168,8 @@ namespace xchart
                 line.dataList.Clear();
                 if (line.button)
                 {
-                    line.button.GetComponent<Image>().color = line.visible ? line.lineColor : Color.grey;
+                    Color bcolor = line.visible ? line.lineColor : Color.grey;
+                    line.button.GetComponent<Image>().color = bcolor;
                     line.button.GetComponentInChildren<Text>().text = line.name;
                     line.button.onClick.AddListener(delegate ()
                     {
@@ -261,7 +265,7 @@ namespace xchart
                 rect.anchorMax = Vector2.zero;
                 rect.anchorMin = Vector2.zero;
                 rect.pivot = Vector2.zero;
-                rect.sizeDelta = new Vector2(50, 20);
+                rect.sizeDelta = new Vector2(50-1, 20);
                 rect.localPosition = new Vector3(i*50, chartHigh + 30, 0);
                 Button btn = goBtn.GetComponent<Button>();
                 lineList[i].button = btn;
@@ -295,7 +299,7 @@ namespace xchart
                 goTxt.AddComponent<Text>();
                 Text txtg1 = goTxt.GetComponent<Text>();
                 txtg1.font = font;
-                txtg1.text = "显示";
+                txtg1.text = "SHOW";
                 txtg1.alignment = TextAnchor.MiddleCenter;
             }
             RectTransform rect = goBtn.GetComponent<RectTransform>();
@@ -303,17 +307,17 @@ namespace xchart
             {
                 rect = goBtn.AddComponent<RectTransform>();
             }
-            rect.anchorMax = new Vector2(1, 0);
-            rect.anchorMin = new Vector2(1, 0);
-            rect.pivot = new Vector2(1, 0);
-            rect.sizeDelta = new Vector2(50, 20);
-            rect.localPosition = new Vector3(0, chartHigh + 30, 0);
+            rect.anchorMax = Vector2.zero;
+            rect.anchorMin = Vector2.zero;
+            rect.pivot = Vector2.zero;
+            rect.sizeDelta = new Vector2(graduationWidth-1, 20);
+            rect.localPosition = new Vector3(-graduationWidth, chartHigh + 30, 0);
             btnAll = goBtn.GetComponent<Button>();
             btnAll.GetComponent<Image>().color = backgroundColor;
             btnAll.onClick.AddListener(delegate ()
             {
                 isShowAll = !isShowAll;
-                btnAll.GetComponentInChildren<Text>().text = isShowAll ? "隐藏" : "显示";
+                btnAll.GetComponentInChildren<Text>().text = isShowAll ? "HIDE" : "SHOW";
                 foreach(var line in lineList)
                 {
                     line.visible = isShowAll;
@@ -332,6 +336,7 @@ namespace xchart
                 AddPoint("rtt", Random.Range(15, 30));
                 AddPoint("ping", Random.Range(0, 100));
             }
+            CheckLineSizeChange();
         }
 
         void OnClickButton(string key)
@@ -343,7 +348,7 @@ namespace xchart
                 line.step = graduationStep;
                 line.UpdateMinMax();
             }
-            UpdateGradution();
+            CheckMaxDataChange();
             UpdateMesh();
         }
 
@@ -400,7 +405,7 @@ namespace xchart
             LineData line = lineMap[key];
             line.AddData(point, GetMaxPointCount());
             UpdateMesh();
-            UpdateGradution();
+            CheckMaxDataChange();
         }
 
         public void ResetDataStart()
@@ -429,7 +434,7 @@ namespace xchart
                 line.UpdateMinMax();
             }
             UpdateMesh();
-            UpdateGradution();
+            CheckMaxDataChange();
         }
 
         private void UpdateMesh()
@@ -439,25 +444,47 @@ namespace xchart
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (int)size.x);
         }
 
-        private void UpdateGradution()
+        private void CheckLineSizeChange()
+        {
+            float chartHig = rectTransform.sizeDelta.y;
+            if (lastChartHig != chartHig)
+            {
+                lastChartHig = chartHig;
+                //update graduation pos
+                for (int i = 0; i < graduationList.Count; i++)
+                {
+                    Vector3 pos = graduationList[i].rectTransform.localPosition;
+                    float posY = lastChartHig * i / (graduationList.Count - 1);
+                    graduationList[i].rectTransform.localPosition = new Vector3(pos.x, posY, pos.z);
+                }
+                //update line button pos
+                btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHig + 30, 0);
+                for (int i = 0; i < lineList.Count; i++)
+                {
+                    LineData line = lineList[i];
+                    if (line.button)
+                    {
+                        line.button.transform.localPosition = new Vector3(i * 50, chartHig + 30, 0);
+                    }
+                }
+            }
+            if(lastGraduationWid != graduationWidth)
+            {
+                lastGraduationWid = graduationWidth;
+                btnAll.GetComponent<RectTransform>().sizeDelta = new Vector2(graduationWidth, 20);
+                btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHig + 30, 0);
+            }
+        }
+
+        private void CheckMaxDataChange()
         {
             float dataMax = GetAllLineMax();
-            if (lastMax != dataMax)
+            if (lastMaxData != dataMax)
             {
-                lastMax = dataMax;
+                lastMaxData = dataMax;
                 for (int i = 0; i < graduationList.Count; i++)
                 {
                     graduationList[i].text = ((int)(dataMax * i / graduationList.Count)).ToString();
-                }
-            }
-            float chartHigh = rectTransform.sizeDelta.y;
-            if (lastHig != chartHigh)
-            {
-                lastHig = chartHigh;
-                for (int i = 0; i < graduationList.Count; i++)
-                {              
-                    Vector3 pos = graduationList[i].rectTransform.localPosition;
-                    graduationList[i].rectTransform.localPosition = new Vector3(pos.x, lastHig * i / (graduationList.Count-1), pos.z);
                 }
             }
         }
@@ -469,10 +496,10 @@ namespace xchart
             int chartWid = (int)(rectTransform.sizeDelta.x / pointWidth) * pointWidth;
             float dataMax = GetAllLineMax();
             // draw bg
-            Vector3 p1 = new Vector3(-50, chartHigh + 30);
+            Vector3 p1 = new Vector3(-graduationWidth, chartHigh + 30);
             Vector3 p2 = new Vector3(chartWid + 50, chartHigh + 30);
             Vector3 p3 = new Vector3(chartWid + 50, -20);
-            Vector3 p4 = new Vector3(-50, -20);
+            Vector3 p4 = new Vector3(-graduationWidth, -20);
             DrawCube(vh, p1, p2, p3, p4, backgroundColor);
             // draw coordinate
             Vector3 coordZero = Vector3.zero;

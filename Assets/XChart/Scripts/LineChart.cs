@@ -196,30 +196,30 @@ namespace xchart
                 }
                 else
                 {
-                    GameObject g1;
+                    GameObject txtObj;
                     if (transform.Find("graduation" + i))
                     {
-                        g1 = transform.Find("graduation" + i).gameObject;
-                        g1.SetActive(true);
+                        txtObj = transform.Find("graduation" + i).gameObject;
+                        txtObj.SetActive(true);
                     }
                     else
                     {
-                        g1 = new GameObject();
-                        g1.name = "graduation" + i;
-                        g1.transform.parent = transform;
-                        g1.transform.localPosition = Vector3.zero;
-                        g1.transform.localScale = Vector3.one;
-                        Text txtg1 = g1.AddComponent<Text>();
-                        txtg1.font = font;
-                        txtg1.text = (i * 100).ToString();
-                        txtg1.alignment = TextAnchor.MiddleRight;
+                        txtObj = new GameObject();
+                        txtObj.name = "graduation" + i;
+                        txtObj.transform.parent = transform;
+                        txtObj.transform.localPosition = Vector3.zero;
+                        txtObj.transform.localScale = Vector3.one;
+                        Text txt = txtObj.AddComponent<Text>();
+                        txt.font = font;
+                        txt.text = (i * 100).ToString();
+                        txt.alignment = TextAnchor.MiddleRight;
                     }
-                    RectTransform rect = g1.GetComponent<RectTransform>();
+                    RectTransform rect = txtObj.GetComponent<RectTransform>();
                     rect.anchorMax = Vector2.zero;
                     rect.anchorMin = Vector2.zero;
                     rect.sizeDelta = new Vector2(50, 20);
                     rect.localPosition = new Vector3(-33, i * graduationHig, 0);
-                    graduationList.Add(g1.GetComponent<Text>());
+                    graduationList.Add(txtObj.GetComponent<Text>());
                 }
             }
         }
@@ -231,43 +231,43 @@ namespace xchart
             {
                 if (lineList[i].button) continue;
 
-                GameObject goBtn;
+                GameObject btnObj;
                 if (transform.Find("button" + i))
                 {
-                    goBtn = transform.Find("button" + i).gameObject;
+                    btnObj = transform.Find("button" + i).gameObject;
                 }
                 else
                 {
-                    goBtn = new GameObject();
-                    goBtn.name = "button" + i;
-                    goBtn.transform.parent = transform;
-                    goBtn.transform.localPosition = Vector3.zero;
-                    goBtn.transform.localScale = Vector3.one;
-                    goBtn.AddComponent<Image>();
-                    goBtn.AddComponent<Button>();
+                    btnObj = new GameObject();
+                    btnObj.name = "button" + i;
+                    btnObj.transform.parent = transform;
+                    btnObj.transform.localPosition = Vector3.zero;
+                    btnObj.transform.localScale = Vector3.one;
+                    btnObj.AddComponent<Image>();
+                    btnObj.AddComponent<Button>();
 
-                    GameObject goTxt = new GameObject();
-                    goTxt.name = "Text";
-                    goTxt.transform.parent = goBtn.transform;
-                    goTxt.transform.localPosition = Vector3.zero;
-                    goTxt.transform.localScale = Vector3.one;
-                    goTxt.AddComponent<Text>();
-                    Text txtg1 = goTxt.GetComponent<Text>();
-                    txtg1.font = font;
-                    txtg1.text = (i * 100).ToString();
-                    txtg1.alignment = TextAnchor.MiddleCenter;
+                    GameObject txtObj = new GameObject();
+                    txtObj.name = "Text";
+                    txtObj.transform.parent = btnObj.transform;
+                    txtObj.transform.localPosition = Vector3.zero;
+                    txtObj.transform.localScale = Vector3.one;
+                    txtObj.AddComponent<Text>();
+                    Text txt = txtObj.GetComponent<Text>();
+                    txt.font = font;
+                    txt.text = (i * 100).ToString();
+                    txt.alignment = TextAnchor.MiddleCenter;
                 }
-                RectTransform rect = goBtn.GetComponent<RectTransform>();
+                RectTransform rect = btnObj.GetComponent<RectTransform>();
                 if (rect == null)
                 {
-                    rect = goBtn.AddComponent<RectTransform>();
+                    rect = btnObj.AddComponent<RectTransform>();
                 }
                 rect.anchorMax = Vector2.zero;
                 rect.anchorMin = Vector2.zero;
                 rect.pivot = Vector2.zero;
-                rect.sizeDelta = new Vector2(50-1, 20);
+                rect.sizeDelta = new Vector2(50, 20);
                 rect.localPosition = new Vector3(i*50, chartHigh + 30, 0);
-                Button btn = goBtn.GetComponent<Button>();
+                Button btn = btnObj.GetComponent<Button>();
                 lineList[i].button = btn;
             }
         }
@@ -275,44 +275,44 @@ namespace xchart
         private void InitHideAndShowButton()
         {
             if (lineList.Count <= 0) return;
-            GameObject goBtn;
+            GameObject btnObj;
             float chartHigh = rectTransform.sizeDelta.y;
             if (transform.Find("buttonall"))
             {
-                goBtn = transform.Find("buttonall").gameObject;
+                btnObj = transform.Find("buttonall").gameObject;
             }
             else
             {
-                goBtn = new GameObject();
-                goBtn.name = "buttonall";
-                goBtn.transform.parent = transform;
-                goBtn.transform.localPosition = Vector3.zero;
-                goBtn.transform.localScale = Vector3.one;
-                goBtn.AddComponent<Image>();
-                goBtn.AddComponent<Button>();
+                btnObj = new GameObject();
+                btnObj.name = "buttonall";
+                btnObj.transform.parent = transform;
+                btnObj.transform.localPosition = Vector3.zero;
+                btnObj.transform.localScale = Vector3.one;
+                btnObj.AddComponent<Image>();
+                btnObj.AddComponent<Button>();
 
-                GameObject goTxt = new GameObject();
-                goTxt.name = "Text";
-                goTxt.transform.parent = goBtn.transform;
-                goTxt.transform.localPosition = Vector3.zero;
-                goTxt.transform.localScale = Vector3.one;
-                goTxt.AddComponent<Text>();
-                Text txtg1 = goTxt.GetComponent<Text>();
-                txtg1.font = font;
-                txtg1.text = "SHOW";
-                txtg1.alignment = TextAnchor.MiddleCenter;
+                GameObject txtObj = new GameObject();
+                txtObj.name = "Text";
+                txtObj.transform.parent = btnObj.transform;
+                txtObj.transform.localPosition = Vector3.zero;
+                txtObj.transform.localScale = Vector3.one;
+                txtObj.AddComponent<Text>();
+                Text txt = txtObj.GetComponent<Text>();
+                txt.font = font;
+                txt.text = "SHOW";
+                txt.alignment = TextAnchor.MiddleCenter;
             }
-            RectTransform rect = goBtn.GetComponent<RectTransform>();
+            RectTransform rect = btnObj.GetComponent<RectTransform>();
             if (rect == null)
             {
-                rect = goBtn.AddComponent<RectTransform>();
+                rect = btnObj.AddComponent<RectTransform>();
             }
             rect.anchorMax = Vector2.zero;
             rect.anchorMin = Vector2.zero;
             rect.pivot = Vector2.zero;
-            rect.sizeDelta = new Vector2(graduationWidth-1, 20);
+            rect.sizeDelta = new Vector2(graduationWidth, 20);
             rect.localPosition = new Vector3(-graduationWidth, chartHigh + 30, 0);
-            btnAll = goBtn.GetComponent<Button>();
+            btnAll = btnObj.GetComponent<Button>();
             btnAll.GetComponent<Image>().color = backgroundColor;
             btnAll.onClick.AddListener(delegate ()
             {
@@ -325,17 +325,8 @@ namespace xchart
             });
         }
 
-        private float time;
         private void Update()
         {
-            time += Time.deltaTime;
-            if (time >= 1)
-            {
-                time = 0;
-                AddPoint("fps", Random.Range(24.0f, 60.0f));
-                AddPoint("rtt", Random.Range(15, 30));
-                AddPoint("ping", Random.Range(0, 100));
-            }
             CheckLineSizeChange();
         }
 

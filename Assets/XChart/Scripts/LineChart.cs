@@ -119,7 +119,6 @@ namespace xchart
         }
     }
 
-
     public class LineChart : MaskableGraphic
     {
         private const int MAX_GRADUATION = 10;
@@ -149,7 +148,7 @@ namespace xchart
         private List<LineData> lineList = new List<LineData>();
 
         private Button btnAll;
-        private bool isShowAll;
+        private bool isShowAll = true;
         private List<Text> graduationList = new List<Text>();
         private Dictionary<string, LineData> lineMap = new Dictionary<string, LineData>();
         private float lastMaxData = 0;
@@ -196,30 +195,12 @@ namespace xchart
                 }
                 else
                 {
-                    GameObject txtObj;
-                    if (transform.Find("graduation" + i))
-                    {
-                        txtObj = transform.Find("graduation" + i).gameObject;
-                        txtObj.SetActive(true);
-                    }
-                    else
-                    {
-                        txtObj = new GameObject();
-                        txtObj.name = "graduation" + i;
-                        txtObj.transform.parent = transform;
-                        txtObj.transform.localPosition = Vector3.zero;
-                        txtObj.transform.localScale = Vector3.one;
-                        Text txt = txtObj.AddComponent<Text>();
-                        txt.font = font;
-                        txt.text = (i * 100).ToString();
-                        txt.alignment = TextAnchor.MiddleRight;
-                    }
-                    RectTransform rect = txtObj.GetComponent<RectTransform>();
-                    rect.anchorMax = Vector2.zero;
-                    rect.anchorMin = Vector2.zero;
-                    rect.sizeDelta = new Vector2(50, 20);
-                    rect.localPosition = new Vector3(-33, i * graduationHig, 0);
-                    graduationList.Add(txtObj.GetComponent<Text>());
+                    Text txt = ChartUtils.AddTextObject("graduation" + i, transform, font, 
+                        TextAnchor.MiddleRight, Vector2.zero,Vector2.zero, new Vector2(1,0.5f), 
+                        new Vector2(50, 20));
+                    txt.transform.localPosition = new Vector3(-8, i * graduationHig, 0);
+                    txt.text = (i * 100).ToString();
+                    graduationList.Add(txt);
                 }
             }
         }
@@ -230,44 +211,9 @@ namespace xchart
             for (int i = 0; i < lineList.Count; i++)
             {
                 if (lineList[i].button) continue;
-
-                GameObject btnObj;
-                if (transform.Find("button" + i))
-                {
-                    btnObj = transform.Find("button" + i).gameObject;
-                }
-                else
-                {
-                    btnObj = new GameObject();
-                    btnObj.name = "button" + i;
-                    btnObj.transform.parent = transform;
-                    btnObj.transform.localPosition = Vector3.zero;
-                    btnObj.transform.localScale = Vector3.one;
-                    btnObj.AddComponent<Image>();
-                    btnObj.AddComponent<Button>();
-
-                    GameObject txtObj = new GameObject();
-                    txtObj.name = "Text";
-                    txtObj.transform.parent = btnObj.transform;
-                    txtObj.transform.localPosition = Vector3.zero;
-                    txtObj.transform.localScale = Vector3.one;
-                    txtObj.AddComponent<Text>();
-                    Text txt = txtObj.GetComponent<Text>();
-                    txt.font = font;
-                    txt.text = (i * 100).ToString();
-                    txt.alignment = TextAnchor.MiddleCenter;
-                }
-                RectTransform rect = btnObj.GetComponent<RectTransform>();
-                if (rect == null)
-                {
-                    rect = btnObj.AddComponent<RectTransform>();
-                }
-                rect.anchorMax = Vector2.zero;
-                rect.anchorMin = Vector2.zero;
-                rect.pivot = Vector2.zero;
-                rect.sizeDelta = new Vector2(50, 20);
-                rect.localPosition = new Vector3(i*50, chartHigh + 30, 0);
-                Button btn = btnObj.GetComponent<Button>();
+                Button btn = ChartUtils.AddButtonObject("button" + i, transform, font, Vector2.zero,
+                    Vector2.zero, Vector2.zero, new Vector2(50, 20));
+                btn.transform.localPosition = new Vector3(i * 50, chartHigh + 30, 0);
                 lineList[i].button = btn;
             }
         }
@@ -275,44 +221,11 @@ namespace xchart
         private void InitHideAndShowButton()
         {
             if (lineList.Count <= 0) return;
-            GameObject btnObj;
             float chartHigh = rectTransform.sizeDelta.y;
-            if (transform.Find("buttonall"))
-            {
-                btnObj = transform.Find("buttonall").gameObject;
-            }
-            else
-            {
-                btnObj = new GameObject();
-                btnObj.name = "buttonall";
-                btnObj.transform.parent = transform;
-                btnObj.transform.localPosition = Vector3.zero;
-                btnObj.transform.localScale = Vector3.one;
-                btnObj.AddComponent<Image>();
-                btnObj.AddComponent<Button>();
-
-                GameObject txtObj = new GameObject();
-                txtObj.name = "Text";
-                txtObj.transform.parent = btnObj.transform;
-                txtObj.transform.localPosition = Vector3.zero;
-                txtObj.transform.localScale = Vector3.one;
-                txtObj.AddComponent<Text>();
-                Text txt = txtObj.GetComponent<Text>();
-                txt.font = font;
-                txt.text = "SHOW";
-                txt.alignment = TextAnchor.MiddleCenter;
-            }
-            RectTransform rect = btnObj.GetComponent<RectTransform>();
-            if (rect == null)
-            {
-                rect = btnObj.AddComponent<RectTransform>();
-            }
-            rect.anchorMax = Vector2.zero;
-            rect.anchorMin = Vector2.zero;
-            rect.pivot = Vector2.zero;
-            rect.sizeDelta = new Vector2(graduationWidth, 20);
-            rect.localPosition = new Vector3(-graduationWidth, chartHigh + 30, 0);
-            btnAll = btnObj.GetComponent<Button>();
+            btnAll = ChartUtils.AddButtonObject("buttonall", transform, font, Vector2.zero,
+                    Vector2.zero, Vector2.zero, new Vector2(graduationWidth, 20));
+            btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHigh + 30, 0);
+            btnAll.GetComponentInChildren<Text>().text = isShowAll ? "HIDE" : "SHOW";
             btnAll.GetComponent<Image>().color = backgroundColor;
             btnAll.onClick.AddListener(delegate ()
             {
@@ -461,8 +374,11 @@ namespace xchart
             }
             if(lastGraduationWid != graduationWidth)
             {
+                if (graduationWidth < 40) graduationWidth = 40;
                 lastGraduationWid = graduationWidth;
-                btnAll.GetComponent<RectTransform>().sizeDelta = new Vector2(graduationWidth, 20);
+                Vector2 sizeDelta = new Vector2(graduationWidth, 20);
+                btnAll.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+                btnAll.transform.Find("Text").GetComponent<RectTransform>().sizeDelta = sizeDelta;
                 btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHig + 30, 0);
             }
         }
@@ -491,16 +407,17 @@ namespace xchart
             Vector3 p2 = new Vector3(chartWid + 50, chartHigh + 30);
             Vector3 p3 = new Vector3(chartWid + 50, -20);
             Vector3 p4 = new Vector3(-graduationWidth, -20);
-            DrawCube(vh, p1, p2, p3, p4, backgroundColor);
+            ChartUtils.DrawCube(vh, p1, p2, p3, p4, backgroundColor);
             // draw coordinate
             Vector3 coordZero = Vector3.zero;
-            DrawLine(vh, new Vector3(chartWid + 5, -5), new Vector3(chartWid + 5, chartHigh + 0.5f), 1, Color.grey);
+            ChartUtils.DrawLine(vh, new Vector3(chartWid + 5, -5), 
+                new Vector3(chartWid + 5, chartHigh + 0.5f), 1, Color.grey);
             // draw graduation
             for (int i = 0; i < graduationList.Count; i++)
             {
                 Vector3 sp = new Vector3(-5, chartHigh * i / (graduationList.Count - 1));
                 Vector3 ep = new Vector3(chartWid + 5, chartHigh * i / (graduationList.Count - 1));
-                DrawLine(vh, sp, ep, 0.5f, Color.grey);
+                ChartUtils.DrawLine(vh, sp, ep, 0.5f, Color.grey);
             }
 
             // draw line
@@ -517,7 +434,7 @@ namespace xchart
                     np = new Vector3(i * pointWidth, data);
                     if (i > 0)
                     {
-                        DrawLine(vh, lp, np, lineSize, line.lineColor);
+                        ChartUtils.DrawLine(vh, lp, np, lineSize, line.lineColor);
                     }
                     lp = np;
                 }
@@ -528,7 +445,7 @@ namespace xchart
                     UIVertex[] quadverts = new UIVertex[4];
                     float data = line.dataList[i] * chartHigh / dataMax;
                     Vector3 p = new Vector3(i * pointWidth, data);
-                    DrawCube(vh, p, pointSize, line.pointColor);
+                    ChartUtils.DrawCube(vh, p, pointSize, line.pointColor);
                 }
             }
 
@@ -537,114 +454,13 @@ namespace xchart
             float yLen = chartHigh + 15;
             float xPos = 0;
             float yPos = -5;
-            DrawLine(vh, new Vector3(xPos, yPos - 1.5f), new Vector3(xPos, yLen), 1.5f, Color.white);
-            DrawLine(vh, new Vector3(xPos, yPos), new Vector3(xLen, yPos), 1.5f, Color.white);
+            ChartUtils.DrawLine(vh, new Vector3(xPos, yPos - 1.5f), new Vector3(xPos, yLen), 1.5f, Color.white);
+            ChartUtils.DrawLine(vh, new Vector3(xPos, yPos), new Vector3(xLen, yPos), 1.5f, Color.white);
             //draw arrows
-            DrawTriangle(vh, new Vector3(xPos - arrowSize, yLen - arrowLen), new Vector3(xPos, yLen + 4), new Vector3(xPos + arrowSize, yLen - arrowLen), Color.white);
-            DrawTriangle(vh, new Vector3(xLen - arrowLen, yPos + arrowSize), new Vector3(xLen + 4, yPos), new Vector3(xLen - arrowLen, yPos - arrowSize), Color.white);
+            ChartUtils.DrawTriangle(vh, new Vector3(xPos - arrowSize, yLen - arrowLen), new Vector3(xPos, yLen + 4), 
+                new Vector3(xPos + arrowSize, yLen - arrowLen), Color.white);
+            ChartUtils.DrawTriangle(vh, new Vector3(xLen - arrowLen, yPos + arrowSize), new Vector3(xLen + 4, yPos),
+                new Vector3(xLen - arrowLen, yPos - arrowSize), Color.white);
         }
-
-        private void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color color)
-        {
-            Vector3 v = Vector3.Cross(p2 - p1, Vector3.forward).normalized * size;
-
-            UIVertex[] vertex = new UIVertex[4];
-            vertex[0].position = p1 + v;
-            vertex[1].position = p2 + v;
-            vertex[2].position = p2 - v;
-            vertex[3].position = p1 - v;
-            for (int j = 0; j < 4; j++)
-            {
-                vertex[j].color = color;
-                vertex[j].uv0 = Vector2.zero;
-            }
-            vh.AddUIVertexQuad(vertex);
-        }
-
-        private void DrawCube(VertexHelper vh, Vector3 p, float size, Color color)
-        {
-            UIVertex[] vertex = new UIVertex[4];
-            vertex[0].position = new Vector3(p.x - pointSize, p.y - pointSize);
-            vertex[1].position = new Vector3(p.x + pointSize, p.y - pointSize);
-            vertex[2].position = new Vector3(p.x + pointSize, p.y + pointSize);
-            vertex[3].position = new Vector3(p.x - pointSize, p.y + pointSize);
-            for (int j = 0; j < 4; j++)
-            {
-                vertex[j].color = color;
-                vertex[j].uv0 = Vector2.zero;
-            }
-            vh.AddUIVertexQuad(vertex);
-        }
-
-        private void DrawCube(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, Color color)
-        {
-            UIVertex[] vertex = new UIVertex[4];
-            vertex[0].position = p1;
-            vertex[1].position = p2;
-            vertex[2].position = p3;
-            vertex[3].position = p4;
-            for (int j = 0; j < 4; j++)
-            {
-                vertex[j].color = color;
-                vertex[j].uv0 = Vector2.zero;
-            }
-            vh.AddUIVertexQuad(vertex);
-        }
-
-        private void DrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color color)
-        {
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
-            DrawTriangle(vh, vertexs, p1, p2, p3, color);
-        }
-
-        private void DrawTriangle(VertexHelper vh, List<UIVertex> vertexs, Vector3 p1, Vector3 p2, Vector3 p3, Color color)
-        {
-            UIVertex v1 = new UIVertex();
-            v1.position = p1;
-            v1.color = color;
-            v1.uv0 = Vector3.zero;
-            vertexs.Add(v1);
-            UIVertex v2 = new UIVertex();
-            v2.position = p2;
-            v2.color = color;
-            v2.uv0 = Vector3.zero;
-            vertexs.Add(v2);
-            UIVertex v3 = new UIVertex();
-            v3.position = p3;
-            v3.color = color;
-            v3.uv0 = Vector3.zero;
-            vertexs.Add(v3);
-            vh.AddUIVertexTriangleStream(vertexs);
-        }
-
-        private void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color, int segments)
-        {
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
-            float angle = 2 * Mathf.PI / segments;
-            float cos = Mathf.Cos(angle);
-            float sin = Mathf.Sin(angle);
-            float cx = radius, cy = 0;
-
-            List<UIVertex> vs = new List<UIVertex>();
-
-            segments--;
-            Vector3 p2, p3;
-            for (int i = 0; i < segments; i++)
-            {
-                p2 = new Vector3(p.x + cx, p.y + cy);
-                float temp = cx;
-                cx = cos * cx - sin * cy;
-                cy = sin * temp + cos * cy;
-                p3 = new Vector3(p.x + cx, p.y + cy);
-                DrawTriangle(vh, vertexs, p, p2, p3, color);
-            }
-            p2 = new Vector3(p.x + cx, p.y + cy);
-            cx = radius;
-            cy = 0;
-            p3 = new Vector3(p.x + cx, p.y + cy);
-            DrawTriangle(vh, vertexs, p, p2, p3, color);
-        }  
     }
 }

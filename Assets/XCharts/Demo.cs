@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using xchart;
+﻿using UnityEngine;
+using xcharts;
 
 public class Demo : MonoBehaviour
 {

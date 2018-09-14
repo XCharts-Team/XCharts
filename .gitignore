@@ -6,10 +6,10 @@
 /UnityPackageManager
 /Assets/XLua/Examples
 
-XChart.sln
-XChart.csproj
-XChart.Editor.csproj
-XChart.Plugins.csproj
+XCharts.sln
+XCharts.csproj
+XCharts.Editor.csproj
+XCharts.Plugins.csproj
 
 *.vcxproj.filters
 *.vcxproj.user

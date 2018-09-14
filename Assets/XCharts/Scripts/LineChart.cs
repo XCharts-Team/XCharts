@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xchart
+namespace xcharts
 {
     [System.Serializable]
     public class LineData
@@ -155,6 +155,9 @@ namespace xchart
         private float lastChartHig = 0;
         private float lastGraduationWid = 0;
 
+        private float chartWid { get { return rectTransform.sizeDelta.x; } }
+        private float chartHig { get { return rectTransform.sizeDelta.y; } }
+
         protected override void Awake()
         {
             base.Awake();
@@ -181,9 +184,7 @@ namespace xchart
 
         private void InitGraduation()
         {
-            float chartHigh = rectTransform.sizeDelta.y;
-            float graduationHig = chartHigh / graduationCount;
-            
+            float graduationHig = chartHig / graduationCount;
             for (int i = 0; i < MAX_GRADUATION; i++)
             {
                 if (i >= graduationCount + 1)
@@ -207,13 +208,12 @@ namespace xchart
 
         private void InitLineButton()
         {
-            float chartHigh = rectTransform.sizeDelta.y;
             for (int i = 0; i < lineList.Count; i++)
             {
                 if (lineList[i].button) continue;
                 Button btn = ChartUtils.AddButtonObject("button" + i, transform, font, Vector2.zero,
                     Vector2.zero, Vector2.zero, new Vector2(50, 20));
-                btn.transform.localPosition = new Vector3(i * 50, chartHigh + 30, 0);
+                btn.transform.localPosition = new Vector3(i * 50, chartHig + 30, 0);
                 lineList[i].button = btn;
             }
         }
@@ -221,10 +221,9 @@ namespace xchart
         private void InitHideAndShowButton()
         {
             if (lineList.Count <= 0) return;
-            float chartHigh = rectTransform.sizeDelta.y;
             btnAll = ChartUtils.AddButtonObject("buttonall", transform, font, Vector2.zero,
                     Vector2.zero, Vector2.zero, new Vector2(graduationWidth, 20));
-            btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHigh + 30, 0);
+            btnAll.transform.localPosition = new Vector3(-graduationWidth, chartHig + 30, 0);
             btnAll.GetComponentInChildren<Text>().text = isShowAll ? "HIDE" : "SHOW";
             btnAll.GetComponent<Image>().color = backgroundColor;
             btnAll.onClick.AddListener(delegate ()
@@ -283,8 +282,7 @@ namespace xchart
 
         public int GetMaxPointCount()
         {
-            Vector2 size = rectTransform.sizeDelta;
-            int max = (int)(size.x / pointWidth);
+            int max = (int)(chartWid / pointWidth);
             return max;
         }
 
@@ -343,14 +341,13 @@ namespace xchart
 
         private void UpdateMesh()
         {
-            Vector2 size = rectTransform.sizeDelta;
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (int)size.x - 1);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (int)size.x);
+            int tempWid = (int)chartWid;
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
         }
 
         private void CheckLineSizeChange()
         {
-            float chartHig = rectTransform.sizeDelta.y;
             if (lastChartHig != chartHig)
             {
                 lastChartHig = chartHig;
@@ -399,24 +396,23 @@ namespace xchart
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
-            float chartHigh = rectTransform.sizeDelta.y;
-            int chartWid = (int)(rectTransform.sizeDelta.x / pointWidth) * pointWidth;
+            int dataRectWid = (int)(chartWid / pointWidth) * pointWidth;
             float dataMax = GetAllLineMax();
             // draw bg
-            Vector3 p1 = new Vector3(-graduationWidth, chartHigh + 30);
-            Vector3 p2 = new Vector3(chartWid + 50, chartHigh + 30);
-            Vector3 p3 = new Vector3(chartWid + 50, -20);
+            Vector3 p1 = new Vector3(-graduationWidth, chartHig + 30);
+            Vector3 p2 = new Vector3(dataRectWid + 50, chartHig + 30);
+            Vector3 p3 = new Vector3(dataRectWid + 50, -20);
             Vector3 p4 = new Vector3(-graduationWidth, -20);
-            ChartUtils.DrawCube(vh, p1, p2, p3, p4, backgroundColor);
+            ChartUtils.DrawPolygon(vh, p1, p2, p3, p4, backgroundColor);
             // draw coordinate
             Vector3 coordZero = Vector3.zero;
-            ChartUtils.DrawLine(vh, new Vector3(chartWid + 5, -5), 
-                new Vector3(chartWid + 5, chartHigh + 0.5f), 1, Color.grey);
+            ChartUtils.DrawLine(vh, new Vector3(dataRectWid + 5, -5), 
+                new Vector3(dataRectWid + 5, chartHig + 0.5f), 1, Color.grey);
             // draw graduation
             for (int i = 0; i < graduationList.Count; i++)
             {
-                Vector3 sp = new Vector3(-5, chartHigh * i / (graduationList.Count - 1));
-                Vector3 ep = new Vector3(chartWid + 5, chartHigh * i / (graduationList.Count - 1));
+                Vector3 sp = new Vector3(-5, chartHig * i / (graduationList.Count - 1));
+                Vector3 ep = new Vector3(dataRectWid + 5, chartHig * i / (graduationList.Count - 1));
                 ChartUtils.DrawLine(vh, sp, ep, 0.5f, Color.grey);
             }
 
@@ -430,7 +426,7 @@ namespace xchart
 
                 for (int i = 0; i < line.dataList.Count; i++)
                 {
-                    float data = line.dataList[i] * chartHigh / dataMax;
+                    float data = line.dataList[i] * chartHig / dataMax;
                     np = new Vector3(i * pointWidth, data);
                     if (i > 0)
                     {
@@ -443,15 +439,15 @@ namespace xchart
                 for (int i = 0; i < line.dataList.Count; i++)
                 {
                     UIVertex[] quadverts = new UIVertex[4];
-                    float data = line.dataList[i] * chartHigh / dataMax;
+                    float data = line.dataList[i] * chartHig / dataMax;
                     Vector3 p = new Vector3(i * pointWidth, data);
-                    ChartUtils.DrawCube(vh, p, pointSize, line.pointColor);
+                    ChartUtils.DrawPolygon(vh, p, pointSize, line.pointColor);
                 }
             }
 
             //draw x,y axis
-            float xLen = chartWid + 25;
-            float yLen = chartHigh + 15;
+            float xLen = dataRectWid + 25;
+            float yLen = chartHig + 15;
             float xPos = 0;
             float yPos = -5;
             ChartUtils.DrawLine(vh, new Vector3(xPos, yPos - 1.5f), new Vector3(xPos, yLen), 1.5f, Color.white);

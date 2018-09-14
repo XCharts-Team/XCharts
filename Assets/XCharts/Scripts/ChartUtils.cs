@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xchart
+namespace xcharts
 {
     public static class ChartUtils
     {
@@ -89,16 +89,16 @@ namespace xchart
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawCube(VertexHelper vh, Vector3 p, float size, Color color)
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color color)
         {
             Vector3 p1 = new Vector3(p.x - size, p.y - size);
             Vector3 p2 = new Vector3(p.x + size, p.y - size);
             Vector3 p3 = new Vector3(p.x + size, p.y + size);
             Vector3 p4 = new Vector3(p.x - size, p.y + size);
-            DrawCube(vh, p1, p2, p3, p4, color);
+            DrawPolygon(vh, p1, p2, p3, p4, color);
         }
 
-        public static void DrawCube(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color color)
         {
             UIVertex[] vertex = new UIVertex[4];

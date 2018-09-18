@@ -107,6 +107,18 @@ namespace xcharts
         public float top;
         public float bottom;
         public List<LegendData> dataList = new List<LegendData>();
+
+        public Color GetColor(int seriesIndex)
+        {
+            if (seriesIndex < 0 || seriesIndex > dataList.Count) seriesIndex = 0;
+            return dataList[seriesIndex].color;
+        }
+
+        public bool IsShowSeries(int seriesIndex)
+        {
+            if (seriesIndex < 0 || seriesIndex > dataList.Count) seriesIndex = 0;
+            return dataList[seriesIndex].show;
+        }
     }
 
     [System.Serializable]
@@ -360,6 +372,7 @@ namespace xcharts
                     Vector2.zero, Vector2.zero, new Vector2(legend.dataWid, legend.dataHig));
                 legend.dataList[i].button = btn;
                 Color bcolor = data.show ? data.color : Color.grey;
+                btn.gameObject.SetActive(legend.show);
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.GetComponent<Image>().color = bcolor;
                 btn.GetComponentInChildren<Text>().text = data.text;
@@ -367,6 +380,8 @@ namespace xcharts
                 {
                     data.show = !data.show;
                     btn.GetComponent<Image>().color = data.show ? data.color : Color.grey;
+                    OnYMaxValueChanged();
+                    RefreshChart();
                 });
             }
         }
@@ -487,9 +502,9 @@ namespace xcharts
         protected float GetMaxValue()
         {
             float max = 0;
-            foreach(var series in seriesList)
+            for(int i = 0; i < seriesList.Count; i++)
             {
-                if (series.max > max) max = series.max;
+                if (legend.IsShowSeries(i) && seriesList[i].max > max) max = seriesList[i].max;
             }
             return max;
         }
@@ -518,7 +533,8 @@ namespace xcharts
                 checkLegend.right != legend.right ||
                 checkLegend.bottom != legend.bottom ||
                 checkLegend.top != legend.top ||
-                checkLegend.layout != legend.layout)
+                checkLegend.layout != legend.layout ||
+                checkLegend.show != legend.show)
             {
                 checkLegend.dataWid = legend.dataWid;
                 checkLegend.dataHig = legend.dataHig;
@@ -528,6 +544,7 @@ namespace xcharts
                 checkLegend.bottom = legend.bottom;
                 checkLegend.top = legend.top;
                 checkLegend.layout = legend.layout;
+                checkLegend.show = legend.show;
                 OnLegendChanged();
             }
         }
@@ -573,9 +590,10 @@ namespace xcharts
 
         protected virtual void OnYMaxValueChanged()
         {
+            float max = GetMaxValue();
             for (int i = 0; i < yScaleTextList.Count; i++)
             {
-                yScaleTextList[i].text = ((int)(lastYMaxValue * i / (yScaleTextList.Count -1))).ToString();
+                yScaleTextList[i].text = ((int)(max * i / (yScaleTextList.Count -1))).ToString();
             }
         }
 
@@ -593,7 +611,15 @@ namespace xcharts
                 btn.GetComponentInChildren<Text>().transform.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
                 btn.GetComponentInChildren<Text>().transform.localPosition = Vector3.zero;
                 btn.transform.localPosition = GetLegendPosition(i);
+                btn.gameObject.SetActive(legend.show);
             }
+        }
+
+        protected void RefreshChart()
+        {
+            int tempWid = (int)chartWid;
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
         }
 
         protected override void OnPopulateMesh(VertexHelper vh)

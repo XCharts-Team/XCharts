@@ -12,7 +12,6 @@ namespace xcharts
             GameObject txtObj;
             if (parent.Find(name))
             {
-                
                 txtObj = parent.Find(name).gameObject;
                 txtObj.SetActive(true);
                 txtObj.transform.localPosition = Vector3.zero;
@@ -24,14 +23,16 @@ namespace xcharts
                 txtObj.transform.parent = parent;
                 txtObj.transform.localScale = Vector3.one;
                 txtObj.transform.localPosition = Vector3.zero;
-                Text txt = txtObj.AddComponent<Text>();
-                txt.font = font;
-                txt.fontSize = fontSize;
-                txt.text = "Text";
-                txt.alignment = anchor;
-                txt.horizontalOverflow = HorizontalWrapMode.Overflow;
-                txt.verticalOverflow = VerticalWrapMode.Overflow;
+                txtObj.AddComponent<Text>();
             }
+            Text txt = txtObj.GetComponent<Text>();
+            txt.font = font;
+            txt.fontSize = fontSize;
+            txt.text = "Text";
+            txt.alignment = anchor;
+            txt.horizontalOverflow = HorizontalWrapMode.Overflow;
+            txt.verticalOverflow = VerticalWrapMode.Overflow;
+
             txtObj.GetComponent<Text>().alignment = anchor;
             RectTransform rect = txtObj.GetComponent<RectTransform>();
             rect.sizeDelta = sizeDelta;

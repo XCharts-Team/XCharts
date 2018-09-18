@@ -32,7 +32,7 @@ namespace xcharts
 
             if(yAxis.type == AxisType.category)
             {
-                float seriesCount = seriesList.Count;
+                int seriesCount = seriesList.Count;
                 float scaleWid = coordinateHig / (yAxis.scaleNum - 1);
                 float barWid = barData.barWid > 1 ? barData.barWid : scaleWid * barData.barWid;
                 float offset = (scaleWid - barWid * seriesCount - barData.space * (seriesCount - 1)) / 2;
@@ -59,7 +59,7 @@ namespace xcharts
             }
             else
             {
-                float seriesCount = seriesList.Count;
+                int seriesCount = seriesList.Count;
                 float scaleWid = coordinateWid / (xAxis.scaleNum - 1);
                 float barWid = barData.barWid > 1 ? barData.barWid : scaleWid * barData.barWid;
                 float offset = (scaleWid - barWid * seriesCount - barData.space * (seriesCount - 1)) / 2;

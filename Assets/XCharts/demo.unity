@@ -1201,7 +1201,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data:
     - "\u661F\u671F\u4E00"
@@ -1213,7 +1213,7 @@ MonoBehaviour:
     - "\u661F\u671F\u65E5"
   yAxis:
     type: 1
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data:
     - "\u6392\u884C\u699C1"
@@ -1222,7 +1222,7 @@ MonoBehaviour:
     - "\u6392\u884C\u699C4"
   legend:
     show: 1
-    layout: 3
+    location: 0
     dataWid: 49.4
     dataHig: 20
     dataSpace: 5
@@ -1917,7 +1917,7 @@ RectTransform:
   - {fileID: 566565924}
   - {fileID: 2054321060}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1970,7 +1970,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -1980,12 +1980,12 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 1
     data: []
   legend:
     show: 0
-    layout: 0
+    location: 0
     dataWid: 50
     dataHig: 20
     dataSpace: 0
@@ -2343,7 +2343,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.79462, g: 0.7820069, b: 0.8308824, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -3061,7 +3061,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6298\u7EBF\u56FE(\u5E73\u6ED1)"
+  m_Text: "\u66F2\u7EBF\u56FE"
 --- !u!222 &506873715
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4206,7 +4206,7 @@ RectTransform:
   - {fileID: 12948877}
   - {fileID: 1810081860}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4253,7 +4253,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -4263,12 +4263,12 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data: []
   legend:
     show: 0
-    layout: 0
+    location: 0
     dataWid: 0
     dataHig: 0
     dataSpace: 0
@@ -4296,10 +4296,16 @@ MonoBehaviour:
     - key: 
       value: 60
   lineData:
-    smooth: 0
-    area: 1
-    pointWid: 4
     tickness: 1
+    showPoint: 1
+    pointType: 0
+    pointWid: 4
+    pointColor: {r: 1, g: 1, b: 1, a: 1}
+    smooth: 0
+    smoothStyle: 2
+    area: 1
+    areaStartColor: {r: 1, g: 0, b: 0, a: 1}
+    areaToColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!222 &822231473
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4421,7 +4427,7 @@ RectTransform:
   - {fileID: 1562760592}
   - {fileID: 1681493923}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4468,7 +4474,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 1
     data:
     - "\u5468\u4E00"
@@ -4478,7 +4484,7 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -4488,7 +4494,7 @@ MonoBehaviour:
     - "\u5468\u4E94"
   legend:
     show: 1
-    layout: 1
+    location: 1
     dataWid: 50
     dataHig: 25
     dataSpace: 10
@@ -5358,7 +5364,7 @@ RectTransform:
   - {fileID: 492181722}
   - {fileID: 1294989126}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5405,7 +5411,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -5415,12 +5421,12 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data: []
   legend:
     show: 0
-    layout: 0
+    location: 0
     dataWid: 0
     dataHig: 0
     dataSpace: 0
@@ -5448,10 +5454,16 @@ MonoBehaviour:
     - key: 
       value: 60
   lineData:
-    smooth: 0
-    area: 0
-    pointWid: 4
     tickness: 1
+    showPoint: 1
+    pointType: 0
+    pointWid: 4
+    pointColor: {r: 1, g: 1, b: 1, a: 1}
+    smooth: 0
+    smoothStyle: 2
+    area: 0
+    areaStartColor: {r: 0, g: 0, b: 0, a: 0}
+    areaToColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!222 &1297066862
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6238,7 +6250,7 @@ RectTransform:
   - {fileID: 1423602106}
   - {fileID: 2088546449}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6285,7 +6297,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -6295,12 +6307,12 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 0
     data: []
   legend:
     show: 0
-    layout: 0
+    location: 0
     dataWid: 0
     dataHig: 0
     dataSpace: 0
@@ -6328,10 +6340,16 @@ MonoBehaviour:
     - key: 
       value: 60
   lineData:
-    smooth: 1
-    area: 0
-    pointWid: 4
     tickness: 1
+    showPoint: 1
+    pointType: 1
+    pointWid: 4
+    pointColor: {r: 0.8126462, g: 0.79811853, b: 0.8897059, a: 1}
+    smooth: 1
+    smoothStyle: 4.7
+    area: 0
+    areaStartColor: {r: 0, g: 0, b: 0, a: 0}
+    areaToColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!222 &1505386464
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8327,12 +8345,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 301464776}
-  - {fileID: 391300566}
-  - {fileID: 867959890}
-  - {fileID: 2117888107}
   - {fileID: 1297066860}
   - {fileID: 1505386462}
   - {fileID: 822231471}
+  - {fileID: 391300566}
+  - {fileID: 867959890}
+  - {fileID: 2117888107}
   m_Father: {fileID: 505350093}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8917,7 +8935,7 @@ RectTransform:
   - {fileID: 37742856}
   - {fileID: 1660119058}
   m_Father: {fileID: 2051892027}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8964,7 +8982,7 @@ MonoBehaviour:
     scaleLen: 5
   xAxis:
     type: 0
-    scaleNum: 5
+    splitNumber: 5
     showSplitLine: 1
     data:
     - "\u5468\u4E00"
@@ -8974,7 +8992,7 @@ MonoBehaviour:
     - "\u5468\u4E94"
   yAxis:
     type: 1
-    scaleNum: 6
+    splitNumber: 6
     showSplitLine: 0
     data:
     - "\u5468\u4E00"
@@ -8984,7 +9002,7 @@ MonoBehaviour:
     - "\u5468\u4E94"
   legend:
     show: 1
-    layout: 1
+    location: 1
     dataWid: 50
     dataHig: 25
     dataSpace: 10

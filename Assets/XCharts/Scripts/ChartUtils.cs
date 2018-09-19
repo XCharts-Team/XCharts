@@ -62,8 +62,8 @@ namespace xcharts
                 btnObj.AddComponent<Image>();
                 btnObj.AddComponent<Button>();
 
-                Text txt = AddTextObject("Text", btnObj.transform, font, TextAnchor.MiddleCenter, Vector2.zero,
-                    Vector2.zero, Vector2.zero, sizeDelta);
+                Text txt = AddTextObject("Text", btnObj.transform, font, TextAnchor.MiddleCenter, 
+                    Vector2.zero,Vector2.zero, Vector2.zero, sizeDelta);
                 txt.text = "Text";
             }
             RectTransform rect = btnObj.GetComponent<RectTransform>();
@@ -101,11 +101,17 @@ namespace xcharts
             Vector3 p2 = new Vector3(p.x + size, p.y - size);
             Vector3 p3 = new Vector3(p.x + size, p.y + size);
             Vector3 p4 = new Vector3(p.x - size, p.y + size);
-            DrawPolygon(vh, p1, p2, p3, p4, color);
+            DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color color)
+        {
+            DrawPolygon(vh, p1, p2, p3, p4, color, color);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color startColor,Color toColor)
         {
             UIVertex[] vertex = new UIVertex[4];
             vertex[0].position = p1;
@@ -114,7 +120,7 @@ namespace xcharts
             vertex[3].position = p4;
             for (int j = 0; j < 4; j++)
             {
-                vertex[j].color = color;
+                vertex[j].color = j>=2?toColor:startColor;
                 vertex[j].uv0 = Vector2.zero;
             }
             vh.AddUIVertexQuad(vertex);
@@ -180,7 +186,7 @@ namespace xcharts
         }
 
 
-        public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int k = 2)
+        public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -203,7 +209,8 @@ namespace xcharts
             return list;
         }
 
-        public static List<Vector3> GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp, Vector3 cp2)
+        public static List<Vector3> GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp,
+            Vector3 cp2)
         {
             List<Vector3> list = new List<Vector3>();
             for (int i = 0; i < segment; i++)

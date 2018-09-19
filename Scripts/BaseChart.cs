@@ -56,19 +56,23 @@ namespace xcharts
     }
 
     [System.Serializable]
-    public enum Layout
+    public enum Location
     {
         left,
         right,
         top,
-        bottom
+        bottom,
+        start,
+        middle,
+        center,
+        end,
     }
 
     [System.Serializable]
     public class Axis
     {
         public AxisType type;
-        public int scaleNum = 5;
+        public int splitNumber = 5;
         public bool showSplitLine;
         public List<string> data;
     }
@@ -98,7 +102,7 @@ namespace xcharts
     public class Legend
     {
         public bool show;
-        public Layout layout;
+        public Location location;
         public float dataWid;
         public float dataHig;
         public float dataSpace;
@@ -304,8 +308,8 @@ namespace xcharts
             yScaleTextList.Clear();
             if (yAxis.type == AxisType.value)
             {
-                yAxis.scaleNum = DEFAULT_YSACLE_NUM;
-                for (int i = 0; i < yAxis.scaleNum; i++)
+                yAxis.splitNumber = DEFAULT_YSACLE_NUM;
+                for (int i = 0; i < yAxis.splitNumber; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -317,8 +321,8 @@ namespace xcharts
             }
             else
             {
-                yAxis.scaleNum = yAxis.data.Count + 1;
-                for (int i = 0; i < yAxis.scaleNum - 1; i++)
+                yAxis.splitNumber = yAxis.data.Count + 1;
+                for (int i = 0; i < yAxis.splitNumber - 1; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -335,9 +339,9 @@ namespace xcharts
             xScaleTextList.Clear();
             if (xAxis.type == AxisType.value)
             {
-                xAxis.scaleNum = DEFAULT_YSACLE_NUM;
-                float scaleWid = coordinateWid / (xAxis.scaleNum - 1);
-                for (int i = 0; i < xAxis.scaleNum; i++)
+                xAxis.splitNumber = DEFAULT_YSACLE_NUM;
+                float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
+                for (int i = 0; i < xAxis.splitNumber; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -349,9 +353,9 @@ namespace xcharts
             }
             else
             {
-                xAxis.scaleNum = xAxis.data.Count + 1;
-                float scaleWid = coordinateWid / (xAxis.scaleNum - 1);
-                for (int i = 0; i < xAxis.scaleNum - 1; i++)
+                xAxis.splitNumber = xAxis.data.Count + 1;
+                float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
+                for (int i = 0; i < xAxis.splitNumber - 1; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -389,19 +393,19 @@ namespace xcharts
         private Vector3 GetLegendPosition(int i)
         {
             int legendCount = legend.dataList.Count;
-            switch (legend.layout)
+            switch (legend.location)
             {
-                case Layout.bottom:
-                case Layout.top:
+                case Location.bottom:
+                case Location.top:
                     float startX = legend.left;
                     if (startX <= 0)
                     {
                         startX = (chartWid -(legendCount *legend.dataWid - (legendCount-1) * legend.dataSpace)) / 2;
                     }
-                    float posY = legend.layout == Layout.bottom ? legend.bottom : chartHig - legend.top - legend.dataHig;
+                    float posY = legend.location == Location.bottom ? legend.bottom : chartHig - legend.top - legend.dataHig;
                     return new Vector3(startX + i * (legend.dataWid+legend.dataSpace),posY,0);
-                case Layout.left:
-                case Layout.right:
+                case Location.left:
+                case Location.right:
                     float startY =0;
                     if (legend.top > 0)
                     {
@@ -411,7 +415,7 @@ namespace xcharts
                     {
                         startY = chartHig - (chartHig - (legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace)) / 2 - legend.dataHig;
                     }
-                    float posX = legend.layout == Layout.left ? legend.left : chartWid - legend.right - legend.dataWid;
+                    float posX = legend.location == Location.left ? legend.left : chartWid - legend.right - legend.dataWid;
                     return new Vector3(posX,startY - i * (legend.dataHig + legend.dataSpace), 0);
                 default:break;
             }
@@ -420,7 +424,7 @@ namespace xcharts
 
         private Vector3 GetYScalePosition(int i)
         {
-            float scaleWid = coordinateHig / (yAxis.scaleNum - 1);
+            float scaleWid = coordinateHig / (yAxis.splitNumber - 1);
             if (yAxis.type == AxisType.value)
             {
                 return new Vector3(zeroX - coordinate.scaleLen - 2f,
@@ -435,7 +439,7 @@ namespace xcharts
 
         private Vector3 GetXScalePosition(int i)
         {
-            float scaleWid = coordinateWid / (xAxis.scaleNum - 1);
+            float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
             if (xAxis.type == AxisType.value)
             {
                 return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 10, 0);
@@ -533,7 +537,7 @@ namespace xcharts
                 checkLegend.right != legend.right ||
                 checkLegend.bottom != legend.bottom ||
                 checkLegend.top != legend.top ||
-                checkLegend.layout != legend.layout ||
+                checkLegend.location != legend.location ||
                 checkLegend.show != legend.show)
             {
                 checkLegend.dataWid = legend.dataWid;
@@ -543,7 +547,7 @@ namespace xcharts
                 checkLegend.right = legend.right;
                 checkLegend.bottom = legend.bottom;
                 checkLegend.top = legend.top;
-                checkLegend.layout = legend.layout;
+                checkLegend.location = legend.location;
                 checkLegend.show = legend.show;
                 OnLegendChanged();
             }
@@ -552,14 +556,14 @@ namespace xcharts
         protected virtual void OnCoordinateSize()
         {
             //update yScale pos
-            for (int i = 0; i < yAxis.scaleNum; i++)
+            for (int i = 0; i < yAxis.splitNumber; i++)
             {
                 if (i < yScaleTextList.Count && yScaleTextList[i])
                 {
                     yScaleTextList[i].transform.localPosition = GetYScalePosition(i);
                 }
             }
-            for (int i = 0; i < xAxis.scaleNum; i++)
+            for (int i = 0; i < xAxis.splitNumber; i++)
             {
                 if (i < xScaleTextList.Count && xScaleTextList[i])
                 {
@@ -643,19 +647,19 @@ namespace xcharts
         {
             if (!coordinate.show) return;
             // draw scale
-            for (int i = 1; i < yAxis.scaleNum; i++)
+            for (int i = 1; i < yAxis.splitNumber; i++)
             {
                 float pX = zeroX - coordinate.scaleLen;
-                float pY = zeroY + i * coordinateHig / (yAxis.scaleNum - 1);
+                float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
                 ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness, Color.white);
                 if (yAxis.showSplitLine)
                 {
                     ChartUtils.DrawLine(vh, new Vector3(zeroX, pY), new Vector3(zeroX + coordinateWid, pY), coordinate.tickness, Color.grey);
                 }
             }
-            for (int i = 1; i < xAxis.scaleNum; i++)
+            for (int i = 1; i < xAxis.splitNumber; i++)
             {
-                float pX = zeroX + i * coordinateWid / (xAxis.scaleNum - 1);
+                float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
                 float pY = zeroY - coordinate.scaleLen - 2;
                 ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness, Color.white);
                 if (xAxis.showSplitLine)

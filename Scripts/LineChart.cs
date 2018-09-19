@@ -8,6 +8,8 @@ namespace xcharts
     [System.Serializable]
     public class LineData
     {
+        public bool smooth = false;
+        public bool area = false;
         public float pointWid = 1;
         public float tickness = 0.8f;
     }
@@ -48,7 +50,27 @@ namespace xcharts
                     np = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
                     if (i > 0)
                     {
-                        ChartUtils.DrawLine(vh, lp, np, lineData.tickness, color);
+                        if (lineData.smooth)
+                        {
+                            var list = ChartUtils.GetBezierList(lp, np);
+                            Vector3 start, to;
+                            start = list[0];
+                            for(int k = 1; k < list.Count; k++)
+                            {
+                                to = list[k];
+                                ChartUtils.DrawLine(vh, start, to, lineData.tickness, color);
+                                start = to;
+                            }
+                        }
+                        else
+                        {
+                            ChartUtils.DrawLine(vh, lp, np, lineData.tickness, color);
+                            if (lineData.area)
+                            {
+                                ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY), new Vector3(lp.x, zeroY), color);
+                            }
+                        }
+                        
                     }
                     lp = np;
                 }

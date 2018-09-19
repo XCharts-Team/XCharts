@@ -7,7 +7,7 @@ namespace xcharts
     public static class ChartUtils
     {
         public static Text AddTextObject(string name, Transform parent, Font font, TextAnchor anchor,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,int fontSize = 14)
+            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int fontSize = 14)
         {
             GameObject txtObj;
             if (parent.Find(name))
@@ -43,7 +43,7 @@ namespace xcharts
             return txtObj.GetComponent<Text>();
         }
 
-        public static Button AddButtonObject(string name,Transform parent,Font font,
+        public static Button AddButtonObject(string name, Transform parent, Font font,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
         {
             GameObject btnObj;
@@ -120,7 +120,7 @@ namespace xcharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, 
+        public static void DrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3,
             Color color)
         {
             List<UIVertex> vertexs = new List<UIVertex>();
@@ -128,7 +128,7 @@ namespace xcharts
             DrawTriangle(vh, vertexs, p1, p2, p3, color);
         }
 
-        public static void DrawTriangle(VertexHelper vh, List<UIVertex> vertexs, Vector3 p1, 
+        public static void DrawTriangle(VertexHelper vh, List<UIVertex> vertexs, Vector3 p1,
             Vector3 p2, Vector3 p3, Color color)
         {
             UIVertex v1 = new UIVertex();
@@ -149,7 +149,7 @@ namespace xcharts
             vh.AddUIVertexTriangleStream(vertexs);
         }
 
-        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color, 
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
             int segments)
         {
             List<UIVertex> vertexs = new List<UIVertex>();
@@ -177,6 +177,93 @@ namespace xcharts
             cy = 0;
             p3 = new Vector3(p.x + cx, p.y + cy);
             DrawTriangle(vh, vertexs, p, p2, p3, color);
+        }
+
+
+        public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int k = 2)
+        {
+            Vector3 dir = (ep - sp).normalized;
+            float dist = Vector3.Distance(sp, ep);
+            Vector3 cp1 = sp + dist / k * dir * 1;
+            Vector3 cp2 = sp + dist / k * dir * (k - 1);
+            cp1.y = sp.y;
+            cp2.y = ep.y;
+            int segment = (int)(dist / 0.1f);
+            return GetBezierList2(sp, ep, segment, cp1, cp2);
+        }
+
+        public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)
+        {
+            List<Vector3> list = new List<Vector3>();
+            for (int i = 0; i < segment; i++)
+            {
+                list.Add(GetBezier(i / (float)segment, sp, cp, ep));
+            }
+            list.Add(ep);
+            return list;
+        }
+
+        public static List<Vector3> GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp, Vector3 cp2)
+        {
+            List<Vector3> list = new List<Vector3>();
+            for (int i = 0; i < segment; i++)
+            {
+                list.Add(GetBezier2(i / (float)segment, sp, cp, cp2, ep));
+            }
+            list.Add(ep);
+            return list;
+        }
+
+        public static Vector3 GetBezier(float t, Vector3 sp, Vector3 cp, Vector3 ep)
+        {
+            Vector3 aa = sp + (cp - sp) * t;
+            Vector3 bb = cp + (ep - cp) * t;
+            return aa + (bb - aa) * t;
+        }
+
+        public static Vector3 GetBezier2(float t, Vector3 sp, Vector3 p1, Vector3 p2, Vector3 ep)
+        {
+            t = Mathf.Clamp01(t);
+            var oneMinusT = 1f - t;
+            return oneMinusT * oneMinusT * oneMinusT * sp +
+                3f * oneMinusT * oneMinusT * t * p1 +
+                3f * oneMinusT * t * t * p2 +
+                t * t * t * ep;
+        }
+
+        public static List<Vector3> GetBezierN(List<Vector3> arrayToCurve, float smoothness = 1.0f)
+        {
+            List<Vector3> points;
+            List<Vector3> curvedPoints;
+            int pointsLength = 0;
+            int curvedLength = 0;
+
+            if (smoothness < 1.0f) smoothness = 1.0f;
+
+            pointsLength = arrayToCurve.Count;
+
+            curvedLength = (pointsLength * Mathf.RoundToInt(smoothness)) - 1;
+            curvedPoints = new List<Vector3>(curvedLength);
+
+            float t = 0.0f;
+            for (int pointInTimeOnCurve = 0; pointInTimeOnCurve < curvedLength + 1; pointInTimeOnCurve++)
+            {
+                t = Mathf.InverseLerp(0, curvedLength, pointInTimeOnCurve);
+
+                points = new List<Vector3>(arrayToCurve);
+
+                for (int j = pointsLength - 1; j > 0; j--)
+                {
+                    for (int i = 0; i < j; i++)
+                    {
+                        points[i] = (1 - t) * points[i] + t * points[i + 1];
+                    }
+                }
+
+                curvedPoints.Add(points[0]);
+            }
+
+            return curvedPoints;
         }
 
     }

@@ -74,6 +74,7 @@ namespace xcharts
         public AxisType type;
         public int splitNumber = 5;
         public bool showSplitLine;
+        public bool boundaryGap = true;
         public List<string> data;
     }
 
@@ -197,9 +198,6 @@ namespace xcharts
         private float lastCoordinateHig;
         private float lastCoordinateScaleLen;
 
-        private AxisType lastYAxisType;
-        private AxisType lastXAxisType;
-
         private Align lastTitleAlign;
         private float lastTitleLeft;
         private float lastTitleRight;
@@ -209,6 +207,8 @@ namespace xcharts
         private float lastYMaxValue;
 
         private Legend checkLegend = new Legend();
+        private XAxis checkXAxis = new XAxis();
+        private YAxis checkYAxis = new YAxis();
         //===========================================
 
         protected Text titleText;
@@ -228,8 +228,6 @@ namespace xcharts
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.pivot = Vector2.zero;
-            lastYAxisType = yAxis.type;
-            lastXAxisType = xAxis.type;
             lastCoordinateHig = chartHig;
             lastCoordinateWid = chartWid;
             lastCoordinateScaleLen = coordinate.scaleLen;
@@ -308,6 +306,8 @@ namespace xcharts
             yScaleTextList.Clear();
             if (yAxis.type == AxisType.value)
             {
+                float max = GetMaxValue();
+                if (max <= 0) max = 400;
                 yAxis.splitNumber = DEFAULT_YSACLE_NUM;
                 for (int i = 0; i < yAxis.splitNumber; i++)
                 {
@@ -315,14 +315,14 @@ namespace xcharts
                         TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
-                    txt.text = (i * 100).ToString();
+                    txt.text = ((int)(max * i / yAxis.splitNumber)).ToString();
                     yScaleTextList.Add(txt);
                 }
             }
             else
             {
-                yAxis.splitNumber = yAxis.data.Count + 1;
-                for (int i = 0; i < yAxis.splitNumber - 1; i++)
+                yAxis.splitNumber = yAxis.boundaryGap ? yAxis.data.Count + 1 : yAxis.data.Count;
+                for (int i = 0; i < yAxis.data.Count; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -339,6 +339,8 @@ namespace xcharts
             xScaleTextList.Clear();
             if (xAxis.type == AxisType.value)
             {
+                float max = GetMaxValue();
+                if (max <= 0) max = 400;
                 xAxis.splitNumber = DEFAULT_YSACLE_NUM;
                 float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
                 for (int i = 0; i < xAxis.splitNumber; i++)
@@ -347,15 +349,15 @@ namespace xcharts
                         TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
                         new Vector2(scaleWid, 20));
                     txt.transform.localPosition = GetXScalePosition(i);
-                    txt.text = (i * 100).ToString();
+                    txt.text = ((int)(max * i / xAxis.splitNumber)).ToString();
                     xScaleTextList.Add(txt);
                 }
             }
             else
             {
-                xAxis.splitNumber = xAxis.data.Count + 1;
-                float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
-                for (int i = 0; i < xAxis.splitNumber - 1; i++)
+                xAxis.splitNumber = xAxis.boundaryGap ? xAxis.data.Count + 1 : xAxis.data.Count;
+                float scaleWid = coordinateWid / (xAxis.data.Count - 1);
+                for (int i = 0; i < xAxis.data.Count; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, font,
                         TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
@@ -432,8 +434,17 @@ namespace xcharts
             }
             else
             {
-                return new Vector3(zeroX - coordinate.scaleLen - 2f,
-                zeroY + (i + 0.5f) * scaleWid, 0);
+                if (yAxis.boundaryGap)
+                {
+                    return new Vector3(zeroX - coordinate.scaleLen - 2f,
+                        zeroY + (i + 0.5f) * scaleWid, 0);
+                }
+                else
+                {
+                    return new Vector3(zeroX - coordinate.scaleLen - 2f,
+                        zeroY + i * scaleWid, 0);
+                }
+                
             }
         }
 
@@ -446,7 +457,14 @@ namespace xcharts
             }
             else
             {
-                return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                if (xAxis.boundaryGap)
+                {
+                    return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                }
+                else
+                {
+                    return new Vector3(zeroX + (i + 1- 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                }
             }
         }
 
@@ -465,18 +483,30 @@ namespace xcharts
 
         private void CheckYAxisType()
         {
-            if (lastYAxisType != yAxis.type)
+            if (checkYAxis.type != yAxis.type ||
+                checkYAxis.boundaryGap != yAxis.boundaryGap ||
+                checkYAxis.showSplitLine != yAxis.showSplitLine ||
+                checkYAxis.splitNumber != yAxis.splitNumber)
             {
-                lastYAxisType = yAxis.type;
+                checkYAxis.type = yAxis.type;
+                checkYAxis.boundaryGap = yAxis.boundaryGap;
+                checkYAxis.showSplitLine = yAxis.showSplitLine;
+                checkYAxis.splitNumber = yAxis.splitNumber;
                 OnYAxisType();
             }
         }
 
         private void CheckXAxisType()
         {
-            if (lastXAxisType != xAxis.type)
+            if (checkXAxis.type != xAxis.type ||
+                checkXAxis.boundaryGap != xAxis.boundaryGap ||
+                checkXAxis.showSplitLine != xAxis.showSplitLine ||
+                checkXAxis.splitNumber != xAxis.splitNumber)
             {
-                lastXAxisType = xAxis.type;
+                checkXAxis.type = xAxis.type;
+                checkXAxis.boundaryGap = xAxis.boundaryGap;
+                checkXAxis.showSplitLine = xAxis.showSplitLine;
+                checkXAxis.splitNumber = xAxis.splitNumber;
                 OnXAxisType();
             }
         }
@@ -586,9 +616,10 @@ namespace xcharts
 
         protected virtual void OnXMaxValueChanged()
         {
+            float max = GetMaxValue();
             for (int i = 0; i < xScaleTextList.Count; i++)
             {
-                xScaleTextList[i].text = ((int)(lastXMaxValue * i / xScaleTextList.Count)).ToString();
+                xScaleTextList[i].text = ((int)(max * i / xScaleTextList.Count)).ToString();
             }
         }
 

@@ -64,7 +64,7 @@ namespace xcharts
                 Color color = legend.GetColor(j);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                float startX = zeroX + scaleWid / 2;
+                float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
                 for (int i = 0; i < series.dataList.Count; i++)
                 {
                     SeriesData data = series.dataList[i];

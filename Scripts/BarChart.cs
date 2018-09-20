@@ -47,6 +47,7 @@ namespace xcharts
                         SeriesData data = series.dataList[i];
                         float pX = zeroX + coordinate.tickness;
                         float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
+                        if (!yAxis.boundaryGap) pY -= scaleWid / 2;
                         float barHig = data.value / max * coordinateWid;
                         float space = offset + j * (barWid + barData.space);
                         Vector3 p1 = new Vector3(pX, pY + space + barWid);
@@ -73,6 +74,7 @@ namespace xcharts
                     {
                         SeriesData data = series.dataList[i];
                         float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
+                        if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                         float pY = zeroY + coordinate.tickness;
                         float barHig = data.value / max * coordinateHig;
                         float space = offset + j * (barWid + barData.space);

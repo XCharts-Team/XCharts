@@ -253,7 +253,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 60
+  m_Text: 70
 --- !u!222 &12948879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 24
+  m_Text: 32
 --- !u!222 &13579524
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -808,7 +808,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 99
+  m_Text: 128
 --- !u!222 &62862756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 15
+  m_Text: 17
 --- !u!222 &67122460
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -963,6 +963,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 131510773}
+--- !u!1 &134732934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 134732935}
+  - component: {fileID: 134732937}
+  - component: {fileID: 134732936}
+  m_Layer: 0
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &134732935
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 134732934}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 50, y: 50, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1385910958}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 50, y: 50}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &134732936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 134732934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: line2
+--- !u!222 &134732937
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 134732934}
 --- !u!1 &224354015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1104,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 45
+  m_Text: 52
 --- !u!222 &224354018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1104,7 +1178,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 93
+  m_Text: 120
 --- !u!222 &235400235
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1202,6 +1276,7 @@ MonoBehaviour:
   xAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data:
@@ -1215,6 +1290,7 @@ MonoBehaviour:
   yAxis:
     type: 1
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data:
@@ -1724,7 +1800,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 29
+  m_Text: 37
 --- !u!222 &348603706
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1973,6 +2049,7 @@ MonoBehaviour:
   xAxis:
     type: 1
     splitNumber: 6
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 1
     data:
@@ -1984,6 +2061,7 @@ MonoBehaviour:
   yAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 1
     boundaryGap: 0
     data: []
@@ -2005,6 +2083,7 @@ MonoBehaviour:
       color: {r: 0.6084298, g: 0.56228375, b: 0.9558824, a: 1}
   seriesList:
   - legendKey: 
+    showDataNumber: 0
     dataList:
     - key: key1
       value: 119.02
@@ -2527,7 +2606,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 45
+  m_Text: 52
 --- !u!222 &471071886
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2675,7 +2754,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 80
+  m_Text: 100
 --- !u!222 &492181724
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2749,7 +2828,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: 35
 --- !u!222 &492961304
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2823,7 +2902,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 60
+  m_Text: 75
 --- !u!222 &500450068
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3287,7 +3366,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 119
+  m_Text: 150
 --- !u!222 &566565926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3435,7 +3514,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 89
+  m_Text: 112
 --- !u!222 &635640133
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3867,7 +3946,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 49
+  m_Text: 64
 --- !u!222 &738126379
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4258,6 +4337,7 @@ MonoBehaviour:
   xAxis:
     type: 1
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data:
@@ -4269,6 +4349,7 @@ MonoBehaviour:
   yAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data: []
@@ -4290,6 +4371,7 @@ MonoBehaviour:
       color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
   seriesList:
   - legendKey: week
+    showDataNumber: 0
     dataList:
     - key: 
       value: 0
@@ -4385,7 +4467,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 31
+  m_Text: 40
 --- !u!222 &841332740
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4481,6 +4563,7 @@ MonoBehaviour:
   xAxis:
     type: 1
     splitNumber: 6
+    maxSplitNumber: 5
     showSplitLine: 1
     boundaryGap: 1
     data:
@@ -4492,6 +4575,7 @@ MonoBehaviour:
   yAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data:
@@ -4523,6 +4607,7 @@ MonoBehaviour:
       color: {r: 0.8455882, g: 0, b: 0.15745428, a: 1}
   seriesList:
   - legendKey: week
+    showDataNumber: 0
     dataList:
     - key: key1
       value: 103.88
@@ -4535,6 +4620,7 @@ MonoBehaviour:
     - key: key5
       value: 112.3
   - legendKey: month
+    showDataNumber: 0
     dataList:
     - key: key1
       value: 55
@@ -4622,7 +4708,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 40
+  m_Text: 50
 --- !u!222 &902542137
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4844,7 +4930,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: 35
 --- !u!222 &949530643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4918,7 +5004,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 20
+  m_Text: 25
 --- !u!222 &979520139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5140,7 +5226,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 62
+  m_Text: 80
 --- !u!222 &1096778763
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5371,6 +5457,7 @@ RectTransform:
   - {fileID: 500450066}
   - {fileID: 492181722}
   - {fileID: 1294989126}
+  - {fileID: 1385910958}
   m_Father: {fileID: 2051892027}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5420,6 +5507,7 @@ MonoBehaviour:
   xAxis:
     type: 1
     splitNumber: 6
+    maxSplitNumber: 5
     showSplitLine: 1
     boundaryGap: 1
     data:
@@ -5431,6 +5519,7 @@ MonoBehaviour:
   yAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data: []
@@ -5457,6 +5546,7 @@ MonoBehaviour:
       color: {r: 0.45662212, g: 0.6838235, b: 0.36705235, a: 1}
   seriesList:
   - legendKey: line1
+    showDataNumber: 5
     dataList:
     - key: 
       value: 0
@@ -5469,6 +5559,7 @@ MonoBehaviour:
     - key: 
       value: 60
   - legendKey: line2
+    showDataNumber: 5
     dataList:
     - key: 
       value: 20.13
@@ -5564,7 +5655,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 15
+  m_Text: 17
 --- !u!222 &1322231539
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5719,6 +5810,117 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1341502091}
+--- !u!1 &1385910957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1385910958}
+  - component: {fileID: 1385910961}
+  - component: {fileID: 1385910960}
+  - component: {fileID: 1385910959}
+  m_Layer: 0
+  m_Name: legend1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1385910958
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385910957}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 150, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 134732935}
+  m_Father: {fileID: 1297066860}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1385910959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385910957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1385910960}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &1385910960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385910957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.45662212, g: 0.6838235, b: 0.36705235, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1385910961
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385910957}
 --- !u!1 &1402599599
 GameObject:
   m_ObjectHideFlags: 0
@@ -5786,7 +5988,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u661F\u671F"
+  m_Text: line1
 --- !u!222 &1402599602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5934,7 +6136,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 60
+  m_Text: 70
 --- !u!222 &1423602108
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6008,7 +6210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 74
+  m_Text: 96
 --- !u!222 &1427219520
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6325,6 +6527,7 @@ MonoBehaviour:
   xAxis:
     type: 1
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data:
@@ -6336,6 +6539,7 @@ MonoBehaviour:
   yAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 0
     data: []
@@ -6357,6 +6561,7 @@ MonoBehaviour:
       color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
   seriesList:
   - legendKey: week
+    showDataNumber: 0
     dataList:
     - key: 
       value: 0
@@ -6452,7 +6657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 124
+  m_Text: 160
 --- !u!222 &1507933106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7303,7 +7508,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 59
+  m_Text: 75
 --- !u!222 &1675486929
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9012,6 +9217,7 @@ MonoBehaviour:
   xAxis:
     type: 0
     splitNumber: 5
+    maxSplitNumber: 5
     showSplitLine: 1
     boundaryGap: 0
     data:
@@ -9023,6 +9229,7 @@ MonoBehaviour:
   yAxis:
     type: 1
     splitNumber: 6
+    maxSplitNumber: 5
     showSplitLine: 0
     boundaryGap: 1
     data:
@@ -9054,6 +9261,7 @@ MonoBehaviour:
       color: {r: 0.8455882, g: 0, b: 0.15745428, a: 1}
   seriesList:
   - legendKey: week
+    showDataNumber: 0
     dataList:
     - key: key1
       value: 103.88
@@ -9066,6 +9274,7 @@ MonoBehaviour:
     - key: key5
       value: 112.3
   - legendKey: month
+    showDataNumber: 0
     dataList:
     - key: key1
       value: 55

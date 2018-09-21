@@ -151,7 +151,7 @@ namespace xcharts
     public class Series
     {
         public string legendKey;
-        public int maxCount = 0;
+        public int showDataNumber = 0;
         public List<SeriesData> dataList = new List<SeriesData>();
 
         public float Max
@@ -185,7 +185,7 @@ namespace xcharts
 
         public void AddData(string key, float value)
         {
-            if (dataList.Count >= maxCount && maxCount != 0)
+            if (dataList.Count >= showDataNumber && showDataNumber != 0)
             {
                 dataList.RemoveAt(0);
             }
@@ -209,9 +209,9 @@ namespace xcharts
         [SerializeField]
         protected Coordinate coordinate;
         [SerializeField]
-        public XAxis xAxis;
+        protected XAxis xAxis;
         [SerializeField]
-        public YAxis yAxis;
+        protected YAxis yAxis;
         [SerializeField]
         protected Legend legend;
         [SerializeField]

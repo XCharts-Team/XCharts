@@ -63,7 +63,13 @@ namespace xcharts
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
-                for (int i = 0; i < series.dataList.Count; i++)
+                int showDataNumber = series.showDataNumber;
+                int startIndex = 0;
+                if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                {
+                    startIndex = series.dataList.Count - series.showDataNumber;
+                }
+                for (int i = startIndex; i < series.dataList.Count; i++)
                 {
                     SeriesData data = series.dataList[i];
 
@@ -87,8 +93,8 @@ namespace xcharts
                             ChartUtils.DrawLine(vh, lp, np, lineData.tickness, color);
                             if (lineData.area)
                             {
-                                ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY), new Vector3(lp.x, zeroY), 
-                                    lineData.areaStartColor,lineData.areaToColor);
+                                ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY), new Vector3(lp.x, zeroY),
+                                    lineData.areaStartColor, lineData.areaToColor);
                             }
                         }
 

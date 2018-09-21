@@ -41,7 +41,12 @@ namespace xcharts
                     if (!legend.IsShowSeries(j)) continue;
                     Series series = seriesList[j];
                     Color color = legend.GetColor(j);
-                    for (int i = 0; i < series.dataList.Count; i++)
+                    int startIndex = 0;
+                    if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                    {
+                        startIndex = series.dataList.Count - series.showDataNumber;
+                    }
+                    for (int i = startIndex; i < series.dataList.Count; i++)
                     {
                         SeriesData data = series.dataList[i];
                         float pX = zeroX + coordinate.tickness;
@@ -69,7 +74,12 @@ namespace xcharts
                     if (!legend.IsShowSeries(j)) continue;
                     Series series = seriesList[j];
                     Color color = legend.GetColor(j);
-                    for (int i = 0; i < series.dataList.Count; i++)
+                    int startIndex = 0;
+                    if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                    {
+                        startIndex = series.dataList.Count - series.showDataNumber;
+                    }
+                    for (int i = startIndex; i < series.dataList.Count; i++)
                     {
                         SeriesData data = series.dataList[i];
                         float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);

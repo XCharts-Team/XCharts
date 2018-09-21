@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-using xcharts;
 using System.Collections.Generic;
 
 namespace xcharts
@@ -73,9 +71,19 @@ namespace xcharts
     {
         public AxisType type;
         public int splitNumber = 5;
+        public int maxSplitNumber = 5;
         public bool showSplitLine;
         public bool boundaryGap = true;
         public List<string> data;
+
+        public void AddCategory(string category)
+        {
+            if (data.Count >= maxSplitNumber)
+            {
+                data.RemoveAt(0);
+            }
+            data.Add(category);
+        }
     }
 
     [System.Serializable]
@@ -115,13 +123,13 @@ namespace xcharts
 
         public Color GetColor(int seriesIndex)
         {
-            if (seriesIndex < 0 || seriesIndex > dataList.Count) seriesIndex = 0;
+            if (seriesIndex < 0 || seriesIndex >= dataList.Count) seriesIndex = 0;
             return dataList[seriesIndex].color;
         }
 
         public bool IsShowSeries(int seriesIndex)
         {
-            if (seriesIndex < 0 || seriesIndex > dataList.Count) seriesIndex = 0;
+            if (seriesIndex < 0 || seriesIndex >= dataList.Count) seriesIndex = 0;
             return dataList[seriesIndex].show;
         }
     }
@@ -131,22 +139,29 @@ namespace xcharts
     {
         public string key;
         public float value;
+
+        public SeriesData(string key, float value)
+        {
+            this.key = key;
+            this.value = value;
+        }
     }
 
     [System.Serializable]
     public class Series
     {
         public string legendKey;
+        public int maxCount = 0;
         public List<SeriesData> dataList = new List<SeriesData>();
 
-        public float max
+        public float Max
         {
             get
             {
                 float max = 0;
-                foreach(var data in dataList)
+                foreach (var data in dataList)
                 {
-                    if(data.value > max)
+                    if (data.value > max)
                     {
                         max = data.value;
                     }
@@ -155,7 +170,7 @@ namespace xcharts
             }
         }
 
-        public float total
+        public float Total
         {
             get
             {
@@ -166,6 +181,15 @@ namespace xcharts
                 }
                 return total;
             }
+        }
+
+        public void AddData(string key, float value)
+        {
+            if (dataList.Count >= maxCount && maxCount != 0)
+            {
+                dataList.RemoveAt(0);
+            }
+            dataList.Add(new SeriesData(key, value));
         }
     }
 
@@ -185,9 +209,9 @@ namespace xcharts
         [SerializeField]
         protected Coordinate coordinate;
         [SerializeField]
-        protected XAxis xAxis;
+        public XAxis xAxis;
         [SerializeField]
-        protected YAxis yAxis;
+        public YAxis yAxis;
         [SerializeField]
         protected Legend legend;
         [SerializeField]
@@ -246,6 +270,31 @@ namespace xcharts
             CheckXAxisType();
             CheckMaxValue();
             CheckCoordinateSizeChange();
+        }
+
+        public void AddData(string legend, string key, float value)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (seriesList[i].legendKey == legend)
+                {
+                    seriesList[i].AddData(key, value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
+        public void AddXAxisCategory(string category)
+        {
+            xAxis.AddCategory(category);
+            OnXAxisType();
+        }
+
+        public void AddYAxisCategory(string category)
+        {
+            yAxis.AddCategory(category);
+            OnYAxisType();
         }
 
         private void HideChild(string match = null)
@@ -371,7 +420,7 @@ namespace xcharts
 
         private void InitLegend()
         {
-            for(int i = 0; i < legend.dataList.Count; i++)
+            for (int i = 0; i < legend.dataList.Count; i++)
             {
                 LegendData data = legend.dataList[i];
                 Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, font, Vector2.zero,
@@ -402,24 +451,27 @@ namespace xcharts
                     float startX = legend.left;
                     if (startX <= 0)
                     {
-                        startX = (chartWid -(legendCount *legend.dataWid - (legendCount-1) * legend.dataSpace)) / 2;
+                        startX = (chartWid - (legendCount * legend.dataWid -
+                            (legendCount - 1) * legend.dataSpace)) / 2;
                     }
-                    float posY = legend.location == Location.bottom ? legend.bottom : chartHig - legend.top - legend.dataHig;
-                    return new Vector3(startX + i * (legend.dataWid+legend.dataSpace),posY,0);
+                    float posY = legend.location == Location.bottom ?
+                        legend.bottom : chartHig - legend.top - legend.dataHig;
+                    return new Vector3(startX + i * (legend.dataWid + legend.dataSpace), posY, 0);
                 case Location.left:
                 case Location.right:
-                    float startY =0;
+                    float startY = 0;
                     if (legend.top > 0)
                     {
-                        startY = chartHig - legend.top- legend.dataHig;
+                        startY = chartHig - legend.top - legend.dataHig;
                     }
                     else if (startY <= 0)
                     {
-                        startY = chartHig - (chartHig - (legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace)) / 2 - legend.dataHig;
+                        float offset = (chartHig - (legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace)) / 2;
+                        startY = chartHig - offset - legend.dataHig;
                     }
                     float posX = legend.location == Location.left ? legend.left : chartWid - legend.right - legend.dataWid;
-                    return new Vector3(posX,startY - i * (legend.dataHig + legend.dataSpace), 0);
-                default:break;
+                    return new Vector3(posX, startY - i * (legend.dataHig + legend.dataSpace), 0);
+                default: break;
             }
             return Vector3.zero;
         }
@@ -444,7 +496,7 @@ namespace xcharts
                     return new Vector3(zeroX - coordinate.scaleLen - 2f,
                         zeroY + i * scaleWid, 0);
                 }
-                
+
             }
         }
 
@@ -463,7 +515,7 @@ namespace xcharts
                 }
                 else
                 {
-                    return new Vector3(zeroX + (i + 1- 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                    return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
                 }
             }
         }
@@ -521,9 +573,10 @@ namespace xcharts
                     lastXMaxValue = max;
                     OnXMaxValueChanged();
                 }
-            }else if(yAxis.type == AxisType.value)
+            }
+            else if (yAxis.type == AxisType.value)
             {
-                
+
                 float max = GetMaxValue();
                 if (lastYMaxValue != max)
                 {
@@ -536,11 +589,12 @@ namespace xcharts
         protected float GetMaxValue()
         {
             float max = 0;
-            for(int i = 0; i < seriesList.Count; i++)
+            for (int i = 0; i < seriesList.Count; i++)
             {
-                if (legend.IsShowSeries(i) && seriesList[i].max > max) max = seriesList[i].max;
+                if (legend.IsShowSeries(i) && seriesList[i].Max > max) max = seriesList[i].Max;
             }
-            return max;
+            int bigger = (int)(max * 1.3f);
+            return bigger < 10 ? bigger : bigger - bigger % 10;
         }
 
         private void CheckTile()
@@ -562,7 +616,7 @@ namespace xcharts
         {
             if (checkLegend.dataWid != legend.dataWid ||
                 checkLegend.dataHig != legend.dataHig ||
-                checkLegend.dataSpace != legend.dataSpace || 
+                checkLegend.dataSpace != legend.dataSpace ||
                 checkLegend.left != legend.left ||
                 checkLegend.right != legend.right ||
                 checkLegend.bottom != legend.bottom ||
@@ -628,7 +682,7 @@ namespace xcharts
             float max = GetMaxValue();
             for (int i = 0; i < yScaleTextList.Count; i++)
             {
-                yScaleTextList[i].text = ((int)(max * i / (yScaleTextList.Count -1))).ToString();
+                yScaleTextList[i].text = ((int)(max * i / (yScaleTextList.Count - 1))).ToString();
             }
         }
 
@@ -643,8 +697,9 @@ namespace xcharts
             {
                 Button btn = legend.dataList[i].button;
                 btn.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
-                btn.GetComponentInChildren<Text>().transform.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
-                btn.GetComponentInChildren<Text>().transform.localPosition = Vector3.zero;
+                Text txt = btn.GetComponentInChildren<Text>();
+                txt.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
+                txt.transform.localPosition = Vector3.zero;
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.gameObject.SetActive(legend.show);
             }
@@ -682,25 +737,31 @@ namespace xcharts
             {
                 float pX = zeroX - coordinate.scaleLen;
                 float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
-                ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness, Color.white);
+                ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness,
+                    Color.white);
                 if (yAxis.showSplitLine)
                 {
-                    ChartUtils.DrawLine(vh, new Vector3(zeroX, pY), new Vector3(zeroX + coordinateWid, pY), coordinate.tickness, Color.grey);
+                    ChartUtils.DrawLine(vh, new Vector3(zeroX, pY),
+                        new Vector3(zeroX + coordinateWid, pY), coordinate.tickness, Color.grey);
                 }
             }
             for (int i = 1; i < xAxis.splitNumber; i++)
             {
                 float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
                 float pY = zeroY - coordinate.scaleLen - 2;
-                ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness, Color.white);
+                ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness,
+                    Color.white);
                 if (xAxis.showSplitLine)
                 {
-                    ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, zeroY + coordinateHig), coordinate.tickness, Color.grey);
+                    ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, zeroY + coordinateHig),
+                        coordinate.tickness, Color.grey);
                 }
             }
             //draw x,y axis
-            ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.scaleLen), new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, Color.white);
-            ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.scaleLen, zeroY), new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, Color.white);
+            ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.scaleLen),
+                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, Color.white);
+            ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.scaleLen, zeroY),
+                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, Color.white);
         }
     }
 }

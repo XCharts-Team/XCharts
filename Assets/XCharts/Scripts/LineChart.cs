@@ -11,9 +11,8 @@ namespace xcharts
     }
 
     [System.Serializable]
-    public class LineData
+    public class LineInfo
     {
-
         public float tickness = 0.8f;
 
         [Header("Point")]
@@ -30,14 +29,13 @@ namespace xcharts
 
         [Header("Area")]
         public bool area = false;
-        public Color areaStartColor;
-        public Color areaToColor;
+        public Color areaColor;
     }
 
     public class LineChart : BaseChart
     {
         [SerializeField]
-        private LineData lineData;
+        private LineInfo lineInfo;
 
         protected override void Awake()
         {
@@ -76,25 +74,25 @@ namespace xcharts
                     np = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
                     if (i > 0)
                     {
-                        if (lineData.smooth)
+                        if (lineInfo.smooth)
                         {
-                            var list = ChartUtils.GetBezierList(lp, np, lineData.smoothStyle);
+                            var list = ChartUtils.GetBezierList(lp, np, lineInfo.smoothStyle);
                             Vector3 start, to;
                             start = list[0];
                             for (int k = 1; k < list.Count; k++)
                             {
                                 to = list[k];
-                                ChartUtils.DrawLine(vh, start, to, lineData.tickness, color);
+                                ChartUtils.DrawLine(vh, start, to, lineInfo.tickness, color);
                                 start = to;
                             }
                         }
                         else
                         {
-                            ChartUtils.DrawLine(vh, lp, np, lineData.tickness, color);
-                            if (lineData.area)
+                            ChartUtils.DrawLine(vh, lp, np, lineInfo.tickness, color);
+                            if (lineInfo.area)
                             {
-                                ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY), new Vector3(lp.x, zeroY),
-                                    lineData.areaStartColor, lineData.areaToColor);
+                                ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY),
+                                    new Vector3(lp.x, zeroY), lineInfo.areaColor);
                             }
                         }
 
@@ -102,20 +100,21 @@ namespace xcharts
                     lp = np;
                 }
                 // draw point
-                if (lineData.showPoint)
+                if (lineInfo.showPoint)
                 {
                     for (int i = 0; i < series.dataList.Count; i++)
                     {
                         SeriesData data = series.dataList[i];
 
                         Vector3 p = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
-                        switch (lineData.pointType)
+                        switch (lineInfo.pointType)
                         {
                             case PointType.square:
-                                ChartUtils.DrawPolygon(vh, p, lineData.pointWid, lineData.pointColor);
+                                ChartUtils.DrawPolygon(vh, p, lineInfo.pointWid, lineInfo.pointColor);
                                 break;
                             case PointType.cicle:
-                                ChartUtils.DrawCricle(vh, p, lineData.pointWid, lineData.pointColor, (int)lineData.pointWid * 5);
+                                ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, lineInfo.pointColor, 
+                                    (int)lineInfo.pointWid * 5);
                                 break;
                         }
                     }

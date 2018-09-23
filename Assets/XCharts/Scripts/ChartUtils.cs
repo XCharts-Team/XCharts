@@ -62,8 +62,8 @@ namespace xcharts
                 btnObj.AddComponent<Image>();
                 btnObj.AddComponent<Button>();
 
-                Text txt = AddTextObject("Text", btnObj.transform, font, TextAnchor.MiddleCenter, 
-                    Vector2.zero,Vector2.zero, Vector2.zero, sizeDelta);
+                Text txt = AddTextObject("Text", btnObj.transform, font, TextAnchor.MiddleCenter,
+                    Vector2.zero, Vector2.zero, Vector2.zero, sizeDelta);
                 txt.text = "Text";
             }
             RectTransform rect = btnObj.GetComponent<RectTransform>();
@@ -111,7 +111,7 @@ namespace xcharts
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
-            Color startColor,Color toColor)
+            Color startColor, Color toColor)
         {
             UIVertex[] vertex = new UIVertex[4];
             vertex[0].position = p1;
@@ -120,7 +120,7 @@ namespace xcharts
             vertex[3].position = p4;
             for (int j = 0; j < 4; j++)
             {
-                vertex[j].color = j>=2?toColor:startColor;
+                vertex[j].color = j >= 2 ? toColor : startColor;
                 vertex[j].uv0 = Vector2.zero;
             }
             vh.AddUIVertexQuad(vertex);
@@ -158,31 +158,25 @@ namespace xcharts
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
             int segments)
         {
+            DrawSector(vh, p, radius, color, segments, 0, 360);
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color, 
+            int segments, float startDegree, float toDegree)
+        {
             List<UIVertex> vertexs = new List<UIVertex>();
             vh.GetUIVertexStream(vertexs);
-            float angle = 2 * Mathf.PI / segments;
-            float cos = Mathf.Cos(angle);
-            float sin = Mathf.Sin(angle);
-            float cx = radius, cy = 0;
-
-            List<UIVertex> vs = new List<UIVertex>();
-
-            segments--;
             Vector3 p2, p3;
-            for (int i = 0; i < segments; i++)
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree-startDegree) * Mathf.Deg2Rad / segments;
+            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
             {
-                p2 = new Vector3(p.x + cx, p.y + cy);
-                float temp = cx;
-                cx = cos * cx - sin * cy;
-                cy = sin * temp + cos * cy;
-                p3 = new Vector3(p.x + cx, p.y + cy);
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
                 DrawTriangle(vh, vertexs, p, p2, p3, color);
+                p2 = p3;
             }
-            p2 = new Vector3(p.x + cx, p.y + cy);
-            cx = radius;
-            cy = 0;
-            p3 = new Vector3(p.x + cx, p.y + cy);
-            DrawTriangle(vh, vertexs, p, p2, p3, color);
         }
 
 

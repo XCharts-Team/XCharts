@@ -110,10 +110,10 @@ namespace xcharts
     [System.Serializable]
     public class Legend
     {
-        public bool show;
+        public bool show = true;
         public Location location;
-        public float dataWid;
-        public float dataHig;
+        public float dataWid = 50.0f;
+        public float dataHig = 20.0f;
         public float dataSpace;
         public float left;
         public float right;
@@ -222,14 +222,16 @@ namespace xcharts
         private float lastCoordinateHig;
         private float lastCoordinateScaleLen;
 
-        private Align lastTitleAlign;
-        private float lastTitleLeft;
-        private float lastTitleRight;
-        private float lastTitleTop;
+        //private Align lastTitleAlign;
+        //private float lastTitleLeft;
+        //private float lastTitleRight;
+        //private float lastTitleTop;
 
         private float lastXMaxValue;
         private float lastYMaxValue;
 
+        private Coordinate checkCoordinate = new Coordinate();
+        private Title checkTitle = new Title();
         private Legend checkLegend = new Legend();
         private XAxis checkXAxis = new XAxis();
         private YAxis checkYAxis = new YAxis();
@@ -269,7 +271,7 @@ namespace xcharts
             CheckYAxisType();
             CheckXAxisType();
             CheckMaxValue();
-            CheckCoordinateSizeChange();
+            CheckCoordinate();
         }
 
         public void AddData(string legend, string key, float value)
@@ -288,13 +290,13 @@ namespace xcharts
         public void AddXAxisCategory(string category)
         {
             xAxis.AddCategory(category);
-            OnXAxisType();
+            OnXAxisChanged();
         }
 
         public void AddYAxisCategory(string category)
         {
             yAxis.AddCategory(category);
-            OnYAxisType();
+            OnYAxisChanged();
         }
 
         private void HideChild(string match = null)
@@ -365,6 +367,7 @@ namespace xcharts
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
                     txt.text = ((int)(max * i / yAxis.splitNumber)).ToString();
+                    txt.gameObject.SetActive(coordinate.show);
                     yScaleTextList.Add(txt);
                 }
             }
@@ -378,6 +381,7 @@ namespace xcharts
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
                     txt.text = yAxis.data[i];
+                    txt.gameObject.SetActive(coordinate.show);
                     yScaleTextList.Add(txt);
                 }
             }
@@ -399,6 +403,7 @@ namespace xcharts
                         new Vector2(scaleWid, 20));
                     txt.transform.localPosition = GetXScalePosition(i);
                     txt.text = ((int)(max * i / xAxis.splitNumber)).ToString();
+                    txt.gameObject.SetActive(coordinate.show);
                     xScaleTextList.Add(txt);
                 }
             }
@@ -413,6 +418,7 @@ namespace xcharts
                         new Vector2(scaleWid, 20));
                     txt.transform.localPosition = GetXScalePosition(i);
                     txt.text = xAxis.data[i];
+                    txt.gameObject.SetActive(coordinate.show);
                     xScaleTextList.Add(txt);
                 }
             }
@@ -436,6 +442,7 @@ namespace xcharts
                     data.show = !data.show;
                     btn.GetComponent<Image>().color = data.show ? data.color : Color.grey;
                     OnYMaxValueChanged();
+                    OnLegendButtonClicked();
                     RefreshChart();
                 });
             }
@@ -520,7 +527,7 @@ namespace xcharts
             }
         }
 
-        private void CheckCoordinateSizeChange()
+        private void CheckCoordinate()
         {
             if (lastCoordinateHig != coordinateHig
                 || lastCoordinateWid != coordinateWid
@@ -530,6 +537,12 @@ namespace xcharts
                 lastCoordinateHig = coordinateHig;
                 lastCoordinateScaleLen = coordinate.scaleLen;
                 OnCoordinateSize();
+            }
+            if(checkCoordinate.show != coordinate.show)
+            {
+                checkCoordinate.show = coordinate.show;
+                OnXAxisChanged();
+                OnYAxisChanged();
             }
         }
 
@@ -544,7 +557,7 @@ namespace xcharts
                 checkYAxis.boundaryGap = yAxis.boundaryGap;
                 checkYAxis.showSplitLine = yAxis.showSplitLine;
                 checkYAxis.splitNumber = yAxis.splitNumber;
-                OnYAxisType();
+                OnYAxisChanged();
             }
         }
 
@@ -559,7 +572,7 @@ namespace xcharts
                 checkXAxis.boundaryGap = xAxis.boundaryGap;
                 checkXAxis.showSplitLine = xAxis.showSplitLine;
                 checkXAxis.splitNumber = xAxis.splitNumber;
-                OnXAxisType();
+                OnXAxisChanged();
             }
         }
 
@@ -599,15 +612,15 @@ namespace xcharts
 
         private void CheckTile()
         {
-            if (lastTitleAlign != title.align ||
-                lastTitleLeft != title.left ||
-                lastTitleRight != title.right ||
-                lastTitleTop != title.top)
+            if (checkTitle.align != title.align ||
+                checkTitle.left != title.left ||
+                checkTitle.right != title.right ||
+                checkTitle.top != title.top)
             {
-                lastTitleAlign = title.align;
-                lastTitleLeft = title.left;
-                lastTitleRight = title.right;
-                lastTitleTop = title.top;
+                checkTitle.align = title.align;
+                checkTitle.left = title.left;
+                checkTitle.right = title.right;
+                checkTitle.top = title.top;
                 OnTitleChanged();
             }
         }
@@ -656,13 +669,13 @@ namespace xcharts
             }
         }
 
-        protected virtual void OnYAxisType()
+        protected virtual void OnYAxisChanged()
         {
             HideChild(YSCALE_TEXT_PREFIX);
             InitYScale();
         }
 
-        protected virtual void OnXAxisType()
+        protected virtual void OnXAxisChanged()
         {
             HideChild(XSCALE_TEXT_PREFIX);
             InitXScale();
@@ -703,6 +716,11 @@ namespace xcharts
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.gameObject.SetActive(legend.show);
             }
+        }
+
+        protected virtual void OnLegendButtonClicked()
+        {
+
         }
 
         protected void RefreshChart()

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace xcharts
 {
     [System.Serializable]
-    public class BarData
+    public class BarInfo
     {
         public float barWid = 0.7f;
         public float space;
@@ -13,7 +13,7 @@ namespace xcharts
     public class BarChart : BaseChart
     {
         [SerializeField]
-        private BarData barData;
+        private BarInfo barInfo;
 
         protected override void Awake()
         {
@@ -33,8 +33,8 @@ namespace xcharts
             {
                 int seriesCount = seriesList.Count;
                 float scaleWid = coordinateHig / (yAxis.splitNumber - 1);
-                float barWid = barData.barWid > 1 ? barData.barWid : scaleWid * barData.barWid;
-                float offset = (scaleWid - barWid * seriesCount - barData.space * (seriesCount - 1)) / 2;
+                float barWid = barInfo.barWid > 1 ? barInfo.barWid : scaleWid * barInfo.barWid;
+                float offset = (scaleWid - barWid * seriesCount - barInfo.space * (seriesCount - 1)) / 2;
                 float max = GetMaxValue();
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -53,7 +53,7 @@ namespace xcharts
                         float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
                         if (!yAxis.boundaryGap) pY -= scaleWid / 2;
                         float barHig = data.value / max * coordinateWid;
-                        float space = offset + j * (barWid + barData.space);
+                        float space = offset + j * (barWid + barInfo.space);
                         Vector3 p1 = new Vector3(pX, pY + space + barWid);
                         Vector3 p2 = new Vector3(pX + barHig, pY + space + barWid);
                         Vector3 p3 = new Vector3(pX + barHig, pY + space);
@@ -66,8 +66,8 @@ namespace xcharts
             {
                 int seriesCount = seriesList.Count;
                 float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
-                float barWid = barData.barWid > 1 ? barData.barWid : scaleWid * barData.barWid;
-                float offset = (scaleWid - barWid * seriesCount - barData.space * (seriesCount - 1)) / 2;
+                float barWid = barInfo.barWid > 1 ? barInfo.barWid : scaleWid * barInfo.barWid;
+                float offset = (scaleWid - barWid * seriesCount - barInfo.space * (seriesCount - 1)) / 2;
                 float max = GetMaxValue();
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -86,7 +86,7 @@ namespace xcharts
                         if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                         float pY = zeroY + coordinate.tickness;
                         float barHig = data.value / max * coordinateHig;
-                        float space = offset + j * (barWid + barData.space);
+                        float space = offset + j * (barWid + barInfo.space);
                         Vector3 p1 = new Vector3(pX + space, pY);
                         Vector3 p2 = new Vector3(pX + space, pY + barHig);
                         Vector3 p3 = new Vector3(pX + space + barWid, pY + barHig);

@@ -14,7 +14,8 @@ namespace xcharts
     [System.Serializable]
     public class PieInfo
     {
-        public float radius = 80f;
+        public float insideRadius = 0f;
+        public float outsideRadius = 80f;
         public float space;
         public float left;
         public float right;
@@ -65,8 +66,8 @@ namespace xcharts
                 float value = pieInfo.dataList[i].value;
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
-                ChartUtils.DrawSector(vh, new Vector3(pieCenterX, pieCenterY), pieRadius, legend.GetColor(i), 360, 
-                    startDegree, toDegree);
+                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius, pieRadius,
+                    startDegree, toDegree, legend.GetColor(i));
                 startDegree = toDegree;
             }
         }
@@ -95,7 +96,7 @@ namespace xcharts
             float diffX = chartWid - pieInfo.left - pieInfo.right;
             float diffY = chartHig - pieInfo.top - pieInfo.bottom;
             float diff = Mathf.Min(diffX, diffY);
-            if(pieInfo.radius <= 0)
+            if(pieInfo.outsideRadius <= 0)
             {
                 pieRadius = diff / 3 * 2;
                 pieCenterX = pieInfo.left + pieRadius;
@@ -103,7 +104,7 @@ namespace xcharts
             }
             else
             {
-                pieRadius = pieInfo.radius;
+                pieRadius = pieInfo.outsideRadius;
                 pieCenterX = chartWid / 2;
                 pieCenterY = chartHig / 2;
                 if (pieInfo.left > 0) pieCenterX = pieInfo.left + pieRadius;

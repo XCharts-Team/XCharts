@@ -156,14 +156,22 @@ namespace xcharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
-            int segments)
+            int segments = 0)
         {
+            if(segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / 10f);
+            }
             DrawSector(vh, p, radius, color, segments, 0, 360);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color, 
-            int segments, float startDegree, float toDegree)
+            float startDegree, float toDegree, int segments = 0)
         {
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / 10f);
+            }
             List<UIVertex> vertexs = new List<UIVertex>();
             vh.GetUIVertexStream(vertexs);
             Vector3 p2, p3;
@@ -175,6 +183,37 @@ namespace xcharts
                 float currAngle = startAngle + i * angle;
                 p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
                 DrawTriangle(vh, vertexs, p, p2, p3, color);
+                p2 = p3;
+            }
+        }
+
+        public static void DrawDoughnut(VertexHelper vh,Vector3 p,float insideRadius,float outsideRadius,
+            float startDegree, float toDegree, Color color, int segments = 0)
+        {
+            if(insideRadius<=0)
+            {
+                DrawSector(vh, p, outsideRadius, color,startDegree, toDegree, segments);
+                return;
+            }
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * outsideRadius) / 10f);
+            }
+            List<UIVertex> vertexs = new List<UIVertex>();
+            vh.GetUIVertexStream(vertexs);
+            Vector3 p1, p2, p3, p4;
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
+            p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle), p.y + insideRadius * Mathf.Cos(startAngle));
+            p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle), p.y + outsideRadius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
+            {
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
+                p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle), p.y + insideRadius * Mathf.Cos(currAngle));
+
+                DrawPolygon(vh, p1, p2, p3, p4, color);
+                p1 = p4;
                 p2 = p3;
             }
         }

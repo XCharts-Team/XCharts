@@ -2097,7 +2097,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 391300565}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -630, y: -260, z: 0}
+  m_LocalPosition: {x: -610, y: -145, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 735060314}
@@ -2927,7 +2927,7 @@ GameObject:
   - component: {fileID: 494086603}
   - component: {fileID: 494086602}
   m_Layer: 5
-  m_Name: pie_chart (1)
+  m_Name: pie_chart_doughnut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2940,7 +2940,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 494086600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -220, y: -570, z: 0}
+  m_LocalPosition: {x: -200, y: -455, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1006379568}
@@ -2988,7 +2988,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
   title:
     show: 1
-    text: "\u997C\u56FE"
+    text: "\u73AF\u5F62\u56FE"
     color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
@@ -3045,7 +3045,8 @@ MonoBehaviour:
       color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
   seriesList: []
   pieInfo:
-    radius: 80
+    insideRadius: 40
+    outsideRadius: 80
     space: 0
     left: 0
     right: 0
@@ -4390,7 +4391,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 724935906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -115.0777, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1297066860}
@@ -4406,8 +4407,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 720}
+  m_AnchoredPosition: {x: 0, y: -115.07772}
+  m_SizeDelta: {x: 1280, y: 950}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &724935908
 MonoBehaviour:
@@ -4421,7 +4422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
+    m_Left: 30
     m_Right: 10
     m_Top: 10
     m_Bottom: 0
@@ -4863,7 +4864,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 822231470}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 190, y: 50, z: 0}
+  m_LocalPosition: {x: 210, y: 165, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1010613331}
@@ -5087,7 +5088,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 867959889}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -220, y: -260, z: 0}
+  m_LocalPosition: {x: -200, y: -145, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1965633316}
@@ -5550,7 +5551,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 971243255}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -630, y: -570, z: 0}
+  m_LocalPosition: {x: -610, y: -455, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1380241089}
@@ -5655,7 +5656,8 @@ MonoBehaviour:
       color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
   seriesList: []
   pieInfo:
-    radius: 80
+    insideRadius: 0
+    outsideRadius: 80
     space: 0
     left: 0
     right: 0
@@ -6734,7 +6736,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1297066859}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -630, y: 50, z: 0}
+  m_LocalPosition: {x: -610, y: 165, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 305443278}
@@ -7828,7 +7830,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1505386461}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -220, y: 50, z: 0}
+  m_LocalPosition: {x: -200, y: 165, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 506873713}
@@ -10888,7 +10890,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2117888106}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 190, y: -260, z: 0}
+  m_LocalPosition: {x: 210, y: -145, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 575629730}

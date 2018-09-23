@@ -16,6 +16,7 @@ namespace xcharts
     {
         public float insideRadius = 0f;
         public float outsideRadius = 80f;
+        public bool outsideRadiusDynamic = false;
         public float space;
         public float left;
         public float right;
@@ -60,14 +61,19 @@ namespace xcharts
             float totalDegree = 360;
             float startDegree = 0;
             float dataTotal = GetDataTotal();
+            float dataMax = GetDataMax();
             for (int i = 0; i < pieInfo.dataList.Count; i++)
             {
                 if (!legend.IsShowSeries(i)) continue;
                 float value = pieInfo.dataList[i].value;
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
-                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius, pieRadius,
-                    startDegree, toDegree, legend.GetColor(i));
+
+                float outSideRadius = pieInfo.outsideRadiusDynamic ? 
+                    pieInfo.insideRadius + (pieRadius - pieInfo.insideRadius) * value / dataMax : 
+                    pieRadius;
+                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius, 
+                    outSideRadius,startDegree, toDegree, legend.GetColor(i));
                 startDegree = toDegree;
             }
         }
@@ -89,6 +95,19 @@ namespace xcharts
                 }
             }
             return total;
+        }
+
+        private float GetDataMax()
+        {
+            float max = 0;
+            for(int i = 0; i < pieInfo.dataList.Count; i++)
+            {
+                if(legend.IsShowSeries(i) && pieInfo.dataList[i].value > max)
+                {
+                    max = pieInfo.dataList[i].value;
+                }
+            }
+            return max;
         }
 
         private void UpdatePieCenter()

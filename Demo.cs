@@ -9,7 +9,7 @@ public class Demo : MonoBehaviour
 
     void Awake()
     {
-        lineChart = transform.Find("line_chart").GetComponent<LineChart>();
+        lineChart = transform.Find("xchart/line_chart").GetComponent<LineChart>();
     }
 
     void Update()

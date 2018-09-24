@@ -6,6 +6,7 @@ namespace xcharts
 {
     public static class ChartUtils
     {
+        private static float CRICLE_SMOOTHNESS = 1f;
         public static Text AddTextObject(string name, Transform parent, Font font, TextAnchor anchor,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int fontSize = 14)
         {
@@ -160,9 +161,9 @@ namespace xcharts
         {
             if(segments <= 0)
             {
-                segments = (int)((2 * Mathf.PI * radius) / 10f);
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
-            DrawSector(vh, p, radius, color, segments, 0, 360);
+            DrawSector(vh, p, radius, color, 0, 360, segments);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color, 
@@ -170,7 +171,7 @@ namespace xcharts
         {
             if (segments <= 0)
             {
-                segments = (int)((2 * Mathf.PI * radius) / 10f);
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
             List<UIVertex> vertexs = new List<UIVertex>();
             vh.GetUIVertexStream(vertexs);
@@ -197,10 +198,8 @@ namespace xcharts
             }
             if (segments <= 0)
             {
-                segments = (int)((2 * Mathf.PI * outsideRadius) / 10f);
+                segments = (int)((2 * Mathf.PI * outsideRadius) / CRICLE_SMOOTHNESS);
             }
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
             Vector3 p1, p2, p3, p4;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;

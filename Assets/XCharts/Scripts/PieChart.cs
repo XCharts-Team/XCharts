@@ -23,16 +23,6 @@ namespace xcharts
         public float top;
         public float bottom;
         public List<PieData> dataList;
-
-        public float GetDataTotal()
-        {
-            float total = 0;
-            foreach(var d in dataList)
-            {
-                total += d.value;
-            }
-            return total;
-        }
     }
 
     public class PieChart : BaseChart

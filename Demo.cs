@@ -30,9 +30,9 @@ public class Demo : MonoBehaviour
         {
             time = 0;
             count++;
-            lineChart.AddXAxisCategory("key" + count);
-            lineChart.AddData("line1", "key"+count, Random.Range(24.0f, 60.0f));
-            lineChart.AddData("line2", "key"+count, Random.Range(24.0f, 60.0f));
+            //lineChart.AddXAxisCategory("key" + count);
+            //lineChart.AddData("line1", "key"+count, Random.Range(24.0f, 60.0f));
+            //lineChart.AddData("line2", "key"+count, Random.Range(24.0f, 60.0f));
         }
     }
 }

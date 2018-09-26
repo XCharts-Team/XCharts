@@ -14,6 +14,7 @@ namespace xcharts
     [System.Serializable]
     public class RadarInfo
     {
+        public bool area;
         public float radius = 100;
         public int splitNumber = 5;
 
@@ -159,6 +160,7 @@ namespace xcharts
                 if (!legend.IsShowSeries(i)) continue;
                 var dataList = seriesList[i].dataList;
                 var color = legend.GetColor(i);
+                var areaColor = new Color(color.r,color.g,color.b,color.a/2);
                 var max = radarInfo.indicatorList[i].max > 0 ?
                     radarInfo.indicatorList[i].max :
                     GetMaxValue();
@@ -177,11 +179,13 @@ namespace xcharts
                     {
                         toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                             p.y + radius * Mathf.Cos(currAngle));
+                        if (radarInfo.area) ChartUtils.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
                         ChartUtils.DrawLine(vh, startPoint, toPoint, radarInfo.lineTickness, color);
                         startPoint = toPoint;
                     }
                     pointList.Add(startPoint);
                 }
+                if (radarInfo.area) ChartUtils.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
                 ChartUtils.DrawLine(vh, startPoint, firstPoint, radarInfo.lineTickness, color);
                 foreach (var point in pointList)
                 {

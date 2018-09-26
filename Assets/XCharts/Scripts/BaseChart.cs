@@ -299,7 +299,7 @@ namespace xcharts
             OnYAxisChanged();
         }
 
-        private void HideChild(string match = null)
+        protected void HideChild(string match = null)
         {
             for (int i = 0; i < transform.childCount; i++)
             {

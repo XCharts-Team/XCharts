@@ -12,7 +12,6 @@ public class Demo : MonoBehaviour
     {
         lineChart = transform.Find("xchart/line_chart").GetComponent<LineChart>();
 
-
         var xchart = transform.Find("xchart");
         GridLayoutGroup grid = xchart.GetComponent<GridLayoutGroup>();
         RectTransform rect = xchart.GetComponent<RectTransform>();
@@ -21,7 +20,6 @@ public class Demo : MonoBehaviour
         int numWid =(int) ((wid - grid.padding.left - grid.padding.right) / (grid.cellSize.x+grid.spacing.x));
         int numHig = (childNum + numWid - 1) / numWid;
         float hig = grid.padding.top + numHig * (grid.cellSize.y+ grid.spacing.y);
-        Debug.LogError("child:"+childNum+","+grid.cellSize.y+","+grid.spacing.y+","+grid.padding.top+","+ wid+","+ numWid+","+ numHig+","+ hig);
         rect.sizeDelta = new Vector2(wid,hig);
     }
 

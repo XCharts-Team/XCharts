@@ -17,7 +17,6 @@ namespace xcharts
         public float radius = 100;
         public int splitNumber = 5;
 
-        public float space;
         public float left;
         public float right;
         public float top;
@@ -27,26 +26,110 @@ namespace xcharts
         public float linePointSize = 5f;
         public Color lineColor = Color.grey;
         public List<Color> backgroundColorList;
+        public bool showIndicator = true;
         public List<RadarIndicator> indicatorList;
+
+        public int checkIndicatorCount { get; set; }
     }
 
     public class RadarChart : BaseChart
     {
+        private const string INDICATOR_TEXT = "indicator";
+
         [SerializeField]
         private RadarInfo radarInfo;
 
+        private RadarInfo checkRadarInfo = new RadarInfo();
         private float radarCenterX = 0f;
         private float radarCenterY = 0f;
         private float radarRadius = 0;
+        private List<Text> indicatorTextList = new List<Text>();
 
         protected override void Awake()
         {
             base.Awake();
+            UpdateRadarCenter();
         }
 
         protected override void Update()
         {
             base.Update();
+            CheckRadarInfoChanged();
+        }
+
+        private void InitIndicator()
+        {
+            indicatorTextList.Clear();
+            HideChild(INDICATOR_TEXT);
+            int indicatorNum = radarInfo.indicatorList.Count;
+            float txtWid = 100;
+            float txtHig = 20;
+            for (int i = 0; i < indicatorNum; i++)
+            {
+                var pos = GetIndicatorPosition(i);
+                TextAnchor anchor = TextAnchor.MiddleCenter;
+                var diff = pos.x - radarCenterX;
+                if (diff < -1f)
+                {
+                    pos = new Vector3(pos.x - 5, pos.y);
+                    anchor = TextAnchor.MiddleRight;
+                }
+                else if (diff > 1f)
+                {
+                    anchor = TextAnchor.MiddleLeft;
+                    pos = new Vector3(pos.x + txtWid + 5,pos.y);
+                }
+                else
+                {
+                    anchor = TextAnchor.MiddleCenter;
+                    float y = pos.y > radarCenterY ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
+                    pos = new Vector3(pos.x + txtWid / 2, y);
+                }
+                Text txt = ChartUtils.AddTextObject(INDICATOR_TEXT + i, transform, font,
+                    anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    new Vector2(txtWid, txtHig));
+                txt.transform.localPosition = pos;
+                txt.text = radarInfo.indicatorList[i].name;
+                txt.gameObject.SetActive(radarInfo.showIndicator);
+                indicatorTextList.Add(txt);
+            }
+        }
+
+        private void CheckRadarInfoChanged()
+        {
+            if( checkRadarInfo.radius != radarInfo.radius ||
+                checkRadarInfo.left != radarInfo.left ||
+                checkRadarInfo.right != radarInfo.right ||
+                checkRadarInfo.top != radarInfo.top ||
+                checkRadarInfo.bottom != radarInfo.bottom ||
+                checkRadarInfo.checkIndicatorCount != radarInfo.indicatorList.Count ||
+                checkRadarInfo.showIndicator != radarInfo.showIndicator)
+            {
+                checkRadarInfo.radius = radarInfo.radius;
+                checkRadarInfo.left = radarInfo.left;
+                checkRadarInfo.right = radarInfo.right;
+                checkRadarInfo.top = radarInfo.top;
+                checkRadarInfo.bottom = radarInfo.bottom;
+                checkRadarInfo.showIndicator = radarInfo.showIndicator;
+                checkRadarInfo.checkIndicatorCount = radarInfo.indicatorList.Count;
+                OnRadarChanged();
+            }
+        }
+
+        private void OnRadarChanged()
+        {
+            UpdateRadarCenter();
+            InitIndicator();
+        }
+
+        private Vector3 GetIndicatorPosition(int i)
+        {
+            int indicatorNum = radarInfo.indicatorList.Count;
+            var angle = 2 * Mathf.PI / indicatorNum * i;
+            var x = radarCenterX + radarInfo.radius * Mathf.Sin(angle);
+            var y = radarCenterY + radarInfo.radius * Mathf.Cos(angle);
+
+            return new Vector3(x,y);
         }
 
         protected override void OnPopulateMesh(VertexHelper vh)

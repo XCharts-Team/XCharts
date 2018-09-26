@@ -14,7 +14,9 @@ namespace xcharts
     [System.Serializable]
     public class RadarInfo
     {
+        public bool cricle;
         public bool area;
+        
         public float radius = 100;
         public int splitNumber = 5;
 
@@ -137,7 +139,14 @@ namespace xcharts
         {
             base.OnPopulateMesh(vh);
             UpdateRadarCenter();
-            DrawRadar(vh);
+            if (radarInfo.cricle)
+            {
+                DrawCricleRadar(vh);
+            }
+            else
+            {
+                DrawRadar(vh);
+            }
             DrawData(vh);
         }
 
@@ -229,6 +238,30 @@ namespace xcharts
                 float currAngle = j * angle;
                 p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
                 ChartUtils.DrawLine(vh, p, p3, radarInfo.lineTickness/2, radarInfo.lineColor);
+            }
+        }
+
+        private void DrawCricleRadar(VertexHelper vh)
+        {
+            float insideRadius = 0, outsideRadius = 0;
+            float block = radarInfo.radius / radarInfo.splitNumber;
+            int indicatorNum = radarInfo.indicatorList.Count;
+            Vector3 p = new Vector3(radarCenterX, radarCenterY);
+            Vector3 p1;
+            float angle = 2 * Mathf.PI / indicatorNum;
+            for (int i = 0; i < radarInfo.splitNumber; i++)
+            {
+                Color color = radarInfo.backgroundColorList[i % radarInfo.backgroundColorList.Count];
+                outsideRadius = insideRadius + block;
+                ChartUtils.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
+                ChartUtils.DrawCicleNotFill(vh, p, outsideRadius, radarInfo.lineTickness, radarInfo.lineColor);
+                insideRadius = outsideRadius;
+            }
+            for (int j = 0; j <= indicatorNum; j++)
+            {
+                float currAngle = j * angle;
+                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
+                ChartUtils.DrawLine(vh, p, p1, radarInfo.lineTickness / 2, radarInfo.lineColor);
             }
         }
 

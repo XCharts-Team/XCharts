@@ -157,13 +157,36 @@ namespace xcharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
-            int segments = 0)
+            int segments = 0,bool fill = true)
         {
             if(segments <= 0)
             {
                 segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
             DrawSector(vh, p, radius, color, 0, 360, segments);
+        }
+
+        public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness, Color color,
+            int segments = 0)
+        {
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
+            }
+            float startDegree = 0, toDegree = 360;
+            List<UIVertex> vertexs = new List<UIVertex>();
+            vh.GetUIVertexStream(vertexs);
+            Vector3 p2, p3;
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
+            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
+            {
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
+                DrawLine(vh, p2, p3, tickness, color);
+                p2 = p3;
+            }
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color, 

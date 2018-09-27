@@ -10,7 +10,7 @@ namespace xcharts
         public float space;
     }
 
-    public class BarChart : BaseChart
+    public class BarChart : BaseAxesChart
     {
         [SerializeField]
         private BarInfo barInfo;

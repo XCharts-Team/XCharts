@@ -32,7 +32,7 @@ namespace xcharts
         public Color areaColor;
     }
 
-    public class LineChart : BaseChart
+    public class LineChart : BaseAxesChart
     {
         [SerializeField]
         private LineInfo lineInfo;

@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -253,7 +253,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 70
+  m_Text: 56
 --- !u!222 &12948879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24137926, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1215,7 +1215,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 17
+  m_Text: 14
 --- !u!222 &67122460
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2029,7 +2029,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 52
+  m_Text: 42
 --- !u!222 &224354018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2103,7 +2103,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 120
+  m_Text: 96
 --- !u!222 &235400235
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2157,7 +2157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2274,7 +2274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2607,7 +2607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2675,7 +2675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2749,7 +2749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2823,7 +2823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2918,39 +2918,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u5357\u4E01\u683C\u5C14\u73AB\u7470\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -2966,17 +2962,14 @@ MonoBehaviour:
       type: 0
       key: pie1
       text: pie1
-      color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
     - show: 1
       type: 0
       key: pie2
       text: pie2
-      color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
     - show: 1
       type: 0
       key: pie3
       text: pie3
-      color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
   seriesList: []
   pieInfo:
     insideRadius: 30
@@ -3047,7 +3040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3067,7 +3060,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 37
+  m_Text: 30
 --- !u!222 &348603706
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3195,7 +3188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3664,44 +3657,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u5355\u67F1\u5F62\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 5
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 30
-    top: 40
-    bottom: 25
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 1
-    splitNumber: 6
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 1
-    boundaryGap: 0
-    data: []
   legend:
     show: 0
     location: 0
@@ -3717,7 +3701,6 @@ MonoBehaviour:
       type: 1
       key: week
       text: "\u661F\u671F"
-      color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
   seriesList:
   - legendKey: 
     showDataNumber: 0
@@ -3732,6 +3715,35 @@ MonoBehaviour:
       value: 49.2
     - key: key5
       value: 112.3
+  coordinate:
+    show: 1
+    left: 40
+    right: 30
+    top: 40
+    bottom: 25
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 1
+    splitNumber: 6
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 1
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 1
+    splitLineType: 1
+    boundaryGap: 0
+    data: []
   barInfo:
     barWid: 0.7
     space: 0
@@ -3825,7 +3837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
+  m_Color: {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3893,7 +3905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3967,7 +3979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4556,7 +4568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4576,7 +4588,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 52
+  m_Text: 42
 --- !u!222 &471071886
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4630,7 +4642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4650,7 +4662,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 80
 --- !u!222 &492181724
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4704,7 +4716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4724,7 +4736,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 35
+  m_Text: 28
 --- !u!222 &492961304
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4799,39 +4811,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u73AF\u5F62\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -4847,17 +4855,14 @@ MonoBehaviour:
       type: 0
       key: pie1
       text: pie1
-      color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
     - show: 1
       type: 0
       key: pie2
       text: pie2
-      color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
     - show: 1
       type: 0
       key: pie3
       text: pie3
-      color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
   seriesList: []
   pieInfo:
     insideRadius: 50
@@ -4928,7 +4933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4948,7 +4953,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 75
+  m_Text: 60
 --- !u!222 &500450068
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5002,7 +5007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5170,7 +5175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5318,7 +5323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5466,7 +5471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5688,7 +5693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5708,7 +5713,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 150
+  m_Text: 120
 --- !u!222 &566565926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5762,7 +5767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6058,7 +6063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6078,7 +6083,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 112
+  m_Text: 90
 --- !u!222 &635640133
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6175,7 +6180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6453,7 +6458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6527,7 +6532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6740,6 +6745,7 @@ RectTransform:
   - {fileID: 1113475538}
   - {fileID: 2078382799}
   - {fileID: 1646230902}
+  - {fileID: 872320146}
   m_Father: {fileID: 2051892027}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6818,7 +6824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6892,7 +6898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7009,7 +7015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
+  m_Color: {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7077,7 +7083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7564,7 +7570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7651,44 +7657,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u533A\u57DF\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 20
-    top: 30
-    bottom: 30
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 1
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data: []
   legend:
     show: 0
     location: 0
@@ -7704,7 +7701,6 @@ MonoBehaviour:
       type: 0
       key: week
       text: "\u661F\u671F"
-      color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
   seriesList:
   - legendKey: week
     showDataNumber: 0
@@ -7719,6 +7715,35 @@ MonoBehaviour:
       value: 40
     - key: 
       value: 60
+  coordinate:
+    show: 1
+    left: 40
+    right: 20
+    top: 30
+    bottom: 30
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 1
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data: []
   lineInfo:
     tickness: 0.8
     showPoint: 1
@@ -7782,7 +7807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7802,7 +7827,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 40
+  m_Text: 32
 --- !u!222 &841332740
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7950,49 +7975,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u7C07\u72B6\u67F1\u5F62\u56FE(\u6C34\u5E73)"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 5
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 30
-    top: 50
-    bottom: 52.21
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 1
-    splitNumber: 6
-    maxSplitNumber: 5
-    showSplitLine: 1
-    boundaryGap: 1
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
   legend:
     show: 1
     location: 3
@@ -8008,12 +8019,10 @@ MonoBehaviour:
       type: 1
       key: week
       text: "\u661F\u671F"
-      color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
     - show: 1
       type: 1
       key: month
       text: "\u6708\u4EFD"
-      color: {r: 1, g: 0.35294116, b: 0.47342792, a: 1}
   seriesList:
   - legendKey: week
     showDataNumber: 0
@@ -8041,6 +8050,40 @@ MonoBehaviour:
       value: 42.6
     - key: key5
       value: 124.3
+  coordinate:
+    show: 1
+    left: 40
+    right: 30
+    top: 50
+    bottom: 52.21
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 1
+    splitNumber: 6
+    maxSplitNumber: 5
+    showSplitLine: 1
+    splitLineType: 1
+    boundaryGap: 1
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
   barInfo:
     barWid: 0.35
     space: 5
@@ -8050,6 +8093,125 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 867959889}
+--- !u!1 &872320145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 872320146}
+  - component: {fileID: 872320148}
+  - component: {fileID: 872320147}
+  m_Layer: 5
+  m_Name: radar_chart_cricle (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &872320146
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 872320145}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -610, y: -850, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1635620649}
+  m_Father: {fileID: 724935907}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 850, y: 160}
+  m_SizeDelta: {x: 400, y: 300}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &872320147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 872320145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2231a0d3e3a5b043b074f6739be4a86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
+  title:
+    show: 1
+    text: Chart Title
+    align: 2
+    left: 0
+    right: 0
+    top: 5
+    bottom: 0
+  legend:
+    show: 1
+    location: 1
+    dataWid: 50
+    dataHig: 20
+    dataSpace: 5
+    left: 0
+    right: 5
+    top: 0
+    bottom: 0
+    dataList: []
+  seriesList: []
+  radarInfo:
+    cricle: 0
+    area: 0
+    radius: 100
+    splitNumber: 5
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    lineTickness: 1
+    linePointSize: 5
+    lineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    backgroundColorList:
+    - {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+    - {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
+    showIndicator: 1
+    indicatorList: []
+--- !u!222 &872320148
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 872320145}
 --- !u!1 &873362098
 GameObject:
   m_ObjectHideFlags: 0
@@ -8171,7 +8333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8191,7 +8353,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 50
+  m_Text: 40
 --- !u!222 &902542137
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8245,7 +8407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8393,7 +8555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8413,7 +8575,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 35
+  m_Text: 28
 --- !u!222 &949530643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8658,7 +8820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8747,39 +8909,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u997C\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -8795,17 +8953,14 @@ MonoBehaviour:
       type: 0
       key: pie1
       text: pie1
-      color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
     - show: 1
       type: 0
       key: pie2
       text: pie2
-      color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
     - show: 1
       type: 0
       key: pie3
       text: pie3
-      color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
   seriesList: []
   pieInfo:
     insideRadius: 0
@@ -8876,7 +9031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8896,7 +9051,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 25
+  m_Text: 20
 --- !u!222 &979520139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8950,7 +9105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9024,7 +9179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9289,7 +9444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9431,7 +9586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9505,7 +9660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9525,7 +9680,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 80
+  m_Text: 64
 --- !u!222 &1096778763
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9605,39 +9760,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u96F7\u8FBE\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -9653,12 +9804,10 @@ MonoBehaviour:
       type: 0
       key: red
       text: "\u5C0F\u7EA2"
-      color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
     - show: 1
       type: 0
       key: blue
       text: "\u5C0F\u84DD"
-      color: {r: 0.24137926, g: 0, b: 1, a: 1}
   seriesList:
   - legendKey: red
     showDataNumber: 0
@@ -9703,8 +9852,8 @@ MonoBehaviour:
     linePointSize: 3
     lineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     backgroundColorList:
-    - {r: 0.8308824, g: 0.81866354, b: 0.81866354, a: 1}
-    - {r: 0.71323526, g: 0.7079909, b: 0.7079909, a: 1}
+    - {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+    - {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
     showIndicator: 1
     indicatorList:
     - name: "\u8BED\u6587"
@@ -9963,7 +10112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10444,7 +10593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9852941, g: 0.35499567, b: 0.35499567, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10586,7 +10735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10882,7 +11031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11073,7 +11222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11161,44 +11310,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u6298\u7EBF\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 20
-    top: 30
-    bottom: 30
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 1
-    splitNumber: 6
-    maxSplitNumber: 5
-    showSplitLine: 1
-    boundaryGap: 1
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data: []
   legend:
     show: 0
     location: 0
@@ -11214,12 +11354,10 @@ MonoBehaviour:
       type: 0
       key: line1
       text: line1
-      color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
     - show: 1
       type: 0
       key: line2
       text: line2
-      color: {r: 0.45662212, g: 0.6838235, b: 0.36705235, a: 1}
   seriesList:
   - legendKey: line1
     showDataNumber: 5
@@ -11247,6 +11385,35 @@ MonoBehaviour:
       value: 27.86
     - key: 
       value: 30
+  coordinate:
+    show: 1
+    left: 40
+    right: 20
+    top: 30
+    bottom: 30
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 1
+    splitNumber: 6
+    maxSplitNumber: 5
+    showSplitLine: 1
+    splitLineType: 1
+    boundaryGap: 1
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data: []
   lineInfo:
     tickness: 0.8
     showPoint: 1
@@ -11310,7 +11477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11330,7 +11497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 17
+  m_Text: 14
 --- !u!222 &1322231539
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11384,7 +11551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11458,7 +11625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11754,7 +11921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11945,7 +12112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45662212, g: 0.6838235, b: 0.36705235, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12087,7 +12254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12204,7 +12371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24137926, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12272,7 +12439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12292,7 +12459,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 70
+  m_Text: 56
 --- !u!222 &1423602108
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12346,7 +12513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12420,7 +12587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12833,7 +13000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24137926, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13068,44 +13235,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u66F2\u7EBF\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 20
-    top: 30
-    bottom: 30
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 1
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 0
-    data: []
   legend:
     show: 0
     location: 0
@@ -13121,7 +13279,6 @@ MonoBehaviour:
       type: 0
       key: week
       text: "\u661F\u671F"
-      color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
   seriesList:
   - legendKey: week
     showDataNumber: 0
@@ -13136,6 +13293,35 @@ MonoBehaviour:
       value: 40
     - key: 
       value: 60
+  coordinate:
+    show: 1
+    left: 40
+    right: 20
+    top: 30
+    bottom: 30
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 1
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 0
+    data: []
   lineInfo:
     tickness: 0.8
     showPoint: 1
@@ -13199,7 +13385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13219,7 +13405,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 160
+  m_Text: 128
 --- !u!222 &1507933106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13273,7 +13459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13347,7 +13533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13464,7 +13650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13532,7 +13718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13855,6 +14041,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1626237983}
+--- !u!1 &1635620648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1635620649}
+  - component: {fileID: 1635620651}
+  - component: {fileID: 1635620650}
+  m_Layer: 0
+  m_Name: title
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1635620649
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1635620648}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 100, y: 295, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 872320146}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: 295}
+  m_SizeDelta: {x: 200, y: 20}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1635620650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1635620648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 16
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Chart Title
+--- !u!222 &1635620651
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1635620648}
 --- !u!1 &1644673287
 GameObject:
   m_ObjectHideFlags: 0
@@ -14002,39 +14262,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u96F7\u8FBE\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -14050,12 +14306,10 @@ MonoBehaviour:
       type: 0
       key: red
       text: "\u5C0F\u7EA2"
-      color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
     - show: 1
       type: 0
       key: blue
       text: "\u5C0F\u84DD"
-      color: {r: 0.24137926, g: 0, b: 1, a: 1}
   seriesList:
   - legendKey: red
     showDataNumber: 0
@@ -14094,13 +14348,10 @@ MonoBehaviour:
     bottom: 0
     lineTickness: 0.47
     linePointSize: 3
-    lineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    lineColor: {r: 0.9338235, g: 0.8788927, b: 0.8788927, a: 1}
     backgroundColorList:
-    - {r: 0.8308824, g: 0.81866354, b: 0.81866354, a: 1}
-    - {r: 0.7518867, g: 0.7425389, b: 0.8014706, a: 1}
-    - {r: 0.65370333, g: 0.6244593, b: 0.8088235, a: 1}
-    - {r: 0.5789435, g: 0.5300605, b: 0.83823526, a: 1}
-    - {r: 0.5336103, g: 0.48172578, b: 0.8088235, a: 1}
+    - {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+    - {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
     showIndicator: 1
     indicatorList:
     - name: "\u8BED\u6587"
@@ -14166,7 +14417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -14240,7 +14491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -14431,7 +14682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.35294116, b: 0.47342792, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -14573,7 +14824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -14593,7 +14844,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 75
+  m_Text: 60
 --- !u!222 &1675486929
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14764,7 +15015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.35294116, b: 0.47342792, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15054,7 +15305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15128,7 +15379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15202,7 +15453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15319,7 +15570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04757785, g: 0.8088235, b: 0.14732738, a: 1}
+  m_Color: {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15578,7 +15829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15942,7 +16193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -16238,7 +16489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -16460,7 +16711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -16971,7 +17222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17039,7 +17290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17113,7 +17364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17361,39 +17612,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u96F7\u8FBE\u56FE"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 0
     bottom: 0
-  coordinate:
-    show: 0
-    left: 40
-    right: 10
-    top: 10
-    bottom: 20
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
-  yAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data: []
   legend:
     show: 1
     location: 1
@@ -17409,12 +17656,10 @@ MonoBehaviour:
       type: 0
       key: red
       text: "\u5C0F\u7EA2"
-      color: {r: 0.99264705, g: 0.24086288, b: 0.24086288, a: 1}
     - show: 1
       type: 0
       key: blue
       text: "\u5C0F\u84DD"
-      color: {r: 0.24137926, g: 0, b: 1, a: 1}
   seriesList:
   - legendKey: red
     showDataNumber: 0
@@ -17459,8 +17704,8 @@ MonoBehaviour:
     linePointSize: 3
     lineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     backgroundColorList:
-    - {r: 0.8308824, g: 0.81866354, b: 0.81866354, a: 1}
-    - {r: 0.71323526, g: 0.7079909, b: 0.7079909, a: 1}
+    - {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+    - {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
     showIndicator: 1
     indicatorList:
     - name: "\u8BED\u6587"
@@ -17528,7 +17773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17645,7 +17890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9338235, g: 0.3158521, b: 0.3158521, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17756,7 +18001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29195487, g: 0.13516438, b: 0.9191176, a: 1}
+  m_Color: {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17918,49 +18163,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  backgroundColor: {r: 0.228, g: 0.153, b: 0.259, a: 0.772}
+  theme: 3
+  themeInfo:
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    backgroundColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+    contrastColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    textColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    subTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisLineColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+    axisSplitLineColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    colorPalette:
+    - {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
+    - {r: 0.45882353, g: 0.6039216, b: 0.627451, a: 1}
+    - {r: 0.9019608, g: 0.6156863, b: 0.5294118, a: 1}
+    - {r: 0.5529412, g: 0.75686276, b: 0.6627451, a: 1}
+    - {r: 0.91764706, g: 0.49411765, b: 0.3254902, a: 1}
+    - {r: 0.93333334, g: 0.8666667, b: 0.47058824, a: 1}
+    - {r: 0.4509804, g: 0.6392157, b: 0.4509804, a: 1}
+    - {r: 0.4509804, g: 0.7254902, b: 0.7372549, a: 1}
+    - {r: 0.44705883, g: 0.5372549, b: 0.67058825, a: 1}
+    - {r: 0.5686275, g: 0.7921569, b: 0.54901963, a: 1}
+    - {r: 0.95686275, g: 0.62352943, b: 0.25882354, a: 1}
   title:
     show: 1
     text: "\u7C07\u72B6\u67F1\u5F62\u56FE(\u5782\u76F4)"
-    color: {r: 1, g: 1, b: 1, a: 1}
     align: 2
     left: 0
     right: 0
     top: 5
     bottom: 0
-  coordinate:
-    show: 1
-    left: 40
-    right: 70.3
-    top: 40
-    bottom: 25
-    tickness: 0.8
-    scaleLen: 5
-  xAxis:
-    type: 0
-    splitNumber: 5
-    maxSplitNumber: 5
-    showSplitLine: 1
-    boundaryGap: 0
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
-  yAxis:
-    type: 1
-    splitNumber: 6
-    maxSplitNumber: 5
-    showSplitLine: 0
-    boundaryGap: 1
-    data:
-    - "\u5468\u4E00"
-    - "\u5468\u4E8C"
-    - "\u5468\u4E09"
-    - "\u5468\u56DB"
-    - "\u5468\u4E94"
   legend:
     show: 1
     location: 1
@@ -17976,12 +18207,10 @@ MonoBehaviour:
       type: 1
       key: week
       text: "\u661F\u671F"
-      color: {r: 0.47423938, g: 0.4044118, b: 1, a: 1}
     - show: 1
       type: 1
       key: month
       text: "\u6708\u4EFD"
-      color: {r: 1, g: 0.35294116, b: 0.47342792, a: 1}
   seriesList:
   - legendKey: week
     showDataNumber: 0
@@ -18009,6 +18238,40 @@ MonoBehaviour:
       value: 42.6
     - key: key5
       value: 124.3
+  coordinate:
+    show: 1
+    left: 40
+    right: 70.3
+    top: 40
+    bottom: 25
+    tickness: 0.8
+    scaleLen: 5
+  xAxis:
+    type: 0
+    splitNumber: 5
+    maxSplitNumber: 5
+    showSplitLine: 1
+    splitLineType: 1
+    boundaryGap: 0
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
+  yAxis:
+    type: 1
+    splitNumber: 6
+    maxSplitNumber: 5
+    showSplitLine: 0
+    splitLineType: 1
+    boundaryGap: 1
+    data:
+    - "\u5468\u4E00"
+    - "\u5468\u4E8C"
+    - "\u5468\u4E09"
+    - "\u5468\u56DB"
+    - "\u5468\u4E94"
   barInfo:
     barWid: 0.35
     space: 5
@@ -18065,7 +18328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

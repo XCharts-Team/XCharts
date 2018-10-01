@@ -22,13 +22,13 @@ namespace xcharts
         public float right;
         public float top;
         public float bottom;
-        public List<PieData> dataList;
+        public List<PieData> dataList = new List<PieData>();
     }
 
     public class PieChart : BaseChart
     {
         [SerializeField]
-        private PieInfo pieInfo;
+        private PieInfo pieInfo = new PieInfo();
 
         private float pieCenterX = 0f;
         private float pieCenterY = 0f;
@@ -63,7 +63,7 @@ namespace xcharts
                     pieInfo.insideRadius + (pieRadius - pieInfo.insideRadius) * value / dataMax : 
                     pieRadius;
                 ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius, 
-                    outSideRadius,startDegree, toDegree, legend.GetColor(i));
+                    outSideRadius,startDegree, toDegree, themeInfo.GetColor(i));
                 startDegree = toDegree;
             }
         }

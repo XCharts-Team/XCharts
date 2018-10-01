@@ -13,7 +13,7 @@ namespace xcharts
     public class BarChart : BaseAxesChart
     {
         [SerializeField]
-        private BarInfo barInfo;
+        private BarInfo barInfo = new BarInfo();
 
         protected override void Awake()
         {
@@ -40,7 +40,7 @@ namespace xcharts
                 {
                     if (!legend.IsShowSeries(j)) continue;
                     Series series = seriesList[j];
-                    Color color = legend.GetColor(j);
+                    Color color = themeInfo.GetColor(j);
                     int startIndex = 0;
                     if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
                     {
@@ -73,7 +73,7 @@ namespace xcharts
                 {
                     if (!legend.IsShowSeries(j)) continue;
                     Series series = seriesList[j];
-                    Color color = legend.GetColor(j);
+                    Color color = themeInfo.GetColor(j);
                     int startIndex = 0;
                     if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
                     {

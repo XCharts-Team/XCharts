@@ -57,7 +57,7 @@ namespace xcharts
             {
                 if (!legend.IsShowSeries(j)) continue;
                 Series series = seriesList[j];
-                Color color = legend.GetColor(j);
+                Color color = themeInfo.GetColor(j);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
@@ -92,7 +92,7 @@ namespace xcharts
                             if (lineInfo.area)
                             {
                                 ChartUtils.DrawPolygon(vh, lp, np, new Vector3(np.x, zeroY),
-                                    new Vector3(lp.x, zeroY), lineInfo.areaColor);
+                                    new Vector3(lp.x, zeroY), color);
                             }
                         }
 

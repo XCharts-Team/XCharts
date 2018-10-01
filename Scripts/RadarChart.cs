@@ -28,9 +28,9 @@ namespace xcharts
         public float lineTickness = 1f;
         public float linePointSize = 5f;
         public Color lineColor = Color.grey;
-        public List<Color> backgroundColorList;
+        public List<Color> backgroundColorList = new List<Color>();
         public bool showIndicator = true;
-        public List<RadarIndicator> indicatorList;
+        public List<RadarIndicator> indicatorList = new List<RadarIndicator>();
 
         public int checkIndicatorCount { get; set; }
     }
@@ -40,7 +40,7 @@ namespace xcharts
         private const string INDICATOR_TEXT = "indicator";
 
         [SerializeField]
-        private RadarInfo radarInfo;
+        private RadarInfo radarInfo = new RadarInfo();
 
         private RadarInfo checkRadarInfo = new RadarInfo();
         private float radarCenterX = 0f;
@@ -88,8 +88,8 @@ namespace xcharts
                     float y = pos.y > radarCenterY ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
                     pos = new Vector3(pos.x + txtWid / 2, y);
                 }
-                Text txt = ChartUtils.AddTextObject(INDICATOR_TEXT + i, transform, font,
-                    anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                Text txt = ChartUtils.AddTextObject(INDICATOR_TEXT + i, transform, themeInfo.font,
+                    themeInfo.textColor, anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
                     new Vector2(txtWid, txtHig));
                 txt.transform.localPosition = pos;
                 txt.text = radarInfo.indicatorList[i].name;
@@ -155,6 +155,27 @@ namespace xcharts
             base.OnLegendButtonClicked();
         }
 
+        protected override void OnThemeChanged()
+        {
+            base.OnThemeChanged();
+            radarInfo.backgroundColorList.Clear();
+            switch (theme)
+            {
+                case Theme.Dark:
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#6f6f6f"));
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#606060"));
+                    break;
+                case Theme.Default:
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#f6f6f6"));
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#e7e7e7"));
+                    break;
+                case Theme.Light:
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#f6f6f6"));
+                    radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#e7e7e7"));
+                    break;
+            }
+        }
+
         private void DrawData(VertexHelper vh)
         {
             int indicatorNum = radarInfo.indicatorList.Count;
@@ -168,8 +189,8 @@ namespace xcharts
             {
                 if (!legend.IsShowSeries(i)) continue;
                 var dataList = seriesList[i].dataList;
-                var color = legend.GetColor(i);
-                var areaColor = new Color(color.r,color.g,color.b,color.a/2);
+                var color = themeInfo.GetColor(i);
+                var areaColor = new Color(color.r,color.g,color.b,color.a*0.7f);
                 var max = radarInfo.indicatorList[i].max > 0 ?
                     radarInfo.indicatorList[i].max :
                     GetMaxValue();

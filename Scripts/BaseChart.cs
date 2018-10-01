@@ -15,12 +15,11 @@ namespace xcharts
     public class Title
     {
         public bool show = true;
-        public string text;
-        public Color color;
-        public Align align;
+        public string text ="Chart Title";
+        public Align align = Align.center;
         public float left;
         public float right;
-        public float top;
+        public float top = 5;
         public float bottom;
     }
 
@@ -52,7 +51,6 @@ namespace xcharts
         public ChartType type;
         public string key;
         public string text;
-        public Color color;
         public Button button { get; set; }
     }
 
@@ -60,21 +58,15 @@ namespace xcharts
     public class Legend
     {
         public bool show = true;
-        public Location location;
+        public Location location = Location.right;
         public float dataWid = 50.0f;
         public float dataHig = 20.0f;
-        public float dataSpace;
+        public float dataSpace = 5;
         public float left;
-        public float right;
+        public float right = 5;
         public float top;
         public float bottom;
         public List<LegendData> dataList = new List<LegendData>();
-
-        public Color GetColor(int seriesIndex)
-        {
-            if (seriesIndex < 0 || seriesIndex >= dataList.Count) seriesIndex = 0;
-            return dataList[seriesIndex].color;
-        }
 
         public bool IsShowSeries(int seriesIndex)
         {
@@ -147,16 +139,17 @@ namespace xcharts
         private const string TILTE_TEXT = "title";
         private const string LEGEND_TEXT = "legend";
         [SerializeField]
-        protected Font font;
+        protected Theme theme = Theme.Dark;
         [SerializeField]
-        protected Color backgroundColor = Color.black;
+        protected ThemeInfo themeInfo = new ThemeInfo();
         [SerializeField]
-        protected Title title;
+        protected Title title = new Title();
         [SerializeField]
-        protected Legend legend;
+        protected Legend legend = new Legend();
         [SerializeField]
         protected List<Series> seriesList = new List<Series>();
-        
+
+        private Theme checkTheme = 0;
         private Title checkTitle = new Title();
         private Legend checkLegend = new Legend();
 
@@ -165,9 +158,9 @@ namespace xcharts
         protected float chartWid { get { return rectTransform.sizeDelta.x; } }
         protected float chartHig { get { return rectTransform.sizeDelta.y; } }
         
-
         protected override void Awake()
         {
+            themeInfo = ThemeInfo.Dark;
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.pivot = Vector2.zero;
@@ -177,8 +170,17 @@ namespace xcharts
 
         protected virtual void Update()
         {
+            CheckTheme();
             CheckTile();
             CheckLegend();
+        }
+
+        protected override void OnDestroy()
+        {
+            for(int i = transform.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(transform.GetChild(i).gameObject);
+            }
         }
 
         public void AddData(string legend, string key, float value)
@@ -238,8 +240,8 @@ namespace xcharts
                     titlePosition = new Vector3(0, -title.top, 0);
                     break;
             }
-            titleText = ChartUtils.AddTextObject(TILTE_TEXT, transform, font,
-                        anchor, anchorMin, anchorMax, new Vector2(0, 1),
+            titleText = ChartUtils.AddTextObject(TILTE_TEXT, transform, themeInfo.font,
+                        themeInfo.textColor, anchor, anchorMin, anchorMax, new Vector2(0, 1),
                         new Vector2(titleWid, titleHig), 16);
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(title.show);
@@ -252,10 +254,11 @@ namespace xcharts
             for (int i = 0; i < legend.dataList.Count; i++)
             {
                 LegendData data = legend.dataList[i];
-                Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, font, Vector2.zero,
-                    Vector2.zero, Vector2.zero, new Vector2(legend.dataWid, legend.dataHig));
+                Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
+                    themeInfo.textColor, Vector2.zero,Vector2.zero, Vector2.zero,
+                    new Vector2(legend.dataWid, legend.dataHig));
                 legend.dataList[i].button = btn;
-                Color bcolor = data.show ? data.color : Color.grey;
+                Color bcolor = data.show ? themeInfo.GetColor(i) : Color.grey;
                 btn.gameObject.SetActive(legend.show);
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.GetComponent<Image>().color = bcolor;
@@ -263,7 +266,7 @@ namespace xcharts
                 btn.onClick.AddListener(delegate ()
                 {
                     data.show = !data.show;
-                    btn.GetComponent<Image>().color = data.show ? data.color : Color.grey;
+                    btn.GetComponent<Image>().color = data.show ? themeInfo.GetColor(i) : Color.grey;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();
@@ -317,6 +320,15 @@ namespace xcharts
             return bigger < 10 ? bigger : bigger - bigger % 10;
         }
 
+        private void CheckTheme()
+        {
+            if(checkTheme != theme)
+            {
+                checkTheme = theme;
+                OnThemeChanged();
+            }
+        }
+
         private void CheckTile()
         {
             if (checkTitle.align != title.align ||
@@ -355,6 +367,24 @@ namespace xcharts
                 checkLegend.show = legend.show;
                 OnLegendChanged();
             }
+        }
+
+        protected virtual void OnThemeChanged()
+        {
+            switch (theme)
+            {
+                case Theme.Dark:
+                    themeInfo.Copy(ThemeInfo.Dark);
+                    break;
+                case Theme.Default:
+                    themeInfo.Copy(ThemeInfo.Default);
+                    break;
+                case Theme.Light:
+                    themeInfo.Copy(ThemeInfo.Light);
+                    break;
+            }
+            InitTitle();
+            InitLegend();
         }
 
         protected virtual void OnTitleChanged()
@@ -404,7 +434,7 @@ namespace xcharts
             Vector3 p2 = new Vector3(chartWid, chartHig);
             Vector3 p3 = new Vector3(chartWid, 0);
             Vector3 p4 = new Vector3(0, 0);
-            ChartUtils.DrawPolygon(vh, p1, p2, p3, p4, backgroundColor);
+            ChartUtils.DrawPolygon(vh, p1, p2, p3, p4, themeInfo.backgroundColor);
         }
     }
 }

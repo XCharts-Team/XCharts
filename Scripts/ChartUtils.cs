@@ -7,7 +7,7 @@ namespace xcharts
     public static class ChartUtils
     {
         private static float CRICLE_SMOOTHNESS = 1f;
-        public static Text AddTextObject(string name, Transform parent, Font font, TextAnchor anchor,
+        public static Text AddTextObject(string name, Transform parent, Font font, Color color,TextAnchor anchor,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int fontSize = 14)
         {
             GameObject txtObj;
@@ -33,6 +33,7 @@ namespace xcharts
             txt.alignment = anchor;
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
+            txt.color = color;
 
             txtObj.GetComponent<Text>().alignment = anchor;
             RectTransform rect = txtObj.GetComponent<RectTransform>();
@@ -44,7 +45,7 @@ namespace xcharts
             return txtObj.GetComponent<Text>();
         }
 
-        public static Button AddButtonObject(string name, Transform parent, Font font,
+        public static Button AddButtonObject(string name, Transform parent, Font font,Color color,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
         {
             GameObject btnObj;
@@ -63,7 +64,7 @@ namespace xcharts
                 btnObj.AddComponent<Image>();
                 btnObj.AddComponent<Button>();
 
-                Text txt = AddTextObject("Text", btnObj.transform, font, TextAnchor.MiddleCenter,
+                Text txt = AddTextObject("Text", btnObj.transform, font,color, TextAnchor.MiddleCenter,
                     Vector2.zero, Vector2.zero, Vector2.zero, sizeDelta);
                 txt.text = "Text";
             }

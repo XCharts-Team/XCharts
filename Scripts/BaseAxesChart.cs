@@ -11,10 +11,10 @@ namespace xcharts
     {
         public bool show = true;
         public float left = 40f;
-        public float right = 10f;
-        public float top = 10;
-        public float bottom = 20f;
-        public float tickness = 0.8f;
+        public float right = 30f;
+        public float top = 40;
+        public float bottom = 25f;
+        public float tickness = 0.6f;
         public float scaleLen = 5.0f;
     }
 
@@ -27,13 +27,21 @@ namespace xcharts
         log
     }
 
+    public enum SplitLineType
+    {
+        solid,
+        dashed,
+        dotted
+    }
+
     [System.Serializable]
     public class Axis
     {
         public AxisType type;
         public int splitNumber = 5;
         public int maxSplitNumber = 5;
-        public bool showSplitLine;
+        public bool showSplitLine = true;
+        public SplitLineType splitLineType = SplitLineType.dashed;
         public bool boundaryGap = true;
         public List<string> data;
 
@@ -64,11 +72,11 @@ namespace xcharts
         private const string XSCALE_TEXT_PREFIX = "xScale";
 
         [SerializeField]
-        protected Coordinate coordinate;
+        protected Coordinate coordinate = new Coordinate();
         [SerializeField]
-        protected XAxis xAxis;
+        protected XAxis xAxis = new XAxis();
         [SerializeField]
-        protected YAxis yAxis;
+        protected YAxis yAxis = new YAxis();
 
         private float lastXMaxValue;
         private float lastYMaxValue;
@@ -112,6 +120,13 @@ namespace xcharts
             DrawCoordinate(vh);
         }
 
+        protected override void OnThemeChanged()
+        {
+            base.OnThemeChanged();
+            InitXScale();
+            InitYScale();
+        }
+
         public void AddXAxisCategory(string category)
         {
             xAxis.AddCategory(category);
@@ -134,8 +149,9 @@ namespace xcharts
                 yAxis.splitNumber = DEFAULT_YSACLE_NUM;
                 for (int i = 0; i < yAxis.splitNumber; i++)
                 {
-                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, font,
-                        TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                        themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, 
+                        new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
                     txt.text = ((int)(max * i / yAxis.splitNumber)).ToString();
@@ -148,8 +164,9 @@ namespace xcharts
                 yAxis.splitNumber = yAxis.boundaryGap ? yAxis.data.Count + 1 : yAxis.data.Count;
                 for (int i = 0; i < yAxis.data.Count; i++)
                 {
-                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, font,
-                        TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                        themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero,
+                        new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
                     txt.text = yAxis.data[i];
@@ -170,8 +187,9 @@ namespace xcharts
                 float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
                 for (int i = 0; i < xAxis.splitNumber; i++)
                 {
-                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, font,
-                        TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                        themeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero,
+                        new Vector2(1, 0.5f),
                         new Vector2(scaleWid, 20));
                     txt.transform.localPosition = GetXScalePosition(i);
                     txt.text = ((int)(max * i / xAxis.splitNumber)).ToString();
@@ -185,8 +203,9 @@ namespace xcharts
                 float scaleWid = coordinateWid / (xAxis.data.Count - 1);
                 for (int i = 0; i < xAxis.data.Count; i++)
                 {
-                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, font,
-                        TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                        themeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero,
+                        new Vector2(1, 0.5f),
                         new Vector2(scaleWid, 20));
                     txt.transform.localPosition = GetXScalePosition(i);
                     txt.text = xAxis.data[i];
@@ -364,7 +383,7 @@ namespace xcharts
         private void DrawCoordinate(VertexHelper vh)
         {
             if (!coordinate.show) return;
-            // draw scale
+            // draw splitline
             for (int i = 1; i < yAxis.splitNumber; i++)
             {
                 float pX = zeroX - coordinate.scaleLen;
@@ -373,8 +392,8 @@ namespace xcharts
                     Color.white);
                 if (yAxis.showSplitLine)
                 {
-                    ChartUtils.DrawLine(vh, new Vector3(zeroX, pY),
-                        new Vector3(zeroX + coordinateWid, pY), coordinate.tickness, Color.grey);
+                    DrawSplitLine(vh, true,yAxis.splitLineType, new Vector3(zeroX, pY),
+                        new Vector3(zeroX + coordinateWid, pY));
                 }
             }
             for (int i = 1; i < xAxis.splitNumber; i++)
@@ -385,15 +404,52 @@ namespace xcharts
                     Color.white);
                 if (xAxis.showSplitLine)
                 {
-                    ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, zeroY + coordinateHig),
-                        coordinate.tickness, Color.grey);
+                    DrawSplitLine(vh, false,xAxis.splitLineType, new Vector3(pX, zeroY),
+                        new Vector3(pX, zeroY + coordinateHig));
                 }
             }
             //draw x,y axis
             ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.scaleLen),
-                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, Color.white);
+                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, themeInfo.axisLineColor);
             ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.scaleLen, zeroY),
-                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, Color.white);
+                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, themeInfo.axisLineColor);
+        }
+
+        private void DrawSplitLine(VertexHelper vh,bool isYAxis,SplitLineType type,Vector3 startPos,Vector3 endPos)
+        {
+            switch (type)
+            {
+                case SplitLineType.dashed:
+                case SplitLineType.dotted:
+                    var startX = startPos.x;
+                    var startY = startPos.y;
+                    var dashLen = type == SplitLineType.dashed ? 6 : 2.5f;
+                    var count = isYAxis ? (endPos.x - startPos.x) / (dashLen * 2):
+                        (endPos.y - startPos.y) / (dashLen * 2);
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (isYAxis)
+                        {
+                            var toX = startX + dashLen;
+                            ChartUtils.DrawLine(vh, new Vector3(startX, startY), new Vector3(toX, startY),
+                                coordinate.tickness, themeInfo.axisSplitLineColor);
+                            startX += dashLen * 2;
+                        }
+                        else
+                        {
+                            var toY = startY + dashLen;
+                            ChartUtils.DrawLine(vh, new Vector3(startX, startY), new Vector3(startX, toY),
+                                coordinate.tickness, themeInfo.axisSplitLineColor);
+                            startY += dashLen * 2;
+                        }
+                        
+                    }
+                    break;
+                case SplitLineType.solid:
+                    ChartUtils.DrawLine(vh, startPos, endPos, coordinate.tickness,
+                        themeInfo.axisSplitLineColor);
+                    break;
+            }
         }
     }
 }

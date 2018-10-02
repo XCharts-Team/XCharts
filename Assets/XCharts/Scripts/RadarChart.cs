@@ -174,6 +174,7 @@ namespace xcharts
                     radarInfo.backgroundColorList.Add(ThemeInfo.GetColor("#e7e7e7"));
                     break;
             }
+            InitIndicator();
         }
 
         private void DrawData(VertexHelper vh)

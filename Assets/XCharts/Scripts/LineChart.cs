@@ -4,22 +4,13 @@ using UnityEngine.UI;
 namespace xcharts
 {
     [System.Serializable]
-    public enum PointType
-    {
-        square,
-        cicle
-    }
-
-    [System.Serializable]
     public class LineInfo
     {
         public float tickness = 0.8f;
 
         [Header("Point")]
         public bool showPoint = true;
-        public PointType pointType = PointType.square;
-        public float pointWid = 1.0f;
-        public Color pointColor = Color.white;
+        public float pointWid = 2.5f;
 
         [Header("Smooth")]
         public bool smooth = false;
@@ -107,15 +98,15 @@ namespace xcharts
                         SeriesData data = series.dataList[i];
 
                         Vector3 p = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
-                        switch (lineInfo.pointType)
+                        if(theme == Theme.Dark)
                         {
-                            case PointType.square:
-                                ChartUtils.DrawPolygon(vh, p, lineInfo.pointWid, lineInfo.pointColor);
-                                break;
-                            case PointType.cicle:
-                                ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, lineInfo.pointColor, 
-                                    (int)lineInfo.pointWid * 5);
-                                break;
+                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, color, (int)lineInfo.pointWid * 5);
+                        }
+                        else
+                        {
+                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, Color.white);
+                            ChartUtils.DrawDoughnut(vh, p, lineInfo.pointWid - lineInfo.tickness,
+                                lineInfo.pointWid, 0, 360, color);
                         }
                     }
                 }

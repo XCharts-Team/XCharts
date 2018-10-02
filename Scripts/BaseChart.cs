@@ -196,6 +196,13 @@ namespace xcharts
             RefreshChart();
         }
 
+        public void UpdateTheme(Theme theme)
+        {
+            this.theme = theme;
+            OnThemeChanged();
+            SetAllDirty();
+        }
+
         protected void HideChild(string match = null)
         {
             for (int i = 0; i < transform.childCount; i++)

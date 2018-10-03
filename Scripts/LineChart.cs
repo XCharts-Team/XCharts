@@ -97,10 +97,12 @@ namespace xcharts
                     {
                         SeriesData data = series.dataList[i];
 
-                        Vector3 p = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
+                        Vector3 p = new Vector3(startX + i * scaleWid, 
+                            zeroY + data.value * coordinateHig / max);
                         if(theme == Theme.Dark)
                         {
-                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, color, (int)lineInfo.pointWid * 5);
+                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, color, 
+                                (int)lineInfo.pointWid * 5);
                         }
                         else
                         {

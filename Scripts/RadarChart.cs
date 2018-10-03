@@ -210,7 +210,10 @@ namespace xcharts
                     {
                         toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                             p.y + radius * Mathf.Cos(currAngle));
-                        if (radarInfo.area) ChartUtils.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
+                        if (radarInfo.area)
+                        {
+                            ChartUtils.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
+                        }
                         ChartUtils.DrawLine(vh, startPoint, toPoint, radarInfo.lineTickness, color);
                         startPoint = toPoint;
                     }
@@ -245,8 +248,10 @@ namespace xcharts
                 for (int j = 0; j <= indicatorNum; j++)
                 {
                     float currAngle = j * angle;
-                    p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
-                    p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle), p.y + insideRadius * Mathf.Cos(currAngle));
+                    p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                        p.y + outsideRadius * Mathf.Cos(currAngle));
+                    p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
+                        p.y + insideRadius * Mathf.Cos(currAngle));
 
                     ChartUtils.DrawPolygon(vh, p1, p2, p3, p4, color);
                     ChartUtils.DrawLine(vh, p2, p3, radarInfo.lineTickness, radarInfo.lineColor);
@@ -258,7 +263,8 @@ namespace xcharts
             for (int j = 0; j <= indicatorNum; j++)
             {
                 float currAngle = j * angle;
-                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
+                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                    p.y + outsideRadius * Mathf.Cos(currAngle));
                 ChartUtils.DrawLine(vh, p, p3, radarInfo.lineTickness/2, radarInfo.lineColor);
             }
         }
@@ -276,13 +282,15 @@ namespace xcharts
                 Color color = radarInfo.backgroundColorList[i % radarInfo.backgroundColorList.Count];
                 outsideRadius = insideRadius + block;
                 ChartUtils.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
-                ChartUtils.DrawCicleNotFill(vh, p, outsideRadius, radarInfo.lineTickness, radarInfo.lineColor);
+                ChartUtils.DrawCicleNotFill(vh, p, outsideRadius, radarInfo.lineTickness,
+                    radarInfo.lineColor);
                 insideRadius = outsideRadius;
             }
             for (int j = 0; j <= indicatorNum; j++)
             {
                 float currAngle = j * angle;
-                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
+                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), 
+                    p.y + outsideRadius * Mathf.Cos(currAngle));
                 ChartUtils.DrawLine(vh, p, p1, radarInfo.lineTickness / 2, radarInfo.lineColor);
             }
         }

@@ -19,6 +19,7 @@ namespace xcharts
         public Color contrastColor;
         public Color textColor;
         public Color subTextColor;
+        public Color unableColor;
   
         public Color axisLineColor;
         public Color axisSplitLineColor;
@@ -40,6 +41,7 @@ namespace xcharts
             font = theme.font;
             backgroundColor = theme.backgroundColor;
             contrastColor = theme.contrastColor;
+            unableColor = theme.unableColor;
             textColor = theme.textColor;
             subTextColor = theme.subTextColor;
             axisLineColor = theme.axisLineColor;
@@ -60,6 +62,7 @@ namespace xcharts
                     font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     backgroundColor = new Color32(255, 255, 255, 255),
                     contrastColor = GetColor("#514D4D"),
+                    unableColor = GetColor("#cccccc"),
                     textColor = GetColor("#514D4D"),
                     subTextColor = GetColor("#514D4D"),
                     axisLineColor = GetColor("#514D4D"),
@@ -91,6 +94,7 @@ namespace xcharts
                     font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     backgroundColor = new Color32(255, 255, 255, 255),
                     contrastColor = GetColor("#514D4D"),
+                    unableColor = GetColor("#cccccc"),
                     textColor = GetColor("#514D4D"),
                     subTextColor = GetColor("#514D4D"),
                     axisLineColor = GetColor("#514D4D"),
@@ -98,14 +102,14 @@ namespace xcharts
                     colorPalette = new Color[]
                     {
                         new Color32(55, 162, 218, 255),
-                        new Color32(50, 197, 233, 255),
-                        new Color32(103, 224, 227, 255),
-                        new Color32(159, 230, 184, 255),
-                        new Color32(255, 219, 92, 255),
                         new Color32(255, 159, 127, 255),
+                        new Color32(50, 197, 233, 255),
                         new Color32(251, 114, 147, 255),
+                        new Color32(103, 224, 227, 255),
                         new Color32(224, 98, 174, 255),
+                        new Color32(159, 230, 184, 255),
                         new Color32(230, 144, 209, 255),
+                        new Color32(255, 219, 92, 255),
                         new Color32(230, 188, 243, 255),
                         new Color32(157, 150, 245, 255),
                         new Color32(131, 120, 234, 255),
@@ -122,6 +126,7 @@ namespace xcharts
                 return new ThemeInfo()
                 {
                     font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
+                    unableColor = GetColor("#cccccc"),
                     backgroundColor = new Color32(34, 34, 34, 255),
                     contrastColor = GetColor("#eee"),
                     textColor = GetColor("#eee"),

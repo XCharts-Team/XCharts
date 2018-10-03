@@ -67,10 +67,12 @@ namespace xcharts
         public float top;
         public float bottom;
         public List<LegendData> dataList = new List<LegendData>();
+        public int checkDataListCount { get; set; }
 
         public bool IsShowSeries(int seriesIndex)
         {
             if (seriesIndex < 0 || seriesIndex >= dataList.Count) seriesIndex = 0;
+            if (seriesIndex >= dataList.Count) return false;
             return dataList[seriesIndex].show;
         }
     }
@@ -236,7 +238,8 @@ namespace xcharts
                     break;
                 case Align.right:
                     anchor = TextAnchor.MiddleRight;
-                    titlePosition = new Vector3(chartWid - title.right - titleWid, chartHig - title.top, 0);
+                    titlePosition = new Vector3(chartWid - title.right - titleWid, 
+                        chartHig - title.top, 0);
                     break;
                 case Align.center:
                     anchor = TextAnchor.MiddleCenter;
@@ -265,7 +268,7 @@ namespace xcharts
                     themeInfo.textColor, Vector2.zero,Vector2.zero, Vector2.zero,
                     new Vector2(legend.dataWid, legend.dataHig));
                 legend.dataList[i].button = btn;
-                Color bcolor = data.show ? themeInfo.GetColor(i) : Color.grey;
+                Color bcolor = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
                 btn.gameObject.SetActive(legend.show);
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.GetComponent<Image>().color = bcolor;
@@ -273,7 +276,7 @@ namespace xcharts
                 btn.onClick.AddListener(delegate ()
                 {
                     data.show = !data.show;
-                    btn.GetComponent<Image>().color = data.show ? themeInfo.GetColor(i) : Color.grey;
+                    btn.GetComponent<Image>().color = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();
@@ -306,10 +309,13 @@ namespace xcharts
                     }
                     else if (startY <= 0)
                     {
-                        float offset = (chartHig - (legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace)) / 2;
+                        float legendHig = legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace;
+                        float offset = (chartHig - legendHig) / 2;
                         startY = chartHig - offset - legend.dataHig;
                     }
-                    float posX = legend.location == Location.left ? legend.left : chartWid - legend.right - legend.dataWid;
+                    float posX = legend.location == Location.left ? 
+                        legend.left : 
+                        chartWid - legend.right - legend.dataWid;
                     return new Vector3(posX, startY - i * (legend.dataHig + legend.dataSpace), 0);
                 default: break;
             }
@@ -353,6 +359,12 @@ namespace xcharts
 
         private void CheckLegend()
         {
+            if (checkLegend.checkDataListCount != legend.dataList.Count)
+            {
+                checkLegend.checkDataListCount = legend.dataList.Count;
+                OnLegendDataListChanged();
+            }
+
             if (checkLegend.dataWid != legend.dataWid ||
                 checkLegend.dataHig != legend.dataHig ||
                 checkLegend.dataSpace != legend.dataSpace ||
@@ -404,13 +416,20 @@ namespace xcharts
             for (int i = 0; i < legend.dataList.Count; i++)
             {
                 Button btn = legend.dataList[i].button;
-                btn.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
+                btn.GetComponent<RectTransform>().sizeDelta = 
+                    new Vector2(legend.dataWid, legend.dataHig);
                 Text txt = btn.GetComponentInChildren<Text>();
-                txt.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(legend.dataWid, legend.dataHig);
+                txt.transform.GetComponent<RectTransform>().sizeDelta = 
+                    new Vector2(legend.dataWid, legend.dataHig);
                 txt.transform.localPosition = Vector3.zero;
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.gameObject.SetActive(legend.show);
             }
+        }
+
+        protected virtual void OnLegendDataListChanged()
+        {
+            InitLegend();
         }
 
         protected virtual void OnYMaxValueChanged()

@@ -244,7 +244,8 @@ namespace xcharts
             float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
             if (xAxis.type == AxisType.value)
             {
-                return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 10, 0);
+                return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
+                    zeroY - coordinate.scaleLen - 10, 0);
             }
             else
             {
@@ -254,7 +255,8 @@ namespace xcharts
                 }
                 else
                 {
-                    return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                    return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
+                        zeroY - coordinate.scaleLen - 5, 0);
                 }
             }
         }
@@ -389,7 +391,7 @@ namespace xcharts
                 float pX = zeroX - coordinate.scaleLen;
                 float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
                 ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness,
-                    Color.white);
+                    themeInfo.axisLineColor);
                 if (yAxis.showSplitLine)
                 {
                     DrawSplitLine(vh, true,yAxis.splitLineType, new Vector3(zeroX, pY),
@@ -401,7 +403,7 @@ namespace xcharts
                 float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
                 float pY = zeroY - coordinate.scaleLen - 2;
                 ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness,
-                    Color.white);
+                    themeInfo.axisLineColor);
                 if (xAxis.showSplitLine)
                 {
                     DrawSplitLine(vh, false,xAxis.splitLineType, new Vector3(pX, zeroY),
@@ -410,12 +412,15 @@ namespace xcharts
             }
             //draw x,y axis
             ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.scaleLen),
-                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, themeInfo.axisLineColor);
+                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, 
+                themeInfo.axisLineColor);
             ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.scaleLen, zeroY),
-                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, themeInfo.axisLineColor);
+                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, 
+                themeInfo.axisLineColor);
         }
 
-        private void DrawSplitLine(VertexHelper vh,bool isYAxis,SplitLineType type,Vector3 startPos,Vector3 endPos)
+        private void DrawSplitLine(VertexHelper vh,bool isYAxis,SplitLineType type,Vector3 startPos,
+            Vector3 endPos)
         {
             switch (type)
             {

@@ -7,8 +7,9 @@ namespace xcharts
     public static class ChartUtils
     {
         private static float CRICLE_SMOOTHNESS = 1f;
-        public static Text AddTextObject(string name, Transform parent, Font font, Color color,TextAnchor anchor,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int fontSize = 14)
+        public static Text AddTextObject(string name, Transform parent, Font font, Color color,
+            TextAnchor anchor,Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
+            int fontSize = 14)
         {
             GameObject txtObj;
             if (parent.Find(name))
@@ -73,6 +74,7 @@ namespace xcharts
             {
                 rect = btnObj.AddComponent<RectTransform>();
             }
+            btnObj.GetComponentInChildren<Text>().color = color;
             rect.anchorMax = anchorMax;
             rect.anchorMin = anchorMin;
             rect.pivot = pivot;
@@ -167,8 +169,8 @@ namespace xcharts
             DrawSector(vh, p, radius, color, 0, 360, segments);
         }
 
-        public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness, Color color,
-            int segments = 0)
+        public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color color, int segments = 0)
         {
             if (segments <= 0)
             {
@@ -206,7 +208,8 @@ namespace xcharts
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = startAngle + i * angle;
-                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), 
+                    p.y + radius * Mathf.Cos(currAngle));
                 DrawTriangle(vh, vertexs, p, p2, p3, color);
                 p2 = p3;
             }
@@ -227,14 +230,17 @@ namespace xcharts
             Vector3 p1, p2, p3, p4;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
-            p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle), p.y + insideRadius * Mathf.Cos(startAngle));
-            p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle), p.y + outsideRadius * Mathf.Cos(startAngle));
+            p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle),
+                p.y + insideRadius * Mathf.Cos(startAngle));
+            p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle),
+                p.y + outsideRadius * Mathf.Cos(startAngle));
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = startAngle + i * angle;
-                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), p.y + outsideRadius * Mathf.Cos(currAngle));
-                p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle), p.y + insideRadius * Mathf.Cos(currAngle));
-
+                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                    p.y + outsideRadius * Mathf.Cos(currAngle));
+                p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
+                    p.y + insideRadius * Mathf.Cos(currAngle));
                 DrawPolygon(vh, p1, p2, p3, p4, color);
                 p1 = p4;
                 p2 = p3;

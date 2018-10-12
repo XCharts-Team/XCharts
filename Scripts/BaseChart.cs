@@ -48,7 +48,6 @@ namespace xcharts
     public class LegendData
     {
         public bool show = true;
-        public ChartType type;
         public string key;
         public string text;
         public Button button { get; set; }
@@ -59,9 +58,9 @@ namespace xcharts
     {
         public bool show = true;
         public Location location = Location.right;
-        public float dataWid = 50.0f;
-        public float dataHig = 20.0f;
-        public float dataSpace = 5;
+        public float itemWidth = 50.0f;
+        public float itemHeight = 20.0f;
+        public float itemGap = 5;
         public float left;
         public float right = 5;
         public float top;
@@ -75,6 +74,13 @@ namespace xcharts
             if (seriesIndex >= dataList.Count) return false;
             return dataList[seriesIndex].show;
         }
+    }
+
+    [System.Serializable]
+    public class Tooltip
+    {
+        public bool show;
+
     }
 
     [System.Serializable]
@@ -266,7 +272,7 @@ namespace xcharts
                 LegendData data = legend.dataList[i];
                 Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
                     themeInfo.textColor, Vector2.zero,Vector2.zero, Vector2.zero,
-                    new Vector2(legend.dataWid, legend.dataHig));
+                    new Vector2(legend.itemWidth, legend.itemHeight));
                 legend.dataList[i].button = btn;
                 Color bcolor = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
                 btn.gameObject.SetActive(legend.show);
@@ -294,29 +300,29 @@ namespace xcharts
                     float startX = legend.left;
                     if (startX <= 0)
                     {
-                        startX = (chartWid - (legendCount * legend.dataWid -
-                            (legendCount - 1) * legend.dataSpace)) / 2;
+                        startX = (chartWid - (legendCount * legend.itemWidth -
+                            (legendCount - 1) * legend.itemGap)) / 2;
                     }
                     float posY = legend.location == Location.bottom ?
-                        legend.bottom : chartHig - legend.top - legend.dataHig;
-                    return new Vector3(startX + i * (legend.dataWid + legend.dataSpace), posY, 0);
+                        legend.bottom : chartHig - legend.top - legend.itemHeight;
+                    return new Vector3(startX + i * (legend.itemWidth + legend.itemGap), posY, 0);
                 case Location.left:
                 case Location.right:
                     float startY = 0;
                     if (legend.top > 0)
                     {
-                        startY = chartHig - legend.top - legend.dataHig;
+                        startY = chartHig - legend.top - legend.itemHeight;
                     }
                     else if (startY <= 0)
                     {
-                        float legendHig = legendCount * legend.dataHig - (legendCount - 1) * legend.dataSpace;
+                        float legendHig = legendCount * legend.itemHeight - (legendCount - 1) * legend.itemGap;
                         float offset = (chartHig - legendHig) / 2;
-                        startY = chartHig - offset - legend.dataHig;
+                        startY = chartHig - offset - legend.itemHeight;
                     }
                     float posX = legend.location == Location.left ? 
                         legend.left : 
-                        chartWid - legend.right - legend.dataWid;
-                    return new Vector3(posX, startY - i * (legend.dataHig + legend.dataSpace), 0);
+                        chartWid - legend.right - legend.itemWidth;
+                    return new Vector3(posX, startY - i * (legend.itemHeight + legend.itemGap), 0);
                 default: break;
             }
             return Vector3.zero;
@@ -365,9 +371,9 @@ namespace xcharts
                 OnLegendDataListChanged();
             }
 
-            if (checkLegend.dataWid != legend.dataWid ||
-                checkLegend.dataHig != legend.dataHig ||
-                checkLegend.dataSpace != legend.dataSpace ||
+            if (checkLegend.itemWidth != legend.itemWidth ||
+                checkLegend.itemHeight != legend.itemHeight ||
+                checkLegend.itemGap != legend.itemGap ||
                 checkLegend.left != legend.left ||
                 checkLegend.right != legend.right ||
                 checkLegend.bottom != legend.bottom ||
@@ -375,9 +381,9 @@ namespace xcharts
                 checkLegend.location != legend.location ||
                 checkLegend.show != legend.show)
             {
-                checkLegend.dataWid = legend.dataWid;
-                checkLegend.dataHig = legend.dataHig;
-                checkLegend.dataSpace = legend.dataSpace;
+                checkLegend.itemWidth = legend.itemWidth;
+                checkLegend.itemHeight = legend.itemHeight;
+                checkLegend.itemGap = legend.itemGap;
                 checkLegend.left = legend.left;
                 checkLegend.right = legend.right;
                 checkLegend.bottom = legend.bottom;
@@ -417,10 +423,10 @@ namespace xcharts
             {
                 Button btn = legend.dataList[i].button;
                 btn.GetComponent<RectTransform>().sizeDelta = 
-                    new Vector2(legend.dataWid, legend.dataHig);
+                    new Vector2(legend.itemWidth, legend.itemHeight);
                 Text txt = btn.GetComponentInChildren<Text>();
                 txt.transform.GetComponent<RectTransform>().sizeDelta = 
-                    new Vector2(legend.dataWid, legend.dataHig);
+                    new Vector2(legend.itemWidth, legend.itemHeight);
                 txt.transform.localPosition = Vector3.zero;
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.gameObject.SetActive(legend.show);

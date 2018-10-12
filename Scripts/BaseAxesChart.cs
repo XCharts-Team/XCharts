@@ -15,7 +15,7 @@ namespace xcharts
         public float top = 40;
         public float bottom = 25f;
         public float tickness = 0.6f;
-        public float scaleLen = 5.0f;
+        public float splitWidth = 5.0f;
     }
 
     [System.Serializable]
@@ -47,7 +47,7 @@ namespace xcharts
 
         public void AddCategory(string category)
         {
-            if (data.Count >= maxSplitNumber)
+            if (data.Count >= maxSplitNumber && maxSplitNumber != 0)
             {
                 data.RemoveAt(0);
             }
@@ -100,7 +100,7 @@ namespace xcharts
             base.Awake();
             lastCoordinateHig = chartHig;
             lastCoordinateWid = chartWid;
-            lastCoordinateScaleLen = coordinate.scaleLen;
+            lastCoordinateScaleLen = coordinate.splitWidth;
             InitXScale();
             InitYScale();
         }
@@ -220,19 +220,19 @@ namespace xcharts
             float scaleWid = coordinateHig / (yAxis.splitNumber - 1);
             if (yAxis.type == AxisType.value)
             {
-                return new Vector3(zeroX - coordinate.scaleLen - 2f,
+                return new Vector3(zeroX - coordinate.splitWidth - 2f,
                 zeroY + i * scaleWid, 0);
             }
             else
             {
                 if (yAxis.boundaryGap)
                 {
-                    return new Vector3(zeroX - coordinate.scaleLen - 2f,
+                    return new Vector3(zeroX - coordinate.splitWidth - 2f,
                         zeroY + (i + 0.5f) * scaleWid, 0);
                 }
                 else
                 {
-                    return new Vector3(zeroX - coordinate.scaleLen - 2f,
+                    return new Vector3(zeroX - coordinate.splitWidth - 2f,
                         zeroY + i * scaleWid, 0);
                 }
 
@@ -245,18 +245,18 @@ namespace xcharts
             if (xAxis.type == AxisType.value)
             {
                 return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
-                    zeroY - coordinate.scaleLen - 10, 0);
+                    zeroY - coordinate.splitWidth - 10, 0);
             }
             else
             {
                 if (xAxis.boundaryGap)
                 {
-                    return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.scaleLen - 5, 0);
+                    return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.splitWidth - 5, 0);
                 }
                 else
                 {
                     return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
-                        zeroY - coordinate.scaleLen - 5, 0);
+                        zeroY - coordinate.splitWidth - 5, 0);
                 }
             }
         }
@@ -265,11 +265,11 @@ namespace xcharts
         {
             if (lastCoordinateHig != coordinateHig
                 || lastCoordinateWid != coordinateWid
-                || lastCoordinateScaleLen != coordinate.scaleLen)
+                || lastCoordinateScaleLen != coordinate.splitWidth)
             {
                 lastCoordinateWid = coordinateWid;
                 lastCoordinateHig = coordinateHig;
-                lastCoordinateScaleLen = coordinate.scaleLen;
+                lastCoordinateScaleLen = coordinate.splitWidth;
                 OnCoordinateSize();
             }
             if (checkCoordinate.show != coordinate.show)
@@ -388,7 +388,7 @@ namespace xcharts
             // draw splitline
             for (int i = 1; i < yAxis.splitNumber; i++)
             {
-                float pX = zeroX - coordinate.scaleLen;
+                float pX = zeroX - coordinate.splitWidth;
                 float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
                 ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness,
                     themeInfo.axisLineColor);
@@ -401,7 +401,7 @@ namespace xcharts
             for (int i = 1; i < xAxis.splitNumber; i++)
             {
                 float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
-                float pY = zeroY - coordinate.scaleLen - 2;
+                float pY = zeroY - coordinate.splitWidth - 2;
                 ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness,
                     themeInfo.axisLineColor);
                 if (xAxis.showSplitLine)
@@ -411,10 +411,10 @@ namespace xcharts
                 }
             }
             //draw x,y axis
-            ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.scaleLen),
+            ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.splitWidth),
                 new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, 
                 themeInfo.axisLineColor);
-            ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.scaleLen, zeroY),
+            ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.splitWidth, zeroY),
                 new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, 
                 themeInfo.axisLineColor);
         }

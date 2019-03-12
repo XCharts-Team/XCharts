@@ -24,6 +24,10 @@ namespace xcharts
         public Color axisLineColor;
         public Color axisSplitLineColor;
 
+        public Color tooltipBackgroundColor;
+        public Color tooltipFlagAreaColor;
+        public Color tooltipTextColor;
+
         public Color[] colorPalette;
 
         public Color GetColor(int index)
@@ -46,6 +50,8 @@ namespace xcharts
             subTextColor = theme.subTextColor;
             axisLineColor = theme.axisLineColor;
             axisSplitLineColor = theme.axisSplitLineColor;
+            tooltipBackgroundColor = theme.tooltipBackgroundColor;
+            tooltipTextColor = theme.tooltipTextColor;
             colorPalette = new Color[theme.colorPalette.Length];
             for(int i = 0; i < theme.colorPalette.Length; i++)
             {
@@ -67,6 +73,9 @@ namespace xcharts
                     subTextColor = GetColor("#514D4D"),
                     axisLineColor = GetColor("#514D4D"),
                     axisSplitLineColor = GetColor("#AB9999"),
+                    tooltipBackgroundColor = GetColor("#515151B5"),
+                    tooltipTextColor = GetColor("#FFFFFFFF"),
+                    tooltipFlagAreaColor = GetColor("#51515120"),
                     colorPalette = new Color[]
                     {
                         new Color32(194, 53, 49, 255),
@@ -99,6 +108,9 @@ namespace xcharts
                     subTextColor = GetColor("#514D4D"),
                     axisLineColor = GetColor("#514D4D"),
                     axisSplitLineColor = GetColor("#AB9999"),
+                    tooltipBackgroundColor = GetColor("#515151B5"),
+                    tooltipTextColor = GetColor("#FFFFFFFF"),
+                    tooltipFlagAreaColor = GetColor("#51515120"),
                     colorPalette = new Color[]
                     {
                         new Color32(55, 162, 218, 255),
@@ -133,6 +145,9 @@ namespace xcharts
                     subTextColor = GetColor("#eee"),
                     axisLineColor = GetColor("#eee"),
                     axisSplitLineColor = GetColor("#aaa"),
+                    tooltipBackgroundColor = GetColor("#515151B5"),
+                    tooltipTextColor = GetColor("#FFFFFFFF"),
+                    tooltipFlagAreaColor = GetColor("#51515120"),
                     colorPalette = new Color[]
                     {
                         new Color32(221, 107, 102, 255),

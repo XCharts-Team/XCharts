@@ -38,11 +38,11 @@ namespace xcharts
 
             txtObj.GetComponent<Text>().alignment = anchor;
             RectTransform rect = txtObj.GetComponent<RectTransform>();
+            rect.localPosition = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
-            rect.localPosition = Vector3.zero;
             return txtObj.GetComponent<Text>();
         }
 
@@ -80,6 +80,40 @@ namespace xcharts
             rect.pivot = pivot;
             rect.sizeDelta = sizeDelta;
             return btnObj.GetComponent<Button>();
+        }
+
+        public static GameObject AddTooltipObject(string name,Transform parent, Font font)
+        {
+            GameObject tooltipObj;
+            if (parent.Find(name))
+            {
+                tooltipObj = parent.Find(name).gameObject;
+                tooltipObj.SetActive(true);
+            }
+            else
+            {
+                tooltipObj = new GameObject();
+                tooltipObj.name = name;
+                tooltipObj.transform.parent = parent;
+                tooltipObj.transform.localPosition = Vector3.zero;
+                tooltipObj.transform.localScale = Vector3.one;
+                tooltipObj.AddComponent<Image>();
+                Text txt = AddTextObject("Text", tooltipObj.transform, font, Color.white, TextAnchor.UpperLeft,
+                    new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Vector2(100, 100));
+                txt.text = "Text";
+            }
+            RectTransform rect = tooltipObj.GetComponent<RectTransform>();
+            if (rect == null)
+            {
+                rect = tooltipObj.AddComponent<RectTransform>();
+            }
+            tooltipObj.GetComponent<Image>().color = Color.black;
+            rect.anchorMax = new Vector2(0, 1);
+            rect.anchorMin = new Vector2(0, 1);
+            rect.pivot = new Vector2(0, 1);
+            rect.sizeDelta = new Vector2(100, 100);
+            tooltipObj.GetComponentInChildren<Text>().transform.localPosition = new Vector2(3,-3);
+            return tooltipObj;
         }
 
         public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color color)
@@ -334,6 +368,5 @@ namespace xcharts
 
             return curvedPoints;
         }
-
     }
 }

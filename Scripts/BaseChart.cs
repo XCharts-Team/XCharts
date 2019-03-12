@@ -15,7 +15,7 @@ namespace xcharts
     public class Title
     {
         public bool show = true;
-        public string text ="Chart Title";
+        public string text = "Chart Title";
         public Align align = Align.center;
         public float left;
         public float right;
@@ -81,6 +81,53 @@ namespace xcharts
     {
         public bool show;
 
+        public int DataIndex { get; set; }
+        public int LastDataIndex { get; set; }
+        public float Width { get { return bgRect.sizeDelta.x; } }
+        public float Height { get { return bgRect.sizeDelta.y; } }
+
+
+        private GameObject gameObject;
+        private Text text;
+        private RectTransform bgRect;
+
+        public void SetObj(GameObject obj)
+        {
+            gameObject = obj;
+            bgRect = gameObject.GetComponent<RectTransform>();
+            text = gameObject.GetComponentInChildren<Text>();
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            gameObject.GetComponent<Image>().color = color;
+        }
+
+        public void SetTextColor(Color color)
+        {
+            text.color = color;
+        }
+
+        public void UpdateTooltipText(string txt)
+        {
+            text.text = txt;
+            bgRect.sizeDelta = new Vector2(text.preferredWidth + 8, text.preferredHeight + 8);
+        }
+
+        public void SetActive(bool flag)
+        {
+            gameObject.SetActive(flag);
+        }
+
+        public void UpdatePos(Vector2 pos)
+        {
+            gameObject.transform.localPosition = pos;
+        }
+
+        public Vector3 GetPos()
+        {
+            return gameObject.transform.localPosition;
+        }
     }
 
     [System.Serializable]
@@ -155,6 +202,8 @@ namespace xcharts
         [SerializeField]
         protected Legend legend = new Legend();
         [SerializeField]
+        protected Tooltip tooltip = new Tooltip();
+        [SerializeField]
         protected List<Series> seriesList = new List<Series>();
 
         private Theme checkTheme = 0;
@@ -165,7 +214,7 @@ namespace xcharts
         protected List<Text> legendTextList = new List<Text>();
         protected float chartWid { get { return rectTransform.sizeDelta.x; } }
         protected float chartHig { get { return rectTransform.sizeDelta.y; } }
-        
+
         protected override void Awake()
         {
             themeInfo = ThemeInfo.Dark;
@@ -174,6 +223,7 @@ namespace xcharts
             rectTransform.pivot = Vector2.zero;
             InitTitle();
             InitLegend();
+            InitTooltip();
         }
 
         protected virtual void Update()
@@ -181,11 +231,12 @@ namespace xcharts
             CheckTheme();
             CheckTile();
             CheckLegend();
+            CheckTooltip();
         }
 
         protected override void OnDestroy()
         {
-            for(int i = transform.childCount - 1; i >= 0; i--)
+            for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
@@ -244,7 +295,7 @@ namespace xcharts
                     break;
                 case Align.right:
                     anchor = TextAnchor.MiddleRight;
-                    titlePosition = new Vector3(chartWid - title.right - titleWid, 
+                    titlePosition = new Vector3(chartWid - title.right - titleWid,
                         chartHig - title.top, 0);
                     break;
                 case Align.center:
@@ -271,7 +322,7 @@ namespace xcharts
             {
                 LegendData data = legend.dataList[i];
                 Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
-                    themeInfo.textColor, Vector2.zero,Vector2.zero, Vector2.zero,
+                    themeInfo.textColor, Vector2.zero, Vector2.zero, Vector2.zero,
                     new Vector2(legend.itemWidth, legend.itemHeight));
                 legend.dataList[i].button = btn;
                 Color bcolor = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
@@ -282,12 +333,22 @@ namespace xcharts
                 btn.onClick.AddListener(delegate ()
                 {
                     data.show = !data.show;
-                    btn.GetComponent<Image>().color = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
+                    btn.GetComponent<Image>().color = data.show ? 
+                        themeInfo.GetColor(i) : themeInfo.unableColor;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();
                 });
             }
+        }
+
+        private void InitTooltip()
+        {
+            GameObject obj = ChartUtils.AddTooltipObject("tooltip", transform,themeInfo.font);
+            tooltip.SetObj(obj);
+            tooltip.SetBackgroundColor(themeInfo.tooltipBackgroundColor);
+            tooltip.SetTextColor(themeInfo.tooltipTextColor);
+            tooltip.SetActive(false);
         }
 
         private Vector3 GetLegendPosition(int i)
@@ -319,8 +380,8 @@ namespace xcharts
                         float offset = (chartHig - legendHig) / 2;
                         startY = chartHig - offset - legend.itemHeight;
                     }
-                    float posX = legend.location == Location.left ? 
-                        legend.left : 
+                    float posX = legend.location == Location.left ?
+                        legend.left :
                         chartWid - legend.right - legend.itemWidth;
                     return new Vector3(posX, startY - i * (legend.itemHeight + legend.itemGap), 0);
                 default: break;
@@ -341,7 +402,7 @@ namespace xcharts
 
         private void CheckTheme()
         {
-            if(checkTheme != theme)
+            if (checkTheme != theme)
             {
                 checkTheme = theme;
                 OnThemeChanged();
@@ -350,6 +411,7 @@ namespace xcharts
 
         private void CheckTile()
         {
+            if (checkTitle == null || title == null) return;
             if (checkTitle.align != title.align ||
                 checkTitle.left != title.left ||
                 checkTitle.right != title.right ||
@@ -394,6 +456,27 @@ namespace xcharts
             }
         }
 
+        private void CheckTooltip()
+        {
+            if (!tooltip.show) return;
+            tooltip.DataIndex = 0;
+            Vector2 local;
+
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                Input.mousePosition, null, out local))
+                return;
+            
+            if (local.x < 0 || local.x > chartWid ||
+                local.y < 0 || local.y > chartHig)
+                return;
+
+            CheckTootipArea(local);
+        }
+
+        protected virtual void CheckTootipArea(Vector2 localPostion)
+        {
+        }
+
         protected virtual void OnThemeChanged()
         {
             switch (theme)
@@ -422,10 +505,10 @@ namespace xcharts
             for (int i = 0; i < legend.dataList.Count; i++)
             {
                 Button btn = legend.dataList[i].button;
-                btn.GetComponent<RectTransform>().sizeDelta = 
+                btn.GetComponent<RectTransform>().sizeDelta =
                     new Vector2(legend.itemWidth, legend.itemHeight);
                 Text txt = btn.GetComponentInChildren<Text>();
-                txt.transform.GetComponent<RectTransform>().sizeDelta = 
+                txt.transform.GetComponent<RectTransform>().sizeDelta =
                     new Vector2(legend.itemWidth, legend.itemHeight);
                 txt.transform.localPosition = Vector3.zero;
                 btn.transform.localPosition = GetLegendPosition(i);
@@ -453,10 +536,24 @@ namespace xcharts
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
         }
 
+        protected virtual void RefreshTooltip()
+        {
+        }
+
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
             DrawBackground(vh);
+            DrawChart(vh);
+            DrawTooltip(vh);
+        }
+
+        protected virtual void DrawChart(VertexHelper vh)
+        {
+        }
+
+        protected virtual void DrawTooltip(VertexHelper vh)
+        {
         }
 
         private void DrawBackground(VertexHelper vh)
@@ -470,3 +567,4 @@ namespace xcharts
         }
     }
 }
+    

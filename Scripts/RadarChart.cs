@@ -135,18 +135,14 @@ namespace xcharts
             return new Vector3(x,y);
         }
 
-        protected override void OnPopulateMesh(VertexHelper vh)
+        protected override void DrawChart(VertexHelper vh)
         {
-            base.OnPopulateMesh(vh);
+            base.DrawChart(vh);
             UpdateRadarCenter();
             if (radarInfo.cricle)
-            {
                 DrawCricleRadar(vh);
-            }
             else
-            {
                 DrawRadar(vh);
-            }
             DrawData(vh);
         }
 

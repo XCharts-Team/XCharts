@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Text;
 
 namespace xcharts
 {
@@ -114,10 +115,151 @@ namespace xcharts
             CheckCoordinate();
         }
 
-        protected override void OnPopulateMesh(VertexHelper vh)
+        protected override void DrawChart(VertexHelper vh)
         {
-            base.OnPopulateMesh(vh);
+            base.DrawChart(vh);
             DrawCoordinate(vh);
+        }
+
+        protected override void CheckTootipArea(Vector2 local)
+        {
+            if (local.x < zeroX || local.x > zeroX + coordinateWid ||
+                local.y < zeroY || local.y > zeroY + coordinateHig)
+            {
+                tooltip.DataIndex = 0;
+                RefreshTooltip();
+            }
+            else
+            {
+                if (xAxis.type == AxisType.value)
+                {
+                    float splitWid = coordinateHig / (yAxis.splitNumber - 1);
+                    for (int i = 0; i < yAxis.splitNumber; i++)
+                    {
+                        float pY = zeroY + i * splitWid;
+                        if (yAxis.boundaryGap)
+                        {
+                            if (local.y > pY && local.y <= pY + splitWid)
+                            {
+                                tooltip.DataIndex = i + 1;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)
+                            {
+                                tooltip.DataIndex = i + 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    float splitWid = coordinateWid / (xAxis.splitNumber - 1);
+                    for (int i = 0; i < xAxis.splitNumber; i++)
+                    {
+                        float pX = zeroX + i * splitWid;
+                        if (xAxis.boundaryGap)
+                        {
+                            if (local.x > pX && local.x <= pX + splitWid)
+                            {
+                                tooltip.DataIndex = i + 1;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)
+                            {
+                                tooltip.DataIndex = i + 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (tooltip.DataIndex > 0)
+            {
+                tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                RefreshTooltip();
+                if (tooltip.LastDataIndex != tooltip.DataIndex)
+                {
+                    RefreshChart();
+                }
+                tooltip.LastDataIndex = tooltip.DataIndex;
+            }
+        }
+
+        protected override void RefreshTooltip()
+        {
+            base.RefreshTooltip();
+            int index = tooltip.DataIndex - 1;
+            if (index < 0)
+            {
+                tooltip.SetActive(false);
+                return;
+            }
+            Axis tempAxis = xAxis.type == AxisType.value ? (Axis)yAxis : (Axis)xAxis;
+            if (index > tempAxis.data.Count - 1)
+            {
+                index = tempAxis.data.Count - 1;
+            }
+            tooltip.SetActive(true);
+            if (seriesList.Count == 1)
+            {
+                string txt = tempAxis.data[index] + ": " + seriesList[0].dataList[index].value;
+                tooltip.UpdateTooltipText(txt);
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder(tempAxis.data[index]);
+                for(int i=0; i<seriesList.Count;i++)
+                {
+                    string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(i));
+                    string key = seriesList[i].legendKey;
+                    float value = seriesList[i].dataList[index].value;
+                    sb.Append("\n");
+                    sb.AppendFormat("<color=#{0}>● </color>", strColor);
+                    sb.AppendFormat("{0}: {1}", key, value);
+                }
+                tooltip.UpdateTooltipText(sb.ToString());
+            }
+            var pos = tooltip.GetPos();
+            if (pos.x + tooltip.Width > chartWid)
+            {
+                pos.x = chartWid - tooltip.Width;
+            }
+            if (pos.y - tooltip.Height < 0)
+            {
+                pos.y = tooltip.Height;
+            }
+            tooltip.UpdatePos(pos);
+        }
+
+        TextGenerationSettings GetTextSetting()
+        {
+            var setting = new TextGenerationSettings();
+            var fontdata = FontData.defaultFontData;
+
+            //setting.generationExtents = rectTransform.rect.size;
+            setting.generationExtents = new Vector2(200.0F, 50.0F);
+            setting.fontSize = 14;
+            setting.textAnchor = TextAnchor.MiddleCenter;
+            setting.scaleFactor = 1f;
+            setting.color = Color.red;
+            setting.font = themeInfo.font;
+            setting.pivot = new Vector2(0.5f, 0.5f);
+            setting.richText = false;
+            setting.lineSpacing = 0;
+            setting.fontStyle = FontStyle.Normal;
+            setting.resizeTextForBestFit = false;
+            setting.horizontalOverflow = HorizontalWrapMode.Overflow;
+            setting.verticalOverflow = VerticalWrapMode.Overflow;
+
+            return setting;
+
         }
 
         protected override void OnThemeChanged()

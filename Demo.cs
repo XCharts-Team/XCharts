@@ -13,7 +13,7 @@ public class Demo : MonoBehaviour
 
     void Awake()
     {
-        lineChart = transform.Find("xchart/line_chart").GetComponent<LineChart>();
+        //lineChart = transform.Find("xchart/line_chart").GetComponent<LineChart>();
 
         var xchart = transform.Find("xchart");
         GridLayoutGroup grid = xchart.GetComponent<GridLayoutGroup>();

@@ -38,9 +38,9 @@ namespace xcharts
             base.Update();
         }
 
-        protected override void OnPopulateMesh(VertexHelper vh)
+        protected override void DrawChart(VertexHelper vh)
         {
-            base.OnPopulateMesh(vh);
+            base.DrawChart(vh);
             int seriesCount = seriesList.Count;
             float max = GetMaxValue();
             float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
@@ -99,21 +99,35 @@ namespace xcharts
 
                         Vector3 p = new Vector3(startX + i * scaleWid, 
                             zeroY + data.value * coordinateHig / max);
-                        if(theme == Theme.Dark)
+                        float pointWid = lineInfo.pointWid;
+                        if (tooltip.show && i == tooltip.DataIndex - 1)
                         {
-                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, color, 
+                            pointWid = pointWid * 1.8f;
+                        }
+                        if (theme == Theme.Dark)
+                        {
+                            
+                            ChartUtils.DrawCricle(vh, p, pointWid, color, 
                                 (int)lineInfo.pointWid * 5);
                         }
                         else
                         {
-                            ChartUtils.DrawCricle(vh, p, lineInfo.pointWid, Color.white);
-                            ChartUtils.DrawDoughnut(vh, p, lineInfo.pointWid - lineInfo.tickness,
-                                lineInfo.pointWid, 0, 360, color);
+                            ChartUtils.DrawCricle(vh, p, pointWid, Color.white);
+                            ChartUtils.DrawDoughnut(vh, p, pointWid - lineInfo.tickness,
+                                pointWid, 0, 360, color);
                         }
                     }
                 }
             }
-
+            //draw tooltip line
+            if (tooltip.show && tooltip.DataIndex > 0)
+            {
+                float splitWid = coordinateWid / (xAxis.splitNumber - 1);
+                float px = zeroX + (tooltip.DataIndex - 1) * splitWid + (xAxis.boundaryGap ? splitWid / 2 : 0);
+                Vector2 sp = new Vector2(px, zeroY);
+                Vector2 ep = new Vector2(px, zeroY + coordinateHig);
+                ChartUtils.DrawLine(vh, sp, ep, coordinate.tickness, themeInfo.tooltipFlagAreaColor);
+            }
         }
     }
 }

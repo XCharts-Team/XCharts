@@ -44,9 +44,9 @@ namespace xcharts
             base.Update();
         }
 
-        protected override void OnPopulateMesh(VertexHelper vh)
+        protected override void DrawChart(VertexHelper vh)
         {
-            base.OnPopulateMesh(vh);
+            base.DrawChart(vh);
             UpdatePieCenter();
             float totalDegree = 360;
             float startDegree = 0;

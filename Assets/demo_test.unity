@@ -593,8 +593,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 505350089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 599, y: 459.5, z: 0}
-  m_LocalScale: {x: 0.9359375, y: 0.9359375, z: 0.9359375}
+  m_LocalPosition: {x: 600.5, y: 459.5, z: 0}
+  m_LocalScale: {x: 0.93828124, y: 0.93828124, z: 0.93828124}
   m_Children:
   - {fileID: 2051892027}
   m_Father: {fileID: 0}
@@ -830,27 +830,24 @@ MonoBehaviour:
     top: 0
     bottom: 0
     dataList:
-    - show: 1
-      key: pie1
-      text: "\u6570\u636E1"
-    - show: 1
-      key: pie2
-      text: "\u6570\u636E2"
-    - show: 1
-      key: pie3
-      text: "\u6570\u636E3"
+    - "H\x01"
+    - "O\x01"
+    - "V\x01"
   tooltip:
     show: 0
   seriesList:
-  - legendKey: 
+  - name: H
     showDataNumber: 0
-    dataList: []
-  - legendKey: 
+    dataList:
+    - 60
+  - name: O
     showDataNumber: 0
-    dataList: []
-  - legendKey: 
+    dataList:
+    - 30
+  - name: V
     showDataNumber: 0
-    dataList: []
+    dataList:
+    - 20
   pieInfo:
     name: Pie
     insideRadius: 0
@@ -861,13 +858,6 @@ MonoBehaviour:
     right: 0
     top: 0
     bottom: 0
-    dataList:
-    - text: pie1
-      value: 10
-    - text: pie2
-      value: 50
-    - text: pie3
-      value: 40
 --- !u!222 &872320148
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1126,7 +1116,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6570\u636E1"
+  m_Text: "H\x01"
 --- !u!222 &1679032979
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1200,7 +1190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6570\u636E3"
+  m_Text: "V\x01"
 --- !u!222 &1790728300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1484,7 +1474,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6570\u636E2"
+  m_Text: "O\x01"
 --- !u!222 &2099261119
 CanvasRenderer:
   m_ObjectHideFlags: 0

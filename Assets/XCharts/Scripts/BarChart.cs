@@ -28,7 +28,7 @@ namespace xcharts
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
-            if(yAxis.type == AxisType.category)
+            if (yAxis.type == AxisType.category)
             {
                 int seriesCount = seriesList.Count;
                 float scaleWid = coordinateHig / (yAxis.splitNumber - 1);

@@ -6,23 +6,23 @@ public class Demo : MonoBehaviour
 {
     public Theme theme = Theme.Dark;
 
-    private LineChart lineChart;
+    private BaseChart chart;
     private float time;
     private int count;
     private Theme checkTheme = Theme.Dark;
 
     void Awake()
     {
-        //lineChart = transform.Find("xchart/line_chart").GetComponent<LineChart>();
-
         var xchart = transform.Find("xchart");
         GridLayoutGroup grid = xchart.GetComponent<GridLayoutGroup>();
         RectTransform rect = transform.GetComponent<RectTransform>();
         var wid = rect.sizeDelta.x;
         int childNum = xchart.childCount;
-        float hig = grid.padding.top + childNum * (grid.cellSize.y+ grid.spacing.y);
-        rect.sizeDelta = new Vector2(wid,hig);
+        float hig = grid.padding.top + childNum * (grid.cellSize.y + grid.spacing.y);
+        rect.sizeDelta = new Vector2(wid, hig);
         xchart.GetComponent<RectTransform>().sizeDelta = new Vector2(wid, hig);
+
+        chart = xchart.gameObject.GetComponentInChildren<BaseChart>();
     }
 
     void Update()
@@ -32,11 +32,9 @@ public class Demo : MonoBehaviour
         {
             time = 0;
             count++;
-            //lineChart.AddXAxisCategory("key" + count);
-            //lineChart.AddData("line1", "key"+count, Random.Range(24.0f, 60.0f));
-            //lineChart.AddData("line2", "key"+count, Random.Range(24.0f, 60.0f));
+            chart.UpdateData(0, Random.RandomRange(60, 150));
         }
-        if(checkTheme != theme)
+        if (checkTheme != theme)
         {
             checkTheme = theme;
             UpdateTheme(theme);
@@ -46,7 +44,7 @@ public class Demo : MonoBehaviour
     void UpdateTheme(Theme theme)
     {
         var charts = transform.Find("xchart").GetComponentsInChildren<BaseChart>();
-        foreach(var chart in charts)
+        foreach (var chart in charts)
         {
             chart.UpdateTheme(theme);
         }

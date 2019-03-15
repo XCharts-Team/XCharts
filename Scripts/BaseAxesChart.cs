@@ -215,7 +215,7 @@ namespace xcharts
             else
             {
                 StringBuilder sb = new StringBuilder(tempAxis.data[index]);
-                for(int i=0; i<seriesList.Count;i++)
+                for (int i = 0; i < seriesList.Count; i++)
                 {
                     string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(i));
                     string key = seriesList[i].name;
@@ -292,7 +292,7 @@ namespace xcharts
                 for (int i = 0; i < yAxis.splitNumber; i++)
                 {
                     Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
-                        themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero, 
+                        themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero,
                         new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
                     txt.transform.localPosition = GetYScalePosition(i);
@@ -536,7 +536,7 @@ namespace xcharts
                     themeInfo.axisLineColor);
                 if (yAxis.showSplitLine)
                 {
-                    DrawSplitLine(vh, true,yAxis.splitLineType, new Vector3(zeroX, pY),
+                    DrawSplitLine(vh, true, yAxis.splitLineType, new Vector3(zeroX, pY),
                         new Vector3(zeroX + coordinateWid, pY));
                 }
             }
@@ -548,20 +548,20 @@ namespace xcharts
                     themeInfo.axisLineColor);
                 if (xAxis.showSplitLine)
                 {
-                    DrawSplitLine(vh, false,xAxis.splitLineType, new Vector3(pX, zeroY),
+                    DrawSplitLine(vh, false, xAxis.splitLineType, new Vector3(pX, zeroY),
                         new Vector3(pX, zeroY + coordinateHig));
                 }
             }
             //draw x,y axis
             ChartUtils.DrawLine(vh, new Vector3(zeroX, zeroY - coordinate.splitWidth),
-                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness, 
+                new Vector3(zeroX, zeroY + coordinateHig + 2), coordinate.tickness,
                 themeInfo.axisLineColor);
             ChartUtils.DrawLine(vh, new Vector3(zeroX - coordinate.splitWidth, zeroY),
-                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness, 
+                new Vector3(zeroX + coordinateWid + 2, zeroY), coordinate.tickness,
                 themeInfo.axisLineColor);
         }
 
-        private void DrawSplitLine(VertexHelper vh,bool isYAxis,SplitLineType type,Vector3 startPos,
+        private void DrawSplitLine(VertexHelper vh, bool isYAxis, SplitLineType type, Vector3 startPos,
             Vector3 endPos)
         {
             switch (type)
@@ -571,7 +571,7 @@ namespace xcharts
                     var startX = startPos.x;
                     var startY = startPos.y;
                     var dashLen = type == SplitLineType.dashed ? 6 : 2.5f;
-                    var count = isYAxis ? (endPos.x - startPos.x) / (dashLen * 2):
+                    var count = isYAxis ? (endPos.x - startPos.x) / (dashLen * 2) :
                         (endPos.y - startPos.y) / (dashLen * 2);
                     for (int i = 0; i < count; i++)
                     {
@@ -589,7 +589,7 @@ namespace xcharts
                                 coordinate.tickness, themeInfo.axisSplitLineColor);
                             startY += dashLen * 2;
                         }
-                        
+
                     }
                     break;
                 case SplitLineType.solid:

@@ -97,7 +97,7 @@ namespace xcharts
                     {
                         float value = series.dataList[i];
 
-                        Vector3 p = new Vector3(startX + i * scaleWid, 
+                        Vector3 p = new Vector3(startX + i * scaleWid,
                             zeroY + value * coordinateHig / max);
                         float pointWid = lineInfo.pointWid;
                         if (tooltip.show && i == tooltip.DataIndex - 1)
@@ -106,8 +106,8 @@ namespace xcharts
                         }
                         if (theme == Theme.Dark)
                         {
-                            
-                            ChartUtils.DrawCricle(vh, p, pointWid, color, 
+
+                            ChartUtils.DrawCricle(vh, p, pointWid, color,
                                 (int)lineInfo.pointWid * 5);
                         }
                         else

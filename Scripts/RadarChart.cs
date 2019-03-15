@@ -16,7 +16,7 @@ namespace xcharts
     {
         public bool cricle;
         public bool area;
-        
+
         public float radius = 100;
         public int splitNumber = 5;
 
@@ -80,7 +80,7 @@ namespace xcharts
                 else if (diff > 1f)
                 {
                     anchor = TextAnchor.MiddleLeft;
-                    pos = new Vector3(pos.x + txtWid + 5,pos.y);
+                    pos = new Vector3(pos.x + txtWid + 5, pos.y);
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace xcharts
 
         private void CheckRadarInfoChanged()
         {
-            if( checkRadarInfo.radius != radarInfo.radius ||
+            if (checkRadarInfo.radius != radarInfo.radius ||
                 checkRadarInfo.left != radarInfo.left ||
                 checkRadarInfo.right != radarInfo.right ||
                 checkRadarInfo.top != radarInfo.top ||
@@ -132,7 +132,7 @@ namespace xcharts
             var x = radarCenterX + radarInfo.radius * Mathf.Sin(angle);
             var y = radarCenterY + radarInfo.radius * Mathf.Cos(angle);
 
-            return new Vector3(x,y);
+            return new Vector3(x, y);
         }
 
         protected override void DrawChart(VertexHelper vh)
@@ -181,13 +181,13 @@ namespace xcharts
             Vector3 startPoint = Vector3.zero;
             Vector3 toPoint = Vector3.zero;
             Vector3 firstPoint = Vector3.zero;
-            
+
             for (int i = 0; i < seriesList.Count; i++)
             {
                 if (!legend.IsShowSeries(i)) continue;
                 var dataList = seriesList[i].dataList;
                 var color = themeInfo.GetColor(i);
-                var areaColor = new Color(color.r,color.g,color.b,color.a*0.7f);
+                var areaColor = new Color(color.r, color.g, color.b, color.a * 0.7f);
                 var max = radarInfo.indicatorList[i].max > 0 ?
                     radarInfo.indicatorList[i].max :
                     GetMaxValue();
@@ -233,11 +233,11 @@ namespace xcharts
             float block = radarInfo.radius / radarInfo.splitNumber;
             int indicatorNum = radarInfo.indicatorList.Count;
             Vector3 p1, p2, p3, p4;
-            Vector3 p = new Vector3(radarCenterX,radarCenterY);
+            Vector3 p = new Vector3(radarCenterX, radarCenterY);
             float angle = 2 * Mathf.PI / indicatorNum;
             for (int i = 0; i < radarInfo.splitNumber; i++)
             {
-                Color color = radarInfo.backgroundColorList[i% radarInfo.backgroundColorList.Count];
+                Color color = radarInfo.backgroundColorList[i % radarInfo.backgroundColorList.Count];
                 outsideRadius = insideRadius + block;
                 p1 = new Vector3(p.x + insideRadius * Mathf.Sin(0), p.y + insideRadius * Mathf.Cos(0));
                 p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(0), p.y + outsideRadius * Mathf.Cos(0));
@@ -261,7 +261,7 @@ namespace xcharts
                 float currAngle = j * angle;
                 p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
-                ChartUtils.DrawLine(vh, p, p3, radarInfo.lineTickness/2, radarInfo.lineColor);
+                ChartUtils.DrawLine(vh, p, p3, radarInfo.lineTickness / 2, radarInfo.lineColor);
             }
         }
 
@@ -285,7 +285,7 @@ namespace xcharts
             for (int j = 0; j <= indicatorNum; j++)
             {
                 float currAngle = j * angle;
-                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle), 
+                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 ChartUtils.DrawLine(vh, p, p1, radarInfo.lineTickness / 2, radarInfo.lineColor);
             }

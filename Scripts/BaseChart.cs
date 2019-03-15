@@ -76,12 +76,12 @@ namespace xcharts
             }
         }
 
-        public void SetShowData(int index,bool flag)
+        public void SetShowData(int index, bool flag)
         {
             dataShowList[index] = flag;
         }
 
-        public void SetDataButton(int index,Button btn)
+        public void SetDataButton(int index, Button btn)
         {
             if (index < 0 || index > dataBtnList.Count - 1)
             {
@@ -93,9 +93,9 @@ namespace xcharts
             }
         }
 
-        public void SetShowData(string name,bool flag)
+        public void SetShowData(string name, bool flag)
         {
-            for(int i = 0; i < dataList.Count; i++)
+            for (int i = 0; i < dataList.Count; i++)
             {
                 if (dataList[i].Equals(name))
                 {
@@ -212,11 +212,19 @@ namespace xcharts
 
         public float GetData(int index)
         {
-            if (index >=0 && index <= dataList.Count - 1)
+            if (index >= 0 && index <= dataList.Count - 1)
             {
                 return dataList[index];
             }
             return 0;
+        }
+
+        public void UpdataData(int index, float value)
+        {
+            if (index >= 0 && index <= dataList.Count - 1)
+            {
+                dataList[index] = value;
+            }
         }
     }
 
@@ -277,9 +285,35 @@ namespace xcharts
         {
             for (int i = 0; i < seriesList.Count; i++)
             {
-                if (seriesList[i].name == legend)
+                if (seriesList[i].name.Equals(legend))
                 {
                     seriesList[i].AddData(value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
+        public void UpdateData(string legend, float value, int dataIndex = 0)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (seriesList[i].name.Equals(legend))
+                {
+                    seriesList[i].UpdataData(dataIndex, value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
+        public void UpdateData(int legendIndex, float value, int dataIndex = 0)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (i == legendIndex)
+                {
+                    seriesList[i].UpdataData(dataIndex, value);
                     break;
                 }
             }
@@ -355,7 +389,7 @@ namespace xcharts
                 Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
                     themeInfo.textColor, Vector2.zero, Vector2.zero, Vector2.zero,
                     new Vector2(legend.itemWidth, legend.itemHeight));
-                legend.SetDataButton(i,btn);
+                legend.SetDataButton(i, btn);
                 Color bcolor = themeInfo.GetColor(i);
                 btn.gameObject.SetActive(legend.show);
                 btn.transform.localPosition = GetLegendPosition(i);
@@ -363,8 +397,8 @@ namespace xcharts
                 btn.GetComponentInChildren<Text>().text = legend.dataList[i];
                 btn.onClick.AddListener(delegate ()
                 {
-                    legend.SetShowData(i,!legend.IsShowSeries(i));
-                    btn.GetComponent<Image>().color = legend.IsShowSeries(i) ? 
+                    legend.SetShowData(i, !legend.IsShowSeries(i));
+                    btn.GetComponent<Image>().color = legend.IsShowSeries(i) ?
                         themeInfo.GetColor(i) : themeInfo.unableColor;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
@@ -375,7 +409,7 @@ namespace xcharts
 
         private void InitTooltip()
         {
-            GameObject obj = ChartUtils.AddTooltipObject("tooltip", transform,themeInfo.font);
+            GameObject obj = ChartUtils.AddTooltipObject("tooltip", transform, themeInfo.font);
             tooltip.SetObj(obj);
             tooltip.SetBackgroundColor(themeInfo.tooltipBackgroundColor);
             tooltip.SetTextColor(themeInfo.tooltipTextColor);
@@ -496,7 +530,7 @@ namespace xcharts
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, null, out local))
                 return;
-            
+
             if (local.x < 0 || local.x > chartWid ||
                 local.y < 0 || local.y > chartHig)
                 return;
@@ -598,4 +632,3 @@ namespace xcharts
         }
     }
 }
-    

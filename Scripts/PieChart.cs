@@ -52,11 +52,11 @@ namespace xcharts
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
 
-                float outSideRadius = pieInfo.outsideRadiusDynamic ? 
-                    pieInfo.insideRadius + (pieRadius - pieInfo.insideRadius) * value / dataMax : 
+                float outSideRadius = pieInfo.outsideRadiusDynamic ?
+                    pieInfo.insideRadius + (pieRadius - pieInfo.insideRadius) * value / dataMax :
                     pieRadius;
-                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius, 
-                    outSideRadius,startDegree, toDegree, themeInfo.GetColor(i));
+                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius,
+                    outSideRadius, startDegree, toDegree, themeInfo.GetColor(i));
                 startDegree = toDegree;
             }
         }
@@ -70,7 +70,7 @@ namespace xcharts
         private float GetDataTotal()
         {
             float total = 0;
-            for(int i = 0; i < seriesList.Count; i++)
+            for (int i = 0; i < seriesList.Count; i++)
             {
                 if (legend.IsShowSeries(i))
                 {
@@ -83,9 +83,9 @@ namespace xcharts
         private float GetDataMax()
         {
             float max = 0;
-            for(int i = 0; i < seriesList.Count; i++)
+            for (int i = 0; i < seriesList.Count; i++)
             {
-                if(legend.IsShowSeries(i) && seriesList[i].GetData(0) > max)
+                if (legend.IsShowSeries(i) && seriesList[i].GetData(0) > max)
                 {
                     max = seriesList[i].GetData(0);
                 }
@@ -98,7 +98,7 @@ namespace xcharts
             float diffX = chartWid - pieInfo.left - pieInfo.right;
             float diffY = chartHig - pieInfo.top - pieInfo.bottom;
             float diff = Mathf.Min(diffX, diffY);
-            if(pieInfo.outsideRadius <= 0)
+            if (pieInfo.outsideRadius <= 0)
             {
                 pieRadius = diff / 3 * 2;
                 pieCenterX = pieInfo.left + pieRadius;

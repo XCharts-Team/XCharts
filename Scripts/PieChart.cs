@@ -5,15 +5,9 @@ using UnityEngine.UI;
 namespace xcharts
 {
     [System.Serializable]
-    public class PieData
-    {
-        public string text;
-        public float value;
-    }
-
-    [System.Serializable]
     public class PieInfo
     {
+        public string name;
         public float insideRadius = 0f;
         public float outsideRadius = 80f;
         public bool outsideRadiusDynamic = false;
@@ -22,7 +16,6 @@ namespace xcharts
         public float right;
         public float top;
         public float bottom;
-        public List<PieData> dataList = new List<PieData>();
     }
 
     public class PieChart : BaseChart
@@ -52,10 +45,10 @@ namespace xcharts
             float startDegree = 0;
             float dataTotal = GetDataTotal();
             float dataMax = GetDataMax();
-            for (int i = 0; i < pieInfo.dataList.Count; i++)
+            for (int i = 0; i < seriesList.Count; i++)
             {
                 if (!legend.IsShowSeries(i)) continue;
-                float value = pieInfo.dataList[i].value;
+                float value = seriesList[i].dataList[0];
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
 
@@ -77,11 +70,11 @@ namespace xcharts
         private float GetDataTotal()
         {
             float total = 0;
-            for(int i = 0; i < pieInfo.dataList.Count; i++)
+            for(int i = 0; i < seriesList.Count; i++)
             {
                 if (legend.IsShowSeries(i))
                 {
-                    total += pieInfo.dataList[i].value;
+                    total += seriesList[i].GetData(0);
                 }
             }
             return total;
@@ -90,11 +83,11 @@ namespace xcharts
         private float GetDataMax()
         {
             float max = 0;
-            for(int i = 0; i < pieInfo.dataList.Count; i++)
+            for(int i = 0; i < seriesList.Count; i++)
             {
-                if(legend.IsShowSeries(i) && pieInfo.dataList[i].value > max)
+                if(legend.IsShowSeries(i) && seriesList[i].GetData(0) > max)
                 {
-                    max = pieInfo.dataList[i].value;
+                    max = seriesList[i].GetData(0);
                 }
             }
             return max;

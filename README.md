@@ -43,10 +43,7 @@ A Simple UGUI Charting Library for Unity
    + `right`：右偏移量
    + `top`：顶部偏移量
    + `bottom`：低部偏移量
-   + `dataList`：图例的数据数组
-     - `show`：是否显示该图例对应的数据
-     - `key`：图例的`key`，和对应数据匹配
-     - `text`：图例的显示名字
+   + `dataList`：图例的字符串数据数组
 * `Coordinate` 坐标系
   + `show`：是否显示坐标系
   + `left`：左偏移量
@@ -72,8 +69,6 @@ A Simple UGUI Charting Library for Unity
 * `SeriesList` 系列列表数据，和图例对应
   + `legendKey`：对应的图例`key`
   + `showDataNumber`：显示数据个数，默认为`0`全部显示
-  + `dataList`：`SeriesData`数据项
-    - `key`：key
-    - `value`：value
+  + `dataList`：`float`型数据数组
 
 

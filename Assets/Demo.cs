@@ -17,13 +17,12 @@ public class Demo : MonoBehaviour
 
         var xchart = transform.Find("xchart");
         GridLayoutGroup grid = xchart.GetComponent<GridLayoutGroup>();
-        RectTransform rect = xchart.GetComponent<RectTransform>();
+        RectTransform rect = transform.GetComponent<RectTransform>();
         var wid = rect.sizeDelta.x;
         int childNum = xchart.childCount;
-        int numWid =(int) ((wid - grid.padding.left - grid.padding.right) / (grid.cellSize.x+grid.spacing.x));
-        int numHig = (childNum + numWid - 1) / numWid;
-        float hig = grid.padding.top + numHig * (grid.cellSize.y+ grid.spacing.y);
+        float hig = grid.padding.top + childNum * (grid.cellSize.y+ grid.spacing.y);
         rect.sizeDelta = new Vector2(wid,hig);
+        xchart.GetComponent<RectTransform>().sizeDelta = new Vector2(wid, hig);
     }
 
     void Update()

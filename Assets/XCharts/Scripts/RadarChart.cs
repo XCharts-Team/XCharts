@@ -194,7 +194,7 @@ namespace xcharts
                 List<Vector3> pointList = new List<Vector3>();
                 for (int j = 0; j < dataList.Count; j++)
                 {
-                    var radius = radarInfo.radius * dataList[j].value / max;
+                    var radius = radarInfo.radius * dataList[j] / max;
                     var currAngle = j * angle;
                     if (j == 0)
                     {

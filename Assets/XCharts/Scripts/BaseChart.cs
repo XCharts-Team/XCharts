@@ -45,15 +45,6 @@ namespace xcharts
     }
 
     [System.Serializable]
-    public class LegendData
-    {
-        public bool show = true;
-        public string key;
-        public string text;
-        public Button button { get; set; }
-    }
-
-    [System.Serializable]
     public class Legend
     {
         public bool show = true;
@@ -65,14 +56,58 @@ namespace xcharts
         public float right = 5;
         public float top;
         public float bottom;
-        public List<LegendData> dataList = new List<LegendData>();
+        public List<string> dataList = new List<string>();
         public int checkDataListCount { get; set; }
+
+        private List<bool> dataShowList = new List<bool>();
+        private List<Button> dataBtnList = new List<Button>();
 
         public bool IsShowSeries(int seriesIndex)
         {
-            if (seriesIndex < 0 || seriesIndex >= dataList.Count) seriesIndex = 0;
+            if (seriesIndex < 0 || seriesIndex > dataList.Count - 1) seriesIndex = 0;
             if (seriesIndex >= dataList.Count) return false;
-            return dataList[seriesIndex].show;
+            if (seriesIndex < 0 || seriesIndex > dataShowList.Count - 1)
+            {
+                return true;
+            }
+            else
+            {
+                return dataShowList[seriesIndex];
+            }
+        }
+
+        public void SetShowData(int index,bool flag)
+        {
+            dataShowList[index] = flag;
+        }
+
+        public void SetDataButton(int index,Button btn)
+        {
+            if (index < 0 || index > dataBtnList.Count - 1)
+            {
+                dataBtnList.Add(btn);
+            }
+            else
+            {
+                dataBtnList[index] = btn;
+            }
+        }
+
+        public void SetShowData(string name,bool flag)
+        {
+            for(int i = 0; i < dataList.Count; i++)
+            {
+                if (dataList[i].Equals(name))
+                {
+                    dataShowList[i] = flag;
+                    break;
+                }
+            }
+        }
+
+        public Button GetButton(int index)
+        {
+            return dataBtnList[index];
         }
     }
 
@@ -131,24 +166,11 @@ namespace xcharts
     }
 
     [System.Serializable]
-    public class SeriesData
-    {
-        public string key;
-        public float value;
-
-        public SeriesData(string key, float value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    [System.Serializable]
     public class Series
     {
-        public string legendKey;
+        public string name;
         public int showDataNumber = 0;
-        public List<SeriesData> dataList = new List<SeriesData>();
+        public List<float> dataList = new List<float>();
 
         public float Max
         {
@@ -157,9 +179,9 @@ namespace xcharts
                 float max = 0;
                 foreach (var data in dataList)
                 {
-                    if (data.value > max)
+                    if (data > max)
                     {
-                        max = data.value;
+                        max = data;
                     }
                 }
                 return max;
@@ -173,19 +195,28 @@ namespace xcharts
                 float total = 0;
                 foreach (var data in dataList)
                 {
-                    total += data.value;
+                    total += data;
                 }
                 return total;
             }
         }
 
-        public void AddData(string key, float value)
+        public void AddData(float value)
         {
             if (dataList.Count >= showDataNumber && showDataNumber != 0)
             {
                 dataList.RemoveAt(0);
             }
-            dataList.Add(new SeriesData(key, value));
+            dataList.Add(value);
+        }
+
+        public float GetData(int index)
+        {
+            if (index >=0 && index <= dataList.Count - 1)
+            {
+                return dataList[index];
+            }
+            return 0;
         }
     }
 
@@ -242,13 +273,13 @@ namespace xcharts
             }
         }
 
-        public void AddData(string legend, string key, float value)
+        public void AddData(string legend, float value)
         {
             for (int i = 0; i < seriesList.Count; i++)
             {
-                if (seriesList[i].legendKey == legend)
+                if (seriesList[i].name == legend)
                 {
-                    seriesList[i].AddData(key, value);
+                    seriesList[i].AddData(value);
                     break;
                 }
             }
@@ -320,20 +351,20 @@ namespace xcharts
         {
             for (int i = 0; i < legend.dataList.Count; i++)
             {
-                LegendData data = legend.dataList[i];
+                //LegendData data = legend.dataList[i];
                 Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
                     themeInfo.textColor, Vector2.zero, Vector2.zero, Vector2.zero,
                     new Vector2(legend.itemWidth, legend.itemHeight));
-                legend.dataList[i].button = btn;
-                Color bcolor = data.show ? themeInfo.GetColor(i) : themeInfo.unableColor;
+                legend.SetDataButton(i,btn);
+                Color bcolor = themeInfo.GetColor(i);
                 btn.gameObject.SetActive(legend.show);
                 btn.transform.localPosition = GetLegendPosition(i);
                 btn.GetComponent<Image>().color = bcolor;
-                btn.GetComponentInChildren<Text>().text = data.text;
+                btn.GetComponentInChildren<Text>().text = legend.dataList[i];
                 btn.onClick.AddListener(delegate ()
                 {
-                    data.show = !data.show;
-                    btn.GetComponent<Image>().color = data.show ? 
+                    legend.SetShowData(i,!legend.IsShowSeries(i));
+                    btn.GetComponent<Image>().color = legend.IsShowSeries(i) ? 
                         themeInfo.GetColor(i) : themeInfo.unableColor;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
@@ -504,7 +535,7 @@ namespace xcharts
         {
             for (int i = 0; i < legend.dataList.Count; i++)
             {
-                Button btn = legend.dataList[i].button;
+                Button btn = legend.GetButton(i);
                 btn.GetComponent<RectTransform>().sizeDelta =
                     new Vector2(legend.itemWidth, legend.itemHeight);
                 Text txt = btn.GetComponentInChildren<Text>();

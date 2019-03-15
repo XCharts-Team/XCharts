@@ -209,7 +209,7 @@ namespace xcharts
             tooltip.SetActive(true);
             if (seriesList.Count == 1)
             {
-                string txt = tempAxis.data[index] + ": " + seriesList[0].dataList[index].value;
+                string txt = tempAxis.data[index] + ": " + seriesList[0].dataList[index];
                 tooltip.UpdateTooltipText(txt);
             }
             else
@@ -218,8 +218,8 @@ namespace xcharts
                 for(int i=0; i<seriesList.Count;i++)
                 {
                     string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(i));
-                    string key = seriesList[i].legendKey;
-                    float value = seriesList[i].dataList[index].value;
+                    string key = seriesList[i].name;
+                    float value = seriesList[i].dataList[index];
                     sb.Append("\n");
                     sb.AppendFormat("<color=#{0}>● </color>", strColor);
                     sb.AppendFormat("{0}: {1}", key, value);

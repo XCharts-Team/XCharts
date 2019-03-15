@@ -60,9 +60,9 @@ namespace xcharts
                 }
                 for (int i = startIndex; i < series.dataList.Count; i++)
                 {
-                    SeriesData data = series.dataList[i];
+                    float value = series.dataList[i];
 
-                    np = new Vector3(startX + i * scaleWid, zeroY + data.value * coordinateHig / max);
+                    np = new Vector3(startX + i * scaleWid, zeroY + value * coordinateHig / max);
                     if (i > 0)
                     {
                         if (lineInfo.smooth)
@@ -95,10 +95,10 @@ namespace xcharts
                 {
                     for (int i = 0; i < series.dataList.Count; i++)
                     {
-                        SeriesData data = series.dataList[i];
+                        float value = series.dataList[i];
 
                         Vector3 p = new Vector3(startX + i * scaleWid, 
-                            zeroY + data.value * coordinateHig / max);
+                            zeroY + value * coordinateHig / max);
                         float pointWid = lineInfo.pointWid;
                         if (tooltip.show && i == tooltip.DataIndex - 1)
                         {

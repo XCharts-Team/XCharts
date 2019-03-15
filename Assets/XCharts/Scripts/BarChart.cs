@@ -57,11 +57,11 @@ namespace xcharts
                     }
                     for (int i = startIndex; i < series.dataList.Count; i++)
                     {
-                        SeriesData data = series.dataList[i];
+                        float data = series.dataList[i];
                         float pX = zeroX + coordinate.tickness;
                         float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
                         if (!yAxis.boundaryGap) pY -= scaleWid / 2;
-                        float barHig = data.value / max * coordinateWid;
+                        float barHig = data / max * coordinateWid;
                         float space = offset + j * (barWid + barInfo.space);
                         Vector3 p1 = new Vector3(pX, pY + space + barWid);
                         Vector3 p2 = new Vector3(pX + barHig, pY + space + barWid);
@@ -100,11 +100,11 @@ namespace xcharts
                     }
                     for (int i = startIndex; i < series.dataList.Count; i++)
                     {
-                        SeriesData data = series.dataList[i];
+                        float data = series.dataList[i];
                         float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
                         if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                         float pY = zeroY + coordinate.tickness;
-                        float barHig = data.value / max * coordinateHig;
+                        float barHig = data / max * coordinateHig;
                         float space = offset + j * (barWid + barInfo.space);
                         Vector3 p1 = new Vector3(pX + space, pY);
                         Vector3 p2 = new Vector3(pX + space, pY + barHig);

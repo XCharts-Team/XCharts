@@ -8,7 +8,7 @@ namespace xcharts
     {
         private static float CRICLE_SMOOTHNESS = 1f;
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
-            TextAnchor anchor,Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
+            TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
             int fontSize = 14)
         {
             GameObject txtObj;
@@ -46,7 +46,7 @@ namespace xcharts
             return txtObj.GetComponent<Text>();
         }
 
-        public static Button AddButtonObject(string name, Transform parent, Font font,Color color,
+        public static Button AddButtonObject(string name, Transform parent, Font font, Color color,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
         {
             GameObject btnObj;
@@ -65,7 +65,7 @@ namespace xcharts
                 btnObj.AddComponent<Image>();
                 btnObj.AddComponent<Button>();
 
-                Text txt = AddTextObject("Text", btnObj.transform, font,color, TextAnchor.MiddleCenter,
+                Text txt = AddTextObject("Text", btnObj.transform, font, color, TextAnchor.MiddleCenter,
                     Vector2.zero, Vector2.zero, Vector2.zero, sizeDelta);
                 txt.text = "Text";
             }
@@ -82,7 +82,7 @@ namespace xcharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipObject(string name,Transform parent, Font font)
+        public static GameObject AddTooltipObject(string name, Transform parent, Font font)
         {
             GameObject tooltipObj;
             if (parent.Find(name))
@@ -112,7 +112,7 @@ namespace xcharts
             rect.anchorMin = new Vector2(0, 1);
             rect.pivot = new Vector2(0, 1);
             rect.sizeDelta = new Vector2(100, 100);
-            tooltipObj.GetComponentInChildren<Text>().transform.localPosition = new Vector2(3,-3);
+            tooltipObj.GetComponentInChildren<Text>().transform.localPosition = new Vector2(3, -3);
             return tooltipObj;
         }
 
@@ -194,9 +194,9 @@ namespace xcharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
-            int segments = 0,bool fill = true)
+            int segments = 0, bool fill = true)
         {
-            if(segments <= 0)
+            if (segments <= 0)
             {
                 segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
@@ -226,7 +226,7 @@ namespace xcharts
             }
         }
 
-        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color, 
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color,
             float startDegree, float toDegree, int segments = 0)
         {
             if (segments <= 0)
@@ -237,24 +237,24 @@ namespace xcharts
             vh.GetUIVertexStream(vertexs);
             Vector3 p2, p3;
             float startAngle = startDegree * Mathf.Deg2Rad;
-            float angle = (toDegree-startDegree) * Mathf.Deg2Rad / segments;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
             p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = startAngle + i * angle;
-                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), 
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                     p.y + radius * Mathf.Cos(currAngle));
                 DrawTriangle(vh, vertexs, p, p2, p3, color);
                 p2 = p3;
             }
         }
 
-        public static void DrawDoughnut(VertexHelper vh,Vector3 p,float insideRadius,float outsideRadius,
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
             float startDegree, float toDegree, Color color, int segments = 0)
         {
-            if(insideRadius<=0)
+            if (insideRadius <= 0)
             {
-                DrawSector(vh, p, outsideRadius, color,startDegree, toDegree, segments);
+                DrawSector(vh, p, outsideRadius, color, startDegree, toDegree, segments);
                 return;
             }
             if (segments <= 0)

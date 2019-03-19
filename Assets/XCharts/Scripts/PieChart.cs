@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace xcharts
         public string name;
         public float insideRadius = 0f;
         public float outsideRadius = 80f;
+        public float tooltipExtraRadius = 10f;
         public bool outsideRadiusDynamic = false;
         public float space;
         public float left;
@@ -26,6 +28,8 @@ namespace xcharts
         private float pieCenterX = 0f;
         private float pieCenterY = 0f;
         private float pieRadius = 0;
+        private Vector2 pieCenter;
+        private List<float> angleList = new List<float>();
 
         protected override void Awake()
         {
@@ -45,9 +49,14 @@ namespace xcharts
             float startDegree = 0;
             float dataTotal = GetDataTotal();
             float dataMax = GetDataMax();
+            angleList.Clear();
             for (int i = 0; i < seriesList.Count; i++)
             {
-                if (!legend.IsShowSeries(i)) continue;
+                if (!legend.IsShowSeries(i))
+                {
+                    angleList.Add(0);
+                    continue;
+                }
                 float value = seriesList[i].dataList[0];
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
@@ -55,8 +64,13 @@ namespace xcharts
                 float outSideRadius = pieInfo.outsideRadiusDynamic ?
                     pieInfo.insideRadius + (pieRadius - pieInfo.insideRadius) * value / dataMax :
                     pieRadius;
-                ChartUtils.DrawDoughnut(vh, new Vector3(pieCenterX, pieCenterY), pieInfo.insideRadius,
+                if (tooltip.show && tooltip.DataIndex == i + 1)
+                {
+                    outSideRadius += pieInfo.tooltipExtraRadius;
+                }
+                ChartUtils.DrawDoughnut(vh, pieCenter, pieInfo.insideRadius,
                     outSideRadius, startDegree, toDegree, themeInfo.GetColor(i));
+                angleList.Add(toDegree);
                 startDegree = toDegree;
             }
         }
@@ -114,6 +128,91 @@ namespace xcharts
                 if (pieInfo.top > 0) pieCenterY = chartHig - pieInfo.top - pieRadius;
                 if (pieInfo.bottom > 0) pieCenterY = pieInfo.bottom + pieRadius;
             }
+            pieCenter = new Vector2(pieCenterX, pieCenterY);
+        }
+
+        protected override void CheckTootipArea(Vector2 local)
+        {
+
+            float dist = Vector2.Distance(local, pieCenter);
+            if (dist > pieRadius)
+            {
+                tooltip.DataIndex = 0;
+                RefreshTooltip();
+            }
+            else
+            {
+                Vector2 dir = local - pieCenter;
+                float angle = VectorAngle(Vector2.up, dir);
+                tooltip.DataIndex = 0;
+                for (int i = angleList.Count - 1; i >= 0; i--)
+                {
+                    if (i == 0 && angle < angleList[i])
+                    {
+                        tooltip.DataIndex = 1;
+                        break;
+                    }
+                    else if (angle < angleList[i] && angle > angleList[i - 1])
+                    {
+                        tooltip.DataIndex = i + 1;
+                        break;
+                    }
+                }
+            }
+            if (tooltip.DataIndex > 0)
+            {
+                tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                RefreshTooltip();
+                if (tooltip.LastDataIndex != tooltip.DataIndex)
+                {
+                    RefreshChart();
+                }
+                tooltip.LastDataIndex = tooltip.DataIndex;
+            }
+        }
+
+        float VectorAngle(Vector2 from, Vector2 to)
+        {
+            float angle;
+
+            Vector3 cross = Vector3.Cross(from, to);
+            angle = Vector2.Angle(from, to);
+            angle = cross.z > 0 ? -angle : angle;
+            angle = (angle + 360) % 360;
+            return angle;
+        }
+
+        protected override void RefreshTooltip()
+        {
+            base.RefreshTooltip();
+            int index = tooltip.DataIndex - 1;
+            if (index < 0)
+            {
+                tooltip.SetActive(false);
+                return;
+            }
+            tooltip.SetActive(true);
+            string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(index));
+            string key = legend.dataList[index];
+            float value = seriesList[index].dataList[0];
+            string txt = "";
+            if (!string.IsNullOrEmpty(pieInfo.name))
+            {
+                txt += pieInfo.name + "\n";
+            }
+            txt += string.Format("<color=#{0}>● </color>{1}: {2}", strColor, key, value);
+            tooltip.UpdateTooltipText(txt);
+
+            var pos = tooltip.GetPos();
+            if (pos.x + tooltip.Width > chartWid)
+            {
+                pos.x = chartWid - tooltip.Width;
+            }
+            if (pos.y - tooltip.Height < 0)
+            {
+                pos.y = tooltip.Height;
+            }
+            tooltip.UpdatePos(pos);
         }
     }
 }

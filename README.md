@@ -9,7 +9,7 @@ A Simple UGUI Charting Library for Unity
   5. 饼图通过参数可配置出：饼图、环形图、南丁格尔玫瑰图等
 
 # TODO
-  1. `tooltip`
+  1. ~~`tooltip`~~（2019.3.21完成）
   2. 旭日图`sunburst`
   3. 动画效果
 

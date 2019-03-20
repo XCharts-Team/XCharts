@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +48,8 @@ namespace xcharts
         private float radarCenterY = 0f;
         private float radarRadius = 0;
         private List<Text> indicatorTextList = new List<Text>();
+        private List<List<Vector3>> dataPosList = new List<List<Vector3>>();
+
 
         protected override void Awake()
         {
@@ -181,10 +184,14 @@ namespace xcharts
             Vector3 startPoint = Vector3.zero;
             Vector3 toPoint = Vector3.zero;
             Vector3 firstPoint = Vector3.zero;
-
+            dataPosList.Clear();
             for (int i = 0; i < seriesList.Count; i++)
             {
-                if (!legend.IsShowSeries(i)) continue;
+                if (!legend.IsShowSeries(i))
+                {
+                    dataPosList.Add(new List<Vector3>());
+                    continue;
+                }
                 var dataList = seriesList[i].dataList;
                 var color = themeInfo.GetColor(i);
                 var areaColor = new Color(color.r, color.g, color.b, color.a * 0.7f);
@@ -192,6 +199,7 @@ namespace xcharts
                     radarInfo.indicatorList[i].max :
                     GetMaxValue();
                 List<Vector3> pointList = new List<Vector3>();
+                dataPosList.Add(pointList);
                 for (int j = 0; j < dataList.Count; j++)
                 {
                     var radius = radarInfo.radius * dataList[j] / max;
@@ -312,6 +320,70 @@ namespace xcharts
                 if (radarInfo.top > 0) radarCenterY = chartHig - radarInfo.top - radarRadius;
                 if (radarInfo.bottom > 0) radarCenterY = radarInfo.bottom + radarRadius;
             }
+        }
+
+        protected override void CheckTootipArea(Vector2 local)
+        {
+            if (dataPosList.Count <= 0) return;
+            tooltip.DataIndex = 0;
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (!legend.IsShowSeries(i)) continue;
+                for (int j = 0; j < dataPosList[i].Count; j++)
+                {
+                    if (Vector3.Distance(local, dataPosList[i][j]) <= radarInfo.linePointSize * 1.2f)
+                    {
+                        tooltip.DataIndex = i + 1;
+                        break;
+                    }
+                }
+            }
+            if (tooltip.DataIndex > 0)
+            {
+                tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                RefreshTooltip();
+                if (tooltip.LastDataIndex != tooltip.DataIndex)
+                {
+                    RefreshChart();
+                }
+                tooltip.LastDataIndex = tooltip.DataIndex;
+            }
+            else
+            {
+                tooltip.SetActive(false);
+            }
+        }
+
+        protected override void RefreshTooltip()
+        {
+            base.RefreshTooltip();
+            int index = tooltip.DataIndex - 1;
+            if (index < 0)
+            {
+                tooltip.SetActive(false);
+                return;
+            }
+            tooltip.SetActive(true);
+            StringBuilder sb = new StringBuilder(legend.dataList[index]);
+            for (int i = 0; i < radarInfo.indicatorList.Count; i++)
+            {
+                string key = radarInfo.indicatorList[i].name;
+                float value = seriesList[index].dataList[i];
+                sb.Append("\n");
+                sb.AppendFormat("{0}: {1}", key, value);
+            }
+            tooltip.UpdateTooltipText(sb.ToString());
+
+            var pos = tooltip.GetPos();
+            if (pos.x + tooltip.Width > chartWid)
+            {
+                pos.x = chartWid - tooltip.Width;
+            }
+            if (pos.y - tooltip.Height < 0)
+            {
+                pos.y = tooltip.Height;
+            }
+            tooltip.UpdatePos(pos);
         }
     }
 }

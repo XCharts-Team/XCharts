@@ -86,6 +86,7 @@ namespace xcharts
             if (index < 0 || index > dataBtnList.Count - 1)
             {
                 dataBtnList.Add(btn);
+                dataShowList.Add(true);
             }
             else
             {
@@ -386,7 +387,7 @@ namespace xcharts
             for (int i = 0; i < legend.dataList.Count; i++)
             {
                 //LegendData data = legend.dataList[i];
-                Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT + i, transform, themeInfo.font,
+                Button btn = ChartUtils.AddButtonObject(LEGEND_TEXT +"_"+ i, transform, themeInfo.font,
                     themeInfo.textColor, Vector2.zero, Vector2.zero, Vector2.zero,
                     new Vector2(legend.itemWidth, legend.itemHeight));
                 legend.SetDataButton(i, btn);
@@ -397,9 +398,10 @@ namespace xcharts
                 btn.GetComponentInChildren<Text>().text = legend.dataList[i];
                 btn.onClick.AddListener(delegate ()
                 {
-                    legend.SetShowData(i, !legend.IsShowSeries(i));
-                    btn.GetComponent<Image>().color = legend.IsShowSeries(i) ?
-                        themeInfo.GetColor(i) : themeInfo.unableColor;
+                    int index = int.Parse(btn.name.Split('_')[1]);
+                    legend.SetShowData(index, !legend.IsShowSeries(index));
+                    btn.GetComponent<Image>().color = legend.IsShowSeries(index) ?
+                        themeInfo.GetColor(index) : themeInfo.unableColor;
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();

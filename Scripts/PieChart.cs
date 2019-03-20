@@ -138,7 +138,7 @@ namespace xcharts
             if (dist > pieRadius)
             {
                 tooltip.DataIndex = 0;
-                RefreshTooltip();
+                tooltip.SetActive(false);
             }
             else
             {

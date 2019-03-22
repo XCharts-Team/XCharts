@@ -185,6 +185,7 @@ namespace xcharts
             Vector3 toPoint = Vector3.zero;
             Vector3 firstPoint = Vector3.zero;
             dataPosList.Clear();
+            dataPosList.Capacity = seriesList.Count;
             for (int i = 0; i < seriesList.Count; i++)
             {
                 if (!legend.IsShowSeries(i))
@@ -198,7 +199,7 @@ namespace xcharts
                 var max = radarInfo.indicatorList[i].max > 0 ?
                     radarInfo.indicatorList[i].max :
                     GetMaxValue();
-                List<Vector3> pointList = new List<Vector3>();
+                List<Vector3> pointList = new List<Vector3>(dataList.Count);
                 dataPosList.Add(pointList);
                 for (int j = 0; j < dataList.Count; j++)
                 {

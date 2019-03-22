@@ -7,6 +7,8 @@ namespace xcharts
     public static class ChartUtils
     {
         private static float CRICLE_SMOOTHNESS = 1f;
+        private static UIVertex[] vertex = new UIVertex[4];
+
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
             TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
             int fontSize = 14)
@@ -119,8 +121,6 @@ namespace xcharts
         public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color color)
         {
             Vector3 v = Vector3.Cross(p2 - p1, Vector3.forward).normalized * size;
-
-            UIVertex[] vertex = new UIVertex[4];
             vertex[0].position = p1 + v;
             vertex[1].position = p2 + v;
             vertex[2].position = p2 - v;
@@ -148,10 +148,10 @@ namespace xcharts
             DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
 
+        
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color startColor, Color toColor)
         {
-            UIVertex[] vertex = new UIVertex[4];
             vertex[0].position = p1;
             vertex[1].position = p2;
             vertex[2].position = p3;
@@ -164,33 +164,24 @@ namespace xcharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3,
-            Color color)
-        {
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
-            DrawTriangle(vh, vertexs, p1, p2, p3, color);
-        }
-
-        public static void DrawTriangle(VertexHelper vh, List<UIVertex> vertexs, Vector3 p1,
+        public static void DrawTriangle(VertexHelper vh, Vector3 p1,
             Vector3 p2, Vector3 p3, Color color)
         {
             UIVertex v1 = new UIVertex();
             v1.position = p1;
             v1.color = color;
             v1.uv0 = Vector3.zero;
-            vertexs.Add(v1);
             UIVertex v2 = new UIVertex();
             v2.position = p2;
             v2.color = color;
             v2.uv0 = Vector3.zero;
-            vertexs.Add(v2);
             UIVertex v3 = new UIVertex();
             v3.position = p3;
             v3.color = color;
             v3.uv0 = Vector3.zero;
-            vertexs.Add(v3);
-            vh.AddUIVertexTriangleStream(vertexs);
+            vh.AddVert(v1);
+            vh.AddVert(v2);
+            vh.AddVert(v3);
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
@@ -211,8 +202,6 @@ namespace xcharts
                 segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
             float startDegree = 0, toDegree = 360;
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
             Vector3 p2, p3;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
@@ -233,8 +222,6 @@ namespace xcharts
             {
                 segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
-            List<UIVertex> vertexs = new List<UIVertex>();
-            vh.GetUIVertexStream(vertexs);
             Vector3 p2, p3;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
@@ -244,7 +231,7 @@ namespace xcharts
                 float currAngle = startAngle + i * angle;
                 p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                     p.y + radius * Mathf.Cos(currAngle));
-                DrawTriangle(vh, vertexs, p, p2, p3, color);
+                DrawTriangle(vh, p, p2, p3, color);
                 p2 = p3;
             }
         }
@@ -282,7 +269,7 @@ namespace xcharts
         }
 
 
-        public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static Vector3[] GetBezierList(Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -305,15 +292,15 @@ namespace xcharts
             return list;
         }
 
-        public static List<Vector3> GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp,
+        public static Vector3[] GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp,
             Vector3 cp2)
         {
-            List<Vector3> list = new List<Vector3>();
+            Vector3[] list = new Vector3[segment + 1];
             for (int i = 0; i < segment; i++)
             {
-                list.Add(GetBezier2(i / (float)segment, sp, cp, cp2, ep));
+                list[i] = (GetBezier2(i / (float)segment, sp, cp, cp2, ep));
             }
-            list.Add(ep);
+            list[segment] = ep;
             return list;
         }
 

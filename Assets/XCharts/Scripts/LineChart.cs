@@ -70,7 +70,7 @@ namespace xcharts
                             var list = ChartUtils.GetBezierList(lp, np, lineInfo.smoothStyle);
                             Vector3 start, to;
                             start = list[0];
-                            for (int k = 1; k < list.Count; k++)
+                            for (int k = 1; k < list.Length; k++)
                             {
                                 to = list[k];
                                 ChartUtils.DrawLine(vh, start, to, lineInfo.tickness, color);

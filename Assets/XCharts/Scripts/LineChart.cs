@@ -48,7 +48,7 @@ namespace xcharts
             {
                 if (!legend.IsShowSeries(j)) continue;
                 Series series = seriesList[j];
-                Color color = themeInfo.GetColor(j);
+                Color32 color = themeInfo.GetColor(j);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);

@@ -15,22 +15,22 @@ namespace xcharts
     public class ThemeInfo
     {
         public Font font;
-        public Color backgroundColor;
-        public Color contrastColor;
-        public Color textColor;
-        public Color subTextColor;
-        public Color unableColor;
+        public Color32 backgroundColor;
+        public Color32 contrastColor;
+        public Color32 textColor;
+        public Color32 subTextColor;
+        public Color32 unableColor;
   
-        public Color axisLineColor;
-        public Color axisSplitLineColor;
+        public Color32 axisLineColor;
+        public Color32 axisSplitLineColor;
 
-        public Color tooltipBackgroundColor;
-        public Color tooltipFlagAreaColor;
-        public Color tooltipTextColor;
+        public Color32 tooltipBackgroundColor;
+        public Color32 tooltipFlagAreaColor;
+        public Color32 tooltipTextColor;
 
-        public Color[] colorPalette;
+        public Color32[] colorPalette;
 
-        public Color GetColor(int index)
+        public Color32 GetColor(int index)
         {
             if(index < 0)
             {
@@ -52,7 +52,7 @@ namespace xcharts
             axisSplitLineColor = theme.axisSplitLineColor;
             tooltipBackgroundColor = theme.tooltipBackgroundColor;
             tooltipTextColor = theme.tooltipTextColor;
-            colorPalette = new Color[theme.colorPalette.Length];
+            colorPalette = new Color32[theme.colorPalette.Length];
             for(int i = 0; i < theme.colorPalette.Length; i++)
             {
                 colorPalette[i] = theme.colorPalette[i];
@@ -76,7 +76,7 @@ namespace xcharts
                     tooltipBackgroundColor = GetColor("#515151B5"),
                     tooltipTextColor = GetColor("#FFFFFFFF"),
                     tooltipFlagAreaColor = GetColor("#51515120"),
-                    colorPalette = new Color[]
+                    colorPalette = new Color32[]
                     {
                         new Color32(194, 53, 49, 255),
                         new Color32(47, 69, 84, 255),
@@ -111,7 +111,7 @@ namespace xcharts
                     tooltipBackgroundColor = GetColor("#515151B5"),
                     tooltipTextColor = GetColor("#FFFFFFFF"),
                     tooltipFlagAreaColor = GetColor("#51515120"),
-                    colorPalette = new Color[]
+                    colorPalette = new Color32[]
                     {
                         new Color32(55, 162, 218, 255),
                         new Color32(255, 159, 127, 255),
@@ -148,7 +148,7 @@ namespace xcharts
                     tooltipBackgroundColor = GetColor("#515151B5"),
                     tooltipTextColor = GetColor("#FFFFFFFF"),
                     tooltipFlagAreaColor = GetColor("#51515120"),
-                    colorPalette = new Color[]
+                    colorPalette = new Color32[]
                     {
                         new Color32(221, 107, 102, 255),
                         new Color32(117, 154, 160, 255),
@@ -166,11 +166,11 @@ namespace xcharts
             }
         }
 
-        public static Color GetColor(string hexColorStr)
+        public static Color32 GetColor(string hexColorStr)
         {
             Color color;
             ColorUtility.TryParseHtmlString(hexColorStr,out color);
-            return color;
+            return (Color32)color;
         }
     }
 }

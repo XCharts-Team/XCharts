@@ -118,7 +118,7 @@ namespace xcharts
             return tooltipObj;
         }
 
-        public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color color)
+        public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color)
         {
             Vector3 v = Vector3.Cross(p2 - p1, Vector3.forward).normalized * size;
             vertex[0].position = p1 + v;
@@ -133,7 +133,7 @@ namespace xcharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color color)
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color32 color)
         {
             Vector3 p1 = new Vector3(p.x - size, p.y - size);
             Vector3 p2 = new Vector3(p.x + size, p.y - size);
@@ -143,14 +143,14 @@ namespace xcharts
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
-            Color color)
+            Color32 color)
         {
             DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
 
         
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
-            Color startColor, Color toColor)
+            Color32 startColor, Color32 toColor)
         {
             vertex[0].position = p1;
             vertex[1].position = p2;
@@ -165,7 +165,7 @@ namespace xcharts
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,
-            Vector3 p2, Vector3 p3, Color color)
+            Vector3 p2, Vector3 p3, Color32 color)
         {
             UIVertex v1 = new UIVertex();
             v1.position = p1;
@@ -179,12 +179,14 @@ namespace xcharts
             v3.position = p3;
             v3.color = color;
             v3.uv0 = Vector3.zero;
+            int startIndex = vh.currentVertCount;
             vh.AddVert(v1);
             vh.AddVert(v2);
             vh.AddVert(v3);
+            vh.AddTriangle(startIndex, startIndex + 1, startIndex + 2);
         }
 
-        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color color,
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
             int segments = 0, bool fill = true)
         {
             if (segments <= 0)
@@ -195,7 +197,7 @@ namespace xcharts
         }
 
         public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness,
-            Color color, int segments = 0)
+            Color32 color, int segments = 0)
         {
             if (segments <= 0)
             {
@@ -215,7 +217,7 @@ namespace xcharts
             }
         }
 
-        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color color,
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
             float startDegree, float toDegree, int segments = 0)
         {
             if (segments <= 0)
@@ -237,7 +239,7 @@ namespace xcharts
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            float startDegree, float toDegree, Color color, int segments = 0)
+            float startDegree, float toDegree, Color32 color, int segments = 0)
         {
             if (insideRadius <= 0)
             {
@@ -277,7 +279,7 @@ namespace xcharts
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.y = sp.y;
             cp2.y = ep.y;
-            int segment = (int)(dist / 0.1f);
+            int segment = (int)(dist / 0.3f);
             return GetBezierList2(sp, ep, segment, cp1, cp2);
         }
 

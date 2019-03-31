@@ -43,7 +43,7 @@ namespace xcharts
             base.DrawChart(vh);
             int seriesCount = seriesList.Count;
             float max = GetMaxValue();
-            float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
+            float scaleWid = xAxis.GetSplitWidth(coordinateWid);
             for (int j = 0; j < seriesCount; j++)
             {
                 if (!legend.IsShowSeries(j)) continue;
@@ -122,7 +122,7 @@ namespace xcharts
             //draw tooltip line
             if (tooltip.show && tooltip.DataIndex > 0)
             {
-                float splitWid = coordinateWid / (xAxis.splitNumber - 1);
+                float splitWid = coordinateWid / (xAxis.GetSplitNumber() - 1);
                 float px = zeroX + (tooltip.DataIndex - 1) * splitWid + (xAxis.boundaryGap ? splitWid / 2 : 0);
                 Vector2 sp = new Vector2(px, zeroY);
                 Vector2 ep = new Vector2(px, zeroY + coordinateHig);

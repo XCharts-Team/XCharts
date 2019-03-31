@@ -295,6 +295,11 @@ namespace xcharts
             RefreshChart();
         }
 
+        public void AddData(int legend,float value)
+        {
+            seriesList[legend].AddData(value);
+        }
+
         public void UpdateData(string legend, float value, int dataIndex = 0)
         {
             for (int i = 0; i < seriesList.Count; i++)
@@ -596,7 +601,7 @@ namespace xcharts
         {
         }
 
-        protected void RefreshChart()
+        public void RefreshChart()
         {
             int tempWid = (int)chartWid;
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);

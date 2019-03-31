@@ -31,7 +31,7 @@ namespace xcharts
             if (yAxis.type == AxisType.category)
             {
                 int seriesCount = seriesList.Count;
-                float scaleWid = coordinateHig / (yAxis.splitNumber - 1);
+                float scaleWid = yAxis.GetSplitWidth(coordinateHig);
                 float barWid = barInfo.barWid > 1 ? barInfo.barWid : scaleWid * barInfo.barWid;
                 float offset = (scaleWid - barWid * seriesCount - barInfo.space * (seriesCount - 1)) / 2;
                 float max = GetMaxValue();
@@ -59,7 +59,7 @@ namespace xcharts
                     {
                         float data = series.dataList[i];
                         float pX = zeroX + coordinate.tickness;
-                        float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
+                        float pY = zeroY + i * scaleWid;
                         if (!yAxis.boundaryGap) pY -= scaleWid / 2;
                         float barHig = data / max * coordinateWid;
                         float space = offset + j * (barWid + barInfo.space);
@@ -74,7 +74,7 @@ namespace xcharts
             else
             {
                 int seriesCount = seriesList.Count;
-                float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
+                float scaleWid = xAxis.GetDataWidth(coordinateWid);
                 float barWid = barInfo.barWid > 1 ? barInfo.barWid : scaleWid * barInfo.barWid;
                 float offset = (scaleWid - barWid * seriesCount - barInfo.space * (seriesCount - 1)) / 2;
                 float max = GetMaxValue();
@@ -101,7 +101,7 @@ namespace xcharts
                     for (int i = startIndex; i < series.dataList.Count; i++)
                     {
                         float data = series.dataList[i];
-                        float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
+                        float pX = zeroX + i * scaleWid;
                         if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                         float pY = zeroY + coordinate.tickness;
                         float barHig = data / max * coordinateHig;

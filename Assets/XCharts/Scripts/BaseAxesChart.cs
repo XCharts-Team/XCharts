@@ -46,13 +46,65 @@ namespace xcharts
         public bool boundaryGap = true;
         public List<string> data;
 
-        public void AddCategory(string category)
+        public void AddData(string category)
         {
             if (data.Count >= maxSplitNumber && maxSplitNumber != 0)
             {
                 data.RemoveAt(0);
             }
             data.Add(category);
+        }
+
+        public string GetData(int index,float maxData = 0)
+        {
+            if(type == AxisType.value)
+            {
+                return ((int)(maxData * index / GetSplitNumber())).ToString();
+            }
+            int dataCount = data.Count;
+            if (dataCount <= 0) return "";
+            float rate = dataCount / GetScaleNumber();
+            if (rate < 1) rate = 1;
+            int newIndex = (int)(index * rate >= dataCount - 1 ? dataCount - 1 : index * rate);
+            return data[newIndex];
+        }
+
+        public int GetSplitNumber()
+        {
+            if (data.Count > 2 * splitNumber || data.Count <= 0)
+                return splitNumber;
+            else
+                return data.Count;
+        }
+
+        public float GetSplitWidth(float coordinateWidth)
+        {
+            return coordinateWidth / (boundaryGap ? GetSplitNumber(): GetSplitNumber() - 1);
+        }
+
+        public int GetDataNumber()
+        {
+            return data.Count;
+        }
+
+        public float GetDataWidth(float coordinateWidth)
+        {
+            return coordinateWidth / (boundaryGap ? data.Count : data.Count - 1);
+        }
+
+        public int GetScaleNumber()
+        {
+            if (data.Count > 2 * splitNumber || data.Count <= 0)
+                return boundaryGap ? splitNumber + 1 : splitNumber;
+            else
+                return boundaryGap ? data.Count + 1 : data.Count;
+        }
+
+        public float GetScaleWidth(float coordinateWidth)
+        {
+            int num = GetScaleNumber() - 1;
+            if (num <= 0) num = 1;
+            return coordinateWidth / num;
         }
     }
 
@@ -133,8 +185,8 @@ namespace xcharts
             {
                 if (xAxis.type == AxisType.value)
                 {
-                    float splitWid = coordinateHig / (yAxis.splitNumber - 1);
-                    for (int i = 0; i < yAxis.splitNumber; i++)
+                    float splitWid =yAxis.GetDataWidth(coordinateHig);
+                    for (int i = 0; i < yAxis.GetDataNumber(); i++)
                     {
                         float pY = zeroY + i * splitWid;
                         if (yAxis.boundaryGap)
@@ -157,8 +209,8 @@ namespace xcharts
                 }
                 else
                 {
-                    float splitWid = coordinateWid / (xAxis.splitNumber - 1);
-                    for (int i = 0; i < xAxis.splitNumber; i++)
+                    float splitWid =xAxis.GetDataWidth(coordinateWid);
+                    for (int i = 0; i < xAxis.GetDataNumber(); i++)
                     {
                         float pX = zeroX + i * splitWid;
                         if (xAxis.boundaryGap)
@@ -196,20 +248,20 @@ namespace xcharts
         {
             base.RefreshTooltip();
             int index = tooltip.DataIndex - 1;
-            if (index < 0)
-            {
-                tooltip.SetActive(false);
-                return;
-            }
             Axis tempAxis = xAxis.type == AxisType.value ? (Axis)yAxis : (Axis)xAxis;
             if (index > tempAxis.data.Count - 1)
             {
                 index = tempAxis.data.Count - 1;
             }
+            if (index < 0)
+            {
+                tooltip.SetActive(false);
+                return;
+            }
             tooltip.SetActive(true);
             if (seriesList.Count == 1)
             {
-                string txt = tempAxis.data[index] + ": " + seriesList[0].dataList[index];
+                string txt = tempAxis.GetData(index) + ": " + seriesList[0].dataList[index];
                 tooltip.UpdateTooltipText(txt);
             }
             else
@@ -271,135 +323,76 @@ namespace xcharts
 
         public void AddXAxisCategory(string category)
         {
-            xAxis.AddCategory(category);
+            xAxis.AddData(category);
             OnXAxisChanged();
         }
 
         public void AddYAxisCategory(string category)
         {
-            yAxis.AddCategory(category);
+            yAxis.AddData(category);
             OnYAxisChanged();
         }
 
         private void InitYScale()
         {
             yScaleTextList.Clear();
-            if (yAxis.type == AxisType.value)
+            float max = GetMaxValue();
+            float scaleWid = yAxis.GetScaleWidth(coordinateHig);
+            for (int i = 0; i < yAxis.GetSplitNumber(); i++)
             {
-                float max = GetMaxValue();
-                if (max <= 0) max = 400;
-                yAxis.splitNumber = DEFAULT_YSACLE_NUM;
-                for (int i = 0; i < yAxis.splitNumber; i++)
-                {
-                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
                         themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero,
                         new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
-                    txt.transform.localPosition = GetYScalePosition(i);
-                    txt.text = ((int)(max * i / yAxis.splitNumber)).ToString();
-                    txt.gameObject.SetActive(coordinate.show);
-                    yScaleTextList.Add(txt);
-                }
-            }
-            else
-            {
-                yAxis.splitNumber = yAxis.boundaryGap ? yAxis.data.Count + 1 : yAxis.data.Count;
-                for (int i = 0; i < yAxis.data.Count; i++)
-                {
-                    Text txt = ChartUtils.AddTextObject(YSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
-                        themeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero, Vector2.zero,
-                        new Vector2(1, 0.5f),
-                        new Vector2(coordinate.left, 20));
-                    txt.transform.localPosition = GetYScalePosition(i);
-                    txt.text = yAxis.data[i];
-                    txt.gameObject.SetActive(coordinate.show);
-                    yScaleTextList.Add(txt);
-                }
+                txt.transform.localPosition = GetYScalePosition(scaleWid, i);
+                txt.text = yAxis.GetData(i, max);
+                txt.gameObject.SetActive(coordinate.show);
+                yScaleTextList.Add(txt);
             }
         }
 
-        private void InitXScale()
+        public void InitXScale()
         {
             xScaleTextList.Clear();
-            if (xAxis.type == AxisType.value)
+            float max = GetMaxValue();
+            float scaleWid = xAxis.GetScaleWidth(coordinateWid);
+            for (int i = 0; i < xAxis.GetSplitNumber(); i++)
             {
-                float max = GetMaxValue();
-                if (max <= 0) max = 400;
-                xAxis.splitNumber = DEFAULT_YSACLE_NUM;
-                float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
-                for (int i = 0; i < xAxis.splitNumber; i++)
-                {
-                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
-                        themeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero,
-                        new Vector2(1, 0.5f),
-                        new Vector2(scaleWid, 20));
-                    txt.transform.localPosition = GetXScalePosition(i);
-                    txt.text = ((int)(max * i / xAxis.splitNumber)).ToString();
-                    txt.gameObject.SetActive(coordinate.show);
-                    xScaleTextList.Add(txt);
-                }
-            }
-            else
-            {
-                xAxis.splitNumber = xAxis.boundaryGap ? xAxis.data.Count + 1 : xAxis.data.Count;
-                float scaleWid = coordinateWid / (xAxis.data.Count - 1);
-                for (int i = 0; i < xAxis.data.Count; i++)
-                {
-                    Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
-                        themeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero,
-                        new Vector2(1, 0.5f),
-                        new Vector2(scaleWid, 20));
-                    txt.transform.localPosition = GetXScalePosition(i);
-                    txt.text = xAxis.data[i];
-                    txt.gameObject.SetActive(coordinate.show);
-                    xScaleTextList.Add(txt);
-                }
+                Text txt = ChartUtils.AddTextObject(XSCALE_TEXT_PREFIX + i, transform, themeInfo.font,
+                    themeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero,
+                    new Vector2(1, 0.5f),
+                    new Vector2(scaleWid, 20));
+                txt.transform.localPosition = GetXScalePosition(scaleWid, i);
+                txt.text = xAxis.GetData(i, max);
+                txt.gameObject.SetActive(coordinate.show);
+                xScaleTextList.Add(txt);
             }
         }
 
-        private Vector3 GetYScalePosition(int i)
+        private Vector3 GetYScalePosition(float scaleWid,int i)
         {
-            float scaleWid = coordinateHig / (yAxis.splitNumber - 1);
-            if (yAxis.type == AxisType.value)
+            if (yAxis.boundaryGap)
             {
                 return new Vector3(zeroX - coordinate.splitWidth - 2f,
-                zeroY + i * scaleWid, 0);
+                    zeroY + (i + 0.5f) * scaleWid, 0);
             }
             else
             {
-                if (yAxis.boundaryGap)
-                {
-                    return new Vector3(zeroX - coordinate.splitWidth - 2f,
-                        zeroY + (i + 0.5f) * scaleWid, 0);
-                }
-                else
-                {
-                    return new Vector3(zeroX - coordinate.splitWidth - 2f,
-                        zeroY + i * scaleWid, 0);
-                }
-
+                return new Vector3(zeroX - coordinate.splitWidth - 2f,
+                    zeroY + i * scaleWid, 0);
             }
         }
 
-        private Vector3 GetXScalePosition(int i)
+        private Vector3 GetXScalePosition(float scaleWid,int i)
         {
-            float scaleWid = coordinateWid / (xAxis.splitNumber - 1);
-            if (xAxis.type == AxisType.value)
+            if (xAxis.boundaryGap)
+            {
+                return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.splitWidth - 5, 0);
+            }
+            else
             {
                 return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
                     zeroY - coordinate.splitWidth - 10, 0);
-            }
-            else
-            {
-                if (xAxis.boundaryGap)
-                {
-                    return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - coordinate.splitWidth - 5, 0);
-                }
-                else
-                {
-                    return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
-                        zeroY - coordinate.splitWidth - 5, 0);
-                }
             }
         }
 
@@ -478,18 +471,20 @@ namespace xcharts
         protected virtual void OnCoordinateSize()
         {
             //update yScale pos
-            for (int i = 0; i < yAxis.splitNumber; i++)
+            float yscaleWid = coordinateHig / (yAxis.GetSplitNumber() - 1);
+            float xscaleWid = coordinateHig / (xAxis.GetSplitNumber() - 1);
+            for (int i = 0; i < yAxis.GetSplitNumber(); i++)
             {
                 if (i < yScaleTextList.Count && yScaleTextList[i])
                 {
-                    yScaleTextList[i].transform.localPosition = GetYScalePosition(i);
+                    yScaleTextList[i].transform.localPosition = GetYScalePosition(yscaleWid,i);
                 }
             }
-            for (int i = 0; i < xAxis.splitNumber; i++)
+            for (int i = 0; i < xAxis.GetSplitNumber(); i++)
             {
                 if (i < xScaleTextList.Count && xScaleTextList[i])
                 {
-                    xScaleTextList[i].transform.localPosition = GetXScalePosition(i);
+                    xScaleTextList[i].transform.localPosition = GetXScalePosition(xscaleWid, i);
                 }
             }
         }
@@ -528,10 +523,10 @@ namespace xcharts
         {
             if (!coordinate.show) return;
             // draw splitline
-            for (int i = 1; i < yAxis.splitNumber; i++)
+            for (int i = 1; i < yAxis.GetScaleNumber(); i++)
             {
                 float pX = zeroX - coordinate.splitWidth;
-                float pY = zeroY + i * coordinateHig / (yAxis.splitNumber - 1);
+                float pY = zeroY + i * coordinateHig / (yAxis.GetScaleNumber() - 1);
                 ChartUtils.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY), coordinate.tickness,
                     themeInfo.axisLineColor);
                 if (yAxis.showSplitLine)
@@ -540,9 +535,9 @@ namespace xcharts
                         new Vector3(zeroX + coordinateWid, pY));
                 }
             }
-            for (int i = 1; i < xAxis.splitNumber; i++)
+            for (int i = 1; i < xAxis.GetScaleNumber(); i++)
             {
-                float pX = zeroX + i * coordinateWid / (xAxis.splitNumber - 1);
+                float pX = zeroX + i * coordinateWid / (xAxis.GetScaleNumber() - 1);
                 float pY = zeroY - coordinate.splitWidth - 2;
                 ChartUtils.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), coordinate.tickness,
                     themeInfo.axisLineColor);

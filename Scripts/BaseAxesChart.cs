@@ -154,6 +154,8 @@ namespace xcharts
             lastCoordinateHig = chartHig;
             lastCoordinateWid = chartWid;
             lastCoordinateScaleLen = coordinate.splitWidth;
+            checkXAxis = xAxis;
+            checkYAxis = yAxis;
             InitXScale();
             InitYScale();
         }
@@ -363,6 +365,7 @@ namespace xcharts
                     new Vector2(1, 0.5f),
                     new Vector2(scaleWid, 20));
                 txt.transform.localPosition = GetXScalePosition(scaleWid, i);
+                
                 txt.text = xAxis.GetData(i, max);
                 txt.gameObject.SetActive(coordinate.show);
                 xScaleTextList.Add(txt);
@@ -470,23 +473,8 @@ namespace xcharts
 
         protected virtual void OnCoordinateSize()
         {
-            //update yScale pos
-            float yscaleWid = coordinateHig / (yAxis.GetSplitNumber() - 1);
-            float xscaleWid = coordinateHig / (xAxis.GetSplitNumber() - 1);
-            for (int i = 0; i < yAxis.GetSplitNumber(); i++)
-            {
-                if (i < yScaleTextList.Count && yScaleTextList[i])
-                {
-                    yScaleTextList[i].transform.localPosition = GetYScalePosition(yscaleWid,i);
-                }
-            }
-            for (int i = 0; i < xAxis.GetSplitNumber(); i++)
-            {
-                if (i < xScaleTextList.Count && xScaleTextList[i])
-                {
-                    xScaleTextList[i].transform.localPosition = GetXScalePosition(xscaleWid, i);
-                }
-            }
+            InitXScale();
+            InitYScale();
         }
 
         protected virtual void OnYAxisChanged()
@@ -508,6 +496,13 @@ namespace xcharts
             {
                 xScaleTextList[i].text = ((int)(max * i / xScaleTextList.Count)).ToString();
             }
+        }
+
+        protected override void OnSizeChanged()
+        {
+            base.OnSizeChanged();
+            InitXScale();
+            InitYScale();
         }
 
         protected override void OnYMaxValueChanged()

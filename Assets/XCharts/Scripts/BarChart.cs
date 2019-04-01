@@ -51,13 +51,13 @@ namespace xcharts
                     Series series = seriesList[j];
                     Color color = themeInfo.GetColor(j);
                     int startIndex = 0;
-                    if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                    if (series.showDataNumber > 0 && series.DataList.Count > series.showDataNumber)
                     {
-                        startIndex = series.dataList.Count - series.showDataNumber;
+                        startIndex = series.DataList.Count - series.showDataNumber;
                     }
-                    for (int i = startIndex; i < series.dataList.Count; i++)
+                    for (int i = startIndex; i < series.DataList.Count; i++)
                     {
-                        float data = series.dataList[i];
+                        float data = series.DataList[i];
                         float pX = zeroX + coordinate.tickness;
                         float pY = zeroY + i * scaleWid;
                         if (!yAxis.boundaryGap) pY -= scaleWid / 2;
@@ -80,12 +80,13 @@ namespace xcharts
                 float max = GetMaxValue();
                 if (tooltip.show && tooltip.DataIndex > 0)
                 {
+                    float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
                     float pX = zeroX + scaleWid * (tooltip.DataIndex - 1);
                     float pY = zeroY + coordinateHig;
                     Vector3 p1 = new Vector3(pX, zeroY);
                     Vector3 p2 = new Vector3(pX, pY);
-                    Vector3 p3 = new Vector3(pX + scaleWid, pY);
-                    Vector3 p4 = new Vector3(pX + scaleWid, zeroY);
+                    Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
+                    Vector3 p4 = new Vector3(pX + tooltipSplitWid, zeroY);
                     ChartUtils.DrawPolygon(vh, p1, p2, p3, p4, themeInfo.tooltipFlagAreaColor);
                 }
                 for (int j = 0; j < seriesCount; j++)
@@ -94,13 +95,13 @@ namespace xcharts
                     Series series = seriesList[j];
                     Color color = themeInfo.GetColor(j);
                     int startIndex = 0;
-                    if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                    if (series.showDataNumber > 0 && series.DataList.Count > series.showDataNumber)
                     {
-                        startIndex = series.dataList.Count - series.showDataNumber;
+                        startIndex = series.DataList.Count - series.showDataNumber;
                     }
-                    for (int i = startIndex; i < series.dataList.Count; i++)
+                    for (int i = startIndex; i < series.DataList.Count; i++)
                     {
-                        float data = series.dataList[i];
+                        float data = series.DataList[i];
                         float pX = zeroX + i * scaleWid;
                         if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                         float pY = zeroY + coordinate.tickness;

@@ -26,8 +26,8 @@ public class BarChartDemo : MonoBehaviour
         rect.sizeDelta = new Vector2(wid, hig);
         xchart.GetComponent<RectTransform>().sizeDelta = new Vector2(wid, hig);
 
-        bigdataChart = xchart.Find("barchart_bigdata").GetComponent<BarChart>();
-        GenerateData(2000, bigdataChart);
+        bigdataChart = xchart.Find("barchart_multidata").GetComponent<BarChart>();
+        GenerateData(5000, bigdataChart);
     }
 
     void Update()
@@ -66,20 +66,20 @@ public class BarChartDemo : MonoBehaviour
 
         for (var i = 0; i < count; i++)
         {
-            chart.AddXAxisCategory(time.ToString("yyyy-MM-dd hh:mm:ss"));
+            chart.XAxis.AddMultiData(time.ToString("hh:mm:ss"));
 
             smallBaseValue = i % 30 == 0
                 ? UnityEngine.Random.Range(0, 700)
                 : (smallBaseValue + UnityEngine.Random.Range(0, 500) - 250);
             baseValue += UnityEngine.Random.Range(0, 20) - 10;
-            //float value = Mathf.Max(
-            //    0,
-            //    Mathf.Round(baseValue + smallBaseValue) + 3000
-            //);
-            var index = i % 100;
-            var value = (Mathf.Sin(index / 5) * (index / 5 - 10) + index / 6) * 5;
+            float value = Mathf.Max(
+                0,
+                Mathf.Round(baseValue + smallBaseValue) + 3000
+            );
+            //var index = i % 100;
+            //var value = (Mathf.Sin(index / 5) * (index / 5 - 10) + index / 6) * 5;
             value = Mathf.Abs(value);
-            chart.AddData(0, value);
+            chart.AddMultiData(0, value);
             time = time.AddSeconds(1);
         }
     }

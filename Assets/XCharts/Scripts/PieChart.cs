@@ -57,7 +57,7 @@ namespace xcharts
                     angleList.Add(0);
                     continue;
                 }
-                float value = seriesList[i].dataList[0];
+                float value = seriesList[i].DataList[0];
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
 
@@ -194,7 +194,7 @@ namespace xcharts
             tooltip.SetActive(true);
             string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(index));
             string key = legend.dataList[index];
-            float value = seriesList[index].dataList[0];
+            float value = seriesList[index].DataList[0];
             string txt = "";
             if (!string.IsNullOrEmpty(pieInfo.name))
             {

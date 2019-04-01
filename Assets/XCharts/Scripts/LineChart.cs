@@ -54,13 +54,13 @@ namespace xcharts
                 float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
                 int showDataNumber = series.showDataNumber;
                 int startIndex = 0;
-                if (series.showDataNumber > 0 && series.dataList.Count > series.showDataNumber)
+                if (series.showDataNumber > 0 && series.DataList.Count > series.showDataNumber)
                 {
-                    startIndex = series.dataList.Count - series.showDataNumber;
+                    startIndex = series.DataList.Count - series.showDataNumber;
                 }
-                for (int i = startIndex; i < series.dataList.Count; i++)
+                for (int i = startIndex; i < series.DataList.Count; i++)
                 {
-                    float value = series.dataList[i];
+                    float value = series.DataList[i];
 
                     np = new Vector3(startX + i * scaleWid, zeroY + value * coordinateHig / max);
                     if (i > 0)
@@ -93,9 +93,9 @@ namespace xcharts
                 // draw point
                 if (lineInfo.showPoint)
                 {
-                    for (int i = 0; i < series.dataList.Count; i++)
+                    for (int i = 0; i < series.DataList.Count; i++)
                     {
-                        float value = series.dataList[i];
+                        float value = series.DataList[i];
 
                         Vector3 p = new Vector3(startX + i * scaleWid,
                             zeroY + value * coordinateHig / max);

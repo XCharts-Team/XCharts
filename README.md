@@ -2,14 +2,16 @@
 A Simple UGUI Charting Library for Unity
 
 # 特性
-  1. 支持折线图(`LineChart`)、柱状图(`BarChart`)、饼图(`PieChart`)、雷达图(`RadarChart`)等
+  1. 支持折线图(`LineChart`)、柱状图(`BarChart`)、饼图(`PieChart`)、雷达图(`RadarChart`)等常用图表
   2. 支持`Default`、`Light`、`Dark`三种主题切换
-  3. 参数可视化配置，效果实时预览
+  3. 参数可视化配置，效果实时预览，纯源码绘制
   4. 折线图通过参数可配置出：折线图、曲线图、区域图等
   5. 饼图通过参数可配置出：饼图、环形图、南丁格尔玫瑰图等
+  6. 支持多数据密集图表
 
 # TODO
   1. ~~`tooltip`~~（2019.3.21完成）
+  2. ~~多数据支持~~（2019.4.1完成）
   2. 旭日图`sunburst`
   3. 动画效果
 
@@ -20,7 +22,8 @@ A Simple UGUI Charting Library for Unity
 ![Light](Doc/light.png)
   3.`Dark`主题
 ![Dark](Doc/dark.png)
-
+  4.多数据支持
+![Multidata](Doc/multidata.png)
 # 配置项手册
 * `Theme` 主题
    + `theme`：主题，`Default`、`Light`、`Dark`三种可选主题

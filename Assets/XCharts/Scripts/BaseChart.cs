@@ -16,6 +16,7 @@ namespace xcharts
     {
         public bool show = true;
         public string text = "Chart Title";
+        public string subText = "";
         public Align align = Align.center;
         public float left;
         public float right;
@@ -171,14 +172,21 @@ namespace xcharts
     {
         public string name;
         public int showDataNumber = 0;
-        public List<float> dataList = new List<float>();
+        [SerializeField]
+        private List<float> dataList = new List<float>();
+        private List<float> multiDataList = new List<float>();
+
+        public List<float> DataList
+        {
+            get { return multiDataList.Count > 0 ? multiDataList : dataList; }
+        }
 
         public float Max
         {
             get
             {
                 float max = 0;
-                foreach (var data in dataList)
+                foreach (var data in DataList)
                 {
                     if (data > max)
                     {
@@ -194,7 +202,7 @@ namespace xcharts
             get
             {
                 float total = 0;
-                foreach (var data in dataList)
+                foreach (var data in DataList)
                 {
                     total += data;
                 }
@@ -211,20 +219,37 @@ namespace xcharts
             dataList.Add(value);
         }
 
+        public void AddMultiData(float value)
+        {
+            if (multiDataList.Count >= showDataNumber && showDataNumber != 0)
+            {
+                multiDataList.RemoveAt(0);
+            }
+            multiDataList.Add(value);
+        }
+
         public float GetData(int index)
         {
-            if (index >= 0 && index <= dataList.Count - 1)
+            if (index >= 0 && index <= DataList.Count - 1)
             {
-                return dataList[index];
+                return DataList[index];
             }
             return 0;
         }
 
-        public void UpdataData(int index, float value)
+        public void UpdateData(int index, float value)
         {
             if (index >= 0 && index <= dataList.Count - 1)
             {
                 dataList[index] = value;
+            }
+        }
+
+        public void UpdateMultiData(int index, float value)
+        {
+            if (index >= 0 && index <= multiDataList.Count - 1)
+            {
+                multiDataList[index] = value;
             }
         }
     }
@@ -232,6 +257,7 @@ namespace xcharts
     public class BaseChart : MaskableGraphic
     {
         private const string TILTE_TEXT = "title";
+        private const string SUB_TILTE_TEXT = "sub_title";
         private const string LEGEND_TEXT = "legend";
         [SerializeField]
         protected Theme theme = Theme.Dark;
@@ -252,7 +278,6 @@ namespace xcharts
         private float checkWid = 0;
         private float checkHig = 0;
 
-        protected Text titleText;
         protected List<Text> legendTextList = new List<Text>();
         protected float chartWid { get { return rectTransform.sizeDelta.x; } }
         protected float chartHig { get { return rectTransform.sizeDelta.y; } }
@@ -301,9 +326,27 @@ namespace xcharts
             RefreshChart();
         }
 
+        public void AddMultiData(string legend, float value)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (seriesList[i].name.Equals(legend))
+                {
+                    seriesList[i].AddMultiData(value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
         public void AddData(int legend,float value)
         {
             seriesList[legend].AddData(value);
+        }
+
+        public void AddMultiData(int legend, float value)
+        {
+            seriesList[legend].AddMultiData(value);
         }
 
         public void UpdateData(string legend, float value, int dataIndex = 0)
@@ -312,7 +355,7 @@ namespace xcharts
             {
                 if (seriesList[i].name.Equals(legend))
                 {
-                    seriesList[i].UpdataData(dataIndex, value);
+                    seriesList[i].UpdateData(dataIndex, value);
                     break;
                 }
             }
@@ -325,7 +368,33 @@ namespace xcharts
             {
                 if (i == legendIndex)
                 {
-                    seriesList[i].UpdataData(dataIndex, value);
+                    seriesList[i].UpdateData(dataIndex, value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
+        public void UpdateMultiData(string legend, float value, int dataIndex = 0)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (seriesList[i].name.Equals(legend))
+                {
+                    seriesList[i].UpdateMultiData(dataIndex, value);
+                    break;
+                }
+            }
+            RefreshChart();
+        }
+
+        public void UpdateMultiData(int legendIndex, float value, int dataIndex = 0)
+        {
+            for (int i = 0; i < seriesList.Count; i++)
+            {
+                if (i == legendIndex)
+                {
+                    seriesList[i].UpdateMultiData(dataIndex, value);
                     break;
                 }
             }
@@ -384,13 +453,21 @@ namespace xcharts
                     titlePosition = new Vector3(0, -title.top, 0);
                     break;
             }
-            titleText = ChartUtils.AddTextObject(TILTE_TEXT, transform, themeInfo.font,
+            Text titleText = ChartUtils.AddTextObject(TILTE_TEXT, transform, themeInfo.font,
                         themeInfo.textColor, anchor, anchorMin, anchorMax, new Vector2(0, 1),
                         new Vector2(titleWid, titleHig), 16);
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(title.show);
             titleText.transform.localPosition = titlePosition;
             titleText.text = title.text;
+
+            Text subText = ChartUtils.AddTextObject(SUB_TILTE_TEXT, transform, themeInfo.font,
+                        themeInfo.textColor, anchor, anchorMin, anchorMax, new Vector2(0, 1),
+                        new Vector2(titleWid, titleHig), 14);
+            subText.alignment = anchor;
+            subText.gameObject.SetActive(title.show && !string.IsNullOrEmpty(title.subText));
+            subText.transform.localPosition = titlePosition - new Vector3(0,15,0);
+            subText.text = title.subText;
         }
 
         private void InitLegend()

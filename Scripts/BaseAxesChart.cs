@@ -44,7 +44,18 @@ namespace xcharts
         public bool showSplitLine = true;
         public SplitLineType splitLineType = SplitLineType.dashed;
         public bool boundaryGap = true;
-        public List<string> data;
+        [SerializeField]
+        private List<string> data;
+        private List<string> multidata = new List<string>();
+
+        private List<string> Data
+        {
+            get
+            {
+                if (multidata.Count > 0) return multidata;
+                else return data;
+            }
+        }
 
         public void AddData(string category)
         {
@@ -55,26 +66,26 @@ namespace xcharts
             data.Add(category);
         }
 
-        public string GetData(int index,float maxData = 0)
+        public void AddMultiData(string category)
         {
-            if(type == AxisType.value)
+            if (multidata.Count >= maxSplitNumber && maxSplitNumber != 0)
             {
-                return ((int)(maxData * index / GetSplitNumber())).ToString();
+                multidata.RemoveAt(0);
             }
-            int dataCount = data.Count;
-            if (dataCount <= 0) return "";
-            float rate = dataCount / GetScaleNumber();
-            if (rate < 1) rate = 1;
-            int newIndex = (int)(index * rate >= dataCount - 1 ? dataCount - 1 : index * rate);
-            return data[newIndex];
+            multidata.Add(category);
+        }
+
+        public string GetData(int index)
+        {
+            return Data[index];
         }
 
         public int GetSplitNumber()
         {
-            if (data.Count > 2 * splitNumber || data.Count <= 0)
+            if (Data.Count > 2 * splitNumber || Data.Count <= 0)
                 return splitNumber;
             else
-                return data.Count;
+                return Data.Count;
         }
 
         public float GetSplitWidth(float coordinateWidth)
@@ -84,20 +95,34 @@ namespace xcharts
 
         public int GetDataNumber()
         {
-            return data.Count;
+            return Data.Count;
         }
 
         public float GetDataWidth(float coordinateWidth)
         {
-            return coordinateWidth / (boundaryGap ? data.Count : data.Count - 1);
+            return coordinateWidth / (boundaryGap ? Data.Count : Data.Count - 1);
+        }
+
+        public string GetScaleName(int index, float maxData = 0)
+        {
+            if (type == AxisType.value)
+            {
+                return ((int)(maxData * index / GetSplitNumber())).ToString();
+            }
+            int dataCount = Data.Count;
+            if (dataCount <= 0) return "";
+            float rate = dataCount / GetScaleNumber();
+            if (rate < 1) rate = 1;
+            int newIndex = (int)(index * rate >= dataCount - 1 ? dataCount - 1 : index * rate);
+            return Data[newIndex];
         }
 
         public int GetScaleNumber()
         {
-            if (data.Count > 2 * splitNumber || data.Count <= 0)
+            if (Data.Count > 2 * splitNumber || Data.Count <= 0)
                 return boundaryGap ? splitNumber + 1 : splitNumber;
             else
-                return boundaryGap ? data.Count + 1 : data.Count;
+                return boundaryGap ? Data.Count + 1 : Data.Count;
         }
 
         public float GetScaleWidth(float coordinateWidth)
@@ -147,6 +172,9 @@ namespace xcharts
         protected float zeroY { get { return coordinate.bottom; } }
         protected float coordinateWid { get { return chartWid - coordinate.left - coordinate.right; } }
         protected float coordinateHig { get { return chartHig - coordinate.top - coordinate.bottom; } }
+
+        public Axis XAxis { get { return xAxis; } }
+        public Axis YAxis { get { return yAxis; } }
 
         protected override void Awake()
         {
@@ -251,10 +279,6 @@ namespace xcharts
             base.RefreshTooltip();
             int index = tooltip.DataIndex - 1;
             Axis tempAxis = xAxis.type == AxisType.value ? (Axis)yAxis : (Axis)xAxis;
-            if (index > tempAxis.data.Count - 1)
-            {
-                index = tempAxis.data.Count - 1;
-            }
             if (index < 0)
             {
                 tooltip.SetActive(false);
@@ -263,17 +287,17 @@ namespace xcharts
             tooltip.SetActive(true);
             if (seriesList.Count == 1)
             {
-                string txt = tempAxis.GetData(index) + ": " + seriesList[0].dataList[index];
+                string txt = tempAxis.GetData(index) + ": " + seriesList[0].DataList[index];
                 tooltip.UpdateTooltipText(txt);
             }
             else
             {
-                StringBuilder sb = new StringBuilder(tempAxis.data[index]);
+                StringBuilder sb = new StringBuilder(tempAxis.GetData(index));
                 for (int i = 0; i < seriesList.Count; i++)
                 {
                     string strColor = ColorUtility.ToHtmlStringRGBA(themeInfo.GetColor(i));
                     string key = seriesList[i].name;
-                    float value = seriesList[i].dataList[index];
+                    float value = seriesList[i].DataList[index];
                     sb.Append("\n");
                     sb.AppendFormat("<color=#{0}>● </color>", strColor);
                     sb.AppendFormat("{0}: {1}", key, value);
@@ -347,7 +371,7 @@ namespace xcharts
                         new Vector2(1, 0.5f),
                         new Vector2(coordinate.left, 20));
                 txt.transform.localPosition = GetYScalePosition(scaleWid, i);
-                txt.text = yAxis.GetData(i, max);
+                txt.text = yAxis.GetScaleName(i, max);
                 txt.gameObject.SetActive(coordinate.show);
                 yScaleTextList.Add(txt);
             }
@@ -366,7 +390,7 @@ namespace xcharts
                     new Vector2(scaleWid, 20));
                 txt.transform.localPosition = GetXScalePosition(scaleWid, i);
                 
-                txt.text = xAxis.GetData(i, max);
+                txt.text = xAxis.GetScaleName(i, max);
                 txt.gameObject.SetActive(coordinate.show);
                 xScaleTextList.Add(txt);
             }

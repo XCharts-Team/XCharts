@@ -193,7 +193,7 @@ namespace xcharts
                     dataPosList.Add(new List<Vector3>());
                     continue;
                 }
-                var dataList = seriesList[i].dataList;
+                var dataList = seriesList[i].DataList;
                 var color = themeInfo.GetColor(i);
                 var areaColor = new Color(color.r, color.g, color.b, color.a * 0.7f);
                 var max = radarInfo.indicatorList[i].max > 0 ?
@@ -369,7 +369,7 @@ namespace xcharts
             for (int i = 0; i < radarInfo.indicatorList.Count; i++)
             {
                 string key = radarInfo.indicatorList[i].name;
-                float value = seriesList[index].dataList[i];
+                float value = seriesList[index].DataList[i];
                 sb.Append("\n");
                 sb.AppendFormat("{0}: {1}", key, value);
             }

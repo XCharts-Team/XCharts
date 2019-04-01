@@ -249,6 +249,8 @@ namespace xcharts
         private Theme checkTheme = 0;
         private Title checkTitle = new Title();
         private Legend checkLegend = new Legend();
+        private float checkWid = 0;
+        private float checkHig = 0;
 
         protected Text titleText;
         protected List<Text> legendTextList = new List<Text>();
@@ -261,6 +263,9 @@ namespace xcharts
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.pivot = Vector2.zero;
+            checkWid = chartWid;
+            checkHig = chartHig;
+            checkTheme = theme;
             InitTitle();
             InitLegend();
             InitTooltip();
@@ -268,6 +273,7 @@ namespace xcharts
 
         protected virtual void Update()
         {
+            CheckSize();
             CheckTheme();
             CheckTile();
             CheckLegend();
@@ -472,6 +478,16 @@ namespace xcharts
             return bigger < 10 ? bigger : bigger - bigger % 10;
         }
 
+        private void CheckSize()
+        {
+            if(checkWid != chartWid || checkHig != chartHig)
+            {
+                checkWid = chartWid;
+                checkHig = chartHig;
+                OnSizeChanged();
+            }
+        }
+
         private void CheckTheme()
         {
             if (checkTheme != theme)
@@ -547,6 +563,12 @@ namespace xcharts
 
         protected virtual void CheckTootipArea(Vector2 localPostion)
         {
+        }
+
+        protected virtual void OnSizeChanged()
+        {
+            InitTitle();
+            InitLegend();
         }
 
         protected virtual void OnThemeChanged()

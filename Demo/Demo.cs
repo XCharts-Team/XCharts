@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using xcharts;
+using XCharts;
 
 public class Demo : MonoBehaviour
 {

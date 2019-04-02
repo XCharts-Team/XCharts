@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace xcharts
+namespace XCharts
 {
     [System.Serializable]
     public class LineInfo

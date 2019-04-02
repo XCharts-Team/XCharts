@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 
-namespace xcharts
+namespace XCharts
 {
 
     [System.Serializable]
@@ -46,16 +46,8 @@ namespace xcharts
         public bool boundaryGap = true;
         [SerializeField]
         private List<string> data;
-        private List<string> multidata = new List<string>();
 
-        private List<string> Data
-        {
-            get
-            {
-                if (multidata.Count > 0) return multidata;
-                else return data;
-            }
-        }
+        private List<string> Data { get { return data; } }
 
         public void AddData(string category)
         {
@@ -64,15 +56,6 @@ namespace xcharts
                 data.RemoveAt(0);
             }
             data.Add(category);
-        }
-
-        public void AddMultiData(string category)
-        {
-            if (multidata.Count >= maxSplitNumber && maxSplitNumber != 0)
-            {
-                multidata.RemoveAt(0);
-            }
-            multidata.Add(category);
         }
 
         public string GetData(int index)

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace xcharts
+namespace XCharts
 {
     [System.Serializable]
     public enum Theme

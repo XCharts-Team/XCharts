@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xcharts
+namespace XCharts
 {
     public static class ChartUtils
     {

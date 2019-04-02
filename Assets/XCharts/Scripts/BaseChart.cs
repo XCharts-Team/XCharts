@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-namespace xcharts
+namespace XCharts
 {
     [System.Serializable]
     public enum ChartType
@@ -174,11 +174,10 @@ namespace xcharts
         public int showDataNumber = 0;
         [SerializeField]
         private List<float> dataList = new List<float>();
-        private List<float> multiDataList = new List<float>();
 
         public List<float> DataList
         {
-            get { return multiDataList.Count > 0 ? multiDataList : dataList; }
+            get { return dataList; }
         }
 
         public float Max
@@ -219,15 +218,6 @@ namespace xcharts
             dataList.Add(value);
         }
 
-        public void AddMultiData(float value)
-        {
-            if (multiDataList.Count >= showDataNumber && showDataNumber != 0)
-            {
-                multiDataList.RemoveAt(0);
-            }
-            multiDataList.Add(value);
-        }
-
         public float GetData(int index)
         {
             if (index >= 0 && index <= DataList.Count - 1)
@@ -244,14 +234,6 @@ namespace xcharts
                 dataList[index] = value;
             }
         }
-
-        public void UpdateMultiData(int index, float value)
-        {
-            if (index >= 0 && index <= multiDataList.Count - 1)
-            {
-                multiDataList[index] = value;
-            }
-        }
     }
 
     public class BaseChart : MaskableGraphic
@@ -259,18 +241,13 @@ namespace xcharts
         private const string TILTE_TEXT = "title";
         private const string SUB_TILTE_TEXT = "sub_title";
         private const string LEGEND_TEXT = "legend";
-        [SerializeField]
-        protected Theme theme = Theme.Dark;
-        [SerializeField]
-        protected ThemeInfo themeInfo = new ThemeInfo();
-        [SerializeField]
-        protected Title title = new Title();
-        [SerializeField]
-        protected Legend legend = new Legend();
-        [SerializeField]
-        protected Tooltip tooltip = new Tooltip();
-        [SerializeField]
-        protected List<Series> seriesList = new List<Series>();
+
+        [SerializeField] protected Theme theme = Theme.Dark;
+        [SerializeField] protected ThemeInfo themeInfo = new ThemeInfo();
+        [SerializeField] protected Title title = new Title();
+        [SerializeField] protected Legend legend = new Legend();
+        [SerializeField] protected Tooltip tooltip = new Tooltip();
+        [SerializeField] protected List<Series> seriesList = new List<Series>();
 
         private Theme checkTheme = 0;
         private Title checkTitle = new Title();
@@ -326,27 +303,9 @@ namespace xcharts
             RefreshChart();
         }
 
-        public void AddMultiData(string legend, float value)
-        {
-            for (int i = 0; i < seriesList.Count; i++)
-            {
-                if (seriesList[i].name.Equals(legend))
-                {
-                    seriesList[i].AddMultiData(value);
-                    break;
-                }
-            }
-            RefreshChart();
-        }
-
         public void AddData(int legend,float value)
         {
             seriesList[legend].AddData(value);
-        }
-
-        public void AddMultiData(int legend, float value)
-        {
-            seriesList[legend].AddMultiData(value);
         }
 
         public void UpdateData(string legend, float value, int dataIndex = 0)
@@ -369,32 +328,6 @@ namespace xcharts
                 if (i == legendIndex)
                 {
                     seriesList[i].UpdateData(dataIndex, value);
-                    break;
-                }
-            }
-            RefreshChart();
-        }
-
-        public void UpdateMultiData(string legend, float value, int dataIndex = 0)
-        {
-            for (int i = 0; i < seriesList.Count; i++)
-            {
-                if (seriesList[i].name.Equals(legend))
-                {
-                    seriesList[i].UpdateMultiData(dataIndex, value);
-                    break;
-                }
-            }
-            RefreshChart();
-        }
-
-        public void UpdateMultiData(int legendIndex, float value, int dataIndex = 0)
-        {
-            for (int i = 0; i < seriesList.Count; i++)
-            {
-                if (i == legendIndex)
-                {
-                    seriesList[i].UpdateMultiData(dataIndex, value);
                     break;
                 }
             }

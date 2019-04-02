@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using xcharts;
+using XCharts;
 
 public class BarChartDemo : MonoBehaviour
 {
@@ -13,7 +13,6 @@ public class BarChartDemo : MonoBehaviour
 
     private int dataCount = 0;
     private BarChart bigdataChart;
-
 
     void Awake()
     {
@@ -66,7 +65,7 @@ public class BarChartDemo : MonoBehaviour
 
         for (var i = 0; i < count; i++)
         {
-            chart.XAxis.AddMultiData(time.ToString("hh:mm:ss"));
+            chart.XAxis.AddData(time.ToString("hh:mm:ss"));
 
             smallBaseValue = i % 30 == 0
                 ? UnityEngine.Random.Range(0, 700)
@@ -79,7 +78,7 @@ public class BarChartDemo : MonoBehaviour
             //var index = i % 100;
             //var value = (Mathf.Sin(index / 5) * (index / 5 - 10) + index / 6) * 5;
             value = Mathf.Abs(value);
-            chart.AddMultiData(0, value);
+            chart.AddData(0, value);
             time = time.AddSeconds(1);
         }
     }

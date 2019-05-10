@@ -15,6 +15,9 @@ A Simple UGUI Charting Library for Unity
   2. 旭日图`sunburst`
   3. 动画效果
 
+# 更新日志
+  1. 2019.05.11：0.2版本，重构代码，增加Editor
+
 # 效果图
   1.`Default`主题
 ![Default](Doc/default.png)

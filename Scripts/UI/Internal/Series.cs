@@ -28,15 +28,15 @@ namespace XCharts
 
         public void ClearData()
         {
-            foreach(var serie in m_Series)
+            foreach (var serie in m_Series)
             {
                 serie.ClearData();
             }
         }
 
-        public float GetData(int serieIndex,int dataIndex)
+        public float GetData(int serieIndex, int dataIndex)
         {
-            if(serieIndex >= 0 && serieIndex < Count)
+            if (serieIndex >= 0 && serieIndex < Count)
             {
                 return m_Series[serieIndex].GetData(dataIndex);
             }
@@ -90,8 +90,9 @@ namespace XCharts
             }
         }
 
-        public float GetMaxValue(Legend legend)
+        public void GetMinMaxValue(Legend legend, out int minVaule, out int maxValue)
         {
+            float min = int.MaxValue;
             float max = int.MinValue;
             if (IsStack())
             {
@@ -109,35 +110,51 @@ namespace XCharts
                             seriesTotalValue[j] = seriesTotalValue[j] + serie.data[j];
                         }
                     }
-                    float tmax = 0;
+                    float tmax = int.MinValue;
+                    float tmin = int.MaxValue;
                     foreach (var tt in seriesTotalValue)
                     {
                         if (tt.Value > tmax) tmax = tt.Value;
+                        if (tt.Value < tmin) tmin = tt.Value;
                     }
                     if (tmax > max) max = tmax;
+                    if (tmin < min) min = tmin;
                 }
             }
             else
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
-                    if (legend.IsShowSeries(i) && m_Series[i].Max > max) max = m_Series[i].Max;
+                    if (legend.IsShowSeries(i))
+                    {
+                        if (m_Series[i].Max > max) max = m_Series[i].Max;
+                        if (m_Series[i].Min < min) min = m_Series[i].Min;
+                    }
                 }
             }
-            if (max == int.MinValue) return 100;
-            if (max < 1 && max > -1) return max;
-            int bigger = (int)Mathf.Abs(max);
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
+            if (max == int.MinValue && min == int.MaxValue)
             {
-                n++;
+                minVaule = 0;
+                maxValue = 100;
             }
-            float mm = bigger < 10 ? bigger : ((bigger - bigger % (Mathf.Pow(10, n))) + Mathf.Pow(10, n));
-            if (max < 0) return -mm;
-            else return mm;
+            else if (max > 0 && min > 0)
+            {
+                minVaule = 0;
+                maxValue = ChartHelper.GetMaxDivisibleValue(max);
+            }
+            else if (min < 0 && max < 0)
+            {
+                minVaule = ChartHelper.GetMaxDivisibleValue(min);
+                maxValue = 0;
+            }
+            else
+            {
+                minVaule = ChartHelper.GetMaxDivisibleValue(min);
+                maxValue = ChartHelper.GetMaxDivisibleValue(max);
+            }
         }
 
-        public float GetMaxValue(int index,int splitNumber = 0)
+        public float GetMaxValue(int index, int splitNumber = 0)
         {
             float max = int.MinValue;
             float min = int.MaxValue;
@@ -154,16 +171,7 @@ namespace XCharts
             }
             if (max < 1 && max > -1) return max;
             if (max < 0 && min < 0) max = min;
-            int bigger = (int)Mathf.Abs(max);
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
-            {
-                n++;
-            }
-            float mm = bigger < 10 ? bigger : ((bigger - bigger % (Mathf.Pow(10, n))) + Mathf.Pow(10, n));
-            if (max < 1 && max > -1) return max;
-            else if (max < 0) return -mm;
-            else return mm;
+            return ChartHelper.GetMaxDivisibleValue(max);
         }
 
         public bool IsStack()

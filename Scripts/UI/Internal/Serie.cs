@@ -42,6 +42,22 @@ namespace XCharts
             }
         }
 
+        public float Min
+        {
+            get
+            {
+                float min = int.MaxValue;
+                foreach (var data in data)
+                {
+                    if (data < min)
+                    {
+                        min = data;
+                    }
+                }
+                return min;
+            }
+        }
+
         public float Total
         {
             get

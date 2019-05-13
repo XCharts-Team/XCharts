@@ -15,17 +15,21 @@ namespace XCharts
         [SerializeField] protected XAxis m_XAxis = XAxis.defaultXAxis;
         [SerializeField] protected YAxis m_YAxis = YAxis.defaultYAxis;
 
-        [NonSerialized] private float m_LastXMaxValue;
-        [NonSerialized] private float m_LastYMaxValue;
-        [NonSerialized] private XAxis m_CheckXAxis = XAxis.defaultXAxis;
-        [NonSerialized] private YAxis m_CheckYAxis = YAxis.defaultYAxis;
-        [NonSerialized] private Coordinate m_CheckCoordinate = Coordinate.defaultCoordinate;
+        private float m_ZeroXOffset;
+        private float m_ZeroYOffset;
 
-        protected List<Text> m_SplitYTextList = new List<Text>();
-        protected List<Text> m_SplitXTextList = new List<Text>();
+        private XAxis m_CheckXAxis = XAxis.defaultXAxis;
+        private YAxis m_CheckYAxis = YAxis.defaultYAxis;
+        private Coordinate m_CheckCoordinate = Coordinate.defaultCoordinate;
+        private List<Text> m_SplitYTextList = new List<Text>();
+        private List<Text> m_SplitXTextList = new List<Text>();
 
-        public float zeroX { get { return m_Coordinate.left; } }
-        public float zeroY { get { return m_Coordinate.bottom; } }
+        public int minValue { get; private set; }
+        public int maxValue { get; private set; }
+        public float zeroX { get { return coordinateX + m_ZeroXOffset; } }
+        public float zeroY { get { return coordinateY + m_ZeroYOffset; } }
+        public float coordinateX { get { return m_Coordinate.left; } }
+        public float coordinateY { get { return m_Coordinate.bottom; } }
         public float coordinateWid { get { return chartWidth - m_Coordinate.left - m_Coordinate.right; } }
         public float coordinateHig { get { return chartHeight - m_Coordinate.top - m_Coordinate.bottom; } }
         public Axis xAxis { get { return m_XAxis; } }
@@ -34,6 +38,7 @@ namespace XCharts
         protected override void Awake()
         {
             base.Awake();
+            CheckMinMaxValue();
             InitSplitX();
             InitSplitY();
         }
@@ -43,7 +48,7 @@ namespace XCharts
             base.Update();
             CheckYAxis();
             CheckXAxis();
-            CheckMaxValue();
+            CheckMinMaxValue();
             CheckCoordinate();
         }
 
@@ -226,7 +231,6 @@ namespace XCharts
         private void InitSplitY()
         {
             m_SplitYTextList.Clear();
-            float max = GetMaxValue();
             float splitWidth = m_YAxis.GetScaleWidth(coordinateHig);
 
             var titleObject = ChartHelper.AddObject(s_DefaultSplitNameY, transform, chartAnchorMin,
@@ -241,7 +245,7 @@ namespace XCharts
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Coordinate.left, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
                 txt.transform.localPosition = GetSplitYPosition(splitWidth, i);
-                txt.text = m_YAxis.GetScaleName(i, max);
+                txt.text = m_YAxis.GetScaleName(i, minValue, maxValue);
                 txt.gameObject.SetActive(m_YAxis.show);
                 m_SplitYTextList.Add(txt);
             }
@@ -250,7 +254,6 @@ namespace XCharts
         public void InitSplitX()
         {
             m_SplitXTextList.Clear();
-            float max = GetMaxValue();
             float splitWidth = m_XAxis.GetScaleWidth(coordinateWid);
 
             var titleObject = ChartHelper.AddObject(s_DefaultSplitNameX, transform, chartAnchorMin,
@@ -266,7 +269,7 @@ namespace XCharts
                     m_Coordinate.fontSize, m_XAxis.textRotation);
 
                 txt.transform.localPosition = GetSplitXPosition(splitWidth, i);
-                txt.text = m_XAxis.GetScaleName(i, max);
+                txt.text = m_XAxis.GetScaleName(i, minValue, maxValue);
                 txt.gameObject.SetActive(m_XAxis.show);
                 m_SplitXTextList.Add(txt);
             }
@@ -276,13 +279,13 @@ namespace XCharts
         {
             if (m_YAxis.boundaryGap)
             {
-                return new Vector3(zeroX - m_YAxis.axisTick.length - 2f,
-                    zeroY + (i + 0.5f) * scaleWid, 0);
+                return new Vector3(coordinateX - m_YAxis.axisTick.length - 2f,
+                    coordinateY + (i + 0.5f) * scaleWid, 0);
             }
             else
             {
-                return new Vector3(zeroX - m_YAxis.axisTick.length - 2f,
-                    zeroY + i * scaleWid, 0);
+                return new Vector3(coordinateX - m_YAxis.axisTick.length - 2f,
+                    coordinateY + i * scaleWid, 0);
             }
         }
 
@@ -290,12 +293,12 @@ namespace XCharts
         {
             if (m_XAxis.boundaryGap)
             {
-                return new Vector3(zeroX + (i + 1) * scaleWid, zeroY - m_XAxis.axisTick.length - 5, 0);
+                return new Vector3(coordinateX + (i + 1) * scaleWid, coordinateY - m_XAxis.axisTick.length - 5, 0);
             }
             else
             {
-                return new Vector3(zeroX + (i + 1 - 0.5f) * scaleWid,
-                    zeroY - m_XAxis.axisTick.length - 10, 0);
+                return new Vector3(coordinateX + (i + 1 - 0.5f) * scaleWid,
+                    coordinateY - m_XAxis.axisTick.length - 10, 0);
             }
         }
 
@@ -326,27 +329,29 @@ namespace XCharts
             }
         }
 
-        private void CheckMaxValue()
+        private void CheckMinMaxValue()
         {
-            if (m_XAxis.type == Axis.AxisType.Value)
+            int tempMinValue = 0;
+            int tempMaxValue = 100;
+            if(m_Series != null)
             {
-                float max = GetMaxValue();
-                if (m_LastXMaxValue != max)
+                m_Series.GetMinMaxValue(m_Legend, out tempMinValue, out tempMaxValue);
+            }
+            if (tempMinValue != minValue || tempMaxValue != maxValue)
+            {
+                minValue = tempMinValue;
+                maxValue = tempMaxValue;
+                if (m_XAxis.type == Axis.AxisType.Value)
                 {
-                    m_LastXMaxValue = max;
+                    m_ZeroXOffset = Mathf.Abs(minValue) * (coordinateWid / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnXMaxValueChanged();
                 }
-            }
-            else if (m_YAxis.type == Axis.AxisType.Value)
-            {
-
-                float max = GetMaxValue();
-                
-                if (m_LastYMaxValue != max)
+                else if (m_YAxis.type == Axis.AxisType.Value)
                 {
-                    m_LastYMaxValue = max;
+                    m_ZeroYOffset = Mathf.Abs(minValue) * (coordinateHig / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnYMaxValueChanged();
                 }
+                RefreshChart();
             }
         }
 
@@ -366,15 +371,6 @@ namespace XCharts
             InitSplitX();
         }
 
-        protected virtual void OnXMaxValueChanged()
-        {
-            float max = GetMaxValue();
-            for (int i = 0; i < m_SplitXTextList.Count; i++)
-            {
-                m_SplitXTextList[i].text = m_XAxis.GetScaleName(i, max);
-            }
-        }
-
         protected override void OnSizeChanged()
         {
             base.OnSizeChanged();
@@ -384,10 +380,17 @@ namespace XCharts
 
         protected override void OnYMaxValueChanged()
         {
-            float max = GetMaxValue();
             for (int i = 0; i < m_SplitYTextList.Count; i++)
             {
-                m_SplitYTextList[i].text = m_YAxis.GetScaleName(i, max);
+                m_SplitYTextList[i].text = m_YAxis.GetScaleName(i, minValue, maxValue);
+            }
+        }
+
+        protected virtual void OnXMaxValueChanged()
+        {
+            for (int i = 0; i < m_SplitXTextList.Count; i++)
+            {
+                m_SplitXTextList[i].text = m_XAxis.GetScaleName(i, minValue, maxValue);
             }
         }
 
@@ -396,63 +399,66 @@ namespace XCharts
             #region draw tick and splitline
             if (m_YAxis.show)
             {
-                for (int i = 1; i < m_YAxis.GetScaleNumber(); i++)
+                for (int i = 0; i < m_YAxis.GetScaleNumber(); i++)
                 {
-                    float pX = zeroX - m_YAxis.axisTick.length;
-                    float pY = zeroY + i * m_YAxis.GetScaleWidth(coordinateHig);
+                    float pX = coordinateX - m_YAxis.axisTick.length;
+                    float pY = coordinateY + i * m_YAxis.GetScaleWidth(coordinateHig);
                     if (m_YAxis.boundaryGap && m_YAxis.axisTick.alignWithLabel)
                     {
                         pY -= m_YAxis.GetScaleWidth(coordinateHig) / 2;
                     }
                     if (m_YAxis.axisTick.show)
                     {
-                        ChartHelper.DrawLine(vh, new Vector3(pX, pY), new Vector3(zeroX, pY),
+                        ChartHelper.DrawLine(vh, new Vector3(pX, pY), new Vector3(coordinateX, pY),
                             m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
                     }
                     if (m_YAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, true, m_YAxis.splitLineType, new Vector3(zeroX, pY),
-                            new Vector3(zeroX + coordinateWid, pY));
+                        DrawSplitLine(vh, true, m_YAxis.splitLineType, new Vector3(coordinateX, pY),
+                            new Vector3(coordinateX + coordinateWid, pY));
                     }
                 }
             }
             if (m_XAxis.show)
             {
-                for (int i = 1; i < m_XAxis.GetScaleNumber(); i++)
+                for (int i = 0; i < m_XAxis.GetScaleNumber(); i++)
                 {
-                    float pX = zeroX + i * m_XAxis.GetScaleWidth(coordinateWid);
-                    float pY = zeroY - m_XAxis.axisTick.length - 2;
+                    float pX = coordinateX + i * m_XAxis.GetScaleWidth(coordinateWid);
+                    float pY = 0;
                     if (m_XAxis.boundaryGap && m_XAxis.axisTick.alignWithLabel)
                     {
                         pX -= m_XAxis.GetScaleWidth(coordinateWid) / 2;
                     }
                     if (m_XAxis.axisTick.show)
                     {
+                        pY += zeroY - m_XAxis.axisTick.length - 2;
                         ChartHelper.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), m_Coordinate.tickness,
                         m_ThemeInfo.axisLineColor);
                     }
                     if (m_XAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, false, m_XAxis.splitLineType, new Vector3(pX, zeroY),
-                            new Vector3(pX, zeroY + coordinateHig));
+                        pY += coordinateY - m_XAxis.axisTick.length - 2;
+                        DrawSplitLine(vh, false, m_XAxis.splitLineType, new Vector3(pX, coordinateY),
+                            new Vector3(pX, coordinateY + coordinateHig));
                     }
                 }
             }
             #endregion
 
-            //draw x,y axis
+            #region draw x,y axis
             if (m_YAxis.show)
             {
-                ChartHelper.DrawLine(vh, new Vector3(zeroX, zeroY - m_YAxis.axisTick.length),
-                new Vector3(zeroX, zeroY + coordinateHig + 2), m_Coordinate.tickness,
-                m_ThemeInfo.axisLineColor);
+                ChartHelper.DrawLine(vh, new Vector3(coordinateX, coordinateY),
+                    new Vector3(coordinateX, coordinateY + coordinateHig), m_Coordinate.tickness,
+                    m_ThemeInfo.axisLineColor);
             }
             if (m_XAxis.show)
             {
                 ChartHelper.DrawLine(vh, new Vector3(zeroX - m_XAxis.axisTick.length, zeroY),
-                new Vector3(zeroX + coordinateWid + 2, zeroY), m_Coordinate.tickness,
-                m_ThemeInfo.axisLineColor);
+                    new Vector3(zeroX + coordinateWid + 2, zeroY), m_Coordinate.tickness,
+                    m_ThemeInfo.axisLineColor);
             }
+            #endregion
         }
 
         private void DrawSplitLine(VertexHelper vh, bool isYAxis, Axis.SplitLineType type, Vector3 startPos,

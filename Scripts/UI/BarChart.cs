@@ -44,7 +44,6 @@ namespace XCharts
                 float scaleWid = m_YAxis.GetDataWidth(coordinateHig);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
                 float offset = (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
-                float max = GetMaxValue();
                 int serieCount = 0;
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -68,7 +67,7 @@ namespace XCharts
                             float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
                             float pY = zeroY + i * scaleWid;
                             if (!m_YAxis.boundaryGap) pY -= scaleWid / 2;
-                            float barHig = data / max * coordinateWid;
+                            float barHig = data / maxValue * coordinateWid;
                             float space = offset + j * (barWid + m_Bar.space);
                             seriesCurrHig[i] += barHig;
                             Vector3 p1 = new Vector3(pX, pY + space + barWid);
@@ -105,7 +104,6 @@ namespace XCharts
                 float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
                 float offset = (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
-                float max = GetMaxValue();
                 int serieCount = 0;
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -129,7 +127,7 @@ namespace XCharts
                             float pX = zeroX + i * scaleWid;
                             if (!m_XAxis.boundaryGap) pX -= scaleWid / 2;
                             float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
-                            float barHig = data / max * coordinateHig;
+                            float barHig = data / maxValue * coordinateHig;
                             seriesCurrHig[i] += barHig;
                             float space = offset + j * (barWid + m_Bar.space);
                             Vector3 p1 = new Vector3(pX + space, pY);

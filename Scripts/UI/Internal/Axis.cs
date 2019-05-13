@@ -130,11 +130,12 @@ namespace XCharts
             return coordinateWidth / (m_BoundaryGap ? data.Count : data.Count - 1);
         }
 
-        public string GetScaleName(int index, float maxData = 0)
+        public string GetScaleName(int index, float minValue = 0, float maxValue = 0)
         {
             if (m_Type == AxisType.Value)
             {
-                return ((int)(maxData * index / (GetSplitNumber() -1))).ToString();
+                float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber() - 1));
+                return (value).ToString();
             }
             int dataCount = data.Count;
             if (dataCount <= 0) return "";

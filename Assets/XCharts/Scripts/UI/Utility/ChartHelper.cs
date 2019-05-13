@@ -436,5 +436,31 @@ namespace XCharts
             ColorUtility.TryParseHtmlString(hexColorStr, out color);
             return (Color32)color;
         }
+
+        public static int GetMaxDivisibleValue(float max)
+        {
+            if (max == 0) return 0;
+            int bigger = (int)Mathf.Abs(max);
+            int n = 1;
+            while (bigger / (Mathf.Pow(10, n)) > 10)
+            {
+                n++;
+            }
+            float mm = bigger;
+            if(mm > 10)
+            {
+                mm = bigger - bigger % (Mathf.Pow(10, n));
+                //if (mm + Mathf.Pow(10, n) / 2 > bigger)
+                //{
+                //    mm += Mathf.Pow(10, n) / 2;
+                //}
+                //else
+                {
+                    mm += Mathf.Pow(10, n);
+                }
+            }
+            if (max < 0) return (int)-mm;
+            else return (int)mm;
+        }
     }
 }

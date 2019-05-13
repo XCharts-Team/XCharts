@@ -27,7 +27,6 @@ namespace XCharts
         {
             base.DrawChart(vh);
             int seriesCount = m_Series.Count;
-            float max = GetMaxValue();
             float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
             for (int j = 0; j < seriesCount; j++)
             {
@@ -41,11 +40,12 @@ namespace XCharts
                 int maxCount = maxShowDataNumber > 0 ?
                             (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
                             : serie.data.Count;
+                
                 for (int i = minShowDataNumber; i < maxCount; i++)
                 {
                     float value = serie.data[i];
-
-                    np = new Vector3(startX + i * scaleWid, zeroY + value * coordinateHig / max);
+                    float dataHig = coordinateY + (value - minValue) / (maxValue - minValue) * coordinateHig;
+                    np = new Vector3(startX + i * scaleWid, dataHig);
                     if (i > 0)
                     {
                         if (m_Line.smooth)
@@ -79,9 +79,8 @@ namespace XCharts
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         float value = serie.data[i];
-
-                        Vector3 p = new Vector3(startX + i * scaleWid,
-                            zeroY + value * coordinateHig / max);
+                        float dataHig = coordinateY + (value - minValue) / (maxValue - minValue) * coordinateHig;
+                        Vector3 p = new Vector3(startX + i * scaleWid,dataHig);
                         float pointWid = m_Line.pointWidth;
                         if (m_Tooltip.show && i == m_Tooltip.dataIndex - 1)
                         {

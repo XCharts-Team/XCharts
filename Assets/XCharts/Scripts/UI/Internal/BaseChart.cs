@@ -215,12 +215,6 @@ namespace XCharts
             return m_Legend.location.GetPosition(chartWidth, chartHeight);
         }
 
-        protected float GetMaxValue()
-        {
-            if (m_Series == null) return 100;
-            else return m_Series.GetMaxValue(m_Legend);
-        }
-
         protected float GetMaxValue(int index)
         {
             if (m_Series == null) return 100;

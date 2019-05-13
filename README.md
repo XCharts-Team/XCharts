@@ -16,7 +16,8 @@ A Simple UGUI Charting Library for Unity
   3. 动画效果
 
 # 更新日志
-  1. 2019.05.11：0.2版本，重构代码，增加Editor
+  1. 0.2版本，重构代码，增加自定义`Editor`编辑参数支持（2019.05.11）
+  2. `LineChart`增加负数值支持（2019.05.13）
 
 # 效果图
   1.`Default`主题

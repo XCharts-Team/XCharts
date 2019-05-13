@@ -65,7 +65,7 @@ namespace XCharts
                             }
                             float value = serie.data[i];
                             float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
-                            float pY = zeroY + i * scaleWid;
+                            float pY = coordinateY + i * scaleWid;
                             if (!m_YAxis.boundaryGap) pY -= scaleWid / 2;
                             float barHig = value / (maxValue - minValue) * coordinateWid;
                             float space = offset + j * (barWid + m_Bar.space);
@@ -88,10 +88,10 @@ namespace XCharts
                 if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
                 {
                     float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
-                    float pX = zeroX + coordinateWid;
-                    float pY = zeroY + scaleWid * (m_Tooltip.dataIndex - 1) - (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
-                    Vector3 p1 = new Vector3(zeroX, pY);
-                    Vector3 p2 = new Vector3(zeroX, pY + tooltipSplitWid);
+                    float pX = coordinateX + coordinateWid;
+                    float pY = coordinateY + scaleWid * (m_Tooltip.dataIndex - 1) - (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
+                    Vector3 p1 = new Vector3(coordinateX, pY);
+                    Vector3 p2 = new Vector3(coordinateX, pY + tooltipSplitWid);
                     Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
                     Vector3 p4 = new Vector3(pX, pY);
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
@@ -148,12 +148,12 @@ namespace XCharts
                 if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
                 {
                     float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
-                    float pX = zeroX + scaleWid * (m_Tooltip.dataIndex - 1) - (m_XAxis.boundaryGap?0:scaleWid/2);
-                    float pY = zeroY + coordinateHig;
-                    Vector3 p1 = new Vector3(pX, zeroY);
+                    float pX = coordinateX + scaleWid * (m_Tooltip.dataIndex - 1) - (m_XAxis.boundaryGap?0:scaleWid/2);
+                    float pY = coordinateY + coordinateHig;
+                    Vector3 p1 = new Vector3(pX, coordinateY);
                     Vector3 p2 = new Vector3(pX, pY);
                     Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
-                    Vector3 p4 = new Vector3(pX + tooltipSplitWid, zeroY);
+                    Vector3 p4 = new Vector3(pX + tooltipSplitWid, coordinateY);
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
                 }
             }

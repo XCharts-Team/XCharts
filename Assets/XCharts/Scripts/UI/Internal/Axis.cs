@@ -109,6 +109,7 @@ namespace XCharts
 
         public int GetSplitNumber()
         {
+            if (type == AxisType.Value) return m_SplitNumber;
             if (data.Count > 2 * m_SplitNumber || data.Count <= 0)
                 return m_SplitNumber;
             else
@@ -135,7 +136,10 @@ namespace XCharts
             if (m_Type == AxisType.Value)
             {
                 float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber() - 1));
-                return (value).ToString();
+                if (value - (int)value == 0)
+                    return (value).ToString();
+                else
+                    return (value).ToString("f1");
             }
             int dataCount = data.Count;
             if (dataCount <= 0) return "";
@@ -156,6 +160,10 @@ namespace XCharts
 
         public int GetScaleNumber()
         {
+            if(type == AxisType.Value)
+            {
+                return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
+            }
             if (data.Count > 2 * splitNumber || data.Count <= 0)
                 return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
             else

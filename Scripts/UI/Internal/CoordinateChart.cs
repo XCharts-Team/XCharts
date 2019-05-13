@@ -152,7 +152,7 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             if (m_Series.Count == 1)
             {
-                string txt = tempAxis.GetData(index) + ": " + m_Series.GetData(0,index);
+                string txt = tempAxis.GetData(index) + ": " + m_Series.GetData(0, index);
                 m_Tooltip.UpdateTooltipText(txt);
             }
             else
@@ -169,7 +169,7 @@ namespace XCharts
                         sb.AppendFormat("<color=#{0}>● </color>", strColor);
                         sb.AppendFormat("{0}: {1}", key, value);
                     }
-                    
+
                 }
                 m_Tooltip.UpdateTooltipText(sb.ToString());
             }
@@ -218,7 +218,7 @@ namespace XCharts
 
         public void AddXAxisData(string category)
         {
-            m_XAxis.AddData(category,m_MaxCacheDataNumber);
+            m_XAxis.AddData(category, m_MaxCacheDataNumber);
             OnXAxisChanged();
         }
 
@@ -238,7 +238,7 @@ namespace XCharts
             titleObject.transform.localPosition = Vector3.zero;
             ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameY);
 
-            for (int i = 0; i < m_YAxis.splitNumber; i++)
+            for (int i = 0; i < m_YAxis.GetSplitNumber(); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameY + i, titleObject.transform,
                     m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero,
@@ -261,11 +261,11 @@ namespace XCharts
             titleObject.transform.localPosition = Vector3.zero;
             ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameX);
 
-            for (int i = 0; i < m_XAxis.splitNumber; i++)
+            for (int i = 0; i < m_XAxis.GetSplitNumber(); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameX + i, titleObject.transform,
                     m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero,
-                    Vector2.zero, new Vector2(1, 0.5f), new Vector2(splitWidth, 20), 
+                    Vector2.zero, new Vector2(1, 0.5f), new Vector2(splitWidth, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
 
                 txt.transform.localPosition = GetSplitXPosition(splitWidth, i);
@@ -333,7 +333,7 @@ namespace XCharts
         {
             int tempMinValue = 0;
             int tempMaxValue = 100;
-            if(m_Series != null)
+            if (m_Series != null)
             {
                 m_Series.GetMinMaxValue(m_Legend, out tempMinValue, out tempMaxValue);
             }
@@ -401,15 +401,17 @@ namespace XCharts
             {
                 for (int i = 0; i < m_YAxis.GetScaleNumber(); i++)
                 {
-                    float pX = coordinateX - m_YAxis.axisTick.length;
+                    float pX = 0;
                     float pY = coordinateY + i * m_YAxis.GetScaleWidth(coordinateHig);
                     if (m_YAxis.boundaryGap && m_YAxis.axisTick.alignWithLabel)
                     {
                         pY -= m_YAxis.GetScaleWidth(coordinateHig) / 2;
                     }
+
                     if (m_YAxis.axisTick.show)
                     {
-                        ChartHelper.DrawLine(vh, new Vector3(pX, pY), new Vector3(coordinateX, pY),
+                        pX += zeroX - m_YAxis.axisTick.length - 2;
+                        ChartHelper.DrawLine(vh, new Vector3(zeroX, pY), new Vector3(pX, pY),
                             m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
                     }
                     if (m_YAxis.showSplitLine)
@@ -437,7 +439,6 @@ namespace XCharts
                     }
                     if (m_XAxis.showSplitLine)
                     {
-                        pY += coordinateY - m_XAxis.axisTick.length - 2;
                         DrawSplitLine(vh, false, m_XAxis.splitLineType, new Vector3(pX, coordinateY),
                             new Vector3(pX, coordinateY + coordinateHig));
                     }
@@ -448,15 +449,34 @@ namespace XCharts
             #region draw x,y axis
             if (m_YAxis.show)
             {
-                ChartHelper.DrawLine(vh, new Vector3(coordinateX, coordinateY),
-                    new Vector3(coordinateX, coordinateY + coordinateHig), m_Coordinate.tickness,
-                    m_ThemeInfo.axisLineColor);
+                if (m_YAxis.type == Axis.AxisType.Value)
+                {
+                    ChartHelper.DrawLine(vh, new Vector3(coordinateX, coordinateY - m_Coordinate.tickness),
+                        new Vector3(coordinateX, coordinateY + coordinateHig + m_Coordinate.tickness),
+                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                }
+                else
+                {
+                    ChartHelper.DrawLine(vh, new Vector3(zeroX, coordinateY - m_Coordinate.tickness),
+                        new Vector3(zeroX, coordinateY + coordinateHig + m_Coordinate.tickness),
+                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                }
+
             }
             if (m_XAxis.show)
             {
-                ChartHelper.DrawLine(vh, new Vector3(zeroX - m_XAxis.axisTick.length, zeroY),
-                    new Vector3(zeroX + coordinateWid + 2, zeroY), m_Coordinate.tickness,
-                    m_ThemeInfo.axisLineColor);
+                if (m_XAxis.type == Axis.AxisType.Value)
+                {
+                    ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, coordinateY),
+                        new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, coordinateY),
+                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                }
+                else
+                {
+                    ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, zeroY),
+                        new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, zeroY),
+                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                }
             }
             #endregion
         }

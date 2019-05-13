@@ -12,12 +12,14 @@ A Simple UGUI Charting Library for Unity
 # TODO
   1. ~~`tooltip`~~（2019.3.21完成）
   2. ~~多数据支持~~（2019.4.1完成）
-  2. 旭日图`sunburst`
-  3. 动画效果
+  3. 旭日图`sunburst`
+  4. 动画效果
+  5. 中国地图
 
 # 更新日志
-  1. 0.2版本，重构代码，增加自定义`Editor`编辑参数支持（2019.05.11）
-  2. `LineChart`增加负数值支持（2019.05.13）
+  * `LineChart`和`BarChart`增加负数轴支持（2019.05.13）
+  * 0.2版本，重构代码，增加自定义`Editor`编辑参数支持（2019.05.11）
+ 
 
 # 效果图
   1.`Default`主题

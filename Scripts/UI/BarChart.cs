@@ -63,11 +63,11 @@ namespace XCharts
                             {
                                 seriesCurrHig[i] = 0;
                             }
-                            float data = serie.data[i];
+                            float value = serie.data[i];
                             float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
                             float pY = zeroY + i * scaleWid;
                             if (!m_YAxis.boundaryGap) pY -= scaleWid / 2;
-                            float barHig = data / maxValue * coordinateWid;
+                            float barHig = value / (maxValue - minValue) * coordinateWid;
                             float space = offset + j * (barWid + m_Bar.space);
                             seriesCurrHig[i] += barHig;
                             Vector3 p1 = new Vector3(pX, pY + space + barWid);
@@ -123,11 +123,11 @@ namespace XCharts
                             {
                                 seriesCurrHig[i] = 0;
                             }
-                            float data = serie.data[i];
+                            float value = serie.data[i];
                             float pX = zeroX + i * scaleWid;
                             if (!m_XAxis.boundaryGap) pX -= scaleWid / 2;
                             float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
-                            float barHig = data / maxValue * coordinateHig;
+                            float barHig = value / (maxValue - minValue) * coordinateHig;
                             seriesCurrHig[i] += barHig;
                             float space = offset + j * (barWid + m_Bar.space);
                             Vector3 p1 = new Vector3(pX + space, pY);

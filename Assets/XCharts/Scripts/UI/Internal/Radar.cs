@@ -12,8 +12,8 @@ namespace XCharts
         [System.Serializable]
         public class Indicator: IEquatable<Indicator>
         {
-            public string m_Name;
-            public float m_Max;
+            [SerializeField] private string m_Name;
+            [SerializeField] private float m_Max;
 
             public string name { get { return m_Name; }set { m_Name = value; } }
             public float max { get { return m_Max; }set { m_Max = value; } }

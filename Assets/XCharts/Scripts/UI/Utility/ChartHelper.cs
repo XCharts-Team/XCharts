@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace XCharts
@@ -40,6 +41,18 @@ namespace XCharts
                 if (go.childCount > 0) DestoryAllChilds(go);
                 else GameObject.DestroyImmediate(go.gameObject);
             }
+        }
+
+        public static string GetFullName(Transform transform)
+        {
+            string name = transform.name;
+            Transform obj = transform;
+            while (obj.transform.parent)
+            {
+                name += "/"+obj.transform.parent.name;
+                obj = obj.transform.parent;
+            }
+            return name;
         }
 
         public static T GetOrAddComponent<T>(Transform transform) where T : Component
@@ -461,6 +474,18 @@ namespace XCharts
             }
             if (max < 0) return (int)-mm;
             else return (int)mm;
+        }
+
+        public static void AddEventListener(GameObject obj, EventTriggerType type,
+            UnityEngine.Events.UnityAction<BaseEventData> call)
+        {
+            EventTrigger trigger = GetOrAddComponent<EventTrigger>(obj.gameObject);
+            EventTrigger.Entry entry1 = new EventTrigger.Entry();
+            entry1.eventID = type;
+            entry1.callback = new EventTrigger.TriggerEvent();
+            entry1.callback.AddListener(call);
+            trigger.triggers.Clear();
+            trigger.triggers.Add(entry1);
         }
     }
 }

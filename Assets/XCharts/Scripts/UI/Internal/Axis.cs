@@ -11,8 +11,8 @@ namespace XCharts
         {
             Value,
             Category,
-            Time,
-            Log
+            //Time,
+            //Log
         }
 
         public enum SplitLineType

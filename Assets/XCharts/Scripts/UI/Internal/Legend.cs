@@ -23,7 +23,7 @@ namespace XCharts
         [SerializeField] private int m_ItemFontSize = 18;
         [SerializeField] private List<string> m_Data = new List<string>();
 
-        [NonSerialized] private List<bool> m_DataShowList = new List<bool>();
+        [NonSerialized] private List<bool> m_DataActiveList = new List<bool>();
         [NonSerialized] private List<Button> m_DataBtnList = new List<Button>();
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
@@ -109,33 +109,67 @@ namespace XCharts
             return base.GetHashCode();
         }
 
-        public bool IsShowSeries(string name)
+        public bool IsActive(string name)
         {
             if (string.IsNullOrEmpty(name)) return true;
             for(int i = 0; i < data.Count; i++)
             {
-                if (name.Equals(data[i])) return m_DataShowList[i];
+                if (data[i].Equals(name)) return m_DataActiveList[i];
             }
-            return true;
+            return false;
         }
 
-        public bool IsShowSeries(int seriesIndex)
+        public bool IsActive(int seriesIndex)
         {
             if (seriesIndex < 0 || seriesIndex > data.Count - 1) seriesIndex = 0;
-            if (seriesIndex >= data.Count) return false;
-            if (seriesIndex < 0 || seriesIndex > m_DataShowList.Count - 1)
-            {
+            if (seriesIndex >= data.Count) return true;
+            if (seriesIndex < 0 || seriesIndex > m_DataActiveList.Count - 1)
                 return true;
-            }
             else
+                return m_DataActiveList[seriesIndex];
+        }
+
+        public void ClearData()
+        {
+            m_Data.Clear();
+        }
+
+        public bool ContainsData(string name)
+        {
+            return m_Data.Contains(name);
+        }
+
+        public void RemoveData(string name)
+        {
+            if (m_Data.Contains(name))
             {
-                return m_DataShowList[seriesIndex];
+                m_Data.Remove(name);
             }
         }
 
-        public void SetShowData(int index, bool flag)
+        public void AddData(string name)
         {
-            m_DataShowList[index] = flag;
+            if (!m_Data.Contains(name))
+            {
+                m_Data.Add(name);
+            }
+        }
+
+        public void SetActive(int index, bool flag)
+        {
+            m_DataActiveList[index] = flag;
+        }
+
+        public void SetActive(string name, bool flag)
+        {
+            for (int i = 0; i < data.Count; i++)
+            {
+                if (data[i].Equals(name))
+                {
+                    m_DataActiveList[i] = flag;
+                    break;
+                }
+            }
         }
 
         public void SetButton(int index, Button btn)
@@ -144,7 +178,7 @@ namespace XCharts
             if (index < 0 || index > m_DataBtnList.Count - 1)
             {
                 m_DataBtnList.Add(btn);
-                m_DataShowList.Add(true);
+                m_DataActiveList.Add(true);
             }
             else
             {
@@ -156,25 +190,13 @@ namespace XCharts
 
         public void UpdateButtonColor(int index,Color ableColor,Color unableColor)
         {
-            if (IsShowSeries(index))
+            if (IsActive(index))
             {
                 m_DataBtnList[index].GetComponent<Image>().color = ableColor;
             }
             else
             {
                 m_DataBtnList[index].GetComponent<Image>().color = unableColor;
-            }
-        }
-
-        public void SetShowData(string name, bool flag)
-        {
-            for (int i = 0; i < data.Count; i++)
-            {
-                if (data[i].Equals(name))
-                {
-                    m_DataShowList[i] = flag;
-                    break;
-                }
             }
         }
 

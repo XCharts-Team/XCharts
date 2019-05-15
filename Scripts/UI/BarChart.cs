@@ -24,6 +24,8 @@ namespace XCharts
 
         [SerializeField] private Bar m_Bar = new Bar();
 
+        public Bar bar { get { return m_Bar; } }
+
         protected override void Awake()
         {
             base.Awake();
@@ -52,7 +54,7 @@ namespace XCharts
                     for (int n = 0; n < serieList.Count; n++)
                     {
                         Serie serie = serieList[n];
-                        if (!m_Legend.IsShowSeries(serie.name)) continue;
+                        if (!m_Legend.IsActive(serie.name)) continue;
                         Color color = m_ThemeInfo.GetColor(serieCount);
                         int maxCount = maxShowDataNumber > 0 ?
                             (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
@@ -112,7 +114,7 @@ namespace XCharts
                     for (int n = 0; n < serieList.Count; n++)
                     {
                         Serie serie = serieList[n];
-                        if (!m_Legend.IsShowSeries(serie.name)) continue;
+                        if (!m_Legend.IsActive(serie.name)) continue;
                         Color color = m_ThemeInfo.GetColor(serieCount);
                         int maxCount = maxShowDataNumber > 0 ?
                             (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)

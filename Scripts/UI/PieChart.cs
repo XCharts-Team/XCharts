@@ -15,6 +15,30 @@ namespace XCharts
         private Vector2 m_PieCenter;
         private List<float> m_AngleList = new List<float>();
 
+        public Pie pie { get { return m_Pie; } }
+
+        public override void AddData(string legend, float value)
+        {
+            m_Legend.AddData(legend);
+            var serie = m_Series.AddData(legend,value);
+            if (serie != null)
+            {
+                serie.ClearData();
+                serie.AddData(value);
+                RefreshChart();
+            }
+        }
+
+        public override void UpdateData(string legend, float value, int dataIndex = 0)
+        {
+            var serie = m_Series.GetSerie(legend);
+            if (serie != null)
+            {
+                serie.UpdateData(0, value);
+                RefreshChart();
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -36,7 +60,7 @@ namespace XCharts
             m_AngleList.Clear();
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (!m_Legend.IsShowSeries(i))
+                if (!IsActive(i))
                 {
                     m_AngleList.Add(0);
                     continue;
@@ -70,7 +94,7 @@ namespace XCharts
             float total = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (m_Legend.IsShowSeries(i))
+                if (IsActive(i))
                 {
                     total += m_Series.series[i].GetData(0);
                 }
@@ -83,7 +107,7 @@ namespace XCharts
             float max = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (m_Legend.IsShowSeries(i) && m_Series.series[i].GetData(0) > max)
+                if (IsActive(i) && m_Series.series[i].GetData(0) > max)
                 {
                     max = m_Series.series[i].GetData(0);
                 }

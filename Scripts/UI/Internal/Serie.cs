@@ -24,7 +24,7 @@ namespace XCharts
         public SerieType type { get { return m_Type; } set { m_Type = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }
         public string stack { get { return m_Stack; } set { m_Stack = value; } }
-        public List<float> data { get { return m_Data; } }
+        public List<float> data { get { return m_Data; }set { m_Data = value; } }
 
         public float Max
         {
@@ -81,7 +81,7 @@ namespace XCharts
             m_Data.RemoveAt(index);
         }
 
-        public void AddData(float value, int maxDataNumber)
+        public void AddData(float value, int maxDataNumber = 0)
         {
             if (maxDataNumber > 0)
             {

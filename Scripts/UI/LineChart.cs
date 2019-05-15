@@ -7,6 +7,8 @@ namespace XCharts
     {
         [SerializeField] private Line m_Line = Line.defaultLine;
 
+        public Line line { get { return line; } }
+
         protected override void Awake()
         {
             base.Awake();
@@ -43,7 +45,7 @@ namespace XCharts
             float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
             for (int j = 0; j < seriesCount; j++)
             {
-                if (!m_Legend.IsShowSeries(j)) continue;
+                if (!IsActive(j)) continue;
                 Serie serie = m_Series.series[j];
                 Color32 color = m_ThemeInfo.GetColor(j);
                 Vector3 lp = Vector3.zero;
@@ -131,7 +133,7 @@ namespace XCharts
             float scaleWid = m_YAxis.GetDataWidth(coordinateHig);
             for (int j = 0; j < seriesCount; j++)
             {
-                if (!m_Legend.IsShowSeries(j)) continue;
+                if (!IsActive(j)) continue;
                 Serie serie = m_Series.series[j];
                 Color32 color = m_ThemeInfo.GetColor(j);
                 Vector3 lp = Vector3.zero;

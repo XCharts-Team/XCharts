@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -101,26 +102,62 @@ namespace XCharts
             }
         }
 
-        public void AddData(string legend, float value)
+        public void ClearData()
         {
+            m_Series.ClearData();
+            m_Legend.ClearData();
+        }
+
+        public virtual void AddData(string legend, float value)
+        {
+            m_Legend.AddData(legend);
             m_Series.AddData(legend, value, m_MaxCacheDataNumber);
             RefreshChart();
         }
 
-        public void AddData(int legend, float value)
+        public virtual void AddData(int legend, float value)
         {
             m_Series.AddData(legend, value, m_MaxCacheDataNumber);
         }
 
-        public void UpdateData(string legend, float value, int dataIndex = 0)
+        public virtual void UpdateData(string legend, float value, int dataIndex = 0)
         {
             m_Series.UpdateData(legend, value, dataIndex);
             RefreshChart();
         }
 
-        public void UpdateData(int legendIndex, float value, int dataIndex = 0)
+        public virtual void UpdateData(int legendIndex, float value, int dataIndex = 0)
         {
             m_Series.UpdateData(legendIndex, value, dataIndex);
+            RefreshChart();
+        }
+
+        public virtual void SetActive(string legend,bool active)
+        {
+            m_Legend.SetActive(legend, active);
+            m_Series.SetActive(legend, active);
+        }
+
+        public virtual void SetActive(int index, bool active)
+        {
+            m_Legend.SetActive(index, active);
+            m_Series.SetActive(index, active);
+        }
+
+        public virtual bool IsActive(string name)
+        {
+            return m_Legend.IsActive(name) || m_Series.IsActive(name);
+        }
+
+        public virtual bool IsActive(int index)
+        {
+            return m_Legend.IsActive(index) || m_Series.IsActive(index);
+        }
+
+        public virtual void RemoveData(string legend)
+        {
+            m_Legend.RemoveData(legend);
+            m_Series.RemoveData(legend);
             RefreshChart();
         }
 
@@ -189,14 +226,15 @@ namespace XCharts
                 m_Legend.SetButton(i, btn);
                 m_Legend.UpdateButtonColor(i, m_ThemeInfo.GetColor(i), m_ThemeInfo.unableColor);
                 btn.GetComponentInChildren<Text>().text = m_Legend.data[i];
-                btn.onClick.AddListener(delegate ()
+                ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
-                    int index = int.Parse(btn.name.Split('_')[1]);
-                    m_Legend.SetShowData(index, !m_Legend.IsShowSeries(index));
-                    m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index), m_ThemeInfo.unableColor);
-                    OnYMaxValueChanged();
-                    OnLegendButtonClicked();
-                    RefreshChart();
+                     int count = (data as PointerEventData).clickCount;
+                     int index = int.Parse(data.selectedObject.name.Split('_')[1]);
+                     SetActive(index, !m_Legend.IsActive(index));
+                     m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index), m_ThemeInfo.unableColor);
+                     OnYMaxValueChanged();
+                     OnLegendButtonClicked();
+                     RefreshChart();
                 });
             }
         }
@@ -260,7 +298,7 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show) return;
+            if (!m_Tooltip.show || !m_Tooltip.isInited) return;
             m_Tooltip.dataIndex = 0;
             Vector2 local;
 

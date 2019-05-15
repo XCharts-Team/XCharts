@@ -46,47 +46,121 @@ namespace XCharts
             }
         }
 
-        public void AddData(string legend, float value, int maxDataNumber = 0)
+        public Serie GetSerie(string name)
         {
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (m_Series[i].name.Equals(legend))
+                if (name.Equals(m_Series[i].name))
                 {
-                    m_Series[i].AddData(value, maxDataNumber);
-                    break;
+                    return m_Series[i];
                 }
             }
+            return null;
         }
 
-        public void AddData(int legend, float value, int maxDataNumber = 0)
+        public Serie GetSerie(int index)
         {
-            if (legend >= 0 && legend < Count)
+            if (index >= 0 && index < m_Series.Count)
             {
-                m_Series[legend].AddData(value, maxDataNumber);
+                return m_Series[index];
             }
+            return null;
         }
 
-        public void UpdateData(string legend, float value, int dataIndex = 0)
-        {
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                if (m_Series[i].name.Equals(legend))
-                {
-                    m_Series[i].UpdateData(dataIndex, value);
-                    break;
-                }
-            }
-        }
-
-        public void UpdateData(int legendIndex, float value, int dataIndex = 0)
+        public bool Contains(string name)
         {
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (i == legendIndex)
+                if (name.Equals(m_Series[i].name))
                 {
-                    m_Series[i].UpdateData(dataIndex, value);
-                    break;
+                    return true;
                 }
+            }
+            return false;
+        }
+
+        public void RemoveData(string name)
+        {
+            var serie = GetSerie(name);
+            if (serie != null)
+            {
+                m_Series.Remove(serie);
+            }
+        }
+
+        public Serie AddData(string name, float value, int maxDataNumber = 0)
+        {
+            if (m_Series == null)
+            {
+                m_Series = new List<Serie>();
+            }
+            var serie = GetSerie(name);
+            if (serie == null)
+            {
+                serie = new Serie();
+                serie.name = name;
+                serie.data = new List<float>();
+                m_Series.Add(serie);
+            }
+            serie.AddData(value, maxDataNumber);
+            return serie;
+        }
+
+        public Serie AddData(int index, float value, int maxDataNumber = 0)
+        {
+            var serie = GetSerie(index);
+            if (serie != null)
+            {
+                serie.AddData(value, maxDataNumber);
+            }
+            return serie;
+        }
+
+        public void UpdateData(string name, float value, int dataIndex = 0)
+        {
+            var serie = GetSerie(name);
+            if (serie != null)
+            {
+                serie.UpdateData(dataIndex, value);
+            }
+        }
+
+        public void UpdateData(int index, float value, int dataIndex = 0)
+        {
+            var serie = GetSerie(index);
+            if (serie != null)
+            {
+                serie.UpdateData(dataIndex, value);
+            }
+        }
+
+        public bool IsActive(string name)
+        {
+            var serie = GetSerie(name);
+            return serie == null ? false : serie.show;
+        }
+
+        public bool IsActive(int index)
+        {
+            var serie = GetSerie(index);
+            return serie == null ? false : serie.show;
+        }
+
+        public void SetActive(string name, bool active)
+        {
+            var serie = GetSerie(name);
+            if (serie != null)
+            {
+                serie.show = active;
+            }
+        }
+
+        public void SetActive(int index, bool active)
+        {
+            var serie = GetSerie(index);
+            if (serie != null)
+            {
+                serie.show = active;
             }
         }
 
@@ -125,7 +199,7 @@ namespace XCharts
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
-                    if (legend.IsShowSeries(i))
+                    if (legend.IsActive(i))
                     {
                         if (m_Series[i].Max > max) max = m_Series[i].Max;
                         if (m_Series[i].Min < min) min = m_Series[i].Min;

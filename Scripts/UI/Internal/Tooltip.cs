@@ -18,6 +18,7 @@ namespace XCharts
         public int lastDataIndex { get; set; }
         public float width { get { return m_BackgroudRect.sizeDelta.x; } }
         public float height { get { return m_BackgroudRect.sizeDelta.y; } }
+        public bool isInited { get { return m_GameObject != null; } }
 
         public static Tooltip defaultTooltip
         {
@@ -45,13 +46,19 @@ namespace XCharts
 
         public void SetTextColor(Color color)
         {
-            m_Text.color = color;
+            if (m_Text)
+            {
+                m_Text.color = color;
+            }
         }
 
         public void UpdateTooltipText(string txt)
         {
-            m_Text.text = txt;
-            m_BackgroudRect.sizeDelta = new Vector2(m_Text.preferredWidth + 8, m_Text.preferredHeight + 8);
+            if (m_Text)
+            {
+                m_Text.text = txt;
+                m_BackgroudRect.sizeDelta = new Vector2(m_Text.preferredWidth + 8, m_Text.preferredHeight + 8);
+            }
         }
 
         public void SetActive(bool flag)
@@ -68,7 +75,10 @@ namespace XCharts
 
         public Vector3 GetPos()
         {
-            return m_GameObject.transform.localPosition;
+            if (m_GameObject)
+                return m_GameObject.transform.localPosition;
+            else
+                return Vector3.zero;
         }
     }
 }

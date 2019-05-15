@@ -18,6 +18,7 @@ namespace XCharts
         private List<Text> indicatorTextList = new List<Text>();
         private List<List<Vector3>> dataPosList = new List<List<Vector3>>();
 
+        public Radar radar { get { return m_Radar; } }
 
         protected override void Awake()
         {
@@ -144,7 +145,7 @@ namespace XCharts
             dataPosList.Capacity = m_Series.Count;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (!m_Legend.IsShowSeries(i))
+                if (!IsActive(i))
                 {
                     dataPosList.Add(new List<Vector3>());
                     continue;
@@ -286,7 +287,7 @@ namespace XCharts
             m_Tooltip.dataIndex = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (!m_Legend.IsShowSeries(i)) continue;
+                if (!IsActive(i)) continue;
                 for (int j = 0; j < dataPosList[i].Count; j++)
                 {
                     if (Vector3.Distance(local, dataPosList[i][j]) <= m_Radar.linePointSize * 1.2f)

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using XCharts;
 
+[DisallowMultipleComponent]
+[ExecuteInEditMode]
+[RequireComponent(typeof(PieChart))]
 public class Demo_PieChart : MonoBehaviour
 {
     private PieChart chart;

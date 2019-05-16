@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using XCharts;
 
+[DisallowMultipleComponent]
+[ExecuteInEditMode]
+[RequireComponent(typeof(CoordinateChart))]
 public class Demo_Dynamic : MonoBehaviour
 {
     public int maxCacheDataNumber = 100;

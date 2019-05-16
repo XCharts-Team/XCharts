@@ -9,19 +9,15 @@ A Simple UGUI Charting Library for Unity
   5. 饼图通过参数可配置出：饼图、环形图、南丁格尔玫瑰图等
   6. 支持多数据密集图表
 
-# TODO
-  1. ~~`tooltip`~~（2019.3.21完成）
-  2. ~~多数据支持~~（2019.4.1完成）
-  3. 旭日图`sunburst`
-  4. 动画效果
-  5. 中国地图
-
 # 更新日志
-  * 完善数据接口（2019.05.15）
-  * `LineChart`和`BarChart`的X轴支持`AxisType.Value`模式（2019.05.14）
-  * `LineChart`和`BarChart`增加负数数值支持（2019.05.13）
-  * 0.2版本，重构代码，增加自定义`Editor`编辑参数支持（2019.05.11）
- 
+  * `Value`类型的坐标轴可以设置`AxisMinMaxType`控制最大最小刻度（2019.5.16）
+  * 完善数据接口（2019.5.15）
+  * `LineChart`和`BarChart`的X轴支持`AxisType.Value`模式（2019.5.14）
+  * `LineChart`和`BarChart`增加负数数值支持（2019.5.13）
+  * 0.2版本，重构代码，增加自定义`Editor`编辑参数支持（2019.5.11）
+  * 增加`Tooltip`（2019.3.21）
+  * 增加`Default`、`Light`、`Dark`三种默认主题（2018.11.1）
+  * 0.1版本（2018.9.5）
 
 # 效果图
   1.`Default`主题

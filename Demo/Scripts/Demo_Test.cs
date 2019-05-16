@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using XCharts;
 
+[DisallowMultipleComponent]
+[ExecuteInEditMode]
+//[RequireComponent(typeof(CoordinateChart))]
 public class Demo_Test : MonoBehaviour
 {
     private CoordinateChart chart;

@@ -49,7 +49,7 @@ namespace XCharts
             Transform obj = transform;
             while (obj.transform.parent)
             {
-                name += "/"+obj.transform.parent.name;
+                name += "/" + obj.transform.parent.name;
                 obj = obj.transform.parent;
             }
             return name;
@@ -98,7 +98,7 @@ namespace XCharts
 
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
             TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-            int fontSize = 14,float textRotation = 0)
+            int fontSize = 14, float textRotation = 0)
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             Text txt = GetOrAddComponent<Text>(txtObj);
@@ -111,7 +111,7 @@ namespace XCharts
             txt.color = color;
             if (textRotation > 0)
             {
-                txtObj.transform.localEulerAngles = new Vector3(0,0,textRotation);
+                txtObj.transform.localEulerAngles = new Vector3(0, 0, textRotation);
             }
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
@@ -435,7 +435,7 @@ namespace XCharts
             if (Regex.IsMatch(jsonData, pattern))
             {
                 MatchCollection m = Regex.Matches(jsonData, pattern);
-                foreach(Match match in m)
+                foreach (Match match in m)
                 {
                     list.Add(match.Groups[1].Value);
                 }
@@ -460,19 +460,34 @@ namespace XCharts
                 n++;
             }
             float mm = bigger;
-            if(mm > 10)
+            if (mm > 10)
             {
                 mm = bigger - bigger % (Mathf.Pow(10, n));
-                //if (mm + Mathf.Pow(10, n) / 2 > bigger)
-                //{
-                //    mm += Mathf.Pow(10, n) / 2;
-                //}
-                //else
-                {
-                    mm += Mathf.Pow(10, n);
-                }
+                mm += max >0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
             }
             if (max < 0) return (int)-mm;
+            else return (int)mm;
+        }
+
+        public static int GetMinDivisibleValue(float min)
+        {
+            if (min == 0) return 0;
+            int bigger = (int)Mathf.Abs(min);
+            int n = 1;
+            while (bigger / (Mathf.Pow(10, n)) > 10)
+            {
+                n++;
+            }
+            float mm = bigger;
+            if (mm > 10)
+            {
+                mm = bigger - bigger % (Mathf.Pow(10, n));
+                mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+            }
+            if (min < 0)
+            {
+                return (int)-mm;
+            }
             else return (int)mm;
         }
 

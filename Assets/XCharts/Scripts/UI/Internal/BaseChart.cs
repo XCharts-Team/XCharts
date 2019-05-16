@@ -80,7 +80,8 @@ namespace XCharts
             CheckLegend();
             CheckTooltip();
         }
-
+ 
+#if UNITY_EDITOR
         protected override void Reset()
         {
             ChartHelper.DestoryAllChilds(transform);
@@ -93,6 +94,7 @@ namespace XCharts
             InitLegend();
             InitTooltip();
         }
+#endif
 
         protected override void OnDestroy()
         {
@@ -224,6 +226,7 @@ namespace XCharts
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
 
                 m_Legend.SetButton(i, btn);
+                m_Legend.SetActive(i, IsActive(i));
                 m_Legend.UpdateButtonColor(i, m_ThemeInfo.GetColor(i), m_ThemeInfo.unableColor);
                 btn.GetComponentInChildren<Text>().text = m_Legend.data[i];
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>

@@ -164,7 +164,7 @@ namespace XCharts
             }
         }
 
-        public void GetMinMaxValue(Legend legend, out int minVaule, out int maxValue)
+        public void GetMinMaxValue(out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -199,7 +199,7 @@ namespace XCharts
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
-                    if (legend.IsActive(i))
+                    if (IsActive(i))
                     {
                         if (m_Series[i].Max > max) max = m_Series[i].Max;
                         if (m_Series[i].Min < min) min = m_Series[i].Min;
@@ -211,21 +211,26 @@ namespace XCharts
                 minVaule = 0;
                 maxValue = 100;
             }
-            else if (max > 0 && min > 0)
-            {
-                minVaule = 0;
-                maxValue = ChartHelper.GetMaxDivisibleValue(max);
-            }
-            else if (min < 0 && max < 0)
-            {
-                minVaule = ChartHelper.GetMaxDivisibleValue(min);
-                maxValue = 0;
-            }
             else
             {
-                minVaule = ChartHelper.GetMaxDivisibleValue(min);
-                maxValue = ChartHelper.GetMaxDivisibleValue(max);
+                minVaule = (int)min;
+                maxValue = (int)max;
             }
+            //else if (max > 0 && min > 0)
+            //{
+            //    minVaule = 0;
+            //    maxValue = ChartHelper.GetMaxDivisibleValue(max);
+            //}
+            //else if (min < 0 && max < 0)
+            //{
+            //    minVaule = ChartHelper.GetMaxDivisibleValue(min);
+            //    maxValue = 0;
+            //}
+            //else
+            //{
+            //    minVaule = ChartHelper.GetMaxDivisibleValue(min);
+            //    maxValue = ChartHelper.GetMaxDivisibleValue(max);
+            //}
         }
 
         public float GetMaxValue(int index, int splitNumber = 0)

@@ -15,6 +15,13 @@ namespace XCharts
             //Log
         }
 
+        public enum AxisMinMaxType
+        {
+            Default,
+            MinMax,
+            Custom
+        }
+
         public enum SplitLineType
         {
             None,
@@ -54,6 +61,9 @@ namespace XCharts
 
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
+        [SerializeField] protected AxisMinMaxType m_MinMaxType;
+        [SerializeField] protected int m_Min;
+        [SerializeField] protected int m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
         [SerializeField] protected int m_TextRotation = 0;
         [SerializeField] protected bool m_ShowSplitLine = false;
@@ -64,6 +74,9 @@ namespace XCharts
 
         public bool show { get { return m_Show; }set { m_Show = value; } }
         public AxisType type { get { return m_Type; } set { m_Type = value; } }
+        public AxisMinMaxType minMaxType { get { return m_MinMaxType; } set { m_MinMaxType = value; } }
+        public int min { get { return m_Min; } set { m_Min = value; } }
+        public int max { get { return m_Max; } set { m_Max = value; } }
         public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
         public int textRotation { get { return m_TextRotation; } set { m_TextRotation = value; } }
         public bool showSplitLine { get { return m_ShowSplitLine; } set { m_ShowSplitLine = value; } }
@@ -76,6 +89,8 @@ namespace XCharts
         {
             m_Show = other.show;
             m_Type = other.type;
+            m_Min = other.min;
+            m_Max = other.max;
             m_SplitNumber = other.splitNumber;
             m_TextRotation = other.textRotation;
             m_ShowSplitLine = other.showSplitLine;
@@ -187,6 +202,8 @@ namespace XCharts
         {
             return show == other.show &&
                 type == other.type &&
+                min == other.min &&
+                max == other.max &&
                 splitNumber == other.splitNumber &&
                 showSplitLine == other.showSplitLine &&
                 textRotation == other.textRotation &&
@@ -228,6 +245,8 @@ namespace XCharts
                 {
                     m_Show = true,
                     m_Type = AxisType.Category,
+                    m_Min = 0,
+                    m_Max = 0,
                     m_SplitNumber = 5,
                     m_TextRotation = 0,
                     m_ShowSplitLine = false,
@@ -254,6 +273,8 @@ namespace XCharts
                 {
                     m_Show = true,
                     m_Type = AxisType.Value,
+                    m_Min = 0,
+                    m_Max = 0,
                     m_SplitNumber = 5,
                     m_TextRotation = 0,
                     m_ShowSplitLine = false,

@@ -1,7 +1,7 @@
 # XCharts
 A Simple UGUI Charting Library for Unity
 <br>
-UGUI图表库，风格参考了[`Echarts`](https://www.echartsjs.com/examples/#chart-type-bar)
+UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#chart-type-bar)
 
 # 特性
   1. 内置丰富示例，参数可视化配置，效果实时预览，纯源码绘制

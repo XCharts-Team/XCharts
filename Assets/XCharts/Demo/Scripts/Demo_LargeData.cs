@@ -11,7 +11,7 @@ public class Demo_LargeData : MonoBehaviour
 
     private CoordinateChart chart;
     private float initTime;
-    private int initCount;
+    private int initCount = 0;
     private System.DateTime timeNow;
 
     void Awake()
@@ -21,21 +21,21 @@ public class Demo_LargeData : MonoBehaviour
         chart.xAxis.ClearData();
         chart.series.ClearData();
         chart.maxCacheDataNumber = maxCacheDataNumber;
-        initCount = maxCacheDataNumber;
+        timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
     }
 
     void Update()
     {
-        if (initCount>0)
+        if (initCount< maxCacheDataNumber)
         {
             int count = (int)(maxCacheDataNumber / initDataTime * Time.deltaTime);
             for(int i = 0; i < count; i++)
             {
-                timeNow = timeNow.AddSeconds(-initCount);
+                timeNow = timeNow.AddSeconds(1);
                 chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
                 chart.AddData(0, UnityEngine.Random.Range(60, 150));
-                initCount--;
-                if (initCount <= 0) break;
+                initCount++;
+                if (initCount > maxCacheDataNumber) break;
             }
             chart.RefreshChart();
         }

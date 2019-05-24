@@ -26,21 +26,21 @@ public class Demo_Dynamic : MonoBehaviour
         chart.series.ClearData();
         chart.maxCacheDataNumber = maxCacheDataNumber;
         timeNow = DateTime.Now;
-        initCount = maxCacheDataNumber;
+        timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
     }
 
     void Update()
     {
-        if (initCount>0)
+        if (initCount< maxCacheDataNumber)
         {
             int count = (int)(maxCacheDataNumber / initDataTime * Time.deltaTime);
             for (int i = 0; i < count; i++)
             {
-                timeNow = timeNow.AddSeconds(-initCount);
+                timeNow = timeNow.AddSeconds(1);
                 chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
                 chart.AddData(0, UnityEngine.Random.Range(60, 150));
-                initCount--;
-                if (initCount <= 0) break;
+                initCount++;
+                if (initCount > maxCacheDataNumber) break;
             }
             chart.RefreshChart();
         }

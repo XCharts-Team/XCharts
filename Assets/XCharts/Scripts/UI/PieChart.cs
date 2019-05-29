@@ -169,7 +169,7 @@ namespace XCharts
             }
             if (m_Tooltip.dataIndex > 0)
             {
-                m_Tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
                 if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex)
                 {
@@ -209,9 +209,9 @@ namespace XCharts
                 txt += m_Pie.name + "\n";
             }
             txt += string.Format("<color=#{0}>● </color>{1}: {2}", strColor, key, value);
-            m_Tooltip.UpdateTooltipText(txt);
+            m_Tooltip.UpdateContentText(txt);
 
-            var pos = m_Tooltip.GetPos();
+            var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {
                 pos.x = chartWidth - m_Tooltip.width;
@@ -220,7 +220,7 @@ namespace XCharts
             {
                 pos.y = m_Tooltip.height;
             }
-            m_Tooltip.UpdatePos(pos);
+            m_Tooltip.UpdateContentPos(pos);
         }
     }
 }

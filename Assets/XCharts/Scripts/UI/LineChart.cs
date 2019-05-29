@@ -220,7 +220,13 @@ namespace XCharts
                     + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
                 Vector2 sp = new Vector2(px, coordinateY);
                 Vector2 ep = new Vector2(px, coordinateY + coordinateHig);
-                ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
+                ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipLineColor);
+                if (m_Tooltip.crossLabel)
+                {
+                    sp = new Vector2(zeroX, m_Tooltip.pointerPos.y);
+                    ep = new Vector2(zeroX + coordinateWid, m_Tooltip.pointerPos.y);
+                    DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                }
             }
         }
 
@@ -249,7 +255,7 @@ namespace XCharts
                     Color color = m_ThemeInfo.GetColor(serieCount);
                     Vector3 lp = Vector3.zero;
                     Vector3 np = Vector3.zero;
-                    float startY = coordinateY + (m_YAxis.boundaryGap ? scaleWid / 2 : 0);
+                    float startY = zeroY + (m_YAxis.boundaryGap ? scaleWid / 2 : 0);
                     int maxCount = maxShowDataNumber > 0 ?
                         (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
                         : serie.data.Count;
@@ -281,7 +287,7 @@ namespace XCharts
                         }
                         float value = serie.data[i];
                         float pY = startY + i * scaleWid;
-                        float pX = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
+                        float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
                         float dataHig = value / (maxValue - minValue) * coordinateWid;
                         np = new Vector3(pX + dataHig, pY);
 
@@ -402,6 +408,12 @@ namespace XCharts
                 Vector2 sp = new Vector2(coordinateX, pY);
                 Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);
                 ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
+                if (m_Tooltip.crossLabel)
+                {
+                    sp = new Vector2(m_Tooltip.pointerPos.x,zeroY);
+                    ep = new Vector2(m_Tooltip.pointerPos.x,zeroY + coordinateHig);
+                    DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                }
             }
         }
     }

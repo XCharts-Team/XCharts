@@ -129,9 +129,9 @@ namespace XCharts
             }
             if (m_Tooltip.dataIndex > 0)
             {
-                m_Tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
-                if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex)
+                if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex || m_Tooltip.crossLabel)
                 {
                     RefreshChart();
                 }
@@ -152,8 +152,9 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             if (m_Series.Count == 1)
             {
-                string txt = tempAxis.GetData(index) + ": " + m_Series.GetData(0, index);
-                m_Tooltip.UpdateTooltipText(txt);
+                float value = m_Series.GetData(0, index);
+                string txt = tempAxis.GetData(index) + ": " + value;
+                m_Tooltip.UpdateContentText(txt);
             }
             else
             {
@@ -171,9 +172,33 @@ namespace XCharts
                     }
 
                 }
-                m_Tooltip.UpdateTooltipText(sb.ToString());
+                m_Tooltip.UpdateContentText(sb.ToString());
             }
-            var pos = m_Tooltip.GetPos();
+            if(m_XAxis.type == Axis.AxisType.Value)
+            {
+                float hig = (maxValue - minValue) * (m_Tooltip.pointerPos.x - zeroX) / coordinateWid;
+                m_Tooltip.UpdateLabelText(hig.ToString("f2"),tempAxis.GetData(index));
+                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
+                float py = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth
+                    + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
+                Vector2 xLabelPos = new Vector2(m_Tooltip.pointerPos.x,coordinateY- 4 * m_Coordinate.tickness);
+                Vector2 yLabelPos = new Vector2(coordinateX - 6 * m_Coordinate.tickness,py);
+                m_Tooltip.UpdateLabelPos(xLabelPos, yLabelPos);
+            }
+            else
+            {
+                float hig = (maxValue - minValue) * (m_Tooltip.pointerPos.y - zeroY) / coordinateHig;
+                m_Tooltip.UpdateLabelText(tempAxis.GetData(index), hig.ToString("f2"));
+                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid);
+                float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
+                    + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
+                Vector2 xLabelPos = new Vector2(px, coordinateY - 6 * m_Coordinate.tickness);
+                Vector2 yLabelPos = new Vector2(coordinateX - 4 * m_Coordinate.tickness, m_Tooltip.pointerPos.y);
+                m_Tooltip.UpdateLabelPos(xLabelPos, yLabelPos);
+            }
+            
+
+            var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {
                 pos.x = chartWidth - m_Tooltip.width;
@@ -182,7 +207,7 @@ namespace XCharts
             {
                 pos.y = m_Tooltip.height;
             }
-            m_Tooltip.UpdatePos(pos);
+            m_Tooltip.UpdateContentPos(pos);
         }
 
         TextGenerationSettings GetTextSetting()
@@ -293,12 +318,13 @@ namespace XCharts
         {
             if (m_XAxis.boundaryGap)
             {
-                return new Vector3(coordinateX + (i + 1) * scaleWid, coordinateY - m_XAxis.axisTick.length - 5, 0);
+                return new Vector3(coordinateX + (i + 1) * scaleWid,
+                    coordinateY - m_XAxis.axisTick.length - 12, 0);
             }
             else
             {
                 return new Vector3(coordinateX + (i + 1 - 0.5f) * scaleWid,
-                    coordinateY - m_XAxis.axisTick.length - 10, 0);
+                    coordinateY - m_XAxis.axisTick.length - 12, 0);
             }
         }
 
@@ -396,12 +422,14 @@ namespace XCharts
                 maxValue = tempMaxValue;
                 if (m_XAxis.type == Axis.AxisType.Value)
                 {
-                    m_ZeroXOffset = minValue > 0 ? 0 : Mathf.Abs(minValue) * (coordinateWid / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
+                    m_ZeroXOffset = minValue > 0 ? 0 :
+                        Mathf.Abs(minValue) * (coordinateWid / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnXMaxValueChanged();
                 }
                 else if (m_YAxis.type == Axis.AxisType.Value)
                 {
-                    m_ZeroYOffset = minValue > 0 ? 0 : Mathf.Abs(minValue) * (coordinateHig / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
+                    m_ZeroYOffset = minValue > 0 ? 0 :
+                        Mathf.Abs(minValue) * (coordinateHig / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnYMaxValueChanged();
                 }
                 RefreshChart();
@@ -470,7 +498,7 @@ namespace XCharts
                     if (m_YAxis.showSplitLine)
                     {
                         DrawSplitLine(vh, true, m_YAxis.splitLineType, new Vector3(coordinateX, pY),
-                            new Vector3(coordinateX + coordinateWid, pY));
+                            new Vector3(coordinateX + coordinateWid, pY), m_ThemeInfo.axisSplitLineColor);
                     }
                 }
             }
@@ -487,13 +515,13 @@ namespace XCharts
                     if (m_XAxis.axisTick.show)
                     {
                         pY += zeroY - m_XAxis.axisTick.length - 2;
-                        ChartHelper.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY), m_Coordinate.tickness,
-                        m_ThemeInfo.axisLineColor);
+                        ChartHelper.DrawLine(vh, new Vector3(pX, zeroY), new Vector3(pX, pY),
+                            m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
                     }
                     if (m_XAxis.showSplitLine)
                     {
                         DrawSplitLine(vh, false, m_XAxis.splitLineType, new Vector3(pX, coordinateY),
-                            new Vector3(pX, coordinateY + coordinateHig));
+                            new Vector3(pX, coordinateY + coordinateHig), m_ThemeInfo.axisSplitLineColor);
                     }
                 }
             }
@@ -534,8 +562,8 @@ namespace XCharts
             #endregion
         }
 
-        private void DrawSplitLine(VertexHelper vh, bool isYAxis, Axis.SplitLineType type, Vector3 startPos,
-            Vector3 endPos)
+        protected void DrawSplitLine(VertexHelper vh, bool isYAxis, Axis.SplitLineType type,
+            Vector3 startPos, Vector3 endPos, Color color)
         {
             switch (type)
             {
@@ -552,22 +580,21 @@ namespace XCharts
                         {
                             var toX = startX + dashLen;
                             ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(toX, startY),
-                                m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+                                m_Coordinate.tickness, color);
                             startX += dashLen * 2;
                         }
                         else
                         {
                             var toY = startY + dashLen;
                             ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(startX, toY),
-                                m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+                                m_Coordinate.tickness, color);
                             startY += dashLen * 2;
                         }
 
                     }
                     break;
                 case Axis.SplitLineType.Solid:
-                    ChartHelper.DrawLine(vh, startPos, endPos, m_Coordinate.tickness,
-                        m_ThemeInfo.axisSplitLineColor);
+                    ChartHelper.DrawLine(vh, startPos, endPos, m_Coordinate.tickness, color);
                     break;
             }
         }

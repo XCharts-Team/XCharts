@@ -299,7 +299,7 @@ namespace XCharts
             }
             if (m_Tooltip.dataIndex > 0)
             {
-                m_Tooltip.UpdatePos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
                 if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex)
                 {
@@ -331,9 +331,9 @@ namespace XCharts
                 sb.Append("\n");
                 sb.AppendFormat("{0}: {1}", key, value);
             }
-            m_Tooltip.UpdateTooltipText(sb.ToString());
+            m_Tooltip.UpdateContentText(sb.ToString());
 
-            var pos = m_Tooltip.GetPos();
+            var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {
                 pos.x = chartWidth - m_Tooltip.width;
@@ -342,7 +342,7 @@ namespace XCharts
             {
                 pos.y = m_Tooltip.height;
             }
-            m_Tooltip.UpdatePos(pos);
+            m_Tooltip.UpdateContentPos(pos);
         }
     }
 }

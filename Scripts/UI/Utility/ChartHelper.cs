@@ -11,12 +11,12 @@ namespace XCharts
         private static float CRICLE_SMOOTHNESS = 1f;
         private static UIVertex[] vertex = new UIVertex[4];
 
-        public static void HideAllObject(GameObject obj, string match)
+        public static void HideAllObject(GameObject obj, string match = null)
         {
             HideAllObject(obj.transform, match);
         }
 
-        public static void HideAllObject(Transform parent, string match)
+        public static void HideAllObject(Transform parent, string match = null)
         {
             for (int i = 0; i < parent.childCount; i++)
             {
@@ -138,7 +138,7 @@ namespace XCharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipObject(string name, Transform parent, Font font)
+        public static GameObject AddTooltipContent(string name, Transform parent, Font font)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -151,7 +151,25 @@ namespace XCharts
                     anchorMin, anchorMax, pivot, sizeDelta);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(3, -3);
+            tooltipObj.transform.localPosition = Vector3.zero;
             return tooltipObj;
+        }
+
+        public static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
+        {
+            var anchorMax = new Vector2(0, 0);
+            var anchorMin = new Vector2(0, 0);
+            var sizeDelta = new Vector2(100, 50);
+            GameObject labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            labelObj.transform.localPosition = Vector3.zero;
+            var img = GetOrAddComponent<Image>(labelObj);
+            img.color = Color.black;
+            Text txt = AddTextObject("Text", labelObj.transform, font, Color.white, TextAnchor.MiddleCenter,
+                    new Vector2(0, 0), new Vector2(1, 1), new Vector2(1,1), sizeDelta, 16);
+            txt.GetComponent<RectTransform>().offsetMin = Vector2.zero;
+            txt.GetComponent<RectTransform>().offsetMax = Vector2.zero;
+            txt.text = "Text";
+            return labelObj;
         }
 
         public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color)

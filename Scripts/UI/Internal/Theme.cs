@@ -26,6 +26,8 @@ namespace XCharts
         [SerializeField] private Color32 m_TooltipBackgroundColor;
         [SerializeField] private Color32 m_TooltipFlagAreaColor;
         [SerializeField] private Color32 m_TooltipTextColor;
+        [SerializeField] private Color32 m_TooltipLabelColor;
+        [SerializeField] private Color32 m_TooltipLineColor;
         [SerializeField] private Color32[] m_ColorPalette;
 
         public Font font { get { return m_Font; } set { m_Font = value; } }
@@ -40,6 +42,8 @@ namespace XCharts
         public Color32 tooltipBackgroundColor { get { return m_TooltipBackgroundColor; } set { m_TooltipBackgroundColor = value; } }
         public Color32 tooltipFlagAreaColor { get { return m_TooltipFlagAreaColor; } set { m_TooltipFlagAreaColor = value; } }
         public Color32 tooltipTextColor { get { return m_TooltipTextColor; } set { m_TooltipTextColor = value; } }
+        public Color32 tooltipLabelColor { get { return m_TooltipLabelColor; } set { m_TooltipLabelColor = value; } }
+        public Color32 tooltipLineColor { get { return m_TooltipLineColor; } set { m_TooltipLineColor = value; } }
         public Color32[] colorPalette { get { return m_ColorPalette; } set { m_ColorPalette = value; } }
 
         public Color32 GetColor(int index)
@@ -65,6 +69,8 @@ namespace XCharts
             m_AxisSplitLineColor = theme.m_AxisSplitLineColor;
             m_TooltipBackgroundColor = theme.m_TooltipBackgroundColor;
             m_TooltipTextColor = theme.m_TooltipTextColor;
+            m_TooltipLabelColor = theme.m_TooltipLabelColor;
+            m_TooltipLineColor = theme.m_TooltipLineColor;
             m_ColorPalette = new Color32[theme.m_ColorPalette.Length];
             for (int i = 0; i < theme.m_ColorPalette.Length; i++)
             {
@@ -90,6 +96,8 @@ namespace XCharts
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
                     m_TooltipTextColor = GetColor("#FFFFFFFF"),
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
+                    m_TooltipLabelColor = GetColor("#292929FF"),
+                    m_TooltipLineColor = GetColor("#29292964"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(194, 53, 49, 255),
@@ -126,6 +134,8 @@ namespace XCharts
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
                     m_TooltipTextColor = GetColor("#FFFFFFFF"),
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
+                    m_TooltipLabelColor = GetColor("#292929FF"),
+                    m_TooltipLineColor = GetColor("#29292964"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(55, 162, 218, 255),
@@ -164,6 +174,8 @@ namespace XCharts
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
                     m_TooltipTextColor = GetColor("#FFFFFFFF"),
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
+                    m_TooltipLabelColor = GetColor("#A7A7A7FF"),
+                    m_TooltipLineColor = GetColor("#eee"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(221, 107, 102, 255),

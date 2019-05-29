@@ -46,6 +46,8 @@ namespace XCharts
             SerializedProperty m_TooltipBackgroundColor = prop.FindPropertyRelative("m_TooltipBackgroundColor");
             SerializedProperty m_TooltipFlagAreaColor = prop.FindPropertyRelative("m_TooltipFlagAreaColor");
             SerializedProperty m_TooltipTextColor = prop.FindPropertyRelative("m_TooltipTextColor");
+            SerializedProperty m_TooltipLabelColor = prop.FindPropertyRelative("m_TooltipLabelColor");
+            SerializedProperty m_TooltipLineColor = prop.FindPropertyRelative("m_TooltipLineColor");
             SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");
 
             ++EditorGUI.indentLevel;
@@ -73,6 +75,10 @@ namespace XCharts
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_TooltipTextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_TooltipLabelColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_TooltipLineColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
             m_ColorPaletteFoldout = EditorGUI.Foldout(drawRect, m_ColorPaletteFoldout, "ColorPalette");
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -94,7 +100,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            int propertyCount = 12;
+            int propertyCount = 14;
             if (m_ColorPaletteFoldout)
             {
                 SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");

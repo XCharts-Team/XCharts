@@ -244,10 +244,21 @@ namespace XCharts
 
         private void InitTooltip()
         {
-            GameObject obj = ChartHelper.AddTooltipObject("tooltip", transform, m_ThemeInfo.font);
-            m_Tooltip.SetObj(obj);
-            m_Tooltip.SetBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
-            m_Tooltip.SetTextColor(m_ThemeInfo.tooltipTextColor);
+            var tooltipObject = ChartHelper.AddObject("tooltip", transform, chartAnchorMin,
+                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            tooltipObject.transform.localPosition = Vector3.zero;
+            DestroyImmediate(tooltipObject.GetComponent<Image>());
+            ChartHelper.HideAllObject(tooltipObject.transform);
+            GameObject content = ChartHelper.AddTooltipContent("content", tooltipObject.transform, m_ThemeInfo.font);
+            GameObject labelX = ChartHelper.AddTooltipLabel("label_x", tooltipObject.transform, m_ThemeInfo.font, new Vector2(0.5f, 1));
+            GameObject labelY = ChartHelper.AddTooltipLabel("label_y", tooltipObject.transform, m_ThemeInfo.font, new Vector2(1, 0.5f));
+            m_Tooltip.SetObj(tooltipObject);
+            m_Tooltip.SetContentObj(content);
+            m_Tooltip.SetLabelObj(labelX, labelY);
+            m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
+            m_Tooltip.SetContentTextColor(m_ThemeInfo.tooltipTextColor);
+            m_Tooltip.SetLabelBackgroundColor(m_ThemeInfo.tooltipLabelColor);
+            m_Tooltip.SetLabelTextColor(m_ThemeInfo.tooltipTextColor);
             m_Tooltip.SetActive(false);
         }
 
@@ -302,7 +313,9 @@ namespace XCharts
         private void CheckTooltip()
         {
             if (!m_Tooltip.show || !m_Tooltip.isInited) return;
+            m_Tooltip.SetLabelActive(m_Tooltip.crossLabel);
             m_Tooltip.dataIndex = 0;
+            
             Vector2 local;
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
@@ -312,7 +325,7 @@ namespace XCharts
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
                 return;
-
+            m_Tooltip.pointerPos = local;
             CheckTootipArea(local);
         }
 
@@ -342,6 +355,7 @@ namespace XCharts
             }
             InitTitle();
             InitLegend();
+            InitTooltip();
         }
 
         protected virtual void OnTitleChanged()

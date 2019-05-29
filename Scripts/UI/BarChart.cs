@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-
-
     [AddComponentMenu("XCharts/BarChart", 13)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
@@ -89,14 +87,28 @@ namespace XCharts
                 }
                 if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
                 {
-                    float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
-                    float pX = coordinateX + coordinateWid;
-                    float pY = coordinateY + scaleWid * (m_Tooltip.dataIndex - 1) - (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
-                    Vector3 p1 = new Vector3(coordinateX, pY);
-                    Vector3 p2 = new Vector3(coordinateX, pY + tooltipSplitWid);
-                    Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
-                    Vector3 p4 = new Vector3(pX, pY);
-                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
+                    if (m_Tooltip.crossLabel)
+                    {
+                        Vector3 sp = new Vector2(m_Tooltip.pointerPos.x, zeroY);
+                        Vector3 ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
+                        DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
+                        float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
+                        sp = new Vector2(coordinateX, pY);
+                        ep = new Vector2(coordinateX + coordinateWid, pY);
+                        DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    }
+                    else
+                    {
+                        float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
+                        float pX = coordinateX + coordinateWid;
+                        float pY = coordinateY + scaleWid * (m_Tooltip.dataIndex - 1) - (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
+                        Vector3 p1 = new Vector3(coordinateX, pY);
+                        Vector3 p2 = new Vector3(coordinateX, pY + tooltipSplitWid);
+                        Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
+                        Vector3 p4 = new Vector3(pX, pY);
+                        ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
+                    }
                 }
             }
             else
@@ -149,14 +161,30 @@ namespace XCharts
                 }
                 if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
                 {
-                    float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
-                    float pX = coordinateX + scaleWid * (m_Tooltip.dataIndex - 1) - (m_XAxis.boundaryGap?0:scaleWid/2);
-                    float pY = coordinateY + coordinateHig;
-                    Vector3 p1 = new Vector3(pX, coordinateY);
-                    Vector3 p2 = new Vector3(pX, pY);
-                    Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
-                    Vector3 p4 = new Vector3(pX + tooltipSplitWid, coordinateY);
-                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
+                    if (m_Tooltip.crossLabel)
+                    {
+                        Vector3 sp = new Vector2(zeroX, m_Tooltip.pointerPos.y);
+                        Vector3 ep = new Vector2(zeroX + coordinateWid, m_Tooltip.pointerPos.y);
+                        DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+
+                        float splitWidth = m_XAxis.GetSplitWidth(coordinateWid);
+                        float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
+                            + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
+                        sp = new Vector2(px, coordinateY);
+                        ep = new Vector2(px, coordinateY + coordinateHig);
+                        DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    }
+                    else
+                    {
+                        float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
+                        float pX = coordinateX + scaleWid * (m_Tooltip.dataIndex - 1) - (m_XAxis.boundaryGap ? 0 : scaleWid / 2);
+                        float pY = coordinateY + coordinateHig;
+                        Vector3 p1 = new Vector3(pX, coordinateY);
+                        Vector3 p2 = new Vector3(pX, pY);
+                        Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
+                        Vector3 p4 = new Vector3(pX + tooltipSplitWid, coordinateY);
+                        ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.tooltipFlagAreaColor);
+                    }
                 }
             }
         }

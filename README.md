@@ -31,7 +31,8 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
     5. 世界人口总量
     6. 堆叠条形图
     7. 深圳月最低生活费组成（单位:元）
-    8. 5000数据
+    8. 非堆叠同柱
+    9. 5000数据
   * 饼图
     1. Customized Pie
     2. 环形图
@@ -46,6 +47,7 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
 
 
 # 更新日志
+  * （2019.05.29）`BarChart`增加`InSameBar`实现非堆叠同柱
   * （2019.05.29）`Tooltip`增加`crossLabel`显示十字准星指示器
   * （2019.05.24）增加`堆叠区域图`
   * （2019.05.16）`Value`类型的坐标轴可以设置`AxisMinMaxType`控制最大最小刻度

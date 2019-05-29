@@ -13,9 +13,11 @@ namespace XCharts
         [System.Serializable]
         public class Bar
         {
+            [SerializeField] private bool m_InSameBar;
             [SerializeField] private float m_BarWidth = 0.7f;
             [SerializeField] private float m_Space;
 
+            public bool inSameBar { get { return m_InSameBar; } set { m_InSameBar = value; } }
             public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
             public float space { get { return m_Space; } set { m_Space = value; } }
         }
@@ -43,7 +45,9 @@ namespace XCharts
                 int seriesCount = stackSeries.Count;
                 float scaleWid = m_YAxis.GetDataWidth(coordinateHig);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
-                float offset = (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
+                float offset = m_Bar.inSameBar ?
+                    (scaleWid - barWid - m_Bar.space * (seriesCount - 1)) / 2 :
+                    (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
                 int serieCount = 0;
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -68,7 +72,8 @@ namespace XCharts
                             float pY = coordinateY + i * scaleWid;
                             if (!m_YAxis.boundaryGap) pY -= scaleWid / 2;
                             float barHig = value / (maxValue - minValue) * coordinateWid;
-                            float space = offset + j * (barWid + m_Bar.space);
+                            float space = m_Bar.inSameBar ? offset :
+                                offset + j * (barWid + m_Bar.space);
                             seriesCurrHig[i] += barHig;
                             Vector3 p1 = new Vector3(pX, pY + space + barWid);
                             Vector3 p2 = new Vector3(pX + barHig, pY + space + barWid);
@@ -93,7 +98,8 @@ namespace XCharts
                         Vector3 ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
                         DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
                         float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
-                        float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
+                        float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth +
+                            (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
                         sp = new Vector2(coordinateX, pY);
                         ep = new Vector2(coordinateX + coordinateWid, pY);
                         DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
@@ -102,7 +108,8 @@ namespace XCharts
                     {
                         float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
                         float pX = coordinateX + coordinateWid;
-                        float pY = coordinateY + scaleWid * (m_Tooltip.dataIndex - 1) - (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
+                        float pY = coordinateY + scaleWid * (m_Tooltip.dataIndex - 1) -
+                            (m_YAxis.boundaryGap ? 0 : scaleWid / 2);
                         Vector3 p1 = new Vector3(coordinateX, pY);
                         Vector3 p2 = new Vector3(coordinateX, pY + tooltipSplitWid);
                         Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
@@ -117,7 +124,9 @@ namespace XCharts
                 int seriesCount = stackSeries.Count;
                 float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
-                float offset = (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
+                float offset = m_Bar.inSameBar ?
+                    (scaleWid - barWid - m_Bar.space * (seriesCount - 1)) / 2 :
+                    (scaleWid - barWid * seriesCount - m_Bar.space * (seriesCount - 1)) / 2;
                 int serieCount = 0;
                 for (int j = 0; j < seriesCount; j++)
                 {
@@ -143,7 +152,8 @@ namespace XCharts
                             float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
                             float barHig = value / (maxValue - minValue) * coordinateHig;
                             seriesCurrHig[i] += barHig;
-                            float space = offset + j * (barWid + m_Bar.space);
+                            float space = m_Bar.inSameBar ? offset :
+                                offset + j * (barWid + m_Bar.space);
                             Vector3 p1 = new Vector3(pX + space, pY);
                             Vector3 p2 = new Vector3(pX + space, pY + barHig);
                             Vector3 p3 = new Vector3(pX + space + barWid, pY + barHig);
@@ -177,7 +187,8 @@ namespace XCharts
                     else
                     {
                         float tooltipSplitWid = scaleWid < 1 ? 1 : scaleWid;
-                        float pX = coordinateX + scaleWid * (m_Tooltip.dataIndex - 1) - (m_XAxis.boundaryGap ? 0 : scaleWid / 2);
+                        float pX = coordinateX + scaleWid * (m_Tooltip.dataIndex - 1) -
+                            (m_XAxis.boundaryGap ? 0 : scaleWid / 2);
                         float pY = coordinateY + coordinateHig;
                         Vector3 p1 = new Vector3(pX, coordinateY);
                         Vector3 p2 = new Vector3(pX, pY);

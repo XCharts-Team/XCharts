@@ -37,10 +37,10 @@ namespace XCharts
 
         protected override void Awake()
         {
-            base.Awake();
             CheckMinMaxValue();
             InitSplitX();
             InitSplitY();
+            base.Awake();
         }
 
         protected override void Update()

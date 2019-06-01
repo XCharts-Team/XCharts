@@ -312,7 +312,16 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show || !m_Tooltip.isInited) return;
+            if (!m_Tooltip.show || !m_Tooltip.isInited)
+            {
+                if(m_Tooltip.dataIndex != 0)
+                {
+                    m_Tooltip.dataIndex = 0;
+                    m_Tooltip.SetActive(false);
+                    RefreshChart();
+                }
+                return;
+            }
             m_Tooltip.SetLabelActive(m_Tooltip.crossLabel);
             m_Tooltip.dataIndex = 0;
             
@@ -320,11 +329,16 @@ namespace XCharts
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, null, out local))
+            {
+                m_Tooltip.SetActive(false);
                 return;
-
+            }
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
+            {
+                m_Tooltip.SetActive(false);
                 return;
+            }
             m_Tooltip.pointerPos = local;
             CheckTootipArea(local);
         }

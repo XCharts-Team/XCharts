@@ -21,7 +21,7 @@ namespace XCharts
         [NonSerialized] private RectTransform m_LabelRectX;
         [NonSerialized] private RectTransform m_LabelRectY;
 
-        public bool show { get { return m_Show; }set { m_Show = value; } }
+        public bool show { get { return m_Show; }set { m_Show = value; SetActive(value); } }
         public bool crossLabel { get { return m_CrossLabel; } set { m_CrossLabel = value; } }
 
         public int dataIndex { get; set; }
@@ -119,7 +119,7 @@ namespace XCharts
 
         public void SetActive(bool flag)
         {
-            if(m_GameObject)
+            if(m_GameObject && m_GameObject.activeInHierarchy != flag)
                 m_GameObject.SetActive(flag);
         }
 

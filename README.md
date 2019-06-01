@@ -21,8 +21,10 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
     6. 折线图堆叠+图例
     7. 堆叠区域图
     8. 面积图
-    9. 动态数据
-    10. 大数据量面积图
+    9. 阶梯线图
+    10. 阶梯线图+区域填充
+    11. 动态数据
+    12. 大数据量面积图
   * 柱状图
     1. 基础柱状图
     2. 负数数值轴+自定义最大最小刻度
@@ -47,6 +49,7 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
 
 
 # 更新日志
+  * （2019.06.01）`LineChart`增加`stepType`实现`阶梯线图`
   * （2019.05.29）`BarChart`增加`InSameBar`实现非堆叠同柱
   * （2019.05.29）`Tooltip`增加`crossLabel`显示十字准星指示器
   * （2019.05.24）增加`堆叠区域图`

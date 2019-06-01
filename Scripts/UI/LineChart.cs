@@ -104,7 +104,56 @@ namespace XCharts
 
                         if (i > 0)
                         {
-                            if (m_Line.smooth)
+                            if (m_Line.step)
+                            {
+                                Vector2 middle1, middle2;
+                                switch (m_Line.stepTpe)
+                                {
+                                    case Line.StepType.Start:
+                                        middle1 = new Vector2(lp.x, np.y + m_Line.tickness);
+                                        middle2 = new Vector2(lp.x - m_Line.tickness, np.y);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(middle1.x, zeroY), middle1, np,
+                                                new Vector2(np.x, zeroY), areaColor);
+                                        }
+                                        break;
+                                    case Line.StepType.Middle:
+                                        middle1 = new Vector2((lp.x + np.x) / 2 + m_Line.tickness, lp.y);
+                                        middle2 = new Vector2((lp.x + np.x) / 2 - m_Line.tickness, np.y);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, new Vector2(middle1.x - m_Line.tickness, middle1.y),
+                                            new Vector2(middle2.x + m_Line.tickness, middle2.y), m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(lp.x, zeroY), lp, middle1,
+                                                new Vector2(middle1.x, zeroY), areaColor);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(middle2.x + 2 * m_Line.tickness, zeroY),
+                                                new Vector2(middle2.x + 2 * m_Line.tickness, middle2.y), np,
+                                                new Vector2(np.x, zeroY), areaColor);
+                                        }
+                                        break;
+                                    case Line.StepType.End:
+                                        middle1 = new Vector2(np.x + m_Line.tickness, lp.y);
+                                        middle2 = new Vector2(np.x, lp.y);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(lp.x, zeroY), lp,
+                                                new Vector2(middle1.x - m_Line.tickness, middle1.y),
+                                                new Vector2(middle1.x - m_Line.tickness, zeroY), areaColor);
+                                        }
+                                        break;
+                                }
+                            }
+                            else if (m_Line.smooth)
                             {
                                 var list = ChartHelper.GetBezierList(lp, np, m_Line.smoothStyle);
                                 Vector3 start, to;
@@ -121,9 +170,9 @@ namespace XCharts
                                         Vector3 anp = new Vector3(to.x, to.y - m_Line.tickness);
                                         Vector3 tnp = serieCount > 0 ?
                                             (smoothPointCount > lastSmoothPoints.Count - 1 ?
-                                            new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 1].x, 
+                                            new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 1].x,
                                                 lastSmoothPoints[lastSmoothPoints.Count - 1].y + m_Line.tickness) :
-                                            new Vector3(lastSmoothPoints[smoothPointCount].x, 
+                                            new Vector3(lastSmoothPoints[smoothPointCount].x,
                                                 lastSmoothPoints[smoothPointCount].y + m_Line.tickness)) :
                                             new Vector3(to.x, zeroY + m_Coordinate.tickness);
                                         Vector3 tlp = serieCount > 0 ?
@@ -293,7 +342,56 @@ namespace XCharts
 
                         if (i > 0)
                         {
-                            if (m_Line.smooth)
+                            if (m_Line.step)
+                            {
+                                Vector2 middle1, middle2;
+                                switch (m_Line.stepTpe)
+                                {
+                                    case Line.StepType.Start:
+                                        middle1 = new Vector2(np.x, lp.y);
+                                        middle2 = new Vector2(np.x, lp.y - m_Line.tickness);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(zeroX, middle1.y), middle1, np,
+                                                new Vector2(zeroX, np.y), areaColor);
+                                        }
+                                        break;
+                                    case Line.StepType.Middle:
+                                        middle1 = new Vector2(lp.x, (lp.y + np.y) / 2 + m_Line.tickness);
+                                        middle2 = new Vector2(np.x, (lp.y + np.y) / 2 - m_Line.tickness);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, new Vector2(middle1.x, middle1.y - m_Line.tickness),
+                                            new Vector2(middle2.x, middle2.y + m_Line.tickness), m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(zeroX, lp.y), lp, middle1,
+                                                new Vector2(zeroX, middle1.y), areaColor);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(zeroX, middle2.y + 2 * m_Line.tickness),
+                                                new Vector2(middle2.x, middle2.y + 2 * m_Line.tickness), np,
+                                                new Vector2(zeroX, np.y), areaColor);
+                                        }
+                                        break;
+                                    case Line.StepType.End:
+                                        middle1 = new Vector2(np.x, lp.y);
+                                        middle2 = new Vector2(np.x, lp.y - m_Line.tickness);
+                                        ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                        ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                        if (m_Line.area)
+                                        {
+                                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                                            ChartHelper.DrawPolygon(vh, new Vector2(zeroX, lp.y), middle1,
+                                                new Vector2(np.x, np.y),
+                                                new Vector2(zeroX, np.y), areaColor);
+                                        }
+                                        break;
+                                }
+                            }
+                            else if (m_Line.smooth)
                             {
                                 var list = ChartHelper.GetBezierListVertical(lp, np, m_Line.smoothStyle);
                                 Vector3 start, to;
@@ -410,8 +508,8 @@ namespace XCharts
                 ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
                 if (m_Tooltip.crossLabel)
                 {
-                    sp = new Vector2(m_Tooltip.pointerPos.x,zeroY);
-                    ep = new Vector2(m_Tooltip.pointerPos.x,zeroY + coordinateHig);
+                    sp = new Vector2(m_Tooltip.pointerPos.x, zeroY);
+                    ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
                     DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
                 }
             }

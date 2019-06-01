@@ -174,15 +174,15 @@ namespace XCharts
                 }
                 m_Tooltip.UpdateContentText(sb.ToString());
             }
-            if(m_XAxis.type == Axis.AxisType.Value)
+            if (m_XAxis.type == Axis.AxisType.Value)
             {
                 float hig = (maxValue - minValue) * (m_Tooltip.pointerPos.x - zeroX) / coordinateWid;
-                m_Tooltip.UpdateLabelText(hig.ToString("f2"),tempAxis.GetData(index));
+                m_Tooltip.UpdateLabelText(hig.ToString("f2"), tempAxis.GetData(index));
                 float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
                 float py = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth
                     + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
-                Vector2 xLabelPos = new Vector2(m_Tooltip.pointerPos.x,coordinateY- 4 * m_Coordinate.tickness);
-                Vector2 yLabelPos = new Vector2(coordinateX - 6 * m_Coordinate.tickness,py);
+                Vector2 xLabelPos = new Vector2(m_Tooltip.pointerPos.x, coordinateY - 4 * m_Coordinate.tickness);
+                Vector2 yLabelPos = new Vector2(coordinateX - 6 * m_Coordinate.tickness, py);
                 m_Tooltip.UpdateLabelPos(xLabelPos, yLabelPos);
             }
             else
@@ -196,7 +196,7 @@ namespace XCharts
                 Vector2 yLabelPos = new Vector2(coordinateX - 4 * m_Coordinate.tickness, m_Tooltip.pointerPos.y);
                 m_Tooltip.UpdateLabelPos(xLabelPos, yLabelPos);
             }
-            
+
 
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)

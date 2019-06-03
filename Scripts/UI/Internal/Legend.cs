@@ -8,12 +8,6 @@ namespace XCharts
     [System.Serializable]
     public class Legend : JsonDataSupport, IPropertyChanged, IEquatable<Legend>
     {
-        public enum Orient
-        {
-            Horizonal,
-            Vertical
-        }
-
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultRight;

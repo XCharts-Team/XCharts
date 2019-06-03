@@ -119,7 +119,8 @@ namespace XCharts
 
         public void SetActive(bool flag)
         {
-            if(m_GameObject && m_GameObject.activeInHierarchy != flag)
+            lastDataIndex = 0;
+            if (m_GameObject && m_GameObject.activeInHierarchy != flag)
                 m_GameObject.SetActive(flag);
         }
 

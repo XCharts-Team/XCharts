@@ -70,8 +70,8 @@ namespace XCharts
 
         protected override void CheckTootipArea(Vector2 local)
         {
-            if (local.x < zeroX || local.x > zeroX + coordinateWid ||
-                local.y < zeroY || local.y > zeroY + coordinateHig)
+            if (local.x < coordinateX || local.x > coordinateX + coordinateWid ||
+                local.y < coordinateY || local.y > coordinateY + coordinateHig)
             {
                 m_Tooltip.dataIndex = 0;
                 RefreshTooltip();

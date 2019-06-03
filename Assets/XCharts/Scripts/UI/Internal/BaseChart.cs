@@ -6,6 +6,12 @@ using UnityEngine.EventSystems;
 
 namespace XCharts
 {
+    public enum Orient
+    {
+        Horizonal,
+        Vertical
+    }
+
     public class BaseChart : MaskableGraphic
     {
         private static readonly string s_TitleObjectName = "title";
@@ -331,12 +337,14 @@ namespace XCharts
                 Input.mousePosition, null, out local))
             {
                 m_Tooltip.SetActive(false);
+                RefreshChart();
                 return;
             }
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
             {
                 m_Tooltip.SetActive(false);
+                RefreshChart();
                 return;
             }
             m_Tooltip.pointerPos = local;

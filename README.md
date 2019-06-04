@@ -11,6 +11,28 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
   5. 折线图通过参数可配置出：折线图、曲线图、面积图等
   6. 饼图通过参数可配置出：饼图、环形图、南丁格尔玫瑰图等
 
+# 效果图
+  1.`Default`主题
+![Default](Doc/default.png)
+  2.`Light`主题
+![Light](Doc/light.png)
+  3.`Dark`主题
+![Dark](Doc/dark.png)
+
+# 更新日志
+  * （2019.06.01）`LineChart`增加`stepType`实现`阶梯线图`
+  * （2019.05.29）`BarChart`增加`InSameBar`实现非堆叠同柱
+  * （2019.05.29）`Tooltip`增加`crossLabel`显示十字准星指示器
+  * （2019.05.24）增加`堆叠区域图`
+  * （2019.05.16）`Value`类型的坐标轴可以设置`AxisMinMaxType`控制最大最小刻度
+  * （2019.05.15）完善数据接口
+  * （2019.05.14）`LineChart`和`BarChart`的X轴支持`AxisType.Value`模式
+  * （2019.05.13）增加负数数值轴支持
+  * （2019.05.11）增加自定义`Editor`编辑
+  * （2019.03.21）增加`Tooltip`
+  * （2018.11.01）增加`Default`、`Light`、`Dark`三种默认主题
+  * （2018.09.05）0.1版本
+
 # 内置示例
   * 折线图
     1. 基础折线图
@@ -47,30 +69,9 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
     3. 填充颜色
   * 其他
 
+# 入门教程
+   * [XCharts开源库介绍](https://blog.uwa4d.com/archives/UWALab_XCharts.html)
 
-# 更新日志
-  * （2019.06.01）`LineChart`增加`stepType`实现`阶梯线图`
-  * （2019.05.29）`BarChart`增加`InSameBar`实现非堆叠同柱
-  * （2019.05.29）`Tooltip`增加`crossLabel`显示十字准星指示器
-  * （2019.05.24）增加`堆叠区域图`
-  * （2019.05.16）`Value`类型的坐标轴可以设置`AxisMinMaxType`控制最大最小刻度
-  * （2019.05.15）完善数据接口
-  * （2019.05.14）`LineChart`和`BarChart`的X轴支持`AxisType.Value`模式
-  * （2019.05.13）增加负数数值轴支持
-  * （2019.05.11）增加自定义`Editor`编辑
-  * （2019.03.21）增加`Tooltip`
-  * （2018.11.01）增加`Default`、`Light`、`Dark`三种默认主题
-  * （2018.09.05）0.1版本
-
-# 效果图
-  1.`Default`主题
-![Default](Doc/default.png)
-  2.`Light`主题
-![Light](Doc/light.png)
-  3.`Dark`主题
-![Dark](Doc/dark.png)
-  4.多数据支持
-![Multidata](Doc/multidata.png)
 # 配置项手册
 * `Theme` 主题
    + `theme`：主题，`Default`、`Light`、`Dark`三种可选主题

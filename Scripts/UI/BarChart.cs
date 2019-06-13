@@ -43,7 +43,7 @@ namespace XCharts
             {
                 var stackSeries = m_Series.GetStackSeries();
                 int seriesCount = stackSeries.Count;
-                float scaleWid = m_YAxis.GetDataWidth(coordinateHig);
+                float scaleWid = m_YAxis.GetDataWidth(coordinateHig,m_DataZoom);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
                 float offset = m_Bar.inSameBar ?
                     (scaleWid - barWid - m_Bar.space * (seriesCount - 1)) / 2 :
@@ -97,7 +97,7 @@ namespace XCharts
                         Vector3 sp = new Vector2(m_Tooltip.pointerPos.x, zeroY);
                         Vector3 ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
                         DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
-                        float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
+                        float splitWidth = m_YAxis.GetSplitWidth(coordinateHig, m_DataZoom);
                         float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth +
                             (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
                         sp = new Vector2(coordinateX, pY);
@@ -122,7 +122,7 @@ namespace XCharts
             {
                 var stackSeries = m_Series.GetStackSeries();
                 int seriesCount = stackSeries.Count;
-                float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
+                float scaleWid = m_XAxis.GetDataWidth(coordinateWid, m_DataZoom);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
                 float offset = m_Bar.inSameBar ?
                     (scaleWid - barWid - m_Bar.space * (seriesCount - 1)) / 2 :
@@ -137,16 +137,17 @@ namespace XCharts
                         Serie serie = serieList[n];
                         if (!m_Legend.IsActive(serie.name)) continue;
                         Color color = m_ThemeInfo.GetColor(serieCount);
+                        List<float> showData = serie.GetData(m_DataZoom);
                         int maxCount = maxShowDataNumber > 0 ?
-                            (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
-                            : serie.data.Count;
+                            (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+                            : showData.Count;
                         for (int i = minShowDataNumber; i < maxCount; i++)
                         {
                             if (!seriesCurrHig.ContainsKey(i))
                             {
                                 seriesCurrHig[i] = 0;
                             }
-                            float value = serie.data[i];
+                            float value = showData[i];
                             float pX = zeroX + i * scaleWid;
                             if (!m_XAxis.boundaryGap) pX -= scaleWid / 2;
                             float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
@@ -177,7 +178,7 @@ namespace XCharts
                         Vector3 ep = new Vector2(zeroX + coordinateWid, m_Tooltip.pointerPos.y);
                         DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
 
-                        float splitWidth = m_XAxis.GetSplitWidth(coordinateWid);
+                        float splitWidth = m_XAxis.GetSplitWidth(coordinateWid, m_DataZoom);
                         float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
                             + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
                         sp = new Vector2(px, coordinateY);

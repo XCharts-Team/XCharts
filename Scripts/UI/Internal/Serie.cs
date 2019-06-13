@@ -20,11 +20,15 @@ namespace XCharts
         [SerializeField] private List<float> m_Data = new List<float>();
         [SerializeField] private bool m_Flodout;
 
-        public bool show { get { return m_Show; }set { m_Show = value; } }
+        public bool show { get { return m_Show; } set { m_Show = value; } }
         public SerieType type { get { return m_Type; } set { m_Type = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }
         public string stack { get { return m_Stack; } set { m_Stack = value; } }
-        public List<float> data { get { return m_Data; }set { m_Data = value; } }
+        public List<float> data { get { return m_Data; } set { m_Data = value; } }
+
+        public int filterStart { get; set; }
+        public int filterEnd { get; set; }
+        public List<float> filterData { get; set; }
 
         public float Max
         {
@@ -90,13 +94,60 @@ namespace XCharts
             m_Data.Add(value);
         }
 
-        public float GetData(int index)
+        public float GetData(int index,DataZoom dataZoom = null)
         {
-            if (index >= 0 && index <= data.Count - 1)
+            var showData = GetData(dataZoom);
+            if (index >= 0 && index <= showData.Count - 1)
             {
-                return data[index];
+                return showData[index];
             }
             return 0;
+        }
+
+        public List<float> GetData(DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.show)
+            {
+                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                if (filterData == null || filterData.Count != count)
+                {
+                    UpdateFilterData(dataZoom);
+                }
+                return filterData;
+            }
+            else
+            {
+                return m_Data;
+            }
+        }
+
+        public void UpdateFilterData(DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.show)
+            {
+                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+                if (startIndex != filterStart || endIndex != filterEnd)
+                {
+                    filterStart = startIndex;
+                    filterEnd = endIndex;
+                    if(m_Data.Count > 0)
+                    {
+                        var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                        filterData = m_Data.GetRange(startIndex, count);
+                    }
+                    else
+                    {
+                        filterData = m_Data;
+                    }
+                }
+                else if (endIndex == 0)
+                {
+                    filterData = new List<float>();
+                }
+            }
         }
 
         public void UpdateData(int index, float value)

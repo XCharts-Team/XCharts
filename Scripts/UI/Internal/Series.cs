@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
-using System;
 
 namespace XCharts
 {
@@ -134,6 +132,17 @@ namespace XCharts
             }
         }
 
+        public void UpdateFilterData(DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.show)
+            {
+                for (int i = 0; i < m_Series.Count; i++)
+                {
+                    m_Series[i].UpdateFilterData(dataZoom);
+                }
+            }
+        }
+
         public bool IsActive(string name)
         {
             var serie = GetSerie(name);
@@ -164,7 +173,7 @@ namespace XCharts
             }
         }
 
-        public void GetMinMaxValue(out int minVaule, out int maxValue)
+        public void GetMinMaxValue(DataZoom dataZoom, out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -177,11 +186,12 @@ namespace XCharts
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
-                        for (int j = 0; j < serie.data.Count; j++)
+                        var showData = serie.GetData(dataZoom);
+                        for (int j = 0; j < showData.Count; j++)
                         {
                             if (!seriesTotalValue.ContainsKey(j))
                                 seriesTotalValue[j] = 0;
-                            seriesTotalValue[j] = seriesTotalValue[j] + serie.data[j];
+                            seriesTotalValue[j] = seriesTotalValue[j] + showData[j];
                         }
                     }
                     float tmax = int.MinValue;
@@ -201,8 +211,20 @@ namespace XCharts
                 {
                     if (IsActive(i))
                     {
-                        if (m_Series[i].Max > max) max = m_Series[i].Max;
-                        if (m_Series[i].Min < min) min = m_Series[i].Min;
+                        if(dataZoom != null && dataZoom.show)
+                        {
+                            var showData = m_Series[i].GetData(dataZoom);
+                            foreach(var data in showData)
+                            {
+                                if (data > max) max = data;
+                                if (data < min) min = data;
+                            }
+                        }
+                        else
+                        {
+                            if (m_Series[i].Max > max) max = m_Series[i].Max;
+                            if (m_Series[i].Min < min) min = m_Series[i].Min;
+                        }
                     }
                 }
             }
@@ -216,36 +238,22 @@ namespace XCharts
                 minVaule = (int)min;
                 maxValue = (int)max;
             }
-            //else if (max > 0 && min > 0)
-            //{
-            //    minVaule = 0;
-            //    maxValue = ChartHelper.GetMaxDivisibleValue(max);
-            //}
-            //else if (min < 0 && max < 0)
-            //{
-            //    minVaule = ChartHelper.GetMaxDivisibleValue(min);
-            //    maxValue = 0;
-            //}
-            //else
-            //{
-            //    minVaule = ChartHelper.GetMaxDivisibleValue(min);
-            //    maxValue = ChartHelper.GetMaxDivisibleValue(max);
-            //}
         }
 
-        public float GetMaxValue(int index, int splitNumber = 0)
+        public float GetMaxValue(int index)
         {
             float max = int.MinValue;
             float min = int.MaxValue;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (m_Series[i].data[index] > max)
+                var showData = m_Series[i].data;
+                if (showData[index] > max)
                 {
-                    max = Mathf.Ceil(m_Series[i].data[index]);
+                    max = Mathf.Ceil(showData[index]);
                 }
-                if (m_Series[i].data[index] < min)
+                if (showData[index] < min)
                 {
-                    min = Mathf.Ceil(m_Series[i].data[index]);
+                    min = Mathf.Ceil(showData[index]);
                 }
             }
             if (max < 1 && max > -1) return max;

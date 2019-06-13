@@ -5,7 +5,7 @@ using UnityEngine;
 namespace XCharts
 {
     [System.Serializable]
-    public class Axis : JsonDataSupport,IEquatable<Axis>
+    public class Axis : JsonDataSupport, IEquatable<Axis>
     {
         public enum AxisType
         {
@@ -38,10 +38,10 @@ namespace XCharts
             [SerializeField] private bool m_Inside;
             [SerializeField] private float m_Length;
 
-            public bool show { get { return m_Show; }set { m_Show = value; } }
+            public bool show { get { return m_Show; } set { m_Show = value; } }
             public bool alignWithLabel { get { return m_AlignWithLabel; } set { m_AlignWithLabel = value; } }
-            public bool inside { get { return m_Inside; }set { m_Inside = value; } }
-            public float length { get { return m_Length; }set { m_Length = value; } }
+            public bool inside { get { return m_Inside; } set { m_Inside = value; } }
+            public float length { get { return m_Length; } set { m_Length = value; } }
 
             public static AxisTick defaultTick
             {
@@ -72,7 +72,7 @@ namespace XCharts
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
 
-        public bool show { get { return m_Show; }set { m_Show = value; } }
+        public bool show { get { return m_Show; } set { m_Show = value; } }
         public AxisType type { get { return m_Type; } set { m_Type = value; } }
         public AxisMinMaxType minMaxType { get { return m_MinMaxType; } set { m_MinMaxType = value; } }
         public int min { get { return m_Min; } set { m_Min = value; } }
@@ -83,7 +83,11 @@ namespace XCharts
         public SplitLineType splitLineType { get { return m_SplitLineType; } set { m_SplitLineType = value; } }
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
         public List<string> data { get { return m_Data; } }
-        public AxisTick axisTick { get { return m_AxisTick; }set { m_AxisTick = value; } }
+        public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
+
+        public int filterStart { get; set; }
+        public int filterEnd { get; set; }
+        public List<string> filterData { get; set; }
 
         public void Copy(Axis other)
         {
@@ -105,7 +109,7 @@ namespace XCharts
             m_Data.Clear();
         }
 
-        public void AddData(string category,int maxDataNumber)
+        public void AddData(string category, int maxDataNumber)
         {
             if (maxDataNumber > 0)
             {
@@ -114,80 +118,136 @@ namespace XCharts
             m_Data.Add(category);
         }
 
-        public string GetData(int index)
+        public string GetData(int index,DataZoom dataZoom)
         {
-            if (index >= 0 && index < data.Count)
-                return data[index];
+            var showData = GetData(dataZoom);
+            if (index >= 0 && index < showData.Count)
+                return showData[index];
             else
                 return "";
         }
 
-        public int GetSplitNumber()
+        public List<string> GetData(DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.show)
+            {
+                var startIndex = (int)((data.Count-1) * dataZoom.start / 100);
+                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                if(filterData == null || filterData.Count != count)
+                {
+                    UpdateFilterData(dataZoom);
+                }
+                return filterData;
+            }
+            else
+            {
+                return m_Data;
+            }
+        }
+
+        public void UpdateFilterData(DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.show)
+            {
+                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+                if(startIndex != filterStart || endIndex != filterEnd)
+                {
+                    filterStart = startIndex;
+                    filterEnd = endIndex;
+                    if (m_Data.Count > 0)
+                    {
+                        var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                        filterData = m_Data.GetRange(startIndex, count);
+                    }
+                    else
+                    {
+                        filterData = m_Data;
+                    }
+                }
+                else if(endIndex == 0)
+                {
+                    filterData = new List<string>();
+                }
+            }
+        }
+
+        public int GetSplitNumber(DataZoom dataZoom)
         {
             if (type == AxisType.Value) return m_SplitNumber;
-            if (data.Count > 2 * m_SplitNumber || data.Count <= 0)
+            int dataCount = GetData(dataZoom).Count;
+            if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
                 return m_SplitNumber;
             else
-                return data.Count;
+                return dataCount;
         }
 
-        public float GetSplitWidth(float coordinateWidth)
+        public float GetSplitWidth(float coordinateWidth,DataZoom dataZoom)
         {
-            return coordinateWidth / (m_BoundaryGap ? GetSplitNumber() : GetSplitNumber() - 1);
+            return coordinateWidth / (m_BoundaryGap ? GetSplitNumber(dataZoom) : GetSplitNumber(dataZoom) - 1);
         }
 
-        public int GetDataNumber()
+        public int GetDataNumber(DataZoom dataZoom)
         {
-            return data.Count;
+            return GetData(dataZoom).Count;
         }
 
-        public float GetDataWidth(float coordinateWidth)
+        public float GetDataWidth(float coordinateWidth, DataZoom dataZoom)
         {
-            return coordinateWidth / (m_BoundaryGap ? data.Count : data.Count - 1);
+            var dataCount = GetDataNumber(dataZoom);
+            return coordinateWidth / (m_BoundaryGap ? dataCount : dataCount - 1);
         }
 
-        public string GetScaleName(int index, float minValue = 0, float maxValue = 0)
+        public string GetScaleName(int index, float minValue, float maxValue, DataZoom dataZoom)
         {
             if (m_Type == AxisType.Value)
             {
-                float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber() - 1));
+                float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber(dataZoom) - 1));
                 if (value - (int)value == 0)
                     return (value).ToString();
                 else
                     return (value).ToString("f1");
             }
-            int dataCount = data.Count;
+            var showData = GetData(dataZoom);
+            int dataCount = showData.Count;
             if (dataCount <= 0) return "";
-            
-            if(index == GetSplitNumber() - 1 && !m_BoundaryGap)
+
+            if (index == GetSplitNumber(dataZoom) - 1 && !m_BoundaryGap)
             {
-                return data[data.Count-1];
+                return showData[dataCount - 1];
             }
             else
             {
-                float rate = dataCount / GetSplitNumber();
+                float rate = dataCount / GetSplitNumber(dataZoom);
                 if (rate < 1) rate = 1;
                 int offset = m_BoundaryGap ? (int)(rate / 2) : 0;
-                int newIndex = (int)(index * rate >= dataCount - 1 ? dataCount - 1 : offset + index * rate);
-                return data[newIndex];
+                int newIndex = (int)(index * rate >= dataCount - 1 ?
+                    dataCount - 1 : offset + index * rate);
+                return showData[newIndex];
             }
         }
 
-        public int GetScaleNumber()
+        public int GetScaleNumber(DataZoom dataZoom)
         {
-            if(type == AxisType.Value)
+            if (type == AxisType.Value)
             {
                 return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
             }
-            if (data.Count > 2 * splitNumber || data.Count <= 0)
-                return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
             else
-                return m_BoundaryGap ? data.Count + 1 : data.Count;
+            {
+                var showData = GetData(dataZoom);
+                int dataCount = showData.Count;
+                if (dataCount > 2 * splitNumber || dataCount <= 0)
+                    return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
+                else
+                    return m_BoundaryGap ? dataCount + 1 : dataCount;
+            }
         }
 
-        public float GetScaleWidth(float coordinateWidth)
+        public float GetScaleWidth(float coordinateWidth,DataZoom dataZoom)
         {
-            int num = GetScaleNumber() - 1;
+            int num = GetScaleNumber(dataZoom) - 1;
             if (num <= 0) num = 1;
             return coordinateWidth / num;
         }

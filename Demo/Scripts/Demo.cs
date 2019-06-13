@@ -40,11 +40,11 @@ public class Demo : MonoBehaviour
 
         m_ScrollRect = transform.Find("chart_detail").GetComponent<ScrollRect>();
 
-        m_LineChartModule = transform.Find("chart_detail/line_chart").gameObject;
-        m_BarChartModule = transform.Find("chart_detail/bar_chart").gameObject;
-        m_PieChartModule = transform.Find("chart_detail/pie_chart").gameObject;
-        m_RadarChartModule = transform.Find("chart_detail/radar_chart").gameObject;
-        m_OtherModule = transform.Find("chart_detail/other").gameObject;
+        m_LineChartModule = transform.Find("chart_detail/Viewport/line_chart").gameObject;
+        m_BarChartModule = transform.Find("chart_detail/Viewport/bar_chart").gameObject;
+        m_PieChartModule = transform.Find("chart_detail/Viewport/pie_chart").gameObject;
+        m_RadarChartModule = transform.Find("chart_detail/Viewport/radar_chart").gameObject;
+        m_OtherModule = transform.Find("chart_detail/Viewport/other").gameObject;
 
         m_Title = transform.Find("chart_title/Text").GetComponent<Text>();
 

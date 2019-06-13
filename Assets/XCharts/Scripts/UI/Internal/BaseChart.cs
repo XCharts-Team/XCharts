@@ -12,7 +12,9 @@ namespace XCharts
         Vertical
     }
 
-    public class BaseChart : MaskableGraphic
+    public class BaseChart : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
+        IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,
+        IDragHandler, IEndDragHandler, IScrollHandler
     {
         private static readonly string s_TitleObjectName = "title";
         private static readonly string s_LegendObjectName = "legend";
@@ -34,6 +36,7 @@ namespace XCharts
         [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
+        [NonSerialized] private bool m_RefreshChart = false;
         [NonSerialized] protected List<Text> m_LegendTextList = new List<Text>();
 
         protected float chartWidth { get { return rectTransform.sizeDelta.x; } }
@@ -66,6 +69,7 @@ namespace XCharts
 
         protected override void Awake()
         {
+            raycastTarget = false;
             m_ThemeInfo = ThemeInfo.Default;
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
@@ -85,6 +89,7 @@ namespace XCharts
             CheckTile();
             CheckLegend();
             CheckTooltip();
+            CheckRefreshChart();
         }
  
 #if UNITY_EDITOR
@@ -355,6 +360,17 @@ namespace XCharts
         {
         }
 
+        protected void CheckRefreshChart()
+        {
+            if (m_RefreshChart)
+            {
+                int tempWid = (int)chartWidth;
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
+                m_RefreshChart = false;
+            }
+        }
+
         protected virtual void OnSizeChanged()
         {
             InitTitle();
@@ -400,9 +416,7 @@ namespace XCharts
 
         public void RefreshChart()
         {
-            int tempWid = (int)chartWidth;
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
+            m_RefreshChart = true;
         }
 
         protected virtual void RefreshTooltip()
@@ -433,6 +447,39 @@ namespace XCharts
             Vector3 p3 = new Vector3(chartWidth, 0);
             Vector3 p4 = new Vector3(0, 0);
             ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
+        }
+
+        public virtual void OnPointerDown(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerUp(PointerEventData eventData)
+        {
+
+        }
+
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerExit(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnBeginDrag(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnEndDrag(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnDrag(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnScroll(PointerEventData eventData)
+        {
         }
     }
 }

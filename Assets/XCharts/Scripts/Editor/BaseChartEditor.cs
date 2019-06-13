@@ -76,7 +76,8 @@ namespace XCharts
             EditorGUILayout.PropertyField(m_Script);
             EditorGUILayout.BeginHorizontal();
             EditorGUIUtility.fieldWidth = EditorGUIUtility.labelWidth -5;
-            m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle, "Theme", ChartEditorHelper.foldoutStyle);
+            m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle, "Theme",
+                ChartEditorHelper.foldoutStyle);
             EditorGUILayout.PropertyField(m_Theme, GUIContent.none);
             EditorGUILayout.EndHorizontal();
             EditorGUIUtility.labelWidth = m_DefaultLabelWidth;
@@ -93,7 +94,8 @@ namespace XCharts
         protected virtual void OnMiddleInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Series,true);
-            m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle, "Base", ChartEditorHelper.foldoutStyle);
+            m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle, "Base",
+                ChartEditorHelper.foldoutStyle);
             if (m_BaseModuleToggle)
             {
                 EditorGUI.indentLevel++;

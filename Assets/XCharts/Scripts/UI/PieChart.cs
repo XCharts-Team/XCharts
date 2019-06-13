@@ -65,7 +65,13 @@ namespace XCharts
                     m_AngleList.Add(0);
                     continue;
                 }
-                float value = m_Series.series[i].data[0];
+                var data = m_Series.series[i].data;
+                if(data.Count <= 0)
+                {
+                    m_AngleList.Add(0);
+                    continue;
+                }
+                float value = data[0];
                 float degree = totalDegree * value / dataTotal;
                 float toDegree = startDegree + degree;
 

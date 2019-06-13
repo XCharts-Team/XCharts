@@ -20,11 +20,13 @@ namespace XCharts
             base.Update();
         }
 
+#if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
             m_Line = Line.defaultLine;
         }
+#endif
 
         protected override void DrawChart(VertexHelper vh)
         {
@@ -44,7 +46,7 @@ namespace XCharts
         {
             var stackSeries = m_Series.GetStackSeries();
             int seriesCount = stackSeries.Count;
-            float scaleWid = m_XAxis.GetDataWidth(coordinateWid);
+            float scaleWid = m_XAxis.GetDataWidth(coordinateWid, m_DataZoom);
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -61,14 +63,15 @@ namespace XCharts
                     if (!IsActive(serie.name)) continue;
                     List<Vector3> lastPoints = new List<Vector3>();
                     List<Vector3> lastSmoothPoints = new List<Vector3>();
+                    List<float> serieData = serie.GetData(m_DataZoom);
 
                     Color color = m_ThemeInfo.GetColor(serieCount);
                     Vector3 lp = Vector3.zero;
                     Vector3 np = Vector3.zero;
                     float startX = zeroX + (m_XAxis.boundaryGap ? scaleWid / 2 : 0);
                     int maxCount = maxShowDataNumber > 0 ?
-                        (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
-                        : serie.data.Count;
+                        (maxShowDataNumber > serieData.Count ? serieData.Count : maxShowDataNumber)
+                        : serieData.Count;
                     dataCount = (maxCount - minShowDataNumber);
                     if (m_Line.area && points.Count > 0)
                     {
@@ -95,7 +98,7 @@ namespace XCharts
                         {
                             seriesCurrHig[i] = 0;
                         }
-                        float value = serie.data[i];
+                        float value = serieData[i];
                         float pX = startX + i * scaleWid;
                         float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
                         float dataHig = value / (maxValue - minValue) * coordinateHig;
@@ -264,7 +267,7 @@ namespace XCharts
             //draw tooltip line
             if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
             {
-                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid);
+                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid, m_DataZoom);
                 float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
                     + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
                 Vector2 sp = new Vector2(px, coordinateY);
@@ -283,7 +286,7 @@ namespace XCharts
         {
             var stackSeries = m_Series.GetStackSeries();
             int seriesCount = stackSeries.Count;
-            float scaleWid = m_YAxis.GetDataWidth(coordinateHig);
+            float scaleWid = m_YAxis.GetDataWidth(coordinateHig, m_DataZoom);
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -501,7 +504,7 @@ namespace XCharts
             //draw tooltip line
             if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
             {
-                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
+                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig, m_DataZoom);
                 float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
                 Vector2 sp = new Vector2(coordinateX, pY);
                 Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);

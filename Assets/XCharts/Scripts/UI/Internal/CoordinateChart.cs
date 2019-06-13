@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -10,13 +11,20 @@ namespace XCharts
     {
         private static readonly string s_DefaultSplitNameY = "split_y";
         private static readonly string s_DefaultSplitNameX = "split_x";
+        private static readonly string s_DefaultDataZoom = "datazoom";
 
         [SerializeField] protected Coordinate m_Coordinate = Coordinate.defaultCoordinate;
         [SerializeField] protected XAxis m_XAxis = XAxis.defaultXAxis;
         [SerializeField] protected YAxis m_YAxis = YAxis.defaultYAxis;
+        [SerializeField] protected DataZoom m_DataZoom = DataZoom.defaultDataZoom;
 
         private float m_ZeroXOffset;
         private float m_ZeroYOffset;
+        private bool m_DataZoomDrag;
+        private bool m_DataZoomStartDrag;
+        private bool m_DataZoomEndDrag;
+        private float m_DataZoomLastStartIndex;
+        private float m_DataZoomLastEndIndex;
 
         private XAxis m_CheckXAxis = XAxis.defaultXAxis;
         private YAxis m_CheckYAxis = YAxis.defaultYAxis;
@@ -38,6 +46,7 @@ namespace XCharts
         protected override void Awake()
         {
             CheckMinMaxValue();
+            InitDataZoom();
             InitSplitX();
             InitSplitY();
             base.Awake();
@@ -50,8 +59,10 @@ namespace XCharts
             CheckXAxis();
             CheckMinMaxValue();
             CheckCoordinate();
+            CheckDataZoom();
         }
 
+#if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
@@ -61,11 +72,13 @@ namespace XCharts
             InitSplitX();
             InitSplitY();
         }
+#endif
 
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
             DrawCoordinate(vh);
+            DrawDataZoom(vh);
         }
 
         protected override void CheckTootipArea(Vector2 local)
@@ -80,8 +93,8 @@ namespace XCharts
             {
                 if (m_XAxis.type == Axis.AxisType.Value)
                 {
-                    float splitWid = m_YAxis.GetDataWidth(coordinateHig);
-                    for (int i = 0; i < m_YAxis.GetDataNumber(); i++)
+                    float splitWid = m_YAxis.GetDataWidth(coordinateHig, m_DataZoom);
+                    for (int i = 0; i < m_YAxis.GetDataNumber(m_DataZoom); i++)
                     {
                         float pY = zeroY + i * splitWid;
                         if (m_YAxis.boundaryGap)
@@ -104,8 +117,8 @@ namespace XCharts
                 }
                 else
                 {
-                    float splitWid = m_XAxis.GetDataWidth(coordinateWid);
-                    for (int i = 0; i < m_XAxis.GetDataNumber(); i++)
+                    float splitWid = m_XAxis.GetDataWidth(coordinateWid, m_DataZoom);
+                    for (int i = 0; i < m_XAxis.GetDataNumber(m_DataZoom); i++)
                     {
                         float pX = zeroX + i * splitWid;
                         if (m_XAxis.boundaryGap)
@@ -153,19 +166,19 @@ namespace XCharts
             if (m_Series.Count == 1)
             {
                 float value = m_Series.GetData(0, index);
-                string txt = tempAxis.GetData(index) + ": " + value;
+                string txt = tempAxis.GetData(index, m_DataZoom) + ": " + value;
                 m_Tooltip.UpdateContentText(txt);
             }
             else
             {
-                StringBuilder sb = new StringBuilder(tempAxis.GetData(index));
+                StringBuilder sb = new StringBuilder(tempAxis.GetData(index, m_DataZoom));
                 for (int i = 0; i < m_Series.Count; i++)
                 {
                     if (m_Series.series[i].show)
                     {
                         string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(i));
                         string key = m_Series.series[i].name;
-                        float value = m_Series.series[i].data[index];
+                        float value = m_Series.series[i].GetData(index, m_DataZoom);
                         sb.Append("\n");
                         sb.AppendFormat("<color=#{0}>● </color>", strColor);
                         sb.AppendFormat("{0}: {1}", key, value);
@@ -177,8 +190,8 @@ namespace XCharts
             if (m_XAxis.type == Axis.AxisType.Value)
             {
                 float hig = (maxValue - minValue) * (m_Tooltip.pointerPos.x - zeroX) / coordinateWid;
-                m_Tooltip.UpdateLabelText(hig.ToString("f2"), tempAxis.GetData(index));
-                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig);
+                m_Tooltip.UpdateLabelText(hig.ToString("f2"), tempAxis.GetData(index, m_DataZoom));
+                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig, m_DataZoom);
                 float py = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth
                     + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
                 Vector2 xLabelPos = new Vector2(m_Tooltip.pointerPos.x, coordinateY - 4 * m_Coordinate.tickness);
@@ -188,8 +201,8 @@ namespace XCharts
             else
             {
                 float hig = (maxValue - minValue) * (m_Tooltip.pointerPos.y - zeroY) / coordinateHig;
-                m_Tooltip.UpdateLabelText(tempAxis.GetData(index), hig.ToString("f2"));
-                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid);
+                m_Tooltip.UpdateLabelText(tempAxis.GetData(index, m_DataZoom), hig.ToString("f2"));
+                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid, m_DataZoom);
                 float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
                     + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
                 Vector2 xLabelPos = new Vector2(px, coordinateY - 6 * m_Coordinate.tickness);
@@ -256,21 +269,21 @@ namespace XCharts
         private void InitSplitY()
         {
             m_SplitYTextList.Clear();
-            float splitWidth = m_YAxis.GetScaleWidth(coordinateHig);
+            float splitWidth = m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom);
 
             var titleObject = ChartHelper.AddObject(s_DefaultSplitNameY, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             titleObject.transform.localPosition = Vector3.zero;
             ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameY);
 
-            for (int i = 0; i < m_YAxis.GetSplitNumber(); i++)
+            for (int i = 0; i < m_YAxis.GetSplitNumber(m_DataZoom); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameY + i, titleObject.transform,
                     m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero,
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Coordinate.left, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
                 txt.transform.localPosition = GetSplitYPosition(splitWidth, i);
-                txt.text = m_YAxis.GetScaleName(i, minValue, maxValue);
+                txt.text = m_YAxis.GetScaleName(i, minValue, maxValue, m_DataZoom);
                 txt.gameObject.SetActive(m_YAxis.show);
                 m_SplitYTextList.Add(txt);
             }
@@ -279,14 +292,13 @@ namespace XCharts
         public void InitSplitX()
         {
             m_SplitXTextList.Clear();
-            float splitWidth = m_XAxis.GetScaleWidth(coordinateWid);
+            float splitWidth = m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom);
 
             var titleObject = ChartHelper.AddObject(s_DefaultSplitNameX, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             titleObject.transform.localPosition = Vector3.zero;
             ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameX);
-
-            for (int i = 0; i < m_XAxis.GetSplitNumber(); i++)
+            for (int i = 0; i < m_XAxis.GetSplitNumber(m_DataZoom); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameX + i, titleObject.transform,
                     m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero,
@@ -294,10 +306,28 @@ namespace XCharts
                     m_Coordinate.fontSize, m_XAxis.textRotation);
 
                 txt.transform.localPosition = GetSplitXPosition(splitWidth, i);
-                txt.text = m_XAxis.GetScaleName(i, minValue, maxValue);
+                txt.text = m_XAxis.GetScaleName(i, minValue, maxValue, m_DataZoom);
                 txt.gameObject.SetActive(m_XAxis.show);
                 m_SplitXTextList.Add(txt);
             }
+        }
+
+        private void InitDataZoom()
+        {
+            var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom, transform, chartAnchorMin,
+                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            dataZoomObject.transform.localPosition = Vector3.zero;
+            ChartHelper.HideAllObject(dataZoomObject, s_DefaultDataZoom);
+            m_DataZoom.startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
+                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleRight,
+                Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20));
+            m_DataZoom.endLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "end",
+                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleLeft,
+                Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20));
+            m_DataZoom.SetLabelActive(false);
+            m_XAxis.UpdateFilterData(m_DataZoom);
+            m_Series.UpdateFilterData(m_DataZoom);
+            raycastTarget = m_DataZoom.show;
         }
 
         private Vector3 GetSplitYPosition(float scaleWid, int i)
@@ -361,7 +391,7 @@ namespace XCharts
             int tempMaxValue = 100;
             if (m_Series != null)
             {
-                m_Series.GetMinMaxValue(out tempMinValue, out tempMaxValue);
+                m_Series.GetMinMaxValue(m_DataZoom, out tempMinValue, out tempMaxValue);
             }
             if (m_XAxis.type == Axis.AxisType.Value)
             {
@@ -463,7 +493,7 @@ namespace XCharts
         {
             for (int i = 0; i < m_SplitYTextList.Count; i++)
             {
-                m_SplitYTextList[i].text = m_YAxis.GetScaleName(i, minValue, maxValue);
+                m_SplitYTextList[i].text = m_YAxis.GetScaleName(i, minValue, maxValue, m_DataZoom);
             }
         }
 
@@ -471,7 +501,7 @@ namespace XCharts
         {
             for (int i = 0; i < m_SplitXTextList.Count; i++)
             {
-                m_SplitXTextList[i].text = m_XAxis.GetScaleName(i, minValue, maxValue);
+                m_SplitXTextList[i].text = m_XAxis.GetScaleName(i, minValue, maxValue, m_DataZoom);
             }
         }
 
@@ -480,13 +510,13 @@ namespace XCharts
             #region draw tick and splitline
             if (m_YAxis.show)
             {
-                for (int i = 0; i < m_YAxis.GetScaleNumber(); i++)
+                for (int i = 0; i < m_YAxis.GetScaleNumber(m_DataZoom); i++)
                 {
                     float pX = 0;
-                    float pY = coordinateY + i * m_YAxis.GetScaleWidth(coordinateHig);
+                    float pY = coordinateY + i * m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom);
                     if (m_YAxis.boundaryGap && m_YAxis.axisTick.alignWithLabel)
                     {
-                        pY -= m_YAxis.GetScaleWidth(coordinateHig) / 2;
+                        pY -= m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom) / 2;
                     }
 
                     if (m_YAxis.axisTick.show)
@@ -504,13 +534,13 @@ namespace XCharts
             }
             if (m_XAxis.show)
             {
-                for (int i = 0; i < m_XAxis.GetScaleNumber(); i++)
+                for (int i = 0; i < m_XAxis.GetScaleNumber(m_DataZoom); i++)
                 {
-                    float pX = coordinateX + i * m_XAxis.GetScaleWidth(coordinateWid);
+                    float pX = coordinateX + i * m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom);
                     float pY = 0;
                     if (m_XAxis.boundaryGap && m_XAxis.axisTick.alignWithLabel)
                     {
-                        pX -= m_XAxis.GetScaleWidth(coordinateWid) / 2;
+                        pX -= m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom) / 2;
                     }
                     if (m_XAxis.axisTick.show)
                     {
@@ -562,6 +592,59 @@ namespace XCharts
             #endregion
         }
 
+        private void DrawDataZoom(VertexHelper vh)
+        {
+            if (!m_DataZoom.show) return;
+            var p1 = new Vector2(coordinateX, m_DataZoom.bottom);
+            var p2 = new Vector2(coordinateX, m_DataZoom.bottom + m_DataZoom.height);
+            var p3 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom + m_DataZoom.height);
+            var p4 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom);
+            ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+            ChartHelper.DrawLine(vh, p2, p3, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+            ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+            ChartHelper.DrawLine(vh, p4, p1, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+            if (m_DataZoom.showDataShadow && m_Series.Count > 0)
+            {
+                Serie serie = m_Series.series[0];
+                float scaleWid = coordinateWid / (serie.data.Count - 1);
+                Vector3 lp = Vector3.zero;
+                Vector3 np = Vector3.zero;
+                for (int i = 0; i < serie.data.Count; i++)
+                {
+                    float value = serie.data[i];
+                    float pX = zeroX + i * scaleWid;
+                    float dataHig = value / (maxValue - minValue) * m_DataZoom.height;
+                    np = new Vector3(pX, m_DataZoom.bottom + dataHig);
+                    if (i > 0)
+                    {
+                        Color color = m_ThemeInfo.axisSplitLineColor;
+                        ChartHelper.DrawLine(vh, lp, np, m_Coordinate.tickness, color);
+                        Vector3 alp = new Vector3(lp.x, lp.y - m_Coordinate.tickness);
+                        Vector3 anp = new Vector3(np.x, np.y - m_Coordinate.tickness);
+                        Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+                        Vector3 tnp = new Vector3(np.x, m_DataZoom.bottom + m_Coordinate.tickness);
+                        Vector3 tlp = new Vector3(lp.x, m_DataZoom.bottom + m_Coordinate.tickness);
+                        ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
+                    }
+                    lp = np;
+                }
+            }
+            switch (m_DataZoom.rangeMode)
+            {
+                case DataZoom.RangeMode.Percent:
+                    var start = coordinateX + coordinateWid * m_DataZoom.start / 100;
+                    var end = coordinateX + coordinateWid * m_DataZoom.end / 100;
+                    p1 = new Vector2(start, m_DataZoom.bottom);
+                    p2 = new Vector2(start, m_DataZoom.bottom + m_DataZoom.height);
+                    p3 = new Vector2(end, m_DataZoom.bottom + m_DataZoom.height);
+                    p4 = new Vector2(end, m_DataZoom.bottom);
+                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.axisSplitLineColor);
+                    ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+                    ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+                    break;
+            }
+        }
+
         protected void DrawSplitLine(VertexHelper vh, bool isYAxis, Axis.SplitLineType type,
             Vector3 startPos, Vector3 endPos, Color color)
         {
@@ -597,6 +680,210 @@ namespace XCharts
                     ChartHelper.DrawLine(vh, startPos, endPos, m_Coordinate.tickness, color);
                     break;
             }
+        }
+
+        private void CheckDataZoom()
+        {
+            if(raycastTarget != m_DataZoom.show)
+            {
+                raycastTarget = m_DataZoom.show;
+            }
+            if (!m_DataZoom.show) return;
+            if (m_DataZoom.showDetail)
+            {
+                Vector2 local;
+                if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                    Input.mousePosition, null, out local))
+                {
+                    m_DataZoom.SetLabelActive(false);
+                    return;
+                }
+                if (m_DataZoom.IsInSelectedZoom(local, coordinateX, coordinateWid)
+                    || m_DataZoom.IsInStartZoom(local, coordinateX, coordinateWid)
+                    || m_DataZoom.IsInEndZoom(local, coordinateX, coordinateWid))
+                {
+                    m_DataZoom.SetLabelActive(true);
+                    RefreshDataZoomLabel();
+                }
+                else
+                {
+                    m_DataZoom.SetLabelActive(false);
+                }
+            }
+        }
+
+        public override void OnBeginDrag(PointerEventData eventData)
+        {
+            var pos = transform.InverseTransformPoint(eventData.position);
+            if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWid))
+            {
+                m_DataZoom.isDraging = true;
+                m_DataZoomStartDrag = true;
+            }
+            else if (m_DataZoom.IsInEndZoom(pos, coordinateX, coordinateWid))
+            {
+                m_DataZoom.isDraging = true;
+                m_DataZoomEndDrag = true;
+            }
+            else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, coordinateWid))
+            {
+                m_DataZoom.isDraging = true;
+                m_DataZoomDrag = true;
+            }
+        }
+
+        public override void OnDrag(PointerEventData eventData)
+        {
+            //Debug.LogError("drag");
+            float deltaX = eventData.delta.x;
+            float deltaPercent = deltaX / coordinateWid * 100;
+            if (m_DataZoomStartDrag)
+            {
+                m_DataZoom.start += deltaPercent;
+                if (m_DataZoom.start < 0)
+                {
+                    m_DataZoom.start = 0;
+                }
+                else if (m_DataZoom.start > m_DataZoom.end)
+                {
+                    m_DataZoom.start = m_DataZoom.end;
+                    m_DataZoomEndDrag = true;
+                    m_DataZoomStartDrag = false;
+                }
+                RefreshDataZoomLabel();
+                RefreshChart();
+            }
+            else if (m_DataZoomEndDrag)
+            {
+                m_DataZoom.end += deltaPercent;
+                if (m_DataZoom.end > 100)
+                {
+                    m_DataZoom.end = 100;
+                }
+                else if (m_DataZoom.end < m_DataZoom.start)
+                {
+                    m_DataZoom.end = m_DataZoom.start;
+                    m_DataZoomStartDrag = true;
+                    m_DataZoomEndDrag = false;
+                }
+                RefreshDataZoomLabel();
+                RefreshChart();
+            }
+            else if (m_DataZoomDrag)
+            {
+                if (deltaPercent > 0)
+                {
+                    if (m_DataZoom.end + deltaPercent > 100)
+                    {
+                        deltaPercent = 100 - m_DataZoom.end;
+                    }
+                }
+                else
+                {
+                    if (m_DataZoom.start + deltaPercent < 0)
+                    {
+                        deltaPercent = -m_DataZoom.start;
+                    }
+                }
+                m_DataZoom.start += deltaPercent;
+                m_DataZoom.end += deltaPercent;
+                RefreshDataZoomLabel();
+                RefreshChart();
+            }
+        }
+
+        private void RefreshDataZoomLabel()
+        {
+            var startIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.start / 100);
+            var endIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.end / 100);
+            if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
+            {
+                m_DataZoomLastStartIndex = startIndex;
+                m_DataZoomLastEndIndex = endIndex;
+                if (xAxis.data.Count > 0)
+                {
+                    m_DataZoom.SetStartLabelText(xAxis.data[startIndex]);
+                    m_DataZoom.SetEndLabelText(xAxis.data[endIndex]);
+                }
+                InitSplitX();
+            }
+
+            var start = coordinateX + coordinateWid * m_DataZoom.start / 100;
+            var end = coordinateX + coordinateWid * m_DataZoom.end / 100;
+            m_DataZoom.startLabel.transform.localPosition =
+                new Vector3(start - 10, m_DataZoom.bottom + m_DataZoom.height / 2);
+            m_DataZoom.endLabel.transform.localPosition =
+                new Vector3(end + 10, m_DataZoom.bottom + m_DataZoom.height / 2);
+        }
+
+        public override void OnEndDrag(PointerEventData eventData)
+        {
+            if(m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag)
+            {
+                RefreshChart();
+            }
+            m_DataZoomDrag = false;
+            m_DataZoomStartDrag = false;
+            m_DataZoomEndDrag = false;
+            m_DataZoom.isDraging = false;
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            var localPos = transform.InverseTransformPoint(eventData.position);
+            if (m_DataZoom.IsInStartZoom(localPos, coordinateX, coordinateWid) ||
+                m_DataZoom.IsInEndZoom(localPos, coordinateX, coordinateWid))
+            {
+                return;
+            }
+            if (m_DataZoom.IsInZoom(localPos, coordinateX, coordinateWid)
+                && !m_DataZoom.IsInSelectedZoom(localPos, coordinateX, coordinateWid))
+            {
+                var pointerX = localPos.x;
+                var selectWidth = coordinateWid * (m_DataZoom.end - m_DataZoom.start) / 100;
+                var startX = pointerX - selectWidth / 2;
+                var endX = pointerX + selectWidth / 2;
+                if (startX < coordinateX)
+                {
+                    startX = coordinateX;
+                    endX = coordinateX + selectWidth;
+                }
+                else if (endX > coordinateX + coordinateWid)
+                {
+                    endX = coordinateX + coordinateWid;
+                    startX = coordinateX + coordinateWid - selectWidth;
+                }
+                m_DataZoom.start = (startX - coordinateX) / coordinateWid * 100;
+                m_DataZoom.end = (endX - coordinateX) / coordinateWid * 100;
+                RefreshDataZoomLabel();
+                RefreshChart();
+            }
+        }
+
+        public override void OnScroll(PointerEventData eventData)
+        {
+            if (!m_DataZoom.show || m_DataZoom.zoomLock) return;
+            float deltaPercent = Mathf.Abs(eventData.scrollDelta.y *
+                m_DataZoom.scrollSensitivity / coordinateWid * 100);
+            if (eventData.scrollDelta.y > 0)
+            {
+                if (m_DataZoom.end <= m_DataZoom.start) return;
+                m_DataZoom.end -= deltaPercent;
+                m_DataZoom.start += deltaPercent;
+                if (m_DataZoom.end <= m_DataZoom.start)
+                {
+                    m_DataZoom.end = m_DataZoom.start;
+                }
+            }
+            else
+            {
+                m_DataZoom.end += deltaPercent;
+                m_DataZoom.start -= deltaPercent;
+                if (m_DataZoom.end > 100) m_DataZoom.end = 100;
+                if (m_DataZoom.start < 0) m_DataZoom.start = 0;
+            }
+            RefreshDataZoomLabel();
+            RefreshChart();
         }
     }
 }

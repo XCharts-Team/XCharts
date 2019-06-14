@@ -223,33 +223,10 @@ namespace XCharts
             m_Tooltip.UpdateContentPos(pos);
         }
 
-        TextGenerationSettings GetTextSetting()
-        {
-            var setting = new TextGenerationSettings();
-            var fontdata = FontData.defaultFontData;
-
-            //setting.generationExtents = rectTransform.rect.size;
-            setting.generationExtents = new Vector2(200.0F, 50.0F);
-            setting.fontSize = 14;
-            setting.textAnchor = TextAnchor.MiddleCenter;
-            setting.scaleFactor = 1f;
-            setting.color = Color.red;
-            setting.font = m_ThemeInfo.font;
-            setting.pivot = new Vector2(0.5f, 0.5f);
-            setting.richText = false;
-            setting.lineSpacing = 0;
-            setting.fontStyle = FontStyle.Normal;
-            setting.resizeTextForBestFit = false;
-            setting.horizontalOverflow = HorizontalWrapMode.Overflow;
-            setting.verticalOverflow = VerticalWrapMode.Overflow;
-
-            return setting;
-
-        }
-
         protected override void OnThemeChanged()
         {
             base.OnThemeChanged();
+            InitDataZoom();
             InitSplitX();
             InitSplitY();
         }
@@ -279,7 +256,7 @@ namespace XCharts
             for (int i = 0; i < m_YAxis.GetSplitNumber(m_DataZoom); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameY + i, titleObject.transform,
-                    m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleRight, Vector2.zero,
+                    m_ThemeInfo.font, m_ThemeInfo.axisTextColor, TextAnchor.MiddleRight, Vector2.zero,
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Coordinate.left, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
                 txt.transform.localPosition = GetSplitYPosition(splitWidth, i);
@@ -301,7 +278,7 @@ namespace XCharts
             for (int i = 0; i < m_XAxis.GetSplitNumber(m_DataZoom); i++)
             {
                 Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameX + i, titleObject.transform,
-                    m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleCenter, Vector2.zero,
+                    m_ThemeInfo.font, m_ThemeInfo.axisTextColor, TextAnchor.MiddleCenter, Vector2.zero,
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(splitWidth, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
 
@@ -319,10 +296,10 @@ namespace XCharts
             dataZoomObject.transform.localPosition = Vector3.zero;
             ChartHelper.HideAllObject(dataZoomObject, s_DefaultDataZoom);
             m_DataZoom.startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
-                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleRight,
+                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleRight,
                 Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20));
             m_DataZoom.endLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "end",
-                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.textColor, TextAnchor.MiddleLeft,
+                dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleLeft,
                 Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20));
             m_DataZoom.SetLabelActive(false);
             m_XAxis.UpdateFilterData(m_DataZoom);
@@ -599,10 +576,10 @@ namespace XCharts
             var p2 = new Vector2(coordinateX, m_DataZoom.bottom + m_DataZoom.height);
             var p3 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom + m_DataZoom.height);
             var p4 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom);
-            ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
-            ChartHelper.DrawLine(vh, p2, p3, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
-            ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
-            ChartHelper.DrawLine(vh, p4, p1, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+            ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p2, p3, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p4, p1, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
             if (m_DataZoom.showDataShadow && m_Series.Count > 0)
             {
                 Serie serie = m_Series.series[0];
@@ -617,7 +594,7 @@ namespace XCharts
                     np = new Vector3(pX, m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {
-                        Color color = m_ThemeInfo.axisSplitLineColor;
+                        Color color = m_ThemeInfo.dataZoomLineColor;
                         ChartHelper.DrawLine(vh, lp, np, m_Coordinate.tickness, color);
                         Vector3 alp = new Vector3(lp.x, lp.y - m_Coordinate.tickness);
                         Vector3 anp = new Vector3(np.x, np.y - m_Coordinate.tickness);
@@ -638,9 +615,9 @@ namespace XCharts
                     p2 = new Vector2(start, m_DataZoom.bottom + m_DataZoom.height);
                     p3 = new Vector2(end, m_DataZoom.bottom + m_DataZoom.height);
                     p4 = new Vector2(end, m_DataZoom.bottom);
-                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.axisSplitLineColor);
-                    ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
-                    ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.axisSplitLineColor);
+                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.dataZoomSelectedColor);
+                    ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.dataZoomSelectedColor);
+                    ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.dataZoomSelectedColor);
                     break;
             }
         }
@@ -684,7 +661,7 @@ namespace XCharts
 
         private void CheckDataZoom()
         {
-            if(raycastTarget != m_DataZoom.show)
+            if (raycastTarget != m_DataZoom.show)
             {
                 raycastTarget = m_DataZoom.show;
             }
@@ -818,7 +795,7 @@ namespace XCharts
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            if(m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag)
+            if (m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag)
             {
                 RefreshChart();
             }

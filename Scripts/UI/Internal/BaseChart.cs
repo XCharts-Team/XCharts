@@ -70,7 +70,6 @@ namespace XCharts
         protected override void Awake()
         {
             raycastTarget = false;
-            m_ThemeInfo = ThemeInfo.Default;
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.pivot = Vector2.zero;
@@ -91,7 +90,7 @@ namespace XCharts
             CheckTooltip();
             CheckRefreshChart();
         }
- 
+
 #if UNITY_EDITOR
         protected override void Reset()
         {
@@ -145,7 +144,7 @@ namespace XCharts
             RefreshChart();
         }
 
-        public virtual void SetActive(string legend,bool active)
+        public virtual void SetActive(string legend, bool active)
         {
             m_Legend.SetActive(legend, active);
             m_Series.SetActive(legend, active);
@@ -238,17 +237,17 @@ namespace XCharts
 
                 m_Legend.SetButton(i, btn);
                 m_Legend.SetActive(i, IsActive(i));
-                m_Legend.UpdateButtonColor(i, m_ThemeInfo.GetColor(i), m_ThemeInfo.unableColor);
+                m_Legend.UpdateButtonColor(i, m_ThemeInfo.GetColor(i), m_ThemeInfo.legendUnableColor);
                 btn.GetComponentInChildren<Text>().text = m_Legend.data[i];
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
-                     int count = (data as PointerEventData).clickCount;
-                     int index = int.Parse(data.selectedObject.name.Split('_')[1]);
-                     SetActive(index, !m_Legend.IsActive(index));
-                     m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index), m_ThemeInfo.unableColor);
-                     OnYMaxValueChanged();
-                     OnLegendButtonClicked();
-                     RefreshChart();
+                    int count = (data as PointerEventData).clickCount;
+                    int index = int.Parse(data.selectedObject.name.Split('_')[1]);
+                    SetActive(index, !m_Legend.IsActive(index));
+                    m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index), m_ThemeInfo.legendUnableColor);
+                    OnYMaxValueChanged();
+                    OnLegendButtonClicked();
+                    RefreshChart();
                 });
             }
         }
@@ -325,7 +324,7 @@ namespace XCharts
         {
             if (!m_Tooltip.show || !m_Tooltip.isInited)
             {
-                if(m_Tooltip.dataIndex != 0)
+                if (m_Tooltip.dataIndex != 0)
                 {
                     m_Tooltip.dataIndex = 0;
                     m_Tooltip.SetActive(false);
@@ -335,7 +334,7 @@ namespace XCharts
             }
             m_Tooltip.SetLabelActive(m_Tooltip.crossLabel);
             m_Tooltip.dataIndex = 0;
-            
+
             Vector2 local;
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,

@@ -36,11 +36,11 @@ namespace XCharts
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty m_Font = prop.FindPropertyRelative("m_Font");
             SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
-            SerializedProperty m_ContrastColor = prop.FindPropertyRelative("m_ContrastColor");
             SerializedProperty m_TextColor = prop.FindPropertyRelative("m_TextColor");
-            SerializedProperty m_SubTextColor = prop.FindPropertyRelative("m_SubTextColor");
+            SerializedProperty m_SubTextColor = prop.FindPropertyRelative("m_TitleSubTextColor");
             SerializedProperty m_LegendTextColor = prop.FindPropertyRelative("m_LegendTextColor");
-            SerializedProperty m_UnableColor = prop.FindPropertyRelative("m_UnableColor");
+            SerializedProperty m_LegendUnableColor = prop.FindPropertyRelative("m_LegendUnableColor");
+            SerializedProperty m_AxisTextColor = prop.FindPropertyRelative("m_AxisTextColor");
             SerializedProperty m_AxisLineColor = prop.FindPropertyRelative("m_AxisLineColor");
             SerializedProperty m_AxisSplitLineColor = prop.FindPropertyRelative("m_AxisSplitLineColor");
             SerializedProperty m_TooltipBackgroundColor = prop.FindPropertyRelative("m_TooltipBackgroundColor");
@@ -48,6 +48,9 @@ namespace XCharts
             SerializedProperty m_TooltipTextColor = prop.FindPropertyRelative("m_TooltipTextColor");
             SerializedProperty m_TooltipLabelColor = prop.FindPropertyRelative("m_TooltipLabelColor");
             SerializedProperty m_TooltipLineColor = prop.FindPropertyRelative("m_TooltipLineColor");
+            SerializedProperty m_DataZoomLineColor = prop.FindPropertyRelative("m_DataZoomLineColor");
+            SerializedProperty m_DataZoomSelectedColor = prop.FindPropertyRelative("m_DataZoomSelectedColor");
+            SerializedProperty m_DataZoomTextColor = prop.FindPropertyRelative("m_DataZoomTextColor");
             SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");
 
             ++EditorGUI.indentLevel;
@@ -55,15 +58,15 @@ namespace XCharts
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_BackgroundColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            EditorGUI.PropertyField(drawRect, m_ContrastColor);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_TextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_SubTextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_LegendTextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            EditorGUI.PropertyField(drawRect, m_UnableColor);
+            EditorGUI.PropertyField(drawRect, m_LegendUnableColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_AxisTextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_AxisLineColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -78,6 +81,12 @@ namespace XCharts
             EditorGUI.PropertyField(drawRect, m_TooltipLabelColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.PropertyField(drawRect, m_TooltipLineColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_DataZoomLineColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_DataZoomSelectedColor);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, m_DataZoomTextColor);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
             m_ColorPaletteFoldout = EditorGUI.Foldout(drawRect, m_ColorPaletteFoldout, "ColorPalette");
@@ -100,7 +109,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            int propertyCount = 14;
+            int propertyCount = 17;
             if (m_ColorPaletteFoldout)
             {
                 SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");

@@ -16,11 +16,11 @@ namespace XCharts
     {
         [SerializeField] private Font m_Font;
         [SerializeField] private Color32 m_BackgroundColor;
-        [SerializeField] private Color32 m_ContrastColor;
         [SerializeField] private Color32 m_TextColor;
-        [SerializeField] private Color32 m_SubTextColor;
+        [SerializeField] private Color32 m_TitleSubTextColor;
         [SerializeField] private Color32 m_LegendTextColor;
-        [SerializeField] private Color32 m_UnableColor;
+        [SerializeField] private Color32 m_LegendUnableColor;
+        [SerializeField] private Color32 m_AxisTextColor;
         [SerializeField] private Color32 m_AxisLineColor;
         [SerializeField] private Color32 m_AxisSplitLineColor;
         [SerializeField] private Color32 m_TooltipBackgroundColor;
@@ -28,15 +28,18 @@ namespace XCharts
         [SerializeField] private Color32 m_TooltipTextColor;
         [SerializeField] private Color32 m_TooltipLabelColor;
         [SerializeField] private Color32 m_TooltipLineColor;
+        [SerializeField] private Color32 m_DataZoomTextColor;
+        [SerializeField] private Color32 m_DataZoomLineColor;
+        [SerializeField] private Color32 m_DataZoomSelectedColor;
         [SerializeField] private Color32[] m_ColorPalette;
 
         public Font font { get { return m_Font; } set { m_Font = value; } }
         public Color32 backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
-        public Color32 contrastColor { get { return m_ContrastColor; } set { m_ContrastColor = value; } }
         public Color32 textColor { get { return m_TextColor; } set { m_TextColor = value; } }
-        public Color32 subTextColor { get { return m_SubTextColor; } set { m_SubTextColor = value; } }
+        public Color32 titleSubTextColor { get { return m_TitleSubTextColor; } set { m_TitleSubTextColor = value; } }
         public Color32 legendTextColor { get { return m_LegendTextColor; } set { m_LegendTextColor = value; } }
-        public Color32 unableColor { get { return m_UnableColor; } set { m_UnableColor = value; } }
+        public Color32 legendUnableColor { get { return m_LegendUnableColor; } set { m_LegendUnableColor = value; } }
+        public Color32 axisTextColor { get { return m_AxisTextColor; } set { m_AxisTextColor = value; } }
         public Color32 axisLineColor { get { return m_AxisLineColor; } set { m_AxisLineColor = value; } }
         public Color32 axisSplitLineColor { get { return m_AxisSplitLineColor; } set { m_AxisSplitLineColor = value; } }
         public Color32 tooltipBackgroundColor { get { return m_TooltipBackgroundColor; } set { m_TooltipBackgroundColor = value; } }
@@ -44,6 +47,9 @@ namespace XCharts
         public Color32 tooltipTextColor { get { return m_TooltipTextColor; } set { m_TooltipTextColor = value; } }
         public Color32 tooltipLabelColor { get { return m_TooltipLabelColor; } set { m_TooltipLabelColor = value; } }
         public Color32 tooltipLineColor { get { return m_TooltipLineColor; } set { m_TooltipLineColor = value; } }
+        public Color32 dataZoomTextColor { get { return m_DataZoomTextColor; } set { m_DataZoomTextColor = value; } }
+        public Color32 dataZoomLineColor { get { return m_DataZoomLineColor; } set { m_DataZoomLineColor = value; } }
+        public Color32 dataZoomSelectedColor { get { return m_DataZoomSelectedColor; } set { m_DataZoomSelectedColor = value; } }
         public Color32[] colorPalette { get { return m_ColorPalette; } set { m_ColorPalette = value; } }
 
         public Color32 GetColor(int index)
@@ -60,17 +66,20 @@ namespace XCharts
         {
             m_Font = theme.m_Font;
             m_BackgroundColor = theme.m_BackgroundColor;
-            m_ContrastColor = theme.m_ContrastColor;
-            m_UnableColor = theme.m_UnableColor;
+            m_LegendUnableColor = theme.m_LegendUnableColor;
             m_TextColor = theme.m_TextColor;
-            m_SubTextColor = theme.m_SubTextColor;
+            m_TitleSubTextColor = theme.m_TitleSubTextColor;
             m_LegendTextColor = theme.m_LegendTextColor;
+            m_AxisTextColor = theme.m_AxisTextColor;
             m_AxisLineColor = theme.m_AxisLineColor;
             m_AxisSplitLineColor = theme.m_AxisSplitLineColor;
             m_TooltipBackgroundColor = theme.m_TooltipBackgroundColor;
             m_TooltipTextColor = theme.m_TooltipTextColor;
             m_TooltipLabelColor = theme.m_TooltipLabelColor;
             m_TooltipLineColor = theme.m_TooltipLineColor;
+            m_DataZoomLineColor = theme.m_DataZoomLineColor;
+            m_DataZoomSelectedColor = theme.m_DataZoomSelectedColor;
+            m_DataZoomTextColor = theme.m_DataZoomTextColor;
             m_ColorPalette = new Color32[theme.m_ColorPalette.Length];
             for (int i = 0; i < theme.m_ColorPalette.Length; i++)
             {
@@ -86,11 +95,11 @@ namespace XCharts
                 {
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     m_BackgroundColor = new Color32(255, 255, 255, 255),
-                    m_ContrastColor = GetColor("#514D4D"),
-                    m_UnableColor = GetColor("#cccccc"),
+                    m_LegendUnableColor = GetColor("#cccccc"),
                     m_TextColor = GetColor("#514D4D"),
-                    m_SubTextColor = GetColor("#514D4D"),
+                    m_TitleSubTextColor = GetColor("#514D4D"),
                     m_LegendTextColor = GetColor("#eee"),
+                    m_AxisTextColor = GetColor("#514D4D"),
                     m_AxisLineColor = GetColor("#514D4D"),
                     m_AxisSplitLineColor = GetColor("#51515120"),
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
@@ -98,6 +107,9 @@ namespace XCharts
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
                     m_TooltipLabelColor = GetColor("#292929FF"),
                     m_TooltipLineColor = GetColor("#29292964"),
+                    m_DataZoomLineColor = GetColor("#51515120"),
+                    m_DataZoomSelectedColor = GetColor("#51515120"),
+                    m_DataZoomTextColor = GetColor("#514D4D"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(194, 53, 49, 255),
@@ -124,11 +136,11 @@ namespace XCharts
                 {
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     m_BackgroundColor = new Color32(255, 255, 255, 255),
-                    m_ContrastColor = GetColor("#514D4D"),
-                    m_UnableColor = GetColor("#cccccc"),
+                    m_LegendUnableColor = GetColor("#cccccc"),
                     m_TextColor = GetColor("#514D4D"),
-                    m_SubTextColor = GetColor("#514D4D"),
+                    m_TitleSubTextColor = GetColor("#514D4D"),
                     m_LegendTextColor = GetColor("#514D4D"),
+                    m_AxisTextColor = GetColor("#514D4D"),
                     m_AxisLineColor = GetColor("#514D4D"),
                     m_AxisSplitLineColor = GetColor("#51515120"),
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
@@ -136,6 +148,9 @@ namespace XCharts
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
                     m_TooltipLabelColor = GetColor("#292929FF"),
                     m_TooltipLineColor = GetColor("#29292964"),
+                    m_DataZoomLineColor = GetColor("#51515120"),
+                    m_DataZoomSelectedColor = GetColor("#51515120"),
+                    m_DataZoomTextColor = GetColor("#514D4D"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(55, 162, 218, 255),
@@ -163,12 +178,12 @@ namespace XCharts
                 return new ThemeInfo()
                 {
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
-                    m_UnableColor = GetColor("#cccccc"),
+                    m_LegendUnableColor = GetColor("#cccccc"),
                     m_BackgroundColor = new Color32(34, 34, 34, 255),
-                    m_ContrastColor = GetColor("#eee"),
                     m_TextColor = GetColor("#eee"),
-                    m_SubTextColor = GetColor("#eee"),
+                    m_TitleSubTextColor = GetColor("#eee"),
                     m_LegendTextColor = GetColor("#eee"),
+                    m_AxisTextColor = GetColor("#eee"),
                     m_AxisLineColor = GetColor("#eee"),
                     m_AxisSplitLineColor = GetColor("#aaa"),
                     m_TooltipBackgroundColor = GetColor("#515151B5"),
@@ -176,6 +191,9 @@ namespace XCharts
                     m_TooltipFlagAreaColor = GetColor("#51515120"),
                     m_TooltipLabelColor = GetColor("#A7A7A7FF"),
                     m_TooltipLineColor = GetColor("#eee"),
+                    m_DataZoomLineColor = GetColor("#FFFFFF45"),
+                    m_DataZoomSelectedColor = GetColor("#D0D0D03D"),
+                    m_DataZoomTextColor = GetColor("#FFFFFFFF"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(221, 107, 102, 255),
@@ -212,17 +230,20 @@ namespace XCharts
         public bool Equals(ThemeInfo other)
         {
             return m_Font == other.m_Font &&
-                ChartHelper.IsValueEqualsColor(m_UnableColor, other.m_UnableColor) &&
+                ChartHelper.IsValueEqualsColor(m_LegendUnableColor, other.m_LegendUnableColor) &&
                 ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.m_BackgroundColor) &&
-                ChartHelper.IsValueEqualsColor(m_ContrastColor, other.m_ContrastColor) &&
                 ChartHelper.IsValueEqualsColor(m_TextColor, other.m_TextColor) &&
-                ChartHelper.IsValueEqualsColor(m_SubTextColor, other.m_SubTextColor) &&
+                ChartHelper.IsValueEqualsColor(m_TitleSubTextColor, other.m_TitleSubTextColor) &&
+                ChartHelper.IsValueEqualsColor(m_AxisTextColor, other.m_AxisTextColor) &&
                 ChartHelper.IsValueEqualsColor(m_AxisLineColor, other.m_AxisLineColor) &&
                 ChartHelper.IsValueEqualsColor(m_AxisSplitLineColor, other.m_AxisSplitLineColor) &&
                 ChartHelper.IsValueEqualsColor(m_TooltipBackgroundColor, other.m_TooltipBackgroundColor) &&
                 ChartHelper.IsValueEqualsColor(m_AxisSplitLineColor, other.m_AxisSplitLineColor) &&
                 ChartHelper.IsValueEqualsColor(m_TooltipTextColor, other.m_TooltipTextColor) &&
                 ChartHelper.IsValueEqualsColor(m_TooltipFlagAreaColor, other.m_TooltipFlagAreaColor) &&
+                ChartHelper.IsValueEqualsColor(m_DataZoomLineColor, other.m_DataZoomLineColor) &&
+                ChartHelper.IsValueEqualsColor(m_DataZoomSelectedColor, other.m_DataZoomSelectedColor) &&
+                ChartHelper.IsValueEqualsColor(m_DataZoomTextColor, other.m_DataZoomTextColor) &&
                 m_ColorPalette.Length == other.m_ColorPalette.Length;
         }
 

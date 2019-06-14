@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -855,7 +855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1557,7 +1557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2034,7 +2034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+  m_Color: {r: 0.654902, g: 0.654902, b: 0.654902, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2556,7 +2556,7 @@ GameObject:
   - component: {fileID: 724935910}
   - component: {fileID: 724935908}
   m_Layer: 5
-  m_Name: xchart
+  m_Name: line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2611,21 +2611,21 @@ MonoBehaviour:
     m_BackgroundColor:
       serializedVersion: 2
       rgba: 4294967295
-    m_ContrastColor:
-      serializedVersion: 2
-      rgba: 4283256145
     m_TextColor:
       serializedVersion: 2
       rgba: 4283256145
-    m_SubTextColor:
+    m_TitleSubTextColor:
       serializedVersion: 2
-      rgba: 4283256145
+      rgba: 0
     m_LegendTextColor:
       serializedVersion: 2
       rgba: 4293848814
-    m_UnableColor:
+    m_LegendUnableColor:
       serializedVersion: 2
-      rgba: 4291611852
+      rgba: 0
+    m_AxisTextColor:
+      serializedVersion: 2
+      rgba: 0
     m_AxisLineColor:
       serializedVersion: 2
       rgba: 4283256145
@@ -2647,6 +2647,15 @@ MonoBehaviour:
     m_TooltipLineColor:
       serializedVersion: 2
       rgba: 1680419113
+    m_DataZoomTextColor:
+      serializedVersion: 2
+      rgba: 0
+    m_DataZoomLineColor:
+      serializedVersion: 2
+      rgba: 0
+    m_DataZoomSelectedColor:
+      serializedVersion: 2
+      rgba: 0
     m_ColorPalette:
     - serializedVersion: 2
       rgba: 4281415106
@@ -3722,7 +3731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3760,7 +3769,7 @@ GameObject:
   - component: {fileID: 887794270}
   - component: {fileID: 887794269}
   m_Layer: 5
-  m_Name: xchart (1)
+  m_Name: bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3809,33 +3818,33 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Theme: 1
+  m_Theme: 3
   m_ThemeInfo:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_BackgroundColor:
       serializedVersion: 2
-      rgba: 4294967295
-    m_ContrastColor:
-      serializedVersion: 2
-      rgba: 4283256145
+      rgba: 4280427042
     m_TextColor:
       serializedVersion: 2
-      rgba: 4283256145
-    m_SubTextColor:
+      rgba: 4293848814
+    m_TitleSubTextColor:
       serializedVersion: 2
-      rgba: 4283256145
+      rgba: 4293848814
     m_LegendTextColor:
       serializedVersion: 2
       rgba: 4293848814
-    m_UnableColor:
+    m_LegendUnableColor:
       serializedVersion: 2
       rgba: 4291611852
+    m_AxisTextColor:
+      serializedVersion: 2
+      rgba: 4293848814
     m_AxisLineColor:
       serializedVersion: 2
-      rgba: 4283256145
+      rgba: 4293848814
     m_AxisSplitLineColor:
       serializedVersion: 2
-      rgba: 542200145
+      rgba: 4289374890
     m_TooltipBackgroundColor:
       serializedVersion: 2
       rgba: 3042005329
@@ -3847,33 +3856,42 @@ MonoBehaviour:
       rgba: 4294967295
     m_TooltipLabelColor:
       serializedVersion: 2
-      rgba: 4280887593
+      rgba: 4289177511
     m_TooltipLineColor:
       serializedVersion: 2
-      rgba: 1680419113
+      rgba: 4293848814
+    m_DataZoomTextColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_DataZoomLineColor:
+      serializedVersion: 2
+      rgba: 1174405119
+    m_DataZoomSelectedColor:
+      serializedVersion: 2
+      rgba: 1037095120
     m_ColorPalette:
     - serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4284902365
     - serializedVersion: 2
-      rgba: 4283712815
+      rgba: 4288715381
     - serializedVersion: 2
-      rgba: 4289241185
+      rgba: 4287077862
     - serializedVersion: 2
-      rgba: 4284842708
+      rgba: 4289315213
     - serializedVersion: 2
-      rgba: 4289644433
+      rgba: 4283662058
     - serializedVersion: 2
-      rgba: 4286816116
+      rgba: 4286111214
     - serializedVersion: 2
-      rgba: 4280452810
+      rgba: 4285768563
     - serializedVersion: 2
-      rgba: 4288324285
+      rgba: 4290558323
     - serializedVersion: 2
-      rgba: 4285821038
+      rgba: 4289431922
     - serializedVersion: 2
-      rgba: 4285556052
+      rgba: 4287416977
     - serializedVersion: 2
-      rgba: 4292070596
+      rgba: 4282556404
   m_Title:
     m_Show: 1
     m_Text: Chart Title
@@ -5139,7 +5157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+  m_Color: {r: 0.654902, g: 0.654902, b: 0.654902, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5577,7 +5595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5651,7 +5669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5833,7 +5851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6203,7 +6221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6460,7 +6478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7094,7 +7112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.8666667, g: 0.41960785, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7310,7 +7328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7797,7 +7815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

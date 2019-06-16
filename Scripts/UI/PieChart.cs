@@ -39,16 +39,6 @@ namespace XCharts
             }
         }
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-        }
-
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);

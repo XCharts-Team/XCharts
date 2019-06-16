@@ -72,12 +72,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Legend)) return false;
-            return Equals((Legend)obj);
+            if(ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            else if (obj is Legend)
+            {
+                return Equals((Legend)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Legend other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return show == other.show &&
                 orient == other.orient &&
                 location == other.location &&
@@ -88,14 +102,22 @@ namespace XCharts
                 ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
         }
 
-        public static bool operator ==(Legend point1, Legend point2)
+        public static bool operator ==(Legend left, Legend right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(Legend point1, Legend point2)
+        public static bool operator !=(Legend left, Legend right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

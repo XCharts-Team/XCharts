@@ -69,6 +69,10 @@ namespace XCharts
 
         protected override void Awake()
         {
+            if (m_ThemeInfo == null)
+            {
+                m_ThemeInfo = ThemeInfo.Default;
+            }
             raycastTarget = false;
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
@@ -95,14 +99,12 @@ namespace XCharts
         protected override void Reset()
         {
             ChartHelper.DestoryAllChilds(transform);
-            m_ThemeInfo = ThemeInfo.Dark;
+            m_ThemeInfo = ThemeInfo.Default;
             m_Title = Title.defaultTitle;
             m_Legend = Legend.defaultLegend;
             m_Tooltip = Tooltip.defaultTooltip;
             m_Series = Series.defaultSeries;
-            InitTitle();
-            InitLegend();
-            InitTooltip();
+            Awake();
         }
 #endif
 
@@ -244,7 +246,8 @@ namespace XCharts
                     int count = (data as PointerEventData).clickCount;
                     int index = int.Parse(data.selectedObject.name.Split('_')[1]);
                     SetActive(index, !m_Legend.IsActive(index));
-                    m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index), m_ThemeInfo.legendUnableColor);
+                    m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index),
+                        m_ThemeInfo.legendUnableColor);
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();
@@ -258,10 +261,11 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             tooltipObject.transform.localPosition = Vector3.zero;
             DestroyImmediate(tooltipObject.GetComponent<Image>());
+            var parent = tooltipObject.transform;
             ChartHelper.HideAllObject(tooltipObject.transform);
-            GameObject content = ChartHelper.AddTooltipContent("content", tooltipObject.transform, m_ThemeInfo.font);
-            GameObject labelX = ChartHelper.AddTooltipLabel("label_x", tooltipObject.transform, m_ThemeInfo.font, new Vector2(0.5f, 1));
-            GameObject labelY = ChartHelper.AddTooltipLabel("label_y", tooltipObject.transform, m_ThemeInfo.font, new Vector2(1, 0.5f));
+            GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font);
+            GameObject labelX = ChartHelper.AddTooltipLabel("label_x", parent, m_ThemeInfo.font, new Vector2(0.5f, 1));
+            GameObject labelY = ChartHelper.AddTooltipLabel("label_y", parent, m_ThemeInfo.font, new Vector2(1, 0.5f));
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
             m_Tooltip.SetLabelObj(labelX, labelY);

@@ -49,12 +49,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Coordinate)) return false;
-            return Equals((Coordinate)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            else if (obj is Coordinate)
+            {
+                return Equals((Coordinate)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Coordinate other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return m_Left == other.left &&
                 m_Right == other.right &&
                 m_Top == other.top &&
@@ -63,14 +77,22 @@ namespace XCharts
                 m_FontSize == other.fontSize;
         }
 
-        public static bool operator ==(Coordinate point1, Coordinate point2)
+        public static bool operator ==(Coordinate left, Coordinate right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(Coordinate point1, Coordinate point2)
+        public static bool operator !=(Coordinate left, Coordinate right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

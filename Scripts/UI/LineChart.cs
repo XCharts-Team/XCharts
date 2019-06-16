@@ -10,16 +10,6 @@ namespace XCharts
 
         public Line line { get { return line; } }
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-        }
-
 #if UNITY_EDITOR
         protected override void Reset()
         {

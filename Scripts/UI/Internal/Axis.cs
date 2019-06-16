@@ -254,12 +254,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Axis)) return false;
-            return Equals((Axis)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            else if (obj is Axis)
+            {
+                return Equals((Axis)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Axis other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return show == other.show &&
                 type == other.type &&
                 min == other.min &&
@@ -272,14 +286,22 @@ namespace XCharts
                 ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
         }
 
-        public static bool operator ==(Axis point1, Axis point2)
+        public static bool operator ==(Axis left, Axis right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(Axis point1, Axis point2)
+        public static bool operator !=(Axis left, Axis right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

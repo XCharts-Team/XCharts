@@ -72,7 +72,7 @@ namespace XCharts
 
         private void CheckRadarInfoChanged()
         {
-            if (!m_CheckRadar.Equals(m_Radar))
+            if (m_CheckRadar != m_Radar)
             {
                 m_CheckRadar.Copy(m_Radar);
                 OnRadarChanged();

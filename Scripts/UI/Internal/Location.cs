@@ -202,14 +202,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Location))
+            if (ReferenceEquals(null, obj))
+            {
                 return false;
-
-            return Equals((Location)obj);
+            }
+            else if (obj is Location)
+            {
+                return Equals((Location)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Location other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return align == other.align &&
                 left == other.left &&
                 right == other.right &&
@@ -217,14 +229,22 @@ namespace XCharts
                 bottom == other.bottom;
         }
 
-        public static bool operator ==(Location point1, Location point2)
+        public static bool operator ==(Location left, Location right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(Location point1, Location point2)
+        public static bool operator !=(Location left, Location right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

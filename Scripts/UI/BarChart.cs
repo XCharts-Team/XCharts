@@ -26,16 +26,6 @@ namespace XCharts
 
         public Bar bar { get { return m_Bar; } }
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-        }
-
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);

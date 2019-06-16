@@ -53,12 +53,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Title)) return false;
-            return Equals((Title)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            else if (obj is Title)
+            {
+                return Equals((Title)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Title other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return m_Show == other.show &&
                 m_Text.Equals(other.text) &&
                 m_TextFontSize == other.textFontSize &&
@@ -68,14 +82,22 @@ namespace XCharts
                 m_Location.Equals(other.location);
         }
 
-        public static bool operator == (Title point1, Title point2)
+        public static bool operator ==(Title left, Title right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator != (Title point1, Title point2)
+        public static bool operator !=(Title left, Title right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

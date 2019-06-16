@@ -221,14 +221,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ThemeInfo))
+            if (ReferenceEquals(null, obj))
+            {
                 return false;
-
-            return Equals((ThemeInfo)obj);
+            }
+            else if (obj is ThemeInfo)
+            {
+                return Equals((ThemeInfo)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(ThemeInfo other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return m_Font == other.m_Font &&
                 ChartHelper.IsValueEqualsColor(m_LegendUnableColor, other.m_LegendUnableColor) &&
                 ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.m_BackgroundColor) &&
@@ -247,14 +259,22 @@ namespace XCharts
                 m_ColorPalette.Length == other.m_ColorPalette.Length;
         }
 
-        public static bool operator ==(ThemeInfo point1, ThemeInfo point2)
+        public static bool operator ==(ThemeInfo left, ThemeInfo right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(ThemeInfo point1, ThemeInfo point2)
+        public static bool operator !=(ThemeInfo left, ThemeInfo right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

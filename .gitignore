@@ -10,6 +10,7 @@ XCharts.sln
 XCharts.csproj
 XCharts.Editor.csproj
 XCharts.Plugins.csproj
+/Assets/xchart_test.unity
 
 *.vcxproj.filters
 *.vcxproj.user

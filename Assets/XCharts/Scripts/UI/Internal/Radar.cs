@@ -111,12 +111,26 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Radar)) return false;
-            return Equals((Radar)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            else if (obj is Radar)
+            {
+                return Equals((Radar)obj);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Equals(Radar other)
         {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
             return radius == other.radius &&
                 splitNumber == other.splitNumber &&
                 left == other.left &&
@@ -139,14 +153,22 @@ namespace XCharts
             return true;
         }
 
-        public static bool operator ==(Radar point1, Radar point2)
+        public static bool operator ==(Radar left, Radar right)
         {
-            return point1.Equals(point2);
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            return Equals(left, right);
         }
 
-        public static bool operator !=(Radar point1, Radar point2)
+        public static bool operator !=(Radar left, Radar right)
         {
-            return !point1.Equals(point2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

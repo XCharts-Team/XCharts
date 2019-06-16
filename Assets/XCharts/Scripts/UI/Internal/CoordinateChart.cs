@@ -45,11 +45,11 @@ namespace XCharts
 
         protected override void Awake()
         {
+            base.Awake();
             CheckMinMaxValue();
             InitDataZoom();
             InitSplitX();
             InitSplitY();
-            base.Awake();
         }
 
         protected override void Update()
@@ -302,8 +302,14 @@ namespace XCharts
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleLeft,
                 Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20));
             m_DataZoom.SetLabelActive(false);
-            m_XAxis.UpdateFilterData(m_DataZoom);
-            m_Series.UpdateFilterData(m_DataZoom);
+            if (m_XAxis != null)
+            {
+                m_XAxis.UpdateFilterData(m_DataZoom);
+            }
+            if (m_Series != null)
+            {
+                m_Series.UpdateFilterData(m_DataZoom);
+            }
             raycastTarget = m_DataZoom.show;
         }
 
@@ -355,7 +361,7 @@ namespace XCharts
 
         private void CheckXAxis()
         {
-            if (!m_CheckXAxis.Equals(m_XAxis))
+            if (m_CheckXAxis != m_XAxis)
             {
                 m_CheckXAxis.Copy(m_XAxis);
                 OnXAxisChanged();

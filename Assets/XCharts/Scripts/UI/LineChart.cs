@@ -8,7 +8,7 @@ namespace XCharts
     {
         [SerializeField] private Line m_Line = Line.defaultLine;
 
-        public Line line { get { return line; } }
+        public Line line { get { return m_Line; } }
 
 #if UNITY_EDITOR
         protected override void Reset()

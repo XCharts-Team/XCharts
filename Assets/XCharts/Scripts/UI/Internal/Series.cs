@@ -235,8 +235,8 @@ namespace XCharts
             }
             else
             {
-                minVaule = (int)min;
-                maxValue = (int)max;
+                minVaule = Mathf.FloorToInt(min);
+                maxValue = Mathf.CeilToInt(max);
             }
         }
 

@@ -6,13 +6,11 @@
 /UnityPackageManager
 /Assets/XLua/Examples
 
-XCharts.sln
-XCharts.csproj
-XCharts.Editor.csproj
-XCharts.Plugins.csproj
 /Assets/XCharts/Demo/demo_test.unity
 /Assets/XCharts/Demo/demo_test.unity.meta
 
+*.sln
+*.csproj
 *.vcxproj.filters
 *.vcxproj.user
 *.pdb

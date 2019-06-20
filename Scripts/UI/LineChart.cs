@@ -90,9 +90,8 @@ namespace XCharts
                         }
                         float value = serieData[i];
                         float pX = startX + i * scaleWid;
-                        float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
-                        float dataHig = value / (maxValue - minValue) * coordinateHig;
-
+                        float pY = seriesCurrHig[i] + coordinateY + m_Coordinate.tickness;
+                        float dataHig = (value - minValue) / (maxValue - minValue) * coordinateHig;
                         np = new Vector3(pX, pY + dataHig);
 
                         if (i > 0)
@@ -329,8 +328,8 @@ namespace XCharts
                         }
                         float value = serie.data[i];
                         float pY = startY + i * scaleWid;
-                        float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
-                        float dataHig = value / (maxValue - minValue) * coordinateWid;
+                        float pX = seriesCurrHig[i] + coordinateX + m_Coordinate.tickness;
+                        float dataHig = (value - minValue) / (maxValue - minValue) * coordinateWid;
                         np = new Vector3(pX + dataHig, pY);
 
                         if (i > 0)

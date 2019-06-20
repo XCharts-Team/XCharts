@@ -33,7 +33,7 @@ namespace XCharts
             {
                 var stackSeries = m_Series.GetStackSeries();
                 int seriesCount = stackSeries.Count;
-                float scaleWid = m_YAxis.GetDataWidth(coordinateHig,m_DataZoom);
+                float scaleWid = m_YAxis.GetDataWidth(coordinateHig, m_DataZoom);
                 float barWid = m_Bar.barWidth > 1 ? m_Bar.barWidth : scaleWid * m_Bar.barWidth;
                 float offset = m_Bar.inSameBar ?
                     (scaleWid - barWid - m_Bar.space * (seriesCount - 1)) / 2 :
@@ -61,7 +61,8 @@ namespace XCharts
                             float pX = seriesCurrHig[i] + zeroX + m_Coordinate.tickness;
                             float pY = coordinateY + i * scaleWid;
                             if (!m_YAxis.boundaryGap) pY -= scaleWid / 2;
-                            float barHig = value / (maxValue - minValue) * coordinateWid;
+                            float barHig = (minValue > 0 ? value - minValue : value)
+                                / (maxValue - minValue) * coordinateWid;
                             float space = m_Bar.inSameBar ? offset :
                                 offset + j * (barWid + m_Bar.space);
                             seriesCurrHig[i] += barHig;
@@ -141,7 +142,8 @@ namespace XCharts
                             float pX = zeroX + i * scaleWid;
                             if (!m_XAxis.boundaryGap) pX -= scaleWid / 2;
                             float pY = seriesCurrHig[i] + zeroY + m_Coordinate.tickness;
-                            float barHig = value / (maxValue - minValue) * coordinateHig;
+                            float barHig = (minValue > 0 ? value - minValue : value)
+                                / (maxValue - minValue) * coordinateHig;
                             seriesCurrHig[i] += barHig;
                             float space = m_Bar.inSameBar ? offset :
                                 offset + j * (barWid + m_Bar.space);

@@ -376,58 +376,39 @@ namespace XCharts
             {
                 m_Series.GetMinMaxValue(m_DataZoom, out tempMinValue, out tempMaxValue);
             }
-            if (m_XAxis.type == Axis.AxisType.Value)
+            Axis axis;
+            if (m_XAxis.type == Axis.AxisType.Value) axis = m_XAxis;
+            else axis = m_YAxis;
+            switch (axis.minMaxType)
             {
-                switch (m_XAxis.minMaxType)
-                {
-                    case Axis.AxisMinMaxType.Default:
-                        if (tempMinValue > 0 && tempMaxValue > 0)
-                        {
-                            tempMinValue = 0;
-                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
-                        }
-                        else if (tempMinValue < 0 && tempMaxValue < 0)
-                        {
-                            tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
-                            tempMaxValue = 0;
-                        }
-                        break;
-                    case Axis.AxisMinMaxType.MinMax:
+                case Axis.AxisMinMaxType.Default:
+                    if (tempMinValue > 0 && tempMaxValue > 0)
+                    {
+                        tempMinValue = 0;
+                        tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
+                    }
+                    else if (tempMinValue < 0 && tempMaxValue < 0)
+                    {
+                        tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
+                        tempMaxValue = 0;
+                    }
+                    else
+                    {
                         tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
                         tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
-                        break;
-                    case Axis.AxisMinMaxType.Custom:
-                        if (m_XAxis.min != 0) tempMinValue = m_XAxis.min;
-                        if (m_XAxis.max != 0) tempMaxValue = m_XAxis.max;
-                        break;
-                }
-            }
-            else if (m_YAxis.type == Axis.AxisType.Value)
-            {
-                switch (m_YAxis.minMaxType)
-                {
-                    case Axis.AxisMinMaxType.Default:
-                        if (tempMinValue > 0 && tempMaxValue > 0)
-                        {
-                            tempMinValue = 0;
-                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
-                        }
-                        else if (tempMinValue < 0 && tempMaxValue < 0)
-                        {
-                            tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
-                            tempMaxValue = 0;
-                        }
-                        break;
-                    case Axis.AxisMinMaxType.MinMax:
-                        tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
-                        tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
-                        break;
-                    case Axis.AxisMinMaxType.Custom:
-                        if (m_YAxis.min != 0) tempMinValue = m_YAxis.min;
-                        if (m_YAxis.max != 0) tempMaxValue = m_YAxis.max;
-                        break;
-                }
-
+                    }
+                    break;
+                case Axis.AxisMinMaxType.MinMax:
+                    tempMinValue = ChartHelper.GetMinDivisibleValue(tempMinValue);
+                    tempMaxValue = ChartHelper.GetMaxDivisibleValue(tempMaxValue);
+                    break;
+                case Axis.AxisMinMaxType.Custom:
+                    if (axis.min != 0 || axis.max != 0)
+                    {
+                        tempMinValue = axis.min;
+                        tempMaxValue = axis.max;
+                    }
+                    break;
             }
             if (tempMinValue != minValue || tempMaxValue != maxValue)
             {
@@ -436,12 +417,14 @@ namespace XCharts
                 if (m_XAxis.type == Axis.AxisType.Value)
                 {
                     m_ZeroXOffset = minValue > 0 ? 0 :
+                        maxValue < 0 ? coordinateWid :
                         Mathf.Abs(minValue) * (coordinateWid / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnXMaxValueChanged();
                 }
                 else if (m_YAxis.type == Axis.AxisType.Value)
                 {
                     m_ZeroYOffset = minValue > 0 ? 0 :
+                        maxValue < 0 ? coordinateHig :
                         Mathf.Abs(minValue) * (coordinateHig / (Mathf.Abs(minValue) + Mathf.Abs(maxValue)));
                     OnYMaxValueChanged();
                 }
@@ -468,6 +451,8 @@ namespace XCharts
         protected override void OnSizeChanged()
         {
             base.OnSizeChanged();
+            minValue = 0;
+            maxValue = 100;
             InitSplitX();
             InitSplitY();
         }

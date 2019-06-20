@@ -17,8 +17,9 @@ namespace XCharts
         SerializedProperty m_Bottom;
         SerializedProperty m_LineTickness;
         SerializedProperty m_LinePointSize;
-        SerializedProperty m_LineColor;
         SerializedProperty m_BackgroundColorList;
+        SerializedProperty m_LineColor;
+        SerializedProperty m_AreaAlpha;
         SerializedProperty m_Indicator;
         SerializedProperty m_IndicatorList;
 
@@ -43,6 +44,7 @@ namespace XCharts
             m_LineTickness = prop.FindPropertyRelative("m_LineTickness");
             m_LinePointSize = prop.FindPropertyRelative("m_LinePointSize");
             m_LineColor = prop.FindPropertyRelative("m_LineColor");
+            m_AreaAlpha = prop.FindPropertyRelative("m_AreaAlpha");
             m_BackgroundColorList = prop.FindPropertyRelative("m_BackgroundColorList");
             m_Indicator = prop.FindPropertyRelative("m_Indicator");
             m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
@@ -97,6 +99,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LinePointSize);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_AreaAlpha);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineColor);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
@@ -124,7 +128,7 @@ namespace XCharts
             int propNum = 1;
             if (m_RadarModuleToggle)
             {
-                propNum += 12;
+                propNum += 13;
                 
                 if (m_BackgroundColorToggle)
                 {

@@ -29,6 +29,7 @@ public class Demo : MonoBehaviour
     private Color m_HighlightColor;
 
     private ScrollRect m_ScrollRect;
+    private Mask m_Mark;
 
     void Awake()
     {
@@ -45,11 +46,13 @@ public class Demo : MonoBehaviour
         m_PieChartModule = transform.Find("chart_detail/Viewport/pie_chart").gameObject;
         m_RadarChartModule = transform.Find("chart_detail/Viewport/radar_chart").gameObject;
         m_OtherModule = transform.Find("chart_detail/Viewport/other").gameObject;
+        m_Mark = transform.Find("chart_detail/Viewport").GetComponent<Mask>();
+        m_Mark.enabled = true;
 
         m_Title = transform.Find("chart_title/Text").GetComponent<Text>();
 
-        InitChartButton();
         InitThemeButton();
+        InitChartButton();
     }
 
     void Update()
@@ -129,6 +132,7 @@ public class Demo : MonoBehaviour
         {
             m_Title.text = "其他";
         }
+        SelecteTheme(m_SelectedTheme);
     }
 
     void SetButtonColor(Button btn, GameObject selected, GameObject module)

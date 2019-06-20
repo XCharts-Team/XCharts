@@ -342,7 +342,7 @@ namespace XCharts
             Vector2 local;
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                Input.mousePosition, null, out local))
+                Input.mousePosition, canvas.worldCamera, out local))
             {
                 m_Tooltip.SetActive(false);
                 RefreshChart();

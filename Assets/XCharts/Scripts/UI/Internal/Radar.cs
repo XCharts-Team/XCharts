@@ -9,13 +9,13 @@ namespace XCharts
     public class Radar : JsonDataSupport, IEquatable<Radar>
     {
         [System.Serializable]
-        public class Indicator: IEquatable<Indicator>
+        public class Indicator : IEquatable<Indicator>
         {
             [SerializeField] private string m_Name;
             [SerializeField] private float m_Max;
 
-            public string name { get { return m_Name; }set { m_Name = value; } }
-            public float max { get { return m_Max; }set { m_Max = value; } }
+            public string name { get { return m_Name; } set { m_Name = value; } }
+            public float max { get { return m_Max; } set { m_Max = value; } }
 
             public Indicator Clone()
             {
@@ -46,6 +46,8 @@ namespace XCharts
         [SerializeField] private float m_LineTickness = 1f;
         [SerializeField] private float m_LinePointSize = 5f;
         [SerializeField] private Color m_LineColor = Color.grey;
+        [Range(0, 255)]
+        [SerializeField] private int m_AreaAlpha;
 
         [SerializeField] private List<Color> m_BackgroundColorList = new List<Color>();
         [SerializeField] private bool m_Indicator = true;
@@ -65,13 +67,15 @@ namespace XCharts
         public float lineTickness { get { return m_LineTickness; } set { m_LineTickness = value; } }
         public float linePointSize { get { return m_LinePointSize; } set { m_LinePointSize = value; } }
         public Color lineColor { get { return m_LineColor; } set { m_LineColor = value; } }
+        public int areaAipha { get { return m_AreaAlpha; } set { m_AreaAlpha = value; } }
         public List<Color> backgroundColorList { get { return m_BackgroundColorList; } }
         public bool indicator { get { return m_Indicator; } set { m_Indicator = value; } }
         public List<Indicator> indicatorList { get { return m_IndicatorList; } }
 
         public static Radar defaultRadar
         {
-            get {
+            get
+            {
                 var radar = new Radar
                 {
                     m_Cricle = false,
@@ -84,6 +88,7 @@ namespace XCharts
                     m_Bottom = 0,
                     m_LineTickness = 1f,
                     m_LinePointSize = 5f,
+                    m_AreaAlpha = 150,
                     m_LineColor = Color.grey,
                     m_Indicator = true,
                     m_BackgroundColorList = new List<Color> {
@@ -105,6 +110,7 @@ namespace XCharts
             m_Top = other.top;
             m_Bottom = other.bottom;
             m_Indicator = other.indicator;
+            m_AreaAlpha = other.areaAipha;
             indicatorList.Clear();
             foreach (var d in other.indicatorList) indicatorList.Add(d.Clone());
         }
@@ -141,10 +147,10 @@ namespace XCharts
                 IsEqualsIndicatorList(indicatorList, other.indicatorList);
         }
 
-        private bool IsEqualsIndicatorList(List<Indicator> indicators1,List<Indicator> indicators2)
+        private bool IsEqualsIndicatorList(List<Indicator> indicators1, List<Indicator> indicators2)
         {
             if (indicators1.Count != indicators2.Count) return false;
-            for(int i = 0; i < indicators1.Count; i++)
+            for (int i = 0; i < indicators1.Count; i++)
             {
                 var indicator1 = indicators1[i];
                 var indicator2 = indicators2[i];
@@ -186,7 +192,8 @@ namespace XCharts
                 MatchCollection m = Regex.Matches(jsonData, pattern);
                 foreach (Match match in m)
                 {
-                    m_IndicatorList.Add(new Indicator() {
+                    m_IndicatorList.Add(new Indicator()
+                    {
                         name = match.Groups[1].Value
                     });
                 }
@@ -198,7 +205,7 @@ namespace XCharts
                 int index = 0;
                 foreach (Match match in m)
                 {
-                    if (m_IndicatorList[index]!=null)
+                    if (m_IndicatorList[index] != null)
                     {
                         m_IndicatorList[index].max = int.Parse(match.Groups[1].Value);
                     }

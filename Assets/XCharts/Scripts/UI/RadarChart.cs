@@ -152,8 +152,9 @@ namespace XCharts
                 }
                 var dataList = m_Series.series[i].data;
                 var color = m_ThemeInfo.GetColor(i);
-                var areaColor = new Color(color.r, color.g, color.b, color.a * 0.7f);
-                
+                var areaColor = color;
+                areaColor.a = (byte)m_Radar.areaAipha;
+
                 List<Vector3> pointList = new List<Vector3>(dataList.Count);
                 dataPosList.Add(pointList);
                 for (int j = 0; j < dataList.Count; j++)
@@ -161,7 +162,8 @@ namespace XCharts
                     var max = m_Radar.indicatorList[j].max > 0 ?
                         m_Radar.indicatorList[j].max :
                         GetMaxValue(j);
-                    var radius = max<0? m_Radar.radius - m_Radar.radius * dataList[j] / max : m_Radar.radius * dataList[j] / max ;
+                    var radius = max < 0 ? m_Radar.radius - m_Radar.radius * dataList[j] / max
+                        : m_Radar.radius * dataList[j] / max;
                     var currAngle = j * angle;
                     if (j == 0)
                     {

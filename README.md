@@ -20,6 +20,7 @@ UGUI图表库，风格参考了[`ECharts`](https://www.echartsjs.com/examples/#c
 ![Dark](Doc/dark.png)
 
 # 更新日志
+  * （2019.06.20) 增加`AreaAlpha`控制`RadarChart`的`Area`透明度
   * （2019.06.13）增加`DataZoom`实现区域缩放
   * （2019.06.01）`LineChart`增加`stepType`实现`阶梯线图`
   * （2019.05.29）`BarChart`增加`InSameBar`实现非堆叠同柱

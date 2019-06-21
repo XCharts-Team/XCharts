@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -94,7 +93,7 @@ namespace XCharts
             m_Data.Add(value);
         }
 
-        public float GetData(int index,DataZoom dataZoom = null)
+        public float GetData(int index, DataZoom dataZoom = null)
         {
             var showData = GetData(dataZoom);
             if (index >= 0 && index <= showData.Count - 1)
@@ -133,7 +132,7 @@ namespace XCharts
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
-                    if(m_Data.Count > 0)
+                    if (m_Data.Count > 0)
                     {
                         var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
                         filterData = m_Data.GetRange(startIndex, count);

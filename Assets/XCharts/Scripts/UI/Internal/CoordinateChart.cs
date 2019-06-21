@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
-using System;
 using UnityEngine.EventSystems;
 
 namespace XCharts
@@ -162,7 +161,6 @@ namespace XCharts
                 m_Tooltip.SetActive(false);
                 return;
             }
-            m_Tooltip.SetActive(true);
             if (m_Series.Count == 1)
             {
                 float value = m_Series.GetData(0, index);
@@ -221,6 +219,7 @@ namespace XCharts
                 pos.y = m_Tooltip.height;
             }
             m_Tooltip.UpdateContentPos(pos);
+            m_Tooltip.SetActive(true);
         }
 
         protected override void OnThemeChanged()

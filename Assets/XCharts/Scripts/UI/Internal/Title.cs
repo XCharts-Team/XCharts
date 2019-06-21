@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 
 namespace XCharts
 {
     [Serializable]
-    public class Title: IPropertyChanged,IEquatable<Title>
+    public class Title : IPropertyChanged, IEquatable<Title>
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private string m_Text;
@@ -17,7 +16,7 @@ namespace XCharts
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
         public string text { get { return m_Text; } set { m_Text = value; } }
-        public int textFontSize { get { return m_TextFontSize; }set { m_TextFontSize = value; } }
+        public int textFontSize { get { return m_TextFontSize; } set { m_TextFontSize = value; } }
         public string subText { get { return m_SubText; } set { m_Text = value; } }
         public int subTextFontSize { get { return m_SubTextFontSize; } set { m_SubTextFontSize = value; } }
         public float itemGap { get { return m_ItemGap; } set { m_ItemGap = value; } }

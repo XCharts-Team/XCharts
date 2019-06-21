@@ -3,7 +3,7 @@ using System;
 
 namespace XCharts
 {
-    public class JsonDataSupport: IJsonData,ISerializationCallbackReceiver
+    public class JsonDataSupport : IJsonData, ISerializationCallbackReceiver
     {
         [SerializeField] protected string m_JsonData;
         [SerializeField] protected bool m_DataFromJson;

@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace XCharts
+﻿namespace XCharts
 {
     public interface IPropertyChanged
     {

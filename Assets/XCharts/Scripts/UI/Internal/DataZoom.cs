@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace XCharts
@@ -84,7 +82,7 @@ namespace XCharts
                     rangeMode = RangeMode.Percent,
                     start = 30,
                     end = 70,
-                    m_ScrollSensitivity=10,
+                    m_ScrollSensitivity = 10,
                 };
             }
         }
@@ -119,7 +117,7 @@ namespace XCharts
 
         public void SetLabelActive(bool flag)
         {
-            if(startLabel && startLabel.gameObject.activeInHierarchy!=flag)
+            if (startLabel && startLabel.gameObject.activeInHierarchy != flag)
             {
                 startLabel.gameObject.SetActive(flag);
             }

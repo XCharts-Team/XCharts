@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {

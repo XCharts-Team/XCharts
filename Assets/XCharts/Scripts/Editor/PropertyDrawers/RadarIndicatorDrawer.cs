@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -31,12 +30,12 @@ namespace XCharts
             if (m_RadarModuleToggle)
             {
                 ++EditorGUI.indentLevel;
-                
+
                 EditorGUI.PropertyField(drawRect, m_Name);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Max);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                
+
                 --EditorGUI.indentLevel;
             }
         }
@@ -47,7 +46,7 @@ namespace XCharts
             if (m_RadarModuleToggle)
             {
                 propNum += 2;
-                return propNum * EditorGUIUtility.singleLineHeight + (propNum -1) * EditorGUIUtility.standardVerticalSpacing;
+                return propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

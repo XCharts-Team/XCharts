@@ -72,7 +72,7 @@ namespace XCharts
 
         public override bool Equals(object obj)
         {
-            if(ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
@@ -128,7 +128,7 @@ namespace XCharts
         public bool IsActive(string name)
         {
             if (string.IsNullOrEmpty(name)) return true;
-            for(int i = 0; i < data.Count; i++)
+            for (int i = 0; i < data.Count; i++)
             {
                 if (data[i].Equals(name)) return m_DataActiveList[i];
             }
@@ -204,7 +204,7 @@ namespace XCharts
             btn.GetComponentInChildren<Text>().text = data[index];
         }
 
-        public void UpdateButtonColor(int index,Color ableColor,Color unableColor)
+        public void UpdateButtonColor(int index, Color ableColor, Color unableColor)
         {
             if (IsActive(index))
             {

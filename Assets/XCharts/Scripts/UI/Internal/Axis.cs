@@ -118,7 +118,7 @@ namespace XCharts
             m_Data.Add(category);
         }
 
-        public string GetData(int index,DataZoom dataZoom)
+        public string GetData(int index, DataZoom dataZoom)
         {
             var showData = GetData(dataZoom);
             if (index >= 0 && index < showData.Count)
@@ -131,10 +131,10 @@ namespace XCharts
         {
             if (dataZoom != null && dataZoom.show)
             {
-                var startIndex = (int)((data.Count-1) * dataZoom.start / 100);
+                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
                 var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if(filterData == null || filterData.Count != count)
+                if (filterData == null || filterData.Count != count)
                 {
                     UpdateFilterData(dataZoom);
                 }
@@ -152,7 +152,7 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if(startIndex != filterStart || endIndex != filterEnd)
+                if (startIndex != filterStart || endIndex != filterEnd)
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
@@ -166,7 +166,7 @@ namespace XCharts
                         filterData = m_Data;
                     }
                 }
-                else if(endIndex == 0)
+                else if (endIndex == 0)
                 {
                     filterData = new List<string>();
                 }
@@ -183,7 +183,7 @@ namespace XCharts
                 return dataCount;
         }
 
-        public float GetSplitWidth(float coordinateWidth,DataZoom dataZoom)
+        public float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
         {
             return coordinateWidth / (m_BoundaryGap ? GetSplitNumber(dataZoom) : GetSplitNumber(dataZoom) - 1);
         }
@@ -245,7 +245,7 @@ namespace XCharts
             }
         }
 
-        public float GetScaleWidth(float coordinateWidth,DataZoom dataZoom)
+        public float GetScaleWidth(float coordinateWidth, DataZoom dataZoom)
         {
             int num = GetScaleNumber(dataZoom) - 1;
             if (num <= 0) num = 1;

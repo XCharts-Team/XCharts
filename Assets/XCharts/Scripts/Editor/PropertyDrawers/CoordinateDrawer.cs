@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -22,7 +21,7 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_CoordinateModuleToggle, "Coordinate");
-            EditorGUI.LabelField(drawRect, "Coordinate",EditorStyles.boldLabel);
+            EditorGUI.LabelField(drawRect, "Coordinate", EditorStyles.boldLabel);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_CoordinateModuleToggle)
             {

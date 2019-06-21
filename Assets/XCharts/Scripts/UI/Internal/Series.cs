@@ -211,10 +211,10 @@ namespace XCharts
                 {
                     if (IsActive(i))
                     {
-                        if(dataZoom != null && dataZoom.show)
+                        if (dataZoom != null && dataZoom.show)
                         {
                             var showData = m_Series[i].GetData(dataZoom);
-                            foreach(var data in showData)
+                            foreach (var data in showData)
                             {
                                 if (data > max) max = data;
                                 if (data < min) min = data;

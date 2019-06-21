@@ -1,10 +1,9 @@
 /.vs
-
+/.vscode
 .vs
 /Library
 /Temp
 /UnityPackageManager
-/Assets/XLua/Examples
 
 /Assets/XCharts/Demo/demo_test.unity
 /Assets/XCharts/Demo/demo_test.unity.meta
@@ -16,3 +15,5 @@
 *.pdb
 *.exp
 *.apk
+*.DS_Store
+*.cache

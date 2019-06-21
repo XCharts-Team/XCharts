@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -49,7 +48,7 @@ namespace XCharts
                 if (m_Point.boolValue)
                 {
                     drawRect.x = EditorGUIUtility.labelWidth + 15;
-                    EditorGUI.LabelField(drawRect,"Width");
+                    EditorGUI.LabelField(drawRect, "Width");
                     drawRect.x = EditorGUIUtility.labelWidth + 65;
                     float tempWidth = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 70;
                     if (tempWidth < 20) tempWidth = 20;

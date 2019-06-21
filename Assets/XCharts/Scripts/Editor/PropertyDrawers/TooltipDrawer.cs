@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -27,7 +26,7 @@ namespace XCharts
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            if(m_TooltipModuleToggle)
+            if (m_TooltipModuleToggle)
                 return 2 * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
             else
                 return 1 * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);

@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -107,7 +106,7 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_AxisTick);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AxisTick);
-                
+
                 if (type == Axis.AxisType.Category)
                 {
                     drawRect.width = EditorGUIUtility.labelWidth + 10;
@@ -154,11 +153,12 @@ namespace XCharts
                     {
                         height += EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing;
                     }
-                }else if(type == Axis.AxisType.Value)
+                }
+                else if (type == Axis.AxisType.Value)
                 {
                     height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
-                    if(m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
+                    if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
                     {
                         height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
                     }
@@ -166,7 +166,7 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(m_AxisTick);
                 return height;
             }
-                
+
         }
     }
 }

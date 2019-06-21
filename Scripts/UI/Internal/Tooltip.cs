@@ -21,7 +21,7 @@ namespace XCharts
         [NonSerialized] private RectTransform m_LabelRectX;
         [NonSerialized] private RectTransform m_LabelRectY;
 
-        public bool show { get { return m_Show; }set { m_Show = value; SetActive(value); } }
+        public bool show { get { return m_Show; } set { m_Show = value; SetActive(value); } }
         public bool crossLabel { get { return m_CrossLabel; } set { m_CrossLabel = value; } }
 
         public int dataIndex { get; set; }
@@ -47,6 +47,7 @@ namespace XCharts
         public void SetObj(GameObject obj)
         {
             m_GameObject = obj;
+            m_GameObject.SetActive(false);
         }
 
         public void SetContentObj(GameObject content)
@@ -56,7 +57,7 @@ namespace XCharts
             m_ContentText = m_Content.GetComponentInChildren<Text>();
         }
 
-        public void SetLabelObj(GameObject labelX,GameObject labelY)
+        public void SetLabelObj(GameObject labelX, GameObject labelY)
         {
             m_LabelX = labelX;
             m_LabelRectX = labelX.GetComponent<RectTransform>();
@@ -64,6 +65,8 @@ namespace XCharts
             m_LabelY = labelY;
             m_LabelRectY = labelY.GetComponent<RectTransform>();
             m_LabelTextY = labelY.GetComponentInChildren<Text>();
+            m_LabelX.SetActive(false);
+            m_LabelY.SetActive(false);
         }
 
         public void SetContentBackgroundColor(Color color)
@@ -96,17 +99,17 @@ namespace XCharts
             if (m_ContentText)
             {
                 m_ContentText.text = txt;
-                m_ContentRect.sizeDelta = new Vector2(m_ContentText.preferredWidth + 8, 
+                m_ContentRect.sizeDelta = new Vector2(m_ContentText.preferredWidth + 8,
                     m_ContentText.preferredHeight + 8);
             }
         }
 
-        public void UpdateLabelText(string labelX,string labelY)
+        public void UpdateLabelText(string labelX, string labelY)
         {
             if (m_LabelTextX)
             {
                 m_LabelTextX.text = labelX;
-                m_LabelRectX.sizeDelta = new Vector2(m_LabelTextX.preferredWidth + 8, 
+                m_LabelRectX.sizeDelta = new Vector2(m_LabelTextX.preferredWidth + 8,
                     m_LabelTextX.preferredHeight + 8);
             }
             if (m_LabelTextY)
@@ -132,11 +135,11 @@ namespace XCharts
 
         public void UpdateContentPos(Vector2 pos)
         {
-            if(m_Content)
+            if (m_Content)
                 m_Content.transform.localPosition = pos;
         }
 
-        public void UpdateLabelPos(Vector2 xLabelPos,Vector2 yLabelPos)
+        public void UpdateLabelPos(Vector2 xLabelPos, Vector2 yLabelPos)
         {
             if (m_LabelX)
             {

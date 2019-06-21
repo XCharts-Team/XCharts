@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +19,7 @@ namespace XCharts
         public override void AddData(string legend, float value)
         {
             m_Legend.AddData(legend);
-            var serie = m_Series.AddData(legend,value);
+            var serie = m_Series.AddData(legend, value);
             if (serie != null)
             {
                 serie.ClearData();
@@ -56,7 +55,7 @@ namespace XCharts
                     continue;
                 }
                 var data = m_Series.series[i].data;
-                if(data.Count <= 0)
+                if (data.Count <= 0)
                 {
                     m_AngleList.Add(0);
                     continue;

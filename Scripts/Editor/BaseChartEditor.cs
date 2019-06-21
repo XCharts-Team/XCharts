@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -33,8 +32,8 @@ namespace XCharts
 
         private bool m_ThemeModuleToggle = false;
         private bool m_BaseModuleToggle = false;
-        
-        
+
+
 
         protected virtual void OnEnable()
         {
@@ -75,7 +74,7 @@ namespace XCharts
         {
             EditorGUILayout.PropertyField(m_Script);
             EditorGUILayout.BeginHorizontal();
-            EditorGUIUtility.fieldWidth = EditorGUIUtility.labelWidth -5;
+            EditorGUIUtility.fieldWidth = EditorGUIUtility.labelWidth - 5;
             m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle, "Theme",
                 ChartEditorHelper.foldoutStyle);
             EditorGUILayout.PropertyField(m_Theme, GUIContent.none);
@@ -93,7 +92,7 @@ namespace XCharts
 
         protected virtual void OnMiddleInspectorGUI()
         {
-            EditorGUILayout.PropertyField(m_Series,true);
+            EditorGUILayout.PropertyField(m_Series, true);
             m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle, "Base",
                 ChartEditorHelper.foldoutStyle);
             if (m_BaseModuleToggle)

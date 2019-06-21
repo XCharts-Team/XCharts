@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -63,13 +62,13 @@ namespace XCharts
             if (m_RadarModuleToggle)
             {
                 ++EditorGUI.indentLevel;
-                
+
                 EditorGUIUtility.fieldWidth = 10;
-                
+
                 EditorGUIUtility.labelWidth = 50;
                 drawRect.width = 60;
                 EditorGUI.PropertyField(drawRect, m_Cricle);
-                
+
                 EditorGUIUtility.labelWidth = 45;
                 drawRect.x += 60;
                 EditorGUI.PropertyField(drawRect, m_Area);
@@ -129,7 +128,7 @@ namespace XCharts
             if (m_RadarModuleToggle)
             {
                 propNum += 13;
-                
+
                 if (m_BackgroundColorToggle)
                 {
                     m_BackgroundColorList = prop.FindPropertyRelative("m_BackgroundColorList");
@@ -139,14 +138,14 @@ namespace XCharts
                 if (m_IndicatorJsonAreaToggle) propNum += 4;
 
 
-                float height = propNum * EditorGUIUtility.singleLineHeight + (propNum -1) * EditorGUIUtility.standardVerticalSpacing;
+                float height = propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
 
                 if (m_IndicatorToggle)
                 {
                     m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
                     height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
 
-                    for(int i = 0; i < m_IndicatorSize; i++)
+                    for (int i = 0; i < m_IndicatorSize; i++)
                     {
                         height += EditorGUI.GetPropertyHeight(m_IndicatorList.GetArrayElementAtIndex(i));
                     }

@@ -26,10 +26,10 @@ public class Demo_LargeData : MonoBehaviour
 
     void Update()
     {
-        if (initCount< maxCacheDataNumber)
+        if (initCount < maxCacheDataNumber)
         {
             int count = (int)(maxCacheDataNumber / initDataTime * Time.deltaTime);
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 timeNow = timeNow.AddSeconds(1);
                 chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));

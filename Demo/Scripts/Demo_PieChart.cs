@@ -19,10 +19,10 @@ public class Demo_PieChart : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        if(time > 1 )
+        if (time > 1)
         {
             time = 0;
-            if(count < 5)
+            if (count < 5)
             {
                 chart.AddData("time" + count, Random.Range(10, 100));
             }

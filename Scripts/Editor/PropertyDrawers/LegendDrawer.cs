@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -63,7 +62,7 @@ namespace XCharts
                 SerializedProperty location = prop.FindPropertyRelative("m_Location");
                 height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(location);
-                height += EditorGUIUtility.singleLineHeight +  EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_DataFoldout)
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");

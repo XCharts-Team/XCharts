@@ -59,6 +59,82 @@ namespace XCharts
             }
         }
 
+        [Serializable]
+        public class AxisName
+        {
+            [Serializable]
+            public enum Location
+            {
+                Start,
+                Middle,
+                End
+            }
+            [SerializeField] private bool m_Show;
+            [SerializeField] private string m_Name;
+            [SerializeField] private Location m_Location;
+            [SerializeField] private float m_Gap;
+            [SerializeField] private float m_Rotate;
+            [SerializeField] private Color m_Color;
+            [SerializeField] private int m_FontSize;
+
+            public bool show { get { return m_Show; } set { m_Show = value; } }
+            public string name { get { return m_Name; } set { m_Name = value; } }
+            public Location location { get { return m_Location; } set { m_Location = value; } }
+            public float gap { get { return m_Gap; } set { m_Gap = value; } }
+            public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+            public Color color { get { return m_Color; } set { m_Color = value; } }
+            public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+
+            public static AxisName defaultAxisName
+            {
+                get
+                {
+                    return new AxisName()
+                    {
+                        m_Show = false,
+                        m_Name = "axisName",
+                        m_Location = Location.End,
+                        m_Gap = 5,
+                        m_Rotate = 0,
+                        m_Color = Color.clear,
+                        m_FontSize = 18
+                    };
+                }
+            }
+
+            public void Copy(AxisName other)
+            {
+                m_Show = other.show;
+                m_Name = other.name;
+                m_Location = other.location;
+                m_Gap = other.gap;
+                m_Rotate = other.rotate;
+                m_Color = other.color;
+                m_FontSize = other.fontSize;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+                var other = (AxisName)obj;
+                return m_Show == other.show &&
+                    m_Name.Equals(other.name) &&
+                    m_Location == other.location &&
+                    m_Gap == other.gap &&
+                    m_Rotate == other.rotate &&
+                    m_Color == other.color &&
+                    m_FontSize == other.fontSize;
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
+        }
+
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
@@ -70,6 +146,7 @@ namespace XCharts
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected List<string> m_Data = new List<string>();
+        [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
@@ -83,6 +160,8 @@ namespace XCharts
         public SplitLineType splitLineType { get { return m_SplitLineType; } set { m_SplitLineType = value; } }
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
         public List<string> data { get { return m_Data; } }
+
+        public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
 
         public int filterStart { get; set; }
@@ -100,6 +179,7 @@ namespace XCharts
             m_ShowSplitLine = other.showSplitLine;
             m_SplitLineType = other.splitLineType;
             m_BoundaryGap = other.boundaryGap;
+            m_AxisName.Copy(other.axisName);
             m_Data.Clear();
             foreach (var d in other.data) m_Data.Add(d);
         }
@@ -283,6 +363,7 @@ namespace XCharts
                 textRotation == other.textRotation &&
                 splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
+                axisName.Equals(other.axisName) &&
                 ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
         }
 

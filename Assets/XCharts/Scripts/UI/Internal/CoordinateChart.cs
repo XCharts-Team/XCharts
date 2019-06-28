@@ -8,8 +8,8 @@ namespace XCharts
 {
     public class CoordinateChart : BaseChart
     {
-        private static readonly string s_DefaultSplitNameY = "split_y";
-        private static readonly string s_DefaultSplitNameX = "split_x";
+        private static readonly string s_DefaultAxisY = "axis_y";
+        private static readonly string s_DefaultAxisX = "axis_x";
         private static readonly string s_DefaultDataZoom = "datazoom";
 
         [SerializeField] protected Coordinate m_Coordinate = Coordinate.defaultCoordinate;
@@ -245,16 +245,17 @@ namespace XCharts
         private void InitSplitY()
         {
             m_SplitYTextList.Clear();
+            ChartHelper.HideAllObject(gameObject, "split_y");//old name
             float splitWidth = m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom);
 
-            var titleObject = ChartHelper.AddObject(s_DefaultSplitNameY, transform, chartAnchorMin,
+            var axisObj = ChartHelper.AddObject(s_DefaultAxisY, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            titleObject.transform.localPosition = Vector3.zero;
-            ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameY);
+            axisObj.transform.localPosition = Vector3.zero;
+            ChartHelper.HideAllObject(axisObj, s_DefaultAxisY);
 
             for (int i = 0; i < m_YAxis.GetSplitNumber(m_DataZoom); i++)
             {
-                Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameY + i, titleObject.transform,
+                Text txt = ChartHelper.AddTextObject(s_DefaultAxisY + i, axisObj.transform,
                     m_ThemeInfo.font, m_ThemeInfo.axisTextColor, TextAnchor.MiddleRight, Vector2.zero,
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Coordinate.left, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
@@ -263,20 +264,55 @@ namespace XCharts
                 txt.gameObject.SetActive(m_YAxis.show);
                 m_SplitYTextList.Add(txt);
             }
+            if (m_YAxis.axisName.show)
+            {
+                var color = m_YAxis.axisName.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor :
+                    m_YAxis.axisName.color;
+                var fontSize = m_YAxis.axisName.fontSize;
+                var gap = m_YAxis.axisName.gap;
+                Text axisName;
+                switch (m_YAxis.axisName.location)
+                {
+                    case Axis.AxisName.Location.Start:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                             m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
+                             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
+                             m_YAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX, coordinateY - gap);
+                        break;
+                    case Axis.AxisName.Location.Middle:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                            m_ThemeInfo.font, color, TextAnchor.MiddleRight, new Vector2(1, 0.5f),
+                            new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
+                            m_YAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX - gap,
+                        coordinateY + coordinateHig / 2);
+                        break;
+                    case Axis.AxisName.Location.End:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                             m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
+                             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
+                             m_YAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX,
+                            coordinateY + coordinateHig + gap);
+                        break;
+                }
+            }
         }
 
-        public void InitSplitX()
+        private void InitSplitX()
         {
             m_SplitXTextList.Clear();
+            ChartHelper.HideAllObject(gameObject, "split_x");//old name
             float splitWidth = m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom);
 
-            var titleObject = ChartHelper.AddObject(s_DefaultSplitNameX, transform, chartAnchorMin,
+            var axisObj = ChartHelper.AddObject(s_DefaultAxisX, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            titleObject.transform.localPosition = Vector3.zero;
-            ChartHelper.HideAllObject(titleObject, s_DefaultSplitNameX);
+            axisObj.transform.localPosition = Vector3.zero;
+            ChartHelper.HideAllObject(axisObj, s_DefaultAxisX);
             for (int i = 0; i < m_XAxis.GetSplitNumber(m_DataZoom); i++)
             {
-                Text txt = ChartHelper.AddTextObject(s_DefaultSplitNameX + i, titleObject.transform,
+                Text txt = ChartHelper.AddTextObject(s_DefaultAxisX + i, axisObj.transform,
                     m_ThemeInfo.font, m_ThemeInfo.axisTextColor, TextAnchor.MiddleCenter, Vector2.zero,
                     Vector2.zero, new Vector2(1, 0.5f), new Vector2(splitWidth, 20),
                     m_Coordinate.fontSize, m_XAxis.textRotation);
@@ -285,6 +321,40 @@ namespace XCharts
                 txt.text = m_XAxis.GetScaleName(i, minValue, maxValue, m_DataZoom);
                 txt.gameObject.SetActive(m_XAxis.show);
                 m_SplitXTextList.Add(txt);
+            }
+            if (m_XAxis.axisName.show)
+            {
+                var color = m_XAxis.axisName.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor :
+                    m_XAxis.axisName.color;
+                var fontSize = m_XAxis.axisName.fontSize;
+                var gap = m_XAxis.axisName.gap;
+                Text axisName;
+                switch (m_XAxis.axisName.location)
+                {
+                    case Axis.AxisName.Location.Start:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                            m_ThemeInfo.font, color, TextAnchor.MiddleRight, new Vector2(1, 0.5f),
+                            new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
+                            m_XAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX - gap, coordinateY);
+                        break;
+                    case Axis.AxisName.Location.Middle:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                             m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
+                             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
+                             m_XAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX + coordinateWid / 2,
+                            coordinateY - gap);
+                        break;
+                    case Axis.AxisName.Location.End:
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisX + "_name", axisObj.transform,
+                             m_ThemeInfo.font, color, TextAnchor.MiddleLeft, new Vector2(0, 0.5f),
+                             new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(100, 20), fontSize,
+                             m_XAxis.axisName.rotate);
+                        axisName.transform.localPosition = new Vector2(coordinateX + coordinateWid + gap,
+                            coordinateY);
+                        break;
+                }
             }
         }
 

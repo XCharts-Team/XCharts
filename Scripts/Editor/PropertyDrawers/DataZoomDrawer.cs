@@ -26,8 +26,6 @@ namespace XCharts
             SerializedProperty m_RangeMode = prop.FindPropertyRelative("m_RangeMode");
             SerializedProperty m_Start = prop.FindPropertyRelative("m_Start");
             SerializedProperty m_End = prop.FindPropertyRelative("m_End");
-            //SerializedProperty m_StartValue = prop.FindPropertyRelative("m_StartValue");
-            //SerializedProperty m_EndValue = prop.FindPropertyRelative("m_EndValue");
             SerializedProperty m_ScrollSensitivity = prop.FindPropertyRelative("m_ScrollSensitivity");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_DataZoomModuleToggle, "DataZoom", show);

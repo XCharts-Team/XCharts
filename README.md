@@ -21,12 +21,13 @@ An ECharts style UGUI Charting Library for Unity
 
 ## 更新日志
 
-* （2019.06.29）增加`AxisName`可配置坐标轴名称
+* （2019.06.30）增加`SplitArea`配置坐标轴`分割区域`
+* （2019.06.29）增加`AxisName`配置坐标轴`名称`
 * （2019.06.20）增加`AreaAlpha`控制`RadarChart`的`Area`透明度
-* （2019.06.13）增加`DataZoom`实现区域缩放
+* （2019.06.13）增加`DataZoom`实现`区域缩放`
 * （2019.06.01）增加`stepType`实现`LineChart`的`阶梯线图`
-* （2019.05.29）增加`InSameBar`实现`BarChart`的非堆叠同柱
-* （2019.05.29）增加`crossLabel`控制`Tooltip`的十字准星指示器
+* （2019.05.29）增加`InSameBar`实现`BarChart`的`非堆叠同柱`
+* （2019.05.29）增加`crossLabel`控制`Tooltip`的`十字准星指示器`
 * （2019.05.24）增加`堆叠区域图`
 * （2019.05.16）增加`AxisMinMaxType`控制坐标轴最大最小刻度
 * （2019.05.15）完善数据接口

@@ -48,6 +48,7 @@ namespace XCharts
             SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
             SerializedProperty m_AxisName = prop.FindPropertyRelative("m_AxisName");
             SerializedProperty m_AxisTick = prop.FindPropertyRelative("m_AxisTick");
+            SerializedProperty m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
             SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
@@ -110,6 +111,9 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_AxisTick);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AxisTick);
+                EditorGUI.PropertyField(drawRect, m_SplitArea);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SplitArea);
 
                 if (type == Axis.AxisType.Category)
                 {
@@ -137,8 +141,9 @@ namespace XCharts
                 SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
                 SerializedProperty m_AxisTick = prop.FindPropertyRelative("m_AxisTick");
                 SerializedProperty m_AxisName = prop.FindPropertyRelative("m_AxisName");
+                SerializedProperty m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
                 float height = 0;
-                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
+                height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 if (type == Axis.AxisType.Category)
                 {
@@ -170,6 +175,7 @@ namespace XCharts
                 }
                 height += EditorGUI.GetPropertyHeight(m_AxisName);
                 height += EditorGUI.GetPropertyHeight(m_AxisTick);
+                height += EditorGUI.GetPropertyHeight(m_SplitArea);
                 return height;
             }
 

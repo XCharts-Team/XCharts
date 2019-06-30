@@ -135,6 +135,49 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// Split area of axis in grid area, not shown by default.
+        /// </summary>
+        [Serializable]
+        public class SplitArea
+        {
+            [SerializeField] private bool m_Show;
+            [SerializeField] private List<Color> m_Color;
+
+            /// <summary>
+            /// Set this to true to show the splitArea.
+            /// </summary>
+            /// <value>false</value>
+            public bool show { get { return m_Show; } set { m_Show = value; } }
+            /// <summary>
+            /// Color of split area. SplitArea color could also be set in color array,
+            /// which the split lines would take as their colors in turns. 
+            /// Dark and light colors in turns are used by default.
+            /// </summary>
+            /// <value>['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']</value>
+            public List<Color> color { get { return m_Color; } set { m_Color = value; } }
+
+            public static SplitArea defaultSplitArea
+            {
+                get
+                {
+                    return new SplitArea()
+                    {
+                        m_Show = false,
+                        m_Color = new List<Color>(){
+                            new Color32(250,250,250,77),
+                            new Color32(200,200,200,77)
+                        }
+                    };
+                }
+            }
+
+            public Color getColor(int index){
+                var i = index % color.Count;
+                return color[i];
+            }
+        }
+
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
@@ -148,6 +191,7 @@ namespace XCharts
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
+        [SerializeField] protected SplitArea m_SplitArea = SplitArea.defaultSplitArea;
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
         public AxisType type { get { return m_Type; } set { m_Type = value; } }
@@ -163,6 +207,7 @@ namespace XCharts
 
         public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
+        public SplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
 
         public int filterStart { get; set; }
         public int filterEnd { get; set; }

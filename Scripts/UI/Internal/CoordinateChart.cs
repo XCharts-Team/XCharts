@@ -547,15 +547,24 @@ namespace XCharts
             #region draw tick and splitline
             if (m_YAxis.show)
             {
-                for (int i = 0; i < m_YAxis.GetScaleNumber(m_DataZoom); i++)
+                var scaleWidth = m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom);
+                var size = m_YAxis.GetScaleNumber(m_DataZoom);
+                for (int i = 0; i < size; i++)
                 {
                     float pX = 0;
-                    float pY = coordinateY + i * m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom);
+                    float pY = coordinateY + i * scaleWidth;
                     if (m_YAxis.boundaryGap && m_YAxis.axisTick.alignWithLabel)
                     {
-                        pY -= m_YAxis.GetScaleWidth(coordinateHig, m_DataZoom) / 2;
+                        pY -= scaleWidth / 2;
                     }
-
+                    if (m_YAxis.splitArea.show && i < size - 1)
+                    {
+                        ChartHelper.DrawPolygon(vh, new Vector2(coordinateX, pY),
+                            new Vector2(coordinateX + coordinateWid, pY),
+                            new Vector2(coordinateX + coordinateWid, pY + scaleWidth),
+                            new Vector2(coordinateX, pY + scaleWidth),
+                            m_YAxis.splitArea.getColor(i));
+                    }
                     if (m_YAxis.axisTick.show)
                     {
                         pX += zeroX - m_YAxis.axisTick.length - 2;
@@ -571,13 +580,23 @@ namespace XCharts
             }
             if (m_XAxis.show)
             {
-                for (int i = 0; i < m_XAxis.GetScaleNumber(m_DataZoom); i++)
+                var scaleWidth = m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom);
+                var size = m_XAxis.GetScaleNumber(m_DataZoom);
+                for (int i = 0; i < size; i++)
                 {
-                    float pX = coordinateX + i * m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom);
+                    float pX = coordinateX + i * scaleWidth;
                     float pY = 0;
                     if (m_XAxis.boundaryGap && m_XAxis.axisTick.alignWithLabel)
                     {
-                        pX -= m_XAxis.GetScaleWidth(coordinateWid, m_DataZoom) / 2;
+                        pX -= scaleWidth / 2;
+                    }
+                    if (m_XAxis.splitArea.show && i < size - 1)
+                    {
+                        ChartHelper.DrawPolygon(vh, new Vector2(pX, coordinateY),
+                            new Vector2(pX, coordinateY + coordinateHig),
+                            new Vector2(pX + scaleWidth, coordinateY + coordinateHig),
+                            new Vector2(pX + scaleWidth, coordinateY),
+                            m_XAxis.splitArea.getColor(i));
                     }
                     if (m_XAxis.axisTick.show)
                     {

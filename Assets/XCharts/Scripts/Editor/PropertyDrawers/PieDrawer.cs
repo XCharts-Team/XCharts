@@ -16,6 +16,9 @@ namespace XCharts
         SerializedProperty m_Right;
         SerializedProperty m_Top;
         SerializedProperty m_Bottom;
+        SerializedProperty m_Selected;
+        SerializedProperty m_SelectedIndex;
+        SerializedProperty m_SelectedOffset;
         bool m_PieModuleToggle = true;
 
         private void InitProperty(SerializedProperty prop)
@@ -30,6 +33,9 @@ namespace XCharts
             m_Right = prop.FindPropertyRelative("m_Right");
             m_Top = prop.FindPropertyRelative("m_Top");
             m_Bottom = prop.FindPropertyRelative("m_Bottom");
+            m_Selected = prop.FindPropertyRelative("m_Selected");
+            m_SelectedIndex = prop.FindPropertyRelative("m_SelectedIndex");
+            m_SelectedOffset = prop.FindPropertyRelative("m_SelectedOffset");
         }
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
@@ -49,6 +55,12 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_OutsideRadius);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_TooltipExtraRadius);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Selected);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_SelectedIndex);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_SelectedOffset);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Rose);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -70,7 +82,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_PieModuleToggle)
-                return 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                return 14 * EditorGUIUtility.singleLineHeight + 13 * EditorGUIUtility.standardVerticalSpacing;
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }

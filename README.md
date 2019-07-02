@@ -21,6 +21,7 @@ An ECharts style UGUI Charting Library for Unity
 
 ## 更新日志
 
+* （2019.07.02）增加`selected`等相关参数配置`PieChart`的选中效果
 * （2019.06.30）增加`SplitArea`配置坐标轴`分割区域`
 * （2019.06.29）增加`AxisName`配置坐标轴`名称`
 * （2019.06.20）增加`AreaAlpha`控制`RadarChart`的`Area`透明度
@@ -40,7 +41,8 @@ An ECharts style UGUI Charting Library for Unity
 
 ## 内置示例
 
-* 折线图
+### 折线图
+
   1. 基础折线图
   2. 负数数值轴+自定义最大最小刻度
   3. XY轴互换
@@ -54,7 +56,9 @@ An ECharts style UGUI Charting Library for Unity
   11. 动态数据
   12. 大数据量面积图
   13. 大数据+区域缩放
-* 柱状图
+
+### 柱状图
+
   1. 基础柱状图
   2. 负数数值轴+自定义最大最小刻度
   3. XY轴互换
@@ -64,17 +68,23 @@ An ECharts style UGUI Charting Library for Unity
   7. 深圳月最低生活费组成（单位:元）
   8. 非堆叠同柱
   9. 5000数据
-* 饼图
+
+### 饼图
+
   1. Customized Pie
   2. 环形图
-  3. 南丁格尔玫瑰图
-  4. 某站点用户访问来源
-  5. 用代码添加和更新数据
-* 雷达图
+  3. 环形图+默认选中
+  4. 南丁格尔玫瑰图
+  5. 某站点用户访问来源
+  6. 用代码添加和更新数据
+
+### 雷达图
+
   1. 多边形雷达图+指定最大值
   2. 圆形+自定义背景
   3. 填充颜色
-* 其他
+
+### 其他
 
 ## 入门教程
 

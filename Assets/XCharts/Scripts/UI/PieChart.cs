@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace XCharts
@@ -15,6 +16,21 @@ namespace XCharts
         private List<float> m_AngleList = new List<float>();
 
         public Pie pie { get { return m_Pie; } }
+
+        protected override void Awake()
+        {
+            raycastTarget = m_Pie.selected;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (raycastTarget != m_Pie.selected)
+            {
+                raycastTarget = m_Pie.selected;
+                RefreshChart();
+            }
+        }
 
         public override void AddData(string legend, float value)
         {
@@ -71,8 +87,24 @@ namespace XCharts
                 {
                     outSideRadius += m_Pie.tooltipExtraRadius;
                 }
-                ChartHelper.DrawDoughnut(vh, m_PieCenter, m_Pie.insideRadius,
-                    outSideRadius, startDegree, toDegree, m_ThemeInfo.GetColor(i));
+                var offset = m_Pie.space;
+                if (m_Pie.selected && m_Pie.selectedIndex == i + 1)
+                {
+                    offset += m_Pie.selectedOffset;
+                }
+                if (offset > 0)
+                {
+                    float currAngle = (startDegree + (toDegree - startDegree) / 2) * Mathf.Deg2Rad;
+                    var offestCenter = new Vector3(m_PieCenter.x + offset * Mathf.Sin(currAngle),
+                        m_PieCenter.y + offset * Mathf.Cos(currAngle));
+                    ChartHelper.DrawDoughnut(vh, offestCenter, m_Pie.insideRadius, outSideRadius,
+                        startDegree, toDegree, m_ThemeInfo.GetColor(i));
+                }
+                else
+                {
+                    ChartHelper.DrawDoughnut(vh, m_PieCenter, m_Pie.insideRadius, outSideRadius,
+                        startDegree, toDegree, m_ThemeInfo.GetColor(i));
+                }
                 m_AngleList.Add(toDegree);
                 startDegree = toDegree;
             }
@@ -136,7 +168,6 @@ namespace XCharts
 
         protected override void CheckTootipArea(Vector2 local)
         {
-
             float dist = Vector2.Distance(local, m_PieCenter);
             if (dist > m_PieRadius)
             {
@@ -145,22 +176,7 @@ namespace XCharts
             }
             else
             {
-                Vector2 dir = local - m_PieCenter;
-                float angle = VectorAngle(Vector2.up, dir);
-                m_Tooltip.dataIndex = 0;
-                for (int i = m_AngleList.Count - 1; i >= 0; i--)
-                {
-                    if (i == 0 && angle < m_AngleList[i])
-                    {
-                        m_Tooltip.dataIndex = 1;
-                        break;
-                    }
-                    else if (angle < m_AngleList[i] && angle > m_AngleList[i - 1])
-                    {
-                        m_Tooltip.dataIndex = i + 1;
-                        break;
-                    }
-                }
+                m_Tooltip.dataIndex = GetPosPieIndex(local);
             }
             if (m_Tooltip.dataIndex > 0)
             {
@@ -172,6 +188,24 @@ namespace XCharts
                 }
                 m_Tooltip.lastDataIndex = m_Tooltip.dataIndex;
             }
+        }
+
+        private int GetPosPieIndex(Vector2 local)
+        {
+            Vector2 dir = local - m_PieCenter;
+            float angle = VectorAngle(Vector2.up, dir);
+            for (int i = m_AngleList.Count - 1; i >= 0; i--)
+            {
+                if (i == 0 && angle < m_AngleList[i])
+                {
+                    return m_Tooltip.dataIndex = 1;
+                }
+                else if (angle < m_AngleList[i] && angle > m_AngleList[i - 1])
+                {
+                    return m_Tooltip.dataIndex = i + 1;
+                }
+            }
+            return 0;
         }
 
         float VectorAngle(Vector2 from, Vector2 to)
@@ -216,6 +250,21 @@ namespace XCharts
                 pos.y = m_Tooltip.height;
             }
             m_Tooltip.UpdateContentPos(pos);
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            var local = transform.InverseTransformPoint(eventData.position);
+            var selectedIndex = GetPosPieIndex(local);
+            if (selectedIndex != m_Pie.selectedIndex)
+            {
+                m_Pie.selectedIndex = selectedIndex;
+            }
+            else
+            {
+                m_Pie.selectedIndex = 0;
+            }
+            RefreshChart();
         }
     }
 }

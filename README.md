@@ -4,6 +4,8 @@ An ECharts style UGUI Charting Library for Unity
 
 [`ECharts`](https://www.echartsjs.com/examples/#chart-type-bar)风格的UGUI图表库
 
+QQ交流群：XCharts交流群（202030963）
+
 ## 特性
 
 1. 内置丰富示例，参数可视化配置，效果实时预览，纯源码绘制

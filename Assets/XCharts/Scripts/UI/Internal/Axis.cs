@@ -76,6 +76,7 @@ namespace XCharts
             [SerializeField] private float m_Rotate;
             [SerializeField] private Color m_Color;
             [SerializeField] private int m_FontSize;
+            [SerializeField] private FontStyle m_FontStyle;
 
             public bool show { get { return m_Show; } set { m_Show = value; } }
             public string name { get { return m_Name; } set { m_Name = value; } }
@@ -84,6 +85,7 @@ namespace XCharts
             public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
             public Color color { get { return m_Color; } set { m_Color = value; } }
             public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+            public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
 
             public static AxisName defaultAxisName
             {
@@ -97,7 +99,8 @@ namespace XCharts
                         m_Gap = 5,
                         m_Rotate = 0,
                         m_Color = Color.clear,
-                        m_FontSize = 18
+                        m_FontSize = 18,
+                        m_FontStyle = FontStyle.Normal
                     };
                 }
             }
@@ -111,6 +114,7 @@ namespace XCharts
                 m_Rotate = other.rotate;
                 m_Color = other.color;
                 m_FontSize = other.fontSize;
+                m_FontStyle = other.fontStyle;
             }
 
             public override bool Equals(object obj)
@@ -126,7 +130,8 @@ namespace XCharts
                     m_Gap == other.gap &&
                     m_Rotate == other.rotate &&
                     m_Color == other.color &&
-                    m_FontSize == other.fontSize;
+                    m_FontSize == other.fontSize &&
+                    m_FontStyle == other.fontStyle;
             }
 
             public override int GetHashCode()
@@ -172,9 +177,83 @@ namespace XCharts
                 }
             }
 
-            public Color getColor(int index){
+            public Color getColor(int index)
+            {
                 var i = index % color.Count;
                 return color[i];
+            }
+        }
+
+        [Serializable]
+        public class AxisLabel
+        {
+            [SerializeField] private bool m_Show;
+            [SerializeField] private int m_Interval;
+            [SerializeField] private bool m_Inside;
+            [SerializeField] private float m_Rotate;
+            [SerializeField] private float m_Margin;
+            [SerializeField] private Color m_Color;
+            [SerializeField] private int m_FontSize;
+            [SerializeField] private FontStyle m_FontStyle;
+
+            public bool show { get { return m_Show; } set { m_Show = value; } }
+            public int interval { get { return m_Interval; } set { m_Interval = value; } }
+            public bool inside { get { return m_Inside; } set { m_Inside = value; } }
+            public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+            public float margin { get { return m_Margin; } set { m_Margin = value; } }
+            public Color color { get { return m_Color; } set { m_Color = value; } }
+            public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+            public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+
+            public static AxisLabel defaultAxisLabel
+            {
+                get
+                {
+                    return new AxisLabel()
+                    {
+                        m_Show = true,
+                        m_Interval = 0,
+                        m_Inside = false,
+                        m_Rotate = 0,
+                        m_Margin = 8,
+                        m_Color = Color.clear,
+                        m_FontSize = 18,
+                        m_FontStyle = FontStyle.Normal
+                    };
+                }
+            }
+            public void Copy(AxisLabel other)
+            {
+                m_Show = other.show;
+                m_Interval = other.interval;
+                m_Inside = other.inside;
+                m_Rotate = other.rotate;
+                m_Margin = other.margin;
+                m_Color = other.color;
+                m_FontSize = other.fontSize;
+                m_FontStyle = other.fontStyle;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+                var other = (AxisLabel)obj;
+                return m_Show == other.show &&
+                    m_Interval.Equals(other.interval) &&
+                    m_Inside == other.inside &&
+                    m_Rotate == other.rotate &&
+                    m_Margin == other.margin &&
+                    m_Color == other.color &&
+                    m_FontSize == other.fontSize &&
+                    m_FontStyle == other.fontStyle;
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
             }
         }
 
@@ -184,13 +263,13 @@ namespace XCharts
         [SerializeField] protected int m_Min;
         [SerializeField] protected int m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
-        [SerializeField] protected int m_TextRotation = 0;
         [SerializeField] protected bool m_ShowSplitLine = false;
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
+        [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
         [SerializeField] protected SplitArea m_SplitArea = SplitArea.defaultSplitArea;
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
@@ -199,7 +278,6 @@ namespace XCharts
         public int min { get { return m_Min; } set { m_Min = value; } }
         public int max { get { return m_Max; } set { m_Max = value; } }
         public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
-        public int textRotation { get { return m_TextRotation; } set { m_TextRotation = value; } }
         public bool showSplitLine { get { return m_ShowSplitLine; } set { m_ShowSplitLine = value; } }
         public SplitLineType splitLineType { get { return m_SplitLineType; } set { m_SplitLineType = value; } }
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
@@ -207,6 +285,7 @@ namespace XCharts
 
         public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
+        public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
         public SplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
 
         public int filterStart { get; set; }
@@ -220,11 +299,12 @@ namespace XCharts
             m_Min = other.min;
             m_Max = other.max;
             m_SplitNumber = other.splitNumber;
-            m_TextRotation = other.textRotation;
+
             m_ShowSplitLine = other.showSplitLine;
             m_SplitLineType = other.splitLineType;
             m_BoundaryGap = other.boundaryGap;
             m_AxisName.Copy(other.axisName);
+            m_AxisLabel.Copy(other.axisLabel);
             m_Data.Clear();
             foreach (var d in other.data) m_Data.Add(d);
         }
@@ -405,7 +485,7 @@ namespace XCharts
                 max == other.max &&
                 splitNumber == other.splitNumber &&
                 showSplitLine == other.showSplitLine &&
-                textRotation == other.textRotation &&
+                m_AxisLabel.Equals(other.axisLabel) &&
                 splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
                 axisName.Equals(other.axisName) &&
@@ -456,7 +536,6 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_TextRotation = 0,
                     m_ShowSplitLine = false,
                     m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = true,
@@ -484,7 +563,6 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_TextRotation = 0,
                     m_ShowSplitLine = false,
                     m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = false,

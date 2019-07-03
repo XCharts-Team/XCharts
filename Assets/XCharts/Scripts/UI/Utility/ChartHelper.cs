@@ -98,7 +98,7 @@ namespace XCharts
 
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
             TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-            int fontSize = 14, float textRotation = 0)
+            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal)
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             Text txt = GetOrAddComponent<Text>(txtObj);
@@ -109,9 +109,10 @@ namespace XCharts
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
-            if (textRotation > 0)
+            txt.fontStyle = fontStyle;
+            if (rotate > 0)
             {
-                txtObj.transform.localEulerAngles = new Vector3(0, 0, textRotation);
+                txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
             }
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);

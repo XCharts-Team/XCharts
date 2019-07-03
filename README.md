@@ -21,6 +21,7 @@ An ECharts style UGUI Charting Library for Unity
 
 ## 更新日志
 
+* （2019.07.03）增加`AxisLabel`配置坐标轴`刻度标签`
 * （2019.07.02）增加`selected`等相关参数配置`PieChart`的选中效果
 * （2019.06.30）增加`SplitArea`配置坐标轴`分割区域`
 * （2019.06.29）增加`AxisName`配置坐标轴`名称`

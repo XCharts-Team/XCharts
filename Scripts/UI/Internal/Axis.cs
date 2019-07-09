@@ -59,6 +59,41 @@ namespace XCharts
             }
         }
 
+        [System.Serializable]
+        public class AxisLine
+        {
+            [SerializeField] private bool m_Show;
+            [SerializeField] private bool m_Symbol;
+            [SerializeField] private float m_SymbolWidth;
+            [SerializeField] private float m_SymbolHeight;
+            [SerializeField] private float m_SymbolOffset;
+            [SerializeField] private float m_SymbolDent;
+
+            public bool show { get { return m_Show; } set { m_Show = value; } }
+            public bool symbol { get { return m_Symbol; } set { m_Symbol = value; } }
+            public float symbolWidth { get { return m_SymbolWidth; } set { m_SymbolWidth = value; } }
+            public float symbolHeight { get { return m_SymbolHeight; } set { m_SymbolHeight = value; } }
+            public float symbolOffset { get { return m_SymbolOffset; } set { m_SymbolOffset = value; } }
+            public float symbolDent { get { return m_SymbolDent; } set { m_SymbolDent = value; } }
+
+            public static AxisLine defaultAxisLine
+            {
+                get
+                {
+                    var axisLine = new AxisLine
+                    {
+                        m_Show = true,
+                        m_Symbol = false,
+                        m_SymbolWidth = 10,
+                        m_SymbolHeight = 15,
+                        m_SymbolOffset = 0,
+                        m_SymbolDent = 3,
+                    };
+                    return axisLine;
+                }
+            }
+        }
+
         [Serializable]
         public class AxisName
         {
@@ -267,6 +302,7 @@ namespace XCharts
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected List<string> m_Data = new List<string>();
+        [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
@@ -283,6 +319,7 @@ namespace XCharts
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
         public List<string> data { get { return m_Data; } }
 
+        public AxisLine axisLine { get { return m_AxisLine; } set { m_AxisLine = value; } }
         public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
         public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }

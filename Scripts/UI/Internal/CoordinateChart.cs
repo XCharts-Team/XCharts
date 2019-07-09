@@ -639,39 +639,58 @@ namespace XCharts
             }
             #endregion
 
-            #region draw x,y axis
-            if (m_YAxis.show)
-            {
-                if (m_YAxis.type == Axis.AxisType.Value)
-                {
-                    ChartHelper.DrawLine(vh, new Vector3(coordinateX, coordinateY - m_Coordinate.tickness),
-                        new Vector3(coordinateX, coordinateY + coordinateHig + m_Coordinate.tickness),
-                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
-                }
-                else
-                {
-                    ChartHelper.DrawLine(vh, new Vector3(zeroX, coordinateY - m_Coordinate.tickness),
-                        new Vector3(zeroX, coordinateY + coordinateHig + m_Coordinate.tickness),
-                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
-                }
+            DrawXAxisLine(vh);
+            DrawYAxisLine(vh);
+        }
 
-            }
-            if (m_XAxis.show)
+        private void DrawXAxisLine(VertexHelper vh)
+        {
+            if (m_XAxis.show && m_XAxis.axisLine.show)
             {
+                var lineY = zeroY;
                 if (m_XAxis.type == Axis.AxisType.Value)
                 {
-                    ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, coordinateY),
-                        new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, coordinateY),
-                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                    lineY = coordinateY;
                 }
-                else
+                var top = new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, lineY);
+                ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, lineY),
+                    top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                if (m_XAxis.axisLine.symbol)
                 {
-                    ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, zeroY),
-                        new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, zeroY),
-                        m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                    var axisLine = m_XAxis.axisLine;
+                    top.x += m_XAxis.axisLine.symbolOffset;
+                    var middle = new Vector3(top.x - axisLine.symbolHeight + axisLine.symbolDent, lineY);
+                    var left = new Vector3(top.x - axisLine.symbolHeight, lineY - axisLine.symbolWidth / 2);
+                    var right = new Vector3(top.x - axisLine.symbolHeight, lineY + axisLine.symbolWidth / 2);
+                    ChartHelper.DrawTriangle(vh, middle, top, left, m_ThemeInfo.axisLineColor);
+                    ChartHelper.DrawTriangle(vh, middle, top, right, m_ThemeInfo.axisLineColor);
                 }
             }
-            #endregion
+        }
+
+        private void DrawYAxisLine(VertexHelper vh)
+        {
+            if (m_YAxis.show && m_YAxis.axisLine.show)
+            {
+                var lineX = zeroX;
+                if (m_YAxis.type == Axis.AxisType.Value)
+                {
+                    lineX = coordinateX;
+                }
+                var top = new Vector3(lineX, coordinateY + coordinateHig + m_Coordinate.tickness);
+                ChartHelper.DrawLine(vh, new Vector3(lineX, coordinateY - m_Coordinate.tickness),
+                    top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                if (m_YAxis.axisLine.symbol)
+                {
+                    var axisLine = m_YAxis.axisLine;
+                    top.y += m_YAxis.axisLine.symbolOffset;
+                    var middle = new Vector3(lineX, top.y - axisLine.symbolHeight + axisLine.symbolDent);
+                    var left = new Vector3(lineX - axisLine.symbolWidth / 2, top.y - axisLine.symbolHeight);
+                    var right = new Vector3(lineX + axisLine.symbolWidth / 2, top.y - axisLine.symbolHeight);
+                    ChartHelper.DrawTriangle(vh, middle, top, left, m_ThemeInfo.axisLineColor);
+                    ChartHelper.DrawTriangle(vh, middle, top, right, m_ThemeInfo.axisLineColor);
+                }
+            }
         }
 
         private void DrawDataZoom(VertexHelper vh)

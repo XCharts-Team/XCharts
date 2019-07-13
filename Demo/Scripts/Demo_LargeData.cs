@@ -18,7 +18,7 @@ public class Demo_LargeData : MonoBehaviour
     {
         chart = gameObject.GetComponentInChildren<CoordinateChart>();
         timeNow = System.DateTime.Now;
-        chart.xAxis.ClearData();
+        chart.ClearAxisData();
         chart.series.ClearData();
         chart.maxCacheDataNumber = maxCacheDataNumber;
         timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
@@ -47,7 +47,7 @@ public class Demo_LargeData : MonoBehaviour
         var time = new System.DateTime(2011, 1, 1);
         var smallBaseValue = 0;
 
-        chart.xAxis.ClearData();
+        chart.xAxises[0].ClearData();
         for (var i = 0; i < count; i++)
         {
             chart.AddXAxisData(time.ToString("hh:mm:ss"));

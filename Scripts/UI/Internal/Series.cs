@@ -18,7 +18,9 @@ namespace XCharts
             {
                 var series = new Series
                 {
-                    m_Series = new List<Serie>()
+                    m_Series = new List<Serie>(){new Serie(){
+                        show  = true,
+                    }}
                 };
                 return series;
             }
@@ -173,7 +175,16 @@ namespace XCharts
             }
         }
 
-        public void GetMinMaxValue(DataZoom dataZoom, out int minVaule, out int maxValue)
+        public bool IsUsedAxisIndex(int axisIndex)
+        {
+            foreach (var serie in series)
+            {
+                if (serie.axisIndex == axisIndex) return true;
+            }
+            return false;
+        }
+
+        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -186,6 +197,7 @@ namespace XCharts
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
+                        if (serie.axisIndex != axisIndex) continue;
                         var showData = serie.GetData(dataZoom);
                         for (int j = 0; j < showData.Count; j++)
                         {
@@ -209,21 +221,14 @@ namespace XCharts
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
+                    if (m_Series[i].axisIndex != axisIndex) continue;
                     if (IsActive(i))
                     {
-                        if (dataZoom != null && dataZoom.show)
+                        var showData = m_Series[i].GetData(dataZoom);
+                        foreach (var data in showData)
                         {
-                            var showData = m_Series[i].GetData(dataZoom);
-                            foreach (var data in showData)
-                            {
-                                if (data > max) max = data;
-                                if (data < min) min = data;
-                            }
-                        }
-                        else
-                        {
-                            if (m_Series[i].Max > max) max = m_Series[i].Max;
-                            if (m_Series[i].Min < min) min = m_Series[i].Min;
+                            if (data > max) max = data;
+                            if (data < min) min = data;
                         }
                     }
                 }
@@ -259,6 +264,27 @@ namespace XCharts
             if (max < 1 && max > -1) return max;
             if (max < 0 && min < 0) max = min;
             return ChartHelper.GetMaxDivisibleValue(max);
+        }
+
+        public float GetMinValue(int index)
+        {
+            float max = int.MinValue;
+            float min = int.MaxValue;
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var showData = m_Series[i].data;
+                if (showData[index] > max)
+                {
+                    max = Mathf.Ceil(showData[index]);
+                }
+                if (showData[index] < min)
+                {
+                    min = Mathf.Ceil(showData[index]);
+                }
+            }
+            if (min < 1 && min > -1) return min;
+            if (min < 0 && max < 0) min = max;
+            return ChartHelper.GetMinDivisibleValue(min);
         }
 
         public bool IsStack()

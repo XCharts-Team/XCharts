@@ -21,7 +21,7 @@ public class Demo_Dynamic : MonoBehaviour
     void Awake()
     {
         chart = gameObject.GetComponentInChildren<CoordinateChart>();
-        chart.xAxis.ClearData();
+        chart.ClearAxisData();
         chart.series.ClearData();
         chart.maxCacheDataNumber = maxCacheDataNumber;
         timeNow = DateTime.Now;

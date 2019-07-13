@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace XCharts
@@ -12,10 +13,11 @@ namespace XCharts
             Bar
         }
 
-        [SerializeField] private bool m_Show = true;
+        [SerializeField][DefaultValue("true")] private bool m_Show;
         [SerializeField] private SerieType m_Type;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
+        [SerializeField] private int m_AxisIndex;
         [SerializeField] private List<float> m_Data = new List<float>();
         [SerializeField] private bool m_Flodout;
 
@@ -23,6 +25,7 @@ namespace XCharts
         public SerieType type { get { return m_Type; } set { m_Type = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }
         public string stack { get { return m_Stack; } set { m_Stack = value; } }
+        public int axisIndex { get { return m_AxisIndex; } set { m_AxisIndex = value; } }
         public List<float> data { get { return m_Data; } set { m_Data = value; } }
 
         public int filterStart { get; set; }

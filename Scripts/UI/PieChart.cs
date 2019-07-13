@@ -230,7 +230,8 @@ namespace XCharts
             }
             m_Tooltip.SetActive(true);
             string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(index));
-            string key = m_Legend.data[index];
+            string key = m_Series.series[index].name;
+            if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
             float value = m_Series.series[index].data[0];
             string txt = "";
             if (!string.IsNullOrEmpty(m_Pie.name))

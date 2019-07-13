@@ -83,6 +83,7 @@ namespace XCharts
         {
             UpdateRadarCenter();
             InitIndicator();
+            m_Tooltip.UpdateToTop();
         }
 
         private Vector3 GetIndicatorPosition(int i)
@@ -159,8 +160,8 @@ namespace XCharts
                 dataPosList.Add(pointList);
                 for (int j = 0; j < dataList.Count; j++)
                 {
-                    var max = m_Radar.indicatorList[j].max > 0 ?
-                        m_Radar.indicatorList[j].max :
+                    var max = m_Radar.GetIndicatorMax(j) > 0 ?
+                        m_Radar.GetIndicatorMax(j)  :
                         GetMaxValue(j);
                     var radius = max < 0 ? m_Radar.radius - m_Radar.radius * dataList[j] / max
                         : m_Radar.radius * dataList[j] / max;

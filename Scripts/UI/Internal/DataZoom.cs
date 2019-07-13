@@ -63,6 +63,9 @@ namespace XCharts
         [SerializeField] private DataZoomType m_Type;
         [SerializeField] private FilterMode m_FilterMode;
         [SerializeField] private Orient m_Orient;
+        [SerializeField] private int m_XAxisIndex;
+        [SerializeField] private int m_YAxisIndex;
+
         [SerializeField] private bool m_ShowDataShadow;
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
@@ -85,6 +88,8 @@ namespace XCharts
         /// Specify whether the layout of dataZoom component is horizontal or vertical. 
         /// </summary>
         public Orient orient { get { return m_Orient; } set { m_Orient = value; } }
+        public int xAxisIndex { get { return m_XAxisIndex; } set { m_XAxisIndex = value; } }
+        public int yAxisIndex { get { return m_YAxisIndex; } set { m_YAxisIndex = value; } }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
         /// default:true
@@ -165,6 +170,8 @@ namespace XCharts
                     m_Type = DataZoomType.Slider,
                     filterMode = FilterMode.None,
                     orient = Orient.Horizonal,
+                    xAxisIndex = 0,
+                    yAxisIndex = 0,
                     showDataShadow = true,
                     showDetail = false,
                     zoomLock = false,

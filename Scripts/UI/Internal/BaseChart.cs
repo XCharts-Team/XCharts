@@ -24,7 +24,7 @@ namespace XCharts
         [SerializeField] protected Title m_Title = Title.defaultTitle;
         [SerializeField] protected Legend m_Legend = Legend.defaultLegend;
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
-        [SerializeField] protected Series m_Series;
+        [SerializeField] protected Series m_Series = Series.defaultSeries;
 
         [SerializeField] protected bool m_Large;
         [SerializeField] protected int m_MinShowDataNumber;
@@ -264,15 +264,10 @@ namespace XCharts
             var parent = tooltipObject.transform;
             ChartHelper.HideAllObject(tooltipObject.transform);
             GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font);
-            GameObject labelX = ChartHelper.AddTooltipLabel("label_x", parent, m_ThemeInfo.font, new Vector2(0.5f, 1));
-            GameObject labelY = ChartHelper.AddTooltipLabel("label_y", parent, m_ThemeInfo.font, new Vector2(1, 0.5f));
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
-            m_Tooltip.SetLabelObj(labelX, labelY);
             m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
             m_Tooltip.SetContentTextColor(m_ThemeInfo.tooltipTextColor);
-            m_Tooltip.SetLabelBackgroundColor(m_ThemeInfo.tooltipLabelColor);
-            m_Tooltip.SetLabelTextColor(m_ThemeInfo.tooltipTextColor);
             m_Tooltip.SetActive(false);
         }
 
@@ -283,8 +278,7 @@ namespace XCharts
 
         protected float GetMaxValue(int index)
         {
-            if (m_Series == null) return 100;
-            else return m_Series.GetMaxValue(index);
+            return m_Series.GetMaxValue(index);
         }
 
         private void CheckSize()
@@ -336,7 +330,6 @@ namespace XCharts
                 }
                 return;
             }
-            m_Tooltip.SetLabelActive(m_Tooltip.crossLabel);
             m_Tooltip.dataIndex = 0;
 
             Vector2 local;
@@ -378,6 +371,7 @@ namespace XCharts
         {
             InitTitle();
             InitLegend();
+            InitTooltip();
         }
 
         protected virtual void OnThemeChanged()

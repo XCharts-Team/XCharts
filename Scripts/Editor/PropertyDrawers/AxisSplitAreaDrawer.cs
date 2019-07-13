@@ -3,13 +3,12 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [CustomPropertyDrawer(typeof(Axis.SplitArea), true)]
+    [CustomPropertyDrawer(typeof(AxisSplitArea), true)]
     public class AxisSplitAreaDrawer : PropertyDrawer
     {
         private bool m_ColorFoldout = false;
         private int m_ColorSize = 0;
         private bool m_SplitAreaToggle = false;
-
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {

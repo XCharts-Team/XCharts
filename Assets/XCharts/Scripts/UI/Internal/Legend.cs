@@ -171,6 +171,15 @@ namespace XCharts
             }
         }
 
+        public string GetData(int index)
+        {
+            if (index >= 0 && index < m_Data.Count)
+            {
+                return m_Data[index];
+            }
+            return null;
+        }
+
         public void SetActive(int index, bool flag)
         {
             m_DataActiveList[index] = flag;

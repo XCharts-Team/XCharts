@@ -20,6 +20,7 @@ namespace XCharts
             //SerializedProperty type = prop.FindPropertyRelative("m_Type");
             SerializedProperty name = prop.FindPropertyRelative("m_Name");
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
+            SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
 
             string moduleName = "Serie " + prop.displayName.Split(' ')[1];
@@ -35,6 +36,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, name);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, stack);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_AxisIndex);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout = EditorGUI.Foldout(drawRect, m_DataFoldout, "Data");
@@ -57,7 +60,7 @@ namespace XCharts
             }
             else
             {
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 if (m_DataFoldout)
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");

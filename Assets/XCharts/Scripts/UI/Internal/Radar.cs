@@ -213,5 +213,14 @@ namespace XCharts
                 }
             }
         }
+
+        public float GetIndicatorMax(int index)
+        {
+            if (index >= 0 && index < m_IndicatorList.Count)
+            {
+                return m_IndicatorList[index].max;
+            }
+            return 0;
+        }
     }
 }

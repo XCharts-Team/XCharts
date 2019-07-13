@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace XCharts
 {
@@ -10,8 +11,10 @@ namespace XCharts
     public class CoordinateChartEditor : BaseChartEditor
     {
         protected SerializedProperty m_Coordinate;
-        protected SerializedProperty m_XAxis;
-        protected SerializedProperty m_YAxis;
+        protected SerializedProperty m_MultipleXAxis;
+        protected SerializedProperty m_XAxises;
+        protected SerializedProperty m_MultipleYAxis;
+        protected SerializedProperty m_YAxises;
         protected SerializedProperty m_DataZoom;
 
         protected override void OnEnable()
@@ -19,8 +22,8 @@ namespace XCharts
             base.OnEnable();
             m_Target = (CoordinateChart)target;
             m_Coordinate = serializedObject.FindProperty("m_Coordinate");
-            m_XAxis = serializedObject.FindProperty("m_XAxis");
-            m_YAxis = serializedObject.FindProperty("m_YAxis");
+            m_XAxises = serializedObject.FindProperty("m_XAxises");
+            m_YAxises = serializedObject.FindProperty("m_YAxises");
             m_DataZoom = serializedObject.FindProperty("m_DataZoom");
         }
 
@@ -29,8 +32,16 @@ namespace XCharts
             base.OnStartInspectorGUI();
             EditorGUILayout.PropertyField(m_DataZoom);
             EditorGUILayout.PropertyField(m_Coordinate);
-            EditorGUILayout.PropertyField(m_XAxis);
-            EditorGUILayout.PropertyField(m_YAxis);
+            for (int i = 0; i < m_XAxises.arraySize; i++)
+            {
+                SerializedProperty axis = m_XAxises.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(axis);
+            }
+            for (int i = 0; i < m_YAxises.arraySize; i++)
+            {
+                SerializedProperty axis = m_YAxises.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(axis);
+            }
         }
     }
 }

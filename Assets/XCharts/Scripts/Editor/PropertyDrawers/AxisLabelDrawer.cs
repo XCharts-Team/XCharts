@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [CustomPropertyDrawer(typeof(Axis.AxisLabel), true)]
+    [CustomPropertyDrawer(typeof(AxisLabel), true)]
     public class AxisLabelDrawer : PropertyDrawer
     {
         private bool m_AxisLabelToggle = false;

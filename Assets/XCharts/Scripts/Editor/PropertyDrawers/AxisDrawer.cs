@@ -7,30 +7,15 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Axis), true)]
     public class AxisDrawer : PropertyDrawer
     {
-        private ReorderableList m_DataList;
         private bool m_DataFoldout = false;
         private int m_DataSize = 0;
         private bool m_ShowJsonDataArea = false;
         private string m_JsonDataAreaText;
         private bool m_AxisModuleToggle = false;
 
-        private void InitReorderableList(SerializedProperty prop)
+        protected virtual string GetDisplayName(string displayName)
         {
-            if (m_DataList == null)
-            {
-                SerializedProperty data = prop.FindPropertyRelative("m_Data");
-                m_DataList = new ReorderableList(data.serializedObject, data, false, false, true, true);
-                m_DataList.elementHeight = EditorGUIUtility.singleLineHeight;
-                m_DataList.drawHeaderCallback += delegate (Rect rect)
-                {
-                    EditorGUI.LabelField(rect, data.displayName);
-                };
-
-                m_DataList.drawElementCallback = delegate (Rect rect, int index, bool isActive, bool isFocused)
-                {
-                    EditorGUI.PropertyField(rect, data.GetArrayElementAtIndex(index), true);
-                };
-            }
+            return displayName;
         }
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
@@ -54,7 +39,7 @@ namespace XCharts
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisModuleToggle, prop.displayName, m_Show);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisModuleToggle, GetDisplayName(prop.displayName), m_Show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_AxisModuleToggle)
             {

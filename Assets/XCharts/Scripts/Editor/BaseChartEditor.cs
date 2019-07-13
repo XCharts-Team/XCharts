@@ -75,7 +75,8 @@ namespace XCharts
             EditorGUILayout.PropertyField(m_Script);
             EditorGUILayout.BeginHorizontal();
             EditorGUIUtility.fieldWidth = EditorGUIUtility.labelWidth - 5;
-            m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle, "Theme",
+            m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle,
+                new GUIContent("Theme","the theme of chart\n主题"),
                 ChartEditorHelper.foldoutStyle);
             EditorGUILayout.PropertyField(m_Theme, GUIContent.none);
             EditorGUILayout.EndHorizontal();
@@ -93,12 +94,14 @@ namespace XCharts
         protected virtual void OnMiddleInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Series, true);
-            m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle, "Base",
+            m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle,
+                new GUIContent("Base","基础配置"),
                 ChartEditorHelper.foldoutStyle);
             if (m_BaseModuleToggle)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(m_Large, true);
+                var largeTip = "Whether to enable the optimization of large-scale graph. \n是否启用大规模线图的优化，在数据图形特别多的时候（>=5k）可以开启。";
+                EditorGUILayout.PropertyField(m_Large, new GUIContent("Large",largeTip));
                 EditorGUILayout.PropertyField(m_MinShowDataNumber, true);
                 EditorGUILayout.PropertyField(m_MaxShowDataNumber, true);
                 EditorGUILayout.PropertyField(m_MaxCacheDataNumber, true);

@@ -22,7 +22,7 @@ namespace XCharts
         {
             base.DrawChart(vh);
 
-            if (m_XAxis.type == Axis.AxisType.Category)
+            if (m_XAxises[0].type == Axis.AxisType.Category)
             {
                 DrawXCategory(vh);
             }
@@ -36,7 +36,7 @@ namespace XCharts
         {
             var stackSeries = m_Series.GetStackSeries();
             int seriesCount = stackSeries.Count;
-            float scaleWid = m_XAxis.GetDataWidth(coordinateWid, m_DataZoom);
+
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -58,7 +58,11 @@ namespace XCharts
                     Color color = m_ThemeInfo.GetColor(serieCount);
                     Vector3 lp = Vector3.zero;
                     Vector3 np = Vector3.zero;
-                    float startX = zeroX + (m_XAxis.boundaryGap ? scaleWid / 2 : 0);
+                    var yAxis = m_YAxises[serie.axisIndex];
+                    var xAxis = m_XAxises[serie.axisIndex];
+                    if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
+                    float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
+                    float startX = zeroX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
                     int maxCount = maxShowDataNumber > 0 ?
                         (maxShowDataNumber > serieData.Count ? serieData.Count : maxShowDataNumber)
                         : serieData.Count;
@@ -91,7 +95,7 @@ namespace XCharts
                         float value = serieData[i];
                         float pX = startX + i * scaleWid;
                         float pY = seriesCurrHig[i] + coordinateY + m_Coordinate.tickness;
-                        float dataHig = (value - minValue) / (maxValue - minValue) * coordinateHig;
+                        float dataHig = (value - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                         np = new Vector3(pX, pY + dataHig);
 
                         if (i > 0)
@@ -256,17 +260,22 @@ namespace XCharts
             //draw tooltip line
             if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
             {
-                float splitWidth = m_XAxis.GetSplitWidth(coordinateWid, m_DataZoom);
-                float px = zeroX + (m_Tooltip.dataIndex - 1) * splitWidth
-                    + (m_XAxis.boundaryGap ? splitWidth / 2 : 0);
-                Vector2 sp = new Vector2(px, coordinateY);
-                Vector2 ep = new Vector2(px, coordinateY + coordinateHig);
-                ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipLineColor);
-                if (m_Tooltip.crossLabel)
+                for (int i = 0; i < m_XAxises.Count; i++)
                 {
-                    sp = new Vector2(zeroX, m_Tooltip.pointerPos.y);
-                    ep = new Vector2(zeroX + coordinateWid, m_Tooltip.pointerPos.y);
-                    DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    var axis = m_XAxises[i];
+                    if (!axis.show) continue;
+                    float splitWidth = axis.GetSplitWidth(coordinateWid, m_DataZoom);
+                    float px = zeroX + (m_Tooltip.xValues[i] - 1) * splitWidth
+                        + (axis.boundaryGap ? splitWidth / 2 : 0);
+                    Vector2 sp = new Vector2(px, coordinateY);
+                    Vector2 ep = new Vector2(px, coordinateY + coordinateHig);
+                    ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipLineColor);
+                    if (m_Tooltip.crossLabel)
+                    {
+                        sp = new Vector2(zeroX, m_Tooltip.pointerPos.y);
+                        ep = new Vector2(zeroX + coordinateWid, m_Tooltip.pointerPos.y);
+                        DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    }
                 }
             }
         }
@@ -275,7 +284,6 @@ namespace XCharts
         {
             var stackSeries = m_Series.GetStackSeries();
             int seriesCount = stackSeries.Count;
-            float scaleWid = m_YAxis.GetDataWidth(coordinateHig, m_DataZoom);
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -296,7 +304,11 @@ namespace XCharts
                     Color color = m_ThemeInfo.GetColor(serieCount);
                     Vector3 lp = Vector3.zero;
                     Vector3 np = Vector3.zero;
-                    float startY = zeroY + (m_YAxis.boundaryGap ? scaleWid / 2 : 0);
+                    var xAxis = m_XAxises[serie.axisIndex];
+                    var yAxis = m_YAxises[serie.axisIndex];
+                    if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
+                    float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
+                    float startY = zeroY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
                     int maxCount = maxShowDataNumber > 0 ?
                         (maxShowDataNumber > serie.data.Count ? serie.data.Count : maxShowDataNumber)
                         : serie.data.Count;
@@ -329,7 +341,7 @@ namespace XCharts
                         float value = serie.data[i];
                         float pY = startY + i * scaleWid;
                         float pX = seriesCurrHig[i] + coordinateX + m_Coordinate.tickness;
-                        float dataHig = (value - minValue) / (maxValue - minValue) * coordinateWid;
+                        float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                         np = new Vector3(pX + dataHig, pY);
 
                         if (i > 0)
@@ -493,16 +505,21 @@ namespace XCharts
             //draw tooltip line
             if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
             {
-                float splitWidth = m_YAxis.GetSplitWidth(coordinateHig, m_DataZoom);
-                float pY = zeroY + (m_Tooltip.dataIndex - 1) * splitWidth + (m_YAxis.boundaryGap ? splitWidth / 2 : 0);
-                Vector2 sp = new Vector2(coordinateX, pY);
-                Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);
-                ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
-                if (m_Tooltip.crossLabel)
+                for (int i = 0; i < m_YAxises.Count; i++)
                 {
-                    sp = new Vector2(m_Tooltip.pointerPos.x, zeroY);
-                    ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
-                    DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    var axis = m_YAxises[i];
+                    if (!axis.show) continue;
+                    float splitWidth = axis.GetSplitWidth(coordinateHig, m_DataZoom);
+                    float pY = zeroY + (m_Tooltip.yValues[i] - 1) * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0);
+                    Vector2 sp = new Vector2(coordinateX, pY);
+                    Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);
+                    ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
+                    if (m_Tooltip.crossLabel)
+                    {
+                        sp = new Vector2(m_Tooltip.pointerPos.x, zeroY);
+                        ep = new Vector2(m_Tooltip.pointerPos.x, zeroY + coordinateHig);
+                        DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                    }
                 }
             }
         }

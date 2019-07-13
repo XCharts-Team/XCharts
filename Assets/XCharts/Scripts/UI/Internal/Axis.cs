@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Net.Mime;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -30,268 +32,6 @@ namespace XCharts
             Dotted
         }
 
-        [System.Serializable]
-        public class AxisTick
-        {
-            [SerializeField] private bool m_Show;
-            [SerializeField] private bool m_AlignWithLabel;
-            [SerializeField] private bool m_Inside;
-            [SerializeField] private float m_Length;
-
-            public bool show { get { return m_Show; } set { m_Show = value; } }
-            public bool alignWithLabel { get { return m_AlignWithLabel; } set { m_AlignWithLabel = value; } }
-            public bool inside { get { return m_Inside; } set { m_Inside = value; } }
-            public float length { get { return m_Length; } set { m_Length = value; } }
-
-            public static AxisTick defaultTick
-            {
-                get
-                {
-                    var tick = new AxisTick
-                    {
-                        m_Show = true,
-                        m_AlignWithLabel = false,
-                        m_Inside = false,
-                        m_Length = 5f
-                    };
-                    return tick;
-                }
-            }
-        }
-
-        [System.Serializable]
-        public class AxisLine
-        {
-            [SerializeField] private bool m_Show;
-            [SerializeField] private bool m_Symbol;
-            [SerializeField] private float m_SymbolWidth;
-            [SerializeField] private float m_SymbolHeight;
-            [SerializeField] private float m_SymbolOffset;
-            [SerializeField] private float m_SymbolDent;
-
-            public bool show { get { return m_Show; } set { m_Show = value; } }
-            public bool symbol { get { return m_Symbol; } set { m_Symbol = value; } }
-            public float symbolWidth { get { return m_SymbolWidth; } set { m_SymbolWidth = value; } }
-            public float symbolHeight { get { return m_SymbolHeight; } set { m_SymbolHeight = value; } }
-            public float symbolOffset { get { return m_SymbolOffset; } set { m_SymbolOffset = value; } }
-            public float symbolDent { get { return m_SymbolDent; } set { m_SymbolDent = value; } }
-
-            public static AxisLine defaultAxisLine
-            {
-                get
-                {
-                    var axisLine = new AxisLine
-                    {
-                        m_Show = true,
-                        m_Symbol = false,
-                        m_SymbolWidth = 10,
-                        m_SymbolHeight = 15,
-                        m_SymbolOffset = 0,
-                        m_SymbolDent = 3,
-                    };
-                    return axisLine;
-                }
-            }
-        }
-
-        [Serializable]
-        public class AxisName
-        {
-            [Serializable]
-            public enum Location
-            {
-                Start,
-                Middle,
-                End
-            }
-            [SerializeField] private bool m_Show;
-            [SerializeField] private string m_Name;
-            [SerializeField] private Location m_Location;
-            [SerializeField] private float m_Gap;
-            [SerializeField] private float m_Rotate;
-            [SerializeField] private Color m_Color;
-            [SerializeField] private int m_FontSize;
-            [SerializeField] private FontStyle m_FontStyle;
-
-            public bool show { get { return m_Show; } set { m_Show = value; } }
-            public string name { get { return m_Name; } set { m_Name = value; } }
-            public Location location { get { return m_Location; } set { m_Location = value; } }
-            public float gap { get { return m_Gap; } set { m_Gap = value; } }
-            public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
-            public Color color { get { return m_Color; } set { m_Color = value; } }
-            public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
-            public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
-
-            public static AxisName defaultAxisName
-            {
-                get
-                {
-                    return new AxisName()
-                    {
-                        m_Show = false,
-                        m_Name = "axisName",
-                        m_Location = Location.End,
-                        m_Gap = 5,
-                        m_Rotate = 0,
-                        m_Color = Color.clear,
-                        m_FontSize = 18,
-                        m_FontStyle = FontStyle.Normal
-                    };
-                }
-            }
-
-            public void Copy(AxisName other)
-            {
-                m_Show = other.show;
-                m_Name = other.name;
-                m_Location = other.location;
-                m_Gap = other.gap;
-                m_Rotate = other.rotate;
-                m_Color = other.color;
-                m_FontSize = other.fontSize;
-                m_FontStyle = other.fontStyle;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null || GetType() != obj.GetType())
-                {
-                    return false;
-                }
-                var other = (AxisName)obj;
-                return m_Show == other.show &&
-                    m_Name.Equals(other.name) &&
-                    m_Location == other.location &&
-                    m_Gap == other.gap &&
-                    m_Rotate == other.rotate &&
-                    m_Color == other.color &&
-                    m_FontSize == other.fontSize &&
-                    m_FontStyle == other.fontStyle;
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-        }
-
-        /// <summary>
-        /// Split area of axis in grid area, not shown by default.
-        /// </summary>
-        [Serializable]
-        public class SplitArea
-        {
-            [SerializeField] private bool m_Show;
-            [SerializeField] private List<Color> m_Color;
-
-            /// <summary>
-            /// Set this to true to show the splitArea.
-            /// </summary>
-            /// <value>false</value>
-            public bool show { get { return m_Show; } set { m_Show = value; } }
-            /// <summary>
-            /// Color of split area. SplitArea color could also be set in color array,
-            /// which the split lines would take as their colors in turns. 
-            /// Dark and light colors in turns are used by default.
-            /// </summary>
-            /// <value>['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']</value>
-            public List<Color> color { get { return m_Color; } set { m_Color = value; } }
-
-            public static SplitArea defaultSplitArea
-            {
-                get
-                {
-                    return new SplitArea()
-                    {
-                        m_Show = false,
-                        m_Color = new List<Color>(){
-                            new Color32(250,250,250,77),
-                            new Color32(200,200,200,77)
-                        }
-                    };
-                }
-            }
-
-            public Color getColor(int index)
-            {
-                var i = index % color.Count;
-                return color[i];
-            }
-        }
-
-        [Serializable]
-        public class AxisLabel
-        {
-            [SerializeField] private bool m_Show;
-            [SerializeField] private int m_Interval;
-            [SerializeField] private bool m_Inside;
-            [SerializeField] private float m_Rotate;
-            [SerializeField] private float m_Margin;
-            [SerializeField] private Color m_Color;
-            [SerializeField] private int m_FontSize;
-            [SerializeField] private FontStyle m_FontStyle;
-
-            public bool show { get { return m_Show; } set { m_Show = value; } }
-            public int interval { get { return m_Interval; } set { m_Interval = value; } }
-            public bool inside { get { return m_Inside; } set { m_Inside = value; } }
-            public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
-            public float margin { get { return m_Margin; } set { m_Margin = value; } }
-            public Color color { get { return m_Color; } set { m_Color = value; } }
-            public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
-            public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
-
-            public static AxisLabel defaultAxisLabel
-            {
-                get
-                {
-                    return new AxisLabel()
-                    {
-                        m_Show = true,
-                        m_Interval = 0,
-                        m_Inside = false,
-                        m_Rotate = 0,
-                        m_Margin = 8,
-                        m_Color = Color.clear,
-                        m_FontSize = 18,
-                        m_FontStyle = FontStyle.Normal
-                    };
-                }
-            }
-            public void Copy(AxisLabel other)
-            {
-                m_Show = other.show;
-                m_Interval = other.interval;
-                m_Inside = other.inside;
-                m_Rotate = other.rotate;
-                m_Margin = other.margin;
-                m_Color = other.color;
-                m_FontSize = other.fontSize;
-                m_FontStyle = other.fontStyle;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null || GetType() != obj.GetType())
-                {
-                    return false;
-                }
-                var other = (AxisLabel)obj;
-                return m_Show == other.show &&
-                    m_Interval.Equals(other.interval) &&
-                    m_Inside == other.inside &&
-                    m_Rotate == other.rotate &&
-                    m_Margin == other.margin &&
-                    m_Color == other.color &&
-                    m_FontSize == other.fontSize &&
-                    m_FontStyle == other.fontStyle;
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-        }
-
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
@@ -306,7 +46,7 @@ namespace XCharts
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
-        [SerializeField] protected SplitArea m_SplitArea = SplitArea.defaultSplitArea;
+        [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
         public AxisType type { get { return m_Type; } set { m_Type = value; } }
@@ -323,11 +63,22 @@ namespace XCharts
         public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
         public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
-        public SplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
+        public AxisSplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
 
         public int filterStart { get; set; }
         public int filterEnd { get; set; }
         public List<string> filterData { get; set; }
+
+        public float minValue { get; set; }
+        public float maxValue { get; set; }
+        public float zeroXOffset { get; set; }
+        public float zeroYOffset { get; set; }
+        private List<Text> m_AxisLabelTextList = new List<Text>();
+        public List<Text> axisLabelTextList { get { return m_AxisLabelTextList; } set { m_AxisLabelTextList = value; } }
+
+        private GameObject m_TooltipLabel;
+        private Text m_TooltipLabelText;
+        private RectTransform m_TooltipLabelRect;
 
         public void Copy(Axis other)
         {
@@ -349,6 +100,16 @@ namespace XCharts
         public void ClearData()
         {
             m_Data.Clear();
+        }
+
+        public bool IsCategory()
+        {
+            return type == AxisType.Category;
+        }
+
+        public bool IsValue()
+        {
+            return type == AxisType.Value;
         }
 
         public void AddData(string category, int maxDataNumber)
@@ -494,6 +255,95 @@ namespace XCharts
             return coordinateWidth / num;
         }
 
+        public void UpdateLabelText(DataZoom dataZoom)
+        {
+            for (int i = 0; i < axisLabelTextList.Count; i++)
+            {
+                axisLabelTextList[i].text = GetScaleName(i, minValue, maxValue, dataZoom);
+            }
+        }
+
+        public void SetTooltipLabel(GameObject label)
+        {
+            m_TooltipLabel = label;
+            m_TooltipLabelRect = label.GetComponent<RectTransform>();
+            m_TooltipLabelText = label.GetComponentInChildren<Text>();
+            m_TooltipLabel.SetActive(true);
+        }
+
+        public void SetTooltipLabelColor(Color bgColor, Color textColor)
+        {
+            m_TooltipLabel.GetComponent<Image>().color = bgColor;
+            m_TooltipLabelText.color = textColor;
+        }
+
+        public void SetTooltipLabelActive(bool flag)
+        {
+            if (m_TooltipLabel && m_TooltipLabel.activeInHierarchy != flag)
+            {
+                m_TooltipLabel.SetActive(flag);
+            }
+        }
+
+        public void UpdateTooptipLabelText(string text)
+        {
+            if (m_TooltipLabelText)
+            {
+                m_TooltipLabelText.text = text;
+                m_TooltipLabelRect.sizeDelta = new Vector2(m_TooltipLabelText.preferredWidth + 8,
+                    m_TooltipLabelText.preferredHeight + 8);
+            }
+        }
+
+        public void UpdateTooltipLabelPos(Vector2 pos)
+        {
+            if (m_TooltipLabel)
+            {
+                m_TooltipLabel.transform.localPosition = pos;
+            }
+        }
+
+        public void AdjustMinMaxValue(int minValue, int maxValue, out int tempMinValue, out int tempMaxValue)
+        {
+            tempMinValue = minValue;
+            tempMaxValue = maxValue;
+            if (minMaxType == Axis.AxisMinMaxType.Custom)
+            {
+                if (min != 0 || max != 0)
+                {
+                    tempMinValue = min;
+                    tempMaxValue = max;
+                }
+            }
+            else
+            {
+                switch (minMaxType)
+                {
+                    case Axis.AxisMinMaxType.Default:
+                        if (minValue > 0 && maxValue > 0)
+                        {
+                            tempMinValue = 0;
+                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                        }
+                        else if (minValue < 0 && maxValue < 0)
+                        {
+                            tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
+                            tempMaxValue = 0;
+                        }
+                        else
+                        {
+                            tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
+                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                        }
+                        break;
+                    case Axis.AxisMinMaxType.MinMax:
+                        tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
+                        tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                        break;
+                }
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -562,6 +412,26 @@ namespace XCharts
     [System.Serializable]
     public class XAxis : Axis
     {
+
+        public XAxis Clone()
+        {
+            var axis = new XAxis();
+            axis.show = show;
+            axis.type = type;
+            axis.min = min;
+            axis.max = max;
+            axis.splitNumber = splitNumber;
+
+            axis.showSplitLine = showSplitLine;
+            axis.splitLineType = splitLineType;
+            axis.boundaryGap = boundaryGap;
+            axis.axisName.Copy(axisName);
+            axis.axisLabel.Copy(axisLabel);
+            axis.data.Clear();
+            foreach (var d in data) axis.data.Add(d);
+            return axis;
+        }
+
         public static XAxis defaultXAxis
         {
             get
@@ -589,6 +459,25 @@ namespace XCharts
     [System.Serializable]
     public class YAxis : Axis
     {
+        public YAxis Clone()
+        {
+            var axis = new YAxis();
+            axis.show = show;
+            axis.type = type;
+            axis.min = min;
+            axis.max = max;
+            axis.splitNumber = splitNumber;
+
+            axis.showSplitLine = showSplitLine;
+            axis.splitLineType = splitLineType;
+            axis.boundaryGap = boundaryGap;
+            axis.axisName.Copy(axisName);
+            axis.axisLabel.Copy(axisLabel);
+            axis.data.Clear();
+            foreach (var d in data) axis.data.Add(d);
+            return axis;
+        }
+
         public static YAxis defaultYAxis
         {
             get

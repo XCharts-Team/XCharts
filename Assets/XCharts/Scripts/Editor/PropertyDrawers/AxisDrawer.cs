@@ -1,5 +1,5 @@
-﻿using UnityEditor;
-using UnityEditorInternal;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -7,11 +7,12 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Axis), true)]
     public class AxisDrawer : PropertyDrawer
     {
-        private bool m_DataFoldout = false;
+        private List<bool> m_AxisModuleToggle = new List<bool>();
+        private List<bool> m_DataFoldout = new List<bool>();
         private int m_DataSize = 0;
         private bool m_ShowJsonDataArea = false;
         private string m_JsonDataAreaText;
-        private bool m_AxisModuleToggle = false;
+
 
         protected virtual string GetDisplayName(string displayName)
         {
@@ -39,9 +40,12 @@ namespace XCharts
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisModuleToggle, GetDisplayName(prop.displayName), m_Show);
+            int index = InitToggle(prop);
+            bool toggle = m_AxisModuleToggle[index];
+            m_AxisModuleToggle[index] = ChartEditorHelper.MakeFoldout(ref drawRect, ref toggle,
+                GetDisplayName(prop.displayName), m_Show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_AxisModuleToggle)
+            if (m_AxisModuleToggle[index])
             {
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 EditorGUI.indentLevel++;
@@ -108,10 +112,10 @@ namespace XCharts
                 if (type == Axis.AxisType.Category)
                 {
                     drawRect.width = EditorGUIUtility.labelWidth + 10;
-                    m_DataFoldout = EditorGUI.Foldout(drawRect, m_DataFoldout, "Data");
+                    m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
                     ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop);
                     drawRect.width = pos.width;
-                    if (m_DataFoldout)
+                    if (m_DataFoldout[index])
                     {
                         ChartEditorHelper.MakeList(ref drawRect, ref m_DataSize, m_Data);
                     }
@@ -122,7 +126,8 @@ namespace XCharts
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            if (!m_AxisModuleToggle)
+            int index = InitToggle(prop);
+            if (!m_AxisModuleToggle[index])
             {
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -139,7 +144,7 @@ namespace XCharts
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 if (type == Axis.AxisType.Category)
                 {
-                    if (m_DataFoldout)
+                    if (m_DataFoldout[index])
                     {
                         SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                         int num = m_Data.arraySize + 2;
@@ -172,7 +177,21 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(m_SplitArea);
                 return height;
             }
+        }
 
+        private int InitToggle(SerializedProperty prop)
+        {
+            int index = 0;
+            int.TryParse(prop.displayName.Split(' ')[1],out index);
+            if (index >= m_DataFoldout.Count)
+            {
+                m_DataFoldout.Add(false);
+            }
+            if (index >= m_AxisModuleToggle.Count)
+            {
+                m_AxisModuleToggle.Add(false);
+            }
+            return index;
         }
     }
 }

@@ -151,7 +151,7 @@ namespace XCharts
                     dataPosList.Add(new List<Vector3>());
                     continue;
                 }
-                var dataList = m_Series.series[i].data;
+                var dataList = m_Series.series[i].yData;
                 var color = m_ThemeInfo.GetColor(i);
                 var areaColor = color;
                 areaColor.a = (byte)m_Radar.areaAipha;
@@ -330,7 +330,7 @@ namespace XCharts
             for (int i = 0; i < m_Radar.indicatorList.Count; i++)
             {
                 string key = m_Radar.indicatorList[i].name;
-                float value = m_Series.series[index].data[i];
+                float value = m_Series.series[index].yData[i];
                 sb.Append("\n");
                 sb.AppendFormat("{0}: {1}", key, value);
             }

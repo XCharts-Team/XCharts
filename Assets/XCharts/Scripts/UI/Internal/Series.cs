@@ -38,7 +38,7 @@ namespace XCharts
         {
             if (serieIndex >= 0 && serieIndex < Count)
             {
-                return m_Series[serieIndex].GetData(dataIndex);
+                return m_Series[serieIndex].GetYData(dataIndex);
             }
             else
             {
@@ -99,10 +99,10 @@ namespace XCharts
             {
                 serie = new Serie();
                 serie.name = name;
-                serie.data = new List<float>();
+                serie.yData = new List<float>();
                 m_Series.Add(serie);
             }
-            serie.AddData(value, maxDataNumber);
+            serie.AddYData(value, maxDataNumber);
             return serie;
         }
 
@@ -111,7 +111,7 @@ namespace XCharts
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddData(value, maxDataNumber);
+                serie.AddYData(value, maxDataNumber);
             }
             return serie;
         }
@@ -121,7 +121,7 @@ namespace XCharts
             var serie = GetSerie(name);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, value);
+                serie.UpdateYData(dataIndex, value);
             }
         }
 
@@ -130,7 +130,7 @@ namespace XCharts
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, value);
+                serie.UpdateYData(dataIndex, value);
             }
         }
 
@@ -184,7 +184,17 @@ namespace XCharts
             return false;
         }
 
-        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
+        public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
+        {
+            GetMinMaxValue(dataZoom,axisIndex,false,out minVaule,out maxValue);
+        }
+
+        public void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
+        {
+            GetMinMaxValue(dataZoom,axisIndex,true,out minVaule,out maxValue);
+        }
+
+        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool yValue, out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -198,7 +208,7 @@ namespace XCharts
                     {
                         var serie = ss.Value[i];
                         if (serie.axisIndex != axisIndex) continue;
-                        var showData = serie.GetData(dataZoom);
+                        var showData = yValue ? serie.GetYData(dataZoom) : serie.GetXData(dataZoom);
                         for (int j = 0; j < showData.Count; j++)
                         {
                             if (!seriesTotalValue.ContainsKey(j))
@@ -224,7 +234,7 @@ namespace XCharts
                     if (m_Series[i].axisIndex != axisIndex) continue;
                     if (IsActive(i))
                     {
-                        var showData = m_Series[i].GetData(dataZoom);
+                        var showData = yValue ? m_Series[i].GetYData(dataZoom) : m_Series[i].GetXData(dataZoom);
                         foreach (var data in showData)
                         {
                             if (data > max) max = data;
@@ -251,7 +261,7 @@ namespace XCharts
             float min = int.MaxValue;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var showData = m_Series[i].data;
+                var showData = m_Series[i].yData;
                 if (showData[index] > max)
                 {
                     max = Mathf.Ceil(showData[index]);
@@ -272,7 +282,7 @@ namespace XCharts
             float min = int.MaxValue;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var showData = m_Series[i].data;
+                var showData = m_Series[i].yData;
                 if (showData[index] > max)
                 {
                     max = Mathf.Ceil(showData[index]);

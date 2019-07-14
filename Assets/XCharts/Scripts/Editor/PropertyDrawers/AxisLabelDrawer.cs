@@ -49,7 +49,7 @@ namespace XCharts
             float height = 0;
             if (m_AxisLabelToggle)
             {
-                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
+                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
             }
             return height;
         }

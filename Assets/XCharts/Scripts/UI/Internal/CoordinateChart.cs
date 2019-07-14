@@ -13,9 +13,7 @@ namespace XCharts
         private static readonly string s_DefaultDataZoom = "datazoom";
 
         [SerializeField] protected Coordinate m_Coordinate = Coordinate.defaultCoordinate;
-        [SerializeField] protected XAxis m_XAxis = XAxis.defaultXAxis;
         [SerializeField] protected List<XAxis> m_XAxises = new List<XAxis>();
-        [SerializeField] protected YAxis m_YAxis = YAxis.defaultYAxis;
         [SerializeField] protected List<YAxis> m_YAxises = new List<YAxis>();
         [SerializeField] protected DataZoom m_DataZoom = DataZoom.defaultDataZoom;
 
@@ -188,7 +186,7 @@ namespace XCharts
                         string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(i));
                         string key = m_Series.series[i].name;
                         if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(i);
-                        float value = m_Series.series[i].GetData(index, m_DataZoom);
+                        float value = m_Series.series[i].GetYData(index, m_DataZoom);
                         sb.Append("\n");
                         sb.AppendFormat("<color=#{0}>● </color>", strColor);
                         sb.AppendFormat("{0}: {1}", key, value);
@@ -272,7 +270,8 @@ namespace XCharts
             InitAxisY();
         }
 
-        public void ClearAxisData(){
+        public void ClearAxisData()
+        {
             foreach (var item in m_XAxises) item.data.Clear();
             foreach (var item in m_YAxises) item.data.Clear();
         }
@@ -293,7 +292,7 @@ namespace XCharts
             if (m_XAxises.Count <= 0)
             {
                 var axis1 = new XAxis();
-                axis1.Copy(m_XAxis);
+                axis1.Copy(axis1);
                 var axis2 = XAxis.defaultXAxis;
                 axis2.show = false;
                 m_XAxises.Add(axis1);
@@ -302,7 +301,7 @@ namespace XCharts
             if (m_YAxises.Count <= 0)
             {
                 var axis1 = new YAxis();
-                axis1.Copy(m_YAxis);
+                axis1.Copy(axis1);
                 var axis2 = YAxis.defaultYAxis;
                 axis2.show = false;
                 m_YAxises.Add(axis1);
@@ -611,8 +610,22 @@ namespace XCharts
 
             int tempMinValue = 0;
             int tempMaxValue = 100;
-            m_Series.GetMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
-            axis.AdjustMinMaxValue(tempMinValue, tempMaxValue, out tempMinValue, out tempMaxValue);
+            if (m_XAxises[axisIndex].IsValue() && m_YAxises[axisIndex].IsValue())
+            {
+                if (axis is XAxis)
+                {
+                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+                }
+                else
+                {
+                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+                }
+            }
+            else
+            {
+                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+            }
+            axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 axis.minValue = tempMinValue;
@@ -625,7 +638,7 @@ namespace XCharts
                         axis.maxValue < 0 ? coordinateWid :
                         Mathf.Abs(axis.minValue) * (coordinateWid / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
                 }
-                else if (axis is YAxis && axis.IsValue())
+                if (axis is YAxis && axis.IsValue())
                 {
                     axis.zeroYOffset = axis.minValue > 0 ? 0 :
                         axis.maxValue < 0 ? coordinateHig :
@@ -777,7 +790,7 @@ namespace XCharts
         {
             if (xAxis.show && xAxis.axisLine.show)
             {
-                var lineY = coordinateY + m_YAxises[xAxisIndex].zeroYOffset;
+                var lineY = coordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].zeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += coordinateHig;
                 var top = new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, lineY);
                 ChartHelper.DrawLine(vh, new Vector3(coordinateX - m_Coordinate.tickness, lineY),
@@ -799,7 +812,7 @@ namespace XCharts
         {
             if (yAxis.show && yAxis.axisLine.show)
             {
-                var lineX = coordinateX + m_XAxises[yAxisIndex].zeroXOffset;
+                var lineX = coordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].zeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += coordinateWid;
                 var top = new Vector3(lineX, coordinateY + coordinateHig + m_Coordinate.tickness);
                 ChartHelper.DrawLine(vh, new Vector3(lineX, coordinateY - m_Coordinate.tickness),
@@ -832,17 +845,17 @@ namespace XCharts
             {
                 Serie serie = m_Series.series[0];
                 Axis axis = yAxises[0];
-                float scaleWid = coordinateWid / (serie.data.Count - 1);
+                float scaleWid = coordinateWid / (serie.yData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 int minValue = 0;
                 int maxValue = 100;
-                m_Series.GetMinMaxValue(null, 0, out minValue, out maxValue);
-                axis.AdjustMinMaxValue(minValue, maxValue, out minValue, out maxValue);
+                m_Series.GetYMinMaxValue(null, 0, out minValue, out maxValue);
+                axis.AdjustMinMaxValue(ref minValue, ref maxValue);
                 if (minValue > 0 && maxValue > 0) minValue = 0;
-                for (int i = 0; i < serie.data.Count; i++)
+                for (int i = 0; i < serie.yData.Count; i++)
                 {
-                    float value = serie.data[i];
+                    float value = serie.yData[i];
                     float pX = coordinateX + i * scaleWid;
                     float dataHig = value / (maxValue - minValue) * m_DataZoom.height;
                     np = new Vector3(pX, m_DataZoom.bottom + dataHig);

@@ -44,7 +44,7 @@ namespace XCharts
                 {
                     m_Show = true,
                     m_Orient = Orient.Horizonal,
-                    m_Location = Location.defaultRight,
+                    m_Location = Location.defaultTop,
                     m_ItemWidth = 60.0f,
                     m_ItemHeight = 20.0f,
                     m_ItemGap = 5,
@@ -54,6 +54,7 @@ namespace XCharts
                         "Legend"
                     }
                 };
+                legend.location.top = 30;
                 return legend;
             }
         }

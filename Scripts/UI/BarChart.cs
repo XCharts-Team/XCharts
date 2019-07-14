@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    [AddComponentMenu("XCharts/BarChart", 13)]
+    [AddComponentMenu("XCharts/BarChart", 14)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
@@ -20,11 +20,36 @@ namespace XCharts
             public bool inSameBar { get { return m_InSameBar; } set { m_InSameBar = value; } }
             public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
             public float space { get { return m_Space; } set { m_Space = value; } }
+
+            public static Bar defaultBar{
+                get{
+                    return new Bar(){
+                        m_InSameBar = false,
+                        m_BarWidth = 0.7f,
+                        m_Space = 10
+                    };
+                }
+            }
         }
 
-        [SerializeField] private Bar m_Bar = new Bar();
+        [SerializeField] private Bar m_Bar = Bar.defaultBar;
 
         public Bar bar { get { return m_Bar; } }
+
+#if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            m_Bar = Bar.defaultBar;
+            RemoveData();
+            AddSerie("bar1", SerieType.Line);
+            for (int i = 0; i < 5; i++)
+            {
+                AddXAxisData("x" + (i + 1));
+                AddData(0, Random.Range(10, 90));
+            }
+        }
+#endif
 
         private void DrawYBarSerie(VertexHelper vh, int serieIndex, int stackCount,
             Serie serie, Color color, ref Dictionary<int, float> seriesHig)
@@ -71,7 +96,7 @@ namespace XCharts
             Serie serie, Color color, ref Dictionary<int, float> seriesHig)
         {
             if (!m_Legend.IsActive(serie.name)) return;
-            List<float> showData = serie.GetYData(m_DataZoom);
+            List<float> showData = serie.GetYDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
@@ -90,7 +115,7 @@ namespace XCharts
                     seriesHig[i] = 0;
                 }
                 float value = showData[i];
-                float pX = zeroX + i * scaleWid;
+                float pX = coordinateX + i * scaleWid;
                 float zeroY = coordinateY + yAxis.zeroYOffset;
                 if (!xAxis.boundaryGap) pX -= scaleWid / 2;
                 float pY = seriesHig[i] + zeroY + m_Coordinate.tickness;
@@ -145,7 +170,7 @@ namespace XCharts
                             Vector3 ep = new Vector2(m_Tooltip.pointerPos.x, coordinateY + coordinateHig);
                             DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
                             float splitWidth = yAxis.GetSplitWidth(coordinateHig, m_DataZoom);
-                            float pY = zeroY + (m_Tooltip.yValues[i] - 1) * splitWidth +
+                            float pY = coordinateY + (m_Tooltip.yValues[i] - 1) * splitWidth +
                                 (yAxis.boundaryGap ? splitWidth / 2 : 0);
                             sp = new Vector2(coordinateX, pY);
                             ep = new Vector2(coordinateX + coordinateWid, pY);

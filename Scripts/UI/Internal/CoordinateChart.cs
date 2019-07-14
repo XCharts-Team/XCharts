@@ -27,14 +27,60 @@ namespace XCharts
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
         private Coordinate m_CheckCoordinate = Coordinate.defaultCoordinate;
 
-        public float zeroX { get { return coordinateX; } }
-        public float zeroY { get { return coordinateY; } }
+        // public float coordinateX { get { return coordinateX; } }
+        // public float coordinateY { get { return coordinateY; } }
         public float coordinateX { get { return m_Coordinate.left; } }
         public float coordinateY { get { return m_Coordinate.bottom; } }
         public float coordinateWid { get { return chartWidth - m_Coordinate.left - m_Coordinate.right; } }
         public float coordinateHig { get { return chartHeight - m_Coordinate.top - m_Coordinate.bottom; } }
         public List<XAxis> xAxises { get { return m_XAxises; } }
         public List<YAxis> yAxises { get { return m_YAxises; } }
+
+        /// <summary>
+        /// Remove all data from series,legend and axis.
+        /// It just emptying all of serie's data without emptying the list of series.
+        /// </summary>
+        public override void ClearData()
+        {
+            base.ClearData();
+            ClearAxisData();
+        }
+
+        /// <summary>
+        /// Remove all data from series,legend and axis.
+        /// The series list is also cleared.
+        /// </summary>
+        public override void RemoveData()
+        {
+            base.RemoveData();
+            ClearAxisData();
+        }
+
+        /// <summary>
+        /// Remove all data of axises.
+        /// </summary>
+        public void ClearAxisData()
+        {
+            foreach (var item in m_XAxises) item.data.Clear();
+            foreach (var item in m_YAxises) item.data.Clear();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="xAxisIndex"></param>
+        public void AddXAxisData(string category, int xAxisIndex = 0)
+        {
+            m_XAxises[xAxisIndex].AddData(category, m_MaxCacheDataNumber);
+            OnXAxisChanged();
+        }
+
+        public void AddYAxisData(string category, int yAxisIndex = 0)
+        {
+            m_YAxises[yAxisIndex].AddData(category, m_MaxCacheDataNumber);
+            OnYAxisChanged();
+        }
 
         protected override void Awake()
         {
@@ -64,9 +110,7 @@ namespace XCharts
             m_Coordinate = Coordinate.defaultCoordinate;
             m_XAxises.Clear();
             m_YAxises.Clear();
-            InitDefaultAxises();
-            InitAxisX();
-            InitAxisY();
+            Awake();
         }
 #endif
 
@@ -270,39 +314,24 @@ namespace XCharts
             InitAxisY();
         }
 
-        public void ClearAxisData()
-        {
-            foreach (var item in m_XAxises) item.data.Clear();
-            foreach (var item in m_YAxises) item.data.Clear();
-        }
-        public void AddXAxisData(string category, int xAxisIndex = 0)
-        {
-            m_XAxises[xAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnXAxisChanged();
-        }
-
-        public void AddYAxisData(string category, int yAxisIndex = 0)
-        {
-            m_YAxises[yAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnYAxisChanged();
-        }
-
         private void InitDefaultAxises()
         {
             if (m_XAxises.Count <= 0)
             {
-                var axis1 = new XAxis();
-                axis1.Copy(axis1);
+                var axis1 = XAxis.defaultXAxis;
                 var axis2 = XAxis.defaultXAxis;
+                axis1.show = true;
                 axis2.show = false;
                 m_XAxises.Add(axis1);
                 m_XAxises.Add(axis2);
             }
             if (m_YAxises.Count <= 0)
             {
-                var axis1 = new YAxis();
-                axis1.Copy(axis1);
+                var axis1 = YAxis.defaultYAxis;
                 var axis2 = YAxis.defaultYAxis;
+                axis1.show = true;
+                axis1.splitNumber = 6;
+                axis1.boundaryGap = false;
                 axis2.show = false;
                 m_YAxises.Add(axis1);
                 m_YAxises.Add(axis2);
@@ -353,7 +382,7 @@ namespace XCharts
                 }
 
                 txt.transform.localPosition = GetLabelYPosition(labelWidth, i, yAxisIndex, yAxis);
-                txt.text = yAxis.GetScaleName(i, yAxis.minValue, yAxis.maxValue, m_DataZoom);
+                txt.text = yAxis.GetLabelName(i, yAxis.minValue, yAxis.maxValue, m_DataZoom);
                 txt.gameObject.SetActive(yAxis.show &&
                     (yAxis.axisLabel.interval == 0 || i % (yAxis.axisLabel.interval + 1) == 0));
                 yAxis.axisLabelTextList.Add(txt);
@@ -397,12 +426,15 @@ namespace XCharts
                 }
             }
             //init tooltip label
-            Vector2 privot = yAxisIndex > 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
-            var labelParent = m_Tooltip.gameObject.transform;
-            GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
-            yAxis.SetTooltipLabel(labelObj);
-            yAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
-            yAxis.SetTooltipLabelActive(yAxis.show && m_Tooltip.show && m_Tooltip.crossLabel);
+            if (m_Tooltip.gameObject)
+            {
+                Vector2 privot = yAxisIndex > 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
+                var labelParent = m_Tooltip.gameObject.transform;
+                GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
+                yAxis.SetTooltipLabel(labelObj);
+                yAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
+                yAxis.SetTooltipLabelActive(yAxis.show && m_Tooltip.show && m_Tooltip.crossLabel);
+            }
         }
 
         private void InitAxisX()
@@ -438,7 +470,7 @@ namespace XCharts
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
 
                 txt.transform.localPosition = GetLabelXPosition(labelWidth, i, xAxisIndex, xAxis);
-                txt.text = xAxis.GetScaleName(i, xAxis.minValue, xAxis.maxValue, m_DataZoom);
+                txt.text = xAxis.GetLabelName(i, xAxis.minValue, xAxis.maxValue, m_DataZoom);
                 txt.gameObject.SetActive(xAxis.show &&
                     (xAxis.axisLabel.interval == 0 || i % (xAxis.axisLabel.interval + 1) == 0));
                 xAxis.axisLabelTextList.Add(txt);
@@ -481,12 +513,15 @@ namespace XCharts
                         break;
                 }
             }
-            Vector2 privot = xAxisIndex > 0 ? new Vector2(0.5f, 1) : new Vector2(0.5f, 1);
-            var labelParent = m_Tooltip.gameObject.transform;
-            GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
-            xAxis.SetTooltipLabel(labelObj);
-            xAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
-            xAxis.SetTooltipLabelActive(xAxis.show && m_Tooltip.show && m_Tooltip.crossLabel);
+            if (m_Tooltip.gameObject)
+            {
+                Vector2 privot = xAxisIndex > 0 ? new Vector2(0.5f, 1) : new Vector2(0.5f, 1);
+                var labelParent = m_Tooltip.gameObject.transform;
+                GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
+                xAxis.SetTooltipLabel(labelObj);
+                xAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
+                xAxis.SetTooltipLabelActive(xAxis.show && m_Tooltip.show && m_Tooltip.crossLabel);
+            }
         }
 
         private void InitDataZoom()

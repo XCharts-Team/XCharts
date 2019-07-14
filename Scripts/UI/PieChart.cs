@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
+    [AddComponentMenu("XCharts/PieChart", 15)]
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(RectTransform))]
+    [DisallowMultipleComponent]
     public class PieChart : BaseChart
     {
         [SerializeField] private Pie m_Pie = Pie.defaultPie;
@@ -16,6 +20,39 @@ namespace XCharts
         private List<float> m_AngleList = new List<float>();
 
         public Pie pie { get { return m_Pie; } }
+
+        /// <summary>
+        /// Add a data to pie.
+        /// </summary>
+        /// <param name="legend">the name of data</param>
+        /// <param name="value">the data</param>
+        public override void AddData(string legend, float value)
+        {
+            m_Legend.AddData(legend);
+            var serie = m_Series.AddData(legend, value);
+            if (serie != null)
+            {
+                serie.ClearData();
+                serie.AddYData(value);
+                RefreshChart();
+            }
+        }
+
+        /// <summary>
+        /// Update the data for the specified name.
+        /// </summary>
+        /// <param name="legend">the name of data</param>
+        /// <param name="value">the data</param>
+        /// <param name="dataIndex">is not used in this function</param>
+        public override void UpdateData(string legend, float value, int dataIndex = 0)
+        {
+            var serie = m_Series.GetSerie(legend);
+            if (serie != null)
+            {
+                serie.UpdateYData(0, value);
+                RefreshChart();
+            }
+        }
 
         protected override void Awake()
         {
@@ -32,27 +69,16 @@ namespace XCharts
             }
         }
 
-        public override void AddData(string legend, float value)
+#if UNITY_EDITOR
+        protected override void Reset()
         {
-            m_Legend.AddData(legend);
-            var serie = m_Series.AddData(legend, value);
-            if (serie != null)
-            {
-                serie.ClearData();
-                serie.AddYData(value);
-                RefreshChart();
-            }
+            base.Reset();
+            m_Pie = Pie.defaultPie;
+            RemoveData();
+            AddData("Pie1", 80);
+            AddData("Pie2", 20);
         }
-
-        public override void UpdateData(string legend, float value, int dataIndex = 0)
-        {
-            var serie = m_Series.GetSerie(legend);
-            if (serie != null)
-            {
-                serie.UpdateYData(0, value);
-                RefreshChart();
-            }
-        }
+#endif
 
         protected override void DrawChart(VertexHelper vh)
         {

@@ -149,13 +149,24 @@ namespace XCharts
                 while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
                 while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
             }
-            m_YData.Add(value);
             m_XData.Add(m_XData.Count);
+            m_YData.Add(value);
+        }
+
+        public void AddXYData(float xValue, float yValue, int maxDataNumber = 0)
+        {
+            if (maxDataNumber > 0)
+            {
+                while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
+                while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
+            }
+            m_XData.Add(xValue);
+            m_YData.Add(yValue);
         }
 
         public float GetYData(int index, DataZoom dataZoom = null)
         {
-            var showData = GetYData(dataZoom);
+            var showData = GetYDataList(dataZoom);
             if (index >= 0 && index <= showData.Count - 1)
             {
                 return showData[index];
@@ -163,7 +174,17 @@ namespace XCharts
             return 0;
         }
 
-        public List<float> GetYData(DataZoom dataZoom)
+        public void GetXYData(int index, DataZoom dataZoom, out float xValue, out float yVlaue)
+        {
+            xValue = 0;
+            yVlaue = 0;
+            var xShowData = GetXDataList(dataZoom);
+            if (index >= 0 && index < xShowData.Count) xValue = xShowData[index];
+            var yShowData = GetYDataList(dataZoom);
+            if (index >= 0 && index < yShowData.Count) yVlaue = yShowData[index];
+        }
+
+        public List<float> GetYDataList(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.show)
             {
@@ -182,7 +203,7 @@ namespace XCharts
             }
         }
 
-        public List<float> GetXData(DataZoom dataZoom)
+        public List<float> GetXDataList(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.show)
             {
@@ -243,6 +264,18 @@ namespace XCharts
             if (index >= 0 && index <= m_YData.Count - 1)
             {
                 m_YData[index] = value;
+            }
+        }
+
+        public void UpdateXYData(int index, float xValue, float yValue)
+        {
+            if (index >= 0 && index <= m_YData.Count - 1)
+            {
+                m_YData[index] = yValue;
+            }
+            if (index >= 0 && index <= m_XData.Count - 1)
+            {
+                m_XData[index] = xValue;
             }
         }
 

@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
+    [AddComponentMenu("XCharts/RadarChart", 16)]
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(RectTransform))]
+    [DisallowMultipleComponent]
     public class RadarChart : BaseChart
     {
         private const string INDICATOR_TEXT = "indicator";
@@ -20,10 +24,16 @@ namespace XCharts
 
         public Radar radar { get { return m_Radar; } }
 
+        public override void RemoveData()
+        {
+            base.RemoveData();
+            m_Radar.indicatorList.Clear();
+        }
         protected override void Awake()
         {
             base.Awake();
             UpdateRadarCenter();
+            InitIndicator();
         }
 
         protected override void Update()
@@ -31,6 +41,21 @@ namespace XCharts
             base.Update();
             CheckRadarInfoChanged();
         }
+
+#if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            RemoveData();
+            m_Radar = Radar.defaultRadar;
+            AddSerie("Radar", SerieType.Radar);
+            for (int i = 0; i < 5; i++)
+            {
+                AddData(0, Random.Range(20, 90));
+            }
+        }
+#endif
+
 
         private void InitIndicator()
         {
@@ -161,7 +186,7 @@ namespace XCharts
                 for (int j = 0; j < dataList.Count; j++)
                 {
                     var max = m_Radar.GetIndicatorMax(j) > 0 ?
-                        m_Radar.GetIndicatorMax(j)  :
+                        m_Radar.GetIndicatorMax(j) :
                         GetMaxValue(j);
                     var radius = max < 0 ? m_Radar.radius - m_Radar.radius * dataList[j] / max
                         : m_Radar.radius * dataList[j] / max;

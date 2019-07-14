@@ -26,10 +26,10 @@ namespace XCharts
             {
                 var coordinate = new Coordinate
                 {
-                    m_Left = 40f,
-                    m_Right = 80f,
-                    m_Top = 50f,
-                    m_Bottom = 30f,
+                    m_Left = 50,
+                    m_Right = 30,
+                    m_Top = 60,
+                    m_Bottom = 30,
                     m_Tickness = 0.6f,
                     m_FontSize = 16,
                 };

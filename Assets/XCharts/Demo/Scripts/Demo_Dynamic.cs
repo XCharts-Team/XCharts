@@ -21,8 +21,8 @@ public class Demo_Dynamic : MonoBehaviour
     void Awake()
     {
         chart = gameObject.GetComponentInChildren<CoordinateChart>();
-        chart.ClearAxisData();
-        chart.series.ClearData();
+        chart.RemoveData();
+        chart.AddSerie("data", SerieType.Line);
         chart.maxCacheDataNumber = maxCacheDataNumber;
         timeNow = DateTime.Now;
         timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
@@ -30,14 +30,16 @@ public class Demo_Dynamic : MonoBehaviour
 
     void Update()
     {
-        if (initCount< maxCacheDataNumber)
+        if (initCount < maxCacheDataNumber)
         {
             int count = (int)(maxCacheDataNumber / initDataTime * Time.deltaTime);
             for (int i = 0; i < count; i++)
             {
                 timeNow = timeNow.AddSeconds(1);
-                chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
-                chart.AddData(0, UnityEngine.Random.Range(60, 150));
+                string category = timeNow.ToString("hh:mm:ss");
+                float value = UnityEngine.Random.Range(60, 150);
+                chart.AddXAxisData(category);
+                chart.AddData(0, value);
                 initCount++;
                 if (initCount > maxCacheDataNumber) break;
             }
@@ -48,8 +50,10 @@ public class Demo_Dynamic : MonoBehaviour
         {
             updateTime = 0;
             count++;
-            chart.AddXAxisData(DateTime.Now.ToString("hh:mm:ss"));
-            chart.AddData(0, UnityEngine.Random.Range(60, 150));
+            string category = DateTime.Now.ToString("hh:mm:ss");
+            float value = UnityEngine.Random.Range(60, 150);
+            chart.AddXAxisData(category);
+            chart.AddData(0, value);
             chart.RefreshChart();
         }
     }

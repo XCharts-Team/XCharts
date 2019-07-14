@@ -92,10 +92,16 @@ namespace XCharts
                     m_LineColor = Color.grey,
                     m_Indicator = true,
                     m_BackgroundColorList = new List<Color> {
-                        new Color32(194, 53, 49, 255),
-                        new Color32(47, 69, 84, 255)
+                        new Color32(246, 246, 246, 255),
+                        new Color32(231, 231, 231, 255)
                     },
-                    m_IndicatorList = new List<Indicator>(5)
+                    m_IndicatorList = new List<Indicator>(5){
+                        new Indicator(){name="radar1",max = 100},
+                        new Indicator(){name="radar2",max = 100},
+                        new Indicator(){name="radar3",max = 100},
+                        new Indicator(){name="radar4",max = 100},
+                        new Indicator(){name="radar5",max = 100},
+                    }
                 };
                 return radar;
             }

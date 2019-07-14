@@ -123,14 +123,14 @@ namespace XCharts
 
         public string GetData(int index, DataZoom dataZoom)
         {
-            var showData = GetData(dataZoom);
+            var showData = GetDataList(dataZoom);
             if (index >= 0 && index < showData.Count)
                 return showData[index];
             else
                 return "";
         }
 
-        public List<string> GetData(DataZoom dataZoom)
+        public List<string> GetDataList(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.show)
             {
@@ -179,7 +179,7 @@ namespace XCharts
         public int GetSplitNumber(DataZoom dataZoom)
         {
             if (type == AxisType.Value) return m_SplitNumber;
-            int dataCount = GetData(dataZoom).Count;
+            int dataCount = GetDataList(dataZoom).Count;
             if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
                 return m_SplitNumber;
             else
@@ -193,7 +193,7 @@ namespace XCharts
 
         public int GetDataNumber(DataZoom dataZoom)
         {
-            return GetData(dataZoom).Count;
+            return GetDataList(dataZoom).Count;
         }
 
         public float GetDataWidth(float coordinateWidth, DataZoom dataZoom)
@@ -202,7 +202,7 @@ namespace XCharts
             return coordinateWidth / (m_BoundaryGap ? dataCount : dataCount - 1);
         }
 
-        public string GetScaleName(int index, float minValue, float maxValue, DataZoom dataZoom)
+        public string GetLabelName(int index, float minValue, float maxValue, DataZoom dataZoom)
         {
             if (m_Type == AxisType.Value)
             {
@@ -212,7 +212,7 @@ namespace XCharts
                 else
                     return (value).ToString("f1");
             }
-            var showData = GetData(dataZoom);
+            var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
 
@@ -239,7 +239,7 @@ namespace XCharts
             }
             else
             {
-                var showData = GetData(dataZoom);
+                var showData = GetDataList(dataZoom);
                 int dataCount = showData.Count;
                 if (dataCount > 2 * splitNumber || dataCount <= 0)
                     return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
@@ -259,7 +259,10 @@ namespace XCharts
         {
             for (int i = 0; i < axisLabelTextList.Count; i++)
             {
-                axisLabelTextList[i].text = GetScaleName(i, minValue, maxValue, dataZoom);
+                if (axisLabelTextList[i] != null)
+                {
+                    axisLabelTextList[i].text = GetLabelName(i, minValue, maxValue, dataZoom);
+                }
             }
         }
 

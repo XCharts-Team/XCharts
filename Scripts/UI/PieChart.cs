@@ -39,7 +39,7 @@ namespace XCharts
             if (serie != null)
             {
                 serie.ClearData();
-                serie.AddData(value);
+                serie.AddYData(value);
                 RefreshChart();
             }
         }
@@ -49,7 +49,7 @@ namespace XCharts
             var serie = m_Series.GetSerie(legend);
             if (serie != null)
             {
-                serie.UpdateData(0, value);
+                serie.UpdateYData(0, value);
                 RefreshChart();
             }
         }
@@ -70,7 +70,7 @@ namespace XCharts
                     m_AngleList.Add(0);
                     continue;
                 }
-                var data = m_Series.series[i].data;
+                var data = m_Series.series[i].yData;
                 if (data.Count <= 0)
                 {
                     m_AngleList.Add(0);
@@ -123,7 +123,7 @@ namespace XCharts
             {
                 if (IsActive(i))
                 {
-                    total += m_Series.series[i].GetData(0);
+                    total += m_Series.series[i].GetYData(0);
                 }
             }
             return total;
@@ -134,9 +134,9 @@ namespace XCharts
             float max = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (IsActive(i) && m_Series.series[i].GetData(0) > max)
+                if (IsActive(i) && m_Series.series[i].GetYData(0) > max)
                 {
-                    max = m_Series.series[i].GetData(0);
+                    max = m_Series.series[i].GetYData(0);
                 }
             }
             return max;
@@ -232,7 +232,7 @@ namespace XCharts
             string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(index));
             string key = m_Series.series[index].name;
             if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
-            float value = m_Series.series[index].data[0];
+            float value = m_Series.series[index].yData[0];
             string txt = "";
             if (!string.IsNullOrEmpty(m_Pie.name))
             {

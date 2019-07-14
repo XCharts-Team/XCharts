@@ -303,16 +303,14 @@ namespace XCharts
             }
         }
 
-        public void AdjustMinMaxValue(int minValue, int maxValue, out int tempMinValue, out int tempMaxValue)
+        public void AdjustMinMaxValue(ref int minValue, ref int maxValue)
         {
-            tempMinValue = minValue;
-            tempMaxValue = maxValue;
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (min != 0 || max != 0)
                 {
-                    tempMinValue = min;
-                    tempMaxValue = max;
+                    minValue = min;
+                    maxValue = max;
                 }
             }
             else
@@ -322,23 +320,23 @@ namespace XCharts
                     case Axis.AxisMinMaxType.Default:
                         if (minValue > 0 && maxValue > 0)
                         {
-                            tempMinValue = 0;
-                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                            minValue = 0;
+                            maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
                         }
                         else if (minValue < 0 && maxValue < 0)
                         {
-                            tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
-                            tempMaxValue = 0;
+                            minValue = ChartHelper.GetMinDivisibleValue(minValue);
+                            maxValue = 0;
                         }
                         else
                         {
-                            tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
-                            tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                            minValue = ChartHelper.GetMinDivisibleValue(minValue);
+                            maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
                         }
                         break;
                     case Axis.AxisMinMaxType.MinMax:
-                        tempMinValue = ChartHelper.GetMinDivisibleValue(minValue);
-                        tempMaxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                        minValue = ChartHelper.GetMinDivisibleValue(minValue);
+                        maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
                         break;
                 }
             }

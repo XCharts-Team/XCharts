@@ -13,6 +13,7 @@ namespace XCharts
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
+            SerializedProperty m_OnZero = prop.FindPropertyRelative("m_OnZero");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_SymbolWidth = prop.FindPropertyRelative("m_SymbolWidth");
             SerializedProperty m_SymbolHeight = prop.FindPropertyRelative("m_SymbolHeight");
@@ -24,6 +25,8 @@ namespace XCharts
             if (m_AxisLineToggle)
             {
                 ++EditorGUI.indentLevel;
+                EditorGUI.PropertyField(drawRect, m_OnZero);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Symbol);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SymbolWidth);
@@ -43,7 +46,7 @@ namespace XCharts
             float height = 0;
             if (m_AxisLineToggle)
             {
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
             }
             return height;
         }

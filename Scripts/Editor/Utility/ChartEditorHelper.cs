@@ -48,7 +48,7 @@ public class ChartEditorHelper
         }
     }
 
-    public static void MakeFoldout(ref Rect drawRect, ref bool moduleToggle, string content,
+    public static bool MakeFoldout(ref Rect drawRect, ref bool moduleToggle, string content,
         SerializedProperty prop = null, bool bold = true)
     {
         float defaultWidth = drawRect.width;
@@ -63,6 +63,7 @@ public class ChartEditorHelper
         }
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
+        return moduleToggle;
     }
 
     public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, SerializedProperty large = null)
@@ -80,7 +81,7 @@ public class ChartEditorHelper
             while (listSize < listProp.arraySize)
                 listProp.DeleteArrayElementAtIndex(listProp.arraySize - 1);
         }
-        if (listSize > 50)
+        if (listSize > 30)
         {
             SerializedProperty element;
             int num = listSize > 10 ? 10 : listSize;

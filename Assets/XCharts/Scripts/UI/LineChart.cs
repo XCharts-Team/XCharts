@@ -19,8 +19,9 @@ namespace XCharts
         {
             base.Reset();
             m_Line = Line.defaultLine;
+            m_Title.text = "LineChart";
             RemoveData();
-            AddSerie("line1", SerieType.Line);
+            AddSerie("serie1", SerieType.Line);
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));

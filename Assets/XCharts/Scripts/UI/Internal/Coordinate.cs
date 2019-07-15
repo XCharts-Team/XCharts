@@ -28,7 +28,7 @@ namespace XCharts
                 {
                     m_Left = 50,
                     m_Right = 30,
-                    m_Top = 60,
+                    m_Top = 50,
                     m_Bottom = 30,
                     m_Tickness = 0.6f,
                     m_FontSize = 16,

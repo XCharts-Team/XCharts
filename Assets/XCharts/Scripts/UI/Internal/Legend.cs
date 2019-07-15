@@ -42,7 +42,7 @@ namespace XCharts
             {
                 var legend = new Legend
                 {
-                    m_Show = true,
+                    m_Show = false,
                     m_Orient = Orient.Horizonal,
                     m_Location = Location.defaultTop,
                     m_ItemWidth = 60.0f,

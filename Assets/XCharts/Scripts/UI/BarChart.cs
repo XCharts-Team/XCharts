@@ -25,7 +25,7 @@ namespace XCharts
                 get{
                     return new Bar(){
                         m_InSameBar = false,
-                        m_BarWidth = 0.7f,
+                        m_BarWidth = 0.6f,
                         m_Space = 10
                     };
                 }
@@ -41,8 +41,9 @@ namespace XCharts
         {
             base.Reset();
             m_Bar = Bar.defaultBar;
+            m_Title.text = "BarChart";
             RemoveData();
-            AddSerie("bar1", SerieType.Line);
+            AddSerie("serie1", SerieType.Line);
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));

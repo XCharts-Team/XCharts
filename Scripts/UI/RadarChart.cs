@@ -48,7 +48,8 @@ namespace XCharts
             base.Reset();
             RemoveData();
             m_Radar = Radar.defaultRadar;
-            AddSerie("Radar", SerieType.Radar);
+            m_Title.text = "RadarChart";
+            AddSerie("serie1", SerieType.Radar);
             for (int i = 0; i < 5; i++)
             {
                 AddData(0, Random.Range(20, 90));

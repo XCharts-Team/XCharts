@@ -12,6 +12,8 @@ namespace XCharts
     {
         protected BaseChart m_Target;
         protected SerializedProperty m_Script;
+        protected SerializedProperty m_ChartWidth;
+        protected SerializedProperty m_ChartHeight;
         protected SerializedProperty m_Theme;
         protected SerializedProperty m_ThemeInfo;
         protected SerializedProperty m_Title;
@@ -39,6 +41,8 @@ namespace XCharts
         {
             m_Target = (BaseChart)target;
             m_Script = serializedObject.FindProperty("m_Script");
+            m_ChartWidth = serializedObject.FindProperty("m_ChartWidth");
+            m_ChartHeight = serializedObject.FindProperty("m_ChartHeight");
             m_Theme = serializedObject.FindProperty("m_Theme");
             m_ThemeInfo = serializedObject.FindProperty("m_ThemeInfo");
             m_Title = serializedObject.FindProperty("m_Title");
@@ -74,12 +78,23 @@ namespace XCharts
         {
             EditorGUILayout.PropertyField(m_Script);
             EditorGUILayout.BeginHorizontal();
+
+            EditorGUIUtility.labelWidth = 20;
+            EditorGUILayout.LabelField("Size");
+            EditorGUIUtility.fieldWidth = 1;
+            m_ChartWidth.floatValue = EditorGUILayout.FloatField(m_ChartWidth.floatValue);
+            m_ChartHeight.floatValue = EditorGUILayout.FloatField(m_ChartHeight.floatValue);
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUIUtility.labelWidth = m_DefaultLabelWidth;
             EditorGUIUtility.fieldWidth = EditorGUIUtility.labelWidth - 5;
             m_ThemeModuleToggle = EditorGUILayout.Foldout(m_ThemeModuleToggle,
-                new GUIContent("Theme","the theme of chart\n主题"),
+                new GUIContent("Theme", "the theme of chart\n主题"),
                 ChartEditorHelper.foldoutStyle);
             EditorGUILayout.PropertyField(m_Theme, GUIContent.none);
             EditorGUILayout.EndHorizontal();
+
             EditorGUIUtility.labelWidth = m_DefaultLabelWidth;
             EditorGUIUtility.fieldWidth = m_DefaultFieldWidth;
             if (m_ThemeModuleToggle)
@@ -95,13 +110,13 @@ namespace XCharts
         {
             EditorGUILayout.PropertyField(m_Series, true);
             m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle,
-                new GUIContent("Base","基础配置"),
+                new GUIContent("Base", "基础配置"),
                 ChartEditorHelper.foldoutStyle);
             if (m_BaseModuleToggle)
             {
                 EditorGUI.indentLevel++;
                 var largeTip = "Whether to enable the optimization of large-scale graph. \n是否启用大规模线图的优化，在数据图形特别多的时候（>=5k）可以开启。";
-                EditorGUILayout.PropertyField(m_Large, new GUIContent("Large",largeTip));
+                EditorGUILayout.PropertyField(m_Large, new GUIContent("Large", largeTip));
                 EditorGUILayout.PropertyField(m_MinShowDataNumber, true);
                 EditorGUILayout.PropertyField(m_MaxShowDataNumber, true);
                 EditorGUILayout.PropertyField(m_MaxCacheDataNumber, true);

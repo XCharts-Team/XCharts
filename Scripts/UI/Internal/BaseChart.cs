@@ -19,6 +19,8 @@ namespace XCharts
         private static readonly string s_TitleObjectName = "title";
         private static readonly string s_LegendObjectName = "legend";
 
+        [SerializeField] protected float m_ChartWidth;
+        [SerializeField] protected float m_ChartHeight;
         [SerializeField] protected Theme m_Theme = Theme.Default;
         [SerializeField] protected ThemeInfo m_ThemeInfo;
         [SerializeField] protected Title m_Title = Title.defaultTitle;
@@ -39,8 +41,6 @@ namespace XCharts
         [NonSerialized] private bool m_RefreshChart = false;
         [NonSerialized] protected List<Text> m_LegendTextList = new List<Text>();
 
-        protected float chartWidth { get { return rectTransform.sizeDelta.x; } }
-        protected float chartHeight { get { return rectTransform.sizeDelta.y; } }
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
         protected Vector2 chartPivot { get { return rectTransform.pivot; } }
@@ -49,6 +49,9 @@ namespace XCharts
         public Legend legend { get { return m_Legend; } }
         public Tooltip tooltip { get { return m_Tooltip; } }
         public Series series { get { return m_Series; } }
+
+        public float chartWidth { get { return m_ChartWidth; } }
+        public float chartHeight { get { return m_ChartHeight; } }
 
         /// <summary>
         /// The min number of data to show in chart.
@@ -77,6 +80,21 @@ namespace XCharts
         {
             get { return m_MaxCacheDataNumber; }
             set { m_MaxCacheDataNumber = value; if (m_MaxCacheDataNumber < 0) m_MaxCacheDataNumber = 0; }
+        }
+
+        /// <summary>
+        /// Set the size of chart.
+        /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        public virtual void SetSize(float width, float height)
+        {
+            m_ChartWidth = width;
+            m_ChartHeight = height;
+            m_CheckWidth = width;
+            m_CheckHeight = height;
+            rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
+            OnSizeChanged();
         }
 
         /// <summary>
@@ -246,8 +264,10 @@ namespace XCharts
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.pivot = Vector2.zero;
-            m_CheckWidth = chartWidth;
-            m_CheckHeight = chartHeight;
+            m_ChartWidth = rectTransform.sizeDelta.x;
+            m_ChartHeight = rectTransform.sizeDelta.y;
+            m_CheckWidth = m_ChartWidth;
+            m_CheckHeight = m_ChartHeight;
             m_CheckTheme = m_Theme;
             InitTitle();
             InitLegend();
@@ -267,6 +287,11 @@ namespace XCharts
 #if UNITY_EDITOR
         protected override void Reset()
         {
+            var sizeDelta = rectTransform.sizeDelta;
+            if (sizeDelta.x < 580 && sizeDelta.y < 300)
+            {
+                rectTransform.sizeDelta = new Vector2(580, 300);
+            }
             ChartHelper.DestoryAllChilds(transform);
             m_ThemeInfo = ThemeInfo.Default;
             m_Title = Title.defaultTitle;
@@ -388,9 +413,12 @@ namespace XCharts
         {
             if (m_CheckWidth != chartWidth || m_CheckHeight != chartHeight)
             {
-                m_CheckWidth = chartWidth;
-                m_CheckHeight = chartHeight;
-                OnSizeChanged();
+                SetSize(chartWidth, chartHeight);
+            }
+            var sizeDelta = rectTransform.sizeDelta;
+            if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
+            {
+                SetSize(sizeDelta.x, sizeDelta.y);
             }
         }
 

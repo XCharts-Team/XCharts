@@ -74,9 +74,10 @@ namespace XCharts
         {
             base.Reset();
             m_Pie = Pie.defaultPie;
+            m_Title.text = "PieChart";
             RemoveData();
-            AddData("Pie1", 80);
-            AddData("Pie2", 20);
+            AddData("serie1", 80);
+            AddData("serie2", 20);
         }
 #endif
 

@@ -330,7 +330,7 @@ namespace XCharts
                 var axis1 = YAxis.defaultYAxis;
                 var axis2 = YAxis.defaultYAxis;
                 axis1.show = true;
-                axis1.splitNumber = 6;
+                axis1.splitNumber = 5;
                 axis1.boundaryGap = false;
                 axis2.show = false;
                 m_YAxises.Add(axis1);

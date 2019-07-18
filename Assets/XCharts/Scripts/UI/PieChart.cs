@@ -110,12 +110,12 @@ namespace XCharts
                 float outSideRadius = m_Pie.rose ?
                     m_Pie.insideRadius + (m_PieRadius - m_Pie.insideRadius) * value / dataMax :
                     m_PieRadius;
-                if (m_Tooltip.show && m_Tooltip.dataIndex == i + 1)
+                if (m_Tooltip.show && m_Tooltip.dataIndex[0] == i)
                 {
                     outSideRadius += m_Pie.tooltipExtraRadius;
                 }
                 var offset = m_Pie.space;
-                if (m_Pie.selected && m_Pie.selectedIndex == i + 1)
+                if (m_Pie.selected && m_Pie.selectedIndex == i)
                 {
                     offset += m_Pie.selectedOffset;
                 }
@@ -198,22 +198,22 @@ namespace XCharts
             float dist = Vector2.Distance(local, m_PieCenter);
             if (dist > m_PieRadius)
             {
-                m_Tooltip.dataIndex = 0;
+                m_Tooltip.dataIndex[0] = -1;
                 m_Tooltip.SetActive(false);
             }
             else
             {
-                m_Tooltip.dataIndex = GetPosPieIndex(local);
+                m_Tooltip.dataIndex[0] = GetPosPieIndex(local);
             }
-            if (m_Tooltip.dataIndex > 0)
+            if (m_Tooltip.dataIndex[0] >= 0)
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
-                if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex)
+                if (m_Tooltip.IsSelected())
                 {
+                    m_Tooltip.UpdateLastDataIndex();
                     RefreshChart();
                 }
-                m_Tooltip.lastDataIndex = m_Tooltip.dataIndex;
             }
         }
 
@@ -225,14 +225,14 @@ namespace XCharts
             {
                 if (i == 0 && angle < m_AngleList[i])
                 {
-                    return m_Tooltip.dataIndex = 1;
+                    return m_Tooltip.dataIndex[0] = 0;
                 }
                 else if (angle < m_AngleList[i] && angle > m_AngleList[i - 1])
                 {
-                    return m_Tooltip.dataIndex = i + 1;
+                    return m_Tooltip.dataIndex[0] = i;
                 }
             }
-            return 0;
+            return -1;
         }
 
         float VectorAngle(Vector2 from, Vector2 to)
@@ -249,7 +249,7 @@ namespace XCharts
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
-            int index = m_Tooltip.dataIndex - 1;
+            int index = m_Tooltip.dataIndex[0];
             if (index < 0)
             {
                 m_Tooltip.SetActive(false);
@@ -290,7 +290,7 @@ namespace XCharts
             }
             else
             {
-                m_Pie.selectedIndex = 0;
+                m_Pie.selectedIndex = -1;
             }
             RefreshChart();
         }

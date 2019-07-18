@@ -313,7 +313,7 @@ namespace XCharts
         protected override void CheckTootipArea(Vector2 local)
         {
             if (dataPosList.Count <= 0) return;
-            m_Tooltip.dataIndex = 0;
+            m_Tooltip.dataIndex[0] = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 if (!IsActive(i)) continue;
@@ -321,12 +321,12 @@ namespace XCharts
                 {
                     if (Vector3.Distance(local, dataPosList[i][j]) <= m_Radar.linePointSize * 1.2f)
                     {
-                        m_Tooltip.dataIndex = i + 1;
+                        m_Tooltip.dataIndex[0] = i;
                         break;
                     }
                 }
             }
-            if (m_Tooltip.dataIndex > 0)
+            if (m_Tooltip.dataIndex[0] >= 0)
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
@@ -345,7 +345,7 @@ namespace XCharts
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
-            int index = m_Tooltip.dataIndex - 1;
+            int index = m_Tooltip.dataIndex[0];
             if (index < 0)
             {
                 m_Tooltip.SetActive(false);

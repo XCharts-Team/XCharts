@@ -51,7 +51,7 @@ namespace XCharts
                     m_ItemFontSize = 16,
                     m_Data = new List<string>()
                     {
-                        "Legend"
+                        "serie1"
                     }
                 };
                 legend.location.top = 30;
@@ -138,9 +138,7 @@ namespace XCharts
 
         public bool IsActive(int seriesIndex)
         {
-            if (seriesIndex < 0 || seriesIndex > data.Count - 1) seriesIndex = 0;
-            if (seriesIndex >= data.Count) return true;
-            if (seriesIndex < 0 || seriesIndex > m_DataActiveList.Count - 1)
+            if (seriesIndex < 0 || seriesIndex >= m_DataActiveList.Count)
                 return true;
             else
                 return m_DataActiveList[seriesIndex];

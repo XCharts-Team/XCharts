@@ -12,7 +12,7 @@ namespace XCharts
         Vertical
     }
 
-    public class BaseChart : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
+    public class BaseChart : Graphic, IPointerDownHandler, IPointerUpHandler,
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
@@ -232,7 +232,7 @@ namespace XCharts
         /// <returns>True when activated</returns>
         public virtual bool IsActive(int serieIndex)
         {
-            return m_Legend.IsActive(serieIndex) || m_Series.IsActive(serieIndex);
+            return m_Legend.IsActive(serieIndex) && m_Series.IsActive(serieIndex);
         }
 
         /// <summary>
@@ -282,6 +282,18 @@ namespace XCharts
             CheckLegend();
             CheckTooltip();
             CheckRefreshChart();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            Awake();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            ChartHelper.DestoryAllChilds(transform);
         }
 
 #if UNITY_EDITOR
@@ -453,17 +465,18 @@ namespace XCharts
         {
             if (!m_Tooltip.show || !m_Tooltip.isInited)
             {
-                if (m_Tooltip.dataIndex != 0)
+
+                if (m_Tooltip.dataIndex[0] != 0 || m_Tooltip.dataIndex[1] != 0)
                 {
-                    m_Tooltip.dataIndex = 0;
+                    m_Tooltip.dataIndex[0] = m_Tooltip.dataIndex[1] = -1;
                     m_Tooltip.SetActive(false);
                     RefreshChart();
                 }
                 return;
             }
-            m_Tooltip.dataIndex = 0;
-
+            m_Tooltip.dataIndex[0] = m_Tooltip.dataIndex[1] = -1;
             Vector2 local;
+            if (canvas == null) return;
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, canvas.worldCamera, out local))

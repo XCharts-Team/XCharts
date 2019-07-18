@@ -13,13 +13,14 @@ namespace XCharts
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
-            SerializedProperty crossLabel = prop.FindPropertyRelative("m_CrossLabel");
+            SerializedProperty type = prop.FindPropertyRelative("m_Type");
+            SerializedProperty trigger = prop.FindPropertyRelative("m_Trigger");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_TooltipModuleToggle)
             {
-                EditorGUI.PropertyField(drawRect, crossLabel);
+                EditorGUI.PropertyField(drawRect, type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
         }
@@ -27,9 +28,9 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 2 * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
+                return 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
             else
-                return 1 * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
+                return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
     }
 }

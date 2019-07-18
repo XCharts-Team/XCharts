@@ -20,6 +20,7 @@ namespace XCharts
             base.Reset();
             m_Line = Line.defaultLine;
             m_Title.text = "LineChart";
+            m_Tooltip.type = Tooltip.Type.Line;
             RemoveData();
             AddSerie("serie1", SerieType.Line);
             for (int i = 0; i < 5; i++)
@@ -44,7 +45,6 @@ namespace XCharts
             }
         }
 
-
         private void DrawXCategory(VertexHelper vh)
         {
             var stackSeries = m_Series.GetStackSeries();
@@ -52,70 +52,24 @@ namespace XCharts
 
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
-            List<Color> colorList = new List<Color>();
+            List<Color> colors = new List<Color>();
             int dataCount = 0;
             for (int j = 0; j < seriesCount; j++)
             {
                 var seriesCurrHig = new Dictionary<int, float>();
                 var serieList = stackSeries[j];
-
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
-                    DrawXLineSerie(vh, serieCount, serie, ref dataCount, ref points, ref colorList, ref seriesCurrHig);
+                    DrawXLineSerie(vh, serieCount, serie, ref dataCount, ref points, ref colors, ref seriesCurrHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                // draw point
-                if (m_Line.point)
-                {
-                    for (int i = 0; i < points.Count; i++)
-                    {
-                        Vector3 p = points[i];
-                        float pointWid = m_Line.pointWidth;
-                        if (m_Tooltip.show && i % dataCount == m_Tooltip.dataIndex - 1)
-                        {
-                            pointWid = pointWid * 1.8f;
-                        }
-                        if (m_Theme == Theme.Dark)
-                        {
-
-                            ChartHelper.DrawCricle(vh, p, pointWid, colorList[i],
-                                (int)m_Line.pointWidth * 5);
-                        }
-                        else
-                        {
-                            ChartHelper.DrawCricle(vh, p, pointWid, Color.white);
-                            ChartHelper.DrawDoughnut(vh, p, pointWid - m_Line.tickness,
-                                pointWid, 0, 360, colorList[i]);
-                        }
-                    }
-                }
+                DrawPoint(vh, dataCount, points, colors);
             }
-
-            //draw tooltip line
-            if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
-            {
-                for (int i = 0; i < m_XAxises.Count; i++)
-                {
-                    var axis = m_XAxises[i];
-                    if (!axis.show) continue;
-                    float splitWidth = axis.GetSplitWidth(coordinateWid, m_DataZoom);
-                    float px = coordinateX + (m_Tooltip.xValues[i] - 1) * splitWidth
-                        + (axis.boundaryGap ? splitWidth / 2 : 0);
-                    Vector2 sp = new Vector2(px, coordinateY);
-                    Vector2 ep = new Vector2(px, coordinateY + coordinateHig);
-                    ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipLineColor);
-                    if (m_Tooltip.crossLabel)
-                    {
-                        sp = new Vector2(coordinateX, m_Tooltip.pointerPos.y);
-                        ep = new Vector2(coordinateX + coordinateWid, m_Tooltip.pointerPos.y);
-                        DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
-                    }
-                }
-            }
+            DrawXTooltipIndicator(vh);
         }
 
         private void DrawYCategory(VertexHelper vh)
@@ -130,7 +84,6 @@ namespace XCharts
             {
                 var seriesHig = new Dictionary<int, float>();
                 var serieList = stackSeries[j];
-
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
@@ -140,46 +93,41 @@ namespace XCharts
                         serieCount++;
                     }
                 }
-                // draw point
-                if (m_Line.point)
+                DrawPoint(vh, dataCount, points, colors);
+            }
+            DrawYTooltipIndicator(vh);
+        }
+
+        private void DrawPoint(VertexHelper vh, int dataCount, List<Vector3> points, List<Color> colors)
+        {
+            if (m_Line.point)
+            {
+                for (int i = 0; i < points.Count; i++)
                 {
-                    for (int i = 0; i < points.Count; i++)
+                    Vector3 p = points[i];
+                    float pointWid = m_Line.pointWidth;
+                    if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i % dataCount))
                     {
-                        Vector3 p = points[i];
-                        float pointWid = m_Line.pointWidth;
-                        if (m_Tooltip.show && i % dataCount == m_Tooltip.dataIndex - 1)
+                        if (IsCartesian())
                         {
-                            pointWid = pointWid * 1.8f;
-                        }
-                        if (m_Theme == Theme.Dark)
-                        {
-                            ChartHelper.DrawCricle(vh, p, pointWid, colors[i], (int)m_Line.pointWidth * 5);
+                            if (m_Series.IsTooltipSelected(i / dataCount))
+                            {
+                                pointWid = m_Line.pointSelectedWidth;
+                            }
                         }
                         else
                         {
-                            ChartHelper.DrawCricle(vh, p, pointWid, Color.white);
-                            ChartHelper.DrawDoughnut(vh, p, pointWid - m_Line.tickness, pointWid, 0, 360, colors[i]);
+                            pointWid = m_Line.pointSelectedWidth;
                         }
                     }
-                }
-            }
-            //draw tooltip line
-            if (m_Tooltip.show && m_Tooltip.dataIndex > 0)
-            {
-                for (int i = 0; i < m_YAxises.Count; i++)
-                {
-                    var axis = m_YAxises[i];
-                    if (!axis.show) continue;
-                    float splitWidth = axis.GetSplitWidth(coordinateHig, m_DataZoom);
-                    float pY = coordinateY + (m_Tooltip.yValues[i] - 1) * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0);
-                    Vector2 sp = new Vector2(coordinateX, pY);
-                    Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);
-                    ChartHelper.DrawLine(vh, sp, ep, m_Coordinate.tickness, m_ThemeInfo.tooltipFlagAreaColor);
-                    if (m_Tooltip.crossLabel)
+                    if (m_Theme == Theme.Dark)
                     {
-                        sp = new Vector2(m_Tooltip.pointerPos.x, coordinateY);
-                        ep = new Vector2(m_Tooltip.pointerPos.x, coordinateY + coordinateHig);
-                        DrawSplitLine(vh, false, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        ChartHelper.DrawCricle(vh, p, pointWid, colors[i], (int)m_Line.pointWidth * 5);
+                    }
+                    else
+                    {
+                        ChartHelper.DrawCricle(vh, p, pointWid, Color.white);
+                        ChartHelper.DrawDoughnut(vh, p, pointWid - m_Line.tickness, pointWid, 0, 360, colors[i]);
                     }
                 }
             }
@@ -188,7 +136,7 @@ namespace XCharts
         private void DrawXLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref int dataCount,
             ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
         {
-            if (!IsActive(serie.name)) return;
+            if (!IsActive(serie.index)) return;
             List<Vector3> lastPoints = new List<Vector3>();
             List<Vector3> lastSmoothPoints = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -385,7 +333,7 @@ namespace XCharts
         private void DrawYLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref int dataCount,
             ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
         {
-            if (!IsActive(serie.name)) return;
+            if (!IsActive(serie.index)) return;
             List<Vector3> lastPoints = new List<Vector3>();
             List<Vector3> lastSmoothPoints = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
@@ -432,7 +380,7 @@ namespace XCharts
                 float pX = seriesHig[i] + coordinateX + m_Coordinate.tickness;
                 float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                 np = new Vector3(pX + dataHig, pY);
-
+                //Debug.LogError(gameObject.name +","+(pX + dataHig)+","+startY+","+scaleWid+","+xAxis.maxValue+","+xAxis.minValue);
                 if (i > 0)
                 {
                     if (m_Line.step)

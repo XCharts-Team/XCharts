@@ -18,6 +18,7 @@ namespace XCharts
     {
         [SerializeField] [DefaultValue("true")] private bool m_Show;
         [SerializeField] private SerieType m_Type;
+        [SerializeField] private bool m_Selected;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_AxisIndex;
@@ -26,6 +27,8 @@ namespace XCharts
         [SerializeField] private List<float> m_YData = new List<float>();
         [SerializeField] private List<float> m_XData = new List<float>();
 
+        public int index { get; set; }
+        public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         public bool show { get { return m_Show; } set { m_Show = value; } }
         public SerieType type { get { return m_Type; } set { m_Type = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }

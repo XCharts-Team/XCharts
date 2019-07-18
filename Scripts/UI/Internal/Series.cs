@@ -20,6 +20,7 @@ namespace XCharts
                 {
                     m_Series = new List<Serie>(){new Serie(){
                         show  = true,
+                        index = 0
                     }}
                 };
                 return series;
@@ -106,6 +107,7 @@ namespace XCharts
             if (serie == null)
             {
                 serie = new Serie();
+                serie.index = m_Series.Count;
                 serie.type = type;
                 serie.show = show;
                 serie.name = serieName;
@@ -130,6 +132,7 @@ namespace XCharts
             if (serie == null)
             {
                 serie = new Serie();
+                serie.index = m_Series.Count;
                 serie.name = name;
                 serie.yData = new List<float>();
                 m_Series.Add(serie);
@@ -242,6 +245,13 @@ namespace XCharts
                 if (serie.axisIndex == axisIndex) return true;
             }
             return false;
+        }
+
+        public bool IsTooltipSelected(int serieIndex)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null) return serie.selected;
+            else return false;
         }
 
         public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
@@ -377,8 +387,10 @@ namespace XCharts
             int count = 0;
             Dictionary<string, int> sets = new Dictionary<string, int>();
             Dictionary<int, List<Serie>> stackSeries = new Dictionary<int, List<Serie>>();
-            foreach (var serie in m_Series)
+            for (int i = 0; i < m_Series.Count; i++)
             {
+                var serie = m_Series[i];
+                serie.index = i;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
                     stackSeries[count] = new List<Serie>();

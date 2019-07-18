@@ -8,8 +8,49 @@ namespace XCharts
     [System.Serializable]
     public class Tooltip
     {
+        /// <summary>
+        /// Type of triggering.
+        /// </summary>
+        public enum Trigger
+        {
+            /// <summary>
+            /// Triggered by axes, which is mainly used for charts that have category axes, 
+            /// like bar charts or line charts.
+            /// </summary>
+            Axis,
+            /// <summary>
+            /// Triggered by data item, which is mainly used for charts that don't have a 
+            /// category axis like scatter charts or pie charts.
+            /// </summary>
+            Item
+        }
+
+        /// <summary>
+        /// Indicator type.
+        /// </summary>
+        public enum Type
+        {
+            /// <summary>
+            /// line indicator.
+            /// </summary>
+            Line,
+            /// <summary>
+            /// shadow crosshair indicator.
+            /// </summary>
+            Shadow,
+            /// <summary>
+            /// no indicator displayed.
+            /// </summary>
+            None,
+            /// <summary>
+            /// crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
+            /// </summary>
+            Corss
+        }
+
         [SerializeField] private bool m_Show;
-        [SerializeField] private bool m_CrossLabel;
+        [SerializeField] private Type m_Type;
+        [SerializeField] private Trigger m_Trigger;
 
         [NonSerialized] private GameObject m_GameObject;
         [NonSerialized] private GameObject m_Content;
@@ -17,13 +58,17 @@ namespace XCharts
         [NonSerialized] private RectTransform m_ContentRect;
 
         public bool show { get { return m_Show; } set { m_Show = value; SetActive(value); } }
-        public bool crossLabel { get { return m_CrossLabel; } set { m_CrossLabel = value; } }
+        public Type type { get { return m_Type; } set { m_Type = value; } }
+        public Trigger trigger { get { return m_Trigger; } set { m_Trigger = value; } }
 
-        public int dataIndex { get; set; }
-
+        /// <summary>
+        /// The data index currently indicated by Tooltip.
+        /// </summary>
+        public int[] dataIndex { get; set; }
+        public int[] lastDataIndex { get; set; }
         public float[] xValues { get; set; }
         public float[] yValues { get; set; }
-        public int lastDataIndex { get; set; }
+
         public Vector2 pointerPos { get; set; }
         public float width { get { return m_ContentRect.sizeDelta.x; } }
         public float height { get { return m_ContentRect.sizeDelta.y; } }
@@ -37,9 +82,10 @@ namespace XCharts
                 var tooltip = new Tooltip
                 {
                     m_Show = true,
-                    m_CrossLabel = false,
                     xValues = new float[2],
                     yValues = new float[2],
+                    dataIndex = new int[2],
+                    lastDataIndex = new int[2]
                 };
                 return tooltip;
             }
@@ -58,7 +104,8 @@ namespace XCharts
             m_ContentText = m_Content.GetComponentInChildren<Text>();
         }
 
-        public void UpdateToTop(){
+        public void UpdateToTop()
+        {
             int count = m_GameObject.transform.parent.childCount;
             m_GameObject.GetComponent<RectTransform>().SetSiblingIndex(count - 1);
         }
@@ -88,14 +135,14 @@ namespace XCharts
 
         public void ClearValue()
         {
-            dataIndex = 0;
-            xValues[0] = xValues[1] = 0;
-            yValues[0] = yValues[1] = 0;
+            dataIndex[0] = dataIndex[1] = -1;
+            xValues[0] = xValues[1] = -1;
+            yValues[0] = yValues[1] = -1;
         }
 
         public void SetActive(bool flag)
         {
-            lastDataIndex = 0;
+            lastDataIndex[0] = lastDataIndex[1] = -1;
             if (m_GameObject && m_GameObject.activeInHierarchy != flag)
                 m_GameObject.SetActive(flag);
         }
@@ -112,6 +159,26 @@ namespace XCharts
                 return m_Content.transform.localPosition;
             else
                 return Vector3.zero;
+        }
+
+        public bool IsDataIndexChanged()
+        {
+            return dataIndex[0] != lastDataIndex[0] ||
+                dataIndex[1] != lastDataIndex[1];
+        }
+
+        public void UpdateLastDataIndex()
+        {
+            lastDataIndex[0] = dataIndex[0];
+            lastDataIndex[1] = dataIndex[1];
+        }
+
+        public bool IsSelected(){
+            return dataIndex[0] >= 0 || dataIndex[1] >= 0;
+        }
+
+        public bool IsSelectedDataIndex(int index){
+            return dataIndex[0] == index || dataIndex[1] == index;
         }
     }
 }

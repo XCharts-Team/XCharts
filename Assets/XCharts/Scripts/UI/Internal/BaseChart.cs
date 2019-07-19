@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
@@ -170,6 +171,29 @@ namespace XCharts
             RefreshChart();
         }
 
+        /// <summary>
+        /// Add a (x,y) data to serie
+        /// </summary>
+        /// <param name="serieName">the name of serie</param>
+        /// <param name="xValue">x data</param>
+        /// <param name="yValue">y data</param>
+        public virtual void AddXYData(string serieName, float xValue, float yValue)
+        {
+            m_Series.AddXYData(serieName, xValue, yValue, m_MaxCacheDataNumber);
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// Add a (x,y) data to serie
+        /// </summary>
+        /// <param name="serieIndex">the index of serie</param>
+        /// <param name="xValue">x data</param>
+        /// <param name="yValue">y data</param>
+        public virtual void AddXYData(int serieIndex, float xValue, float yValue)
+        {
+            m_Series.AddXYData(serieIndex, xValue, yValue, m_MaxCacheDataNumber);
+            RefreshChart();
+        }
         /// <summary>
         /// Update serie data by serie name.
         /// </summary>

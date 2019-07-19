@@ -151,6 +151,16 @@ namespace XCharts
             return serie;
         }
 
+        public Serie AddXYData(string serieName, float xValue, float yValue, int maxDataNumber = 0)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                serie.AddXYData(xValue, yValue, maxDataNumber);
+            }
+            return serie;
+        }
+
         public Serie AddXYData(int index, float xValue, float yValue, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);

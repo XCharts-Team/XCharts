@@ -1,0 +1,61 @@
+﻿using UnityEngine;
+using XCharts;
+
+[DisallowMultipleComponent]
+[ExecuteInEditMode]
+public class Demo11_AddSinCurve : MonoBehaviour
+{
+    private float time;
+    public int angle;
+    private LineChart chart;
+
+    void Awake()
+    {
+        chart = gameObject.GetComponent<LineChart>();
+        if (chart != null)
+        {
+            GameObject.DestroyImmediate(chart);
+        }
+        chart = gameObject.AddComponent<LineChart>();
+        chart.title.show = true;
+        chart.title.text = "Sin Curve";
+
+        chart.tooltip.show = true;
+        chart.legend.show = false;
+
+        chart.xAxises[0].show = true;
+        chart.xAxises[1].show = false;
+        chart.yAxises[0].show = true;
+        chart.yAxises[1].show = false;
+
+        chart.xAxises[0].type = Axis.AxisType.Value;
+        chart.yAxises[0].type = Axis.AxisType.Value;
+
+        chart.xAxises[0].boundaryGap = false;
+        chart.maxCacheDataNumber = 0;
+
+        chart.line.point = false;
+        chart.line.step = false;
+        chart.line.smooth = false;
+        chart.line.area = false;
+
+        chart.RemoveData();
+
+        chart.AddSerie("test", SerieType.Line);
+        for (angle = 0; angle < 1080; angle++)
+        {
+            float xvalue = Mathf.PI / 180 * angle;
+            float yvalue = Mathf.Sin(xvalue);
+            chart.AddXYData(0, xvalue, yvalue);
+        }
+    }
+
+    void Update()
+    {
+        if(angle > 3000) return;
+        angle++;
+        float xvalue = Mathf.PI / 180 * angle;
+        float yvalue = Mathf.Sin(xvalue);
+        chart.AddXYData(0, xvalue, yvalue);
+    }
+}

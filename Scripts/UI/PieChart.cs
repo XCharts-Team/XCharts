@@ -24,18 +24,15 @@ namespace XCharts
         /// <summary>
         /// Add a data to pie.
         /// </summary>
-        /// <param name="legend">the name of data</param>
+        /// <param name="serieName">the name of data</param>
         /// <param name="value">the data</param>
-        public override void AddData(string legend, float value)
+        public override void AddData(string serieName, float value)
         {
-            m_Legend.AddData(legend);
-            var serie = m_Series.AddData(legend, value);
-            if (serie != null)
-            {
-                serie.ClearData();
-                serie.AddYData(value);
-                RefreshChart();
-            }
+            m_Legend.AddData(serieName);
+            var serie = m_Series.AddSerie(serieName, SerieType.Pie);
+            serie.ClearData();
+            serie.AddYData(value);
+            RefreshChart();
         }
 
         /// <summary>
@@ -90,17 +87,22 @@ namespace XCharts
             float dataTotal = GetDataTotal();
             float dataMax = GetDataMax();
             m_AngleList.Clear();
+            HashSet<string> serieNameSet = new HashSet<string>();
+            int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (!IsActive(i))
+                var serie = m_Series.series[i];
+                serie.index = i;
+                var data = serie.yData;
+                if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                else if (!serieNameSet.Contains(serie.name))
                 {
-                    m_AngleList.Add(0);
-                    continue;
+                    serieNameSet.Add(serie.name);
+                    serieNameCount++;
                 }
-                var data = m_Series.series[i].yData;
-                if (data.Count <= 0)
+                if (data.Count <= 0 || !serie.show)
                 {
-                    m_AngleList.Add(0);
+                    m_AngleList.Add(i > 0 ? m_AngleList[i - 1] : 0);
                     continue;
                 }
                 float value = data[0];
@@ -125,12 +127,12 @@ namespace XCharts
                     var offestCenter = new Vector3(m_PieCenter.x + offset * Mathf.Sin(currAngle),
                         m_PieCenter.y + offset * Mathf.Cos(currAngle));
                     ChartHelper.DrawDoughnut(vh, offestCenter, m_Pie.insideRadius, outSideRadius,
-                        startDegree, toDegree, m_ThemeInfo.GetColor(i));
+                        startDegree, toDegree, m_ThemeInfo.GetColor(serieNameCount));
                 }
                 else
                 {
                     ChartHelper.DrawDoughnut(vh, m_PieCenter, m_Pie.insideRadius, outSideRadius,
-                        startDegree, toDegree, m_ThemeInfo.GetColor(i));
+                        startDegree, toDegree, m_ThemeInfo.GetColor(serieNameCount));
                 }
                 m_AngleList.Add(toDegree);
                 startDegree = toDegree;
@@ -223,11 +225,11 @@ namespace XCharts
             float angle = VectorAngle(Vector2.up, dir);
             for (int i = m_AngleList.Count - 1; i >= 0; i--)
             {
-                if (i == 0 && angle < m_AngleList[i])
+                if (i == 0)
                 {
-                    return m_Tooltip.dataIndex[0] = 0;
+                    if (angle <= m_AngleList[i]) return m_Tooltip.dataIndex[0] = 0;
                 }
-                else if (angle < m_AngleList[i] && angle > m_AngleList[i - 1])
+                else if (angle <= m_AngleList[i] && angle > m_AngleList[i - 1])
                 {
                     return m_Tooltip.dataIndex[0] = i;
                 }
@@ -282,7 +284,12 @@ namespace XCharts
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            var local = transform.InverseTransformPoint(eventData.position);
+            Vector2 local;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                eventData.position, canvas.worldCamera, out local))
+            {
+                return;
+            }
             var selectedIndex = GetPosPieIndex(local);
             if (selectedIndex != m_Pie.selectedIndex)
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
@@ -28,8 +27,6 @@ namespace XCharts
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
         private Coordinate m_CheckCoordinate = Coordinate.defaultCoordinate;
 
-        // public float coordinateX { get { return coordinateX; } }
-        // public float coordinateY { get { return coordinateY; } }
         public float coordinateX { get { return m_Coordinate.left; } }
         public float coordinateY { get { return m_Coordinate.bottom; } }
         public float coordinateWid { get { return chartWidth - m_Coordinate.left - m_Coordinate.right; } }
@@ -89,9 +86,9 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Whether is Cartesian coordinates
+        /// Whether is Cartesian coordinates, reutrn true when all the show axis is `Value` type.
         /// </summary>
-        /// <returns>reutrn true when all show axis is value type</returns>
+        /// <returns></returns>
         public bool IsCartesian()
         {
             foreach (var axis in m_XAxises)
@@ -159,7 +156,7 @@ namespace XCharts
                 {
                     var xAxis = m_XAxises[i];
                     var yAxis = m_YAxises[i];
-                    if(!xAxis.show && !yAxis.show) continue;
+                    if (!xAxis.show && !yAxis.show) continue;
                     if (isCartesian && xAxis.show && yAxis.show)
                     {
                         var yRate = (yAxis.maxValue - yAxis.minValue) / coordinateHig;
@@ -234,7 +231,9 @@ namespace XCharts
                     m_Tooltip.UpdateLastDataIndex();
                     RefreshChart();
                 }
-            }else{
+            }
+            else
+            {
                 m_Tooltip.SetActive(false);
             }
         }
@@ -278,7 +277,7 @@ namespace XCharts
                 {
                     string key = serie.name;
                     //if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(i);
-                    if(!string.IsNullOrEmpty(key)) key += ":";
+                    if (!string.IsNullOrEmpty(key)) key += " : ";
                     float xValue, yValue;
                     serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
                     if (isCartesian)
@@ -722,7 +721,7 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
-            
+
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 axis.minValue = tempMinValue;
@@ -891,7 +890,7 @@ namespace XCharts
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += coordinateHig;
                 var left = new Vector3(coordinateX - m_Coordinate.tickness, lineY);
                 var top = new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, lineY);
-                ChartHelper.DrawLine(vh, left,top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                ChartHelper.DrawLine(vh, left, top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
                 if (xAxis.axisLine.symbol)
                 {
                     var axisLine = xAxis.axisLine;
@@ -1140,7 +1139,12 @@ namespace XCharts
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
-            var pos = transform.InverseTransformPoint(eventData.position);
+            Vector2 pos;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                eventData.position, canvas.worldCamera, out pos))
+            {
+                return;
+            }
             if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWid))
             {
                 m_DataZoom.isDraging = true;
@@ -1160,7 +1164,6 @@ namespace XCharts
 
         public override void OnDrag(PointerEventData eventData)
         {
-            //Debug.LogError("drag");
             float deltaX = eventData.delta.x;
             float deltaPercent = deltaX / coordinateWid * 100;
             if (m_DataZoomStartDrag)
@@ -1257,7 +1260,12 @@ namespace XCharts
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            var localPos = transform.InverseTransformPoint(eventData.position);
+            Vector2 localPos;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                eventData.position, canvas.worldCamera, out localPos))
+            {
+                return;
+            }
             if (m_DataZoom.IsInStartZoom(localPos, coordinateX, coordinateWid) ||
                 m_DataZoom.IsInEndZoom(localPos, coordinateX, coordinateWid))
             {

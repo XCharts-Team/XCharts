@@ -7,6 +7,7 @@ namespace XCharts
 {
     public enum SerieType
     {
+        None,
         Line,
         Bar,
         Pie,

@@ -54,6 +54,8 @@ namespace XCharts
             List<Vector3> points = new List<Vector3>();
             List<Color> colors = new List<Color>();
             int dataCount = 0;
+            HashSet<string> serieNameSet = new HashSet<string>();
+            int serieNameCount = -1;
             for (int j = 0; j < seriesCount; j++)
             {
                 var seriesCurrHig = new Dictionary<int, float>();
@@ -61,13 +63,20 @@ namespace XCharts
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
-                    DrawXLineSerie(vh, serieCount, serie, ref dataCount, ref points, ref colors, ref seriesCurrHig);
+                    if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                    else if (!serieNameSet.Contains(serie.name))
+                    {
+                        serieNameSet.Add(serie.name);
+                        serieNameCount++;
+                    }
+                    Color color = m_ThemeInfo.GetColor(serieNameCount);
+                    DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref colors, ref seriesCurrHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                DrawPoint(vh, dataCount, points, colors);
+                DrawLinePoint(vh, dataCount, points, colors);
             }
             DrawXTooltipIndicator(vh);
         }
@@ -80,6 +89,8 @@ namespace XCharts
             List<Vector3> points = new List<Vector3>();
             List<Color> colors = new List<Color>();
             int dataCount = 0;
+            HashSet<string> serieNameSet = new HashSet<string>();
+            int serieNameCount = -1;
             for (int j = 0; j < seriesCount; j++)
             {
                 var seriesHig = new Dictionary<int, float>();
@@ -87,18 +98,25 @@ namespace XCharts
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
-                    DrawYLineSerie(vh, serieCount, serie, ref dataCount, ref points, ref colors, ref seriesHig);
+                    if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                    else if (!serieNameSet.Contains(serie.name))
+                    {
+                        serieNameSet.Add(serie.name);
+                        serieNameCount++;
+                    }
+                    Color color = m_ThemeInfo.GetColor(serieNameCount);
+                    DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref colors, ref seriesHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                DrawPoint(vh, dataCount, points, colors);
+                DrawLinePoint(vh, dataCount, points, colors);
             }
             DrawYTooltipIndicator(vh);
         }
 
-        private void DrawPoint(VertexHelper vh, int dataCount, List<Vector3> points, List<Color> colors)
+        private void DrawLinePoint(VertexHelper vh, int dataCount, List<Vector3> points, List<Color> colors)
         {
             if (m_Line.point)
             {
@@ -133,7 +151,7 @@ namespace XCharts
             }
         }
 
-        private void DrawXLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref int dataCount,
+        private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
             ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
@@ -143,7 +161,6 @@ namespace XCharts
             List<float> yData = serie.GetYDataList(m_DataZoom);
             List<float> xData = serie.GetXDataList(m_DataZoom);
 
-            Color color = m_ThemeInfo.GetColor(serieIndex);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
@@ -330,7 +347,7 @@ namespace XCharts
             }
         }
 
-        private void DrawYLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref int dataCount,
+        private void DrawYLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
             ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
@@ -338,7 +355,6 @@ namespace XCharts
             List<Vector3> lastSmoothPoints = new List<Vector3>();
             List<Vector3> smoothPoints = new List<Vector3>();
 
-            Color color = m_ThemeInfo.GetColor(serieIndex);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
             var xAxis = m_XAxises[serie.axisIndex];
@@ -380,7 +396,6 @@ namespace XCharts
                 float pX = seriesHig[i] + coordinateX + m_Coordinate.tickness;
                 float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                 np = new Vector3(pX + dataHig, pY);
-                //Debug.LogError(gameObject.name +","+(pX + dataHig)+","+startY+","+scaleWid+","+xAxis.maxValue+","+xAxis.minValue);
                 if (i > 0)
                 {
                     if (m_Line.step)
@@ -473,18 +488,18 @@ namespace XCharts
                         ChartHelper.DrawLine(vh, lp, np, m_Line.tickness, color);
                         if (m_Line.area)
                         {
-                            Vector3 alp = new Vector3(lp.x, lp.y - m_Line.tickness);
-                            Vector3 anp = new Vector3(np.x, np.y - m_Line.tickness);
+                            Vector3 alp = new Vector3(lp.x, lp.y);
+                            Vector3 anp = new Vector3(np.x, np.y);
                             Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                             var cross = ChartHelper.GetIntersection(lp, np, new Vector3(coordinateX, coordinateY),
                                 new Vector3(coordinateX, coordinateY + coordinateHig));
                             if (cross == Vector3.zero)
                             {
                                 Vector3 tnp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i].x, lastPoints[i].y + m_Line.tickness) :
+                                    new Vector3(lastPoints[i].x + m_Coordinate.tickness, lastPoints[i].y) :
                                     new Vector3(coordinateX + m_Coordinate.tickness, np.y);
                                 Vector3 tlp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i - 1].x, lastPoints[i - 1].y + m_Line.tickness) :
+                                    new Vector3(lastPoints[i - 1].x + m_Coordinate.tickness, lastPoints[i - 1].y) :
                                     new Vector3(coordinateX + m_Coordinate.tickness, lp.y);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }

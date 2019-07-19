@@ -14,7 +14,6 @@ namespace XCharts
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty type = prop.FindPropertyRelative("m_Type");
-            SerializedProperty trigger = prop.FindPropertyRelative("m_Trigger");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

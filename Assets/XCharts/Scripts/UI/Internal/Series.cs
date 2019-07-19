@@ -20,6 +20,7 @@ namespace XCharts
                 {
                     m_Series = new List<Serie>(){new Serie(){
                         show  = true,
+                        name = "serie1",
                         index = 0
                     }}
                 };
@@ -53,10 +54,22 @@ namespace XCharts
             {
                 if (name.Equals(m_Series[i].name))
                 {
+                    m_Series[i].index = i;
                     return m_Series[i];
                 }
             }
             return null;
+        }
+
+        public List<Serie> GetSeries(string name)
+        {
+            var list = new List<Serie>();
+            if (name == null) return list;
+            foreach (var serie in m_Series)
+            {
+                if (name.Equals(serie.name)) list.Add(serie);
+            }
+            return list;
         }
 
         public Serie GetSerie(int index)
@@ -107,16 +120,15 @@ namespace XCharts
             if (serie == null)
             {
                 serie = new Serie();
-                serie.index = m_Series.Count;
                 serie.type = type;
                 serie.show = show;
                 serie.name = serieName;
+                serie.index = m_Series.Count;
                 serie.yData = new List<float>();
                 m_Series.Add(serie);
             }
             else
             {
-                serie.type = type;
                 serie.show = show;
             }
             return serie;
@@ -124,19 +136,7 @@ namespace XCharts
 
         public Serie AddData(string name, float value, int maxDataNumber = 0)
         {
-            if (m_Series == null)
-            {
-                m_Series = new List<Serie>();
-            }
-            var serie = GetSerie(name);
-            if (serie == null)
-            {
-                serie = new Serie();
-                serie.index = m_Series.Count;
-                serie.name = name;
-                serie.yData = new List<float>();
-                m_Series.Add(serie);
-            }
+            var serie = AddSerie(name, SerieType.None);
             serie.AddYData(value, maxDataNumber);
             return serie;
         }
@@ -414,6 +414,19 @@ namespace XCharts
                 }
             }
             return stackSeries;
+        }
+
+        public List<string> GetSerieNameList()
+        {
+            var list = new List<string>();
+            foreach (var serie in m_Series)
+            {
+                if (!string.IsNullOrEmpty(serie.name) && !list.Contains(serie.name))
+                {
+                    list.Add(serie.name);
+                }
+            }
+            return list;
         }
 
         public override void ParseJsonData(string jsonData)

@@ -38,8 +38,9 @@ namespace XCharts
         [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
+        [NonSerialized] private float m_CheckSerieCount = 0;
+        [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
         [NonSerialized] private bool m_RefreshChart = false;
-        [NonSerialized] protected List<Text> m_LegendTextList = new List<Text>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -200,8 +201,11 @@ namespace XCharts
         /// <param name="active">Active or not</param>
         public virtual void SetActive(string serieName, bool active)
         {
-            m_Legend.SetActive(serieName, active);
-            m_Series.SetActive(serieName, active);
+            var serie = m_Series.GetSerie(serieName);
+            if (serie != null)
+            {
+                SetActive(serie.index, active);
+            }
         }
 
         /// <summary>
@@ -211,8 +215,13 @@ namespace XCharts
         /// <param name="active">Active or not</param>
         public virtual void SetActive(int serieIndex, bool active)
         {
-            m_Legend.SetActive(serieIndex, active);
             m_Series.SetActive(serieIndex, active);
+            var serie = m_Series.GetSerie(serieIndex);
+            if (serie != null && !string.IsNullOrEmpty(serie.name))
+            {
+                var bgColor1 = active ? m_ThemeInfo.GetColor(serie.index) : m_ThemeInfo.legendUnableColor;
+                m_Legend.UpdateButtonColor(serie.name, bgColor1);
+            }
         }
 
         /// <summary>
@@ -222,7 +231,7 @@ namespace XCharts
         /// <returns>True when activated</returns>
         public virtual bool IsActive(string serieName)
         {
-            return m_Legend.IsActive(serieName) || m_Series.IsActive(serieName);
+            return m_Series.IsActive(serieName);
         }
 
         /// <summary>
@@ -232,7 +241,7 @@ namespace XCharts
         /// <returns>True when activated</returns>
         public virtual bool IsActive(int serieIndex)
         {
-            return m_Legend.IsActive(serieIndex) && m_Series.IsActive(serieIndex);
+            return m_Series.IsActive(serieIndex);
         }
 
         /// <summary>
@@ -371,23 +380,40 @@ namespace XCharts
             legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
             ChartHelper.HideAllObject(legendObject, s_LegendObjectName);
 
-            for (int i = 0; i < m_Legend.data.Count; i++)
+            var serieNameList = m_Series.GetSerieNameList();
+            List<string> datas;
+            if (m_Legend.data.Count > 0)
             {
-                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i, legendObject.transform,
+                datas = new List<string>();
+                for (int i = 0; i < m_Legend.data.Count; i++)
+                {
+                    var category = m_Legend.data[i];
+                    if (serieNameList.Contains(category)) datas.Add(category);
+                }
+            }
+            else
+            {
+                datas = serieNameList;
+            }
+            m_Legend.RemoveButton();
+            for (int i = 0; i < datas.Count; i++)
+            {
+                string legendName = datas[i];
+                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + legendName, legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-
-                m_Legend.SetButton(i, btn);
-                m_Legend.SetActive(i, IsActive(i));
-                m_Legend.UpdateButtonColor(i, m_ThemeInfo.GetColor(i), m_ThemeInfo.legendUnableColor);
-                btn.GetComponentInChildren<Text>().text = m_Legend.data[i];
+                var bgColor = IsActive(legendName) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
+                m_Legend.SetButton(legendName, btn, datas.Count);
+                m_Legend.UpdateButtonColor(legendName, bgColor);
+                btn.GetComponentInChildren<Text>().text = legendName;
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
-                    int count = (data as PointerEventData).clickCount;
-                    int index = int.Parse(data.selectedObject.name.Split('_')[1]);
-                    SetActive(index, !m_Legend.IsActive(index));
-                    m_Legend.UpdateButtonColor(index, m_ThemeInfo.GetColor(index),
-                        m_ThemeInfo.legendUnableColor);
+                    if (data.selectedObject == null) return;
+                    string selectedName = data.selectedObject.name.Split('_')[1];
+                    foreach (var serie in m_Series.GetSeries(selectedName))
+                    {
+                        SetActive(serie.index, !serie.show);
+                    }
                     OnYMaxValueChanged();
                     OnLegendButtonClicked();
                     RefreshChart();
@@ -458,6 +484,23 @@ namespace XCharts
             {
                 m_CheckLegend.Copy(m_Legend);
                 OnLegendChanged();
+            }
+            else if (m_Legend.show)
+            {
+                if (m_CheckSerieCount != m_Series.Count)
+                {
+                    m_CheckSerieCount = m_Series.Count;
+                    m_CheckSerieName.Clear();
+                    var serieNames = m_Series.GetSerieNameList();
+                    foreach (var name in serieNames) m_CheckSerieName.Add(name);
+                    OnLegendChanged();
+                }
+                else if (!ChartHelper.IsValueEqualsList(m_CheckSerieName, m_Series.GetSerieNameList()))
+                {
+                    var serieNames = m_Series.GetSerieNameList();
+                    foreach (var name in serieNames) m_CheckSerieName.Add(name);
+                    OnLegendChanged();
+                }
             }
         }
 

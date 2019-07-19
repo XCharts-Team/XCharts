@@ -59,7 +59,7 @@ namespace XCharts
         private void DrawYBarSerie(VertexHelper vh, int serieIndex, int stackCount,
             Serie serie, Color color, ref Dictionary<int, float> seriesHig)
         {
-            if (!m_Legend.IsActive(serie.name)) return;
+            if (!IsActive(serie.name)) return;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
@@ -100,7 +100,7 @@ namespace XCharts
         private void DrawXBarSerie(VertexHelper vh, int serieIndex, int stackCount,
             Serie serie, Color color, ref Dictionary<int, float> seriesHig)
         {
-            if (!m_Legend.IsActive(serie.name)) return;
+            if (!IsActive(serie.name)) return;
             List<float> showData = serie.GetYDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -147,7 +147,8 @@ namespace XCharts
             {
                 var stackSeries = m_Series.GetStackSeries();
                 int seriesCount = stackSeries.Count;
-                int serieCount = 0;
+                HashSet<string> serieNameSet = new HashSet<string>();
+                int serieNameCount = -1;
                 for (int j = 0; j < seriesCount; j++)
                 {
                     var seriesHig = new Dictionary<int, float>();
@@ -155,12 +156,15 @@ namespace XCharts
                     for (int n = 0; n < serieList.Count; n++)
                     {
                         Serie serie = serieList[n];
-                        Color color = m_ThemeInfo.GetColor(serieCount);
-                        DrawYBarSerie(vh, j, seriesCount, serie, color, ref seriesHig);
-                        if (serie.show)
+                        if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                        else if (!serieNameSet.Contains(serie.name))
                         {
-                            serieCount++;
+                            serieNameSet.Add(serie.name);
+                            serieNameCount++;
                         }
+                        Color color = m_ThemeInfo.GetColor(serieNameCount);
+                        DrawYBarSerie(vh, j, seriesCount, serie, color, ref seriesHig);
+
                     }
                 }
                 DrawYTooltipIndicator(vh);
@@ -169,7 +173,8 @@ namespace XCharts
             {
                 var stackSeries = m_Series.GetStackSeries();
                 int seriesCount = stackSeries.Count;
-                int serieCount = 0;
+                HashSet<string> serieNameSet = new HashSet<string>();
+                int serieNameCount = -1;
                 for (int j = 0; j < seriesCount; j++)
                 {
                     var seriesHig = new Dictionary<int, float>();
@@ -177,12 +182,14 @@ namespace XCharts
                     for (int n = 0; n < serieList.Count; n++)
                     {
                         Serie serie = serieList[n];
-                        Color color = m_ThemeInfo.GetColor(serieCount);
-                        DrawXBarSerie(vh, j, seriesCount, serie, color, ref seriesHig);
-                        if (serie.show)
+                        if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                        else if (!serieNameSet.Contains(serie.name))
                         {
-                            serieCount++;
+                            serieNameSet.Add(serie.name);
+                            serieNameCount++;
                         }
+                        Color color = m_ThemeInfo.GetColor(serieNameCount);
+                        DrawXBarSerie(vh, j, seriesCount, serie, color, ref seriesHig);
                     }
                 }
                 DrawXTooltipIndicator(vh);

@@ -17,8 +17,7 @@ namespace XCharts
         [SerializeField] private int m_ItemFontSize = 18;
         [SerializeField] private List<string> m_Data = new List<string>();
 
-        [NonSerialized] private List<bool> m_DataActiveList = new List<bool>();
-        [NonSerialized] private List<Button> m_DataBtnList = new List<Button>();
+        private Dictionary<string, Button> m_DataBtnList = new Dictionary<string, Button>();
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
 
@@ -126,24 +125,6 @@ namespace XCharts
             return base.GetHashCode();
         }
 
-        public bool IsActive(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return true;
-            for (int i = 0; i < data.Count; i++)
-            {
-                if (data[i].Equals(name)) return m_DataActiveList[i];
-            }
-            return false;
-        }
-
-        public bool IsActive(int seriesIndex)
-        {
-            if (seriesIndex < 0 || seriesIndex >= m_DataActiveList.Count)
-                return true;
-            else
-                return m_DataActiveList[seriesIndex];
-        }
-
         public void ClearData()
         {
             m_Data.Clear();
@@ -179,48 +160,25 @@ namespace XCharts
             return null;
         }
 
-        public void SetActive(int index, bool flag)
+        public void RemoveButton()
         {
-            m_DataActiveList[index] = flag;
+            m_DataBtnList.Clear();
         }
 
-        public void SetActive(string name, bool flag)
+        public void SetButton(string name, Button btn, int total)
         {
-            for (int i = 0; i < data.Count; i++)
-            {
-                if (data[i].Equals(name))
-                {
-                    m_DataActiveList[i] = flag;
-                    break;
-                }
-            }
-        }
-
-        public void SetButton(int index, Button btn)
-        {
-            btn.transform.localPosition = GetButtonLocationPosition(index);
-            if (index < 0 || index > m_DataBtnList.Count - 1)
-            {
-                m_DataBtnList.Add(btn);
-                m_DataActiveList.Add(true);
-            }
-            else
-            {
-                m_DataBtnList[index] = btn;
-            }
+            int index = m_DataBtnList.Values.Count;
+            btn.transform.localPosition = GetButtonLocationPosition(total,index);
+            m_DataBtnList[name] = btn;
             btn.gameObject.SetActive(show);
-            btn.GetComponentInChildren<Text>().text = data[index];
+            btn.GetComponentInChildren<Text>().text = name;
         }
 
-        public void UpdateButtonColor(int index, Color ableColor, Color unableColor)
+        public void UpdateButtonColor(string name, Color color)
         {
-            if (IsActive(index))
+            if (m_DataBtnList.ContainsKey(name))
             {
-                m_DataBtnList[index].GetComponent<Image>().color = ableColor;
-            }
-            else
-            {
-                m_DataBtnList[index].GetComponent<Image>().color = unableColor;
+                m_DataBtnList[name].GetComponent<Image>().color = color;
             }
         }
 
@@ -229,9 +187,8 @@ namespace XCharts
             m_Location.OnChanged();
         }
 
-        private Vector2 GetButtonLocationPosition(int index)
+        private Vector2 GetButtonLocationPosition(int size,int index)
         {
-            int size = m_Data.Count;
             switch (m_Orient)
             {
                 case Orient.Vertical:

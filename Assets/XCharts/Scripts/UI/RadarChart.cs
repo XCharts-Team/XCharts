@@ -170,8 +170,17 @@ namespace XCharts
             Vector3 firstPoint = Vector3.zero;
             dataPosList.Clear();
             dataPosList.Capacity = m_Series.Count;
+            HashSet<string> serieNameSet = new HashSet<string>();
+            int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
+                var serie = m_Series.series[i];
+                if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                else if (!serieNameSet.Contains(serie.name))
+                {
+                    serieNameSet.Add(serie.name);
+                    serieNameCount++;
+                }
                 if (!IsActive(i))
                 {
                     dataPosList.Add(new List<Vector3>());

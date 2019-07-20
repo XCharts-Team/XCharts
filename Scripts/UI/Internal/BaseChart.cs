@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
@@ -147,52 +146,62 @@ namespace XCharts
 
         /// <summary>
         /// Add a data to serie.
-        /// If serie doesn't exist,will be add to series.
+        /// When serie doesn't exist, the data is ignored.
         /// If serieName doesn't exist in legend,will be add to legend.
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="value">the data to add</param>
-        public virtual void AddData(string serieName, float value)
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddData(string serieName, float value)
         {
             m_Legend.AddData(serieName);
-            m_Series.AddData(serieName, value, m_MaxCacheDataNumber);
-            RefreshChart();
+            var success = m_Series.AddData(serieName, value, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return success;
         }
 
         /// <summary>
         /// Add a data to serie.
-        /// If serie doesn't exist, the data is ignored.
+        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="value">the data to add</param>
-        public virtual void AddData(int serieIndex, float value)
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddData(int serieIndex, float value)
         {
-            m_Series.AddData(serieIndex, value, m_MaxCacheDataNumber);
-            RefreshChart();
+            var success = m_Series.AddData(serieIndex, value, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return success;
         }
 
         /// <summary>
-        /// Add a (x,y) data to serie
+        /// Add a (x,y) data to serie.
+        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
-        public virtual void AddXYData(string serieName, float xValue, float yValue)
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddXYData(string serieName, float xValue, float yValue)
         {
-            m_Series.AddXYData(serieName, xValue, yValue, m_MaxCacheDataNumber);
-            RefreshChart();
+            var success = m_Series.AddXYData(serieName, xValue, yValue, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return true;
         }
 
         /// <summary>
-        /// Add a (x,y) data to serie
+        /// Add a (x,y) data to serie.
+        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
-        public virtual void AddXYData(int serieIndex, float xValue, float yValue)
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddXYData(int serieIndex, float xValue, float yValue)
         {
-            m_Series.AddXYData(serieIndex, xValue, yValue, m_MaxCacheDataNumber);
-            RefreshChart();
+            var success = m_Series.AddXYData(serieIndex, xValue, yValue, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return success;
         }
         /// <summary>
         /// Update serie data by serie name.
@@ -650,6 +659,40 @@ namespace XCharts
             Vector3 p3 = new Vector3(chartWidth, 0);
             Vector3 p4 = new Vector3(0, 0);
             ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
+        }
+
+        protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize, float tickness, Vector3 pos, Color color)
+        {
+            switch (type)
+            {
+                case SerieSymbolType.None:
+                    break;
+                case SerieSymbolType.Circle:
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, color);
+                    break;
+                case SerieSymbolType.EmptyCircle:
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor);
+                    ChartHelper.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color);
+                    break;
+                case SerieSymbolType.Rect:
+                    ChartHelper.DrawPolygon(vh, pos, symbolSize, color);
+                    break;
+                case SerieSymbolType.Triangle:
+                    var x = symbolSize * Mathf.Cos(30 * Mathf.PI / 180);
+                    var y = symbolSize * Mathf.Sin(30 * Mathf.PI / 180);
+                    var p1 = new Vector2(pos.x - x, pos.y - y);
+                    var p2 = new Vector2(pos.x, pos.y + symbolSize);
+                    var p3 = new Vector2(pos.x + x, pos.y - y);
+                    ChartHelper.DrawTriangle(vh, p1, p2, p3, color);
+                    break;
+                case SerieSymbolType.Diamond:
+                    p1 = new Vector2(pos.x - symbolSize, pos.y);
+                    p2 = new Vector2(pos.x, pos.y + symbolSize);
+                    p3 = new Vector2(pos.x + symbolSize, pos.y);
+                    var p4 = new Vector2(pos.x, pos.y - symbolSize);
+                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
+                    break;
+            }
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)

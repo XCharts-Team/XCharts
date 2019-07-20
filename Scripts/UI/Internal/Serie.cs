@@ -7,34 +7,52 @@ namespace XCharts
 {
     public enum SerieType
     {
-        None,
         Line,
         Bar,
         Pie,
-        Radar
+        Radar,
+        Scatter,
+        EffectScatter
+    }
+
+    public enum SerieSymbolType
+    {
+        EmptyCircle,
+        Circle,
+        Rect,
+        Triangle,
+        Diamond,
+        None,
     }
 
     [System.Serializable]
     public class Serie : JsonDataSupport
     {
-        [SerializeField] [DefaultValue("true")] private bool m_Show;
+        [SerializeField] [DefaultValue("true")] private bool m_Show = true;
         [SerializeField] private SerieType m_Type;
         [SerializeField] private bool m_Selected;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_AxisIndex;
+        [SerializeField] private SerieSymbolType m_Symbol = SerieSymbolType.Circle;
+        [SerializeField] private float m_SymbolSize = 2.5f;
+        [SerializeField] private float m_SymbolSelectedSize = 5f;
         [SerializeField] private bool m_TwoDimensionData;
         [FormerlySerializedAs("m_Data")]
         [SerializeField] private List<float> m_YData = new List<float>();
         [SerializeField] private List<float> m_XData = new List<float>();
 
         public int index { get; set; }
+        public int dataCount { get { return m_YData.Count; } }
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         public bool show { get { return m_Show; } set { m_Show = value; } }
         public SerieType type { get { return m_Type; } set { m_Type = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }
         public string stack { get { return m_Stack; } set { m_Stack = value; } }
         public int axisIndex { get { return m_AxisIndex; } set { m_AxisIndex = value; } }
+        public SerieSymbolType symbol { get { return m_Symbol; } set { m_Symbol = value; } }
+        public float symbolSize { get { return m_SymbolSize; } set { m_SymbolSize = value; } }
+        public float symbolSelectedSize { get { return m_SymbolSelectedSize; } set { m_SymbolSelectedSize = value; } }
         public List<float> yData { get { return m_YData; } set { m_YData = value; } }
         public List<float> xData { get { return m_XData; } set { m_XData = value; } }
 

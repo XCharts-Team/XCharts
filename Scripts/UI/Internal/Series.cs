@@ -125,6 +125,23 @@ namespace XCharts
                 serie.name = serieName;
                 serie.index = m_Series.Count;
                 serie.yData = new List<float>();
+
+                if (type == SerieType.Scatter)
+                {
+                    serie.symbol = SerieSymbolType.Circle;
+                    serie.symbolSize = 20f;
+                    serie.symbolSelectedSize = 30f;
+                }
+                else if (type == SerieType.Line)
+                {
+                    serie.symbol = SerieSymbolType.EmptyCircle;
+                    serie.symbolSize = 2.5f;
+                    serie.symbolSelectedSize = 5f;
+                }
+                else
+                {
+                    serie.symbol = SerieSymbolType.None;
+                }
                 m_Series.Add(serie);
             }
             else
@@ -134,41 +151,48 @@ namespace XCharts
             return serie;
         }
 
-        public Serie AddData(string name, float value, int maxDataNumber = 0)
+        public bool AddData(string serieName, float value, int maxDataNumber = 0)
         {
-            var serie = AddSerie(name, SerieType.None);
-            serie.AddYData(value, maxDataNumber);
-            return serie;
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                serie.AddYData(value, maxDataNumber);
+                return true;
+            }
+            return false;
         }
 
-        public Serie AddData(int index, float value, int maxDataNumber = 0)
+        public bool AddData(int index, float value, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
                 serie.AddYData(value, maxDataNumber);
+                return true;
             }
-            return serie;
+            return false;
         }
 
-        public Serie AddXYData(string serieName, float xValue, float yValue, int maxDataNumber = 0)
+        public bool AddXYData(string serieName, float xValue, float yValue, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
                 serie.AddXYData(xValue, yValue, maxDataNumber);
+                return true;
             }
-            return serie;
+            return false;
         }
 
-        public Serie AddXYData(int index, float xValue, float yValue, int maxDataNumber = 0)
+        public bool AddXYData(int index, float xValue, float yValue, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
                 serie.AddXYData(xValue, yValue, maxDataNumber);
+                return true;
             }
-            return serie;
+            return false;
         }
 
         public void UpdateData(string name, float value, int dataIndex = 0)

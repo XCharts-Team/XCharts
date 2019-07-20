@@ -26,13 +26,15 @@ namespace XCharts
         /// </summary>
         /// <param name="serieName">the name of data</param>
         /// <param name="value">the data</param>
-        public override void AddData(string serieName, float value)
+        /// <returns>Return true forever</returns>
+        public override bool AddData(string serieName, float value)
         {
             m_Legend.AddData(serieName);
             var serie = m_Series.AddSerie(serieName, SerieType.Pie);
             serie.ClearData();
             serie.AddYData(value);
             RefreshChart();
+            return true;
         }
 
         /// <summary>

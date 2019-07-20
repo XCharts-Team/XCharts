@@ -34,7 +34,6 @@ public class Demo11_AddSinCurve : MonoBehaviour
         chart.xAxises[0].boundaryGap = false;
         chart.maxCacheDataNumber = 0;
 
-        chart.line.point = false;
         chart.line.step = false;
         chart.line.smooth = false;
         chart.line.area = false;

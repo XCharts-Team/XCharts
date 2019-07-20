@@ -22,6 +22,9 @@ namespace XCharts
             SerializedProperty name = prop.FindPropertyRelative("m_Name");
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
+            SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
+            SerializedProperty m_SymbolSize = prop.FindPropertyRelative("m_SymbolSize");
+            SerializedProperty m_SymbolSelectedSize = prop.FindPropertyRelative("m_SymbolSelectedSize");
             SerializedProperty m_TwoDimensionData = prop.FindPropertyRelative("m_TwoDimensionData");
             SerializedProperty m_XData = prop.FindPropertyRelative("m_XData");
             SerializedProperty m_YData = prop.FindPropertyRelative("m_YData");
@@ -42,6 +45,15 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_AxisIndex);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (type.enumValueIndex == (int)SerieType.Line || type.enumValueIndex == (int)SerieType.Scatter)
+                {
+                    EditorGUI.PropertyField(drawRect, m_Symbol);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_SymbolSize);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_SymbolSelectedSize);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
                 EditorGUI.PropertyField(drawRect, m_TwoDimensionData);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
@@ -132,6 +144,11 @@ namespace XCharts
             else
             {
                 height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                SerializedProperty type = prop.FindPropertyRelative("m_Type");
+                if (type.enumValueIndex == (int)SerieType.Line || type.enumValueIndex == (int)SerieType.Scatter)
+                {
+                    height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+                }
                 if (m_DataFoldout[index])
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_YData");
@@ -150,7 +167,7 @@ namespace XCharts
         private int InitToggle(SerializedProperty prop)
         {
             int index = 0;
-            int.TryParse(prop.displayName.Split(' ')[1],out index);
+            int.TryParse(prop.displayName.Split(' ')[1], out index);
             if (index >= m_DataFoldout.Count)
             {
                 m_DataFoldout.Add(false);

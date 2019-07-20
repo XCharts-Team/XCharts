@@ -52,7 +52,7 @@ namespace XCharts
 
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
-            List<Color> colors = new List<Color>();
+            List<int> pointSerieIndex = new List<int>();
             int dataCount = 0;
             HashSet<string> serieNameSet = new HashSet<string>();
             int serieNameCount = -1;
@@ -70,13 +70,13 @@ namespace XCharts
                         serieNameCount++;
                     }
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
-                    DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref colors, ref seriesCurrHig);
+                    DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                DrawLinePoint(vh, dataCount, points, colors);
+                DrawLinePoint(vh, dataCount, points, pointSerieIndex);
             }
             DrawXTooltipIndicator(vh);
         }
@@ -87,7 +87,7 @@ namespace XCharts
             int seriesCount = stackSeries.Count;
             int serieCount = 0;
             List<Vector3> points = new List<Vector3>();
-            List<Color> colors = new List<Color>();
+            List<int> pointSerieIndex = new List<int>();
             int dataCount = 0;
             HashSet<string> serieNameSet = new HashSet<string>();
             int serieNameCount = -1;
@@ -105,54 +105,45 @@ namespace XCharts
                         serieNameCount++;
                     }
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
-                    DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref colors, ref seriesHig);
+                    DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                DrawLinePoint(vh, dataCount, points, colors);
+                DrawLinePoint(vh, dataCount, points, pointSerieIndex);
             }
             DrawYTooltipIndicator(vh);
         }
 
-        private void DrawLinePoint(VertexHelper vh, int dataCount, List<Vector3> points, List<Color> colors)
+        private void DrawLinePoint(VertexHelper vh, int dataCount, List<Vector3> points, List<int> pointSerieIndex)
         {
-            if (m_Line.point)
+            for (int i = 0; i < points.Count; i++)
             {
-                for (int i = 0; i < points.Count; i++)
+                Vector3 p = points[i];
+                var serie = m_Series.GetSerie(pointSerieIndex[i]);
+                float symbolSize = serie.symbolSize;
+                if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i % dataCount))
                 {
-                    Vector3 p = points[i];
-                    float pointWid = m_Line.pointWidth;
-                    if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i % dataCount))
+                    if (IsCartesian())
                     {
-                        if (IsCartesian())
+                        if (m_Series.IsTooltipSelected(i / dataCount))
                         {
-                            if (m_Series.IsTooltipSelected(i / dataCount))
-                            {
-                                pointWid = m_Line.pointSelectedWidth;
-                            }
+                            symbolSize = serie.symbolSelectedSize;
                         }
-                        else
-                        {
-                            pointWid = m_Line.pointSelectedWidth;
-                        }
-                    }
-                    if (m_Theme == Theme.Dark)
-                    {
-                        ChartHelper.DrawCricle(vh, p, pointWid, colors[i], (int)m_Line.pointWidth * 5);
                     }
                     else
                     {
-                        ChartHelper.DrawCricle(vh, p, pointWid, Color.white);
-                        ChartHelper.DrawDoughnut(vh, p, pointWid - m_Line.tickness, pointWid, 0, 360, colors[i]);
+                        symbolSize = serie.symbolSelectedSize;
                     }
                 }
+                var color = m_ThemeInfo.GetColor(serie.index);
+                DrawSymbol(vh, serie.symbol, symbolSize, m_Line.tickness, p, color);
             }
         }
 
         private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
+            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref Dictionary<int, float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             List<Vector3> lastPoints = new List<Vector3>();
@@ -337,10 +328,10 @@ namespace XCharts
                         }
                     }
                 }
-                if (m_Line.point)
+                if (serie.symbol != SerieSymbolType.None || m_Line.area)
                 {
                     points.Add(np);
-                    colors.Add(color);
+                    pointSerieIndexs.Add(serie.index);
                 }
                 seriesHig[i] += yDataHig;
                 lp = np;
@@ -348,7 +339,7 @@ namespace XCharts
         }
 
         private void DrawYLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<Color> colors, ref Dictionary<int, float> seriesHig)
+            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref Dictionary<int, float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             List<Vector3> lastPoints = new List<Vector3>();
@@ -515,10 +506,10 @@ namespace XCharts
                         }
                     }
                 }
-                if (m_Line.point)
+                if (serie.symbol != SerieSymbolType.None || m_Line.area)
                 {
                     points.Add(np);
-                    colors.Add(color);
+                    pointSerieIndexs.Add(serie.index);
                 }
                 seriesHig[i] += dataHig;
                 lp = np;

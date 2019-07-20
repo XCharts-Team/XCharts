@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.07.20）增加`Symbol`配置`Serie`标志图形的显示，支持`EmptyCircle`,`Cricle`,`Rect`,`Triangle`,`Diamond`,`None`等图形形状
 * （2019.07.19）增加用代码添加动态正弦曲线的示例`Demo11_AddSinCurve`
 * （2019.07.19）优化`Legend`的显示和控制
 * （2019.07.18）优化抗锯齿，曲线更平滑

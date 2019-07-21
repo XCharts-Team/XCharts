@@ -124,23 +124,22 @@ namespace XCharts
                 serie.show = show;
                 serie.name = serieName;
                 serie.index = m_Series.Count;
-                serie.yData = new List<float>();
 
                 if (type == SerieType.Scatter)
                 {
-                    serie.symbol = SerieSymbolType.Circle;
-                    serie.symbolSize = 20f;
-                    serie.symbolSelectedSize = 30f;
+                    serie.symbol.type = SerieSymbolType.Circle;
+                    serie.symbol.size = 20f;
+                    serie.symbol.selectedSize = 30f;
                 }
                 else if (type == SerieType.Line)
                 {
-                    serie.symbol = SerieSymbolType.EmptyCircle;
-                    serie.symbolSize = 2.5f;
-                    serie.symbolSelectedSize = 5f;
+                    serie.symbol.type = SerieSymbolType.EmptyCircle;
+                    serie.symbol.size = 2.5f;
+                    serie.symbol.selectedSize = 5f;
                 }
                 else
                 {
-                    serie.symbol = SerieSymbolType.None;
+                    serie.symbol.type = SerieSymbolType.None;
                 }
                 m_Series.Add(serie);
             }
@@ -461,6 +460,15 @@ namespace XCharts
                 }
             }
             return list;
+        }
+
+        public void SetSerieSymbolSizeCallback(SymbolSizeCallback size, SymbolSizeCallback selectedSize)
+        {
+            foreach (var serie in m_Series)
+            {
+                serie.symbol.sizeCallback = size;
+                serie.symbol.selectedSizeCallback = selectedSize;
+            }
         }
 
         public override void ParseJsonData(string jsonData)

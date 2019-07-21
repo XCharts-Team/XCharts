@@ -121,24 +121,25 @@ namespace XCharts
             for (int i = 0; i < points.Count; i++)
             {
                 Vector3 p = points[i];
+                var dataIndex = i % dataCount;
                 var serie = m_Series.GetSerie(pointSerieIndex[i]);
-                float symbolSize = serie.symbolSize;
-                if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i % dataCount))
+                float symbolSize = serie.symbol.size;
+                if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(dataIndex))
                 {
                     if (IsCartesian())
                     {
-                        if (m_Series.IsTooltipSelected(i / dataCount))
+                        if (m_Series.IsTooltipSelected(serie.index))
                         {
-                            symbolSize = serie.symbolSelectedSize;
+                            symbolSize = serie.symbol.selectedSize;
                         }
                     }
                     else
                     {
-                        symbolSize = serie.symbolSelectedSize;
+                        symbolSize = serie.symbol.selectedSize;
                     }
                 }
                 var color = m_ThemeInfo.GetColor(serie.index);
-                DrawSymbol(vh, serie.symbol, symbolSize, m_Line.tickness, p, color);
+                DrawSymbol(vh, serie.symbol.type, symbolSize, m_Line.tickness, p, color);
             }
         }
 
@@ -328,7 +329,7 @@ namespace XCharts
                         }
                     }
                 }
-                if (serie.symbol != SerieSymbolType.None || m_Line.area)
+                if (serie.symbol.type != SerieSymbolType.None || m_Line.area)
                 {
                     points.Add(np);
                     pointSerieIndexs.Add(serie.index);
@@ -506,7 +507,7 @@ namespace XCharts
                         }
                     }
                 }
-                if (serie.symbol != SerieSymbolType.None || m_Line.area)
+                if (serie.symbol.type != SerieSymbolType.None || m_Line.area)
                 {
                     points.Add(np);
                     pointSerieIndexs.Add(serie.index);

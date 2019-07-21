@@ -40,7 +40,8 @@ public class Demo11_AddSinCurve : MonoBehaviour
 
         chart.RemoveData();
 
-        chart.AddSerie("test", SerieType.Line);
+        var serie = chart.AddSerie("test", SerieType.Line);
+        serie.symbol.type = SerieSymbolType.None;
         for (angle = 0; angle < 1080; angle++)
         {
             float xvalue = Mathf.PI / 180 * angle;

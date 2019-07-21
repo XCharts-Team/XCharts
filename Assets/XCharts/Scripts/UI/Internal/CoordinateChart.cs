@@ -176,7 +176,9 @@ namespace XCharts
                             {
                                 var xdata = serie.xData[n];
                                 var ydata = serie.yData[n];
-                                if (Mathf.Abs(xValue - xdata) / xRate < 5 && Mathf.Abs(yValue - ydata) / yRate < 5)
+                                var symbolSize = serie.symbol.GetSize(serie.data[n].data);
+                                if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
+                                    && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
                                 {
                                     m_Tooltip.dataIndex[i] = n;
                                     serie.selected = true;

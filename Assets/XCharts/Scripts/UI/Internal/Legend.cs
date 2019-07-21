@@ -47,11 +47,7 @@ namespace XCharts
                     m_ItemWidth = 60.0f,
                     m_ItemHeight = 20.0f,
                     m_ItemGap = 5,
-                    m_ItemFontSize = 16,
-                    m_Data = new List<string>()
-                    {
-                        "serie1"
-                    }
+                    m_ItemFontSize = 16
                 };
                 legend.location.top = 30;
                 return legend;

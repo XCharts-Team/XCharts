@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ namespace XCharts
 {
     public static class ChartHelper
     {
-        private static float CRICLE_SMOOTHNESS = 1f;
+        public static float CRICLE_SMOOTHNESS = 2.5f;
         private static UIVertex[] vertex = new UIVertex[4];
 
         public static void HideAllObject(GameObject obj, string match = null)
@@ -240,13 +241,13 @@ namespace XCharts
             vh.AddTriangle(startIndex, startIndex + 1, startIndex + 2);
         }
 
-        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            int segments = 0, bool fill = true)
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color, int segments = 0)
         {
             if (segments <= 0)
             {
                 segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
             }
+            if (segments < 3) segments = 3;
             DrawSector(vh, p, radius, color, 0, 360, segments);
         }
 
@@ -450,12 +451,29 @@ namespace XCharts
             int startIndex = jsonData.IndexOf("[");
             int endIndex = jsonData.IndexOf("]");
             string temp = jsonData.Substring(startIndex + 1, endIndex - startIndex - 1);
-            string[] datas = temp.Split(',');
-            for (int i = 0; i < datas.Length; i++)
+            Debug.LogError("temp:"+temp);
+            if (temp.IndexOf("],") > -1 || temp.IndexOf("] ,") > -1)
             {
-                list.Add(float.Parse(datas[i].Trim()));
+                string[] datas = temp.Split(new string[] { "],", "] ," }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < datas.Length; i++)
+                {
+                    temp = datas[i];
+                    Debug.LogError("split:" + temp);
+
+                }
+
+                return list;
             }
-            return list;
+            else
+            {
+                string[] datas = temp.Split(',');
+                for (int i = 0; i < datas.Length; i++)
+                {
+                    list.Add(float.Parse(datas[i].Trim()));
+                }
+                return list;
+            }
+
         }
 
         public static List<string> ParseStringFromString(string jsonData)

@@ -24,9 +24,9 @@ public class ChartEditorHelper
         SerializedProperty stringDataProp = prop.FindPropertyRelative("m_JsonData");
         SerializedProperty needParseProp = prop.FindPropertyRelative("m_DataFromJson");
         float defalutX = drawRect.x;
-        drawRect.x = EditorGUIUtility.labelWidth + 40;
-        drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 60;
-        if (GUI.Button(drawRect, new GUIContent("Parse Json", "Parse data from input json")))
+        drawRect.x = EditorGUIUtility.labelWidth + 15;
+        drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 35;
+        if (GUI.Button(drawRect, new GUIContent("Parse JsonData", "Parse data from input json")))
         {
             showTextArea = !showTextArea;
             bool needParse = !showTextArea;

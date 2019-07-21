@@ -9,7 +9,7 @@ QQ交流群：XCharts交流群（202030963）
 ## 特性
 
 1. 内置丰富示例，参数可视化配置，效果实时预览，纯源码绘制
-2. 支持折线图（`LineChart`）、柱状图（`BarChart`）、饼图（`PieChart`）、雷达图（`RadarChart`）等常用图表
+2. 支持折线图（`LineChart`）、柱状图（`BarChart`）、饼图（`PieChart`）、雷达图（`RadarChart`）、散点图（`ScatterChart`）等常用图表
 3. 支持`Default`、`Light`、`Dark`三种默认主题切换，自定义主题
 4. 支持多数据密集图表
 5. 折线图通过参数可配置出：折线图、曲线图、面积图等
@@ -23,6 +23,8 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.07.21）增加`ScatterChart`散点图
+* （2019.07.21）增加`SerieData`支持多维数据配置
 * （2019.07.20）增加`Symbol`配置`Serie`标志图形的显示，支持`EmptyCircle`,`Cricle`,`Rect`,`Triangle`,`Diamond`,`None`等图形形状
 * （2019.07.19）增加用代码添加动态正弦曲线的示例`Demo11_AddSinCurve`
 * （2019.07.19）优化`Legend`的显示和控制

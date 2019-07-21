@@ -28,7 +28,7 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
 
-        [SerializeField] protected bool m_Large;
+        [SerializeField] protected float m_Large = 1;
         [SerializeField] protected int m_MinShowDataNumber;
         [SerializeField] protected int m_MaxShowDataNumber;
         [SerializeField] protected int m_MaxCacheDataNumber;
@@ -668,11 +668,12 @@ namespace XCharts
                 case SerieSymbolType.None:
                     break;
                 case SerieSymbolType.Circle:
-                    ChartHelper.DrawCricle(vh, pos, symbolSize, color);
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
                     break;
                 case SerieSymbolType.EmptyCircle:
-                    ChartHelper.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor);
-                    ChartHelper.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color);
+                    int segment = GetSymbolCricleSegment(symbolSize);
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
+                    ChartHelper.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
                     break;
                 case SerieSymbolType.Rect:
                     ChartHelper.DrawPolygon(vh, pos, symbolSize, color);
@@ -693,6 +694,15 @@ namespace XCharts
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
                     break;
             }
+        }
+
+        private int GetSymbolCricleSegment(float radiu)
+        {
+            int max = 50;
+            int segent = (int)(2 * Mathf.PI * radiu / ChartHelper.CRICLE_SMOOTHNESS);
+            if (segent > max) segent = max;
+            segent = (int)(segent / (1 + (m_Large - 1) / 10));
+            return segent;
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)

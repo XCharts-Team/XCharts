@@ -23,7 +23,7 @@ public class Demo_Dynamic : MonoBehaviour
         chart = gameObject.GetComponentInChildren<CoordinateChart>();
         chart.RemoveData();
         var serie = chart.AddSerie("data", SerieType.Line);
-        serie.symbol = SerieSymbolType.None;
+        serie.symbol.type = SerieSymbolType.None;
         chart.maxCacheDataNumber = maxCacheDataNumber;
         timeNow = DateTime.Now;
         timeNow = timeNow.AddSeconds(-maxCacheDataNumber);

@@ -195,8 +195,8 @@ namespace XCharts
             var temp = prop.displayName.Split(' ');
             if (temp == null || temp.Length < 2)
             {
-                Debug.LogError("SERIE:"+prop.name+","+prop.displayName+","+prop.FindPropertyRelative("m_Name").stringValue);
-                index =0;
+                //Debug.LogError("SERIE:"+prop.name+","+prop.displayName+","+prop.FindPropertyRelative("m_Name").stringValue);
+                index = 0;
             }
             else
             {

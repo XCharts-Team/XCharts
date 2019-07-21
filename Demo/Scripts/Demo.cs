@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using XCharts;
 
+[DisallowMultipleComponent]
+[ExecuteInEditMode]
 public class Demo : MonoBehaviour
 {
     private Theme m_SelectedTheme;
@@ -11,6 +13,7 @@ public class Demo : MonoBehaviour
     private GameObject m_BarChartModule;
     private GameObject m_PieChartModule;
     private GameObject m_RadarChartModule;
+    private GameObject m_ScatterChartModule;
     private GameObject m_OtherModule;
 
     private Button m_DefaultThemeButton;
@@ -21,6 +24,7 @@ public class Demo : MonoBehaviour
     private Button m_BarChartButton;
     private Button m_PieChartButton;
     private Button m_RadarChartButton;
+    private Button m_ScatterChartButton;
     private Button m_OtherButton;
 
     private Text m_Title;
@@ -45,12 +49,22 @@ public class Demo : MonoBehaviour
         m_BarChartModule = transform.Find("chart_detail/Viewport/bar_chart").gameObject;
         m_PieChartModule = transform.Find("chart_detail/Viewport/pie_chart").gameObject;
         m_RadarChartModule = transform.Find("chart_detail/Viewport/radar_chart").gameObject;
+        m_ScatterChartModule = transform.Find("chart_detail/Viewport/scatter_chart").gameObject;
         m_OtherModule = transform.Find("chart_detail/Viewport/other").gameObject;
         m_Mark = transform.Find("chart_detail/Viewport").GetComponent<Mask>();
         m_Mark.enabled = true;
 
         m_Title = transform.Find("chart_title/Text").GetComponent<Text>();
 
+
+        // LineChart[] charts = m_LineChartModule.GetComponentsInChildren<LineChart>();
+        // foreach(var chart in charts){
+        //     foreach(var serie in chart.series.series){
+        //         serie.symbol.type = SerieSymbolType.EmptyCircle;
+        //         serie.symbol.size = 4;
+        //         serie.symbol.selectedSize = 6;
+        //     }
+        // }
         InitThemeButton();
         InitChartButton();
     }
@@ -66,12 +80,14 @@ public class Demo : MonoBehaviour
         m_BarChartButton = transform.Find("chart_list/btn_barchart").GetComponent<Button>();
         m_PieChartButton = transform.Find("chart_list/btn_piechart").GetComponent<Button>();
         m_RadarChartButton = transform.Find("chart_list/btn_radarchart").GetComponent<Button>();
+        m_ScatterChartButton = transform.Find("chart_list/btn_scatterchart").GetComponent<Button>();
         m_OtherButton = transform.Find("chart_list/btn_other").GetComponent<Button>();
 
         m_LineChartButton.onClick.AddListener(delegate () { SelectedModule(m_LineChartModule); });
         m_BarChartButton.onClick.AddListener(delegate () { SelectedModule(m_BarChartModule); });
         m_PieChartButton.onClick.AddListener(delegate () { SelectedModule(m_PieChartModule); });
         m_RadarChartButton.onClick.AddListener(delegate () { SelectedModule(m_RadarChartModule); });
+        m_ScatterChartButton.onClick.AddListener(delegate () { SelectedModule(m_ScatterChartModule); });
         m_OtherButton.onClick.AddListener(delegate () { SelectedModule(m_OtherModule); });
 
         SelectedModule(m_LineChartModule);
@@ -102,12 +118,14 @@ public class Demo : MonoBehaviour
         m_BarChartModule.SetActive(module == m_BarChartModule);
         m_PieChartModule.SetActive(module == m_PieChartModule);
         m_RadarChartModule.SetActive(module == m_RadarChartModule);
+        m_ScatterChartModule.SetActive(module == m_ScatterChartModule);
         m_OtherModule.SetActive(module == m_OtherModule);
 
         SetButtonColor(m_LineChartButton, m_SelectedModule, m_LineChartModule);
         SetButtonColor(m_BarChartButton, m_SelectedModule, m_BarChartModule);
         SetButtonColor(m_PieChartButton, m_SelectedModule, m_PieChartModule);
         SetButtonColor(m_RadarChartButton, m_SelectedModule, m_RadarChartModule);
+        SetButtonColor(m_ScatterChartButton, m_SelectedModule, m_ScatterChartModule);
         SetButtonColor(m_OtherButton, m_SelectedModule, m_OtherModule);
 
         m_ScrollRect.content = m_SelectedModule.GetComponent<RectTransform>();
@@ -127,6 +145,10 @@ public class Demo : MonoBehaviour
         else if (module == m_RadarChartModule)
         {
             m_Title.text = "雷达图 Radar";
+        }
+        else if (module == m_ScatterChartModule)
+        {
+            m_Title.text = "散点图 Scatter";
         }
         else if (module == m_OtherModule)
         {

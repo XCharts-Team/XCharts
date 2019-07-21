@@ -283,8 +283,7 @@ namespace XCharts
                 Color color = m_Radar.backgroundColorList[i % m_Radar.backgroundColorList.Count];
                 outsideRadius = insideRadius + block;
                 ChartHelper.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
-                ChartHelper.DrawCicleNotFill(vh, p, outsideRadius, m_Radar.lineTickness,
-                    m_Radar.lineColor);
+                ChartHelper.DrawCicleNotFill(vh, p, outsideRadius, m_Radar.lineTickness, m_Radar.lineColor);
                 insideRadius = outsideRadius;
             }
             for (int j = 0; j <= indicatorNum; j++)

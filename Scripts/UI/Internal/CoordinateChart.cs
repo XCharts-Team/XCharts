@@ -176,7 +176,8 @@ namespace XCharts
                             {
                                 var xdata = serie.xData[n];
                                 var ydata = serie.yData[n];
-                                var symbolSize = serie.symbol.GetSize(serie.data[n].data);
+                                var serieData = serie.GetSerieData(n);
+                                var symbolSize = serie.symbol.GetSize(serieData == null?null:serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
                                 {

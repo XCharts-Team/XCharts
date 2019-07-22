@@ -44,7 +44,9 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_AxisIndex);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (type.enumValueIndex == (int)SerieType.Line || type.enumValueIndex == (int)SerieType.Scatter)
+                if (type.enumValueIndex == (int)SerieType.Line
+                    || type.enumValueIndex == (int)SerieType.Scatter
+                    || type.enumValueIndex == (int)SerieType.EffectScatter)
                 {
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
@@ -169,7 +171,9 @@ namespace XCharts
             {
                 height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
-                if (type.enumValueIndex == (int)SerieType.Line || type.enumValueIndex == (int)SerieType.Scatter)
+                if (type.enumValueIndex == (int)SerieType.Line 
+                    || type.enumValueIndex == (int)SerieType.Scatter
+                    || type.enumValueIndex == (int)SerieType.EffectScatter)
                 {
 
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));

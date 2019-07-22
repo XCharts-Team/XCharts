@@ -14,6 +14,10 @@ namespace XCharts
 
         public Scatter scatter { get { return m_Scatter; } }
 
+        private float m_EffectScatterSpeed = 15;
+        private float m_EffectScatterSize;
+        private float m_EffectScatterAplha;
+
 #if UNITY_EDITOR
         protected override void Reset()
         {
@@ -33,6 +37,31 @@ namespace XCharts
             }
         }
 #endif
+
+        protected override void Update()
+        {
+            base.Update();
+            bool hasEffectScatter = false;
+            foreach (var serie in m_Series.series)
+            {
+                if (serie.type == SerieType.EffectScatter)
+                {
+                    hasEffectScatter = true;
+                    for (int i = 0; i < serie.symbol.animationSize.Count; ++i)
+                    {
+                        serie.symbol.animationSize[i] += m_EffectScatterSpeed * Time.deltaTime;
+                        if (serie.symbol.animationSize[i] > serie.symbol.size)
+                        {
+                            serie.symbol.animationSize[i] = i*5;
+                        }
+                    }
+                }
+            }
+            if (hasEffectScatter)
+            {
+                RefreshChart();
+            }
+        }
 
         protected override void DrawChart(VertexHelper vh)
         {
@@ -55,6 +84,8 @@ namespace XCharts
                 {
                     continue;
                 }
+                var color = m_ThemeInfo.GetColor(serieNameCount);
+                color.a = 200;
                 int maxCount = maxShowDataNumber > 0 ?
                     (maxShowDataNumber > serie.dataCount ? serie.dataCount : maxShowDataNumber)
                     : serie.dataCount;
@@ -68,8 +99,7 @@ namespace XCharts
                     float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                     float yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                     var pos = new Vector3(pX + xDataHig, pY + yDataHig);
-                    var color = m_ThemeInfo.GetColor(serieNameCount);
-                    color.a = 200;
+
                     var datas = serie.data[n].data;
                     float symbolSize = 0;
                     if (serie.selected && n == m_Tooltip.dataIndex[serie.axisIndex])
@@ -81,7 +111,20 @@ namespace XCharts
                         symbolSize = serie.symbol.GetSize(datas);
                     }
                     if (symbolSize > 100) symbolSize = 100;
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color);
+                    if (serie.type == SerieType.EffectScatter)
+                    {
+                        for (int count = 0; count < serie.symbol.animationSize.Count; count++)
+                        {
+                            var nowSize = serie.symbol.animationSize[count];
+                            color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
+                            DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color);
+                        }
+                        RefreshChart();
+                    }
+                    else
+                    {
+                        DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color);
+                    }
                 }
                 if (vh.currentVertCount > 60000)
                 {

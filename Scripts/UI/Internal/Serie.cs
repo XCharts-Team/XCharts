@@ -82,8 +82,13 @@ namespace XCharts
         public SymbolSizeCallback sizeCallback { get { return m_SizeCallback; } set { m_SizeCallback = value; } }
         public SymbolSizeCallback selectedSizeCallback { get { return m_SelectedSizeCallback; } set { m_SelectedSizeCallback = value; } }
 
+        private List<float> m_AnimationSize = new List<float>(){0,5,10};
+        public List<float> animationSize { get{return m_AnimationSize;}}
+        public Color animationColor { get; set; }
+
         public float GetSize(List<float> data)
         {
+            if(data == null) return size;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
@@ -106,6 +111,7 @@ namespace XCharts
 
         public float GetSelectedSize(List<float> data)
         {
+            if(data == null) return selectedSize;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
@@ -305,6 +311,15 @@ namespace XCharts
             return 0;
         }
 
+         public SerieData GetSerieData(int index,DataZoom dataZoom = null){
+            var data = GetDataList(dataZoom);
+            if (index >= 0 && index <= data.Count - 1)
+            {
+                return data[index];
+            }
+            return null;
+        }
+
         public void GetXYData(int index, DataZoom dataZoom, out float xValue, out float yVlaue)
         {
             xValue = 0;
@@ -371,6 +386,8 @@ namespace XCharts
                 return m_Data;
             }
         }
+
+       
 
         public void UpdateFilterData(DataZoom dataZoom)
         {

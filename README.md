@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.07.22）增加`EffectScatter`类型的散点图
 * （2019.07.21）增加`ScatterChart`散点图
 * （2019.07.21）增加`SerieData`支持多维数据配置
 * （2019.07.20）增加`Symbol`配置`Serie`标志图形的显示，支持`EmptyCircle`,`Cricle`,`Rect`,`Triangle`,`Diamond`,`None`等图形形状

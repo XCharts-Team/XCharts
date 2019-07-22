@@ -1,36 +1,44 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XCharts;
+
+
+[System.Serializable]
+public class ChartModule
+{
+    [SerializeField] private string m_Name;
+    [SerializeField] private string m_Title;
+    [SerializeField] private bool m_Selected;
+    [SerializeField] private GameObject m_Panel;
+
+    public string name { get { return m_Name; } set { m_Name = value; } }
+    public string title { get { return m_Title; } set { m_Title = value; } }
+    public bool select { get { return m_Selected; } set { m_Selected = value; } }
+    public GameObject panel { get { return m_Panel; } set { m_Panel = value; } }
+    public Button button { get; set; }
+}
 
 [DisallowMultipleComponent]
 [ExecuteInEditMode]
 public class Demo : MonoBehaviour
 {
-    private Theme m_SelectedTheme;
-    private GameObject m_SelectedModule;
+    [SerializeField] private Color m_ButtonNormalColor;
+    [SerializeField] private Color m_ButtonSelectedColor;
+    [SerializeField] private Color m_ButtonHighlightColor;
+    [SerializeField] private List<ChartModule> m_ChartModule;
 
-    private GameObject m_LineChartModule;
-    private GameObject m_BarChartModule;
-    private GameObject m_PieChartModule;
-    private GameObject m_RadarChartModule;
-    private GameObject m_ScatterChartModule;
-    private GameObject m_OtherModule;
+    private GameObject m_BtnClone;
+    private Theme m_SelectedTheme;
+    private int m_LastSelectedModuleIndex;
 
     private Button m_DefaultThemeButton;
     private Button m_LightThemeButton;
     private Button m_DarkThemeButton;
 
-    private Button m_LineChartButton;
-    private Button m_BarChartButton;
-    private Button m_PieChartButton;
-    private Button m_RadarChartButton;
-    private Button m_ScatterChartButton;
-    private Button m_OtherButton;
-
     private Text m_Title;
-    private Color m_NormalColor;
-    private Color m_SelectedColor;
-    private Color m_HighlightColor;
 
     private ScrollRect m_ScrollRect;
     private Mask m_Mark;
@@ -39,58 +47,116 @@ public class Demo : MonoBehaviour
     {
         m_SelectedTheme = Theme.Default;
 
-        m_NormalColor = ChartHelper.GetColor("#293C55FF");
-        m_SelectedColor = ChartHelper.GetColor("#e43c59ff");
-        m_HighlightColor = ChartHelper.GetColor("#0E151FFF");
+        m_ButtonNormalColor = ChartHelper.GetColor("#293C55FF");
+        m_ButtonSelectedColor = ChartHelper.GetColor("#e43c59ff");
+        m_ButtonHighlightColor = ChartHelper.GetColor("#0E151FFF");
 
         m_ScrollRect = transform.Find("chart_detail").GetComponent<ScrollRect>();
-
-        m_LineChartModule = transform.Find("chart_detail/Viewport/line_chart").gameObject;
-        m_BarChartModule = transform.Find("chart_detail/Viewport/bar_chart").gameObject;
-        m_PieChartModule = transform.Find("chart_detail/Viewport/pie_chart").gameObject;
-        m_RadarChartModule = transform.Find("chart_detail/Viewport/radar_chart").gameObject;
-        m_ScatterChartModule = transform.Find("chart_detail/Viewport/scatter_chart").gameObject;
-        m_OtherModule = transform.Find("chart_detail/Viewport/other").gameObject;
         m_Mark = transform.Find("chart_detail/Viewport").GetComponent<Mask>();
         m_Mark.enabled = true;
-
         m_Title = transform.Find("chart_title/Text").GetComponent<Text>();
 
-
-        // LineChart[] charts = m_LineChartModule.GetComponentsInChildren<LineChart>();
-        // foreach(var chart in charts){
-        //     foreach(var serie in chart.series.series){
-        //         serie.symbol.type = SerieSymbolType.EmptyCircle;
-        //         serie.symbol.size = 4;
-        //         serie.symbol.selectedSize = 6;
-        //     }
-        // }
         InitThemeButton();
-        InitChartButton();
+        InitModuleButton();
     }
 
     void Update()
     {
-
+#if UNITY_EDITOR
+        if (m_ChartModule.Count <= 0) return;
+        int selectedModuleIndex = -1;
+        for (int i = 0; i < m_ChartModule.Count; i++)
+        {
+            if (selectedModuleIndex >= 0 && i > selectedModuleIndex)
+            {
+                m_ChartModule[i].select = false;
+            }
+            else if (m_ChartModule[i].select)
+            {
+                selectedModuleIndex = i;
+            }
+        }
+        if (selectedModuleIndex < 0) selectedModuleIndex = 0;
+        if (selectedModuleIndex != m_LastSelectedModuleIndex)
+        {
+            InitModuleButton();
+        }
+#endif
     }
 
-    void InitChartButton()
+    void InitModuleButton()
     {
-        m_LineChartButton = transform.Find("chart_list/btn_linechart").GetComponent<Button>();
-        m_BarChartButton = transform.Find("chart_list/btn_barchart").GetComponent<Button>();
-        m_PieChartButton = transform.Find("chart_list/btn_piechart").GetComponent<Button>();
-        m_RadarChartButton = transform.Find("chart_list/btn_radarchart").GetComponent<Button>();
-        m_ScatterChartButton = transform.Find("chart_list/btn_scatterchart").GetComponent<Button>();
-        m_OtherButton = transform.Find("chart_list/btn_other").GetComponent<Button>();
+        var font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        var btnPanel = transform.Find("chart_list");
+        m_BtnClone = transform.Find("btn_clone").gameObject;
+        m_BtnClone.SetActive(false);
+        ChartHelper.DestoryAllChilds(btnPanel);
+        foreach (var module in m_ChartModule)
+        {
+            var btnName = "btn_" + module.name;
+            GameObject btn;
+            if (btnPanel.Find(btnName))
+            {
+                btn = btnPanel.Find(btnName).gameObject;
+                btn.SetActive(true);
+            }
+            else
+            {
+                btn = GameObject.Instantiate(m_BtnClone);
+                btn.SetActive(true);
+                btn.name = btnName;
+                btn.transform.parent = btnPanel;
+                btn.transform.localPosition = Vector3.zero;
+            }
+            btn.transform.localScale = Vector3.one;
+            module.button = btn.GetComponent<Button>();
+            module.button.GetComponentInChildren<Text>().text = module.name;
 
-        m_LineChartButton.onClick.AddListener(delegate () { SelectedModule(m_LineChartModule); });
-        m_BarChartButton.onClick.AddListener(delegate () { SelectedModule(m_BarChartModule); });
-        m_PieChartButton.onClick.AddListener(delegate () { SelectedModule(m_PieChartModule); });
-        m_RadarChartButton.onClick.AddListener(delegate () { SelectedModule(m_RadarChartModule); });
-        m_ScatterChartButton.onClick.AddListener(delegate () { SelectedModule(m_ScatterChartModule); });
-        m_OtherButton.onClick.AddListener(delegate () { SelectedModule(m_OtherModule); });
+            ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
+            {
+                ClickModule(module);
+            });
+        }
 
-        SelectedModule(m_LineChartModule);
+        for (int i = 0; i < m_ChartModule.Count; i++)
+        {
+            var module = m_ChartModule[i];
+            if (module.select)
+            {
+                ClickModule(module);
+                m_LastSelectedModuleIndex = i;
+                break;
+            }
+        }
+    }
+
+    void ClickModule(ChartModule selectedModule)
+    {
+        foreach (var module in m_ChartModule)
+        {
+            if (selectedModule != module)
+            {
+                var block = module.button.colors;
+                block.highlightedColor = m_ButtonHighlightColor;
+                block.normalColor = m_ButtonNormalColor;
+                module.button.colors = block;
+                module.panel.SetActive(false);
+                module.select = false;
+            }
+            else
+            {
+                var block = module.button.colors;
+                block.highlightedColor = m_ButtonSelectedColor;
+                block.normalColor = m_ButtonSelectedColor;
+                module.button.colors = block;
+                module.panel.SetActive(true);
+                module.select = true;
+            }
+        }
+        m_ScrollRect.content = selectedModule.panel.GetComponent<RectTransform>();
+        m_Title.text = string.IsNullOrEmpty(selectedModule.title) ?
+            selectedModule.name : selectedModule.title;
+        SelecteTheme(m_SelectedTheme);
     }
 
     void InitThemeButton()
@@ -108,61 +174,6 @@ public class Demo : MonoBehaviour
         m_DarkThemeButton.onClick.AddListener(delegate () { SelecteTheme(Theme.Dark); });
 
         SelecteTheme(Theme.Default);
-    }
-
-
-    void SelectedModule(GameObject module)
-    {
-        m_SelectedModule = module;
-        m_LineChartModule.SetActive(module == m_LineChartModule);
-        m_BarChartModule.SetActive(module == m_BarChartModule);
-        m_PieChartModule.SetActive(module == m_PieChartModule);
-        m_RadarChartModule.SetActive(module == m_RadarChartModule);
-        m_ScatterChartModule.SetActive(module == m_ScatterChartModule);
-        m_OtherModule.SetActive(module == m_OtherModule);
-
-        SetButtonColor(m_LineChartButton, m_SelectedModule, m_LineChartModule);
-        SetButtonColor(m_BarChartButton, m_SelectedModule, m_BarChartModule);
-        SetButtonColor(m_PieChartButton, m_SelectedModule, m_PieChartModule);
-        SetButtonColor(m_RadarChartButton, m_SelectedModule, m_RadarChartModule);
-        SetButtonColor(m_ScatterChartButton, m_SelectedModule, m_ScatterChartModule);
-        SetButtonColor(m_OtherButton, m_SelectedModule, m_OtherModule);
-
-        m_ScrollRect.content = m_SelectedModule.GetComponent<RectTransform>();
-
-        if (module == m_LineChartModule)
-        {
-            m_Title.text = "折线图 Line";
-        }
-        else if (module == m_BarChartModule)
-        {
-            m_Title.text = "柱状图 Bar";
-        }
-        else if (module == m_PieChartModule)
-        {
-            m_Title.text = "饼图 Pie";
-        }
-        else if (module == m_RadarChartModule)
-        {
-            m_Title.text = "雷达图 Radar";
-        }
-        else if (module == m_ScatterChartModule)
-        {
-            m_Title.text = "散点图 Scatter";
-        }
-        else if (module == m_OtherModule)
-        {
-            m_Title.text = "其他";
-        }
-        SelecteTheme(m_SelectedTheme);
-    }
-
-    void SetButtonColor(Button btn, GameObject selected, GameObject module)
-    {
-        var block = btn.colors;
-        block.highlightedColor = selected == module ? m_SelectedColor : m_HighlightColor;
-        block.normalColor = selected == module ? m_SelectedColor : m_NormalColor;
-        btn.colors = block;
     }
 
     void SelecteTheme(Theme theme)

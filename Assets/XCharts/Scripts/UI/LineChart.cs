@@ -37,29 +37,37 @@ namespace XCharts
             if (m_YAxises[0].type == Axis.AxisType.Category
                 || m_YAxises[1].type == Axis.AxisType.Category)
             {
-                DrawYCategory(vh);
+                DrawLineChart(vh,true);
             }
             else
             {
-                DrawXCategory(vh);
+                DrawLineChart(vh,false);
             }
         }
 
-        private void DrawXCategory(VertexHelper vh)
+        private Dictionary<int, List<Serie>> stackSeries = new Dictionary<int, List<Serie>>();
+        private List<float> seriesCurrHig = new List<float>();
+        private HashSet<string> serieNameSet = new HashSet<string>();
+        private List<Vector3> points = new List<Vector3>();
+        private List<int> pointSerieIndex = new List<int>();
+        private void DrawLineChart(VertexHelper vh, bool yCategory)
         {
-            var stackSeries = m_Series.GetStackSeries();
+            m_Series.GetStackSeries(ref stackSeries);
             int seriesCount = stackSeries.Count;
-
             int serieCount = 0;
-            List<Vector3> points = new List<Vector3>();
-            List<int> pointSerieIndex = new List<int>();
             int dataCount = 0;
-            HashSet<string> serieNameSet = new HashSet<string>();
+            serieNameSet.Clear();
+            points.Clear();
+            pointSerieIndex.Clear();
             int serieNameCount = -1;
             for (int j = 0; j < seriesCount; j++)
             {
-                var seriesCurrHig = new Dictionary<int, float>();
                 var serieList = stackSeries[j];
+                seriesCurrHig.Clear();
+                if (seriesCurrHig.Capacity != serieList[0].dataCount)
+                {
+                    seriesCurrHig.Capacity = serieList[0].dataCount;
+                }
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
@@ -70,50 +78,20 @@ namespace XCharts
                         serieNameCount++;
                     }
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
-                    DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
+                    if (yCategory)
+                        DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
+                    else
+                        DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
                 DrawLinePoint(vh, dataCount, points, pointSerieIndex);
-            }
-            DrawXTooltipIndicator(vh);
-        }
 
-        private void DrawYCategory(VertexHelper vh)
-        {
-            var stackSeries = m_Series.GetStackSeries();
-            int seriesCount = stackSeries.Count;
-            int serieCount = 0;
-            List<Vector3> points = new List<Vector3>();
-            List<int> pointSerieIndex = new List<int>();
-            int dataCount = 0;
-            HashSet<string> serieNameSet = new HashSet<string>();
-            int serieNameCount = -1;
-            for (int j = 0; j < seriesCount; j++)
-            {
-                var seriesHig = new Dictionary<int, float>();
-                var serieList = stackSeries[j];
-                for (int n = 0; n < serieList.Count; n++)
-                {
-                    Serie serie = serieList[n];
-                    if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
-                    else if (!serieNameSet.Contains(serie.name))
-                    {
-                        serieNameSet.Add(serie.name);
-                        serieNameCount++;
-                    }
-                    Color color = m_ThemeInfo.GetColor(serieNameCount);
-                    DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesHig);
-                    if (serie.show)
-                    {
-                        serieCount++;
-                    }
-                }
-                DrawLinePoint(vh, dataCount, points, pointSerieIndex);
             }
-            DrawYTooltipIndicator(vh);
+            if (yCategory) DrawYTooltipIndicator(vh);
+            else DrawXTooltipIndicator(vh);
         }
 
         private void DrawLinePoint(VertexHelper vh, int dataCount, List<Vector3> points, List<int> pointSerieIndex)
@@ -143,13 +121,17 @@ namespace XCharts
             }
         }
 
+        List<Vector3> lastPoints = new List<Vector3>();
+        List<Vector3> lastSmoothPoints = new List<Vector3>();
+        List<Vector3> smoothPoints = new List<Vector3>();
+        List<Vector3> smoothSegmentPoints = new List<Vector3>();
         private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref Dictionary<int, float> seriesHig)
+            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
-            List<Vector3> lastPoints = new List<Vector3>();
-            List<Vector3> lastSmoothPoints = new List<Vector3>();
-            List<Vector3> smoothPoints = new List<Vector3>();
+            lastPoints.Clear();
+            lastSmoothPoints.Clear();
+            smoothPoints.Clear();
             List<float> yData = serie.GetYDataList(m_DataZoom);
             List<float> xData = serie.GetXDataList(m_DataZoom);
 
@@ -183,11 +165,18 @@ namespace XCharts
                 }
             }
             int smoothPointCount = 1;
+            if (seriesHig.Count < minShowDataNumber)
+            {
+                for (int i = 0; i < minShowDataNumber; i++)
+                {
+                    seriesHig.Add(0);
+                }
+            }
             for (int i = minShowDataNumber; i < maxCount; i++)
             {
-                if (!seriesHig.ContainsKey(i))
+                if (i >= seriesHig.Count)
                 {
-                    seriesHig[i] = 0;
+                    seriesHig.Add(0);
                 }
                 float yValue = yData[i];
                 float yDataHig;
@@ -261,15 +250,14 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        Vector3[] list;
-                        if (xAxis.IsValue()) list = ChartHelper.GetBezierListVertical(lp, np, m_Line.smoothStyle);
-                        else list = ChartHelper.GetBezierList(lp, np, m_Line.smoothStyle);
+                        if (xAxis.IsValue()) ChartHelper.GetBezierListVertical(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
+                        else ChartHelper.GetBezierList(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
                         Vector3 start, to;
-                        start = list[0];
-                        for (int k = 1; k < list.Length; k++)
+                        start = smoothSegmentPoints[0];
+                        for (int k = 1; k < smoothSegmentPoints.Count; k++)
                         {
-                            smoothPoints.Add(list[k]);
-                            to = list[k];
+                            smoothPoints.Add(smoothSegmentPoints[k]);
+                            to = smoothSegmentPoints[k];
                             ChartHelper.DrawLine(vh, start, to, m_Line.tickness, color);
 
                             if (m_Line.area)
@@ -340,12 +328,12 @@ namespace XCharts
         }
 
         private void DrawYLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref Dictionary<int, float> seriesHig)
+            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
-            List<Vector3> lastPoints = new List<Vector3>();
-            List<Vector3> lastSmoothPoints = new List<Vector3>();
-            List<Vector3> smoothPoints = new List<Vector3>();
+            lastPoints.Clear();
+            lastSmoothPoints.Clear();
+            smoothPoints.Clear();
 
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
@@ -376,12 +364,19 @@ namespace XCharts
                     smoothPoints.Clear();
                 }
             }
-            int smoothPointCount = 1;
+             int smoothPointCount = 1;
+            if (seriesHig.Count < minShowDataNumber)
+            {
+                for (int i = 0; i < minShowDataNumber; i++)
+                {
+                    seriesHig.Add(0);
+                }
+            }
             for (int i = minShowDataNumber; i < maxCount; i++)
             {
-                if (!seriesHig.ContainsKey(i))
+                if (i >= seriesHig.Count)
                 {
-                    seriesHig[i] = 0;
+                    seriesHig.Add(0);
                 }
                 float value = serie.yData[i];
                 float pY = startY + i * scaleWid;
@@ -441,13 +436,13 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        var list = ChartHelper.GetBezierListVertical(lp, np, m_Line.smoothStyle);
+                        ChartHelper.GetBezierListVertical(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
                         Vector3 start, to;
-                        start = list[0];
-                        for (int k = 1; k < list.Length; k++)
+                        start = smoothSegmentPoints[0];
+                        for (int k = 1; k < smoothSegmentPoints.Count; k++)
                         {
-                            smoothPoints.Add(list[k]);
-                            to = list[k];
+                            smoothPoints.Add(smoothSegmentPoints[k]);
+                            to = smoothSegmentPoints[k];
                             ChartHelper.DrawLine(vh, start, to, m_Line.tickness, color);
 
                             if (m_Line.area)

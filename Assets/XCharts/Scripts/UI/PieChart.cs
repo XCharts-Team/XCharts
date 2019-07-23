@@ -80,6 +80,7 @@ namespace XCharts
         }
 #endif
 
+        HashSet<string> serieNameSet = new HashSet<string>();
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
@@ -89,7 +90,7 @@ namespace XCharts
             float dataTotal = GetDataTotal();
             float dataMax = GetDataMax();
             m_AngleList.Clear();
-            HashSet<string> serieNameSet = new HashSet<string>();
+            serieNameSet.Clear();
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {

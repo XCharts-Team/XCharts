@@ -177,7 +177,7 @@ namespace XCharts
                                 var xdata = serie.xData[n];
                                 var ydata = serie.yData[n];
                                 var serieData = serie.GetSerieData(n);
-                                var symbolSize = serie.symbol.GetSize(serieData == null?null:serieData.data);
+                                var symbolSize = serie.symbol.GetSize(serieData == null ? null : serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
                                 {
@@ -241,6 +241,7 @@ namespace XCharts
             }
         }
 
+        private StringBuilder sb = new StringBuilder(100);
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
@@ -268,7 +269,8 @@ namespace XCharts
                 return;
             }
 
-            StringBuilder sb = new StringBuilder();
+            sb.Length = 0;
+
             if (!isCartesian)
             {
                 sb.Append(tempAxis.GetData(index, m_DataZoom));
@@ -279,23 +281,23 @@ namespace XCharts
                 if (serie.show)
                 {
                     string key = serie.name;
-                    //if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(i);
-                    if (!string.IsNullOrEmpty(key)) key += " : ";
                     float xValue, yValue;
                     serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
                     if (isCartesian)
                     {
                         if (serie.selected)
                         {
-                            sb.AppendFormat("{0}[{1}, {2}]\n", key, xValue, yValue);
+                            sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
+                            sb.Append("[").Append(ChartCached.FloatToStr(xValue)).Append(",")
+                                .Append(ChartCached.FloatToStr(yValue)).Append("]\n");
                         }
                     }
                     else
                     {
-                        string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(i));
-                        sb.Append("\n");
-                        sb.AppendFormat("<color=#{0}>● </color>", strColor);
-                        sb.AppendFormat("{0}{1}", key, yValue);
+                        sb.Append("\n")
+                            .Append("<color=").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
+                            .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
+                            .Append(ChartCached.FloatToStr(yValue));
                     }
                 }
             }
@@ -327,6 +329,7 @@ namespace XCharts
         {
             var showTooltipLabel = axis.show && m_Tooltip.type == Tooltip.Type.Corss;
             axis.SetTooltipLabelActive(showTooltipLabel);
+            if (!showTooltipLabel) return;
             string labelText = "";
             Vector2 labelPos = Vector2.zero;
             if (axis is XAxis)
@@ -335,7 +338,7 @@ namespace XCharts
                 var diff = axisIndex > 0 ? -axis.axisLabel.fontSize - axis.axisLabel.margin - 3.5f : axis.axisLabel.margin / 2 + 1;
                 if (axis.IsValue())
                 {
-                    labelText = m_Tooltip.xValues[axisIndex].ToString("f2");
+                    labelText = ChartCached.FloatToStr(m_Tooltip.xValues[axisIndex], 2);
                     labelPos = new Vector2(m_Tooltip.pointerPos.x, posY - diff);
                 }
                 else
@@ -353,7 +356,7 @@ namespace XCharts
                 var diff = axisIndex > 0 ? -axis.axisLabel.margin + 3 : axis.axisLabel.margin - 3;
                 if (axis.IsValue())
                 {
-                    labelText = m_Tooltip.yValues[axisIndex].ToString("f2");
+                    labelText = ChartCached.FloatToStr(m_Tooltip.yValues[axisIndex], 2);
                     labelPos = new Vector2(posX - diff, m_Tooltip.pointerPos.y);
                 }
                 else

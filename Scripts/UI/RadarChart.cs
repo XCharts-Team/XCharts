@@ -160,6 +160,7 @@ namespace XCharts
             InitIndicator();
         }
 
+HashSet<string> serieNameSet = new HashSet<string>();
         private void DrawData(VertexHelper vh)
         {
             int indicatorNum = m_Radar.indicatorList.Count;
@@ -170,7 +171,7 @@ namespace XCharts
             Vector3 firstPoint = Vector3.zero;
             dataPosList.Clear();
             dataPosList.Capacity = m_Series.Count;
-            HashSet<string> serieNameSet = new HashSet<string>();
+            serieNameSet.Clear();
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {

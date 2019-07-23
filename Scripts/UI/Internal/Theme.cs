@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 using UnityEngine;
 using System;
 
@@ -60,6 +61,22 @@ namespace XCharts
             }
             index = index % m_ColorPalette.Length;
             return m_ColorPalette[index];
+        }
+
+        Dictionary<int, string> _colorDic = new Dictionary<int, string>();
+        public string GetColorStr(int index)
+        {
+            if (index < 0)
+            {
+                index = 0;
+            }
+            index = index % m_ColorPalette.Length;
+            if (_colorDic.ContainsKey(index)) return _colorDic[index];
+            else
+            {
+                _colorDic[index] = ColorUtility.ToHtmlStringRGBA(GetColor(index));
+                return _colorDic[index];
+            }
         }
 
         public void Copy(ThemeInfo theme)

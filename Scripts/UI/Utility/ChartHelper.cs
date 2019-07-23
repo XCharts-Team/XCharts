@@ -325,8 +325,7 @@ namespace XCharts
             }
         }
 
-
-        public static Vector3[] GetBezierList(Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetBezierList(ref List<Vector3> posList,Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -335,10 +334,10 @@ namespace XCharts
             cp1.y = sp.y;
             cp2.y = ep.y;
             int segment = (int)(dist / 0.3f);
-            return GetBezierList2(sp, ep, segment, cp1, cp2);
+            GetBezierList2(ref posList,sp, ep, segment, cp1, cp2);
         }
 
-        public static Vector3[] GetBezierListVertical(Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetBezierListVertical(ref List<Vector3> posList,Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -347,7 +346,7 @@ namespace XCharts
             cp1.y = sp.y;
             cp2.y = ep.y;
             int segment = (int)(dist / 0.3f);
-            return GetBezierList2(sp, ep, segment, cp2, cp1);
+            GetBezierList2(ref posList,sp, ep, segment, cp2, cp1);
         }
 
         public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)
@@ -361,16 +360,18 @@ namespace XCharts
             return list;
         }
 
-        public static Vector3[] GetBezierList2(Vector3 sp, Vector3 ep, int segment, Vector3 cp,
+        public static void GetBezierList2(ref List<Vector3> posList,Vector3 sp, Vector3 ep, int segment, Vector3 cp,
             Vector3 cp2)
         {
-            Vector3[] list = new Vector3[segment + 1];
+            posList.Clear();
+            if(posList.Capacity < segment + 1){
+                posList.Capacity = segment +1;
+            }
             for (int i = 0; i < segment; i++)
             {
-                list[i] = (GetBezier2(i / (float)segment, sp, cp, cp2, ep));
+                posList.Add((GetBezier2(i / (float)segment, sp, cp, cp2, ep))) ;
             }
-            list[segment] = ep;
-            return list;
+            posList.Add(ep);
         }
 
         public static Vector3 GetBezier(float t, Vector3 sp, Vector3 cp, Vector3 ep)

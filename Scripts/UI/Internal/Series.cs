@@ -297,16 +297,18 @@ namespace XCharts
             GetMinMaxValue(dataZoom, axisIndex, true, out minVaule, out maxValue);
         }
 
+        private Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
+        private Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
         public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool yValue, out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
             if (IsStack())
             {
-                var stackSeries = GetStackSeries();
-                foreach (var ss in stackSeries)
+                GetStackSeries(ref _stackSeriesForMinMax);
+                foreach (var ss in _stackSeriesForMinMax)
                 {
-                    var seriesTotalValue = new Dictionary<int, float>();
+                    _serieTotalValueForMinMax.Clear();
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
@@ -314,14 +316,14 @@ namespace XCharts
                         var showData = yValue ? serie.GetYDataList(dataZoom) : serie.GetXDataList(dataZoom);
                         for (int j = 0; j < showData.Count; j++)
                         {
-                            if (!seriesTotalValue.ContainsKey(j))
-                                seriesTotalValue[j] = 0;
-                            seriesTotalValue[j] = seriesTotalValue[j] + showData[j];
+                            if (!_serieTotalValueForMinMax.ContainsKey(j))
+                                _serieTotalValueForMinMax[j] = 0;
+                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + showData[j];
                         }
                     }
                     float tmax = int.MinValue;
                     float tmin = int.MaxValue;
-                    foreach (var tt in seriesTotalValue)
+                    foreach (var tt in _serieTotalValueForMinMax)
                     {
                         if (tt.Value > tmax) tmax = tt.Value;
                         if (tt.Value < tmin) tmin = tt.Value;
@@ -400,16 +402,17 @@ namespace XCharts
             return ChartHelper.GetMinDivisibleValue(min);
         }
 
+        private HashSet<string> _setForStack = new HashSet<string>();
         public bool IsStack()
         {
-            HashSet<string> sets = new HashSet<string>();
+            _setForStack.Clear();
             foreach (var serie in m_Series)
             {
                 if (string.IsNullOrEmpty(serie.stack)) continue;
-                if (sets.Contains(serie.stack)) return true;
+                if (_setForStack.Contains(serie.stack)) return true;
                 else
                 {
-                    sets.Add(serie.stack);
+                    _setForStack.Add(serie.stack);
                 }
             }
             return false;
@@ -447,6 +450,52 @@ namespace XCharts
                 }
             }
             return stackSeries;
+        }
+
+        private Dictionary<string, int> sets = new Dictionary<string, int>();
+        public void GetStackSeries(ref Dictionary<int, List<Serie>> stackSeries)
+        {
+            int count = 0;
+            sets.Clear();
+            if (stackSeries == null)
+            {
+                stackSeries = new Dictionary<int, List<Serie>>(m_Series.Count);
+            }
+            else
+            {
+                foreach (var kv in stackSeries)
+                {
+                    kv.Value.Clear();
+                }
+            }
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series[i];
+                serie.index = i;
+                if (string.IsNullOrEmpty(serie.stack))
+                {
+                    if (!stackSeries.ContainsKey(count))
+                        stackSeries[count] = new List<Serie>(m_Series.Count);
+                    stackSeries[count].Add(serie);
+                    count++;
+                }
+                else
+                {
+                    if (!sets.ContainsKey(serie.stack))
+                    {
+                        sets.Add(serie.stack, count);
+                        if (!stackSeries.ContainsKey(count))
+                            stackSeries[count] = new List<Serie>(m_Series.Count);
+                        stackSeries[count].Add(serie);
+                        count++;
+                    }
+                    else
+                    {
+                        int stackIndex = sets[serie.stack];
+                        stackSeries[stackIndex].Add(serie);
+                    }
+                }
+            }
         }
 
         public List<string> GetSerieNameList()

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -173,11 +174,13 @@ namespace XCharts
             lastDataIndex[1] = dataIndex[1];
         }
 
-        public bool IsSelected(){
+        public bool IsSelected()
+        {
             return dataIndex[0] >= 0 || dataIndex[1] >= 0;
         }
 
-        public bool IsSelectedDataIndex(int index){
+        public bool IsSelectedDataIndex(int index)
+        {
             return dataIndex[0] == index || dataIndex[1] == index;
         }
     }

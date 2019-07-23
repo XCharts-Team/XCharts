@@ -202,15 +202,21 @@ namespace XCharts
             return coordinateWidth / (m_BoundaryGap ? dataCount : dataCount - 1);
         }
 
+        private Dictionary<float, string> _cacheValue2str = new Dictionary<float, string>();
         public string GetLabelName(int index, float minValue, float maxValue, DataZoom dataZoom)
         {
             if (m_Type == AxisType.Value)
             {
                 float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber(dataZoom) - 1));
-                if (value - (int)value == 0)
-                    return (value).ToString();
+                if (_cacheValue2str.ContainsKey(value)) return _cacheValue2str[value];
                 else
-                    return (value).ToString("f1");
+                {
+                    if (value - (int)value == 0)
+                        _cacheValue2str[value] = (value).ToString();
+                    else
+                        _cacheValue2str[value] = (value).ToString("f1");
+                    return _cacheValue2str[value];
+                }
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;

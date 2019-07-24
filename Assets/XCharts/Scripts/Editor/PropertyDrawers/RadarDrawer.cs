@@ -112,7 +112,7 @@ namespace XCharts
                 }
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_IndicatorToggle = EditorGUI.Foldout(drawRect, m_IndicatorToggle, "Indicators");
-                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_IndicatorJsonAreaToggle, ref m_IndicatorJsonAreaText, prop);
+                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_IndicatorJsonAreaToggle, ref m_IndicatorJsonAreaText, prop,pos.width);
                 drawRect.width = pos.width;
                 if (m_IndicatorToggle)
                 {

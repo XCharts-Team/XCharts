@@ -113,7 +113,7 @@ namespace XCharts
                 {
                     drawRect.width = EditorGUIUtility.labelWidth + 10;
                     m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
-                    ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop);
+                    ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
                     drawRect.width = pos.width;
                     if (m_DataFoldout[index])
                     {

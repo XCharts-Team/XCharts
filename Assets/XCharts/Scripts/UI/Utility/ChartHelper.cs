@@ -110,7 +110,6 @@ namespace XCharts
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
-            txt.fontStyle = fontStyle;
             if (rotate > 0)
             {
                 txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);

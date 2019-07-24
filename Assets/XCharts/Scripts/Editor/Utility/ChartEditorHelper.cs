@@ -19,13 +19,13 @@ public class ChartEditorHelper
     }
 
     public static void MakeJsonData(ref Rect drawRect, ref bool showTextArea, ref string inputString,
-        SerializedProperty prop)
+        SerializedProperty prop,float currentWidth)
     {
         SerializedProperty stringDataProp = prop.FindPropertyRelative("m_JsonData");
         SerializedProperty needParseProp = prop.FindPropertyRelative("m_DataFromJson");
         float defalutX = drawRect.x;
-        drawRect.x = EditorGUIUtility.labelWidth + 15;
-        drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 35;
+        drawRect.x = EditorGUIUtility.labelWidth + 14;
+        drawRect.width = currentWidth - EditorGUIUtility.labelWidth;
         if (GUI.Button(drawRect, new GUIContent("Parse JsonData", "Parse data from input json")))
         {
             showTextArea = !showTextArea;
@@ -40,10 +40,10 @@ public class ChartEditorHelper
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         if (showTextArea)
         {
-            drawRect.width = EditorGUIUtility.currentViewWidth - drawRect.x - 20;
-            drawRect.height = EditorGUIUtility.singleLineHeight * 3;
+            drawRect.width = currentWidth;
+            drawRect.height = EditorGUIUtility.singleLineHeight * 4;
             inputString = EditorGUI.TextArea(drawRect, inputString);
-            drawRect.y += EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing;
+            drawRect.y += EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing;
             drawRect.height = EditorGUIUtility.singleLineHeight;
         }
     }

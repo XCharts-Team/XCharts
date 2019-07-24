@@ -82,13 +82,13 @@ namespace XCharts
         public SymbolSizeCallback sizeCallback { get { return m_SizeCallback; } set { m_SizeCallback = value; } }
         public SymbolSizeCallback selectedSizeCallback { get { return m_SelectedSizeCallback; } set { m_SelectedSizeCallback = value; } }
 
-        private List<float> m_AnimationSize = new List<float>(){0,5,10};
-        public List<float> animationSize { get{return m_AnimationSize;}}
+        private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
+        public List<float> animationSize { get { return m_AnimationSize; } }
         public Color animationColor { get; set; }
 
         public float GetSize(List<float> data)
         {
-            if(data == null) return size;
+            if (data == null) return size;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
@@ -111,7 +111,7 @@ namespace XCharts
 
         public float GetSelectedSize(List<float> data)
         {
-            if(data == null) return selectedSize;
+            if (data == null) return selectedSize;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
@@ -311,7 +311,8 @@ namespace XCharts
             return 0;
         }
 
-         public SerieData GetSerieData(int index,DataZoom dataZoom = null){
+        public SerieData GetSerieData(int index, DataZoom dataZoom = null)
+        {
             var data = GetDataList(dataZoom);
             if (index >= 0 && index <= data.Count - 1)
             {
@@ -387,7 +388,7 @@ namespace XCharts
             }
         }
 
-       
+
 
         public void UpdateFilterData(DataZoom dataZoom)
         {
@@ -457,12 +458,16 @@ namespace XCharts
         public override void ParseJsonData(string jsonData)
         {
             if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
-            ClearData();
             jsonData = jsonData.Replace("\r\n", "");
             jsonData = jsonData.Replace(" ", "");
             jsonData = jsonData.Replace("\n", "");
             int startIndex = jsonData.IndexOf("[");
             int endIndex = jsonData.LastIndexOf("]");
+            if (startIndex == -1 || endIndex == -1){
+                Debug.LogError("json data need include in [ ]");
+                return;
+            }
+            ClearData();
             string temp = jsonData.Substring(startIndex + 1, endIndex - startIndex - 1);
             if (temp.IndexOf("],") > -1 || temp.IndexOf("] ,") > -1)
             {

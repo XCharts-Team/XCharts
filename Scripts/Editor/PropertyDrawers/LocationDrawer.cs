@@ -72,14 +72,14 @@ namespace XCharts
             switch ((Location.Align)align.enumValueIndex)
             {
                 case Location.Align.Center:
-                    return 1 * EditorGUIUtility.singleLineHeight + 0 * EditorGUIUtility.standardVerticalSpacing;
+                    return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                 case Location.Align.TopCenter:
                 case Location.Align.BottomCenter:
                 case Location.Align.CenterLeft:
                 case Location.Align.CenterRight:
-                    return 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    return 2 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
                 default:
-                    return 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+                    return 3 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
             }
         }
     }

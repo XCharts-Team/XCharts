@@ -51,17 +51,22 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
                 }
-
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
-                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop);
+                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
                 drawRect.width = pos.width;
                 if (m_DataFoldout[index])
                 {
                     EditorGUI.indentLevel++;
-                    EditorGUI.PropertyField(drawRect, m_ShowDataName);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_DataDimension);
+
+                    float nameWid = 76;
+                    EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - nameWid - 2, pos.height), m_DataDimension);
+                    var nameRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid, pos.height);
+                    var btnName = m_ShowDataName.boolValue ? "Hide Name" : "Show Name";
+                    if (GUI.Button(nameRect, new GUIContent(btnName)))
+                    {
+                        m_ShowDataName.boolValue = !m_ShowDataName.boolValue;
+                    }
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                     var listSize = m_Datas.arraySize;
@@ -84,20 +89,20 @@ namespace XCharts
                         int num = listSize > 10 ? 10 : listSize;
                         for (int i = 0; i < num; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i, pos.width);
                         }
                         if (num >= 10)
                         {
                             EditorGUI.LabelField(drawRect, "...");
                             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, listSize - 1);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, listSize - 1, pos.width);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < m_Datas.arraySize; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i, pos.width);
                         }
                     }
                     EditorGUI.indentLevel--;
@@ -106,7 +111,7 @@ namespace XCharts
             }
         }
 
-        private void DrawDataElement(ref Rect drawRect, int dimension, SerializedProperty m_Datas, bool showName, int index)
+        private void DrawDataElement(ref Rect drawRect, int dimension, SerializedProperty m_Datas, bool showName, int index, float currentWidth)
         {
             var lastX = drawRect.x;
             var lastWid = drawRect.width;
@@ -128,8 +133,8 @@ namespace XCharts
             else
             {
                 EditorGUI.LabelField(drawRect, "Element " + index);
-                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 - 1;
-                var dataWidTotal = (EditorGUIUtility.currentViewWidth - (startX + EditorGUI.indentLevel * 15 + 1) - 5);
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+                var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                 var dataWid = dataWidTotal / fieldCount;
                 var xWid = dataWid - 4;
                 for (int i = 0; i < dimension; i++)
@@ -171,7 +176,7 @@ namespace XCharts
             {
                 height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
-                if (type.enumValueIndex == (int)SerieType.Line 
+                if (type.enumValueIndex == (int)SerieType.Line
                     || type.enumValueIndex == (int)SerieType.Scatter
                     || type.enumValueIndex == (int)SerieType.EffectScatter)
                 {
@@ -181,7 +186,7 @@ namespace XCharts
                 if (m_DataFoldout[index])
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
-                    int num = m_Data.arraySize + 3;
+                    int num = m_Data.arraySize + 2;
                     if (num > 30) num = 13;
                     height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
                 }

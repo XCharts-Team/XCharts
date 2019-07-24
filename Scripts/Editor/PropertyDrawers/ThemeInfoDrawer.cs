@@ -58,11 +58,11 @@ namespace XCharts
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ThemeModuleToggle, "Theme");
             drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
-            drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - (m_ThemeModuleToggle ? 80 : 18);
+            drawRect.width = defaultWidth - EditorGUIUtility.labelWidth - (m_ThemeModuleToggle ? 45 : 0);
             EditorGUI.PropertyField(drawRect, m_Theme, GUIContent.none);
             if (m_ThemeModuleToggle)
             {
-                drawRect.x = EditorGUIUtility.currentViewWidth - 65;
+                drawRect.x = defaultWidth - 30;
                 drawRect.width = 45;
                 if (GUI.Button(drawRect, new GUIContent("Reset", "Reset to theme default color")))
                 {
@@ -123,11 +123,12 @@ namespace XCharts
                 drawRect.width = defaultWidth;
 
                 ++EditorGUI.indentLevel;
-                var font = m_Font.objectReferenceValue as Font;
-                EditorGUI.PropertyField(drawRect, m_Font);
-                if (font != m_Font.objectReferenceValue)
+                EditorGUI.BeginChangeCheck();
+                var font =m_CustomFont.objectReferenceValue != null?m_CustomFont: m_Font;
+                EditorGUI.PropertyField(drawRect, font);
+                if (EditorGUI.EndChangeCheck())
                 {
-                    m_CustomFont.objectReferenceValue = m_Font.objectReferenceValue;
+                    m_CustomFont.objectReferenceValue = font.objectReferenceValue;
                 }
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 

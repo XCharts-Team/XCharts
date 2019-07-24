@@ -142,7 +142,7 @@ namespace XCharts
         {
             base.OnThemeChanged();
             m_Radar.backgroundColorList.Clear();
-            switch (m_Theme)
+            switch (m_ThemeInfo.theme)
             {
                 case Theme.Dark:
                     m_Radar.backgroundColorList.Add(ThemeInfo.GetColor("#6f6f6f"));

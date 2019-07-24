@@ -21,7 +21,6 @@ namespace XCharts
 
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
-        [SerializeField] protected Theme m_Theme = Theme.Default;
         [SerializeField] protected ThemeInfo m_ThemeInfo;
         [SerializeField] protected Title m_Title = Title.defaultTitle;
         [SerializeField] protected Legend m_Legend = Legend.defaultLegend;
@@ -291,7 +290,7 @@ namespace XCharts
         /// <param name="theme">theme</param>
         public void UpdateTheme(Theme theme)
         {
-            this.m_Theme = theme;
+            m_ThemeInfo.theme = theme;
             OnThemeChanged();
             RefreshChart();
         }
@@ -310,7 +309,7 @@ namespace XCharts
             m_ChartHeight = rectTransform.sizeDelta.y;
             m_CheckWidth = m_ChartWidth;
             m_CheckHeight = m_ChartHeight;
-            m_CheckTheme = m_Theme;
+            m_CheckTheme = m_ThemeInfo.theme;
             InitTitle();
             InitLegend();
             InitTooltip();
@@ -495,9 +494,9 @@ namespace XCharts
 
         private void CheckTheme()
         {
-            if (m_CheckTheme != m_Theme)
+            if (m_CheckTheme != m_ThemeInfo.theme)
             {
-                m_CheckTheme = m_Theme;
+                m_CheckTheme = m_ThemeInfo.theme;
                 OnThemeChanged();
             }
         }
@@ -596,7 +595,7 @@ namespace XCharts
 
         protected virtual void OnThemeChanged()
         {
-            switch (m_Theme)
+            switch (m_ThemeInfo.theme)
             {
                 case Theme.Dark:
                     m_ThemeInfo.Copy(ThemeInfo.Dark);

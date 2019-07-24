@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -156,7 +155,6 @@ public class Demo : MonoBehaviour
         m_ScrollRect.content = selectedModule.panel.GetComponent<RectTransform>();
         m_Title.text = string.IsNullOrEmpty(selectedModule.title) ?
             selectedModule.name : selectedModule.title;
-        SelecteTheme(m_SelectedTheme);
     }
 
     void InitThemeButton()
@@ -173,7 +171,7 @@ public class Demo : MonoBehaviour
         m_LightThemeButton.onClick.AddListener(delegate () { SelecteTheme(Theme.Light); });
         m_DarkThemeButton.onClick.AddListener(delegate () { SelecteTheme(Theme.Dark); });
 
-        SelecteTheme(Theme.Default);
+        //SelecteTheme(Theme.Default);
     }
 
     void SelecteTheme(Theme theme)

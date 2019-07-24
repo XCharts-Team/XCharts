@@ -7,7 +7,7 @@ namespace XCharts
 {
     public enum Theme
     {
-        Default = 1,
+        Default,
         Light,
         Dark
     }
@@ -15,6 +15,7 @@ namespace XCharts
     [Serializable]
     public class ThemeInfo : IEquatable<ThemeInfo>
     {
+        [SerializeField] private Theme m_Theme = Theme.Default;
         [SerializeField] private Font m_Font;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private Color32 m_TextColor;
@@ -34,33 +35,128 @@ namespace XCharts
         [SerializeField] private Color32 m_DataZoomSelectedColor;
         [SerializeField] private Color32[] m_ColorPalette;
 
-        public Font font { get { return m_Font; } set { m_Font = value; } }
-        public Color32 backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
-        public Color32 textColor { get { return m_TextColor; } set { m_TextColor = value; } }
-        public Color32 titleSubTextColor { get { return m_TitleSubTextColor; } set { m_TitleSubTextColor = value; } }
-        public Color32 legendTextColor { get { return m_LegendTextColor; } set { m_LegendTextColor = value; } }
-        public Color32 legendUnableColor { get { return m_LegendUnableColor; } set { m_LegendUnableColor = value; } }
-        public Color32 axisTextColor { get { return m_AxisTextColor; } set { m_AxisTextColor = value; } }
-        public Color32 axisLineColor { get { return m_AxisLineColor; } set { m_AxisLineColor = value; } }
-        public Color32 axisSplitLineColor { get { return m_AxisSplitLineColor; } set { m_AxisSplitLineColor = value; } }
-        public Color32 tooltipBackgroundColor { get { return m_TooltipBackgroundColor; } set { m_TooltipBackgroundColor = value; } }
-        public Color32 tooltipFlagAreaColor { get { return m_TooltipFlagAreaColor; } set { m_TooltipFlagAreaColor = value; } }
-        public Color32 tooltipTextColor { get { return m_TooltipTextColor; } set { m_TooltipTextColor = value; } }
-        public Color32 tooltipLabelColor { get { return m_TooltipLabelColor; } set { m_TooltipLabelColor = value; } }
-        public Color32 tooltipLineColor { get { return m_TooltipLineColor; } set { m_TooltipLineColor = value; } }
-        public Color32 dataZoomTextColor { get { return m_DataZoomTextColor; } set { m_DataZoomTextColor = value; } }
-        public Color32 dataZoomLineColor { get { return m_DataZoomLineColor; } set { m_DataZoomLineColor = value; } }
-        public Color32 dataZoomSelectedColor { get { return m_DataZoomSelectedColor; } set { m_DataZoomSelectedColor = value; } }
-        public Color32[] colorPalette { get { return m_ColorPalette; } set { m_ColorPalette = value; } }
+        [SerializeField] private Font m_CustomFont;
+        [SerializeField] private Color32 m_CustomBackgroundColor;
+        [SerializeField] private Color32 m_CustomTextColor;
+        [SerializeField] private Color32 m_CustomTitleSubTextColor;
+        [SerializeField] private Color32 m_CustomLegendTextColor;
+        [SerializeField] private Color32 m_CustomLegendUnableColor;
+        [SerializeField] private Color32 m_CustomAxisTextColor;
+        [SerializeField] private Color32 m_CustomAxisLineColor;
+        [SerializeField] private Color32 m_CustomAxisSplitLineColor;
+        [SerializeField] private Color32 m_CustomTooltipBackgroundColor;
+        [SerializeField] private Color32 m_CustomTooltipFlagAreaColor;
+        [SerializeField] private Color32 m_CustomTooltipTextColor;
+        [SerializeField] private Color32 m_CustomTooltipLabelColor;
+        [SerializeField] private Color32 m_CustomTooltipLineColor;
+        [SerializeField] private Color32 m_CustomDataZoomTextColor;
+        [SerializeField] private Color32 m_CustomDataZoomLineColor;
+        [SerializeField] private Color32 m_CustomDataZoomSelectedColor;
+        [SerializeField] private List<Color32> m_CustomColorPalette = new List<Color32>(13);
+
+        public Theme theme { get { return m_Theme; } set { m_Theme = value; } }
+        public Font font
+        {
+            get { return m_CustomFont != null ? m_CustomFont : m_Font; }
+            set { m_CustomFont = value; }
+        }
+        public Color32 backgroundColor
+        {
+            get { return m_CustomBackgroundColor != Color.clear ? m_CustomBackgroundColor : m_BackgroundColor; }
+            set { m_CustomBackgroundColor = value; }
+        }
+        public Color32 textColor
+        {
+            get { return m_CustomTextColor != Color.clear ? m_CustomTextColor : m_TextColor; }
+            set { m_CustomTextColor = value; }
+        }
+        public Color32 titleSubTextColor
+        {
+            get { return m_CustomTitleSubTextColor != Color.clear ? m_CustomTitleSubTextColor : m_TitleSubTextColor; }
+            set { m_CustomTitleSubTextColor = value; }
+        }
+        public Color32 legendTextColor
+        {
+            get { return m_CustomLegendTextColor != Color.clear ? m_CustomLegendTextColor : m_LegendTextColor; }
+            set { m_CustomLegendTextColor = value; }
+        }
+        public Color32 legendUnableColor
+        {
+            get { return m_CustomLegendUnableColor != Color.clear ? m_CustomLegendUnableColor : m_LegendUnableColor; }
+            set { m_CustomLegendUnableColor = value; }
+        }
+        public Color32 axisTextColor
+        {
+            get { return m_CustomAxisTextColor != Color.clear ? m_CustomAxisTextColor : m_AxisTextColor; }
+            set { m_CustomAxisTextColor = value; }
+        }
+        public Color32 axisLineColor
+        {
+            get { return m_CustomAxisLineColor != Color.clear ? m_CustomAxisLineColor : m_AxisLineColor; }
+            set { m_CustomAxisLineColor = value; }
+        }
+        public Color32 axisSplitLineColor
+        {
+            get { return m_CustomAxisSplitLineColor != Color.clear ? m_CustomAxisSplitLineColor : m_AxisSplitLineColor; }
+            set { m_CustomAxisSplitLineColor = value; }
+        }
+        public Color32 tooltipBackgroundColor
+        {
+            get { return m_CustomTooltipBackgroundColor != Color.clear ? m_CustomTooltipBackgroundColor : m_TooltipBackgroundColor; }
+            set { m_CustomTooltipBackgroundColor = value; }
+        }
+        public Color32 tooltipFlagAreaColor
+        {
+            get { return m_CustomTooltipFlagAreaColor != Color.clear ? m_CustomTooltipFlagAreaColor : m_TooltipFlagAreaColor; }
+            set { m_CustomTooltipFlagAreaColor = value; }
+        }
+        public Color32 tooltipTextColor
+        {
+            get { return m_CustomTooltipTextColor != Color.clear ? m_CustomTooltipTextColor : m_TooltipTextColor; }
+            set { m_CustomTooltipTextColor = value; }
+        }
+        public Color32 tooltipLabelColor
+        {
+            get { return m_CustomTooltipLabelColor != Color.clear ? m_CustomTooltipLabelColor : m_TooltipLabelColor; }
+            set { m_CustomTooltipLabelColor = value; }
+        }
+        public Color32 tooltipLineColor
+        {
+            get { return m_CustomTooltipLineColor != Color.clear ? m_CustomTooltipLineColor : m_TooltipLineColor; }
+            set { m_CustomTooltipLineColor = value; }
+        }
+        public Color32 dataZoomTextColor
+        {
+            get { return m_CustomDataZoomTextColor != Color.clear ? m_CustomDataZoomTextColor : m_DataZoomTextColor; }
+            set { m_CustomDataZoomTextColor = value; }
+        }
+        public Color32 dataZoomLineColor
+        {
+            get { return m_CustomDataZoomLineColor != Color.clear ? m_CustomDataZoomLineColor : m_DataZoomLineColor; }
+            set { m_CustomDataZoomLineColor = value; }
+        }
+        public Color32 dataZoomSelectedColor
+        {
+            get { return m_CustomDataZoomSelectedColor != Color.clear ? m_CustomDataZoomSelectedColor : m_DataZoomSelectedColor; }
+            set { m_CustomDataZoomSelectedColor = value; }
+        }
+        public List<Color32> colorPalette { set { m_CustomColorPalette = value; } }
 
         public Color32 GetColor(int index)
         {
-            if (index < 0)
+            if (index < 0) index = 0;
+            var customIndex = index >= m_CustomColorPalette.Count ? index : index % m_CustomColorPalette.Count;
+            if (customIndex < m_CustomColorPalette.Count && m_CustomColorPalette[customIndex] != Color.clear)
             {
-                index = 0;
+                return m_CustomColorPalette[customIndex];
             }
-            index = index % m_ColorPalette.Length;
-            return m_ColorPalette[index];
+            else
+            {
+                var newIndex = index >= m_ColorPalette.Length ? index : index % m_ColorPalette.Length;
+                if (newIndex < m_ColorPalette.Length)
+                    return m_ColorPalette[newIndex];
+                else return Color.clear;
+            }
         }
 
         Dictionary<int, string> _colorDic = new Dictionary<int, string>();
@@ -81,6 +177,7 @@ namespace XCharts
 
         public void Copy(ThemeInfo theme)
         {
+            m_Theme = theme.theme;
             m_Font = theme.m_Font;
             m_BackgroundColor = theme.m_BackgroundColor;
             m_LegendUnableColor = theme.m_LegendUnableColor;
@@ -104,12 +201,38 @@ namespace XCharts
             }
         }
 
+        public void Reset()
+        {
+            m_Theme = Theme.Default;
+            m_Font = null;
+            m_BackgroundColor = Color.clear;
+            m_LegendUnableColor = Color.clear;
+            m_TextColor = Color.clear;
+            m_TitleSubTextColor = Color.clear;
+            m_LegendTextColor = Color.clear;
+            m_AxisTextColor = Color.clear;
+            m_AxisLineColor = Color.clear;
+            m_AxisSplitLineColor = Color.clear;
+            m_TooltipBackgroundColor = Color.clear;
+            m_TooltipTextColor = Color.clear;
+            m_TooltipLabelColor = Color.clear;
+            m_TooltipLineColor = Color.clear;
+            m_DataZoomLineColor = Color.clear;
+            m_DataZoomSelectedColor = Color.clear;
+            m_DataZoomTextColor = Color.clear;
+            for (int i = 0; i < m_CustomColorPalette.Count; i++)
+            {
+                m_CustomColorPalette[i] = Color.clear;
+            }
+        }
+
         public static ThemeInfo Default
         {
             get
             {
                 return new ThemeInfo()
                 {
+                    m_Theme = Theme.Default,
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     m_BackgroundColor = new Color32(255, 255, 255, 255),
                     m_LegendUnableColor = GetColor("#cccccc"),
@@ -140,6 +263,19 @@ namespace XCharts
                         new Color32(110, 112, 116, 255),
                         new Color32(84, 101, 112, 255),
                         new Color32(196, 204, 211, 255)
+                    },
+                    m_CustomColorPalette = new List<Color32>{
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear
                     }
                 };
             }
@@ -151,6 +287,7 @@ namespace XCharts
             {
                 return new ThemeInfo()
                 {
+                    m_Theme = Theme.Light,
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     m_BackgroundColor = new Color32(255, 255, 255, 255),
                     m_LegendUnableColor = GetColor("#cccccc"),
@@ -183,6 +320,21 @@ namespace XCharts
                         new Color32(157, 150, 245, 255),
                         new Color32(131, 120, 234, 255),
                         new Color32(150, 191, 255, 255)
+                    },
+                    m_CustomColorPalette = new List<Color32>{
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear
                     }
                 };
             }
@@ -194,6 +346,7 @@ namespace XCharts
             {
                 return new ThemeInfo()
                 {
+                    m_Theme = Theme.Dark,
                     m_Font = Resources.GetBuiltinResource<Font>("Arial.ttf"),
                     m_LegendUnableColor = GetColor("#cccccc"),
                     m_BackgroundColor = new Color32(34, 34, 34, 255),
@@ -224,6 +377,19 @@ namespace XCharts
                         new Color32(114, 137, 171, 255),
                         new Color32(145, 202, 140, 255),
                         new Color32(244, 159, 66, 255)
+                    },
+                    m_CustomColorPalette = new List<Color32>{
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear,
+                        Color.clear
                     }
                 };
             }

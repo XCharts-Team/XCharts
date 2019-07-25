@@ -28,14 +28,8 @@ namespace XCharts
 
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
-
         private int m_SeriesSize;
-
-
-        private bool m_ThemeModuleToggle = false;
         private bool m_BaseModuleToggle = false;
-
-
 
         protected virtual void OnEnable()
         {

@@ -7,13 +7,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(SerieSymbol), true)]
     public class SerieSymbolDrawer : PropertyDrawer
     {
-
-        private List<bool> m_SerieModuleToggle = new List<bool>();
-        private List<bool> m_DataFoldout = new List<bool>();
-        private int m_DataSize = 0;
-        private bool m_ShowJsonDataArea = false;
-        private string m_JsonDataAreaText;
-
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             Rect drawRect = pos;
@@ -25,9 +18,6 @@ namespace XCharts
             SerializedProperty m_DataIndex = prop.FindPropertyRelative("m_DataIndex");
             SerializedProperty m_DataScale = prop.FindPropertyRelative("m_DataScale");
             SerializedProperty m_SelectedDataScale = prop.FindPropertyRelative("m_SelectedDataScale");
-
-            SerializedProperty m_SizeCallback = prop.FindPropertyRelative("m_SizeCallback");
-            SerializedProperty m_SelectedSizeCallback = prop.FindPropertyRelative("m_SelectedSizeCallback");
 
             EditorGUI.PropertyField(drawRect, m_Type, new GUIContent("Symbol Type"));
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

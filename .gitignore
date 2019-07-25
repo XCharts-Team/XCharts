@@ -4,7 +4,8 @@
 /Library
 /Temp
 /UnityPackageManager
-
+/Assets/Res
+/Assets/Res.meta
 /Assets/XCharts/Demo/demo_test.unity
 /Assets/XCharts/Demo/demo_test.unity.meta
 

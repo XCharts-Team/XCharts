@@ -89,7 +89,6 @@ namespace XCharts
                 int maxCount = maxShowDataNumber > 0 ?
                     (maxShowDataNumber > serie.dataCount ? serie.dataCount : maxShowDataNumber)
                     : serie.dataCount;
-                int dataCount = (maxCount - minShowDataNumber);
                 for (int n = minShowDataNumber; n < maxCount; n++)
                 {
                     float xValue, yValue;

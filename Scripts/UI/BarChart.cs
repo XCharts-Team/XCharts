@@ -167,7 +167,6 @@ namespace XCharts
             serieNameSet.Clear();
             for (int j = 0; j < seriesCount; j++)
             {
-                var seriesHig = new Dictionary<int, float>();
                 var serieList = stackSeries[j];
                 seriesCurrHig.Clear();
                 if (seriesCurrHig.Capacity != serieList[0].dataCount)

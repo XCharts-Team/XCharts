@@ -85,7 +85,6 @@ public class Demo : MonoBehaviour
 
     void InitModuleButton()
     {
-        var font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         var btnPanel = transform.Find("chart_list");
         m_BtnClone = transform.Find("btn_clone").gameObject;
         m_BtnClone.SetActive(false);
@@ -104,7 +103,7 @@ public class Demo : MonoBehaviour
                 btn = GameObject.Instantiate(m_BtnClone);
                 btn.SetActive(true);
                 btn.name = btnName;
-                btn.transform.parent = btnPanel;
+                btn.transform.SetParent(btnPanel);
                 btn.transform.localPosition = Vector3.zero;
             }
             btn.transform.localScale = Vector3.one;

@@ -84,7 +84,7 @@ namespace XCharts
             {
                 obj = new GameObject();
                 obj.name = name;
-                obj.transform.parent = parent;
+                obj.transform.SetParent(parent);
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;
             }

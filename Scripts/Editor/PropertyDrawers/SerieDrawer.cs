@@ -10,7 +10,6 @@ namespace XCharts
 
         private List<bool> m_SerieModuleToggle = new List<bool>();
         private List<bool> m_DataFoldout = new List<bool>();
-        private int m_DataSize = 0;
         private bool m_ShowJsonDataArea = false;
         private string m_JsonDataAreaText;
 
@@ -160,8 +159,6 @@ namespace XCharts
                 EditorGUIUtility.fieldWidth = lastFieldWid;
                 EditorGUIUtility.labelWidth = lastLabelWid;
             }
-            SerializedProperty element1 = data.GetArrayElementAtIndex(0);
-            SerializedProperty element2 = data.GetArrayElementAtIndex(1);
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)

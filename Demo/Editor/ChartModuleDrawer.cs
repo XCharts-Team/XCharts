@@ -6,8 +6,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(ChartModule), true)]
     public class ChartModuleDrawer : PropertyDrawer
     {
-        bool m_BarModuleToggle = true;
-
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             Rect drawRect = pos;

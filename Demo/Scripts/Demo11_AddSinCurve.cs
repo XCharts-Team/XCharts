@@ -46,7 +46,7 @@ public class Demo11_AddSinCurve : MonoBehaviour
         {
             float xvalue = Mathf.PI / 180 * angle;
             float yvalue = Mathf.Sin(xvalue);
-            chart.AddXYData(0, xvalue, yvalue);
+            chart.AddData(0, xvalue, yvalue);
         }
     }
 
@@ -56,6 +56,6 @@ public class Demo11_AddSinCurve : MonoBehaviour
         angle++;
         float xvalue = Mathf.PI / 180 * angle;
         float yvalue = Mathf.Sin(xvalue);
-        chart.AddXYData(0, xvalue, yvalue);
+        chart.AddData(0, xvalue, yvalue);
     }
 }

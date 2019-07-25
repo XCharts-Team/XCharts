@@ -172,6 +172,28 @@ namespace XCharts
             return false;
         }
 
+        public bool AddData(string serieName, List<float> multidimensionalData, int maxDataNumber = 0)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                serie.AddData(multidimensionalData, maxDataNumber);
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddData(int serieIndex, List<float> multidimensionalData, int maxDataNumber = 0)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                serie.AddData(multidimensionalData, maxDataNumber);
+                return true;
+            }
+            return false;
+        }
+
         public bool AddXYData(string serieName, float xValue, float yValue, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);

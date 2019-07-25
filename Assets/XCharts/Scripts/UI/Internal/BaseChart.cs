@@ -357,7 +357,7 @@ namespace XCharts
         protected override void OnDisable()
         {
             base.OnDisable();
-            ChartHelper.DestoryAllChilds(transform);
+            ChartHelper.HideAllObject(transform);
         }
 
 #if UNITY_EDITOR
@@ -368,7 +368,7 @@ namespace XCharts
             {
                 rectTransform.sizeDelta = new Vector2(580, 300);
             }
-            ChartHelper.DestoryAllChilds(transform);
+            ChartHelper.HideAllObject(transform);
             m_ThemeInfo = ThemeInfo.Default;
             m_Title = Title.defaultTitle;
             m_Legend = Legend.defaultLegend;

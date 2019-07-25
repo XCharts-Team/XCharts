@@ -140,10 +140,10 @@ namespace XCharts
         [SerializeField] private bool m_Selected;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
-        [SerializeField] private int m_AxisIndex;
+        [SerializeField][Range(0,1)] private int m_AxisIndex;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
 
-        [SerializeField] private int m_ShowDataDimension;
+        [SerializeField][Range(1,6)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [FormerlySerializedAs("m_Data")]
         [SerializeField] private List<float> m_YData = new List<float>();

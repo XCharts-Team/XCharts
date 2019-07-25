@@ -145,7 +145,7 @@ namespace XCharts
                     }
                     drawRect.x = startX + i * xWid;
                     drawRect.width = dataWid + 40;
-                    SerializedProperty element = data.GetArrayElementAtIndex(i);
+                    SerializedProperty element = data.GetArrayElementAtIndex(dimension <= 1 ? 1 : i);
                     EditorGUI.PropertyField(drawRect, element, GUIContent.none);
                 }
                 if (showName)

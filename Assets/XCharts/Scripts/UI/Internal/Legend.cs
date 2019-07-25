@@ -141,7 +141,7 @@ namespace XCharts
 
         public void AddData(string name)
         {
-            if (!m_Data.Contains(name))
+            if (!m_Data.Contains(name) && !string.IsNullOrEmpty(name))
             {
                 m_Data.Add(name);
             }

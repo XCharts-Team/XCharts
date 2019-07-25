@@ -301,12 +301,52 @@ namespace XCharts
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
 
+        public void AddData(List<float> valueList, int maxDataNumber = 0, string dataName = null)
+        {
+            if (valueList == null || valueList.Count == 0) return;
+            if (valueList.Count == 1)
+            {
+                AddYData(valueList[0], maxDataNumber, dataName);
+            }
+            else if (valueList.Count == 2)
+            {
+                AddXYData(valueList[0], valueList[1], maxDataNumber, dataName);
+            }
+            else
+            {
+                if (maxDataNumber > 0)
+                {
+                    while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
+                    while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
+                    while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
+                }
+                var serieData = new SerieData();
+                serieData.name = dataName;
+                for (int i = 0; i < valueList.Count; i++)
+                {
+                    if (i == 0) m_XData.Add(valueList[i]);
+                    else if (i == 1) m_YData.Add(valueList[i]);
+                    serieData.data.Add(valueList[0]);
+                }
+                m_Data.Add(serieData);
+            }
+        }
+
         public float GetYData(int index, DataZoom dataZoom = null)
         {
+            if (index < 0) return 0;
             var showData = GetYDataList(dataZoom);
-            if (index >= 0 && index <= showData.Count - 1)
+            if (index < showData.Count)
             {
                 return showData[index];
+            }
+            else
+            {
+                var serieData = GetDataList(dataZoom);
+                if (index < serieData.Count)
+                {
+                    return serieData[index].data[1];
+                }
             }
             return 0;
         }
@@ -325,10 +365,24 @@ namespace XCharts
         {
             xValue = 0;
             yVlaue = 0;
+            if (index < 0) return;
             var xShowData = GetXDataList(dataZoom);
-            if (index >= 0 && index < xShowData.Count) xValue = xShowData[index];
             var yShowData = GetYDataList(dataZoom);
-            if (index >= 0 && index < yShowData.Count) yVlaue = yShowData[index];
+            if (index < xShowData.Count && index < yShowData.Count)
+            {
+                xValue = xShowData[index];
+                yVlaue = yShowData[index];
+            }
+            else
+            {
+                var showData = GetDataList(dataZoom);
+                if (index < showData.Count)
+                {
+                    var serieData = showData[index];
+                    xValue = serieData.data[0];
+                    yVlaue = serieData.data[1];
+                }
+            }
         }
 
         public List<float> GetYDataList(DataZoom dataZoom)
@@ -437,21 +491,29 @@ namespace XCharts
 
         public void UpdateYData(int index, float value)
         {
-            if (index >= 0 && index <= m_YData.Count - 1)
-            {
-                m_YData[index] = value;
-            }
+            UpdateData(index, 2, value);
         }
 
         public void UpdateXYData(int index, float xValue, float yValue)
         {
-            if (index >= 0 && index <= m_YData.Count - 1)
+            UpdateData(index, 1, xValue);
+            UpdateData(index, 2, yValue);
+        }
+
+        public void UpdateData(int index, int dimension, float value)
+        {
+            if (index < 0) return;
+            if (dimension == 1)
             {
-                m_YData[index] = yValue;
+                if (index < m_XData.Count) m_XData[index] = value;
             }
-            if (index >= 0 && index <= m_XData.Count - 1)
+            else if (dimension == 2)
             {
-                m_XData[index] = xValue;
+                if (index < m_YData.Count) m_YData[index] = value;
+            }
+            if (index < m_Data.Count && dimension < m_Data[index].data.Count)
+            {
+                m_Data[index].data[dimension] = value;
             }
         }
 
@@ -463,7 +525,8 @@ namespace XCharts
             jsonData = jsonData.Replace("\n", "");
             int startIndex = jsonData.IndexOf("[");
             int endIndex = jsonData.LastIndexOf("]");
-            if (startIndex == -1 || endIndex == -1){
+            if (startIndex == -1 || endIndex == -1)
+            {
                 Debug.LogError("json data need include in [ ]");
                 return;
             }

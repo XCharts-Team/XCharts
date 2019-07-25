@@ -33,7 +33,7 @@ namespace XCharts
             AddSerie("serie1", SerieType.Scatter);
             for (int i = 0; i < 10; i++)
             {
-                AddXYData(0, Random.Range(10, 100), Random.Range(10, 100));
+                AddData(0, Random.Range(10, 100), Random.Range(10, 100));
             }
         }
 #endif

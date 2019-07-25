@@ -145,7 +145,6 @@ namespace XCharts
 
         /// <summary>
         /// Add a data to serie.
-        /// When serie doesn't exist, the data is ignored.
         /// If serieName doesn't exist in legend,will be add to legend.
         /// </summary>
         /// <param name="serieName">the name of serie</param>
@@ -161,7 +160,6 @@ namespace XCharts
 
         /// <summary>
         /// Add a data to serie.
-        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="value">the data to add</param>
@@ -174,14 +172,39 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// </summary>
+        /// <param name="serieName">the name of serie</param>
+        /// <param name="multidimensionalData">the (x,y,z,...) data</param>
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddData(string serieName, List<float> multidimensionalData)
+        {
+            var success = m_Series.AddData(serieName, multidimensionalData, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return success;
+        }
+
+        /// <summary>
+        /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// </summary>
+        /// <param name="serieIndex">the index of serie,index starts at 0</param>
+        /// <param name="multidimensionalData">the (x,y,z,...) data</param>
+        /// <returns>Returns True on success</returns>
+        public virtual bool AddData(int serieIndex, List<float> multidimensionalData)
+        {
+            var success = m_Series.AddData(serieIndex, multidimensionalData, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
+            return success;
+        }
+
+        /// <summary>
         /// Add a (x,y) data to serie.
-        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddXYData(string serieName, float xValue, float yValue)
+        public virtual bool AddData(string serieName, float xValue, float yValue)
         {
             var success = m_Series.AddXYData(serieName, xValue, yValue, m_MaxCacheDataNumber);
             if (success) RefreshChart();
@@ -190,13 +213,12 @@ namespace XCharts
 
         /// <summary>
         /// Add a (x,y) data to serie.
-        /// When serie doesn't exist, the data is ignored.
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddXYData(int serieIndex, float xValue, float yValue)
+        public virtual bool AddData(int serieIndex, float xValue, float yValue)
         {
             var success = m_Series.AddXYData(serieIndex, xValue, yValue, m_MaxCacheDataNumber);
             if (success) RefreshChart();
@@ -313,6 +335,7 @@ namespace XCharts
             InitTitle();
             InitLegend();
             InitTooltip();
+            TransferOldVersionData();
         }
 
         protected virtual void Update()
@@ -360,6 +383,24 @@ namespace XCharts
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
+            }
+        }
+
+        private void TransferOldVersionData()
+        {
+            foreach (var serie in m_Series.series)
+            {
+                if (serie.yData.Count > 0 && serie.data.Count == 0)
+                {
+                    for (int i = 0; i < serie.yData.Count; i++)
+                    {
+                        float xvalue, yvalue;
+                        serie.GetXYData(i, null, out xvalue, out yvalue);
+                        var serieData = new SerieData();
+                        serieData.data = new List<float>() { xvalue, yvalue };
+                        serie.data.Add(serieData);
+                    }
+                }
             }
         }
 

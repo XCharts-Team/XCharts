@@ -24,12 +24,12 @@ public class Demo_PieChart : MonoBehaviour
             time = 0;
             if (count < 5)
             {
-                chart.AddData("time" + count, Random.Range(10, 100));
+                chart.AddData(0, Random.Range(10, 100), "time" + count);
             }
             else
             {
                 int index = count % 5;
-                chart.UpdateData("time" + index, Random.Range(10, 100));
+                chart.UpdateData(0, Random.Range(10, 100),index);
             }
             count++;
         }

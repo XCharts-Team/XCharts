@@ -23,6 +23,11 @@ namespace XCharts
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
+            SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
+            SerializedProperty m_ClickOffset = prop.FindPropertyRelative("m_ClickOffset");
+            SerializedProperty m_Space = prop.FindPropertyRelative("m_Space");
+            SerializedProperty m_Center = prop.FindPropertyRelative("m_Center");
+            SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
@@ -31,10 +36,19 @@ namespace XCharts
             string moduleName = "Serie " + index;
             bool toggle = m_SerieModuleToggle[index];
             m_SerieModuleToggle[index] = ChartEditorHelper.MakeFoldout(ref drawRect, ref toggle, moduleName, show);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_SerieModuleToggle[index])
+            if (!m_SerieModuleToggle[index])
+            {
+                drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + 20;
+                drawRect.width = pos.width - drawRect.x + 15;
+                EditorGUI.PropertyField(drawRect, type, GUIContent.none);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            }
+            else
             {
                 ++EditorGUI.indentLevel;
+                drawRect.x = pos.x;
+                drawRect.width = pos.width;
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, name);
@@ -43,12 +57,47 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_AxisIndex);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (type.enumValueIndex == (int)SerieType.Line
-                    || type.enumValueIndex == (int)SerieType.Scatter
-                    || type.enumValueIndex == (int)SerieType.EffectScatter)
+
+                var serieType = (SerieType)type.enumValueIndex;
+                if (serieType == SerieType.Line
+                    || serieType == SerieType.Scatter
+                    || serieType == SerieType.EffectScatter)
                 {
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                }
+                if (serieType == SerieType.Pie)
+                {
+                    EditorGUI.PropertyField(drawRect, m_RoseType);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_Space);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+                    EditorGUI.LabelField(drawRect, "Center");
+                    var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+                    var tempWidth = (pos.width - startX + 35) / 2;
+                    var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
+                    var centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
+                    while (m_Center.arraySize < 2)
+                    {
+                        m_Center.InsertArrayElementAtIndex(m_Center.arraySize);
+                    }
+                    EditorGUI.PropertyField(centerXRect, m_Center.GetArrayElementAtIndex(0), GUIContent.none);
+                    EditorGUI.PropertyField(centerYRect, m_Center.GetArrayElementAtIndex(1), GUIContent.none);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+                    centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
+                    centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
+                    EditorGUI.LabelField(drawRect, "Radius");
+                    while (m_Radius.arraySize < 2)
+                    {
+                        m_Radius.InsertArrayElementAtIndex(m_Radius.arraySize);
+                    }
+                    EditorGUI.PropertyField(centerXRect, m_Radius.GetArrayElementAtIndex(0), GUIContent.none);
+                    EditorGUI.PropertyField(centerYRect, m_Radius.GetArrayElementAtIndex(1), GUIContent.none);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_ClickOffset);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
@@ -76,6 +125,7 @@ namespace XCharts
                     if (m_DataDimension.intValue < 1) m_DataDimension.intValue = 1;
                     int dimension = m_DataDimension.intValue;
                     bool showName = m_ShowDataName.boolValue;
+                    bool showSelected = (serieType == SerieType.Pie);
                     if (listSize != m_Datas.arraySize)
                     {
                         while (listSize > m_Datas.arraySize)
@@ -88,20 +138,20 @@ namespace XCharts
                         int num = listSize > 10 ? 10 : listSize;
                         for (int i = 0; i < num; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, i, pos.width);
                         }
                         if (num >= 10)
                         {
                             EditorGUI.LabelField(drawRect, "...");
                             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, listSize - 1, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, listSize - 1, pos.width);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < m_Datas.arraySize; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, i, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, i, pos.width);
                         }
                     }
                     EditorGUI.indentLevel--;
@@ -110,7 +160,8 @@ namespace XCharts
             }
         }
 
-        private void DrawDataElement(ref Rect drawRect, int dimension, SerializedProperty m_Datas, bool showName, int index, float currentWidth)
+        private void DrawDataElement(ref Rect drawRect, int dimension, SerializedProperty m_Datas, bool showName,
+            bool showSelected, int index, float currentWidth)
         {
             var lastX = drawRect.x;
             var lastWid = drawRect.width;
@@ -118,6 +169,7 @@ namespace XCharts
             var lastLabelWid = EditorGUIUtility.labelWidth;
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             var sereName = serieData.FindPropertyRelative("m_Name");
+            var selected = serieData.FindPropertyRelative("m_Selected");
             var data = serieData.FindPropertyRelative("m_Data");
             var fieldCount = dimension + (showName ? 1 : 0);
 
@@ -126,7 +178,20 @@ namespace XCharts
                 while (2 > data.arraySize)
                     data.InsertArrayElementAtIndex(data.arraySize);
                 SerializedProperty element = data.GetArrayElementAtIndex(1);
-                EditorGUI.PropertyField(drawRect, element);
+                if (showSelected)
+                {
+                    drawRect.width = drawRect.width - 18;
+                    EditorGUI.PropertyField(drawRect, element);
+                    drawRect.x = currentWidth - 45;
+                    EditorGUI.PropertyField(drawRect, selected, GUIContent.none);
+                    drawRect.x = lastX;
+                    drawRect.width = lastWid;
+                }
+                else
+                {
+                    EditorGUI.PropertyField(drawRect, element);
+                }
+
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
             else
@@ -171,14 +236,19 @@ namespace XCharts
             }
             else
             {
-                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
-                if (type.enumValueIndex == (int)SerieType.Line
-                    || type.enumValueIndex == (int)SerieType.Scatter
-                    || type.enumValueIndex == (int)SerieType.EffectScatter)
+                var serieType = (SerieType)type.enumValueIndex;
+                if (serieType == SerieType.Line
+                    || serieType == SerieType.Scatter
+                    || serieType == SerieType.EffectScatter)
                 {
 
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
+                }
+                if (serieType == SerieType.Pie)
+                {
+                    height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (m_DataFoldout[index])
                 {

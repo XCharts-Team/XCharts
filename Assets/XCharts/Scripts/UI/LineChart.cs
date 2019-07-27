@@ -37,11 +37,11 @@ namespace XCharts
             if (m_YAxises[0].type == Axis.AxisType.Category
                 || m_YAxises[1].type == Axis.AxisType.Category)
             {
-                DrawLineChart(vh,true);
+                DrawLineChart(vh, true);
             }
             else
             {
-                DrawLineChart(vh,false);
+                DrawLineChart(vh, false);
             }
         }
 
@@ -102,7 +102,9 @@ namespace XCharts
                 var dataIndex = i % dataCount;
                 var serie = m_Series.GetSerie(pointSerieIndex[i]);
                 float symbolSize = serie.symbol.size;
-                if (m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(dataIndex))
+                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(dataIndex))
+                    || serie.data[dataIndex].highlighted
+                    || serie.highlighted)
                 {
                     if (IsCartesian())
                     {
@@ -250,8 +252,8 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        if (xAxis.IsValue()) ChartHelper.GetBezierListVertical(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
-                        else ChartHelper.GetBezierList(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
+                        if (xAxis.IsValue()) ChartHelper.GetBezierListVertical(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
+                        else ChartHelper.GetBezierList(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
                         Vector3 start, to;
                         start = smoothSegmentPoints[0];
                         for (int k = 1; k < smoothSegmentPoints.Count; k++)
@@ -364,7 +366,7 @@ namespace XCharts
                     smoothPoints.Clear();
                 }
             }
-             int smoothPointCount = 1;
+            int smoothPointCount = 1;
             if (seriesHig.Count < minShowDataNumber)
             {
                 for (int i = 0; i < minShowDataNumber; i++)
@@ -436,7 +438,7 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        ChartHelper.GetBezierListVertical(ref smoothSegmentPoints,lp, np, m_Line.smoothStyle);
+                        ChartHelper.GetBezierListVertical(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
                         Vector3 start, to;
                         start = smoothSegmentPoints[0];
                         for (int k = 1; k < smoothSegmentPoints.Count; k++)

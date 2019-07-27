@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,61 +12,52 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class PieChart : BaseChart
     {
+        private class PieTempData
+        {
+            public List<float> angleList = new List<float>();
+            public Vector2 center;
+            public float insideRadius;
+            public float outsideRadius;
+            public float dataMax;
+            public float dataTotal;
+        }
+
         [SerializeField] private Pie m_Pie = Pie.defaultPie;
 
-        private float m_PieCenterX = 0f;
-        private float m_PieCenterY = 0f;
-        private float m_PieRadius = 0;
-        private Vector2 m_PieCenter;
-        private List<float> m_AngleList = new List<float>();
+        private bool isDrawPie;
+        private bool m_IsEnterLegendButtom;
+        private List<PieTempData> m_PieTempDataList = new List<PieTempData>();
 
         public Pie pie { get { return m_Pie; } }
 
         /// <summary>
-        /// Add a data to pie.
+        /// Where legend is activated.
         /// </summary>
-        /// <param name="serieName">the name of data</param>
-        /// <param name="value">the data</param>
-        /// <returns>Return true forever</returns>
-        public override bool AddData(string serieName, float value)
+        /// <param name="legendName">the name of legend</param>
+        /// <returns></returns>
+        public override bool IsLegendActive(string legendName)
         {
-            m_Legend.AddData(serieName);
-            var serie = m_Series.AddSerie(serieName, SerieType.Pie);
-            serie.ClearData();
-            serie.AddYData(value);
-            RefreshChart();
-            return true;
-        }
-
-        /// <summary>
-        /// Update the data for the specified name.
-        /// </summary>
-        /// <param name="legend">the name of data</param>
-        /// <param name="value">the data</param>
-        /// <param name="dataIndex">is not used in this function</param>
-        public override void UpdateData(string legend, float value, int dataIndex = 0)
-        {
-            var serie = m_Series.GetSerie(legend);
-            if (serie != null)
+            foreach (var serie in m_Series.series)
             {
-                serie.UpdateYData(0, value);
-                RefreshChart();
+                foreach (var serieData in serie.data)
+                {
+                    if (string.IsNullOrEmpty(serieData.name))
+                    {
+                        if (string.IsNullOrEmpty(legendName)) return true;
+                    }
+                    else if (serieData.name.Equals(legendName))
+                    {
+                        return true;
+                    }
+                }
             }
+            return false;
         }
 
         protected override void Awake()
         {
-            raycastTarget = m_Pie.selected;
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            if (raycastTarget != m_Pie.selected)
-            {
-                raycastTarget = m_Pie.selected;
-                RefreshChart();
-            }
+            base.Awake();
+            raycastTarget = false;
         }
 
 #if UNITY_EDITOR
@@ -75,166 +67,250 @@ namespace XCharts
             m_Pie = Pie.defaultPie;
             m_Title.text = "PieChart";
             RemoveData();
-            AddData("serie1", 80);
-            AddData("serie2", 20);
+            AddSerie("serie1", SerieType.Pie);
+            AddData(0, 70, "pie1");
+            AddData(0, 20, "pie2");
+            AddData(0, 10, "pie3");
         }
 #endif
 
-        HashSet<string> serieNameSet = new HashSet<string>();
+        protected override void Update()
+        {
+            base.Update();
+            if (!isDrawPie) RefreshChart();
+        }
+
+        Dictionary<string, int> serieNameSet = new Dictionary<string, int>();
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
-            UpdatePieCenter();
-            float totalDegree = 360;
-            float startDegree = 0;
-            float dataTotal = GetDataTotal();
-            float dataMax = GetDataMax();
-            m_AngleList.Clear();
             serieNameSet.Clear();
             int serieNameCount = -1;
+            bool isClickOffset = false;
+            bool isDataHighlight = false;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.series[i];
                 serie.index = i;
-                var data = serie.yData;
-                if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
-                else if (!serieNameSet.Contains(serie.name))
+
+                if (!serie.show)
                 {
-                    serieNameSet.Add(serie.name);
-                    serieNameCount++;
-                }
-                if (data.Count <= 0 || !serie.show)
-                {
-                    m_AngleList.Add(i > 0 ? m_AngleList[i - 1] : 0);
                     continue;
                 }
-                float value = data[0];
-                float degree = totalDegree * value / dataTotal;
-                float toDegree = startDegree + degree;
-
-                float outSideRadius = m_Pie.rose ?
-                    m_Pie.insideRadius + (m_PieRadius - m_Pie.insideRadius) * value / dataMax :
-                    m_PieRadius;
-                if (m_Tooltip.show && m_Tooltip.dataIndex[0] == i)
+                if (serie.clickOffset) isClickOffset = true;
+                PieTempData tempData;
+                if (i < m_PieTempDataList.Count)
                 {
-                    outSideRadius += m_Pie.tooltipExtraRadius;
-                }
-                var offset = m_Pie.space;
-                if (m_Pie.selected && m_Pie.selectedIndex == i)
-                {
-                    offset += m_Pie.selectedOffset;
-                }
-                if (offset > 0)
-                {
-                    float currAngle = (startDegree + (toDegree - startDegree) / 2) * Mathf.Deg2Rad;
-                    var offestCenter = new Vector3(m_PieCenter.x + offset * Mathf.Sin(currAngle),
-                        m_PieCenter.y + offset * Mathf.Cos(currAngle));
-                    ChartHelper.DrawDoughnut(vh, offestCenter, m_Pie.insideRadius, outSideRadius,
-                        startDegree, toDegree, m_ThemeInfo.GetColor(serieNameCount));
+                    tempData = m_PieTempDataList[i];
+                    tempData.angleList.Clear();
                 }
                 else
                 {
-                    ChartHelper.DrawDoughnut(vh, m_PieCenter, m_Pie.insideRadius, outSideRadius,
-                        startDegree, toDegree, m_ThemeInfo.GetColor(serieNameCount));
+                    tempData = new PieTempData();
+                    m_PieTempDataList.Add(tempData);
                 }
-                m_AngleList.Add(toDegree);
-                startDegree = toDegree;
-            }
-        }
+                tempData.angleList.Clear();
+                tempData.dataMax = serie.yMax;
+                tempData.dataTotal = serie.yTotal;
+                UpdatePieCenter(serie);
+                var data = serie.data;
 
-        protected override void OnLegendButtonClicked()
-        {
-            base.OnLegendButtonClicked();
-
-        }
-
-        private float GetDataTotal()
-        {
-            float total = 0;
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                if (IsActive(i))
+                float totalDegree = 360;
+                float startDegree = 0;
+                for (int n = 0; n < data.Count; n++)
                 {
-                    total += m_Series.series[i].GetYData(0);
+                    var serieData = data[n];
+                    float value = serieData.data[1];
+                    string dataName = serieData.name;
+                    Color color;
+                    if (string.IsNullOrEmpty(dataName))
+                    {
+                        serieNameCount++;
+                        color = m_ThemeInfo.GetColor(serieNameCount);
+                    }
+                    else if (!serieNameSet.ContainsKey(dataName))
+                    {
+                        serieNameSet.Add(dataName, serieNameCount);
+                        serieNameCount++;
+                        color = m_ThemeInfo.GetColor(serieNameCount);
+                    }
+                    else
+                    {
+                        color = m_ThemeInfo.GetColor(serieNameSet[dataName]);
+                    }
+                    if (!serieData.show)
+                    {
+                        tempData.angleList.Add(0);
+                        continue;
+                    }
+                    float degree = totalDegree * value / tempData.dataTotal;
+                    float toDegree = startDegree + degree;
+
+                    float outSideRadius = serie.roseType > 0 ?
+                        tempData.insideRadius + (tempData.outsideRadius - tempData.insideRadius) * value / tempData.dataMax :
+                        tempData.outsideRadius;
+                    if (serieData.highlighted)
+                    {
+                        isDataHighlight = true;
+                        color *= 1.2f;
+                        outSideRadius += m_Pie.tooltipExtraRadius;
+                    }
+                    var offset = serie.space;
+                    if (serie.clickOffset && serieData.selected)
+                    {
+                        offset += m_Pie.selectedOffset;
+                    }
+                    if (offset > 0)
+                    {
+                        var halfDegree = (toDegree - startDegree) / 2;
+                        float offsetRadius = serie.space / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        var insideRadius = tempData.insideRadius - offsetRadius;
+                        var outsideRadius = outSideRadius - offsetRadius;
+                        if (serie.clickOffset && serieData.selected)
+                        {
+                            offsetRadius += m_Pie.selectedOffset;
+                            if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
+                            outsideRadius += m_Pie.selectedOffset;
+                        }
+                        float currAngle = (startDegree + halfDegree) * Mathf.Deg2Rad;
+                        var offestCenter = new Vector3(tempData.center.x + offsetRadius * Mathf.Sin(currAngle),
+                            tempData.center.y + offsetRadius * Mathf.Cos(currAngle));
+
+                        ChartHelper.DrawDoughnut(vh, offestCenter, insideRadius, outsideRadius,
+                            startDegree, toDegree, color);
+                    }
+                    else
+                    {
+                        ChartHelper.DrawDoughnut(vh, tempData.center, tempData.insideRadius, outSideRadius,
+                            startDegree, toDegree, color);
+                    }
+                    isDrawPie = true;
+                    tempData.angleList.Add(toDegree);
+                    startDegree = toDegree;
                 }
             }
-            return total;
+            raycastTarget = isClickOffset && isDataHighlight;
         }
 
-        private float GetDataMax()
+        protected override void OnLegendButtonClick(int index, string legendName)
         {
-            float max = 0;
-            for (int i = 0; i < m_Series.Count; i++)
+            bool active = CheckDataShow(legendName);
+            var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
+            m_Legend.UpdateButtonColor(legendName, bgColor1);
+            RefreshChart();
+        }
+
+        protected override void OnLegendButtonEnter(int index, string legendName)
+        {
+            m_IsEnterLegendButtom = true;
+            CheckDataHighlighted(legendName);
+            RefreshChart();
+        }
+
+        protected override void OnLegendButtonExit(int index, string legendName)
+        {
+            m_IsEnterLegendButtom = false;
+            CheckDataHighlighted(legendName);
+            RefreshChart();
+        }
+
+        private bool CheckDataShow(string legendName)
+        {
+            bool show = false;
+            foreach (var serie in m_Series.series)
             {
-                if (IsActive(i) && m_Series.series[i].GetYData(0) > max)
+                foreach (var data in serie.data)
                 {
-                    max = m_Series.series[i].GetYData(0);
+                    if (legendName.Equals(data.name))
+                    {
+                        data.show = !data.show;
+                        data.highlighted = false;
+                        if (data.show) show = true;
+                    }
                 }
             }
-            return max;
+            return show;
         }
 
-        private void UpdatePieCenter()
+        private bool CheckDataHighlighted(string legendName)
         {
-            float diffX = chartWidth - m_Pie.left - m_Pie.right;
-            float diffY = chartHeight - m_Pie.top - m_Pie.bottom;
-            float diff = Mathf.Min(diffX, diffY);
-            if (m_Pie.outsideRadius <= 0)
+            bool show = false;
+            foreach (var serie in m_Series.series)
             {
-                m_PieRadius = diff / 3 * 2;
-                m_PieCenterX = m_Pie.left + m_PieRadius;
-                m_PieCenterY = m_Pie.bottom + m_PieRadius;
+                foreach (var data in serie.data)
+                {
+                    if (legendName.Equals(data.name))
+                    {
+                        data.highlighted = !data.highlighted;
+                        if (data.highlighted) show = true;
+                    }
+                }
             }
-            else
-            {
-                m_PieRadius = m_Pie.outsideRadius;
-                m_PieCenterX = chartWidth / 2;
-                m_PieCenterY = chartHeight / 2;
-                if (m_Pie.left > 0) m_PieCenterX = m_Pie.left + m_PieRadius;
-                if (m_Pie.right > 0) m_PieCenterX = chartWidth - m_Pie.right - m_PieRadius;
-                if (m_Pie.top > 0) m_PieCenterY = chartHeight - m_Pie.top - m_PieRadius;
-                if (m_Pie.bottom > 0) m_PieCenterY = m_Pie.bottom + m_PieRadius;
-            }
-            m_PieCenter = new Vector2(m_PieCenterX, m_PieCenterY);
+            return show;
+        }
+
+        private void UpdatePieCenter(Serie serie)
+        {
+            if (serie.center.Length < 2) return;
+            var tempData = m_PieTempDataList[serie.index];
+            var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
+            var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
+            tempData.center = new Vector2(centerX, centerY);
+            var minWidth = Mathf.Min(chartWidth, chartHeight);
+            tempData.insideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
+            tempData.outsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
         }
 
         protected override void CheckTootipArea(Vector2 local)
         {
-            float dist = Vector2.Distance(local, m_PieCenter);
-            if (dist > m_PieRadius)
+            if (m_IsEnterLegendButtom) return;
+            m_Tooltip.dataIndex.Clear();
+            bool selected = false;
+            for (int i = 0; i < m_PieTempDataList.Count; i++)
             {
-                m_Tooltip.dataIndex[0] = -1;
-                m_Tooltip.SetActive(false);
+                var serie = m_Series.GetSerie(i);
+                var tempData = m_PieTempDataList[i];
+                int index = GetPosPieIndex(tempData, local);
+                m_Tooltip.dataIndex.Add(index);
+
+                bool refresh = false;
+                for (int j = 0; j < serie.data.Count; j++)
+                {
+                    var serieData = serie.data[j];
+                    if (serieData.highlighted != (j == index)) refresh = true;
+                    serieData.highlighted = j == index;
+                }
+
+                if (index >= 0) selected = true;
+                if (refresh) RefreshChart();
             }
-            else
-            {
-                m_Tooltip.dataIndex[0] = GetPosPieIndex(local);
-            }
-            if (m_Tooltip.dataIndex[0] >= 0)
+            if (selected)
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
-                if (m_Tooltip.IsSelected())
-                {
-                    m_Tooltip.UpdateLastDataIndex();
-                    RefreshChart();
-                }
+            }
+            else
+            {
+                m_Tooltip.SetActive(false);
             }
         }
 
-        private int GetPosPieIndex(Vector2 local)
+        private int GetPosPieIndex(PieTempData tempData, Vector2 local)
         {
-            Vector2 dir = local - m_PieCenter;
+            var dist = Vector2.Distance(local, tempData.center);
+            if (dist < tempData.insideRadius || dist > tempData.outsideRadius) return -1;
+            Vector2 dir = local - tempData.center;
             float angle = VectorAngle(Vector2.up, dir);
-            for (int i = m_AngleList.Count - 1; i >= 0; i--)
+            var angleList = tempData.angleList;
+            for (int i = angleList.Count - 1; i >= 0; i--)
             {
                 if (i == 0)
                 {
-                    if (angle <= m_AngleList[i]) return m_Tooltip.dataIndex[0] = 0;
+                    if (angle <= angleList[i]) return 0;
                 }
-                else if (angle <= m_AngleList[i] && angle > m_AngleList[i - 1])
+                else if (angle <= angleList[i] && angle > angleList[i - 1])
                 {
-                    return m_Tooltip.dataIndex[0] = i;
+                    return i;
                 }
             }
             return -1;
@@ -251,38 +327,41 @@ namespace XCharts
             return angle;
         }
 
+        StringBuilder sb = new StringBuilder();
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
-            int index = m_Tooltip.dataIndex[0];
-            if (index < 0)
+            bool showTooltip = false;
+            for (int i = 0; i < m_PieTempDataList.Count; i++)
             {
-                m_Tooltip.SetActive(false);
-                return;
-            }
-            m_Tooltip.SetActive(true);
-            string strColor = ColorUtility.ToHtmlStringRGBA(m_ThemeInfo.GetColor(index));
-            string key = m_Series.series[index].name;
-            if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
-            float value = m_Series.series[index].yData[0];
-            string txt = "";
-            if (!string.IsNullOrEmpty(m_Pie.name))
-            {
-                txt += m_Pie.name + "\n";
-            }
-            txt += string.Format("<color=#{0}>● </color>{1}: {2}", strColor, key, value);
-            m_Tooltip.UpdateContentText(txt);
+                int index = m_Tooltip.dataIndex[i];
+                if (index < 0) continue;
+                showTooltip = true;
+                var serie = m_Series.GetSerie(i);
+                string key = serie.data[index].name;
+                if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
+                float value = serie.data[index].data[1];
+                sb.Length = 0;
+                if (!string.IsNullOrEmpty(serie.name))
+                {
+                    sb.Append(serie.name).Append("\n");
+                }
+                sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
+                    .Append(key).Append(": ").Append(ChartCached.FloatToStr(value));
+                m_Tooltip.UpdateContentText(sb.ToString());
 
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.width > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.width;
+                var pos = m_Tooltip.GetContentPos();
+                if (pos.x + m_Tooltip.width > chartWidth)
+                {
+                    pos.x = chartWidth - m_Tooltip.width;
+                }
+                if (pos.y - m_Tooltip.height < 0)
+                {
+                    pos.y = m_Tooltip.height;
+                }
+                m_Tooltip.UpdateContentPos(pos);
             }
-            if (pos.y - m_Tooltip.height < 0)
-            {
-                pos.y = m_Tooltip.height;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            m_Tooltip.SetActive(showTooltip);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
@@ -293,14 +372,19 @@ namespace XCharts
             {
                 return;
             }
-            var selectedIndex = GetPosPieIndex(local);
-            if (selectedIndex != m_Pie.selectedIndex)
+            for (int i = 0; i < m_PieTempDataList.Count; i++)
             {
-                m_Pie.selectedIndex = selectedIndex;
-            }
-            else
-            {
-                m_Pie.selectedIndex = -1;
+                var tempData = m_PieTempDataList[i];
+                int index = GetPosPieIndex(tempData, local);
+                if (index >= 0)
+                {
+                    var serie = m_Series.GetSerie(i);
+                    for (int j = 0; j < serie.data.Count; j++)
+                    {
+                        if (j == index) serie.data[j].selected = !serie.data[j].selected;
+                        else serie.data[j].selected = false;
+                    }
+                }
             }
             RefreshChart();
         }

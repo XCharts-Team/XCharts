@@ -324,7 +324,7 @@ namespace XCharts
             }
         }
 
-        public static void GetBezierList(ref List<Vector3> posList,Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -333,10 +333,10 @@ namespace XCharts
             cp1.y = sp.y;
             cp2.y = ep.y;
             int segment = (int)(dist / 0.3f);
-            GetBezierList2(ref posList,sp, ep, segment, cp1, cp2);
+            GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
-        public static void GetBezierListVertical(ref List<Vector3> posList,Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -345,7 +345,7 @@ namespace XCharts
             cp1.y = sp.y;
             cp2.y = ep.y;
             int segment = (int)(dist / 0.3f);
-            GetBezierList2(ref posList,sp, ep, segment, cp2, cp1);
+            GetBezierList2(ref posList, sp, ep, segment, cp2, cp1);
         }
 
         public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)
@@ -359,16 +359,17 @@ namespace XCharts
             return list;
         }
 
-        public static void GetBezierList2(ref List<Vector3> posList,Vector3 sp, Vector3 ep, int segment, Vector3 cp,
+        public static void GetBezierList2(ref List<Vector3> posList, Vector3 sp, Vector3 ep, int segment, Vector3 cp,
             Vector3 cp2)
         {
             posList.Clear();
-            if(posList.Capacity < segment + 1){
-                posList.Capacity = segment +1;
+            if (posList.Capacity < segment + 1)
+            {
+                posList.Capacity = segment + 1;
             }
             for (int i = 0; i < segment; i++)
             {
-                posList.Add((GetBezier2(i / (float)segment, sp, cp, cp2, ep))) ;
+                posList.Add((GetBezier2(i / (float)segment, sp, cp, cp2, ep)));
             }
             posList.Add(ep);
         }
@@ -418,10 +419,8 @@ namespace XCharts
                         points[i] = (1 - t) * points[i] + t * points[i + 1];
                     }
                 }
-
                 curvedPoints.Add(points[0]);
             }
-
             return curvedPoints;
         }
 
@@ -451,17 +450,13 @@ namespace XCharts
             int startIndex = jsonData.IndexOf("[");
             int endIndex = jsonData.IndexOf("]");
             string temp = jsonData.Substring(startIndex + 1, endIndex - startIndex - 1);
-            Debug.LogError("temp:"+temp);
             if (temp.IndexOf("],") > -1 || temp.IndexOf("] ,") > -1)
             {
                 string[] datas = temp.Split(new string[] { "],", "] ," }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < datas.Length; i++)
                 {
                     temp = datas[i];
-                    Debug.LogError("split:" + temp);
-
                 }
-
                 return list;
             }
             else
@@ -541,12 +536,20 @@ namespace XCharts
             UnityEngine.Events.UnityAction<BaseEventData> call)
         {
             EventTrigger trigger = GetOrAddComponent<EventTrigger>(obj.gameObject);
-            EventTrigger.Entry entry1 = new EventTrigger.Entry();
-            entry1.eventID = type;
-            entry1.callback = new EventTrigger.TriggerEvent();
-            entry1.callback.AddListener(call);
-            trigger.triggers.Clear();
-            trigger.triggers.Add(entry1);
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = type;
+            entry.callback = new EventTrigger.TriggerEvent();
+            entry.callback.AddListener(call);
+            trigger.triggers.Add(entry);
+        }
+
+        public static void ClearEventListener(GameObject obj)
+        {
+            EventTrigger trigger = obj.GetComponent<EventTrigger>();
+            if (trigger != null)
+            {
+                trigger.triggers.Clear();
+            }
         }
 
 

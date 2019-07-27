@@ -52,7 +52,7 @@ namespace XCharts
                         serie.symbol.animationSize[i] += m_EffectScatterSpeed * Time.deltaTime;
                         if (serie.symbol.animationSize[i] > serie.symbol.size)
                         {
-                            serie.symbol.animationSize[i] = i*5;
+                            serie.symbol.animationSize[i] = i * 5;
                         }
                     }
                 }
@@ -91,8 +91,9 @@ namespace XCharts
                     : serie.dataCount;
                 for (int n = minShowDataNumber; n < maxCount; n++)
                 {
-                    float xValue, yValue;
-                    serie.GetXYData(n, m_DataZoom, out xValue, out yValue);
+                    var serieData = serie.GetDataList(m_DataZoom)[n];
+                    float xValue = serieData.data[0];
+                    float yValue = serieData.data[1];
                     float pX = coordinateX + m_Coordinate.tickness;
                     float pY = coordinateY + m_Coordinate.tickness;
                     float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
@@ -101,7 +102,7 @@ namespace XCharts
 
                     var datas = serie.data[n].data;
                     float symbolSize = 0;
-                    if (serie.selected && n == m_Tooltip.dataIndex[serie.axisIndex])
+                    if (serie.highlighted || serieData.highlighted)
                     {
                         symbolSize = serie.symbol.GetSelectedSize(datas);
                     }
@@ -128,7 +129,6 @@ namespace XCharts
                 if (vh.currentVertCount > 60000)
                 {
                     m_Large++;
-                    Debug.LogError("large:" + m_Large + "," + vh.currentVertCount);
                     RefreshChart();
                     return;
                 }

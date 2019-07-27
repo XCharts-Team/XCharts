@@ -171,18 +171,21 @@ namespace XCharts
                         for (int j = 0; j < m_Series.Count; j++)
                         {
                             var serie = m_Series.GetSerie(j);
-                            serie.selected = false;
-                            for (int n = 0; n < serie.xData.Count; n++)
+                            for (int n = 0; n < serie.data.Count; n++)
                             {
-                                var xdata = serie.xData[n];
-                                var ydata = serie.yData[n];
-                                var serieData = serie.GetSerieData(n);
+                                var serieData = serie.data[n];
+                                var xdata = serieData.data[0];
+                                var ydata = serieData.data[1];
                                 var symbolSize = serie.symbol.GetSize(serieData == null ? null : serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
                                 {
                                     m_Tooltip.dataIndex[i] = n;
-                                    serie.selected = true;
+                                    serieData.highlighted = true;
+                                }
+                                else
+                                {
+                                    serieData.highlighted = false;
                                 }
                             }
                         }
@@ -285,7 +288,8 @@ namespace XCharts
                     serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
                     if (isCartesian)
                     {
-                        if (serie.selected)
+                        var serieData = serie.GetSerieData(index, m_DataZoom);
+                        if (serieData != null && serieData.highlighted)
                         {
                             sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
                             sb.Append("[").Append(ChartCached.FloatToStr(xValue)).Append(",")
@@ -295,7 +299,7 @@ namespace XCharts
                     else
                     {
                         sb.Append("\n")
-                            .Append("<color=").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
+                            .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
                             .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
                             .Append(ChartCached.FloatToStr(yValue));
                     }

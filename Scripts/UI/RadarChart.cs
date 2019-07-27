@@ -133,11 +133,6 @@ namespace XCharts
             DrawData(vh);
         }
 
-        protected override void OnLegendButtonClicked()
-        {
-            base.OnLegendButtonClicked();
-        }
-
         protected override void OnThemeChanged()
         {
             base.OnThemeChanged();

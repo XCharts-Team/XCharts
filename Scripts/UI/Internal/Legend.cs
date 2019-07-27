@@ -156,6 +156,11 @@ namespace XCharts
             return null;
         }
 
+        public int GetIndex(string legendName)
+        {
+            return m_Data.IndexOf(legendName);
+        }
+
         public void RemoveButton()
         {
             m_DataBtnList.Clear();
@@ -164,7 +169,7 @@ namespace XCharts
         public void SetButton(string name, Button btn, int total)
         {
             int index = m_DataBtnList.Values.Count;
-            btn.transform.localPosition = GetButtonLocationPosition(total,index);
+            btn.transform.localPosition = GetButtonLocationPosition(total, index);
             m_DataBtnList[name] = btn;
             btn.gameObject.SetActive(show);
             btn.GetComponentInChildren<Text>().text = name;
@@ -183,7 +188,7 @@ namespace XCharts
             m_Location.OnChanged();
         }
 
-        private Vector2 GetButtonLocationPosition(int size,int index)
+        private Vector2 GetButtonLocationPosition(int size, int index)
         {
             switch (m_Orient)
             {

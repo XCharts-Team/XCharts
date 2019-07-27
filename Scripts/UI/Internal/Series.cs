@@ -150,67 +150,67 @@ namespace XCharts
             return serie;
         }
 
-        public bool AddData(string serieName, float value, int maxDataNumber = 0)
+        public bool AddData(string serieName, float value, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddYData(value, maxDataNumber);
+                serie.AddYData(value, dataName, maxDataNumber);
                 return true;
             }
             return false;
         }
 
-        public bool AddData(int index, float value, int maxDataNumber = 0)
+        public bool AddData(int index, float value, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddYData(value, maxDataNumber);
+                serie.AddYData(value, dataName, maxDataNumber);
                 return true;
             }
             return false;
         }
 
-        public bool AddData(string serieName, List<float> multidimensionalData, int maxDataNumber = 0)
+        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, maxDataNumber);
+                serie.AddData(multidimensionalData, dataName, maxDataNumber);
                 return true;
             }
             return false;
         }
 
-        public bool AddData(int serieIndex, List<float> multidimensionalData, int maxDataNumber = 0)
+        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, maxDataNumber);
+                serie.AddData(multidimensionalData, dataName, maxDataNumber);
                 return true;
             }
             return false;
         }
 
-        public bool AddXYData(string serieName, float xValue, float yValue, int maxDataNumber = 0)
+        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, maxDataNumber);
+                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
                 return true;
             }
             return false;
         }
 
-        public bool AddXYData(int index, float xValue, float yValue, int maxDataNumber = 0)
+        public bool AddXYData(int index, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, maxDataNumber);
+                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -305,7 +305,7 @@ namespace XCharts
         public bool IsTooltipSelected(int serieIndex)
         {
             var serie = GetSerie(serieIndex);
-            if (serie != null) return serie.selected;
+            if (serie != null) return serie.highlighted;
             else return false;
         }
 
@@ -520,17 +520,31 @@ namespace XCharts
             }
         }
 
+        private List<string> serieNameList = new List<string>();
         public List<string> GetSerieNameList()
         {
-            var list = new List<string>();
+            serieNameList.Clear();
             foreach (var serie in m_Series)
             {
-                if (!string.IsNullOrEmpty(serie.name) && !list.Contains(serie.name))
+                if (serie.type == SerieType.Pie)
                 {
-                    list.Add(serie.name);
+                    foreach (var data in serie.data)
+                    {
+                        if (!string.IsNullOrEmpty(data.name) && !serieNameList.Contains(data.name))
+                        {
+                            serieNameList.Add(data.name);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(serie.name) && !serieNameList.Contains(serie.name))
+                    {
+                        serieNameList.Add(serie.name);
+                    }
                 }
             }
-            return list;
+            return serieNameList;
         }
 
         public void SetSerieSymbolSizeCallback(SymbolSizeCallback size, SymbolSizeCallback selectedSize)

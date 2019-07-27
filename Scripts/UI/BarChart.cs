@@ -97,6 +97,12 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + barHig, pY + space + barWid);
                 Vector3 p3 = new Vector3(pX + barHig, pY + space);
                 Vector3 p4 = new Vector3(pX, pY + space);
+                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i))
+                    || serie.data[i].highlighted
+                    || serie.highlighted)
+                {
+                    color *= 1.05f;
+                }
                 if (serie.show)
                 {
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
@@ -147,6 +153,12 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + space, pY + barHig);
                 Vector3 p3 = new Vector3(pX + space + barWid, pY + barHig);
                 Vector3 p4 = new Vector3(pX + space + barWid, pY);
+                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i))
+                    || serie.data[i].highlighted
+                    || serie.highlighted)
+                {
+                    color *= 1.05f;
+                }
                 if (serie.show)
                 {
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);

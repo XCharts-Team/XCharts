@@ -28,6 +28,8 @@ namespace XCharts
             SerializedProperty m_Space = prop.FindPropertyRelative("m_Space");
             SerializedProperty m_Center = prop.FindPropertyRelative("m_Center");
             SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");
+            SerializedProperty m_Label = prop.FindPropertyRelative("m_Label");
+            SerializedProperty m_HighlightLabel = prop.FindPropertyRelative("m_HighlightLabel");
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
@@ -99,6 +101,10 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_ClickOffset);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
+                EditorGUI.PropertyField(drawRect, m_Label,new GUIContent("Normal Label"));
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                EditorGUI.PropertyField(drawRect, m_HighlightLabel,new GUIContent("Highlight Label"));
+                drawRect.y += EditorGUI.GetPropertyHeight(m_HighlightLabel);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
                 ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
@@ -237,6 +243,8 @@ namespace XCharts
             else
             {
                 height += 6 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_HighlightLabel"));
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;
                 if (serieType == SerieType.Line

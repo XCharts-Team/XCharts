@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -36,5 +37,10 @@ namespace XCharts
         /// Whether the data item is highlighted.该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
         public bool highlighted { get; set; }
+        /// <summary>
+        /// the label of data item.该数据项的文本标签。
+        /// </summary>
+        /// <value></value>
+        public Text label { get; set; }
     }
 }

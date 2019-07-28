@@ -39,7 +39,8 @@ namespace XCharts
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
         #endregion
-
+        [SerializeField] private SerieLabel m_Label = new SerieLabel();
+        [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
         [SerializeField] [Range(1, 6)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [FormerlySerializedAs("m_Data")]
@@ -58,7 +59,20 @@ namespace XCharts
         public float space { get { return m_Space; } set { m_Space = value; } }
         public float[] center { get { return m_Center; } set { m_Center = value; } }
         public float[] radius { get { return m_Radius; } set { m_Radius = value; } }
+        /// <summary>
+        /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
+        /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+        /// </summary>
+        public SerieLabel label { get { return m_Label; } set { m_Label = value; } }
+        public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
+        public List<float> yData { get { return m_YData; } }
+        public List<float> xData { get { return m_XData; } }
+        public List<SerieData> data { get { return m_Data; } }
 
+        /// <summary>
+        /// The index of serie,start at 0.
+        /// 系列的索引，从0开始。
+        /// </summary>
         public int index { get; set; }
         /// <summary>
         /// Whether the serie is highlighted.
@@ -66,11 +80,6 @@ namespace XCharts
         /// </summary>
         public bool highlighted { get; set; }
         public int dataCount { get { return m_Data.Count; } }
-
-        public List<float> yData { get { return m_YData; } }
-        public List<float> xData { get { return m_XData; } }
-        public List<SerieData> data { get { return m_Data; } }
-
         public int filterStart { get; set; }
         public int filterEnd { get; set; }
 

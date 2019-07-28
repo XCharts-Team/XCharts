@@ -18,6 +18,7 @@ namespace XCharts
     {
         private static readonly string s_TitleObjectName = "title";
         private static readonly string s_LegendObjectName = "legend";
+        private static readonly string s_SerieLabelObjectName = "label";
 
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
@@ -39,6 +40,7 @@ namespace XCharts
         [NonSerialized] private float m_CheckSerieCount = 0;
         [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
         [NonSerialized] private bool m_RefreshChart = false;
+        [NonSerialized] private bool m_RefreshLabel = false;
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -61,11 +63,13 @@ namespace XCharts
             m_CheckTheme = m_ThemeInfo.theme;
             InitTitle();
             InitLegend();
+            InitSerieLabel();
             InitTooltip();
             TransferOldVersionData();
         }
 
-        protected override void Start() {
+        protected override void Start()
+        {
             RefreshChart();
         }
 
@@ -77,6 +81,7 @@ namespace XCharts
             CheckLegend();
             CheckTooltip();
             CheckRefreshChart();
+            CheckRefreshLabel();
         }
 
         protected override void OnEnable()
@@ -248,6 +253,34 @@ namespace XCharts
             }
         }
 
+        private void InitSerieLabel()
+        {
+            ChartHelper.HideAllObject(transform, s_SerieLabelObjectName);
+            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
+                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            int count = 0;
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.series[i];
+                if (serie.type != SerieType.Pie) continue;
+                for (int j = 0; j < serie.data.Count; j++)
+                {
+                    var serieData = serie.data[j];
+                    var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
+                    var color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
+                        (Color)m_ThemeInfo.GetColor(count++);
+                    var anchorMin = new Vector2(0.5f, 0.5f);
+                    var anchorMax = new Vector2(0.5f, 0.5f);
+                    var pivot = new Vector2(0.5f, 0.5f);
+                    serieData.label = ChartHelper.AddTextObject(textName, labelObject.transform,
+                        m_ThemeInfo.font, color, TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot,
+                        new Vector2(50, serie.label.fontSize), serie.label.fontSize);
+                    serieData.label.text = serieData.name;
+                    serieData.label.gameObject.SetActive(true);
+                }
+            }
+        }
+
         private void InitTooltip()
         {
             var tooltipObject = ChartHelper.AddObject("tooltip", transform, chartAnchorMin,
@@ -354,14 +387,14 @@ namespace XCharts
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, canvas.worldCamera, out local))
             {
-                if(m_Tooltip.IsActive()) RefreshChart();
+                if (m_Tooltip.IsActive()) RefreshChart();
                 m_Tooltip.SetActive(false);
                 return;
             }
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
             {
-                if(m_Tooltip.IsActive()) RefreshChart();
+                if (m_Tooltip.IsActive()) RefreshChart();
                 m_Tooltip.SetActive(false);
                 return;
             }
@@ -382,6 +415,20 @@ namespace XCharts
                 rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
                 m_RefreshChart = false;
             }
+        }
+
+        protected void CheckRefreshLabel()
+        {
+            if (m_RefreshLabel)
+            {
+                m_RefreshLabel = false;
+                OnRefreshLabel();
+            }
+        }
+
+        protected virtual void OnRefreshLabel()
+        {
+
         }
 
         protected virtual void OnSizeChanged()
@@ -456,6 +503,7 @@ namespace XCharts
             DrawBackground(vh);
             DrawChart(vh);
             DrawTooltip(vh);
+            m_RefreshLabel = true;
         }
 
         protected virtual void DrawChart(VertexHelper vh)

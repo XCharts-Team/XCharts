@@ -59,7 +59,9 @@ namespace XCharts
             if (m_SerieLabelToggle)
             {
                 height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
-            }else{
+            }
+            else
+            {
                 height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
             return height;

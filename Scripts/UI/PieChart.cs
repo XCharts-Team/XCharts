@@ -118,6 +118,14 @@ namespace XCharts
 
                 float totalDegree = 360;
                 float startDegree = 0;
+                int showdataCount = 0;
+                if (serie.roseType == RoseType.Area)
+                {
+                    foreach (var sd in serie.data)
+                    {
+                        if (sd.show) showdataCount++;
+                    }
+                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
@@ -144,7 +152,7 @@ namespace XCharts
                         tempData.angleList.Add(0);
                         continue;
                     }
-                    float degree = totalDegree * value / tempData.dataTotal;
+                     float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
                     float toDegree = startDegree + degree;
 
                     float outSideRadius = serie.roseType > 0 ?
@@ -190,7 +198,7 @@ namespace XCharts
                         ChartHelper.DrawDoughnut(vh, center, tempData.insideRadius, outSideRadius,
                             startDegree, toDegree, color);
                     }
-                    DrawLabelLine(vh, serie,tempData, outSideRadius, center, currAngle, color);
+                    DrawLabelLine(vh, serie, tempData, outSideRadius, center, currAngle, color);
                     isDrawPie = true;
                     tempData.angleList.Add(toDegree);
                     startDegree = toDegree;
@@ -199,7 +207,7 @@ namespace XCharts
             raycastTarget = isClickOffset && isDataHighlight;
         }
 
-        private void DrawLabelLine(VertexHelper vh, Serie serie,PieTempData tempData, float outSideRadius, Vector2 center, float currAngle, Color color)
+        private void DrawLabelLine(VertexHelper vh, Serie serie, PieTempData tempData, float outSideRadius, Vector2 center, float currAngle, Color color)
         {
             if (serie.label.show
                 && serie.label.position == SerieLabel.Position.Outside
@@ -276,6 +284,14 @@ namespace XCharts
 
                 float totalDegree = 360;
                 float startDegree = 0;
+                int showdataCount = 0;
+                if (serie.roseType == RoseType.Area)
+                {
+                    foreach (var sd in serie.data)
+                    {
+                        if (sd.show) showdataCount++;
+                    }
+                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
@@ -302,7 +318,7 @@ namespace XCharts
                         tempData.angleList.Add(0);
                         continue;
                     }
-                    float degree = totalDegree * value / tempData.dataTotal;
+                    float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
                     float toDegree = startDegree + degree;
 
                     float outSideRadius = serie.roseType > 0 ?
@@ -310,7 +326,6 @@ namespace XCharts
                         tempData.outsideRadius;
                     if (serieData.highlighted)
                     {
-                        //color *= 1.2f;
                         outSideRadius += m_Pie.tooltipExtraRadius;
                     }
                     var offset = serie.space;

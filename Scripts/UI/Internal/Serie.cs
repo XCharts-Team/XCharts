@@ -16,10 +16,25 @@ namespace XCharts
         EffectScatter
     }
 
+/// <summary>
+/// Whether to show as Nightingale chart, which distinguishs data through radius. 
+/// 是否展示成南丁格尔图，通过半径区分数据大小。
+/// </summary>
     public enum RoseType
     {
+        /// <summary>
+        /// Don't show as Nightingale chart.不展示成南丁格尔玫瑰图
+        /// </summary>
         None,
+        /// <summary>
+        /// Use central angle to show the percentage of data, radius to show data size.
+        /// 扇区圆心角展现数据的百分比，半径展现数据的大小。
+        /// </summary>
         Radius,
+        /// <summary>
+        /// All the sectors will share the same central angle, the data size is shown only through radiuses.
+        /// 所有扇区圆心角相同，仅通过半径展现数据大小。
+        /// </summary>
         Area
     }
 
@@ -55,6 +70,10 @@ namespace XCharts
         public int axisIndex { get { return m_AxisIndex; } set { m_AxisIndex = value; } }
         public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
         public bool clickOffset { get { return m_ClickOffset; } set { m_ClickOffset = value; } }
+        /// <summary>
+        /// Whether to show as Nightingale chart.
+        /// 是否展示成南丁格尔图，通过半径区分数据大小。
+        /// </summary>
         public RoseType roseType { get { return m_RoseType; } set { m_RoseType = value; } }
         public float space { get { return m_Space; } set { m_Space = value; } }
         public float[] center { get { return m_Center; } set { m_Center = value; } }

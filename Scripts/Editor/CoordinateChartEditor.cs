@@ -10,7 +10,7 @@ namespace XCharts
     [CustomEditor(typeof(CoordinateChart), false)]
     public class CoordinateChartEditor : BaseChartEditor
     {
-        protected SerializedProperty m_Coordinate;
+        protected SerializedProperty m_Grid;
         protected SerializedProperty m_MultipleXAxis;
         protected SerializedProperty m_XAxises;
         protected SerializedProperty m_MultipleYAxis;
@@ -21,7 +21,7 @@ namespace XCharts
         {
             base.OnEnable();
             m_Target = (CoordinateChart)target;
-            m_Coordinate = serializedObject.FindProperty("m_Coordinate");
+            m_Grid = serializedObject.FindProperty("m_Grid");
             m_XAxises = serializedObject.FindProperty("m_XAxises");
             m_YAxises = serializedObject.FindProperty("m_YAxises");
             m_DataZoom = serializedObject.FindProperty("m_DataZoom");
@@ -31,7 +31,7 @@ namespace XCharts
         {
             base.OnStartInspectorGUI();
             EditorGUILayout.PropertyField(m_DataZoom);
-            EditorGUILayout.PropertyField(m_Coordinate);
+            EditorGUILayout.PropertyField(m_Grid);
             for (int i = 0; i < m_XAxises.arraySize; i++)
             {
                 SerializedProperty axis = m_XAxises.GetArrayElementAtIndex(i);

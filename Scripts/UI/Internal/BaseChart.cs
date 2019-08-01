@@ -6,9 +6,19 @@ using UnityEngine.EventSystems;
 
 namespace XCharts
 {
+    /// <summary>
+    /// the layout is horizontal or vertical.
+    /// 垂直还是水平布局方式。
+    /// </summary>
     public enum Orient
     {
+        /// <summary>
+        /// 水平
+        /// </summary>
         Horizonal,
+        /// <summary>
+        /// 垂直
+        /// </summary>
         Vertical
     }
 
@@ -167,22 +177,22 @@ namespace XCharts
             ChartHelper.HideAllObject(titleObject, s_TitleObjectName);
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.textColor, anchor, anchorMin, anchorMax, pivot,
+                        m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.textFontSize), m_Title.textFontSize);
 
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(m_Title.show);
             titleText.transform.localPosition = Vector2.zero;
-            titleText.text = m_Title.text;
+            titleText.text = m_Title.text.Replace("\\n", "\n");
 
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.textColor, anchor, anchorMin, anchorMax, pivot,
+                        m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextFontSize), m_Title.subTextFontSize);
 
             subText.alignment = anchor;
             subText.gameObject.SetActive(m_Title.show && !string.IsNullOrEmpty(m_Title.subText));
             subText.transform.localPosition = subTitlePosition;
-            subText.text = m_Title.subText;
+            subText.text = m_Title.subText.Replace("\\n", "\n");
         }
 
         private void InitLegend()
@@ -221,7 +231,7 @@ namespace XCharts
                 Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i + "_" + legendName, legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-                var bgColor = IsLegendActive(legendName) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
+                var bgColor = IsActiveByLegend(legendName) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
                 m_Legend.SetButton(legendName, btn, datas.Count);
                 m_Legend.UpdateButtonColor(legendName, bgColor);
                 btn.GetComponentInChildren<Text>().text = legendName;
@@ -366,7 +376,7 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show || !m_Tooltip.isInited)
+            if (!m_Tooltip.show || !m_Tooltip.inited)
             {
 
                 if (m_Tooltip.dataIndex[0] != 0 || m_Tooltip.dataIndex[1] != 0)

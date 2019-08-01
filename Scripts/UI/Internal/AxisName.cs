@@ -3,10 +3,17 @@ using UnityEngine;
 
 namespace XCharts
 {
+    /// <summary>
+    /// the name of axis.
+    /// 坐标轴名称。
+    /// </summary>
     [Serializable]
     public class AxisName
     {
-        [Serializable]
+        /// <summary>
+        /// the location of axis name.
+        /// 坐标轴名称显示位置。
+        /// </summary>
         public enum Location
         {
             Start,
@@ -22,13 +29,45 @@ namespace XCharts
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
 
+        /// <summary>
+        /// Whether to show axis name. 
+        /// 是否显示坐标名称。
+        /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
+        /// <summary>
+        /// the name of axis.
+        /// 坐标轴名称。
+        /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
+        /// <summary>
+        /// Location of axis name.
+        /// 坐标轴名称显示位置。
+        /// </summary>
         public Location location { get { return m_Location; } set { m_Location = value; } }
+        /// <summary>
+        /// Gap between axis name and axis line.
+        /// 坐标轴名称与轴线之间的距离。
+        /// </summary>
         public float gap { get { return m_Gap; } set { m_Gap = value; } }
+        /// <summary>
+        /// Rotation of axis name.
+        /// 坐标轴名字旋转，角度值。
+        /// </summary>
         public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+        /// <summary>
+        /// Color of axis name. 
+        /// 坐标轴名称的文字颜色。
+        /// </summary>
         public Color color { get { return m_Color; } set { m_Color = value; } }
+        /// <summary>
+        /// axis name font size. 
+        /// 坐标轴名称的文字大小。
+        /// </summary>
         public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        /// <summary>
+        /// axis name font style. 
+        /// 坐标轴名称的文字风格。
+        /// </summary>
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
 
         public static AxisName defaultAxisName

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [CustomPropertyDrawer(typeof(BarChart.Bar), true)]
+    [CustomPropertyDrawer(typeof(Bar), true)]
     public class BarDrawer : PropertyDrawer
     {
         SerializedProperty m_InSameBar;

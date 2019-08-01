@@ -6,13 +6,13 @@ using UnityEngine.EventSystems;
 
 namespace XCharts
 {
-    public class CoordinateChart : BaseChart
+    public partial class CoordinateChart : BaseChart
     {
         private static readonly string s_DefaultAxisY = "axis_y";
         private static readonly string s_DefaultAxisX = "axis_x";
         private static readonly string s_DefaultDataZoom = "datazoom";
 
-        [SerializeField] protected Coordinate m_Coordinate = Coordinate.defaultCoordinate;
+        [SerializeField] protected Grid m_Grid = Grid.defaultGrid;
         [SerializeField] protected List<XAxis> m_XAxises = new List<XAxis>();
         [SerializeField] protected List<YAxis> m_YAxises = new List<YAxis>();
         [SerializeField] protected DataZoom m_DataZoom = DataZoom.defaultDataZoom;
@@ -22,85 +22,9 @@ namespace XCharts
         private bool m_DataZoomEndDrag;
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
-
         private List<XAxis> m_CheckXAxises = new List<XAxis>();
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
-        private Coordinate m_CheckCoordinate = Coordinate.defaultCoordinate;
-
-        public float coordinateX { get { return m_Coordinate.left; } }
-        public float coordinateY { get { return m_Coordinate.bottom; } }
-        public float coordinateWid { get { return chartWidth - m_Coordinate.left - m_Coordinate.right; } }
-        public float coordinateHig { get { return chartHeight - m_Coordinate.top - m_Coordinate.bottom; } }
-        public List<XAxis> xAxises { get { return m_XAxises; } }
-        public List<YAxis> yAxises { get { return m_YAxises; } }
-
-        /// <summary>
-        /// Remove all data from series,legend and axis.
-        /// It just emptying all of serie's data without emptying the list of series.
-        /// </summary>
-        public override void ClearData()
-        {
-            base.ClearData();
-            ClearAxisData();
-        }
-
-        /// <summary>
-        /// Remove all data from series,legend and axis.
-        /// The series list is also cleared.
-        /// </summary>
-        public override void RemoveData()
-        {
-            base.RemoveData();
-            ClearAxisData();
-        }
-
-        /// <summary>
-        /// Remove all data of axises.
-        /// </summary>
-        public void ClearAxisData()
-        {
-            foreach (var item in m_XAxises) item.data.Clear();
-            foreach (var item in m_YAxises) item.data.Clear();
-        }
-
-        /// <summary>
-        /// Add a category data to xAxis.
-        /// </summary>
-        /// <param name="category">the category data</param>
-        /// <param name="xAxisIndex">which xAxis should category add to</param>
-        public void AddXAxisData(string category, int xAxisIndex = 0)
-        {
-            m_XAxises[xAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnXAxisChanged();
-        }
-
-        /// <summary>
-        /// Add a category data to yAxis.
-        /// </summary>
-        /// <param name="category">the category data</param>
-        /// <param name="yAxisIndex">which yAxis should category add to</param>
-        public void AddYAxisData(string category, int yAxisIndex = 0)
-        {
-            m_YAxises[yAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnYAxisChanged();
-        }
-
-        /// <summary>
-        /// Whether is Cartesian coordinates, reutrn true when all the show axis is `Value` type.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsCartesian()
-        {
-            foreach (var axis in m_XAxises)
-            {
-                if (axis.show && !axis.IsValue()) return false;
-            }
-            foreach (var axis in m_YAxises)
-            {
-                if (axis.show && !axis.IsValue()) return false;
-            }
-            return true;
-        }
+        private Grid m_CheckCoordinate = Grid.defaultGrid;
 
         protected override void Awake()
         {
@@ -127,7 +51,7 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Coordinate = Coordinate.defaultCoordinate;
+            m_Grid = Grid.defaultGrid;
             m_XAxises.Clear();
             m_YAxises.Clear();
             Awake();
@@ -151,7 +75,7 @@ namespace XCharts
             }
             else
             {
-                var isCartesian = IsCartesian();
+                var isCartesian = IsValue();
                 for (int i = 0; i < m_XAxises.Count; i++)
                 {
                     var xAxis = m_XAxises[i];
@@ -250,7 +174,7 @@ namespace XCharts
             base.RefreshTooltip();
             int index;
             Axis tempAxis;
-            bool isCartesian = IsCartesian();
+            bool isCartesian = IsValue();
             if (isCartesian)
             {
                 index = m_Tooltip.dataIndex[0];
@@ -440,14 +364,14 @@ namespace XCharts
                 {
                     txt = ChartHelper.AddTextObject(objName + i, axisObj.transform,
                         m_ThemeInfo.font, labelColor, TextAnchor.MiddleLeft, Vector2.zero,
-                        Vector2.zero, new Vector2(0, 0.5f), new Vector2(m_Coordinate.left, 20),
+                        Vector2.zero, new Vector2(0, 0.5f), new Vector2(m_Grid.left, 20),
                         yAxis.axisLabel.fontSize, yAxis.axisLabel.rotate, yAxis.axisLabel.fontStyle);
                 }
                 else
                 {
                     txt = ChartHelper.AddTextObject(objName + i, axisObj.transform,
                         m_ThemeInfo.font, labelColor, TextAnchor.MiddleRight, Vector2.zero,
-                        Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Coordinate.left, 20),
+                        Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Grid.left, 20),
                         yAxis.axisLabel.fontSize, yAxis.axisLabel.rotate, yAxis.axisLabel.fontStyle);
                 }
 
@@ -667,9 +591,9 @@ namespace XCharts
 
         private void CheckCoordinate()
         {
-            if (m_CheckCoordinate != m_Coordinate)
+            if (m_CheckCoordinate != m_Grid)
             {
-                m_CheckCoordinate.Copy(m_Coordinate);
+                m_CheckCoordinate.Copy(m_Grid);
                 OnCoordinateChanged();
             }
         }
@@ -780,6 +704,7 @@ namespace XCharts
 
         private void DrawCoordinate(VertexHelper vh)
         {
+            DrawGrid(vh);
             for (int i = 0; i < m_XAxises.Count; i++)
             {
                 DrawXAxisTickAndSplit(vh, i, m_XAxises[i]);
@@ -795,6 +720,18 @@ namespace XCharts
             for (int i = 0; i < m_YAxises.Count; i++)
             {
                 DrawYAxisLine(vh, i, m_YAxises[i]);
+            }
+        }
+
+        private void DrawGrid(VertexHelper vh)
+        {
+            if (m_Grid.show && m_Grid.backgroundColor != Color.clear)
+            {
+                var p1 = new Vector2(coordinateX, coordinateY);
+                var p2 = new Vector2(coordinateX, coordinateY + coordinateHig);
+                var p3 = new Vector2(coordinateX + coordinateWid, coordinateY + coordinateHig);
+                var p4 = new Vector2(coordinateX + coordinateWid, coordinateY);
+                ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_Grid.backgroundColor);
             }
         }
 
@@ -834,11 +771,11 @@ namespace XCharts
                             pX += startX - yAxis.axisTick.length;
                         }
                         ChartHelper.DrawLine(vh, new Vector3(startX, pY), new Vector3(pX, pY),
-                            m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                            yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
                     }
                     if (yAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, true, yAxis.splitLineType, new Vector3(coordinateX, pY),
+                        DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
                             new Vector3(coordinateX + coordinateWid, pY), m_ThemeInfo.axisSplitLineColor);
                     }
                 }
@@ -881,11 +818,11 @@ namespace XCharts
                             pY += startY - xAxis.axisTick.length;
                         }
                         ChartHelper.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
-                            m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                            xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
                     }
                     if (xAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, false, xAxis.splitLineType, new Vector3(pX, coordinateY),
+                        DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
                             new Vector3(pX, coordinateY + coordinateHig), m_ThemeInfo.axisSplitLineColor);
                     }
                 }
@@ -898,9 +835,9 @@ namespace XCharts
             {
                 var lineY = coordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].zeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += coordinateHig;
-                var left = new Vector3(coordinateX - m_Coordinate.tickness, lineY);
-                var top = new Vector3(coordinateX + coordinateWid + m_Coordinate.tickness, lineY);
-                ChartHelper.DrawLine(vh, left, top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                var left = new Vector3(coordinateX - xAxis.axisLine.width, lineY);
+                var top = new Vector3(coordinateX + coordinateWid + xAxis.axisLine.width, lineY);
+                ChartHelper.DrawLine(vh, left, top, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
                 if (xAxis.axisLine.symbol)
                 {
                     var axisLine = xAxis.axisLine;
@@ -920,9 +857,9 @@ namespace XCharts
             {
                 var lineX = coordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].zeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += coordinateWid;
-                var top = new Vector3(lineX, coordinateY + coordinateHig + m_Coordinate.tickness);
-                ChartHelper.DrawLine(vh, new Vector3(lineX, coordinateY - m_Coordinate.tickness),
-                    top, m_Coordinate.tickness, m_ThemeInfo.axisLineColor);
+                var top = new Vector3(lineX, coordinateY + coordinateHig + yAxis.axisLine.width);
+                ChartHelper.DrawLine(vh, new Vector3(lineX, coordinateY - yAxis.axisLine.width),
+                    top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
                 if (yAxis.axisLine.symbol)
                 {
                     var axisLine = yAxis.axisLine;
@@ -943,10 +880,11 @@ namespace XCharts
             var p2 = new Vector2(coordinateX, m_DataZoom.bottom + m_DataZoom.height);
             var p3 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom + m_DataZoom.height);
             var p4 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom);
-            ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
-            ChartHelper.DrawLine(vh, p2, p3, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
-            ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
-            ChartHelper.DrawLine(vh, p4, p1, m_Coordinate.tickness, m_ThemeInfo.dataZoomLineColor);
+            var xAxis = xAxises[0];
+            ChartHelper.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p2, p3, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p3, p4, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
+            ChartHelper.DrawLine(vh, p4, p1, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
             if (m_DataZoom.showDataShadow && m_Series.Count > 0)
             {
                 Serie serie = m_Series.series[0];
@@ -968,12 +906,12 @@ namespace XCharts
                     if (i > 0)
                     {
                         Color color = m_ThemeInfo.dataZoomLineColor;
-                        ChartHelper.DrawLine(vh, lp, np, m_Coordinate.tickness, color);
-                        Vector3 alp = new Vector3(lp.x, lp.y - m_Coordinate.tickness);
-                        Vector3 anp = new Vector3(np.x, np.y - m_Coordinate.tickness);
+                        ChartHelper.DrawLine(vh, lp, np, xAxis.axisLine.width, color);
+                        Vector3 alp = new Vector3(lp.x, lp.y - xAxis.axisLine.width);
+                        Vector3 anp = new Vector3(np.x, np.y - xAxis.axisLine.width);
                         Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
-                        Vector3 tnp = new Vector3(np.x, m_DataZoom.bottom + m_Coordinate.tickness);
-                        Vector3 tlp = new Vector3(lp.x, m_DataZoom.bottom + m_Coordinate.tickness);
+                        Vector3 tnp = new Vector3(np.x, m_DataZoom.bottom + xAxis.axisLine.width);
+                        Vector3 tlp = new Vector3(lp.x, m_DataZoom.bottom + xAxis.axisLine.width);
                         ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                     }
                     lp = np;
@@ -989,15 +927,16 @@ namespace XCharts
                     p3 = new Vector2(end, m_DataZoom.bottom + m_DataZoom.height);
                     p4 = new Vector2(end, m_DataZoom.bottom);
                     ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.dataZoomSelectedColor);
-                    ChartHelper.DrawLine(vh, p1, p2, m_Coordinate.tickness, m_ThemeInfo.dataZoomSelectedColor);
-                    ChartHelper.DrawLine(vh, p3, p4, m_Coordinate.tickness, m_ThemeInfo.dataZoomSelectedColor);
+                    ChartHelper.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomSelectedColor);
+                    ChartHelper.DrawLine(vh, p3, p4, xAxis.axisLine.width, m_ThemeInfo.dataZoomSelectedColor);
                     break;
             }
         }
 
-        protected void DrawSplitLine(VertexHelper vh, bool isYAxis, Axis.SplitLineType type,
+        protected void DrawSplitLine(VertexHelper vh, Axis axis, Axis.SplitLineType type,
             Vector3 startPos, Vector3 endPos, Color color)
         {
+            bool isYAxis = axis is YAxis;
             switch (type)
             {
                 case Axis.SplitLineType.Dashed:
@@ -1013,21 +952,21 @@ namespace XCharts
                         {
                             var toX = startX + dashLen;
                             ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(toX, startY),
-                                m_Coordinate.tickness, color);
+                                axis.axisLine.width, color);
                             startX += dashLen * 2;
                         }
                         else
                         {
                             var toY = startY + dashLen;
                             ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(startX, toY),
-                                m_Coordinate.tickness, color);
+                                axis.axisLine.width, color);
                             startY += dashLen * 2;
                         }
 
                     }
                     break;
                 case Axis.SplitLineType.Solid:
-                    ChartHelper.DrawLine(vh, startPos, endPos, m_Coordinate.tickness, color);
+                    ChartHelper.DrawLine(vh, startPos, endPos, axis.axisLine.width, color);
                     break;
             }
         }
@@ -1052,12 +991,12 @@ namespace XCharts
                         if (xAxis.IsValue()) pX = m_Tooltip.pointerPos.x;
                         Vector2 sp = new Vector2(pX, coordinateY);
                         Vector2 ep = new Vector2(pX, coordinateY + coordinateHig);
-                        DrawSplitLine(vh, false, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        DrawSplitLine(vh, xAxis, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.pointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWid, m_Tooltip.pointerPos.y);
-                            DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                            DrawSplitLine(vh, yAxis, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
                         }
                         break;
                     case Tooltip.Type.Shadow:
@@ -1084,6 +1023,7 @@ namespace XCharts
             for (int i = 0; i < m_YAxises.Count; i++)
             {
                 var yAxis = m_YAxises[i];
+                var xAxis = m_XAxises[i];
                 if (!yAxis.show) continue;
                 float splitWidth = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
                 switch (m_Tooltip.type)
@@ -1094,12 +1034,12 @@ namespace XCharts
                         float pY = coordinateY + m_Tooltip.yValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0);
                         Vector2 sp = new Vector2(coordinateX, pY);
                         Vector2 ep = new Vector2(coordinateX + coordinateWid, pY);
-                        DrawSplitLine(vh, false, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        DrawSplitLine(vh, xAxis, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.pointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWid, m_Tooltip.pointerPos.y);
-                            DrawSplitLine(vh, true, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                            DrawSplitLine(vh, yAxis, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
                         }
                         break;
                     case Tooltip.Type.Shadow:

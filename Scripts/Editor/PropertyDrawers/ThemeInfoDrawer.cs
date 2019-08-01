@@ -20,7 +20,7 @@ namespace XCharts
             SerializedProperty m_Theme = prop.FindPropertyRelative("m_Theme");
             SerializedProperty m_Font = prop.FindPropertyRelative("m_Font");
             SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
-            SerializedProperty m_TextColor = prop.FindPropertyRelative("m_TextColor");
+            SerializedProperty m_TextColor = prop.FindPropertyRelative("m_TitleTextColor");
             SerializedProperty m_SubTextColor = prop.FindPropertyRelative("m_TitleSubTextColor");
             SerializedProperty m_LegendTextColor = prop.FindPropertyRelative("m_LegendTextColor");
             SerializedProperty m_LegendUnableColor = prop.FindPropertyRelative("m_LegendUnableColor");
@@ -39,7 +39,7 @@ namespace XCharts
 
             SerializedProperty m_CustomFont = prop.FindPropertyRelative("m_CustomFont");
             SerializedProperty m_CustomBackgroundColor = prop.FindPropertyRelative("m_CustomBackgroundColor");
-            SerializedProperty m_CustomTextColor = prop.FindPropertyRelative("m_CustomTextColor");
+            SerializedProperty m_CustomTextColor = prop.FindPropertyRelative("m_CustomTitleTextColor");
             SerializedProperty m_CustomSubTextColor = prop.FindPropertyRelative("m_CustomTitleSubTextColor");
             SerializedProperty m_CustomLegendTextColor = prop.FindPropertyRelative("m_CustomLegendTextColor");
             SerializedProperty m_CustomLegendUnableColor = prop.FindPropertyRelative("m_CustomLegendUnableColor");
@@ -97,7 +97,7 @@ namespace XCharts
                     }
                     m_Font.objectReferenceValue = defaultThemeInfo.font;
                     m_BackgroundColor.colorValue = defaultThemeInfo.backgroundColor;
-                    m_TextColor.colorValue = defaultThemeInfo.textColor;
+                    m_TextColor.colorValue = defaultThemeInfo.titleTextColor;
                     m_SubTextColor.colorValue = defaultThemeInfo.titleSubTextColor;
                     m_LegendTextColor.colorValue = defaultThemeInfo.legendTextColor;
                     m_LegendUnableColor.colorValue = defaultThemeInfo.legendUnableColor;
@@ -143,7 +143,7 @@ namespace XCharts
 
                 EditorGUI.BeginChangeCheck();
                 color = m_CustomTextColor.colorValue != Color.clear ? m_CustomTextColor : m_TextColor;
-                EditorGUI.PropertyField(drawRect, color, new GUIContent("Text Color"));
+                EditorGUI.PropertyField(drawRect, color, new GUIContent("Title Text Color"));
                 if (EditorGUI.EndChangeCheck())
                 {
                     m_CustomTextColor.colorValue = color.colorValue;
@@ -152,7 +152,7 @@ namespace XCharts
 
                 EditorGUI.BeginChangeCheck();
                 color = m_CustomSubTextColor.colorValue != Color.clear ? m_CustomSubTextColor : m_SubTextColor;
-                EditorGUI.PropertyField(drawRect, color, new GUIContent("SubText Color"));
+                EditorGUI.PropertyField(drawRect, color, new GUIContent("Title SubText Color"));
                 if (EditorGUI.EndChangeCheck())
                 {
                     m_CustomSubTextColor.colorValue = color.colorValue;

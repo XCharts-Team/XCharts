@@ -3,18 +3,47 @@ using System.Collections.Generic;
 
 namespace XCharts
 {
+    /// <summary>
+    /// The base class of all charts.
+    /// 所有Chart的基类，不可直接使用。
+    /// </summary>
     public partial class BaseChart
     {
+        /// <summary>
+        /// The title setting of chart.
+        /// 标题组件
+        /// </summary>
         public Title title { get { return m_Title; } }
+        /// <summary>
+        /// The legend setting of chart.
+        /// 图例组件
+        /// </summary>
         public Legend legend { get { return m_Legend; } }
+        /// <summary>
+        /// The tooltip setting of chart.
+        /// 提示框组件
+        /// </summary>
         public Tooltip tooltip { get { return m_Tooltip; } }
+        /// <summary>
+        /// The series setting of chart.
+        /// 系列列表
+        /// </summary>
         public Series series { get { return m_Series; } }
-
+        /// <summary>
+        /// The width of chart. 
+        /// 图表的宽
+        /// </summary>
         public float chartWidth { get { return m_ChartWidth; } }
+        /// <summary>
+        /// The height of chart. 
+        /// 图表的高
+        /// </summary>
+        /// <value></value>
         public float chartHeight { get { return m_ChartHeight; } }
 
         /// <summary>
         /// The min number of data to show in chart.
+        /// 图表所显示数据的最小索引
         /// </summary>
         public int minShowDataNumber
         {
@@ -24,6 +53,7 @@ namespace XCharts
 
         /// <summary>
         /// The max number of data to show in chart.
+        /// 图表所显示数据的最大索引
         /// </summary>
         public int maxShowDataNumber
         {
@@ -35,6 +65,7 @@ namespace XCharts
         /// The max number of serie and axis data cache.
         /// The first data will be remove when the size of serie and axis data is larger then maxCacheDataNumber.
         /// default:0,unlimited.
+        /// 图表每个系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
         public int maxCacheDataNumber
         {
@@ -44,6 +75,7 @@ namespace XCharts
 
         /// <summary>
         /// Set the size of chart.
+        /// 设置图表的大小。
         /// </summary>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
@@ -60,6 +92,7 @@ namespace XCharts
         /// <summary>
         /// Remove all series and legend data.
         /// It just emptying all of serie's data without emptying the list of series.
+        /// 清除所有数据，系列中只是移除数据，列表会保留。
         /// </summary>
         public virtual void ClearData()
         {
@@ -69,7 +102,20 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Remove all data from series and legend.
+        /// The series list is also cleared.
+        /// 清除所有系列和图例数据，系列的列表也会被清除。
+        /// </summary>
+        public virtual void RemoveData()
+        {
+            m_Legend.ClearData();
+            m_Series.RemoveAll();
+            RefreshChart();
+        }
+
+        /// <summary>
         /// Remove legend and serie by name.
+        /// 清除指定系列名称的数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         public virtual void RemoveData(string serieName)
@@ -80,18 +126,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Remove all data from series and legend.
-        /// The series list is also cleared.
-        /// </summary>
-        public virtual void RemoveData()
-        {
-            m_Legend.ClearData();
-            m_Series.RemoveAll();
-            RefreshChart();
-        }
-
-        /// <summary>
         /// Add a serie to serie list.
+        /// 添加一个系列到系列列表中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="type">the type of serie</param>
@@ -106,6 +142,7 @@ namespace XCharts
         /// <summary>
         /// Add a data to serie.
         /// If serieName doesn't exist in legend,will be add to legend.
+        /// 添加一个数据到指定的系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="data">the data to add</param>
@@ -121,6 +158,7 @@ namespace XCharts
 
         /// <summary>
         /// Add a data to serie.
+        /// 添加一个数据到指定的系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="data">the data to add</param>
@@ -135,6 +173,7 @@ namespace XCharts
 
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// 添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -149,6 +188,7 @@ namespace XCharts
 
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// 添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie,index starts at 0</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -163,6 +203,7 @@ namespace XCharts
 
         /// <summary>
         /// Add a (x,y) data to serie.
+        /// 添加（x,y）数据到指定系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="xValue">x data</param>
@@ -178,6 +219,7 @@ namespace XCharts
 
         /// <summary>
         /// Add a (x,y) data to serie.
+        /// 添加（x,y）数据到指定系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="xValue">x data</param>
@@ -193,6 +235,7 @@ namespace XCharts
 
         /// <summary>
         /// Update serie data by serie name.
+        /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="value">the data will be update</param>
@@ -205,6 +248,7 @@ namespace XCharts
 
         /// <summary>
         /// Update serie data by serie index.
+        /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="value">the data will be update</param>
@@ -216,7 +260,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Whether to show serie and legend.
+        /// Whether to show serie.
+        /// 设置指定系列是否显示。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="active">Active or not</param>
@@ -230,7 +275,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Whether to show serie and legend.
+        /// Whether to show serie.
+        /// 设置指定系列是否显示。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="active">Active or not</param>
@@ -247,6 +293,7 @@ namespace XCharts
 
         /// <summary>
         /// Whether serie is activated.
+        /// 获取指定系列是否显示。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <returns>True when activated</returns>
@@ -257,6 +304,7 @@ namespace XCharts
 
         /// <summary>
         /// Whether serie is activated.
+        /// 获取指定系列是否显示。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <returns>True when activated</returns>
@@ -265,13 +313,20 @@ namespace XCharts
             return m_Series.IsActive(serieIndex);
         }
 
-        public virtual bool IsLegendActive(string legendName)
+        /// <summary>
+        /// Whether serie is activated.
+        /// 获得指定图例名字的系列是否显示。
+        /// </summary>
+        /// <param name="legendName"></param>
+        /// <returns></returns>
+        public virtual bool IsActiveByLegend(string legendName)
         {
             return IsActive(legendName);
         }
 
         /// <summary>
-        /// Redraw chart next frame.
+        /// Redraw chart in next frame.
+        /// 在下一帧刷新图表。
         /// </summary>
         public void RefreshChart()
         {
@@ -279,7 +334,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Update chart theme
+        /// Update chart theme.
+        /// 切换图表主题。
         /// </summary>
         /// <param name="theme">theme</param>
         public void UpdateTheme(Theme theme)

@@ -102,13 +102,13 @@ namespace XCharts
                 var dataIndex = i % dataCount;
                 var serie = m_Series.GetSerie(pointSerieIndex[i]);
                 float symbolSize = serie.symbol.size;
-                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(dataIndex))
+                if ((m_Tooltip.show && m_Tooltip.IsSelected(dataIndex))
                     || serie.data[dataIndex].highlighted
                     || serie.highlighted)
                 {
-                    if (IsCartesian())
+                    if (IsValue())
                     {
-                        if (m_Series.IsTooltipSelected(serie.index))
+                        if (m_Series.IsHighlight(serie.index))
                         {
                             symbolSize = serie.symbol.selectedSize;
                         }
@@ -185,8 +185,8 @@ namespace XCharts
                 if (xAxis.IsValue())
                 {
                     float xValue = i > xData.Count - 1 ? 0 : xData[i];
-                    float pX = coordinateX + m_Coordinate.tickness;
-                    float pY = seriesHig[i] + coordinateY + m_Coordinate.tickness;
+                    float pX = coordinateX + xAxis.axisLine.width;
+                    float pY = seriesHig[i] + coordinateY + xAxis.axisLine.width;
                     float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                     yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                     np = new Vector3(pX + xDataHig, pY + yDataHig);
@@ -194,7 +194,7 @@ namespace XCharts
                 else
                 {
                     float pX = startX + i * scaleWid;
-                    float pY = seriesHig[i] + coordinateY + m_Coordinate.tickness;
+                    float pY = seriesHig[i] + coordinateY + yAxis.axisLine.width;
                     yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                     np = new Vector3(pX, pY + yDataHig);
                 }
@@ -272,14 +272,14 @@ namespace XCharts
                                         lastSmoothPoints[lastSmoothPoints.Count - 1].y + m_Line.tickness) :
                                     new Vector3(lastSmoothPoints[smoothPointCount].x,
                                         lastSmoothPoints[smoothPointCount].y + m_Line.tickness)) :
-                                    new Vector3(to.x, coordinateY + m_Coordinate.tickness);
+                                    new Vector3(to.x, coordinateY + xAxis.axisLine.width);
                                 Vector3 tlp = serieIndex > 0 ?
                                     (smoothPointCount > lastSmoothPoints.Count - 1 ?
                                     new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 2].x,
                                         lastSmoothPoints[lastSmoothPoints.Count - 2].y + m_Line.tickness) :
                                     new Vector3(lastSmoothPoints[smoothPointCount - 1].x,
                                         lastSmoothPoints[smoothPointCount - 1].y + m_Line.tickness)) :
-                                    new Vector3(start.x, coordinateY + m_Coordinate.tickness);
+                                    new Vector3(start.x, coordinateY + xAxis.axisLine.width);
                                 Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
@@ -301,18 +301,18 @@ namespace XCharts
                             {
                                 Vector3 tnp = serieIndex > 0 ?
                                     new Vector3(lastPoints[i].x, lastPoints[i].y + m_Line.tickness) :
-                                    new Vector3(np.x, coordinateY + m_Coordinate.tickness);
+                                    new Vector3(np.x, coordinateY + xAxis.axisLine.width);
                                 Vector3 tlp = serieIndex > 0 ?
                                     new Vector3(lastPoints[i - 1].x, lastPoints[i - 1].y + m_Line.tickness) :
-                                    new Vector3(lp.x, coordinateY + m_Coordinate.tickness);
+                                    new Vector3(lp.x, coordinateY + xAxis.axisLine.width);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
                             else
                             {
-                                Vector3 cross1 = new Vector3(cross.x, cross.y + (alp.y > coordinateY ? m_Coordinate.tickness : -m_Coordinate.tickness));
-                                Vector3 cross2 = new Vector3(cross.x, cross.y + (anp.y > coordinateY ? m_Coordinate.tickness : -m_Coordinate.tickness));
-                                Vector3 xp1 = new Vector3(alp.x, coordinateY + (alp.y > coordinateY ? m_Coordinate.tickness : -m_Coordinate.tickness));
-                                Vector3 xp2 = new Vector3(anp.x, coordinateY + (anp.y > coordinateY ? m_Coordinate.tickness : -m_Coordinate.tickness));
+                                Vector3 cross1 = new Vector3(cross.x, cross.y + (alp.y > coordinateY ? xAxis.axisLine.width : -xAxis.axisLine.width));
+                                Vector3 cross2 = new Vector3(cross.x, cross.y + (anp.y > coordinateY ? xAxis.axisLine.width : -xAxis.axisLine.width));
+                                Vector3 xp1 = new Vector3(alp.x, coordinateY + (alp.y > coordinateY ? xAxis.axisLine.width : -xAxis.axisLine.width));
+                                Vector3 xp2 = new Vector3(anp.x, coordinateY + (anp.y > coordinateY ? xAxis.axisLine.width : -xAxis.axisLine.width));
                                 ChartHelper.DrawTriangle(vh, alp, cross1, xp1, areaColor);
                                 ChartHelper.DrawTriangle(vh, anp, cross2, xp2, areaColor);
                             }
@@ -382,7 +382,7 @@ namespace XCharts
                 }
                 float value = serie.yData[i];
                 float pY = startY + i * scaleWid;
-                float pX = seriesHig[i] + coordinateX + m_Coordinate.tickness;
+                float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
                 float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                 np = new Vector3(pX + dataHig, pY);
                 if (i > 0)
@@ -457,14 +457,14 @@ namespace XCharts
                                         lastSmoothPoints[lastSmoothPoints.Count - 1].y + m_Line.tickness) :
                                     new Vector3(lastSmoothPoints[smoothPointCount].x,
                                         lastSmoothPoints[smoothPointCount].y + m_Line.tickness)) :
-                                    new Vector3(coordinateX + m_Coordinate.tickness, to.y);
+                                    new Vector3(coordinateX + yAxis.axisLine.width, to.y);
                                 Vector3 tlp = serieIndex > 0 ?
                                     (smoothPointCount > lastSmoothPoints.Count - 1 ?
                                     new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 2].x,
                                         lastSmoothPoints[lastSmoothPoints.Count - 2].y + m_Line.tickness) :
                                     new Vector3(lastSmoothPoints[smoothPointCount - 1].x,
                                         lastSmoothPoints[smoothPointCount - 1].y + m_Line.tickness)) :
-                                    new Vector3(coordinateX + m_Coordinate.tickness, start.y);
+                                    new Vector3(coordinateX + yAxis.axisLine.width, start.y);
                                 Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
@@ -485,19 +485,19 @@ namespace XCharts
                             if (cross == Vector3.zero)
                             {
                                 Vector3 tnp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i].x + m_Coordinate.tickness, lastPoints[i].y) :
-                                    new Vector3(coordinateX + m_Coordinate.tickness, np.y);
+                                    new Vector3(lastPoints[i].x + yAxis.axisLine.width, lastPoints[i].y) :
+                                    new Vector3(coordinateX + yAxis.axisLine.width, np.y);
                                 Vector3 tlp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i - 1].x + m_Coordinate.tickness, lastPoints[i - 1].y) :
-                                    new Vector3(coordinateX + m_Coordinate.tickness, lp.y);
+                                    new Vector3(lastPoints[i - 1].x + yAxis.axisLine.width, lastPoints[i - 1].y) :
+                                    new Vector3(coordinateX + yAxis.axisLine.width, lp.y);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
                             else
                             {
-                                Vector3 cross1 = new Vector3(cross.x + (alp.x > coordinateX ? m_Coordinate.tickness : -m_Coordinate.tickness), cross.y);
-                                Vector3 cross2 = new Vector3(cross.x + (anp.x > coordinateX ? m_Coordinate.tickness : -m_Coordinate.tickness), cross.y);
-                                Vector3 xp1 = new Vector3(coordinateX + (alp.x > coordinateX ? m_Coordinate.tickness : -m_Coordinate.tickness), alp.y);
-                                Vector3 xp2 = new Vector3(coordinateX + (anp.x > coordinateX ? m_Coordinate.tickness : -m_Coordinate.tickness), anp.y);
+                                Vector3 cross1 = new Vector3(cross.x + (alp.x > coordinateX ? yAxis.axisLine.width : -yAxis.axisLine.width), cross.y);
+                                Vector3 cross2 = new Vector3(cross.x + (anp.x > coordinateX ? yAxis.axisLine.width : -yAxis.axisLine.width), cross.y);
+                                Vector3 xp1 = new Vector3(coordinateX + (alp.x > coordinateX ? yAxis.axisLine.width : -yAxis.axisLine.width), alp.y);
+                                Vector3 xp2 = new Vector3(coordinateX + (anp.x > coordinateX ? yAxis.axisLine.width : -yAxis.axisLine.width), anp.y);
                                 ChartHelper.DrawTriangle(vh, alp, cross1, xp1, areaColor);
                                 ChartHelper.DrawTriangle(vh, anp, cross2, xp2, areaColor);
                             }

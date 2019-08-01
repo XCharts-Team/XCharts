@@ -3,40 +3,71 @@ using UnityEngine;
 
 namespace XCharts
 {
+    /// <summary>
+    /// the type of symbol.
+    /// 标记图形的类型。
+    /// </summary>
     public enum SerieSymbolType
     {
+        /// <summary>
+        /// 空心圆。
+        /// </summary>
         EmptyCircle,
+        /// <summary>
+        /// 圆形。
+        /// </summary>
         Circle,
+        /// <summary>
+        /// 正方形。
+        /// </summary>
         Rect,
+        /// <summary>
+        /// 三角形。
+        /// </summary>
         Triangle,
+        /// <summary>
+        /// 菱形。
+        /// </summary>
         Diamond,
+        /// <summary>
+        /// 不显示标记。
+        /// </summary>
         None,
     }
 
     /// <summary>
     /// The way to get serie symbol size.
-    /// <para> `Custom`:Specify constant for symbol size. </para>
-    /// <para> `FromData`:Specify the dataIndex and dataScale to calculate symbol size,the formula:data[dataIndex]*dataScale. </para>
-    /// <para> `Callback`:Specify callback function for symbol size. </para>
+    /// 获取标记图形大小的方式。
     /// </summary>
     public enum SerieSymbolSizeType
     {
         /// <summary>
         /// Specify constant for symbol size.
+        /// 自定义大小。
         /// </summary>
         Custom,
         /// <summary>
-        /// Specify the dataIndex and dataScale to calculate symbol size
+        /// Specify the dataIndex and dataScale to calculate symbol size.
+        /// 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。
         /// </summary>
         FromData,
         /// <summary>
-        /// Specify callback function for symbol size
+        /// Specify callback function for symbol size.
+        /// 通过回调函数获取。
         /// </summary>
         Callback,
     }
 
+    /// <summary>
+    /// 获取标记大小的回调。
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     public delegate float SymbolSizeCallback(List<float> data);
 
+    /// <summary>
+    /// 系列数据项的标记的图形
+    /// </summary>
     [System.Serializable]
     public class SerieSymbol
     {
@@ -50,19 +81,74 @@ namespace XCharts
         [SerializeField] private SymbolSizeCallback m_SizeCallback;
         [SerializeField] private SymbolSizeCallback m_SelectedSizeCallback;
 
+        /// <summary>
+        /// the type of symbol.
+        /// 标记类型。
+        /// </summary>
+        /// <value></value>
         public SerieSymbolType type { get { return m_Type; } set { m_Type = value; } }
+        /// <summary>
+        /// the type of symbol size.
+        /// 标记图形的大小获取方式。
+        /// </summary>
+        /// <value></value>
+        public SerieSymbolSizeType sizeType { get { return m_SizeType; } set { m_SizeType = value; } }
+        /// <summary>
+        /// the size of symbol.
+        /// 标记的大小。
+        /// </summary>
+        /// <value></value>
         public float size { get { return m_Size; } set { m_Size = value; } }
+        /// <summary>
+        /// the size of selected symbol.
+        /// 被选中的标记的大小。
+        /// </summary>
+        /// <value></value>
         public float selectedSize { get { return m_SelectedSize; } set { m_SelectedSize = value; } }
+        /// <summary>
+        /// whitch data index is when the sizeType assined as FromData.
+        /// 当sizeType指定为FromData时，指定的数据源索引。
+        /// </summary>
+        /// <value></value>
         public int dataIndex { get { return m_DataIndex; } set { m_DataIndex = value; } }
+        /// <summary>
+        /// the scale of data when sizeType assined as FromData.
+        /// 当sizeType指定为FromData时，指定的倍数系数。
+        /// </summary>
+        /// <value></value>
         public float dataScale { get { return m_DataScale; } set { m_DataScale = value; } }
+        /// <summary>
+        /// the scale of selected data when sizeType assined as FromData.
+        /// 当sizeType指定为FromData时，指定的高亮倍数系数。
+        /// </summary>
+        /// <value></value>
         public float selectedDataScale { get { return m_SelectedDataScale; } set { m_SelectedDataScale = value; } }
+        /// <summary>
+        /// the callback of size when sizeType assined as Callback.
+        /// 当sizeType指定为Callback时，指定的回调函数。
+        /// </summary>
+        /// <value></value>
         public SymbolSizeCallback sizeCallback { get { return m_SizeCallback; } set { m_SizeCallback = value; } }
+        /// <summary>
+        /// the callback of size when sizeType assined as Callback.
+        /// 当sizeType指定为Callback时，指定的高亮回调函数。
+        /// </summary>
+        /// <value></value>
         public SymbolSizeCallback selectedSizeCallback { get { return m_SelectedSizeCallback; } set { m_SelectedSizeCallback = value; } }
 
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
+        /// <summary>
+        /// the setting for effect scatter.
+        /// 带有涟漪特效动画的散点图的动画参数。
+        /// </summary>
+        /// <value></value>
         public List<float> animationSize { get { return m_AnimationSize; } }
-        public Color animationColor { get; set; }
 
+        /// <summary>
+        /// 根据指定的sizeType获得标记的大小
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public float GetSize(List<float> data)
         {
             if (data == null) return size;
@@ -86,6 +172,11 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 根据sizeType获得高亮时的标记大小
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public float GetSelectedSize(List<float> data)
         {
             if (data == null) return selectedSize;

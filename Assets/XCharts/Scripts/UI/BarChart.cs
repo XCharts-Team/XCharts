@@ -10,31 +10,6 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class BarChart : CoordinateChart
     {
-        [System.Serializable]
-        public class Bar
-        {
-            [SerializeField] private bool m_InSameBar;
-            [SerializeField] private float m_BarWidth = 0.7f;
-            [SerializeField] private float m_Space;
-
-            public bool inSameBar { get { return m_InSameBar; } set { m_InSameBar = value; } }
-            public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
-            public float space { get { return m_Space; } set { m_Space = value; } }
-
-            public static Bar defaultBar
-            {
-                get
-                {
-                    return new Bar()
-                    {
-                        m_InSameBar = false,
-                        m_BarWidth = 0.6f,
-                        m_Space = 10
-                    };
-                }
-            }
-        }
-
         [SerializeField] private Bar m_Bar = Bar.defaultBar;
 
         public Bar bar { get { return m_Bar; } }
@@ -85,7 +60,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
                 float value = serie.yData[i];
-                float pX = seriesHig[i] + coordinateX + xAxis.zeroXOffset + m_Coordinate.tickness;
+                float pX = seriesHig[i] + coordinateX + xAxis.zeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * scaleWid;
                 if (!yAxis.boundaryGap) pY -= scaleWid / 2;
                 float barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
@@ -97,7 +72,7 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + barHig, pY + space + barWid);
                 Vector3 p3 = new Vector3(pX + barHig, pY + space);
                 Vector3 p4 = new Vector3(pX, pY + space);
-                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i))
+                if ((m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted)
                 {
@@ -143,7 +118,7 @@ namespace XCharts
                 float pX = coordinateX + i * scaleWid;
                 float zeroY = coordinateY + yAxis.zeroYOffset;
                 if (!xAxis.boundaryGap) pX -= scaleWid / 2;
-                float pY = seriesHig[i] + zeroY + m_Coordinate.tickness;
+                float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
                 float barHig = (yAxis.minValue > 0 ? value - yAxis.minValue : value)
                     / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                 seriesHig[i] += barHig;
@@ -153,7 +128,7 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + space, pY + barHig);
                 Vector3 p3 = new Vector3(pX + space + barWid, pY + barHig);
                 Vector3 p4 = new Vector3(pX + space + barWid, pY);
-                if ((m_Tooltip.show && m_Tooltip.IsSelectedDataIndex(i))
+                if ((m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted)
                 {

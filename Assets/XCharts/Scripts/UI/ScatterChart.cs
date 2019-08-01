@@ -10,10 +10,6 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class ScatterChart : CoordinateChart
     {
-        [SerializeField] private Scatter m_Scatter = Scatter.defaultScatter;
-
-        public Scatter scatter { get { return m_Scatter; } }
-
         private float m_EffectScatterSpeed = 15;
         private float m_EffectScatterSize;
         private float m_EffectScatterAplha;
@@ -22,7 +18,6 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Scatter = Scatter.defaultScatter;
             m_Title.text = "ScatterChart";
             m_Tooltip.type = Tooltip.Type.None;
             m_XAxises[0].type = Axis.AxisType.Value;
@@ -94,8 +89,8 @@ namespace XCharts
                     var serieData = serie.GetDataList(m_DataZoom)[n];
                     float xValue = serieData.data[0];
                     float yValue = serieData.data[1];
-                    float pX = coordinateX + m_Coordinate.tickness;
-                    float pY = coordinateY + m_Coordinate.tickness;
+                    float pX = coordinateX + xAxis.axisLine.width;
+                    float pY = coordinateY + yAxis.axisLine.width;
                     float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                     float yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                     var pos = new Vector3(pX + xDataHig, pY + yDataHig);

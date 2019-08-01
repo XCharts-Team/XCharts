@@ -3,9 +3,16 @@ using UnityEngine;
 
 namespace XCharts
 {
+    /// <summary>
+    /// Location type. Quick to set the general location.
+    /// 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
+    /// </summary>
     [Serializable]
     public class Location : IPropertyChanged, IEquatable<Location>
     {
+        /// <summary>
+        /// 对齐方式
+        /// </summary>
         public enum Align
         {
             TopLeft,
@@ -30,15 +37,54 @@ namespace XCharts
         private Vector2 m_AnchorMax;
         private Vector2 m_Pivot;
 
+        /// <summary>
+        /// 对齐方式。
+        /// </summary>
         public Align align { get { return m_Align; } set { m_Align = value; UpdateAlign(); } }
+        /// <summary>
+        /// Distance between component and the left side of the container.
+        /// 离容器左侧的距离。
+        /// </summary>
         public float left { get { return m_Left; } set { m_Left = value; UpdateAlign(); } }
+        /// <summary>
+        /// Distance between component and the left side of the container.
+        /// 离容器右侧的距离。
+        /// </summary>
         public float right { get { return m_Right; } set { m_Right = value; UpdateAlign(); } }
+        /// <summary>
+        /// Distance between component and the left side of the container.
+        /// 离容器上侧的距离。
+        /// </summary>
         public float top { get { return m_Top; } set { m_Top = value; UpdateAlign(); } }
+        /// <summary>
+        /// Distance between component and the left side of the container.
+        /// 离容器下侧的距离。
+        /// </summary>
         public float bottom { get { return m_Bottom; } set { m_Bottom = value; UpdateAlign(); } }
 
+        /// <summary>
+        /// the anchor of text.
+        /// Location对应的Anchor锚点
+        /// </summary>
+        /// <value></value>
         public TextAnchor textAnchor { get { return m_TextAnchor; } }
+        /// <summary>
+        /// the minimum achor.
+        /// Location对应的anchorMin。
+        /// </summary>
+        /// <value></value>
         public Vector2 anchorMin { get { return m_AnchorMin; } }
+        /// <summary>
+        /// the maximun achor.
+        /// Location对应的anchorMax.
+        /// </summary>
+        /// <value></value>
         public Vector2 anchorMax { get { return m_AnchorMax; } }
+        /// <summary>
+        /// the povot.
+        /// Loation对应的中心点。
+        /// </summary>
+        /// <value></value>
         public Vector2 pivot { get { return m_Pivot; } }
 
         public static Location defaultLeft
@@ -164,6 +210,12 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 返回在坐标系中的具体位置
+        /// </summary>
+        /// <param name="chartWidht"></param>
+        /// <param name="chartHeight"></param>
+        /// <returns></returns>
         public Vector2 GetPosition(float chartWidht, float chartHeight)
         {
             switch (align)
@@ -252,6 +304,9 @@ namespace XCharts
             return base.GetHashCode();
         }
 
+        /// <summary>
+        /// 属性变更时更新textAnchor,minAnchor,maxAnchor,pivot
+        /// </summary>
         public void OnChanged()
         {
             UpdateAlign();

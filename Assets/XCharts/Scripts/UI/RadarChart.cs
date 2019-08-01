@@ -24,6 +24,9 @@ namespace XCharts
 
         public Radar radar { get { return m_Radar; } }
 
+        /// <summary>
+        /// 移除所有数据，包含指示器数据。
+        /// </summary>
         public override void RemoveData()
         {
             base.RemoveData();
@@ -87,7 +90,7 @@ namespace XCharts
                     pos = new Vector3(pos.x + txtWid / 2, y);
                 }
                 Text txt = ChartHelper.AddTextObject(INDICATOR_TEXT + i, transform, m_ThemeInfo.font,
-                    m_ThemeInfo.textColor, anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
+                    m_ThemeInfo.titleTextColor, anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
                     new Vector2(txtWid, txtHig));
                 txt.transform.localPosition = pos;
                 txt.text = m_Radar.indicatorList[i].name;
@@ -155,7 +158,7 @@ namespace XCharts
             InitIndicator();
         }
 
-HashSet<string> serieNameSet = new HashSet<string>();
+        HashSet<string> serieNameSet = new HashSet<string>();
         private void DrawData(VertexHelper vh)
         {
             int indicatorNum = m_Radar.indicatorList.Count;
@@ -185,7 +188,7 @@ HashSet<string> serieNameSet = new HashSet<string>();
                 var dataList = m_Series.series[i].yData;
                 var color = m_ThemeInfo.GetColor(i);
                 var areaColor = color;
-                areaColor.a = (byte)m_Radar.areaAipha;
+                areaColor.a = (byte)m_Radar.areaAlpha;
 
                 List<Vector3> pointList = new List<Vector3>(dataList.Count);
                 dataPosList.Add(pointList);
@@ -334,11 +337,7 @@ HashSet<string> serieNameSet = new HashSet<string>();
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
-                if (m_Tooltip.lastDataIndex != m_Tooltip.dataIndex)
-                {
-                    RefreshChart();
-                }
-                m_Tooltip.lastDataIndex = m_Tooltip.dataIndex;
+                RefreshChart();
             }
             else
             {

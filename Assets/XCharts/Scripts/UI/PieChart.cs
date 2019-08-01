@@ -36,7 +36,7 @@ namespace XCharts
         /// </summary>
         /// <param name="legendName">the name of legend</param>
         /// <returns></returns>
-        public override bool IsLegendActive(string legendName)
+        public override bool IsActiveByLegend(string legendName)
         {
             foreach (var serie in m_Series.series)
             {

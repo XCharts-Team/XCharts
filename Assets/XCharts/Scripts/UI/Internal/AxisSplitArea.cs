@@ -6,6 +6,7 @@ namespace XCharts
 {
     /// <summary>
     /// Split area of axis in grid area, not shown by default.
+    /// 坐标轴在 grid 区域中的分隔区域，默认不显示。
     /// </summary>
     [Serializable]
     public class AxisSplitArea
@@ -15,15 +16,15 @@ namespace XCharts
 
         /// <summary>
         /// Set this to true to show the splitArea.
+        /// 是否显示分隔区域。
         /// </summary>
-        /// <value>false</value>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
         /// Color of split area. SplitArea color could also be set in color array,
         /// which the split lines would take as their colors in turns. 
         /// Dark and light colors in turns are used by default.
+        /// 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
         /// </summary>
-        /// <value>['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']</value>
         public List<Color> color { get { return m_Color; } set { m_Color = value; } }
 
         public static AxisSplitArea defaultSplitArea

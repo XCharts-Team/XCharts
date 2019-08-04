@@ -206,8 +206,6 @@ namespace XCharts
 
         private int filterStart { get; set; }
         private int filterEnd { get; set; }
-        private List<float> yFilterData { get; set; }
-        private List<float> xFilterData { get; set; }
         private List<SerieData> filterData { get; set; }
 
         /// <summary>
@@ -494,54 +492,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得维度Y的数据列表
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public List<float> GetYDataList(DataZoom dataZoom)
-        {
-            if (dataZoom != null && dataZoom.show)
-            {
-                var startIndex = (int)((yData.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((yData.Count - 1) * dataZoom.end / 100);
-                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (yFilterData == null || yFilterData.Count != count)
-                {
-                    UpdateFilterData(dataZoom);
-                }
-                return yFilterData;
-            }
-            else
-            {
-                return m_YData;
-            }
-        }
-
-        /// <summary>
-        /// 获得维度X的数据列表
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public List<float> GetXDataList(DataZoom dataZoom)
-        {
-            if (dataZoom != null && dataZoom.show)
-            {
-                var startIndex = (int)((xData.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((xData.Count - 1) * dataZoom.end / 100);
-                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (xFilterData == null || xFilterData.Count != count)
-                {
-                    UpdateFilterData(dataZoom);
-                }
-                return xFilterData;
-            }
-            else
-            {
-                return m_XData;
-            }
-        }
-
-        /// <summary>
         /// 获得系列的数据列表
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -598,29 +548,13 @@ namespace XCharts
         {
             if (dataZoom != null && dataZoom.show)
             {
-                var startIndex = (int)((yData.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((yData.Count - 1) * dataZoom.end / 100);
+                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
                 if (startIndex != filterStart || endIndex != filterEnd)
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
                     var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                    if (m_YData.Count > 0)
-                    {
-                        yFilterData = m_YData.GetRange(startIndex, count);
-                    }
-                    else
-                    {
-                        yFilterData = m_YData;
-                    }
-                    if (m_XData.Count > 0)
-                    {
-                        xFilterData = m_XData.GetRange(startIndex, count);
-                    }
-                    else
-                    {
-                        xFilterData = m_XData;
-                    }
                     if (m_Data.Count > 0)
                     {
                         filterData = m_Data.GetRange(startIndex, count);
@@ -632,8 +566,6 @@ namespace XCharts
                 }
                 else if (endIndex == 0)
                 {
-                    yFilterData = new List<float>();
-                    xFilterData = new List<float>();
                     filterData = new List<SerieData>();
                 }
             }

@@ -134,8 +134,7 @@ namespace XCharts
             lastPoints.Clear();
             lastSmoothPoints.Clear();
             smoothPoints.Clear();
-            List<float> yData = serie.GetYDataList(m_DataZoom);
-            List<float> xData = serie.GetXDataList(m_DataZoom);
+            var showData = serie.GetDataList(m_DataZoom);
 
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
@@ -145,8 +144,8 @@ namespace XCharts
             float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
             float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > yData.Count ? yData.Count : maxShowDataNumber)
-                : yData.Count;
+                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+                : showData.Count;
             dataCount = (maxCount - minShowDataNumber);
             if (m_Line.area && points.Count > 0)
             {
@@ -180,11 +179,11 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
-                float yValue = yData[i];
+                float yValue = showData[i].data[1];
                 float yDataHig;
                 if (xAxis.IsValue())
                 {
-                    float xValue = i > xData.Count - 1 ? 0 : xData[i];
+                    float xValue = i > showData.Count - 1 ? 0 : showData[i].data[0];
                     float pX = coordinateX + xAxis.axisLine.width;
                     float pY = seriesHig[i] + coordinateY + xAxis.axisLine.width;
                     float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
@@ -336,7 +335,7 @@ namespace XCharts
             lastPoints.Clear();
             lastSmoothPoints.Clear();
             smoothPoints.Clear();
-
+            var showData = serie.GetDataList(m_DataZoom);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
             var xAxis = m_XAxises[serie.axisIndex];
@@ -345,8 +344,8 @@ namespace XCharts
             float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
             float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > serie.yData.Count ? serie.yData.Count : maxShowDataNumber)
-                : serie.yData.Count;
+                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+                : showData.Count;
             dataCount = (maxCount - minShowDataNumber);
             if (m_Line.area && points.Count > 0)
             {
@@ -380,7 +379,7 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
-                float value = serie.yData[i];
+                float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
                 float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;

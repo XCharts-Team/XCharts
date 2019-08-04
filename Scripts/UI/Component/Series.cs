@@ -511,12 +511,12 @@ namespace XCharts
                     {
                         var serie = ss.Value[i];
                         if (serie.axisIndex != axisIndex) continue;
-                        var showData = yValue ? serie.GetYDataList(dataZoom) : serie.GetXDataList(dataZoom);
+                        var showData = serie.GetDataList(dataZoom);
                         for (int j = 0; j < showData.Count; j++)
                         {
                             if (!_serieTotalValueForMinMax.ContainsKey(j))
                                 _serieTotalValueForMinMax[j] = 0;
-                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + showData[j];
+                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + (yValue ? showData[j].data[1] : showData[i].data[0]);
                         }
                     }
                     float tmax = int.MinValue;
@@ -537,11 +537,20 @@ namespace XCharts
                     if (m_Series[i].axisIndex != axisIndex) continue;
                     if (IsActive(i))
                     {
-                        var showData = yValue ? m_Series[i].GetYDataList(dataZoom) : m_Series[i].GetXDataList(dataZoom);
+                        var showData = m_Series[i].GetDataList(dataZoom);
                         foreach (var data in showData)
                         {
-                            if (data > max) max = data;
-                            if (data < min) min = data;
+                            if (yValue)
+                            {
+                                if (data.data[1] > max) max = data.data[1];
+                                if (data.data[1] < min) min = data.data[1];
+                            }
+                            else
+                            {
+                                if (data.data[0] > max) max = data.data[0];
+                                if (data.data[0] < min) min = data.data[0];
+                            }
+
                         }
                     }
                 }

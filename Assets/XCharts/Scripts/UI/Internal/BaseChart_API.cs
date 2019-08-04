@@ -81,7 +81,6 @@ namespace XCharts
         /// <param name="height">height</param>
         public virtual void SetSize(float width, float height)
         {
-            Debug.LogError("setsize:" + m_CheckWidth + "," + m_CheckHeight + "," + width + height);
             m_ChartWidth = width;
             m_ChartHeight = height;
             m_CheckWidth = width;

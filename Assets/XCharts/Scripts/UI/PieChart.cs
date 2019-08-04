@@ -31,30 +31,6 @@ namespace XCharts
 
         public Pie pie { get { return m_Pie; } }
 
-        /// <summary>
-        /// Where legend is activated.
-        /// </summary>
-        /// <param name="legendName">the name of legend</param>
-        /// <returns></returns>
-        public override bool IsActiveByLegend(string legendName)
-        {
-            foreach (var serie in m_Series.series)
-            {
-                foreach (var serieData in serie.data)
-                {
-                    if (string.IsNullOrEmpty(serieData.name))
-                    {
-                        if (string.IsNullOrEmpty(legendName)) return true;
-                    }
-                    else if (serieData.name.Equals(legendName))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         protected override void Awake()
         {
             base.Awake();
@@ -152,7 +128,7 @@ namespace XCharts
                         tempData.angleList.Add(0);
                         continue;
                     }
-                     float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
+                    float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
                     float toDegree = startDegree + degree;
 
                     float outSideRadius = serie.roseType > 0 ?
@@ -429,9 +405,9 @@ namespace XCharts
             }
         }
 
-        protected override void OnLegendButtonClick(int index, string legendName)
+        protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            bool active = CheckDataShow(legendName);
+            bool active = CheckDataShow(legendName, show);
             var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
             m_Legend.UpdateButtonColor(legendName, bgColor1);
             RefreshChart();
@@ -440,50 +416,15 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName);
+            CheckDataHighlighted(legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName);
+            CheckDataHighlighted(legendName, false);
             RefreshChart();
-        }
-
-        private bool CheckDataShow(string legendName)
-        {
-            bool show = false;
-            foreach (var serie in m_Series.series)
-            {
-                foreach (var data in serie.data)
-                {
-                    if (legendName.Equals(data.name))
-                    {
-                        data.show = !data.show;
-                        data.highlighted = false;
-                        if (data.show) show = true;
-                    }
-                }
-            }
-            return show;
-        }
-
-        private bool CheckDataHighlighted(string legendName)
-        {
-            bool show = false;
-            foreach (var serie in m_Series.series)
-            {
-                foreach (var data in serie.data)
-                {
-                    if (legendName.Equals(data.name))
-                    {
-                        data.highlighted = !data.highlighted;
-                        if (data.highlighted) show = true;
-                    }
-                }
-            }
-            return show;
         }
 
         private void UpdatePieCenter(Serie serie)

@@ -10,19 +10,19 @@ namespace XCharts
     public class RadarChartEditor : BaseChartEditor
     {
         protected SerializedProperty m_Radar;
-        protected bool m_RadarModuleToggle = false;
+        protected SerializedProperty m_Radars;
 
         protected override void OnEnable()
         {
             base.OnEnable();
             m_Target = (RadarChart)target;
-            m_Radar = serializedObject.FindProperty("m_Radar");
+            m_Radars = serializedObject.FindProperty("m_Radars");
         }
 
         protected override void OnEndInspectorGUI()
         {
             base.OnEndInspectorGUI();
-            EditorGUILayout.PropertyField(m_Radar, true);
+            EditorGUILayout.PropertyField(m_Radars, true);
         }
     }
 }

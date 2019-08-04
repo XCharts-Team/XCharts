@@ -8,7 +8,7 @@ namespace XCharts
     public class SerieDrawer : PropertyDrawer
     {
 
-        private List<bool> m_SerieModuleToggle = new List<bool>();
+        private Dictionary<string, bool> m_SerieModuleToggle = new Dictionary<string, bool>();
         private List<bool> m_DataFoldout = new List<bool>();
         private bool m_ShowJsonDataArea = false;
         private string m_JsonDataAreaText;
@@ -22,6 +22,9 @@ namespace XCharts
             SerializedProperty name = prop.FindPropertyRelative("m_Name");
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
+            SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
+            SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
             SerializedProperty m_ClickOffset = prop.FindPropertyRelative("m_ClickOffset");
@@ -36,9 +39,8 @@ namespace XCharts
 
             int index = InitToggle(prop);
             string moduleName = "Serie " + index;
-            bool toggle = m_SerieModuleToggle[index];
-            m_SerieModuleToggle[index] = ChartEditorHelper.MakeFoldout(ref drawRect, ref toggle, moduleName, show);
-            if (!m_SerieModuleToggle[index])
+            var toggle = ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieModuleToggle, prop, moduleName, show);
+            if (!toggle)
             {
                 drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + 20;
                 drawRect.width = pos.width - drawRect.x + 15;
@@ -47,6 +49,8 @@ namespace XCharts
             }
             else
             {
+                var serieType = (SerieType)type.enumValueIndex;
+
                 ++EditorGUI.indentLevel;
                 drawRect.x = pos.x;
                 drawRect.width = pos.width;
@@ -57,13 +61,20 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, stack);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_AxisIndex);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
-                var serieType = (SerieType)type.enumValueIndex;
+                if (serieType == SerieType.Radar)
+                {
+                    EditorGUI.PropertyField(drawRect, m_RadarIndex);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
+                else
+                {
+                    EditorGUI.PropertyField(drawRect, m_AxisIndex);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
                 if (serieType == SerieType.Line
                     || serieType == SerieType.Scatter
-                    || serieType == SerieType.EffectScatter)
+                    || serieType == SerieType.EffectScatter
+                    || serieType == SerieType.Radar)
                 {
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
@@ -101,9 +112,13 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_ClickOffset);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
-                EditorGUI.PropertyField(drawRect, m_Label,new GUIContent("Normal Label"));
+                EditorGUI.PropertyField(drawRect, m_LineStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                EditorGUI.PropertyField(drawRect, m_AreaStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
+                EditorGUI.PropertyField(drawRect, m_Label, new GUIContent("Normal Label"));
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
-                EditorGUI.PropertyField(drawRect, m_HighlightLabel,new GUIContent("Highlight Label"));
+                EditorGUI.PropertyField(drawRect, m_HighlightLabel, new GUIContent("Highlight Label"));
                 drawRect.y += EditorGUI.GetPropertyHeight(m_HighlightLabel);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
@@ -236,20 +251,23 @@ namespace XCharts
         {
             float height = 0;
             int index = InitToggle(prop);
-            if (!m_SerieModuleToggle[index])
+            if (!m_SerieModuleToggle[prop.propertyPath])
             {
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {
                 height += 6 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_HighlightLabel"));
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;
                 if (serieType == SerieType.Line
                     || serieType == SerieType.Scatter
-                    || serieType == SerieType.EffectScatter)
+                    || serieType == SerieType.EffectScatter
+                    || serieType == SerieType.Radar)
                 {
 
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
@@ -262,12 +280,12 @@ namespace XCharts
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                     int num = m_Data.arraySize + 2;
-                    if (num > 30) num = 13;
+                    if (num > 30) num = 14;
                     height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (m_ShowJsonDataArea)
                 {
-                    height += EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing;
+                    height += EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing;
                 }
                 return height;
             }
@@ -276,23 +294,16 @@ namespace XCharts
         private int InitToggle(SerializedProperty prop)
         {
             int index = 0;
-            var temp = prop.displayName.Split(' ');
-            if (temp == null || temp.Length < 2)
+            var sindex = prop.propertyPath.LastIndexOf('[');
+            var eindex = prop.propertyPath.LastIndexOf(']');
+            if (sindex >= 0 && eindex >= 0)
             {
-                //Debug.LogError("SERIE:"+prop.name+","+prop.displayName+","+prop.FindPropertyRelative("m_Name").stringValue);
-                index = 0;
-            }
-            else
-            {
-                int.TryParse(temp[1], out index);
+                var str = prop.propertyPath.Substring(sindex + 1, eindex - sindex - 1);
+                int.TryParse(str, out index);
             }
             if (index >= m_DataFoldout.Count)
             {
                 m_DataFoldout.Add(false);
-            }
-            if (index >= m_SerieModuleToggle.Count)
-            {
-                m_SerieModuleToggle.Add(false);
             }
             return index;
         }

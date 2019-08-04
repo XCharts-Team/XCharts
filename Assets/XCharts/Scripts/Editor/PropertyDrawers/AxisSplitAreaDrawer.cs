@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -8,7 +9,7 @@ namespace XCharts
     {
         private bool m_ColorFoldout = false;
         private int m_ColorSize = 0;
-        private bool m_SplitAreaToggle = false;
+        private Dictionary<string, bool> m_SplitAreaToggle = new Dictionary<string, bool>();
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
@@ -17,9 +18,9 @@ namespace XCharts
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SplitAreaToggle, "Split Area", show, false);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SplitAreaToggle, prop, "Split Area", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_SplitAreaToggle)
+            if (ChartEditorHelper.IsToggle(m_SplitAreaToggle, prop))
             {
                 ++EditorGUI.indentLevel;
                 m_ColorFoldout = EditorGUI.Foldout(drawRect, m_ColorFoldout, "Color");
@@ -36,7 +37,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            if (m_SplitAreaToggle)
+            if (ChartEditorHelper.IsToggle(m_SplitAreaToggle, prop))
             {
                 height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_ColorFoldout)

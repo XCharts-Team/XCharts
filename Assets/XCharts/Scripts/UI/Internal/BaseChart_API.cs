@@ -81,10 +81,12 @@ namespace XCharts
         /// <param name="height">height</param>
         public virtual void SetSize(float width, float height)
         {
+            Debug.LogError("setsize:" + m_CheckWidth + "," + m_CheckHeight + "," + width + height);
             m_ChartWidth = width;
             m_ChartHeight = height;
             m_CheckWidth = width;
             m_CheckHeight = height;
+
             rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
             OnSizeChanged();
         }
@@ -321,7 +323,25 @@ namespace XCharts
         /// <returns></returns>
         public virtual bool IsActiveByLegend(string legendName)
         {
-            return IsActive(legendName);
+            foreach (var serie in m_Series.series)
+            {
+                if (serie.show && legendName.Equals(serie.name))
+                {
+                    return true;
+                }
+                else
+                {
+                    foreach (var serieData in serie.data)
+                    {
+                        if (serieData.show && legendName.Equals(serieData.name))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            return false;
         }
 
         /// <summary>

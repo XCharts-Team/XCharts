@@ -9,7 +9,7 @@ namespace XCharts
 {
     public static class ChartHelper
     {
-        public static float CRICLE_SMOOTHNESS = 2.5f;
+        public static float CRICLE_SMOOTHNESS = 2f;
         private static UIVertex[] vertex = new UIVertex[4];
 
         public static void HideAllObject(GameObject obj, string match = null)

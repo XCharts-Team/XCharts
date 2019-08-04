@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,28 @@ namespace XCharts
     [System.Serializable]
     public class Legend : JsonDataSupport, IPropertyChanged, IEquatable<Legend>
     {
+        /// <summary>
+        /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
+        /// It is enabled by default, and you may set it to be false to disabled it.
+        /// 图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
+        /// </summary>
+        public enum SelectedMode
+        {
+            /// <summary>
+            /// 多选。
+            /// </summary>
+            Multiple,
+            /// <summary>
+            /// 单选。
+            /// </summary>
+            Single,
+            /// <summary>
+            /// 无法选择。
+            /// </summary>
+            None
+        }
         [SerializeField] private bool m_Show = true;
+        [SerializeField] private SelectedMode m_SelectedMode;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultRight;
         [SerializeField] private float m_ItemWidth = 50.0f;
@@ -28,6 +50,12 @@ namespace XCharts
         /// 是否显示图例组件。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
+        /// <summary>
+        /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
+        /// 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
+        /// </summary>
+        /// <value></value>
+        public SelectedMode selectedMode { get { return m_SelectedMode; } set { m_SelectedMode = value; } }
         /// <summary>
         /// Specify whether the layout of legend component is horizontal or vertical. 
         /// 布局方式是横还是竖。
@@ -66,6 +94,12 @@ namespace XCharts
         /// 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
         /// </summary>
         public List<string> data { get { return m_Data; } }
+        /// <summary>
+        /// the button list of legend.
+        /// 图例按钮列表。
+        /// </summary>
+        /// <value></value>
+        public Dictionary<string, Button> buttonList { get { return m_DataBtnList; } }
 
         /// <summary>
         /// 一个在顶部居中显示的默认图例。
@@ -77,6 +111,7 @@ namespace XCharts
                 var legend = new Legend
                 {
                     m_Show = false,
+                    m_SelectedMode = SelectedMode.Multiple,
                     m_Orient = Orient.Horizonal,
                     m_Location = Location.defaultTop,
                     m_ItemWidth = 60.0f,
@@ -91,6 +126,7 @@ namespace XCharts
         public void Copy(Legend legend)
         {
             m_Show = legend.show;
+            m_SelectedMode = legend.selectedMode;
             m_Orient = legend.orient;
             m_Location.Copy(legend.location);
             m_ItemWidth = legend.itemWidth;
@@ -124,6 +160,7 @@ namespace XCharts
                 return false;
             }
             return show == other.show &&
+                selectedMode == other.selectedMode &&
                 orient == other.orient &&
                 location == other.location &&
                 itemWidth == other.itemWidth &&

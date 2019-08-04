@@ -17,6 +17,7 @@ namespace XCharts
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
+            SerializedProperty m_SelectedMode = prop.FindPropertyRelative("m_SelectedMode");
             SerializedProperty orient = prop.FindPropertyRelative("m_Orient");
             SerializedProperty location = prop.FindPropertyRelative("m_Location");
             SerializedProperty itemWidth = prop.FindPropertyRelative("m_ItemWidth");
@@ -37,6 +38,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, itemGap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, itemFontSize);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_SelectedMode);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, orient);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -60,7 +63,7 @@ namespace XCharts
             if (m_LegendModuleToggle)
             {
                 SerializedProperty location = prop.FindPropertyRelative("m_Location");
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(location);
                 height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_DataFoldout)
@@ -73,7 +76,7 @@ namespace XCharts
             }
             if (m_ShowJsonDataArea)
             {
-                height += EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing;
             }
             height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
             return height;

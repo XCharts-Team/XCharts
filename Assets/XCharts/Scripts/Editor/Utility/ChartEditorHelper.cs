@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class ChartEditorHelper
 {
@@ -19,13 +20,13 @@ public class ChartEditorHelper
     }
 
     public static void MakeJsonData(ref Rect drawRect, ref bool showTextArea, ref string inputString,
-        SerializedProperty prop,float currentWidth)
+        SerializedProperty prop, float currentWidth, float diff = 0)
     {
         SerializedProperty stringDataProp = prop.FindPropertyRelative("m_JsonData");
         SerializedProperty needParseProp = prop.FindPropertyRelative("m_DataFromJson");
         float defalutX = drawRect.x;
-        drawRect.x = EditorGUIUtility.labelWidth + 14;
-        drawRect.width = currentWidth - EditorGUIUtility.labelWidth;
+        drawRect.x = EditorGUIUtility.labelWidth + 14 + diff;
+        drawRect.width = currentWidth - EditorGUIUtility.labelWidth - diff;
         if (GUI.Button(drawRect, new GUIContent("Parse JsonData", "Parse data from input json")))
         {
             showTextArea = !showTextArea;
@@ -56,7 +57,7 @@ public class ChartEditorHelper
         drawRect.width = EditorGUIUtility.labelWidth;
         moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? foldoutStyle : EditorStyles.foldout);
         drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
-        drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 70;
+        drawRect.width = 40;
         if (prop != null)
         {
             EditorGUI.PropertyField(drawRect, prop, GUIContent.none);
@@ -64,6 +65,43 @@ public class ChartEditorHelper
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
         return moduleToggle;
+    }
+
+    public static bool MakeFoldout(ref Rect drawRect, ref Dictionary<string, bool> moduleToggle, SerializedProperty prop,
+        string moduleName, SerializedProperty showProp = null, bool bold = true)
+    {
+        var key = prop.propertyPath;
+        if (!moduleToggle.ContainsKey(key))
+        {
+            moduleToggle.Add(key, false);
+        }
+        var toggle = moduleToggle[key];
+
+        float defaultWidth = drawRect.width;
+        float defaultX = drawRect.x;
+        drawRect.width = EditorGUIUtility.labelWidth;
+        var displayName = string.IsNullOrEmpty(moduleName) ? prop.displayName : moduleName;
+        toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? foldoutStyle : EditorStyles.foldout);
+        if (moduleToggle[key] != toggle)
+        {
+            moduleToggle[key] = toggle;
+        }
+        drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
+        if (showProp != null)
+        {
+            if (showProp.propertyType == SerializedPropertyType.Boolean)
+            {
+                drawRect.width = 40;
+            }
+            else
+            {
+                drawRect.width = defaultWidth - drawRect.x + 15;
+            }
+            EditorGUI.PropertyField(drawRect, showProp, GUIContent.none);
+        }
+        drawRect.width = defaultWidth;
+        drawRect.x = defaultX;
+        return toggle;
     }
 
     public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, SerializedProperty large = null)
@@ -88,7 +126,7 @@ public class ChartEditorHelper
             for (int i = 0; i < num; i++)
             {
                 element = listProp.GetArrayElementAtIndex(i);
-                EditorGUI.PropertyField(drawRect, element);
+                EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
             if (num >= 10)
@@ -96,7 +134,7 @@ public class ChartEditorHelper
                 EditorGUI.LabelField(drawRect, "...");
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 element = listProp.GetArrayElementAtIndex(listSize - 1);
-                EditorGUI.PropertyField(drawRect, element);
+                EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + (listSize - 1)));
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
         }
@@ -105,10 +143,47 @@ public class ChartEditorHelper
             for (int i = 0; i < listProp.arraySize; i++)
             {
                 SerializedProperty element = listProp.GetArrayElementAtIndex(i);
-                EditorGUI.PropertyField(drawRect, element);
+                EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
         }
         EditorGUI.indentLevel--;
+    }
+
+    public static int InitModuleToggle(ref List<bool> moduleToggle, SerializedProperty prop)
+    {
+        int index = 0;
+        var temp = prop.displayName.Split(' ');
+        if (temp == null || temp.Length < 2)
+        {
+            index = 0;
+        }
+        else
+        {
+            int.TryParse(temp[1], out index);
+        }
+        if (index >= moduleToggle.Count)
+        {
+            moduleToggle.Add(false);
+        }
+        return index;
+    }
+
+    public static int GetIndexFromPath(SerializedProperty prop)
+    {
+        int index = 0;
+        var sindex = prop.propertyPath.LastIndexOf('[');
+        var eindex = prop.propertyPath.LastIndexOf(']');
+        if (sindex >= 0 && eindex >= 0)
+        {
+            var str = prop.propertyPath.Substring(sindex + 1, eindex - sindex - 1);
+            int.TryParse(str, out index);
+        }
+        return index;
+    }
+
+    public static bool IsToggle(Dictionary<string, bool> toggle, SerializedProperty prop)
+    {
+        return toggle.ContainsKey(prop.propertyPath) && toggle[prop.propertyPath] == true;
     }
 }

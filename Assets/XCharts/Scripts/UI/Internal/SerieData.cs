@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,5 +48,21 @@ namespace XCharts
         /// 该数据项的文本标签。
         /// </summary>
         public Text label { get; set; }
+        /// <summary>
+        /// the maxinum value.
+        /// 最大值。
+        /// </summary>
+        public float max { get { return m_Data.Max(); } }
+        /// <summary>
+        /// the mininum value.
+        /// 最小值。
+        /// </summary>
+        public float min { get { return m_Data.Min(); } }
+
+        public float GetData(int index)
+        {
+            if (index >= 0 && index < m_Data.Count) return m_Data[index];
+            else return 0;
+        }
     }
 }

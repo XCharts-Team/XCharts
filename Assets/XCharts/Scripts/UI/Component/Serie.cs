@@ -72,7 +72,10 @@ namespace XCharts
         [SerializeField] private SerieType m_Type;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
-        [SerializeField] [Range(0, 1)] private int m_AxisIndex;
+        [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
+        [SerializeField] private int m_RadarIndex = 0;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         #region PieChart field
         [SerializeField] private bool m_ClickOffset = true;
@@ -83,7 +86,7 @@ namespace XCharts
         #endregion
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
-        [SerializeField] [Range(1, 6)] private int m_ShowDataDimension;
+        [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [FormerlySerializedAs("m_Data")]
         [SerializeField] private List<float> m_YData = new List<float>();
@@ -115,6 +118,23 @@ namespace XCharts
         /// 使用的坐标轴轴的 index，在单个图表实例中存在多个坐标轴轴的时候有用。
         /// </summary>
         public int axisIndex { get { return m_AxisIndex; } set { m_AxisIndex = value; } }
+        /// <summary>
+        /// Index of radar component that radar chart uses.
+        /// 雷达图所使用的 radar 组件的 index。
+        /// </summary>
+        public int radarIndex { get { return m_RadarIndex; } set { m_RadarIndex = value; } }
+        /// <summary>
+        /// The style of line.
+        /// 线条样式。
+        /// </summary>
+        /// <value></value>
+        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
+        /// <summary>
+        /// The style of area.
+        /// 区域填充样式。
+        /// </summary>
+        /// <value></value>
+        public AreaStyle areaStyle { get { return m_AreaStyle; } set { m_AreaStyle = value; } }
         /// <summary>
         /// the symbol of serie data item.
         /// 标记的图形。
@@ -360,7 +380,7 @@ namespace XCharts
             m_YData.Add(yValue);
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
-        
+
         /// <summary>
         /// 将一组数据添加到系列中。
         /// 如果数据只有一个，默认添加到维度Y中。
@@ -393,7 +413,7 @@ namespace XCharts
                 {
                     if (i == 0) m_XData.Add(valueList[i]);
                     else if (i == 1) m_YData.Add(valueList[i]);
-                    serieData.data.Add(valueList[0]);
+                    serieData.data.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
             }
@@ -546,6 +566,31 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 获得指定维数的最大最小值
+        /// </summary>
+        /// <param name="dimension"></param>
+        /// <param name="dataZoom"></param>
+        /// <returns></returns>
+        public void GetMinMaxData(int dimension, out float minValue, out float maxValue, DataZoom dataZoom = null)
+        {
+            var dataList = GetDataList(dataZoom);
+            float max = float.MinValue;
+            float min = float.MaxValue;
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value > max) max = value;
+                    if (value < min) min = value;
+                }
+            }
+            maxValue = max;
+            minValue = min;
+        }
+
+        /// <summary>
         /// 根据dataZoom更新数据列表缓存
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -661,6 +706,42 @@ namespace XCharts
             for (int i = 0; i < m_Data.Count; i++)
             {
                 m_Data[i].highlighted = index == i;
+            }
+        }
+
+        public Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
+        {
+            if (areaStyle.color != Color.clear)
+            {
+                var color = areaStyle.color;
+                if (highlight) color *= color;
+                color.a *= areaStyle.opactiy;
+                return color;
+            }
+            else
+            {
+                var color = (Color)theme.GetColor(index);
+                if (highlight) color *= color;
+                color.a *= areaStyle.opactiy;
+                return color;
+            }
+        }
+
+        public Color GetLineColor(ThemeInfo theme, int index, bool highlight)
+        {
+            if (lineStyle.color != Color.clear)
+            {
+                var color = lineStyle.color;
+                if (highlight) color *= color;
+                color.a *= lineStyle.opactiy;
+                return color;
+            }
+            else
+            {
+                var color = (Color)theme.GetColor(index);
+                if (highlight) color *= color;
+                color.a *= lineStyle.opactiy;
+                return color;
             }
         }
 

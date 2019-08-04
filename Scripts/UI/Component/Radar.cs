@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -12,6 +13,15 @@ namespace XCharts
     [System.Serializable]
     public class Radar : JsonDataSupport, IEquatable<Radar>
     {
+        /// <summary>
+        /// Radar render type, in which 'Polygon' and 'Circle' are supported.
+        /// 雷达图绘制类型，支持 'Polygon' 和 'Circle'。
+        /// </summary>
+        public enum Shape
+        {
+            Polygon,
+            Circle
+        }
         /// <summary>
         /// Indicator of radar chart, which is used to assign multiple variables(dimensions) in radar chart. 
         /// 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
@@ -39,9 +49,14 @@ namespace XCharts
             public float min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
             /// Specfy a color the the indicator.
-            /// 标签特定的颜色。
+            /// 标签特定的颜色。默认取自主题的axisTextColor。
             /// </summary>
             public Color color { get { return m_Color; } set { m_Color = value; } }
+            /// <summary>
+            /// the text conponent of indicator.
+            /// 指示器的文本组件。
+            /// </summary>
+            public Text text { get; set; }
 
             public Indicator Clone()
             {
@@ -54,43 +69,51 @@ namespace XCharts
                 };
             }
 
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj))
+                {
+                    return false;
+                }
+                else if (obj is Indicator)
+                {
+                    return Equals((Indicator)obj);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             public bool Equals(Indicator other)
             {
-                return name.Equals(other.name);
+                if (ReferenceEquals(null, other))
+                {
+                    return false;
+                }
+                return m_Name.Equals(other.name) &&
+                    ChartHelper.IsValueEqualsColor(m_Color, other.color);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
             }
         }
-
-        [SerializeField] private bool m_Cricle;
-        [SerializeField] private bool m_Area;
-
+        [SerializeField] private Shape m_Shape;
         [SerializeField] private float m_Radius = 100;
         [SerializeField] private int m_SplitNumber = 5;
-
-        [SerializeField] private float m_Left;
-        [SerializeField] private float m_Right;
-        [SerializeField] private float m_Top;
-        [SerializeField] private float m_Bottom;
-
-        [SerializeField] private float m_LineTickness = 1f;
-        [SerializeField] private float m_LinePointSize = 5f;
-        [SerializeField] private Color m_LineColor = Color.grey;
-        [Range(0, 255)]
-        [SerializeField] private int m_AreaAlpha;
-
-        [SerializeField] private List<Color> m_BackgroundColorList = new List<Color>();
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] private AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
-
         /// <summary>
-        /// True is render radar as cricle,otherwise render as polygon.
-        ///雷达图是否绘制成圆形，true为圆形，false为多边形。
+        /// Radar render type, in which 'Polygon' and 'Circle' are supported.
+        /// 雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
-        public bool cricle { get { return m_Cricle; } set { m_Cricle = value; } }
-        /// <summary>
-        /// Whether to fill color in area.
-        /// 是否区域填充颜色
-        /// </summary>
-        public bool area { get { return m_Area; } set { m_Area = value; } }
+        /// <value></value>
+        public Shape shape { get { return m_Shape; } set { m_Shape = value; } }
         /// <summary>
         /// the radius of radar.
         /// 雷达图的半径。
@@ -102,50 +125,21 @@ namespace XCharts
         /// </summary>
         public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
         /// <summary>
-        /// Distance between radar component and the left side of the container.
-        /// 雷达图离容器左侧的距离。
+        /// the center of radar chart.
+        /// 雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。
+        /// 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
         /// </summary>
-        public float left { get { return m_Left; } set { m_Left = value; } }
+        public float[] center { get { return m_Center; } set { m_Center = value; } }
         /// <summary>
-        /// Distance between radar component and the right side of the container.
-        /// 雷达图离容器右侧的距离。
+        /// the line style of radar.
+        /// 线条样式。
         /// </summary>
-        public float right { get { return m_Right; } set { m_Right = value; } }
+        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
         /// <summary>
-        /// Distance between radar component and the top side of the container.
-        /// 雷达图离容器上侧的距离。
+        /// Split area of axis in grid area.
+        /// 分割区域。
         /// </summary>
-        public float top { get { return m_Top; } set { m_Top = value; } }
-        /// <summary>
-        /// Distance between radar component and the bottom side of the container.
-        /// 雷达图离容器下侧的距离。
-        /// </summary>
-        public float bottom { get { return m_Bottom; } set { m_Bottom = value; } }
-        /// <summary>
-        /// the tickness of line.
-        /// 线的粗细。
-        /// </summary>
-        public float lineTickness { get { return m_LineTickness; } set { m_LineTickness = value; } }
-        /// <summary>
-        /// the size of point.
-        /// 圆点大小。
-        /// </summary>
-        public float linePointSize { get { return m_LinePointSize; } set { m_LinePointSize = value; } }
-        /// <summary>
-        /// the color of line.
-        /// 线的颜色。
-        /// </summary>
-        public Color lineColor { get { return m_LineColor; } set { m_LineColor = value; } }
-        /// <summary>
-        /// the alpha of area color.
-        /// 区域填充时的颜色alpha值
-        /// </summary>
-        public int areaAlpha { get { return m_AreaAlpha; } set { m_AreaAlpha = value; } }
-        /// <summary>
-        /// the color list of split area.
-        /// 分割区域颜色列表。
-        /// </summary>
-        public List<Color> backgroundColorList { get { return m_BackgroundColorList; } }
+        public AxisSplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
         /// <summary>
         /// Whether to show indicator.
         /// 是否显示指示器。
@@ -157,53 +151,75 @@ namespace XCharts
         /// </summary>
         public List<Indicator> indicatorList { get { return m_IndicatorList; } }
 
+        /// <summary>
+        /// the center position of radar in container.
+        /// 雷达图在容器中的具体中心点。
+        /// </summary>
+        /// <value></value>
+        public Vector2 centerPos { get; set; }
+        /// <summary>
+        /// the true radius of radar.
+        /// 雷达图的运行时实际半径。
+        /// </summary>
+        /// <value></value>
+        public float actualRadius { get; set; }
+        /// <summary>
+        /// the data position list of radar.
+        /// 雷达图的所有数据坐标点列表。
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int,List<Vector3>> dataPosList = new Dictionary<int,List<Vector3>>();
+
         public static Radar defaultRadar
         {
             get
             {
                 var radar = new Radar
                 {
-                    m_Cricle = false,
-                    m_Area = false,
-                    m_Radius = 100,
+                    m_Shape = Shape.Polygon,
+                    m_Radius = 0.4f,
                     m_SplitNumber = 5,
-                    m_Left = 0,
-                    m_Right = 0,
-                    m_Top = 0,
-                    m_Bottom = 0,
-                    m_LineTickness = 1f,
-                    m_LinePointSize = 5f,
-                    m_AreaAlpha = 150,
-                    m_LineColor = Color.grey,
                     m_Indicator = true,
-                    m_BackgroundColorList = new List<Color> {
-                        new Color32(246, 246, 246, 255),
-                        new Color32(231, 231, 231, 255)
-                    },
                     m_IndicatorList = new List<Indicator>(5){
-                        new Indicator(){name="radar1",max = 100},
-                        new Indicator(){name="radar2",max = 100},
-                        new Indicator(){name="radar3",max = 100},
-                        new Indicator(){name="radar4",max = 100},
-                        new Indicator(){name="radar5",max = 100},
+                        new Indicator(){name="indicator1",max = 100},
+                        new Indicator(){name="indicator2",max = 100},
+                        new Indicator(){name="indicator3",max = 100},
+                        new Indicator(){name="indicator4",max = 100},
+                        new Indicator(){name="indicator5",max = 100},
                     }
                 };
+                radar.center[0] = 0.5f;
+                radar.center[1] = 0.45f;
+                radar.splitArea.show = true;
+                radar.lineStyle.width = 0.3f;
                 return radar;
             }
         }
 
         public void Copy(Radar other)
         {
+            m_Shape = other.shape;
             m_Radius = other.radius;
             m_SplitNumber = other.splitNumber;
-            m_Left = other.left;
-            m_Right = other.right;
-            m_Top = other.top;
-            m_Bottom = other.bottom;
+            m_Center[0] = other.center[0];
+            m_Center[1] = other.center[1];
             m_Indicator = other.indicator;
-            m_AreaAlpha = other.areaAlpha;
             indicatorList.Clear();
             foreach (var d in other.indicatorList) indicatorList.Add(d.Clone());
+        }
+
+        public Radar Clone()
+        {
+            var radar = new Radar();
+            radar.shape = shape;
+            radar.radius = radius;
+            radar.splitNumber = splitNumber;
+            radar.center[0] = center[0];
+            radar.center[1] = center[1];
+            radar.indicatorList.Clear();
+            radar.indicator = indicator;
+            foreach (var d in indicatorList) radar.indicatorList.Add(d.Clone());
+            return radar;
         }
 
         public override bool Equals(object obj)
@@ -229,11 +245,10 @@ namespace XCharts
                 return false;
             }
             return radius == other.radius &&
+                shape == other.shape &&
                 splitNumber == other.splitNumber &&
-                left == other.left &&
-                right == other.right &&
-                top == other.top &&
-                bottom == other.bottom &&
+                center[0] == other.center[0] &&
+                center[1] == other.center[1] &&
                 indicator == other.indicator &&
                 IsEqualsIndicatorList(indicatorList, other.indicatorList);
         }
@@ -305,6 +320,14 @@ namespace XCharts
             }
         }
 
+        public float GetIndicatorMin(int index)
+        {
+            if (index >= 0 && index < m_IndicatorList.Count)
+            {
+                return m_IndicatorList[index].min;
+            }
+            return 0;
+        }
         public float GetIndicatorMax(int index)
         {
             if (index >= 0 && index < m_IndicatorList.Count)
@@ -312,6 +335,35 @@ namespace XCharts
                 return m_IndicatorList[index].max;
             }
             return 0;
+        }
+
+        public void UpdateRadarCenter(float chartWidth, float chartHeight)
+        {
+            if (center.Length < 2) return;
+            var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
+            var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
+            centerPos = new Vector2(centerX, centerY);
+            if (radius <= 0)
+            {
+                actualRadius = 0;
+            }
+            else if (radius <= 1)
+            {
+                actualRadius = Mathf.Min(chartWidth, chartHeight) * radius;
+            }
+            else
+            {
+                actualRadius = radius;
+            }
+        }
+
+        public Vector3 GetIndicatorPosition(int index)
+        {
+            int indicatorNum = indicatorList.Count;
+            var angle = 2 * Mathf.PI / indicatorNum * index;
+            var x = centerPos.x + actualRadius * Mathf.Sin(angle);
+            var y = centerPos.y + actualRadius * Mathf.Cos(angle);
+            return new Vector3(x, y);
         }
     }
 }

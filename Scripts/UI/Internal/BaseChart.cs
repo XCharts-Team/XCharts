@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
@@ -238,11 +239,25 @@ namespace XCharts
                 ChartHelper.ClearEventListener(btn.gameObject);
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
-                    if (data.selectedObject == null) return;
+                    if (data.selectedObject == null || m_Legend.selectedMode == Legend.SelectedMode.None) return;
                     var temp = data.selectedObject.name.Split('_');
                     string selectedName = temp[2];
-                    int index = int.Parse(temp[1]);
-                    OnLegendButtonClick(index, selectedName);
+                    int clickedIndex = int.Parse(temp[1]);
+                    if (m_Legend.selectedMode == Legend.SelectedMode.Multiple)
+                    {
+                        OnLegendButtonClick(clickedIndex, selectedName, !IsActiveByLegend(selectedName));
+                    }
+                    else
+                    {
+                        var btnList = m_Legend.buttonList.Values.ToArray();
+                        for (int n = 0; n < btnList.Length; n++)
+                        {
+                            temp = btnList[n].name.Split('_');
+                            selectedName = temp[2];
+                            var index = int.Parse(temp[1]);
+                            OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
+                        }
+                    }
                 });
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerEnter, (data) =>
                 {
@@ -260,6 +275,13 @@ namespace XCharts
                     int index = int.Parse(temp[1]);
                     OnLegendButtonExit(index, selectedName);
                 });
+            }
+            if (m_Legend.selectedMode == Legend.SelectedMode.Single)
+            {
+                for (int n = 0; n < datas.Count; n++)
+                {
+                    OnLegendButtonClick(n, datas[n], n == 0 ? true : false);
+                }
             }
         }
 
@@ -312,19 +334,14 @@ namespace XCharts
             return m_Legend.location.GetPosition(chartWidth, chartHeight);
         }
 
-        protected float GetMaxValue(int index)
-        {
-            return m_Series.GetMaxValue(index);
-        }
-
         private void CheckSize()
         {
-            if (m_CheckWidth != chartWidth || m_CheckHeight != chartHeight)
-            {
-                SetSize(chartWidth, chartHeight);
-            }
             var sizeDelta = rectTransform.sizeDelta;
-            if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
+            if (m_CheckWidth == 0 && m_CheckHeight == 0 && (sizeDelta.x != 0 || sizeDelta.y != 0))
+            {
+                Awake();
+            }
+            else if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
             {
                 SetSize(sizeDelta.x, sizeDelta.y);
             }
@@ -378,7 +395,6 @@ namespace XCharts
         {
             if (!m_Tooltip.show || !m_Tooltip.inited)
             {
-
                 if (m_Tooltip.dataIndex[0] != 0 || m_Tooltip.dataIndex[1] != 0)
                 {
                     m_Tooltip.dataIndex[0] = m_Tooltip.dataIndex[1] = -1;
@@ -481,11 +497,11 @@ namespace XCharts
         {
         }
 
-        protected virtual void OnLegendButtonClick(int index, string legendName)
+        protected virtual void OnLegendButtonClick(int index, string legendName, bool show)
         {
             foreach (var serie in m_Series.GetSeries(legendName))
             {
-                SetActive(serie.index, !serie.show);
+                SetActive(serie.index, show);
             }
             OnYMaxValueChanged();
             RefreshChart();
@@ -495,12 +511,65 @@ namespace XCharts
         {
             var serie = m_Series.GetSerie(index);
             serie.highlighted = true;
+            RefreshChart();
         }
 
         protected virtual void OnLegendButtonExit(int index, string legendName)
         {
             var serie = m_Series.GetSerie(index);
             serie.highlighted = false;
+            RefreshChart();
+        }
+
+        protected bool CheckDataShow(string legendName, bool show)
+        {
+            bool needShow = false;
+            foreach (var serie in m_Series.series)
+            {
+                if (legendName.Equals(serie.name))
+                {
+                    serie.show = show;
+                    serie.highlighted = false;
+                    if (serie.show) needShow = true;
+                }
+                else
+                {
+                    foreach (var data in serie.data)
+                    {
+                        if (legendName.Equals(data.name))
+                        {
+                            data.show = show;
+                            data.highlighted = false;
+                            if (data.show) needShow = true;
+                        }
+                    }
+                }
+            }
+            return needShow;
+        }
+
+        protected bool CheckDataHighlighted(string legendName, bool heighlight)
+        {
+            bool show = false;
+            foreach (var serie in m_Series.series)
+            {
+                if (legendName.Equals(serie.name))
+                {
+                    serie.highlighted = heighlight;
+                }
+                else
+                {
+                    foreach (var data in serie.data)
+                    {
+                        if (legendName.Equals(data.name))
+                        {
+                            data.highlighted = heighlight;
+                            if (data.highlighted) show = true;
+                        }
+                    }
+                }
+            }
+            return show;
         }
 
         protected virtual void RefreshTooltip()

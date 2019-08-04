@@ -558,58 +558,6 @@ namespace XCharts
             }
         }
 
-        /// <summary>
-        /// 获得指定系列的最大值
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public float GetMaxValue(int index)
-        {
-            float max = int.MinValue;
-            float min = int.MaxValue;
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var showData = m_Series[i].yData;
-                if (showData[index] > max)
-                {
-                    max = Mathf.Ceil(showData[index]);
-                }
-                if (showData[index] < min)
-                {
-                    min = Mathf.Ceil(showData[index]);
-                }
-            }
-            if (max < 1 && max > -1) return max;
-            if (max < 0 && min < 0) max = min;
-            return ChartHelper.GetMaxDivisibleValue(max);
-        }
-
-        /// <summary>
-        /// 获得指定系列的最小值
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public float GetMinValue(int index)
-        {
-            float max = int.MinValue;
-            float min = int.MaxValue;
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var showData = m_Series[i].yData;
-                if (showData[index] > max)
-                {
-                    max = Mathf.Ceil(showData[index]);
-                }
-                if (showData[index] < min)
-                {
-                    min = Mathf.Ceil(showData[index]);
-                }
-            }
-            if (min < 1 && min > -1) return min;
-            if (min < 0 && max < 0) min = max;
-            return ChartHelper.GetMinDivisibleValue(min);
-        }
-
         private HashSet<string> _setForStack = new HashSet<string>();
         /// <summary>
         /// 是否由数据堆叠
@@ -729,21 +677,15 @@ namespace XCharts
             serieNameList.Clear();
             foreach (var serie in m_Series)
             {
-                if (serie.type == SerieType.Pie)
+                if (!string.IsNullOrEmpty(serie.name) && !serieNameList.Contains(serie.name))
                 {
-                    foreach (var data in serie.data)
-                    {
-                        if (!string.IsNullOrEmpty(data.name) && !serieNameList.Contains(data.name))
-                        {
-                            serieNameList.Add(data.name);
-                        }
-                    }
+                    serieNameList.Add(serie.name);
                 }
-                else
+                foreach (var data in serie.data)
                 {
-                    if (!string.IsNullOrEmpty(serie.name) && !serieNameList.Contains(serie.name))
+                    if (!string.IsNullOrEmpty(data.name) && !serieNameList.Contains(data.name))
                     {
-                        serieNameList.Add(serie.name);
+                        serieNameList.Add(data.name);
                     }
                 }
             }

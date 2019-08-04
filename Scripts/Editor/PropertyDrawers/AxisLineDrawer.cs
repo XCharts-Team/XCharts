@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -6,7 +7,7 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(AxisLine), true)]
     public class AxisLineDrawer : PropertyDrawer
     {
-        private bool m_AxisLineToggle = false;
+        private Dictionary<string, bool> m_AxisLineToggle = new Dictionary<string, bool>();
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
@@ -20,9 +21,9 @@ namespace XCharts
             SerializedProperty m_SymbolOffset = prop.FindPropertyRelative("m_SymbolOffset");
             SerializedProperty m_SymbolDent = prop.FindPropertyRelative("m_SymbolDent");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLineToggle, "Axis Line", show, false);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLineToggle, prop, "Axis Line", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_AxisLineToggle)
+            if (ChartEditorHelper.IsToggle(m_AxisLineToggle,prop))
             {
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_OnZero);
@@ -44,7 +45,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            if (m_AxisLineToggle)
+            if (ChartEditorHelper.IsToggle(m_AxisLineToggle,prop))
             {
                 height += 6 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
             }

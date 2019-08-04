@@ -73,8 +73,8 @@ namespace XCharts
     {
         [SerializeField] private SerieSymbolType m_Type = SerieSymbolType.EmptyCircle;
         [SerializeField] private SerieSymbolSizeType m_SizeType = SerieSymbolSizeType.Custom;
-        [SerializeField] private float m_Size = 20f;
-        [SerializeField] private float m_SelectedSize = 30f;
+        [SerializeField] private float m_Size = 6f;
+        [SerializeField] private float m_SelectedSize = 10f;
         [SerializeField] private int m_DataIndex = 1;
         [SerializeField] private float m_DataScale = 1;
         [SerializeField] private float m_SelectedDataScale = 1.5f;

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -6,24 +7,17 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Radar), true)]
     public class RadarDrawer : PropertyDrawer
     {
-        SerializedProperty m_Cricle;
-        SerializedProperty m_Area;
+        SerializedProperty m_Shape;
         SerializedProperty m_Radius;
         SerializedProperty m_SplitNumber;
-        SerializedProperty m_Left;
-        SerializedProperty m_Right;
-        SerializedProperty m_Top;
-        SerializedProperty m_Bottom;
-        SerializedProperty m_LineTickness;
-        SerializedProperty m_LinePointSize;
-        SerializedProperty m_BackgroundColorList;
-        SerializedProperty m_LineColor;
-        SerializedProperty m_AreaAlpha;
+        SerializedProperty m_Center;
+        SerializedProperty m_LineStyle;
+        SerializedProperty m_SplitArea;
         SerializedProperty m_Indicator;
         SerializedProperty m_IndicatorList;
 
-        private bool m_RadarModuleToggle = false;
-        private bool m_IndicatorToggle = false;
+        private Dictionary<string, bool> m_RadarModuleToggle = new Dictionary<string, bool>();
+        private Dictionary<string, bool> m_IndicatorToggle = new Dictionary<string, bool>();
         private bool m_IndicatorJsonAreaToggle = false;
         private string m_IndicatorJsonAreaText;
         private int m_IndicatorSize;
@@ -32,19 +26,12 @@ namespace XCharts
 
         private void InitProperty(SerializedProperty prop)
         {
-            m_Cricle = prop.FindPropertyRelative("m_Cricle");
-            m_Area = prop.FindPropertyRelative("m_Area");
+            m_Shape = prop.FindPropertyRelative("m_Shape");
             m_Radius = prop.FindPropertyRelative("m_Radius");
             m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
-            m_Left = prop.FindPropertyRelative("m_Left");
-            m_Right = prop.FindPropertyRelative("m_Right");
-            m_Top = prop.FindPropertyRelative("m_Top");
-            m_Bottom = prop.FindPropertyRelative("m_Bottom");
-            m_LineTickness = prop.FindPropertyRelative("m_LineTickness");
-            m_LinePointSize = prop.FindPropertyRelative("m_LinePointSize");
-            m_LineColor = prop.FindPropertyRelative("m_LineColor");
-            m_AreaAlpha = prop.FindPropertyRelative("m_AreaAlpha");
-            m_BackgroundColorList = prop.FindPropertyRelative("m_BackgroundColorList");
+            m_Center = prop.FindPropertyRelative("m_Center");
+            m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
             m_Indicator = prop.FindPropertyRelative("m_Indicator");
             m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
         }
@@ -56,65 +43,46 @@ namespace XCharts
             float defaultLabelWidth = EditorGUIUtility.labelWidth;
             float defaultFieldWidth = EditorGUIUtility.fieldWidth;
             drawRect.height = EditorGUIUtility.singleLineHeight;
-
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_RadarModuleToggle, "Radar");
+            int index = ChartEditorHelper.GetIndexFromPath(prop);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_RadarModuleToggle, prop, "Radar " + index, null, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_RadarModuleToggle)
+            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle,prop))
             {
                 ++EditorGUI.indentLevel;
 
-                EditorGUIUtility.fieldWidth = 10;
-
-                EditorGUIUtility.labelWidth = 50;
-                drawRect.width = 60;
-                EditorGUI.PropertyField(drawRect, m_Cricle);
-
-                EditorGUIUtility.labelWidth = 45;
-                drawRect.x += 60;
-                EditorGUI.PropertyField(drawRect, m_Area);
-
-                EditorGUIUtility.labelWidth = 70;
-                drawRect.x += 55;
-                drawRect.width = 80;
-                EditorGUI.PropertyField(drawRect, m_Indicator);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                drawRect.x = pos.x;
-                drawRect.width = pos.width;
                 EditorGUIUtility.labelWidth = defaultLabelWidth;
                 EditorGUIUtility.fieldWidth = defaultFieldWidth;
+                EditorGUI.PropertyField(drawRect, m_Shape);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+                EditorGUI.LabelField(drawRect, "Center");
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+                var tempWidth = (pos.width - startX + 35) / 2;
+                var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
+                var centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
+                while (m_Center.arraySize < 2)
+                {
+                    m_Center.InsertArrayElementAtIndex(m_Center.arraySize);
+                }
+                EditorGUI.PropertyField(centerXRect, m_Center.GetArrayElementAtIndex(0), GUIContent.none);
+                EditorGUI.PropertyField(centerYRect, m_Center.GetArrayElementAtIndex(1), GUIContent.none);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
                 EditorGUI.PropertyField(drawRect, m_Radius);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Left);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Right);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Top);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Bottom);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_LineTickness);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_LinePointSize);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_AreaAlpha);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_LineColor);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                m_BackgroundColorToggle = EditorGUI.Foldout(drawRect, m_BackgroundColorToggle, "BackgroundColors");
+                EditorGUI.PropertyField(drawRect, m_LineStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                EditorGUI.PropertyField(drawRect, m_SplitArea);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SplitArea);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                ChartEditorHelper.MakeFoldout(ref drawRect, ref m_IndicatorToggle, prop, "Indicators", m_Indicator, false);
+                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_IndicatorJsonAreaToggle, ref m_IndicatorJsonAreaText, prop, pos.width, 20);
                 drawRect.width = pos.width;
-                if (m_BackgroundColorToggle)
-                {
-                    ChartEditorHelper.MakeList(ref drawRect, ref m_BackgroundColorSize, m_BackgroundColorList);
-                }
-                drawRect.width = EditorGUIUtility.labelWidth + 10;
-                m_IndicatorToggle = EditorGUI.Foldout(drawRect, m_IndicatorToggle, "Indicators");
-                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_IndicatorJsonAreaToggle, ref m_IndicatorJsonAreaText, prop,pos.width);
-                drawRect.width = pos.width;
-                if (m_IndicatorToggle)
+                drawRect.x = pos.x;
+                if (ChartEditorHelper.IsToggle(m_IndicatorToggle, prop))
                 {
                     ChartEditorHelper.MakeList(ref drawRect, ref m_IndicatorSize, m_IndicatorList);
                 }
@@ -125,27 +93,20 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             int propNum = 1;
-            if (m_RadarModuleToggle)
+            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle,prop))
             {
-                propNum += 13;
-
-                if (m_BackgroundColorToggle)
-                {
-                    m_BackgroundColorList = prop.FindPropertyRelative("m_BackgroundColorList");
-                    propNum += 2;
-                    propNum += m_BackgroundColorList.arraySize;
-                }
+                propNum += 6;
                 if (m_IndicatorJsonAreaToggle) propNum += 4;
-
-
                 float height = propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitArea"));
 
-                if (m_IndicatorToggle)
+                if (ChartEditorHelper.IsToggle(m_IndicatorToggle, prop))
                 {
                     m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
                     height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
 
-                    for (int i = 0; i < m_IndicatorSize; i++)
+                    for (int i = 0; i < m_IndicatorList.arraySize; i++)
                     {
                         height += EditorGUI.GetPropertyHeight(m_IndicatorList.GetArrayElementAtIndex(i));
                     }

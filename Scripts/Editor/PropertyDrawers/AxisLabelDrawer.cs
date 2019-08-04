@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -6,7 +7,7 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(AxisLabel), true)]
     public class AxisLabelDrawer : PropertyDrawer
     {
-        private bool m_AxisLabelToggle = false;
+        private Dictionary<string, bool> m_AxisLabelToggle = new Dictionary<string, bool>();
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
@@ -21,9 +22,9 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle, "Axis Label", show, false);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle,prop, "Axis Label", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_AxisLabelToggle)
+            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle,prop))
             {
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Inside);
@@ -47,7 +48,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            if (m_AxisLabelToggle)
+            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle,prop))
             {
                 height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
             }

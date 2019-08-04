@@ -891,7 +891,7 @@ namespace XCharts
             {
                 Serie serie = m_Series.series[0];
                 Axis axis = yAxises[0];
-                float scaleWid = coordinateWid / (serie.yData.Count - 1);
+                float scaleWid = coordinateWid / (serie.data.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 int minValue = 0;
@@ -899,9 +899,9 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(null, 0, out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue);
                 if (minValue > 0 && maxValue > 0) minValue = 0;
-                for (int i = 0; i < serie.yData.Count; i++)
+                for (int i = 0; i < serie.data.Count; i++)
                 {
-                    float value = serie.yData[i];
+                    float value = serie.data[i].data[1];
                     float pX = coordinateX + i * scaleWid;
                     float dataHig = value / (maxValue - minValue) * m_DataZoom.height;
                     np = new Vector3(pX, m_DataZoom.bottom + dataHig);

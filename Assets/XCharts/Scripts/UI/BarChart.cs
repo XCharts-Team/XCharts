@@ -43,9 +43,10 @@ namespace XCharts
             float offset = m_Bar.inSameBar ?
                 (scaleWid - barWid - m_Bar.space * (stackCount - 1)) / 2 :
                 (scaleWid - barWid * stackCount - m_Bar.space * (stackCount - 1)) / 2;
+            var showData = serie.GetDataList(m_DataZoom);
             int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > serie.yData.Count ? serie.yData.Count : maxShowDataNumber)
-                : serie.yData.Count;
+                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+                : showData.Count;
             if (seriesHig.Count < minShowDataNumber)
             {
                 for (int i = 0; i < minShowDataNumber; i++)
@@ -59,7 +60,7 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
-                float value = serie.yData[i];
+                float value = showData[i].data[1];
                 float pX = seriesHig[i] + coordinateX + xAxis.zeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * scaleWid;
                 if (!yAxis.boundaryGap) pY -= scaleWid / 2;
@@ -89,7 +90,7 @@ namespace XCharts
             Serie serie, Color color, ref List<float> seriesHig)
         {
             if (!IsActive(serie.name)) return;
-            List<float> showData = serie.GetYDataList(m_DataZoom);
+            var showData = serie.GetDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
@@ -114,7 +115,7 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
-                float value = showData[i];
+                float value = showData[i].data[1];
                 float pX = coordinateX + i * scaleWid;
                 float zeroY = coordinateY + yAxis.zeroYOffset;
                 if (!xAxis.boundaryGap) pX -= scaleWid / 2;

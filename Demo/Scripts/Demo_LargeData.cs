@@ -20,22 +20,24 @@ public class Demo_LargeData : MonoBehaviour
         timeNow = System.DateTime.Now;
         chart.ClearAxisData();
         chart.series.ClearData();
-        chart.maxCacheDataNumber = maxCacheDataNumber;
-        timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
+        chart.maxCacheDataNumber = 0;
+        chart.title.text = maxCacheDataNumber + "数据";
     }
 
-    void Update()
+    private void Update()
     {
         if (initCount < maxCacheDataNumber)
         {
-            int count = (int)(maxCacheDataNumber / initDataTime * Time.deltaTime);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < 10; i++)
             {
-                timeNow = timeNow.AddSeconds(1);
-                chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
-                chart.AddData(0, UnityEngine.Random.Range(60, 150));
                 initCount++;
                 if (initCount > maxCacheDataNumber) break;
+                chart.title.text = initCount+"数据";
+                timeNow = timeNow.AddSeconds(1);
+                float xvalue = Mathf.PI / 180 * initCount;
+                float yvalue = Mathf.Sin(xvalue);
+                chart.AddData(0, 15 + yvalue * 2);
+                chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
             }
         }
     }

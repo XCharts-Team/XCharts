@@ -387,7 +387,7 @@ namespace XCharts
                     yAxis.axisName.color;
                 var fontSize = yAxis.axisName.fontSize;
                 var gap = yAxis.axisName.gap;
-                Text axisName;
+                Text axisName = null;
                 switch (yAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
@@ -418,6 +418,7 @@ namespace XCharts
                             new Vector2(coordinateX, coordinateY + coordinateHig + gap);
                         break;
                 }
+                axisName.text = yAxis.axisName.name;
             }
             //init tooltip label
             if (m_Tooltip.gameObject)
@@ -475,7 +476,7 @@ namespace XCharts
                     xAxis.axisName.color;
                 var fontSize = xAxis.axisName.fontSize;
                 var gap = xAxis.axisName.gap;
-                Text axisName;
+                Text axisName = null;
                 switch (xAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
@@ -506,6 +507,7 @@ namespace XCharts
                             new Vector2(coordinateX + coordinateWid + gap, coordinateY);
                         break;
                 }
+                axisName.text = xAxis.axisName.name;
             }
             if (m_Tooltip.gameObject)
             {

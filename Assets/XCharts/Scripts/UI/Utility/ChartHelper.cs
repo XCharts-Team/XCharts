@@ -12,6 +12,19 @@ namespace XCharts
         public static float CRICLE_SMOOTHNESS = 2f;
         private static UIVertex[] vertex = new UIVertex[4];
 
+        public static void SetActive(GameObject gameObject,bool active){
+            SetActive(gameObject.transform,active);
+        }
+
+        /// <summary>
+        /// 通过设置scale实现是否显示，优化性能，减少GC
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <param name="active"></param>   
+        public static void SetActive(Transform transform,bool active){
+            if(active) transform.localScale = Vector3.one;
+            else transform.localScale = Vector3.zero;
+        }
         public static void HideAllObject(GameObject obj, string match = null)
         {
             HideAllObject(obj.transform, match);
@@ -22,13 +35,15 @@ namespace XCharts
             for (int i = 0; i < parent.childCount; i++)
             {
                 if (match == null)
-                    parent.GetChild(i).gameObject.SetActive(false);
+                    SetActive(parent.GetChild(i),false);
+                    //parent.GetChild(i).gameObject.SetActive(false);
                 else
                 {
                     var go = parent.GetChild(i);
                     if (go.name.StartsWith(match))
                     {
-                        go.gameObject.SetActive(false);
+                        SetActive(go,false);
+                        //go.gameObject.SetActive(false);
                     }
                 }
             }
@@ -79,6 +94,7 @@ namespace XCharts
                 obj = parent.Find(name).gameObject;
                 obj.SetActive(true);
                 obj.transform.localPosition = Vector3.zero;
+                obj.transform.localScale = Vector3.one;
             }
             else
             {

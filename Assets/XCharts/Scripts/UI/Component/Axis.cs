@@ -217,6 +217,7 @@ namespace XCharts
             m_AxisName.Copy(other.axisName);
             m_AxisLabel.Copy(other.axisLabel);
             m_Data.Clear();
+            m_Data.Capacity = m_Data.Count;
             foreach (var d in other.data) m_Data.Add(d);
         }
 
@@ -643,6 +644,7 @@ namespace XCharts
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
+            axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
             return axis;
         }
@@ -694,6 +696,7 @@ namespace XCharts
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
+            axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
             return axis;
         }

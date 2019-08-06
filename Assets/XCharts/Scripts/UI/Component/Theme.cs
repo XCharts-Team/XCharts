@@ -244,14 +244,14 @@ namespace XCharts
         public Color32 GetColor(int index)
         {
             if (index < 0) index = 0;
-            var customIndex = index >= m_CustomColorPalette.Count ? index : index % m_CustomColorPalette.Count;
+            var customIndex = index < m_CustomColorPalette.Count ? index : index % m_CustomColorPalette.Count;
             if (customIndex < m_CustomColorPalette.Count && m_CustomColorPalette[customIndex] != Color.clear)
             {
                 return m_CustomColorPalette[customIndex];
             }
             else
             {
-                var newIndex = index >= m_ColorPalette.Length ? index : index % m_ColorPalette.Length;
+                var newIndex = index < m_ColorPalette.Length ? index : index % m_ColorPalette.Length;
                 if (newIndex < m_ColorPalette.Length)
                     return m_ColorPalette[newIndex];
                 else return Color.clear;

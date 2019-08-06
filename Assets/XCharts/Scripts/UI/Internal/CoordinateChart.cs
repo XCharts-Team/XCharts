@@ -636,7 +636,7 @@ namespace XCharts
         private void UpdateAxisMinMaxValue(int axisIndex, Axis axis)
         {
             axis.minValue = 0;
-            axis.maxValue = 100;
+            axis.maxValue = 0;
             if (axis.IsCategory()) return;
 
             int tempMinValue = 0;

@@ -93,6 +93,12 @@ namespace XCharts
         [SerializeField] private List<float> m_XData = new List<float>();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
+        [NonSerialized] private int m_FilterStart;
+        [NonSerialized] private int m_FilterEnd;
+        [NonSerialized] private List<SerieData> m_FilterData;
+        [NonSerialized] private Dictionary<int, List<Vector3>> m_SmoothPoints = new Dictionary<int, List<Vector3>>();
+        [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
+
         /// <summary>
         /// Whether to show serie in chart.
         /// 系列是否显示在图表上。
@@ -203,10 +209,27 @@ namespace XCharts
         /// 数据项个数。
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
+        /// <summary>
+        /// 整个系列的每段曲线的点列表
+        /// </summary>
+        /// <value></value>
+        public Dictionary<int, List<Vector3>> smoothPoints { get { return m_SmoothPoints; } }
 
-        private int filterStart { get; set; }
-        private int filterEnd { get; set; }
-        private List<SerieData> filterData { get; set; }
+        public List<Vector3> dataPoints { get { return m_DataPoints; } }
+
+        public List<Vector3> GetSmoothList(int dataIndex, int size = 100)
+        {
+            if (m_SmoothPoints.ContainsKey(dataIndex))
+            {
+                return m_SmoothPoints[dataIndex];
+            }
+            else
+            {
+                var list = new List<Vector3>(size);
+                m_SmoothPoints[dataIndex] = list;
+                return list;
+            }
+        }
 
         /// <summary>
         /// 维度Y对应数据中最大值。
@@ -503,11 +526,11 @@ namespace XCharts
                 var startIndex = (int)((m_Data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((m_Data.Count - 1) * dataZoom.end / 100);
                 var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (filterData == null || filterData.Count != count)
+                if (m_FilterData == null || m_FilterData.Count != count)
                 {
                     UpdateFilterData(dataZoom);
                 }
-                return filterData;
+                return m_FilterData;
             }
             else
             {
@@ -550,23 +573,23 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != filterStart || endIndex != filterEnd)
+                if (startIndex != m_FilterStart || endIndex != m_FilterEnd)
                 {
-                    filterStart = startIndex;
-                    filterEnd = endIndex;
+                    m_FilterStart = startIndex;
+                    m_FilterEnd = endIndex;
                     var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
                     if (m_Data.Count > 0)
                     {
-                        filterData = m_Data.GetRange(startIndex, count);
+                        m_FilterData = m_Data.GetRange(startIndex, count);
                     }
                     else
                     {
-                        filterData = m_Data;
+                        m_FilterData = m_Data;
                     }
                 }
                 else if (endIndex == 0)
                 {
-                    filterData = new List<SerieData>();
+                    m_FilterData = new List<SerieData>();
                 }
             }
         }

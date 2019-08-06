@@ -348,7 +348,7 @@ namespace XCharts
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.y = sp.y;
             cp2.y = ep.y;
-            int segment = (int)(dist / 0.3f);
+            int segment = (int)(dist / 0.6f);
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
@@ -360,7 +360,7 @@ namespace XCharts
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.y = sp.y;
             cp2.y = ep.y;
-            int segment = (int)(dist / 0.3f);
+            int segment = (int)(dist / 0.6f);
             GetBezierList2(ref posList, sp, ep, segment, cp2, cp1);
         }
 

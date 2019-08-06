@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,7 @@ namespace XCharts
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));
-                AddData(0, Random.Range(10, 90));
+                AddData(0, UnityEngine.Random.Range(10, 90));
             }
         }
 #endif
@@ -48,21 +49,17 @@ namespace XCharts
         private Dictionary<int, List<Serie>> stackSeries = new Dictionary<int, List<Serie>>();
         private List<float> seriesCurrHig = new List<float>();
         private HashSet<string> serieNameSet = new HashSet<string>();
-        private List<Vector3> points = new List<Vector3>();
-        private List<int> pointSerieIndex = new List<int>();
         private void DrawLineChart(VertexHelper vh, bool yCategory)
         {
             m_Series.GetStackSeries(ref stackSeries);
             int seriesCount = stackSeries.Count;
             int serieCount = 0;
-            int dataCount = 0;
             serieNameSet.Clear();
-            points.Clear();
-            pointSerieIndex.Clear();
             int serieNameCount = -1;
             for (int j = 0; j < seriesCount; j++)
             {
                 var serieList = stackSeries[j];
+                if (serieList.Count <= 0) continue;
                 seriesCurrHig.Clear();
                 if (seriesCurrHig.Capacity != serieList[0].dataCount)
                 {
@@ -71,6 +68,7 @@ namespace XCharts
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
+                    serie.dataPoints.Clear();
                     if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
                     else if (!serieNameSet.Contains(serie.name))
                     {
@@ -79,93 +77,74 @@ namespace XCharts
                     }
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
                     if (yCategory)
-                        DrawYLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
+                        DrawYLineSerie(vh, serieCount, color, serie, ref seriesCurrHig);
                     else
-                        DrawXLineSerie(vh, serieCount, color, serie, ref dataCount, ref points, ref pointSerieIndex, ref seriesCurrHig);
+                        DrawXLineSerie(vh, serieCount, color, serie, ref seriesCurrHig);
                     if (serie.show)
                     {
                         serieCount++;
                     }
                 }
-                DrawLinePoint(vh, dataCount, points, pointSerieIndex);
-
             }
+            DrawLinePoint(vh);
             if (yCategory) DrawYTooltipIndicator(vh);
             else DrawXTooltipIndicator(vh);
         }
 
-        private void DrawLinePoint(VertexHelper vh, int dataCount, List<Vector3> points, List<int> pointSerieIndex)
+        private void DrawLinePoint(VertexHelper vh)
         {
-            for (int i = 0; i < points.Count; i++)
+            for (int n = 0; n < m_Series.Count; n++)
             {
-                Vector3 p = points[i];
-                var dataIndex = i % dataCount;
-                var serie = m_Series.GetSerie(pointSerieIndex[i]);
+                var serie = m_Series.GetSerie(n);
+                if (!serie.show) continue;
+                var color = m_ThemeInfo.GetColor(serie.index);
                 float symbolSize = serie.symbol.size;
-                if ((m_Tooltip.show && m_Tooltip.IsSelected(dataIndex))
-                    || serie.data[dataIndex].highlighted
-                    || serie.highlighted)
+                for (int i = 0; i < serie.dataPoints.Count; i++)
                 {
-                    if (IsValue())
+                    Vector3 p = serie.dataPoints[i];
+                    if ((m_Tooltip.show && m_Tooltip.IsSelected(i))
+                        || serie.data[i].highlighted
+                        || serie.highlighted)
                     {
-                        if (m_Series.IsHighlight(serie.index))
+                        if (IsValue())
+                        {
+                            if (m_Series.IsHighlight(serie.index))
+                            {
+                                symbolSize = serie.symbol.selectedSize;
+                            }
+                        }
+                        else
                         {
                             symbolSize = serie.symbol.selectedSize;
                         }
                     }
-                    else
-                    {
-                        symbolSize = serie.symbol.selectedSize;
-                    }
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, m_Line.tickness, p, color);
                 }
-                var color = m_ThemeInfo.GetColor(serie.index);
-                DrawSymbol(vh, serie.symbol.type, symbolSize, m_Line.tickness, p, color);
             }
+
         }
 
-        List<Vector3> lastPoints = new List<Vector3>();
-        List<Vector3> lastSmoothPoints = new List<Vector3>();
-        List<Vector3> smoothPoints = new List<Vector3>();
+        // List<Vector3> lastPoints = new List<Vector3>();
+        // List<Vector3> lastSmoothPoints = new List<Vector3>();
+        // List<Vector3> smoothPoints = new List<Vector3>();
         List<Vector3> smoothSegmentPoints = new List<Vector3>();
-        private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref List<float> seriesHig)
+        private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color lineColor, Serie serie, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
-            lastPoints.Clear();
-            lastSmoothPoints.Clear();
-            smoothPoints.Clear();
             var showData = serie.GetDataList(m_DataZoom);
-
+            Color areaColor = new Color(lineColor.r, lineColor.g, lineColor.b, lineColor.a * 0.75f);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
+            var lastSerie = m_Series.GetSerie(serie.index - 1);
+            var isStack = m_Series.IsStack(serie.stack);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
             float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
             float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = maxShowDataNumber > 0 ?
                 (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
                 : showData.Count;
-            dataCount = (maxCount - minShowDataNumber);
-            if (m_Line.area && points.Count > 0)
-            {
-                if (!m_Line.smooth && points.Count > 0)
-                {
-                    for (int m = points.Count - dataCount; m < points.Count; m++)
-                    {
-                        lastPoints.Add(points[m]);
-                    }
-                }
-                else if (m_Line.smooth && smoothPoints.Count > 0)
-                {
-                    for (int m = 0; m < smoothPoints.Count; m++)
-                    {
-                        lastSmoothPoints.Add(smoothPoints[m]);
-                    }
-                    smoothPoints.Clear();
-                }
-            }
-            int smoothPointCount = 1;
             if (seriesHig.Count < minShowDataNumber)
             {
                 for (int i = 0; i < minShowDataNumber; i++)
@@ -208,11 +187,10 @@ namespace XCharts
                             case Line.StepType.Start:
                                 middle1 = new Vector2(lp.x, np.y + m_Line.tickness);
                                 middle2 = new Vector2(lp.x - m_Line.tickness, np.y);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(middle1.x, coordinateY), middle1, np,
                                         new Vector2(np.x, coordinateY), areaColor);
                                 }
@@ -220,13 +198,12 @@ namespace XCharts
                             case Line.StepType.Middle:
                                 middle1 = new Vector2((lp.x + np.x) / 2 + m_Line.tickness, lp.y);
                                 middle2 = new Vector2((lp.x + np.x) / 2 - m_Line.tickness, np.y);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
                                 ChartHelper.DrawLine(vh, new Vector2(middle1.x - m_Line.tickness, middle1.y),
-                                    new Vector2(middle2.x + m_Line.tickness, middle2.y), m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                    new Vector2(middle2.x + m_Line.tickness, middle2.y), m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(lp.x, coordinateY), lp, middle1,
                                         new Vector2(middle1.x, coordinateY), areaColor);
                                     ChartHelper.DrawPolygon(vh, new Vector2(middle2.x + 2 * m_Line.tickness, coordinateY),
@@ -237,11 +214,10 @@ namespace XCharts
                             case Line.StepType.End:
                                 middle1 = new Vector2(np.x + m_Line.tickness, lp.y);
                                 middle2 = new Vector2(np.x, lp.y);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(lp.x, coordinateY), lp,
                                         new Vector2(middle1.x - m_Line.tickness, middle1.y),
                                         new Vector2(middle1.x - m_Line.tickness, coordinateY), areaColor);
@@ -251,58 +227,24 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        if (xAxis.IsValue()) ChartHelper.GetBezierListVertical(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
-                        else ChartHelper.GetBezierList(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
-                        Vector3 start, to;
-                        start = smoothSegmentPoints[0];
-                        for (int k = 1; k < smoothSegmentPoints.Count; k++)
-                        {
-                            smoothPoints.Add(smoothSegmentPoints[k]);
-                            to = smoothSegmentPoints[k];
-                            ChartHelper.DrawLine(vh, start, to, m_Line.tickness, color);
-
-                            if (m_Line.area)
-                            {
-                                Vector3 alp = new Vector3(start.x, start.y - m_Line.tickness);
-                                Vector3 anp = new Vector3(to.x, to.y - m_Line.tickness);
-                                Vector3 tnp = serieIndex > 0 ?
-                                    (smoothPointCount > lastSmoothPoints.Count - 1 ?
-                                    new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 1].x,
-                                        lastSmoothPoints[lastSmoothPoints.Count - 1].y + m_Line.tickness) :
-                                    new Vector3(lastSmoothPoints[smoothPointCount].x,
-                                        lastSmoothPoints[smoothPointCount].y + m_Line.tickness)) :
-                                    new Vector3(to.x, coordinateY + xAxis.axisLine.width);
-                                Vector3 tlp = serieIndex > 0 ?
-                                    (smoothPointCount > lastSmoothPoints.Count - 1 ?
-                                    new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 2].x,
-                                        lastSmoothPoints[lastSmoothPoints.Count - 2].y + m_Line.tickness) :
-                                    new Vector3(lastSmoothPoints[smoothPointCount - 1].x,
-                                        lastSmoothPoints[smoothPointCount - 1].y + m_Line.tickness)) :
-                                    new Vector3(start.x, coordinateY + xAxis.axisLine.width);
-                                Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
-                                ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
-                            }
-                            smoothPointCount++;
-                            start = to;
-                        }
+                        DrawSmoothAreaPoints(vh, serieIndex, serie, xAxis, lp, np, i, lineColor, areaColor, isStack);
                     }
                     else
                     {
-                        ChartHelper.DrawLine(vh, lp, np, m_Line.tickness, color);
+                        ChartHelper.DrawLine(vh, lp, np, m_Line.tickness, lineColor);
                         if (m_Line.area)
                         {
                             Vector3 alp = new Vector3(lp.x, lp.y - m_Line.tickness);
                             Vector3 anp = new Vector3(np.x, np.y - m_Line.tickness);
-                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                             var cross = ChartHelper.GetIntersection(lp, np, new Vector3(coordinateX, coordinateY),
                                 new Vector3(coordinateX + coordinateWid, coordinateY));
                             if (cross == Vector3.zero)
                             {
                                 Vector3 tnp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i].x, lastPoints[i].y + m_Line.tickness) :
+                                    new Vector3(lastSerie.dataPoints[i].x, lastSerie.dataPoints[i].y + m_Line.tickness) :
                                     new Vector3(np.x, coordinateY + xAxis.axisLine.width);
                                 Vector3 tlp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i - 1].x, lastPoints[i - 1].y + m_Line.tickness) :
+                                    new Vector3(lastSerie.dataPoints[i - 1].x, lastSerie.dataPoints[i - 1].y + m_Line.tickness) :
                                     new Vector3(lp.x, coordinateY + xAxis.axisLine.width);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
@@ -318,54 +260,152 @@ namespace XCharts
                         }
                     }
                 }
-                if (serie.symbol.type != SerieSymbolType.None || m_Line.area)
-                {
-                    points.Add(np);
-                    pointSerieIndexs.Add(serie.index);
-                }
+                serie.dataPoints.Add(np);
                 seriesHig[i] += yDataHig;
                 lp = np;
             }
         }
 
-        private void DrawYLineSerie(VertexHelper vh, int serieIndex, Color color, Serie serie, ref int dataCount,
-            ref List<Vector3> points, ref List<int> pointSerieIndexs, ref List<float> seriesHig)
+        private void DrawSmoothAreaPoints(VertexHelper vh, int serieIndex, Serie serie, Axis xAxis, Vector3 lp,
+            Vector3 np, int dataIndex, Color lineColor, Color areaColor, bool isStack)
+        {
+            bool isYAxis = xAxis is YAxis;
+            if (isYAxis) ChartHelper.GetBezierListVertical(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
+            else ChartHelper.GetBezierList(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
+            Vector3 start, to;
+            start = smoothSegmentPoints[0];
+
+            var smoothPoints = serie.GetSmoothList(dataIndex, smoothSegmentPoints.Count);
+            smoothPoints.Clear();
+            var lastSerie = m_Series.GetSerie(serie.index - 1);
+            var lastSmoothPoints = lastSerie != null ? lastSerie.GetSmoothList(dataIndex, smoothSegmentPoints.Count) : new List<Vector3>();
+            smoothPoints.Add(start);
+            var lastCount = 1;
+            for (int k = 1; k < smoothSegmentPoints.Count; k++)
+            {
+                smoothPoints.Add(smoothSegmentPoints[k]);
+                to = smoothSegmentPoints[k];
+                ChartHelper.DrawLine(vh, start, to, m_Line.tickness, lineColor);
+                if (m_Line.area)
+                {
+                    Vector3 alp, anp, tnp, tlp;
+                    if (isYAxis)
+                    {
+                        alp = new Vector3(start.x - m_Line.tickness, start.y);
+                        anp = new Vector3(to.x - m_Line.tickness, to.y);
+                    }
+                    else
+                    {
+                        alp = new Vector3(start.x, start.y - m_Line.tickness);
+                        anp = new Vector3(to.x, to.y - m_Line.tickness);
+                    }
+                    if (serieIndex > 0 && isStack)
+                    {
+                        if (k == smoothSegmentPoints.Count - 1)
+                        {
+                            if (k < lastSmoothPoints.Count - 1)
+                            {
+                                tnp = lastSmoothPoints[lastCount - 1];
+                                if (isYAxis) tnp.x += m_Line.tickness;
+                                else tnp.y += m_Line.tickness;
+                                ChartHelper.DrawTriangle(vh, alp, anp, tnp, areaColor);
+                                while (lastCount < lastSmoothPoints.Count)
+                                {
+                                    tlp = lastSmoothPoints[lastCount];
+                                    if (isYAxis) tlp.x += m_Line.tickness;
+                                    else tlp.y += m_Line.tickness;
+                                    ChartHelper.DrawTriangle(vh, tnp, anp, tlp, areaColor);
+                                    lastCount++;
+                                    tnp = tlp;
+                                }
+                                start = to;
+                                continue;
+                            }
+
+                        }
+                        if (lastCount >= lastSmoothPoints.Count)
+                        {
+                            tlp = lastSmoothPoints[lastSmoothPoints.Count - 1];
+                            if (isYAxis) tlp.x += m_Line.tickness;
+                            else tlp.y += m_Line.tickness;
+                            ChartHelper.DrawTriangle(vh, anp, alp, tlp, areaColor);
+                            start = to;
+                            continue;
+                        }
+                        if (isYAxis) tnp = new Vector3(lastSmoothPoints[lastCount].x + m_Line.tickness, lastSmoothPoints[lastCount].y);
+                        else tnp = new Vector3(lastSmoothPoints[lastCount].x, lastSmoothPoints[lastCount].y + m_Line.tickness);
+
+                        var diff = isYAxis ? tnp.y - to.y : tnp.x - to.x;
+                        if (Math.Abs(diff) < 1)
+                        {
+                            if (isYAxis) tlp = new Vector3(lastSmoothPoints[lastCount - 1].x + m_Line.tickness, lastSmoothPoints[lastCount - 1].y);
+                            else tlp = new Vector3(lastSmoothPoints[lastCount - 1].x, lastSmoothPoints[lastCount - 1].y + m_Line.tickness);
+                            ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
+                            lastCount++;
+                        }
+                        else
+                        {
+                            if (diff < 0)
+                            {
+                                if (isYAxis) tnp = new Vector3(lastSmoothPoints[lastCount - 1].x + m_Line.tickness, lastSmoothPoints[lastCount - 1].y);
+                                else tnp = new Vector3(lastSmoothPoints[lastCount - 1].x, lastSmoothPoints[lastCount - 1].y + m_Line.tickness);
+                                ChartHelper.DrawTriangle(vh, alp, anp, tnp, areaColor);
+                                while (diff < 0 && lastCount < lastSmoothPoints.Count)
+                                {
+                                    if (isYAxis) tlp = new Vector3(lastSmoothPoints[lastCount].x + m_Line.tickness, lastSmoothPoints[lastCount].y);
+                                    else tlp = new Vector3(lastSmoothPoints[lastCount].x, lastSmoothPoints[lastCount].y + m_Line.tickness);
+                                    ChartHelper.DrawTriangle(vh, tnp, anp, tlp, areaColor);
+                                    lastCount++;
+                                    diff = isYAxis ? tlp.y - to.y : tlp.x - to.x;
+                                    tnp = tlp;
+                                }
+
+                            }
+                            else
+                            {
+                                if (isYAxis) tlp = new Vector3(lastSmoothPoints[lastCount - 1].x + m_Line.tickness, lastSmoothPoints[lastCount - 1].y);
+                                else tlp = new Vector3(lastSmoothPoints[lastCount - 1].x, lastSmoothPoints[lastCount - 1].y + m_Line.tickness);
+                                ChartHelper.DrawTriangle(vh, alp, anp, tlp, areaColor);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (isYAxis)
+                        {
+                            tnp = new Vector3(coordinateX + xAxis.axisLine.width, to.y);
+                            tlp = new Vector3(coordinateX + xAxis.axisLine.width, start.y);
+                        }
+                        else
+                        {
+                            tnp = new Vector3(to.x, coordinateY + xAxis.axisLine.width);
+                            tlp = new Vector3(start.x, coordinateY + xAxis.axisLine.width);
+                        }
+                        ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
+                    }
+                }
+                start = to;
+            }
+        }
+
+        private void DrawYLineSerie(VertexHelper vh, int serieIndex, Color lineColor, Serie serie, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
-            lastPoints.Clear();
-            lastSmoothPoints.Clear();
-            smoothPoints.Clear();
             var showData = serie.GetDataList(m_DataZoom);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
+            Color areaColor = new Color(lineColor.r, lineColor.g, lineColor.b, lineColor.a * 0.75f);
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
+            var lastSerie = m_Series.GetSerie(serieIndex - 1);
+            var isStack = m_Series.IsStack(serie.stack);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
             float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
             float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = maxShowDataNumber > 0 ?
                 (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
                 : showData.Count;
-            dataCount = (maxCount - minShowDataNumber);
-            if (m_Line.area && points.Count > 0)
-            {
-                if (!m_Line.smooth && points.Count > 0)
-                {
-                    for (int m = points.Count - dataCount; m < points.Count; m++)
-                    {
-                        lastPoints.Add(points[m]);
-                    }
-                }
-                else if (m_Line.smooth && smoothPoints.Count > 0)
-                {
-                    for (int m = 0; m < smoothPoints.Count; m++)
-                    {
-                        lastSmoothPoints.Add(smoothPoints[m]);
-                    }
-                    smoothPoints.Clear();
-                }
-            }
-            int smoothPointCount = 1;
             if (seriesHig.Count < minShowDataNumber)
             {
                 for (int i = 0; i < minShowDataNumber; i++)
@@ -394,11 +434,10 @@ namespace XCharts
                             case Line.StepType.Start:
                                 middle1 = new Vector2(np.x, lp.y);
                                 middle2 = new Vector2(np.x, lp.y - m_Line.tickness);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(coordinateX, middle1.y), middle1, np,
                                         new Vector2(coordinateX, np.y), areaColor);
                                 }
@@ -406,13 +445,12 @@ namespace XCharts
                             case Line.StepType.Middle:
                                 middle1 = new Vector2(lp.x, (lp.y + np.y) / 2 + m_Line.tickness);
                                 middle2 = new Vector2(np.x, (lp.y + np.y) / 2 - m_Line.tickness);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
                                 ChartHelper.DrawLine(vh, new Vector2(middle1.x, middle1.y - m_Line.tickness),
-                                    new Vector2(middle2.x, middle2.y + m_Line.tickness), m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                    new Vector2(middle2.x, middle2.y + m_Line.tickness), m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(coordinateX, lp.y), lp, middle1,
                                         new Vector2(coordinateX, middle1.y), areaColor);
                                     ChartHelper.DrawPolygon(vh, new Vector2(coordinateX, middle2.y + 2 * m_Line.tickness),
@@ -423,11 +461,10 @@ namespace XCharts
                             case Line.StepType.End:
                                 middle1 = new Vector2(np.x, lp.y);
                                 middle2 = new Vector2(np.x, lp.y - m_Line.tickness);
-                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, color);
-                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, color);
+                                ChartHelper.DrawLine(vh, lp, middle1, m_Line.tickness, lineColor);
+                                ChartHelper.DrawLine(vh, middle2, np, m_Line.tickness, lineColor);
                                 if (m_Line.area)
                                 {
-                                    Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                                     ChartHelper.DrawPolygon(vh, new Vector2(coordinateX, lp.y), middle1,
                                         new Vector2(np.x, np.y),
                                         new Vector2(coordinateX, np.y), areaColor);
@@ -437,57 +474,24 @@ namespace XCharts
                     }
                     else if (m_Line.smooth)
                     {
-                        ChartHelper.GetBezierListVertical(ref smoothSegmentPoints, lp, np, m_Line.smoothStyle);
-                        Vector3 start, to;
-                        start = smoothSegmentPoints[0];
-                        for (int k = 1; k < smoothSegmentPoints.Count; k++)
-                        {
-                            smoothPoints.Add(smoothSegmentPoints[k]);
-                            to = smoothSegmentPoints[k];
-                            ChartHelper.DrawLine(vh, start, to, m_Line.tickness, color);
-
-                            if (m_Line.area)
-                            {
-                                Vector3 alp = new Vector3(start.x, start.y - m_Line.tickness);
-                                Vector3 anp = new Vector3(to.x, to.y - m_Line.tickness);
-                                Vector3 tnp = serieIndex > 0 ?
-                                    (smoothPointCount > lastSmoothPoints.Count - 1 ?
-                                    new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 1].x,
-                                        lastSmoothPoints[lastSmoothPoints.Count - 1].y + m_Line.tickness) :
-                                    new Vector3(lastSmoothPoints[smoothPointCount].x,
-                                        lastSmoothPoints[smoothPointCount].y + m_Line.tickness)) :
-                                    new Vector3(coordinateX + yAxis.axisLine.width, to.y);
-                                Vector3 tlp = serieIndex > 0 ?
-                                    (smoothPointCount > lastSmoothPoints.Count - 1 ?
-                                    new Vector3(lastSmoothPoints[lastSmoothPoints.Count - 2].x,
-                                        lastSmoothPoints[lastSmoothPoints.Count - 2].y + m_Line.tickness) :
-                                    new Vector3(lastSmoothPoints[smoothPointCount - 1].x,
-                                        lastSmoothPoints[smoothPointCount - 1].y + m_Line.tickness)) :
-                                    new Vector3(coordinateX + yAxis.axisLine.width, start.y);
-                                Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
-                                ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
-                            }
-                            smoothPointCount++;
-                            start = to;
-                        }
+                        DrawSmoothAreaPoints(vh, serieIndex, serie, yAxis, lp, np, i, lineColor, areaColor, isStack);
                     }
                     else
                     {
-                        ChartHelper.DrawLine(vh, lp, np, m_Line.tickness, color);
+                        ChartHelper.DrawLine(vh, lp, np, m_Line.tickness, lineColor);
                         if (m_Line.area)
                         {
                             Vector3 alp = new Vector3(lp.x, lp.y);
                             Vector3 anp = new Vector3(np.x, np.y);
-                            Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
                             var cross = ChartHelper.GetIntersection(lp, np, new Vector3(coordinateX, coordinateY),
                                 new Vector3(coordinateX, coordinateY + coordinateHig));
                             if (cross == Vector3.zero)
                             {
                                 Vector3 tnp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i].x + yAxis.axisLine.width, lastPoints[i].y) :
+                                    new Vector3(lastSerie.dataPoints[i].x + yAxis.axisLine.width, lastSerie.dataPoints[i].y) :
                                     new Vector3(coordinateX + yAxis.axisLine.width, np.y);
                                 Vector3 tlp = serieIndex > 0 ?
-                                    new Vector3(lastPoints[i - 1].x + yAxis.axisLine.width, lastPoints[i - 1].y) :
+                                    new Vector3(lastSerie.dataPoints[i - 1].x + yAxis.axisLine.width, lastSerie.dataPoints[i - 1].y) :
                                     new Vector3(coordinateX + yAxis.axisLine.width, lp.y);
                                 ChartHelper.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                             }
@@ -503,11 +507,7 @@ namespace XCharts
                         }
                     }
                 }
-                if (serie.symbol.type != SerieSymbolType.None || m_Line.area)
-                {
-                    points.Add(np);
-                    pointSerieIndexs.Add(serie.index);
-                }
+                serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
                 lp = np;
             }

@@ -587,6 +587,24 @@ namespace XCharts
             return false;
         }
 
+        public bool IsStack(string stackName)
+        {
+            _setForStack.Clear();
+            foreach (var serie in m_Series)
+            {
+                if (string.IsNullOrEmpty(serie.stack)) continue;
+                if (_setForStack.Contains(serie.stack))
+                {
+                    if (serie.stack.Equals(stackName)) return true;
+                }
+                else
+                {
+                    _setForStack.Add(serie.stack);
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// 获得堆叠系列列表
         /// </summary>

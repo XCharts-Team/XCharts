@@ -297,9 +297,11 @@ namespace XCharts
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                         float symbolRadius = symbolSize - serie.lineStyle.width * 2;
+                        var symbolColor = serie.symbol.color != Color.clear ? serie.symbol.color : lineColor;
+                        symbolColor.a *= serie.symbol.opacity;
                         foreach (var point in pointList)
                         {
-                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, lineColor);
+                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor);
                         }
                     }
                 }
@@ -447,7 +449,7 @@ namespace XCharts
                     }
                 }
             }
-            
+
             if (!highlight)
             {
                 if (m_Tooltip.IsActive())

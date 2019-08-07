@@ -80,6 +80,8 @@ namespace XCharts
         [SerializeField] private float m_SelectedDataScale = 1.5f;
         [SerializeField] private SymbolSizeCallback m_SizeCallback;
         [SerializeField] private SymbolSizeCallback m_SelectedSizeCallback;
+        [SerializeField] private Color m_Color;
+        [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
 
         /// <summary>
         /// the type of symbol.
@@ -135,7 +137,18 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public SymbolSizeCallback selectedSizeCallback { get { return m_SelectedSizeCallback; } set { m_SelectedSizeCallback = value; } }
-
+        /// <summary>
+        /// the color of symbol,default from serie.
+        /// 标记图形的颜色，默认和系列一致。
+        /// </summary>
+        /// <value></value>
+        public Color color { get { return m_Color; } set { m_Color = value; } }
+        /// <summary>
+        /// the opacity of color.
+        /// 图形标记的透明度。
+        /// </summary>
+        /// <value></value>
+        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.

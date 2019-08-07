@@ -96,11 +96,12 @@ namespace XCharts
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
-                if (!serie.show) continue;
-                var color = m_ThemeInfo.GetColor(serie.index);
-                float symbolSize = serie.symbol.size;
+                if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
+                var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(serie.index);
+                color.a *= serie.symbol.opacity;
                 for (int i = 0; i < serie.dataPoints.Count; i++)
                 {
+                    float symbolSize = serie.symbol.size;
                     Vector3 p = serie.dataPoints[i];
                     if ((m_Tooltip.show && m_Tooltip.IsSelected(i))
                         || serie.data[i].highlighted
@@ -115,18 +116,16 @@ namespace XCharts
                         }
                         else
                         {
+                            
                             symbolSize = serie.symbol.selectedSize;
                         }
                     }
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, m_Line.tickness, p, color);
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, p, color);
                 }
             }
 
         }
 
-        // List<Vector3> lastPoints = new List<Vector3>();
-        // List<Vector3> lastSmoothPoints = new List<Vector3>();
-        // List<Vector3> smoothPoints = new List<Vector3>();
         List<Vector3> smoothSegmentPoints = new List<Vector3>();
         private void DrawXLineSerie(VertexHelper vh, int serieIndex, Color lineColor, Serie serie, ref List<float> seriesHig)
         {

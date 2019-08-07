@@ -79,8 +79,8 @@ namespace XCharts
                 {
                     continue;
                 }
-                var color = m_ThemeInfo.GetColor(serieNameCount);
-                color.a = 200;
+                var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(serieNameCount);
+                color.a *= serie.symbol.opacity;
                 int maxCount = maxShowDataNumber > 0 ?
                     (maxShowDataNumber > serie.dataCount ? serie.dataCount : maxShowDataNumber)
                     : serie.dataCount;
@@ -111,7 +111,7 @@ namespace XCharts
                         for (int count = 0; count < serie.symbol.animationSize.Count; count++)
                         {
                             var nowSize = serie.symbol.animationSize[count];
-                            color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
+                            color.a = (symbolSize - nowSize) / symbolSize;
                             DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color);
                         }
                         RefreshChart();

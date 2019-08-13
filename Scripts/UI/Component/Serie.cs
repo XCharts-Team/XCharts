@@ -601,7 +601,7 @@ namespace XCharts
         /// <param name="value"></param>
         public void UpdateYData(int index, float value)
         {
-            UpdateData(index, 2, value);
+            UpdateData(index, 1, value);
         }
 
         /// <summary>
@@ -612,8 +612,8 @@ namespace XCharts
         /// <param name="yValue"></param>
         public void UpdateXYData(int index, float xValue, float yValue)
         {
-            UpdateData(index, 1, xValue);
-            UpdateData(index, 2, yValue);
+            UpdateData(index, 0, xValue);
+            UpdateData(index, 1, yValue);
         }
 
         /// <summary>
@@ -625,11 +625,11 @@ namespace XCharts
         public void UpdateData(int index, int dimension, float value)
         {
             if (index < 0) return;
-            if (dimension == 1)
+            if (dimension == 0)
             {
                 if (index < m_XData.Count) m_XData[index] = value;
             }
-            else if (dimension == 2)
+            else if (dimension == 1)
             {
                 if (index < m_YData.Count) m_YData[index] = value;
             }

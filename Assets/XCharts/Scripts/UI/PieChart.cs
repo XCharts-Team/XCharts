@@ -337,6 +337,7 @@ namespace XCharts
         private void DrawLabel(Serie serie, SerieData serieData, PieTempData tempData, Color serieColor,
             float currAngle, float offsetRadius, float insideRadius, float outsideRadius)
         {
+           if(serieData.label==null)return;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
             if (serie.label.show || isHighlight)
             {

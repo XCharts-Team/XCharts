@@ -341,6 +341,7 @@ namespace XCharts
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
             if (serie.label.show || isHighlight)
             {
+                ChartHelper.SetActive(serieData.label.gameObject,true);
                 float rotate = 0;
                 bool isInsidePosition = serie.label.position == SerieLabel.Position.Inside;
                 if (serie.label.rotate > 0 && isInsidePosition)

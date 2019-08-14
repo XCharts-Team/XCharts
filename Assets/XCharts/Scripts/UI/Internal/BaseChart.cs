@@ -52,6 +52,7 @@ namespace XCharts
         [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
         [NonSerialized] private bool m_RefreshChart = false;
         [NonSerialized] private bool m_RefreshLabel = false;
+        [NonSerialized] private bool m_ReinitLabel = false;
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -199,7 +200,6 @@ namespace XCharts
         private void InitLegend()
         {
             m_Legend.OnChanged();
-            ChartHelper.HideAllObject(transform, s_LegendObjectName);
             TextAnchor anchor = m_Legend.location.textAnchor;
             Vector2 anchorMin = m_Legend.location.anchorMin;
             Vector2 anchorMax = m_Legend.location.anchorMax;
@@ -208,8 +208,8 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
-            ChartHelper.HideAllObject(legendObject, s_LegendObjectName);
-
+            ChartHelper.DestoryAllChilds(legendObject.transform);
+            if (!m_Legend.show) return;
             var serieNameList = m_Series.GetSerieNameList();
             List<string> datas;
             if (m_Legend.data.Count > 0)
@@ -287,9 +287,9 @@ namespace XCharts
 
         private void InitSerieLabel()
         {
-            ChartHelper.HideAllObject(transform, s_SerieLabelObjectName);
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            ChartHelper.DestoryAllChilds(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -308,7 +308,7 @@ namespace XCharts
                         m_ThemeInfo.font, color, TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot,
                         new Vector2(50, serie.label.fontSize), serie.label.fontSize);
                     serieData.label.text = serieData.name;
-                    serieData.label.gameObject.SetActive(true);
+                    ChartHelper.SetActive(serieData.label.gameObject, false);
                 }
             }
         }
@@ -445,6 +445,11 @@ namespace XCharts
 
         protected void CheckRefreshLabel()
         {
+            if (m_ReinitLabel)
+            {
+                m_ReinitLabel = false;
+                InitSerieLabel();
+            }
             if (m_RefreshLabel)
             {
                 m_RefreshLabel = false;

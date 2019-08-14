@@ -168,7 +168,11 @@ namespace XCharts
         public virtual bool AddData(int serieIndex, float data, string dataName = null)
         {
             var success = m_Series.AddData(serieIndex, data, dataName, m_MaxCacheDataNumber);
-            if (success) RefreshChart();
+            if (success)
+            {
+                RefreshChart();
+                ReinitChartLabel();
+            }
             return success;
         }
 
@@ -183,7 +187,11 @@ namespace XCharts
         public virtual bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
             var success = m_Series.AddData(serieName, multidimensionalData, dataName, m_MaxCacheDataNumber);
-            if (success) RefreshChart();
+            if (success)
+            {
+                RefreshChart();
+                ReinitChartLabel();
+            }
             return success;
         }
 
@@ -198,7 +206,11 @@ namespace XCharts
         public virtual bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
             var success = m_Series.AddData(serieIndex, multidimensionalData, dataName, m_MaxCacheDataNumber);
-            if (success) RefreshChart();
+            if (success)
+            {
+                RefreshChart();
+                ReinitChartLabel();
+            }
             return success;
         }
 
@@ -214,7 +226,11 @@ namespace XCharts
         public virtual bool AddData(string serieName, float xValue, float yValue, string dataName)
         {
             var success = m_Series.AddXYData(serieName, xValue, yValue, dataName, m_MaxCacheDataNumber);
-            if (success) RefreshChart();
+            if (success)
+            {
+                RefreshChart();
+                ReinitChartLabel();
+            }
             return true;
         }
 
@@ -230,7 +246,11 @@ namespace XCharts
         public virtual bool AddData(int serieIndex, float xValue, float yValue, string dataName = null)
         {
             var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName, m_MaxCacheDataNumber);
-            if (success) RefreshChart();
+            if (success)
+            {
+                RefreshChart();
+                ReinitChartLabel();
+            }
             return success;
         }
 
@@ -258,6 +278,30 @@ namespace XCharts
         {
             m_Series.UpdateData(serieIndex, value, dataIndex);
             RefreshChart();
+        }
+
+        /// <summary>
+        /// Update serie data name.
+        /// 更新指定系列中的指定索引数据名称。
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="dataName"></param>
+        /// <param name="dataIndex"></param>
+        public virtual void UpdateDataName(string serieName, string dataName, int dataIndex = 0)
+        {
+            m_Series.UpdateDataName(serieName, dataName, dataIndex);
+        }
+
+        /// <summary>
+        /// Update serie data name.
+        /// 更新指定系列中的指定索引数据名称。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        /// <param name="dataName"></param>
+        /// <param name="dataIndex"></param>
+        public virtual void UpdateDataName(int serieIndex, string dataName, int dataIndex)
+        {
+            m_Series.UpdateDataName(serieIndex, dataName, dataIndex);
         }
 
         /// <summary>
@@ -350,6 +394,14 @@ namespace XCharts
         public void RefreshChart()
         {
             m_RefreshChart = true;
+        }
+
+        /// <summary>
+        /// 重新初始化Label。
+        /// </summary>
+        public void ReinitChartLabel()
+        {
+            m_ReinitLabel = true;
         }
 
         /// <summary>

@@ -639,6 +639,19 @@ namespace XCharts
             }
         }
 
+        public void UpdateDataName(int index, string name)
+        {
+            if (index >= 0 && index < m_Data.Count)
+            {
+                var serieData = m_Data[index];
+                serieData.name = name;
+                if (serieData.label != null)
+                {
+                    serieData.label.text = name == null ? "" : name;
+                }
+            }
+        }
+
         /// <summary>
         /// 清除所有数据的高亮标志
         /// </summary>

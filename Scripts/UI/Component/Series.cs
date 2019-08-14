@@ -332,6 +332,24 @@ namespace XCharts
             }
         }
 
+        public void UpdateDataName(string serieName, string dataName, int dataIndex = 0)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                serie.UpdateDataName(dataIndex, dataName);
+            }
+        }
+
+        public void UpdateDataName(int serieIndex, string dataName, int dataIndex = 0)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                serie.UpdateDataName(dataIndex, dataName);
+            }
+        }
+
         /// <summary>
         /// 更新指定系列的维度Y数据
         /// </summary>

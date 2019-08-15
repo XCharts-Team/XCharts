@@ -63,6 +63,39 @@ namespace XCharts
     }
 
     /// <summary>
+    /// the type of line chart.
+    /// 折线图样式类型
+    /// </summary>
+    public enum LineType
+    {
+        /// <summary>
+        /// the normal line chart，
+        /// 所有扇区圆心角相同，仅通过半径展现数据大小。
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// the normal line chart，
+        /// 平滑曲线。
+        /// </summary>
+        Smooth,
+        /// <summary>
+        /// step line.
+        /// 阶梯线图：当前点。
+        /// </summary>
+        StepStart,
+        /// <summary>
+        /// step line.
+        /// 阶梯线图：当前点和下一个点的中间。
+        /// </summary>
+        StepMiddle,
+        /// <summary>
+        /// step line.
+        /// 阶梯线图：下一个拐点。
+        /// </summary>
+        StepEnd
+    }
+
+    /// <summary>
     /// 系列。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
@@ -74,9 +107,14 @@ namespace XCharts
         [SerializeField] private string m_Stack;
         [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
+        [SerializeField] private LineType m_LineType = LineType.Normal;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] private float m_BarWidth = 0.6f;
+        [SerializeField] private float m_BarGap = 0.3f; // 30%
+        [SerializeField] private float m_BarCategoryGap = 0.2f; // 20%
+
         #region PieChart field
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
@@ -96,7 +134,8 @@ namespace XCharts
         [NonSerialized] private int m_FilterStart;
         [NonSerialized] private int m_FilterEnd;
         [NonSerialized] private List<SerieData> m_FilterData;
-        [NonSerialized] private Dictionary<int, List<Vector3>> m_SmoothPoints = new Dictionary<int, List<Vector3>>();
+        [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
+        [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
 
         /// <summary>
@@ -130,12 +169,6 @@ namespace XCharts
         /// </summary>
         public int radarIndex { get { return m_RadarIndex; } set { m_RadarIndex = value; } }
         /// <summary>
-        /// The style of line.
-        /// 线条样式。
-        /// </summary>
-        /// <value></value>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
-        /// <summary>
         /// The style of area.
         /// 区域填充样式。
         /// </summary>
@@ -147,30 +180,70 @@ namespace XCharts
         /// </summary>
         public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
         /// <summary>
+        /// The type of line chart.
+        /// 折线图样式类型。
+        /// </summary>
+        /// <value></value>
+        public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
+        /// <summary>
+        /// The style of line.
+        /// 线条样式。
+        /// </summary>
+        /// <value></value>
+        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
+        /// <summary>
+        /// The width of the bar. Adaptive when default 0.
+        /// 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
+        /// </summary>
+        /// <value></value>
+        public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
+        /// <summary>
+        /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
+        /// <para>Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background.
+        /// In a single coodinate system, this attribute is shared by multiple 'bar' series. 
+        /// This attribute should be set on the last 'bar' series in the coodinate system, 
+        /// then it will be adopted by all 'bar' series in the coordinate system.</para>
+        /// 不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
+        /// 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。
+        /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
+        /// </summary>
+        /// <value></value>
+        public float barGap { get { return m_BarGap; } set { m_BarGap = value; } }
+        /// <summary>
+        /// The bar gap of a single series, defaults to be 20% of the category gap, can be set as a fixed value.
+        /// In a single coodinate system, this attribute is shared by multiple 'bar' series. 
+        /// This attribute should be set on the last 'bar' series in the coodinate system, 
+        /// then it will be adopted by all 'bar' series in the coordinate system.
+        /// 同一系列的柱间距离，默认为类目间距的20%，可设固定值。
+        /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
+        /// </summary>
+        /// <value></value>
+        public float barCategoryGap { get { return m_BarCategoryGap; } set { m_BarCategoryGap = value; } }
+        /// <summary>
         /// Whether offset when mouse click pie chart item.
         /// 鼠标点击时是否开启偏移，一般用在PieChart图表中。
         /// </summary>
-        public bool clickOffset { get { return m_ClickOffset; } set { m_ClickOffset = value; } }
+        public bool pieClickOffset { get { return m_ClickOffset; } set { m_ClickOffset = value; } }
         /// <summary>
         /// Whether to show as Nightingale chart.
         /// 是否展示成南丁格尔图，通过半径区分数据大小。
         /// </summary>
-        public RoseType roseType { get { return m_RoseType; } set { m_RoseType = value; } }
+        public RoseType pieRoseType { get { return m_RoseType; } set { m_RoseType = value; } }
         /// <summary>
         /// the space of pie chart item.
         /// 饼图项间的空隙留白。
         /// </summary>
-        public float space { get { return m_Space; } set { m_Space = value; } }
+        public float pieSpace { get { return m_Space; } set { m_Space = value; } }
         /// <summary>
         /// the center of pie chart.
         /// 饼图的中心点。
         /// </summary>
-        public float[] center { get { return m_Center; } set { m_Center = value; } }
+        public float[] pieCenter { get { return m_Center; } set { m_Center = value; } }
         /// <summary>
         /// the radius of pie chart.
         /// 饼图的半径。radius[0]表示内径，radius[1]表示外径。
         /// </summary>
-        public float[] radius { get { return m_Radius; } set { m_Radius = value; } }
+        public float[] pieRadius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
         /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
@@ -209,25 +282,46 @@ namespace XCharts
         /// 数据项个数。
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
-        /// <summary>
-        /// 整个系列的每段曲线的点列表
-        /// </summary>
-        /// <value></value>
-        public Dictionary<int, List<Vector3>> smoothPoints { get { return m_SmoothPoints; } }
 
         public List<Vector3> dataPoints { get { return m_DataPoints; } }
 
-        public List<Vector3> GetSmoothList(int dataIndex, int size = 100)
+        public List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
         {
-            if (m_SmoothPoints.ContainsKey(dataIndex))
+            if (m_UpSmoothPoints.ContainsKey(dataIndex))
             {
-                return m_SmoothPoints[dataIndex];
+                return m_UpSmoothPoints[dataIndex];
             }
             else
             {
                 var list = new List<Vector3>(size);
-                m_SmoothPoints[dataIndex] = list;
+                m_UpSmoothPoints[dataIndex] = list;
                 return list;
+            }
+        }
+
+        public List<Vector3> GetDownSmoothList(int dataIndex, int size = 100)
+        {
+            if (m_DownSmoothPoints.ContainsKey(dataIndex))
+            {
+                return m_DownSmoothPoints[dataIndex];
+            }
+            else
+            {
+                var list = new List<Vector3>(size);
+                m_DownSmoothPoints[dataIndex] = list;
+                return list;
+            }
+        }
+
+        public void ClearSmoothList(int dataIndex)
+        {
+            if (m_UpSmoothPoints.ContainsKey(dataIndex))
+            {
+                m_UpSmoothPoints[dataIndex].Clear();
+            }
+            if (m_DownSmoothPoints.ContainsKey(dataIndex))
+            {
+                m_DownSmoothPoints[dataIndex].Clear();
             }
         }
 
@@ -683,15 +777,30 @@ namespace XCharts
             {
                 var color = areaStyle.color;
                 if (highlight) color *= color;
-                color.a *= areaStyle.opactiy;
+                color.a *= areaStyle.opacity;
                 return color;
             }
             else
             {
                 var color = (Color)theme.GetColor(index);
                 if (highlight) color *= color;
-                color.a *= areaStyle.opactiy;
+                color.a *= areaStyle.opacity;
                 return color;
+            }
+        }
+
+        public Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
+        {
+            if (areaStyle.toColor != Color.clear)
+            {
+                var color = areaStyle.toColor;
+                if (highlight) color *= color;
+                color.a *= areaStyle.opacity;
+                return color;
+            }
+            else
+            {
+                return GetAreaColor(theme, index, highlight);
             }
         }
 
@@ -701,18 +810,48 @@ namespace XCharts
             {
                 var color = lineStyle.color;
                 if (highlight) color *= color;
-                color.a *= lineStyle.opactiy;
+                color.a *= lineStyle.opacity;
                 return color;
             }
             else
             {
                 var color = (Color)theme.GetColor(index);
                 if (highlight) color *= color;
-                color.a *= lineStyle.opactiy;
+                color.a *= lineStyle.opacity;
                 return color;
             }
         }
 
+        public Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
+        {
+            if (symbol.color != Color.clear)
+            {
+                var color = symbol.color;
+                if (highlight) color *= color;
+                color.a *= symbol.opacity;
+                return color;
+            }
+            else
+            {
+                var color = (Color)theme.GetColor(index);
+                if (highlight) color *= color;
+                color.a *= symbol.opacity;
+                return color;
+            }
+        }
+
+        public float GetBarWidth(float categoryWidth)
+        {
+            if (m_BarWidth > 1) return m_BarWidth;
+            else return m_BarWidth * categoryWidth;
+        }
+
+        public float GetBarGap(float categoryWidth)
+        {
+            if (m_BarGap == -1) return 0;
+            else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
+            else return m_BarGap;
+        }
         /// <summary>
         /// 从json中导入数据
         /// </summary>

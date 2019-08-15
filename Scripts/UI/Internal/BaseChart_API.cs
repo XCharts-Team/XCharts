@@ -74,6 +74,13 @@ namespace XCharts
         }
 
         /// <summary>
+        /// the smooth line chart style.
+        /// 平滑折线图的平滑系数。
+        /// </summary>
+        /// <value></value>
+        public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
+        
+        /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
         /// </summary>

@@ -334,7 +334,6 @@ namespace XCharts
 
         private void InitAxisY()
         {
-            ChartHelper.HideAllObject(gameObject, "split_y");//old name
             for (int i = 0; i < m_YAxises.Count; i++)
             {
                 InitYAxis(i, m_YAxises[i]);
@@ -351,7 +350,7 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
-            ChartHelper.HideAllObject(axisObj, objName);
+            ChartHelper.HideAllObject(axisObj);
 
             var labelColor = yAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
@@ -434,7 +433,6 @@ namespace XCharts
 
         private void InitAxisX()
         {
-            ChartHelper.HideAllObject(gameObject, "split_x");//old name
             for (int i = 0; i < m_XAxises.Count; i++)
             {
                 InitXAxis(i, m_XAxises[i]);
@@ -447,19 +445,19 @@ namespace XCharts
             xAxis.maxValue = 100;
             xAxis.axisLabelTextList.Clear();
             float labelWidth = xAxis.GetScaleWidth(coordinateWid, m_DataZoom);
-            string objName = xAxisIndex > 0 ? s_DefaultAxisX + "2" : s_DefaultAxisX;
+            string objName = xAxisIndex > 0 ? ChartHelper.Cancat(s_DefaultAxisX, 2) : s_DefaultAxisX;
             var axisObj = ChartHelper.AddObject(objName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
-            ChartHelper.HideAllObject(axisObj, objName);
+            ChartHelper.HideAllObject(axisObj);
             var labelColor = xAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 xAxis.axisLabel.color;
             for (int i = 0; i < xAxis.GetSplitNumber(m_DataZoom); i++)
             {
                 bool inside = xAxis.axisLabel.inside;
-                Text txt = ChartHelper.AddTextObject(objName + i, axisObj.transform,
+                Text txt = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, i), axisObj.transform,
                     m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0, 1),
                     new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(labelWidth, 20),
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
@@ -480,7 +478,7 @@ namespace XCharts
                 switch (xAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
                             m_ThemeInfo.font, color, TextAnchor.MiddleRight, new Vector2(1, 0.5f),
                             new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
                             xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -489,7 +487,7 @@ namespace XCharts
                             new Vector2(coordinateX - gap, coordinateY);
                         break;
                     case AxisName.Location.Middle:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -498,7 +496,7 @@ namespace XCharts
                             new Vector2(coordinateX + coordinateWid / 2, coordinateY - gap);
                         break;
                     case AxisName.Location.End:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleLeft, new Vector2(0, 0.5f),
                              new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -513,7 +511,7 @@ namespace XCharts
             {
                 Vector2 privot = xAxisIndex > 0 ? new Vector2(0.5f, 1) : new Vector2(0.5f, 1);
                 var labelParent = m_Tooltip.gameObject.transform;
-                GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
+                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartHelper.Cancat(objName, "_label"), labelParent, m_ThemeInfo.font, privot);
                 xAxis.SetTooltipLabel(labelObj);
                 xAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
                 xAxis.SetTooltipLabelActive(xAxis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);
@@ -525,7 +523,7 @@ namespace XCharts
             var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             dataZoomObject.transform.localPosition = Vector3.zero;
-            ChartHelper.HideAllObject(dataZoomObject, s_DefaultDataZoom);
+            ChartHelper.HideAllObject(dataZoomObject);
             m_DataZoom.startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleRight,
                 Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20));
@@ -604,6 +602,10 @@ namespace XCharts
         {
             if (!ChartHelper.IsValueEqualsList<YAxis>(m_CheckYAxises, m_YAxises))
             {
+                foreach (var axis in m_CheckYAxises)
+                {
+                    YAxisPool.Release(axis);
+                }
                 m_CheckYAxises.Clear();
                 foreach (var axis in m_YAxises) m_CheckYAxises.Add(axis.Clone());
                 OnYAxisChanged();
@@ -614,6 +616,10 @@ namespace XCharts
         {
             if (!ChartHelper.IsValueEqualsList<XAxis>(m_CheckXAxises, m_XAxises))
             {
+                foreach (var axis in m_CheckXAxises)
+                {
+                    XAxisPool.Release(axis);
+                }
                 m_CheckXAxises.Clear();
                 foreach (var axis in m_XAxises) m_CheckXAxises.Add(axis.Clone());
                 OnXAxisChanged();

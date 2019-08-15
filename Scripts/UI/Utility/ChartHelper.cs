@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -11,9 +12,26 @@ namespace XCharts
     {
         public static float CRICLE_SMOOTHNESS = 2f;
         private static UIVertex[] vertex = new UIVertex[4];
+        private static StringBuilder s_Builder = new StringBuilder();
 
-        public static void SetActive(GameObject gameObject,bool active){
-            SetActive(gameObject.transform,active);
+
+        public static string Cancat(string str1, string str2)
+        {
+            s_Builder.Length = 0;
+            s_Builder.Append(str1).Append(str2);
+            return s_Builder.ToString();
+        }
+
+        public static string Cancat(string str1, int i)
+        {
+            s_Builder.Length = 0;
+            s_Builder.Append(str1).Append(ChartCached.IntToStr(i));
+            return s_Builder.ToString();
+        }
+
+        public static void SetActive(GameObject gameObject, bool active)
+        {
+            SetActive(gameObject.transform, active);
         }
 
         /// <summary>
@@ -21,8 +39,9 @@ namespace XCharts
         /// </summary>
         /// <param name="transform"></param>
         /// <param name="active"></param>   
-        public static void SetActive(Transform transform,bool active){
-            if(active) transform.localScale = Vector3.one;
+        public static void SetActive(Transform transform, bool active)
+        {
+            if (active) transform.localScale = Vector3.one;
             else transform.localScale = Vector3.zero;
         }
         public static void HideAllObject(GameObject obj, string match = null)
@@ -35,14 +54,14 @@ namespace XCharts
             for (int i = 0; i < parent.childCount; i++)
             {
                 if (match == null)
-                    SetActive(parent.GetChild(i),false);
-                    //parent.GetChild(i).gameObject.SetActive(false);
+                    SetActive(parent.GetChild(i), false);
+                //parent.GetChild(i).gameObject.SetActive(false);
                 else
                 {
                     var go = parent.GetChild(i);
                     if (go.name.StartsWith(match))
                     {
-                        SetActive(go,false);
+                        SetActive(go, false);
                         //go.gameObject.SetActive(false);
                     }
                 }
@@ -237,17 +256,23 @@ namespace XCharts
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,
             Vector3 p2, Vector3 p3, Color32 color)
         {
+            DrawTriangle(vh, p1, p2, p3, color, color, color);
+        }
+
+        public static void DrawTriangle(VertexHelper vh, Vector3 p1,
+           Vector3 p2, Vector3 p3, Color32 color, Color32 color2, Color32 color3)
+        {
             UIVertex v1 = new UIVertex();
             v1.position = p1;
             v1.color = color;
             v1.uv0 = Vector3.zero;
             UIVertex v2 = new UIVertex();
             v2.position = p2;
-            v2.color = color;
+            v2.color = color2;
             v2.uv0 = Vector3.zero;
             UIVertex v3 = new UIVertex();
             v3.position = p3;
-            v3.color = color;
+            v3.color = color3;
             v3.uv0 = Vector3.zero;
             int startIndex = vh.currentVertCount;
             vh.AddVert(v1);
@@ -340,7 +365,21 @@ namespace XCharts
             }
         }
 
-        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)
+        {
+            Vector3 dir = (ep - sp).normalized;
+            float dist = Vector3.Distance(sp, ep);
+            int segment = (int)(dist / k);
+            posList.Clear();
+            posList.Add(sp);
+            for (int i = 1; i < segment; i++)
+            {
+                posList.Add(sp + dir * dist * i / segment);
+            }
+            posList.Add(ep);
+        }
+
+        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, bool fine, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -348,20 +387,20 @@ namespace XCharts
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.y = sp.y;
             cp2.y = ep.y;
-            int segment = (int)(dist / 0.6f);
+            int segment = (int)(dist / (fine ? 3f : 7f));
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
-        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
+        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, bool fine, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
             Vector3 cp1 = sp + dist / k * dir * 1;
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
-            cp1.y = sp.y;
-            cp2.y = ep.y;
-            int segment = (int)(dist / 0.6f);
-            GetBezierList2(ref posList, sp, ep, segment, cp2, cp1);
+            cp1.x = sp.x;
+            cp2.x = ep.x;
+            int segment = (int)(dist / (fine ? 3f : 7f));
+            GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
         public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)

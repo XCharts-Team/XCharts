@@ -631,7 +631,7 @@ namespace XCharts
     {
         public XAxis Clone()
         {
-            var axis = new XAxis();
+            var axis = XAxisPool.Get();
             axis.show = show;
             axis.type = type;
             axis.min = min;
@@ -644,7 +644,7 @@ namespace XCharts
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
-            axis.data.Capacity = data.Count;
+            if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
             return axis;
         }
@@ -683,7 +683,7 @@ namespace XCharts
     {
         public YAxis Clone()
         {
-            var axis = new YAxis();
+            var axis = YAxisPool.Get();
             axis.show = show;
             axis.type = type;
             axis.min = min;
@@ -696,7 +696,7 @@ namespace XCharts
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
-            axis.data.Capacity = data.Count;
+            if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
             return axis;
         }

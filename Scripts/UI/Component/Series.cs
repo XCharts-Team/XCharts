@@ -119,6 +119,51 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 获得上一个同堆叠且显示的serie。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Serie GetLastStackSerie(int index)
+        {
+            var serie = GetSerie(index);
+            return GetLastStackSerie(serie);
+        }
+
+        /// <summary>
+        /// 同堆叠的serie是否有渐变色的。
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <returns></returns>
+        public bool IsAnyGradientSerie(string stack)
+        {
+            if (string.IsNullOrEmpty(stack)) return false;
+            foreach (var serie in m_Series)
+            {
+                if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
+                {
+                    if (serie.areaStyle.color != serie.areaStyle.toColor && serie.areaStyle.toColor != Color.clear) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 获得上一个同堆叠且显示的serie。
+        /// </summary>
+        /// <param name="serie"></param>
+        /// <returns></returns>
+        public Serie GetLastStackSerie(Serie serie)
+        {
+            if (serie == null || string.IsNullOrEmpty(serie.stack)) return null;
+            for (int i = serie.index - 1; i >= 0; i--)
+            {
+                var temp = m_Series[i];
+                if (temp.show && serie.stack.Equals(temp.stack)) return temp;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 是否包含指定名字的系列
         /// </summary>
         /// <param name="name"></param>
@@ -605,19 +650,16 @@ namespace XCharts
             return false;
         }
 
-        public bool IsStack(string stackName)
+        public bool IsStack(string stackName, SerieType type)
         {
-            _setForStack.Clear();
+            if (string.IsNullOrEmpty(stackName)) return false;
+            int count = 0;
             foreach (var serie in m_Series)
             {
-                if (string.IsNullOrEmpty(serie.stack)) continue;
-                if (_setForStack.Contains(serie.stack))
+                if (serie.show && serie.type == type)
                 {
-                    if (serie.stack.Equals(stackName)) return true;
-                }
-                else
-                {
-                    _setForStack.Add(serie.stack);
+                    if (stackName.Equals(serie.stack)) count++;
+                    if (count >= 2) return true;
                 }
             }
             return false;

@@ -74,7 +74,7 @@ namespace XCharts
                 {
                     continue;
                 }
-                if (serie.clickOffset) isClickOffset = true;
+                if (serie.pieClickOffset) isClickOffset = true;
                 PieTempData tempData;
                 if (i < m_PieTempDataList.Count)
                 {
@@ -95,7 +95,7 @@ namespace XCharts
                 float totalDegree = 360;
                 float startDegree = 0;
                 int showdataCount = 0;
-                if (serie.roseType == RoseType.Area)
+                if (serie.pieRoseType == RoseType.Area)
                 {
                     foreach (var sd in serie.data)
                     {
@@ -128,10 +128,10 @@ namespace XCharts
                         tempData.angleList.Add(0);
                         continue;
                     }
-                    float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
+                    float degree = serie.pieRoseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
                     float toDegree = startDegree + degree;
 
-                    float outSideRadius = serie.roseType > 0 ?
+                    float outSideRadius = serie.pieRoseType > 0 ?
                         tempData.insideRadius + (tempData.outsideRadius - tempData.insideRadius) * value / tempData.dataMax :
                         tempData.outsideRadius;
                     if (serieData.highlighted)
@@ -140,8 +140,8 @@ namespace XCharts
                         color *= 1.2f;
                         outSideRadius += m_Pie.tooltipExtraRadius;
                     }
-                    var offset = serie.space;
-                    if (serie.clickOffset && serieData.selected)
+                    var offset = serie.pieSpace;
+                    if (serie.pieClickOffset && serieData.selected)
                     {
                         offset += m_Pie.selectedOffset;
                     }
@@ -153,10 +153,10 @@ namespace XCharts
                     var center = tempData.center;
                     if (offset > 0)
                     {
-                        float offsetRadius = serie.space / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        float offsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
                         var insideRadius = tempData.insideRadius - offsetRadius;
                         var outsideRadius = outSideRadius - offsetRadius;
-                        if (serie.clickOffset && serieData.selected)
+                        if (serie.pieClickOffset && serieData.selected)
                         {
                             offsetRadius += m_Pie.selectedOffset;
                             if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
@@ -261,7 +261,7 @@ namespace XCharts
                 float totalDegree = 360;
                 float startDegree = 0;
                 int showdataCount = 0;
-                if (serie.roseType == RoseType.Area)
+                if (serie.pieRoseType == RoseType.Area)
                 {
                     foreach (var sd in serie.data)
                     {
@@ -294,18 +294,18 @@ namespace XCharts
                         tempData.angleList.Add(0);
                         continue;
                     }
-                    float degree = serie.roseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
+                    float degree = serie.pieRoseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
                     float toDegree = startDegree + degree;
 
-                    float outSideRadius = serie.roseType > 0 ?
+                    float outSideRadius = serie.pieRoseType > 0 ?
                         tempData.insideRadius + (tempData.outsideRadius - tempData.insideRadius) * value / tempData.dataMax :
                         tempData.outsideRadius;
                     if (serieData.highlighted)
                     {
                         outSideRadius += m_Pie.tooltipExtraRadius;
                     }
-                    var offset = serie.space;
-                    if (serie.clickOffset && serieData.selected)
+                    var offset = serie.pieSpace;
+                    if (serie.pieClickOffset && serieData.selected)
                     {
                         offset += m_Pie.selectedOffset;
                     }
@@ -313,10 +313,10 @@ namespace XCharts
                     float currAngle = startDegree + halfDegree;
                     if (offset > 0)
                     {
-                        float offsetRadius = serie.space / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        float offsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
                         var insideRadius = tempData.insideRadius - offsetRadius;
                         var outsideRadius = outSideRadius - offsetRadius;
-                        if (serie.clickOffset && serieData.selected)
+                        if (serie.pieClickOffset && serieData.selected)
                         {
                             offsetRadius += m_Pie.selectedOffset;
                             if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
@@ -431,14 +431,14 @@ namespace XCharts
 
         private void UpdatePieCenter(Serie serie)
         {
-            if (serie.center.Length < 2) return;
+            if (serie.pieCenter.Length < 2) return;
             var tempData = m_PieTempDataList[serie.index];
-            var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
-            var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
+            var centerX = serie.pieCenter[0] <= 1 ? chartWidth * serie.pieCenter[0] : serie.pieCenter[0];
+            var centerY = serie.pieCenter[1] <= 1 ? chartHeight * serie.pieCenter[1] : serie.pieCenter[1];
             tempData.center = new Vector2(centerX, centerY);
             var minWidth = Mathf.Min(chartWidth, chartHeight);
-            tempData.insideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
-            tempData.outsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
+            tempData.insideRadius = serie.pieRadius[0] <= 1 ? minWidth * serie.pieRadius[0] : serie.pieRadius[0];
+            tempData.outsideRadius = serie.pieRadius[1] <= 1 ? minWidth * serie.pieRadius[1] : serie.pieRadius[1];
         }
 
         protected override void CheckTootipArea(Vector2 local)

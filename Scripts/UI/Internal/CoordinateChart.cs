@@ -342,6 +342,8 @@ namespace XCharts
 
         private void InitYAxis(int yAxisIndex, YAxis yAxis)
         {
+            yAxis.minValue = 0;
+            yAxis.maxValue = 100;
             yAxis.axisLabelTextList.Clear();
             float labelWidth = yAxis.GetScaleWidth(coordinateHig, m_DataZoom);
             string objName = yAxisIndex > 0 ? s_DefaultAxisY + "2" : s_DefaultAxisY;
@@ -641,10 +643,7 @@ namespace XCharts
 
         private void UpdateAxisMinMaxValue(int axisIndex, Axis axis)
         {
-            axis.minValue = 0;
-            axis.maxValue = 0;
             if (axis.IsCategory()) return;
-
             int tempMinValue = 0;
             int tempMaxValue = 100;
             if (m_XAxises[axisIndex].IsValue() && m_YAxises[axisIndex].IsValue())
@@ -663,7 +662,7 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
-
+            
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 axis.minValue = tempMinValue;

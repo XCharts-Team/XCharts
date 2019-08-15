@@ -18,6 +18,7 @@ namespace XCharts
             SerializedProperty m_Distance = prop.FindPropertyRelative("m_Distance");
             SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
+            SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_Line = prop.FindPropertyRelative("m_Line");
@@ -35,6 +36,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Distance);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Color);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundColor);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Rotate);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -59,7 +62,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

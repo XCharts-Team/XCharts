@@ -337,11 +337,11 @@ namespace XCharts
         private void DrawLabel(Serie serie, SerieData serieData, PieTempData tempData, Color serieColor,
             float currAngle, float offsetRadius, float insideRadius, float outsideRadius)
         {
-           if(serieData.label==null)return;
+            if (serieData.label == null) return;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
             if (serie.label.show || isHighlight)
             {
-                ChartHelper.SetActive(serieData.label.gameObject,true);
+                serieData.SetLabelActive(true);
                 float rotate = 0;
                 bool isInsidePosition = serie.label.position == SerieLabel.Position.Inside;
                 if (serie.label.rotate > 0 && isInsidePosition)
@@ -370,19 +370,19 @@ namespace XCharts
                 serieData.label.fontSize = fontSize;
                 serieData.label.fontStyle = fontStyle;
 
-                serieData.label.transform.localEulerAngles = new Vector3(0, 0, rotate);
+                serieData.labelImage.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
 
                 switch (serie.label.position)
                 {
                     case SerieLabel.Position.Center:
-                        serieData.label.transform.localPosition = tempData.center;
+                        serieData.labelImage.transform.localPosition = tempData.center;
                         break;
                     case SerieLabel.Position.Inside:
                         var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
                         var labelCenter = new Vector2(tempData.center.x + labelRadius * Mathf.Sin(currRad),
                             tempData.center.y + labelRadius * Mathf.Cos(currRad));
-                        serieData.label.transform.localPosition = labelCenter;
+                        serieData.labelImage.transform.localPosition = labelCenter;
                         break;
                     case SerieLabel.Position.Outside:
                         labelRadius = tempData.outsideRadius + serie.label.lineLength1;
@@ -391,19 +391,18 @@ namespace XCharts
                         float labelWidth = serieData.label.preferredWidth;
                         if (currAngle > 180)
                         {
-                            serieData.label.transform.localPosition = new Vector2(labelCenter.x - serie.label.lineLength2 - 5 - labelWidth / 2, labelCenter.y);
+                            serieData.labelImage.transform.localPosition = new Vector2(labelCenter.x - serie.label.lineLength2 - 5 - labelWidth / 2, labelCenter.y);
                         }
                         else
                         {
-                            serieData.label.transform.localPosition = new Vector2(labelCenter.x + serie.label.lineLength2 + 5 + labelWidth / 2, labelCenter.y);
+                            serieData.labelImage.transform.localPosition = new Vector2(labelCenter.x + serie.label.lineLength2 + 5 + labelWidth / 2, labelCenter.y);
                         }
                         break;
                 }
-                serieData.label.gameObject.SetActive(true);
             }
             else
             {
-                serieData.label.gameObject.SetActive(false);
+                serieData.SetLabelActive(false);
             }
         }
 

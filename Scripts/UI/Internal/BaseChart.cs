@@ -295,21 +295,32 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.series[i];
-                if (serie.type != SerieType.Pie) continue;
+                if (serie.type != SerieType.Pie && serie.type != SerieType.Line) continue;
+                if (serie.type != SerieType.Pie && !serie.label.show) continue;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
                     var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
-                    var color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
-                        (Color)m_ThemeInfo.GetColor(count++);
-                    var anchorMin = new Vector2(0.5f, 0.5f);
-                    var anchorMax = new Vector2(0.5f, 0.5f);
-                    var pivot = new Vector2(0.5f, 0.5f);
-                    serieData.label = ChartHelper.AddTextObject(textName, labelObject.transform,
-                        m_ThemeInfo.font, color, TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot,
-                        new Vector2(50, serie.label.fontSize), serie.label.fontSize);
-                    serieData.label.text = serieData.name;
-                    ChartHelper.SetActive(serieData.label.gameObject, false);
+                    var color = Color.grey;
+                    if (serie.type == SerieType.Pie)
+                    {
+                        color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
+                            (Color)m_ThemeInfo.GetColor(count);
+                    }
+                    else
+                    {
+                        color = serie.label.color != Color.clear ? serie.label.color :
+                            (Color)m_ThemeInfo.GetColor(i);
+                    }
+                    var backgroundColor = serie.label.backgroundColor;
+                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font, color, backgroundColor,
+                        serie.label.fontSize, serie.label.fontStyle);
+                    serieData.label = labelObj.GetComponentInChildren<Text>();
+                    serieData.labelImage = labelObj.GetComponent<Image>();
+                    serieData.labelRect = labelObj.GetComponent<RectTransform>();
+                    serieData.SetLabelActive(false);
+                    serieData.SetLabelText(serieData.name);
+                    count++;
                 }
             }
         }

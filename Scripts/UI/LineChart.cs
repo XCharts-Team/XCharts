@@ -738,5 +738,43 @@ namespace XCharts
                     break;
             }
         }
+
+        protected override void OnRefreshLabel()
+        {
+            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
+                || m_YAxises[1].type == Axis.AxisType.Category;
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.GetSerie(i);
+                if (serie.type == SerieType.Line && serie.show)
+                {
+                    for (int j = 0; j < serie.data.Count; j++)
+                    {
+                        var serieData = serie.data[j];
+                        if (serie.label.show)
+                        {
+                            var pos = serie.dataPoints[j];
+                            var value = serieData.data[1];
+                            serieData.SetLabelActive(true);
+                            serieData.SetLabelText(ChartCached.FloatToStr(value));
+                            if (isYAxis)
+                            {
+                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x + serie.label.distance, pos.y));
+                                else serieData.SetLabelPosition(new Vector3(pos.x - serie.label.distance, pos.y));
+                            }
+                            else
+                            {
+                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x, pos.y + serie.label.distance));
+                                else serieData.SetLabelPosition(new Vector3(pos.x, pos.y - serie.label.distance));
+                            }
+                        }
+                        else
+                        {
+                            serieData.SetLabelActive(false);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

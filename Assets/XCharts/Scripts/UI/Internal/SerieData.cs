@@ -48,6 +48,8 @@ namespace XCharts
         /// 该数据项的文本标签。
         /// </summary>
         public Text label { get; set; }
+        public RectTransform labelRect { get; set; }
+        public Image labelImage { get; set; }
         /// <summary>
         /// the maxinum value.
         /// 最大值。
@@ -63,6 +65,32 @@ namespace XCharts
         {
             if (index >= 0 && index < m_Data.Count) return m_Data[index];
             else return 0;
+        }
+
+        public void SetLabelActive(bool active)
+        {
+            if (labelImage)
+            {
+                ChartHelper.SetActive(labelImage.gameObject, active);
+            }
+        }
+
+        public void SetLabelText(string text)
+        {
+            if (label)
+            {
+                label.text = text;
+                labelRect.sizeDelta = new Vector2(label.preferredWidth + 4,
+                    label.preferredHeight + 4);
+            }
+        }
+
+        public void SetLabelPosition(Vector3 position)
+        {
+            if (labelImage)
+            {
+                labelImage.transform.localPosition = position;
+            }
         }
     }
 }

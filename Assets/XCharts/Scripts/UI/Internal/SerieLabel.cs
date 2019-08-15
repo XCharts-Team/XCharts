@@ -56,6 +56,7 @@ namespace XCharts
         [SerializeField] private float m_Distance;
         [SerializeField] private float m_Rotate;
         [SerializeField] private Color m_Color;
+        [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_Line = true;
@@ -82,6 +83,7 @@ namespace XCharts
         /// 自定义文字颜色，默认和系列的颜色一致。
         /// </summary>
         public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
         /// <summary>
         /// Rotate label.
         /// 标签旋转。

@@ -34,14 +34,11 @@ public class Demo11_AddSinCurve : MonoBehaviour
         chart.xAxises[0].boundaryGap = false;
         chart.maxCacheDataNumber = 0;
 
-        chart.line.step = false;
-        chart.line.smooth = false;
-        chart.line.area = false;
-
         chart.RemoveData();
 
         var serie = chart.AddSerie("test", SerieType.Line);
         serie.symbol.type = SerieSymbolType.None;
+        serie.lineType = LineType.Normal;
         for (angle = 0; angle < 1080; angle++)
         {
             float xvalue = Mathf.PI / 180 * angle;
@@ -52,7 +49,7 @@ public class Demo11_AddSinCurve : MonoBehaviour
 
     void Update()
     {
-        if(angle > 3000) return;
+        if (angle > 3000) return;
         angle++;
         float xvalue = Mathf.PI / 180 * angle;
         float yvalue = Mathf.Sin(xvalue);

@@ -50,6 +50,6 @@ namespace XCharts
         /// Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
         /// 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opactiy { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
     }
 }

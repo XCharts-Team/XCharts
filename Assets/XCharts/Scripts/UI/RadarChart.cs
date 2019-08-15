@@ -403,13 +403,13 @@ namespace XCharts
             if (radar.lineStyle.color != Color.clear)
             {
                 var color = radar.lineStyle.color;
-                color.a *= radar.lineStyle.opactiy;
+                color.a *= radar.lineStyle.opacity;
                 return color;
             }
             else
             {
                 var color = (Color)m_ThemeInfo.axisLineColor;
-                color.a *= radar.lineStyle.opactiy;
+                color.a *= radar.lineStyle.opacity;
                 return color;
             }
         }

@@ -63,7 +63,7 @@ namespace XCharts
         /// Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
         /// 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opactiy { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
 
         public static AreaStyle defaultAreaStyle
         {

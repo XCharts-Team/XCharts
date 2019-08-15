@@ -23,6 +23,8 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.08.14）重构`BarChart`，移除`Bar`组件，相关参数统一放到`Serie`中配置。
+* （2019.08.15）重构`LineChart`，移除`Line`组件，相关参数统一放到`Serie`中配置。
 * （2019.08.14）修复`PieChart`的`Label`无法自动更新的问题
 * （2019.08.13）修复`UpdateData`接口无法更新数据的问题
 * （2019.08.07）增加`SerieSymbol`的`Color`、`Opacity`配置

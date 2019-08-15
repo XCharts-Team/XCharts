@@ -42,6 +42,7 @@ namespace XCharts
         [SerializeField] protected int m_MinShowDataNumber;
         [SerializeField] protected int m_MaxShowDataNumber;
         [SerializeField] protected int m_MaxCacheDataNumber;
+        [SerializeField] [Range(1, 8)] private float m_LineSmoothStyle = 2f;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] private Title m_CheckTitle = Title.defaultTitle;
@@ -176,7 +177,7 @@ namespace XCharts
             var titleObject = ChartHelper.AddObject(s_TitleObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             titleObject.transform.localPosition = titlePosition;
-            ChartHelper.HideAllObject(titleObject, s_TitleObjectName);
+            ChartHelper.HideAllObject(titleObject);
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,

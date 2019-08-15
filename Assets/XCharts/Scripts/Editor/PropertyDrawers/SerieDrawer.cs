@@ -24,6 +24,10 @@ namespace XCharts
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
+            SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
+            SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
+            SerializedProperty m_BarCategoryGap = prop.FindPropertyRelative("m_BarCategoryGap");
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
@@ -71,6 +75,11 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_AxisIndex);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
+                if (serieType == SerieType.Line)
+                {
+                    EditorGUI.PropertyField(drawRect, m_LineType);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
                 if (serieType == SerieType.Line
                     || serieType == SerieType.Scatter
                     || serieType == SerieType.EffectScatter
@@ -78,6 +87,13 @@ namespace XCharts
                 {
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                }
+                if (serieType == SerieType.Bar)
+                {
+                    EditorGUI.PropertyField(drawRect, m_BarWidth);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_BarGap);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Pie)
                 {
@@ -112,6 +128,7 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_ClickOffset);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
+
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
                 EditorGUI.PropertyField(drawRect, m_AreaStyle);
@@ -275,6 +292,14 @@ namespace XCharts
                 if (serieType == SerieType.Pie)
                 {
                     height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                }
+                if (serieType == SerieType.Line)
+                {
+                    height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                }
+                if (serieType == SerieType.Bar)
+                {
+                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (m_DataFoldout[index])
                 {

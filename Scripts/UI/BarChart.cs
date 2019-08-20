@@ -75,6 +75,7 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + barHig, pY + space + barWidth);
                 Vector3 p3 = new Vector3(pX + barHig, pY + space);
                 Vector3 p4 = new Vector3(pX, pY + space);
+                serie.dataPoints.Add(new Vector3(pX + barHig, pY + space + barWidth / 2));
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
@@ -259,15 +260,15 @@ namespace XCharts
 
         protected override void OnRefreshLabel()
         {
-            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
-                || m_YAxises[1].type == Axis.AxisType.Category;
+            var isYAxis = (m_YAxises[0].show && m_YAxises[0].type == Axis.AxisType.Category)
+                || (m_YAxises[1].show && m_YAxises[1].type == Axis.AxisType.Category);
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
                 if (serie.type == SerieType.Bar && serie.show)
                 {
                     var zeroPos = Vector3.zero;
-                    if (serie.label.position == SerieLabel.Position.Bottom)
+                    if (serie.label.position == SerieLabel.Position.Bottom || serie.label.position == SerieLabel.Position.Center)
                     {
                         if (isYAxis)
                         {
@@ -289,10 +290,11 @@ namespace XCharts
                             switch (serie.label.position)
                             {
                                 case SerieLabel.Position.Center:
-                                    pos = new Vector3(pos.x, pos.y / 2);
+                                    pos = isYAxis ? new Vector3(zeroPos.x + (pos.x - zeroPos.x) / 2, pos.y) :
+                                        new Vector3(pos.x, zeroPos.y + (pos.y - zeroPos.y) / 2);
                                     break;
                                 case SerieLabel.Position.Bottom:
-                                    pos = new Vector3(pos.x, zeroPos.y);
+                                    pos = isYAxis ? new Vector3(zeroPos.x, pos.y) : new Vector3(pos.x, zeroPos.y);
                                     break;
                             }
                             var value = serieData.data[1];

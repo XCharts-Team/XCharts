@@ -136,6 +136,7 @@ namespace XCharts
                 Vector3 p2 = new Vector3(pX + space, pY + barHig);
                 Vector3 p3 = new Vector3(pX + space + barWidth, pY + barHig);
                 Vector3 p4 = new Vector3(pX + space + barWidth, pY);
+                serie.dataPoints.Add(new Vector3(pX + space + barWidth / 2, pY + barHig));
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
@@ -240,6 +241,7 @@ namespace XCharts
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
+                    serie.dataPoints.Clear();
                     if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
                     else if (!m_SerieNameSet.Contains(serie.name))
                     {
@@ -254,5 +256,68 @@ namespace XCharts
             if (yCategory) DrawYTooltipIndicator(vh);
             else DrawXTooltipIndicator(vh);
         }
+
+        protected override void OnRefreshLabel()
+        {
+            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
+                || m_YAxises[1].type == Axis.AxisType.Category;
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.GetSerie(i);
+                if (serie.type == SerieType.Bar && serie.show)
+                {
+                    var zeroPos = Vector3.zero;
+                    if (serie.label.position == SerieLabel.Position.Bottom)
+                    {
+                        if (isYAxis)
+                        {
+                            var xAxis = m_XAxises[serie.axisIndex];
+                            zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
+                        }
+                        else
+                        {
+                            var yAxis = m_YAxises[serie.axisIndex];
+                            zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
+                        }
+                    }
+                    for (int j = 0; j < serie.data.Count; j++)
+                    {
+                        var serieData = serie.data[j];
+                        if (serie.label.show)
+                        {
+                            var pos = serie.dataPoints[j];
+                            switch (serie.label.position)
+                            {
+                                case SerieLabel.Position.Center:
+                                    pos = new Vector3(pos.x, pos.y / 2);
+                                    break;
+                                case SerieLabel.Position.Bottom:
+                                    pos = new Vector3(pos.x, zeroPos.y);
+                                    break;
+                            }
+                            var value = serieData.data[1];
+                            serieData.SetLabelActive(true);
+                            serieData.SetLabelText(ChartCached.FloatToStr(value));
+                            if (isYAxis)
+                            {
+                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x + serie.label.distance, pos.y));
+                                else serieData.SetLabelPosition(new Vector3(pos.x - serie.label.distance, pos.y));
+                            }
+                            else
+                            {
+                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x, pos.y + serie.label.distance));
+                                else serieData.SetLabelPosition(new Vector3(pos.x, pos.y - serie.label.distance));
+                            }
+                        }
+                        else
+                        {
+                            serieData.SetLabelActive(false);
+                        }
+                    }
+                }
+            }
+        }
     }
+
+
 }

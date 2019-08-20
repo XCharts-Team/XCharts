@@ -17,6 +17,10 @@ namespace XCharts
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
+        private GameObject m_Label;
+        private bool m_LabelAutoSize;
+        private float m_LabelPaddingLeftRight;
+        private float m_LabelPaddingTopBottom;
 
         /// <summary>
         /// the name of data item.
@@ -47,9 +51,9 @@ namespace XCharts
         /// the label of data item.
         /// 该数据项的文本标签。
         /// </summary>
-        public Text label { get; set; }
-        public RectTransform labelRect { get; set; }
-        public Image labelImage { get; set; }
+        public Text labelText { get; private set; }
+        public RectTransform labelRect { get; private set; }
+        public Image labelImage { get; private set; }
         /// <summary>
         /// the maxinum value.
         /// 最大值。
@@ -67,29 +71,44 @@ namespace XCharts
             else return 0;
         }
 
+        public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
+        {
+            m_Label = labelObj;
+            m_LabelAutoSize = autoSize;
+            m_LabelPaddingLeftRight = paddingLeftRight;
+            m_LabelPaddingTopBottom = paddingTopBottom;
+            labelText = labelObj.GetComponentInChildren<Text>();
+            labelImage = labelObj.GetComponent<Image>();
+            labelRect = labelObj.GetComponent<RectTransform>();
+        }
+
         public void SetLabelActive(bool active)
         {
-            if (labelImage)
+            if (m_Label)
             {
-                ChartHelper.SetActive(labelImage.gameObject, active);
+                ChartHelper.SetActive(m_Label, active);
             }
         }
 
         public void SetLabelText(string text)
         {
-            if (label)
+            if (labelText)
             {
-                label.text = text;
-                labelRect.sizeDelta = new Vector2(label.preferredWidth + 4,
-                    label.preferredHeight + 4);
+                labelText.text = text;
+                if (m_LabelAutoSize)
+                {
+                    labelRect.sizeDelta = new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
+                                        labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
+                }
+
             }
         }
 
         public void SetLabelPosition(Vector3 position)
         {
-            if (labelImage)
+            if (m_Label)
             {
-                labelImage.transform.localPosition = position;
+                m_Label.transform.localPosition = position;
             }
         }
     }

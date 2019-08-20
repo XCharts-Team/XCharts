@@ -739,9 +739,9 @@ namespace XCharts
             {
                 var serieData = m_Data[index];
                 serieData.name = name;
-                if (serieData.label != null)
+                if (serieData.labelText != null)
                 {
-                    serieData.label.text = name == null ? "" : name;
+                    serieData.labelText.text = name == null ? "" : name;
                 }
             }
         }

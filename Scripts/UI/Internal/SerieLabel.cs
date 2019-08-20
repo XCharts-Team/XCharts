@@ -39,12 +39,12 @@ namespace XCharts
             /// the left of symbol.
             /// 图形标志的左边。
             /// </summary>
-            Left,
+            //Left,
             /// <summary>
             /// the right of symbol.
             /// 图形标志的右边。
             /// </summary>
-            Right,
+            //Right,
             /// <summary>
             /// the bottom of symbol.
             /// 图形标志的底部。
@@ -53,10 +53,14 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position;
-        [SerializeField] private float m_Distance;
-        [SerializeField] private float m_Rotate;
+        [SerializeField] private float m_Distance = 0;
+        [SerializeField] private float m_Rotate = 0;
+        [SerializeField] private float m_PaddingLeftRight = 2f;
+        [SerializeField] private float m_PaddingTopBottom = 2f;
         [SerializeField] private Color m_Color;
         [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private float m_BackgroundWidth = 0;
+        [SerializeField] private float m_BackgroundHeight = 0;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_Line = true;
@@ -83,12 +87,38 @@ namespace XCharts
         /// 自定义文字颜色，默认和系列的颜色一致。
         /// </summary>
         public Color color { get { return m_Color; } set { m_Color = value; } }
+        /// <summary>
+        /// the background color. If set as default, it means than don't show background.
+        /// 标签的背景色，默认无颜色。
+        /// </summary>
         public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        /// <summary>
+        /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
+        /// 标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
+        /// </summary>
+        /// <value></value>
+        public float backgroundWidth { get { return m_BackgroundWidth; } set { m_BackgroundWidth = value; } }
+        /// <summary>
+        /// the height of background. If set as default value 0, it means than the background height auto set as the text height.
+        /// 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
+        /// </summary>
+        /// <value></value>
+        public float backgroundHeight { get { return m_BackgroundHeight; } set { m_BackgroundHeight = value; } }
         /// <summary>
         /// Rotate label.
         /// 标签旋转。
         /// </summary>
         public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+        /// <summary>
+        /// the text padding of left and right. defaut:2.
+        /// 左右边距。
+        /// </summary>
+        public float paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
+        /// <summary>
+        /// the text padding of top and bottom. defaut:2.
+        /// 上下边距。
+        /// </summary>
+        public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
         /// font size.
         /// 文字的字体大小。

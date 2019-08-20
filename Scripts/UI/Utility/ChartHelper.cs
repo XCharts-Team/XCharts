@@ -192,19 +192,21 @@ namespace XCharts
         }
 
         public static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
-            int fontSize, FontStyle fontStyle)
+            int fontSize, FontStyle fontStyle, float rotate, float width, float height)
         {
             var anchorMin = new Vector2(0.5f, 0.5f);
             var anchorMax = new Vector2(0.5f, 0.5f);
             var pivot = new Vector2(0.5f, 0.5f);
-            var sizeDelta = new Vector2(50, fontSize + 2);
+            var sizeDelta = (width != 0 && height != 0) ? new Vector2(width, height) : new Vector2(50, fontSize + 2);
             GameObject labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var img = GetOrAddComponent<Image>(labelObj);
             img.color = backgroundColor;
+            img.transform.localEulerAngles = new Vector3(0, 0, rotate);
             Text txt = AddTextObject("Text", labelObj.transform, font, textColor, TextAnchor.MiddleCenter,
                     anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(0, 0);
+            txt.transform.localEulerAngles = Vector3.zero;
             labelObj.transform.localPosition = Vector3.zero;
             return labelObj;
         }

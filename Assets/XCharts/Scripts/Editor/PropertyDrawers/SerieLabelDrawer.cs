@@ -17,8 +17,12 @@ namespace XCharts
             SerializedProperty m_Position = prop.FindPropertyRelative("m_Position");
             SerializedProperty m_Distance = prop.FindPropertyRelative("m_Distance");
             SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
+            SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
+            SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
+            SerializedProperty m_BackgroundWidth = prop.FindPropertyRelative("m_BackgroundWidth");
+            SerializedProperty m_BackgroundHeight = prop.FindPropertyRelative("m_BackgroundHeight");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_Line = prop.FindPropertyRelative("m_Line");
@@ -39,7 +43,15 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BackgroundColor);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundWidth);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundHeight);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Rotate);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PaddingLeftRight);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PaddingTopBottom);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontSize);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -62,7 +74,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
+                height += 16 * EditorGUIUtility.singleLineHeight + 15 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

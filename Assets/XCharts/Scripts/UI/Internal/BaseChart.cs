@@ -295,7 +295,6 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.series[i];
-                if (serie.type != SerieType.Pie && serie.type != SerieType.Line) continue;
                 if (serie.type != SerieType.Pie && !serie.label.show) continue;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
@@ -313,11 +312,11 @@ namespace XCharts
                             (Color)m_ThemeInfo.GetColor(i);
                     }
                     var backgroundColor = serie.label.backgroundColor;
-                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font, color, backgroundColor,
-                        serie.label.fontSize, serie.label.fontStyle);
-                    serieData.label = labelObj.GetComponentInChildren<Text>();
-                    serieData.labelImage = labelObj.GetComponent<Image>();
-                    serieData.labelRect = labelObj.GetComponent<RectTransform>();
+                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
+                        color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
+                        serie.label.backgroundWidth,serie.label.backgroundHeight);
+                    var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
+                    serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
                     serieData.SetLabelText(serieData.name);
                     count++;

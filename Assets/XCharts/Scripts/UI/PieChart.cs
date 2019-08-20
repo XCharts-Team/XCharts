@@ -337,7 +337,7 @@ namespace XCharts
         private void DrawLabel(Serie serie, SerieData serieData, PieTempData tempData, Color serieColor,
             float currAngle, float offsetRadius, float insideRadius, float outsideRadius)
         {
-            if (serieData.label == null) return;
+            if (serieData.labelText == null) return;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
             if (serie.label.show || isHighlight)
             {
@@ -366,9 +366,9 @@ namespace XCharts
                 var fontStyle = isHighlight ? serie.highlightLabel.fontStyle : serie.label.fontStyle;
                 float currRad = currAngle * Mathf.Deg2Rad;
 
-                serieData.label.color = color;
-                serieData.label.fontSize = fontSize;
-                serieData.label.fontStyle = fontStyle;
+                serieData.labelText.color = color;
+                serieData.labelText.fontSize = fontSize;
+                serieData.labelText.fontStyle = fontStyle;
 
                 serieData.labelImage.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
@@ -388,7 +388,7 @@ namespace XCharts
                         labelRadius = tempData.outsideRadius + serie.label.lineLength1;
                         labelCenter = new Vector2(tempData.center.x + labelRadius * Mathf.Sin(currRad),
                             tempData.center.y + labelRadius * Mathf.Cos(currRad));
-                        float labelWidth = serieData.label.preferredWidth;
+                        float labelWidth = serieData.labelText.preferredWidth;
                         if (currAngle > 180)
                         {
                             serieData.labelImage.transform.localPosition = new Vector2(labelCenter.x - serie.label.lineLength2 - 5 - labelWidth / 2, labelCenter.y);

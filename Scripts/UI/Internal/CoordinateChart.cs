@@ -387,8 +387,9 @@ namespace XCharts
                 var color = yAxis.axisName.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor :
                     yAxis.axisName.color;
                 var fontSize = yAxis.axisName.fontSize;
-                var gap = yAxis.axisName.gap;
+                var offset = yAxis.axisName.offset;
                 Text axisName = null;
+                var zeroPos = new Vector3(coordinateX + m_XAxises[yAxisIndex].zeroXOffset, coordinateY);
                 switch (yAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
@@ -397,8 +398,8 @@ namespace XCharts
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              yAxis.axisName.rotate, yAxis.axisName.fontStyle);
                         axisName.transform.localPosition = yAxisIndex > 0 ?
-                            new Vector2(coordinateX + coordinateWid, coordinateY - gap) :
-                            new Vector2(coordinateX, coordinateY - gap);
+                            new Vector2(coordinateX + coordinateWid + offset.x, coordinateY - offset.y) :
+                            new Vector2(zeroPos.x + offset.x, coordinateY - offset.y);
                         break;
                     case AxisName.Location.Middle:
                         axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
@@ -406,8 +407,8 @@ namespace XCharts
                             new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
                             yAxis.axisName.rotate, yAxis.axisName.fontStyle);
                         axisName.transform.localPosition = yAxisIndex > 0 ?
-                        new Vector2(coordinateX + coordinateWid - gap, coordinateY + coordinateHig / 2) :
-                        new Vector2(coordinateX - gap, coordinateY + coordinateHig / 2);
+                        new Vector2(coordinateX + coordinateWid - offset.x, coordinateY + coordinateHig / 2 + offset.y) :
+                        new Vector2(coordinateX - offset.x, coordinateY + coordinateHig / 2 + offset.y);
                         break;
                     case AxisName.Location.End:
                         axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
@@ -415,8 +416,8 @@ namespace XCharts
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              yAxis.axisName.rotate, yAxis.axisName.fontStyle);
                         axisName.transform.localPosition = yAxisIndex > 0 ?
-                            new Vector2(coordinateX + coordinateWid, coordinateY + coordinateHig + gap) :
-                            new Vector2(coordinateX, coordinateY + coordinateHig + gap);
+                            new Vector2(coordinateX + coordinateWid + offset.x, coordinateY + coordinateHig + offset.y) :
+                            new Vector2(zeroPos.x + offset.x, coordinateY + coordinateHig + offset.y);
                         break;
                 }
                 axisName.text = yAxis.axisName.name;
@@ -475,8 +476,9 @@ namespace XCharts
                 var color = xAxis.axisName.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor :
                     xAxis.axisName.color;
                 var fontSize = xAxis.axisName.fontSize;
-                var gap = xAxis.axisName.gap;
+                var offset = xAxis.axisName.offset;
                 Text axisName = null;
+                var zeroPos = new Vector3(coordinateX, coordinateY + m_YAxises[xAxisIndex].zeroYOffset);
                 switch (xAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
@@ -485,8 +487,8 @@ namespace XCharts
                             new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
                             xAxis.axisName.rotate, xAxis.axisName.fontStyle);
                         axisName.transform.localPosition = xAxisIndex > 0 ?
-                            new Vector2(coordinateX - gap, coordinateY + coordinateHig) :
-                            new Vector2(coordinateX - gap, coordinateY);
+                            new Vector2(zeroPos.x - offset.x, coordinateY + coordinateHig + offset.y) :
+                            new Vector2(zeroPos.x - offset.x, zeroPos.y + offset.y);
                         break;
                     case AxisName.Location.Middle:
                         axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
@@ -494,8 +496,8 @@ namespace XCharts
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
                         axisName.transform.localPosition = xAxisIndex > 0 ?
-                            new Vector2(coordinateX + coordinateWid / 2, coordinateY + coordinateHig - gap) :
-                            new Vector2(coordinateX + coordinateWid / 2, coordinateY - gap);
+                            new Vector2(coordinateX + coordinateWid / 2 + offset.x, coordinateY + coordinateHig - offset.y) :
+                            new Vector2(coordinateX + coordinateWid / 2 + offset.x, coordinateY - offset.y);
                         break;
                     case AxisName.Location.End:
                         axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
@@ -503,8 +505,8 @@ namespace XCharts
                              new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
                         axisName.transform.localPosition = xAxisIndex > 0 ?
-                            new Vector2(coordinateX + coordinateWid + gap, coordinateY + coordinateHig) :
-                            new Vector2(coordinateX + coordinateWid + gap, coordinateY);
+                            new Vector2(coordinateX + coordinateWid + offset.x, coordinateY + coordinateHig + offset.y) :
+                            new Vector2(coordinateX + coordinateWid + offset.x, zeroPos.y + offset.y);
                         break;
                 }
                 axisName.text = xAxis.axisName.name;
@@ -662,7 +664,7 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
-            
+
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 axis.minValue = tempMinValue;

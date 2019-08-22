@@ -23,7 +23,7 @@ namespace XCharts
         [SerializeField] private bool m_Show;
         [SerializeField] private string m_Name;
         [SerializeField] private Location m_Location;
-        [SerializeField] private float m_Gap;
+        [SerializeField] private Vector2 m_Offset;
         [SerializeField] private float m_Rotate;
         [SerializeField] private Color m_Color;
         [SerializeField] private int m_FontSize;
@@ -45,10 +45,10 @@ namespace XCharts
         /// </summary>
         public Location location { get { return m_Location; } set { m_Location = value; } }
         /// <summary>
-        /// Gap between axis name and axis line.
-        /// 坐标轴名称与轴线之间的距离。
+        /// the offset of axis name and axis line.
+        /// 坐标轴名称与轴线之间的偏移。
         /// </summary>
-        public float gap { get { return m_Gap; } set { m_Gap = value; } }
+        public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
         /// Rotation of axis name.
         /// 坐标轴名字旋转，角度值。
@@ -79,7 +79,6 @@ namespace XCharts
                     m_Show = false,
                     m_Name = "axisName",
                     m_Location = Location.End,
-                    m_Gap = 5,
                     m_Rotate = 0,
                     m_Color = Color.clear,
                     m_FontSize = 18,
@@ -93,7 +92,7 @@ namespace XCharts
             m_Show = other.show;
             m_Name = other.name;
             m_Location = other.location;
-            m_Gap = other.gap;
+            m_Offset = other.offset;
             m_Rotate = other.rotate;
             m_Color = other.color;
             m_FontSize = other.fontSize;
@@ -110,9 +109,9 @@ namespace XCharts
             return m_Show == other.show &&
                 m_Name.Equals(other.name) &&
                 m_Location == other.location &&
-                m_Gap == other.gap &&
                 m_Rotate == other.rotate &&
                 m_Color == other.color &&
+                m_Offset == other.offset &&
                 m_FontSize == other.fontSize &&
                 m_FontStyle == other.fontStyle;
         }

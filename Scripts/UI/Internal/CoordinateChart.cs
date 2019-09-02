@@ -645,7 +645,7 @@ namespace XCharts
 
         private void UpdateAxisMinMaxValue(int axisIndex, Axis axis)
         {
-            if (axis.IsCategory()) return;
+            if (axis.IsCategory() || !axis.show) return;
             int tempMinValue = 0;
             int tempMaxValue = 100;
             if (m_XAxises[axisIndex].IsValue() && m_YAxises[axisIndex].IsValue())

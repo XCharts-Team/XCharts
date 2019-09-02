@@ -37,6 +37,7 @@ namespace XCharts
             SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");
             SerializedProperty m_Label = prop.FindPropertyRelative("m_Label");
             SerializedProperty m_HighlightLabel = prop.FindPropertyRelative("m_HighlightLabel");
+            SerializedProperty m_Animation = prop.FindPropertyRelative("m_Animation");
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
@@ -137,6 +138,8 @@ namespace XCharts
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                 EditorGUI.PropertyField(drawRect, m_HighlightLabel, new GUIContent("Highlight Label"));
                 drawRect.y += EditorGUI.GetPropertyHeight(m_HighlightLabel);
+                EditorGUI.PropertyField(drawRect, m_Animation);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Animation);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
                 ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
@@ -279,6 +282,7 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_HighlightLabel"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;
                 if (serieType == SerieType.Line

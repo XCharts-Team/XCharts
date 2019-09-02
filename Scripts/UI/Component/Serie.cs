@@ -124,6 +124,7 @@ namespace XCharts
         #endregion
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
+        [SerializeField] private Animation m_Animation = new Animation();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [FormerlySerializedAs("m_Data")]
@@ -254,6 +255,7 @@ namespace XCharts
         /// 高亮时的文本标签配置。
         /// </summary>
         public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
+        public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
         /// <summary>
         /// 维度Y的数据列表。默认对应yAxis。
         /// </summary>

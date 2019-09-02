@@ -392,7 +392,7 @@ namespace XCharts
             bool isStart = false;
             for (int i = 1; i < segment; i++)
             {
-                var cp = lp + dist * i / segment * dir1;
+                var cp = lp + dir1 *(dist * i / segment);
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
                 var tp2 = cp + dir1v * serie.lineStyle.width;
@@ -402,7 +402,7 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x) || dataIndex == 1)
+                            if ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x) || dataIndex == 1 || IsValue())
                             {
                                 isStart = true;
                                 ChartHelper.DrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor);
@@ -421,7 +421,7 @@ namespace XCharts
                             }
                             else
                             {
-                                if ((isYAxis && tp2.y < dnPos.y) || (!isYAxis && tp2.x < dnPos.x))
+                                if ((isYAxis && tp2.y < dnPos.y) || (!isYAxis && tp2.x < dnPos.x) || IsValue())
                                 {
                                     ChartHelper.DrawLine(vh, start, cp, serie.lineStyle.width, lineColor);
                                 }
@@ -437,13 +437,13 @@ namespace XCharts
 
                     if (isYAxis)
                     {
-                        if (tp1.y > lastDnPos.y || dataIndex == 1) smoothPoints.Add(tp1);
-                        if (tp2.y < dnPos.y) smoothDownPoints.Add(tp2);
+                        if (tp1.y > lastDnPos.y || dataIndex == 1 || IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.y < dnPos.y|| IsValue()) smoothDownPoints.Add(tp2);
                     }
                     else
                     {
-                        if (tp1.x > lastDnPos.x || dataIndex == 1) smoothPoints.Add(tp1);
-                        if (tp2.x < dnPos.x || dataIndex == 1) smoothDownPoints.Add(tp2);
+                        if (tp1.x > lastDnPos.x || dataIndex == 1|| IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.x < dnPos.x || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
                     }
                 }
                 else
@@ -452,7 +452,7 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x) || dataIndex == 1)
+                            if ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x) || dataIndex == 1|| IsValue())
                             {
                                 isStart = true;
                                 ChartHelper.DrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor);
@@ -471,7 +471,7 @@ namespace XCharts
                             }
                             else
                             {
-                                if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x))
+                                if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x)|| IsValue())
                                     ChartHelper.DrawLine(vh, start, cp, serie.lineStyle.width, lineColor);
                                 else
                                 {
@@ -485,13 +485,13 @@ namespace XCharts
 
                     if (isYAxis)
                     {
-                        if (tp1.y < dnPos.y) smoothPoints.Add(tp1);
-                        if (tp2.y > lastDnPos.y || dataIndex == 1) smoothDownPoints.Add(tp2);
+                        if (tp1.y < dnPos.y|| IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.y > lastDnPos.y || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
                     }
                     else
                     {
-                        if (tp1.x < dnPos.x) smoothPoints.Add(tp1);
-                        if (tp2.x > lastDnPos.x || dataIndex == 1) smoothDownPoints.Add(tp2);
+                        if (tp1.x < dnPos.x|| IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.x > lastDnPos.x || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
                     }
                 }
                 start = cp;

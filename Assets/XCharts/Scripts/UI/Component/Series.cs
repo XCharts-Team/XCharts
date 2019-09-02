@@ -573,7 +573,7 @@ namespace XCharts
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
-                        if (serie.axisIndex != axisIndex) continue;
+                        if (serie.axisIndex != axisIndex || !IsActive(i)) continue;
                         var showData = serie.GetDataList(dataZoom);
                         for (int j = 0; j < showData.Count; j++)
                         {

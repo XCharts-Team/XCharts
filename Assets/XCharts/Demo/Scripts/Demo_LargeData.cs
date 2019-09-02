@@ -36,6 +36,7 @@ public class Demo_LargeData : MonoBehaviour
                 timeNow = timeNow.AddSeconds(1);
                 float xvalue = Mathf.PI / 180 * initCount;
                 float yvalue = Mathf.Sin(xvalue);
+                
                 chart.AddData(0, 15 + yvalue * 2);
                 chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
             }

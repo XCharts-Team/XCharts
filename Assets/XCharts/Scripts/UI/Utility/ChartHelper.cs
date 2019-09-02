@@ -230,11 +230,13 @@ namespace XCharts
 
         public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color)
         {
+            if (p1 == p2) return;
             Vector3 v = Vector3.Cross(p2 - p1, Vector3.forward).normalized * size;
-            vertex[0].position = p1 + v;
-            vertex[1].position = p2 + v;
-            vertex[2].position = p2 - v;
-            vertex[3].position = p1 - v;
+            vertex[0].position = p1 - v;
+            vertex[1].position = p2 - v;
+            vertex[2].position = p2 + v;
+            vertex[3].position = p1 + v;
+
             for (int j = 0; j < 4; j++)
             {
                 vertex[j].color = color;

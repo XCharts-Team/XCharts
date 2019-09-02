@@ -87,6 +87,7 @@ namespace XCharts
         {
             if (m_IsEnd) return;
             m_ActualDuration = (int)((Time.time - startTime) * 1000) - delay;
+            m_CurrDataProgress = m_DestDataProgress + 1;
             m_IsEnd = true;
         }
 
@@ -108,7 +109,7 @@ namespace XCharts
 
         public void SetDataFinish(int dataIndex)
         {
-            if (dataIndex < dataState.Count && !dataState[dataIndex])
+            if (!m_IsEnd &&  dataIndex < dataState.Count && !dataState[dataIndex])
             {
                 dataState[dataIndex] = true;
                 m_CurrDataProgress = dataIndex + 1;
@@ -120,14 +121,7 @@ namespace XCharts
 #if UNITY_EDITOR
             if (!Application.isPlaying) return true;
 #endif
-            return !enable || (m_CurrDataProgress>m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
-        }
-
-        public bool IsFinishData(int dataIndex)
-        {
-            if (!m_Enable) return true;
-            if (dataIndex < dataState.Count) return dataState[dataIndex];
-            return true;
+            return !enable || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
         public bool IsInDelay()

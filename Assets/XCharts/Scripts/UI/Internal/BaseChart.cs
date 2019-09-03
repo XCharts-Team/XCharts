@@ -79,6 +79,7 @@ namespace XCharts
             InitSerieLabel();
             InitTooltip();
             TransferOldVersionData();
+            m_Series.AnimationStart();
         }
 
         protected override void Start()

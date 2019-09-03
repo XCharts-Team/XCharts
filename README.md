@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.03）增加`BarChart`的`Animation`初始化动画配置支持
 * （2019.09.02）增加`LineChart`的`Animation`初始化动画配置支持
 * （2019.08.22）增加`AxisName`的`Offset`偏移配置支持
 * （2019.08.22）增加`AxisLine`的`Width`配置支持

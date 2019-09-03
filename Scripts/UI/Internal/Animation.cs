@@ -57,12 +57,11 @@ namespace XCharts
         /// <value></value>
         public int delay { get { return m_Delay; } set { m_Delay = value; if (m_Delay < 0) m_Delay = 0; } }
 
-        private List<bool> m_DataAnimationState = new List<bool>();
+        private Dictionary<int,float> m_DataAnimationState = new Dictionary<int,float>();
         private bool m_IsEnd = true;
         private bool m_Inited = false;
 
         private float startTime { get; set; }
-        private List<bool> dataState { get { return m_DataAnimationState; } }
         private int m_CurrDataProgress { get; set; }
         private int m_DestDataProgress { get; set; }
         [SerializeField] private float m_CurrDetailProgress;
@@ -79,8 +78,7 @@ namespace XCharts
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
-            dataState.Clear();
-            dataState.Add(false);
+            m_DataAnimationState.Clear();
         }
 
         public void End()
@@ -91,10 +89,7 @@ namespace XCharts
             m_IsEnd = true;
         }
 
-        public void InitDataState(float i)
-        {
-            if (i >= dataState.Count) dataState.Add(false);
-        }
+       
 
         public void InitProgress(int data, float curr, float dest)
         {
@@ -109,11 +104,23 @@ namespace XCharts
 
         public void SetDataFinish(int dataIndex)
         {
-            if (!m_IsEnd &&  dataIndex < dataState.Count && !dataState[dataIndex])
+            if (!m_IsEnd)
             {
-                dataState[dataIndex] = true;
                 m_CurrDataProgress = dataIndex + 1;
             }
+        }
+
+         public void SetDataState(int index,float state)
+        {
+            m_DataAnimationState[index] = state;
+        }
+
+        public float GetDataState(int index){
+            if(IsInDelay()) return 0;
+            if(!m_DataAnimationState.ContainsKey(index)){
+                m_DataAnimationState.Add(index,0);
+            }
+            return m_DataAnimationState[index];
         }
 
         public bool IsFinish()

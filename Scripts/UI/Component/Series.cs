@@ -793,6 +793,15 @@ namespace XCharts
             }
         }
 
+        public void AnimationStart()
+        {
+            foreach (var serie in m_Series)
+            {
+                if(serie.animation.enable)
+                    serie.animation.Start();
+            }
+        }
+
         /// <summary>
         /// 从json中解析数据
         /// </summary>

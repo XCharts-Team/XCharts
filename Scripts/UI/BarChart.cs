@@ -71,11 +71,14 @@ namespace XCharts
                 float barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
                     / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                 seriesHig[i] += barHig;
+
+                float currHig = CheckAnimation(serie,i,barHig);
+
                 Vector3 p1 = new Vector3(pX, pY + space + barWidth);
-                Vector3 p2 = new Vector3(pX + barHig, pY + space + barWidth);
-                Vector3 p3 = new Vector3(pX + barHig, pY + space);
+                Vector3 p2 = new Vector3(pX + currHig, pY + space + barWidth);
+                Vector3 p3 = new Vector3(pX + currHig, pY + space);
                 Vector3 p4 = new Vector3(pX, pY + space);
-                serie.dataPoints.Add(new Vector3(pX + barHig, pY + space + barWidth / 2));
+                serie.dataPoints.Add(new Vector3(pX + currHig, pY + space + barWidth / 2));
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
@@ -90,6 +93,28 @@ namespace XCharts
             {
                 m_BarLastOffset += barGapWidth;
             }
+        }
+
+        private float CheckAnimation(Serie serie, int dataIndex, float barHig)
+        {
+            float currHig = barHig;
+            if (!serie.animation.IsFinish())
+            {
+                if (serie.animation.IsInDelay()) currHig = 0;
+                else
+                {
+                    var speed = serie.animation.duration > 0 ? barHig / serie.animation.duration * 1000 : barHig;
+                    currHig = serie.animation.GetDataState(dataIndex) + speed * Time.deltaTime;
+                    serie.animation.SetDataState(dataIndex, currHig);
+                    if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
+                    {
+                        serie.animation.End();
+                        currHig = barHig;
+                    }
+                }
+                RefreshChart();
+            }
+            return currHig;
         }
 
         private void DrawXBarSerie(VertexHelper vh, int serieIndex, int stackCount,
@@ -133,11 +158,13 @@ namespace XCharts
                     / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                 seriesHig[i] += barHig;
 
+                float currHig = CheckAnimation(serie,i,barHig);
+
                 Vector3 p1 = new Vector3(pX + space, pY);
-                Vector3 p2 = new Vector3(pX + space, pY + barHig);
-                Vector3 p3 = new Vector3(pX + space + barWidth, pY + barHig);
+                Vector3 p2 = new Vector3(pX + space, pY + currHig);
+                Vector3 p3 = new Vector3(pX + space + barWidth, pY + currHig);
                 Vector3 p4 = new Vector3(pX + space + barWidth, pY);
-                serie.dataPoints.Add(new Vector3(pX + space + barWidth / 2, pY + barHig));
+                serie.dataPoints.Add(new Vector3(pX + space + barWidth / 2, pY + currHig));
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;

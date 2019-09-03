@@ -11,14 +11,6 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class LineChart : CoordinateChart
     {
-        protected override void Awake()
-        {
-            base.Awake();
-            foreach (var serie in m_Series.series)
-            {
-                serie.animation.Start();
-            }
-        }
 
 #if UNITY_EDITOR
         protected override void Reset()
@@ -162,7 +154,6 @@ namespace XCharts
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);
-                serie.animation.InitDataState(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
                 switch (serie.lineType)
@@ -302,7 +293,6 @@ namespace XCharts
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);
-                serie.animation.InitDataState(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
                 switch (serie.lineType)

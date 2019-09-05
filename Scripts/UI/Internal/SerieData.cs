@@ -55,6 +55,10 @@ namespace XCharts
         public RectTransform labelRect { get; private set; }
         public Image labelImage { get; private set; }
         /// <summary>
+        /// 是否可以显示Label
+        /// </summary>
+        public bool canShowLabel { get; set; }
+        /// <summary>
         /// the maxinum value.
         /// 最大值。
         /// </summary>

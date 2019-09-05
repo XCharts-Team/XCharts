@@ -185,5 +185,13 @@ namespace XCharts
             if (!enable || m_IsEnd) return dest;
             return m_CurrSymbolProgress;
         }
+
+        public float GetCurrDetail(){
+            return m_CurrDetailProgress;
+        }
+
+        public float GetCurrData(){
+            return m_CurrDataProgress;
+        }
     }
 }

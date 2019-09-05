@@ -69,11 +69,14 @@ namespace XCharts
             {
                 var serie = m_Series.series[i];
                 serie.index = i;
-
+                var data = serie.data;
+                serie.animation.InitProgress(data.Count, 0, 360);
                 if (!serie.show)
                 {
                     continue;
                 }
+                if (!serie.animation.NeedAnimation(i)) break;
+                bool isFinish = true;
                 if (serie.pieClickOffset) isClickOffset = true;
                 PieTempData tempData;
                 if (i < m_PieTempDataList.Count)
@@ -90,18 +93,17 @@ namespace XCharts
                 tempData.dataMax = serie.yMax;
                 tempData.dataTotal = serie.yTotal;
                 UpdatePieCenter(serie);
-                var data = serie.data;
 
                 float totalDegree = 360;
                 float startDegree = 0;
                 int showdataCount = 0;
-                if (serie.pieRoseType == RoseType.Area)
+
+                foreach (var sd in serie.data)
                 {
-                    foreach (var sd in serie.data)
-                    {
-                        if (sd.show) showdataCount++;
-                    }
+                    if (sd.show && serie.pieRoseType == RoseType.Area) showdataCount++;
+                    sd.canShowLabel = false;
                 }
+
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
@@ -151,6 +153,13 @@ namespace XCharts
                     float currSin = Mathf.Sin(currRad);
                     float currCos = Mathf.Cos(currRad);
                     var center = tempData.center;
+
+                    var currDegree = toDegree;
+                    if (serie.animation.CheckDetailBreak(n, toDegree))
+                    {
+                        isFinish = false;
+                        currDegree = serie.animation.GetCurrDetail();
+                    }
                     if (offset > 0)
                     {
                         float offsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
@@ -167,17 +176,35 @@ namespace XCharts
                             center.y + offsetRadius * currCos);
 
                         ChartHelper.DrawDoughnut(vh, offestCenter, insideRadius, outsideRadius,
-                            startDegree, toDegree, color);
+                            startDegree, currDegree, color);
                     }
                     else
                     {
                         ChartHelper.DrawDoughnut(vh, center, tempData.insideRadius, outSideRadius,
-                            startDegree, toDegree, color);
+                            startDegree, currDegree, color);
                     }
-                    DrawLabelLine(vh, serie, tempData, outSideRadius, center, currAngle, color);
+                    serieData.canShowLabel = currDegree >= currAngle;
+                    if (currDegree >= currAngle)
+                    {
+                        DrawLabelLine(vh, serie, tempData, outSideRadius, center, currAngle, color);
+                    }
                     isDrawPie = true;
                     tempData.angleList.Add(toDegree);
                     startDegree = toDegree;
+                    if (isFinish) serie.animation.SetDataFinish(n);
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (!serie.animation.IsFinish())
+                {
+                    float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
+                    float speed = 360 / duration;
+                    float symbolSpeed = serie.symbol.size / duration;
+                    serie.animation.CheckProgress(Time.deltaTime * speed);
+                    serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
+                    RefreshChart();
                 }
             }
             raycastTarget = isClickOffset && isDataHighlight;
@@ -241,6 +268,7 @@ namespace XCharts
                 {
                     continue;
                 }
+
                 PieTempData tempData;
                 if (i < m_PieTempDataList.Count)
                 {
@@ -271,6 +299,11 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
+                    if (!serieData.canShowLabel)
+                    {
+                        serieData.SetLabelActive(false);
+                        continue;
+                    }
                     float value = serieData.data[1];
                     string dataName = serieData.name;
                     Color color;
@@ -322,11 +355,11 @@ namespace XCharts
                             if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
                             outsideRadius += m_Pie.selectedOffset;
                         }
-                        DrawLabel(serie, serieData, tempData, color, currAngle, offsetRadius, insideRadius, outsideRadius);
+                        DrawLabel(serie, n, serieData, tempData, color, currAngle, offsetRadius, insideRadius, outsideRadius);
                     }
                     else
                     {
-                        DrawLabel(serie, serieData, tempData, color, currAngle, 0, tempData.insideRadius, outSideRadius);
+                        DrawLabel(serie, n, serieData, tempData, color, currAngle, 0, tempData.insideRadius, outSideRadius);
                     }
                     tempData.angleList.Add(toDegree);
                     startDegree = toDegree;
@@ -334,12 +367,12 @@ namespace XCharts
             }
         }
 
-        private void DrawLabel(Serie serie, SerieData serieData, PieTempData tempData, Color serieColor,
+        private void DrawLabel(Serie serie, int dataIndex, SerieData serieData, PieTempData tempData, Color serieColor,
             float currAngle, float offsetRadius, float insideRadius, float outsideRadius)
         {
             if (serieData.labelText == null) return;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
-            if (serie.label.show || isHighlight)
+            if ((serie.label.show || isHighlight) && serieData.canShowLabel)
             {
                 serieData.SetLabelActive(true);
                 float rotate = 0;

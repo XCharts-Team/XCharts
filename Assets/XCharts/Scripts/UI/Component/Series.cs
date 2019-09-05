@@ -797,8 +797,10 @@ namespace XCharts
         {
             foreach (var serie in m_Series)
             {
-                if(serie.animation.enable)
+                if (serie.animation.enable)
+                {
                     serie.animation.Start();
+                }
             }
         }
 

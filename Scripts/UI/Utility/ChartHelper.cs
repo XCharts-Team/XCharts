@@ -199,9 +199,9 @@ namespace XCharts
             var pivot = new Vector2(0.5f, 0.5f);
             var sizeDelta = (width != 0 && height != 0) ? new Vector2(width, height) : new Vector2(50, fontSize + 2);
             GameObject labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var img = GetOrAddComponent<Image>(labelObj);
-            img.color = backgroundColor;
-            img.transform.localEulerAngles = new Vector3(0, 0, rotate);
+            //var img = GetOrAddComponent<Image>(labelObj);
+            //img.color = backgroundColor;
+            labelObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
             Text txt = AddTextObject("Text", labelObj.transform, font, textColor, TextAnchor.MiddleCenter,
                     anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
             txt.text = "Text";
@@ -693,6 +693,13 @@ namespace XCharts
                 || (x >= end.x && x <= start.x))
                 && ((y >= start.y && y <= end.y)
                     || (y >= end.y && y <= start.y));
+        }
+
+        public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)
+        {
+            Vector3 point = Quaternion.AngleAxis(angle, axis) * (position - center);
+            Vector3 resultVec3 = center + point;
+            return resultVec3;
         }
     }
 }

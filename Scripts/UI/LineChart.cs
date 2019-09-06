@@ -40,6 +40,7 @@ namespace XCharts
             {
                 DrawLineChart(vh, false);
             }
+            DrawLabelBackground(vh);
         }
 
         private Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
@@ -89,6 +90,7 @@ namespace XCharts
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
+                if (serie.type != SerieType.Line) continue;
                 if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
                 for (int i = 0; i < serie.dataPoints.Count; i++)
                 {
@@ -311,7 +313,7 @@ namespace XCharts
                         isFinish = DrawStepLine(vh, serieIndex, serie, yAxis, lp, np, nnp, i, lineColor, areaColor, areaToColor, zeroPos);
                         break;
                 }
-                if (isFinish)serie.animation.SetDataFinish(i);
+                if (isFinish) serie.animation.SetDataFinish(i);
                 lp = np;
             }
             if (!serie.animation.IsFinish())
@@ -382,7 +384,7 @@ namespace XCharts
             bool isStart = false;
             for (int i = 1; i < segment; i++)
             {
-                var cp = lp + dir1 *(dist * i / segment);
+                var cp = lp + dir1 * (dist * i / segment);
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
                 var tp2 = cp + dir1v * serie.lineStyle.width;
@@ -428,12 +430,12 @@ namespace XCharts
                     if (isYAxis)
                     {
                         if (tp1.y > lastDnPos.y || dataIndex == 1 || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y < dnPos.y|| IsValue()) smoothDownPoints.Add(tp2);
+                        if (tp2.y < dnPos.y || IsValue()) smoothDownPoints.Add(tp2);
                     }
                     else
                     {
-                        if (tp1.x > lastDnPos.x || dataIndex == 1|| IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x < dnPos.x || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
+                        if (tp1.x > lastDnPos.x || dataIndex == 1 || IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.x < dnPos.x || dataIndex == 1 || IsValue()) smoothDownPoints.Add(tp2);
                     }
                 }
                 else
@@ -442,7 +444,7 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x) || dataIndex == 1|| IsValue())
+                            if ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x) || dataIndex == 1 || IsValue())
                             {
                                 isStart = true;
                                 ChartHelper.DrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor);
@@ -461,7 +463,7 @@ namespace XCharts
                             }
                             else
                             {
-                                if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x)|| IsValue())
+                                if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x) || IsValue())
                                     ChartHelper.DrawLine(vh, start, cp, serie.lineStyle.width, lineColor);
                                 else
                                 {
@@ -475,13 +477,13 @@ namespace XCharts
 
                     if (isYAxis)
                     {
-                        if (tp1.y < dnPos.y|| IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y > lastDnPos.y || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
+                        if (tp1.y < dnPos.y || IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.y > lastDnPos.y || dataIndex == 1 || IsValue()) smoothDownPoints.Add(tp2);
                     }
                     else
                     {
-                        if (tp1.x < dnPos.x|| IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x > lastDnPos.x || dataIndex == 1|| IsValue()) smoothDownPoints.Add(tp2);
+                        if (tp1.x < dnPos.x || IsValue()) smoothPoints.Add(tp1);
+                        if (tp2.x > lastDnPos.x || dataIndex == 1 || IsValue()) smoothDownPoints.Add(tp2);
                     }
                 }
                 start = cp;
@@ -857,8 +859,9 @@ namespace XCharts
             {
                 var p1 = lastSmoothPoints[lastCount - 1];
                 var p2 = lastSmoothPoints[lastSmoothPoints.Count - 1];
-                if (!serie.animation.CheckDetailBreak(p1, isYAxis)){
-                ChartHelper.DrawTriangle(vh, p1, start, p2, areaToColor, areaColor, areaToColor);
+                if (!serie.animation.CheckDetailBreak(p1, isYAxis))
+                {
+                    ChartHelper.DrawTriangle(vh, p1, start, p2, areaToColor, areaColor, areaToColor);
                 }
             }
         }
@@ -1084,44 +1087,6 @@ namespace XCharts
                     break;
             }
             return true;
-        }
-
-        protected override void OnRefreshLabel()
-        {
-            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
-                || m_YAxises[1].type == Axis.AxisType.Category;
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var serie = m_Series.GetSerie(i);
-                if (serie.type == SerieType.Line && serie.show)
-                {
-                    for (int j = 0; j < serie.data.Count; j++)
-                    {
-                        var serieData = serie.data[j];
-                        if (serie.label.show && serie.animation.IsFinish())
-                        {
-                            var pos = serie.dataPoints[j];
-                            var value = serieData.data[1];
-                            serieData.SetLabelActive(true);
-                            serieData.SetLabelText(ChartCached.FloatToStr(value));
-                            if (isYAxis)
-                            {
-                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x + serie.label.distance, pos.y));
-                                else serieData.SetLabelPosition(new Vector3(pos.x - serie.label.distance, pos.y));
-                            }
-                            else
-                            {
-                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x, pos.y + serie.label.distance));
-                                else serieData.SetLabelPosition(new Vector3(pos.x, pos.y - serie.label.distance));
-                            }
-                        }
-                        else
-                        {
-                            serieData.SetLabelActive(false);
-                        }
-                    }
-                }
-            }
         }
     }
 }

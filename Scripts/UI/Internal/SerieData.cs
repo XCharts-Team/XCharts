@@ -53,7 +53,8 @@ namespace XCharts
         /// </summary>
         public Text labelText { get; private set; }
         public RectTransform labelRect { get; private set; }
-        public Image labelImage { get; private set; }
+        public Vector3 labelPosition{get;set;}
+        //public Image labelImage { get; private set; }
         /// <summary>
         /// 是否可以显示Label
         /// </summary>
@@ -82,7 +83,7 @@ namespace XCharts
             m_LabelPaddingLeftRight = paddingLeftRight;
             m_LabelPaddingTopBottom = paddingTopBottom;
             labelText = labelObj.GetComponentInChildren<Text>();
-            labelImage = labelObj.GetComponent<Image>();
+            //labelImage = labelObj.GetComponent<Image>();
             labelRect = labelObj.GetComponent<RectTransform>();
         }
 
@@ -104,8 +105,19 @@ namespace XCharts
                     labelRect.sizeDelta = new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
                                         labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
                 }
-
             }
+        }
+
+        public float GetLabelWidth()
+        {
+            if (labelText) return labelText.preferredWidth + m_LabelPaddingLeftRight * 2;
+            else return 0;
+        }
+
+        public float GetLabelHeight()
+        {
+            if (labelText) return labelText.preferredHeight + m_LabelPaddingTopBottom * 2;
+            return 0;
         }
 
         public void SetLabelPosition(Vector3 position)

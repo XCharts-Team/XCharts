@@ -29,6 +29,9 @@ namespace XCharts
             SerializedProperty m_LineWidth = prop.FindPropertyRelative("m_LineWidth");
             SerializedProperty m_LineLength1 = prop.FindPropertyRelative("m_LineLength1");
             SerializedProperty m_LineLength2 = prop.FindPropertyRelative("m_LineLength2");
+            SerializedProperty m_Border = prop.FindPropertyRelative("m_Border");
+            SerializedProperty m_BorderWidth = prop.FindPropertyRelative("m_BorderWidth");
+            SerializedProperty m_BorderColor = prop.FindPropertyRelative("m_BorderColor");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieLabelToggle, prop, null, show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -57,6 +60,12 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontStyle);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Border);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BorderWidth);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BorderColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Line);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineWidth);
@@ -74,7 +83,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 16 * EditorGUIUtility.singleLineHeight + 15 * EditorGUIUtility.standardVerticalSpacing;
+                height += 19 * EditorGUIUtility.singleLineHeight + 18 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

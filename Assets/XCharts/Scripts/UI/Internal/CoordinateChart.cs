@@ -1096,6 +1096,97 @@ namespace XCharts
             }
         }
 
+        protected void DrawLabelBackground(VertexHelper vh)
+        {
+            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
+                || m_YAxises[1].type == Axis.AxisType.Category;
+            for (int n = 0; n < m_Series.Count; n++)
+            {
+                var serie = m_Series.GetSerie(n);
+                if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
+                var zeroPos = Vector3.zero;
+                if (serie.type == SerieType.Bar)
+                {
+                    if (serie.label.position == SerieLabel.Position.Bottom || serie.label.position == SerieLabel.Position.Center)
+                    {
+                        if (isYAxis)
+                        {
+                            var xAxis = m_XAxises[serie.axisIndex];
+                            zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
+                        }
+                        else
+                        {
+                            var yAxis = m_YAxises[serie.axisIndex];
+                            zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
+                        }
+                    }
+                }
+                for (int j = 0; j < serie.data.Count; j++)
+                {
+                    var serieData = serie.data[j];
+                    if (serie.label.show )
+                    {
+                        var pos = serie.dataPoints[j];
+                        var value = serieData.data[1];
+                        switch (serie.type)
+                        {
+                            case SerieType.Line:
+                                break;
+                            case SerieType.Bar:
+                                switch (serie.label.position)
+                                {
+                                    case SerieLabel.Position.Center:
+                                        pos = isYAxis ? new Vector3(zeroPos.x + (pos.x - zeroPos.x) / 2, pos.y) :
+                                            new Vector3(pos.x, zeroPos.y + (pos.y - zeroPos.y) / 2);
+                                        break;
+                                    case SerieLabel.Position.Bottom:
+                                        pos = isYAxis ? new Vector3(zeroPos.x, pos.y) : new Vector3(pos.x, zeroPos.y);
+                                        break;
+                                }
+                                break;
+                        }
+                        var centerPos = isYAxis ? new Vector3(pos.x + (value >= 0 ? 1 : -1) * serie.label.distance, pos.y) :
+                            new Vector3(pos.x, pos.y + (value >= 0 ? 1 : -1) * serie.label.distance);
+                        serieData.labelPosition = centerPos;
+                        DrawLabelBackground(vh, serie, serieData);
+                    }
+                    else
+                    {
+                        serieData.SetLabelActive(false);
+                    }
+                }
+            }
+        }
+
+        protected override void OnRefreshLabel()
+        {
+            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
+                || m_YAxises[1].type == Axis.AxisType.Category;
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.GetSerie(i);
+                if (serie.show)
+                {
+                    for (int j = 0; j < serie.data.Count; j++)
+                    {
+                        var serieData = serie.data[j];
+                        if (serie.label.show)
+                        {
+                            var pos = serie.dataPoints[j];
+                            var value = serieData.data[1];
+                            serieData.SetLabelActive(true);
+                            serieData.SetLabelText(ChartCached.FloatToStr(value));
+                            serieData.SetLabelPosition(serieData.labelPosition);
+                        }
+                        else
+                        {
+                            serieData.SetLabelActive(false);
+                        }
+                    }
+                }
+            }
+        }
+
         public override void OnBeginDrag(PointerEventData eventData)
         {
             Vector2 pos;

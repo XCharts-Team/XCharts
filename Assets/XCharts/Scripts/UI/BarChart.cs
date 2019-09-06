@@ -262,10 +262,6 @@ namespace XCharts
             {
                 var serieList = m_StackSeries[j];
                 m_SeriesCurrHig.Clear();
-                // if (m_SeriesCurrHig.Capacity != serieList[0].dataCount)
-                // {
-                //     m_SeriesCurrHig.Capacity = serieList[0].dataCount;
-                // }
                 for (int n = 0; n < serieList.Count; n++)
                 {
                     Serie serie = serieList[n];
@@ -278,75 +274,12 @@ namespace XCharts
                     }
                     if (yCategory) DrawYBarSerie(vh, j, seriesCount, serie, serieNameCount, ref m_SeriesCurrHig);
                     else DrawXBarSerie(vh, j, seriesCount, serie, serieNameCount, ref m_SeriesCurrHig);
-
                 }
             }
+            DrawLabelBackground(vh);
             if (yCategory) DrawYTooltipIndicator(vh);
             else DrawXTooltipIndicator(vh);
         }
 
-        protected override void OnRefreshLabel()
-        {
-            var isYAxis = (m_YAxises[0].show && m_YAxises[0].type == Axis.AxisType.Category)
-                || (m_YAxises[1].show && m_YAxises[1].type == Axis.AxisType.Category);
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var serie = m_Series.GetSerie(i);
-                if (serie.type == SerieType.Bar && serie.show)
-                {
-                    var zeroPos = Vector3.zero;
-                    if (serie.label.position == SerieLabel.Position.Bottom || serie.label.position == SerieLabel.Position.Center)
-                    {
-                        if (isYAxis)
-                        {
-                            var xAxis = m_XAxises[serie.axisIndex];
-                            zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
-                        }
-                        else
-                        {
-                            var yAxis = m_YAxises[serie.axisIndex];
-                            zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
-                        }
-                    }
-                    for (int j = 0; j < serie.data.Count; j++)
-                    {
-                        var serieData = serie.data[j];
-                        if (serie.label.show)
-                        {
-                            var pos = serie.dataPoints[j];
-                            switch (serie.label.position)
-                            {
-                                case SerieLabel.Position.Center:
-                                    pos = isYAxis ? new Vector3(zeroPos.x + (pos.x - zeroPos.x) / 2, pos.y) :
-                                        new Vector3(pos.x, zeroPos.y + (pos.y - zeroPos.y) / 2);
-                                    break;
-                                case SerieLabel.Position.Bottom:
-                                    pos = isYAxis ? new Vector3(zeroPos.x, pos.y) : new Vector3(pos.x, zeroPos.y);
-                                    break;
-                            }
-                            var value = serieData.data[1];
-                            serieData.SetLabelActive(true);
-                            serieData.SetLabelText(ChartCached.FloatToStr(value));
-                            if (isYAxis)
-                            {
-                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x + serie.label.distance, pos.y));
-                                else serieData.SetLabelPosition(new Vector3(pos.x - serie.label.distance, pos.y));
-                            }
-                            else
-                            {
-                                if (value >= 0) serieData.SetLabelPosition(new Vector3(pos.x, pos.y + serie.label.distance));
-                                else serieData.SetLabelPosition(new Vector3(pos.x, pos.y - serie.label.distance));
-                            }
-                        }
-                        else
-                        {
-                            serieData.SetLabelActive(false);
-                        }
-                    }
-                }
-            }
-        }
     }
-
-
 }

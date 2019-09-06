@@ -656,6 +656,55 @@ namespace XCharts
             }
         }
 
+        protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
+        {
+            var labelHalfWid = serieData.GetLabelWidth() / 2;
+            var labelHalfHig = serieData.GetLabelHeight() / 2;
+            var centerPos = serieData.labelPosition;
+            var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
+            var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
+            var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);
+            var p4 = new Vector3(centerPos.x - labelHalfWid, centerPos.y - labelHalfHig);
+
+            if (serie.label.rotate > 0)
+            {
+                p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
+                p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
+                p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
+                p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
+            }
+
+            ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, serie.label.backgroundColor);
+
+            if (serie.label.border)
+            {
+                var borderWid = serie.label.borderWidth;
+                p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig + borderWid);
+                p2 = new Vector3(centerPos.x + labelHalfWid + 2 * borderWid, centerPos.y + labelHalfHig + borderWid);
+                p3 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y + labelHalfHig);
+                p4 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y - labelHalfHig - 2 * borderWid);
+                var p5 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig - borderWid);
+                var p6 = new Vector3(centerPos.x - labelHalfWid - 2 * borderWid, centerPos.y - labelHalfHig - borderWid);
+                var p7 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y - labelHalfHig);
+                var p8 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y + labelHalfHig + 2 * borderWid);
+                if (serie.label.rotate > 0)
+                {
+                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
+                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
+                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
+                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
+                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serie.label.rotate);
+                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serie.label.rotate);
+                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serie.label.rotate);
+                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serie.label.rotate);
+                }
+                ChartHelper.DrawLine(vh, p1, p2, borderWid, serie.label.borderColor);
+                ChartHelper.DrawLine(vh, p3, p4, borderWid, serie.label.borderColor);
+                ChartHelper.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
+                ChartHelper.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
+            }
+        }
+
         private int GetSymbolCricleSegment(float radiu)
         {
             int max = 50;

@@ -67,6 +67,9 @@ namespace XCharts
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
+        [SerializeField] private bool m_Border = true;
+        [SerializeField] private float m_BorderWidth = 0.5f;
+        [SerializeField] private Color m_BorderColor = Color.grey;
         /// <summary>
         /// Whether the label is showed.
         /// 是否显示文本标签。
@@ -149,5 +152,20 @@ namespace XCharts
         /// 视觉引导线第二段的长度。
         /// </summary>
         public float lineLength2 { get { return m_LineLength2; } set { m_LineLength2 = value; } }
+        /// <summary>
+        /// Whether to show border.
+        /// 是否显示边框。
+        /// </summary>
+        public bool border { get { return m_Border; } set { m_Border = value; } }
+        /// <summary>
+        /// the width of border.
+        /// 边框宽度。
+        /// </summary>
+        public float borderWidth { get { return m_BorderWidth; } set { m_BorderWidth = value; } }
+        /// <summary>
+        /// the color of border.
+        /// 边框颜色。
+        /// </summary>
+        public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
     }
 }

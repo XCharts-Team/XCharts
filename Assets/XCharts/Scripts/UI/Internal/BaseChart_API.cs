@@ -79,7 +79,7 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
-        
+
         /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
@@ -106,6 +106,7 @@ namespace XCharts
         {
             m_Series.ClearData();
             m_Legend.ClearData();
+            m_CheckAnimation = false;
             RefreshChart();
         }
 
@@ -118,6 +119,7 @@ namespace XCharts
         {
             m_Legend.ClearData();
             m_Series.RemoveAll();
+            m_CheckAnimation = false;
             RefreshChart();
         }
 
@@ -421,6 +423,23 @@ namespace XCharts
             m_ThemeInfo.theme = theme;
             OnThemeChanged();
             RefreshChart();
+        }
+
+        /// <summary>
+        /// 开始初始动画
+        /// </summary>
+        public void AnimationStart()
+        {
+            m_Series.AnimationStart();
+        }
+
+        /// <summary>
+        /// 停止初始化动画
+        /// </summary>
+        public void AnimationStop()
+        {
+            m_CheckAnimation = false;
+            m_Series.AnimationStop();
         }
     }
 }

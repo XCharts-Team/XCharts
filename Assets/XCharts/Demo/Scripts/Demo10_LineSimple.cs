@@ -5,7 +5,8 @@ using XCharts;
 [ExecuteInEditMode]
 public class Demo10_LineSimple : MonoBehaviour
 {
-    void Awake()
+    //void Awake()
+    void Start()
     {
         var chart = gameObject.GetComponent<LineChart>();
         if (chart == null) return;

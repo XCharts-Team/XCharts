@@ -57,7 +57,8 @@ namespace XCharts
         /// <value></value>
         public int delay { get { return m_Delay; } set { m_Delay = value; if (m_Delay < 0) m_Delay = 0; } }
 
-        private Dictionary<int,float> m_DataAnimationState = new Dictionary<int,float>();
+        private Dictionary<int, float> m_DataAnimationState = new Dictionary<int, float>();
+        private bool m_IsStart = false;
         private bool m_IsEnd = true;
         private bool m_Inited = false;
 
@@ -70,7 +71,9 @@ namespace XCharts
 
         public void Start()
         {
+            if (m_IsStart) return;
             startTime = Time.time;
+            m_IsStart = true;
             m_IsEnd = false;
             m_Inited = false;
             m_CurrDataProgress = 1;
@@ -81,6 +84,14 @@ namespace XCharts
             m_DataAnimationState.Clear();
         }
 
+        public void Stop()
+        {
+            m_IsStart = false;
+            m_IsEnd = true;
+            m_Inited = false;
+            m_DataAnimationState.Clear();
+        }
+
         public void End()
         {
             if (m_IsEnd) return;
@@ -88,8 +99,6 @@ namespace XCharts
             m_CurrDataProgress = m_DestDataProgress + 1;
             m_IsEnd = true;
         }
-
-       
 
         public void InitProgress(int data, float curr, float dest)
         {
@@ -110,15 +119,17 @@ namespace XCharts
             }
         }
 
-         public void SetDataState(int index,float state)
+        public void SetDataState(int index, float state)
         {
             m_DataAnimationState[index] = state;
         }
 
-        public float GetDataState(int index){
-            if(IsInDelay()) return 0;
-            if(!m_DataAnimationState.ContainsKey(index)){
-                m_DataAnimationState.Add(index,0);
+        public float GetDataState(int index)
+        {
+            if (IsInDelay()) return 0;
+            if (!m_DataAnimationState.ContainsKey(index))
+            {
+                m_DataAnimationState.Add(index, 0);
             }
             return m_DataAnimationState[index];
         }
@@ -186,11 +197,13 @@ namespace XCharts
             return m_CurrSymbolProgress;
         }
 
-        public float GetCurrDetail(){
+        public float GetCurrDetail()
+        {
             return m_CurrDetailProgress;
         }
 
-        public float GetCurrData(){
+        public float GetCurrData()
+        {
             return m_CurrDataProgress;
         }
     }

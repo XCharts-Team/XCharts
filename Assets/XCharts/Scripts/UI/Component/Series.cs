@@ -46,6 +46,7 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
+            AnimationStop();
             foreach (var serie in m_Series)
             {
                 serie.ClearData();
@@ -200,6 +201,7 @@ namespace XCharts
         /// </summary>
         public void RemoveAll()
         {
+            AnimationStop();
             m_Series.Clear();
         }
 
@@ -793,6 +795,9 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 开始初始动画
+        /// </summary>
         public void AnimationStart()
         {
             foreach (var serie in m_Series)
@@ -801,6 +806,17 @@ namespace XCharts
                 {
                     serie.animation.Start();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 停止初始动画
+        /// </summary>
+        public void AnimationStop()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.animation.enable) serie.animation.Stop();
             }
         }
 

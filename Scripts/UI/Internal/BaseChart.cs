@@ -54,6 +54,7 @@ namespace XCharts
         [NonSerialized] private bool m_RefreshChart = false;
         [NonSerialized] private bool m_RefreshLabel = false;
         [NonSerialized] private bool m_ReinitLabel = false;
+        [NonSerialized] private bool m_CheckAnimation = false;
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -79,6 +80,7 @@ namespace XCharts
             InitSerieLabel();
             InitTooltip();
             TransferOldVersionData();
+            m_Series.AnimationStop();
             m_Series.AnimationStart();
         }
 
@@ -96,6 +98,7 @@ namespace XCharts
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
+            CheckAnimation();
         }
 
         protected override void OnEnable()
@@ -315,7 +318,7 @@ namespace XCharts
                     var backgroundColor = serie.label.backgroundColor;
                     var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
                         color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
-                        serie.label.backgroundWidth,serie.label.backgroundHeight);
+                        serie.label.backgroundWidth, serie.label.backgroundHeight);
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
@@ -466,6 +469,15 @@ namespace XCharts
             {
                 m_RefreshLabel = false;
                 OnRefreshLabel();
+            }
+        }
+
+        protected void CheckAnimation()
+        {
+            if (!m_CheckAnimation)
+            {
+                m_CheckAnimation = true;
+                m_Series.AnimationStart();
             }
         }
 

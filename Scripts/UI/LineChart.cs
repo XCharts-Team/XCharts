@@ -525,13 +525,18 @@ namespace XCharts
                     var points = ((isYAxis && lp.x < zeroPos.x) || (!isYAxis && lp.y < zeroPos.y)) ? smoothPoints : smoothDownPoints;
                     Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + coordinateHig) : new Vector3(zeroPos.x + coordinateWid, zeroPos.y);
                     var cross = ChartHelper.GetIntersection(points[0], points[points.Count - 1], zeroPos, aep);
-                    if (cross == Vector3.zero)
+                    var isZeroValue = (isYAxis && cross.x == zeroPos.x) || (!isYAxis && cross.y == zeroPos.y);
+                    if (cross == Vector3.zero || isZeroValue)
                     {
                         Vector3 sp = points[0];
                         Vector3 ep;
                         for (int i = 1; i < points.Count; i++)
                         {
                             ep = points[i];
+                            if(isZeroValue && i == 1){
+                                sp = ep;
+                                continue;
+                            }
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
                             DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                             sp = ep;
@@ -552,7 +557,7 @@ namespace XCharts
                         var ruPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
                         var rdPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
                         Vector3 sp, ep;
-                        if ((isYAxis && lp.x > zeroPos.x) || (!isYAxis && lp.y > zeroPos.y))
+                        if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
                         {
                             sp = smoothDownPoints[0];
                             for (int i = 1; i < smoothDownPoints.Count; i++)
@@ -564,6 +569,7 @@ namespace XCharts
                                     sp = ep;
                                     continue;
                                 }
+
                                 if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
                                 {
                                     var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
@@ -609,6 +615,7 @@ namespace XCharts
                                     sp = ep;
                                     continue;
                                 }
+
                                 if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
                                 {
                                     var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
@@ -657,14 +664,14 @@ namespace XCharts
             float diff = 0;
             if (axis is YAxis)
             {
-                var isLessthan0 = sp.x < zeroPos.x || ep.x < zeroPos.x;
+                var isLessthan0 = (sp.x < zeroPos.x || ep.x < zeroPos.x);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
                 if (isLessthan0) areaDiff = -areaDiff;
                 ChartHelper.DrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y), ep + areaDiff, sp + areaDiff, areaToColor, areaColor);
             }
             else
             {
-                var isLessthan0 = sp.y < zeroPos.y || ep.y < zeroPos.y;
+                var isLessthan0 = (sp.y < zeroPos.y || ep.y < zeroPos.y);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
                 if (isLessthan0) areaDiff = -areaDiff;
                 if (isLessthan0)

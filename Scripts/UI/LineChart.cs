@@ -525,24 +525,19 @@ namespace XCharts
                     var points = ((isYAxis && lp.x < zeroPos.x) || (!isYAxis && lp.y < zeroPos.y)) ? smoothPoints : smoothDownPoints;
                     Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + coordinateHig) : new Vector3(zeroPos.x + coordinateWid, zeroPos.y);
                     var cross = ChartHelper.GetIntersection(points[0], points[points.Count - 1], zeroPos, aep);
-                    var isZeroValue = (isYAxis && cross.x == zeroPos.x) || (!isYAxis && cross.y == zeroPos.y);
-                    if (cross == Vector3.zero || isZeroValue)
+                    if (cross == Vector3.zero || smoothDownPoints.Count <= 3)
                     {
                         Vector3 sp = points[0];
                         Vector3 ep;
                         for (int i = 1; i < points.Count; i++)
                         {
                             ep = points[i];
-                            if(isZeroValue && i == 1){
-                                sp = ep;
-                                continue;
-                            }
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
                             DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                             sp = ep;
                         }
                     }
-                    else if (smoothDownPoints.Count > 3)
+                    else
                     {
                         var sp1 = smoothDownPoints[1];
                         var ep1 = smoothDownPoints[smoothDownPoints.Count - 2];
@@ -554,99 +549,114 @@ namespace XCharts
                         var ldPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
                         sp1 = smoothPoints[1];
                         ep1 = smoothPoints[smoothPoints.Count - 2];
+
                         var ruPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
                         var rdPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
                         Vector3 sp, ep;
-                        if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
+                        if (luPos == Vector3.zero || ldPos == Vector3.zero || ruPos == Vector3.zero || rdPos == Vector3.zero)
                         {
-                            sp = smoothDownPoints[0];
-                            for (int i = 1; i < smoothDownPoints.Count; i++)
+                            sp = points[0];
+                            for (int i = 1; i < points.Count; i++)
                             {
-                                ep = smoothDownPoints[i];
+                                ep = points[i];
                                 if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                if (luPos == Vector3.zero)
-                                {
-                                    sp = ep;
-                                    continue;
-                                }
-
-                                if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
-                                {
-                                    var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
-                                    ChartHelper.DrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor);
-                                    break;
-                                }
-                                DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                                sp = ep;
-                            }
-                            sp = smoothPoints[0];
-                            bool first = false;
-                            for (int i = 1; i < smoothPoints.Count; i++)
-                            {
-                                ep = smoothPoints[i];
-                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                if ((isYAxis && ep.y <= rdPos.y) || (!isYAxis && ep.x <= rdPos.x)) continue;
-                                if (rdPos == Vector3.zero)
-                                {
-                                    sp = ep;
-                                    continue;
-                                }
-                                if (!first)
-                                {
-                                    first = true;
-                                    var tp = isYAxis ? new Vector3(rdPos.x, ep.y) : new Vector3(ep.x, rdPos.y);
-                                    ChartHelper.DrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor);
-                                    sp = ep;
-                                    continue;
-                                }
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                                 sp = ep;
                             }
                         }
                         else
                         {
-                            sp = smoothPoints[0];
-                            for (int i = 1; i < smoothPoints.Count; i++)
+                            if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
                             {
-                                ep = smoothPoints[i];
-                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                if (rdPos == Vector3.zero)
+                                sp = smoothDownPoints[0];
+                                for (int i = 1; i < smoothDownPoints.Count; i++)
                                 {
-                                    sp = ep;
-                                    continue;
-                                }
+                                    ep = smoothDownPoints[i];
+                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                    if (luPos == Vector3.zero)
+                                    {
+                                        sp = ep;
+                                        continue;
+                                    }
 
-                                if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
-                                {
-                                    var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
-                                    ChartHelper.DrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor);
-                                    break;
+                                    if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
+                                    {
+                                        var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
+                                        ChartHelper.DrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor);
+                                        break;
+                                    }
+                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                    sp = ep;
                                 }
-                                if (rdPos != Vector3.zero) DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                                sp = ep;
+                                sp = smoothPoints[0];
+                                bool first = false;
+                                for (int i = 1; i < smoothPoints.Count; i++)
+                                {
+                                    ep = smoothPoints[i];
+                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                    if ((isYAxis && ep.y <= rdPos.y) || (!isYAxis && ep.x <= rdPos.x)) continue;
+                                    if (rdPos == Vector3.zero)
+                                    {
+                                        sp = ep;
+                                        continue;
+                                    }
+                                    if (!first)
+                                    {
+                                        first = true;
+                                        var tp = isYAxis ? new Vector3(rdPos.x, ep.y) : new Vector3(ep.x, rdPos.y);
+                                        ChartHelper.DrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor);
+                                        sp = ep;
+                                        continue;
+                                    }
+                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                    sp = ep;
+                                }
                             }
-                            sp = smoothDownPoints[0];
-                            bool first = false;
-                            for (int i = 1; i < smoothDownPoints.Count; i++)
+                            else
                             {
-                                ep = smoothDownPoints[i];
-                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                if ((isYAxis && ep.y < luPos.y) || (!isYAxis && ep.x < luPos.x)) continue;
-                                if (luPos == Vector3.zero)
+                                sp = smoothPoints[0];
+                                for (int i = 1; i < smoothPoints.Count; i++)
                                 {
+                                    ep = smoothPoints[i];
+                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                    if (rdPos == Vector3.zero)
+                                    {
+                                        sp = ep;
+                                        continue;
+                                    }
+
+                                    if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
+                                    {
+                                        var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
+                                        ChartHelper.DrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor);
+                                        break;
+                                    }
+                                    if (rdPos != Vector3.zero) DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                                     sp = ep;
-                                    continue;
                                 }
-                                if (!first)
+                                sp = smoothDownPoints[0];
+                                bool first = false;
+                                for (int i = 1; i < smoothDownPoints.Count; i++)
                                 {
-                                    first = true;
-                                    var tp = isYAxis ? new Vector3(luPos.x, ep.y) : new Vector3(ep.x, luPos.y);
-                                    ChartHelper.DrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor);
+                                    ep = smoothDownPoints[i];
+                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                    if ((isYAxis && ep.y < luPos.y) || (!isYAxis && ep.x < luPos.x)) continue;
+                                    if (luPos == Vector3.zero)
+                                    {
+                                        sp = ep;
+                                        continue;
+                                    }
+                                    if (!first)
+                                    {
+                                        first = true;
+                                        var tp = isYAxis ? new Vector3(luPos.x, ep.y) : new Vector3(ep.x, luPos.y);
+                                        ChartHelper.DrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor);
+                                        sp = ep;
+                                        continue;
+                                    }
+                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                                     sp = ep;
-                                    continue;
                                 }
-                                DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                                sp = ep;
                             }
                         }
                     }

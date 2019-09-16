@@ -79,7 +79,6 @@ namespace XCharts
             InitLegend();
             InitSerieLabel();
             InitTooltip();
-            TransferOldVersionData();
             m_Series.AnimationStop();
             m_Series.AnimationStart();
         }
@@ -136,34 +135,6 @@ namespace XCharts
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
-            }
-        }
-
-        private void TransferOldVersionData()
-        {
-            foreach (var serie in m_Series.series)
-            {
-                if (serie.yData.Count <= 0) continue;
-                bool needTransfer = true;
-                foreach (var sd in serie.data)
-                {
-                    foreach (var value in sd.data)
-                    {
-                        if (value != 0) needTransfer = false;
-                    }
-                }
-                if (needTransfer)
-                {
-                    serie.data.Clear();
-                    for (int i = 0; i < serie.yData.Count; i++)
-                    {
-                        float xvalue = i < serie.xData.Count ? serie.xData[i] : i;
-                        float yvalue = serie.yData[i];
-                        var serieData = new SerieData();
-                        serieData.data = new List<float>() { xvalue, yvalue };
-                        serie.data.Add(serieData);
-                    }
-                }
             }
         }
 

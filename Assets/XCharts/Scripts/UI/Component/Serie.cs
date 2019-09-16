@@ -127,9 +127,6 @@ namespace XCharts
         [SerializeField] private Animation m_Animation = new Animation();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
-        [FormerlySerializedAs("m_Data")]
-        [SerializeField] private List<float> m_YData = new List<float>();
-        [SerializeField] private List<float> m_XData = new List<float>();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] private int m_FilterStart;
@@ -256,14 +253,6 @@ namespace XCharts
         /// </summary>
         public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
         public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
-        /// <summary>
-        /// 维度Y的数据列表。默认对应yAxis。
-        /// </summary>
-        public List<float> yData { get { return m_YData; } }
-        /// <summary>
-        /// 维度X的数据列表。默认对应xAxis。
-        /// </summary>
-        public List<float> xData { get { return m_XData; } }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
@@ -442,8 +431,6 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
-            m_XData.Clear();
-            m_YData.Clear();
             m_Data.Clear();
         }
 
@@ -453,8 +440,6 @@ namespace XCharts
         /// <param name="index"></param>
         public void RemoveData(int index)
         {
-            m_XData.RemoveAt(index);
-            m_YData.RemoveAt(index);
             m_Data.RemoveAt(index);
         }
 
@@ -468,13 +453,9 @@ namespace XCharts
         {
             if (maxDataNumber > 0)
             {
-                while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
-                while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
                 while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
             }
-            int xValue = m_XData.Count;
-            m_XData.Add(xValue);
-            m_YData.Add(value);
+            int xValue = m_Data.Count;
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, value }, name = dataName });
         }
 
@@ -489,12 +470,8 @@ namespace XCharts
         {
             if (maxDataNumber > 0)
             {
-                while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
-                while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
                 while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
             }
-            m_XData.Add(xValue);
-            m_YData.Add(yValue);
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
 
@@ -520,16 +497,12 @@ namespace XCharts
             {
                 if (maxDataNumber > 0)
                 {
-                    while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
-                    while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
                     while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
                 }
                 var serieData = new SerieData();
                 serieData.name = dataName;
                 for (int i = 0; i < valueList.Count; i++)
                 {
-                    if (i == 0) m_XData.Add(valueList[i]);
-                    else if (i == 1) m_YData.Add(valueList[i]);
                     serieData.data.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
@@ -721,14 +694,6 @@ namespace XCharts
         public void UpdateData(int index, int dimension, float value)
         {
             if (index < 0) return;
-            if (dimension == 0)
-            {
-                if (index < m_XData.Count) m_XData[index] = value;
-            }
-            else if (dimension == 1)
-            {
-                if (index < m_YData.Count) m_YData[index] = value;
-            }
             if (index < m_Data.Count && dimension < m_Data[index].data.Count)
             {
                 m_Data[index].data[dimension] = value;
@@ -888,8 +853,6 @@ namespace XCharts
                         if (flag)
                         {
                             serieData.data.Add(value);
-                            if (j == 0) m_XData.Add(value);
-                            else if (j == 1) m_YData.Add(value);
                         }
                         else serieData.name = txt.Replace("\"", "").Trim();
                     }

@@ -796,6 +796,17 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 启用或取消初始动画
+        /// </summary>
+        public void AnimationEnable(bool flag)
+        {
+            foreach (var serie in m_Series)
+            {
+                serie.animation.enable = flag;
+            }
+        }
+
+        /// <summary>
         /// 开始初始动画
         /// </summary>
         public void AnimationStart()

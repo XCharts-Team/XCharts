@@ -84,6 +84,7 @@ namespace XCharts
         [SerializeField] protected int m_Min;
         [SerializeField] protected int m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
+        [SerializeField] protected float m_Interval = 0;
         [SerializeField] protected bool m_ShowSplitLine = false;
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
@@ -93,6 +94,8 @@ namespace XCharts
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
+
+        [NonSerialized] private float m_ValueRange;
 
         /// <summary>
         /// Set this to false to prevent the axis from showing.
@@ -124,6 +127,11 @@ namespace XCharts
         /// 坐标轴的分割段数。
         /// </summary>
         public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
+        /// <summary>
+        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
+        /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
+        /// </summary>
+        public float interval { get { return m_Interval; } set { m_Interval = value; } }
         /// <summary>
         /// showSplitLineSet this to false to prevent the splitLine from showing. value type axes are shown by default, while category type axes are hidden.
         /// 是否显示分隔线。默认数值轴显示，类目轴不显示。
@@ -210,6 +218,7 @@ namespace XCharts
             m_Min = other.min;
             m_Max = other.max;
             m_SplitNumber = other.splitNumber;
+            m_Interval = other.interval;
 
             m_ShowSplitLine = other.showSplitLine;
             m_SplitLineType = other.splitLineType;
@@ -336,9 +345,24 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public int GetSplitNumber(DataZoom dataZoom)
+        public int GetSplitNumber(float coordinateWid, DataZoom dataZoom)
         {
-            if (type == AxisType.Value) return m_SplitNumber;
+            if (type == AxisType.Value)
+            {
+                if (m_Interval > 0)
+                {
+                    if (coordinateWid <= 0) return 0;
+                    int num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
+                    int maxNum = Mathf.CeilToInt(coordinateWid / 15);
+                    if (num > maxNum)
+                    {
+                        m_Interval = m_ValueRange / (maxNum - 1);
+                        num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
+                    }
+                    return num;
+                }
+                else return m_SplitNumber;
+            }
             int dataCount = GetDataList(dataZoom).Count;
             if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
                 return m_SplitNumber;
@@ -354,7 +378,8 @@ namespace XCharts
         /// <returns></returns>
         public float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
         {
-            return coordinateWidth / (m_BoundaryGap ? GetSplitNumber(dataZoom) : GetSplitNumber(dataZoom) - 1);
+            int split = GetSplitNumber(coordinateWidth, dataZoom);
+            return coordinateWidth / (m_BoundaryGap ? split : split - 1);
         }
 
         /// <summary>
@@ -388,11 +413,21 @@ namespace XCharts
         /// <param name="maxValue"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public string GetLabelName(int index, float minValue, float maxValue, DataZoom dataZoom)
+        public string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue, DataZoom dataZoom)
         {
+            int split = GetSplitNumber(coordinateWidth, dataZoom);
             if (m_Type == AxisType.Value)
             {
-                float value = (minValue + (maxValue - minValue) * index / (GetSplitNumber(dataZoom) - 1));
+                float value = 0;
+                if (m_Interval > 0)
+                {
+                    if (index == split - 1) value = maxValue;
+                    else value = minValue + index * m_Interval;
+                }
+                else
+                {
+                    value = (minValue + (maxValue - minValue) * index / (split - 1));
+                }
                 if (_cacheValue2str.ContainsKey(value)) return _cacheValue2str[value];
                 else
                 {
@@ -407,13 +442,13 @@ namespace XCharts
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
 
-            if (index == GetSplitNumber(dataZoom) - 1 && !m_BoundaryGap)
+            if (index == split - 1 && !m_BoundaryGap)
             {
                 return showData[dataCount - 1];
             }
             else
             {
-                float rate = dataCount / GetSplitNumber(dataZoom);
+                float rate = dataCount / split;
                 if (rate < 1) rate = 1;
                 int offset = m_BoundaryGap ? (int)(rate / 2) : 0;
                 int newIndex = (int)(index * rate >= dataCount - 1 ?
@@ -427,11 +462,12 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public int GetScaleNumber(DataZoom dataZoom)
+        public int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
         {
             if (type == AxisType.Value)
             {
-                return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
+                int splitNum = GetSplitNumber(coordinateWidth, dataZoom);
+                return m_BoundaryGap ? splitNum + 1 : splitNum;
             }
             else
             {
@@ -450,24 +486,33 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetScaleWidth(float coordinateWidth, DataZoom dataZoom)
+        public float GetScaleWidth(float coordinateWidth, int index, DataZoom dataZoom)
         {
-            int num = GetScaleNumber(dataZoom) - 1;
+            int num = GetScaleNumber(coordinateWidth, dataZoom) - 1;
             if (num <= 0) num = 1;
-            return coordinateWidth / num;
+            if (type == AxisType.Value && m_Interval > 0)
+            {
+                if (index == num - 1) return coordinateWidth - (num - 1) * m_Interval * coordinateWidth / m_ValueRange;
+                else return m_Interval * coordinateWidth / m_ValueRange;
+            }
+            else
+            {
+                return coordinateWidth / num;
+            }
+
         }
 
         /// <summary>
         /// 更新刻度标签文字
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateLabelText(DataZoom dataZoom)
+        public void UpdateLabelText(float coordinateWidth, DataZoom dataZoom)
         {
             for (int i = 0; i < axisLabelTextList.Count; i++)
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(i, minValue, maxValue, dataZoom);
+                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom);
                 }
             }
         }
@@ -554,6 +599,7 @@ namespace XCharts
                         break;
                 }
             }
+            m_ValueRange = maxValue - minValue;
         }
 
         public override bool Equals(object obj)
@@ -583,6 +629,7 @@ namespace XCharts
                 min == other.min &&
                 max == other.max &&
                 splitNumber == other.splitNumber &&
+                interval == other.interval &&
                 showSplitLine == other.showSplitLine &&
                 m_AxisLabel.Equals(other.axisLabel) &&
                 splitLineType == other.splitLineType &&
@@ -637,6 +684,7 @@ namespace XCharts
             axis.min = min;
             axis.max = max;
             axis.splitNumber = splitNumber;
+            axis.interval = interval;
 
             axis.showSplitLine = showSplitLine;
             axis.splitLineType = splitLineType;
@@ -689,6 +737,7 @@ namespace XCharts
             axis.min = min;
             axis.max = max;
             axis.splitNumber = splitNumber;
+            axis.interval = interval;
 
             axis.showSplitLine = showSplitLine;
             axis.splitLineType = splitLineType;

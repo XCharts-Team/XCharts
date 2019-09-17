@@ -424,7 +424,18 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 开始初始动画
+        /// Whether series animation enabel.
+        /// 启用或取消起始动画。
+        /// </summary>
+        /// <param name="flag"></param>
+        public void AnimationEnable(bool flag)
+        {
+            m_Series.AnimationEnable(flag);
+        }
+
+        /// <summary>
+        /// Start play animation.
+        /// 开始初始动画。
         /// </summary>
         public void AnimationStart()
         {
@@ -432,7 +443,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 停止初始化动画
+        /// Stop play animation.
+        /// 停止初始化动画。
         /// </summary>
         public void AnimationStop()
         {

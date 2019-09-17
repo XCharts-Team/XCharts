@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.17）增加`AnimationEnabel()`启用或取消起始动画接口
 * （2019.09.17）增加`Axis`的`Interval`强制设置坐标轴分割间隔
 * （2019.09.16）去掉`Serie`中的旧版本数据兼容，不再支持`xData`和`yData`
 * （2019.09.06）增加`Animation`在重新初始化数据时自启动功能
@@ -57,7 +58,7 @@ QQ交流群：XCharts交流群（202030963）
 * （2019.07.22）增加`EffectScatter`类型的散点图
 * （2019.07.21）增加`ScatterChart`散点图
 * （2019.07.21）增加`SerieData`支持多维数据配置
-* （2019.07.20）增加`Symbol`配置`Serie`标志图形的显示，支持`EmptyCircle`,`Cricle`,`Rect`,`Triangle`,`Diamond`,`None`等图形形状
+* （2019.07.20）增加`Symbol`配置`Serie`标志图形的显示
 * （2019.07.19）增加用代码添加动态正弦曲线的示例`Demo11_AddSinCurve`
 * （2019.07.19）优化`Legend`的显示和控制
 * （2019.07.18）优化抗锯齿，曲线更平滑

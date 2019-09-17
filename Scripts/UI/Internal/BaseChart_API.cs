@@ -145,11 +145,6 @@ namespace XCharts
         /// <returns>the added serie</returns>
         public virtual Serie AddSerie(string serieName, SerieType type, bool show = true)
         {
-            if(type != SerieType.Pie)
-            {
-                m_Legend.AddData(serieName);
-            }
-            
             return m_Series.AddSerie(serieName, type);
         }
 

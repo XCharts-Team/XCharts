@@ -164,7 +164,6 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, float data, string dataName = null)
         {
-            m_Legend.AddData(serieName);
             var success = m_Series.AddData(serieName, data, dataName, m_MaxCacheDataNumber);
             if (success) RefreshChart();
             return success;

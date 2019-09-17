@@ -93,7 +93,7 @@ namespace XCharts
             {
                 return new Location()
                 {
-                    align = Align.CenterRight,
+                    align = Align.CenterLeft,
                     left = 5,
                     right = 0,
                     top = 0,

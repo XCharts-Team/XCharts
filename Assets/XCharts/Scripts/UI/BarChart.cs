@@ -72,7 +72,7 @@ namespace XCharts
                     / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
                 seriesHig[i] += barHig;
 
-                float currHig = CheckAnimation(serie,i,barHig);
+                float currHig = CheckAnimation(serie, i, barHig);
 
                 Vector3 p1 = new Vector3(pX, pY + space + barWidth);
                 Vector3 p2 = new Vector3(pX + currHig, pY + space + barWidth);
@@ -158,7 +158,7 @@ namespace XCharts
                     / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                 seriesHig[i] += barHig;
 
-                float currHig = CheckAnimation(serie,i,barHig);
+                float currHig = CheckAnimation(serie, i, barHig);
 
                 Vector3 p1 = new Vector3(pX + space, pY);
                 Vector3 p2 = new Vector3(pX + space, pY + currHig);

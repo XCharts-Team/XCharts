@@ -387,7 +387,9 @@ namespace XCharts
         public float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
-            return coordinateWidth / (m_BoundaryGap ? split : split - 1);
+            int segment = (m_BoundaryGap ? split : split - 1);
+            segment = segment <= 0 ? 1 : segment;
+            return coordinateWidth / segment;
         }
 
         /// <summary>
@@ -409,7 +411,9 @@ namespace XCharts
         public float GetDataWidth(float coordinateWidth, DataZoom dataZoom)
         {
             var dataCount = GetDataNumber(dataZoom);
-            return coordinateWidth / (m_BoundaryGap ? dataCount : dataCount - 1);
+            int segment = (m_BoundaryGap ? dataCount : dataCount - 1);
+            segment = segment <= 0 ? 1 : segment;
+            return coordinateWidth / segment;
         }
 
         private Dictionary<float, string> _cacheValue2str = new Dictionary<float, string>();

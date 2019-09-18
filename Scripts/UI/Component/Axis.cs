@@ -69,13 +69,21 @@ namespace XCharts
             /// </summary>
             Solid,
             /// <summary>
-            /// 破折线
+            /// 虚线
             /// </summary>
             Dashed,
             /// <summary>
-            /// 虚线
+            /// 点线
             /// </summary>
-            Dotted
+            Dotted,
+            /// <summary>
+            /// 点划线
+            /// </summary>
+            DashDot,
+            /// <summary>
+            /// 双点划线
+            /// </summary>
+            DashDotDot
         }
 
         [SerializeField] protected bool m_Show = true;

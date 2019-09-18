@@ -958,33 +958,19 @@ namespace XCharts
             switch (type)
             {
                 case Axis.SplitLineType.Dashed:
+                    ChartHelper.DrawDashLine(vh, startPos, endPos, axis.axisLine.width, color);
+                    break;
                 case Axis.SplitLineType.Dotted:
-                    var startX = startPos.x;
-                    var startY = startPos.y;
-                    var dashLen = type == Axis.SplitLineType.Dashed ? 6 : 2.5f;
-                    var count = isYAxis ? (endPos.x - startPos.x) / (dashLen * 2) :
-                        (endPos.y - startPos.y) / (dashLen * 2);
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (isYAxis)
-                        {
-                            var toX = startX + dashLen;
-                            ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(toX, startY),
-                                axis.axisLine.width, color);
-                            startX += dashLen * 2;
-                        }
-                        else
-                        {
-                            var toY = startY + dashLen;
-                            ChartHelper.DrawLine(vh, new Vector3(startX, startY), new Vector3(startX, toY),
-                                axis.axisLine.width, color);
-                            startY += dashLen * 2;
-                        }
-
-                    }
+                    ChartHelper.DrawDotLine(vh, startPos, endPos, axis.axisLine.width, color);
                     break;
                 case Axis.SplitLineType.Solid:
                     ChartHelper.DrawLine(vh, startPos, endPos, axis.axisLine.width, color);
+                    break;
+                case Axis.SplitLineType.DashDot:
+                    ChartHelper.DrawDashDotLine(vh, startPos, endPos, axis.axisLine.width, color);
+                    break;
+                case Axis.SplitLineType.DashDotDot:
+                    ChartHelper.DrawDashDotDotLine(vh, startPos, endPos, axis.axisLine.width, color);
                     break;
             }
         }

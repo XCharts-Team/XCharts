@@ -245,6 +245,83 @@ namespace XCharts
             vh.AddUIVertexQuad(vertex);
         }
 
+        public static void DrawDashLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color, float dashLen = 15f, float blankLen = 7f)
+        {
+            float dist = Vector3.Distance(p1, p2);
+            if (dist < 0.1f) return;
+            int segment = Mathf.CeilToInt(dist / (dashLen + blankLen));
+            Vector3 dir = (p2 - p1).normalized;
+            Vector3 sp = p1, np;
+            for (int i = 1; i <= segment; i++)
+            {
+                np = p1 + dir * dist * i / segment;
+                var dashep = np - dir * blankLen;
+                DrawLine(vh, sp, dashep, size, color);
+                sp = np;
+            }
+            DrawLine(vh, sp, p2, size, color);
+        }
+        public static void DrawDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color, float dotLen = 5f, float blankLen = 5f)
+        {
+            float dist = Vector3.Distance(p1, p2);
+            if (dist < 0.1f) return;
+            int segment = Mathf.CeilToInt(dist / (dotLen + blankLen));
+            Vector3 dir = (p2 - p1).normalized;
+            Vector3 sp = p1, np;
+            for (int i = 1; i <= segment; i++)
+            {
+                np = p1 + dir * dist * i / segment;
+                var dashep = np - dir * blankLen;
+                DrawLine(vh, sp, dashep, size, color);
+                sp = np;
+            }
+            DrawLine(vh, sp, p2, size, color);
+        }
+
+        public static void DrawDashDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color, float dashLen = 15f, float blankDotLen = 15f)
+        {
+            float dist = Vector3.Distance(p1, p2);
+            if (dist < 0.1f) return;
+            int segment = Mathf.CeilToInt(dist / (dashLen + blankDotLen));
+            Vector3 dir = (p2 - p1).normalized;
+            Vector3 sp = p1, np;
+            for (int i = 1; i <= segment; i++)
+            {
+                np = p1 + dir * dist * i / segment;
+                var dashep = np - dir * blankDotLen;
+                DrawLine(vh, sp, dashep, size, color);
+                var dotsp = dashep + (blankDotLen - 2 * size) / 2 * dir;
+                var dotep = dotsp + 2 * size * dir;
+                DrawLine(vh, dotsp, dotep, size, color);
+                sp = np;
+            }
+            DrawLine(vh, sp, p2, size, color);
+        }
+
+        public static void DrawDashDotDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color, float dashLen = 15f, float blankDotLen = 20f)
+        {
+            float dist = Vector3.Distance(p1, p2);
+            if (dist < 0.1f) return;
+            int segment = Mathf.CeilToInt(dist / (dashLen + blankDotLen));
+            Vector3 dir = (p2 - p1).normalized;
+            Vector3 sp = p1, np;
+            for (int i = 1; i <= segment; i++)
+            {
+                np = p1 + dir * dist * i / segment;
+                var dashep = np - dir * blankDotLen;
+                DrawLine(vh, sp, dashep, size, color);
+                var dotsp = dashep + (blankDotLen / 2 - 2 * size) / 2 * dir;
+                var dotep = dotsp + 2 * size * dir;
+                DrawLine(vh, dotsp, dotep, size, color);
+                var dotsp2 = dashep + blankDotLen / 2 * dir;
+                dotsp2 = dotsp2 + (blankDotLen / 4 - 2 * size) / 2 * dir;
+                var dotep2 = dotsp2 + 2 * size * dir;
+                DrawLine(vh, dotsp2, dotep2, size, color);
+                sp = np;
+            }
+            DrawLine(vh, sp, p2, size, color);
+        }
+
         public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color32 color)
         {
             Vector3 p1 = new Vector3(p.x - size, p.y - size);

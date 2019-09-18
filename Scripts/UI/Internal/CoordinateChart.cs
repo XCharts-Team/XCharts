@@ -1100,6 +1100,7 @@ namespace XCharts
                 var serie = m_Series.GetSerie(n);
                 if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
                 var zeroPos = Vector3.zero;
+                var lastStackSerie = m_Series.GetLastStackSerie(n);
                 if (serie.type == SerieType.Bar)
                 {
                     if (serie.label.position == SerieLabel.Position.Bottom || serie.label.position == SerieLabel.Position.Center)
@@ -1128,14 +1129,16 @@ namespace XCharts
                             case SerieType.Line:
                                 break;
                             case SerieType.Bar:
+                                var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
                                 switch (serie.label.position)
                                 {
                                     case SerieLabel.Position.Center:
-                                        pos = isYAxis ? new Vector3(zeroPos.x + (pos.x - zeroPos.x) / 2, pos.y) :
-                                            new Vector3(pos.x, zeroPos.y + (pos.y - zeroPos.y) / 2);
+
+                                        pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
+                                            new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
                                         break;
                                     case SerieLabel.Position.Bottom:
-                                        pos = isYAxis ? new Vector3(zeroPos.x, pos.y) : new Vector3(pos.x, zeroPos.y);
+                                        pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
                                         break;
                                 }
                                 break;

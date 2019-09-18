@@ -173,6 +173,22 @@ namespace XCharts
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         isFinish = DrawStepLine(vh, serieIndex, serie, xAxis, lp, np, nnp, i, lineColor, areaColor, areaToColor, zeroPos);
                         break;
+                    case LineType.Dash:
+                        ChartHelper.DrawDashLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.Dot:
+                        ChartHelper.DrawDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.DashDot:
+                        ChartHelper.DrawDashDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.DashDotDot:
+                        ChartHelper.DrawDashDotDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);
                 lp = np;
@@ -311,6 +327,22 @@ namespace XCharts
                     case LineType.StepEnd:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         isFinish = DrawStepLine(vh, serieIndex, serie, yAxis, lp, np, nnp, i, lineColor, areaColor, areaToColor, zeroPos);
+                        break;
+                    case LineType.Dash:
+                        ChartHelper.DrawDashLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.Dot:
+                        ChartHelper.DrawDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.DashDot:
+                        ChartHelper.DrawDashDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
+                        break;
+                    case LineType.DashDotDot:
+                        ChartHelper.DrawDashDotDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                        isFinish = true;
                         break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);

@@ -92,7 +92,23 @@ namespace XCharts
         /// step line.
         /// 阶梯线图：下一个拐点。
         /// </summary>
-        StepEnd
+        StepEnd,
+        /// <summary>
+        /// 虚线
+        /// </summary>
+        Dash,
+        /// <summary>
+        /// 点线
+        /// </summary>
+        Dot,
+        /// <summary>
+        /// 点划线
+        /// </summary>
+        DashDot,
+        /// <summary>
+        /// 双点划线
+        /// </summary>
+        DashDotDot
     }
 
     /// <summary>

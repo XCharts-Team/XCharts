@@ -16,9 +16,26 @@ namespace XCharts
         /// </summary>
         public enum Type
         {
+            /// <summary>
+            /// 实线
+            /// </summary>
             Solid,
+            /// <summary>
+            /// 虚线
+            /// </summary>
             Dashed,
-            Dotted
+            /// <summary>
+            /// 点线
+            /// </summary>
+            Dotted,
+            /// <summary>
+            /// 点划线
+            /// </summary>
+            DashDot,
+            /// <summary>
+            /// 双点划线
+            /// </summary>
+            DashDotDot,
         }
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Solid;

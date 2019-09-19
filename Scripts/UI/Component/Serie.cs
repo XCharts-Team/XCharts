@@ -141,6 +141,7 @@ namespace XCharts
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
         [SerializeField] private Animation m_Animation = new Animation();
+        [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -268,7 +269,17 @@ namespace XCharts
         /// 高亮时的文本标签配置。
         /// </summary>
         public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
+        /// <summary>
+        /// The start animation.
+        /// 起始动画。
+        /// </summary>
+        /// <value></value>
         public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
+        /// <summary>
+        /// The arrow of line.
+        /// 折线图的箭头
+        /// </summary>
+        public LineArrow lineArrow { get { return m_LineArrow; } set { m_LineArrow = value; } }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>

@@ -859,12 +859,8 @@ namespace XCharts
                 if (xAxis.axisLine.symbol)
                 {
                     var axisLine = xAxis.axisLine;
-                    top.x += xAxis.axisLine.symbolOffset;
-                    var middle = new Vector3(top.x - axisLine.symbolHeight + axisLine.symbolDent, lineY);
-                    left = new Vector3(top.x - axisLine.symbolHeight, lineY - axisLine.symbolWidth / 2);
-                    var right = new Vector3(top.x - axisLine.symbolHeight, lineY + axisLine.symbolWidth / 2);
-                    ChartHelper.DrawTriangle(vh, middle, top, left, m_ThemeInfo.axisLineColor);
-                    ChartHelper.DrawTriangle(vh, middle, top, right, m_ThemeInfo.axisLineColor);
+                    ChartHelper.DrawArrow(vh, new Vector3(coordinateX, lineY), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
                 }
             }
         }
@@ -881,12 +877,8 @@ namespace XCharts
                 if (yAxis.axisLine.symbol)
                 {
                     var axisLine = yAxis.axisLine;
-                    top.y += yAxis.axisLine.symbolOffset;
-                    var middle = new Vector3(lineX, top.y - axisLine.symbolHeight + axisLine.symbolDent);
-                    var left = new Vector3(lineX - axisLine.symbolWidth / 2, top.y - axisLine.symbolHeight);
-                    var right = new Vector3(lineX + axisLine.symbolWidth / 2, top.y - axisLine.symbolHeight);
-                    ChartHelper.DrawTriangle(vh, middle, top, left, m_ThemeInfo.axisLineColor);
-                    ChartHelper.DrawTriangle(vh, middle, top, right, m_ThemeInfo.axisLineColor);
+                    ChartHelper.DrawArrow(vh, new Vector3(lineX, coordinateX), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
                 }
             }
         }

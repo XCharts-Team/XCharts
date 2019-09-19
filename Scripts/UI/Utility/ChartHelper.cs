@@ -228,6 +228,20 @@ namespace XCharts
             return labelObj;
         }
 
+        public static void DrawArrow(VertexHelper vh, Vector3 startPos, Vector3 arrowPos, float width,
+            float height, float offset, float dent, Color32 color)
+        {
+            var dir = (arrowPos - startPos).normalized;
+
+            var sharpPos = arrowPos + (offset + height / 2) * dir;
+            var middle = sharpPos + (dent - height) * dir;
+            var diff = Vector3.Cross(dir, Vector3.forward).normalized * width / 2;
+            var left = sharpPos - height * dir + diff;
+            var right = sharpPos - height * dir - diff;
+            ChartHelper.DrawTriangle(vh, middle, sharpPos, left, color);
+            ChartHelper.DrawTriangle(vh, middle, sharpPos, right, color);
+        }
+
         public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color)
         {
             if (p1 == p2) return;

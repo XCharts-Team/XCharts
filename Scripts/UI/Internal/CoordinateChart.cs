@@ -1098,7 +1098,7 @@ namespace XCharts
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
-                if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
+                if (!serie.show) continue;
                 var zeroPos = Vector3.zero;
                 var lastStackSerie = m_Series.GetLastStackSerie(n);
                 if (serie.type == SerieType.Bar)
@@ -1168,7 +1168,7 @@ namespace XCharts
                     for (int j = 0; j < serie.data.Count; j++)
                     {
                         var serieData = serie.data[j];
-                        if (serie.label.show)
+                        if (serie.label.show && j < serie.dataPoints.Count)
                         {
                             var pos = serie.dataPoints[j];
                             var value = serieData.data[1];

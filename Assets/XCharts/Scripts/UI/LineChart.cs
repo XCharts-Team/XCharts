@@ -81,6 +81,7 @@ namespace XCharts
                 }
             }
             DrawLinePoint(vh);
+            DrawLineArrow(vh);
             if (yCategory) DrawYTooltipIndicator(vh);
             else DrawXTooltipIndicator(vh);
         }
@@ -92,14 +93,52 @@ namespace XCharts
                 var serie = m_Series.GetSerie(n);
                 if (serie.type != SerieType.Line) continue;
                 if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
-                for (int i = 0; i < serie.dataPoints.Count; i++)
+                var count = serie.dataPoints.Count;
+                for (int i = 0; i < count; i++)
                 {
+                    if (serie.lineArrow.show)
+                    {
+                        if (serie.lineArrow.position == LineArrow.Position.Start && i == 0) continue;
+                        if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1) continue;
+                    }
                     Vector3 p = serie.dataPoints[i];
                     bool highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i)) || serie.data[i].highlighted || serie.highlighted;
                     float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
                     var symbolColor = serie.GetSymbolColor(m_ThemeInfo, n, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, p, symbolColor);
+                }
+            }
+        }
+
+        private void DrawLineArrow(VertexHelper vh)
+        {
+            for (int n = 0; n < m_Series.Count; n++)
+            {
+                var serie = m_Series.GetSerie(n);
+                if (serie.type != SerieType.Line) continue;
+                if (!serie.show || !serie.lineArrow.show) continue;
+                if (serie.dataPoints.Count < 2) return;
+                Color lineColor = serie.GetLineColor(m_ThemeInfo, n, false);
+
+                switch (serie.lineArrow.position)
+                {
+                    case LineArrow.Position.End:
+                        var dataPoints = serie.GetUpSmoothList(serie.dataCount - 1);
+                        if (dataPoints.Count < 2) dataPoints = serie.dataPoints;
+                        var startPos = dataPoints[dataPoints.Count - 2];
+                        var arrowPos = dataPoints[dataPoints.Count - 1];
+                        ChartHelper.DrawArrow(vh, startPos, arrowPos, serie.lineArrow.width,
+                            serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
+                        break;
+                    case LineArrow.Position.Start:
+                        dataPoints = serie.GetUpSmoothList(1);
+                        if (dataPoints.Count < 2) dataPoints = serie.dataPoints;
+                        startPos = dataPoints[1];
+                        arrowPos = dataPoints[0];
+                        ChartHelper.DrawArrow(vh, startPos, arrowPos, serie.lineArrow.width,
+                            serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
+                        break;
                 }
             }
         }

@@ -42,6 +42,10 @@ namespace XCharts
 
         [SerializeField] private bool m_Show;
         [SerializeField] private Type m_Type;
+        [SerializeField] private float m_FixedWidth = 0;
+        [SerializeField] private float m_FixedHeight = 0;
+        [SerializeField] private float m_MinWidth = 0;
+        [SerializeField] private float m_MinHeight = 0;
 
         private GameObject m_GameObject;
         private GameObject m_Content;
@@ -60,6 +64,22 @@ namespace XCharts
         /// 提示框指示器类型。
         /// </summary>
         public Type type { get { return m_Type; } set { m_Type = value; } }
+        /// <summary>
+        /// 固定宽度。比 minWidth 优先。
+        /// </summary>
+        public float fixedWidth { get { return m_FixedWidth; } set { m_FixedWidth = value; } }
+        /// <summary>
+        /// 固定高度。比 minHeight 优先。
+        /// </summary>
+        public float fixedHeight { get { return m_FixedHeight; } set { m_FixedHeight = value; } }
+        /// <summary>
+        /// 最小宽度。如若 fixedWidth 设有值，优先取 fixedWidth。
+        /// </summary>
+        public float minWidth { get { return m_MinWidth; } set { m_MinWidth = value; } }
+        /// <summary>
+        /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
+        /// </summary>
+        public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.
@@ -179,8 +199,14 @@ namespace XCharts
             if (m_ContentText)
             {
                 m_ContentText.text = txt;
-                m_ContentRect.sizeDelta = new Vector2(m_ContentText.preferredWidth + 8,
-                    m_ContentText.preferredHeight + 8);
+                float wid, hig;
+                if (m_FixedWidth > 0) wid = m_FixedWidth;
+                else if (m_MinWidth > 0 && m_ContentText.preferredWidth < m_MinWidth) wid = m_MinWidth;
+                else wid = m_ContentText.preferredWidth + 8;
+                if (m_FixedHeight > 0) hig = m_FixedHeight;
+                else if (m_MinHeight > 0 && m_ContentText.preferredHeight < m_MinHeight) hig = m_MinHeight;
+                else hig = m_ContentText.preferredHeight + 8;
+                m_ContentRect.sizeDelta = new Vector2(wid, hig);
             }
         }
 

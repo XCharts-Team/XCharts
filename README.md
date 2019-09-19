@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.19）增加`Tooltip`的`FixedWidth`、`FixedHeight`、`MinWidth`、`MinHeight`设置支持
 * （2019.09.18）增加单条堆叠柱状图
 * （2019.09.18）增加虚线`Dash`、点线`Dot`、点划线`DashDot`、双点划线`DashDotDot`等类型的折线图支持
 * （2019.09.17）增加`AnimationEnabel()`启用或取消起始动画接口

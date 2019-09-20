@@ -276,21 +276,24 @@ namespace XCharts
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
             float scaleWid, float serieHig, ref Vector3 np)
         {
-            float yDataHig;
+            float xDataHig, yDataHig;
             if (xAxis.IsValue())
             {
                 float xValue = i > showData.Count - 1 ? 0 : showData[i].data[0];
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = serieHig + coordinateY + xAxis.axisLine.width;
-                float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
-                yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
+                if ((xAxis.maxValue - xAxis.minValue) <= 0) xDataHig = 0;
+                else xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
+                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
             else
             {
                 float pX = startX + i * scaleWid;
                 float pY = serieHig + coordinateY + yAxis.axisLine.width;
-                yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
+                if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
+                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
                 np = new Vector3(pX, pY + yDataHig);
             }
             return yDataHig;

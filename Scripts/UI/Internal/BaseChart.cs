@@ -204,11 +204,11 @@ namespace XCharts
             m_Legend.RemoveButton();
             for (int i = 0; i < datas.Count; i++)
             {
-                string legendName = datas[i];
-                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i + "_" + legendName, legendObject.transform,
+                string legendName = m_Legend.GetFormatterContent(datas[i]);
+                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i + "_" + datas[i], legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-                var bgColor = IsActiveByLegend(legendName) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
+                var bgColor = IsActiveByLegend(datas[i]) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
                 m_Legend.SetButton(legendName, btn, datas.Count);
                 m_Legend.UpdateButtonColor(legendName, bgColor);
                 btn.GetComponentInChildren<Text>().text = legendName;
@@ -256,6 +256,7 @@ namespace XCharts
             {
                 for (int n = 0; n < datas.Count; n++)
                 {
+                    var legendName = m_Legend.GetFormatterContent(datas[n]);
                     OnLegendButtonClick(n, datas[n], n == 0 ? true : false);
                 }
             }

@@ -15,6 +15,7 @@ namespace XCharts
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Position = prop.FindPropertyRelative("m_Position");
+            SerializedProperty m_Formatter = prop.FindPropertyRelative("m_Formatter");
             SerializedProperty m_Distance = prop.FindPropertyRelative("m_Distance");
             SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
             SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
@@ -39,6 +40,8 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Position);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Distance);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -83,7 +86,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 19 * EditorGUIUtility.singleLineHeight + 18 * EditorGUIUtility.standardVerticalSpacing;
+                height += 20 * EditorGUIUtility.singleLineHeight + 19 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

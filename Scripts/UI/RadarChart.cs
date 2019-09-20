@@ -472,7 +472,11 @@ namespace XCharts
             int serieIndex = m_Tooltip.dataIndex[0];
             if (serieIndex < 0)
             {
-                m_Tooltip.SetActive(false);
+                if (m_Tooltip.IsActive())
+                {
+                    m_Tooltip.SetActive(false);
+                    RefreshChart();
+                }
                 return;
             }
             m_Tooltip.SetActive(true);

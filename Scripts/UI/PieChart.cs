@@ -519,9 +519,10 @@ namespace XCharts
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
             }
-            else
+            else if(m_Tooltip.IsActive())
             {
                 m_Tooltip.SetActive(false);
+                RefreshChart();
             }
         }
 

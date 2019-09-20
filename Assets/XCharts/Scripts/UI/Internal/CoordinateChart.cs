@@ -162,9 +162,10 @@ namespace XCharts
                     RefreshChart();
                 }
             }
-            else
+            else if (m_Tooltip.IsActive())
             {
                 m_Tooltip.SetActive(false);
+                RefreshChart();
             }
         }
 
@@ -192,7 +193,11 @@ namespace XCharts
             }
             if (index < 0)
             {
-                m_Tooltip.SetActive(false);
+                if (m_Tooltip.IsActive())
+                {
+                    m_Tooltip.SetActive(false);
+                    RefreshChart();
+                }
                 return;
             }
 

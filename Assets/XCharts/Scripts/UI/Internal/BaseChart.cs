@@ -381,9 +381,9 @@ namespace XCharts
         {
             if (!m_Tooltip.show || !m_Tooltip.inited)
             {
-                if (m_Tooltip.dataIndex[0] != 0 || m_Tooltip.dataIndex[1] != 0)
+                if (m_Tooltip.IsActive())
                 {
-                    m_Tooltip.dataIndex[0] = m_Tooltip.dataIndex[1] = -1;
+                    m_Tooltip.ClearValue();
                     m_Tooltip.SetActive(false);
                     RefreshChart();
                 }
@@ -399,15 +399,21 @@ namespace XCharts
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, canvas.worldCamera, out local))
             {
-                if (m_Tooltip.IsActive()) RefreshChart();
-                m_Tooltip.SetActive(false);
+                if (m_Tooltip.IsActive())
+                {
+                    m_Tooltip.SetActive(false);
+                    RefreshChart();
+                }
                 return;
             }
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
             {
-                if (m_Tooltip.IsActive()) RefreshChart();
-                m_Tooltip.SetActive(false);
+                if (m_Tooltip.IsActive())
+                {
+                    m_Tooltip.SetActive(false);
+                    RefreshChart();
+                }
                 return;
             }
             m_Tooltip.pointerPos = local;

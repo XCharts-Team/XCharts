@@ -41,6 +41,7 @@ namespace XCharts
         [SerializeField] private float m_ItemHeight = 20.0f;
         [SerializeField] private float m_ItemGap = 5;
         [SerializeField] private int m_ItemFontSize = 18;
+        [SerializeField] private string m_Formatter;
         [SerializeField] private List<string> m_Data = new List<string>();
 
         private Dictionary<string, Button> m_DataBtnList = new Dictionary<string, Button>();
@@ -86,6 +87,11 @@ namespace XCharts
         /// 图例项的字体大小。
         /// </summary>
         public int itemFontSize { get { return m_ItemFontSize; } set { m_ItemFontSize = value; } }
+        /// <summary>
+        /// 图例内容字符串模版格式器。支持用 \n 换行。
+        /// 模板变量为图例名称 {name}
+        /// </example>
+        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
         /// it could also be the name of a single data in the pie chart) of a series. 
@@ -367,6 +373,18 @@ namespace XCharts
         {
             if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
             m_Data = ChartHelper.ParseStringFromString(jsonData);
+        }
+
+        public string GetFormatterContent(string category)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+                return category;
+            else
+            {
+                var content = m_Formatter.Replace("{name}", category);
+                content = content.Replace("\\n","\n");
+                return content;
+            }
         }
     }
 }

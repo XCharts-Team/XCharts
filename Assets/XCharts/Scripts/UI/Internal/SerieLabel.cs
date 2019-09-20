@@ -54,6 +54,7 @@ namespace XCharts
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position;
         [SerializeField] private float m_Distance = 0;
+        [SerializeField] private string m_Formatter;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private float m_PaddingLeftRight = 2f;
         [SerializeField] private float m_PaddingTopBottom = 2f;
@@ -80,6 +81,19 @@ namespace XCharts
         /// 标签的位置。
         /// </summary>
         public Position position { get { return m_Position; } set { m_Position = value; } }
+        /// <summary>
+        /// 标签内容字符串模版格式器。支持用 \n 换行。
+        /// 模板变量有：
+        /// <list type="bullet">
+        /// <item><description>{a}：系列名。</description></item>
+        /// <item><description>{b}：数据名。</description></item>
+        /// <item><description>{c}：数据值。</description></item>
+        /// </list>
+        /// </summary>
+        /// <example>
+        /// 示例：“{b}:{c}”
+        /// </example>
+        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
         /// Distance to the host graphic element. Works when position is Top,Left,Right,Bottom.
         /// 距离图形元素的距离，当position为Top，Left，Right，Bottom时有效。
@@ -167,5 +181,19 @@ namespace XCharts
         /// 边框颜色。
         /// </summary>
         public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
+
+        public string GetFormatterContent(string serieName, string dataName, float dataValue)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+                return ChartCached.FloatToStr(dataValue);
+            else
+            {
+                var content = m_Formatter.Replace("{a}", serieName);
+                content = content.Replace("{b}", dataName);
+                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                content = content.Replace("\\n", "\n");
+                return content;
+            }
+        }
     }
 }

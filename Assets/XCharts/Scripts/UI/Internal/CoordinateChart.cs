@@ -1160,23 +1160,21 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
-                if (serie.show)
+                for (int j = 0; j < serie.data.Count; j++)
                 {
-                    for (int j = 0; j < serie.data.Count; j++)
+                    var serieData = serie.data[j];
+                    if (serie.show && serie.label.show && j < serie.dataPoints.Count)
                     {
-                        var serieData = serie.data[j];
-                        if (serie.label.show && j < serie.dataPoints.Count)
-                        {
-                            var pos = serie.dataPoints[j];
-                            var value = serieData.data[1];
-                            serieData.SetLabelActive(true);
-                            serieData.SetLabelText(ChartCached.FloatToStr(value));
-                            serieData.SetLabelPosition(serieData.labelPosition);
-                        }
-                        else
-                        {
-                            serieData.SetLabelActive(false);
-                        }
+                        var pos = serie.dataPoints[j];
+                        var value = serieData.data[1];
+                        var content = serie.label.GetFormatterContent(serie.name, serieData.name, value);
+                        serieData.SetLabelActive(true);
+                        serieData.SetLabelText(content);
+                        serieData.SetLabelPosition(serieData.labelPosition);
+                    }
+                    else
+                    {
+                        serieData.SetLabelActive(false);
                     }
                 }
             }

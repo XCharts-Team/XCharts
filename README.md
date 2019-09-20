@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.20）增加`Formatter`配置`SerieLabel`、`Legend`的格式化输出
 * （2019.09.19）增加`LineArrow`配置带箭头曲线
 * （2019.09.19）增加`Tooltip`的`FixedWidth`、`FixedHeight`、`MinWidth`、`MinHeight`设置支持
 * （2019.09.18）增加单条堆叠柱状图

@@ -88,6 +88,7 @@ namespace XCharts
         /// <item><description>{a}：系列名。</description></item>
         /// <item><description>{b}：数据名。</description></item>
         /// <item><description>{c}：数据值。</description></item>
+        /// <item><description>{d}：百分比。</description></item>
         /// </list>
         /// </summary>
         /// <example>
@@ -182,7 +183,7 @@ namespace XCharts
         /// </summary>
         public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
 
-        public string GetFormatterContent(string serieName, string dataName, float dataValue)
+        public string GetFormatterContent(string serieName, string dataName, float dataValue, float dataTotal = 0)
         {
             if (string.IsNullOrEmpty(m_Formatter))
                 return ChartCached.FloatToStr(dataValue);
@@ -191,7 +192,13 @@ namespace XCharts
                 var content = m_Formatter.Replace("{a}", serieName);
                 content = content.Replace("{b}", dataName);
                 content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                if (dataTotal > 0)
+                {
+                    var percent = dataValue / dataTotal * 100;
+                    content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                }
                 content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
                 return content;
             }
         }

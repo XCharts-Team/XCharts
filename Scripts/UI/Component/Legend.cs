@@ -382,7 +382,8 @@ namespace XCharts
             else
             {
                 var content = m_Formatter.Replace("{name}", category);
-                content = content.Replace("\\n","\n");
+                content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
                 return content;
             }
         }

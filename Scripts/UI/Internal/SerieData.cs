@@ -53,8 +53,7 @@ namespace XCharts
         /// </summary>
         public Text labelText { get; private set; }
         public RectTransform labelRect { get; private set; }
-        public Vector3 labelPosition{get;set;}
-        //public Image labelImage { get; private set; }
+        public Vector3 labelPosition { get; set; }
         /// <summary>
         /// 是否可以显示Label
         /// </summary>

@@ -492,7 +492,6 @@ namespace XCharts
                 sb.AppendFormat("{0}: {1}", key, value);
             }
             m_Tooltip.UpdateContentText(sb.ToString());
-
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {

@@ -240,7 +240,7 @@ namespace XCharts
             else
             {
                 var category = tempAxis.GetData(index, m_DataZoom);
-                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series,category, m_DataZoom));
+                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, category, m_DataZoom));
             }
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
@@ -1176,7 +1176,7 @@ namespace XCharts
                         var value = serieData.data[1];
                         var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         serieData.SetLabelActive(true);
-                        serieData.SetLabelText(content);
+                        if (serieData.SetLabelText(content)) RefreshChart();
                         serieData.SetLabelPosition(serieData.labelPosition);
                     }
                     else

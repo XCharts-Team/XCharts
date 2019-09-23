@@ -102,7 +102,7 @@ namespace XCharts
 
         public void InitProgress(int data, float curr, float dest)
         {
-            if (!m_Inited)
+            if (!m_Inited && !m_IsEnd)
             {
                 m_Inited = true;
                 m_DestDataProgress = data;

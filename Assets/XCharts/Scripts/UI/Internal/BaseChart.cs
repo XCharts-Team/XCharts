@@ -308,7 +308,8 @@ namespace XCharts
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
             ChartHelper.HideAllObject(tooltipObject.transform);
-            GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font);
+            GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font,
+                m_Tooltip.fontSize, m_Tooltip.fontStyle);
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
             m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);

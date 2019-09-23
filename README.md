@@ -23,6 +23,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.23）增加`Tooltip`的`FontSize`、`FontStyle`配置字体大小和样式
 * （2019.09.23）增加`Formatter`配置`SerieLabel`、`Legend`、`Tooltip`的格式化输出
 * （2019.09.19）增加`LineArrow`配置带箭头曲线
 * （2019.09.19）增加`Tooltip`的`FixedWidth`、`FixedHeight`、`MinWidth`、`MinHeight`设置支持

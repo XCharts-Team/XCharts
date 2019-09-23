@@ -174,7 +174,7 @@ namespace XCharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipContent(string name, Transform parent, Font font)
+        public static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -184,7 +184,7 @@ namespace XCharts
             var img = GetOrAddComponent<Image>(tooltipObj);
             img.color = Color.black;
             Text txt = AddTextObject("Text", tooltipObj.transform, font, Color.white, TextAnchor.UpperLeft,
-                    anchorMin, anchorMax, pivot, sizeDelta);
+                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(3, -3);
             tooltipObj.transform.localPosition = Vector3.zero;

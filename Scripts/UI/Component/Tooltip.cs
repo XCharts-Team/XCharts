@@ -47,6 +47,8 @@ namespace XCharts
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
         [SerializeField] private float m_MinHeight = 0;
+        [SerializeField] private int m_FontSize = 18;
+        [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
 
         private GameObject m_GameObject;
         private GameObject m_Content;
@@ -96,6 +98,16 @@ namespace XCharts
         /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
+        /// <summary>
+        /// font size.
+        /// 文字的字体大小。
+        /// </summary>
+        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        /// <summary>
+        /// font style.
+        /// 文字的字体风格。
+        /// </summary>
+        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.

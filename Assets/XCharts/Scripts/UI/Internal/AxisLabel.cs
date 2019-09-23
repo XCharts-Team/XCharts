@@ -11,6 +11,7 @@ namespace XCharts
     public class AxisLabel
     {
         [SerializeField] private bool m_Show = true;
+        [SerializeField] private string m_Formatter;
         [SerializeField] private int m_Interval = 0;
         [SerializeField] private bool m_Inside = false;
         [SerializeField] private float m_Rotate;
@@ -59,6 +60,11 @@ namespace XCharts
         /// 文字字体的风格。
         /// </summary>
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        /// <summary>
+        /// 图例内容字符串模版格式器。支持用 \n 换行。
+        /// 模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+        /// </summary>
+        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
 
         public static AxisLabel defaultAxisLabel
         {
@@ -87,6 +93,7 @@ namespace XCharts
             m_Color = other.color;
             m_FontSize = other.fontSize;
             m_FontStyle = other.fontStyle;
+            m_Formatter = other.formatter;
         }
 
         public override bool Equals(object obj)
@@ -103,12 +110,55 @@ namespace XCharts
                 m_Margin == other.margin &&
                 m_Color == other.color &&
                 m_FontSize == other.fontSize &&
-                m_FontStyle == other.fontStyle;
+                m_FontStyle == other.fontStyle &&
+                m_Formatter == other.formatter;
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public string GetFormatterContent(string category)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+                return category;
+            else
+            {
+                var content = m_Formatter.Replace("{value}", category);
+                content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
+                return content;
+            }
+        }
+
+        public string GetFormatterContent(float value)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+                if (value - (int)value == 0)
+                    return ChartCached.IntToStr((int)value);
+                else
+                    return ChartCached.FloatToStr(value, 1);
+            else
+            {
+                var content = m_Formatter;
+                if (content.Contains("{value:f2}"))
+                    content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, 2));
+                else if (content.Contains("{value:f1}"))
+                    content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, 1));
+                else if (content.Contains("{value}"))
+                {
+                    if (value - (int)value == 0)
+
+                        content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
+                    else
+                        content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, 1));
+                }
+
+                content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
+                return content;
+            }
         }
     }
 }

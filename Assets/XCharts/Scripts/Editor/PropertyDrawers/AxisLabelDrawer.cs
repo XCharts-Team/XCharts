@@ -14,6 +14,7 @@ namespace XCharts
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
+            SerializedProperty m_Formatter = prop.FindPropertyRelative("m_Formatter");
             SerializedProperty m_Inside = prop.FindPropertyRelative("m_Inside");
             SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
@@ -22,9 +23,9 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle,prop, "Axis Label", show, false);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle, prop, "Axis Label", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle,prop))
+            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle, prop))
             {
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Inside);
@@ -41,6 +42,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontStyle);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Formatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
         }
@@ -48,9 +51,9 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             float height = 0;
-            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle,prop))
+            if (ChartEditorHelper.IsToggle(m_AxisLabelToggle, prop))
             {
-                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
             }
             return height;
         }

@@ -12,6 +12,7 @@ namespace XCharts
 
         public static string FloatToStr(float value, int f = 0)
         {
+            if (f > 2) f = 2;
             Dictionary<float, string> valueDic;
             if (f == 1) valueDic = s_ValueToF1Str;
             else if (f == 2) valueDic = s_ValueToF2Str;

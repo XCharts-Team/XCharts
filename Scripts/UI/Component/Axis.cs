@@ -440,15 +440,7 @@ namespace XCharts
                 {
                     value = (minValue + (maxValue - minValue) * index / (split - 1));
                 }
-                if (_cacheValue2str.ContainsKey(value)) return _cacheValue2str[value];
-                else
-                {
-                    if (value - (int)value == 0)
-                        _cacheValue2str[value] = (value).ToString();
-                    else
-                        _cacheValue2str[value] = (value).ToString("f1");
-                    return _cacheValue2str[value];
-                }
+                return m_AxisLabel.GetFormatterContent(value);
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -456,7 +448,7 @@ namespace XCharts
 
             if (index == split - 1 && !m_BoundaryGap)
             {
-                return showData[dataCount - 1];
+                return m_AxisLabel.GetFormatterContent(showData[dataCount - 1]);
             }
             else
             {
@@ -465,7 +457,7 @@ namespace XCharts
                 int offset = m_BoundaryGap ? (int)(rate / 2) : 0;
                 int newIndex = (int)(index * rate >= dataCount - 1 ?
                     dataCount - 1 : offset + index * rate);
-                return showData[newIndex];
+                return m_AxisLabel.GetFormatterContent(showData[newIndex]);
             }
         }
 

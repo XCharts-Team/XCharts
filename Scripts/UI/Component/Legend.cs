@@ -90,7 +90,7 @@ namespace XCharts
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量为图例名称 {name}
-        /// </example>
+        /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 

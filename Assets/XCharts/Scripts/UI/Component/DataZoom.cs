@@ -98,7 +98,7 @@ namespace XCharts
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
         /// The type of dataZoom. 
-        /// 缩放区域的类型。
+        /// 区域缩放类型。
         /// </summary>
         public DataZoomType type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
@@ -113,7 +113,7 @@ namespace XCharts
         public Orient orient { get { return m_Orient; } set { m_Orient = value; } }
         /// <summary>
         /// Specify which xAxis is controlled by the dataZoom. 
-        /// 控制哪个一 x 轴。
+        /// 控制哪一个 x 轴。
         /// </summary>
         public int xAxisIndex { get { return m_XAxisIndex; } set { m_XAxisIndex = value; } }
         /// <summary>
@@ -142,7 +142,7 @@ namespace XCharts
         /// <summary>
         /// Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief.
         /// default:true
-        /// 如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
+        /// 拖动时，是否实时更新系列的视图。如果设置为 false，则只在拖拽结束的时候更新。
         /// </summary>
         public bool realtime { get { return m_Realtime; } set { m_Realtime = value; } }
         /// <summary>

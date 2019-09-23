@@ -201,41 +201,46 @@ namespace XCharts
                 return;
             }
 
-            sb.Length = 0;
-
-            if (!isCartesian)
+            if (string.IsNullOrEmpty(tooltip.formatter))
             {
-                sb.Append(tempAxis.GetData(index, m_DataZoom));
-            }
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var serie = m_Series.GetSerie(i);
-                if (serie.show)
+                sb.Length = 0;
+                if (!isCartesian)
                 {
-                    string key = serie.name;
-                    float xValue, yValue;
-                    serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
-                    if (isCartesian)
+                    sb.Append(tempAxis.GetData(index, m_DataZoom));
+                }
+                for (int i = 0; i < m_Series.Count; i++)
+                {
+                    var serie = m_Series.GetSerie(i);
+                    if (serie.show)
                     {
-                        var serieData = serie.GetSerieData(index, m_DataZoom);
-                        if (serieData != null && serieData.highlighted)
+                        string key = serie.name;
+                        float xValue, yValue;
+                        serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
+                        if (isCartesian)
                         {
-                            sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
-                            sb.Append("[").Append(ChartCached.FloatToStr(xValue)).Append(",")
-                                .Append(ChartCached.FloatToStr(yValue)).Append("]\n");
+                            var serieData = serie.GetSerieData(index, m_DataZoom);
+                            if (serieData != null && serieData.highlighted)
+                            {
+                                sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
+                                sb.Append("[").Append(ChartCached.FloatToStr(xValue)).Append(",")
+                                    .Append(ChartCached.FloatToStr(yValue)).Append("]\n");
+                            }
+                        }
+                        else
+                        {
+                            sb.Append("\n")
+                                .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
+                                .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
+                                .Append(ChartCached.FloatToStr(yValue));
                         }
                     }
-                    else
-                    {
-                        sb.Append("\n")
-                            .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
-                            .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                            .Append(ChartCached.FloatToStr(yValue));
-                    }
                 }
+                m_Tooltip.UpdateContentText(sb.ToString().Trim());
             }
-            m_Tooltip.UpdateContentText(sb.ToString().Trim());
-
+            else
+            {
+                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, m_DataZoom));
+            }
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {
@@ -1160,6 +1165,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
+                var total = serie.yTotal;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -1167,7 +1173,7 @@ namespace XCharts
                     {
                         var pos = serie.dataPoints[j];
                         var value = serieData.data[1];
-                        var content = serie.label.GetFormatterContent(serie.name, serieData.name, value);
+                        var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         serieData.SetLabelActive(true);
                         serieData.SetLabelText(content);
                         serieData.SetLabelPosition(serieData.labelPosition);

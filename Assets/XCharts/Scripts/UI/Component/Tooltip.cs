@@ -14,7 +14,7 @@ namespace XCharts
     {
         /// <summary>
         /// Indicator type.
-        /// 阴影指示器。
+        /// 指示器类型。
         /// </summary>
         public enum Type
         {
@@ -42,6 +42,7 @@ namespace XCharts
 
         [SerializeField] private bool m_Show;
         [SerializeField] private Type m_Type;
+        [SerializeField] private string m_Formatter;
         [SerializeField] private float m_FixedWidth = 0;
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
@@ -64,6 +65,21 @@ namespace XCharts
         /// 提示框指示器类型。
         /// </summary>
         public Type type { get { return m_Type; } set { m_Type = value; } }
+        /// <summary>
+        /// 提示框内容字符串模版格式器。支持用 \n 或 "<br/>" 换行。
+        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。
+        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
+        /// <list type="bullet">
+        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
+        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
+        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
+        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
+        /// </list>
+        /// </summary>
+        /// <example>
+        /// 示例：“{a}:{c}”
+        /// </example>
+        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
         /// 固定宽度。比 minWidth 优先。
         /// </summary>
@@ -299,6 +315,63 @@ namespace XCharts
         public bool IsSelected(int index)
         {
             return dataIndex[0] == index || dataIndex[1] == index;
+        }
+
+        public string GetFormatterContent(int dataIndex, Series series, DataZoom dataZoom = null)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+            {
+                return "";
+            }
+            else
+            {
+                string content = m_Formatter;
+                for (int i = 0; i < series.Count; i++)
+                {
+                    var serie = series.GetSerie(i);
+                    if (serie.show)
+                    {
+                        var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                        if (i == 0)
+                        {
+                            content = content.Replace("{a}", serie.name);
+                            content = content.Replace("{b}", serieData.name);
+                            content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1)));
+                            if (serie.type == SerieType.Pie)
+                            {
+                                var percent = serieData.GetData(1) / serie.yTotal * 100;
+                                content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                            }
+                        }
+                        content = content.Replace("{a" + i + "}", serie.name);
+                        content = content.Replace("{b" + i + "}", serieData.name);
+                        content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1)));
+                        if (serie.type == SerieType.Pie)
+                        {
+                            var percent = serieData.GetData(1) / serie.yTotal * 100;
+                            content = content.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
+                        }
+                    }
+                }
+                content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
+                return content;
+            }
+        }
+
+        public string GetFormatterContent(string serieName, string dataName, float dataValue)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+                return ChartCached.FloatToStr(dataValue);
+            else
+            {
+                var content = m_Formatter.Replace("{a}", serieName);
+                content = content.Replace("{b}", dataName);
+                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                content = content.Replace("\\n", "\n");
+                content = content.Replace("<br/>", "\n");
+                return content;
+            }
         }
     }
 }

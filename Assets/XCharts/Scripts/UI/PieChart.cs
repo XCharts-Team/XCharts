@@ -449,6 +449,13 @@ namespace XCharts
                         }
                         break;
                 }
+                if (!string.IsNullOrEmpty(serie.label.formatter))
+                {
+                    var value = serieData.data[1];
+                    var total = serie.yTotal;
+                    var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
+                    serieData.SetLabelText(content);
+                }
                 serieData.SetLabelPosition(serieData.labelPosition);
             }
             else
@@ -519,7 +526,7 @@ namespace XCharts
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
                 RefreshTooltip();
             }
-            else if(m_Tooltip.IsActive())
+            else if (m_Tooltip.IsActive())
             {
                 m_Tooltip.SetActive(false);
                 RefreshChart();
@@ -568,18 +575,26 @@ namespace XCharts
                 int index = m_Tooltip.dataIndex[i];
                 if (index < 0) continue;
                 showTooltip = true;
-                var serie = m_Series.GetSerie(i);
-                string key = serie.data[index].name;
-                if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
-                float value = serie.data[index].data[1];
-                sb.Length = 0;
-                if (!string.IsNullOrEmpty(serie.name))
+                if (string.IsNullOrEmpty(tooltip.formatter))
                 {
-                    sb.Append(serie.name).Append("\n");
+                    var serie = m_Series.GetSerie(i);
+                    string key = serie.data[index].name;
+                    if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
+
+                    float value = serie.data[index].data[1];
+                    sb.Length = 0;
+                    if (!string.IsNullOrEmpty(serie.name))
+                    {
+                        sb.Append(serie.name).Append("\n");
+                    }
+                    sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
+                        .Append(key).Append(": ").Append(ChartCached.FloatToStr(value));
+                    m_Tooltip.UpdateContentText(sb.ToString());
                 }
-                sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
-                    .Append(key).Append(": ").Append(ChartCached.FloatToStr(value));
-                m_Tooltip.UpdateContentText(sb.ToString());
+                else
+                {
+                    m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series));
+                }
 
                 var pos = m_Tooltip.GetContentPos();
                 if (pos.x + m_Tooltip.width > chartWidth)

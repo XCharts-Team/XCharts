@@ -454,7 +454,7 @@ namespace XCharts
                     var value = serieData.data[1];
                     var total = serie.yTotal;
                     var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
-                    serieData.SetLabelText(content);
+                    if (serieData.SetLabelText(content)) RefreshChart();
                 }
                 serieData.SetLabelPosition(serieData.labelPosition);
             }

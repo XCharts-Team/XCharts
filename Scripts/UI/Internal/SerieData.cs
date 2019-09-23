@@ -94,28 +94,32 @@ namespace XCharts
             }
         }
 
-        public void SetLabelText(string text)
+        public bool SetLabelText(string text)
         {
             if (labelText)
             {
                 labelText.text = text;
                 if (m_LabelAutoSize)
                 {
-                    labelRect.sizeDelta = new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
+                    var newSize = new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
                                         labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
+                    var sizeChange = newSize.x != labelRect.sizeDelta.x || newSize.y != labelRect.sizeDelta.y;
+                    if (sizeChange) labelRect.sizeDelta = newSize;
+                    return sizeChange;
                 }
             }
+            return false;
         }
 
         public float GetLabelWidth()
         {
-            if (labelText) return labelText.preferredWidth + m_LabelPaddingLeftRight * 2;
+            if (labelRect) return labelRect.sizeDelta.x;
             else return 0;
         }
 
         public float GetLabelHeight()
         {
-            if (labelText) return labelText.preferredHeight + m_LabelPaddingTopBottom * 2;
+            if (labelRect) return labelRect.sizeDelta.y;
             return 0;
         }
 

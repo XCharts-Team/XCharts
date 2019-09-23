@@ -239,7 +239,8 @@ namespace XCharts
             }
             else
             {
-                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, m_DataZoom));
+                var category = tempAxis.GetData(index, m_DataZoom);
+                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series,category, m_DataZoom));
             }
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)

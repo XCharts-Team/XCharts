@@ -317,7 +317,7 @@ namespace XCharts
             return dataIndex[0] == index || dataIndex[1] == index;
         }
 
-        public string GetFormatterContent(int dataIndex, Series series, DataZoom dataZoom = null)
+        public string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -331,22 +331,23 @@ namespace XCharts
                     var serie = series.GetSerie(i);
                     if (serie.show)
                     {
+                        var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
                         if (i == 0)
                         {
                             content = content.Replace("{a}", serie.name);
-                            content = content.Replace("{b}", serieData.name);
+                            content = content.Replace("{b}", needCategory ? category : serieData.name);
                             content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1)));
-                            if (serie.type == SerieType.Pie)
+                            //if (serie.type == SerieType.Pie)
                             {
                                 var percent = serieData.GetData(1) / serie.yTotal * 100;
                                 content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
                             }
                         }
                         content = content.Replace("{a" + i + "}", serie.name);
-                        content = content.Replace("{b" + i + "}", serieData.name);
+                        content = content.Replace("{b" + i + "}", needCategory ? category : serieData.name);
                         content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1)));
-                        if (serie.type == SerieType.Pie)
+                        //if (serie.type == SerieType.Pie)
                         {
                             var percent = serieData.GetData(1) / serie.yTotal * 100;
                             content = content.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));

@@ -144,6 +144,8 @@ namespace XCharts
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
+        [SerializeField] private bool m_ShowDataIcon;
+
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] private int m_FilterStart;
@@ -846,6 +848,91 @@ namespace XCharts
             else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
             else return m_BarGap;
         }
+
+        /// <summary>
+        /// 设置所有数据的图标是否显示
+        /// </summary>
+        /// <param name="flag"></param>
+        public void SetDataIconActive(bool flag)
+        {
+            foreach (var data in m_Data)
+            {
+                data.showIcon = flag;
+            }
+        }
+
+        /// <summary>
+        /// 设置指定index的数据图标是否显示
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <param name="flag"></param>
+        public void SetDataIconActive(int dataIndex, bool flag)
+        {
+            if (dataIndex >= 0 && dataIndex < m_Data.Count)
+            {
+                var data = m_Data[dataIndex];
+                data.showIcon = flag;
+            }
+        }
+
+        /// <summary>
+        /// 统一设置图标的尺寸
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetDataIconSize(float width, float height)
+        {
+            foreach (var data in m_Data)
+            {
+                data.iconWidth = width;
+                data.iconHeight = height;
+            }
+        }
+
+        /// <summary>
+        /// 设置指定index的数据图标的图片
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <param name="image"></param>
+        public void SetDataIcon(int dataIndex, Sprite image)
+        {
+            if (dataIndex >= 0 && dataIndex < m_Data.Count)
+            {
+                var data = m_Data[dataIndex];
+                data.iconImage = image;
+            }
+        }
+
+        /// <summary>
+        /// 设置指定index的数据图标的尺寸
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetDataIconSize(int dataIndex, float width, float height)
+        {
+            if (dataIndex >= 0 && dataIndex < m_Data.Count)
+            {
+                var data = m_Data[dataIndex];
+                data.iconWidth = width;
+                data.iconHeight = height;
+            }
+        }
+
+        /// <summary>
+        /// 设置指定index的数据图标的颜色
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <param name="color"></param>
+        public void SetDataIconColor(int dataIndex, Color color)
+        {
+            if (dataIndex >= 0 && dataIndex < m_Data.Count)
+            {
+                var data = m_Data[dataIndex];
+                data.iconColor = color;
+            }
+        }
+
         /// <summary>
         /// 从json中导入数据
         /// </summary>

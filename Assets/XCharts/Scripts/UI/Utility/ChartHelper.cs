@@ -191,6 +191,16 @@ namespace XCharts
             return tooltipObj;
         }
 
+        public static GameObject AddIcon(string name,Transform parent,float width,float height){
+            var anchorMax = new Vector2(0.5f, 0.5f);
+            var anchorMin = new Vector2(0.5f, 0.5f);
+            var pivot = new Vector2(0.5f, 0.5f);
+            var sizeDelta = new Vector2(width, height);
+            GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            GetOrAddComponent<Image>(iconObj);
+            return iconObj;
+        }
+
         public static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
             int fontSize, FontStyle fontStyle, float rotate, float width, float height)
         {

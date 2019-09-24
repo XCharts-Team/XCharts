@@ -295,6 +295,9 @@ namespace XCharts
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
                     serieData.SetLabelText(serieData.name);
+
+                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
+                    serieData.SetIconObj(iconObj);
                     count++;
                 }
             }

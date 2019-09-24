@@ -1178,6 +1178,7 @@ namespace XCharts
                         serieData.SetLabelActive(true);
                         if (serieData.SetLabelText(content)) RefreshChart();
                         serieData.SetLabelPosition(serieData.labelPosition);
+                        serieData.UpdateIcon();
                     }
                     else
                     {

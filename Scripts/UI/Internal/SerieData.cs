@@ -14,6 +14,13 @@ namespace XCharts
     {
         [SerializeField] private string m_Name;
         [SerializeField] private bool m_Selected;
+        [SerializeField] private bool m_ShowIcon;
+        [SerializeField] private Sprite m_IconImage;
+        [SerializeField] private Color m_IconColor = Color.white;
+        [SerializeField] private float m_IconWidth = 40;
+        [SerializeField] private float m_IconHeight = 40;
+        [SerializeField] private Vector2 m_IconOffset;
+
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
@@ -32,6 +39,33 @@ namespace XCharts
         /// 该数据项是否被选中。
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
+        /// <summary>
+        /// Whether the data icon is show.
+        /// 是否显示图标。
+        /// </summary>
+        public bool showIcon { get { return m_ShowIcon; } set { m_ShowIcon = value; } }
+        /// <summary>
+        /// The image of icon.
+        /// 图标的图片。
+        /// </summary>
+        public Sprite iconImage { get { return m_IconImage; } set { m_IconImage = value; } }
+        /// <summary>
+        /// 图标颜色。
+        /// </summary>
+        public Color iconColor { get { return m_IconColor; } set { m_IconColor = value; } }
+        /// <summary>
+        /// 图标宽。
+        /// </summary>
+        public float iconWidth { get { return m_IconWidth; } set { m_IconWidth = value; } }
+        /// <summary>
+        /// 图标高。
+        /// </summary>
+        public float iconHeight { get { return m_IconHeight; } set { m_IconHeight = value; } }
+        /// <summary>
+        /// 图标偏移。
+        /// </summary>
+        public Vector2 iconOffset { get { return m_IconOffset; } set { m_IconOffset = value; } }
+
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
@@ -53,6 +87,9 @@ namespace XCharts
         /// </summary>
         public Text labelText { get; private set; }
         public RectTransform labelRect { get; private set; }
+        /// <summary>
+        /// 标志位置。
+        /// </summary>
         public Vector3 labelPosition { get; set; }
         /// <summary>
         /// 是否可以显示Label
@@ -68,6 +105,8 @@ namespace XCharts
         /// 最小值。
         /// </summary>
         public float min { get { return m_Data.Min(); } }
+        public Image icon { get; private set; }
+        public RectTransform iconRect { get; private set; }
 
         public float GetData(int index)
         {
@@ -128,6 +167,29 @@ namespace XCharts
             if (m_Label)
             {
                 m_Label.transform.localPosition = position;
+            }
+        }
+
+        public void SetIconObj(GameObject iconObj)
+        {
+            icon = iconObj.GetComponent<Image>();
+            iconRect = iconObj.GetComponent<RectTransform>();
+            UpdateIcon();
+        }
+
+        public void UpdateIcon()
+        {
+            if (m_ShowIcon)
+            {
+                icon.gameObject.SetActive(true);
+                icon.sprite = m_IconImage;
+                icon.color = m_IconColor;
+                iconRect.sizeDelta = new Vector2(m_IconWidth, m_IconHeight);
+                icon.transform.localPosition = m_IconOffset;
+            }
+            else
+            {
+                icon.gameObject.SetActive(false);
             }
         }
     }

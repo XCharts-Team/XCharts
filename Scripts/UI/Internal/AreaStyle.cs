@@ -44,8 +44,8 @@ namespace XCharts
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
-        /// 
-        /// 图形区域的起始位置。
+        /// the origin of area.
+        /// 区域填充的起始位置。
         /// </summary>
         public AreaOrigin origin { get { return m_Origin; } set { m_Origin = value; } }
         /// <summary>

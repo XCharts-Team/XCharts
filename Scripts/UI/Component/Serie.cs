@@ -70,7 +70,7 @@ namespace XCharts
     {
         /// <summary>
         /// the normal line chart，
-        /// 所有扇区圆心角相同，仅通过半径展现数据大小。
+        /// 普通折线图。
         /// </summary>
         Normal,
         /// <summary>
@@ -901,6 +901,15 @@ namespace XCharts
                 var data = m_Data[dataIndex];
                 data.iconImage = image;
             }
+        }
+
+        public bool IsNeedShowDataIcon()
+        {
+            foreach (var data in m_Data)
+            {
+                if (data.showIcon) return true;
+            }
+            return false;
         }
 
         /// <summary>

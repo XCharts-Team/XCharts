@@ -19,12 +19,11 @@ namespace XCharts
         [SerializeField] private Color m_IconColor = Color.white;
         [SerializeField] private float m_IconWidth = 40;
         [SerializeField] private float m_IconHeight = 40;
-        [SerializeField] private Vector2 m_IconOffset;
+        [SerializeField] private Vector3 m_IconOffset;
 
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
-        private GameObject m_Label;
         private bool m_LabelAutoSize;
         private float m_LabelPaddingLeftRight;
         private float m_LabelPaddingTopBottom;
@@ -64,7 +63,7 @@ namespace XCharts
         /// <summary>
         /// 图标偏移。
         /// </summary>
-        public Vector2 iconOffset { get { return m_IconOffset; } set { m_IconOffset = value; } }
+        public Vector3 iconOffset { get { return m_IconOffset; } set { m_IconOffset = value; } }
 
         /// <summary>
         /// An arbitrary dimension data list of data item.
@@ -107,6 +106,10 @@ namespace XCharts
         public float min { get { return m_Data.Min(); } }
         public Image icon { get; private set; }
         public RectTransform iconRect { get; private set; }
+        /// <summary>
+        /// 关联的gameObject
+        /// </summary>
+        public GameObject gameObject { get; private set; }
 
         public float GetData(int index)
         {
@@ -116,20 +119,19 @@ namespace XCharts
 
         public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
         {
-            m_Label = labelObj;
+            gameObject = labelObj;
             m_LabelAutoSize = autoSize;
             m_LabelPaddingLeftRight = paddingLeftRight;
             m_LabelPaddingTopBottom = paddingTopBottom;
             labelText = labelObj.GetComponentInChildren<Text>();
-            //labelImage = labelObj.GetComponent<Image>();
-            labelRect = labelObj.GetComponent<RectTransform>();
+            labelRect = labelText.GetComponent<RectTransform>();
         }
 
         public void SetLabelActive(bool active)
         {
-            if (m_Label)
+            if (labelRect)
             {
-                ChartHelper.SetActive(m_Label, active);
+                ChartHelper.SetActive(labelRect, active);
             }
         }
 
@@ -162,12 +164,17 @@ namespace XCharts
             return 0;
         }
 
+        public void SetGameObjectPosition(Vector3 position)
+        {
+            if (gameObject)
+            {
+                gameObject.transform.localPosition = position;
+            }
+        }
+
         public void SetLabelPosition(Vector3 position)
         {
-            if (m_Label)
-            {
-                m_Label.transform.localPosition = position;
-            }
+            if (labelRect) labelRect.localPosition = position;
         }
 
         public void SetIconObj(GameObject iconObj)
@@ -179,9 +186,10 @@ namespace XCharts
 
         public void UpdateIcon()
         {
+            if (icon == null) return;
             if (m_ShowIcon)
             {
-                icon.gameObject.SetActive(true);
+                ChartHelper.SetActive(icon.gameObject, true);
                 icon.sprite = m_IconImage;
                 icon.color = m_IconColor;
                 iconRect.sizeDelta = new Vector2(m_IconWidth, m_IconHeight);
@@ -189,7 +197,7 @@ namespace XCharts
             }
             else
             {
-                icon.gameObject.SetActive(false);
+                ChartHelper.SetActive(icon.gameObject, false);
             }
         }
     }

@@ -44,8 +44,8 @@ namespace XCharts
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
 
         /// <summary>
-        /// Set this to false to prevent the areafrom showing.
-        /// 是否显示区域填充。
+        /// Whether show line.
+        /// 是否显示线条。在折线图中无效。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>

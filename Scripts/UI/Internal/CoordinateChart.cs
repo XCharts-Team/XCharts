@@ -1123,7 +1123,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (serie.label.show)
+                    if (serie.label.show || serieData.showIcon)
                     {
                         var pos = serie.dataPoints[j];
                         var value = serieData.data[1];
@@ -1146,10 +1146,8 @@ namespace XCharts
                                 }
                                 break;
                         }
-                        var centerPos = isYAxis ? new Vector3(pos.x + (value >= 0 ? 1 : -1) * serie.label.distance, pos.y) :
-                            new Vector3(pos.x, pos.y + (value >= 0 ? 1 : -1) * serie.label.distance);
-                        serieData.labelPosition = centerPos;
-                        DrawLabelBackground(vh, serie, serieData);
+                        serieData.labelPosition = pos;
+                        if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
                     }
                     else
                     {
@@ -1169,16 +1167,18 @@ namespace XCharts
                 var total = serie.yTotal;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
+                    if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
-                    if (serie.show && serie.label.show && j < serie.dataPoints.Count)
+                    var pos = serie.dataPoints[j];
+                    serieData.SetGameObjectPosition(serieData.labelPosition);
+                    serieData.UpdateIcon();
+                    if (serie.show && serie.label.show)
                     {
-                        var pos = serie.dataPoints[j];
                         var value = serieData.data[1];
                         var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         serieData.SetLabelActive(true);
+                        serieData.SetLabelPosition(serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
-                        serieData.SetLabelPosition(serieData.labelPosition);
-                        serieData.UpdateIcon();
                     }
                     else
                     {

@@ -303,9 +303,9 @@ namespace XCharts
                 var tempWidth = (drawRect.width - startX + 72) / 2;
                 var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
                 var centerYRect = new Rect(centerXRect.x + tempWidth - 58, drawRect.y, tempWidth, drawRect.height);
-                var x = EditorGUI.FloatField(centerXRect, m_IconOffset.vector2Value.x);
-                var y = EditorGUI.FloatField(centerYRect, m_IconOffset.vector2Value.y);
-                m_IconOffset.vector2Value = new Vector2(x, y);
+                var x = EditorGUI.FloatField(centerXRect, m_IconOffset.vector3Value.x);
+                var y = EditorGUI.FloatField(centerYRect, m_IconOffset.vector3Value.y);
+                m_IconOffset.vector3Value = new Vector3(x, y);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 EditorGUI.indentLevel--;

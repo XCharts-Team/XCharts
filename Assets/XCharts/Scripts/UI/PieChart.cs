@@ -390,9 +390,10 @@ namespace XCharts
         {
             if (serieData.labelText == null) return;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
-            if ((serie.label.show || isHighlight) && serieData.canShowLabel)
+            var showLabel = ((serie.label.show || isHighlight) && serieData.canShowLabel);
+            if (showLabel || serieData.showIcon)
             {
-                serieData.SetLabelActive(true);
+                serieData.SetLabelActive(showLabel);
                 float rotate = 0;
                 bool isInsidePosition = serie.label.position == SerieLabel.Position.Inside;
                 if (serie.label.rotate > 0 && isInsidePosition)
@@ -456,12 +457,14 @@ namespace XCharts
                     var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                     if (serieData.SetLabelText(content)) RefreshChart();
                 }
-                serieData.SetLabelPosition(serieData.labelPosition);
+                serieData.SetGameObjectPosition(serieData.labelPosition);
+                if(showLabel) serieData.SetLabelPosition(serie.label.offset);
             }
             else
             {
                 serieData.SetLabelActive(false);
             }
+            serieData.UpdateIcon();
         }
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)

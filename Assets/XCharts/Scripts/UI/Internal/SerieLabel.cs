@@ -53,7 +53,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position;
-        [SerializeField] private float m_Distance = 0;
+        [SerializeField] private Vector3 m_Offset;
         [SerializeField] private string m_Formatter;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private float m_PaddingLeftRight = 2f;
@@ -96,10 +96,10 @@ namespace XCharts
         /// </example>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
-        /// Distance to the host graphic element. Works when position is Top,Left,Right,Bottom.
-        /// 距离图形元素的距离，当position为Top，Left，Right，Bottom时有效。
+        /// offset to the host graphic element. 
+        /// 距离图形元素的偏移
         /// </summary>
-        public float distance { get { return m_Distance; } set { m_Distance = value; } }
+        public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
         /// Text color,If set as default ,the color will assigned as series color.
         /// 自定义文字颜色，默认和系列的颜色一致。

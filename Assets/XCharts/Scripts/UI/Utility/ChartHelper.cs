@@ -191,7 +191,8 @@ namespace XCharts
             return tooltipObj;
         }
 
-        public static GameObject AddIcon(string name,Transform parent,float width,float height){
+        public static GameObject AddIcon(string name, Transform parent, float width, float height)
+        {
             var anchorMax = new Vector2(0.5f, 0.5f);
             var anchorMin = new Vector2(0.5f, 0.5f);
             var pivot = new Vector2(0.5f, 0.5f);
@@ -502,15 +503,28 @@ namespace XCharts
             posList.Add(ep);
         }
 
-        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, bool fine, float k = 2.0f)
+        public static void GetBezierList(ref List<Vector3> posList, VertexHelper vh, Vector3 sp, Vector3 ep,
+            Vector3 lsp, Vector3 nep, float lineWidth, bool fine, float k = 2.0f)
         {
-            Vector3 dir = (ep - sp).normalized;
-            float dist = Vector3.Distance(sp, ep);
-            Vector3 cp1 = sp + dist / k * dir * 1;
-            Vector3 cp2 = sp + dist / k * dir * (k - 1);
-            cp1.y = sp.y;
-            cp2.y = ep.y;
+            float dist = Mathf.Abs(sp.x - ep.x);
+            Vector3 cp1, cp2;
+            var dir = (ep - sp).normalized;
+            var diff = dist / k;
+            if (lsp == sp)
+            {
+                cp1 = sp + dist / k * dir * 1;
+                cp1.y = sp.y;
+                cp1 = sp;
+            }
+            else
+            {
+                cp1 = sp + (ep - lsp).normalized * diff;
+            }
+            if (nep == ep) cp2 = ep;
+            else cp2 = ep - (nep - sp).normalized * diff;
             int segment = (int)(dist / (fine ? 3f : 7f));
+            if (segment < 1) segment = (int)(dist / 0.5f);
+            if (segment < 4) segment = 4;
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 

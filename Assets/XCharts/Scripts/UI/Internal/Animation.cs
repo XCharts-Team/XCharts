@@ -52,7 +52,7 @@ namespace XCharts
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
         /// <summary>
         /// The milliseconds delay before updating the first animation.
-        /// 动画延时。
+        /// 动画延时（毫秒）。
         /// </summary>
         /// <value></value>
         public int delay { get { return m_Delay; } set { m_Delay = value; if (m_Delay < 0) m_Delay = 0; } }

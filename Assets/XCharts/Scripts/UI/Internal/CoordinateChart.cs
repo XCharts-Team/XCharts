@@ -679,7 +679,6 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
-
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 axis.minValue = tempMinValue;

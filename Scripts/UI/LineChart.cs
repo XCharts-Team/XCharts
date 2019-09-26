@@ -151,7 +151,7 @@ namespace XCharts
             Color lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, false);
             Color areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, false);
             Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, serieIndex, false);
-            Vector3 lp = Vector3.zero, np = Vector3.zero, nnp = Vector3.zero;
+            Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
@@ -204,7 +204,9 @@ namespace XCharts
                         isFinish = DrawNormalLine(vh, serieIndex, serie, xAxis, lp, np, nnp, i, lineColor, areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
-                        isFinish = DrawSmoothLine(vh, serieIndex, serie, xAxis, lp, np, i, lineColor, areaColor, areaToColor, isStack, zeroPos);
+                        llp = i > 1 ? serie.dataPoints[i - 2] : lp;
+                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                        isFinish = DrawSmoothLine(vh, serieIndex, serie, xAxis, lp, np, llp, nnp, i, lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
@@ -235,7 +237,8 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = (totalDetailProgress - dataCount * serie.lineStyle.width * 0.5f) / duration;
+                float speed = totalDetailProgress  / duration;
+                Debug.LogError("speed:"+speed);
                 float symbolSpeed = serie.symbol.size / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
                 serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
@@ -243,17 +246,25 @@ namespace XCharts
             }
         }
 
-        private float GetDetailProgress(Serie serie, Axis axis, Vector3 lp, Vector3 np, bool fine)
+        private float GetDetailProgress(Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 llp, Vector3 nnp, bool fine)
         {
             var isYAxis = axis is YAxis;
             float progress = 0;
             switch (serie.lineType)
             {
                 case LineType.Normal:
-                    progress = Vector3.Distance(lp, np) / 3f - 1;
+                    var lineWidth = serie.lineStyle.width;
+                    if ((isYAxis && Mathf.Abs(lp.y - np.y) < lineWidth * 3) || (!isYAxis && Mathf.Abs(lp.x - np.x) < lineWidth * 3))
+                    {
+                        progress = 1;
+                    }
+                    else
+                    {
+                        progress = Vector3.Distance(lp, np) / 3f - 1;
+                    }
                     break;
                 case LineType.Smooth:
-                    ChartHelper.GetBezierList(ref bezierPoints, lp, np, fine, lineSmoothStyle);
+                    ChartHelper.GetBezierList(ref bezierPoints, null, lp, np, llp, nnp, serie.lineStyle.width, fine, lineSmoothStyle);
                     if (bezierPoints.Count > 0) progress = bezierPoints.Count - 1;
                     break;
                 case LineType.StepStart:
@@ -305,6 +316,7 @@ namespace XCharts
             var showData = serie.GetDataList(m_DataZoom);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
+            Vector3 llp = Vector3.zero;
             Vector3 nnp = Vector3.zero;
             Color lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, false);
             Color areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, false);
@@ -362,7 +374,9 @@ namespace XCharts
                         isFinish = DrawNormalLine(vh, serieIndex, serie, yAxis, lp, np, nnp, i, lineColor, areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
-                        isFinish = DrawSmoothLine(vh, serieIndex, serie, yAxis, lp, np, i, lineColor, areaColor, areaToColor, isStack, zeroPos);
+                        llp = i > 1 ? serie.dataPoints[i - 2] : lp;
+                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                        isFinish = DrawSmoothLine(vh, serieIndex, serie, yAxis, lp, np, llp, nnp, i, lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
@@ -406,6 +420,18 @@ namespace XCharts
             Vector3 np, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor, Vector3 zeroPos)
         {
             bool isYAxis = axis is YAxis;
+            var lineWidth = serie.lineStyle.width;
+            if ((isYAxis && Mathf.Abs(lp.y - np.y) < lineWidth * 3) || (!isYAxis && Mathf.Abs(lp.x - np.x) < lineWidth * 3))
+            {
+                if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
+                ChartHelper.DrawLine(vh, lp, np, serie.lineStyle.width, lineColor);
+                if (serie.areaStyle.show)
+                {
+                    DrawPolygonToZero(vh, lp, np, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                }
+                return true;
+            }
+
             var lastSerie = m_Series.GetLastStackSerie(serie);
             Vector3 dnPos, upPos1, upPos2, dir1v, dir2v;
             bool isDown;
@@ -448,6 +474,7 @@ namespace XCharts
             var fine = m_Series.IsAnyGradientSerie(serie.stack);
             var tick = fine ? 3f : 3f; // 3f:30f
             int segment = (int)(dist / tick);
+            if (segment <= 3) segment = (int)(dist / lineWidth);
             smoothPoints.Clear();
             smoothDownPoints.Clear();
             smoothPoints.Add(stPos1);
@@ -770,8 +797,10 @@ namespace XCharts
         }
 
         private List<Vector3> bezierPoints = new List<Vector3>();
+        private Vector3 smoothStartPosUp, smoothStartPosDn;
         private bool DrawSmoothLine(VertexHelper vh, int serieIndex, Serie serie, Axis xAxis, Vector3 lp,
-            Vector3 np, int dataIndex, Color lineColor, Color areaColor, Color areaToColor, bool isStack, Vector3 zeroPos)
+            Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor,
+            Color areaToColor, bool isStack, Vector3 zeroPos)
         {
             bool isYAxis = xAxis is YAxis;
             var lineWidth = serie.lineStyle.width;
@@ -780,19 +809,25 @@ namespace XCharts
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
 
             if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, fine, lineSmoothStyle);
-            else ChartHelper.GetBezierList(ref bezierPoints, lp, np, fine, lineSmoothStyle);
+            else ChartHelper.GetBezierList(ref bezierPoints, vh, lp, np, llp, nnp, serie.lineStyle.width, fine, lineSmoothStyle);
 
             Vector3 start, to;
             start = bezierPoints[0];
 
             var dir = bezierPoints[1] - start;
-            var dir1v = Vector3.Cross(dir, Vector3.forward).normalized;
-            var startUp = start + (isYAxis ? Vector3.right : Vector3.up) * lineWidth;
-            var startDn = start - (isYAxis ? Vector3.right : Vector3.up) * lineWidth;
+            var dir1v = Vector3.Cross(dir, Vector3.forward).normalized * (isYAxis ? -1 : 1);
+            var diff = dir1v * lineWidth;
+            var startUp = start - diff;
+            var startDn = start + diff;
             Vector3 toUp, toDn, tnp, tlp;
             smoothPoints.Add(startUp);
             smoothDownPoints.Add(startDn);
             bool isFinish = true;
+            if (dataIndex > 1)
+            {
+                ChartHelper.DrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor);
+                ChartHelper.DrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor);
+            }
             for (int k = 1; k < bezierPoints.Count; k++)
             {
                 to = bezierPoints[k];
@@ -802,26 +837,19 @@ namespace XCharts
                     break;
                 }
                 dir = to - start;
-                if (k < bezierPoints.Count - 1)
-                {
-                    dir1v = Vector3.Cross(dir, Vector3.forward).normalized * (isYAxis ? -1 : 1);
-                    var diff = dir1v * lineWidth;
-                    toUp = to - diff;
-                    toDn = to + diff;
-                    if (isYAxis) ChartHelper.DrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor);
-                    else ChartHelper.DrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor);
-                }
-                else
-                {
-                    toUp = to + (isYAxis ? Vector3.right : Vector3.up) * lineWidth;
-                    toDn = to - (isYAxis ? Vector3.right : Vector3.up) * lineWidth;
-                    if (isYAxis) ChartHelper.DrawPolygon(vh, toDn, toUp, startUp, startDn, lineColor);
-                    else ChartHelper.DrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor);
-                }
+                dir1v = Vector3.Cross(dir, Vector3.forward).normalized * (isYAxis ? -1 : 1);
+                diff = dir1v * lineWidth;
+                toUp = to - diff;
+                toDn = to + diff;
+                if (isYAxis) ChartHelper.DrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor);
+                else ChartHelper.DrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor);
                 smoothPoints.Add(toUp);
                 smoothDownPoints.Add(toDn);
-
-
+                if (k == bezierPoints.Count - 1)
+                {
+                    smoothStartPosUp = toUp;
+                    smoothStartPosDn = toDn;
+                }
                 if (serie.areaStyle.show && (serieIndex == 0 || !isStack))
                 {
                     if (isYAxis)

@@ -451,5 +451,16 @@ namespace XCharts
             m_CheckAnimation = false;
             m_Series.AnimationStop();
         }
+
+        /// <summary>
+        /// Reset animation to play.
+        /// 重置初始动画，重新播放。
+        /// </summary>
+        public void AnimationReset()
+        {
+            m_CheckAnimation = false;
+            m_Series.AnimationReset();
+            RefreshChart();
+        }
     }
 }

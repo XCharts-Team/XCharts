@@ -238,7 +238,6 @@ namespace XCharts
             {
                 float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
                 float speed = totalDetailProgress  / duration;
-                Debug.LogError("speed:"+speed);
                 float symbolSpeed = serie.symbol.size / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
                 serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);

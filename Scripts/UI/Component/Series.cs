@@ -832,6 +832,17 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 重置初始动画
+        /// </summary>
+        public void AnimationReset()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.animation.enable) serie.animation.Reset();
+            }
+        }
+
+        /// <summary>
         /// 从json中解析数据
         /// </summary>
         /// <param name="jsonData"></param>

@@ -100,6 +100,12 @@ namespace XCharts
             m_IsEnd = true;
         }
 
+        public void Reset()
+        {
+            Stop();
+            Start();
+        }
+
         public void InitProgress(int data, float curr, float dest)
         {
             if (!m_Inited && !m_IsEnd)

@@ -16,6 +16,7 @@
 * `BaseChart.maxShowDataNumber`：图表所显示数据的最大索引。
 * `BaseChart.maxCacheDataNumber`：图表每个系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `BaseChart.lineSmoothStyle`：平滑折线图的平滑系数。
+* `BaseChart.sampleMinDist`采样的最小像素距离，默认为0时不采样。当两个数据点间的像素距离小于改值时，开启采样，保证两点间的像素距离不小于改值。
 * `BaseChart.SetSize(float width, float height)`：设置图表的大小。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。

@@ -43,6 +43,7 @@ namespace XCharts
         [SerializeField] protected int m_MaxShowDataNumber;
         [SerializeField] protected int m_MaxCacheDataNumber;
         [SerializeField] [Range(1, 8)] private float m_LineSmoothStyle = 2f;
+        [SerializeField] protected float m_SampleDist;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] private Title m_CheckTitle = Title.defaultTitle;

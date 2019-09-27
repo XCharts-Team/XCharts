@@ -28,7 +28,8 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
-* （2019.09.26）增加`XCharts问答`、`XChartsAPI接口`、`XCharts配置项手册`等文档
+* （2019.09.27）增加`SampleDist`采样距离的配置，对过密的曲线开启采样，优化绘制效率
+* （2019.09.27）增加`XCharts问答`、`XChartsAPI接口`、`XCharts配置项手册`等文档
 * （2019.09.26）增加`AnimationReset()`重置初始化动画接口
 * （2019.09.26）优化`LineChart`的密集数据的曲线效果
 * （2019.09.25）优化`SerieData`的自定义图标不与`SerieLabel`关联，可单独控制是否显示

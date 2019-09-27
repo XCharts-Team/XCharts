@@ -26,6 +26,7 @@ namespace XCharts
         protected SerializedProperty m_MaxShowDataNumber;
         protected SerializedProperty m_MaxCacheDataNumber;
         protected SerializedProperty m_LineSmoothStyle;
+        protected SerializedProperty m_SampleDist;
 
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
@@ -50,6 +51,7 @@ namespace XCharts
             m_MaxShowDataNumber = serializedObject.FindProperty("m_MaxShowDataNumber");
             m_MaxCacheDataNumber = serializedObject.FindProperty("m_MaxCacheDataNumber");
             m_LineSmoothStyle = serializedObject.FindProperty("m_LineSmoothStyle");
+            m_SampleDist = serializedObject.FindProperty("m_SampleDist");
         }
 
         public override void OnInspectorGUI()
@@ -96,9 +98,11 @@ namespace XCharts
                 EditorGUILayout.PropertyField(m_MaxShowDataNumber, true);
                 EditorGUILayout.PropertyField(m_MaxCacheDataNumber, true);
                 EditorGUILayout.PropertyField(m_LineSmoothStyle,true);
+                EditorGUILayout.PropertyField(m_SampleDist,true);
                 if (m_MinShowDataNumber.intValue < 0) m_MinShowDataNumber.intValue = 0;
                 if (m_MaxShowDataNumber.intValue < 0) m_MaxShowDataNumber.intValue = 0;
                 if (m_MaxCacheDataNumber.intValue < 0) m_MaxCacheDataNumber.intValue = 0;
+                if (m_SampleDist.floatValue < 0) m_SampleDist.floatValue = 0;
                 EditorGUI.indentLevel--;
             }
         }

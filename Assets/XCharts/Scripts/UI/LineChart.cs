@@ -163,24 +163,34 @@ namespace XCharts
             int maxCount = maxShowDataNumber > 0 ?
                 (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
                 : showData.Count;
+            int i;
             if (seriesHig.Count < minShowDataNumber)
             {
-                for (int i = 0; i < minShowDataNumber; i++)
+                for (i = 0; i < minShowDataNumber; i++)
                 {
                     seriesHig.Add(0);
                 }
             }
-
-            for (int i = minShowDataNumber; i < maxCount; i++)
+            int rate = 1;
+            if (m_SampleDist > 0) rate = (int)((maxCount - minShowDataNumber) / (coordinateWid / m_SampleDist));
+            if (rate < 1) rate = 1;
+            for (i = minShowDataNumber; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {
-                    seriesHig.Add(0);
+                    for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
                 float yValue = showData[i].data[1];
                 seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np);
                 serie.dataPoints.Add(np);
-                lp = np;
+            }
+            if (maxCount % rate != 0)
+            {
+                i = maxCount - 1;
+                seriesHig.Add(0);
+                float yValue = showData[i].data[1];
+                seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np);
+                serie.dataPoints.Add(np);
             }
             if (serie.dataPoints.Count <= 0)
             {
@@ -191,7 +201,7 @@ namespace XCharts
             float currDetailProgress = lp.x;
             float totalDetailProgress = serie.dataPoints[dataCount - 1].x;
             serie.animation.InitProgress(dataCount, currDetailProgress, totalDetailProgress);
-            for (int i = 1; i < serie.dataPoints.Count; i++)
+            for (i = 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);
@@ -237,7 +247,7 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = totalDetailProgress  / duration;
+                float speed = totalDetailProgress / duration;
                 float symbolSpeed = serie.symbol.size / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
                 serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
@@ -331,19 +341,24 @@ namespace XCharts
             int maxCount = maxShowDataNumber > 0 ?
                 (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
                 : showData.Count;
+            int i = 0;
             if (seriesHig.Count < minShowDataNumber)
             {
-                for (int i = 0; i < minShowDataNumber; i++)
+                for (i = 0; i < minShowDataNumber; i++)
                 {
                     seriesHig.Add(0);
                 }
             }
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
-            for (int i = minShowDataNumber; i < maxCount; i++)
+
+            int rate = 1;
+            if (m_SampleDist > 0) rate = (int)((maxCount - minShowDataNumber) / (coordinateWid / m_SampleDist));
+            if (rate < 1) rate = 1;
+            for (i = minShowDataNumber; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {
-                    seriesHig.Add(0);
+                    for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
                 float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
@@ -352,15 +367,25 @@ namespace XCharts
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
-                lp = np;
             }
-
+            if (maxCount % rate != 0)
+            {
+                i = maxCount - 1;
+                seriesHig.Add(0);
+                float value = showData[i].data[1];
+                float pY = startY + i * scaleWid;
+                float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
+                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                np = new Vector3(pX + dataHig, pY);
+                serie.dataPoints.Add(np);
+                seriesHig[i] += dataHig;
+            }
             lp = serie.dataPoints[0];
             int dataCount = serie.dataPoints.Count;
             float currDetailProgress = lp.y;
             float totalDetailProgress = serie.dataPoints[dataCount - 1].y;
             serie.animation.InitProgress(dataCount, currDetailProgress, totalDetailProgress);
-            for (int i = 1; i < serie.dataPoints.Count; i++)
+            for (i = 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);

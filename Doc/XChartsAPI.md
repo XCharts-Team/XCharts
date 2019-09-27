@@ -1,6 +1,6 @@
 # XCharts API
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XCharts配置项手册](XCharts配置项手册.md)  
 [XCharts问答](XCharts问答.md)
 
@@ -84,6 +84,6 @@
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XCharts配置项手册](XCharts配置项手册.md)  
 [XCharts问答](XCharts问答.md)

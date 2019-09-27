@@ -1,6 +1,6 @@
 # 教程：5分钟上手XCharts
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts配置项手册](XCharts配置项手册.md)
 
@@ -21,6 +21,6 @@
 2. 选中 `line_chart`，通过菜单栏 `Component->XCharts->LineChart` 或者  `Inspector` 视图的 `Add Component` 添加 `LineChart` 脚本。设置 `line_chart` 的尺寸，一个简单的折线图就出来了。
 3. 在 `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](XCharts配置项手册.md)。
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts配置项手册](XCharts配置项手册.md)

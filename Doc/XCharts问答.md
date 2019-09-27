@@ -1,6 +1,6 @@
 # XCharts问答
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts配置项手册](XCharts配置项手册.md)
 
@@ -61,6 +61,6 @@
 19. 如何让Y轴（数值轴）显示多位小数？  
    答：设置`Axis`下的`AxisLabel`中的`formatter`为`{value:f1}`或`{value:f2}`
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts配置项手册](XCharts配置项手册.md)

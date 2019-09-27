@@ -1,6 +1,6 @@
 # 配置项手册
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)
 
@@ -395,6 +395,6 @@
 
 相关接口：
 
-[返回首页](../Readme.md)  
+[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)

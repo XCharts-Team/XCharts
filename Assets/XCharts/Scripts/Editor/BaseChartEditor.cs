@@ -87,7 +87,7 @@ namespace XCharts
         {
             EditorGUILayout.PropertyField(m_Series, true);
             m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle,
-                new GUIContent("Base", "基础配置"),
+                new GUIContent("Settings", "基础配置"),
                 ChartEditorHelper.foldoutStyle);
             if (m_BaseModuleToggle)
             {

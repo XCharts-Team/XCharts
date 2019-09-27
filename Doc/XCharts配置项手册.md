@@ -204,7 +204,7 @@
   * `Custom`：自定义的最小值-最大值。
 * `min`：设定的坐标轴刻度最小值，当 `minMaxType` 为 `Custom` 时有效。
 * `max`：设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
-* `splitNumber`：坐标轴的分割段数。默认为 `5`。
+* `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
 * `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
 * `splitLineType`：分割线类型。默认为 `Dashed`。有以下五种类型：
   * `None`：不显示分割线。

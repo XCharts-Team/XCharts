@@ -372,6 +372,7 @@ namespace XCharts
                 else return m_SplitNumber;
             }
             int dataCount = GetDataList(dataZoom).Count;
+            if (m_SplitNumber <= 0) return dataCount;
             if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
                 return m_SplitNumber;
             else
@@ -477,6 +478,7 @@ namespace XCharts
             {
                 var showData = GetDataList(dataZoom);
                 int dataCount = showData.Count;
+                if (m_SplitNumber <= 0) return m_BoundaryGap ? dataCount + 1 : dataCount;
                 if (dataCount > 2 * splitNumber || dataCount <= 0)
                     return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
                 else

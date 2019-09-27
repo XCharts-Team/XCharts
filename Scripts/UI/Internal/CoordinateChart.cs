@@ -25,6 +25,8 @@ namespace XCharts
         private List<XAxis> m_CheckXAxises = new List<XAxis>();
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
         private Grid m_CheckCoordinate = Grid.defaultGrid;
+        private bool m_XAxisChanged;
+        private bool m_YAxisChanged;
 
         protected override void Awake()
         {
@@ -619,7 +621,7 @@ namespace XCharts
 
         private void CheckYAxis()
         {
-            if (!ChartHelper.IsValueEqualsList<YAxis>(m_CheckYAxises, m_YAxises))
+            if (m_YAxisChanged || !ChartHelper.IsValueEqualsList<YAxis>(m_CheckYAxises, m_YAxises))
             {
                 foreach (var axis in m_CheckYAxises)
                 {
@@ -627,13 +629,14 @@ namespace XCharts
                 }
                 m_CheckYAxises.Clear();
                 foreach (var axis in m_YAxises) m_CheckYAxises.Add(axis.Clone());
+                m_YAxisChanged = false;
                 OnYAxisChanged();
             }
         }
 
         private void CheckXAxis()
         {
-            if (!ChartHelper.IsValueEqualsList<XAxis>(m_CheckXAxises, m_XAxises))
+            if (m_XAxisChanged || !ChartHelper.IsValueEqualsList<XAxis>(m_CheckXAxises, m_XAxises))
             {
                 foreach (var axis in m_CheckXAxises)
                 {
@@ -641,6 +644,7 @@ namespace XCharts
                 }
                 m_CheckXAxises.Clear();
                 foreach (var axis in m_XAxises) m_CheckXAxises.Add(axis.Clone());
+                m_XAxisChanged = false;
                 OnXAxisChanged();
             }
         }

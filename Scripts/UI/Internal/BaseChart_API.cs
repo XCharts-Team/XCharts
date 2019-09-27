@@ -425,7 +425,7 @@ namespace XCharts
 
         /// <summary>
         /// Whether series animation enabel.
-        /// 启用或取消起始动画。
+        /// 启用或关闭起始动画。
         /// </summary>
         /// <param name="flag"></param>
         public void AnimationEnable(bool flag)

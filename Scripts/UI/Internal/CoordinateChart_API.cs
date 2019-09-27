@@ -93,7 +93,7 @@ namespace XCharts
         public void AddXAxisData(string category, int xAxisIndex = 0)
         {
             m_XAxises[xAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnXAxisChanged();
+            m_XAxisChanged = true;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace XCharts
         public void AddYAxisData(string category, int yAxisIndex = 0)
         {
             m_YAxises[yAxisIndex].AddData(category, m_MaxCacheDataNumber);
-            OnYAxisChanged();
+            m_YAxisChanged = true;
         }
 
         /// <summary>

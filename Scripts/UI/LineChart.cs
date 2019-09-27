@@ -451,11 +451,6 @@ namespace XCharts
                 dnPos = np + (isDown ? dirDp : -dirDp) * diff;
                 upPos1 = np + (isDown ? -dir1v : dir1v) * serie.lineStyle.width;
                 upPos2 = np + (isDown ? -dir2v : dir2v) * serie.lineStyle.width;
-                if (dataIndex == 1)
-                {
-                    stPos1 = lp - dir1v * serie.lineStyle.width;
-                    stPos2 = lp + dir1v * serie.lineStyle.width;
-                }
                 lastDir = dir1;
             }
             else
@@ -466,6 +461,11 @@ namespace XCharts
                 upPos1 = np - dir1v * serie.lineStyle.width;
                 upPos2 = np + dir1v * serie.lineStyle.width;
                 dnPos = isDown ? upPos2 : upPos1;
+            }
+            if (dataIndex == 1)
+            {
+                stPos1 = lp - dir1v * serie.lineStyle.width;
+                stPos2 = lp + dir1v * serie.lineStyle.width;
             }
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);

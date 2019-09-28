@@ -126,6 +126,7 @@ namespace XCharts
         [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private LineType m_LineType = LineType.Normal;
+        [SerializeField] private float m_LineSampleDist = 0;
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private float m_BarWidth = 0.6f;
         [SerializeField] private float m_BarGap = 0.3f; // 30%
@@ -202,6 +203,12 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
+        /// <summary>
+        /// the min pixel dist of sample.
+        /// 折线图采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。
+        /// </summary>
+        /// <value></value>
+        public float lineSampleDist { get { return m_LineSampleDist; } set { m_LineSampleDist = value < 0 ? 0 : value; } }
         /// <summary>
         /// The style of line.
         /// 线条样式。

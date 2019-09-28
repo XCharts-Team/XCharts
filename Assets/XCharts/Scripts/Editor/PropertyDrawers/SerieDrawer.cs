@@ -26,6 +26,7 @@ namespace XCharts
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
             SerializedProperty m_LineArrow = prop.FindPropertyRelative("m_LineArrow");
             SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
+            SerializedProperty m_LineSampleDist = prop.FindPropertyRelative("m_LineSampleDist");
             SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
             SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
             SerializedProperty m_BarCategoryGap = prop.FindPropertyRelative("m_BarCategoryGap");
@@ -81,6 +82,8 @@ namespace XCharts
                 if (serieType == SerieType.Line)
                 {
                     EditorGUI.PropertyField(drawRect, m_LineType);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_LineSampleDist);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Line
@@ -345,7 +348,7 @@ namespace XCharts
                 if (serieType == SerieType.Line)
                 {
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
-                    height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Bar)
                 {

@@ -123,6 +123,9 @@ namespace XCharts
         [SerializeField] private string m_Stack;
         [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
+        [SerializeField] protected int m_MinShow;
+        [SerializeField] protected int m_MaxShow;
+        [SerializeField] protected int m_MaxCache;
         [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private LineType m_LineType = LineType.Normal;
@@ -186,6 +189,35 @@ namespace XCharts
         /// 雷达图所使用的 radar 组件的 index。
         /// </summary>
         public int radarIndex { get { return m_RadarIndex; } set { m_RadarIndex = value; } }
+        /// <summary>
+        /// The min number of data to show in chart.
+        /// 系列所显示数据的最小索引
+        /// </summary>
+        public int minShow
+        {
+            get { return m_MinShow; }
+            set { m_MinShow = value; if (m_MinShow < 0) m_MinShow = 0; }
+        }
+        /// <summary>
+        /// The max number of data to show in chart.
+        /// 系列所显示数据的最大索引
+        /// </summary>
+        public int maxShow
+        {
+            get { return m_MaxShow; }
+            set { m_MaxShow = value; if (m_MaxShow < 0) m_MaxShow = 0; }
+        }
+        /// <summary>
+        /// The max number of serie data cache.
+        /// The first data will be remove when the size of serie data is larger then maxCache.
+        /// default:0,unlimited.
+        /// 系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// </summary>
+        public int maxCache
+        {
+            get { return m_MaxCache; }
+            set { m_MaxCache = value; if (m_MaxCache < 0) m_MaxCache = 0; }
+        }
         /// <summary>
         /// The style of area.
         /// 区域填充样式。
@@ -484,12 +516,11 @@ namespace XCharts
         /// </summary>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
-        public void AddYData(float value, string dataName = null, int maxDataNumber = 0)
+        public void AddYData(float value, string dataName = null)
         {
-            if (maxDataNumber > 0)
+            if (m_MaxCache > 0)
             {
-                while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
+                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
             }
             int xValue = m_Data.Count;
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, value }, name = dataName });
@@ -502,11 +533,11 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddXYData(float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
+        public void AddXYData(float xValue, float yValue, string dataName = null)
         {
-            if (maxDataNumber > 0)
+            if (m_MaxCache > 0)
             {
-                while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
+                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
             }
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
@@ -518,22 +549,22 @@ namespace XCharts
         /// <param name="valueList"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddData(List<float> valueList, string dataName = null, int maxDataNumber = 0)
+        public void AddData(List<float> valueList, string dataName = null)
         {
             if (valueList == null || valueList.Count == 0) return;
             if (valueList.Count == 1)
             {
-                AddYData(valueList[0], dataName, maxDataNumber);
+                AddYData(valueList[0], dataName);
             }
             else if (valueList.Count == 2)
             {
-                AddXYData(valueList[0], valueList[1], dataName, maxDataNumber);
+                AddXYData(valueList[0], valueList[1], dataName);
             }
             else
             {
-                if (maxDataNumber > 0)
+                if (m_MaxCache > 0)
                 {
-                    while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
+                    while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
                 }
                 var serieData = new SerieData();
                 serieData.name = dataName;

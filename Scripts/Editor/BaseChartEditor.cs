@@ -22,9 +22,6 @@ namespace XCharts
         protected SerializedProperty m_Series;
 
         protected SerializedProperty m_Large;
-        protected SerializedProperty m_MinShowDataNumber;
-        protected SerializedProperty m_MaxShowDataNumber;
-        protected SerializedProperty m_MaxCacheDataNumber;
         protected SerializedProperty m_LineSmoothStyle;
 
         protected float m_DefaultLabelWidth;
@@ -46,9 +43,6 @@ namespace XCharts
             m_Series = serializedObject.FindProperty("m_Series");
 
             m_Large = serializedObject.FindProperty("m_Large");
-            m_MinShowDataNumber = serializedObject.FindProperty("m_MinShowDataNumber");
-            m_MaxShowDataNumber = serializedObject.FindProperty("m_MaxShowDataNumber");
-            m_MaxCacheDataNumber = serializedObject.FindProperty("m_MaxCacheDataNumber");
             m_LineSmoothStyle = serializedObject.FindProperty("m_LineSmoothStyle");
         }
 
@@ -92,13 +86,7 @@ namespace XCharts
                 EditorGUI.indentLevel++;
                 var largeTip = "Whether to enable the optimization of large-scale graph. \n是否启用大规模线图的优化，在数据图形特别多的时候（>=5k）可以开启。";
                 EditorGUILayout.PropertyField(m_Large, new GUIContent("Large", largeTip));
-                EditorGUILayout.PropertyField(m_MinShowDataNumber, true);
-                EditorGUILayout.PropertyField(m_MaxShowDataNumber, true);
-                EditorGUILayout.PropertyField(m_MaxCacheDataNumber, true);
                 EditorGUILayout.PropertyField(m_LineSmoothStyle,true);
-                if (m_MinShowDataNumber.intValue < 0) m_MinShowDataNumber.intValue = 0;
-                if (m_MaxShowDataNumber.intValue < 0) m_MaxShowDataNumber.intValue = 0;
-                if (m_MaxCacheDataNumber.intValue < 0) m_MaxCacheDataNumber.intValue = 0;
                 EditorGUI.indentLevel--;
             }
         }

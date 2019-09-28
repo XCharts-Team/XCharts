@@ -84,22 +84,22 @@ namespace XCharts
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
             float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
             float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
-            int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
             int i;
-            if (seriesHig.Count < minShowDataNumber)
+            if (seriesHig.Count < serie.minShow)
             {
-                for (i = 0; i < minShowDataNumber; i++)
+                for (i = 0; i < serie.minShow; i++)
                 {
                     seriesHig.Add(0);
                 }
             }
             int rate = 1;
             var sampleDist = serie.lineSampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - minShowDataNumber) / (coordinateWid / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
-            for (i = minShowDataNumber; i < maxCount; i += rate)
+            for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {
@@ -269,13 +269,13 @@ namespace XCharts
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
             float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
             float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
-            int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
             int i = 0;
-            if (seriesHig.Count < minShowDataNumber)
+            if (seriesHig.Count < serie.minShow)
             {
-                for (i = 0; i < minShowDataNumber; i++)
+                for (i = 0; i < serie.minShow; i++)
                 {
                     seriesHig.Add(0);
                 }
@@ -284,9 +284,9 @@ namespace XCharts
 
             int rate = 1;
             var sampleDist = serie.lineSampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - minShowDataNumber) / (coordinateWid / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
-            for (i = minShowDataNumber; i < maxCount; i += rate)
+            for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {

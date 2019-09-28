@@ -256,12 +256,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(string serieName, float value, string dataName = null, int maxDataNumber = 0)
+        public bool AddData(string serieName, float value, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddYData(value, dataName, maxDataNumber);
+                serie.AddYData(value, dataName);
                 return true;
             }
             return false;
@@ -275,12 +275,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(int index, float value, string dataName = null, int maxDataNumber = 0)
+        public bool AddData(int index, float value, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddYData(value, dataName, maxDataNumber);
+                serie.AddYData(value, dataName);
                 return true;
             }
             return false;
@@ -294,12 +294,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
+        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName, maxDataNumber);
+                serie.AddData(multidimensionalData, dataName);
                 return true;
             }
             return false;
@@ -313,12 +313,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
+        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName, maxDataNumber);
+                serie.AddData(multidimensionalData, dataName);
                 return true;
             }
             return false;
@@ -333,12 +333,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
+        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
+                serie.AddXYData(xValue, yValue, dataName);
                 return true;
             }
             return false;
@@ -353,12 +353,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddXYData(int index, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
+        public bool AddXYData(int index, float xValue, float yValue, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
+                serie.AddXYData(xValue, yValue, dataName);
                 return true;
             }
             return false;

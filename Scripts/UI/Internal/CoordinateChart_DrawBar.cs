@@ -26,17 +26,17 @@ namespace XCharts
             float space = serie.barGap == -1 ? offset : offset + m_BarLastOffset;
 
             var showData = serie.GetDataList(m_DataZoom);
-            int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
-            if (seriesHig.Count < minShowDataNumber)
+            if (seriesHig.Count < serie.minShow)
             {
-                for (int i = 0; i < minShowDataNumber; i++)
+                for (int i = 0; i < serie.minShow; i++)
                 {
                     seriesHig.Add(0);
                 }
             }
-            for (int i = minShowDataNumber; i < maxCount; i++)
+            for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
                 {
@@ -110,18 +110,18 @@ namespace XCharts
             float offset = (categoryWidth - totalBarWidth) / 2;
             float barGapWidth = barWidth + barWidth * barGap;
             float space = serie.barGap == -1 ? offset : offset + m_BarLastOffset;
-            int maxCount = maxShowDataNumber > 0 ?
-                (maxShowDataNumber > showData.Count ? showData.Count : maxShowDataNumber)
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
 
-            if (seriesHig.Count < minShowDataNumber)
+            if (seriesHig.Count < serie.minShow)
             {
-                for (int i = 0; i < minShowDataNumber; i++)
+                for (int i = 0; i < serie.minShow; i++)
                 {
                     seriesHig.Add(0);
                 }
             }
-            for (int i = minShowDataNumber; i < maxCount; i++)
+            for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
                 {

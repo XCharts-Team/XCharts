@@ -42,38 +42,6 @@ namespace XCharts
         public float chartHeight { get { return m_ChartHeight; } }
 
         /// <summary>
-        /// The min number of data to show in chart.
-        /// 图表所显示数据的最小索引
-        /// </summary>
-        public int minShowDataNumber
-        {
-            get { return m_MinShowDataNumber; }
-            set { m_MinShowDataNumber = value; if (m_MinShowDataNumber < 0) m_MinShowDataNumber = 0; }
-        }
-
-        /// <summary>
-        /// The max number of data to show in chart.
-        /// 图表所显示数据的最大索引
-        /// </summary>
-        public int maxShowDataNumber
-        {
-            get { return m_MaxShowDataNumber; }
-            set { m_MaxShowDataNumber = value; if (m_MaxShowDataNumber < 0) m_MaxShowDataNumber = 0; }
-        }
-
-        /// <summary>
-        /// The max number of serie and axis data cache.
-        /// The first data will be remove when the size of serie and axis data is larger then maxCacheDataNumber.
-        /// default:0,unlimited.
-        /// 图表每个系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
-        /// </summary>
-        public int maxCacheDataNumber
-        {
-            get { return m_MaxCacheDataNumber; }
-            set { m_MaxCacheDataNumber = value; if (m_MaxCacheDataNumber < 0) m_MaxCacheDataNumber = 0; }
-        }
-
-        /// <summary>
         /// the smooth line chart style.
         /// 平滑折线图的平滑系数。
         /// </summary>
@@ -159,7 +127,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, data, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddData(serieName, data, dataName);
             if (success) RefreshChart();
             return success;
         }
@@ -174,7 +142,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, data, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddData(serieIndex, data, dataName);
             if (success)
             {
                 RefreshChart();
@@ -193,7 +161,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, multidimensionalData, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddData(serieName, multidimensionalData, dataName);
             if (success)
             {
                 RefreshChart();
@@ -212,7 +180,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, multidimensionalData, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddData(serieIndex, multidimensionalData, dataName);
             if (success)
             {
                 RefreshChart();
@@ -232,7 +200,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, float xValue, float yValue, string dataName)
         {
-            var success = m_Series.AddXYData(serieName, xValue, yValue, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (success)
             {
                 RefreshChart();
@@ -252,7 +220,7 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, float xValue, float yValue, string dataName = null)
         {
-            var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName, m_MaxCacheDataNumber);
+            var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
             if (success)
             {
                 RefreshChart();

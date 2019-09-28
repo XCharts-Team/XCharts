@@ -23,6 +23,10 @@ namespace XCharts
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
+            SerializedProperty m_MinShow = prop.FindPropertyRelative("m_MinShow");
+            SerializedProperty m_MaxShow = prop.FindPropertyRelative("m_MaxShow");
+            SerializedProperty m_MaxCache = prop.FindPropertyRelative("m_MaxCache");
+
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
             SerializedProperty m_LineArrow = prop.FindPropertyRelative("m_LineArrow");
             SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
@@ -79,6 +83,15 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_AxisIndex);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
+                EditorGUI.PropertyField(drawRect, m_MinShow);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_MaxShow);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_MaxCache);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                if (m_MaxCache.intValue < 0) m_MaxCache.intValue = 0;
                 if (serieType == SerieType.Line)
                 {
                     EditorGUI.PropertyField(drawRect, m_LineType);
@@ -325,7 +338,7 @@ namespace XCharts
             }
             else
             {
-                height += 6 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));

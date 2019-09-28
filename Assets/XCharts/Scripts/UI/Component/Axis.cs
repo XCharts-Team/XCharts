@@ -96,6 +96,7 @@ namespace XCharts
         [SerializeField] protected bool m_ShowSplitLine = false;
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
+        [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -155,6 +156,12 @@ namespace XCharts
         /// 坐标轴两边是否留白。
         /// </summary>
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
+        /// <summary>
+        /// The max number of axis data cache.
+        /// The first data will be remove when the size of axis data is larger then maxCache.
+        /// 可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// </summary>
+        public int maxCache { get { return m_MaxCache; } set { m_MaxCache = value < 0 ? 0 : value; } }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
         /// 类目数据，在类目轴（type: 'category'）中有效。
@@ -268,12 +275,11 @@ namespace XCharts
         /// 添加一个类目到类目数据列表
         /// </summary>
         /// <param name="category"></param>
-        /// <param name="maxDataNumber"></param>
-        public void AddData(string category, int maxDataNumber)
+        public void AddData(string category)
         {
-            if (maxDataNumber > 0)
+            if (maxCache > 0)
             {
-                while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
+                while (m_Data.Count > maxCache) m_Data.RemoveAt(0);
             }
             m_Data.Add(category);
         }

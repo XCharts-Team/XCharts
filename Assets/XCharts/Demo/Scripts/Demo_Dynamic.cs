@@ -24,7 +24,8 @@ public class Demo_Dynamic : MonoBehaviour
         //chart.RemoveData();
         var serie = chart.AddSerie("data", SerieType.Line);
         serie.symbol.type = SerieSymbolType.None;
-        chart.maxCacheDataNumber = maxCacheDataNumber;
+        serie.maxCache = maxCacheDataNumber;
+        chart.xAxises[0].maxCache = maxCacheDataNumber;
         timeNow = DateTime.Now;
         timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
     }

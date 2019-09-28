@@ -81,10 +81,10 @@ namespace XCharts
                 }
                 var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(serieNameCount);
                 color.a *= serie.symbol.opacity;
-                int maxCount = maxShowDataNumber > 0 ?
-                    (maxShowDataNumber > serie.dataCount ? serie.dataCount : maxShowDataNumber)
+                int maxCount = serie.maxShow > 0 ?
+                    (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                     : serie.dataCount;
-                for (int n = minShowDataNumber; n < maxCount; n++)
+                for (int n = serie.minShow; n < maxCount; n++)
                 {
                     var serieData = serie.GetDataList(m_DataZoom)[n];
                     float xValue = serieData.data[0];

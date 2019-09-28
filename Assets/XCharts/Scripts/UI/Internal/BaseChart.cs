@@ -39,9 +39,6 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected float m_Large = 1;
-        [SerializeField] protected int m_MinShowDataNumber;
-        [SerializeField] protected int m_MaxShowDataNumber;
-        [SerializeField] protected int m_MaxCacheDataNumber;
         [SerializeField] [Range(1, 8)] private float m_LineSmoothStyle = 2f;
 
         [NonSerialized] private Theme m_CheckTheme = 0;

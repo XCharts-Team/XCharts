@@ -81,13 +81,6 @@ namespace XCharts
         public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
 
         /// <summary>
-        /// the min pixel dist of sample.
-        /// 采样的最小像素距离，默认为0时不采样。当两个数据点间的像素距离小于改值时，开启采样，保证两点间的像素距离不小于改值。
-        /// </summary>
-        /// <value></value>
-        public float sampleDist { get { return m_SampleDist; } set { m_SampleDist = value < 0 ? 0 : value; } }
-
-        /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
         /// </summary>

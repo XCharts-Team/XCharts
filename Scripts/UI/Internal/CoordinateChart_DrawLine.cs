@@ -99,8 +99,10 @@ namespace XCharts
             var sampleDist = serie.sampleDist;
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
+            var includeLastData = false;
             for (i = serie.minShow; i < maxCount; i += rate)
             {
+                if (i == maxCount - 1) includeLastData = true;
                 if (i >= seriesHig.Count)
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
@@ -109,7 +111,7 @@ namespace XCharts
                 seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np);
                 serie.dataPoints.Add(np);
             }
-            if (maxCount % rate != 0)
+            if (!includeLastData)
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);

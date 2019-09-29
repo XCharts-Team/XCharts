@@ -214,6 +214,7 @@
   * `DashDot`：点划线。
   * `DashDotDot`：双点划线。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
+* `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
 
 相关接口：
@@ -280,6 +281,10 @@
 * `stack`：数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
 * `axisIndex`：使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
+* `minShow`：系列显示数据的最小索引。
+* `maxShow`：系列显示数据的最大索引。
+* `maxCache`：系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `sampleDist`采样的最小水平像素距离，默认为0时不采样。当两个数据点间的水平像素距离小于该值时，开启采样，保证两点间的水平像素距离不小于该值。
 * `areaStyle`：区域填充样式 `AreaStyle`。`AreaStyle`参数如下:
   * `show`：是否显示区域填充。
   * `origin`：区域填充的起始位置 `AreaOrigin`。有以下三种填充方式：
@@ -394,6 +399,19 @@
   * `iconOffset`：图标偏移。
 
 相关接口：
+
+## Settings
+
+---
+
+全局配置。
+
+* `large`：
+* `minShowDataNumber`：图表所显示数据的最小索引。
+* `maxShowDataNumber`：图表所显示数据的最大索引。
+* `maxCacheDataNumber`：图表每个系列中可缓存的最大数据量。默认为0没有限制，大于`0`时超过指定值会移除旧数据再插入新数据。
+* `lineSmoothStyle`：平滑折线图的平滑系数。
+* `sampleDist`：采样的最小像素距离，默认为`0`时不采样。当两个数据点间的像素距离小于改值时，开启采样，保证两点间的像素距离不小于改值。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

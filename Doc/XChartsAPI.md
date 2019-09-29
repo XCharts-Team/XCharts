@@ -12,26 +12,22 @@
 * `BaseChart.series`：系列列表`Series`。
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
-* `BaseChart.minShowDataNumber`：图表所显示数据的最小索引。
-* `BaseChart.maxShowDataNumber`：图表所显示数据的最大索引。
-* `BaseChart.maxCacheDataNumber`：图表每个系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `BaseChart.lineSmoothStyle`：平滑折线图的平滑系数。
-* `BaseChart.sampleMinDist`采样的最小像素距离，默认为0时不采样。当两个数据点间的像素距离小于改值时，开启采样，保证两点间的像素距离不小于改值。
 * `BaseChart.SetSize(float width, float height)`：设置图表的大小。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。
 * `BaseChart.RemoveData(string serieName)`：清除指定系列名称的数据。
-* `BaseChart.AddSerie(string serieName, SerieType type, bool show = true)`：添加一个系列到系列列表中。
+* `BaseChart.AddSerie(SerieType type, string serieName = null, bool show = true)`：添加一个系列到系列列表中。
 * `BaseChart.AddData(string serieName, float data, string dataName = null)`：添加一个数据到指定的系列中。
 * `BaseChart.AddData(int serieIndex, float data, string dataName = null)`：添加一个数据到指定的系列中。
 * `BaseChart.AddData(string serieName, List<float> multidimensionalData, string dataName = null)`：添加多维数据`（x,y,z...）`到指定的系列中。
 * `BaseChart.AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)`：添加多维数据`（x,y,z...）`到指定的系列中。
 * `BaseChart.AddData(string serieName, float xValue, float yValue, string dataName)`：添加`（x,y）`数据到指定系列中。
 * `BaseChart.AddData(int serieIndex, float xValue, float yValue, string dataName = null)`：添加`（x,y）`数据到指定系列中。
-* `BaseChart.UpdateData(string serieName, float value, int dataIndex = 0)`：更新指定系列中的指定索引数据。
-* `BaseChart.UpdateData(int serieIndex, float value, int dataIndex = 0)`：更新指定系列中的指定索引数据。
-* `BaseChart.UpdateDataName(string serieName, string dataName, int dataIndex = 0)`：更新指定系列中的指定索引数据名称。
-* `BaseChart.UpdateDataName(int serieIndex, string dataName, int dataIndex)`：更新指定系列中的指定索引数据名称。
+* `BaseChart.UpdateData(string serieName,int dataIndex, float value)`：更新指定系列中的指定索引数据。
+* `BaseChart.UpdateData(int serieIndex,int dataIndex, float value)`：更新指定系列中的指定索引数据。
+* `BaseChart.UpdateDataName(string serieName,int dataIndex, string dataName)`：更新指定系列中的指定索引数据名称。
+* `BaseChart.UpdateDataName(int serieIndex, int dataIndex, string dataName)`：更新指定系列中的指定索引数据名称。
 * `BaseChart.SetActive(string serieName, bool active)`：设置指定系列是否显示。
 * `BaseChart.SetActive(int serieIndex, bool active)`：设置指定系列是否显示。
 * `BaseChart.IsActive(string serieName)`：获取指定系列是否显示。

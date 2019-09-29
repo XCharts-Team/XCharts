@@ -96,7 +96,7 @@ namespace XCharts
                 }
             }
             int rate = 1;
-            var sampleDist = serie.lineSampleDist;
+            var sampleDist = serie.sampleDist;
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
             for (i = serie.minShow; i < maxCount; i += rate)
@@ -283,7 +283,7 @@ namespace XCharts
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
 
             int rate = 1;
-            var sampleDist = serie.lineSampleDist;
+            var sampleDist = serie.sampleDist;
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
             for (i = serie.minShow; i < maxCount; i += rate)

@@ -4,6 +4,16 @@
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)
 
+* [Theme](#Theme)  
+* [Title](#Title)  
+* [Legend](#Legend)  
+* [Tooltip](#Tooltip)  
+* [DataZoom](#DataZoom)  
+* [Grid](#Grid)  
+* [XAxis](#XAxis)  
+* [Series](#Series)  
+* [Settings](#Settings)
+
 ## `Theme`
 
 ---
@@ -315,6 +325,9 @@
   * `selectedSizeCallback`：当 `sizeType` 指定为 `Callback` 时，指定的高亮回调函数。
   * `color`：标记图形的颜色，默认和系列一致。
   * `opacity`：图形标记的透明度。
+  * `startIndex`：开始显示图形标记的索引。
+  * `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+  * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
 * `lineType`：折线图样式类型。支持以下九种类型：
   * `Normal`：普通折线图。
   * `Smooth`：平滑曲线。

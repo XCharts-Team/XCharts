@@ -293,7 +293,7 @@ namespace XCharts
                     {
                         ChartHelper.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
                     }
-                    if (serie.symbol.type != SerieSymbolType.None)
+                    if (serie.symbol.type != SerieSymbolType.None )
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                         float symbolRadius = symbolSize - serie.lineStyle.width * 2;

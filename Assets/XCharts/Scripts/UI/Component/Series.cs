@@ -80,8 +80,16 @@ namespace XCharts
         {
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if ((string.IsNullOrEmpty(name) && string.IsNullOrEmpty(m_Series[i].name))
-                    || name.Equals(m_Series[i].name))
+                bool match = false;
+                if (string.IsNullOrEmpty(name))
+                {
+                    if (string.IsNullOrEmpty(m_Series[i].name)) match = true;
+                }
+                else if (name.Equals(m_Series[i].name))
+                {
+                    match = true;
+                }
+                if (match)
                 {
                     m_Series[i].index = i;
                     return m_Series[i];

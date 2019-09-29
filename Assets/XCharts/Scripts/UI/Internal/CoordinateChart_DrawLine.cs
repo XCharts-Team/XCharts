@@ -19,6 +19,7 @@ namespace XCharts
                 var count = serie.dataPoints.Count;
                 for (int i = 0; i < count; i++)
                 {
+                    if (!serie.symbol.ShowSymbol(i, count)) continue;
                     if (serie.lineArrow.show)
                     {
                         if (serie.lineArrow.position == LineArrow.Position.Start && i == 0) continue;

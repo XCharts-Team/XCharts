@@ -28,6 +28,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.09.29）增加`SerieSymbol`关于显示间隔的相关配置
 * （2019.09.29）重构代码：
   1. `BaseChart`的`sampleDist`删除，`Serie`增加`lineSampleDist`
   2. `BaseChart`的`minShowDataNumber`删除，`Serie`增加`minShow`

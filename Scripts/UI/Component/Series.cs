@@ -78,6 +78,7 @@ namespace XCharts
         /// <returns></returns>
         public Serie GetSerie(string name)
         {
+            if (string.IsNullOrEmpty(name)) return null;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 if (name.Equals(m_Series[i].name))
@@ -426,7 +427,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public void UpdateXYData(string serieName,int dataIndex, float xValue, float yValue)
+        public void UpdateXYData(string serieName, int dataIndex, float xValue, float yValue)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -442,7 +443,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public void UpdateXYData(int serieIndex, int dataIndex,float xValue, float yValue)
+        public void UpdateXYData(int serieIndex, int dataIndex, float xValue, float yValue)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)

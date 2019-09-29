@@ -75,7 +75,7 @@ namespace XCharts
             RemoveData();
             m_Radars.Add(Radar.defaultRadar);
             m_Title.text = "RadarChart";
-            var serie = AddSerie("serie1", SerieType.Radar);
+            var serie = AddSerie(SerieType.Radar, "serie1");
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;

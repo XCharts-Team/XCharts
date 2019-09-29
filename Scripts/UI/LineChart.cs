@@ -19,7 +19,7 @@ namespace XCharts
             m_Title.text = "LineChart";
             m_Tooltip.type = Tooltip.Type.Line;
             RemoveData();
-            AddSerie("serie1", SerieType.Line);
+            AddSerie(SerieType.Line, "serie1");
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));

@@ -44,7 +44,7 @@ namespace XCharts
             m_Pie = Pie.defaultPie;
             m_Title.text = "PieChart";
             RemoveData();
-            AddSerie("serie1", SerieType.Pie);
+            AddSerie(SerieType.Pie,"serie1");
             AddData(0, 70, "pie1");
             AddData(0, 20, "pie2");
             AddData(0, 10, "pie3");

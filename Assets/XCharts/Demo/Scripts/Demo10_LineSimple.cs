@@ -30,7 +30,7 @@ public class Demo10_LineSimple : MonoBehaviour
         chart.xAxises[0].boundaryGap = true;
 
         chart.RemoveData();
-        chart.AddSerie("test", SerieType.Line);
+        chart.AddSerie(SerieType.Line);
         for (int i = 0; i < dataCount; i++)
         {
             chart.AddXAxisData("x" + i);

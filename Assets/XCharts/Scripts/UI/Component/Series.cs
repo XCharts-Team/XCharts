@@ -212,7 +212,7 @@ namespace XCharts
         /// <param name="type"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public Serie AddSerie(string serieName, SerieType type, bool show = true)
+        public Serie AddSerie(SerieType type, string serieName, bool show = true)
         {
             var serie = GetSerie(serieName);
             if (serie == null)
@@ -254,7 +254,6 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddData(string serieName, float value, string dataName = null)
         {
@@ -273,7 +272,6 @@ namespace XCharts
         /// <param name="index"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddData(int index, float value, string dataName = null)
         {
@@ -292,7 +290,6 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
@@ -311,7 +308,6 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
@@ -331,7 +327,6 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null)
         {
@@ -351,7 +346,6 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
         public bool AddXYData(int index, float xValue, float yValue, string dataName = null)
         {
@@ -370,16 +364,22 @@ namespace XCharts
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="dataIndex"></param>
-        public void UpdateData(string name, float value, int dataIndex = 0)
+        public void UpdateData(string serieName, int dataIndex, float value)
         {
-            var serie = GetSerie(name);
+            var serie = GetSerie(serieName);
             if (serie != null)
             {
                 serie.UpdateYData(dataIndex, value);
             }
         }
 
-        public void UpdateDataName(string serieName, string dataName, int dataIndex = 0)
+        /// <summary>
+        /// 更新指定系列的数据项名称
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="dataName"></param>
+        public void UpdateDataName(string serieName, int dataIndex, string dataName)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -388,7 +388,13 @@ namespace XCharts
             }
         }
 
-        public void UpdateDataName(int serieIndex, string dataName, int dataIndex = 0)
+        /// <summary>
+        /// 更新指定系列的数据项名称
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="dataName"></param>
+        public void UpdateDataName(int serieIndex, int dataIndex, string dataName)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
@@ -398,14 +404,14 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 更新指定系列的维度Y数据
+        /// 更新指定系列的维度Y数据项的值
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
+        /// <param name="serieIndex"></param>
         /// <param name="dataIndex"></param>
-        public void UpdateData(int index, float value, int dataIndex = 0)
+        /// <param name="value"></param>
+        public void UpdateData(int serieIndex, int dataIndex, float value)
         {
-            var serie = GetSerie(index);
+            var serie = GetSerie(serieIndex);
             if (serie != null)
             {
                 serie.UpdateYData(dataIndex, value);
@@ -416,13 +422,13 @@ namespace XCharts
         /// <summary>
         /// 更新指定系列的维度X和维度Y数据
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="serieName"></param>
+        /// <param name="dataIndex"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        /// <param name="dataIndex"></param>
-        public void UpdateXYData(string name, float xValue, float yValue, int dataIndex = 0)
+        public void UpdateXYData(string serieName,int dataIndex, float xValue, float yValue)
         {
-            var serie = GetSerie(name);
+            var serie = GetSerie(serieName);
             if (serie != null)
             {
                 serie.UpdateXYData(dataIndex, xValue, yValue);
@@ -432,13 +438,13 @@ namespace XCharts
         /// <summary>
         /// 更新指定系列的维度X和维度Y数据
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="serieIndex"></param>
+        /// <param name="dataIndex"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        /// <param name="dataIndex"></param>
-        public void UpdateXYData(int index, float xValue, float yValue, int dataIndex = 0)
+        public void UpdateXYData(int serieIndex, int dataIndex,float xValue, float yValue)
         {
-            var serie = GetSerie(index);
+            var serie = GetSerie(serieIndex);
             if (serie != null)
             {
                 serie.UpdateXYData(dataIndex, xValue, yValue);

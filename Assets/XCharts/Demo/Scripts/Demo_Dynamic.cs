@@ -22,7 +22,7 @@ public class Demo_Dynamic : MonoBehaviour
     {
         chart = gameObject.GetComponentInChildren<CoordinateChart>();
         //chart.RemoveData();
-        var serie = chart.AddSerie("data", SerieType.Line);
+        var serie = chart.AddSerie(SerieType.Line);
         serie.symbol.type = SerieSymbolType.None;
         serie.maxCache = maxCacheDataNumber;
         chart.xAxises[0].maxCache = maxCacheDataNumber;

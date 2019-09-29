@@ -37,7 +37,7 @@ public class Demo11_AddSinCurve : MonoBehaviour
 
         chart.RemoveData();
 
-        var serie = chart.AddSerie("test", SerieType.Line);
+        var serie = chart.AddSerie(SerieType.Line);
         serie.symbol.type = SerieSymbolType.None;
         serie.lineType = LineType.Normal;
         for (angle = 0; angle < 1080; angle++)

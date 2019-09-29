@@ -18,7 +18,7 @@ namespace XCharts
             m_Title.text = "BarChart";
             m_Tooltip.type = Tooltip.Type.Shadow;
             RemoveData();
-            AddSerie("serie1", SerieType.Bar);
+            AddSerie(SerieType.Bar, "serie1");
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));

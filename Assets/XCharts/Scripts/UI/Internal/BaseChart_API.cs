@@ -111,9 +111,9 @@ namespace XCharts
         /// <param name="type">the type of serie</param>
         /// <param name="show">whether to show this serie</param>
         /// <returns>the added serie</returns>
-        public virtual Serie AddSerie(string serieName, SerieType type, bool show = true)
+        public virtual Serie AddSerie(SerieType type, string serieName = null, bool show = true)
         {
-            return m_Series.AddSerie(serieName, type);
+            return m_Series.AddSerie(type, serieName);
         }
 
         /// <summary>
@@ -234,11 +234,11 @@ namespace XCharts
         /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
-        /// <param name="value">the data will be update</param>
         /// <param name="dataIndex">the index of data</param>
-        public virtual void UpdateData(string serieName, float value, int dataIndex = 0)
+        /// <param name="value">the data will be update</param>
+        public virtual void UpdateData(string serieName,int dataIndex, float value)
         {
-            m_Series.UpdateData(serieName, value, dataIndex);
+            m_Series.UpdateData(serieName,dataIndex, value);
             RefreshChart();
         }
 
@@ -247,11 +247,11 @@ namespace XCharts
         /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
-        /// <param name="value">the data will be update</param>
         /// <param name="dataIndex">the index of data</param>
-        public virtual void UpdateData(int serieIndex, float value, int dataIndex = 0)
+        /// <param name="value">the data will be update</param>
+        public virtual void UpdateData(int serieIndex,int dataIndex, float value)
         {
-            m_Series.UpdateData(serieIndex, value, dataIndex);
+            m_Series.UpdateData(serieIndex, dataIndex,value);
             RefreshChart();
         }
 
@@ -260,11 +260,11 @@ namespace XCharts
         /// 更新指定系列中的指定索引数据名称。
         /// </summary>
         /// <param name="serieName"></param>
-        /// <param name="dataName"></param>
         /// <param name="dataIndex"></param>
-        public virtual void UpdateDataName(string serieName, string dataName, int dataIndex = 0)
+        /// <param name="dataName"></param>
+        public virtual void UpdateDataName(string serieName,int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieName, dataName, dataIndex);
+            m_Series.UpdateDataName(serieName,dataIndex, dataName);
         }
 
         /// <summary>
@@ -274,9 +274,9 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="dataName"></param>
         /// <param name="dataIndex"></param>
-        public virtual void UpdateDataName(int serieIndex, string dataName, int dataIndex)
+        public virtual void UpdateDataName(int serieIndex, int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieIndex, dataName, dataIndex);
+            m_Series.UpdateDataName(serieIndex, dataIndex,dataName);
         }
 
         /// <summary>

@@ -78,10 +78,10 @@ namespace XCharts
         /// <returns></returns>
         public Serie GetSerie(string name)
         {
-            if (string.IsNullOrEmpty(name)) return null;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                if (name.Equals(m_Series[i].name))
+                if ((string.IsNullOrEmpty(name) && string.IsNullOrEmpty(m_Series[i].name))
+                    || name.Equals(m_Series[i].name))
                 {
                     m_Series[i].index = i;
                     return m_Series[i];

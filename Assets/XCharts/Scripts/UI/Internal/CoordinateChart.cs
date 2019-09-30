@@ -368,7 +368,7 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
-            if (yAxis.minValue == 0 && yAxis.maxValue == 0) return;
+            if (yAxis.IsValue() && yAxis.minValue == 0 && yAxis.maxValue == 0) return;
             var labelColor = yAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 yAxis.axisLabel.color;
@@ -472,7 +472,7 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
-            if (xAxis.minValue == 0 && xAxis.maxValue == 0) return;
+            if (xAxis.IsValue() && xAxis.minValue == 0 && xAxis.maxValue == 0) return;
             var labelColor = xAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 xAxis.axisLabel.color;

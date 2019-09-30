@@ -31,6 +31,7 @@ namespace XCharts
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
+            if (!m_CheckMinMaxValue) return;
             if (m_YAxises[0].type == Axis.AxisType.Category
                 || m_YAxises[1].type == Axis.AxisType.Category)
             {

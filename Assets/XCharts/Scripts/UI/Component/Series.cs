@@ -638,7 +638,7 @@ namespace XCharts
             if (max == int.MinValue && min == int.MaxValue)
             {
                 minVaule = 0;
-                maxValue = 90;
+                maxValue = 0;
             }
             else
             {

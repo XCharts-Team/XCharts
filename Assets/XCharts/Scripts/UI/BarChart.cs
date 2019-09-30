@@ -33,6 +33,7 @@ namespace XCharts
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
+            if (!m_CheckMinMaxValue) return;
             bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
             m_Series.GetStackSeries(ref m_StackSeries);
             int seriesCount = m_StackSeries.Count;

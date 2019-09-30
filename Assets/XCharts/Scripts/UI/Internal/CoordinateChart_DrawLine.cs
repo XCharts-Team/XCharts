@@ -101,6 +101,8 @@ namespace XCharts
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
             if (rate < 1) rate = 1;
             var includeLastData = false;
+            var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
+                DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i == maxCount - 1) includeLastData = true;
@@ -108,7 +110,7 @@ namespace XCharts
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float yValue = showData[i].data[1];
+                float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i);
                 seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np);
                 serie.dataPoints.Add(np);
             }
@@ -184,6 +186,71 @@ namespace XCharts
                 serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
                 RefreshChart();
             }
+        }
+
+        private float DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
+        {
+            var totalAverage = 0f;
+            if (rate > 1 && sampleType == SampleType.Peak)
+            {
+                var total = 0f;
+                for (int i = minCount; i < maxCount; i++)
+                {
+                    total += showData[i].data[1];
+                }
+                totalAverage = total / (maxCount - minCount);
+            }
+            return totalAverage;
+        }
+
+        private float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
+            int minCount, int maxCount, float totalAverage, int index)
+        {
+            if (rate <= 1 || index == minCount) return showData[index].data[1];
+            switch (sampleType)
+            {
+                case SampleType.Sum:
+                case SampleType.Average:
+                    float total = 0;
+                    for (int i = index; i > index - rate; i--)
+                    {
+                        total += showData[i].data[1];
+                    }
+                    if (sampleType == SampleType.Average) return total / rate;
+                    else return total;
+                case SampleType.Max:
+                    float max = float.MinValue;
+                    for (int i = index; i > index - rate; i--)
+                    {
+                        var value = showData[i].data[1];
+                        if (value > max) max = value;
+                    }
+                    return max;
+                case SampleType.Min:
+                    float min = float.MaxValue;
+                    for (int i = index; i > index - rate; i--)
+                    {
+                        var value = showData[i].data[1];
+                        if (value < min) min = value;
+                    }
+                    return min;
+                case SampleType.Peak:
+                    max = float.MinValue;
+                    min = float.MaxValue;
+                    total = 0;
+                    for (int i = index; i > index - rate; i--)
+                    {
+                        var value = showData[i].data[1];
+                        total += value;
+                        if (value < min) min = value;
+                        if (value > max) max = value;
+                    }
+                    var average = total / rate;
+                    if (average >= totalAverage) return max;
+                    else return min;
+
+            }
+            return showData[index].data[1];
         }
 
         private float GetDetailProgress(Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 llp,

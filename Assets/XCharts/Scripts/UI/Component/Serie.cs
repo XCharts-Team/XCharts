@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace XCharts
 {
@@ -112,6 +111,33 @@ namespace XCharts
     }
 
     /// <summary>
+    /// 采样类型
+    /// </summary>
+    public enum SampleType
+    {
+        /// <summary>
+        /// 取峰值。
+        /// </summary>
+        Peak,
+        /// <summary>
+        /// 取过滤点的平均值。
+        /// </summary>
+        Average,
+        /// <summary>
+        /// 取过滤点的最大值。
+        /// </summary>
+        Max,
+        /// <summary>
+        /// 取过滤点的最小值。
+        /// </summary>
+        Min,
+        /// <summary>
+        /// 取过滤点的和。
+        /// </summary>
+        Sum
+    }
+
+    /// <summary>
     /// 系列。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
@@ -130,6 +156,9 @@ namespace XCharts
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private LineType m_LineType = LineType.Normal;
         [SerializeField] private float m_SampleDist = 0;
+        [SerializeField] private SampleType m_SampleType = SampleType.Average;
+        [SerializeField] private float m_SampleAverage = 0;
+
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private float m_BarWidth = 0.6f;
         [SerializeField] private float m_BarGap = 0.3f; // 30%
@@ -241,6 +270,16 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public float sampleDist { get { return m_SampleDist; } set { m_SampleDist = value < 0 ? 0 : value; } }
+        /// <summary>
+        /// the type of sample.
+        /// 采样类型。当sampleDist大于0时有效。
+        /// </summary>
+        public SampleType sampleType { get { return m_SampleType; } set { m_SampleType = value; } }
+        /// <summary>
+        /// 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
+        /// </summary>
+        /// <value></value>
+        public float sampleAverage { get { return m_SampleAverage; } set { m_SampleAverage = value; } }
         /// <summary>
         /// The style of line.
         /// 线条样式。

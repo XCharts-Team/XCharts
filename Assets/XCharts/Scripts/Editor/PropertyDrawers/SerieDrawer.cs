@@ -31,6 +31,8 @@ namespace XCharts
             SerializedProperty m_LineArrow = prop.FindPropertyRelative("m_LineArrow");
             SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
             SerializedProperty m_SampleDist = prop.FindPropertyRelative("m_SampleDist");
+            SerializedProperty m_SampleType = prop.FindPropertyRelative("m_SampleType");
+            SerializedProperty m_SampleAverage = prop.FindPropertyRelative("m_SampleAverage");
             SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
             SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
             SerializedProperty m_BarCategoryGap = prop.FindPropertyRelative("m_BarCategoryGap");
@@ -97,6 +99,10 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_LineType);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_SampleDist);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_SampleType);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_SampleAverage);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Line
@@ -361,7 +367,7 @@ namespace XCharts
                 if (serieType == SerieType.Line)
                 {
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
-                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Bar)
                 {
@@ -371,7 +377,7 @@ namespace XCharts
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                     int num = m_Data.arraySize + 2;
-                    if (num > 30) num = 14;
+                    if (num > 30) num = 15;
                     if (prop.FindPropertyRelative("m_ShowDataIcon").boolValue)
                     {
                         num *= 5;

@@ -61,6 +61,7 @@ namespace XCharts
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
+            if (!m_CheckMinMaxValue) return;
             HashSet<string> serieNameSet = new HashSet<string>();
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)

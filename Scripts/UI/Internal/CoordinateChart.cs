@@ -27,10 +27,12 @@ namespace XCharts
         private Grid m_CheckCoordinate = Grid.defaultGrid;
         private bool m_XAxisChanged;
         private bool m_YAxisChanged;
+        protected bool m_CheckMinMaxValue;
 
         protected override void Awake()
         {
             base.Awake();
+            m_CheckMinMaxValue = false;
             InitDefaultAxises();
             CheckMinMaxValue();
             InitDataZoom();
@@ -343,6 +345,8 @@ namespace XCharts
                 m_YAxises.Add(axis1);
                 m_YAxises.Add(axis2);
             }
+            foreach (var axis in m_XAxises) axis.minValue = axis.maxValue = 0;
+            foreach (var axis in m_YAxises) axis.minValue = axis.maxValue = 0;
         }
 
         private void InitAxisY()
@@ -355,8 +359,6 @@ namespace XCharts
 
         private void InitYAxis(int yAxisIndex, YAxis yAxis)
         {
-            yAxis.minValue = 0;
-            yAxis.maxValue = 100;
             yAxis.axisLabelTextList.Clear();
 
             string objName = yAxisIndex > 0 ? s_DefaultAxisY + "2" : s_DefaultAxisY;
@@ -366,7 +368,7 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
-
+            if (yAxis.minValue == 0 && yAxis.maxValue == 0) return;
             var labelColor = yAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 yAxis.axisLabel.color;
@@ -462,8 +464,6 @@ namespace XCharts
 
         private void InitXAxis(int xAxisIndex, XAxis xAxis)
         {
-            xAxis.minValue = 0;
-            xAxis.maxValue = 100;
             xAxis.axisLabelTextList.Clear();
 
             string objName = xAxisIndex > 0 ? ChartHelper.Cancat(s_DefaultAxisX, 2) : s_DefaultAxisX;
@@ -472,6 +472,7 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
+            if (xAxis.minValue == 0 && xAxis.maxValue == 0) return;
             var labelColor = xAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 xAxis.axisLabel.color;
@@ -666,7 +667,7 @@ namespace XCharts
         {
             if (axis.IsCategory() || !axis.show) return;
             int tempMinValue = 0;
-            int tempMaxValue = 100;
+            int tempMaxValue = 0;
             if (m_XAxises[axisIndex].IsValue() && m_YAxises[axisIndex].IsValue())
             {
                 if (axis is XAxis)
@@ -685,6 +686,8 @@ namespace XCharts
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
+                m_CheckMinMaxValue = true;
+
                 axis.minValue = tempMinValue;
                 axis.maxValue = tempMaxValue;
                 axis.zeroXOffset = 0;

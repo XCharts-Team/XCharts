@@ -165,7 +165,7 @@ namespace XCharts
             float gap = 0.3f;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 if (serie.type == SerieType.Bar)
                 {
                     if (serie.barGap != 0)
@@ -186,7 +186,7 @@ namespace XCharts
             barStackSet.Clear();
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 if (serie.type == SerieType.Bar && serie.show)
                 {
                     if (!string.IsNullOrEmpty(serie.stack))
@@ -217,7 +217,7 @@ namespace XCharts
             float barWidth = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 if (serie.type == SerieType.Bar && serie.show && now.stack.Equals(serie.stack))
                 {
                     if (serie.barWidth > barWidth) barWidth = serie.barWidth;

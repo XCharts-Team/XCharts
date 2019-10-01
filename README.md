@@ -28,6 +28,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.10.01）重构代码，废弃`Series.series`接口，用`Series.list`代替
 * （2019.10.01）增加`customDrawCallback`自定义绘制回调
 * （2019.10.01）增加`SmoothDash`平滑虚线的支持
 * （2019.09.30）增加`Serie`采样类型`sampleType`的相关配置

@@ -346,7 +346,7 @@ namespace XCharts
         /// <returns></returns>
         public virtual bool IsActiveByLegend(string legendName)
         {
-            foreach (var serie in m_Series.series)
+            foreach (var serie in m_Series.list)
             {
                 if (serie.show && legendName.Equals(serie.name))
                 {

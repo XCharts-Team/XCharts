@@ -7,7 +7,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Serie), true)]
     public class SerieDrawer : PropertyDrawer
     {
-
         private Dictionary<string, bool> m_SerieModuleToggle = new Dictionary<string, bool>();
         private List<bool> m_DataFoldout = new List<bool>();
         private bool m_ShowJsonDataArea = false;
@@ -35,7 +34,6 @@ namespace XCharts
             SerializedProperty m_SampleAverage = prop.FindPropertyRelative("m_SampleAverage");
             SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
             SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
-            SerializedProperty m_BarCategoryGap = prop.FindPropertyRelative("m_BarCategoryGap");
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");

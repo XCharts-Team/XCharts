@@ -67,7 +67,7 @@ namespace XCharts
             bool isDataHighlight = false;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 serie.index = i;
                 var data = serie.data;
                 serie.animation.InitProgress(data.Count, 0, 360);
@@ -213,7 +213,7 @@ namespace XCharts
 
         private void DrawLabelBackground(VertexHelper vh)
         {
-            foreach (var serie in m_Series.series)
+            foreach (var serie in m_Series.list)
             {
                 if (serie.type == SerieType.Pie && serie.label.show)
                 {
@@ -279,7 +279,7 @@ namespace XCharts
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 serie.index = i;
 
                 if (!serie.show)

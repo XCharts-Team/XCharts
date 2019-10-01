@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 namespace XCharts
 {
@@ -10,6 +11,7 @@ namespace XCharts
     [System.Serializable]
     public class Series : JsonDataSupport
     {
+
         [SerializeField] protected List<Serie> m_Series;
 
         /// <summary>
@@ -17,7 +19,15 @@ namespace XCharts
         /// 系列列表。
         /// </summary>
         /// <value></value>
+        [Obsolete("Use series.list instead.", true)]
         public List<Serie> series { get { return m_Series; } }
+
+        /// <summary>
+        /// the list of serie
+        /// 系列列表。
+        /// </summary>
+        /// <value></value>
+        public List<Serie> list { get { return m_Series; } }
         /// <summary>
         /// the size of serie list.
         /// 系列个数。
@@ -532,7 +542,7 @@ namespace XCharts
         /// <returns></returns>
         public bool IsUsedAxisIndex(int axisIndex)
         {
-            foreach (var serie in series)
+            foreach (var serie in list)
             {
                 if (serie.axisIndex == axisIndex) return true;
             }

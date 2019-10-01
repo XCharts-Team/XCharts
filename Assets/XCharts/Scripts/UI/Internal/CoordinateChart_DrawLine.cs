@@ -79,7 +79,6 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
-            var lastSerie = m_Series.GetSerie(serie.index - 1);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
             float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
@@ -357,7 +356,6 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
-            var lastSerie = m_Series.GetSerie(serieIndex - 1);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
             float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
@@ -373,8 +371,6 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
-            var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
-
             int rate = 1;
             var sampleDist = serie.sampleDist;
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
@@ -493,7 +489,6 @@ namespace XCharts
             bool isDown;
             var dir1 = (np - lp).normalized;
             dir1v = Vector3.Cross(dir1, Vector3.forward).normalized * (isYAxis ? -1 : 1);
-            float cut = 0;
             if (np != nnp)
             {
                 var dir2 = (nnp - np).normalized;
@@ -502,7 +497,6 @@ namespace XCharts
                 isDown = isYAxis ? normal.z >= 0 : normal.z <= 0;
                 var angle = (180 - Vector3.Angle(dir1, dir2)) * Mathf.Deg2Rad / 2;
                 var diff = serie.lineStyle.width / Mathf.Sin(angle);
-                cut = serie.lineStyle.width / Mathf.Tan(angle);
                 var dirDp = Vector3.Cross(dir3, Vector3.forward).normalized * (isYAxis ? -1 : 1);
                 dir2v = Vector3.Cross(dir2, Vector3.forward).normalized * (isYAxis ? -1 : 1);
                 dnPos = np + (isDown ? dirDp : -dirDp) * diff;

@@ -33,7 +33,7 @@ public class Demo11_AddSinCurve : MonoBehaviour
 
         chart.xAxises[0].boundaryGap = false;
         chart.xAxises[0].maxCache = 0;
-        chart.series.series[0].maxCache = 0;
+        chart.series.list[0].maxCache = 0;
 
         chart.RemoveData();
 

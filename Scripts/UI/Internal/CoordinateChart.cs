@@ -914,7 +914,7 @@ namespace XCharts
             ChartDrawer.DrawLine(vh, p4, p1, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
             if (m_DataZoom.showDataShadow && m_Series.Count > 0)
             {
-                Serie serie = m_Series.series[0];
+                Serie serie = m_Series.list[0];
                 Axis axis = yAxises[0];
                 float scaleWid = coordinateWid / (serie.data.Count - 1);
                 Vector3 lp = Vector3.zero;
@@ -963,7 +963,6 @@ namespace XCharts
         protected void DrawSplitLine(VertexHelper vh, Axis axis, Axis.SplitLineType type,
             Vector3 startPos, Vector3 endPos, Color color)
         {
-            bool isYAxis = axis is YAxis;
             switch (type)
             {
                 case Axis.SplitLineType.Dashed:
@@ -1165,8 +1164,6 @@ namespace XCharts
 
         protected override void OnRefreshLabel()
         {
-            var isYAxis = m_YAxises[0].type == Axis.AxisType.Category
-                || m_YAxises[1].type == Axis.AxisType.Category;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);

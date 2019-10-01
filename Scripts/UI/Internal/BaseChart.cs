@@ -254,7 +254,6 @@ namespace XCharts
             {
                 for (int n = 0; n < datas.Count; n++)
                 {
-                    var legendName = m_Legend.GetFormatterContent(datas[n]);
                     OnLegendButtonClick(n, datas[n], n == 0 ? true : false);
                 }
             }
@@ -268,7 +267,7 @@ namespace XCharts
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 if (serie.type != SerieType.Pie && !serie.label.show) continue;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
@@ -533,7 +532,7 @@ namespace XCharts
         protected bool CheckDataShow(string legendName, bool show)
         {
             bool needShow = false;
-            foreach (var serie in m_Series.series)
+            foreach (var serie in m_Series.list)
             {
                 if (legendName.Equals(serie.name))
                 {
@@ -560,7 +559,7 @@ namespace XCharts
         protected bool CheckDataHighlighted(string legendName, bool heighlight)
         {
             bool show = false;
-            foreach (var serie in m_Series.series)
+            foreach (var serie in m_Series.list)
             {
                 if (legendName.Equals(serie.name))
                 {

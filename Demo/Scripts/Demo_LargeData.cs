@@ -20,7 +20,7 @@ public class Demo_LargeData : MonoBehaviour
         timeNow = System.DateTime.Now;
         chart.ClearAxisData();
         chart.series.ClearData();
-        chart.series.series[0].maxCache = maxCacheDataNumber;
+        chart.series.list[0].maxCache = maxCacheDataNumber;
         chart.xAxises[0].maxCache = maxCacheDataNumber;
         chart.title.text = maxCacheDataNumber + "数据";
     }

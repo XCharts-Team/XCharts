@@ -37,7 +37,7 @@ namespace XCharts
         {
             base.Update();
             bool hasEffectScatter = false;
-            foreach (var serie in m_Series.series)
+            foreach (var serie in m_Series.list)
             {
                 if (serie.type == SerieType.EffectScatter)
                 {
@@ -66,7 +66,7 @@ namespace XCharts
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 serie.index = i;
                 var yAxis = m_YAxises[serie.axisIndex];
                 var xAxis = m_XAxises[serie.axisIndex];

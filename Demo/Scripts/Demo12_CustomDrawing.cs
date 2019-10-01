@@ -14,7 +14,7 @@ public class Demo12_CustomDrawing : MonoBehaviour
 
         chart.customDrawCallback = delegate (VertexHelper vh)
         {
-            var dataPoints = chart.series.series[0].dataPoints;
+            var dataPoints = chart.series.list[0].dataPoints;
             if (dataPoints.Count > 0)
             {
                 var pos = dataPoints[3];

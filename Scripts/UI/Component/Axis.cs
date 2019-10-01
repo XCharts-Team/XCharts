@@ -423,7 +423,6 @@ namespace XCharts
             return coordinateWidth / segment;
         }
 
-        private Dictionary<float, string> _cacheValue2str = new Dictionary<float, string>();
         /// <summary>
         /// 获得标签显示的名称
         /// </summary>

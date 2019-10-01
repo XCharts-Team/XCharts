@@ -201,7 +201,7 @@ namespace XCharts
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.series[i];
+                var serie = m_Series.list[i];
                 var radar = m_Radars[serie.radarIndex];
                 int indicatorNum = radar.indicatorList.Count;
                 var angle = 2 * Mathf.PI / indicatorNum;
@@ -296,7 +296,6 @@ namespace XCharts
                     if (serie.symbol.type != SerieSymbolType.None )
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
-                        float symbolRadius = symbolSize - serie.lineStyle.width * 2;
                         var symbolColor = serie.symbol.color != Color.clear ? serie.symbol.color : lineColor;
                         symbolColor.a *= serie.symbol.opacity;
                         foreach (var point in pointList)

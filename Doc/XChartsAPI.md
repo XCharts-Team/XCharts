@@ -13,6 +13,7 @@
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
 * `BaseChart.lineSmoothStyle`：平滑折线图的平滑系数。
+* `BaseChart.customDrawCallback`：自定义绘制回调函数。
 * `BaseChart.SetSize(float width, float height)`：设置图表的大小。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。

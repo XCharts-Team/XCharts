@@ -175,12 +175,12 @@ namespace XCharts
                         var offestCenter = new Vector3(center.x + offsetRadius * currSin,
                             center.y + offsetRadius * currCos);
 
-                        ChartHelper.DrawDoughnut(vh, offestCenter, insideRadius, outsideRadius,
+                        ChartDrawer.DrawDoughnut(vh, offestCenter, insideRadius, outsideRadius,
                             startDegree, currDegree, color);
                     }
                     else
                     {
-                        ChartHelper.DrawDoughnut(vh, center, tempData.insideRadius, outSideRadius,
+                        ChartDrawer.DrawDoughnut(vh, center, tempData.insideRadius, outSideRadius,
                             startDegree, currDegree, color);
                     }
                     serieData.canShowLabel = currDegree >= currAngle;
@@ -268,8 +268,8 @@ namespace XCharts
                     pos3 = new Vector2(pos2.x + tx, pos2.y + ty - serie.label.lineWidth);
                 }
                 var pos4 = new Vector2(currAngle > 180 ? pos3.x - serie.label.lineLength2 : pos3.x + serie.label.lineLength2, pos3.y);
-                ChartHelper.DrawLine(vh, pos1, pos2, serie.label.lineWidth, color);
-                ChartHelper.DrawLine(vh, pos3, pos4, serie.label.lineWidth, color);
+                ChartDrawer.DrawLine(vh, pos1, pos2, serie.label.lineWidth, color);
+                ChartDrawer.DrawLine(vh, pos3, pos4, serie.label.lineWidth, color);
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -47,7 +49,10 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
-
+        /// <summary>
+        /// 自定义绘制回调。
+        /// </summary>
+        public Action<VertexHelper> customDrawCallback { set { m_CustomDrawCallback = value; } }
         /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
@@ -236,9 +241,9 @@ namespace XCharts
         /// <param name="serieName">the name of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(string serieName,int dataIndex, float value)
+        public virtual void UpdateData(string serieName, int dataIndex, float value)
         {
-            m_Series.UpdateData(serieName,dataIndex, value);
+            m_Series.UpdateData(serieName, dataIndex, value);
             RefreshChart();
         }
 
@@ -249,9 +254,9 @@ namespace XCharts
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(int serieIndex,int dataIndex, float value)
+        public virtual void UpdateData(int serieIndex, int dataIndex, float value)
         {
-            m_Series.UpdateData(serieIndex, dataIndex,value);
+            m_Series.UpdateData(serieIndex, dataIndex, value);
             RefreshChart();
         }
 
@@ -262,9 +267,9 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="dataIndex"></param>
         /// <param name="dataName"></param>
-        public virtual void UpdateDataName(string serieName,int dataIndex, string dataName)
+        public virtual void UpdateDataName(string serieName, int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieName,dataIndex, dataName);
+            m_Series.UpdateDataName(serieName, dataIndex, dataName);
         }
 
         /// <summary>
@@ -276,7 +281,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         public virtual void UpdateDataName(int serieIndex, int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieIndex, dataIndex,dataName);
+            m_Series.UpdateDataName(serieIndex, dataIndex, dataName);
         }
 
         /// <summary>

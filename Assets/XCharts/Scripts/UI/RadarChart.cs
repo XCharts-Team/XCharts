@@ -275,11 +275,11 @@ namespace XCharts
                                 p.y + radius * Mathf.Cos(currAngle));
                             if (serie.areaStyle.show)
                             {
-                                ChartHelper.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
+                                ChartDrawer.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
                             }
                             if (serie.lineStyle.show)
                             {
-                                ChartHelper.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
+                                ChartDrawer.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
                             }
                             startPoint = toPoint;
                         }
@@ -287,11 +287,11 @@ namespace XCharts
                     }
                     if (serie.areaStyle.show)
                     {
-                        ChartHelper.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
+                        ChartDrawer.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
                     }
                     if (serie.lineStyle.show)
                     {
-                        ChartHelper.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
+                        ChartDrawer.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
                     }
                     if (serie.symbol.type != SerieSymbolType.None )
                     {
@@ -336,11 +336,11 @@ namespace XCharts
                         p.y + insideRadius * Mathf.Cos(currAngle));
                     if (radar.splitArea.show)
                     {
-                        ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
+                        ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
                     }
                     if (radar.lineStyle.show)
                     {
-                        ChartHelper.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
+                        ChartDrawer.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -354,7 +354,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.lineStyle.show)
                 {
-                    ChartHelper.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
+                    ChartDrawer.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
                 }
             }
         }
@@ -378,11 +378,11 @@ namespace XCharts
                 outsideRadius = insideRadius + block;
                 if (radar.splitArea.show)
                 {
-                    ChartHelper.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
+                    ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
                 }
                 if (radar.lineStyle.show)
                 {
-                    ChartHelper.DrawCicleNotFill(vh, p, outsideRadius, radar.lineStyle.width, lineColor);
+                    ChartDrawer.DrawCicleNotFill(vh, p, outsideRadius, radar.lineStyle.width, lineColor);
                 }
                 insideRadius = outsideRadius;
             }
@@ -393,7 +393,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.lineStyle.show)
                 {
-                    ChartHelper.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
+                    ChartDrawer.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
                 }
             }
         }

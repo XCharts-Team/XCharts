@@ -522,7 +522,8 @@ namespace XCharts
             }
             if (nep == ep) cp2 = ep;
             else cp2 = ep - (nep - sp).normalized * diff;
-            int segment = (int)(dist / (fine ? 3f : 7f));
+            dist = Vector3.Distance(sp, ep);
+            int segment = (int)(dist / (fine ? 2f : 6f));
             if (segment < 1) segment = (int)(dist / 0.5f);
             if (segment < 4) segment = 4;
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);

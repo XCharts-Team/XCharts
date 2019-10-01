@@ -1,5 +1,4 @@
 
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -131,6 +130,29 @@ namespace XCharts
             float currDetailProgress = lp.x;
             float totalDetailProgress = serie.dataPoints[dataCount - 1].x;
             serie.animation.InitProgress(dataCount, currDetailProgress, totalDetailProgress);
+
+            Vector3 firstLastPos = Vector3.zero, lastNextPos = Vector3.zero;
+            if (serie.minShow > 0 && serie.minShow < showData.Count)
+            {
+                i = serie.minShow - 1;
+                float yValue = showData[i].data[1];
+                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos);
+            }
+            else
+            {
+                firstLastPos = lp;
+            }
+            if (serie.maxShow > 0 && serie.maxShow < showData.Count)
+            {
+                i = serie.maxShow;
+                float yValue = showData[i].data[1];
+                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos);
+            }
+            else
+            {
+                lastNextPos = serie.dataPoints[serie.dataPoints.Count - 1];
+            }
+
             for (i = 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
@@ -145,8 +167,9 @@ namespace XCharts
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
-                        llp = i > 1 ? serie.dataPoints[i - 2] : lp;
-                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                    case LineType.SmoothDash:
+                        llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
+                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
                         isFinish = DrawSmoothLine(vh, serieIndex, serie, xAxis, lp, np, llp, nnp, i,
                             lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
@@ -401,6 +424,7 @@ namespace XCharts
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
+                    case LineType.SmoothDash:
                         llp = i > 1 ? serie.dataPoints[i - 2] : lp;
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         isFinish = DrawSmoothLine(vh, serieIndex, serie, yAxis, lp, np, llp, nnp, i,
@@ -844,6 +868,16 @@ namespace XCharts
             else ChartHelper.GetBezierList(ref bezierPoints, vh, lp, np, llp, nnp, fine, lineSmoothStyle);
 
             Vector3 start, to;
+            if (serie.lineType == LineType.SmoothDash)
+            {
+                for (int i = 0; i < bezierPoints.Count - 2; i += 2)
+                {
+                    start = bezierPoints[i];
+                    to = bezierPoints[i + 1];
+                    ChartHelper.DrawLine(vh, start, to, lineWidth, lineColor);
+                }
+                return true;
+            }
             start = bezierPoints[0];
 
             var dir = bezierPoints[1] - start;

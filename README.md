@@ -28,7 +28,8 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
-* （2019.09.29）增加`Serie`采样类型`sampleType`的相关配置
+* （2019.10.01）增加`SmoothDash`平滑虚线的支持
+* （2019.09.30）增加`Serie`采样类型`sampleType`的相关配置
 * （2019.09.29）增加`SerieSymbol`关于显示间隔的相关配置
 * （2019.09.29）重构代码：
   1. `BaseChart`的`sampleDist`删除，`Serie`增加`lineSampleDist`

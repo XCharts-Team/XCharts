@@ -335,9 +335,10 @@
   * `startIndex`：开始显示图形标记的索引。
   * `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
   * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
-* `lineType`：折线图样式类型。支持以下九种类型：
+* `lineType`：折线图样式类型。支持以下十种类型：
   * `Normal`：普通折线图。
   * `Smooth`：平滑曲线。
+  * `SmoothDash`：平滑虚线。
   * `StepStart`：阶梯线图：当前点。
   * `StepMiddle`：阶梯线图：当前点和下一个点的中间。
   * `StepEnd`：阶梯线图：下一个拐点。

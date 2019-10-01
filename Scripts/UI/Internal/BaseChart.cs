@@ -39,7 +39,8 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected float m_Large = 1;
-        [SerializeField] [Range(1, 8)] private float m_LineSmoothStyle = 2f;
+        [SerializeField] [Range(1, 8)] protected float m_LineSmoothStyle = 2f;
+        [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] private Title m_CheckTitle = Title.defaultTitle;
@@ -589,6 +590,10 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawChart(vh);
+            if (m_CustomDrawCallback != null)
+            {
+                m_CustomDrawCallback(vh);
+            }
             DrawTooltip(vh);
             m_RefreshLabel = true;
         }
@@ -608,7 +613,7 @@ namespace XCharts
             Vector3 p2 = new Vector3(chartWidth, chartHeight);
             Vector3 p3 = new Vector3(chartWidth, 0);
             Vector3 p4 = new Vector3(0, 0);
-            ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
@@ -619,15 +624,15 @@ namespace XCharts
                 case SerieSymbolType.None:
                     break;
                 case SerieSymbolType.Circle:
-                    ChartHelper.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
+                    ChartDrawer.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
                     break;
                 case SerieSymbolType.EmptyCircle:
                     int segment = GetSymbolCricleSegment(symbolSize);
-                    ChartHelper.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
-                    ChartHelper.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
+                    ChartDrawer.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
+                    ChartDrawer.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
                     break;
                 case SerieSymbolType.Rect:
-                    ChartHelper.DrawPolygon(vh, pos, symbolSize, color);
+                    ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
                     break;
                 case SerieSymbolType.Triangle:
                     var x = symbolSize * Mathf.Cos(30 * Mathf.PI / 180);
@@ -635,14 +640,14 @@ namespace XCharts
                     var p1 = new Vector2(pos.x - x, pos.y - y);
                     var p2 = new Vector2(pos.x, pos.y + symbolSize);
                     var p3 = new Vector2(pos.x + x, pos.y - y);
-                    ChartHelper.DrawTriangle(vh, p1, p2, p3, color);
+                    ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
                     break;
                 case SerieSymbolType.Diamond:
                     p1 = new Vector2(pos.x - symbolSize, pos.y);
                     p2 = new Vector2(pos.x, pos.y + symbolSize);
                     p3 = new Vector2(pos.x + symbolSize, pos.y);
                     var p4 = new Vector2(pos.x, pos.y - symbolSize);
-                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
+                    ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
                     break;
             }
         }
@@ -665,7 +670,7 @@ namespace XCharts
                 p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
             }
 
-            ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, serie.label.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, serie.label.backgroundColor);
 
             if (serie.label.border)
             {
@@ -689,17 +694,17 @@ namespace XCharts
                     p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serie.label.rotate);
                     p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serie.label.rotate);
                 }
-                ChartHelper.DrawLine(vh, p1, p2, borderWid, serie.label.borderColor);
-                ChartHelper.DrawLine(vh, p3, p4, borderWid, serie.label.borderColor);
-                ChartHelper.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
-                ChartHelper.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
+                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serie.label.borderColor);
+                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serie.label.borderColor);
+                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
+                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
             }
         }
 
         private int GetSymbolCricleSegment(float radiu)
         {
             int max = 50;
-            int segent = (int)(2 * Mathf.PI * radiu / ChartHelper.CRICLE_SMOOTHNESS);
+            int segent = (int)(2 * Mathf.PI * radiu / ChartDrawer.CRICLE_SMOOTHNESS);
             if (segent > max) segent = max;
             segent = (int)(segent / (1 + (m_Large - 1) / 10));
             return segent;

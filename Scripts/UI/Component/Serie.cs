@@ -73,10 +73,15 @@ namespace XCharts
         /// </summary>
         Normal,
         /// <summary>
-        /// the normal line chart，
+        /// the smooth line chart，
         /// 平滑曲线。
         /// </summary>
         Smooth,
+        /// <summary>
+        /// the smooth-dash line chart，
+        /// 平滑虚线。
+        /// </summary>
+        SmoothDash,
         /// <summary>
         /// step line.
         /// 阶梯线图：当前点。

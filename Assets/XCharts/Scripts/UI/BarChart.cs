@@ -61,8 +61,8 @@ namespace XCharts
                             else DrawXLineSerie(vh, j, serie, ref m_SeriesCurrHig);
                             break;
                         case SerieType.Bar:
-                            if (yCategory) DrawYBarSerie(vh, j, seriesCount, serie, serieNameCount, ref m_SeriesCurrHig);
-                            else DrawXBarSerie(vh, j, seriesCount, serie, serieNameCount, ref m_SeriesCurrHig);
+                            if (yCategory) DrawYBarSerie(vh, j, serie, serieNameCount, ref m_SeriesCurrHig);
+                            else DrawXBarSerie(vh, j, serie, serieNameCount, ref m_SeriesCurrHig);
                             break;
                     }
                 }

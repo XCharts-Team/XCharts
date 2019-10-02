@@ -8,9 +8,9 @@ namespace XCharts
     public partial class CoordinateChart
     {
         protected float m_BarLastOffset = 0;
-       
-        protected void DrawYBarSerie(VertexHelper vh, int serieIndex, int stackCount,
-                    Serie serie, int colorIndex, ref List<float> seriesHig)
+
+        protected void DrawYBarSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex,
+            ref List<float> seriesHig)
         {
             if (!IsActive(serie.name)) return;
             var xAxis = m_XAxises[serie.axisIndex];
@@ -95,8 +95,8 @@ namespace XCharts
             return currHig;
         }
 
-        protected void DrawXBarSerie(VertexHelper vh, int serieIndex, int stackCount,
-            Serie serie, int colorIndex, ref List<float> seriesHig)
+        protected void DrawXBarSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex,
+            ref List<float> seriesHig)
         {
             if (!IsActive(serie.name)) return;
             var showData = serie.GetDataList(m_DataZoom);

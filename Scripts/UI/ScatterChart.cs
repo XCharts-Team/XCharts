@@ -58,77 +58,56 @@ namespace XCharts
             }
         }
 
+        protected HashSet<string> m_SerieNameSet = new HashSet<string>();
+        protected Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
+        protected List<float> m_SeriesCurrHig = new List<float>();
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
             if (!m_CheckMinMaxValue) return;
-            HashSet<string> serieNameSet = new HashSet<string>();
+            bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
+            m_Series.GetStackSeries(ref m_StackSeries);
+            int seriesCount = m_StackSeries.Count;
             int serieNameCount = -1;
-            for (int i = 0; i < m_Series.Count; i++)
+            m_SerieNameSet.Clear();
+            m_BarLastOffset = 0;
+            for (int j = 0; j < seriesCount; j++)
             {
-                var serie = m_Series.list[i];
-                serie.index = i;
-                var yAxis = m_YAxises[serie.axisIndex];
-                var xAxis = m_XAxises[serie.axisIndex];
-                if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
-                else if (!serieNameSet.Contains(serie.name))
+                var serieList = m_StackSeries[j];
+                m_SeriesCurrHig.Clear();
+                for (int n = 0; n < serieList.Count; n++)
                 {
-                    serieNameSet.Add(serie.name);
-                    serieNameCount++;
-                }
-                if (serie.dataCount <= 0 || !serie.show)
-                {
-                    continue;
-                }
-                var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(serieNameCount);
-                color.a *= serie.symbol.opacity;
-                int maxCount = serie.maxShow > 0 ?
-                    (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
-                    : serie.dataCount;
-                for (int n = serie.minShow; n < maxCount; n++)
-                {
-                    var serieData = serie.GetDataList(m_DataZoom)[n];
-                    float xValue = serieData.data[0];
-                    float yValue = serieData.data[1];
-                    float pX = coordinateX + xAxis.axisLine.width;
-                    float pY = coordinateY + yAxis.axisLine.width;
-                    float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
-                    float yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
-                    var pos = new Vector3(pX + xDataHig, pY + yDataHig);
-
-                    var datas = serie.data[n].data;
-                    float symbolSize = 0;
-                    if (serie.highlighted || serieData.highlighted)
+                    Serie serie = serieList[n];
+                    serie.dataPoints.Clear();
+                    if (string.IsNullOrEmpty(serie.name)) serieNameCount++;
+                    else if (!m_SerieNameSet.Contains(serie.name))
                     {
-                        symbolSize = serie.symbol.GetSelectedSize(datas);
+                        m_SerieNameSet.Add(serie.name);
+                        serieNameCount++;
                     }
-                    else
+                    switch (serie.type)
                     {
-                        symbolSize = serie.symbol.GetSize(datas);
+                        case SerieType.Line:
+                            if (yCategory) DrawYLineSerie(vh, j, serie, ref m_SeriesCurrHig);
+                            else DrawXLineSerie(vh, j, serie, ref m_SeriesCurrHig);
+                            break;
+                        case SerieType.Scatter:
+                        case SerieType.EffectScatter:
+                            DrawScatterSerie(vh, serieNameCount, serie);
+                            if (vh.currentVertCount > 60000)
+                            {
+                                m_Large++;
+                                RefreshChart();
+                                return;
+                            }
+                            break;
                     }
-                    if (symbolSize > 100) symbolSize = 100;
-                    if (serie.type == SerieType.EffectScatter)
-                    {
-                        for (int count = 0; count < serie.symbol.animationSize.Count; count++)
-                        {
-                            var nowSize = serie.symbol.animationSize[count];
-                            color.a = (symbolSize - nowSize) / symbolSize;
-                            DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color);
-                        }
-                        RefreshChart();
-                    }
-                    else
-                    {
-                        DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color);
-                    }
-                }
-                if (vh.currentVertCount > 60000)
-                {
-                    m_Large++;
-                    RefreshChart();
-                    return;
                 }
             }
+            DrawLinePoint(vh);
+            DrawLineArrow(vh);
+            if (yCategory) DrawYTooltipIndicator(vh);
+            else DrawXTooltipIndicator(vh);
         }
     }
 }

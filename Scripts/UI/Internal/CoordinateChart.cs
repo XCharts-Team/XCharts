@@ -668,20 +668,20 @@ namespace XCharts
             if (axis.IsCategory() || !axis.show) return;
             int tempMinValue = 0;
             int tempMaxValue = 0;
-            if (m_XAxises[axisIndex].IsValue() && m_YAxises[axisIndex].IsValue())
+            if (IsValue())
             {
                 if (axis is XAxis)
                 {
-                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, true, out tempMinValue, out tempMaxValue);
                 }
                 else
                 {
-                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, true, out tempMinValue, out tempMaxValue);
                 }
             }
             else
             {
-                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, out tempMinValue, out tempMaxValue);
+                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, false, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
@@ -921,7 +921,7 @@ namespace XCharts
                 Vector3 np = Vector3.zero;
                 int minValue = 0;
                 int maxValue = 100;
-                m_Series.GetYMinMaxValue(null, 0, out minValue, out maxValue);
+                m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue);
                 if (minValue > 0 && maxValue > 0) minValue = 0;
                 for (int i = 0; i < serie.data.Count; i++)

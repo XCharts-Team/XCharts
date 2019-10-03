@@ -67,7 +67,7 @@ namespace XCharts
             }
         }
 
-        protected void DrawXLineSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex, ref List<float> seriesHig)
+        protected void DrawXLineSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             var showData = serie.GetDataList(m_DataZoom);
@@ -162,21 +162,21 @@ namespace XCharts
                 {
                     case LineType.Normal:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
-                        isFinish = DrawNormalLine(vh, serieIndex, serie, xAxis, lp, np, nnp, i, lineColor,
+                        isFinish = DrawNormalLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
                         llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
-                        isFinish = DrawSmoothLine(vh, serieIndex, serie, xAxis, lp, np, llp, nnp, i,
+                        isFinish = DrawSmoothLine(vh, serie, xAxis, lp, np, llp, nnp, i,
                             lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
-                        isFinish = DrawStepLine(vh, serieIndex, serie, xAxis, lp, np, nnp, i, lineColor,
+                        isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Dash:
@@ -342,7 +342,7 @@ namespace XCharts
             return yDataHig;
         }
 
-        protected void DrawYLineSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex, ref List<float> seriesHig)
+        protected void DrawYLineSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             var showData = serie.GetDataList(m_DataZoom);
@@ -416,21 +416,21 @@ namespace XCharts
                 {
                     case LineType.Normal:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
-                        isFinish = DrawNormalLine(vh, serieIndex, serie, yAxis, lp, np, nnp, i, lineColor,
+                        isFinish = DrawNormalLine(vh, serie, yAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
                         llp = i > 1 ? serie.dataPoints[i - 2] : lp;
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
-                        isFinish = DrawSmoothLine(vh, serieIndex, serie, yAxis, lp, np, llp, nnp, i,
+                        isFinish = DrawSmoothLine(vh, serie, yAxis, lp, np, llp, nnp, i,
                             lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
-                        isFinish = DrawStepLine(vh, serieIndex, serie, yAxis, lp, np, nnp, i, lineColor,
+                        isFinish = DrawStepLine(vh, serie, yAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Dash:
@@ -465,7 +465,7 @@ namespace XCharts
         }
 
         private Vector3 stPos1, stPos2, lastDir, lastDnPos;
-        private bool DrawNormalLine(VertexHelper vh, int serieIndex, Serie serie, Axis axis, Vector3 lp,
+        private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp,
             Vector3 np, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
             Vector3 zeroPos)
         {
@@ -848,7 +848,7 @@ namespace XCharts
 
         private List<Vector3> bezierPoints = new List<Vector3>();
         private Vector3 smoothStartPosUp, smoothStartPosDn;
-        private bool DrawSmoothLine(VertexHelper vh, int serieIndex, Serie serie, Axis xAxis, Vector3 lp,
+        private bool DrawSmoothLine(VertexHelper vh, Serie serie, Axis xAxis, Vector3 lp,
             Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor,
             Color areaToColor, bool isStack, Vector3 zeroPos)
         {
@@ -857,7 +857,6 @@ namespace XCharts
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
-
             if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, fine, lineSmoothStyle);
             else ChartHelper.GetBezierList(ref bezierPoints, vh, lp, np, llp, nnp, fine, lineSmoothStyle);
 
@@ -880,13 +879,19 @@ namespace XCharts
             var startUp = start - diff;
             var startDn = start + diff;
             Vector3 toUp, toDn, tnp, tlp;
-            smoothPoints.Add(startUp);
-            smoothDownPoints.Add(startDn);
+
             bool isFinish = true;
             if (dataIndex > 1)
             {
                 ChartDrawer.DrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor);
                 ChartDrawer.DrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor);
+                smoothPoints.Add(smoothStartPosUp);
+                smoothDownPoints.Add(smoothStartPosDn);
+            }
+            else
+            {
+                smoothPoints.Add(startUp);
+                smoothDownPoints.Add(startDn);
             }
             for (int k = 1; k < bezierPoints.Count; k++)
             {
@@ -910,8 +915,12 @@ namespace XCharts
                     smoothStartPosUp = toUp;
                     smoothStartPosDn = toDn;
                 }
-                if (serie.areaStyle.show && (serieIndex == 0 || !isStack))
+                if (serie.areaStyle.show && (serie.index == 0 || !isStack))
                 {
+                    if (k == 1 && dataIndex > 1)
+                    {
+                        startDn = smoothStartPosDn;
+                    }
                     if (isYAxis)
                     {
                         if (start.x > zeroPos.x && to.x > zeroPos.x)
@@ -1046,8 +1055,8 @@ namespace XCharts
         }
 
         private List<Vector3> linePointList = new List<Vector3>();
-        private bool DrawStepLine(VertexHelper vh, int serieIndex, Serie serie, Axis axis, Vector3 lp,
-            Vector3 np, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor, Vector3 zeroPos)
+        private bool DrawStepLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np,
+            Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor, Vector3 zeroPos)
         {
             bool isYAxis = axis is YAxis;
             float lineWidth = serie.lineStyle.width;

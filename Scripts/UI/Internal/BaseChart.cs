@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Text.RegularExpressions;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace XCharts
         [NonSerialized] private bool m_RefreshLabel = false;
         [NonSerialized] private bool m_ReinitLabel = false;
         [NonSerialized] private bool m_CheckAnimation = false;
+        [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -182,32 +184,42 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
-            ChartHelper.DestoryAllChilds(legendObject.transform);
-            if (!m_Legend.show) return;
-            var serieNameList = m_Series.GetSerieNameList();
+            
+            m_LegendRealShowName = m_Series.GetSerieNameList();
             List<string> datas;
-            if (m_Legend.data.Count > 0)
+            if (m_Legend.show && m_Legend.data.Count > 0)
             {
                 datas = new List<string>();
-                for (int i = 0; i < m_Legend.data.Count; i++)
+                for (int i = 0; i < m_LegendRealShowName.Count; i++)
                 {
-                    var category = m_Legend.data[i];
-                    if (serieNameList.Contains(category)) datas.Add(category);
+                    if (m_Legend.data.Contains(m_LegendRealShowName[i])) datas.Add(m_LegendRealShowName[i]);
                 }
             }
             else
             {
-                datas = serieNameList;
+                datas = m_LegendRealShowName;
             }
-            m_Legend.RemoveButton();
+            int totalLegend = 0;
             for (int i = 0; i < datas.Count; i++)
             {
+                if (!m_Series.IsLegalLegendName(datas[i])) continue;
+                totalLegend++;
+            }
+            m_Legend.RemoveButton();
+            ChartHelper.DestoryAllChilds(legendObject.transform);
+            if (!m_Legend.show) return;
+            for (int i = 0; i < datas.Count; i++)
+            {
+                if (!m_Series.IsLegalLegendName(datas[i])) continue;
                 string legendName = m_Legend.GetFormatterContent(datas[i]);
-                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i + "_" + datas[i], legendObject.transform,
+                var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
+                var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
+                Button btn = ChartHelper.AddButtonObject(objName, legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-                var bgColor = IsActiveByLegend(datas[i]) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
-                m_Legend.SetButton(legendName, btn, datas.Count);
+                var bgColor = IsActiveByLegend(datas[i]) ?
+                    m_ThemeInfo.GetColor(readIndex) : m_ThemeInfo.legendUnableColor;
+                m_Legend.SetButton(legendName, btn, totalLegend);
                 m_Legend.UpdateButtonColor(legendName, bgColor);
                 btn.GetComponentInChildren<Text>().text = legendName;
                 ChartHelper.ClearEventListener(btn.gameObject);
@@ -224,12 +236,19 @@ namespace XCharts
                     else
                     {
                         var btnList = m_Legend.buttonList.Values.ToArray();
-                        for (int n = 0; n < btnList.Length; n++)
+                        if (btnList.Length == 1)
                         {
-                            temp = btnList[n].name.Split('_');
-                            selectedName = temp[2];
-                            var index = int.Parse(temp[1]);
-                            OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
+                            OnLegendButtonClick(0, selectedName, !IsActiveByLegend(selectedName));
+                        }
+                        else
+                        {
+                            for (int n = 0; n < btnList.Length; n++)
+                            {
+                                temp = btnList[n].name.Split('_');
+                                selectedName = temp[2];
+                                var index = int.Parse(temp[1]);
+                                OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
+                            }
                         }
                     }
                 });
@@ -252,9 +271,9 @@ namespace XCharts
             }
             if (m_Legend.selectedMode == Legend.SelectedMode.Single)
             {
-                for (int n = 0; n < datas.Count; n++)
+                for (int n = 0; n < m_LegendRealShowName.Count; n++)
                 {
-                    OnLegendButtonClick(n, datas[n], n == 0 ? true : false);
+                    OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
                 }
             }
         }

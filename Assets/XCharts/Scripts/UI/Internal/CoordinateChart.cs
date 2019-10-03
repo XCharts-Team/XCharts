@@ -93,12 +93,12 @@ namespace XCharts
                     switch (serie.type)
                     {
                         case SerieType.Line:
-                            if (yCategory) DrawYLineSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
-                            else DrawXLineSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            if (yCategory) DrawYLineSerie(vh,serie, colorIndex, ref m_SeriesCurrHig);
+                            else DrawXLineSerie(vh,serie, colorIndex, ref m_SeriesCurrHig);
                             break;
                         case SerieType.Bar:
-                            if (yCategory) DrawYBarSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
-                            else DrawXBarSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            if (yCategory) DrawYBarSerie(vh, serie, colorIndex, ref m_SeriesCurrHig);
+                            else DrawXBarSerie(vh, serie, colorIndex, ref m_SeriesCurrHig);
                             break;
                         case SerieType.Scatter:
                         case SerieType.EffectScatter:

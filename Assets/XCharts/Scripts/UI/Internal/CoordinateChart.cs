@@ -22,12 +22,14 @@ namespace XCharts
         private bool m_DataZoomEndDrag;
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
+        private bool m_XAxisChanged;
+        private bool m_YAxisChanged;
+        private bool m_CheckMinMaxValue;
         private List<XAxis> m_CheckXAxises = new List<XAxis>();
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
         private Grid m_CheckCoordinate = Grid.defaultGrid;
-        private bool m_XAxisChanged;
-        private bool m_YAxisChanged;
-        protected bool m_CheckMinMaxValue;
+        private Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
+        private List<float> m_SeriesCurrHig = new List<float>();
 
         protected override void Awake()
         {
@@ -66,7 +68,56 @@ namespace XCharts
         {
             base.DrawChart(vh);
             DrawCoordinate(vh);
+            DrawSerie(vh);
             DrawDataZoom(vh);
+        }
+
+
+        protected virtual void DrawSerie(VertexHelper vh)
+        {
+            base.DrawChart(vh);
+            if (!m_CheckMinMaxValue) return;
+            bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
+            m_Series.GetStackSeries(ref m_StackSeries);
+            int seriesCount = m_StackSeries.Count;
+            m_BarLastOffset = 0;
+            for (int j = 0; j < seriesCount; j++)
+            {
+                var serieList = m_StackSeries[j];
+                m_SeriesCurrHig.Clear();
+                for (int n = 0; n < serieList.Count; n++)
+                {
+                    Serie serie = serieList[n];
+                    serie.dataPoints.Clear();
+                    var colorIndex = m_LegendRealShowName.IndexOf(serie.legendName);
+                    switch (serie.type)
+                    {
+                        case SerieType.Line:
+                            if (yCategory) DrawYLineSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            else DrawXLineSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            break;
+                        case SerieType.Bar:
+                            if (yCategory) DrawYBarSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            else DrawXBarSerie(vh, j, serie, colorIndex, ref m_SeriesCurrHig);
+                            break;
+                        case SerieType.Scatter:
+                        case SerieType.EffectScatter:
+                            DrawScatterSerie(vh, colorIndex, serie);
+                            if (vh.currentVertCount > 60000)
+                            {
+                                m_Large++;
+                                RefreshChart();
+                                return;
+                            }
+                            break;
+                    }
+                }
+            }
+            DrawLabelBackground(vh);
+            DrawLinePoint(vh);
+            DrawLineArrow(vh);
+            if (yCategory) DrawYTooltipIndicator(vh);
+            else DrawXTooltipIndicator(vh);
         }
 
         protected override void CheckTootipArea(Vector2 local)
@@ -692,17 +743,20 @@ namespace XCharts
                 axis.maxValue = tempMaxValue;
                 axis.zeroXOffset = 0;
                 axis.zeroYOffset = 0;
-                if (axis is XAxis && axis.IsValue())
+                if (tempMinValue != 0 || tempMaxValue != 0)
                 {
-                    axis.zeroXOffset = axis.minValue > 0 ? 0 :
-                        axis.maxValue < 0 ? coordinateWid :
-                        Mathf.Abs(axis.minValue) * (coordinateWid / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
-                }
-                if (axis is YAxis && axis.IsValue())
-                {
-                    axis.zeroYOffset = axis.minValue > 0 ? 0 :
-                        axis.maxValue < 0 ? coordinateHig :
-                        Mathf.Abs(axis.minValue) * (coordinateHig / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
+                    if (axis is XAxis && axis.IsValue())
+                    {
+                        axis.zeroXOffset = axis.minValue > 0 ? 0 :
+                            axis.maxValue < 0 ? coordinateWid :
+                            Mathf.Abs(axis.minValue) * (coordinateWid / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
+                    }
+                    if (axis is YAxis && axis.IsValue())
+                    {
+                        axis.zeroYOffset = axis.minValue > 0 ? 0 :
+                            axis.maxValue < 0 ? coordinateHig :
+                            Mathf.Abs(axis.minValue) * (coordinateHig / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
+                    }
                 }
                 float coordinateWidth = axis is XAxis ? coordinateWid : coordinateHig;
                 axis.UpdateLabelText(coordinateWidth, m_DataZoom);
@@ -772,6 +826,8 @@ namespace XCharts
             {
                 var size = yAxis.GetScaleNumber(coordinateWid, m_DataZoom);
                 var totalWidth = coordinateY;
+                var xAxis = m_XAxises[yAxisIndex];
+                var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = yAxis.GetScaleWidth(coordinateHig, i, m_DataZoom);
@@ -807,8 +863,11 @@ namespace XCharts
                     }
                     if (yAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
-                            new Vector3(coordinateX + coordinateWid, pY), m_ThemeInfo.axisSplitLineColor);
+                        if (!xAxis.axisLine.show || zeroPos.y != pY)
+                        {
+                            DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
+                                new Vector3(coordinateX + coordinateWid, pY), m_ThemeInfo.axisSplitLineColor);
+                        }
                     }
                     totalWidth += scaleWidth;
                 }
@@ -821,6 +880,8 @@ namespace XCharts
             {
                 var size = xAxis.GetScaleNumber(coordinateWid, m_DataZoom);
                 var totalWidth = coordinateX;
+                var yAxis = m_YAxises[xAxisIndex];
+                var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = xAxis.GetScaleWidth(coordinateWid, i, m_DataZoom);
@@ -856,8 +917,11 @@ namespace XCharts
                     }
                     if (xAxis.showSplitLine)
                     {
-                        DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
-                            new Vector3(pX, coordinateY + coordinateHig), m_ThemeInfo.axisSplitLineColor);
+                        if (!yAxis.axisLine.show || zeroPos.x != pX)
+                        {
+                            DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
+                                new Vector3(pX, coordinateY + coordinateHig), m_ThemeInfo.axisSplitLineColor);
+                        }
                     }
                     totalWidth += scaleWidth;
                 }

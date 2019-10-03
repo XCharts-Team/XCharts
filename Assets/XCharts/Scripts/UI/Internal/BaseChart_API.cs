@@ -311,7 +311,8 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null && !string.IsNullOrEmpty(serie.name))
             {
-                var bgColor1 = active ? m_ThemeInfo.GetColor(serie.index) : m_ThemeInfo.legendUnableColor;
+                var legendIndex = m_LegendRealShowName.IndexOf(serie.name);
+                var bgColor1 = active ? m_ThemeInfo.GetColor(legendIndex) : m_ThemeInfo.legendUnableColor;
                 m_Legend.UpdateButtonColor(serie.name, bgColor1);
             }
         }

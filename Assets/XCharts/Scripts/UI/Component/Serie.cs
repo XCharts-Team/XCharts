@@ -209,6 +209,10 @@ namespace XCharts
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
         /// <summary>
+        /// 图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
+        /// </summary>
+        public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
+        /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
         /// 数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
         /// </summary>

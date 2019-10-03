@@ -793,18 +793,27 @@ namespace XCharts
         public List<string> GetSerieNameList()
         {
             serieNameList.Clear();
-            foreach (var serie in m_Series)
+            for (int n = 0; n < m_Series.Count; n++)
             {
-                if (!string.IsNullOrEmpty(serie.name) && !serieNameList.Contains(serie.name))
+                var serie = m_Series[n];
+                switch (serie.type)
                 {
-                    serieNameList.Add(serie.name);
-                }
-                foreach (var data in serie.data)
-                {
-                    if (!string.IsNullOrEmpty(data.name) && !serieNameList.Contains(data.name))
-                    {
-                        serieNameList.Add(data.name);
-                    }
+                    case SerieType.Pie:
+                    case SerieType.Radar:
+                        for (int i = 0; i < serie.data.Count; i++)
+                        {
+                            if (string.IsNullOrEmpty(serie.data[i].name))
+                                serieNameList.Add(ChartCached.IntToStr(i));
+                            else if (!serieNameList.Contains(serie.data[i].name))
+                                serieNameList.Add(serie.data[i].name);
+                        }
+                        break;
+                    default:
+                        if (string.IsNullOrEmpty(serie.name))
+                            serieNameList.Add(ChartCached.IntToStr(n));
+                        else if (!serieNameList.Contains(serie.name))
+                            serieNameList.Add(serie.name);
+                        break;
                 }
             }
             return serieNameList;
@@ -869,6 +878,16 @@ namespace XCharts
             {
                 if (serie.animation.enable) serie.animation.Reset();
             }
+        }
+
+        public bool IsLegalLegendName(string name)
+        {
+            int numName = -1;
+            if (int.TryParse(name, out numName))
+            {
+                if (numName >= 0 && numName < list.Count) return false;
+            }
+            return true;
         }
 
         /// <summary>

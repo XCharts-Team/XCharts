@@ -67,14 +67,14 @@ namespace XCharts
             }
         }
 
-        protected void DrawXLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref List<float> seriesHig)
+        protected void DrawXLineSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             var showData = serie.GetDataList(m_DataZoom);
             if (showData.Count <= 0) return;
-            Color lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, false);
-            Color areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, false);
-            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, serieIndex, false);
+            Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
+            Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
+            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -342,7 +342,7 @@ namespace XCharts
             return yDataHig;
         }
 
-        protected void DrawYLineSerie(VertexHelper vh, int serieIndex, Serie serie, ref List<float> seriesHig)
+        protected void DrawYLineSerie(VertexHelper vh, int serieIndex, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
             var showData = serie.GetDataList(m_DataZoom);
@@ -350,9 +350,9 @@ namespace XCharts
             Vector3 np = Vector3.zero;
             Vector3 llp = Vector3.zero;
             Vector3 nnp = Vector3.zero;
-            Color lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, false);
-            Color areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, false);
-            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, serieIndex, false);
+            Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
+            Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
+            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);

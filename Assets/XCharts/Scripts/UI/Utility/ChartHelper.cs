@@ -251,7 +251,7 @@ namespace XCharts
             posList.Add(ep);
         }
 
-        public static void GetBezierList(ref List<Vector3> posList, VertexHelper vh, Vector3 sp, Vector3 ep,
+        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
             Vector3 lsp, Vector3 nep, bool fine, float k = 2.0f)
         {
             float dist = Mathf.Abs(sp.x - ep.x);

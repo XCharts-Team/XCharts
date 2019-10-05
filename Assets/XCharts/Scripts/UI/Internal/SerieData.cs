@@ -28,11 +28,17 @@ namespace XCharts
         private float m_LabelPaddingLeftRight;
         private float m_LabelPaddingTopBottom;
 
+        public int index { get; set; }
         /// <summary>
         /// the name of data item.
         /// 数据项名称。
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
+        /// <summary>
+        /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
+        /// </summary>
+        /// <value></value>
+        public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
         /// <summary>
         /// Whether the data item is selected.
         /// 该数据项是否被选中。
@@ -110,6 +116,35 @@ namespace XCharts
         /// 关联的gameObject
         /// </summary>
         public GameObject gameObject { get; private set; }
+        /// <summary>
+        /// 饼图数据项的开始角度（运行时自动计算）
+        /// </summary>
+        public float pieStartAngle { get; set; }
+        /// <summary>
+        /// 饼图数据项的结束角度（运行时自动计算）
+        /// </summary>
+        public float pieToAngle { get; set; }
+        /// <summary>
+        /// 饼图数据项的一半时的角度（运行时自动计算）
+        /// </summary>
+        public float pieHalfAngle { get; set; }
+        /// <summary>
+        /// 饼图数据项的当前角度（运行时自动计算）
+        /// </summary>
+        public float pieCurrAngle { get; set; }
+        /// <summary>
+        /// 饼图数据项的内半径
+        /// </summary>
+        public float pieInsideRadius{get;set;}
+        /// <summary>
+        /// 饼图数据项的外半径
+        /// </summary>
+        public float pieOutsideRadius { get; set; }
+        /// <summary>
+        /// 饼图数据项的偏移半径
+        /// </summary>
+        public float pieOffsetRadius { get; set; }
+        public Vector3 pieOffsetCenter { get; set; }
 
         public float GetData(int index)
         {

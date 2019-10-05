@@ -27,6 +27,8 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_Line = prop.FindPropertyRelative("m_Line");
+            SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
+            SerializedProperty m_LineColor = prop.FindPropertyRelative("m_LineColor");
             SerializedProperty m_LineWidth = prop.FindPropertyRelative("m_LineWidth");
             SerializedProperty m_LineLength1 = prop.FindPropertyRelative("m_LineLength1");
             SerializedProperty m_LineLength2 = prop.FindPropertyRelative("m_LineLength2");
@@ -81,6 +83,10 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Line);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_LineType);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_LineColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineWidth);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineLength1);
@@ -96,7 +102,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 20 * EditorGUIUtility.singleLineHeight + 19 * EditorGUIUtility.standardVerticalSpacing;
+                height += 22 * EditorGUIUtility.singleLineHeight + 21 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

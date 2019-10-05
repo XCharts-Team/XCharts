@@ -386,6 +386,11 @@
   * `fontSize`：标签文字的字体大小。
   * `fontStyle`：标签文字的字体风格。
   * `line`：是否显示视觉引导线。在 `label` 位置 设置为 `'Outside'` 的时候会显示视觉引导线。
+  * `lineType`：视觉引导线类型。支持以下几种类型：
+    * `BrokenLine`：折线。
+    * `Curves`：曲线。
+    * `HorizontalLine`：水平线。
+  * `lineColor`：视觉引导线自定义颜色。
   * `lineWidth`：视觉引导线的宽度。
   * `lineLength1`：视觉引导线第一段的长度。
   * `lineLength2`：视觉引导线第二段的长度。

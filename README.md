@@ -7,7 +7,7 @@ An ECharts style UGUI Charting Library for Unity
 QQ交流群：XCharts交流群（202030963）
   
 [XCharts问答](Doc/XCharts问答.md)  
-[XChartsAPI接口](Doc/XChartsAPI.md)  
+[XChartsAPI手册](Doc/XChartsAPI.md)  
 [XCharts配置项手册](Doc/XCharts配置项手册.md)  
 [教程：5分钟上手XCharts](Doc/教程：5分钟上手XCharts.md)  
 
@@ -28,6 +28,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.10.05）增加`SerieLabel`的`LineType`给饼图配置不同类型的视觉引导线
 * （2019.10.02）增加`ScatterChart`同时对`Scatter`和`Line`的支持，实现折线图和散点图的组合图
 * （2019.10.01）重构代码，废弃`Series.series`接口，用`Series.list`代替
 * （2019.10.01）增加`customDrawCallback`自定义绘制回调

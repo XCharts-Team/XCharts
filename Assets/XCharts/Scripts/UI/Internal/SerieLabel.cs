@@ -51,6 +51,25 @@ namespace XCharts
             /// </summary>
             Bottom,
         }
+
+        /// <summary>
+        /// 标签视觉引导线类型
+        /// </summary>
+        public enum LineType
+        {
+            /// <summary>
+            /// 折线
+            /// </summary>
+            BrokenLine,
+            /// <summary>
+            /// 曲线
+            /// </summary>
+            Curves,
+            /// <summary>
+            /// 水平线
+            /// </summary>
+            HorizontalLine
+        }
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position;
         [SerializeField] private Vector3 m_Offset;
@@ -65,6 +84,8 @@ namespace XCharts
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_Line = true;
+        [SerializeField] private LineType m_LineType = LineType.BrokenLine;
+        [SerializeField] private Color m_LineColor = Color.clear;
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
@@ -152,6 +173,16 @@ namespace XCharts
         /// 是否显示视觉引导线。在 label 位置 设置为'outside'的时候会显示视觉引导线。
         /// </summary>
         public bool line { get { return m_Line; } set { m_Line = value; } }
+        /// <summary>
+        /// the type of visual guide line.
+        /// 视觉引导线类型。
+        /// </summary>
+        public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
+        /// <summary>
+        /// the color of visual guild line.
+        /// 视觉引导线颜色。默认和serie一致取自调色板。
+        /// </summary>
+        public Color lineColor { get { return m_LineColor; } set { m_LineColor = value; } }
         /// <summary>
         /// the width of visual guild line.
         /// 视觉引导线的宽度。

@@ -12,22 +12,11 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class PieChart : BaseChart
     {
-        private class PieTempData
-        {
-            public List<float> angleList = new List<float>();
-            public Vector2 center;
-            public float insideRadius;
-            public float outsideRadius;
-            public float dataMax;
-            public float dataTotal;
-        }
-
         [SerializeField] private Pie m_Pie = Pie.defaultPie;
 
         private bool isDrawPie;
         private bool m_IsEnterLegendButtom;
         private bool m_RefreshLabel;
-        private List<PieTempData> m_PieTempDataList = new List<PieTempData>();
 
         public Pie pie { get { return m_Pie; } }
 
@@ -44,7 +33,7 @@ namespace XCharts
             m_Pie = Pie.defaultPie;
             m_Title.text = "PieChart";
             RemoveData();
-            AddSerie(SerieType.Pie,"serie1");
+            AddSerie(SerieType.Pie, "serie1");
             AddData(0, 70, "pie1");
             AddData(0, 20, "pie2");
             AddData(0, 10, "pie3");
@@ -57,11 +46,9 @@ namespace XCharts
             if (!isDrawPie) RefreshChart();
         }
 
-        Dictionary<string, int> serieNameSet = new Dictionary<string, int>();
         protected override void DrawChart(VertexHelper vh)
         {
             base.DrawChart(vh);
-            serieNameSet.Clear();
             int serieNameCount = -1;
             bool isClickOffset = false;
             bool isDataHighlight = false;
@@ -78,124 +65,93 @@ namespace XCharts
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
                 if (serie.pieClickOffset) isClickOffset = true;
-                PieTempData tempData;
-                if (i < m_PieTempDataList.Count)
-                {
-                    tempData = m_PieTempDataList[i];
-                    tempData.angleList.Clear();
-                }
-                else
-                {
-                    tempData = new PieTempData();
-                    m_PieTempDataList.Add(tempData);
-                }
-                tempData.angleList.Clear();
-                tempData.dataMax = serie.yMax;
-                tempData.dataTotal = serie.yTotal;
+                serie.pieDataMax = serie.yMax;
+                serie.pieDataTotal = serie.yTotal;
                 UpdatePieCenter(serie);
 
                 float totalDegree = 360;
                 float startDegree = 0;
                 int showdataCount = 0;
-
                 foreach (var sd in serie.data)
                 {
                     if (sd.show && serie.pieRoseType == RoseType.Area) showdataCount++;
                     sd.canShowLabel = false;
                 }
-
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
                     float value = serieData.data[1];
-                    string dataName = serieData.name;
-                    Color color;
-                    if (string.IsNullOrEmpty(dataName))
-                    {
-                        serieNameCount++;
-                        color = m_ThemeInfo.GetColor(serieNameCount);
-                    }
-                    else if (!serieNameSet.ContainsKey(dataName))
-                    {
-                        serieNameSet.Add(dataName, serieNameCount);
-                        serieNameCount++;
-                        color = m_ThemeInfo.GetColor(serieNameCount);
-                    }
-                    else
-                    {
-                        color = m_ThemeInfo.GetColor(serieNameSet[dataName]);
-                    }
+                    serieNameCount = m_LegendRealShowName.IndexOf(serieData.name);
+                    Color color = m_ThemeInfo.GetColor(serieNameCount);
+                    serieData.pieStartAngle = startDegree;
+                    serieData.pieToAngle = startDegree;
+                    serieData.pieHalfAngle = startDegree;
+                    serieData.pieCurrAngle = startDegree;
                     if (!serieData.show)
                     {
-                        tempData.angleList.Add(0);
                         continue;
                     }
-                    float degree = serie.pieRoseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
-                    float toDegree = startDegree + degree;
+                    float degree = serie.pieRoseType == RoseType.Area ?
+                        (totalDegree / showdataCount) : (totalDegree * value / serie.pieDataTotal);
+                    serieData.pieToAngle = startDegree + degree;
 
-                    float outSideRadius = serie.pieRoseType > 0 ?
-                        tempData.insideRadius + (tempData.outsideRadius - tempData.insideRadius) * value / tempData.dataMax :
-                        tempData.outsideRadius;
+                    serieData.pieOutsideRadius = serie.pieRoseType > 0 ?
+                        serie.pieInsideRadius + (serie.pieOutsideRadius - serie.pieInsideRadius) * value / serie.pieDataMax :
+                        serie.pieOutsideRadius;
                     if (serieData.highlighted)
                     {
                         isDataHighlight = true;
                         color *= 1.2f;
-                        outSideRadius += m_Pie.tooltipExtraRadius;
+                        serieData.pieOutsideRadius += m_Pie.tooltipExtraRadius;
                     }
                     var offset = serie.pieSpace;
                     if (serie.pieClickOffset && serieData.selected)
                     {
                         offset += m_Pie.selectedOffset;
                     }
-                    var halfDegree = (toDegree - startDegree) / 2;
-                    float currAngle = startDegree + halfDegree;
-                    float currRad = currAngle * Mathf.Deg2Rad;
+                    var halfDegree = (serieData.pieToAngle - startDegree) / 2;
+                    serieData.pieHalfAngle = startDegree + halfDegree;
+                    float currRad = serieData.pieHalfAngle * Mathf.Deg2Rad;
                     float currSin = Mathf.Sin(currRad);
                     float currCos = Mathf.Cos(currRad);
-                    var center = tempData.center;
+                    var center = serie.pieCenterPos;
 
-                    var currDegree = toDegree;
-                    if (serie.animation.CheckDetailBreak(n, toDegree))
+                    serieData.pieCurrAngle = serieData.pieToAngle;
+                    serieData.pieOffsetCenter = center;
+                    serieData.pieInsideRadius = serie.pieInsideRadius;
+                    if (serie.animation.CheckDetailBreak(n, serieData.pieToAngle))
                     {
                         isFinish = false;
-                        currDegree = serie.animation.GetCurrDetail();
+                        serieData.pieCurrAngle = serie.animation.GetCurrDetail();
                     }
                     if (offset > 0)
                     {
-                        float offsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
-                        var insideRadius = tempData.insideRadius - offsetRadius;
-                        var outsideRadius = outSideRadius - offsetRadius;
+                        serieData.pieOffsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        serieData.pieInsideRadius -= serieData.pieOffsetRadius;
+                        serieData.pieOutsideRadius -= serieData.pieOffsetRadius;
                         if (serie.pieClickOffset && serieData.selected)
                         {
-                            offsetRadius += m_Pie.selectedOffset;
-                            if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
-                            outsideRadius += m_Pie.selectedOffset;
+                            serieData.pieOffsetRadius += m_Pie.selectedOffset;
+                            if (serieData.pieInsideRadius > 0) serieData.pieInsideRadius += m_Pie.selectedOffset;
+                            serieData.pieOutsideRadius += m_Pie.selectedOffset;
                         }
 
-                        var offestCenter = new Vector3(center.x + offsetRadius * currSin,
-                            center.y + offsetRadius * currCos);
+                        serieData.pieOffsetCenter = new Vector3(center.x + serieData.pieOffsetRadius * currSin,
+                            center.y + serieData.pieOffsetRadius * currCos);
 
-                        ChartDrawer.DrawDoughnut(vh, offestCenter, insideRadius, outsideRadius,
-                            startDegree, currDegree, color);
+                        ChartDrawer.DrawDoughnut(vh, serieData.pieOffsetCenter, serieData.pieInsideRadius, serieData.pieOutsideRadius,
+                            startDegree, serieData.pieCurrAngle, color);
                     }
                     else
                     {
-                        ChartDrawer.DrawDoughnut(vh, center, tempData.insideRadius, outSideRadius,
-                            startDegree, currDegree, color);
+                        ChartDrawer.DrawDoughnut(vh, center, serieData.pieInsideRadius, serieData.pieOutsideRadius,
+                            startDegree, serieData.pieCurrAngle, color);
                     }
-                    serieData.canShowLabel = currDegree >= currAngle;
-                    if (currDegree >= currAngle)
-                    {
-                        DrawLabelLine(vh, serie, tempData, outSideRadius, center, currAngle, color);
-                    }
+                    serieData.canShowLabel = serieData.pieCurrAngle >= serieData.pieHalfAngle;
                     isDrawPie = true;
-                    tempData.angleList.Add(toDegree);
-                    startDegree = toDegree;
+                    startDegree = serieData.pieToAngle;
                     if (isFinish) serie.animation.SetDataFinish(n);
-                    else
-                    {
-                        break;
-                    }
+                    else break;
                 }
                 if (!serie.animation.IsFinish())
                 {
@@ -207,8 +163,28 @@ namespace XCharts
                     RefreshChart();
                 }
             }
+            DrawLabelLine(vh);
             DrawLabelBackground(vh);
             raycastTarget = isClickOffset && isDataHighlight;
+        }
+
+        private void DrawLabelLine(VertexHelper vh)
+        {
+            foreach (var serie in m_Series.list)
+            {
+                if (serie.type == SerieType.Pie && serie.label.show)
+                {
+                    foreach (var serieData in serie.data)
+                    {
+                        if (serieData.canShowLabel)
+                        {
+                            int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
+                            Color color = m_ThemeInfo.GetColor(colorIndex);
+                            DrawLabelLine(vh, serie, serieData, color);
+                        }
+                    }
+                }
+            }
         }
 
         private void DrawLabelBackground(VertexHelper vh)
@@ -221,6 +197,7 @@ namespace XCharts
                     {
                         if (serieData.canShowLabel)
                         {
+                            UpdateLabelPostion(serie, serieData);
                             DrawLabelBackground(vh, serie, serieData);
                         }
                     }
@@ -228,84 +205,103 @@ namespace XCharts
             }
         }
 
-        private void DrawLabelLine(VertexHelper vh, Serie serie, PieTempData tempData, float outSideRadius, Vector2 center, float currAngle, Color color)
+        private void DrawLabelLine(VertexHelper vh, Serie serie, SerieData serieData, Color color)
         {
             if (serie.label.show
                 && serie.label.position == SerieLabel.Position.Outside
                 && serie.label.line)
             {
-                if (serie.label.color != Color.clear) color = serie.label.color;
+                var insideRadius = serieData.pieInsideRadius;
+                var outSideRadius = serieData.pieOutsideRadius;
+                var center = serie.pieCenterPos;
+                var currAngle = serieData.pieHalfAngle;
+                if (serie.label.lineColor != Color.clear) color = serie.label.lineColor;
+                else if (serie.label.lineType == SerieLabel.LineType.HorizontalLine) color *= color;
                 float currSin = Mathf.Sin(currAngle * Mathf.Deg2Rad);
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
-                var radius1 = outSideRadius;
-                var radius2 = tempData.outsideRadius + serie.label.lineLength1;
-                var pos1 = new Vector2(center.x + radius1 * currSin, center.y + radius1 * currCos);
-                var pos2 = new Vector2(center.x + radius2 * currSin, center.y + radius2 * currCos);
+                var radius1 = serie.label.lineType == SerieLabel.LineType.HorizontalLine ?
+                    serie.pieOutsideRadius : outSideRadius;
+                var radius2 = serie.pieOutsideRadius + serie.label.lineLength1;
+                var radius3 = insideRadius + (outSideRadius - insideRadius) / 2;
+                var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
+                var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
+                var pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
                 float tx, ty;
-                Vector2 pos3;
+                Vector3 pos3, pos4, pos6;
+                var horizontalLineCircleRadius = serie.label.lineWidth * 4f;
+                var lineCircleDiff = horizontalLineCircleRadius - 0.3f;
                 if (currAngle < 90)
                 {
                     ty = serie.label.lineWidth * Mathf.Cos((90 - currAngle) * Mathf.Deg2Rad);
                     tx = serie.label.lineWidth * Mathf.Sin((90 - currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector2(pos2.x - tx, pos2.y + ty - serie.label.lineWidth);
+                    pos3 = new Vector3(pos2.x - tx, pos2.y + ty - serie.label.lineWidth);
+                    var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
+                    r4 += serie.label.lineLength1 - lineCircleDiff;
+                    pos6 = pos0 + Vector3.right * lineCircleDiff;
+                    pos4 = pos6 + Vector3.right * r4;
                 }
                 else if (currAngle < 180)
                 {
                     ty = serie.label.lineWidth * Mathf.Sin((180 - currAngle) * Mathf.Deg2Rad);
                     tx = serie.label.lineWidth * Mathf.Cos((180 - currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector2(pos2.x - tx, pos2.y - ty + serie.label.lineWidth);
+                    pos3 = new Vector3(pos2.x - tx, pos2.y - ty + serie.label.lineWidth);
+                    var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
+                    r4 += serie.label.lineLength1 - lineCircleDiff;
+                    pos6 = pos0 + Vector3.right * lineCircleDiff;
+                    pos4 = pos6 + Vector3.right * r4;
                 }
                 else if (currAngle < 270)
                 {
                     ty = serie.label.lineWidth * Mathf.Sin((180 + currAngle) * Mathf.Deg2Rad);
                     tx = serie.label.lineWidth * Mathf.Cos((180 + currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector2(pos2.x + tx, pos2.y - ty + serie.label.lineWidth);
+                    var currSin1 = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
+                    var currCos1 = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
+                    pos3 = new Vector3(pos2.x + tx, pos2.y - ty + serie.label.lineWidth);
+                    var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos1 * radius3, 2)) - currSin1 * radius3;
+                    r4 += serie.label.lineLength1 - lineCircleDiff;
+                    pos6 = pos0 + Vector3.left * lineCircleDiff;
+                    pos4 = pos6 + Vector3.left * r4;
                 }
                 else
                 {
                     ty = serie.label.lineWidth * Mathf.Cos((90 + currAngle) * Mathf.Deg2Rad);
                     tx = serie.label.lineWidth * Mathf.Sin((90 + currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector2(pos2.x + tx, pos2.y + ty - serie.label.lineWidth);
+                    pos3 = new Vector3(pos2.x + tx, pos2.y + ty - serie.label.lineWidth);
+                    var currSin1 = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
+                    var currCos1 = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
+                    var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos1 * radius3, 2)) - currSin1 * radius3;
+                    r4 += serie.label.lineLength1 - lineCircleDiff;
+                    pos6 = pos0 + Vector3.left * lineCircleDiff;
+                    pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos4 = new Vector2(currAngle > 180 ? pos3.x - serie.label.lineLength2 : pos3.x + serie.label.lineLength2, pos3.y);
-                ChartDrawer.DrawLine(vh, pos1, pos2, serie.label.lineWidth, color);
-                ChartDrawer.DrawLine(vh, pos3, pos4, serie.label.lineWidth, color);
+                var pos5 = new Vector3(currAngle > 180 ? pos3.x - serie.label.lineLength2 : pos3.x + serie.label.lineLength2, pos3.y);
+                switch (serie.label.lineType)
+                {
+                    case SerieLabel.LineType.BrokenLine:
+                        ChartDrawer.DrawLine(vh, pos1, pos2, serie.label.lineWidth, color);
+                        ChartDrawer.DrawLine(vh, pos3, pos5, serie.label.lineWidth, color);
+                        break;
+                    case SerieLabel.LineType.Curves:
+                        ChartDrawer.DrawCurves(vh, pos1, pos5, pos1, pos2, serie.label.lineWidth, color);
+                        break;
+                    case SerieLabel.LineType.HorizontalLine:
+                        ChartDrawer.DrawCricle(vh, pos0, horizontalLineCircleRadius, color, 20);
+                        ChartDrawer.DrawLine(vh, pos6, pos4, serie.label.lineWidth, color);
+                        break;
+                }
             }
         }
 
         protected override void OnRefreshLabel()
         {
-            serieNameSet.Clear();
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
                 serie.index = i;
-
-                if (!serie.show)
-                {
-                    continue;
-                }
-
-                PieTempData tempData;
-                if (i < m_PieTempDataList.Count)
-                {
-                    tempData = m_PieTempDataList[i];
-                    tempData.angleList.Clear();
-                }
-                else
-                {
-                    tempData = new PieTempData();
-                    m_PieTempDataList.Add(tempData);
-                }
-                tempData.angleList.Clear();
-                tempData.dataMax = serie.yMax;
-                tempData.dataTotal = serie.yTotal;
-                UpdatePieCenter(serie);
+                if (!serie.show) continue;
                 var data = serie.data;
 
-                float totalDegree = 360;
-                float startDegree = 0;
                 int showdataCount = 0;
                 if (serie.pieRoseType == RoseType.Area)
                 {
@@ -322,73 +318,19 @@ namespace XCharts
                         serieData.SetLabelActive(false);
                         continue;
                     }
-                    float value = serieData.data[1];
-                    string dataName = serieData.name;
-                    Color color;
-                    if (string.IsNullOrEmpty(dataName))
-                    {
-                        serieNameCount++;
-                        color = m_ThemeInfo.GetColor(serieNameCount);
-                    }
-                    else if (!serieNameSet.ContainsKey(dataName))
-                    {
-                        serieNameSet.Add(dataName, serieNameCount);
-                        serieNameCount++;
-                        color = m_ThemeInfo.GetColor(serieNameCount);
-                    }
-                    else
-                    {
-                        color = m_ThemeInfo.GetColor(serieNameSet[dataName]);
-                    }
-                    if (!serieData.show)
-                    {
-                        tempData.angleList.Add(0);
-                        continue;
-                    }
-                    float degree = serie.pieRoseType == RoseType.Area ? (totalDegree / showdataCount) : (totalDegree * value / tempData.dataTotal);
-                    float toDegree = startDegree + degree;
+                    if (!serieData.show) continue;
+                    serieNameCount = m_LegendRealShowName.IndexOf(serieData.name);
+                    Color color = m_ThemeInfo.GetColor(serieNameCount);
 
-                    float outSideRadius = serie.pieRoseType > 0 ?
-                        tempData.insideRadius + (tempData.outsideRadius - tempData.insideRadius) * value / tempData.dataMax :
-                        tempData.outsideRadius;
-                    if (serieData.highlighted)
-                    {
-                        outSideRadius += m_Pie.tooltipExtraRadius;
-                    }
-                    var offset = serie.pieSpace;
-                    if (serie.pieClickOffset && serieData.selected)
-                    {
-                        offset += m_Pie.selectedOffset;
-                    }
-                    var halfDegree = (toDegree - startDegree) / 2;
-                    float currAngle = startDegree + halfDegree;
-                    if (offset > 0)
-                    {
-                        float offsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
-                        var insideRadius = tempData.insideRadius - offsetRadius;
-                        var outsideRadius = outSideRadius - offsetRadius;
-                        if (serie.pieClickOffset && serieData.selected)
-                        {
-                            offsetRadius += m_Pie.selectedOffset;
-                            if (insideRadius > 0) insideRadius += m_Pie.selectedOffset;
-                            outsideRadius += m_Pie.selectedOffset;
-                        }
-                        DrawLabel(serie, n, serieData, tempData, color, currAngle, offsetRadius, insideRadius, outsideRadius);
-                    }
-                    else
-                    {
-                        DrawLabel(serie, n, serieData, tempData, color, currAngle, 0, tempData.insideRadius, outSideRadius);
-                    }
-                    tempData.angleList.Add(toDegree);
-                    startDegree = toDegree;
+                    DrawLabel(serie, n, serieData, color);
                 }
             }
         }
 
-        private void DrawLabel(Serie serie, int dataIndex, SerieData serieData, PieTempData tempData, Color serieColor,
-            float currAngle, float offsetRadius, float insideRadius, float outsideRadius)
+        private void DrawLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {
             if (serieData.labelText == null) return;
+            var currAngle = serieData.pieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
             var showLabel = ((serie.label.show || isHighlight) && serieData.canShowLabel);
             if (showLabel || serieData.showIcon)
@@ -416,7 +358,6 @@ namespace XCharts
                 }
                 var fontSize = isHighlight ? serie.highlightLabel.fontSize : serie.label.fontSize;
                 var fontStyle = isHighlight ? serie.highlightLabel.fontStyle : serie.label.fontStyle;
-                float currRad = currAngle * Mathf.Deg2Rad;
 
                 serieData.labelText.color = color;
                 serieData.labelText.fontSize = fontSize;
@@ -424,21 +365,65 @@ namespace XCharts
 
                 serieData.labelRect.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
-                switch (serie.label.position)
+                UpdateLabelPostion(serie, serieData);
+                if (!string.IsNullOrEmpty(serie.label.formatter))
                 {
-                    case SerieLabel.Position.Center:
-                        serieData.labelPosition = tempData.center;
-                        break;
-                    case SerieLabel.Position.Inside:
-                        var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
-                        var labelCenter = new Vector2(tempData.center.x + labelRadius * Mathf.Sin(currRad),
-                            tempData.center.y + labelRadius * Mathf.Cos(currRad));
-                        serieData.labelPosition = labelCenter;
-                        break;
-                    case SerieLabel.Position.Outside:
-                        labelRadius = tempData.outsideRadius + serie.label.lineLength1;
-                        labelCenter = new Vector2(tempData.center.x + labelRadius * Mathf.Sin(currRad),
-                            tempData.center.y + labelRadius * Mathf.Cos(currRad));
+                    var value = serieData.data[1];
+                    var total = serie.yTotal;
+                    var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
+                    if (serieData.SetLabelText(content)) RefreshChart();
+                }
+                serieData.SetGameObjectPosition(serieData.labelPosition);
+                if (showLabel) serieData.SetLabelPosition(serie.label.offset);
+            }
+            else
+            {
+                serieData.SetLabelActive(false);
+            }
+            serieData.UpdateIcon();
+        }
+
+        protected void UpdateLabelPostion(Serie serie, SerieData serieData)
+        {
+            var currAngle = serieData.pieHalfAngle;
+            var currRad = currAngle * Mathf.Deg2Rad;
+            var offsetRadius = serieData.pieOffsetRadius;
+            var insideRadius = serieData.pieInsideRadius;
+            var outsideRadius = serieData.pieOutsideRadius;
+            switch (serie.label.position)
+            {
+                case SerieLabel.Position.Center:
+                    serieData.labelPosition = serie.pieCenterPos;
+                    break;
+                case SerieLabel.Position.Inside:
+                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
+                    var labelCenter = new Vector2(serie.pieCenterPos.x + labelRadius * Mathf.Sin(currRad),
+                        serie.pieCenterPos.y + labelRadius * Mathf.Cos(currRad));
+                    serieData.labelPosition = labelCenter;
+                    break;
+                case SerieLabel.Position.Outside:
+                    if (serie.label.lineType == SerieLabel.LineType.HorizontalLine)
+                    {
+                        var radius1 = serie.pieOutsideRadius;
+                        var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
+                        var currSin = Mathf.Sin(currRad);
+                        var currCos = Mathf.Cos(currRad);
+                        var pos0 = new Vector3(serie.pieCenterPos.x + radius3 * currSin, serie.pieCenterPos.y + radius3 * currCos);
+                        if (currAngle > 180)
+                        {
+                            currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
+                            currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
+                        }
+                        var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
+                        r4 += serie.label.lineLength1 + serie.label.lineWidth * 4;
+                        r4 += serieData.labelText.preferredWidth / 2;
+                        serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
+                    }
+                    else
+                    {
+                        labelRadius = serie.pieOutsideRadius + serie.label.lineLength1;
+                        labelCenter = new Vector2(serie.pieCenterPos.x + labelRadius * Mathf.Sin(currRad),
+                            serie.pieCenterPos.y + labelRadius * Mathf.Cos(currRad));
                         float labelWidth = serieData.labelText.preferredWidth;
                         if (currAngle > 180)
                         {
@@ -448,23 +433,9 @@ namespace XCharts
                         {
                             serieData.labelPosition = new Vector2(labelCenter.x + serie.label.lineLength2 + 5 + labelWidth / 2, labelCenter.y);
                         }
-                        break;
-                }
-                if (!string.IsNullOrEmpty(serie.label.formatter))
-                {
-                    var value = serieData.data[1];
-                    var total = serie.yTotal;
-                    var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
-                    if (serieData.SetLabelText(content)) RefreshChart();
-                }
-                serieData.SetGameObjectPosition(serieData.labelPosition);
-                if(showLabel) serieData.SetLabelPosition(serie.label.offset);
+                    }
+                    break;
             }
-            else
-            {
-                serieData.SetLabelActive(false);
-            }
-            serieData.UpdateIcon();
         }
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
@@ -492,13 +463,12 @@ namespace XCharts
         private void UpdatePieCenter(Serie serie)
         {
             if (serie.pieCenter.Length < 2) return;
-            var tempData = m_PieTempDataList[serie.index];
             var centerX = serie.pieCenter[0] <= 1 ? chartWidth * serie.pieCenter[0] : serie.pieCenter[0];
             var centerY = serie.pieCenter[1] <= 1 ? chartHeight * serie.pieCenter[1] : serie.pieCenter[1];
-            tempData.center = new Vector2(centerX, centerY);
+            serie.pieCenterPos = new Vector2(centerX, centerY);
             var minWidth = Mathf.Min(chartWidth, chartHeight);
-            tempData.insideRadius = serie.pieRadius[0] <= 1 ? minWidth * serie.pieRadius[0] : serie.pieRadius[0];
-            tempData.outsideRadius = serie.pieRadius[1] <= 1 ? minWidth * serie.pieRadius[1] : serie.pieRadius[1];
+            serie.pieInsideRadius = serie.pieRadius[0] <= 1 ? minWidth * serie.pieRadius[0] : serie.pieRadius[0];
+            serie.pieOutsideRadius = serie.pieRadius[1] <= 1 ? minWidth * serie.pieRadius[1] : serie.pieRadius[1];
         }
 
         protected override void CheckTootipArea(Vector2 local)
@@ -506,13 +476,11 @@ namespace XCharts
             if (m_IsEnterLegendButtom) return;
             m_Tooltip.dataIndex.Clear();
             bool selected = false;
-            for (int i = 0; i < m_PieTempDataList.Count; i++)
+            foreach (var serie in m_Series.list)
             {
-                var serie = m_Series.GetSerie(i);
-                var tempData = m_PieTempDataList[i];
-                int index = GetPosPieIndex(tempData, local);
+                int index = GetPosPieIndex(serie, local);
                 m_Tooltip.dataIndex.Add(index);
-
+                if (serie.type != SerieType.Pie) continue;
                 bool refresh = false;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
@@ -520,7 +488,6 @@ namespace XCharts
                     if (serieData.highlighted != (j == index)) refresh = true;
                     serieData.highlighted = j == index;
                 }
-
                 if (index >= 0) selected = true;
                 if (refresh) RefreshChart();
             }
@@ -536,20 +503,17 @@ namespace XCharts
             }
         }
 
-        private int GetPosPieIndex(PieTempData tempData, Vector2 local)
+        private int GetPosPieIndex(Serie serie, Vector2 local)
         {
-            var dist = Vector2.Distance(local, tempData.center);
-            if (dist < tempData.insideRadius || dist > tempData.outsideRadius) return -1;
-            Vector2 dir = local - tempData.center;
+            if (serie.type != SerieType.Pie) return -1;
+            var dist = Vector2.Distance(local, serie.pieCenterPos);
+            if (dist < serie.pieInsideRadius || dist > serie.pieOutsideRadius) return -1;
+            Vector2 dir = local - new Vector2(serie.pieCenterPos.x, serie.pieCenterPos.y);
             float angle = VectorAngle(Vector2.up, dir);
-            var angleList = tempData.angleList;
-            for (int i = angleList.Count - 1; i >= 0; i--)
+            for (int i = 0; i < serie.data.Count; i++)
             {
-                if (i == 0)
-                {
-                    if (angle <= angleList[i]) return 0;
-                }
-                else if (angle <= angleList[i] && angle > angleList[i - 1])
+                var serieData = serie.data[i];
+                if (angle >= serieData.pieStartAngle && angle <= serieData.pieToAngle)
                 {
                     return i;
                 }
@@ -573,14 +537,13 @@ namespace XCharts
         {
             base.RefreshTooltip();
             bool showTooltip = false;
-            for (int i = 0; i < m_PieTempDataList.Count; i++)
+            foreach (var serie in m_Series.list)
             {
-                int index = m_Tooltip.dataIndex[i];
+                int index = m_Tooltip.dataIndex[serie.index];
                 if (index < 0) continue;
                 showTooltip = true;
                 if (string.IsNullOrEmpty(tooltip.formatter))
                 {
-                    var serie = m_Series.GetSerie(i);
                     string key = serie.data[index].name;
                     if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
 
@@ -621,17 +584,19 @@ namespace XCharts
             {
                 return;
             }
-            for (int i = 0; i < m_PieTempDataList.Count; i++)
+            for (int i = 0; i < m_Series.Count; i++)
             {
-                var tempData = m_PieTempDataList[i];
-                int index = GetPosPieIndex(tempData, local);
-                if (index >= 0)
+                var serie = m_Series.GetSerie(i);
+                if (serie.type == SerieType.Pie)
                 {
-                    var serie = m_Series.GetSerie(i);
-                    for (int j = 0; j < serie.data.Count; j++)
+                    var index = GetPosPieIndex(serie, local);
+                    if (index >= 0)
                     {
-                        if (j == index) serie.data[j].selected = !serie.data[j].selected;
-                        else serie.data[j].selected = false;
+                        for (int j = 0; j < serie.data.Count; j++)
+                        {
+                            if (j == index) serie.data[j].selected = !serie.data[j].selected;
+                            else serie.data[j].selected = false;
+                        }
                     }
                 }
             }

@@ -389,8 +389,30 @@ namespace XCharts
         /// 数据项个数。
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
-
+        /// <summary>
+        /// 数据项位置坐标。
+        /// </summary>
         public List<Vector3> dataPoints { get { return m_DataPoints; } }
+        /// <summary>
+        /// 饼图的中心点位置。
+        /// </summary>
+        public Vector3 pieCenterPos { get; set; }
+        /// <summary>
+        /// 饼图的内径
+        /// </summary>
+        public float pieInsideRadius { get; set; }
+        /// <summary>
+        /// 饼图的外径
+        /// </summary>
+        public float pieOutsideRadius { get; set; }
+        /// <summary>
+        /// 饼图的数据项最大值
+        /// </summary>
+        public float pieDataMax { get; set; }
+        /// <summary>
+        /// 饼图的数据项之和
+        /// </summary>
+        public float pieDataTotal { get; set; }
 
         public List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
         {

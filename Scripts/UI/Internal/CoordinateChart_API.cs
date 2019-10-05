@@ -126,6 +126,11 @@ namespace XCharts
             return true;
         }
 
+        public bool IsCategory()
+        {
+            return !IsValue();
+        }
+
     }
 }
 

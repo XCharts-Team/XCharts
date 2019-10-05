@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace XCharts
     {
         public static float CRICLE_SMOOTHNESS = 2f;
         private static UIVertex[] vertex = new UIVertex[4];
+        private static List<Vector3> s_CurvesPosList = new List<Vector3>();
 
         public static void DrawArrow(VertexHelper vh, Vector3 startPos, Vector3 arrowPos, float width,
            float height, float offset, float dent, Color32 color)
@@ -264,5 +266,42 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 画贝塞尔曲线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="sp">起始点</param>
+        /// <param name="ep">结束点</param>
+        /// <param name="cp1">控制点1</param>
+        /// <param name="cp2">控制点2</param>
+        /// <param name="lineWidth">曲线宽</param>
+        /// <param name="lineColor">曲线颜色</param>
+        public static void DrawCurves(VertexHelper vh, Vector3 sp, Vector3 ep, Vector3 cp1, Vector3 cp2,
+            float lineWidth, Color lineColor)
+        {
+            var dist = Vector3.Distance(sp, ep);
+            var segment = (int)(dist / 1f);
+            ChartHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
+            if (s_CurvesPosList.Count > 1)
+            {
+                var start = s_CurvesPosList[0];
+                var to = Vector3.zero;
+                var dir = s_CurvesPosList[1] - start;
+                var diff = Vector3.Cross(dir, Vector3.forward).normalized * lineWidth;
+                var startUp = start - diff;
+                var startDn = start + diff;
+                for (int i = 1; i < s_CurvesPosList.Count; i++)
+                {
+                    to = s_CurvesPosList[i];
+                    diff = Vector3.Cross(to - start, Vector3.forward).normalized * lineWidth;
+                    var toUp = to - diff;
+                    var toDn = to + diff;
+                    DrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor);
+                    startUp = toUp;
+                    startDn = toDn;
+                    start = to;
+                }
+            }
+        }
     }
 }

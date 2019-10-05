@@ -296,7 +296,7 @@ namespace XCharts
                     }
                     break;
                 case LineType.Smooth:
-                    ChartHelper.GetBezierList(ref bezierPoints, null, lp, np, llp, nnp, fine, lineSmoothStyle);
+                    ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, fine, lineSmoothStyle);
                     if (bezierPoints.Count > 0) progress = bezierPoints.Count - 1;
                     break;
                 case LineType.StepStart:
@@ -858,7 +858,7 @@ namespace XCharts
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
             if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, fine, lineSmoothStyle);
-            else ChartHelper.GetBezierList(ref bezierPoints, vh, lp, np, llp, nnp, fine, lineSmoothStyle);
+            else ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, fine, lineSmoothStyle);
 
             Vector3 start, to;
             if (serie.lineType == LineType.SmoothDash)

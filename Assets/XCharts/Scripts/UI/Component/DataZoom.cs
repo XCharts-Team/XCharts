@@ -12,22 +12,6 @@ namespace XCharts
     [System.Serializable]
     public class DataZoom
     {
-        public enum DataZoomType
-        {
-            /// <summary>
-            /// DataZoom functionalities is embeded inside coordinate systems, enable user to 
-            /// zoom or roam coordinate system by mouse dragging, mouse move or finger touch (in touch screen).
-            /// 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
-            /// </summary>
-            Inside,
-            /// <summary>
-            /// A special slider bar is provided, on which coordinate systems can be zoomed or
-            /// roamed by mouse dragging or finger touch (in touch screen).
-            /// 有单独的滑动条，用户在滑动条上进行缩放或漫游。
-            /// </summary>
-            Slider
-        }
-
         /// <summary>
         /// Generally dataZoom component zoom or roam coordinate system through data filtering
         /// and set the windows of axes internally.
@@ -70,12 +54,13 @@ namespace XCharts
             /// </summary>
             Percent
         }
-        [SerializeField] private bool m_Show;
-        [SerializeField] private DataZoomType m_Type;
+        [SerializeField] private bool m_Enable;
         [SerializeField] private FilterMode m_FilterMode;
-        [SerializeField] private Orient m_Orient;
         [SerializeField] private int m_XAxisIndex;
         [SerializeField] private int m_YAxisIndex;
+        [SerializeField] private bool m_SupportInside;
+        [SerializeField] private bool m_SupportSlider;
+        [SerializeField] private bool m_SupportSelect;
         [SerializeField] private bool m_ShowDataShadow;
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
@@ -89,28 +74,20 @@ namespace XCharts
         [SerializeField] private float m_StartValue;
         [SerializeField] private float m_EndValue;
         [Range(1f, 20f)]
-        [SerializeField] private float m_ScrollSensitivity;
+        [SerializeField] private float m_ScrollSensitivity = 1.1f;
+        [SerializeField] private int m_FontSize = 18;
+        [SerializeField] private FontStyle m_FontStyle;
 
         /// <summary>
         /// Whether to show dataZoom. 
         /// 是否显示缩放区域。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
-        /// <summary>
-        /// The type of dataZoom. 
-        /// 区域缩放类型。
-        /// </summary>
-        public DataZoomType type { get { return m_Type; } set { m_Type = value; } }
+        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
         /// <summary>
         /// The mode of data filter. 
         /// 数据过滤类型。
         /// </summary>
         public FilterMode filterMode { get { return m_FilterMode; } set { m_FilterMode = value; } }
-        /// <summary>
-        /// Specify whether the layout of dataZoom component is horizontal or vertical. 
-        /// 水平还是垂直显示。
-        /// </summary>
-        public Orient orient { get { return m_Orient; } set { m_Orient = value; } }
         /// <summary>
         /// Specify which xAxis is controlled by the dataZoom. 
         /// 控制哪一个 x 轴。
@@ -121,6 +98,18 @@ namespace XCharts
         /// 控制哪一个 y 轴。
         /// </summary>
         public int yAxisIndex { get { return m_YAxisIndex; } set { m_YAxisIndex = value; } }
+        /// <summary>
+        /// 是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
+        /// </summary>
+        public bool supportInside { get { return m_SupportInside; } set { m_SupportInside = value; } }
+        /// <summary>
+        /// 是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。
+        /// </summary>
+        public bool supportSlider { get { return m_SupportSlider; } set { m_SupportSlider = value; } }
+        /// <summary>
+        /// 是否支持框选。提供一个选框进行数据区域缩放。
+        /// </summary>
+        private bool supportSelect { get { return m_SupportSelect; } set { m_SupportSelect = value; } }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
         /// default:true
@@ -142,14 +131,14 @@ namespace XCharts
         /// <summary>
         /// Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief.
         /// default:true
-        /// 拖动时，是否实时更新系列的视图。如果设置为 false，则只在拖拽结束的时候更新。
+        /// 拖动时，是否实时更新系列的视图。如果设置为 false，则只在拖拽结束的时候更新。默认为true，暂不支持修改。
         /// </summary>
-        public bool realtime { get { return m_Realtime; } set { m_Realtime = value; } }
+        public bool realtime { get { return true; } }
         /// <summary>
         /// The background color of the component.
         /// 组件的背景颜色。
         /// </summary>
-        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        private Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
         /// <summary>
         /// Distance between dataZoom component and the bottom side of the container.
         /// bottom value is a instant pixel value like 10.
@@ -175,13 +164,21 @@ namespace XCharts
         /// default:30
         /// 数据窗口范围的起始百分比。范围是：0 ~ 100。
         /// </summary>
-        public float start { get { return m_Start; } set { m_Start = value; } }
+        public float start
+        {
+            get { return m_Start; }
+            set { m_Start = value; if (m_Start < 0) m_Start = 0; if (m_Start > 100) m_Start = 100; }
+        }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.
         /// default:70
         /// 数据窗口范围的结束百分比。范围是：0 ~ 100。
         /// </summary>
-        public float end { get { return m_End; } set { m_End = value; } }
+        public float end
+        {
+            get { return m_End; }
+            set { m_End = value; if (m_End < 0) m_End = 0; if (m_End > 100) m_End = 100; }
+        }
         /// <summary>
         /// The sensitivity of dataZoom scroll.
         /// The larger the number, the more sensitive it is.
@@ -189,6 +186,16 @@ namespace XCharts
         /// 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
         /// </summary>
         public float scrollSensitivity { get { return m_ScrollSensitivity; } set { m_ScrollSensitivity = value; } }
+        /// <summary>
+        /// font size.
+        /// 文字的字体大小。
+        /// </summary>
+        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        /// <summary>
+        /// font style.
+        /// 文字字体的风格。
+        /// </summary>
+        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
 
         /// <summary>
         /// DataZoom is in draging.
@@ -212,16 +219,13 @@ namespace XCharts
             {
                 return new DataZoom()
                 {
-                    m_Type = DataZoomType.Slider,
                     filterMode = FilterMode.None,
-                    orient = Orient.Horizonal,
                     xAxisIndex = 0,
                     yAxisIndex = 0,
                     showDataShadow = true,
                     showDetail = false,
                     zoomLock = false,
-                    realtime = true,
-                    m_Height = 50,
+                    m_Height = 0,
                     m_Bottom = 10,
                     rangeMode = RangeMode.Percent,
                     start = 30,
@@ -319,6 +323,22 @@ namespace XCharts
         public void SetEndLabelText(string text)
         {
             if (endLabel) endLabel.text = text;
+        }
+
+        /// <summary>
+        /// 获取DataZoom的高，当height设置为0时，自动计算合适的偏移。
+        /// </summary>
+        /// <param name="gridBottom"></param>
+        /// <returns></returns>
+        public float GetHeight(float gridBottom)
+        {
+            if (height <= 0)
+            {
+                var hig = gridBottom - bottom - 30;
+                if (hig < 10) hig = 10;
+                return hig;
+            }
+            else return height;
         }
     }
 }

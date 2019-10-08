@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts
 {
@@ -131,6 +132,15 @@ namespace XCharts
             return !IsValue();
         }
 
+        public bool IsInCooridate(Vector2 local)
+        {
+            if (local.x < coordinateX - 1 || local.x > coordinateX + coordinateWid + 1 ||
+                local.y < coordinateY - 1 || local.y > coordinateY + coordinateHig + 1)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
 

@@ -192,6 +192,7 @@ namespace XCharts
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
+        [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
         /// Whether to show serie in chart.
@@ -590,7 +591,11 @@ namespace XCharts
         {
             if (m_MaxCache > 0)
             {
-                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                while (m_Data.Count > m_MaxCache)
+                {
+                    m_NeedUpdateFilterData = true;
+                    m_Data.RemoveAt(0);
+                }
             }
             int xValue = m_Data.Count;
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, value }, name = dataName });
@@ -607,7 +612,11 @@ namespace XCharts
         {
             if (m_MaxCache > 0)
             {
-                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                while (m_Data.Count > m_MaxCache)
+                {
+                    m_NeedUpdateFilterData = true;
+                    m_Data.RemoveAt(0);
+                }
             }
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
@@ -634,7 +643,11 @@ namespace XCharts
             {
                 if (m_MaxCache > 0)
                 {
-                    while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                    while (m_Data.Count > m_MaxCache)
+                    {
+                        m_NeedUpdateFilterData = true;
+                        m_Data.RemoveAt(0);
+                    }
                 }
                 var serieData = new SerieData();
                 serieData.name = dataName;
@@ -727,15 +740,9 @@ namespace XCharts
         /// <returns></returns>
         public List<SerieData> GetDataList(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.show)
+            if (dataZoom != null && dataZoom.enable)
             {
-                var startIndex = (int)((m_Data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((m_Data.Count - 1) * dataZoom.end / 100);
-                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (m_FilterData == null || m_FilterData.Count != count)
-                {
-                    UpdateFilterData(dataZoom);
-                }
+                UpdateFilterData(dataZoom);
                 return m_FilterData;
             }
             else
@@ -769,20 +776,22 @@ namespace XCharts
             minValue = min;
         }
 
+        private List<SerieData> emptyFilter = new List<SerieData>();
         /// <summary>
         /// 根据dataZoom更新数据列表缓存
         /// </summary>
         /// <param name="dataZoom"></param>
         public void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.show)
+            if (dataZoom != null && dataZoom.enable)
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != m_FilterStart || endIndex != m_FilterEnd)
+                if (startIndex != m_FilterStart || endIndex != m_FilterEnd || m_NeedUpdateFilterData)
                 {
                     m_FilterStart = startIndex;
                     m_FilterEnd = endIndex;
+                    m_NeedUpdateFilterData = false;
                     var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
                     if (m_Data.Count > 0)
                     {
@@ -795,7 +804,7 @@ namespace XCharts
                 }
                 else if (endIndex == 0)
                 {
-                    m_FilterData = new List<SerieData>();
+                    m_FilterData = emptyFilter;
                 }
             }
         }

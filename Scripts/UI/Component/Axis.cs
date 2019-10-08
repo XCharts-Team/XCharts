@@ -105,6 +105,7 @@ namespace XCharts
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
         [NonSerialized] private float m_ValueRange;
+        [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
         /// Set this to false to prevent the axis from showing.
@@ -279,7 +280,11 @@ namespace XCharts
         {
             if (maxCache > 0)
             {
-                while (m_Data.Count > maxCache) m_Data.RemoveAt(0);
+                while (m_Data.Count > maxCache)
+                {
+                    m_NeedUpdateFilterData = true;
+                    m_Data.RemoveAt(0);
+                }
             }
             m_Data.Add(category);
         }
@@ -306,15 +311,12 @@ namespace XCharts
         /// <returns></returns>
         public List<string> GetDataList(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.show)
+            if (dataZoom != null && dataZoom.enable)
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
                 var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (filterData == null || filterData.Count != count)
-                {
-                    UpdateFilterData(dataZoom);
-                }
+                UpdateFilterData(dataZoom);
                 return filterData;
             }
             else
@@ -323,20 +325,22 @@ namespace XCharts
             }
         }
 
+        private List<string> emptyFliter = new List<string>();
         /// <summary>
         /// 更新dataZoom对应的类目数据列表
         /// </summary>
         /// <param name="dataZoom"></param>
         public void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.show)
+            if (dataZoom != null && dataZoom.enable)
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != filterStart || endIndex != filterEnd)
+                if (startIndex != filterStart || endIndex != filterEnd || m_NeedUpdateFilterData)
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
+                    m_NeedUpdateFilterData = false;
                     if (m_Data.Count > 0)
                     {
                         var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
@@ -349,7 +353,7 @@ namespace XCharts
                 }
                 else if (endIndex == 0)
                 {
-                    filterData = new List<string>();
+                    filterData = emptyFliter;
                 }
             }
         }

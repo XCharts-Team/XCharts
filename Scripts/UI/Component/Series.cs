@@ -476,7 +476,7 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         public void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.show)
+            if (dataZoom != null && dataZoom.enable)
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {

@@ -151,7 +151,7 @@ namespace XCharts
                     {
                         SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                         int num = m_Data.arraySize + 2;
-                        if (num > 50) num = 13;
+                        if (num > 30) num = 14;
                         height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUIUtility.standardVerticalSpacing;
                     }

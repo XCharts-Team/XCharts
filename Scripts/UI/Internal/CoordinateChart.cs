@@ -18,6 +18,7 @@ namespace XCharts
         [SerializeField] protected DataZoom m_DataZoom = DataZoom.defaultDataZoom;
 
         private bool m_DataZoomDrag;
+        private bool m_DataZoomCoordinateDrag;
         private bool m_DataZoomStartDrag;
         private bool m_DataZoomEndDrag;
         private float m_DataZoomLastStartIndex;
@@ -25,6 +26,7 @@ namespace XCharts
         private bool m_XAxisChanged;
         private bool m_YAxisChanged;
         private bool m_CheckMinMaxValue;
+        private bool m_CheckDataZoomLabel;
         private List<XAxis> m_CheckXAxises = new List<XAxis>();
         private List<YAxis> m_CheckYAxises = new List<YAxis>();
         private Grid m_CheckCoordinate = Grid.defaultGrid;
@@ -69,7 +71,7 @@ namespace XCharts
             base.DrawChart(vh);
             DrawCoordinate(vh);
             DrawSerie(vh);
-            DrawDataZoom(vh);
+            DrawDataZoomSlider(vh);
         }
 
 
@@ -93,8 +95,8 @@ namespace XCharts
                     switch (serie.type)
                     {
                         case SerieType.Line:
-                            if (yCategory) DrawYLineSerie(vh,serie, colorIndex, ref m_SeriesCurrHig);
-                            else DrawXLineSerie(vh,serie, colorIndex, ref m_SeriesCurrHig);
+                            if (yCategory) DrawYLineSerie(vh, serie, colorIndex, ref m_SeriesCurrHig);
+                            else DrawXLineSerie(vh, serie, colorIndex, ref m_SeriesCurrHig);
                             break;
                         case SerieType.Bar:
                             if (yCategory) DrawYBarSerie(vh, serie, colorIndex, ref m_SeriesCurrHig);
@@ -122,8 +124,7 @@ namespace XCharts
 
         protected override void CheckTootipArea(Vector2 local)
         {
-            if (local.x < coordinateX - 1 || local.x > coordinateX + coordinateWid + 1 ||
-                local.y < coordinateY - 1 || local.y > coordinateY + coordinateHig + 1)
+            if (!IsInCooridate(local))
             {
                 m_Tooltip.ClearValue();
                 RefreshTooltip();
@@ -605,12 +606,12 @@ namespace XCharts
             ChartHelper.HideAllObject(dataZoomObject);
             m_DataZoom.startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleRight,
-                Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20));
+                Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20), m_DataZoom.fontSize, 0, m_DataZoom.fontStyle);
             m_DataZoom.endLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "end",
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleLeft,
-                Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20));
+                Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20), m_DataZoom.fontSize, 0, m_DataZoom.fontStyle);
             m_DataZoom.SetLabelActive(false);
-            raycastTarget = m_DataZoom.show;
+            raycastTarget = m_DataZoom.enable;
             var xAxis = m_XAxises[m_DataZoom.xAxisIndex];
             if (xAxis != null)
             {
@@ -964,12 +965,13 @@ namespace XCharts
             }
         }
 
-        private void DrawDataZoom(VertexHelper vh)
+        private void DrawDataZoomSlider(VertexHelper vh)
         {
-            if (!m_DataZoom.show) return;
+            if (!m_DataZoom.enable || !m_DataZoom.supportSlider) return;
+            var hig = m_DataZoom.GetHeight(grid.bottom);
             var p1 = new Vector2(coordinateX, m_DataZoom.bottom);
-            var p2 = new Vector2(coordinateX, m_DataZoom.bottom + m_DataZoom.height);
-            var p3 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom + m_DataZoom.height);
+            var p2 = new Vector2(coordinateX, m_DataZoom.bottom + hig);
+            var p3 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom + hig);
             var p4 = new Vector2(coordinateX + coordinateWid, m_DataZoom.bottom);
             var xAxis = xAxises[0];
             ChartDrawer.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
@@ -980,7 +982,8 @@ namespace XCharts
             {
                 Serie serie = m_Series.list[0];
                 Axis axis = yAxises[0];
-                float scaleWid = coordinateWid / (serie.data.Count - 1);
+                var showData = serie.GetDataList(null);
+                float scaleWid = coordinateWid / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 int minValue = 0;
@@ -988,11 +991,21 @@ namespace XCharts
                 m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue);
                 if (minValue > 0 && maxValue > 0) minValue = 0;
-                for (int i = 0; i < serie.data.Count; i++)
+
+
+                int rate = 1;
+                var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
+                var maxCount = showData.Count;
+                if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
+                if (rate < 1) rate = 1;
+                var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
+                    DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
+
+                for (int i = 0; i < maxCount; i += rate)
                 {
-                    float value = serie.data[i].data[1];
+                    float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i);
                     float pX = coordinateX + i * scaleWid;
-                    float dataHig = value / (maxValue - minValue) * m_DataZoom.height;
+                    float dataHig = value / (maxValue - minValue) * hig;
                     np = new Vector3(pX, m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {
@@ -1014,8 +1027,8 @@ namespace XCharts
                     var start = coordinateX + coordinateWid * m_DataZoom.start / 100;
                     var end = coordinateX + coordinateWid * m_DataZoom.end / 100;
                     p1 = new Vector2(start, m_DataZoom.bottom);
-                    p2 = new Vector2(start, m_DataZoom.bottom + m_DataZoom.height);
-                    p3 = new Vector2(end, m_DataZoom.bottom + m_DataZoom.height);
+                    p2 = new Vector2(start, m_DataZoom.bottom + hig);
+                    p3 = new Vector2(end, m_DataZoom.bottom + hig);
                     p4 = new Vector2(end, m_DataZoom.bottom);
                     ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.dataZoomSelectedColor);
                     ChartDrawer.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomSelectedColor);
@@ -1135,16 +1148,53 @@ namespace XCharts
 
         private void CheckDataZoom()
         {
-            if (raycastTarget != m_DataZoom.show)
+            if (raycastTarget != m_DataZoom.enable)
             {
-                raycastTarget = m_DataZoom.show;
+                raycastTarget = m_DataZoom.enable;
             }
-            if (!m_DataZoom.show) return;
-            if (m_DataZoom.showDetail)
+            if (!m_DataZoom.enable) return;
+            CheckDataZoomScale();
+            CheckDataZoomLabel();
+        }
+
+        private bool m_IsSingleTouch;
+        private Vector2 m_LastSingleTouchPos;
+        private Vector2 m_LastTouchPos0;
+        private Vector2 m_LastTouchPos1;
+        private void CheckDataZoomScale()
+        {
+            if (!m_DataZoom.enable || m_DataZoom.zoomLock || !m_DataZoom.supportInside) return;
+
+            if (Input.touchCount == 2)
+            {
+                var touch0 = Input.GetTouch(0);
+                var touch1 = Input.GetTouch(1);
+                if (touch1.phase == TouchPhase.Began)
+                {
+                    m_LastTouchPos0 = touch0.position;
+                    m_LastTouchPos1 = touch1.position;
+                }
+                else if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
+                {
+                    var tempPos0 = touch0.position;
+                    var tempPos1 = touch1.position;
+                    var currDist = Vector2.Distance(tempPos0, tempPos1);
+                    var lastDist = Vector2.Distance(m_LastTouchPos0, m_LastTouchPos1);
+                    var delta = (currDist - lastDist);
+                    ScaleDataZoom(delta / m_DataZoom.scrollSensitivity);
+                    m_LastTouchPos0 = tempPos0;
+                    m_LastTouchPos1 = tempPos1;
+                }
+            }
+        }
+
+        private void CheckDataZoomLabel()
+        {
+            if (m_DataZoom.supportSlider && m_DataZoom.showDetail)
             {
                 Vector2 local;
                 if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                    Input.mousePosition, null, out local))
+                    Input.mousePosition, canvas.worldCamera, out local))
                 {
                     m_DataZoom.SetLabelActive(false);
                     return;
@@ -1158,8 +1208,34 @@ namespace XCharts
                 }
                 else
                 {
+
                     m_DataZoom.SetLabelActive(false);
                 }
+            }
+            if (m_CheckDataZoomLabel)
+            {
+                m_CheckDataZoomLabel = false;
+                var xAxis = m_XAxises[m_DataZoom.xAxisIndex];
+                var startIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.start / 100);
+                var endIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.end / 100);
+                if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
+                {
+                    m_DataZoomLastStartIndex = startIndex;
+                    m_DataZoomLastEndIndex = endIndex;
+                    if (xAxis.data.Count > 0)
+                    {
+                        m_DataZoom.SetStartLabelText(xAxis.data[startIndex]);
+                        m_DataZoom.SetEndLabelText(xAxis.data[endIndex]);
+                    }
+                    InitAxisX();
+                }
+                var start = coordinateX + coordinateWid * m_DataZoom.start / 100;
+                var end = coordinateX + coordinateWid * m_DataZoom.end / 100;
+                var hig = m_DataZoom.GetHeight(grid.bottom);
+                m_DataZoom.startLabel.transform.localPosition =
+                    new Vector3(start - 10, m_DataZoom.bottom + hig / 2);
+                m_DataZoom.endLabel.transform.localPosition =
+                    new Vector3(end + 10, m_DataZoom.bottom + hig / 2);
             }
         }
 
@@ -1257,64 +1333,103 @@ namespace XCharts
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
+            if (Input.touchCount > 1) return;
             Vector2 pos;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 eventData.position, canvas.worldCamera, out pos))
             {
                 return;
             }
-            if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWid))
+            if (m_DataZoom.supportInside)
             {
-                m_DataZoom.isDraging = true;
-                m_DataZoomStartDrag = true;
+                if (IsInCooridate(pos))
+                {
+                    m_DataZoom.isDraging = true;
+                    m_DataZoomCoordinateDrag = true;
+                }
             }
-            else if (m_DataZoom.IsInEndZoom(pos, coordinateX, coordinateWid))
+            if (m_DataZoom.supportSlider)
             {
-                m_DataZoom.isDraging = true;
-                m_DataZoomEndDrag = true;
-            }
-            else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, coordinateWid))
-            {
-                m_DataZoom.isDraging = true;
-                m_DataZoomDrag = true;
+                if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWid))
+                {
+                    m_DataZoom.isDraging = true;
+                    m_DataZoomStartDrag = true;
+                }
+                else if (m_DataZoom.IsInEndZoom(pos, coordinateX, coordinateWid))
+                {
+                    m_DataZoom.isDraging = true;
+                    m_DataZoomEndDrag = true;
+                }
+                else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, coordinateWid))
+                {
+                    m_DataZoom.isDraging = true;
+                    m_DataZoomDrag = true;
+                }
             }
         }
 
         public override void OnDrag(PointerEventData eventData)
         {
+            if (Input.touchCount > 1) return;
             float deltaX = eventData.delta.x;
             float deltaPercent = deltaX / coordinateWid * 100;
+            OnDragInside(deltaPercent);
+            OnDragSlider(deltaPercent);
+        }
+
+        private void OnDragInside(float deltaPercent)
+        {
+            if (Input.touchCount > 1) return;
+            if (!m_DataZoom.supportInside) return;
+            if (!m_DataZoomCoordinateDrag) return;
+            var diff = m_DataZoom.end - m_DataZoom.start;
+            if (deltaPercent > 0)
+            {
+                m_DataZoom.start -= deltaPercent;
+                m_DataZoom.end = m_DataZoom.start + diff;
+            }
+            else
+            {
+                m_DataZoom.end += -deltaPercent;
+                m_DataZoom.start = m_DataZoom.end - diff;
+            }
+            RefreshDataZoomLabel();
+            RefreshChart();
+        }
+
+        private void OnDragSlider(float deltaPercent)
+        {
+            if (Input.touchCount > 1) return;
+            if (!m_DataZoom.supportSlider) return;
             if (m_DataZoomStartDrag)
             {
                 m_DataZoom.start += deltaPercent;
-                if (m_DataZoom.start < 0)
-                {
-                    m_DataZoom.start = 0;
-                }
-                else if (m_DataZoom.start > m_DataZoom.end)
+                if (m_DataZoom.start > m_DataZoom.end)
                 {
                     m_DataZoom.start = m_DataZoom.end;
                     m_DataZoomEndDrag = true;
                     m_DataZoomStartDrag = false;
                 }
-                RefreshDataZoomLabel();
-                RefreshChart();
+                if (m_DataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    RefreshChart();
+                }
             }
             else if (m_DataZoomEndDrag)
             {
                 m_DataZoom.end += deltaPercent;
-                if (m_DataZoom.end > 100)
-                {
-                    m_DataZoom.end = 100;
-                }
-                else if (m_DataZoom.end < m_DataZoom.start)
+                if (m_DataZoom.end < m_DataZoom.start)
                 {
                     m_DataZoom.end = m_DataZoom.start;
                     m_DataZoomStartDrag = true;
                     m_DataZoomEndDrag = false;
                 }
-                RefreshDataZoomLabel();
-                RefreshChart();
+                if (m_DataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    RefreshChart();
+                }
             }
             else if (m_DataZoomDrag)
             {
@@ -1334,43 +1449,27 @@ namespace XCharts
                 }
                 m_DataZoom.start += deltaPercent;
                 m_DataZoom.end += deltaPercent;
-                RefreshDataZoomLabel();
-                RefreshChart();
+                if (m_DataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    RefreshChart();
+                }
             }
         }
 
         private void RefreshDataZoomLabel()
         {
-            var xAxis = m_XAxises[m_DataZoom.xAxisIndex];
-            var startIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.start / 100);
-            var endIndex = (int)((xAxis.data.Count - 1) * m_DataZoom.end / 100);
-            if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
-            {
-                m_DataZoomLastStartIndex = startIndex;
-                m_DataZoomLastEndIndex = endIndex;
-                if (xAxis.data.Count > 0)
-                {
-                    m_DataZoom.SetStartLabelText(xAxis.data[startIndex]);
-                    m_DataZoom.SetEndLabelText(xAxis.data[endIndex]);
-                }
-                InitAxisX();
-            }
-
-            var start = coordinateX + coordinateWid * m_DataZoom.start / 100;
-            var end = coordinateX + coordinateWid * m_DataZoom.end / 100;
-            m_DataZoom.startLabel.transform.localPosition =
-                new Vector3(start - 10, m_DataZoom.bottom + m_DataZoom.height / 2);
-            m_DataZoom.endLabel.transform.localPosition =
-                new Vector3(end + 10, m_DataZoom.bottom + m_DataZoom.height / 2);
+            m_CheckDataZoomLabel = true;
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            if (m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag)
+            if (m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag || m_DataZoomCoordinateDrag)
             {
                 RefreshChart();
             }
             m_DataZoomDrag = false;
+            m_DataZoomCoordinateDrag = false;
             m_DataZoomStartDrag = false;
             m_DataZoomEndDrag = false;
             m_DataZoom.isDraging = false;
@@ -1378,6 +1477,7 @@ namespace XCharts
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            if (Input.touchCount > 1) return;
             Vector2 localPos;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 eventData.position, canvas.worldCamera, out localPos))
@@ -1415,10 +1515,25 @@ namespace XCharts
 
         public override void OnScroll(PointerEventData eventData)
         {
-            if (!m_DataZoom.show || m_DataZoom.zoomLock) return;
-            float deltaPercent = Mathf.Abs(eventData.scrollDelta.y *
-                m_DataZoom.scrollSensitivity / coordinateWid * 100);
-            if (eventData.scrollDelta.y > 0)
+            if (Input.touchCount > 1) return;
+            if (!m_DataZoom.enable || m_DataZoom.zoomLock || !m_DataZoom.supportInside) return;
+            Vector2 pos;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                eventData.position, canvas.worldCamera, out pos))
+            {
+                return;
+            }
+            if (!IsInCooridate(pos))
+            {
+                return;
+            }
+            ScaleDataZoom(eventData.scrollDelta.y * m_DataZoom.scrollSensitivity);
+        }
+
+        private void ScaleDataZoom(float delta)
+        {
+            float deltaPercent = Mathf.Abs(delta / coordinateWid * 100);
+            if (delta > 0)
             {
                 if (m_DataZoom.end <= m_DataZoom.start) return;
                 m_DataZoom.end -= deltaPercent;

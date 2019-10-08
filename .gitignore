@@ -1,6 +1,7 @@
 /.vs
 /.vscode
 .vs
+/XCharts-ios
 /Library
 /Temp
 /UnityPackageManager

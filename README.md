@@ -37,13 +37,13 @@ QQ交流群：XCharts交流群（202030963）
 * （2019.09.30）增加`Serie`采样类型`sampleType`的相关配置
 * （2019.09.29）增加`SerieSymbol`关于显示间隔的相关配置
 * （2019.09.29）重构代码：
-  1. `BaseChart`的`sampleDist`删除，`Serie`增加`lineSampleDist`
-  2. `BaseChart`的`minShowDataNumber`删除，`Serie`增加`minShow`
-  3. `BaseChart`的`maxShowDataNumber`删除，`Serie`增加`maxShow`
-  4. `BaseChart`的`maxCacheDataNumber`删除，`Serie`增加`maxCache`
-  5. `BaseChart`的`AddSerie()`接口参数调整
-  6. `BaseChart`的`UpdateData()`接口参数调整
-  7. `Axis`增加`maxCache`
+  * `BaseChart`的`sampleDist`删除，`Serie`增加`lineSampleDist`
+  * `BaseChart`的`minShowDataNumber`删除，`Serie`增加`minShow`
+  * `BaseChart`的`maxShowDataNumber`删除，`Serie`增加`maxShow`
+  * `BaseChart`的`maxCacheDataNumber`删除，`Serie`增加`maxCache`
+  * `BaseChart`的`AddSerie()`接口参数调整
+  * `BaseChart`的`UpdateData()`接口参数调整
+  * `Axis`增加`maxCache`
 * （2019.09.28）增加`LineChart`和`BarChart`同时对`Line`、`Bar`类型`Serie`的支持，实现折线图和柱状图的组合图
 * （2019.09.27）增加`Axis`的`splitNumber`设置为`0`时表示绘制所有类目数据
 * （2019.09.27）增加`SampleDist`采样距离的配置，对过密的曲线开启采样，优化绘制效率
@@ -176,7 +176,3 @@ QQ交流群：XCharts交流群（202030963）
   4. 多雷达图
 
 ### 其他
-
-## 入门教程
-
-* [XCharts开源库介绍](https://blog.uwa4d.com/archives/UWALab_XCharts.html)

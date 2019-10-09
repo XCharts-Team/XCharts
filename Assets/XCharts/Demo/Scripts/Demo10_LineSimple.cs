@@ -5,12 +5,13 @@ using XCharts;
 [ExecuteInEditMode]
 public class Demo10_LineSimple : MonoBehaviour
 {
-    //void Awake()
-    void Start()
+    void Awake()
     {
         var chart = gameObject.GetComponent<LineChart>();
-        if (chart == null) return;
-
+        if (chart == null)
+        {
+            chart = gameObject.AddComponent<LineChart>();
+        }
         chart.title.show = true;
         chart.title.text = "Line Simple";
 
@@ -21,17 +22,15 @@ public class Demo10_LineSimple : MonoBehaviour
         chart.xAxises[1].show = false;
         chart.yAxises[0].show = true;
         chart.yAxises[1].show = false;
-
         chart.xAxises[0].type = Axis.AxisType.Category;
         chart.yAxises[0].type = Axis.AxisType.Value;
 
-        int dataCount = 10;
-        chart.xAxises[0].splitNumber = dataCount;
+        chart.xAxises[0].splitNumber = 10;
         chart.xAxises[0].boundaryGap = true;
 
         chart.RemoveData();
         chart.AddSerie(SerieType.Line);
-        for (int i = 0; i < dataCount; i++)
+        for (int i = 0; i < 10; i++)
         {
             chart.AddXAxisData("x" + i);
             chart.AddData(0, Random.Range(10, 20));

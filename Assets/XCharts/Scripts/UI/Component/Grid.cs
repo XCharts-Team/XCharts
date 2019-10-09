@@ -17,7 +17,7 @@ namespace XCharts
     [Serializable]
     public class Grid : IEquatable<Grid>
     {
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private float m_Left;
         [SerializeField] private float m_Right;
         [SerializeField] private float m_Top;

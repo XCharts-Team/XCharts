@@ -886,20 +886,14 @@ namespace XCharts
 
         public Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
         {
-            if (areaStyle.color != Color.clear)
+            var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
+            if (highlight)
             {
-                var color = areaStyle.color;
-                if (highlight) color *= color;
-                color.a *= areaStyle.opacity;
-                return color;
+                if (areaStyle.highlightColor != Color.clear) color = areaStyle.highlightColor;
+                else color *= color;
             }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= areaStyle.opacity;
-                return color;
-            }
+            color.a *= areaStyle.opacity;
+            return color;
         }
 
         public Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
@@ -907,7 +901,11 @@ namespace XCharts
             if (areaStyle.toColor != Color.clear)
             {
                 var color = areaStyle.toColor;
-                if (highlight) color *= color;
+                if (highlight)
+                {
+                    if (areaStyle.highlightToColor != Color.clear) color = areaStyle.highlightToColor;
+                    else color *= color;
+                }
                 color.a *= areaStyle.opacity;
                 return color;
             }

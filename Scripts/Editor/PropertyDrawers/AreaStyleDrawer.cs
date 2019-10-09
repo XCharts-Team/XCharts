@@ -17,7 +17,10 @@ namespace XCharts
             SerializedProperty m_Origin = prop.FindPropertyRelative("m_Origin");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_ToColor = prop.FindPropertyRelative("m_ToColor");
+            SerializedProperty m_HighlightColor = prop.FindPropertyRelative("m_HighlightColor");
+            SerializedProperty m_HighlightToColor = prop.FindPropertyRelative("m_HighlightToColor");
             SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
+            SerializedProperty m_TooltipHighlight = prop.FindPropertyRelative("m_TooltipHighlight");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AreaStyleToggle, prop, "Area Style", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -30,7 +33,13 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ToColor);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_HighlightColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_HighlightToColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Opacity);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_TooltipHighlight);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
@@ -41,7 +50,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_AreaStyleToggle, prop))
             {
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

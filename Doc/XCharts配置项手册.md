@@ -309,7 +309,10 @@
     * `End`：填充坐标轴顶部到数据间的区域。
   * `color`：区域填充的颜色，默认取 `serie` 对应的颜色。如果 `toColor` 不是默认值，则表示渐变色的起点颜色。
   * `toColor`：区域填充的渐变色的终点颜色。
+  * `highlightColor`：高亮时区域填充的颜色，默认取 `serie` 对应的颜色。如果 `highlightToColor` 不是默认值，则表示渐变色的起点颜色。
+  * `highlightToColor`：高亮时区域填充的渐变色的终点颜色。
   * `opacity`：图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+  * `tooltipHighlight`：鼠标悬浮时是否高亮之前的区域。
 * `symbol`：标记的图形 `SerieSymbol`：
   * `type`：标记类型。支持以下六种类型：
     * `EmptyCircle`：空心圆。

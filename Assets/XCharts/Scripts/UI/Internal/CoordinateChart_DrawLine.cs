@@ -73,8 +73,11 @@ namespace XCharts
             var showData = serie.GetDataList(m_DataZoom);
             if (showData.Count <= 0) return;
             Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
-            Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
-            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
+            Color srcAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
+            Color srcAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
+            Color highlightAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, true);
+            Color highlightAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, true);
+            Color areaColor, areaToColor;
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -158,6 +161,16 @@ namespace XCharts
                 serie.ClearSmoothList(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
+                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i <= m_Tooltip.dataIndex[0])
+                {
+                    areaColor = highlightAreaColor;
+                    areaToColor = highlightAreaToColor;
+                }
+                else
+                {
+                    areaColor = srcAreaColor;
+                    areaToColor = srcAreaToColor;
+                }
                 switch (serie.lineType)
                 {
                     case LineType.Normal:
@@ -351,8 +364,11 @@ namespace XCharts
             Vector3 llp = Vector3.zero;
             Vector3 nnp = Vector3.zero;
             Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
-            Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
-            Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
+            Color srcAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
+            Color srcAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
+            Color highlightAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, true);
+            Color highlightAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, true);
+            Color areaColor, areaToColor;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
@@ -412,6 +428,16 @@ namespace XCharts
                 serie.ClearSmoothList(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
+                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i < m_Tooltip.dataIndex[0])
+                {
+                    areaColor = highlightAreaColor;
+                    areaToColor = highlightAreaToColor;
+                }
+                else
+                {
+                    areaColor = srcAreaToColor;
+                    areaToColor = srcAreaToColor;
+                }
                 switch (serie.lineType)
                 {
                     case LineType.Normal:

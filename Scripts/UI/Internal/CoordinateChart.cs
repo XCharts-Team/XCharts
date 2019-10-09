@@ -828,7 +828,7 @@ namespace XCharts
                 var size = yAxis.GetScaleNumber(coordinateWid, m_DataZoom);
                 var totalWidth = coordinateY;
                 var xAxis = m_XAxises[yAxisIndex];
-                var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
+                var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY + yAxis.zeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = yAxis.GetScaleWidth(coordinateHig, i, m_DataZoom);
@@ -987,11 +987,9 @@ namespace XCharts
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 int minValue = 0;
-                int maxValue = 100;
+                int maxValue = 0;
                 m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue);
-                if (minValue > 0 && maxValue > 0) minValue = 0;
-
 
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
@@ -1005,7 +1003,8 @@ namespace XCharts
                 {
                     float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i);
                     float pX = coordinateX + i * scaleWid;
-                    float dataHig = value / (maxValue - minValue) * hig;
+                    float dataHig = (axis.maxValue - axis.minValue) == 0 ? 0 :
+                        (value - axis.minValue) / (axis.maxValue - axis.minValue) * hig;
                     np = new Vector3(pX, m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {

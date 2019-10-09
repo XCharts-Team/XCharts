@@ -61,6 +61,9 @@
 19. 如何让Y轴（数值轴）显示多位小数？  
    答：设置`Axis`下的`AxisLabel`中的`formatter`为`{value:f1}`或`{value:f2}`
 
+20. 如何用代码动态更新数据？  
+   答：请查阅`Demo`：`Demo10_LineSimple.cs`  
+
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts配置项手册](XCharts配置项手册.md)

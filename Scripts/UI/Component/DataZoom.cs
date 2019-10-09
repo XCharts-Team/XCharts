@@ -334,9 +334,9 @@ namespace XCharts
         {
             if (height <= 0)
             {
-                var hig = gridBottom - bottom - 30;
-                if (hig < 10) hig = 10;
-                return hig;
+                height = gridBottom - bottom - 30;
+                if (height < 10) height = 10;
+                return height;
             }
             else return height;
         }

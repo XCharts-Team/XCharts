@@ -39,8 +39,8 @@ namespace XCharts
         [SerializeField] protected Legend m_Legend = Legend.defaultLegend;
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
+        [SerializeField] protected Settings m_Settings = new Settings();
         [SerializeField] protected float m_Large = 1;
-        [SerializeField] [Range(1, 8)] protected float m_LineSmoothStyle = 2f;
         [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
@@ -184,7 +184,7 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
-            
+
             m_LegendRealShowName = m_Series.GetSerieNameList();
             List<string> datas;
             if (m_Legend.show && m_Legend.data.Count > 0)
@@ -642,12 +642,10 @@ namespace XCharts
                 case SerieSymbolType.None:
                     break;
                 case SerieSymbolType.Circle:
-                    ChartDrawer.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
+                    ChartDrawer.DrawCricle(vh, pos, symbolSize, color, m_Settings.cicleSmoothness);
                     break;
                 case SerieSymbolType.EmptyCircle:
-                    int segment = GetSymbolCricleSegment(symbolSize);
-                    ChartDrawer.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
-                    ChartDrawer.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
+                    ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness);
                     break;
                 case SerieSymbolType.Rect:
                     ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
@@ -717,15 +715,6 @@ namespace XCharts
                 ChartDrawer.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
                 ChartDrawer.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
             }
-        }
-
-        private int GetSymbolCricleSegment(float radiu)
-        {
-            int max = 50;
-            int segent = (int)(2 * Mathf.PI * radiu / ChartDrawer.CRICLE_SMOOTHNESS);
-            if (segent > max) segent = max;
-            segent = (int)(segent / (1 + (m_Large - 1) / 10));
-            return segent;
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)

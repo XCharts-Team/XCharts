@@ -288,47 +288,6 @@ namespace XCharts
             return showData[index].data[1];
         }
 
-        private float GetDetailProgress(Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 llp,
-            Vector3 nnp, bool fine)
-        {
-            var isYAxis = axis is YAxis;
-            float progress = 0;
-            switch (serie.lineType)
-            {
-                case LineType.Normal:
-                    var lineWidth = serie.lineStyle.width;
-                    var ySmall = Mathf.Abs(lp.y - np.y) < lineWidth * 3;
-                    var xSmall = Mathf.Abs(lp.x - np.x) < lineWidth * 3;
-                    if ((isYAxis && ySmall) || (!isYAxis && xSmall))
-                    {
-                        progress = 1;
-                    }
-                    else
-                    {
-                        progress = Vector3.Distance(lp, np) / 3f - 1;
-                    }
-                    break;
-                case LineType.Smooth:
-                    ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, fine, lineSmoothStyle);
-                    if (bezierPoints.Count > 0) progress = bezierPoints.Count - 1;
-                    break;
-                case LineType.StepStart:
-                    var middle = isYAxis ? new Vector3(np.x, lp.y) : new Vector3(lp.x, np.y);
-                    progress = (Vector3.Distance(middle, np)) / 3f - 1;
-                    break;
-                case LineType.StepMiddle:
-                    var middle1 = isYAxis ? new Vector2(lp.x, (lp.y + np.y) / 2) : new Vector2((lp.x + np.x) / 2, lp.y);
-                    var middle2 = isYAxis ? new Vector2(np.x, (lp.y + np.y) / 2) : new Vector2((lp.x + np.x) / 2, np.y);
-                    progress = (Vector3.Distance(lp, middle1) + Vector3.Distance(middle2, np)) / 3f - 1;
-                    break;
-                case LineType.StepEnd:
-                    middle = isYAxis ? new Vector3(lp.x, np.y) : new Vector3(np.x, lp.y);
-                    progress = Vector3.Distance(lp, middle) / 3f - 1;
-                    break;
-            }
-            return progress;
-        }
-
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
             float scaleWid, float serieHig, ref Vector3 np)
         {
@@ -547,9 +506,7 @@ namespace XCharts
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var dist = Vector3.Distance(lp, np);
-            var fine = m_Series.IsAnyGradientSerie(serie.stack);
-            var tick = fine ? 3f : 3f; // 3f:30f
-            int segment = (int)(dist / tick);
+            int segment = (int)(dist / m_Settings.lineSegmentDistance);
             if (segment <= 3) segment = (int)(dist / lineWidth);
             smoothPoints.Clear();
             smoothDownPoints.Clear();
@@ -883,8 +840,8 @@ namespace XCharts
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var fine = isStack && m_Series.IsAnyGradientSerie(serie.stack);
-            if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, fine, lineSmoothStyle);
-            else ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, fine, lineSmoothStyle);
+            if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, m_Settings.lineSmoothness, m_Settings.lineSmoothStyle);
+            else ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, m_Settings.lineSmoothness, m_Settings.lineSmoothStyle);
 
             Vector3 start, to;
             if (serie.lineType == LineType.SmoothDash)
@@ -1101,7 +1058,7 @@ namespace XCharts
 
                     if (Vector3.Distance(lp, middle) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, start, middle - diff1, 3f);
+                        ChartHelper.GetPointList(ref linePointList, start, middle - diff1, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {
@@ -1128,7 +1085,7 @@ namespace XCharts
                         }
                     }
 
-                    ChartHelper.GetPointList(ref linePointList, middle + diff2, end, 3f);
+                    ChartHelper.GetPointList(ref linePointList, middle + diff2, end, m_Settings.lineSegmentDistance);
                     sp = linePointList[0];
                     for (int i = 1; i < linePointList.Count; i++)
                     {
@@ -1165,7 +1122,7 @@ namespace XCharts
                     //draw lp to middle1
                     if (Vector3.Distance(lp, middle1) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, start, middle1 - diff1, 3f);
+                        ChartHelper.GetPointList(ref linePointList, start, middle1 - diff1, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {
@@ -1194,7 +1151,7 @@ namespace XCharts
                     //draw middle1 to middle2
                     if (Vector3.Distance(middle1, middle2) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, middle1 + diff2, middle2 - diff2, 3f);
+                        ChartHelper.GetPointList(ref linePointList, middle1 + diff2, middle2 - diff2, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {
@@ -1215,7 +1172,7 @@ namespace XCharts
                     //draw middle2 to np
                     if (Vector3.Distance(middle2, np) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, middle2 + diff1, np - diff1, 3f);
+                        ChartHelper.GetPointList(ref linePointList, middle2 + diff1, np - diff1, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {
@@ -1250,7 +1207,7 @@ namespace XCharts
 
                     if (Vector3.Distance(lp, middle) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, start, middle - diff1, 3f);
+                        ChartHelper.GetPointList(ref linePointList, start, middle - diff1, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {
@@ -1278,7 +1235,7 @@ namespace XCharts
 
                     if (Vector3.Distance(middle, np) > 2 * lineWidth)
                     {
-                        ChartHelper.GetPointList(ref linePointList, middle + diff2, end, 3f);
+                        ChartHelper.GetPointList(ref linePointList, middle + diff2, end, m_Settings.lineSegmentDistance);
                         sp = linePointList[0];
                         for (int i = 1; i < linePointList.Count; i++)
                         {

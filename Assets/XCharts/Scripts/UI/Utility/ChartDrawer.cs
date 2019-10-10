@@ -7,7 +7,6 @@ namespace XCharts
 {
     public static class ChartDrawer
     {
-        public static float CRICLE_SMOOTHNESS = 2f;
         private static UIVertex[] vertex = new UIVertex[4];
         private static List<Vector3> s_CurvesPosList = new List<Vector3>();
 
@@ -182,44 +181,21 @@ namespace XCharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            int segments = 0)
+            float smoothness = 2f)
         {
-            if (segments <= 0)
-            {
-                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
-            }
-            if (segments < 3) segments = 3;
-            DrawSector(vh, p, radius, color, 0, 360, segments);
+            DrawSector(vh, p, radius, color, 0, 360, smoothness);
         }
 
-        public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness,
-            Color32 color, int segments = 0)
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color emptyColor, float smoothness = 2f)
         {
-            if (segments <= 0)
-            {
-                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
-            }
-            float startDegree = 0, toDegree = 360;
-            Vector3 p2, p3;
-            float startAngle = startDegree * Mathf.Deg2Rad;
-            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
-            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
-            for (int i = 0; i <= segments; i++)
-            {
-                float currAngle = startAngle + i * angle;
-                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
-                DrawLine(vh, p2, p3, tickness, color);
-                p2 = p3;
-            }
+            DrawDoughnut(vh, p, radius - tickness, radius, color, emptyColor, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            float startDegree, float toDegree, int segments = 0)
+            float startDegree, float toDegree, float smoothness = 2f)
         {
-            if (segments <= 0)
-            {
-                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
-            }
+            int segments = (int)((2 * Mathf.PI * radius) / (smoothness < 0 ? 2f : smoothness));
             Vector3 p2, p3;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
@@ -235,18 +211,15 @@ namespace XCharts
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            float startDegree, float toDegree, Color32 color, int segments = 0)
+            Color32 color, Color emptyColor, float smoothness = 2f, float startDegree = 0, float toDegree = 360)
         {
             if (insideRadius <= 0)
             {
-                DrawSector(vh, p, outsideRadius, color, startDegree, toDegree, segments);
+                DrawSector(vh, p, outsideRadius, color, startDegree, toDegree, smoothness);
                 return;
             }
-            if (segments <= 0)
-            {
-                segments = (int)((2 * Mathf.PI * outsideRadius) / CRICLE_SMOOTHNESS);
-            }
             Vector3 p1, p2, p3, p4;
+            int segments = (int)((2 * Mathf.PI * outsideRadius) / (smoothness < 0 ? 2f : smoothness));
             float startAngle = startDegree * Mathf.Deg2Rad;
             float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
             p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle),
@@ -260,6 +233,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
                     p.y + insideRadius * Mathf.Cos(currAngle));
+                if (emptyColor != Color.clear) DrawTriangle(vh, p, p1, p4, emptyColor);
                 DrawPolygon(vh, p1, p2, p3, p4, color);
                 p1 = p4;
                 p2 = p3;
@@ -277,10 +251,10 @@ namespace XCharts
         /// <param name="lineWidth">曲线宽</param>
         /// <param name="lineColor">曲线颜色</param>
         public static void DrawCurves(VertexHelper vh, Vector3 sp, Vector3 ep, Vector3 cp1, Vector3 cp2,
-            float lineWidth, Color lineColor)
+            float lineWidth, Color lineColor, float smoothness)
         {
             var dist = Vector3.Distance(sp, ep);
-            var segment = (int)(dist / 1f);
+            var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             ChartHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
             if (s_CurvesPosList.Count > 1)
             {

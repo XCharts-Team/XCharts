@@ -40,15 +40,7 @@ namespace XCharts
         /// The height of chart. 
         /// 图表的高
         /// </summary>
-        /// <value></value>
         public float chartHeight { get { return m_ChartHeight; } }
-
-        /// <summary>
-        /// the smooth line chart style.
-        /// 平滑折线图的平滑系数。
-        /// </summary>
-        /// <value></value>
-        public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
         /// <summary>
         /// 自定义绘制回调。
         /// </summary>

@@ -191,7 +191,7 @@ namespace XCharts
                 radar.center[0] = 0.5f;
                 radar.center[1] = 0.45f;
                 radar.splitArea.show = true;
-                radar.lineStyle.width = 0.3f;
+                radar.lineStyle.width = 0.6f;
                 return radar;
             }
         }

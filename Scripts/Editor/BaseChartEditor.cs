@@ -20,9 +20,8 @@ namespace XCharts
         protected SerializedProperty m_Legend;
         protected SerializedProperty m_Tooltip;
         protected SerializedProperty m_Series;
-
+        protected SerializedProperty m_Settings;
         protected SerializedProperty m_Large;
-        protected SerializedProperty m_LineSmoothStyle;
 
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
@@ -43,7 +42,7 @@ namespace XCharts
             m_Series = serializedObject.FindProperty("m_Series");
 
             m_Large = serializedObject.FindProperty("m_Large");
-            m_LineSmoothStyle = serializedObject.FindProperty("m_LineSmoothStyle");
+            m_Settings = serializedObject.FindProperty("m_Settings");
         }
 
         public override void OnInspectorGUI()
@@ -78,17 +77,7 @@ namespace XCharts
         protected virtual void OnMiddleInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Series, true);
-            m_BaseModuleToggle = EditorGUILayout.Foldout(m_BaseModuleToggle,
-                new GUIContent("Settings", "基础配置"),
-                ChartEditorHelper.foldoutStyle);
-            if (m_BaseModuleToggle)
-            {
-                EditorGUI.indentLevel++;
-                var largeTip = "Whether to enable the optimization of large-scale graph. \n是否启用大规模线图的优化，在数据图形特别多的时候（>=5k）可以开启。";
-                EditorGUILayout.PropertyField(m_Large, new GUIContent("Large", largeTip));
-                EditorGUILayout.PropertyField(m_LineSmoothStyle,true);
-                EditorGUI.indentLevel--;
-            }
+            EditorGUILayout.PropertyField(m_Settings, true);
         }
 
         protected virtual void OnEndInspectorGUI()

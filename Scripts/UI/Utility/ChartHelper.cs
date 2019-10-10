@@ -236,7 +236,7 @@ namespace XCharts
             return labelObj;
         }
 
-       
+
         public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)
         {
             Vector3 dir = (ep - sp).normalized;
@@ -252,7 +252,7 @@ namespace XCharts
         }
 
         public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
-            Vector3 lsp, Vector3 nep, bool fine, float k = 2.0f)
+            Vector3 lsp, Vector3 nep, float smoothness = 2f, float k = 2.0f)
         {
             float dist = Mathf.Abs(sp.x - ep.x);
             Vector3 cp1, cp2;
@@ -271,13 +271,13 @@ namespace XCharts
             if (nep == ep) cp2 = ep;
             else cp2 = ep - (nep - sp).normalized * diff;
             dist = Vector3.Distance(sp, ep);
-            int segment = (int)(dist / (fine ? 2f : 6f));
+            int segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             if (segment < 1) segment = (int)(dist / 0.5f);
             if (segment < 4) segment = 4;
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
-        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, bool fine, float k = 2.0f)
+        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float smoothness = 2f, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -285,7 +285,7 @@ namespace XCharts
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.x = sp.x;
             cp2.x = ep.x;
-            int segment = (int)(dist / (fine ? 3f : 7f));
+            int segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
         }
 
@@ -330,39 +330,6 @@ namespace XCharts
                 3f * oneMinusT * oneMinusT * t * p1 +
                 3f * oneMinusT * t * t * p2 +
                 t * t * t * ep;
-        }
-
-        public static List<Vector3> GetBezierN(List<Vector3> arrayToCurve, float smoothness = 1.0f)
-        {
-            List<Vector3> points;
-            List<Vector3> curvedPoints;
-            int pointsLength = 0;
-            int curvedLength = 0;
-
-            if (smoothness < 1.0f) smoothness = 1.0f;
-
-            pointsLength = arrayToCurve.Count;
-
-            curvedLength = (pointsLength * Mathf.RoundToInt(smoothness)) - 1;
-            curvedPoints = new List<Vector3>(curvedLength);
-
-            float t = 0.0f;
-            for (int pointInTimeOnCurve = 0; pointInTimeOnCurve < curvedLength + 1; pointInTimeOnCurve++)
-            {
-                t = Mathf.InverseLerp(0, curvedLength, pointInTimeOnCurve);
-
-                points = new List<Vector3>(arrayToCurve);
-
-                for (int j = pointsLength - 1; j > 0; j--)
-                {
-                    for (int i = 0; i < j; i++)
-                    {
-                        points[i] = (1 - t) * points[i] + t * points[i + 1];
-                    }
-                }
-                curvedPoints.Add(points[0]);
-            }
-            return curvedPoints;
         }
 
         public static bool IsValueEqualsColor(Color32 color1, Color32 color2)

@@ -140,12 +140,12 @@ namespace XCharts
                             center.y + serieData.pieOffsetRadius * currCos);
 
                         ChartDrawer.DrawDoughnut(vh, serieData.pieOffsetCenter, serieData.pieInsideRadius, serieData.pieOutsideRadius,
-                            startDegree, serieData.pieCurrAngle, color);
+                            color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, startDegree, serieData.pieCurrAngle);
                     }
                     else
                     {
                         ChartDrawer.DrawDoughnut(vh, center, serieData.pieInsideRadius, serieData.pieOutsideRadius,
-                            startDegree, serieData.pieCurrAngle, color);
+                            color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, startDegree, serieData.pieCurrAngle);
                     }
                     serieData.canShowLabel = serieData.pieCurrAngle >= serieData.pieHalfAngle;
                     isDrawPie = true;
@@ -282,7 +282,7 @@ namespace XCharts
                         ChartDrawer.DrawLine(vh, pos3, pos5, serie.label.lineWidth, color);
                         break;
                     case SerieLabel.LineType.Curves:
-                        ChartDrawer.DrawCurves(vh, pos1, pos5, pos1, pos2, serie.label.lineWidth, color);
+                        ChartDrawer.DrawCurves(vh, pos1, pos5, pos1, pos2, serie.label.lineWidth, color, m_Settings.lineSmoothness);
                         break;
                     case SerieLabel.LineType.HorizontalLine:
                         ChartDrawer.DrawCricle(vh, pos0, horizontalLineCircleRadius, color, 20);

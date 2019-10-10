@@ -293,7 +293,7 @@ namespace XCharts
                     {
                         ChartDrawer.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
                     }
-                    if (serie.symbol.type != SerieSymbolType.None )
+                    if (serie.symbol.type != SerieSymbolType.None)
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                         var symbolColor = serie.symbol.color != Color.clear ? serie.symbol.color : lineColor;
@@ -377,11 +377,13 @@ namespace XCharts
                 outsideRadius = insideRadius + block;
                 if (radar.splitArea.show)
                 {
-                    ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
+                    ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
+                         m_Settings.cicleSmoothness, 0, 360);
                 }
                 if (radar.lineStyle.show)
                 {
-                    ChartDrawer.DrawCicleNotFill(vh, p, outsideRadius, radar.lineStyle.width, lineColor);
+                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.lineStyle.width, lineColor, 
+                        Color.clear, m_Settings.cicleSmoothness);
                 }
                 insideRadius = outsideRadius;
             }

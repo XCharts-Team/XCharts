@@ -32,6 +32,11 @@ namespace XCharts
         /// </summary>
         public Series series { get { return m_Series; } }
         /// <summary>
+        /// Global parameter setting component.
+        /// 全局设置组件。
+        /// </summary>
+        public Settings settings { get { return m_Settings; } }
+        /// <summary>
         /// The width of chart. 
         /// 图表的宽
         /// </summary>

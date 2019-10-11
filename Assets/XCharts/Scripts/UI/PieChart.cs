@@ -285,7 +285,7 @@ namespace XCharts
                         ChartDrawer.DrawCurves(vh, pos1, pos5, pos1, pos2, serie.label.lineWidth, color, m_Settings.lineSmoothness);
                         break;
                     case SerieLabel.LineType.HorizontalLine:
-                        ChartDrawer.DrawCricle(vh, pos0, horizontalLineCircleRadius, color, 20);
+                        ChartDrawer.DrawCricle(vh, pos0, horizontalLineCircleRadius, color);
                         ChartDrawer.DrawLine(vh, pos6, pos4, serie.label.lineWidth, color);
                         break;
                 }

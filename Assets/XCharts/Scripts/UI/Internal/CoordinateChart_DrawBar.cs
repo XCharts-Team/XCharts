@@ -63,7 +63,7 @@ namespace XCharts
                 {
                     Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
                     Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, highlight);
-                    ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, areaColor, areaToColor);
+                    ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
                 }
             }
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))

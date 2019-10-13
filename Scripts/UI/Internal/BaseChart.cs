@@ -94,6 +94,7 @@ namespace XCharts
             CheckTheme();
             CheckTile();
             CheckLegend();
+            CheckPointerPos();
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
@@ -287,10 +288,10 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if (serie.type != SerieType.Pie && !serie.label.show) continue;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
+                    if (!serie.label.show && !serieData.showIcon) continue;
                     var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
                     var color = Color.grey;
                     if (serie.type == SerieType.Pie)
@@ -398,6 +399,26 @@ namespace XCharts
             }
         }
 
+        private void CheckPointerPos()
+        {
+            var needCheck = (m_Tooltip.show && m_Tooltip.inited)
+                || raycastTarget;
+            if (needCheck)
+            {
+                if (canvas == null) return;
+                Vector2 local;
+                if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                    Input.mousePosition, canvas.worldCamera, out local))
+                {
+                    pointerPos = Vector2.zero;
+                }
+                else
+                {
+                    pointerPos = local;
+                }
+            }
+        }
+
         private void CheckTooltip()
         {
             if (!m_Tooltip.show || !m_Tooltip.inited)
@@ -414,11 +435,10 @@ namespace XCharts
             {
                 m_Tooltip.dataIndex[i] = -1;
             }
-            Vector2 local;
+            Vector2 local = pointerPos;
             if (canvas == null) return;
 
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                Input.mousePosition, canvas.worldCamera, out local))
+            if (local == Vector2.zero)
             {
                 if (m_Tooltip.IsActive())
                 {

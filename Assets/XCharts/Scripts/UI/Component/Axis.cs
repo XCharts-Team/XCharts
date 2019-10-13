@@ -167,7 +167,7 @@ namespace XCharts
         /// Category data, available in type: 'Category' axis.
         /// 类目数据，在类目轴（type: 'category'）中有效。
         /// </summary>
-        public List<string> data { get { return m_Data; } }
+        public List<string> data { get { return m_Data; } set { if (value != null) m_Data = value; } }
         /// <summary>
         /// axis Line.
         /// 坐标轴轴线。

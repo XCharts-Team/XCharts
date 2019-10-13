@@ -35,6 +35,8 @@ namespace XCharts
             SerializedProperty m_DataZoomLineColor = prop.FindPropertyRelative("m_DataZoomLineColor");
             SerializedProperty m_DataZoomSelectedColor = prop.FindPropertyRelative("m_DataZoomSelectedColor");
             SerializedProperty m_DataZoomTextColor = prop.FindPropertyRelative("m_DataZoomTextColor");
+            SerializedProperty m_VisualMapBackgroundColor = prop.FindPropertyRelative("m_VisualMapBackgroundColor");
+            SerializedProperty m_VisualMapBorderColor = prop.FindPropertyRelative("m_VisualMapBorderColor");
             SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");
 
             SerializedProperty m_CustomFont = prop.FindPropertyRelative("m_CustomFont");
@@ -54,6 +56,8 @@ namespace XCharts
             SerializedProperty m_CustomDataZoomLineColor = prop.FindPropertyRelative("m_CustomDataZoomLineColor");
             SerializedProperty m_CustomDataZoomSelectedColor = prop.FindPropertyRelative("m_CustomDataZoomSelectedColor");
             SerializedProperty m_CustomDataZoomTextColor = prop.FindPropertyRelative("m_CustomDataZoomTextColor");
+            SerializedProperty m_CustomVisualMapBackgroundColor = prop.FindPropertyRelative("m_CustomVisualMapBackgroundColor");
+            SerializedProperty m_CustomVisualMapBorderColor = prop.FindPropertyRelative("m_CustomVisualMapBorderColor");
             SerializedProperty m_CustomColorPalette = prop.FindPropertyRelative("m_CustomColorPalette");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ThemeModuleToggle, "Theme");
@@ -83,6 +87,8 @@ namespace XCharts
                     m_CustomDataZoomLineColor.colorValue = Color.clear;
                     m_CustomDataZoomSelectedColor.colorValue = Color.clear;
                     m_CustomDataZoomTextColor.colorValue = Color.clear;
+                    m_CustomVisualMapBackgroundColor.colorValue = Color.clear;
+                    m_CustomVisualMapBorderColor.colorValue = Color.clear;
                     for (int i = 0; i < m_CustomColorPalette.arraySize; i++)
                     {
                         m_CustomColorPalette.GetArrayElementAtIndex(i).colorValue = Color.clear;
@@ -112,6 +118,8 @@ namespace XCharts
                     m_DataZoomLineColor.colorValue = defaultThemeInfo.dataZoomLineColor;
                     m_DataZoomSelectedColor.colorValue = defaultThemeInfo.dataZoomSelectedColor;
                     m_DataZoomTextColor.colorValue = defaultThemeInfo.dataZoomTextColor;
+                    m_VisualMapBackgroundColor.colorValue = defaultThemeInfo.visualMapBackgroundColor;
+                    m_VisualMapBorderColor.colorValue = defaultThemeInfo.visualMapBorderColor;
                     for (int i = 0; i < m_ColorPalette.arraySize; i++)
                     {
                         m_ColorPalette.GetArrayElementAtIndex(i).colorValue = defaultThemeInfo.GetColor(i);
@@ -276,6 +284,24 @@ namespace XCharts
                 }
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
+                EditorGUI.BeginChangeCheck();
+                color = m_CustomVisualMapBackgroundColor.colorValue != Color.clear ? m_CustomVisualMapBackgroundColor : m_VisualMapBackgroundColor;
+                EditorGUI.PropertyField(drawRect, color, new GUIContent("VisualMap Background Color"));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    m_CustomVisualMapBackgroundColor.colorValue = color.colorValue;
+                }
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+                EditorGUI.BeginChangeCheck();
+                color = m_CustomVisualMapBorderColor.colorValue != Color.clear ? m_CustomVisualMapBorderColor : m_VisualMapBorderColor;
+                EditorGUI.PropertyField(drawRect, color, new GUIContent("VisualMap Border Color"));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    m_CustomVisualMapBorderColor.colorValue = color.colorValue;
+                }
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
                 m_ColorPaletteFoldout = EditorGUI.Foldout(drawRect, m_ColorPaletteFoldout, "ColorPalette");
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_ColorPaletteFoldout)
@@ -315,7 +341,7 @@ namespace XCharts
             else
             {
                 float height = 0;
-                int propertyCount = 18;
+                int propertyCount = 20;
                 if (m_ColorPaletteFoldout)
                 {
                     SerializedProperty m_ColorPalette = prop.FindPropertyRelative("m_ColorPalette");

@@ -49,8 +49,12 @@ namespace XCharts
         /// dataZoom component.
         /// 区域缩放组件。
         /// </summary>
-        /// <value></value>
         public DataZoom dataZoom { get { return m_DataZoom; } }
+        /// <summary>
+        /// visualMap component.
+        /// 视觉映射组件。
+        /// </summary>
+        public VisualMap visualMap { get { return m_VisualMap; } }
 
 
         /// <summary>
@@ -129,7 +133,15 @@ namespace XCharts
 
         public bool IsCategory()
         {
-            return !IsValue();
+            foreach (var axis in m_XAxises)
+            {
+                if (axis.show && !axis.IsCategory()) return false;
+            }
+            foreach (var axis in m_YAxises)
+            {
+                if (axis.show && !axis.IsCategory()) return false;
+            }
+            return true;
         }
 
         public bool IsInCooridate(Vector2 local)

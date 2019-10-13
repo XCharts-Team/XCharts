@@ -157,8 +157,8 @@ namespace XCharts
                 var tooltip = new Tooltip
                 {
                     m_Show = true,
-                    xValues = new float[2],
-                    yValues = new float[2],
+                    xValues = new float[2]{-1,-1},
+                    yValues = new float[2]{-1,-1},
                     dataIndex = new List<int>() { -1, -1 },
                     lastDataIndex = new List<int>() { -1, -1 }
                 };

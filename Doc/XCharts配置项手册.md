@@ -9,6 +9,7 @@
 * [Legend](#Legend)  
 * [Tooltip](#Tooltip)  
 * [DataZoom](#DataZoom)  
+* [VisualMap](#VisualMap)  
 * [Grid](#Grid)  
 * [XAxis](#XAxis)  
 * [Series](#Series)  
@@ -179,6 +180,38 @@
 * `scrollSensitivity`：缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
 * `fontSize`：字体大小。
 * `fontStyle`：字体样式。
+
+## `VisualMap`
+
+---
+
+视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+
+* `enable`：开启或关闭视觉映射功能。
+* `show`：是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
+* `type`：组件类型。支持以下类型：
+  * `Continuous`：连续型。
+  * ~~`Piecewise`：分段型。~~
+* ~~`selectedMode`：分段型的选择模式，支持以下模式：~~
+  * ~~`Multiple`：多选。~~
+  * ~~`Single`：单选。~~
+* `min`：允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
+* `max`：允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
+* `range`：指定手柄对应数值的位置。range 应在 min max 范围内。
+* ~~`text`：两端的文本，如 ['High', 'Low']。~~
+* ~~`textGap`：两端文字主体之间的距离，单位为px。~~
+* `splitNumber`：对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
+* `calculable`：是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。
+* ~~`realtime`：拖拽时，是否实时更新。~~
+* `itemWidth`：图形的宽度，即颜色条的宽度。
+* `itemHeight`：图形的高度，即颜色条的高度。
+* `borderWidth`：边框线宽，单位px。
+* `dimension`：指定用数据的『哪个维度』，映射到视觉元素上。『数据』即 series.data。从1开始，默认为0取 data 中最后一个维度。
+* `hoverLink`：打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
+* `orient`：布局方式是横还是竖。
+* `location`：组件显示在图表中的位置。
+* `inRange`：定义 在选中范围中 的视觉颜色。
+* ~~`outOfRange`：定义 在选中范围外 的视觉颜色。~~
 
 ## `Grid`
 

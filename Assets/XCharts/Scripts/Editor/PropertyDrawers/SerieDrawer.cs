@@ -27,6 +27,7 @@ namespace XCharts
             SerializedProperty m_MaxCache = prop.FindPropertyRelative("m_MaxCache");
 
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            SerializedProperty m_ItemStyle = prop.FindPropertyRelative("m_ItemStyle");
             SerializedProperty m_LineArrow = prop.FindPropertyRelative("m_LineArrow");
             SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
             SerializedProperty m_SampleDist = prop.FindPropertyRelative("m_SampleDist");
@@ -42,7 +43,7 @@ namespace XCharts
             SerializedProperty m_Center = prop.FindPropertyRelative("m_Center");
             SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");
             SerializedProperty m_Label = prop.FindPropertyRelative("m_Label");
-            SerializedProperty m_HighlightLabel = prop.FindPropertyRelative("m_HighlightLabel");
+            SerializedProperty m_Emphasis = prop.FindPropertyRelative("m_Emphasis");
             SerializedProperty m_Animation = prop.FindPropertyRelative("m_Animation");
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
@@ -125,31 +126,8 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_Space);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                    EditorGUI.LabelField(drawRect, "Center");
-                    var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
-                    var tempWidth = (pos.width - startX + 35) / 2;
-                    var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
-                    var centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
-                    while (m_Center.arraySize < 2)
-                    {
-                        m_Center.InsertArrayElementAtIndex(m_Center.arraySize);
-                    }
-                    EditorGUI.PropertyField(centerXRect, m_Center.GetArrayElementAtIndex(0), GUIContent.none);
-                    EditorGUI.PropertyField(centerYRect, m_Center.GetArrayElementAtIndex(1), GUIContent.none);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
-                    centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
-                    centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
-                    EditorGUI.LabelField(drawRect, "Radius");
-                    while (m_Radius.arraySize < 2)
-                    {
-                        m_Radius.InsertArrayElementAtIndex(m_Radius.arraySize);
-                    }
-                    EditorGUI.PropertyField(centerXRect, m_Radius.GetArrayElementAtIndex(0), GUIContent.none);
-                    EditorGUI.PropertyField(centerYRect, m_Radius.GetArrayElementAtIndex(1), GUIContent.none);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_ClickOffset);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Center,"Center");
+                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Center,"Radius");
                 }
 
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
@@ -159,12 +137,14 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_LineArrow);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_LineArrow);
                 }
+                EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
                 EditorGUI.PropertyField(drawRect, m_AreaStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
-                EditorGUI.PropertyField(drawRect, m_Label, new GUIContent("Normal Label"));
+                EditorGUI.PropertyField(drawRect, m_Label);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
-                EditorGUI.PropertyField(drawRect, m_HighlightLabel, new GUIContent("Highlight Label"));
-                drawRect.y += EditorGUI.GetPropertyHeight(m_HighlightLabel);
+                EditorGUI.PropertyField(drawRect, m_Emphasis);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
                 EditorGUI.PropertyField(drawRect, m_Animation);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Animation);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
@@ -344,9 +324,10 @@ namespace XCharts
             {
                 height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_HighlightLabel"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;

@@ -19,6 +19,29 @@ public class ChartEditorHelper
         drawRect = offset.Remove(drawRect);
     }
 
+    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name)
+    {
+        while (arrayProp.arraySize < 2)
+        {
+            arrayProp.InsertArrayElementAtIndex(arrayProp.arraySize);
+        }
+        MakeTwoField(ref drawRect, rectWidth, arrayProp.GetArrayElementAtIndex(0), arrayProp.GetArrayElementAtIndex(1), name);
+    }
+
+    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty prop1, SerializedProperty prop2, string name)
+    {
+        EditorGUI.LabelField(drawRect, name);
+        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+        var diff = 14 + EditorGUI.indentLevel * 14;
+        var offset = diff - 15;
+        var tempWidth = (rectWidth - startX + diff) / 2;
+        var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
+        var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth, drawRect.height);
+        EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
+        EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+    }
+
     public static void MakeJsonData(ref Rect drawRect, ref bool showTextArea, ref string inputString,
         SerializedProperty prop, float currentWidth, float diff = 0)
     {
@@ -91,7 +114,7 @@ public class ChartEditorHelper
         {
             if (showProp.propertyType == SerializedPropertyType.Boolean)
             {
-                drawRect.width = 40;
+                drawRect.width = 60;
             }
             else
             {

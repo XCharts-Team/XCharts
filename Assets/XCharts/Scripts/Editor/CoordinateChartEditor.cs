@@ -16,6 +16,7 @@ namespace XCharts
         protected SerializedProperty m_MultipleYAxis;
         protected SerializedProperty m_YAxises;
         protected SerializedProperty m_DataZoom;
+        protected SerializedProperty m_VisualMap;
 
         protected override void OnEnable()
         {
@@ -25,12 +26,14 @@ namespace XCharts
             m_XAxises = serializedObject.FindProperty("m_XAxises");
             m_YAxises = serializedObject.FindProperty("m_YAxises");
             m_DataZoom = serializedObject.FindProperty("m_DataZoom");
+            m_VisualMap = serializedObject.FindProperty("m_VisualMap");
         }
 
         protected override void OnStartInspectorGUI()
         {
             base.OnStartInspectorGUI();
             EditorGUILayout.PropertyField(m_DataZoom);
+            EditorGUILayout.PropertyField(m_VisualMap);
             EditorGUILayout.PropertyField(m_Grid);
             for (int i = 0; i < m_XAxises.arraySize; i++)
             {

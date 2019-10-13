@@ -213,31 +213,31 @@ namespace XCharts
         /// <summary>
         /// 返回在坐标系中的具体位置
         /// </summary>
-        /// <param name="chartWidht"></param>
+        /// <param name="chartWidth"></param>
         /// <param name="chartHeight"></param>
         /// <returns></returns>
-        public Vector2 GetPosition(float chartWidht, float chartHeight)
+        public Vector3 GetPosition(float chartWidth, float chartHeight)
         {
             switch (align)
             {
                 case Align.BottomCenter:
-                    return new Vector2(chartWidht / 2, bottom);
+                    return new Vector3(chartWidth / 2, bottom);
                 case Align.BottomLeft:
-                    return new Vector2(left, bottom);
+                    return new Vector3(left, bottom);
                 case Align.BottomRight:
-                    return new Vector2(chartWidht - right, bottom);
+                    return new Vector3(chartWidth - right, bottom);
                 case Align.Center:
-                    return new Vector2(chartWidht / 2, chartHeight / 2);
+                    return new Vector3(chartWidth / 2, chartHeight / 2);
                 case Align.CenterLeft:
-                    return new Vector2(left, chartHeight / 2);
+                    return new Vector3(left, chartHeight / 2);
                 case Align.CenterRight:
-                    return new Vector2(chartWidht - right, chartHeight / 2);
+                    return new Vector3(chartWidth - right, chartHeight / 2);
                 case Align.TopCenter:
-                    return new Vector2(chartWidht / 2, chartHeight - top);
+                    return new Vector3(chartWidth / 2, chartHeight - top);
                 case Align.TopLeft:
-                    return new Vector2(left, chartHeight - top);
+                    return new Vector3(left, chartHeight - top);
                 case Align.TopRight:
-                    return new Vector2(chartWidht - right, chartHeight - top);
+                    return new Vector3(chartWidth - right, chartHeight - top);
                 default:
                     return Vector2.zero;
             }

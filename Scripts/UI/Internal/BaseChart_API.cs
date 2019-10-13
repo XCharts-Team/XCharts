@@ -47,6 +47,11 @@ namespace XCharts
         /// </summary>
         public float chartHeight { get { return m_ChartHeight; } }
         /// <summary>
+        /// The postion of pointer.
+        /// 鼠标位置
+        /// </summary>
+        public Vector2 pointerPos { get; protected set; }
+        /// <summary>
         /// 自定义绘制回调。
         /// </summary>
         public Action<VertexHelper> customDrawCallback { set { m_CustomDrawCallback = value; } }

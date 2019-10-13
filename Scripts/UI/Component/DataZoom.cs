@@ -198,11 +198,6 @@ namespace XCharts
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
 
         /// <summary>
-        /// DataZoom is in draging.
-        /// 正在拖拽组件。
-        /// </summary>
-        public bool isDraging { get; set; }
-        /// <summary>
         /// The start label.
         /// 组件的开始信息文本。
         /// </summary>

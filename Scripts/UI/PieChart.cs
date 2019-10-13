@@ -331,7 +331,7 @@ namespace XCharts
         {
             if (serieData.labelText == null) return;
             var currAngle = serieData.pieHalfAngle;
-            var isHighlight = (serieData.highlighted && serie.highlightLabel.show);
+            var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var showLabel = ((serie.label.show || isHighlight) && serieData.canShowLabel);
             if (showLabel || serieData.showIcon)
             {
@@ -346,7 +346,7 @@ namespace XCharts
                 Color color = serieColor;
                 if (isHighlight)
                 {
-                    if (serie.highlightLabel.color != Color.clear) color = serie.highlightLabel.color;
+                    if (serie.emphasis.label.color != Color.clear) color = serie.emphasis.label.color;
                 }
                 else if (serie.label.color != Color.clear)
                 {
@@ -356,8 +356,8 @@ namespace XCharts
                 {
                     color = isInsidePosition ? Color.white : serieColor;
                 }
-                var fontSize = isHighlight ? serie.highlightLabel.fontSize : serie.label.fontSize;
-                var fontStyle = isHighlight ? serie.highlightLabel.fontStyle : serie.label.fontStyle;
+                var fontSize = isHighlight ? serie.emphasis.label.fontSize : serie.label.fontSize;
+                var fontStyle = isHighlight ? serie.emphasis.label.fontStyle : serie.label.fontStyle;
 
                 serieData.labelText.color = color;
                 serieData.labelText.fontSize = fontSize;

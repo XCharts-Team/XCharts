@@ -36,7 +36,11 @@ namespace XCharts
         /// <summary>
         /// 带有涟漪特效动画的散点图。利用动画特效可以将某些想要突出的数据进行视觉突出。
         /// </summary>
-        EffectScatter
+        EffectScatter,
+        /// <summary>
+        /// 热力图。主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
+        /// </summary>
+        Heatmap,
     }
 
     /// <summary>
@@ -177,9 +181,10 @@ namespace XCharts
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
         #endregion
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
-        [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
         [SerializeField] private Animation m_Animation = new Animation();
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
+        [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
+        [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
@@ -355,11 +360,6 @@ namespace XCharts
         /// </summary>
         public SerieLabel label { get { return m_Label; } set { m_Label = value; } }
         /// <summary>
-        /// Text label of highlight graphic element.
-        /// 高亮时的文本标签配置。
-        /// </summary>
-        public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
-        /// <summary>
         /// The start animation.
         /// 起始动画。
         /// </summary>
@@ -367,9 +367,19 @@ namespace XCharts
         public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
         /// <summary>
         /// The arrow of line.
-        /// 折线图的箭头
+        /// 折线图的箭头。
         /// </summary>
         public LineArrow lineArrow { get { return m_LineArrow; } set { m_LineArrow = value; } }
+        /// <summary>
+        /// The style of data item.
+        /// 图形样式。
+        /// </summary>
+        public ItemStyle itemStyle { get { return m_ItemStyle; } set { m_ItemStyle = value; } }
+        /// <summary>
+        /// 高亮的图形样式和文本标签样式。
+        /// </summary>
+        public Emphasis emphasis { get { return m_Emphasis; } set { m_Emphasis = value; } }
+
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
@@ -738,7 +748,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public List<SerieData> GetDataList(DataZoom dataZoom)
+        public List<SerieData> GetDataList(DataZoom dataZoom = null)
         {
             if (dataZoom != null && dataZoom.enable)
             {

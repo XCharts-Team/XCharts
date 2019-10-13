@@ -122,14 +122,73 @@ namespace XCharts
             DrawLine(vh, sp, p2, size, color);
         }
 
-        public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color32 color)
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            bool vertical = true)
         {
-            Vector3 p1 = new Vector3(p.x - size, p.y - size);
-            Vector3 p2 = new Vector3(p.x + size, p.y - size);
-            Vector3 p3 = new Vector3(p.x + size, p.y + size);
-            Vector3 p4 = new Vector3(p.x - size, p.y + size);
+            Vector3 p1, p2, p3, p4;
+            if (vertical)
+            {
+                p1 = new Vector3(p.x + radius, p.y - radius);
+                p2 = new Vector3(p.x - radius, p.y - radius);
+                p3 = new Vector3(p.x - radius, p.y + radius);
+                p4 = new Vector3(p.x + radius, p.y + radius);
+            }
+            else
+            {
+                p1 = new Vector3(p.x - radius, p.y - radius);
+                p2 = new Vector3(p.x - radius, p.y + radius);
+                p3 = new Vector3(p.x + radius, p.y + radius);
+                p4 = new Vector3(p.x + radius, p.y - radius);
+            }
             DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, float radius, Color32 color)
+        {
+            DrawPolygon(vh, p1, p2, radius, color, color);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, float radius, Color32 color, Color32 toColor)
+        {
+            var dir = (p2 - p1).normalized;
+            var dirv = Vector3.Cross(dir, Vector3.forward).normalized;
+
+            var p3 = p1 + dirv * radius;
+            var p4 = p1 - dirv * radius;
+            var p5 = p2 - dirv * radius;
+            var p6 = p2 + dirv * radius;
+            DrawPolygon(vh, p3, p4, p5, p6, color, toColor);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float xRadius, float yRadius,
+                Color32 color, bool vertical = true)
+        {
+            DrawPolygon(vh, p, xRadius, yRadius, color, color, vertical);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float xRadius, float yRadius,
+            Color32 color, Color toColor, bool vertical = true)
+        {
+            Vector3 p1, p2, p3, p4;
+            if (vertical)
+            {
+                p1 = new Vector3(p.x + xRadius, p.y - yRadius);
+                p2 = new Vector3(p.x - xRadius, p.y - yRadius);
+                p3 = new Vector3(p.x - xRadius, p.y + yRadius);
+                p4 = new Vector3(p.x + xRadius, p.y + yRadius);
+            }
+            else
+            {
+                p1 = new Vector3(p.x - xRadius, p.y - yRadius);
+                p2 = new Vector3(p.x - xRadius, p.y + yRadius);
+                p3 = new Vector3(p.x + xRadius, p.y + yRadius);
+                p4 = new Vector3(p.x + xRadius, p.y - yRadius);
+            }
+
+            DrawPolygon(vh, p1, p2, p3, p4, color, toColor);
+        }
+
+
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 color)
@@ -150,6 +209,25 @@ namespace XCharts
                 vertex[j].uv0 = Vector2.zero;
             }
             vh.AddUIVertexQuad(vertex);
+        }
+
+        public static void DrawBorder(VertexHelper vh, Vector3 p, float rectWidth, float rectHeight,
+            float borderWidth, Color32 color)
+        {
+            var halfWid = rectWidth / 2;
+            var halfHig = rectHeight / 2;
+            var p1In = new Vector3(p.x - halfWid, p.y - halfHig);
+            var p1Ot = new Vector3(p.x - halfWid - borderWidth, p.y - halfHig - borderWidth);
+            var p2In = new Vector3(p.x - halfWid, p.y + halfHig);
+            var p2Ot = new Vector3(p.x - halfWid - borderWidth, p.y + halfHig + borderWidth);
+            var p3In = new Vector3(p.x + halfWid, p.y + halfHig);
+            var p3Ot = new Vector3(p.x + halfWid + borderWidth, p.y + halfHig + borderWidth);
+            var p4In = new Vector3(p.x + halfWid, p.y - halfHig);
+            var p4Ot = new Vector3(p.x + halfWid + borderWidth, p.y - halfHig - borderWidth);
+            DrawPolygon(vh, p1In, p1Ot, p2Ot, p2In, color);
+            DrawPolygon(vh, p2In, p2Ot, p3Ot, p3In, color);
+            DrawPolygon(vh, p3In, p3Ot, p4Ot, p4In, color);
+            DrawPolygon(vh, p4In, p4Ot, p1Ot, p1In, color);
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,

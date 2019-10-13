@@ -16,6 +16,7 @@ namespace XCharts
         [SerializeField] protected List<XAxis> m_XAxises = new List<XAxis>();
         [SerializeField] protected List<YAxis> m_YAxises = new List<YAxis>();
         [SerializeField] protected DataZoom m_DataZoom = DataZoom.defaultDataZoom;
+        [SerializeField] protected VisualMap m_VisualMap = new VisualMap();
 
         private bool m_DataZoomDrag;
         private bool m_DataZoomCoordinateDrag;
@@ -52,7 +53,9 @@ namespace XCharts
             CheckXAxis();
             CheckMinMaxValue();
             CheckCoordinate();
+            CheckRaycastTarget();
             CheckDataZoom();
+            CheckVisualMap();
         }
 
 #if UNITY_EDITOR
@@ -72,6 +75,7 @@ namespace XCharts
             DrawCoordinate(vh);
             DrawSerie(vh);
             DrawDataZoomSlider(vh);
+            DrawVisualMap(vh);
         }
 
 
@@ -111,6 +115,9 @@ namespace XCharts
                                 RefreshChart();
                                 return;
                             }
+                            break;
+                        case SerieType.Heatmap:
+                            DrawHeatmapSerie(vh, colorIndex, serie);
                             break;
                     }
                 }
@@ -170,6 +177,33 @@ namespace XCharts
                             }
                         }
                     }
+                    else if (IsCategory())
+                    {
+
+                        for (int j = 0; j < xAxis.GetDataNumber(m_DataZoom); j++)
+                        {
+                            float splitWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
+                            float pX = coordinateX + j * splitWid;
+                            if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
+                                (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
+                            {
+                                m_Tooltip.xValues[i] = j;
+                                m_Tooltip.dataIndex[i] = j;
+                                break;
+                            }
+                        }
+                        for (int j = 0; j < yAxis.GetDataNumber(m_DataZoom); j++)
+                        {
+                            float splitWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
+                            float pY = coordinateY + j * splitWid;
+                            if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
+                                (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
+                            {
+                                m_Tooltip.yValues[i] = j;
+                                break;
+                            }
+                        }
+                    }
                     else if (xAxis.IsCategory())
                     {
                         var value = (yAxis.maxValue - yAxis.minValue) * (local.y - coordinateY - yAxis.zeroYOffset) / coordinateHig;
@@ -225,7 +259,7 @@ namespace XCharts
             }
         }
 
-        private StringBuilder sb = new StringBuilder(100);
+        protected StringBuilder sb = new StringBuilder(100);
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
@@ -320,7 +354,7 @@ namespace XCharts
             }
         }
 
-        private void UpdateAxisTooltipLabel(int axisIndex, Axis axis)
+        protected void UpdateAxisTooltipLabel(int axisIndex, Axis axis)
         {
             var showTooltipLabel = axis.show && m_Tooltip.type == Tooltip.Type.Corss;
             axis.SetTooltipLabelActive(showTooltipLabel);
@@ -611,7 +645,7 @@ namespace XCharts
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleLeft,
                 Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20), m_DataZoom.fontSize, 0, m_DataZoom.fontStyle);
             m_DataZoom.SetLabelActive(false);
-            raycastTarget = m_DataZoom.enable;
+            CheckRaycastTarget();
             var xAxis = m_XAxises[m_DataZoom.xAxisIndex];
             if (xAxis != null)
             {
@@ -705,6 +739,11 @@ namespace XCharts
         private void CheckMinMaxValue()
         {
             if (m_XAxises == null || m_YAxises == null) return;
+            if (IsCategory())
+            {
+                m_CheckMinMaxValue = true;
+                return;
+            }
             for (int i = 0; i < m_XAxises.Count; i++)
             {
                 UpdateAxisMinMaxValue(i, m_XAxises[i]);
@@ -1145,12 +1184,17 @@ namespace XCharts
             }
         }
 
+        private void CheckRaycastTarget()
+        {
+            var ray = m_DataZoom.enable || (m_VisualMap.enable && m_VisualMap.show && m_VisualMap.calculable);
+            if (raycastTarget != ray)
+            {
+                raycastTarget = ray;
+            }
+        }
+
         private void CheckDataZoom()
         {
-            if (raycastTarget != m_DataZoom.enable)
-            {
-                raycastTarget = m_DataZoom.enable;
-            }
             if (!m_DataZoom.enable) return;
             CheckDataZoomScale();
             CheckDataZoomLabel();
@@ -1314,11 +1358,18 @@ namespace XCharts
                     var pos = serie.dataPoints[j];
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
-                    if (serie.show && serie.label.show)
+                    if (serie.show && serie.label.show && serieData.canShowLabel)
                     {
-                        var value = serieData.data[1];
+                        float value = 0f;
+                        var dimension = 1;
+                        if (serie.type == SerieType.Heatmap)
+                        {
+                            dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
+                            serieData.data.Count - 1;
+                        }
+                        value = serieData.data[dimension];
                         var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
-                        serieData.SetLabelActive(true);
+                        serieData.SetLabelActive(value != 0);
                         serieData.SetLabelPosition(serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
@@ -1343,7 +1394,6 @@ namespace XCharts
             {
                 if (IsInCooridate(pos))
                 {
-                    m_DataZoom.isDraging = true;
                     m_DataZoomCoordinateDrag = true;
                 }
             }
@@ -1351,20 +1401,18 @@ namespace XCharts
             {
                 if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWid))
                 {
-                    m_DataZoom.isDraging = true;
                     m_DataZoomStartDrag = true;
                 }
                 else if (m_DataZoom.IsInEndZoom(pos, coordinateX, coordinateWid))
                 {
-                    m_DataZoom.isDraging = true;
                     m_DataZoomEndDrag = true;
                 }
                 else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, coordinateWid))
                 {
-                    m_DataZoom.isDraging = true;
                     m_DataZoomDrag = true;
                 }
             }
+            OnDragVisualMapStart();
         }
 
         public override void OnDrag(PointerEventData eventData)
@@ -1374,6 +1422,7 @@ namespace XCharts
             float deltaPercent = deltaX / coordinateWid * 100;
             OnDragInside(deltaPercent);
             OnDragSlider(deltaPercent);
+            OnDragVisualMap();
         }
 
         private void OnDragInside(float deltaPercent)
@@ -1471,7 +1520,7 @@ namespace XCharts
             m_DataZoomCoordinateDrag = false;
             m_DataZoomStartDrag = false;
             m_DataZoomEndDrag = false;
-            m_DataZoom.isDraging = false;
+            OnDragVisualMapEnd();
         }
 
         public override void OnPointerDown(PointerEventData eventData)

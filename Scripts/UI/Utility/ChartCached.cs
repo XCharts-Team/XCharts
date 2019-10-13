@@ -9,6 +9,7 @@ namespace XCharts
         private static Dictionary<float, string> s_ValueToF2Str = new Dictionary<float, string>(1000);
         private static Dictionary<float, string> s_ValueToStr = new Dictionary<float, string>(1000);
         private static Dictionary<int, string> s_IntToStr = new Dictionary<int, string>(1000);
+        private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(1000);
 
         public static string FloatToStr(float value, int f = 0)
         {
@@ -40,6 +41,19 @@ namespace XCharts
             {
                 s_IntToStr[value] = value.ToString();
                 return s_IntToStr[value];
+            }
+        }
+
+        public static string ColorToStr(Color color)
+        {
+            if (s_ColorToStr.ContainsKey(color))
+            {
+                return s_ColorToStr[color];
+            }
+            else
+            {
+                s_ColorToStr[color] = ColorUtility.ToHtmlStringRGBA(color);
+                return s_ColorToStr[color];
             }
         }
     }

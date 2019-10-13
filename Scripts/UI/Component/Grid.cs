@@ -61,7 +61,7 @@ namespace XCharts
             {
                 var coordinate = new Grid
                 {
-                    m_Show = false,
+                    m_Show = true,
                     m_Left = 50,
                     m_Right = 30,
                     m_Top = 50,

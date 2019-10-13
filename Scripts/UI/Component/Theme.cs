@@ -50,6 +50,8 @@ namespace XCharts
         [SerializeField] private Color32 m_DataZoomTextColor;
         [SerializeField] private Color32 m_DataZoomLineColor;
         [SerializeField] private Color32 m_DataZoomSelectedColor;
+        [SerializeField] private Color32 m_VisualMapBackgroundColor;
+        [SerializeField] private Color32 m_VisualMapBorderColor;
         [SerializeField] private Color32[] m_ColorPalette;
 
         [SerializeField] private Font m_CustomFont;
@@ -70,6 +72,8 @@ namespace XCharts
         [SerializeField] private Color32 m_CustomDataZoomTextColor;
         [SerializeField] private Color32 m_CustomDataZoomLineColor;
         [SerializeField] private Color32 m_CustomDataZoomSelectedColor;
+        [SerializeField] private Color32 m_CustomVisualMapBackgroundColor;
+        [SerializeField] private Color32 m_CustomVisualMapBorderColor;
         [SerializeField] private List<Color32> m_CustomColorPalette = new List<Color32>(13);
         /// <summary>
         /// the theme of chart.
@@ -229,6 +233,25 @@ namespace XCharts
             get { return m_CustomDataZoomSelectedColor != Color.clear ? m_CustomDataZoomSelectedColor : m_DataZoomSelectedColor; }
             set { m_CustomDataZoomSelectedColor = value; }
         }
+
+        /// <summary>
+        /// 视觉映射组件的背景色。
+        /// </summary>
+        public Color32 visualMapBackgroundColor
+        {
+            get { return m_CustomVisualMapBackgroundColor != Color.clear ? m_CustomVisualMapBackgroundColor : m_VisualMapBackgroundColor; }
+            set { m_CustomVisualMapBackgroundColor = value; }
+        }
+
+        /// <summary>
+        /// 视觉映射的边框色。
+        /// </summary>
+        public Color32 visualMapBorderColor
+        {
+            get { return m_CustomVisualMapBorderColor != Color.clear ? m_CustomVisualMapBorderColor : m_VisualMapBorderColor; }
+            set { m_CustomVisualMapBorderColor = value; }
+        }
+
         /// <summary>
         /// The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
         /// 调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
@@ -304,6 +327,8 @@ namespace XCharts
             m_DataZoomLineColor = theme.m_DataZoomLineColor;
             m_DataZoomSelectedColor = theme.m_DataZoomSelectedColor;
             m_DataZoomTextColor = theme.m_DataZoomTextColor;
+            m_VisualMapBackgroundColor = theme.m_VisualMapBackgroundColor;
+            m_VisualMapBorderColor = theme.m_VisualMapBorderColor;
             m_ColorPalette = new Color32[theme.m_ColorPalette.Length];
             for (int i = 0; i < theme.m_ColorPalette.Length; i++)
             {
@@ -334,6 +359,8 @@ namespace XCharts
             m_DataZoomLineColor = Color.clear;
             m_DataZoomSelectedColor = Color.clear;
             m_DataZoomTextColor = Color.clear;
+            m_VisualMapBackgroundColor = Color.clear;
+            m_VisualMapBorderColor = Color.clear;
             for (int i = 0; i < m_CustomColorPalette.Count; i++)
             {
                 m_CustomColorPalette[i] = Color.clear;
@@ -369,6 +396,8 @@ namespace XCharts
                     m_DataZoomLineColor = GetColor("#51515120"),
                     m_DataZoomSelectedColor = GetColor("#51515120"),
                     m_DataZoomTextColor = GetColor("#514D4D"),
+                    m_VisualMapBackgroundColor = GetColor("#51515120"),
+                    m_VisualMapBorderColor = GetColor("#cccccc"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(194, 53, 49, 255),
@@ -429,6 +458,8 @@ namespace XCharts
                     m_DataZoomLineColor = GetColor("#51515120"),
                     m_DataZoomSelectedColor = GetColor("#51515120"),
                     m_DataZoomTextColor = GetColor("#514D4D"),
+                    m_VisualMapBackgroundColor = GetColor("#51515120"),
+                    m_VisualMapBorderColor = GetColor("#cccccc"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(55, 162, 218, 255),
@@ -493,6 +524,8 @@ namespace XCharts
                     m_DataZoomLineColor = GetColor("#FFFFFF45"),
                     m_DataZoomSelectedColor = GetColor("#D0D0D03D"),
                     m_DataZoomTextColor = GetColor("#FFFFFFFF"),
+                    m_VisualMapBackgroundColor = GetColor("#aaa"),
+                    m_VisualMapBorderColor = GetColor("#cccccc"),
                     m_ColorPalette = new Color32[]
                     {
                         new Color32(221, 107, 102, 255),

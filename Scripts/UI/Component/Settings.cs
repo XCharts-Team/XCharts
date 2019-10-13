@@ -14,6 +14,7 @@ namespace XCharts
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
+        [SerializeField] [Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
 
         /// <summary>
         /// Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, 
@@ -41,6 +42,11 @@ namespace XCharts
         /// 圆形的平滑度。数越小圆越平滑，但顶点数也会随之增加。
         /// </summary>
         public float cicleSmoothness { get { return m_CicleSmoothness; } set { m_CicleSmoothness = value <= 0 ? 1f : value; } }
+        /// <summary>
+        /// 可视化组件的调节三角形变长。
+        /// </summary>
+        /// <value></value>
+        public float visualMapTriangeLen { get { return m_VisualMapTriangeLen; } set { m_VisualMapTriangeLen = value <= 0 ? 1f : value; } }
 
     }
 }

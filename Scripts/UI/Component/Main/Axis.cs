@@ -11,7 +11,7 @@ namespace XCharts
     /// 直角坐标系的坐标轴组件。
     /// </summary>
     [System.Serializable]
-    public class Axis : JsonDataSupport, IEquatable<Axis>
+    public class Axis : MainComponent, IEquatable<Axis>
     {
         /// <summary>
         /// the type of axis.

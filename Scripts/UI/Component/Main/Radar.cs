@@ -11,7 +11,7 @@ namespace XCharts
     /// 雷达图坐标系组件，只适用于雷达图。
     /// </summary>
     [System.Serializable]
-    public class Radar : JsonDataSupport, IEquatable<Radar>
+    public class Radar : MainComponent, IEquatable<Radar>
     {
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -168,7 +168,7 @@ namespace XCharts
         /// 雷达图的所有数据坐标点列表。
         /// </summary>
         /// <returns></returns>
-        public Dictionary<int,List<Vector3>> dataPosList = new Dictionary<int,List<Vector3>>();
+        public Dictionary<int, List<Vector3>> dataPosList = new Dictionary<int, List<Vector3>>();
 
         public static Radar defaultRadar
         {

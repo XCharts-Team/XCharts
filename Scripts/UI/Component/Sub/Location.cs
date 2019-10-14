@@ -8,7 +8,7 @@ namespace XCharts
     /// 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
     /// </summary>
     [Serializable]
-    public class Location : IPropertyChanged, IEquatable<Location>
+    public class Location : SubComponent, IPropertyChanged, IEquatable<Location>
     {
         /// <summary>
         /// 对齐方式

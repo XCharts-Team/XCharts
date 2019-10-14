@@ -8,7 +8,7 @@ namespace XCharts
     /// 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
     /// </summary>
     [Serializable]
-    public class Settings
+    public class Settings : MainComponent
     {
         [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;

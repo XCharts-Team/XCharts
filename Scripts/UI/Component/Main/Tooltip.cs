@@ -10,7 +10,7 @@ namespace XCharts
     /// 提示框组件
     /// </summary>
     [System.Serializable]
-    public class Tooltip
+    public class Tooltip : MainComponent
     {
         /// <summary>
         /// Indicator type.
@@ -157,8 +157,8 @@ namespace XCharts
                 var tooltip = new Tooltip
                 {
                     m_Show = true,
-                    xValues = new float[2]{-1,-1},
-                    yValues = new float[2]{-1,-1},
+                    xValues = new float[2] { -1, -1 },
+                    yValues = new float[2] { -1, -1 },
                     dataIndex = new List<int>() { -1, -1 },
                     lastDataIndex = new List<int>() { -1, -1 }
                 };

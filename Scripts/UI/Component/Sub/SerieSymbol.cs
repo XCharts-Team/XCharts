@@ -69,7 +69,7 @@ namespace XCharts
     /// 系列数据项的标记的图形
     /// </summary>
     [System.Serializable]
-    public class SerieSymbol
+    public class SerieSymbol : SubComponent
     {
         [SerializeField] private SerieSymbolType m_Type = SerieSymbolType.EmptyCircle;
         [SerializeField] private SerieSymbolSizeType m_SizeType = SerieSymbolSizeType.Custom;

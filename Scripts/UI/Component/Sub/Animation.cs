@@ -8,7 +8,7 @@ namespace XCharts
     /// 动画表现。
     /// </summary>
     [System.Serializable]
-    public class Animation
+    public class Animation : SubComponent
     {
         public enum Easing
         {

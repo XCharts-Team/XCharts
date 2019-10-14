@@ -7,7 +7,7 @@ namespace XCharts
     /// 坐标轴的分隔线。
     /// </summary>
     [System.Serializable]    
-    public class AxisLine
+    public class AxisLine : SubComponent
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private bool m_OnZero;

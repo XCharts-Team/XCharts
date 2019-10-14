@@ -8,7 +8,7 @@ namespace XCharts
     /// 标题组件，包含主标题和副标题。
     /// </summary>
     [Serializable]
-    public class Title : IPropertyChanged, IEquatable<Title>
+    public class Title : MainComponent, IPropertyChanged, IEquatable<Title>
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Text;

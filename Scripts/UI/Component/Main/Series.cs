@@ -9,7 +9,7 @@ namespace XCharts
     /// 系列列表。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
-    public class Series : JsonDataSupport
+    public class Series : MainComponent
     {
 
         [SerializeField] protected List<Serie> m_Series;

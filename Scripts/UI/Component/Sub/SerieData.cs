@@ -10,7 +10,7 @@ namespace XCharts
     /// 系列中的一个数据项。可存储数据名和1-n维的数据。
     /// </summary>
     [System.Serializable]
-    public class SerieData
+    public class SerieData : SubComponent
     {
         [SerializeField] private string m_Name;
         [SerializeField] private bool m_Selected;

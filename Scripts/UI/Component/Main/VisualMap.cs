@@ -10,7 +10,7 @@ namespace XCharts
     /// 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
     /// </summary>
     [System.Serializable]
-    public class VisualMap
+    public class VisualMap : MainComponent
     {
         /// <summary>
         /// 类型。分为连续型和分段型。

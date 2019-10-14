@@ -8,7 +8,7 @@ namespace XCharts
     /// 坐标轴名称。
     /// </summary>
     [Serializable]
-    public class AxisName
+    public class AxisName : SubComponent
     {
         /// <summary>
         /// the location of axis name.

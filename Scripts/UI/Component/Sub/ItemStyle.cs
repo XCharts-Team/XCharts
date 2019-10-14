@@ -7,7 +7,7 @@ namespace XCharts
     /// 图形样式。
     /// </summary>
     [System.Serializable]
-    public class ItemStyle
+    public class ItemStyle : SubComponent
     {
         /// <summary>
         /// 线的类型。

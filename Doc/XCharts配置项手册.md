@@ -452,6 +452,7 @@
 * `data`：系列中的数据项 `SerieData` 数组。`SerieData` 可以设置`1`到`n`维数据。`SerieData`的相关参数如下：
   * `name`：数据项名称。
   * `selected`：该数据项是否被选中。
+  * `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
   * `showIcon`：是否显示图标。
   * `iconImage`：图标的图片。
   * `iconColor`：图标颜色。

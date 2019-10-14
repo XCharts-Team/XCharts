@@ -14,6 +14,7 @@ namespace XCharts
     {
         [SerializeField] private string m_Name;
         [SerializeField] private bool m_Selected;
+        [SerializeField] private float m_Radius;
         [SerializeField] private bool m_ShowIcon;
         [SerializeField] private Sprite m_IconImage;
         [SerializeField] private Color m_IconColor = Color.white;
@@ -27,6 +28,7 @@ namespace XCharts
         private bool m_LabelAutoSize;
         private float m_LabelPaddingLeftRight;
         private float m_LabelPaddingTopBottom;
+        private float m_RtPieOutsideRadius;
 
         public int index { get; set; }
         /// <summary>
@@ -39,6 +41,10 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
+        /// <summary>
+        /// 自定义半径。可用在饼图中自定义某个数据项的半径。
+        /// </summary>
+        public float radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// Whether the data item is selected.
         /// 该数据项是否被选中。
@@ -135,11 +141,22 @@ namespace XCharts
         /// <summary>
         /// 饼图数据项的内半径
         /// </summary>
-        public float pieInsideRadius{get;set;}
+        public float pieInsideRadius { get; set; }
         /// <summary>
         /// 饼图数据项的外半径
         /// </summary>
-        public float pieOutsideRadius { get; set; }
+        public float pieOutsideRadius
+        {
+            get
+            {
+                if (radius > 0) return radius;
+                else return m_RtPieOutsideRadius;
+            }
+            set
+            {
+                m_RtPieOutsideRadius = value;
+            }
+        }
         /// <summary>
         /// 饼图数据项的偏移半径
         /// </summary>

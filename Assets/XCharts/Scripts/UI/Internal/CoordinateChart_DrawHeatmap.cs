@@ -133,6 +133,8 @@ namespace XCharts
             var borderColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderColor : Color.clear;
             borderColor.a *= serie.itemStyle.opacity;
             serie.dataPoints.Clear();
+            serie.animation.InitProgress(1, 0, xCount);
+            var animationIndex = serie.animation.GetCurrIndex();
             for (int i = 0; i < xCount; i++)
             {
                 for (int j = 0; j < yCount; j++)
@@ -157,6 +159,7 @@ namespace XCharts
                         if (!m_VisualMap.IsInSelectedValue(value)) continue;
                         color = m_VisualMap.GetColor(value);
                     }
+                    if(animationIndex>= 0 && i> animationIndex) continue;
                     serieData.canShowLabel = true;
                     var emphasis = (m_Tooltip.show && i == (int)m_Tooltip.xValues[0] && j == (int)m_Tooltip.yValues[0])
                         || m_VisualMap.rtSelectedIndex > 0;
@@ -174,6 +177,13 @@ namespace XCharts
                         ChartDrawer.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor);
                     }
                 }
+            }
+            if (!serie.animation.IsFinish())
+            {
+                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
+                float speed = xCount / duration;
+                serie.animation.CheckProgress(Time.deltaTime * speed);
+                RefreshChart();
             }
         }
 

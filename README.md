@@ -28,6 +28,7 @@ QQ交流群：XCharts交流群（202030963）
 
 ## 更新日志
 
+* （2019.10.14）增加`RadarChart`、`ScatterChart`和`HeatmapChart`的起始动画效果
 * （2019.10.14）增加`SerieData`的`radius`自定义数据项的半径
 * （2019.10.14）增加`HeatmapChart`热力图
 * （2019.10.14）增加`VisualMap`视觉映射组件

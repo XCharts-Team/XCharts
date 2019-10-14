@@ -358,7 +358,7 @@ namespace XCharts
             {
                 var radius = triangleLen / 2;
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
-                var cpos = new Vector3(pos1.x + rangeMinHeight - radius, pos1.y + itemWidth / 2 + radius);
+                var cpos = new Vector3(pos1.x + rangeMinHeight, pos1.y + itemWidth / 2 + radius);
                 return local.x >= cpos.x - radius && local.x <= cpos.x + radius &&
                 local.y >= cpos.y - radius && local.y <= cpos.y + radius;
             }

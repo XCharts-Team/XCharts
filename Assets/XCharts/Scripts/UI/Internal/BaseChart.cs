@@ -481,6 +481,7 @@ namespace XCharts
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;
+                m_LegendRealShowName = m_Series.GetSerieNameList();
                 InitSerieLabel();
             }
             if (m_RefreshLabel)

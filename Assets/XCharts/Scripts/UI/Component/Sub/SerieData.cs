@@ -102,10 +102,11 @@ namespace XCharts
         /// 标志位置。
         /// </summary>
         public Vector3 labelPosition { get; set; }
+        public bool m_CanShowLabel = true;
         /// <summary>
         /// 是否可以显示Label
         /// </summary>
-        public bool canShowLabel { get; set; }
+        public bool canShowLabel { get { return m_CanShowLabel; } set { m_CanShowLabel = value; } }
         /// <summary>
         /// the maxinum value.
         /// 最大值。

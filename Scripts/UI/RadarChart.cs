@@ -206,10 +206,12 @@ namespace XCharts
                 int indicatorNum = radar.indicatorList.Count;
                 var angle = 2 * Mathf.PI / indicatorNum;
                 Vector3 p = radar.centerPos;
+                serie.animation.InitProgress(1,0,1);
                 if (!IsActive(i))
                 {
                     continue;
                 }
+                var rate = serie.animation.GetCurrRate();
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -263,6 +265,7 @@ namespace XCharts
                         var radius = max < 0 ? radar.actualRadius - radar.actualRadius * value / max
                         : radar.actualRadius * value / max;
                         var currAngle = n * angle;
+                        radius *= rate;
                         if (n == 0)
                         {
                             startPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
@@ -303,6 +306,13 @@ namespace XCharts
                             DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor);
                         }
                     }
+                }
+                if (!serie.animation.IsFinish())
+                {
+                    float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
+                    float speed = 1 / duration;
+                    serie.animation.CheckProgress(Time.deltaTime * speed);
+                    RefreshChart();
                 }
             }
         }

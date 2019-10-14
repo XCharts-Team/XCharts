@@ -7,7 +7,7 @@ namespace XCharts
 {
     public partial class CoordinateChart
     {
-        protected void DrawScatterSerie(VertexHelper vh,int colorIndex, Serie serie)
+        protected void DrawScatterSerie(VertexHelper vh, int colorIndex, Serie serie)
         {
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -16,6 +16,8 @@ namespace XCharts
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                 : serie.dataCount;
+            serie.animation.InitProgress(1, 0, 1);
+            var rate = serie.animation.GetCurrRate();
             for (int n = serie.minShow; n < maxCount; n++)
             {
                 var serieData = serie.GetDataList(m_DataZoom)[n];
@@ -37,6 +39,7 @@ namespace XCharts
                 {
                     symbolSize = serie.symbol.GetSize(datas);
                 }
+                symbolSize *= rate;
                 if (symbolSize > 100) symbolSize = 100;
                 if (serie.type == SerieType.EffectScatter)
                 {
@@ -52,6 +55,13 @@ namespace XCharts
                 {
                     DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color);
                 }
+            }
+            if (!serie.animation.IsFinish())
+            {
+                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
+                float speed = 1 / duration;
+                serie.animation.CheckProgress(Time.deltaTime * speed);
+                RefreshChart();
             }
         }
     }

@@ -208,6 +208,24 @@ namespace XCharts
             return m_CurrDetailProgress;
         }
 
+        public float GetCurrRate()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return 1;
+#endif
+            if (!enable || m_IsEnd) return 1;
+            return m_CurrDetailProgress;
+        }
+
+        public int GetCurrIndex()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return -1;
+#endif
+            if (!enable || m_IsEnd) return -1;
+            return (int)m_CurrDetailProgress;
+        }
+
         public float GetCurrData()
         {
             return m_CurrDataProgress;

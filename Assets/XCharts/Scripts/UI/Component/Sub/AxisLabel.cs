@@ -8,7 +8,7 @@ namespace XCharts
     /// 坐标轴刻度标签的相关设置。
     /// </summary>
     [Serializable]
-    public class AxisLabel
+    public class AxisLabel : SubComponent
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Formatter;

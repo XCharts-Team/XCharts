@@ -150,7 +150,7 @@ namespace XCharts
     /// 系列。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
-    public class Serie : JsonDataSupport
+    public class Serie : MainComponent
     {
         [SerializeField] [DefaultValue("true")] private bool m_Show = true;
         [SerializeField] private SerieType m_Type;

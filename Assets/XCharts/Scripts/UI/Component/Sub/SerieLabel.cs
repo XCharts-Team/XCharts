@@ -7,7 +7,7 @@ namespace XCharts
     /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
-    public class SerieLabel
+    public class SerieLabel : SubComponent
     {
         /// <summary>
         /// The position of label.

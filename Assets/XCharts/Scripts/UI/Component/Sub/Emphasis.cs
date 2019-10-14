@@ -7,7 +7,7 @@ namespace XCharts
     /// 高亮的图形样式和文本标签样式。
     /// </summary>
     [System.Serializable]
-    public class Emphasis
+    public class Emphasis : SubComponent
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private SerieLabel m_Label = new SerieLabel();

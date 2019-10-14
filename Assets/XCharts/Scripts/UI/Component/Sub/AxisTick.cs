@@ -8,7 +8,7 @@ namespace XCharts
     /// 坐标轴刻度相关设置。
     /// </summary>
     [System.Serializable]
-    public class AxisTick
+    public class AxisTick : SubComponent
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private bool m_AlignWithLabel;

@@ -9,7 +9,7 @@ namespace XCharts
     /// 注： 修改 lineStyle 中的颜色不会影响图例颜色，如果需要图例颜色和折线图颜色一致，需修改 itemStyle.color，线条颜色默认也会取改颜色。
     /// </summary>
     [System.Serializable]
-    public class LineStyle
+    public class LineStyle : SubComponent
     {
         /// <summary>
         /// 线的类型。

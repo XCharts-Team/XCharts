@@ -7,7 +7,7 @@ namespace XCharts
     /// 饼图的全局设置。
     /// </summary>
     [System.Serializable]
-    public class Pie
+    public class Pie : MainComponent
     {
         [SerializeField] private float m_TooltipExtraRadius;
         [SerializeField] private float m_SelectedOffset;

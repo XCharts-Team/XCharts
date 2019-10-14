@@ -11,7 +11,7 @@ namespace XCharts
     /// 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
     /// </summary>
     [System.Serializable]
-    public class Legend : JsonDataSupport, IPropertyChanged, IEquatable<Legend>
+    public class Legend : MainComponent, IPropertyChanged, IEquatable<Legend>
     {
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 

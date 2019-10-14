@@ -9,7 +9,7 @@ namespace XCharts
     /// 坐标轴在 grid 区域中的分隔区域，默认不显示。
     /// </summary>
     [Serializable]
-    public class AxisSplitArea
+    public class AxisSplitArea : SubComponent
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private List<Color> m_Color;

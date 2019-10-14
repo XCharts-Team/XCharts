@@ -29,7 +29,7 @@ namespace XCharts
     /// Theme.
     /// 主题相关配置。
     /// </summary>
-    public class ThemeInfo : IEquatable<ThemeInfo>
+    public class ThemeInfo : MainComponent, IEquatable<ThemeInfo>
     {
         [SerializeField] private Theme m_Theme = Theme.Default;
         [SerializeField] private Font m_Font;

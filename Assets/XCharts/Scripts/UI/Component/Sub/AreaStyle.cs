@@ -8,7 +8,7 @@ namespace XCharts
     /// 区域填充样式。
     /// </summary>
     [System.Serializable]
-    public class AreaStyle
+    public class AreaStyle : SubComponent
     {
         /// <summary>
         /// Origin position of area.

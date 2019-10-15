@@ -233,37 +233,30 @@ namespace XCharts
         /// <returns></returns>
         public Serie AddSerie(SerieType type, string serieName, bool show = true)
         {
-            var serie = GetSerie(serieName);
-            if (serie == null)
-            {
-                serie = new Serie();
-                serie.type = type;
-                serie.show = show;
-                serie.name = serieName;
-                serie.index = m_Series.Count;
+            var serie = new Serie();
+            serie.type = type;
+            serie.show = show;
+            serie.name = serieName;
+            serie.index = m_Series.Count;
 
-                if (type == SerieType.Scatter)
-                {
-                    serie.symbol.type = SerieSymbolType.Circle;
-                    serie.symbol.size = 20f;
-                    serie.symbol.selectedSize = 30f;
-                }
-                else if (type == SerieType.Line)
-                {
-                    serie.symbol.type = SerieSymbolType.EmptyCircle;
-                    serie.symbol.size = 2.5f;
-                    serie.symbol.selectedSize = 5f;
-                }
-                else
-                {
-                    serie.symbol.type = SerieSymbolType.None;
-                }
-                m_Series.Add(serie);
+            if (type == SerieType.Scatter)
+            {
+                serie.symbol.type = SerieSymbolType.Circle;
+                serie.symbol.size = 20f;
+                serie.symbol.selectedSize = 30f;
+            }
+            else if (type == SerieType.Line)
+            {
+                serie.symbol.type = SerieSymbolType.EmptyCircle;
+                serie.symbol.size = 2.5f;
+                serie.symbol.selectedSize = 5f;
             }
             else
             {
-                serie.show = show;
+                serie.symbol.type = SerieSymbolType.None;
             }
+            serie.animation.Reset();
+            m_Series.Add(serie);
             return serie;
         }
 

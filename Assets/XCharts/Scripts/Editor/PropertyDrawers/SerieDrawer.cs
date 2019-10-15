@@ -127,7 +127,7 @@ namespace XCharts
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                     ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Center,"Center");
-                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Center,"Radius");
+                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Radius,"Radius");
                 }
 
                 EditorGUI.PropertyField(drawRect, m_LineStyle);

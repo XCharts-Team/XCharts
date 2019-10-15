@@ -597,7 +597,7 @@ namespace XCharts
         /// </summary>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        public void AddYData(float value, string dataName = null)
+        public SerieData AddYData(float value, string dataName = null)
         {
             if (m_MaxCache > 0)
             {
@@ -608,7 +608,9 @@ namespace XCharts
                 }
             }
             int xValue = m_Data.Count;
-            m_Data.Add(new SerieData() { data = new List<float>() { xValue, value }, name = dataName });
+            var serieData = new SerieData() { data = new List<float>() { xValue, value }, name = dataName };
+            m_Data.Add(serieData);
+            return serieData;
         }
 
         /// <summary>
@@ -618,7 +620,7 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddXYData(float xValue, float yValue, string dataName = null)
+        public SerieData AddXYData(float xValue, float yValue, string dataName = null)
         {
             if (m_MaxCache > 0)
             {
@@ -628,7 +630,9 @@ namespace XCharts
                     m_Data.RemoveAt(0);
                 }
             }
-            m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
+            var serieData = new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName };
+            m_Data.Add(serieData);
+            return serieData;
         }
 
         /// <summary>
@@ -638,16 +642,16 @@ namespace XCharts
         /// <param name="valueList"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddData(List<float> valueList, string dataName = null)
+        public SerieData AddData(List<float> valueList, string dataName = null)
         {
-            if (valueList == null || valueList.Count == 0) return;
+            if (valueList == null || valueList.Count == 0) return null;
             if (valueList.Count == 1)
             {
-                AddYData(valueList[0], dataName);
+                return AddYData(valueList[0], dataName);
             }
             else if (valueList.Count == 2)
             {
-                AddXYData(valueList[0], valueList[1], dataName);
+                return AddXYData(valueList[0], valueList[1], dataName);
             }
             else
             {
@@ -666,6 +670,7 @@ namespace XCharts
                     serieData.data.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
+                return serieData;
             }
         }
 

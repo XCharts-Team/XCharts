@@ -132,11 +132,15 @@ namespace XCharts
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(string serieName, float data, string dataName = null)
+        public virtual SerieData AddData(string serieName, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, data, dataName);
-            if (success) RefreshChart();
-            return success;
+            var serieData = m_Series.AddData(serieName, data, dataName);
+            if (serieData != null)
+            {
+                RefreshChart();
+                RefreshLabel();
+            }
+            return serieData;
         }
 
         /// <summary>
@@ -147,15 +151,15 @@ namespace XCharts
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(int serieIndex, float data, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, data, dataName);
-            if (success)
+            var serieData = m_Series.AddData(serieIndex, data, dataName);
+            if (serieData != null)
             {
                 RefreshChart();
-                ReinitChartLabel();
+                RefreshLabel();
             }
-            return success;
+            return serieData;
         }
 
         /// <summary>
@@ -166,15 +170,15 @@ namespace XCharts
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
+        public virtual SerieData AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, multidimensionalData, dataName);
-            if (success)
+            var serieData = m_Series.AddData(serieName, multidimensionalData, dataName);
+            if (serieData != null)
             {
                 RefreshChart();
-                ReinitChartLabel();
+                RefreshLabel();
             }
-            return success;
+            return serieData;
         }
 
         /// <summary>
@@ -185,15 +189,15 @@ namespace XCharts
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, multidimensionalData, dataName);
-            if (success)
+            var serieData = m_Series.AddData(serieIndex, multidimensionalData, dataName);
+            if (serieData != null)
             {
                 RefreshChart();
-                ReinitChartLabel();
+                RefreshLabel();
             }
-            return success;
+            return serieData;
         }
 
         /// <summary>
@@ -205,15 +209,15 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(string serieName, float xValue, float yValue, string dataName)
+        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName)
         {
-            var success = m_Series.AddXYData(serieName, xValue, yValue, dataName);
-            if (success)
+            var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
+            if (serieData != null)
             {
                 RefreshChart();
-                ReinitChartLabel();
+                RefreshLabel();
             }
-            return true;
+            return serieData;
         }
 
         /// <summary>
@@ -225,15 +229,15 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual bool AddData(int serieIndex, float xValue, float yValue, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, float xValue, float yValue, string dataName = null)
         {
-            var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
-            if (success)
+            var serieData = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
+            if (serieData != null)
             {
                 RefreshChart();
-                ReinitChartLabel();
+                RefreshLabel();
             }
-            return success;
+            return serieData;
         }
 
         /// <summary>
@@ -379,10 +383,16 @@ namespace XCharts
             m_RefreshChart = true;
         }
 
-        /// <summary>
-        /// 重新初始化Label。
-        /// </summary>
+        [Obsolete("rename. use RefreshLabel() instead.", true)]
         public void ReinitChartLabel()
+        {
+            RefreshLabel();
+        }
+
+        /// <summary>
+        /// 刷新文本标签Label，重新初始化，当有改动Label参数时手动调用改接口
+        /// </summary>
+        public void RefreshLabel()
         {
             m_ReinitLabel = true;
         }

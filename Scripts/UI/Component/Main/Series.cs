@@ -266,16 +266,15 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddData(string serieName, float value, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddData(string serieName, float value, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddYData(value, dataName);
-                return true;
+                return serie.AddYData(value, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -284,16 +283,15 @@ namespace XCharts
         /// <param name="index"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddData(int index, float value, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddData(int index, float value, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddYData(value, dataName);
-                return true;
+                return serie.AddYData(value, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -302,16 +300,15 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName);
-                return true;
+                return serie.AddData(multidimensionalData, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -320,16 +317,15 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName);
-                return true;
+                return serie.AddData(multidimensionalData, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -339,16 +335,15 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddXYData(string serieName, float xValue, float yValue, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName);
-                return true;
+                return serie.AddXYData(xValue, yValue, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -358,16 +353,15 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
-        /// <returns></returns>
-        public bool AddXYData(int index, float xValue, float yValue, string dataName = null)
+        /// <returns>添加成功返回SerieData，否则返回null</returns>
+        public SerieData AddXYData(int index, float xValue, float yValue, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName);
-                return true;
+                return serie.AddXYData(xValue, yValue, dataName);
             }
-            return false;
+            return null;
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace XCharts
         /// Subtitle text, supporting for \n for newlines.
         /// 副标题文本，支持使用 \n 换行。
         /// </summary>
-        public string subText { get { return m_SubText; } set { m_Text = value; } }
+        public string subText { get { return m_SubText; } set { m_SubText = value; } }
         /// <summary>
         /// [default:14]
         /// subtitle font size.

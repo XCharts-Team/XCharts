@@ -20,7 +20,7 @@ public class Demo12_CustomDrawing : MonoBehaviour
                 var pos = dataPoints[3];
                 var zeroPos = new Vector3(chart.coordinateX, chart.coordinateY);
                 var startPos = new Vector3(pos.x, zeroPos.y);
-                var endPos = new Vector3(pos.x, zeroPos.y + chart.coordinateHig);
+                var endPos = new Vector3(pos.x, zeroPos.y + chart.coordinateHeight);
                 ChartDrawer.DrawLine(vh, startPos, endPos, 1, Color.blue);
                 ChartDrawer.DrawCricle(vh,pos,5,Color.blue);
             }

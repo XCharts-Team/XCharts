@@ -16,7 +16,7 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
-            float categoryWidth = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
+            float categoryWidth = yAxis.GetDataWidth(coordinateHeight, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -46,7 +46,7 @@ namespace XCharts
                 float pY = coordinateY + +i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
                 float barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
-                    / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                    / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
                 seriesHig[i] += barHig;
 
                 float currHig = CheckAnimation(serie, i, barHig);
@@ -101,7 +101,7 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
-            float categoryWidth = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
+            float categoryWidth = xAxis.GetDataWidth(coordinateWidth, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -131,7 +131,7 @@ namespace XCharts
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
                 float barHig = (yAxis.minValue > 0 ? value - yAxis.minValue : value)
-                    / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
+                    / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
                 seriesHig[i] += barHig;
 
                 float currHig = CheckAnimation(serie, i, barHig);

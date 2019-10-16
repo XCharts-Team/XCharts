@@ -30,8 +30,8 @@ namespace XCharts
             RemoveData();
             var serie = AddSerie(SerieType.Heatmap, "serie1");
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(coordinateWid / heatmapGridWid);
-            int ySplitNumber = (int)(coordinateHig / heatmapGridWid);
+            int xSplitNumber = (int)(coordinateWidth / heatmapGridWid);
+            int ySplitNumber = (int)(coordinateHeight / heatmapGridWid);
             serie.itemStyle.show = true;
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;

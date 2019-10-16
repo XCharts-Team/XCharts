@@ -120,8 +120,8 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
-            var xWidth = coordinateWid / xCount;
-            var yWidth = coordinateHig / yCount;
+            var xWidth = coordinateWidth / xCount;
+            var yWidth = coordinateHeight / yCount;
 
             var zeroX = coordinateX;
             var zeroY = coordinateY;

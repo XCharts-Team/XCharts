@@ -14,25 +14,18 @@ namespace XCharts
 
         [SerializeField] protected List<Serie> m_Series;
 
-        /// <summary>
-        /// the list of serie
-        /// 系列列表。
-        /// </summary>
-        /// <value></value>
-        [Obsolete("Use series.list instead.", true)]
+        [Obsolete("Use Series.list instead.", true)]
         public List<Serie> series { get { return m_Series; } }
 
         /// <summary>
         /// the list of serie
         /// 系列列表。
         /// </summary>
-        /// <value></value>
         public List<Serie> list { get { return m_Series; } }
         /// <summary>
         /// the size of serie list.
         /// 系列个数。
         /// </summary>
-        /// <value></value>
         public int Count { get { return m_Series.Count; } }
 
         public static Series defaultSeries

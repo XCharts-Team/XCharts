@@ -69,7 +69,7 @@ namespace XCharts
                     m_TextFontSize = 16,
                     m_SubText = "",
                     m_SubTextFontSize = 14,
-                    m_ItemGap = 14,
+                    m_ItemGap = 8,
                     m_Location = Location.defaultTop
                 };
                 return title;

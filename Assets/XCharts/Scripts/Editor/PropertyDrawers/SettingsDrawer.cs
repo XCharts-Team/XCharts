@@ -18,6 +18,8 @@ namespace XCharts
             SerializedProperty m_LineSegmentDistance = prop.FindPropertyRelative("m_LineSegmentDistance");
             SerializedProperty m_CicleSmoothness = prop.FindPropertyRelative("m_CicleSmoothness");
             SerializedProperty m_VisualMapTriangeLen = prop.FindPropertyRelative("m_VisualMapTriangeLen");
+            SerializedProperty m_PieTooltipExtraRadius = prop.FindPropertyRelative("m_PieTooltipExtraRadius");
+            SerializedProperty m_PieSelectedOffset = prop.FindPropertyRelative("m_PieSelectedOffset");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SettingsModuleToggle, "Settings");
             EditorGUI.LabelField(drawRect, "Settings", EditorStyles.boldLabel);
@@ -35,6 +37,10 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_VisualMapTriangeLen);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PieTooltipExtraRadius);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PieSelectedOffset);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
         }
@@ -44,7 +50,7 @@ namespace XCharts
             int num = 1;
             if (m_SettingsModuleToggle)
             {
-                num = 6;
+                num = 8;
             }
             return num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
         }

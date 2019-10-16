@@ -383,7 +383,7 @@ namespace XCharts
             m_RefreshChart = true;
         }
 
-        [Obsolete("rename. use RefreshLabel() instead.", true)]
+        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
         public void ReinitChartLabel()
         {
             RefreshLabel();

@@ -84,7 +84,7 @@ namespace XCharts
             var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
-            float scaleWid = xAxis.GetDataWidth(coordinateWid, m_DataZoom);
+            float scaleWid = xAxis.GetDataWidth(coordinateWidth, m_DataZoom);
             float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
@@ -99,7 +99,7 @@ namespace XCharts
             }
             int rate = 1;
             var sampleDist = serie.sampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
             var includeLastData = false;
             var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
@@ -288,9 +288,9 @@ namespace XCharts
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = serieHig + coordinateY + xAxis.axisLine.width;
                 if ((xAxis.maxValue - xAxis.minValue) <= 0) xDataHig = 0;
-                else xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                else xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
                 if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
+                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
             else
@@ -298,7 +298,7 @@ namespace XCharts
                 float pX = startX + i * scaleWid;
                 float pY = serieHig + coordinateY + yAxis.axisLine.width;
                 if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHig;
+                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
                 np = new Vector3(pX, pY + yDataHig);
             }
             return yDataHig;
@@ -323,7 +323,7 @@ namespace XCharts
             var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
-            float scaleWid = yAxis.GetDataWidth(coordinateHig, m_DataZoom);
+            float scaleWid = yAxis.GetDataWidth(coordinateHeight, m_DataZoom);
             float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
@@ -338,7 +338,7 @@ namespace XCharts
             }
             int rate = 1;
             var sampleDist = serie.sampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWid / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
             for (i = serie.minShow; i < maxCount; i += rate)
             {
@@ -349,7 +349,7 @@ namespace XCharts
                 float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
@@ -361,7 +361,7 @@ namespace XCharts
                 float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWid;
+                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
@@ -647,7 +647,7 @@ namespace XCharts
                 else
                 {
                     var points = ((isYAxis && lp.x < zeroPos.x) || (!isYAxis && lp.y < zeroPos.y)) ? smoothPoints : smoothDownPoints;
-                    Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + coordinateHig) : new Vector3(zeroPos.x + coordinateWid, zeroPos.y);
+                    Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + coordinateHeight) : new Vector3(zeroPos.x + coordinateWidth, zeroPos.y);
                     var cross = ChartHelper.GetIntersection(points[0], points[points.Count - 1], zeroPos, aep);
                     if (cross == Vector3.zero || smoothDownPoints.Count <= 3)
                     {
@@ -666,9 +666,9 @@ namespace XCharts
                         var sp1 = smoothDownPoints[1];
                         var ep1 = smoothDownPoints[smoothDownPoints.Count - 2];
                         var axisUpStart = zeroPos + (isYAxis ? Vector3.right : Vector3.up) * axis.axisLine.width;
-                        var axisUpEnd = axisUpStart + (isYAxis ? Vector3.up * coordinateHig : Vector3.right * coordinateWid);
+                        var axisUpEnd = axisUpStart + (isYAxis ? Vector3.up * coordinateHeight : Vector3.right * coordinateWidth);
                         var axisDownStart = zeroPos - (isYAxis ? Vector3.right : Vector3.up) * axis.axisLine.width;
-                        var axisDownEnd = axisDownStart + (isYAxis ? Vector3.up * coordinateHig : Vector3.right * coordinateWid);
+                        var axisDownEnd = axisDownStart + (isYAxis ? Vector3.up * coordinateHeight : Vector3.right * coordinateWidth);
                         var luPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
                         var ldPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
                         sp1 = smoothPoints[1];

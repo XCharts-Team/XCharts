@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -20,16 +21,23 @@ namespace XCharts
         /// 坐标系的左下角坐标Y。
         /// </summary>
         public float coordinateY { get { return m_Grid.bottom; } }
+
+        [Obsolete("Use CoordinateChart.coordinateWidth instead.", true)]
+        public float coordinateWid { get { return coordinateWidth; } }
+
+        [Obsolete("Use CoordinateChart.coordinateHeight instead.", true)]
+        public float coordinateHig { get { return coordinateHeight; } }
+
         /// <summary>
         /// the width of coordinate system。
         /// 坐标系的宽。
         /// </summary>
-        public float coordinateWid { get { return chartWidth - m_Grid.left - m_Grid.right; } }
+        public float coordinateWidth { get { return chartWidth - m_Grid.left - m_Grid.right; } }
         /// <summary>
         /// the height of coordinate system。
         /// 坐标系的高。
         /// </summary>
-        public float coordinateHig { get { return chartHeight - m_Grid.top - m_Grid.bottom; } }
+        public float coordinateHeight { get { return chartHeight - m_Grid.top - m_Grid.bottom; } }
         /// <summary>
         /// grid component.
         /// 网格组件。
@@ -162,8 +170,8 @@ namespace XCharts
 
         public bool IsInCooridate(Vector2 local)
         {
-            if (local.x < coordinateX - 1 || local.x > coordinateX + coordinateWid + 1 ||
-                local.y < coordinateY - 1 || local.y > coordinateY + coordinateHig + 1)
+            if (local.x < coordinateX - 1 || local.x > coordinateX + coordinateWidth + 1 ||
+                local.y < coordinateY - 1 || local.y > coordinateY + coordinateHeight + 1)
             {
                 return false;
             }

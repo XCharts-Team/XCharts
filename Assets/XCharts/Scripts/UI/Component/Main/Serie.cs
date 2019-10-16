@@ -609,6 +609,7 @@ namespace XCharts
             }
             int xValue = m_Data.Count;
             var serieData = new SerieData() { data = new List<float>() { xValue, value }, name = dataName };
+            serieData.index = xValue;
             m_Data.Add(serieData);
             return serieData;
         }
@@ -631,6 +632,7 @@ namespace XCharts
                 }
             }
             var serieData = new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName };
+            serieData.index = m_Data.Count;
             m_Data.Add(serieData);
             return serieData;
         }
@@ -665,6 +667,7 @@ namespace XCharts
                 }
                 var serieData = new SerieData();
                 serieData.name = dataName;
+                serieData.index = m_Data.Count;
                 for (int i = 0; i < valueList.Count; i++)
                 {
                     serieData.data.Add(valueList[i]);

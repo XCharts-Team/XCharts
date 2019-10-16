@@ -80,8 +80,9 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
+                    serieData.index = n;
                     float value = serieData.data[1];
-                    serieNameCount = m_LegendRealShowName.IndexOf(serieData.name);
+                    serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
                     serieData.pieStartAngle = startDegree;
                     serieData.pieToAngle = startDegree;

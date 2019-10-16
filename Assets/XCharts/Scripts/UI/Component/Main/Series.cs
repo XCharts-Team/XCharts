@@ -872,7 +872,7 @@ namespace XCharts
             int numName = -1;
             if (int.TryParse(name, out numName))
             {
-                if (numName >= 0 && numName < list.Count) return false;
+                if (numName >= 0 && numName < 100) return false;
             }
             return true;
         }

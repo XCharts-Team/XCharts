@@ -193,20 +193,10 @@ namespace XCharts
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Dash:
-                        ChartDrawer.DrawDashLine(vh, lp, np, serie.lineStyle.width, lineColor);
-                        isFinish = true;
-                        break;
                     case LineType.Dot:
-                        ChartDrawer.DrawDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
-                        isFinish = true;
-                        break;
                     case LineType.DashDot:
-                        ChartDrawer.DrawDashDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
-                        isFinish = true;
-                        break;
                     case LineType.DashDotDot:
-                        ChartDrawer.DrawDashDotDotLine(vh, lp, np, serie.lineStyle.width, lineColor);
-                        isFinish = true;
+                        DrawOtherLine(vh, serie, xAxis, lp, np, i, lineColor, areaColor, areaToColor, zeroPos);
                         break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);
@@ -827,6 +817,45 @@ namespace XCharts
                     ChartDrawer.DrawPolygon(vh, sp + areaDiff, ep + areaDiff, new Vector3(ep.x, zeroPos.y + diff), new Vector3(sp.x, zeroPos.y + diff), areaColor, areaToColor);
                 }
             }
+        }
+
+        private List<Vector3> posList = new List<Vector3>();
+        private bool DrawOtherLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp,
+            Vector3 np, int dataIndex, Color lineColor, Color areaColor,
+            Color areaToColor, Vector3 zeroPos)
+        {
+            bool isYAxis = axis is YAxis;
+            var lineWidth = serie.lineStyle.width;
+            posList.Clear();
+            switch (serie.lineType)
+            {
+                case LineType.Dash:
+                    ChartDrawer.DrawDashLine(vh, lp, np, lineWidth, lineColor, 15, 7, posList);
+                    break;
+                case LineType.Dot:
+                    ChartDrawer.DrawDotLine(vh, lp, np, lineWidth, lineColor, 5, 5, posList);
+                    break;
+                case LineType.DashDot:
+                    ChartDrawer.DrawDashDotLine(vh, lp, np, lineWidth, lineColor, 15, 15, posList);
+                    break;
+                case LineType.DashDotDot:
+                    ChartDrawer.DrawDashDotDotLine(vh, lp, np, lineWidth, lineColor, 15, 20, posList);
+                    break;
+            }
+            if (serie.areaStyle.show && !isYAxis && posList.Count > 0)
+            {
+                lp = posList[0];
+                var value = serie.GetSerieData(dataIndex).data[1];
+                for (int i = 0; i < posList.Count; i++)
+                {
+                    np = posList[i];
+                    var start = new Vector3(lp.x, value > 0 ? (lp.y - lineWidth) : (lp.y + lineWidth));
+                    var end = new Vector3(np.x, value > 0 ? (np.y - lineWidth) : (np.y + lineWidth));
+                    DrawPolygonToZero(vh, start, end, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                    lp = np;
+                }
+            }
+            return true;
         }
 
         private List<Vector3> bezierPoints = new List<Vector3>();

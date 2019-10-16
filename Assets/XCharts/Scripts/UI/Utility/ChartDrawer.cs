@@ -42,83 +42,100 @@ namespace XCharts
         }
 
         public static void DrawDashLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
-            float dashLen = 15f, float blankLen = 7f)
+         float dashLen = 15f, float blankLen = 7f, List<Vector3> posList = null)
         {
             float dist = Vector3.Distance(p1, p2);
             if (dist < 0.1f) return;
             int segment = Mathf.CeilToInt(dist / (dashLen + blankLen));
             Vector3 dir = (p2 - p1).normalized;
             Vector3 sp = p1, np;
+            if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
+                if (posList != null) posList.Add(sp);
                 np = p1 + dir * dist * i / segment;
                 var dashep = np - dir * blankLen;
                 DrawLine(vh, sp, dashep, size, color);
                 sp = np;
             }
+            if (posList != null) posList.Add(p2);
             DrawLine(vh, sp, p2, size, color);
         }
         public static void DrawDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
-            float dotLen = 5f, float blankLen = 5f)
+            float dotLen = 5f, float blankLen = 5f, List<Vector3> posList = null)
         {
             float dist = Vector3.Distance(p1, p2);
             if (dist < 0.1f) return;
             int segment = Mathf.CeilToInt(dist / (dotLen + blankLen));
             Vector3 dir = (p2 - p1).normalized;
             Vector3 sp = p1, np;
+            if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
+                if (posList != null) posList.Add(sp);
                 np = p1 + dir * dist * i / segment;
                 var dashep = np - dir * blankLen;
                 DrawLine(vh, sp, dashep, size, color);
                 sp = np;
             }
+            if (posList != null) posList.Add(p2);
             DrawLine(vh, sp, p2, size, color);
         }
 
         public static void DrawDashDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
-            float dashLen = 15f, float blankDotLen = 15f)
+            float dashLen = 15f, float blankDotLen = 15f, List<Vector3> posList = null)
         {
             float dist = Vector3.Distance(p1, p2);
             if (dist < 0.1f) return;
             int segment = Mathf.CeilToInt(dist / (dashLen + blankDotLen));
             Vector3 dir = (p2 - p1).normalized;
             Vector3 sp = p1, np;
+            if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
+                if (posList != null) posList.Add(sp);
                 np = p1 + dir * dist * i / segment;
                 var dashep = np - dir * blankDotLen;
                 DrawLine(vh, sp, dashep, size, color);
+                if (posList != null) posList.Add(dashep);
                 var dotsp = dashep + (blankDotLen - 2 * size) / 2 * dir;
                 var dotep = dotsp + 2 * size * dir;
                 DrawLine(vh, dotsp, dotep, size, color);
+                if (posList != null) posList.Add(dotsp);
                 sp = np;
             }
+            if (posList != null) posList.Add(p2);
             DrawLine(vh, sp, p2, size, color);
         }
 
         public static void DrawDashDotDotLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,
-            Color32 color, float dashLen = 15f, float blankDotLen = 20f)
+            Color32 color, float dashLen = 15f, float blankDotLen = 20f, List<Vector3> posList = null)
         {
             float dist = Vector3.Distance(p1, p2);
             if (dist < 0.1f) return;
             int segment = Mathf.CeilToInt(dist / (dashLen + blankDotLen));
             Vector3 dir = (p2 - p1).normalized;
             Vector3 sp = p1, np;
+            if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
+                if (posList != null) posList.Add(sp);
                 np = p1 + dir * dist * i / segment;
                 var dashep = np - dir * blankDotLen;
                 DrawLine(vh, sp, dashep, size, color);
+                if (posList != null) posList.Add(dashep);
                 var dotsp = dashep + (blankDotLen / 2 - 2 * size) / 2 * dir;
                 var dotep = dotsp + 2 * size * dir;
                 DrawLine(vh, dotsp, dotep, size, color);
+                if (posList != null) posList.Add(dotep);
                 var dotsp2 = dashep + blankDotLen / 2 * dir;
                 dotsp2 = dotsp2 + (blankDotLen / 4 - 2 * size) / 2 * dir;
                 var dotep2 = dotsp2 + 2 * size * dir;
                 DrawLine(vh, dotsp2, dotep2, size, color);
+                if (posList != null) posList.Add(dotep2);
                 sp = np;
             }
+            if (posList != null) posList.Add(p2);
             DrawLine(vh, sp, p2, size, color);
         }
 

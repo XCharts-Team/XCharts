@@ -12,7 +12,6 @@
 * `BaseChart.series`：系列列表`Series`。
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
-* `BaseChart.lineSmoothStyle`：平滑折线图的平滑系数。
 * `BaseChart.customDrawCallback`：自定义绘制回调函数。
 * `BaseChart.SetSize(float width, float height)`：设置图表的大小。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
@@ -35,18 +34,23 @@
 * `BaseChart.IsActive(int serieIndex)`：获取指定系列是否显示。
 * `BaseChart.IsActiveByLegend(string legendName)`：获得指定图例名字的系列是否显示。
 * `BaseChart.RefreshChart()`：在下一帧刷新图表。
-* `BaseChart.ReinitChartLabel()`：重新初始化`SerieLabel`。
+* `BaseChart.RefreshLabel()`：在下一帧刷新文本标签。
 * `BaseChart.UpdateTheme(Theme theme)`：切换图表主题。
 * `BaseChart.AnimationEnable(bool flag)`：启用或关闭起始动画。
 * `BaseChart.AnimationStart()`：开始初始动画。
 * `BaseChart.AnimationStop()`：停止初始化动画。
 * `BaseChart.AnimationReset()`：重置初始动画，重新播放。
+* `BaseChart.ClickLegendButton(int legendIndex, string legendName, bool show)`：点击图例按钮。
 
 ## `CoordinateChart`
 
 * `CoordinateChart.grid`：网格组件 `Grid`。
 * `CoordinateChart.xAxises`：左右两个 `X` 轴组件 `XAxis`。
 * `CoordinateChart.yAxises`：左右两个 `Y` 轴组件 `YAxis`。
+* `CoordianteChart.xAxis0`：X轴（下）。
+* `CoordianteChart.xAxis1`：X轴（上）。
+* `CoordianteChart.xAxis0`：Y轴（左）。
+* `CoordianteChart.yAxis1`：Y轴（右）。
 * `CoordinateChart.dataZoom`：区域缩放组件 `DataZoom`。
 * `CoordinateChart.coordinateX`：坐标系的左下角坐标 `X`。
 * `CoordinateChart.coordinateY`：坐标系的左下角坐标 `Y`。
@@ -56,6 +60,8 @@
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
+* `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。
+
 
 ## `LineChart`
 

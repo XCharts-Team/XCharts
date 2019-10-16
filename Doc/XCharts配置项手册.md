@@ -4,16 +4,36 @@
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)
 
-* [Theme](#Theme)  
-* [Title](#Title)  
-* [Legend](#Legend)  
-* [Tooltip](#Tooltip)  
-* [DataZoom](#DataZoom)  
-* [VisualMap](#VisualMap)  
-* [Grid](#Grid)  
-* [XAxis](#XAxis)  
-* [Series](#Series)  
-* [Settings](#Settings)
+主组件：
+
+* [Axis 坐标轴](#XAxis)  
+* [DataZoom 区域缩放](#DataZoom)  
+* [Grid 网格](#Grid)  
+* [Legend 图例](#Legend)  
+* [Series 系列](#Series)  
+* [Settings 设置](#Settings)
+* [Theme 主题](#Theme)  
+* [Tooltip 提示框](#Tooltip)  
+* [Title 标题](#Title)  
+* [VisualMap 视觉映射](#VisualMap)  
+
+子组件：
+
+* [Animation 动画](#Animation)  
+* [AreaStyle 区域填充样式](#AreaStyle)  
+* [AxisLabel 坐标轴刻度标签](#AxisLabel)  
+* [AxisLine 坐标轴轴线](#AxisLine)  
+* [AxisName 坐标轴名称](#AxisName)  
+* [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
+* [AxisTick 坐标轴刻度](#AxisTick)  
+* [Emphasis 高亮样式](#Emphasis)  
+* [ItemStyle 图形样式](#ItemStyle)  
+* [LineArrow 折线图箭头](#LineArrow)  
+* [LineStyle 折线图样式](#LineStyle)  
+* [Location 位置](#Location)  
+* [SerieData 数据项](#SerieData)  
+* [SerieLabel 图形上的文本标签](#SerieLabel)  
+* [SerieSymbol 图形标记](#SerieSymbol)  
 
 ## `Theme`
 
@@ -61,21 +81,7 @@
 * `subText`：副标题文本，支持使用 `\n` 换行。
 * `subTextFontSize`：副标题文字的字体大小。
 * `itemGap`：主副标题之间的间距。
-* `location`：标题显示位置 `Location` 。 `Location` 的参数如下：
-  * `align`：对齐方式。有以下对齐方式。
-    * `TopLeft`：左上角对齐。
-    * `TopRight`：右上角对齐。
-    * `TopCenter`：置顶居中对齐。
-    * `BottomLeft`：左下对齐。
-    * `BottomRight`：右下对齐。
-    * `BottomCenter`：底部居中对齐。
-    * `Center`：居中对齐。
-    * `CenterLeft`：中部靠左对齐。
-    * `CenterRight`：中部靠右对齐。
-  * `left`：离容器左侧的距离。
-  * `right`：离容器右侧的距离。
-  * `top`：离容器上侧的距离。
-  * `bottom`：离容器下侧的距离。
+* `location`：标题显示位置 [Location](#Location)。
 
 ## `Legend`
 
@@ -92,21 +98,7 @@
 * `orient`：布局方式是横还是竖。
   * `Horizonal`：水平。
   * `Vertical`：垂直。
-* `location`：图例的显示位置 `Location` 。 `Location` 的参数如下：
-  * `align`：对齐方式。有以下对齐方式。
-    * `TopLeft`：左上角对齐。
-    * `TopRight`：右上角对齐。
-    * `TopCenter`：置顶居中对齐。
-    * `BottomLeft`：左下对齐。
-    * `BottomRight`：右下对齐。
-    * `BottomCenter`：底部居中对齐。
-    * `Center`：居中对齐。
-    * `CenterLeft`：中部靠左对齐。
-    * `CenterRight`：中部靠右对齐。
-  * `left`：离容器左侧的距离。
-  * `right`：离容器右侧的距离。
-  * `top`：离容器上侧的距离。
-  * `bottom`：离容器下侧的距离。
+* `location`：图例的显示位置 [Location](#Location)。
 * `itemWidth`：每个图例项的宽度。
 * `itemHeight`：每个图例项的高度。
 * `itemGap`：图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
@@ -258,6 +250,11 @@
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
 * `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
+* `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
+* `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
+* `axisTick`：坐标轴刻度相关配置 [AxisTick](#AxisTick)。
+* `axisLabel`：坐标轴刻度标签 [AxisLabel](#AxisLabel)。
+* `splitArea`：坐标轴轴线坐标轴分割区域 [SplitArea](#SplitArea)。
 
 相关接口：
 
@@ -295,6 +292,11 @@
   * `DashDotDot`：双点划线。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `false`。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
+* `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
+* `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
+* `axisTick`：坐标轴刻度相关配置 [AxisTick](#AxisTick)。
+* `axisLabel`：坐标轴刻度标签 [AxisLabel](#AxisLabel)。
+* `splitArea`：坐标轴轴线坐标轴分割区域 [SplitArea](#SplitArea)。
 
 相关接口：
 
@@ -334,42 +336,8 @@
   * `Min`：取过滤点的最小值。
   * `Sum`：取过滤点之和。
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
-* `areaStyle`：区域填充样式 `AreaStyle`。`AreaStyle`参数如下:
-  * `show`：是否显示区域填充。
-  * `origin`：区域填充的起始位置 `AreaOrigin`。有以下三种填充方式：
-    * `Auto`：填充坐标轴轴线到数据间的区域。
-    * `Start`：填充坐标轴底部到数据间的区域。
-    * `End`：填充坐标轴顶部到数据间的区域。
-  * `color`：区域填充的颜色，默认取 `serie` 对应的颜色。如果 `toColor` 不是默认值，则表示渐变色的起点颜色。
-  * `toColor`：区域填充的渐变色的终点颜色。
-  * `highlightColor`：高亮时区域填充的颜色，默认取 `serie` 对应的颜色。如果 `highlightToColor` 不是默认值，则表示渐变色的起点颜色。
-  * `highlightToColor`：高亮时区域填充的渐变色的终点颜色。
-  * `opacity`：图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
-  * `tooltipHighlight`：鼠标悬浮时是否高亮之前的区域。
-* `symbol`：标记的图形 `SerieSymbol`：
-  * `type`：标记类型。支持以下六种类型：
-    * `EmptyCircle`：空心圆。
-    * `Circle`：实心圆。
-    * `Rect`：正方形。
-    * `Triangle`：三角形。
-    * `Diamond`：菱形。
-    * `None`：不显示标记。
-  * `sizeType`：标记图形的大小获取方式。支持以下三种类型：
-    * `Custom`：自定义大小。
-    * `FromData`：通过 `dataIndex` 从数据中获取，再乘以一个比例系数 `dataScale` 。
-    * `Callback`：通过回调函数 `sizeCallback` 获取。
-  * `size`：标记的大小。
-  * `selectedSize`：被选中的标记的大小。
-  * `dataIndex`：当 `sizeType` 指定为 `FromData` 时，指定的数据源索引。
-  * `dataScale`：当 `sizeType` 指定为 `FromData` 时，指定的倍数系数。
-  * `selectedDataScale`：当 `sizeType` 指定为 `FromData` 时，指定的高亮倍数系数。
-  * `sizeCallback`：当 `sizeType` 指定为 `Callback` 时，指定的回调函数。
-  * `selectedSizeCallback`：当 `sizeType` 指定为 `Callback` 时，指定的高亮回调函数。
-  * `color`：标记图形的颜色，默认和系列一致。
-  * `opacity`：图形标记的透明度。
-  * `startIndex`：开始显示图形标记的索引。
-  * `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
-  * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
+* `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
+* `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
   * `Normal`：普通折线图。
   * `Smooth`：平滑曲线。
@@ -381,18 +349,7 @@
   * `Dot`：点线。
   * `DashDot`：点划线。
   * `DashDotDot`：双点划线。
-* `lineStyle`：线条样式`LineStyle`。`LineStyle`参数如下：
-  * `show`：是否显示线条。在折线图中无效。
-  * `type`：线条类型。支持以下五种类型：
-    * `None`：不显示分割线。
-    * `Solid`：实线。
-    * `Dashed`：虚线。
-    * `Dotted`：点线。
-    * `DashDot`：点划线。
-    * `DashDotDot`：双点划线。
-  * `color`：线条颜色。默认和 `serie` 一致。
-  * `width`：线条宽。
-  * `opacity`：线条的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 * `barWidth`：柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
 * `barGap`：不同系列的柱间距离。为百分比（如 `'0.3f'`，表示柱子宽度的 `30%`）。如果想要两个系列的柱子重叠，可以设置 `barGap` 为 `'-1f'`。这在用柱子做背景的时候有用。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
 * `barCategoryGap`：同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
@@ -401,68 +358,15 @@
 * `pieSpace`：饼图项间的空隙留白。
 * `pieCenter`：饼图的中心点。
 * `pieRadius`：饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
-* `label`：图形上的文本标签 `SerieLabel`，可用于说明图形的一些数据信息，比如值，名称等。`SerieLabel` 的参数如下：
-  * `show`：是否显示文本标签。
-  * `position`：标签的位置。折线图时强制默认为 `Center`，支持以下 `5` 种位置：
-    * `Outside`：饼图扇区外侧，通过视觉引导线连到相应的扇区。只在饼图种可用。
-    * `Inside`：饼图扇区内部。只在饼图可用。
-    * `Center`：在中心位置（折线图，柱状图，饼图）。
-    * `Top`：顶部（柱状图）。
-    * `Bottom`：底部（柱状图）。
-  * `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c}`。
-  * `offset`：距离图形元素的偏移。
-  * `color`：自定义文字颜色，默认和系列的颜色一致。
-  * `backgroundColor`：标签的背景色，默认无颜色。
-  * `backgroundWidth`：标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
-  * `backgroundHeight`：标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
-  * `rotate`：标签的旋转。
-  * `paddingLeftRight`：标签文字和边框的左右边距。
-  * `paddingTopBottom`：标签文字和边框的上下边距。
-  * `fontSize`：标签文字的字体大小。
-  * `fontStyle`：标签文字的字体风格。
-  * `line`：是否显示视觉引导线。在 `label` 位置 设置为 `'Outside'` 的时候会显示视觉引导线。
-  * `lineType`：视觉引导线类型。支持以下几种类型：
-    * `BrokenLine`：折线。
-    * `Curves`：曲线。
-    * `HorizontalLine`：水平线。
-  * `lineColor`：视觉引导线自定义颜色。
-  * `lineWidth`：视觉引导线的宽度。
-  * `lineLength1`：视觉引导线第一段的长度。
-  * `lineLength2`：视觉引导线第二段的长度。
-  * `border`：是否显示边框。
-  * `borderWidth`：边框宽度。
-  * `borderColor`：边框颜色。
-* `highlightLabel`：高亮时的文本标签配置 `SerieLabel`。参数同上。
-* `animation`：起始动画 `Animation`。`Animation`的参数如下：
-  * `enable`：是否开起始画效果。
-  * `easing`：动画的缓动效果。支持以下动画效果：
-    * `Linear`：线性效果。
-  * `duration`：设定的动画时长，单位毫秒。
-  * `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
-  * `delay`：动画延时，单位毫秒。
-* `lineArrow`：折线图的箭头 `LineArrow`。`LineArrow`的参数如下：
-  * `show`：是否显示箭头。
-  * `position`：箭头显示位置。支持以下两种位置：
-    * `End`：末端显示。最后一个数据上显示箭头。
-    * `Start`：起始端显示。第一个数据上显示箭头。
-  * `width`：箭头宽。
-  * `height`：箭头长。
-  * `offset`：箭头偏移。默认箭头的中心点和数据坐标点一致，可通过 `offset` 调整偏移。
-  * `dent`：箭头的凹度。
-* `data`：系列中的数据项 `SerieData` 数组。`SerieData` 可以设置`1`到`n`维数据。`SerieData`的相关参数如下：
-  * `name`：数据项名称。
-  * `selected`：该数据项是否被选中。
-  * `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
-  * `showIcon`：是否显示图标。
-  * `iconImage`：图标的图片。
-  * `iconColor`：图标颜色。
-  * `iconWidth`：图标宽。
-  * `iconHeight`：图标高。
-  * `iconOffset`：图标偏移。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [Animation](#Animation)。
+* `lineArrow`：折线图的箭头 [LineArrow](#LineArrow)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
 相关接口：
 
-## Settings
+## `Settings`
 
 ---
 
@@ -472,6 +376,236 @@
 * `lineSmoothness`：曲线平滑度。值越小曲线越平滑，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
 * `lineSegmentDistance`： 线段的分割距离。普通折线图的线是由很多线段组成，段数由该数值决定。值越小段数越多，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
 * `cicleSmoothness`：圆形（包括扇形、环形等）的平滑度。数越小圆越平滑，但顶点数也会随之增加。
+
+## `Animation`
+
+---
+
+* `enable`：是否开起始画效果。
+* `easing`：动画的缓动效果。支持以下动画效果：
+  * `Linear`：线性效果。
+* `duration`：设定的动画时长，单位毫秒。
+* `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
+* `delay`：动画延时，单位毫秒。
+
+## `AreaStyle`
+
+---
+
+* `show`：是否显示区域填充。
+* `origin`：区域填充的起始位置 `AreaOrigin`。有以下三种填充方式：
+  * `Auto`：填充坐标轴轴线到数据间的区域。
+  * `Start`：填充坐标轴底部到数据间的区域。
+  * `End`：填充坐标轴顶部到数据间的区域。
+* `color`：区域填充的颜色，默认取 `serie` 对应的颜色。如果 `toColor` 不是默认值，则表示渐变色的起点颜色。
+* `toColor`：区域填充的渐变色的终点颜色。
+* `highlightColor`：高亮时区域填充的颜色，默认取 `serie` 对应的颜色。如果 `highlightToColor` 不是默认值，则表示渐变色的起点颜色。
+* `highlightToColor`：高亮时区域填充的渐变色的终点颜色。
+* `opacity`：图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `tooltipHighlight`：鼠标悬浮时是否高亮之前的区域。
+
+## `AxisLabel`
+
+---
+
+* `show`：是否显示刻度标签。
+* `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `inside`：刻度标签是否朝内，默认朝外。
+* `rotate`：刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
+* `margin`：刻度标签与轴线之间的距离。
+* `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
+* `fontSize`：文字的字体大小。
+* `fontStyle`：文字字体的风格。
+* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+
+## `AxisLine`
+
+---
+
+* `show`：是否显示坐标轴轴线。
+* `onZero`：X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
+* `width`：坐标轴线线宽。
+* `symbol`：是否显示箭头。
+* `symbolWidth`：箭头宽。
+* `symbolHeight`：箭头高。
+* `symbolOffset`：箭头偏移。
+* `symbolDent`：箭头的凹陷程度。
+
+## `AxisName`
+
+---
+
+* `show`：是否显示坐标名称。
+* `name`：坐标轴名称。
+* `location`：坐标轴名称的位置。支持以下类型：
+  * `Start`：坐标轴起始处。
+  * `Middle`：坐标轴中间。
+  * `End`：坐标轴末端。
+* `offset`：坐标轴名称与轴线之间的偏移。
+* `rotate`：坐标轴名字旋转，角度值。
+* `color`：坐标轴名称的文字颜色。
+* `fontSize`：坐标轴名称的文字大小。
+* `fontStyle`：坐标轴名称的文字风格。
+
+## `AxisSplitArea`
+
+---
+
+* `show`：是否显示坐标分割区域。
+* `color`：分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
+
+## `AxisTick`
+
+---
+
+* `show`：是否显示坐标轴刻度。
+* `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
+* `inside`：坐标轴刻度是否朝内，默认朝外。
+* `length`：坐标轴刻度的长度。
+
+## `Emphasis`
+
+---
+
+* `show`：是否启用高亮样式。
+* `label`：图形文本标签样式 [SerieLabel](#SerieLabel)。
+* `itemStyle`：图形样式 [ItemStyle](#ItemStyle)。
+
+## `ItemStyle`
+
+---
+
+* `show`：是否启用。
+* `color`：颜色。
+* `borderType`：边框的类型。
+* `borderColor`：边框的颜色。
+* `borderWidth`：边框宽。
+* `borderWidth`：opacity。
+
+## `LineArrow`
+
+---
+
+* `show`：是否显示箭头。
+* `position`：箭头显示位置。支持以下两种位置：
+  * `End`：末端显示。最后一个数据上显示箭头。
+  * `Start`：起始端显示。第一个数据上显示箭头。
+* `width`：箭头宽。
+* `height`：箭头长。
+* `offset`：箭头偏移。默认箭头的中心点和数据坐标点一致，可通过 `offset` 调整偏移。
+* `dent`：箭头的凹度。
+
+## `LineStyle`
+
+---
+
+* `show`：是否显示线条。在折线图中无效。
+* `type`：线条类型。支持以下五种类型：
+  * `None`：不显示分割线。
+  * `Solid`：实线。
+  * `Dashed`：虚线。
+  * `Dotted`：点线。
+  * `DashDot`：点划线。
+  * `DashDotDot`：双点划线。
+* `color`：线条颜色。默认和 `serie` 一致。
+* `width`：线条宽。
+* `opacity`：线条的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+
+## `Location`
+
+---
+
+* `align`：对齐方式。有以下对齐方式。
+  * `TopLeft`：左上角对齐。
+  * `TopRight`：右上角对齐。
+  * `TopCenter`：置顶居中对齐。
+  * `BottomLeft`：左下对齐。
+  * `BottomRight`：右下对齐。
+  * `BottomCenter`：底部居中对齐。
+  * `Center`：居中对齐。
+  * `CenterLeft`：中部靠左对齐。
+  * `CenterRight`：中部靠右对齐。
+* `left`：离容器左侧的距离。
+* `right`：离容器右侧的距离。
+* `top`：离容器上侧的距离。
+* `bottom`：离容器下侧的距离。
+
+## `SerieData`
+
+---
+
+* `name`：数据项名称。
+* `selected`：该数据项是否被选中。
+* `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
+* `showIcon`：是否显示图标。
+* `iconImage`：图标的图片。
+* `iconColor`：图标颜色。
+* `iconWidth`：图标宽。
+* `iconHeight`：图标高。
+* `iconOffset`：图标偏移。
+
+## `SerieLabel`
+
+---
+
+* `show`：是否显示文本标签。
+* `position`：标签的位置。折线图时强制默认为 `Center`，支持以下 `5` 种位置：
+  * `Outside`：饼图扇区外侧，通过视觉引导线连到相应的扇区。只在饼图种可用。
+  * `Inside`：饼图扇区内部。只在饼图可用。
+  * `Center`：在中心位置（折线图，柱状图，饼图）。
+  * `Top`：顶部（柱状图）。
+  * `Bottom`：底部（柱状图）。
+* `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c}`。
+* `offset`：距离图形元素的偏移。
+* `color`：自定义文字颜色，默认和系列的颜色一致。
+* `backgroundColor`：标签的背景色，默认无颜色。
+* `backgroundWidth`：标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
+* `backgroundHeight`：标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
+* `rotate`：标签的旋转。
+* `paddingLeftRight`：标签文字和边框的左右边距。
+* `paddingTopBottom`：标签文字和边框的上下边距。
+* `fontSize`：标签文字的字体大小。
+* `fontStyle`：标签文字的字体风格。
+* `line`：是否显示视觉引导线。在 `label` 位置 设置为 `'Outside'` 的时候会显示视觉引导线。
+* `lineType`：视觉引导线类型。支持以下几种类型：
+  * `BrokenLine`：折线。
+  * `Curves`：曲线。
+  * `HorizontalLine`：水平线。
+* `lineColor`：视觉引导线自定义颜色。
+* `lineWidth`：视觉引导线的宽度。
+* `lineLength1`：视觉引导线第一段的长度。
+* `lineLength2`：视觉引导线第二段的长度。
+* `border`：是否显示边框。
+* `borderWidth`：边框宽度。
+* `borderColor`：边框颜色。
+
+## `SerieSymbol`
+
+---
+
+* `type`：标记类型。支持以下六种类型：
+  * `EmptyCircle`：空心圆。
+  * `Circle`：实心圆。
+  * `Rect`：正方形。
+  * `Triangle`：三角形。
+  * `Diamond`：菱形。
+  * `None`：不显示标记。
+* `sizeType`：标记图形的大小获取方式。支持以下三种类型：
+  * `Custom`：自定义大小。
+  * `FromData`：通过 `dataIndex` 从数据中获取，再乘以一个比例系数 `dataScale` 。
+  * `Callback`：通过回调函数 `sizeCallback` 获取。
+* `size`：标记的大小。
+* `selectedSize`：被选中的标记的大小。
+* `dataIndex`：当 `sizeType` 指定为 `FromData` 时，指定的数据源索引。
+* `dataScale`：当 `sizeType` 指定为 `FromData` 时，指定的倍数系数。
+* `selectedDataScale`：当 `sizeType` 指定为 `FromData` 时，指定的高亮倍数系数。
+* `sizeCallback`：当 `sizeType` 指定为 `Callback` 时，指定的回调函数。
+* `selectedSizeCallback`：当 `sizeType` 指定为 `Callback` 时，指定的高亮回调函数。
+* `color`：标记图形的颜色，默认和系列一致。
+* `opacity`：图形标记的透明度。
+* `startIndex`：开始显示图形标记的索引。
+* `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

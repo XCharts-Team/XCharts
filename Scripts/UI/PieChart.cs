@@ -12,13 +12,9 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class PieChart : BaseChart
     {
-        [SerializeField] private Pie m_Pie = Pie.defaultPie;
-
         private bool isDrawPie;
         private bool m_IsEnterLegendButtom;
         private bool m_RefreshLabel;
-
-        public Pie pie { get { return m_Pie; } }
 
         protected override void Awake()
         {
@@ -30,7 +26,6 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Pie = Pie.defaultPie;
             m_Title.text = "PieChart";
             RemoveData();
             AddSerie(SerieType.Pie, "serie1");
@@ -103,12 +98,12 @@ namespace XCharts
                     {
                         isDataHighlight = true;
                         color *= 1.2f;
-                        serieData.pieOutsideRadius += m_Pie.tooltipExtraRadius;
+                        serieData.pieOutsideRadius += m_Settings.pieTooltipExtraRadius;
                     }
                     var offset = serie.pieSpace;
                     if (serie.pieClickOffset && serieData.selected)
                     {
-                        offset += m_Pie.selectedOffset;
+                        offset += m_Settings.pieSelectedOffset;
                     }
                     var halfDegree = (serieData.pieToAngle - startDegree) / 2;
                     serieData.pieHalfAngle = startDegree + halfDegree;
@@ -132,9 +127,9 @@ namespace XCharts
                         serieData.pieOutsideRadius -= serieData.pieOffsetRadius;
                         if (serie.pieClickOffset && serieData.selected)
                         {
-                            serieData.pieOffsetRadius += m_Pie.selectedOffset;
-                            if (serieData.pieInsideRadius > 0) serieData.pieInsideRadius += m_Pie.selectedOffset;
-                            serieData.pieOutsideRadius += m_Pie.selectedOffset;
+                            serieData.pieOffsetRadius += m_Settings.pieSelectedOffset;
+                            if (serieData.pieInsideRadius > 0) serieData.pieInsideRadius += m_Settings.pieSelectedOffset;
+                            serieData.pieOutsideRadius += m_Settings.pieSelectedOffset;
                         }
 
                         serieData.pieOffsetCenter = new Vector3(center.x + serieData.pieOffsetRadius * currSin,

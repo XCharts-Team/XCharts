@@ -15,6 +15,8 @@ namespace XCharts
         [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
         [SerializeField] [Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
+        [SerializeField] [Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
+        [SerializeField] [Range(1, 20)] protected float m_PieSelectedOffset = 8f;
 
         /// <summary>
         /// Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, 
@@ -47,6 +49,14 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public float visualMapTriangeLen { get { return m_VisualMapTriangeLen; } set { m_VisualMapTriangeLen = value <= 0 ? 1f : value; } }
+        /// <summary>
+        /// 饼图鼠标移到高亮时的额外半径
+        /// </summary>
+        public float pieTooltipExtraRadius { get { return m_PieTooltipExtraRadius; } set { m_PieTooltipExtraRadius = value <= 0 ? 0 : value; } }
+        /// <summary>
+        /// 饼图选中时的中心点偏移
+        /// </summary>
+        public float pieSelectedOffset { get { return m_PieSelectedOffset; } set { m_PieSelectedOffset = value <= 0 ? 0 : value; } }
 
     }
 }

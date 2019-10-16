@@ -55,6 +55,22 @@ namespace XCharts
         /// 视觉映射组件。
         /// </summary>
         public VisualMap visualMap { get { return m_VisualMap; } }
+        /// <summary>
+        /// X轴（下）
+        /// </summary>
+        public XAxis xAxis0 { get { return m_XAxises[0]; } }
+        /// <summary>
+        /// X轴（上）
+        /// </summary>
+        public XAxis xAxis1 { get { return m_XAxises[1]; } }
+        /// <summary>
+        /// Y轴（左）
+        /// </summary>
+        public YAxis yAxis0 { get { return m_YAxises[0]; } }
+        /// <summary>
+        /// Y轴（右）
+        /// </summary>
+        public YAxis yAxis1 { get { return m_YAxises[1]; } }
 
 
         /// <summary>
@@ -152,6 +168,14 @@ namespace XCharts
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// 在下一帧刷新DataZoom
+        /// </summary>
+        public void RefreshDataZoom()
+        {
+            RefreshDataZoomLabel();
         }
     }
 }

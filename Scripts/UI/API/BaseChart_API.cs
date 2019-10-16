@@ -448,5 +448,17 @@ namespace XCharts
             m_Series.AnimationReset();
             RefreshChart();
         }
+
+        /// <summary>
+        /// 点击图例按钮
+        /// </summary>
+        /// <param name="legendIndex">图例按钮索引</param>
+        /// <param name="legendName">图例按钮名称</param>
+        /// <param name="show">显示还是隐藏</param>
+        public void ClickLegendButton(int legendIndex, string legendName, bool show)
+        {
+            OnLegendButtonClick(legendIndex, legendName, show);
+            RefreshChart();
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig =  value / valueTotal * coordinateWidth;
+                    barHig = value / valueTotal * coordinateWidth;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -77,7 +77,16 @@ namespace XCharts
                 {
                     Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
                     Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, highlight);
-                    ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                    if (serie.barType == BarType.Zebra)
+                    {
+                        p1 = (p4 + p1) / 2;
+                        p2 = (p2 + p3) / 2;
+                        ChartDrawer.DrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap, areaColor);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                    }
                 }
             }
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))
@@ -151,7 +160,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig =  value / valueTotal * coordinateHeight;
+                    barHig = value / valueTotal * coordinateHeight;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -177,7 +186,16 @@ namespace XCharts
                 {
                     Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
                     Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, highlight);
-                    ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                    if (serie.barType == BarType.Zebra)
+                    {
+                        p1 = (p4 + p1) / 2;
+                        p2 = (p2 + p3) / 2;
+                        ChartDrawer.DrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap, areaColor);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                    }
                 }
             }
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))

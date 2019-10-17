@@ -37,6 +37,8 @@ namespace XCharts
             SerializedProperty m_BarPercentStack = prop.FindPropertyRelative("m_BarPercentStack");
             SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
             SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
+            SerializedProperty m_BarZebraWidth = prop.FindPropertyRelative("m_BarZebraWidth");
+            SerializedProperty m_BarZebraGap = prop.FindPropertyRelative("m_BarZebraGap");
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
@@ -124,6 +126,10 @@ namespace XCharts
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_BarGap);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_BarZebraWidth);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_BarZebraGap);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Pie)
                 {
@@ -132,8 +138,8 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_Space);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Center,"Center");
-                    ChartEditorHelper.MakeTwoField(ref drawRect,pos.width,m_Radius,"Radius");
+                    ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
+                    ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
                 }
 
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
@@ -356,7 +362,7 @@ namespace XCharts
                 }
                 if (serieType == SerieType.Bar)
                 {
-                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (m_DataFoldout[index])
                 {

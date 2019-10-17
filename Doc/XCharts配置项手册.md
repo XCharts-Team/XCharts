@@ -352,12 +352,14 @@
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 * `barType`：柱状图类型。以下几种类型：
   * `Normal`：普通柱状图。
-  * `ZebraLine`：斑马柱状图。
+  * `Zebra`：斑马柱状图。
   * `Capsule`：胶囊柱状图。
 * `barPercentStack`：是否百分比堆叠柱状图，相同 `stack` 的 `serie` 只要有一个 `barPercentStack` 为 `true`，则就显示成百分比堆叠柱状图。
 * `barWidth`：柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
 * `barGap`：不同系列的柱间距离。为百分比（如 `'0.3f'`，表示柱子宽度的 `30%`）。如果想要两个系列的柱子重叠，可以设置 `barGap` 为 `'-1f'`。这在用柱子做背景的时候有用。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
 * `barCategoryGap`：同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
+* `barZebraWidth`：斑马线的粗细。`barType` 为 `Zebra` 时有效。
+* `barZebraGap`：斑马线的间距。`barType` 为 `Zebra` 时有效。
 * `pieClickOffset`：鼠标点击时是否开启偏移，一般用在PieChart图表中。
 * `pieRoseType`：是否展示成南丁格尔图，通过半径区分数据大小。
 * `pieSpace`：饼图项间的空隙留白。

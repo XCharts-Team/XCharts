@@ -223,10 +223,16 @@ namespace XCharts
                 var content = m_Formatter.Replace("{a}", serieName);
                 content = content.Replace("{b}", dataName);
                 content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                content = content.Replace("{c:f0}", ChartCached.IntToStr((int)Mathf.Round(dataValue)));
+                content = content.Replace("{c:f1}", ChartCached.FloatToStr(dataValue, 1));
+                content = content.Replace("{c:f2}", ChartCached.FloatToStr(dataValue, 2));
                 if (dataTotal > 0)
                 {
                     var percent = dataValue / dataTotal * 100;
                     content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                    content = content.Replace("{d:f0}", ChartCached.IntToStr((int)Mathf.Round(percent)));
+                    content = content.Replace("{d:f1}", ChartCached.FloatToStr(percent, 1));
+                    content = content.Replace("{d:f2}", ChartCached.FloatToStr(percent, 2));
                 }
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");

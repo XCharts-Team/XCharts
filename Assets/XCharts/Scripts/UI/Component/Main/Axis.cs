@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -435,12 +434,14 @@ namespace XCharts
         /// <param name="maxValue"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue, DataZoom dataZoom)
+        public string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue,
+            DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
             if (m_Type == AxisType.Value)
             {
                 float value = 0;
+                if (forcePercent) maxValue = 100;
                 if (m_Interval > 0)
                 {
                     if (index == split - 1) value = maxValue;
@@ -450,7 +451,8 @@ namespace XCharts
                 {
                     value = (minValue + (maxValue - minValue) * index / (split - 1));
                 }
-                return m_AxisLabel.GetFormatterContent(value);
+                if (forcePercent) return string.Format("{0}%", (int)value);
+                else return m_AxisLabel.GetFormatterContent(value);
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -521,13 +523,13 @@ namespace XCharts
         /// 更新刻度标签文字
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateLabelText(float coordinateWidth, DataZoom dataZoom)
+        public void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
         {
             for (int i = 0; i < axisLabelTextList.Count; i++)
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom);
+                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
                 }
             }
         }

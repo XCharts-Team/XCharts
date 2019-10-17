@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -119,6 +120,22 @@ namespace XCharts
         DashDotDot
     }
 
+    public enum BarType
+    {
+        /// <summary>
+        /// 普通柱形图
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// 斑马柱形图
+        /// </summary>
+        ZebraLine,
+        /// <summary>
+        /// 胶囊柱形图
+        /// </summary>
+        Capsule
+    }
+
     /// <summary>
     /// 采样类型
     /// </summary>
@@ -163,23 +180,25 @@ namespace XCharts
         [SerializeField] protected int m_MaxCache;
         [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
-        [SerializeField] private LineType m_LineType = LineType.Normal;
+
         [SerializeField] private float m_SampleDist = 0;
         [SerializeField] private SampleType m_SampleType = SampleType.Average;
         [SerializeField] private float m_SampleAverage = 0;
 
+        [SerializeField] private LineType m_LineType = LineType.Normal;
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+
+        [SerializeField] private BarType m_BarType = BarType.Normal;
+        [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0.6f;
         [SerializeField] private float m_BarGap = 0.3f; // 30%
         [SerializeField] private float m_BarCategoryGap = 0.2f; // 20%
 
-        #region PieChart field
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Space;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
-        #endregion
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private Animation m_Animation = new Animation();
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
@@ -266,7 +285,6 @@ namespace XCharts
         /// The style of area.
         /// 区域填充样式。
         /// </summary>
-        /// <value></value>
         public AreaStyle areaStyle { get { return m_AreaStyle; } set { m_AreaStyle = value; } }
         /// <summary>
         /// the symbol of serie data item.
@@ -277,13 +295,11 @@ namespace XCharts
         /// The type of line chart.
         /// 折线图样式类型。
         /// </summary>
-        /// <value></value>
         public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
         /// <summary>
         /// the min pixel dist of sample.
         /// 采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。
         /// </summary>
-        /// <value></value>
         public float sampleDist { get { return m_SampleDist; } set { m_SampleDist = value < 0 ? 0 : value; } }
         /// <summary>
         /// the type of sample.
@@ -293,19 +309,24 @@ namespace XCharts
         /// <summary>
         /// 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
         /// </summary>
-        /// <value></value>
         public float sampleAverage { get { return m_SampleAverage; } set { m_SampleAverage = value; } }
         /// <summary>
         /// The style of line.
         /// 线条样式。
         /// </summary>
-        /// <value></value>
         public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
+        /// <summary>
+        /// 柱形图类型。
+        /// </summary>
+        public BarType barType { get { return m_BarType; } set { m_BarType = value; } }
+        /// <summary>
+        /// 柱形图是否为百分比堆积。
+        /// </summary>
+        public bool barPercentStack { get { return m_BarPercentStack; } set { m_BarPercentStack = value; } }
         /// <summary>
         /// The width of the bar. Adaptive when default 0.
         /// 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
         /// </summary>
-        /// <value></value>
         public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
         /// <summary>
         /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
@@ -327,7 +348,6 @@ namespace XCharts
         /// 同一系列的柱间距离，默认为类目间距的20%，可设固定值。
         /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
         /// </summary>
-        /// <value></value>
         public float barCategoryGap { get { return m_BarCategoryGap; } set { m_BarCategoryGap = value; } }
         /// <summary>
         /// Whether offset when mouse click pie chart item.
@@ -363,7 +383,6 @@ namespace XCharts
         /// The start animation.
         /// 起始动画。
         /// </summary>
-        /// <value></value>
         public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
         /// <summary>
         /// The arrow of line.

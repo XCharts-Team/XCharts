@@ -35,6 +35,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
+            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -45,9 +46,22 @@ namespace XCharts
                 float pX = seriesHig[i] + coordinateX + xAxis.zeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
-                float barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
-                    / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
-                seriesHig[i] += barHig;
+
+                var barHig = 0f;
+                var valueTotal = 0f;
+                if (isPercentStack)
+                {
+                    valueTotal = GetSameStackTotalValue(serie.stack, i);
+                    barHig =  value / valueTotal * coordinateWidth;
+                    seriesHig[i] += barHig;
+                }
+                else
+                {
+                    valueTotal = xAxis.maxValue - xAxis.minValue;
+                    barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
+                        / valueTotal * coordinateWidth;
+                    seriesHig[i] += barHig;
+                }
 
                 float currHig = CheckAnimation(serie, i, barHig);
 
@@ -119,6 +133,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
+            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -130,9 +145,22 @@ namespace XCharts
                 float zeroY = coordinateY + yAxis.zeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
-                float barHig = (yAxis.minValue > 0 ? value - yAxis.minValue : value)
-                    / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
-                seriesHig[i] += barHig;
+
+                var barHig = 0f;
+                var valueTotal = 0f;
+                if (isPercentStack)
+                {
+                    valueTotal = GetSameStackTotalValue(serie.stack, i);
+                    barHig =  value / valueTotal * coordinateHeight;
+                    seriesHig[i] += barHig;
+                }
+                else
+                {
+                    valueTotal = yAxis.maxValue - yAxis.minValue;
+                    barHig = (yAxis.minValue > 0 ? value - yAxis.minValue : value)
+                        / valueTotal * coordinateHeight;
+                    seriesHig[i] += barHig;
+                }
 
                 float currHig = CheckAnimation(serie, i, barHig);
 
@@ -173,6 +201,23 @@ namespace XCharts
                 }
             }
             return gap;
+        }
+
+        private float GetSameStackTotalValue(string stack, int dataIndex)
+        {
+            if (string.IsNullOrEmpty(stack)) return 0;
+            float total = 0;
+            foreach (var serie in m_Series.list)
+            {
+                if (serie.type == SerieType.Bar)
+                {
+                    if (stack.Equals(serie.stack))
+                    {
+                        total += serie.data[dataIndex].data[1];
+                    }
+                }
+            }
+            return total;
         }
 
 

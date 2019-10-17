@@ -6,6 +6,8 @@
 
 ## `BaseChart`
 
+---
+
 * `BaseChart.title`：标题组件`Title`。
 * `BaseChart.legend`：图例组件`Legend`。
 * `BaseChart.tooltip`：提示框组件`Tooltip`。
@@ -44,6 +46,8 @@
 
 ## `CoordinateChart`
 
+---
+
 * `CoordinateChart.grid`：网格组件 `Grid`。
 * `CoordinateChart.xAxises`：左右两个 `X` 轴组件 `XAxis`。
 * `CoordinateChart.yAxises`：左右两个 `Y` 轴组件 `YAxis`。
@@ -54,36 +58,51 @@
 * `CoordinateChart.dataZoom`：区域缩放组件 `DataZoom`。
 * `CoordinateChart.coordinateX`：坐标系的左下角坐标 `X`。
 * `CoordinateChart.coordinateY`：坐标系的左下角坐标 `Y`。
-* `CoordinateChart.coordinateWid`：坐标系的宽。
-* `CoordinateChart.coordinateHig`：坐标系的高。
+* `CoordinateChart.coordinateWidth`：坐标系的宽。
+* `CoordinateChart.coordinateHeight`：坐标系的高。
 * `CoordinateChart.ClearAxisData()`：清除所有x轴和y轴的类目数据。
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
 * `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。
 
-
 ## `LineChart`
+
+---
 
 * 继承 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
 ## `BarChart`
 
+---
+
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
 ## `PieChart`
 
+---
+
 * 继承自 `BaseChart`。
-* `pie`：饼图组件 `Pie`。
 
 ## `RadarChart`
+
+---
 
 * 继承自 `BaseChart`。
 * `radars`：雷达组件列表 `Radar`。
 
 ## `ScatterChart`
+
+---
+
+* 继承自 `BaseChart`。
+* 继承自 `CoordinateChart`。
+
+## `HeatmapChart`
+
+---
 
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。

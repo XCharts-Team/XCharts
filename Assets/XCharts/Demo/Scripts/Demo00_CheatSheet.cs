@@ -56,7 +56,7 @@ public class Demo00_CheatSheet : MonoBehaviour
         chart.title.text = "术语解析-组件";
         chart.grid.bottom = 30;
         chart.grid.right = 30;
-        chart.grid.left = 30;
+        chart.grid.left = 50;
         chart.grid.top = 80;
 
         chart.dataZoom.enable = false;
@@ -71,7 +71,7 @@ public class Demo00_CheatSheet : MonoBehaviour
         {
             chart.AddXAxisData("x" + (i + 1));
             chart.AddData(0, Random.Range(10, 100));
-            chart.AddData(1, Random.Range(10, 100));
+            chart.AddData(1, Random.Range(30, 100));
         }
         yield return null;
     }

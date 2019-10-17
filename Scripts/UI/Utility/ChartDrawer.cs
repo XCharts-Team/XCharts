@@ -139,6 +139,12 @@ namespace XCharts
             DrawLine(vh, sp, p2, size, color);
         }
 
+        public static void DrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,
+            float zebraWidth, float zebraGap, Color32 color)
+        {
+            DrawDotLine(vh, p1, p2, size, color, zebraWidth, zebraGap);
+        }
+
         public static void DrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
             bool vertical = true)
         {

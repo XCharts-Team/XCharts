@@ -129,7 +129,7 @@ namespace XCharts
         /// <summary>
         /// 斑马柱形图
         /// </summary>
-        ZebraLine,
+        Zebra,
         /// <summary>
         /// 胶囊柱形图
         /// </summary>
@@ -193,6 +193,9 @@ namespace XCharts
         [SerializeField] private float m_BarWidth = 0.6f;
         [SerializeField] private float m_BarGap = 0.3f; // 30%
         [SerializeField] private float m_BarCategoryGap = 0.2f; // 20%
+        [SerializeField] private float m_BarZebraWidth = 4f;
+        [SerializeField] private float m_BarZebraGap = 2f;
+
 
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
@@ -320,7 +323,7 @@ namespace XCharts
         /// </summary>
         public BarType barType { get { return m_BarType; } set { m_BarType = value; } }
         /// <summary>
-        /// 柱形图是否为百分比堆积。
+        /// 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
         /// </summary>
         public bool barPercentStack { get { return m_BarPercentStack; } set { m_BarPercentStack = value; } }
         /// <summary>
@@ -349,6 +352,15 @@ namespace XCharts
         /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
         /// </summary>
         public float barCategoryGap { get { return m_BarCategoryGap; } set { m_BarCategoryGap = value; } }
+        /// <summary>
+        /// 斑马线的粗细。
+        /// </summary>
+        public float barZebraWidth { get { return m_BarZebraWidth; } set { m_BarZebraWidth = value; } }
+        /// <summary>
+        /// 斑马线的间距。
+        /// </summary>
+        public float barZebraGap { get { return m_BarZebraGap; } set { m_BarZebraGap = value; } }
+
         /// <summary>
         /// Whether offset when mouse click pie chart item.
         /// 鼠标点击时是否开启偏移，一般用在PieChart图表中。

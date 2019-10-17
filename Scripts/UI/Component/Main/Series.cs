@@ -574,27 +574,38 @@ namespace XCharts
         {
             float min = int.MaxValue;
             float max = int.MinValue;
+            var isPercentStack = IsPercentStack(SerieType.Bar);
             if (!IsStack() || (isValueAxis && !yValue))
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
-                    if (m_Series[i].axisIndex != axisIndex) continue;
+                    var serie = m_Series[i];
+                    if (serie.axisIndex != axisIndex) continue;
+
                     if (IsActive(i))
                     {
-                        var showData = m_Series[i].GetDataList(dataZoom);
-                        foreach (var data in showData)
+                        if (isPercentStack && IsPercentStack(serie.name, SerieType.Bar))
                         {
-                            if (yValue)
+                            Debug.LogError("minmax:" + serie.name);
+                            if (100 > max) max = 100;
+                            if (0 < min) min = 0;
+                        }
+                        else
+                        {
+                            var showData = m_Series[i].GetDataList(dataZoom);
+                            foreach (var data in showData)
                             {
-                                if (data.data[1] > max) max = data.data[1];
-                                if (data.data[1] < min) min = data.data[1];
+                                if (yValue)
+                                {
+                                    if (data.data[1] > max) max = data.data[1];
+                                    if (data.data[1] < min) min = data.data[1];
+                                }
+                                else
+                                {
+                                    if (data.data[0] > max) max = data.data[0];
+                                    if (data.data[0] < min) min = data.data[0];
+                                }
                             }
-                            else
-                            {
-                                if (data.data[0] > max) max = data.data[0];
-                                if (data.data[0] < min) min = data.data[0];
-                            }
-
                         }
                     }
                 }
@@ -610,13 +621,24 @@ namespace XCharts
                         var serie = ss.Value[i];
                         if (serie.axisIndex != axisIndex || !IsActive(i)) continue;
                         var showData = serie.GetDataList(dataZoom);
-                        for (int j = 0; j < showData.Count; j++)
+                        if (IsPercentStack(serie.stack, SerieType.Bar))
                         {
-                            if (!_serieTotalValueForMinMax.ContainsKey(j))
-                                _serieTotalValueForMinMax[j] = 0;
-                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] +
-                                (yValue ? showData[j].data[1] : showData[i].data[0]);
+                            for (int j = 0; j < showData.Count; j++)
+                            {
+                                _serieTotalValueForMinMax[j] = 100;
+                            }
                         }
+                        else
+                        {
+                            for (int j = 0; j < showData.Count; j++)
+                            {
+                                if (!_serieTotalValueForMinMax.ContainsKey(j))
+                                    _serieTotalValueForMinMax[j] = 0;
+                                _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] +
+                                    (yValue ? showData[j].data[1] : showData[i].data[0]);
+                            }
+                        }
+
                     }
                     float tmax = int.MinValue;
                     float tmin = int.MaxValue;
@@ -661,6 +683,12 @@ namespace XCharts
             return false;
         }
 
+        /// <summary>
+        /// 是否堆叠
+        /// </summary>
+        /// <param name="stackName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public bool IsStack(string stackName, SerieType type)
         {
             if (string.IsNullOrEmpty(stackName)) return false;
@@ -671,6 +699,56 @@ namespace XCharts
                 {
                     if (stackName.Equals(serie.stack)) count++;
                     if (count >= 2) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否时百分比堆叠
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool IsPercentStack(SerieType type)
+        {
+            int count = 0;
+            bool isPercentStack = false;
+            foreach (var serie in m_Series)
+            {
+                if (serie.show && serie.type == type)
+                {
+                    if (!string.IsNullOrEmpty(serie.stack))
+                    {
+                        count++;
+                        if (serie.barPercentStack) isPercentStack = true;
+                    }
+                    if (count >= 2 && isPercentStack) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否时百分比堆叠
+        /// </summary>
+        /// <param name="stackName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool IsPercentStack(string stackName, SerieType type)
+        {
+            if (string.IsNullOrEmpty(stackName)) return false;
+            int count = 0;
+            bool isPercentStack = false;
+            foreach (var serie in m_Series)
+            {
+                if (serie.show && serie.type == type)
+                {
+                    if (stackName.Equals(serie.stack))
+                    {
+                        count++;
+                        if (serie.barPercentStack) isPercentStack = true;
+                    }
+                    if (count >= 2 && isPercentStack) return true;
                 }
             }
             return false;

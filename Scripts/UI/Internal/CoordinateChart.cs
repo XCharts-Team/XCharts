@@ -482,7 +482,8 @@ namespace XCharts
 
                 txt.transform.localPosition = GetLabelYPosition(totalWidth + (yAxis.boundaryGap ? labelWidth / 2 : 0), i, yAxisIndex, yAxis);
 
-                txt.text = yAxis.GetLabelName(coordinateHeight, i, yAxis.minValue, yAxis.maxValue, m_DataZoom);
+                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+                txt.text = yAxis.GetLabelName(coordinateHeight, i, yAxis.minValue, yAxis.maxValue, m_DataZoom, isPercentStack);
                 txt.gameObject.SetActive(yAxis.show &&
                     (yAxis.axisLabel.interval == 0 || i % (yAxis.axisLabel.interval + 1) == 0));
                 yAxis.axisLabelTextList.Add(txt);
@@ -576,7 +577,8 @@ namespace XCharts
                 txt.transform.localPosition = GetLabelXPosition(totalWidth + (xAxis.boundaryGap ? labelWidth : labelWidth / 2),
                     i, xAxisIndex, xAxis);
                 totalWidth += labelWidth;
-                txt.text = xAxis.GetLabelName(coordinateWidth, i, xAxis.minValue, xAxis.maxValue, m_DataZoom);
+                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+                txt.text = xAxis.GetLabelName(coordinateWidth, i, xAxis.minValue, xAxis.maxValue, m_DataZoom, isPercentStack);
                 txt.gameObject.SetActive(xAxis.show &&
                     (xAxis.axisLabel.interval == 0 || i % (xAxis.axisLabel.interval + 1) == 0));
                 xAxis.axisLabelTextList.Add(txt);
@@ -759,6 +761,7 @@ namespace XCharts
             if (axis.IsCategory() || !axis.show) return;
             int tempMinValue = 0;
             int tempMaxValue = 0;
+
             if (IsValue())
             {
                 if (axis is XAxis)
@@ -799,7 +802,8 @@ namespace XCharts
                     }
                 }
                 float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
-                axis.UpdateLabelText(coordinateWidth, m_DataZoom);
+                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+                axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack);
                 RefreshChart();
             }
         }
@@ -1347,10 +1351,12 @@ namespace XCharts
 
         protected override void OnRefreshLabel()
         {
+            var anyPercentStack = m_Series.IsPercentStack(SerieType.Bar);
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
                 var total = serie.yTotal;
+                var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     if (j >= serie.dataPoints.Count) break;
@@ -1368,7 +1374,16 @@ namespace XCharts
                             serieData.data.Count - 1;
                         }
                         value = serieData.data[dimension];
-                        var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
+                        var content = "";
+                        if (anyPercentStack && isPercentStack)
+                        {
+                            var tempTotal = GetSameStackTotalValue(serie.stack,j);
+                            content = serie.label.GetFormatterContent(serie.name, serieData.name, value, tempTotal);
+                        }
+                        else
+                        {
+                            content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
+                        }
                         serieData.SetLabelActive(value != 0);
                         serieData.SetLabelPosition(serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();

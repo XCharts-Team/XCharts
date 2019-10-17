@@ -33,6 +33,8 @@ namespace XCharts
             SerializedProperty m_SampleDist = prop.FindPropertyRelative("m_SampleDist");
             SerializedProperty m_SampleType = prop.FindPropertyRelative("m_SampleType");
             SerializedProperty m_SampleAverage = prop.FindPropertyRelative("m_SampleAverage");
+            SerializedProperty m_BarType = prop.FindPropertyRelative("m_BarType");
+            SerializedProperty m_BarPercentStack = prop.FindPropertyRelative("m_BarPercentStack");
             SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
             SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
@@ -114,6 +116,10 @@ namespace XCharts
                 }
                 if (serieType == SerieType.Bar)
                 {
+                    EditorGUI.PropertyField(drawRect, m_BarType);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_BarPercentStack);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_BarWidth);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_BarGap);
@@ -350,7 +356,7 @@ namespace XCharts
                 }
                 if (serieType == SerieType.Bar)
                 {
-                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (m_DataFoldout[index])
                 {

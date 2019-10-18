@@ -291,8 +291,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if(j>100) break;
-                    //if (!serie.label.show && !serieData.showIcon) continue;
+                    if (!serie.label.show  && j > 100) continue;
                     var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
                     var color = Color.grey;
                     if (serie.type == SerieType.Pie)

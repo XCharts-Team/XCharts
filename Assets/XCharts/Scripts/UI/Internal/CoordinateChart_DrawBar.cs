@@ -124,6 +124,7 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
+
             float categoryWidth = xAxis.GetDataWidth(coordinateWidth, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
@@ -142,6 +143,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
+
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
             for (int i = serie.minShow; i < maxCount; i++)
             {

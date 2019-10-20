@@ -355,11 +355,11 @@ namespace XCharts
         /// <summary>
         /// 斑马线的粗细。
         /// </summary>
-        public float barZebraWidth { get { return m_BarZebraWidth; } set { m_BarZebraWidth = value; } }
+        public float barZebraWidth { get { return m_BarZebraWidth; } set { m_BarZebraWidth = value > 0 ? value : 0; } }
         /// <summary>
         /// 斑马线的间距。
         /// </summary>
-        public float barZebraGap { get { return m_BarZebraGap; } set { m_BarZebraGap = value; } }
+        public float barZebraGap { get { return m_BarZebraGap; } set { m_BarZebraGap = value > 0 ? value : 0; } }
 
         /// <summary>
         /// Whether offset when mouse click pie chart item.

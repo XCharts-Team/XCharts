@@ -185,6 +185,14 @@ namespace XCharts
         {
             RefreshDataZoomLabel();
         }
+
+        /// <summary>
+        /// 立即刷新数值坐标轴的最大最小值
+        /// </summary>
+        public void RefreshAxisMinMaxValue()
+        {
+            CheckMinMaxValue();
+        }
     }
 }
 

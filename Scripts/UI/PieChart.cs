@@ -57,7 +57,6 @@ namespace XCharts
                 {
                     continue;
                 }
-                if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
                 if (serie.pieClickOffset) isClickOffset = true;
                 serie.pieDataMax = serie.yMax;
@@ -74,6 +73,7 @@ namespace XCharts
                 }
                 for (int n = 0; n < data.Count; n++)
                 {
+                    if (!serie.animation.NeedAnimation(n)) break;
                     var serieData = data[n];
                     serieData.index = n;
                     float value = serieData.data[1];

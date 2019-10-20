@@ -308,13 +308,15 @@ namespace XCharts
                     var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
                         color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
                         serie.label.backgroundWidth, serie.label.backgroundHeight);
+
+                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
+                    serieData.SetIconObj(iconObj);
+                
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
                     serieData.SetLabelText(serieData.name);
 
-                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
-                    serieData.SetIconObj(iconObj);
                     count++;
                 }
             }

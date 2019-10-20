@@ -756,7 +756,7 @@ namespace XCharts
             }
         }
 
-        private void UpdateAxisMinMaxValue(int axisIndex, Axis axis)
+        private void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
         {
             if (axis.IsCategory() || !axis.show) return;
             int tempMinValue = 0;
@@ -801,10 +801,13 @@ namespace XCharts
                             Mathf.Abs(axis.minValue) * (coordinateHeight / (Mathf.Abs(axis.minValue) + Mathf.Abs(axis.maxValue)));
                     }
                 }
-                float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
-                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
-                axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack);
-                RefreshChart();
+                if (updateChart)
+                {
+                    float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
+                    var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+                    axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack);
+                    RefreshChart();
+                }
             }
         }
 
@@ -1377,7 +1380,7 @@ namespace XCharts
                         var content = "";
                         if (anyPercentStack && isPercentStack)
                         {
-                            var tempTotal = GetSameStackTotalValue(serie.stack,j);
+                            var tempTotal = GetSameStackTotalValue(serie.stack, j);
                             content = serie.label.GetFormatterContent(serie.name, serieData.name, value, tempTotal);
                         }
                         else

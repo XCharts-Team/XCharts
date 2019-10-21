@@ -1,5 +1,11 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿/******************************************/
+/*                                        */
+/*     Copyright (c) 2018 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
+
+using UnityEditor;
 
 namespace XCharts
 {
@@ -26,7 +32,6 @@ namespace XCharts
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
         private int m_SeriesSize;
-        private bool m_BaseModuleToggle = false;
 
         protected virtual void OnEnable()
         {

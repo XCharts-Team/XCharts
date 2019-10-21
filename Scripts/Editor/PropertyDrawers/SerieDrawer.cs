@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿/******************************************/
+/*                                        */
+/*     Copyright (c) 2018 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
+
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,7 +49,6 @@ namespace XCharts
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
-            SerializedProperty m_ClickOffset = prop.FindPropertyRelative("m_ClickOffset");
             SerializedProperty m_Space = prop.FindPropertyRelative("m_Space");
             SerializedProperty m_Center = prop.FindPropertyRelative("m_Center");
             SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");

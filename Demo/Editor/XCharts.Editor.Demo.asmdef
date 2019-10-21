@@ -1,0 +1,17 @@
+{
+    "name": "XCharts.Editor.Demo",
+    "references": [
+        "XCharts.Demo.Runtime",
+        "XCharts.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

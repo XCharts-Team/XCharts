@@ -1,4 +1,11 @@
-﻿using UnityEditor;
+﻿/******************************************/
+/*                                        */
+/*     Copyright (c) 2018 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
+
+using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
@@ -24,7 +31,7 @@ namespace XCharts
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
             SerializedProperty m_Range = prop.FindPropertyRelative("m_Range");
             SerializedProperty m_Text = prop.FindPropertyRelative("m_Text");
-            SerializedProperty m_TextGap = prop.FindPropertyRelative("m_TextGap");
+            // SerializedProperty m_TextGap = prop.FindPropertyRelative("m_TextGap");
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
             SerializedProperty m_Calculable = prop.FindPropertyRelative("m_Calculable");
             SerializedProperty m_ItemWidth = prop.FindPropertyRelative("m_ItemWidth");
@@ -35,7 +42,7 @@ namespace XCharts
             SerializedProperty m_Orient = prop.FindPropertyRelative("m_Orient");
             SerializedProperty m_Location = prop.FindPropertyRelative("m_Location");
             SerializedProperty m_InRange = prop.FindPropertyRelative("m_InRange");
-            SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
+            // SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_VisualMapModuleToggle, "Visual Map", m_Enable);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

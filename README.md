@@ -114,7 +114,7 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
   1. 在`Canvas`下通过`Create Empty`创建一个空`gameObject`，命名为 `line_chart`。
   2. 通过菜单栏 `Component->XCharts->LineChart` 或者  `Inspector` 视图的 `Add Component` 添加 `LineChart` 脚本。一个简单的折线图就出来了。
-  3. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](Doc/XCharts配置项手册.md)。
+  3. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](Assets/XCharts/Documentation/XCharts配置项手册.md)。
 
 * 更多的代码动态控制的例子请参考[教程：5分钟上手XCharts](Doc/教程：5分钟上手XCharts.md)  。
 
@@ -122,10 +122,10 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 ---
 
-* 常见问题看这里☞ [XCharts问答](Doc/XCharts问答.md)  
-* 接口文档看这里☞ [XChartsAPI手册](Doc/XChartsAPI.md)  
-* 参数配置看这里☞ [XCharts配置项手册](Doc/XCharts配置项手册.md)  
-* 更新日志看这里☞ [XCharts更新日志](Doc/XCharts更新日志.md)  
+* 常见问题看这里☞ [XCharts问答](Assets/XCharts/Documentation/XCharts问答.md)  
+* 接口文档看这里☞ [XChartsAPI手册](Assets/XCharts/Documentation/XChartsAPI.md)  
+* 参数配置看这里☞ [XCharts配置项手册](Assets/XCharts/Documentation/XCharts配置项手册.md)  
+* 更新日志看这里☞ [XCharts更新日志](Assets/XCharts/CHANGELOG.md)  
 * 新手教程看这里☞ [教程：5分钟上手XCharts](Doc/教程：5分钟上手XCharts.md)  
 
 ## 结构
@@ -268,15 +268,13 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 ---
 
-[更新日志](Doc/XCharts更新日志.md)  
+[更新日志](Assets/XCharts/CHANGELOG.md)  
 
 ## Licenses
 
 ---
 
 [MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE)
-
-Copyright (c) 2018 monitor1394
 
 ## 开发交流
 

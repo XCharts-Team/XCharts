@@ -35,12 +35,12 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ---
 
-![LineChart](Doc/screenshot/xcharts-line.png)  
-![BarChart](Doc/screenshot/xcharts-bar.png)  
-![PieChart](Doc/screenshot/xcharts-pie.png)  
-![RadarChart](Doc/screenshot/xcharts-radar.png)  
-![ScatterChart](Doc/screenshot/xcharts-scatter.png)  
-![HeatmapChart](Doc/screenshot/xcharts-heatmap.png)
+<img src="Doc/screenshot/xcharts-line.png" width="500" height="auto"/>
+<img src="Doc/screenshot/xcharts-bar.png" width="500" height="auto"/>
+<img src="Doc/screenshot/xcharts-pie.png" width="500" height="auto"/>
+<img src="Doc/screenshot/xcharts-radar.png" width="500" height="auto"/>
+<img src="Doc/screenshot/xcharts-scatter.png" width="500" height="auto"/>
+<img src="Doc/screenshot/xcharts-heatmap.png" width="500" height="auto"/>
 
 ## 术语
 

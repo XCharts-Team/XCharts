@@ -1,7 +1,7 @@
 {
   "name": "com.monitor1394.xcharts",
   "displayName": "XCharts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2018.1",
   "description": "A powerful, easy-to-use, configurable charting and data visualization library for Unity. 一款基于UGUI的功能强大、易用、参数可配置的数据可视化图表报表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。",
   "keywords": [

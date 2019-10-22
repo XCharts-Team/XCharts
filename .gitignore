@@ -4,11 +4,13 @@
 /XCharts-ios
 /Library
 /Temp
+/Logs
 /UnityPackageManager
 /Assets/Res
 /Assets/Res.meta
 /Assets/Package
 /Assets/Package.meta
+
 /Assets/XCharts/Demo/demo_test.unity
 /Assets/XCharts/Demo/demo_test.unity.meta
 /Assets/XCharts/Demo/empty.unity

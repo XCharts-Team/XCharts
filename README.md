@@ -26,12 +26,12 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
   1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
   
   ``` json
-     "unity-xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+     "unity-ugui-xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
   ```
 
   2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
   3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。
-  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`unity-xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
+  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`unity-ugui-xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
 
 * 在Editor上快速创建一个图表：
 

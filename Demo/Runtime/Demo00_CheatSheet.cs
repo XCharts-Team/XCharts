@@ -37,21 +37,21 @@ namespace XCharts
         {
             StartCoroutine(InitChart());
             StartCoroutine(ComponentTitle());
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             StartCoroutine(ComponentAxis());
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             StartCoroutine(ComponentGrid());
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             StartCoroutine(ComponentSerie());
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(4);
             StartCoroutine(ComponentLegend());
-            yield return new WaitForSeconds(7);
+            yield return new WaitForSeconds(4);
             StartCoroutine(ComponentTheme());
-            yield return new WaitForSeconds(6);
+            yield return new WaitForSeconds(4);
             StartCoroutine(ComponentDataZoom());
-            yield return new WaitForSeconds(10);
-            StartCoroutine(ComponentVisualMap());
             yield return new WaitForSeconds(5);
+            StartCoroutine(ComponentVisualMap());
+            yield return new WaitForSeconds(3);
             LoopDemo();
         }
 
@@ -97,7 +97,7 @@ namespace XCharts
             {
                 chart.title.show = !chart.title.show;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.title.show = true;
             chart.RefreshChart();
@@ -113,12 +113,12 @@ namespace XCharts
                 chart.xAxis0.show = !chart.xAxis0.show;
                 chart.yAxis0.show = !chart.yAxis0.show;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.xAxis0.show = true;
             chart.yAxis0.show = true;
             chart.RefreshChart();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
 
         IEnumerator ComponentGrid()
@@ -128,11 +128,11 @@ namespace XCharts
             {
                 chart.grid.backgroundColor = i % 2 == 0 ? Color.clear : Color.grey;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.grid.backgroundColor = Color.clear;
             chart.RefreshChart();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
 
         IEnumerator ComponentSerie()
@@ -142,18 +142,18 @@ namespace XCharts
             chart.series.list[1].show = true;
             chart.AnimationReset();
             chart.RefreshChart();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.2f);
             for (int i = 0; i < 4; i++)
             {
                 chart.series.list[0].show = !chart.series.list[0].show;
                 chart.series.list[1].show = !chart.series.list[1].show;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.series.list[0].show = true;
             chart.series.list[1].show = true;
             chart.RefreshChart();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
 
         IEnumerator ComponentLegend()
@@ -163,25 +163,25 @@ namespace XCharts
             chart.grid.top = 80;
             chart.legend.location.top = 50;
             chart.RefreshChart();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             for (int i = 0; i < 4; i++)
             {
                 chart.legend.show = !chart.legend.show;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.legend.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
             chart.ClickLegendButton(0, "Line", false);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             chart.ClickLegendButton(0, "Line", true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             chart.ClickLegendButton(1, "Bar", false);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             chart.ClickLegendButton(1, "Bar", true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         IEnumerator ComponentTheme()
@@ -190,13 +190,13 @@ namespace XCharts
             yield return new WaitForSeconds(1f);
             chart.title.subText = "Theme 主题：Light主题";
             chart.UpdateTheme(Theme.Light);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             chart.title.subText = "Theme 主题：Dark主题";
             chart.UpdateTheme(Theme.Dark);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             chart.title.subText = "Theme 主题：Default主题";
             chart.UpdateTheme(Theme.Default);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
         }
 
         IEnumerator ComponentDataZoom()
@@ -216,45 +216,45 @@ namespace XCharts
             {
                 chart.dataZoom.supportSlider = !chart.dataZoom.supportSlider;
                 chart.RefreshChart();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
             }
             chart.dataZoom.supportSlider = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
             while (chart.dataZoom.start < 40)
             {
-                chart.dataZoom.start += speed * Time.deltaTime * 0.5f;
+                chart.dataZoom.start += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
             while (chart.dataZoom.end > 60)
             {
-                chart.dataZoom.end -= speed * Time.deltaTime * 0.5f;
+                chart.dataZoom.end -= speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
             while (chart.dataZoom.start > 0)
             {
-                chart.dataZoom.start -= speed * Time.deltaTime * 0.5f;
-                chart.dataZoom.end -= speed * Time.deltaTime * 0.5f;
+                chart.dataZoom.start -= speed * Time.deltaTime * 0.8f;
+                chart.dataZoom.end -= speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
             while (chart.dataZoom.end < 100)
             {
-                chart.dataZoom.start += speed * Time.deltaTime * 0.5f;
-                chart.dataZoom.end += speed * Time.deltaTime * 0.5f;
+                chart.dataZoom.start += speed * Time.deltaTime * 0.8f;
+                chart.dataZoom.end += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
             while (chart.dataZoom.start > 0 || chart.dataZoom.end < 100)
             {
-                chart.dataZoom.start -= speed * Time.deltaTime * 0.5f;
-                chart.dataZoom.end += speed * Time.deltaTime * 0.5f;
+                chart.dataZoom.start -= speed * Time.deltaTime * 0.8f;
+                chart.dataZoom.end += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;

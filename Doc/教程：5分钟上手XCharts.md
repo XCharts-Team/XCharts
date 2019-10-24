@@ -12,7 +12,17 @@
 
 如果你只是想运行 `Demo` 查看效果，可以在 [Github](https://github.com/monitor1394/unity-ugui-XCharts)上的 [Clone or download](https://github.com/monitor1394/unity-ugui-XCharts/archive/master.zip)下载最新版本或去 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)下载稳定版本，将源码工程解压后用`unity`打开即可。
 
- 如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，将 `XCharts-vx.x.x.unitypackage` 通过 Unity 导入到你的项目中，或下载 Source code 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
+如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，将 `XCharts-vx.x.x.unitypackage` 通过 Unity 导入到你的项目中，或下载 Source code 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
+
+如果你是Unity 2018.3版本以上，强烈建议通过Package Manager来安装XCharts包，具体操作步骤如下：
+
+  1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
+     ```
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+     ```
+  2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
+  3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。
+  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`com.monitor1394.xcharts`相关内容即会重新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
 
 ## 添加一个简单图表
 

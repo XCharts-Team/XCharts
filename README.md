@@ -7,7 +7,7 @@
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表报表`Unity`插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。
 
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
@@ -16,8 +16,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 [教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
 
 ## 特性
-
----
 
 * 内置丰富示例和模板，参数可视化配置，效果实时预览，纯代码绘制。
 * 支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。
@@ -33,8 +31,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## 截图
 
----
-
 <img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png" width="550" height="auto"/>
 <img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png" width="550" height="auto"/>
 <img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png" width="550" height="auto"/>
@@ -43,8 +39,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 <img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png" width="550" height="auto"/>
 
 ## 术语
-
----
 
 XCharts的图表由组件和数据组成。不同的组件和数据可以组合成不同类型的图表。组件分为主组件和子组件，主组件包含子组件。  
 
@@ -106,10 +100,16 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 ## 使用
 
----
+* 本项目在`Unity 2018.3.14f1`和`.Net 3.5`下开发，在 `Unity 5`、`Unity 2017`、`Unity 2019`上测试正常。理论上可运行于任何支持`UGUI`的`Unity`版本。
+* 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，强烈建议通过`Package Manager`的`Git`来导入包：
+  1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：  
+  ``` json
+  "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+  ```
+  2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
+  3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。
+  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`com.monitor1394.xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
 
-* 本项目在`Unity 2017.4.27f1`和`.Net 3.5`下进行开发测试。理论上可运行任何支持`UGUI`的`Unity`版本。
-* 通过源码或`unitypackage`包导入到你的项目中。
 * 在Editor上快速创建一个图表：
 
   1. 在`Canvas`下通过`Create Empty`创建一个空`gameObject`，命名为 `line_chart`。
@@ -120,8 +120,6 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 ## 文档
 
----
-
 * 常见问题看这里☞ [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 * 接口文档看这里☞ [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
 * 参数配置看这里☞ [XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)  
@@ -129,8 +127,6 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 * 新手教程看这里☞ [教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
 
 ## 结构
-
----
 
 ``` js
 .
@@ -266,31 +262,24 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 ## 更新日志
 
----
-
 [更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
 
 ## Licenses
-
----
 
 [MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/LICENSE.md)
 
 ## 开发交流
 
----
 邮箱：monitor1394@gmail.com  
 QQ群：XCharts交流群（`202030963`）  
 VIP群：XCharts技术支持VIP群（`867291970`）  
 
 ## 捐助
 
----
+如果这个项目对您有帮助，请右上方点 `Star` 予以支持！也欢迎各方任何形式的捐助，任何金额的赞助都将非常感谢。
 
-如果这个项目对您有帮助，请点 star 予以支持！也欢迎各方任何形式的捐助，任何金额的赞助都将非常感谢。
-
-企业的高额赞助请备注留下公司名称。
+企业赞助请备注公司名称。
 
 <img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/alipay.png?raw=true" width="200"  height="auto"/>  
 
-如需商业技术支持，捐助280¥可加VIP群（867291970，验证信息请输入捐助的支付宝账号）。
+如需商业技术支持，捐助280¥可加VIP群（`867291970`，验证信息请输入捐助的支付宝账号）。

@@ -40,6 +40,8 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## 术语
 
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-cheatsheet.gif" />
+
 XCharts的图表由组件和数据组成。不同的组件和数据可以组合成不同类型的图表。组件分为主组件和子组件，主组件包含子组件。  
 
 `XCharts` 支持的主组件：

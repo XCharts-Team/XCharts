@@ -1,16 +1,18 @@
 {
   "name": "com.monitor1394.xcharts",
   "displayName": "XCharts",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "unity": "2018.3",
-  "description": "A charting and data visualization library for Unity. 一款基于UGUI的数据可视化图表报表插件。",
+  "description": "A charting and data visualization library for Unity.",
   "keywords": [
-    "XCharts",
-    "Chart",
-    "Graphic",
-    "DataVisualization"
+    "unity",
+    "chart",
+    "xcharts",
+    "graphic",
+    "visualization",
+    "data-visualization"
   ],
-  "category": "UI",
+  "category": "chart",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/monitor1394/unity-ugui-XCharts.git"

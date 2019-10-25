@@ -26,6 +26,8 @@ namespace XCharts
         [SerializeField] private Color m_Color;
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
+        [SerializeField] private bool m_ForceENotation = false;
+
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -72,6 +74,10 @@ namespace XCharts
         /// 模板变量为图例名称 {value}，{value:f1} 表示取1为小数
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        /// <summary>
+        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// </summary>
+        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
 
         public static AxisLabel defaultAxisLabel
         {
@@ -118,6 +124,7 @@ namespace XCharts
                 m_Color == other.color &&
                 m_FontSize == other.fontSize &&
                 m_FontStyle == other.fontStyle &&
+                m_ForceENotation == other.forceENotation &&
                 m_Formatter == other.formatter;
         }
 
@@ -139,13 +146,22 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterContent(float value)
+        public string GetFormatterContent(float value, float minValue, float maxValue)
         {
             if (string.IsNullOrEmpty(m_Formatter))
-                if (value - (int)value == 0)
+            {
+                if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
+                {
+                    int minAcc = ChartHelper.GetFloatAccuracy(minValue);
+                    int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
+                    int acc = Mathf.Max(minAcc, maxAcc);
+                    return ChartCached.FloatToStr(value, acc, m_ForceENotation);
+                }
+                else if (value - (int)value == 0)
                     return ChartCached.IntToStr((int)value);
                 else
                     return ChartCached.FloatToStr(value, 1);
+            }
             else
             {
                 var content = m_Formatter;

@@ -99,6 +99,7 @@ namespace XCharts
         [SerializeField] private bool m_Border = true;
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
+        [SerializeField] private bool m_ForceENotation = false;
         /// <summary>
         /// Whether the label is showed.
         /// 是否显示文本标签。
@@ -220,16 +221,20 @@ namespace XCharts
         /// 边框颜色。
         /// </summary>
         public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
+        /// <summary>
+        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// </summary>
+        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
 
         public string GetFormatterContent(string serieName, string dataName, float dataValue, float dataTotal = 0)
         {
             if (string.IsNullOrEmpty(m_Formatter))
-                return ChartCached.FloatToStr(dataValue);
+                return ChartCached.FloatToStr(dataValue, 0, m_ForceENotation);
             else
             {
                 var content = m_Formatter.Replace("{a}", serieName);
                 content = content.Replace("{b}", dataName);
-                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue, 0, m_ForceENotation));
                 content = content.Replace("{c:f0}", ChartCached.IntToStr((int)Mathf.Round(dataValue)));
                 content = content.Replace("{c:f1}", ChartCached.FloatToStr(dataValue, 1));
                 content = content.Replace("{c:f2}", ChartCached.FloatToStr(dataValue, 2));

@@ -213,7 +213,7 @@ namespace XCharts
                 int indicatorNum = radar.indicatorList.Count;
                 var angle = 2 * Mathf.PI / indicatorNum;
                 Vector3 p = radar.centerPos;
-                serie.animation.InitProgress(1,0,1);
+                serie.animation.InitProgress(1, 0, 1);
                 if (!IsActive(i))
                 {
                     continue;
@@ -399,7 +399,7 @@ namespace XCharts
                 }
                 if (radar.lineStyle.show)
                 {
-                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.lineStyle.width, lineColor, 
+                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.lineStyle.width, lineColor,
                         Color.clear, m_Settings.cicleSmoothness);
                 }
                 insideRadius = outsideRadius;
@@ -507,7 +507,7 @@ namespace XCharts
                 string key = radar.indicatorList[i].name;
                 float value = serieData.GetData(i);
                 sb.Append("\n");
-                sb.AppendFormat("{0}: {1}", key, value);
+                sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
             }
             m_Tooltip.UpdateContentText(sb.ToString());
             var pos = m_Tooltip.GetContentPos();

@@ -55,6 +55,7 @@ namespace XCharts
         [SerializeField] private float m_MinHeight = 0;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
+        [SerializeField] private bool m_ForceENotation = false;
 
         private GameObject m_GameObject;
         private GameObject m_Content;
@@ -114,6 +115,10 @@ namespace XCharts
         /// 文字的字体风格。
         /// </summary>
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        /// <summary>
+        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// </summary>
+        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.
@@ -355,7 +360,7 @@ namespace XCharts
                         {
                             content = content.Replace("{a}", serie.name);
                             content = content.Replace("{b}", needCategory ? category : serieData.name);
-                            content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1)));
+                            content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
                             //if (serie.type == SerieType.Pie)
                             {
                                 var percent = serieData.GetData(1) / serie.yTotal * 100;
@@ -364,7 +369,7 @@ namespace XCharts
                         }
                         content = content.Replace("{a" + i + "}", serie.name);
                         content = content.Replace("{b" + i + "}", needCategory ? category : serieData.name);
-                        content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1)));
+                        content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
                         //if (serie.type == SerieType.Pie)
                         {
                             var percent = serieData.GetData(1) / serie.yTotal * 100;
@@ -381,12 +386,12 @@ namespace XCharts
         public string GetFormatterContent(string serieName, string dataName, float dataValue)
         {
             if (string.IsNullOrEmpty(m_Formatter))
-                return ChartCached.FloatToStr(dataValue);
+                return ChartCached.FloatToStr(dataValue, 0, m_ForceENotation);
             else
             {
                 var content = m_Formatter.Replace("{a}", serieName);
                 content = content.Replace("{b}", dataName);
-                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue));
+                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue, 0, m_ForceENotation));
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
                 return content;

@@ -556,7 +556,7 @@ namespace XCharts
                         sb.Append(serie.name).Append("\n");
                     }
                     sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
-                        .Append(key).Append(": ").Append(ChartCached.FloatToStr(value));
+                        .Append(key).Append(": ").Append(ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
                     m_Tooltip.UpdateContentText(sb.ToString());
                 }
                 else

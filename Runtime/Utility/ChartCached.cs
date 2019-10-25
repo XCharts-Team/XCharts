@@ -13,28 +13,48 @@ namespace XCharts
     public static class ChartCached
     {
         private static Dictionary<float, string> s_ValueToF1Str = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToE1Str = new Dictionary<float, string>(1000);
         private static Dictionary<float, string> s_ValueToF2Str = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToStr = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToE2Str = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToFnStr = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToEnStr = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToFStr = new Dictionary<float, string>(1000);
+        private static Dictionary<float, string> s_ValueToEStr = new Dictionary<float, string>(1000);
         private static Dictionary<int, string> s_IntToStr = new Dictionary<int, string>(1000);
+        private static Dictionary<int, string> s_IntToFn = new Dictionary<int, string>(20);
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(1000);
 
-        public static string FloatToStr(float value, int f = 0)
+        public static string FloatToStr(float value, int f = 0, bool forceE = false)
         {
-            if (f > 2) f = 2;
             Dictionary<float, string> valueDic;
-            if (f == 1) valueDic = s_ValueToF1Str;
-            else if (f == 2) valueDic = s_ValueToF2Str;
-            else valueDic = s_ValueToStr;
+            if (f == 0) valueDic = forceE ? s_ValueToEStr : s_ValueToFStr;
+            if (f == 1) valueDic = forceE ? s_ValueToE1Str : s_ValueToF1Str;
+            else if (f == 2) valueDic = forceE ? s_ValueToE2Str : s_ValueToF2Str;
+            else valueDic = forceE ? s_ValueToEnStr : s_ValueToFnStr;
             if (valueDic.ContainsKey(value))
             {
                 return valueDic[value];
             }
             else
             {
-                if (f == 1) valueDic[value] = value.ToString("f1");
+                if (f == 0) valueDic[value] = forceE ? value.ToString("E") : value.ToString();
+                else if (f == 1) valueDic[value] = value.ToString("f1");
                 else if (f == 2) valueDic[value] = value.ToString("f2");
-                else valueDic[value] = value.ToString();
+                else valueDic[value] = (f > 3 || forceE) ? value.ToString("E1") : value.ToString(GetFn(f));
                 return valueDic[value];
+            }
+        }
+
+        private static string GetFn(int f)
+        {
+            if (s_IntToFn.ContainsKey(f))
+            {
+                return s_IntToFn[f];
+            }
+            else
+            {
+                s_IntToFn[f] = "f" + f;
+                return s_IntToFn[f];
             }
         }
 

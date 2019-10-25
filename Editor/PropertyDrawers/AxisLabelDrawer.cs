@@ -29,6 +29,7 @@ namespace XCharts
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
+            SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle, prop, "Axis Label", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -51,6 +52,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ForceENotation);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
         }
@@ -60,7 +63,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_AxisLabelToggle, prop))
             {
-                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
+                height += 9 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
             }
             return height;
         }

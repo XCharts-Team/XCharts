@@ -40,7 +40,7 @@ namespace XCharts
                 if (f == 0) valueDic[value] = forceE ? value.ToString("E") : value.ToString();
                 else if (f == 1) valueDic[value] = value.ToString("f1");
                 else if (f == 2) valueDic[value] = value.ToString("f2");
-                else valueDic[value] = (f > 3 || forceE) ? value.ToString("E1") : value.ToString(GetFn(f));
+                else valueDic[value] = (f > 3 || forceE) ? value.ToString("E0") : value.ToString(GetFn(f));
                 return valueDic[value];
             }
         }

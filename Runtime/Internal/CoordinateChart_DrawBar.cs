@@ -22,7 +22,8 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
-            float categoryWidth = yAxis.GetDataWidth(coordinateHeight, m_DataZoom);
+            var showData = serie.GetDataList(m_DataZoom);
+            float categoryWidth = yAxis.GetDataWidth(coordinateHeight,showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -30,7 +31,7 @@ namespace XCharts
             float barGapWidth = barWidth + barWidth * barGap;
             float space = serie.barGap == -1 ? offset : offset + m_BarLastOffset;
 
-            var showData = serie.GetDataList(m_DataZoom);
+
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -131,7 +132,7 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
 
-            float categoryWidth = xAxis.GetDataWidth(coordinateWidth, m_DataZoom);
+            float categoryWidth = xAxis.GetDataWidth(coordinateWidth,showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);

@@ -91,7 +91,7 @@ namespace XCharts
             var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
-            float scaleWid = xAxis.GetDataWidth(coordinateWidth, m_DataZoom);
+            float scaleWid = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
             float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
@@ -330,7 +330,7 @@ namespace XCharts
             var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
-            float scaleWid = yAxis.GetDataWidth(coordinateHeight, m_DataZoom);
+            float scaleWid = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
             float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)

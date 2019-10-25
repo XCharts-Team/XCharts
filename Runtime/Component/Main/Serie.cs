@@ -209,7 +209,7 @@ namespace XCharts
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
-        [SerializeField] private Animation m_Animation = new Animation();
+        [SerializeField] private SerieAnimation m_Animation = new SerieAnimation();
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
@@ -401,7 +401,7 @@ namespace XCharts
         /// The start animation.
         /// 起始动画。
         /// </summary>
-        public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
+        public SerieAnimation animation { get { return m_Animation; } set { m_Animation = value; } }
         /// <summary>
         /// The arrow of line.
         /// 折线图的箭头。

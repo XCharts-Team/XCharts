@@ -409,9 +409,21 @@ namespace XCharts
             return (Color32)color;
         }
 
-        public static int GetMaxDivisibleValue(float max)
+        public static float GetMaxDivisibleValue(float max)
         {
             if (max == 0) return 0;
+            if (max > -1 && max < 1)
+            {
+                int count = 1;
+                int intvalue = (int)(max * Mathf.Pow(10, count));
+                while (intvalue == 0 && count < 12)
+                {
+                    count++;
+                    intvalue = (int)(max * Mathf.Pow(10, count));
+                }
+                if (max > 0) return 1 / Mathf.Pow(10, count - 1);
+                else return -1 / Mathf.Pow(10, count);
+            }
             int bigger = Mathf.CeilToInt(Mathf.Abs(max));
             int n = 1;
             while (bigger / (Mathf.Pow(10, n)) > 10)
@@ -428,9 +440,21 @@ namespace XCharts
             else return Mathf.CeilToInt(mm);
         }
 
-        public static int GetMinDivisibleValue(float min)
+        public static float GetMinDivisibleValue(float min)
         {
             if (min == 0) return 0;
+            if (min > -1 && min < 1)
+            {
+                int count = 1;
+                int intvalue = (int)(min * Mathf.Pow(10, count));
+                while (intvalue == 0 && count < 12)
+                {
+                    count++;
+                    intvalue = (int)(min * Mathf.Pow(10, count));
+                }
+                if (min > 0) return 1 / Mathf.Pow(10, count);
+                else return -1 / Mathf.Pow(10, count - 1);
+            }
             int bigger = Mathf.FloorToInt(Mathf.Abs(min));
             int n = 1;
             while (bigger / (Mathf.Pow(10, n)) > 10)
@@ -445,6 +469,19 @@ namespace XCharts
             }
             if (min < 0) return -Mathf.FloorToInt(mm);
             else return Mathf.FloorToInt(mm);
+        }
+
+        public static int GetFloatAccuracy(float value)
+        {
+            if (value > 1 || value < -1) return 0;
+            int count = 1;
+            int intvalue = (int)(value * Mathf.Pow(10, count));
+            while (intvalue == 0 && count < 12)
+            {
+                count++;
+                intvalue = (int)(value * Mathf.Pow(10, count));
+            }
+            return count;
         }
 
         public static void AddEventListener(GameObject obj, EventTriggerType type,

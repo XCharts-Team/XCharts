@@ -556,7 +556,7 @@ namespace XCharts
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
         public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            out int minVaule, out int maxValue)
+            out float minVaule, out float maxValue)
         {
             GetMinMaxValue(dataZoom, axisIndex, isValueAxis, false, out minVaule, out maxValue);
         }
@@ -569,7 +569,7 @@ namespace XCharts
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
         public void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            out int minVaule, out int maxValue)
+            out float minVaule, out float maxValue)
         {
             GetMinMaxValue(dataZoom, axisIndex, isValueAxis, true, out minVaule, out maxValue);
         }
@@ -577,7 +577,7 @@ namespace XCharts
         private Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
         public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool yValue,
-            out int minVaule, out int maxValue)
+            out float minVaule, out float maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -593,7 +593,6 @@ namespace XCharts
                     {
                         if (isPercentStack && IsPercentStack(serie.name, SerieType.Bar))
                         {
-                            Debug.LogError("minmax:" + serie.name);
                             if (100 > max) max = 100;
                             if (0 < min) min = 0;
                         }
@@ -665,8 +664,14 @@ namespace XCharts
             }
             else
             {
-                minVaule = Mathf.FloorToInt(min);
-                maxValue = Mathf.CeilToInt(max);
+                if (max > 1)
+                {
+                    minVaule = Mathf.FloorToInt(min);
+                    maxValue = Mathf.CeilToInt(max);
+                }else{
+                    minVaule = min;
+                    maxValue = max;
+                }
             }
         }
 

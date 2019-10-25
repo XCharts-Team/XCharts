@@ -1,7 +1,7 @@
 {
   "name": "com.monitor1394.xcharts",
   "displayName": "XCharts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2018.3",
   "description": "A charting and data visualization library for Unity.",
   "keywords": [

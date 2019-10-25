@@ -138,6 +138,9 @@
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `minHeight`：最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
+* `fontSize`：文字的字体大小。
+* `fontStyle`：文字的字体风格。
+* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `DataZoom`
 
@@ -424,6 +427,7 @@
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
 * `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `AxisLine`
 
@@ -585,6 +589,7 @@
 * `border`：是否显示边框。
 * `borderWidth`：边框宽度。
 * `borderColor`：边框颜色。
+* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `SerieSymbol`
 

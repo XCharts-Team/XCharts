@@ -19,7 +19,6 @@
 
 子组件：
 
-* [Animation 动画](#Animation)  
 * [AreaStyle 区域填充样式](#AreaStyle)  
 * [AxisLabel 坐标轴刻度标签](#AxisLabel)  
 * [AxisLine 坐标轴轴线](#AxisLine)  
@@ -31,6 +30,7 @@
 * [LineArrow 折线图箭头](#LineArrow)  
 * [LineStyle 折线图样式](#LineStyle)  
 * [Location 位置](#Location)  
+* [SerieAnimation 动画](#SerieAnimation)  
 * [SerieData 数据项](#SerieData)  
 * [SerieLabel 图形上的文本标签](#SerieLabel)  
 * [SerieSymbol 图形标记](#SerieSymbol)  
@@ -367,7 +367,7 @@
 * `pieRadius`：饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
-* `animation`：起始动画 [Animation](#Animation)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `lineArrow`：折线图的箭头 [LineArrow](#LineArrow)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 

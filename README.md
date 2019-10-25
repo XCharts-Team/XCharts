@@ -106,11 +106,11 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 * 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，强烈建议通过`Package Manager`的`Git`来导入包：
   1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：  
   ``` json
-  "unity-ugui-xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+  "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
   ```
   2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
   3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。
-  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`unity-ugui-xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
+  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`com.monitor1394.xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
 
 * 在Editor上快速创建一个图表：
 

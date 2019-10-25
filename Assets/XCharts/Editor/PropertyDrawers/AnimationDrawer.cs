@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [CustomPropertyDrawer(typeof(Animation), true)]
+    [CustomPropertyDrawer(typeof(SerieAnimation), true)]
     public class AnimationDrawer : PropertyDrawer
     {
         private Dictionary<string, bool> m_AnimationModuleToggle = new Dictionary<string, bool>();

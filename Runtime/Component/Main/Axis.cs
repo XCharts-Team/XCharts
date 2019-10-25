@@ -95,8 +95,8 @@ namespace XCharts
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
-        [SerializeField] protected int m_Min;
-        [SerializeField] protected int m_Max;
+        [SerializeField] protected float m_Min;
+        [SerializeField] protected float m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
         [SerializeField] protected float m_Interval = 0;
         [SerializeField] protected bool m_ShowSplitLine = false;
@@ -132,12 +132,12 @@ namespace XCharts
         /// The minimun value of axis.
         /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
-        public int min { get { return m_Min; } set { m_Min = value; } }
+        public float min { get { return m_Min; } set { m_Min = value; } }
         /// <summary>
         /// The maximum value of axis.
         /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
-        public int max { get { return m_Max; } set { m_Max = value; } }
+        public float max { get { return m_Max; } set { m_Max = value; } }
         /// <summary>
         /// Number of segments that the axis is split into.
         /// 坐标轴的分割段数。
@@ -456,7 +456,7 @@ namespace XCharts
                     value = (minValue + (maxValue - minValue) * index / (split - 1));
                 }
                 if (forcePercent) return string.Format("{0}%", (int)value);
-                else return m_AxisLabel.GetFormatterContent(value);
+                else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -583,7 +583,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        public void AdjustMinMaxValue(ref int minValue, ref int maxValue)
+        public void AdjustMinMaxValue(ref float minValue, ref float maxValue)
         {
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
@@ -655,6 +655,8 @@ namespace XCharts
                 m_AxisLabel.Equals(other.axisLabel) &&
                 splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
+                minValue == other.minValue &&
+                maxValue == other.maxValue &&
                 axisName.Equals(other.axisName) &&
                 ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
         }

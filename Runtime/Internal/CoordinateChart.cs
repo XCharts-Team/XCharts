@@ -319,8 +319,8 @@ namespace XCharts
                             if (serieData != null && serieData.highlighted)
                             {
                                 sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
-                                sb.Append("[").Append(ChartCached.FloatToStr(xValue)).Append(",")
-                                    .Append(ChartCached.FloatToStr(yValue)).Append("]\n");
+                                sb.Append("[").Append(ChartCached.FloatToStr(xValue, 0, m_Tooltip.forceENotation)).Append(",")
+                                    .Append(ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation)).Append("]\n");
                             }
                         }
                         else
@@ -328,7 +328,7 @@ namespace XCharts
                             sb.Append("\n")
                                 .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
                                 .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                                .Append(ChartCached.FloatToStr(yValue));
+                                .Append(ChartCached.FloatToStr(yValue,0,m_Tooltip.forceENotation));
                         }
                     }
                 }
@@ -766,8 +766,8 @@ namespace XCharts
         private void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
         {
             if (axis.IsCategory() || !axis.show) return;
-            int tempMinValue = 0;
-            int tempMaxValue = 0;
+            float tempMinValue = 0;
+            float tempMaxValue = 0;
 
             if (IsValue())
             {
@@ -788,7 +788,6 @@ namespace XCharts
             if (tempMinValue != axis.minValue || tempMaxValue != axis.maxValue)
             {
                 m_CheckMinMaxValue = true;
-
                 axis.minValue = tempMinValue;
                 axis.maxValue = tempMaxValue;
                 axis.zeroXOffset = 0;
@@ -1039,8 +1038,8 @@ namespace XCharts
                 float scaleWid = coordinateWidth / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                int minValue = 0;
-                int maxValue = 0;
+                float minValue = 0;
+                float maxValue = 0;
                 m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue);
 

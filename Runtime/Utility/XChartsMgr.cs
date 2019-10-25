@@ -1,3 +1,10 @@
+/******************************************/
+/*                                        */
+/*     Copyright (c) 2018 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
+
 using System.Text;
 
 using System.Collections;
@@ -36,7 +43,10 @@ namespace XCharts
                     {
                         go = new GameObject();
                         go.name = "_xcharts_";
-                        DontDestroyOnLoad(go);
+                        if (Application.isPlaying)
+                        {
+                            DontDestroyOnLoad(go);
+                        }
                         m_XCharts = go.AddComponent<XChartsMgr>();
                     }
                     else

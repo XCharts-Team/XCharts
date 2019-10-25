@@ -422,11 +422,12 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetDataWidth(float coordinateWidth, DataZoom dataZoom)
+        public float GetDataWidth(float coordinateWidth, int dataCount, DataZoom dataZoom)
         {
-            var dataCount = GetDataNumber(dataZoom);
-            int segment = (m_BoundaryGap ? dataCount : dataCount - 1);
-            segment = segment <= 0 ? 1 : segment;
+            if (dataCount < 1) dataCount = 1;
+            var categoryCount = GetDataNumber(dataZoom);
+            int segment = (m_BoundaryGap ? categoryCount : categoryCount - 1);
+            segment = segment <= 0 ? dataCount : segment;
             return coordinateWidth / segment;
         }
 
@@ -576,6 +577,13 @@ namespace XCharts
             {
                 m_TooltipLabel.transform.localPosition = pos;
             }
+        }
+
+        internal bool NeedShowSplit()
+        {
+            if (!show) return false;
+            if (IsCategory() && data.Count <= 0) return false;
+            else return true;
         }
 
         /// <summary>

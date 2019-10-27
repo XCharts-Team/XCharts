@@ -213,7 +213,7 @@ namespace XCharts
                 totalLegend++;
             }
             m_Legend.RemoveButton();
-            ChartHelper.DestoryAllChilds(legendObject.transform);
+            ChartHelper.DestroyAllChildren(legendObject.transform);
             if (!m_Legend.show) return;
             for (int i = 0; i < datas.Count; i++)
             {
@@ -289,7 +289,7 @@ namespace XCharts
         {
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            ChartHelper.DestoryAllChilds(labelObject.transform);
+            // ChartHelper.DestroyAllChildren(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {

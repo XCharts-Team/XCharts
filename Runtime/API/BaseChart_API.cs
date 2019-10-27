@@ -417,6 +417,17 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Update chart theme info.
+        /// </summary>
+        /// <param name="info">info</param>
+        public void UpdateThemeInfo(ThemeInfo info)
+        {
+            m_ThemeInfo = info;
+            UpdateTheme(m_ThemeInfo.theme);
+        }
+
+
+        /// <summary>
         /// Whether series animation enabel.
         /// 启用或关闭起始动画。
         /// </summary>

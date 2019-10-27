@@ -19,6 +19,10 @@ namespace XCharts
     public partial class BaseChart
     {
         /// <summary>
+        /// The theme info.
+        /// </summary>
+        public ThemeInfo themeInfo { get { return m_ThemeInfo; } }
+        /// <summary>
         /// The title setting of chart.
         /// 标题组件
         /// </summary>

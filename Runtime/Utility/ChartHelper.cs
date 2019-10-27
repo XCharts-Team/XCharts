@@ -72,12 +72,12 @@ namespace XCharts
             }
         }
 
-        public static void DestoryAllChilds(Transform parent)
+        public static void DestroyAllChildren(Transform parent)
         {
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);
-                if (go.childCount > 0) DestoryAllChilds(go);
+                if (go.childCount > 0) DestroyAllChildren(go);
                 else GameObject.DestroyImmediate(go.gameObject);
             }
         }

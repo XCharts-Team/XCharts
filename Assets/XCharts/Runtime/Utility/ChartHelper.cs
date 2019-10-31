@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace XCharts
 {
@@ -74,6 +77,13 @@ namespace XCharts
 
         public static void DestroyAllChildren(Transform parent)
         {
+            if(parent == null) return;
+#if UNITY_EDITOR
+            if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
+            {
+                return;
+            }
+#endif
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);

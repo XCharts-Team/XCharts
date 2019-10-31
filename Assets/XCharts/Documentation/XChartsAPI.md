@@ -8,6 +8,7 @@
 
 ---
 
+* `BaseChart.themeInfo`：主题组件`ThemeInfo`。
 * `BaseChart.title`：标题组件`Title`。
 * `BaseChart.legend`：图例组件`Legend`。
 * `BaseChart.tooltip`：提示框组件`Tooltip`。

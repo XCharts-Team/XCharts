@@ -289,7 +289,7 @@ namespace XCharts
         {
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            // ChartHelper.DestroyAllChildren(labelObject.transform);
+            ChartHelper.DestroyAllChildren(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {

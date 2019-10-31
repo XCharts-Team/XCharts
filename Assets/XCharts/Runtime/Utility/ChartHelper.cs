@@ -77,7 +77,7 @@ namespace XCharts
 
         public static void DestroyAllChildren(Transform parent)
         {
-            if(parent == null) return;
+            if (parent == null) return;
 #if UNITY_EDITOR
             if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
             {
@@ -87,8 +87,10 @@ namespace XCharts
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);
-                if (go.childCount > 0) DestroyAllChildren(go);
-                else GameObject.DestroyImmediate(go.gameObject);
+                if (go != null)
+                {
+                    GameObject.DestroyImmediate(go.gameObject);
+                }
             }
         }
 

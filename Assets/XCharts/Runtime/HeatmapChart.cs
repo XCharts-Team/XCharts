@@ -87,8 +87,8 @@ namespace XCharts
 
         protected override void RefreshTooltip()
         {
-            var xData = m_Tooltip.xValues[0];
-            var yData = m_Tooltip.yValues[0];
+            var xData = m_Tooltip.runtimeXValues[0];
+            var yData = m_Tooltip.runtimeYValues[0];
             if (IsCategory() && (xData < 0 || yData < 0)) return;
             sb.Length = 0;
             for (int i = 0; i < m_Series.Count; i++)
@@ -117,13 +117,13 @@ namespace XCharts
             }
             m_Tooltip.UpdateContentText(sb.ToString().Trim());
             var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.width > chartWidth)
+            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
             {
-                pos.x = chartWidth - m_Tooltip.width;
+                pos.x = chartWidth - m_Tooltip.runtimeWidth;
             }
-            if (pos.y - m_Tooltip.height < 0)
+            if (pos.y - m_Tooltip.runtimeHeight < 0)
             {
-                pos.y = m_Tooltip.height;
+                pos.y = m_Tooltip.runtimeHeight;
             }
             m_Tooltip.UpdateContentPos(pos);
             m_Tooltip.SetActive(true);

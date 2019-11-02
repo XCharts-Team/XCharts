@@ -124,42 +124,42 @@ namespace XCharts
         /// The data index currently indicated by Tooltip.
         /// 当前提示框所指示的数据项索引。
         /// </summary>
-        public List<int> dataIndex { get; set; }
+        public List<int> runtimeDataIndex { get; internal set; }
         /// <summary>
         /// the value for x indicator label.
         /// 指示器X轴上要显示的值。
         /// </summary>
-        public float[] xValues { get; set; }
+        public float[] runtimeXValues { get; internal set; }
         /// <summary>
         /// the value for y indicator label. 
         /// 指示器Y轴上要显示的值。
         /// </summary>
-        public float[] yValues { get; set; }
+        public float[] runtimeYValues { get; internal set; }
         /// <summary>
         /// the current pointer position.
         /// 当前鼠标位置。
         /// </summary>
-        public Vector2 pointerPos { get; set; }
+        public Vector2 runtimePointerPos { get; internal set; }
         /// <summary>
         /// the width of tooltip. 
         /// 提示框宽。
         /// </summary>
-        public float width { get { return m_ContentRect.sizeDelta.x; } }
+        public float runtimeWidth { get { return m_ContentRect.sizeDelta.x; } }
         /// <summary>
         /// the height of tooltip. 
         /// 提示框高。
         /// </summary>
-        public float height { get { return m_ContentRect.sizeDelta.y; } }
+        public float runtimeHeight { get { return m_ContentRect.sizeDelta.y; } }
         /// <summary>
         /// Whether the tooltip has been initialized. 
         /// 提示框是否已初始化。
         /// </summary>
-        public bool inited { get { return m_GameObject != null; } }
+        public bool runtimeInited { get { return m_GameObject != null; } }
         /// <summary>
         /// the gameObject of tooltip. 
         /// 提示框的gameObject。
         /// </summary>
-        public GameObject gameObject { get { return m_GameObject; } }
+        public GameObject runtimeGameObject { get { return m_GameObject; } }
 
         public static Tooltip defaultTooltip
         {
@@ -168,9 +168,9 @@ namespace XCharts
                 var tooltip = new Tooltip
                 {
                     m_Show = true,
-                    xValues = new float[2] { -1, -1 },
-                    yValues = new float[2] { -1, -1 },
-                    dataIndex = new List<int>() { -1, -1 },
+                    runtimeXValues = new float[2] { -1, -1 },
+                    runtimeYValues = new float[2] { -1, -1 },
+                    runtimeDataIndex = new List<int>() { -1, -1 },
                     lastDataIndex = new List<int>() { -1, -1 }
                 };
                 return tooltip;
@@ -214,7 +214,8 @@ namespace XCharts
         /// <param name="color"></param>
         public void SetContentBackgroundColor(Color color)
         {
-            m_Content.GetComponent<Image>().color = color;
+            if (m_Content != null && m_Content.GetComponent<Image>() != null)
+                m_Content.GetComponent<Image>().color = color;
         }
 
         /// <summary>
@@ -252,11 +253,11 @@ namespace XCharts
         /// <summary>
         /// 清除提示框指示数据
         /// </summary>
-        public void ClearValue()
+        internal void ClearValue()
         {
-            dataIndex[0] = dataIndex[1] = -1;
-            xValues[0] = xValues[1] = -1;
-            yValues[0] = yValues[1] = -1;
+            runtimeDataIndex[0] = runtimeDataIndex[1] = -1;
+            runtimeXValues[0] = runtimeXValues[1] = -1;
+            runtimeYValues[0] = runtimeYValues[1] = -1;
         }
 
         /// <summary>
@@ -308,17 +309,17 @@ namespace XCharts
         /// <returns></returns>
         public bool IsDataIndexChanged()
         {
-            return dataIndex[0] != lastDataIndex[0] ||
-                dataIndex[1] != lastDataIndex[1];
+            return runtimeDataIndex[0] != lastDataIndex[0] ||
+                runtimeDataIndex[1] != lastDataIndex[1];
         }
 
         /// <summary>
         /// 当前索引缓存
         /// </summary>
-        public void UpdateLastDataIndex()
+        internal void UpdateLastDataIndex()
         {
-            lastDataIndex[0] = dataIndex[0];
-            lastDataIndex[1] = dataIndex[1];
+            lastDataIndex[0] = runtimeDataIndex[0];
+            lastDataIndex[1] = runtimeDataIndex[1];
         }
 
         /// <summary>
@@ -327,7 +328,7 @@ namespace XCharts
         /// <returns></returns>
         public bool IsSelected()
         {
-            return dataIndex[0] >= 0 || dataIndex[1] >= 0;
+            return runtimeDataIndex[0] >= 0 || runtimeDataIndex[1] >= 0;
         }
 
         /// <summary>
@@ -337,10 +338,10 @@ namespace XCharts
         /// <returns></returns>
         public bool IsSelected(int index)
         {
-            return dataIndex[0] == index || dataIndex[1] == index;
+            return runtimeDataIndex[0] == index || runtimeDataIndex[1] == index;
         }
 
-        public string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
+        internal string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -383,7 +384,7 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterContent(string serieName, string dataName, float dataValue)
+        internal string GetFormatterContent(string serieName, string dataName, float dataValue)
         {
             if (string.IsNullOrEmpty(m_Formatter))
                 return ChartCached.FloatToStr(dataValue, 0, m_ForceENotation);

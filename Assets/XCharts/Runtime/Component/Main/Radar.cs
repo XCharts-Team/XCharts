@@ -162,20 +162,17 @@ namespace XCharts
         /// the center position of radar in container.
         /// 雷达图在容器中的具体中心点。
         /// </summary>
-        /// <value></value>
-        public Vector2 centerPos { get; set; }
+        public Vector2 runtimeCenterPos { get; internal set; }
         /// <summary>
         /// the true radius of radar.
         /// 雷达图的运行时实际半径。
         /// </summary>
-        /// <value></value>
-        public float actualRadius { get; set; }
+        public float runtimeRadius { get; internal set; }
         /// <summary>
         /// the data position list of radar.
         /// 雷达图的所有数据坐标点列表。
         /// </summary>
-        /// <returns></returns>
-        public Dictionary<int, List<Vector3>> dataPosList = new Dictionary<int, List<Vector3>>();
+        public Dictionary<int, List<Vector3>> runtimeDataPosList = new Dictionary<int, List<Vector3>>();
 
         public static Radar defaultRadar
         {
@@ -344,23 +341,23 @@ namespace XCharts
             return 0;
         }
 
-        public void UpdateRadarCenter(float chartWidth, float chartHeight)
+        internal void UpdateRadarCenter(float chartWidth, float chartHeight)
         {
             if (center.Length < 2) return;
             var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
             var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            centerPos = new Vector2(centerX, centerY);
+            runtimeCenterPos = new Vector2(centerX, centerY);
             if (radius <= 0)
             {
-                actualRadius = 0;
+                runtimeRadius = 0;
             }
             else if (radius <= 1)
             {
-                actualRadius = Mathf.Min(chartWidth, chartHeight) * radius;
+                runtimeRadius = Mathf.Min(chartWidth, chartHeight) * radius;
             }
             else
             {
-                actualRadius = radius;
+                runtimeRadius = radius;
             }
         }
 
@@ -368,8 +365,8 @@ namespace XCharts
         {
             int indicatorNum = indicatorList.Count;
             var angle = 2 * Mathf.PI / indicatorNum * index;
-            var x = centerPos.x + actualRadius * Mathf.Sin(angle);
-            var y = centerPos.y + actualRadius * Mathf.Cos(angle);
+            var x = runtimeCenterPos.x + runtimeRadius * Mathf.Sin(angle);
+            var y = runtimeCenterPos.y + runtimeRadius * Mathf.Cos(angle);
             return new Vector3(x, y);
         }
     }

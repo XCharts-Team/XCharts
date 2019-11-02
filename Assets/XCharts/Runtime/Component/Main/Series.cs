@@ -143,7 +143,7 @@ namespace XCharts
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Serie GetLastStackSerie(int index)
+        internal Serie GetLastStackSerie(int index)
         {
             var serie = GetSerie(index);
             return GetLastStackSerie(serie);
@@ -154,7 +154,7 @@ namespace XCharts
         /// </summary>
         /// <param name="stack"></param>
         /// <returns></returns>
-        public bool IsAnyGradientSerie(string stack)
+        internal bool IsAnyGradientSerie(string stack)
         {
             if (string.IsNullOrEmpty(stack)) return false;
             foreach (var serie in m_Series)
@@ -172,7 +172,7 @@ namespace XCharts
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public Serie GetLastStackSerie(Serie serie)
+        internal Serie GetLastStackSerie(Serie serie)
         {
             if (serie == null || string.IsNullOrEmpty(serie.stack)) return null;
             for (int i = serie.index - 1; i >= 0; i--)
@@ -461,7 +461,7 @@ namespace XCharts
         /// dataZoom由变化是更新系列的缓存数据
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateFilterData(DataZoom dataZoom)
+        internal void UpdateFilterData(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.enable)
             {
@@ -527,7 +527,7 @@ namespace XCharts
         /// </summary>
         /// <param name="axisIndex"></param>
         /// <returns></returns>
-        public bool IsUsedAxisIndex(int axisIndex)
+        internal bool IsUsedAxisIndex(int axisIndex)
         {
             foreach (var serie in list)
             {
@@ -555,7 +555,7 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        internal void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
             out float minVaule, out float maxValue)
         {
             GetMinMaxValue(dataZoom, axisIndex, isValueAxis, false, out minVaule, out maxValue);
@@ -568,7 +568,7 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        internal void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
             out float minVaule, out float maxValue)
         {
             GetMinMaxValue(dataZoom, axisIndex, isValueAxis, true, out minVaule, out maxValue);
@@ -576,7 +576,7 @@ namespace XCharts
 
         private Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
-        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool yValue,
+        internal void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool yValue,
             out float minVaule, out float maxValue)
         {
             float min = int.MaxValue;
@@ -680,7 +680,7 @@ namespace XCharts
         /// 是否由数据堆叠
         /// </summary>
         /// <returns></returns>
-        public bool IsStack()
+        internal bool IsStack()
         {
             _setForStack.Clear();
             foreach (var serie in m_Series)
@@ -701,7 +701,7 @@ namespace XCharts
         /// <param name="stackName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool IsStack(string stackName, SerieType type)
+        internal bool IsStack(string stackName, SerieType type)
         {
             if (string.IsNullOrEmpty(stackName)) return false;
             int count = 0;
@@ -721,7 +721,7 @@ namespace XCharts
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool IsPercentStack(SerieType type)
+        internal bool IsPercentStack(SerieType type)
         {
             int count = 0;
             bool isPercentStack = false;
@@ -746,7 +746,7 @@ namespace XCharts
         /// <param name="stackName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool IsPercentStack(string stackName, SerieType type)
+        internal bool IsPercentStack(string stackName, SerieType type)
         {
             if (string.IsNullOrEmpty(stackName)) return false;
             int count = 0;
@@ -770,7 +770,7 @@ namespace XCharts
         /// 获得堆叠系列列表
         /// </summary>
         /// <returns></returns>
-        public Dictionary<int, List<Serie>> GetStackSeries()
+        internal Dictionary<int, List<Serie>> GetStackSeries()
         {
             int count = 0;
             Dictionary<string, int> sets = new Dictionary<string, int>();
@@ -810,7 +810,7 @@ namespace XCharts
         /// </summary>
         /// <param name="Dictionary<int"></param>
         /// <param name="stackSeries"></param>
-        public void GetStackSeries(ref Dictionary<int, List<Serie>> stackSeries)
+        internal void GetStackSeries(ref Dictionary<int, List<Serie>> stackSeries)
         {
             int count = 0;
             sets.Clear();
@@ -860,7 +860,7 @@ namespace XCharts
         /// 获得所有系列名，不包含空名字。
         /// </summary>
         /// <returns></returns>
-        public List<string> GetSerieNameList()
+        internal List<string> GetSerieNameList()
         {
             serieNameList.Clear();
             for (int n = 0; n < m_Series.Count; n++)

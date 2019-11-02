@@ -24,9 +24,9 @@ namespace XCharts
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, canvas.worldCamera, out local))
             {
-                if (m_VisualMap.rtSelectedIndex >= 0)
+                if (m_VisualMap.runtimeSelectedIndex >= 0)
                 {
-                    m_VisualMap.rtSelectedIndex = -1;
+                    m_VisualMap.runtimeSelectedIndex = -1;
                     RefreshChart();
                 }
                 return;
@@ -35,9 +35,9 @@ namespace XCharts
                 local.y < 0 || local.y > chartHeight ||
                 !m_VisualMap.IsInRangeRect(local, chartWidth, chartHeight))
             {
-                if (m_VisualMap.rtSelectedIndex >= 0)
+                if (m_VisualMap.runtimeSelectedIndex >= 0)
                 {
-                    m_VisualMap.rtSelectedIndex = -1;
+                    m_VisualMap.runtimeSelectedIndex = -1;
                     RefreshChart();
                 }
                 return;
@@ -63,8 +63,8 @@ namespace XCharts
                     selectedIndex = m_VisualMap.GetIndex(value);
                     break;
             }
-            m_VisualMap.rtSelectedValue = value;
-            m_VisualMap.rtSelectedIndex = selectedIndex;
+            m_VisualMap.runtimeSelectedValue = value;
+            m_VisualMap.runtimeSelectedIndex = selectedIndex;
             RefreshChart();
         }
 
@@ -161,8 +161,8 @@ namespace XCharts
                     }
                     if(animationIndex>= 0 && i> animationIndex) continue;
                     serieData.canShowLabel = true;
-                    var emphasis = (m_Tooltip.show && i == (int)m_Tooltip.xValues[0] && j == (int)m_Tooltip.yValues[0])
-                        || m_VisualMap.rtSelectedIndex > 0;
+                    var emphasis = (m_Tooltip.show && i == (int)m_Tooltip.runtimeXValues[0] && j == (int)m_Tooltip.runtimeYValues[0])
+                        || m_VisualMap.runtimeSelectedIndex > 0;
                     var rectWid = xWidth - 2 * borderWidth;
                     var rectHig = yWidth - 2 * borderWidth;
                     ChartDrawer.DrawPolygon(vh, pos, rectWid / 2, rectHig / 2, color);
@@ -199,10 +199,10 @@ namespace XCharts
             var halfHig = m_VisualMap.itemHeight / 2;
             var xRadius = 0f;
             var yRadius = 0f;
-            var splitNum = m_VisualMap.rtInRange.Count;
+            var splitNum = m_VisualMap.runtimeInRange.Count;
             var splitWid = m_VisualMap.itemHeight / (splitNum - 1);
             var isVertical = false;
-            var colors = m_VisualMap.rtInRange;
+            var colors = m_VisualMap.runtimeInRange;
             var triangeLen = m_Settings.visualMapTriangeLen;
             switch (m_VisualMap.orient)
             {
@@ -215,13 +215,13 @@ namespace XCharts
                     isVertical = false;
                     if (m_VisualMap.calculable)
                     {
-                        var p0 = pos1 + Vector3.right * m_VisualMap.rangeMinHeight;
+                        var p0 = pos1 + Vector3.right * m_VisualMap.runtimeRangeMinHeight;
                         var p1 = p0 + Vector3.up * halfWid;
                         var p2 = p0 + Vector3.up * (halfWid + triangeLen);
                         var p3 = p2 + Vector3.left * triangeLen;
                         var color = m_VisualMap.GetColor(m_VisualMap.rangeMin);
                         ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
-                        p0 = pos1 + Vector3.right * m_VisualMap.rangeMaxHeight;
+                        p0 = pos1 + Vector3.right * m_VisualMap.runtimeRangeMaxHeight;
                         p1 = p0 + Vector3.up * halfWid;
                         p2 = p0 + Vector3.up * (halfWid + triangeLen);
                         p3 = p2 + Vector3.right * triangeLen;
@@ -238,13 +238,13 @@ namespace XCharts
                     isVertical = true;
                     if (m_VisualMap.calculable)
                     {
-                        var p0 = pos1 + Vector3.up * m_VisualMap.rangeMinHeight;
+                        var p0 = pos1 + Vector3.up * m_VisualMap.runtimeRangeMinHeight;
                         var p1 = p0 + Vector3.right * halfWid;
                         var p2 = p0 + Vector3.right * (halfWid + triangeLen);
                         var p3 = p2 + Vector3.down * triangeLen;
                         var color = m_VisualMap.GetColor(m_VisualMap.rangeMin);
                         ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
-                        p0 = pos1 + Vector3.up * m_VisualMap.rangeMaxHeight;
+                        p0 = pos1 + Vector3.up * m_VisualMap.runtimeRangeMaxHeight;
                         p1 = p0 + Vector3.right * halfWid;
                         p2 = p0 + Vector3.right * (halfWid + triangeLen);
                         p3 = p2 + Vector3.up * triangeLen;
@@ -276,7 +276,7 @@ namespace XCharts
                     }
                     else if (rangeMin > splitMin && rangeMax >= splitMax)
                     {
-                        var p0 = pos1 + dir * m_VisualMap.rangeMinHeight;
+                        var p0 = pos1 + dir * m_VisualMap.runtimeRangeMinHeight;
                         var splitMaxPos = pos1 + dir * i * splitWid;
                         var splitPos = p0 + (splitMaxPos - p0) / 2;
                         var startColor = m_VisualMap.GetColor(m_VisualMap.rangeMin);
@@ -289,7 +289,7 @@ namespace XCharts
                     }
                     else if (rangeMax < splitMax && rangeMin <= splitMin)
                     {
-                        var p0 = pos1 + dir * m_VisualMap.rangeMaxHeight;
+                        var p0 = pos1 + dir * m_VisualMap.runtimeRangeMaxHeight;
                         var splitMinPos = pos1 + dir * (i - 1) * splitWid;
                         var splitPos = splitMinPos + (p0 - splitMinPos) / 2;
                         var startColor = colors[i - 1];
@@ -302,8 +302,8 @@ namespace XCharts
                     }
                     else
                     {
-                        var p0 = pos1 + dir * m_VisualMap.rangeMinHeight;
-                        var p1 = pos1 + dir * m_VisualMap.rangeMaxHeight;
+                        var p0 = pos1 + dir * m_VisualMap.runtimeRangeMinHeight;
+                        var p1 = pos1 + dir * m_VisualMap.runtimeRangeMaxHeight;
                         var splitPos = (p0 + p1) / 2;
                         var startColor = m_VisualMap.GetColor(m_VisualMap.rangeMin);
                         var toColor = m_VisualMap.GetColor(m_VisualMap.rangeMax);
@@ -328,38 +328,38 @@ namespace XCharts
 
             if (m_VisualMap.rangeMin > m_VisualMap.min)
             {
-                var p0 = pos1 + dir * m_VisualMap.rangeMinHeight;
+                var p0 = pos1 + dir * m_VisualMap.runtimeRangeMinHeight;
                 ChartDrawer.DrawPolygon(vh, pos1, p0, m_VisualMap.itemWidth / 2, m_ThemeInfo.visualMapBackgroundColor);
             }
             if (m_VisualMap.rangeMax < m_VisualMap.max)
             {
-                var p1 = pos1 + dir * m_VisualMap.rangeMaxHeight;
+                var p1 = pos1 + dir * m_VisualMap.runtimeRangeMaxHeight;
                 ChartDrawer.DrawPolygon(vh, p1, pos2, m_VisualMap.itemWidth / 2, m_ThemeInfo.visualMapBackgroundColor);
             }
 
             if (m_VisualMap.hoverLink)
             {
-                if (m_VisualMap.rtSelectedIndex >= 0)
+                if (m_VisualMap.runtimeSelectedIndex >= 0)
                 {
-                    var p0 = pos1 + dir * m_VisualMap.rangeMinHeight;
-                    var p1 = pos1 + dir * m_VisualMap.rangeMaxHeight;
+                    var p0 = pos1 + dir * m_VisualMap.runtimeRangeMinHeight;
+                    var p1 = pos1 + dir * m_VisualMap.runtimeRangeMaxHeight;
 
                     if (m_VisualMap.orient == Orient.Vertical)
                     {
                         var p2 = new Vector3(centerPos.x + halfWid, Mathf.Clamp(pointerPos.y + (triangeLen / 2), p0.y, p1.y));
                         var p3 = new Vector3(centerPos.x + halfWid, Mathf.Clamp(pointerPos.y - (triangeLen / 2), p0.y, p1.y));
                         var p4 = new Vector3(centerPos.x + halfWid + triangeLen / 2, pointerPos.y);
-                        ChartDrawer.DrawTriangle(vh, p2, p3, p4, colors[m_VisualMap.rtSelectedIndex]);
+                        ChartDrawer.DrawTriangle(vh, p2, p3, p4, colors[m_VisualMap.runtimeSelectedIndex]);
                     }
                     else
                     {
                         var p2 = new Vector3(Mathf.Clamp(pointerPos.x + (triangeLen / 2), p0.x, p1.x), centerPos.y + halfWid);
                         var p3 = new Vector3(Mathf.Clamp(pointerPos.x - (triangeLen / 2), p0.x, p1.x), centerPos.y + halfWid);
                         var p4 = new Vector3(pointerPos.x, centerPos.y + halfWid + triangeLen / 2);
-                        ChartDrawer.DrawTriangle(vh, p2, p3, p4, colors[m_VisualMap.rtSelectedIndex]);
+                        ChartDrawer.DrawTriangle(vh, p2, p3, p4, colors[m_VisualMap.runtimeSelectedIndex]);
                     }
                 }
-                else if (m_Tooltip.show && m_Tooltip.xValues[0] >= 0 && m_Tooltip.yValues[0] >= 0)
+                else if (m_Tooltip.show && m_Tooltip.runtimeXValues[0] >= 0 && m_Tooltip.runtimeYValues[0] >= 0)
                 {
                     // var p0 = pos1 + dir * m_VisualMap.rangeMinHeight;
                     // var p1 = pos1 + dir * m_VisualMap.rangeMaxHeight;

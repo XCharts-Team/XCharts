@@ -30,8 +30,8 @@ namespace XCharts
                 float yValue = serieData.data[1];
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = coordinateY + yAxis.axisLine.width;
-                float xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
-                float yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
+                float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
+                float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
 
                 var datas = serie.data[n].data;

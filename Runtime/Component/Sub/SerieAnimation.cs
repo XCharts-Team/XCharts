@@ -37,31 +37,26 @@ namespace XCharts
         /// Easing method used for the first animation. 
         /// 动画的缓动效果。
         /// </summary>
-        /// <value></value>
         public Easing easing { get { return m_Easting; } set { m_Easting = value; } }
         /// <summary>
         /// The milliseconds duration of the first animation.
         /// 设定的动画时长（毫秒）。
         /// </summary>
-        /// <value></value>
         public int duration { get { return m_Duration; } set { m_Duration = value; } }
         /// <summary>
         /// The milliseconds actual duration of the first animation.
         /// 实际的动画时长（毫秒）。
         /// </summary>
-        /// <value></value>
         public int actualDuration { get { return m_ActualDuration; } }
         /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
         /// 是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
         /// </summary>
-        /// <value></value>
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
         /// <summary>
         /// The milliseconds delay before updating the first animation.
         /// 动画延时（毫秒）。
         /// </summary>
-        /// <value></value>
         public int delay { get { return m_Delay; } set { m_Delay = value; if (m_Delay < 0) m_Delay = 0; } }
 
         private Dictionary<int, float> m_DataAnimationState = new Dictionary<int, float>();
@@ -179,7 +174,7 @@ namespace XCharts
             return dataIndex <= m_CurrDataProgress;
         }
 
-        public void CheckProgress(float delta)
+        internal void CheckProgress(float delta)
         {
             if (!enable) return;
             if (IsInDelay()) return;
@@ -195,7 +190,7 @@ namespace XCharts
             }
         }
 
-        public void CheckSymbol(float delta, float dest)
+        internal void CheckSymbol(float delta, float dest)
         {
             m_CurrSymbolProgress += delta;
             if (m_CurrSymbolProgress > dest) m_CurrSymbolProgress = dest;

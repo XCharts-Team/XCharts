@@ -110,7 +110,7 @@ namespace XCharts
                     var indicator = radar.indicatorList[i];
                     var pos = radar.GetIndicatorPosition(i);
                     TextAnchor anchor = TextAnchor.MiddleCenter;
-                    var diff = pos.x - radar.centerPos.x;
+                    var diff = pos.x - radar.runtimeCenterPos.x;
                     if (diff < -1f)
                     {
                         pos = new Vector3(pos.x - 5, pos.y);
@@ -124,7 +124,7 @@ namespace XCharts
                     else
                     {
                         anchor = TextAnchor.MiddleCenter;
-                        float y = pos.y > radar.centerPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
+                        float y = pos.y > radar.runtimeCenterPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
                         pos = new Vector3(pos.x + txtWid / 2, y);
                     }
                     var textColor = indicator.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : indicator.color;
@@ -212,7 +212,7 @@ namespace XCharts
                 var radar = m_Radars[serie.radarIndex];
                 int indicatorNum = radar.indicatorList.Count;
                 var angle = 2 * Mathf.PI / indicatorNum;
-                Vector3 p = radar.centerPos;
+                Vector3 p = radar.runtimeCenterPos;
                 serie.animation.InitProgress(1, 0, 1);
                 if (!IsActive(i))
                 {
@@ -223,13 +223,13 @@ namespace XCharts
                 {
                     var serieData = serie.data[j];
                     int key = i * 100 + j;
-                    if (!radar.dataPosList.ContainsKey(key))
+                    if (!radar.runtimeDataPosList.ContainsKey(key))
                     {
-                        radar.dataPosList.Add(i * 100 + j, new List<Vector3>(serieData.data.Count));
+                        radar.runtimeDataPosList.Add(i * 100 + j, new List<Vector3>(serieData.data.Count));
                     }
                     else
                     {
-                        radar.dataPosList[key].Clear();
+                        radar.runtimeDataPosList[key].Clear();
                     }
                     string dataName = serieData.name;
                     int serieIndex = 0;
@@ -253,11 +253,11 @@ namespace XCharts
                         continue;
                     }
                     var isHighlight = serie.highlighted || serieData.highlighted ||
-                        (m_Tooltip.show && m_Tooltip.dataIndex[0] == i && m_Tooltip.dataIndex[1] == j);
+                        (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
                     var areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, isHighlight);
                     var lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, isHighlight);
                     int dataCount = radar.indicatorList.Count;
-                    List<Vector3> pointList = radar.dataPosList[key];
+                    List<Vector3> pointList = radar.runtimeDataPosList[key];
                     for (int n = 0; n < dataCount; n++)
                     {
                         if (n >= serieData.data.Count) break;
@@ -269,8 +269,8 @@ namespace XCharts
                             serie.GetMinMaxData(n, out min, out max);
                             min = radar.GetIndicatorMin(n);
                         }
-                        var radius = max < 0 ? radar.actualRadius - radar.actualRadius * value / max
-                        : radar.actualRadius * value / max;
+                        var radius = max < 0 ? radar.runtimeRadius - radar.runtimeRadius * value / max
+                        : radar.runtimeRadius * value / max;
                         var currAngle = n * angle;
                         radius *= rate;
                         if (n == 0)
@@ -331,10 +331,10 @@ namespace XCharts
                 return;
             }
             float insideRadius = 0, outsideRadius = 0;
-            float block = radar.actualRadius / radar.splitNumber;
+            float block = radar.runtimeRadius / radar.splitNumber;
             int indicatorNum = radar.indicatorList.Count;
             Vector3 p1, p2, p3, p4;
-            Vector3 p = radar.centerPos;
+            Vector3 p = radar.runtimeCenterPos;
             float angle = 2 * Mathf.PI / indicatorNum;
             var lineColor = GetLineColor(radar);
             for (int i = 0; i < radar.splitNumber; i++)
@@ -382,9 +382,9 @@ namespace XCharts
                 return;
             }
             float insideRadius = 0, outsideRadius = 0;
-            float block = radar.actualRadius / radar.splitNumber;
+            float block = radar.runtimeRadius / radar.splitNumber;
             int indicatorNum = radar.indicatorList.Count;
-            Vector3 p = radar.centerPos;
+            Vector3 p = radar.runtimeCenterPos;
             Vector3 p1;
             float angle = 2 * Mathf.PI / indicatorNum;
             var lineColor = GetLineColor(radar);
@@ -443,23 +443,23 @@ namespace XCharts
                 if (!IsActive(i)) continue;
                 var serie = m_Series.GetSerie(i);
                 var radar = m_Radars[serie.radarIndex];
-                var dist = Vector2.Distance(radar.centerPos, local);
-                if (dist > radar.actualRadius + serie.symbol.size)
+                var dist = Vector2.Distance(radar.runtimeCenterPos, local);
+                if (dist > radar.runtimeRadius + serie.symbol.size)
                 {
                     continue;
                 }
                 for (int n = 0; n < serie.data.Count; n++)
                 {
                     var posKey = i * 100 + n;
-                    if (radar.dataPosList.ContainsKey(posKey))
+                    if (radar.runtimeDataPosList.ContainsKey(posKey))
                     {
-                        var posList = radar.dataPosList[posKey];
+                        var posList = radar.runtimeDataPosList[posKey];
                         foreach (var pos in posList)
                         {
                             if (Vector2.Distance(pos, local) <= serie.symbol.size * 1.2f)
                             {
-                                m_Tooltip.dataIndex[0] = i;
-                                m_Tooltip.dataIndex[1] = n;
+                                m_Tooltip.runtimeDataIndex[0] = i;
+                                m_Tooltip.runtimeDataIndex[1] = n;
                                 highlight = true;
                                 break;
                             }
@@ -487,7 +487,7 @@ namespace XCharts
         protected override void RefreshTooltip()
         {
             base.RefreshTooltip();
-            int serieIndex = m_Tooltip.dataIndex[0];
+            int serieIndex = m_Tooltip.runtimeDataIndex[0];
             if (serieIndex < 0)
             {
                 if (m_Tooltip.IsActive())
@@ -500,7 +500,7 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
-            var serieData = serie.GetSerieData(m_Tooltip.dataIndex[1]);
+            var serieData = serie.GetSerieData(m_Tooltip.runtimeDataIndex[1]);
             StringBuilder sb = new StringBuilder(serieData.name);
             for (int i = 0; i < radar.indicatorList.Count; i++)
             {
@@ -511,13 +511,13 @@ namespace XCharts
             }
             m_Tooltip.UpdateContentText(sb.ToString());
             var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.width > chartWidth)
+            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
             {
-                pos.x = chartWidth - m_Tooltip.width;
+                pos.x = chartWidth - m_Tooltip.runtimeWidth;
             }
-            if (pos.y - m_Tooltip.height < 0)
+            if (pos.y - m_Tooltip.runtimeHeight < 0)
             {
-                pos.y = m_Tooltip.height;
+                pos.y = m_Tooltip.runtimeHeight;
             }
             m_Tooltip.UpdateContentPos(pos);
         }

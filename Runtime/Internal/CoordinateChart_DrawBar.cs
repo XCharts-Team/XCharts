@@ -50,7 +50,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
                 float value = showData[i].data[1];
-                float pX = seriesHig[i] + coordinateX + xAxis.zeroXOffset + yAxis.axisLine.width;
+                float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
 
@@ -64,8 +64,8 @@ namespace XCharts
                 }
                 else
                 {
-                    valueTotal = xAxis.maxValue - xAxis.minValue;
-                    barHig = (xAxis.minValue > 0 ? value - xAxis.minValue : value)
+                    valueTotal = xAxis.runtimeMaxValue - xAxis.runtimeMinValue;
+                    barHig = (xAxis.runtimeMinValue > 0 ? value - xAxis.runtimeMinValue : value)
                         / valueTotal * coordinateWidth;
                     seriesHig[i] += barHig;
                 }
@@ -160,7 +160,7 @@ namespace XCharts
                 }
                 float value = showData[i].data[1];
                 float pX = coordinateX + i * categoryWidth;
-                float zeroY = coordinateY + yAxis.zeroYOffset;
+                float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
 
@@ -174,8 +174,8 @@ namespace XCharts
                 }
                 else
                 {
-                    valueTotal = yAxis.maxValue - yAxis.minValue;
-                    barHig = (yAxis.minValue > 0 ? value - yAxis.minValue : value)
+                    valueTotal = yAxis.runtimeMaxValue - yAxis.runtimeMinValue;
+                    barHig = (yAxis.runtimeMinValue > 0 ? value - yAxis.runtimeMinValue : value)
                         / valueTotal * coordinateHeight;
                     seriesHig[i] += barHig;
                 }

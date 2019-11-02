@@ -148,10 +148,10 @@ namespace XCharts
         private void InitTitle()
         {
             m_Title.OnChanged();
-            TextAnchor anchor = m_Title.location.textAnchor;
-            Vector2 anchorMin = m_Title.location.anchorMin;
-            Vector2 anchorMax = m_Title.location.anchorMax;
-            Vector2 pivot = m_Title.location.pivot;
+            TextAnchor anchor = m_Title.location.runtimeTextAnchor;
+            Vector2 anchorMin = m_Title.location.runtimeAnchorMin;
+            Vector2 anchorMax = m_Title.location.runtimeAnchorMax;
+            Vector2 pivot = m_Title.location.runtimePivot;
             Vector3 titlePosition = m_Title.location.GetPosition(chartWidth, chartHeight);
             Vector3 subTitlePosition = -new Vector3(0, m_Title.textFontSize + m_Title.itemGap, 0);
             float titleWid = chartWidth;
@@ -183,10 +183,10 @@ namespace XCharts
         private void InitLegend()
         {
             m_Legend.OnChanged();
-            TextAnchor anchor = m_Legend.location.textAnchor;
-            Vector2 anchorMin = m_Legend.location.anchorMin;
-            Vector2 anchorMax = m_Legend.location.anchorMax;
-            Vector2 pivot = m_Legend.location.pivot;
+            TextAnchor anchor = m_Legend.location.runtimeTextAnchor;
+            Vector2 anchorMin = m_Legend.location.runtimeAnchorMin;
+            Vector2 anchorMax = m_Legend.location.runtimeAnchorMax;
+            Vector2 pivot = m_Legend.location.runtimePivot;
 
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
@@ -409,7 +409,7 @@ namespace XCharts
 
         private void CheckPointerPos()
         {
-            var needCheck = (m_Tooltip.show && m_Tooltip.inited)
+            var needCheck = (m_Tooltip.show && m_Tooltip.runtimeInited)
                 || raycastTarget;
             if (needCheck)
             {
@@ -429,7 +429,7 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show || !m_Tooltip.inited)
+            if (!m_Tooltip.show || !m_Tooltip.runtimeInited)
             {
                 if (m_Tooltip.IsActive())
                 {
@@ -439,9 +439,9 @@ namespace XCharts
                 }
                 return;
             }
-            for (int i = 0; i < m_Tooltip.dataIndex.Count; i++)
+            for (int i = 0; i < m_Tooltip.runtimeDataIndex.Count; i++)
             {
-                m_Tooltip.dataIndex[i] = -1;
+                m_Tooltip.runtimeDataIndex[i] = -1;
             }
             Vector2 local = pointerPos;
             if (canvas == null) return;
@@ -465,7 +465,7 @@ namespace XCharts
                 }
                 return;
             }
-            m_Tooltip.pointerPos = local;
+            m_Tooltip.runtimePointerPos = local;
             CheckTootipArea(local);
         }
 

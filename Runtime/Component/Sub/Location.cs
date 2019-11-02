@@ -74,25 +74,25 @@ namespace XCharts
         /// Location对应的Anchor锚点
         /// </summary>
         /// <value></value>
-        public TextAnchor textAnchor { get { return m_TextAnchor; } }
+        public TextAnchor runtimeTextAnchor { get { return m_TextAnchor; } }
         /// <summary>
         /// the minimum achor.
         /// Location对应的anchorMin。
         /// </summary>
         /// <value></value>
-        public Vector2 anchorMin { get { return m_AnchorMin; } }
+        public Vector2 runtimeAnchorMin { get { return m_AnchorMin; } }
         /// <summary>
         /// the maximun achor.
         /// Location对应的anchorMax.
         /// </summary>
         /// <value></value>
-        public Vector2 anchorMax { get { return m_AnchorMax; } }
+        public Vector2 runtimeAnchorMax { get { return m_AnchorMax; } }
         /// <summary>
         /// the povot.
         /// Loation对应的中心点。
         /// </summary>
         /// <value></value>
-        public Vector2 pivot { get { return m_Pivot; } }
+        public Vector2 runtimePivot { get { return m_Pivot; } }
 
         public static Location defaultLeft
         {

@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 namespace XCharts
 {
-    public class ObjectPool<T> where T : new()
+    internal class ObjectPool<T> where T : new()
     {
         private readonly Stack<T> m_Stack = new Stack<T>();
         private readonly UnityAction<T> m_ActionOnGet;

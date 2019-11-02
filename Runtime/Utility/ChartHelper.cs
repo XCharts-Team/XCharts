@@ -190,7 +190,7 @@ namespace XCharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
+        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -218,7 +218,7 @@ namespace XCharts
             return iconObj;
         }
 
-        public static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
+        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
             int fontSize, FontStyle fontStyle, float rotate, float width, float height)
         {
             var anchorMin = new Vector2(0.5f, 0.5f);
@@ -238,7 +238,7 @@ namespace XCharts
             return labelObj;
         }
 
-        public static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
+        internal static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
         {
             var anchorMax = new Vector2(0, 0);
             var anchorMin = new Vector2(0, 0);

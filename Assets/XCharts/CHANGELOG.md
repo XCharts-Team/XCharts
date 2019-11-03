@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2019.11.03) 增加`Editor`快捷添加图表：`Hierarchy`试图下右键`XCharts->LineChart`
 * (2019.10.31) 修复`prefab`预设制作报错的问题
 * (2019.10.31) 增加访问主题组件API：`BaseChart.themeInfo`
 * (2019.10.26) 发布`v1.0.1`版本

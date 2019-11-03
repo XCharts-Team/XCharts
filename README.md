@@ -114,9 +114,8 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 * 在Editor上快速创建一个图表：
 
-  1. 在`Canvas`下通过`Create Empty`创建一个空`gameObject`，命名为 `line_chart`。
-  2. 通过菜单栏 `Component->XCharts->LineChart` 或者  `Inspector` 视图的 `Add Component` 添加 `LineChart` 脚本。一个简单的折线图就出来了。
-  3. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)。
+  1. 在`Hierarchy`试图下右键或菜单栏`GameObject`下拉：`XCharts->LineChart`，即可快速创建一个简单的折线图出来。
+  2. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)。
 
 * 更多的代码动态控制的例子请参考[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  。
 

@@ -28,9 +28,9 @@
 
 ---
 
-新建场景或在已有场景的 `Canvas` 下添加一个名为 `line_chart` 的 `GameObject`。  
-
-选中 `line_chart`，通过菜单栏 `Component->XCharts->LineChart` 或者  `Inspector` 视图的 `Add Component` 添加 `LineChart` 脚本。设置 `line_chart` 的尺寸，一个简单的折线图就出来了。
+在`Hierarchy`试图下右键或菜单栏`GameObject`下拉：`XCharts->LineChart`：
+![linechart](screenshot/op_addchart.png)
+即可快速创建一个简单的折线图出来：
 ![linechart](screenshot/linechart.png)
 在 `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](XCharts配置项手册.md)。
 ![inspcetor-desc](screenshot/inpsector-desc.png)
@@ -103,7 +103,6 @@ for (int i = 0; i < 10; i++)
 
 完整代码请查阅`Demo`：`Demo10_LineSimple.cs`  
 你还可以用代码控制更多的参数，[XCharts配置项手册](XCharts配置项手册.md)里面的所有参数都是可以通过代码控制的。
-
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

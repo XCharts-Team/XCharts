@@ -78,7 +78,7 @@ namespace XCharts
         public static void DestroyAllChildren(Transform parent)
         {
             if (parent == null) return;
-#if UNITY_EDITOR
+#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
             if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
             {
                 return;

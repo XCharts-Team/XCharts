@@ -23,6 +23,10 @@ namespace XCharts
         private static Dictionary<int, string> s_IntToStr = new Dictionary<int, string>(1000);
         private static Dictionary<int, string> s_IntToFn = new Dictionary<int, string>(20);
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(1000);
+        private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
+        private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>(1000);
+
+
 
         public static string FloatToStr(float value, int f = 0, bool forceE = false)
         {
@@ -81,6 +85,36 @@ namespace XCharts
             {
                 s_ColorToStr[color] = ColorUtility.ToHtmlStringRGBA(color);
                 return s_ColorToStr[color];
+            }
+        }
+
+        internal static string GetSerieLabelName(string prefix, int i, int j)
+        {
+            int key = i * 10000000 + j;
+            if (s_SerieLabelName.ContainsKey(key))
+            {
+                return s_SerieLabelName[key];
+            }
+            else
+            {
+                string name = prefix + "_" + i + "_" + j;
+                s_SerieLabelName[key] = name;
+                return name;
+            }
+        }
+
+        internal static string GetAxisLabelName(string prefix, bool isYAxis,int axisIndex, int i)
+        {
+            int key = (isYAxis?2:1) * 1000000 + (axisIndex+1) * 100000 + i;
+            if (s_AxisLabelName.ContainsKey(key))
+            {
+                return s_AxisLabelName[key];
+            }
+            else
+            {
+                string name = prefix + "_" + axisIndex + "_" + i;
+                s_AxisLabelName[key] = name;
+                return name;
             }
         }
     }

@@ -202,7 +202,8 @@ namespace XCharts
                 labelText.text = text;
                 if (m_LabelAutoSize)
                 {
-                    var newSize = new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
+                    var newSize = string.IsNullOrEmpty(text) ? Vector2.zero :
+                        new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
                                         labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
                     var sizeChange = newSize.x != labelRect.sizeDelta.x || newSize.y != labelRect.sizeDelta.y;
                     if (sizeChange) labelRect.sizeDelta = newSize;

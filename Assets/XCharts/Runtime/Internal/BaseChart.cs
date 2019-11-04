@@ -289,7 +289,8 @@ namespace XCharts
         {
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            ChartHelper.DestroyAllChildren(labelObject.transform);
+            //ChartHelper.DestroyAllChildren(labelObject.transform);
+            SerieLabelPool.ReleaseAll(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -297,8 +298,8 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (!serie.label.show  && j > 100) continue;
-                    var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
+                    if (!serie.label.show && j > 100) continue;
+                    var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
                     var color = Color.grey;
                     if (serie.type == SerieType.Pie)
                     {
@@ -310,14 +311,10 @@ namespace XCharts
                         color = serie.label.color != Color.clear ? serie.label.color :
                             (Color)m_ThemeInfo.GetColor(i);
                     }
-                    var backgroundColor = serie.label.backgroundColor;
-                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
-                        color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
-                        serie.label.backgroundWidth, serie.label.backgroundHeight);
-
-                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
+                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serie.label, m_ThemeInfo.font, color, serieData);
+                    var iconObj = labelObj.transform.Find("Icon").gameObject;
                     serieData.SetIconObj(iconObj);
-                
+
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
@@ -327,6 +324,7 @@ namespace XCharts
                 }
             }
         }
+
 
         private void InitTooltip()
         {

@@ -65,6 +65,10 @@ namespace XCharts
 
         private XChartsMgr() { }
 
+        private void Awake()
+        {
+            SerieLabelPool.ClearAll();
+        }
 
         public string changeLog { get; private set; }
         public string newVersion { get { return m_NewVersion; } }

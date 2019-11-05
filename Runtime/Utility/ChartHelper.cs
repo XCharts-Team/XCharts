@@ -156,15 +156,13 @@ namespace XCharts
             Text txt = GetOrAddComponent<Text>(txtObj);
             txt.font = font;
             txt.fontSize = fontSize;
+            txt.fontStyle = fontStyle;
             txt.text = "Text";
             txt.alignment = anchor;
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
-            if (rotate > 0)
-            {
-                txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
-            }
+            txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;

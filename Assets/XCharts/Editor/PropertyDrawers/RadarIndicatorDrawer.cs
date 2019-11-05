@@ -21,7 +21,7 @@ namespace XCharts
             SerializedProperty m_Name = prop.FindPropertyRelative("m_Name");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
-            SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
+            SerializedProperty m_TextStyle = prop.FindPropertyRelative("m_TextStyle");
             Rect drawRect = pos;
             float defaultLabelWidth = EditorGUIUtility.labelWidth;
             float defaultFieldWidth = EditorGUIUtility.fieldWidth;
@@ -30,7 +30,7 @@ namespace XCharts
             int index = ChartEditorHelper.GetIndexFromPath(prop);
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_RadarModuleToggle, prop, "Indicator " + index, m_Name, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle,prop))
+            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle, prop))
             {
                 ++EditorGUI.indentLevel;
 
@@ -40,8 +40,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Max);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Color);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_TextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_TextStyle);
 
                 --EditorGUI.indentLevel;
             }
@@ -49,9 +49,11 @@ namespace XCharts
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle,prop))
+            if (ChartEditorHelper.IsToggle(m_RadarModuleToggle, prop))
             {
-                return 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                var height = 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TextStyle"));
+                return height;
             }
             else
             {

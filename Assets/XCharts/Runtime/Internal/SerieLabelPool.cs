@@ -17,7 +17,7 @@ namespace XCharts
         public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color, SerieData serieData)
         {
             GameObject element;
-            if (m_Stack.Count == 0)
+            if (m_Stack.Count == 0 || !Application.isPlaying)
             {
                 element = ChartHelper.AddSerieLabel(name, parent, font,
                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
@@ -39,7 +39,8 @@ namespace XCharts
             ChartHelper.SetActive(element, false);
             //if (m_Stack.Count > 0 && ReferenceEquals(m_Stack.Peek(), element))
             //    Debug.LogError("Internal error. Trying to destroy object that is already released to pool." + element.name);
-            m_Stack.Push(element);
+            if (Application.isPlaying)
+                m_Stack.Push(element);
         }
 
         public static void ReleaseAll(Transform parent)

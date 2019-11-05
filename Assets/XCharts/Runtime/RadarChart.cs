@@ -20,12 +20,10 @@ namespace XCharts
     {
         private const string INDICATOR_TEXT = "indicator";
 
-        //[SerializeField] private Radar radar = Radar.defaultRadar;
         [SerializeField] private List<Radar> m_Radars = new List<Radar>();
         private List<Radar> m_CheckRadars = new List<Radar>();
         private bool m_IsEnterLegendButtom;
 
-        //public Radar radar { get { return radar; } }
         public List<Radar> radars { get { return m_Radars; } }
 
         /// <summary>
@@ -110,30 +108,31 @@ namespace XCharts
                     var indicator = radar.indicatorList[i];
                     var pos = radar.GetIndicatorPosition(i);
                     TextAnchor anchor = TextAnchor.MiddleCenter;
+                    var textStyle = indicator.textStyle;
+                    var textColor = textStyle.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
+                    var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
+                    textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                    new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                    txt.text = radar.indicatorList[i].name;
+                    txt.gameObject.SetActive(radar.indicator);
+                    var txtWidth = txt.preferredWidth;
+                    var sizeDelta = new Vector2(txt.preferredWidth, txt.preferredHeight);
+                    txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
                     var diff = pos.x - radar.runtimeCenterPos.x;
-                    if (diff < -1f)
+                    if (diff < -1f) //left
                     {
-                        pos = new Vector3(pos.x - 5, pos.y);
-                        anchor = TextAnchor.MiddleRight;
+                        pos = new Vector3(pos.x - txtWidth / 2, pos.y);
                     }
-                    else if (diff > 1f)
+                    else if (diff > 1f) //right
                     {
-                        anchor = TextAnchor.MiddleLeft;
-                        pos = new Vector3(pos.x + txtWid + 5, pos.y);
+                        pos = new Vector3(pos.x + txtWidth / 2, pos.y);
                     }
                     else
                     {
-                        anchor = TextAnchor.MiddleCenter;
                         float y = pos.y > radar.runtimeCenterPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
-                        pos = new Vector3(pos.x + txtWid / 2, y);
+                        pos = new Vector3(pos.x, y);
                     }
-                    var textColor = indicator.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : indicator.color;
-                    Text txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
-                        textColor, anchor, Vector2.zero, Vector2.zero, new Vector2(1, 0.5f),
-                        new Vector2(txtWid, txtHig));
-                    txt.transform.localPosition = pos;
-                    txt.text = radar.indicatorList[i].name;
-                    txt.gameObject.SetActive(radar.indicator);
+                    txt.transform.localPosition = pos + new Vector3(textStyle.offset.x, textStyle.offset.y);
                 }
             }
         }
@@ -269,9 +268,9 @@ namespace XCharts
                             serie.GetMinMaxData(n, out min, out max);
                             min = radar.GetIndicatorMin(n);
                         }
-                        var radius = max < 0 ? radar.runtimeRadius - radar.runtimeRadius * value / max
-                        : radar.runtimeRadius * value / max;
-                        var currAngle = n * angle;
+                        var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
+                        : radar.runtimeDataRadius * value / max;
+                        var currAngle = (n + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
                         radius *= rate;
                         if (n == 0)
                         {

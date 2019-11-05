@@ -10,6 +10,7 @@
 * [DataZoom 区域缩放](#DataZoom)  
 * [Grid 网格](#Grid)  
 * [Legend 图例](#Legend)  
+* [Radar 雷达](#Radar)  
 * [Series 系列](#Series)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
@@ -34,6 +35,7 @@
 * [SerieData 数据项](#SerieData)  
 * [SerieLabel 图形上的文本标签](#SerieLabel)  
 * [SerieSymbol 图形标记](#SerieSymbol)  
+* [TextStyle 文本样式](#TextStyle)  
 
 ## `Theme`
 
@@ -114,6 +116,43 @@
 * `AddData(string name)`：添加图例项。
 * `GetData(int index)`：获得指定索引的图例。
 * `GetIndex(string legendName)`：获得指定图例的索引。
+
+## `Radar`
+
+---
+
+* `shape`：雷达图绘制类型。
+  * `Polygon`：多边形。
+  * `Circle`：圆形。
+* `positionType`：显示位置类型。
+  * `Vertice`：显示在顶点处。
+  * `Between`：显示在顶点之间。
+* `radius`：雷达图的半径。
+* `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
+* `indicator`：是否显示指示器。
+* `indicatorGap`：指示器和雷达的间距。
+* `indicatorList`指示器列表 [Radar.Indicator](#Radar.Indicator)。
+
+## `Radar.Indicator`
+
+---
+
+* `name`：指示器名称。
+* `max`：指示器的最大值，默认为 0 无限制。
+* `min`：指示器的最小值，默认为 0 无限制。
+* `textStyle`：文本样式 [TextStyle](#TextStyle)。
+
+## `TextStyle`
+
+---
+
+* `rotate`：旋转。
+* `offset`：偏移。
+* `color`：颜色。
+* `fontSize`：字体大小。
+* `fontStyle`：字体风格。
 
 ## `Tooltip`
 

@@ -174,7 +174,7 @@ namespace XCharts
         /// </summary>
         public float indicatorGap { get { return m_IndicatorGap; } set { m_IndicatorGap = value; } }
         /// <summary>
-        /// 指示器显示位置类型。
+        /// 显示位置类型。
         /// </summary>
         public PositionType positionType { get { return m_PositionType; } set { m_PositionType = value; } }
         /// <summary>

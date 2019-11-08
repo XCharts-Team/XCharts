@@ -8,7 +8,7 @@
 
 using UnityEditor;
 
-namespace XCharts
+namespace XChartsDemo
 {
     /// <summary>
     /// Editor class used to edit UI BaseChart.

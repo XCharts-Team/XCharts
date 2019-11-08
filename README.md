@@ -132,25 +132,21 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 ``` js
 <root>
 ├── Demo                                   // Demo
-│   ├── Editor
-│   │   ├── ChartModuleDrawer.cs
-│   │   └── DemoEditor.cs
-│   ├── Runtime
-│   │   ├── Demo_Dynamic.cs
-│   │   ├── Demo_LargeData.cs
-│   │   ├── Demo_PieChart.cs
-│   │   ├── Demo_Test.cs
-│   │   ├── Demo.cs
-│   │   ├── Demo00_CheatSheet.cs
-│   │   ├── Demo10_LineChart.cs
-│   │   ├── Demo11_AddSinCurve.cs
-│   │   ├── Demo12_CustomDrawing.cs
-│   │   ├── Demo13_LineSimple.cs
-│   │   ├── Demo20_BarChart.cs
-│   │   ├── Demo30_PieChart.cs
-│   │   ├── Demo50_Scatter.cs
-│   │   ├── Demo60_Heatmap.cs
-│   └── demo-xchart.unity
+│   └── Runtime
+│       ├── Demo_Dynamic.cs
+│       ├── Demo_LargeData.cs
+│       ├── Demo_PieChart.cs
+│       ├── Demo_Test.cs
+│       ├── Demo.cs
+│       ├── Demo00_CheatSheet.cs
+│       ├── Demo10_LineChart.cs
+│       ├── Demo11_AddSinCurve.cs
+│       ├── Demo12_CustomDrawing.cs
+│       ├── Demo13_LineSimple.cs
+│       ├── Demo20_BarChart.cs
+│       ├── Demo30_PieChart.cs
+│       ├── Demo50_Scatter.cs
+│       └── Demo60_Heatmap.cs
 ├── Editor                                  // Editor相关代码
 │   ├── PropertyDrawers                     // 组件Drawer
 │   │   ├── AnimationDrawer.cs

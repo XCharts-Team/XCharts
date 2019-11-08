@@ -8,7 +8,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace XCharts
+namespace XChartsDemo
 {
     [CustomPropertyDrawer(typeof(ChartModule), true)]
     public class ChartModuleDrawer : PropertyDrawer

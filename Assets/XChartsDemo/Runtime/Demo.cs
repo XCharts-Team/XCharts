@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using XCharts;
 
-namespace XCharts
+namespace XChartsDemo
 {
     [System.Serializable]
     public class ChartModule
@@ -34,7 +35,7 @@ namespace XCharts
         [SerializeField] private Color m_ButtonNormalColor;
         [SerializeField] private Color m_ButtonSelectedColor;
         [SerializeField] private Color m_ButtonHighlightColor;
-        [SerializeField] private List<ChartModule> m_ChartModule;
+        [SerializeField] private List<ChartModule> m_ChartModule = new List<ChartModule>();
 
         private GameObject m_BtnClone;
         private Theme m_SelectedTheme;

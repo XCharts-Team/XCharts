@@ -1,9 +1,9 @@
 # XCharts
 
 ![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/issues/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/stars/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/forks/monitor1394/unity-ugui-XCharts)
+[![npm Package](https://img.shields.io/npm/v/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
+[![downloads per month](http://img.shields.io/npm/dm/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
+![qq](https://img.shields.io/badge/QQ群-202030963-green)
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 

@@ -461,6 +461,7 @@ namespace XCharts
         /// 饼图的数据项之和
         /// </summary>
         public float runtimePieDataTotal { get; internal set; }
+        internal int runtimeLastCheckDataCount { get; set; }
 
         internal List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
         {

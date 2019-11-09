@@ -289,7 +289,6 @@ namespace XCharts
         {
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            //ChartHelper.DestroyAllChildren(labelObject.transform);
             SerieLabelPool.ReleaseAll(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
@@ -484,6 +483,14 @@ namespace XCharts
 
         protected void CheckRefreshLabel()
         {
+            foreach (var serie in m_Series.list)
+            {
+                if (serie.label.show && serie.runtimeLastCheckDataCount != serie.dataCount)
+                {
+                    m_ReinitLabel = true;
+                    serie.runtimeLastCheckDataCount = serie.dataCount;
+                }
+            }
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;

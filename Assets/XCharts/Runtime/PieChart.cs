@@ -387,6 +387,7 @@ namespace XCharts
 
         protected void UpdateLabelPostion(Serie serie, SerieData serieData)
         {
+            if (serieData.labelText == null) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var currRad = currAngle * Mathf.Deg2Rad;
             var offsetRadius = serieData.runtimePieOffsetRadius;

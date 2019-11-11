@@ -225,6 +225,8 @@ namespace XCharts
                     serie.runtimePieOutsideRadius : outSideRadius;
                 var radius2 = serie.runtimePieOutsideRadius + serie.label.lineLength1;
                 var radius3 = insideRadius + (outSideRadius - insideRadius) / 2;
+                if (radius1 < serie.runtimePieInsideRadius) radius1 = serie.runtimePieInsideRadius;
+                radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
                 var pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);

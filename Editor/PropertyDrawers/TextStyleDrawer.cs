@@ -14,7 +14,7 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(TextStyle), true)]
     public class TextStyleDrawer : PropertyDrawer
     {
-        private Dictionary<string, bool> m_TextStyleToggle = new Dictionary<string, bool>();
+        //private Dictionary<string, bool> m_TextStyleToggle = new Dictionary<string, bool>();
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {

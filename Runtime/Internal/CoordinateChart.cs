@@ -1325,7 +1325,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (serie.label.show || serieData.showIcon)
+                    if (serie.label.show || serieData.iconStyle.show)
                     {
                         var pos = serie.dataPoints[j];
                         var value = serieData.data[1];

@@ -1028,7 +1028,7 @@ namespace XCharts
         {
             foreach (var data in m_Data)
             {
-                data.showIcon = flag;
+                data.iconStyle.show = flag;
             }
         }
 
@@ -1042,7 +1042,7 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.showIcon = flag;
+                data.iconStyle.show = flag;
             }
         }
 
@@ -1055,8 +1055,8 @@ namespace XCharts
         {
             foreach (var data in m_Data)
             {
-                data.iconWidth = width;
-                data.iconHeight = height;
+                data.iconStyle.width = width;
+                data.iconStyle.height = height;
             }
         }
 
@@ -1070,7 +1070,7 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconImage = image;
+                data.iconStyle.sprite = image;
             }
         }
 
@@ -1078,7 +1078,7 @@ namespace XCharts
         {
             foreach (var data in m_Data)
             {
-                if (data.showIcon) return true;
+                if (data.iconStyle.show) return true;
             }
             return false;
         }
@@ -1094,8 +1094,8 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconWidth = width;
-                data.iconHeight = height;
+                data.iconStyle.width = width;
+                data.iconStyle.height = height;
             }
         }
 
@@ -1109,7 +1109,7 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconColor = color;
+                data.iconStyle.color = color;
             }
         }
 

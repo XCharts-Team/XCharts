@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace XCharts
 {
@@ -22,13 +23,7 @@ namespace XCharts
         [SerializeField] private string m_Name;
         [SerializeField] private bool m_Selected;
         [SerializeField] private float m_Radius;
-        [SerializeField] private bool m_ShowIcon;
-        [SerializeField] private Sprite m_IconImage;
-        [SerializeField] private Color m_IconColor = Color.white;
-        [SerializeField] private float m_IconWidth = 40;
-        [SerializeField] private float m_IconHeight = 40;
-        [SerializeField] private Vector3 m_IconOffset;
-
+        [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
@@ -58,32 +53,10 @@ namespace XCharts
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         /// <summary>
-        /// Whether the data icon is show.
-        /// 是否显示图标。
+        /// the icon of data.
+        /// 数据项图标样式。
         /// </summary>
-        public bool showIcon { get { return m_ShowIcon; } set { m_ShowIcon = value; } }
-        /// <summary>
-        /// The image of icon.
-        /// 图标的图片。
-        /// </summary>
-        public Sprite iconImage { get { return m_IconImage; } set { m_IconImage = value; } }
-        /// <summary>
-        /// 图标颜色。
-        /// </summary>
-        public Color iconColor { get { return m_IconColor; } set { m_IconColor = value; } }
-        /// <summary>
-        /// 图标宽。
-        /// </summary>
-        public float iconWidth { get { return m_IconWidth; } set { m_IconWidth = value; } }
-        /// <summary>
-        /// 图标高。
-        /// </summary>
-        public float iconHeight { get { return m_IconHeight; } set { m_IconHeight = value; } }
-        /// <summary>
-        /// 图标偏移。
-        /// </summary>
-        public Vector3 iconOffset { get { return m_IconOffset; } set { m_IconOffset = value; } }
-
+        public IconStyle iconStyle { get { return m_IconStyle; } set { m_IconStyle = value; } }
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
@@ -124,8 +97,7 @@ namespace XCharts
         /// 最小值。
         /// </summary>
         public float min { get { return m_Data.Min(); } }
-        public Image icon { get; private set; }
-        public RectTransform iconRect { get; private set; }
+
         /// <summary>
         /// 关联的gameObject
         /// </summary>
@@ -238,28 +210,19 @@ namespace XCharts
             if (labelRect) labelRect.localPosition = position;
         }
 
-        public void SetIconObj(GameObject iconObj)
+        [Obsolete("Use SerieData.SetIconImage() instead.", true)]
+        public void SetIconObj(GameObject iconObj) { }
+
+        public void SetIconImage(Image image)
         {
-            icon = iconObj.GetComponent<Image>();
-            iconRect = iconObj.GetComponent<RectTransform>();
-            UpdateIcon();
+            if (iconStyle == null) return;
+            iconStyle.SetImage(image);
         }
 
         public void UpdateIcon()
         {
-            if (icon == null) return;
-            if (m_ShowIcon)
-            {
-                ChartHelper.SetActive(icon.gameObject, true);
-                icon.sprite = m_IconImage;
-                icon.color = m_IconColor;
-                iconRect.sizeDelta = new Vector2(m_IconWidth, m_IconHeight);
-                icon.transform.localPosition = m_IconOffset;
-            }
-            else
-            {
-                ChartHelper.SetActive(icon.gameObject, false);
-            }
+            if (iconStyle == null) return;
+            iconStyle.UpdateIcon();
         }
     }
 }

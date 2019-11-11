@@ -22,7 +22,7 @@ namespace XCharts
                 element = ChartHelper.AddSerieLabel(name, parent, font,
                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
                         label.backgroundWidth, label.backgroundHeight);
-                ChartHelper.AddIcon("Icon", element.transform, serieData.iconWidth, serieData.iconHeight);
+                ChartHelper.AddIcon("Icon", element.transform, serieData.iconStyle.width, serieData.iconStyle.height);
             }
             else
             {

@@ -337,7 +337,7 @@ namespace XCharts
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var showLabel = ((serie.label.show || isHighlight) && serieData.canShowLabel);
-            if (showLabel || serieData.showIcon)
+            if (showLabel || serieData.iconStyle.show)
             {
                 serieData.SetLabelActive(showLabel);
                 float rotate = 0;

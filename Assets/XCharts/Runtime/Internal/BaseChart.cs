@@ -311,9 +311,8 @@ namespace XCharts
                             (Color)m_ThemeInfo.GetColor(i);
                     }
                     var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serie.label, m_ThemeInfo.font, color, serieData);
-                    var iconObj = labelObj.transform.Find("Icon").gameObject;
-                    serieData.SetIconObj(iconObj);
-                    iconObj.GetComponent<RectTransform>().SetSiblingIndex(0);
+                    var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
+                    serieData.SetIconImage(iconImage);
 
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);

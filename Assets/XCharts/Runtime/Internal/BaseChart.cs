@@ -313,6 +313,7 @@ namespace XCharts
                     var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serie.label, m_ThemeInfo.font, color, serieData);
                     var iconObj = labelObj.transform.Find("Icon").gameObject;
                     serieData.SetIconObj(iconObj);
+                    iconObj.GetComponent<RectTransform>().SetSiblingIndex(0);
 
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);

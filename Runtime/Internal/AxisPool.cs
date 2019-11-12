@@ -7,7 +7,7 @@
 
 namespace XCharts
 {
-    public static class XAxisPool
+    internal static class XAxisPool
     {
         private static readonly ObjectPool<XAxis> s_ListPool = new ObjectPool<XAxis>(null, null);
 
@@ -22,7 +22,7 @@ namespace XCharts
         }
     }
 
-    public static class YAxisPool
+    internal static class YAxisPool
     {
         private static readonly ObjectPool<YAxis> s_ListPool = new ObjectPool<YAxis>(null, null);
 

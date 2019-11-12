@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace XCharts
 {
@@ -72,13 +75,22 @@ namespace XCharts
             }
         }
 
-        public static void DestoryAllChilds(Transform parent)
+        public static void DestroyAllChildren(Transform parent)
         {
+            if (parent == null) return;
+#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+            if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
+            {
+                return;
+            }
+#endif
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);
-                if (go.childCount > 0) DestoryAllChilds(go);
-                else GameObject.DestroyImmediate(go.gameObject);
+                if (go != null)
+                {
+                    GameObject.DestroyImmediate(go.gameObject);
+                }
             }
         }
 
@@ -144,15 +156,13 @@ namespace XCharts
             Text txt = GetOrAddComponent<Text>(txtObj);
             txt.font = font;
             txt.fontSize = fontSize;
+            txt.fontStyle = fontStyle;
             txt.text = "Text";
             txt.alignment = anchor;
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
-            if (rotate > 0)
-            {
-                txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
-            }
+            txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;
@@ -178,7 +188,7 @@ namespace XCharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
+        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -206,7 +216,7 @@ namespace XCharts
             return iconObj;
         }
 
-        public static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
+        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
             int fontSize, FontStyle fontStyle, float rotate, float width, float height)
         {
             var anchorMin = new Vector2(0.5f, 0.5f);
@@ -226,7 +236,7 @@ namespace XCharts
             return labelObj;
         }
 
-        public static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
+        internal static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
         {
             var anchorMax = new Vector2(0, 0);
             var anchorMin = new Vector2(0, 0);

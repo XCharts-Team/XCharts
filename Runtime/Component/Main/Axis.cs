@@ -208,22 +208,22 @@ namespace XCharts
         /// the current minimun value.
         /// 当前最小值。
         /// </summary>
-        public float minValue { get; set; }
+        public float runtimeMinValue { get; internal set; }
         /// <summary>
         /// the current maximum value.
         /// 当前最大值。
         /// </summary>
-        public float maxValue { get; set; }
+        public float runtimeMaxValue { get; internal set; }
         /// <summary>
         /// the x offset of zero position.
         /// 坐标轴原点在X轴的偏移。
         /// </summary>
-        public float zeroXOffset { get; set; }
+        public float runtimeZeroXOffset { get; internal set; }
         /// <summary>
         /// the y offset of zero position.
         /// 坐标轴原点在Y轴的偏移。
         /// </summary>
-        public float zeroYOffset { get; set; }
+        public float runtimeZeroYOffset { get; internal set; }
 
         private int filterStart;
         private int filterEnd;
@@ -301,7 +301,7 @@ namespace XCharts
         /// <param name="index">类目数据索引</param>
         /// <param name="dataZoom">区域缩放</param>
         /// <returns></returns>
-        public string GetData(int index, DataZoom dataZoom)
+        internal string GetData(int index, DataZoom dataZoom)
         {
             var showData = GetDataList(dataZoom);
             if (index >= 0 && index < showData.Count)
@@ -315,7 +315,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom">区域缩放</param>
         /// <returns></returns>
-        public List<string> GetDataList(DataZoom dataZoom)
+        internal List<string> GetDataList(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.enable)
             {
@@ -333,7 +333,7 @@ namespace XCharts
         /// 更新dataZoom对应的类目数据列表
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateFilterData(DataZoom dataZoom)
+        internal void UpdateFilterData(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.enable)
             {
@@ -366,7 +366,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public int GetSplitNumber(float coordinateWid, DataZoom dataZoom)
+        internal int GetSplitNumber(float coordinateWid, DataZoom dataZoom)
         {
             if (type == AxisType.Value)
             {
@@ -398,7 +398,7 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
+        internal float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
             int segment = (m_BoundaryGap ? split : split - 1);
@@ -411,7 +411,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public int GetDataNumber(DataZoom dataZoom)
+        internal int GetDataNumber(DataZoom dataZoom)
         {
             return GetDataList(dataZoom).Count;
         }
@@ -422,7 +422,7 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetDataWidth(float coordinateWidth, int dataCount, DataZoom dataZoom)
+        internal float GetDataWidth(float coordinateWidth, int dataCount, DataZoom dataZoom)
         {
             if (dataCount < 1) dataCount = 1;
             var categoryCount = GetDataNumber(dataZoom);
@@ -439,7 +439,7 @@ namespace XCharts
         /// <param name="maxValue"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue,
+        internal string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue,
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
@@ -483,7 +483,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
+        internal int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
         {
             if (type == AxisType.Value)
             {
@@ -508,7 +508,7 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetScaleWidth(float coordinateWidth, int index, DataZoom dataZoom)
+        internal float GetScaleWidth(float coordinateWidth, int index, DataZoom dataZoom)
         {
             int num = GetScaleNumber(coordinateWidth, dataZoom) - 1;
             if (num <= 0) num = 1;
@@ -528,18 +528,18 @@ namespace XCharts
         /// 更新刻度标签文字
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
+        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
         {
             for (int i = 0; i < axisLabelTextList.Count; i++)
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, runtimeMinValue, runtimeMaxValue, dataZoom, forcePercent);
                 }
             }
         }
 
-        public void SetTooltipLabel(GameObject label)
+        internal void SetTooltipLabel(GameObject label)
         {
             m_TooltipLabel = label;
             m_TooltipLabelRect = label.GetComponent<RectTransform>();
@@ -547,13 +547,13 @@ namespace XCharts
             m_TooltipLabel.SetActive(true);
         }
 
-        public void SetTooltipLabelColor(Color bgColor, Color textColor)
+        internal void SetTooltipLabelColor(Color bgColor, Color textColor)
         {
             m_TooltipLabel.GetComponent<Image>().color = bgColor;
             m_TooltipLabelText.color = textColor;
         }
 
-        public void SetTooltipLabelActive(bool flag)
+        internal void SetTooltipLabelActive(bool flag)
         {
             if (m_TooltipLabel && m_TooltipLabel.activeInHierarchy != flag)
             {
@@ -561,7 +561,7 @@ namespace XCharts
             }
         }
 
-        public void UpdateTooptipLabelText(string text)
+        internal void UpdateTooptipLabelText(string text)
         {
             if (m_TooltipLabelText)
             {
@@ -571,7 +571,7 @@ namespace XCharts
             }
         }
 
-        public void UpdateTooltipLabelPos(Vector2 pos)
+        internal void UpdateTooltipLabelPos(Vector2 pos)
         {
             if (m_TooltipLabel)
             {
@@ -591,7 +591,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        public void AdjustMinMaxValue(ref float minValue, ref float maxValue)
+        internal void AdjustMinMaxValue(ref float minValue, ref float maxValue)
         {
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
@@ -663,8 +663,8 @@ namespace XCharts
                 m_AxisLabel.Equals(other.axisLabel) &&
                 splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
-                minValue == other.minValue &&
-                maxValue == other.maxValue &&
+                runtimeMinValue == other.runtimeMinValue &&
+                runtimeMaxValue == other.runtimeMaxValue &&
                 axisName.Equals(other.axisName) &&
                 ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
         }

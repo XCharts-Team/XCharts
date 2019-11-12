@@ -208,12 +208,12 @@ namespace XCharts
         /// The start label.
         /// 组件的开始信息文本。
         /// </summary>
-        public Text startLabel { get; set; }
+        private Text m_StartLabel { get; set; }
         /// <summary>
         /// The end label.
         /// 组件的结束信息文本。
         /// </summary>
-        public Text endLabel { get; set; }
+        private Text m_EndLabel { get; set; }
 
         public static DataZoom defaultDataZoom
         {
@@ -297,15 +297,15 @@ namespace XCharts
         /// 是否显示文本
         /// </summary>
         /// <param name="flag"></param>
-        public void SetLabelActive(bool flag)
+        internal void SetLabelActive(bool flag)
         {
-            if (startLabel && startLabel.gameObject.activeInHierarchy != flag)
+            if (m_StartLabel && m_StartLabel.gameObject.activeInHierarchy != flag)
             {
-                startLabel.gameObject.SetActive(flag);
+                m_StartLabel.gameObject.SetActive(flag);
             }
-            if (endLabel && endLabel.gameObject.activeInHierarchy != flag)
+            if (m_EndLabel && m_EndLabel.gameObject.activeInHierarchy != flag)
             {
-                endLabel.gameObject.SetActive(flag);
+                m_EndLabel.gameObject.SetActive(flag);
             }
         }
 
@@ -313,18 +313,18 @@ namespace XCharts
         /// 设置开始文本内容
         /// </summary>
         /// <param name="text"></param>
-        public void SetStartLabelText(string text)
+        internal void SetStartLabelText(string text)
         {
-            if (startLabel) startLabel.text = text;
+            if (m_StartLabel) m_StartLabel.text = text;
         }
 
         /// <summary>
         /// 设置结束文本内容
         /// </summary>
         /// <param name="text"></param>
-        public void SetEndLabelText(string text)
+        internal void SetEndLabelText(string text)
         {
-            if (endLabel) endLabel.text = text;
+            if (m_EndLabel) m_EndLabel.text = text;
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace XCharts
         /// </summary>
         /// <param name="gridBottom"></param>
         /// <returns></returns>
-        public float GetHeight(float gridBottom)
+        internal float GetHeight(float gridBottom)
         {
             if (height <= 0)
             {
@@ -341,6 +341,26 @@ namespace XCharts
                 return height;
             }
             else return height;
+        }
+
+        internal void SetStartLabel(Text startLabel)
+        {
+            m_StartLabel = startLabel;
+        }
+
+        internal void SetEndLabel(Text endLabel)
+        {
+            m_EndLabel = endLabel;
+        }
+
+        internal void UpdateStartLabelPosition(Vector3 pos)
+        {
+            m_StartLabel.transform.localPosition = pos;
+        }
+
+        internal void UpdateEndLabelPosition(Vector3 pos)
+        {
+            m_EndLabel.transform.localPosition = pos;
         }
     }
 }

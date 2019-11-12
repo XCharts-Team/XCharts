@@ -164,14 +164,14 @@ namespace XCharts
         /// 鼠标悬停选中的index
         /// </summary>
         /// <value></value>
-        public int rtSelectedIndex { get; set; }
-        public float rtSelectedValue { get; set; }
+        public int runtimeSelectedIndex { get; internal set; }
+        public float runtimeSelectedValue { get; internal set; }
         /// <summary>
         /// the current pointer position.
         /// 当前鼠标位置。
         /// </summary>
-        public Vector2 pointerPos { get; set; }
-        public bool isVertical { get { return orient == Orient.Vertical; } }
+        public Vector2 runtimePointerPos { get; internal set; }
+        public bool runtimeIsVertical { get { return orient == Orient.Vertical; } }
         public float rangeMin
         {
             get
@@ -198,7 +198,7 @@ namespace XCharts
             }
         }
 
-        public int rtSplitNumber
+        public int runtimeSplitNumber
         {
             get
             {
@@ -207,18 +207,18 @@ namespace XCharts
             }
         }
 
-        public float rangeMinHeight { get { return (rangeMin - min) / (max - min) * itemHeight; } }
-        public float rangeMaxHeight { get { return (rangeMax - min) / (max - min) * itemHeight; } }
+        public float runtimeRangeMinHeight { get { return (rangeMin - min) / (max - min) * itemHeight; } }
+        public float runtimeRangeMaxHeight { get { return (rangeMax - min) / (max - min) * itemHeight; } }
 
         private List<Color> m_RtInRange = new List<Color>();
-        public List<Color> rtInRange
+        public List<Color> runtimeInRange
         {
             get
             {
                 if (splitNumber == 0 || m_InRange.Count >= splitNumber || m_InRange.Count < 1) return m_InRange;
                 else
                 {
-                    if (m_RtInRange.Count != rtSplitNumber)
+                    if (m_RtInRange.Count != runtimeSplitNumber)
                     {
                         m_RtInRange.Clear();
                         var total = max - min;
@@ -256,7 +256,7 @@ namespace XCharts
 
         public Color GetColor(float value)
         {
-            int splitNumber = rtInRange.Count;
+            int splitNumber = runtimeInRange.Count;
             if (splitNumber <= 0) return Color.clear;
             value = Mathf.Clamp(value, min, max);
 
@@ -264,13 +264,13 @@ namespace XCharts
             var index = GetIndex(value);
             var nowMin = min + index * diff;
             var rate = (value - nowMin) / diff;
-            if (index == splitNumber - 1) return rtInRange[index];
-            else return Color.Lerp(rtInRange[index], rtInRange[index + 1], rate);
+            if (index == splitNumber - 1) return runtimeInRange[index];
+            else return Color.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
         }
 
         public int GetIndex(float value)
         {
-            int splitNumber = rtInRange.Count;
+            int splitNumber = runtimeInRange.Count;
             if (splitNumber <= 0) return -1;
             value = Mathf.Clamp(value, min, max);
 
@@ -289,19 +289,19 @@ namespace XCharts
 
         public bool IsInSelectedValue(float value)
         {
-            if (rtSelectedIndex < 0) return true;
+            if (runtimeSelectedIndex < 0) return true;
             else
             {
-                return rtSelectedIndex == GetIndex(value);
+                return runtimeSelectedIndex == GetIndex(value);
             }
         }
 
         public float GetValue(Vector3 pos, float chartWidth, float chartHeight)
         {
             var centerPos = location.GetPosition(chartWidth, chartHeight);
-            var pos1 = centerPos + (isVertical ? Vector3.down : Vector3.left) * itemHeight / 2;
-            var pos2 = centerPos + (isVertical ? Vector3.up : Vector3.right) * itemHeight / 2;
-            if (isVertical)
+            var pos1 = centerPos + (runtimeIsVertical ? Vector3.down : Vector3.left) * itemHeight / 2;
+            var pos2 = centerPos + (runtimeIsVertical ? Vector3.up : Vector3.right) * itemHeight / 2;
+            if (runtimeIsVertical)
             {
                 if (pos.y < pos1.y) return min;
                 else if (pos.y > pos2.y) return max;
@@ -337,12 +337,12 @@ namespace XCharts
             {
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
                 return local.x >= centerPos.x - itemWidth / 2 && local.x <= centerPos.x + itemWidth / 2 &&
-                local.y >= pos1.y + rangeMinHeight && local.y <= pos1.y + rangeMaxHeight;
+                local.y >= pos1.y + runtimeRangeMinHeight && local.y <= pos1.y + runtimeRangeMaxHeight;
             }
             else
             {
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
-                return local.x >= pos1.x + rangeMinHeight && local.x <= pos1.x + rangeMaxHeight &&
+                return local.x >= pos1.x + runtimeRangeMinHeight && local.x <= pos1.x + runtimeRangeMaxHeight &&
                 local.y >= centerPos.y - itemWidth / 2 && local.y <= centerPos.y + itemWidth / 2;
             }
         }
@@ -354,7 +354,7 @@ namespace XCharts
             {
                 var radius = triangleLen / 2;
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
-                var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + rangeMinHeight - radius);
+                var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + runtimeRangeMinHeight - radius);
 
                 return local.x >= cpos.x - radius && local.x <= cpos.x + radius &&
                 local.y >= cpos.y - radius && local.y <= cpos.y + radius;
@@ -363,7 +363,7 @@ namespace XCharts
             {
                 var radius = triangleLen / 2;
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
-                var cpos = new Vector3(pos1.x + rangeMinHeight, pos1.y + itemWidth / 2 + radius);
+                var cpos = new Vector3(pos1.x + runtimeRangeMinHeight, pos1.y + itemWidth / 2 + radius);
                 return local.x >= cpos.x - radius && local.x <= cpos.x + radius &&
                 local.y >= cpos.y - radius && local.y <= cpos.y + radius;
             }
@@ -376,7 +376,7 @@ namespace XCharts
             {
                 var radius = triangleLen / 2;
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
-                var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + rangeMaxHeight + radius);
+                var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + runtimeRangeMaxHeight + radius);
 
                 return local.x >= cpos.x - radius && local.x <= cpos.x + radius &&
                 local.y >= cpos.y - radius && local.y <= cpos.y + radius;
@@ -385,7 +385,7 @@ namespace XCharts
             {
                 var radius = triangleLen / 2;
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
-                var cpos = new Vector3(pos1.x + rangeMaxHeight + radius, pos1.y + itemWidth / 2 + radius);
+                var cpos = new Vector3(pos1.x + runtimeRangeMaxHeight + radius, pos1.y + itemWidth / 2 + radius);
                 return local.x >= cpos.x - radius && local.x <= cpos.x + radius &&
                 local.y >= cpos.y - radius && local.y <= cpos.y + radius;
             }

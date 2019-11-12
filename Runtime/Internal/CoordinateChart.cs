@@ -1348,6 +1348,7 @@ namespace XCharts
                                 }
                                 break;
                         }
+                        m_RefreshLabel = true;
                         serieData.labelPosition = pos;
                         if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
                     }
@@ -1372,6 +1373,7 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
+                    
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
                     if (serie.show && serie.label.show && serieData.canShowLabel)

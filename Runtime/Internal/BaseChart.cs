@@ -54,12 +54,15 @@ namespace XCharts
         [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
+        [NonSerialized] private Vector2 m_CheckMinAnchor;
+        [NonSerialized] private Vector2 m_CheckMaxAnchor;
+
         [NonSerialized] private float m_CheckSerieCount = 0;
         [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
-        [NonSerialized] private bool m_RefreshChart = false;
-        [NonSerialized] private bool m_RefreshLabel = false;
-        [NonSerialized] private bool m_ReinitLabel = false;
-        [NonSerialized] private bool m_CheckAnimation = false;
+        [NonSerialized] protected bool m_RefreshChart = false;
+        [NonSerialized] protected bool m_RefreshLabel = false;
+        [NonSerialized] protected bool m_ReinitLabel = false;
+        [NonSerialized] protected bool m_CheckAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
@@ -287,8 +290,8 @@ namespace XCharts
 
         private void InitSerieLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
-                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, Vector2.zero,
+                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
             SerieLabelPool.ReleaseAll(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
@@ -357,6 +360,13 @@ namespace XCharts
             else if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
             {
                 SetSize(sizeDelta.x, sizeDelta.y);
+            }
+
+            if (m_CheckMinAnchor != rectTransform.anchorMin || m_CheckMaxAnchor != rectTransform.anchorMax)
+            {
+                m_CheckMaxAnchor = rectTransform.anchorMax;
+                m_CheckMinAnchor = rectTransform.anchorMin;
+                m_ReinitLabel = true;
             }
         }
 
@@ -523,6 +533,7 @@ namespace XCharts
             InitTitle();
             InitLegend();
             InitTooltip();
+            InitSerieLabel();
         }
 
         protected virtual void OnThemeChanged()

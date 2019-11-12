@@ -20,7 +20,6 @@ namespace XCharts
     {
         private bool isDrawPie;
         private bool m_IsEnterLegendButtom;
-        private bool m_RefreshLabel;
 
         protected override void Awake()
         {

@@ -419,8 +419,7 @@ namespace XCharts
             OnThemeChanged();
             RefreshChart();
         }
-
-        
+  
         /// <summary>
         /// Update chart theme info.
         /// 切换图表主题。
@@ -431,18 +430,6 @@ namespace XCharts
             m_ThemeInfo = themeInfo;
             UpdateTheme(m_ThemeInfo.theme);
         }
-
-
-        /// <summary>
-        /// Update chart theme info.
-        /// </summary>
-        /// <param name="info">info</param>
-        public void UpdateThemeInfo(ThemeInfo info)
-        {
-            m_ThemeInfo = info;
-            UpdateTheme(m_ThemeInfo.theme);
-        }
-
 
         /// <summary>
         /// Whether series animation enabel.

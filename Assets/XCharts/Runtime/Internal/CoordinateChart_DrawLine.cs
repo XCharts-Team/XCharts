@@ -88,7 +88,7 @@ namespace XCharts
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
-            var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.zeroYOffset);
+            var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
             float scaleWid = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
@@ -168,7 +168,7 @@ namespace XCharts
                 serie.ClearSmoothList(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
-                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i <= m_Tooltip.dataIndex[0])
+                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i <= m_Tooltip.runtimeDataIndex[0])
                 {
                     areaColor = highlightAreaColor;
                     areaToColor = highlightAreaToColor;
@@ -294,18 +294,18 @@ namespace XCharts
                 float xValue = i > showData.Count - 1 ? 0 : showData[i].data[0];
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = serieHig + coordinateY + xAxis.axisLine.width;
-                if ((xAxis.maxValue - xAxis.minValue) <= 0) xDataHig = 0;
-                else xDataHig = (xValue - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
-                if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
+                if ((xAxis.runtimeMaxValue - xAxis.runtimeMinValue) <= 0) xDataHig = 0;
+                else xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
+                if ((yAxis.runtimeMaxValue - yAxis.runtimeMinValue) <= 0) yDataHig = 0;
+                else yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
             else
             {
                 float pX = startX + i * scaleWid;
                 float pY = serieHig + coordinateY + yAxis.axisLine.width;
-                if ((yAxis.maxValue - yAxis.minValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yAxis.minValue) / (yAxis.maxValue - yAxis.minValue) * coordinateHeight;
+                if ((yAxis.runtimeMaxValue - yAxis.runtimeMinValue) <= 0) yDataHig = 0;
+                else yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
                 np = new Vector3(pX, pY + yDataHig);
             }
             return yDataHig;
@@ -327,7 +327,7 @@ namespace XCharts
             Color areaColor, areaToColor;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
-            var zeroPos = new Vector3(coordinateX + xAxis.zeroXOffset, coordinateY);
+            var zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY);
             var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
             float scaleWid = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
@@ -356,7 +356,7 @@ namespace XCharts
                 float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
+                float dataHig = (value - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
@@ -368,7 +368,7 @@ namespace XCharts
                 float value = showData[i].data[1];
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.minValue) / (xAxis.maxValue - xAxis.minValue) * coordinateWidth;
+                float dataHig = (value - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
@@ -384,7 +384,7 @@ namespace XCharts
                 serie.ClearSmoothList(i);
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
-                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i < m_Tooltip.dataIndex[0])
+                if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i < m_Tooltip.runtimeDataIndex[0])
                 {
                     areaColor = highlightAreaColor;
                     areaToColor = highlightAreaToColor;

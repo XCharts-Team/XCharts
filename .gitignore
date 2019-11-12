@@ -11,10 +11,10 @@
 /Assets/Package
 /Assets/Package.meta
 
-/Assets/XCharts/Demo/demo_test.unity
-/Assets/XCharts/Demo/demo_test.unity.meta
-/Assets/XCharts/Demo/empty.unity
-/Assets/XCharts/Demo/empty.unity.meta
+/Assets/XChartsDemo/demo_test.unity
+/Assets/XChartsDemo/demo_test.unity.meta
+/Assets/XChartsDemo/empty.unity
+/Assets/XChartsDemo/empty.unity.meta
 
 *.sln
 *.csproj

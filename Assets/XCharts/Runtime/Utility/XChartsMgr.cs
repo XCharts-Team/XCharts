@@ -24,8 +24,8 @@ namespace XCharts
 
     public class XChartsMgr : MonoBehaviour
     {
-        public const string version = "1.0.1";
-        public const int date = 20191026;
+        public const string version = "1.0.4";
+        public const int date = 20191105;
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
@@ -65,6 +65,10 @@ namespace XCharts
 
         private XChartsMgr() { }
 
+        private void Awake()
+        {
+            SerieLabelPool.ClearAll();
+        }
 
         public string changeLog { get; private set; }
         public string newVersion { get { return m_NewVersion; } }

@@ -54,12 +54,15 @@ namespace XCharts
         [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
+        [NonSerialized] private Vector2 m_CheckMinAnchor;
+        [NonSerialized] private Vector2 m_CheckMaxAnchor;
+
         [NonSerialized] private float m_CheckSerieCount = 0;
         [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
-        [NonSerialized] private bool m_RefreshChart = false;
-        [NonSerialized] private bool m_RefreshLabel = false;
-        [NonSerialized] private bool m_ReinitLabel = false;
-        [NonSerialized] private bool m_CheckAnimation = false;
+        [NonSerialized] protected bool m_RefreshChart = false;
+        [NonSerialized] protected bool m_RefreshLabel = false;
+        [NonSerialized] protected bool m_ReinitLabel = false;
+        [NonSerialized] protected bool m_CheckAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
@@ -148,10 +151,10 @@ namespace XCharts
         private void InitTitle()
         {
             m_Title.OnChanged();
-            TextAnchor anchor = m_Title.location.textAnchor;
-            Vector2 anchorMin = m_Title.location.anchorMin;
-            Vector2 anchorMax = m_Title.location.anchorMax;
-            Vector2 pivot = m_Title.location.pivot;
+            TextAnchor anchor = m_Title.location.runtimeTextAnchor;
+            Vector2 anchorMin = m_Title.location.runtimeAnchorMin;
+            Vector2 anchorMax = m_Title.location.runtimeAnchorMax;
+            Vector2 pivot = m_Title.location.runtimePivot;
             Vector3 titlePosition = m_Title.location.GetPosition(chartWidth, chartHeight);
             Vector3 subTitlePosition = -new Vector3(0, m_Title.textFontSize + m_Title.itemGap, 0);
             float titleWid = chartWidth;
@@ -183,10 +186,10 @@ namespace XCharts
         private void InitLegend()
         {
             m_Legend.OnChanged();
-            TextAnchor anchor = m_Legend.location.textAnchor;
-            Vector2 anchorMin = m_Legend.location.anchorMin;
-            Vector2 anchorMax = m_Legend.location.anchorMax;
-            Vector2 pivot = m_Legend.location.pivot;
+            TextAnchor anchor = m_Legend.location.runtimeTextAnchor;
+            Vector2 anchorMin = m_Legend.location.runtimeAnchorMin;
+            Vector2 anchorMax = m_Legend.location.runtimeAnchorMax;
+            Vector2 pivot = m_Legend.location.runtimePivot;
 
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
@@ -213,7 +216,7 @@ namespace XCharts
                 totalLegend++;
             }
             m_Legend.RemoveButton();
-            ChartHelper.DestoryAllChilds(legendObject.transform);
+            ChartHelper.DestroyAllChildren(legendObject.transform);
             if (!m_Legend.show) return;
             for (int i = 0; i < datas.Count; i++)
             {
@@ -287,9 +290,9 @@ namespace XCharts
 
         private void InitSerieLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
-                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            ChartHelper.DestoryAllChilds(labelObject.transform);
+            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, Vector2.zero,
+                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            SerieLabelPool.ReleaseAll(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -297,8 +300,8 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (!serie.label.show  && j > 100) continue;
-                    var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
+                    if (!serie.label.show && j > 100) continue;
+                    var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
                     var color = Color.grey;
                     if (serie.type == SerieType.Pie)
                     {
@@ -310,14 +313,10 @@ namespace XCharts
                         color = serie.label.color != Color.clear ? serie.label.color :
                             (Color)m_ThemeInfo.GetColor(i);
                     }
-                    var backgroundColor = serie.label.backgroundColor;
-                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
-                        color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
-                        serie.label.backgroundWidth, serie.label.backgroundHeight);
+                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serie.label, m_ThemeInfo.font, color, serieData);
+                    var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
+                    serieData.SetIconImage(iconImage);
 
-                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
-                    serieData.SetIconObj(iconObj);
-                
                     var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
                     serieData.SetLabelActive(false);
@@ -327,6 +326,7 @@ namespace XCharts
                 }
             }
         }
+
 
         private void InitTooltip()
         {
@@ -360,6 +360,13 @@ namespace XCharts
             else if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
             {
                 SetSize(sizeDelta.x, sizeDelta.y);
+            }
+
+            if (m_CheckMinAnchor != rectTransform.anchorMin || m_CheckMaxAnchor != rectTransform.anchorMax)
+            {
+                m_CheckMaxAnchor = rectTransform.anchorMax;
+                m_CheckMinAnchor = rectTransform.anchorMin;
+                m_ReinitLabel = true;
             }
         }
 
@@ -409,7 +416,7 @@ namespace XCharts
 
         private void CheckPointerPos()
         {
-            var needCheck = (m_Tooltip.show && m_Tooltip.inited)
+            var needCheck = (m_Tooltip.show && m_Tooltip.runtimeInited)
                 || raycastTarget;
             if (needCheck)
             {
@@ -429,7 +436,7 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show || !m_Tooltip.inited)
+            if (!m_Tooltip.show || !m_Tooltip.runtimeInited)
             {
                 if (m_Tooltip.IsActive())
                 {
@@ -439,9 +446,9 @@ namespace XCharts
                 }
                 return;
             }
-            for (int i = 0; i < m_Tooltip.dataIndex.Count; i++)
+            for (int i = 0; i < m_Tooltip.runtimeDataIndex.Count; i++)
             {
-                m_Tooltip.dataIndex[i] = -1;
+                m_Tooltip.runtimeDataIndex[i] = -1;
             }
             Vector2 local = pointerPos;
             if (canvas == null) return;
@@ -465,7 +472,7 @@ namespace XCharts
                 }
                 return;
             }
-            m_Tooltip.pointerPos = local;
+            m_Tooltip.runtimePointerPos = local;
             CheckTootipArea(local);
         }
 
@@ -486,6 +493,14 @@ namespace XCharts
 
         protected void CheckRefreshLabel()
         {
+            foreach (var serie in m_Series.list)
+            {
+                if (serie.label.show && serie.runtimeLastCheckDataCount != serie.dataCount)
+                {
+                    m_ReinitLabel = true;
+                    serie.runtimeLastCheckDataCount = serie.dataCount;
+                }
+            }
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;
@@ -518,6 +533,7 @@ namespace XCharts
             InitTitle();
             InitLegend();
             InitTooltip();
+            InitSerieLabel();
         }
 
         protected virtual void OnThemeChanged()

@@ -114,7 +114,7 @@ public class ChartEditorHelper
         {
             if (showProp.propertyType == SerializedPropertyType.Boolean)
             {
-                drawRect.width = 60;
+                drawRect.width = 80;
             }
             else
             {

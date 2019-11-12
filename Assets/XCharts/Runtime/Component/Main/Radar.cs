@@ -30,6 +30,20 @@ namespace XCharts
             Circle
         }
         /// <summary>
+        /// 显示位置。
+        /// </summary>
+        public enum PositionType
+        {
+            /// <summary>
+            /// 显示在顶点处。
+            /// </summary>
+            Vertice,
+            /// <summary>
+            /// 显示在两者之间。
+            /// </summary>
+            Between,
+        }
+        /// <summary>
         /// Indicator of radar chart, which is used to assign multiple variables(dimensions) in radar chart. 
         /// 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
         /// </summary>
@@ -39,7 +53,8 @@ namespace XCharts
             [SerializeField] private string m_Name;
             [SerializeField] private float m_Max;
             [SerializeField] private float m_Min;
-            [SerializeField] private Color m_Color;
+            [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+
             /// <summary>
             /// 指示器名称。
             /// </summary>
@@ -55,10 +70,10 @@ namespace XCharts
             /// </summary>
             public float min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
-            /// Specfy a color the the indicator.
-            /// 标签特定的颜色。默认取自主题的axisTextColor。
+            /// the style of text.
+            /// 文本样式。
             /// </summary>
-            public Color color { get { return m_Color; } set { m_Color = value; } }
+            public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
             /// <summary>
             /// the text conponent of indicator.
             /// 指示器的文本组件。
@@ -72,7 +87,7 @@ namespace XCharts
                     m_Name = name,
                     m_Max = max,
                     m_Min = min,
-                    m_Color = color
+                    m_TextStyle = textStyle.Clone()
                 };
             }
 
@@ -99,7 +114,7 @@ namespace XCharts
                     return false;
                 }
                 return m_Name.Equals(other.name) &&
-                    ChartHelper.IsValueEqualsColor(m_Color, other.color);
+                    m_TextStyle.Equals(other.textStyle);
             }
 
             public override int GetHashCode()
@@ -114,6 +129,8 @@ namespace XCharts
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField] private bool m_Indicator = true;
+        [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
+        [SerializeField] private float m_IndicatorGap = 10;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -153,6 +170,14 @@ namespace XCharts
         /// </summary>
         public bool indicator { get { return m_Indicator; } set { m_Indicator = value; } }
         /// <summary>
+        /// 指示器和雷达的间距。
+        /// </summary>
+        public float indicatorGap { get { return m_IndicatorGap; } set { m_IndicatorGap = value; } }
+        /// <summary>
+        /// 显示位置类型。
+        /// </summary>
+        public PositionType positionType { get { return m_PositionType; } set { m_PositionType = value; } }
+        /// <summary>
         /// the indicator list.
         /// 指示器列表。
         /// </summary>
@@ -162,20 +187,18 @@ namespace XCharts
         /// the center position of radar in container.
         /// 雷达图在容器中的具体中心点。
         /// </summary>
-        /// <value></value>
-        public Vector2 centerPos { get; set; }
+        public Vector2 runtimeCenterPos { get; internal set; }
         /// <summary>
         /// the true radius of radar.
         /// 雷达图的运行时实际半径。
         /// </summary>
-        /// <value></value>
-        public float actualRadius { get; set; }
+        public float runtimeRadius { get; internal set; }
+        public float runtimeDataRadius { get; internal set; }
         /// <summary>
         /// the data position list of radar.
         /// 雷达图的所有数据坐标点列表。
         /// </summary>
-        /// <returns></returns>
-        public Dictionary<int, List<Vector3>> dataPosList = new Dictionary<int, List<Vector3>>();
+        public Dictionary<int, List<Vector3>> runtimeDataPosList = new Dictionary<int, List<Vector3>>();
 
         public static Radar defaultRadar
         {
@@ -219,12 +242,14 @@ namespace XCharts
         {
             var radar = new Radar();
             radar.shape = shape;
+            radar.positionType = positionType;
             radar.radius = radius;
             radar.splitNumber = splitNumber;
             radar.center[0] = center[0];
             radar.center[1] = center[1];
             radar.indicatorList.Clear();
             radar.indicator = indicator;
+            radar.indicatorGap = indicatorGap;
             foreach (var d in indicatorList) radar.indicatorList.Add(d.Clone());
             return radar;
         }
@@ -253,10 +278,12 @@ namespace XCharts
             }
             return radius == other.radius &&
                 shape == other.shape &&
+                positionType == other.positionType &&
                 splitNumber == other.splitNumber &&
                 center[0] == other.center[0] &&
                 center[1] == other.center[1] &&
                 indicator == other.indicator &&
+                indicatorGap == other.indicatorGap &&
                 IsEqualsIndicatorList(indicatorList, other.indicatorList);
         }
 
@@ -344,32 +371,50 @@ namespace XCharts
             return 0;
         }
 
-        public void UpdateRadarCenter(float chartWidth, float chartHeight)
+        internal void UpdateRadarCenter(float chartWidth, float chartHeight)
         {
             if (center.Length < 2) return;
             var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
             var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            centerPos = new Vector2(centerX, centerY);
+            runtimeCenterPos = new Vector2(centerX, centerY);
             if (radius <= 0)
             {
-                actualRadius = 0;
+                runtimeRadius = 0;
             }
             else if (radius <= 1)
             {
-                actualRadius = Mathf.Min(chartWidth, chartHeight) * radius;
+                runtimeRadius = Mathf.Min(chartWidth, chartHeight) * radius;
             }
             else
             {
-                actualRadius = radius;
+                runtimeRadius = radius;
+            }
+            if (shape == Radar.Shape.Polygon && positionType == PositionType.Between)
+            {
+                var angle = Mathf.PI / indicatorList.Count;
+                runtimeDataRadius = runtimeRadius * Mathf.Cos(angle);
+            }
+            else
+            {
+                runtimeDataRadius = runtimeRadius;
             }
         }
 
         public Vector3 GetIndicatorPosition(int index)
         {
             int indicatorNum = indicatorList.Count;
-            var angle = 2 * Mathf.PI / indicatorNum * index;
-            var x = centerPos.x + actualRadius * Mathf.Sin(angle);
-            var y = centerPos.y + actualRadius * Mathf.Cos(angle);
+            var angle = 0f;
+            switch (positionType)
+            {
+                case PositionType.Vertice:
+                    angle = 2 * Mathf.PI / indicatorNum * index;
+                    break;
+                case PositionType.Between:
+                    angle = 2 * Mathf.PI / indicatorNum * (index + 0.5f);
+                    break;
+            }
+            var x = runtimeCenterPos.x + (runtimeRadius + indicatorGap) * Mathf.Sin(angle);
+            var y = runtimeCenterPos.y + (runtimeRadius + indicatorGap) * Mathf.Cos(angle);
             return new Vector3(x, y);
         }
     }

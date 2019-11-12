@@ -21,7 +21,7 @@ namespace XCharts
         /// <returns></returns>
         public string jsonData { get { return m_JsonData; } set { m_JsonData = value; ParseJsonData(value); } }
 
-        public void OnAfterDeserialize()
+        internal void OnAfterDeserialize()
         {
             if (m_DataFromJson)
             {
@@ -30,7 +30,7 @@ namespace XCharts
             }
         }
 
-        public void OnBeforeSerialize()
+        internal void OnBeforeSerialize()
         {
         }
 

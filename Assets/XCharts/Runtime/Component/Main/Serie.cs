@@ -426,12 +426,12 @@ namespace XCharts
         /// The index of serie,start at 0.
         /// 系列的索引，从0开始。
         /// </summary>
-        public int index { get; set; }
+        public int index { get; internal set; }
         /// <summary>
         /// Whether the serie is highlighted.
         /// 该系列是否高亮，一般由图例悬停触发。
         /// </summary>
-        public bool highlighted { get; set; }
+        public bool highlighted { get; internal set; }
         /// <summary>
         /// the count of data list.
         /// 数据项个数。
@@ -444,25 +444,26 @@ namespace XCharts
         /// <summary>
         /// 饼图的中心点位置。
         /// </summary>
-        public Vector3 pieCenterPos { get; set; }
+        public Vector3 runtimePieCenterPos { get; internal set; }
         /// <summary>
         /// 饼图的内径
         /// </summary>
-        public float pieInsideRadius { get; set; }
+        public float runtimePieInsideRadius { get; internal set; }
         /// <summary>
         /// 饼图的外径
         /// </summary>
-        public float pieOutsideRadius { get; set; }
+        public float runtimePieOutsideRadius { get; internal set; }
         /// <summary>
         /// 饼图的数据项最大值
         /// </summary>
-        public float pieDataMax { get; set; }
+        public float runtimePieDataMax { get; internal set; }
         /// <summary>
         /// 饼图的数据项之和
         /// </summary>
-        public float pieDataTotal { get; set; }
+        public float runtimePieDataTotal { get; internal set; }
+        internal int runtimeLastCheckDataCount { get; set; }
 
-        public List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
+        internal List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
         {
             if (m_UpSmoothPoints.ContainsKey(dataIndex))
             {
@@ -476,7 +477,7 @@ namespace XCharts
             }
         }
 
-        public List<Vector3> GetDownSmoothList(int dataIndex, int size = 100)
+        internal List<Vector3> GetDownSmoothList(int dataIndex, int size = 100)
         {
             if (m_DownSmoothPoints.ContainsKey(dataIndex))
             {
@@ -490,7 +491,7 @@ namespace XCharts
             }
         }
 
-        public void ClearSmoothList(int dataIndex)
+        internal void ClearSmoothList(int dataIndex)
         {
             if (m_UpSmoothPoints.ContainsKey(dataIndex))
             {
@@ -836,7 +837,7 @@ namespace XCharts
         /// 根据dataZoom更新数据列表缓存
         /// </summary>
         /// <param name="dataZoom"></param>
-        public void UpdateFilterData(DataZoom dataZoom)
+        internal void UpdateFilterData(DataZoom dataZoom)
         {
             if (dataZoom != null && dataZoom.enable)
             {
@@ -939,7 +940,7 @@ namespace XCharts
             }
         }
 
-        public Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
+        internal Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
         {
             var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
             if (highlight)
@@ -951,7 +952,7 @@ namespace XCharts
             return color;
         }
 
-        public Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
+        internal Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
         {
             if (areaStyle.toColor != Color.clear)
             {
@@ -970,7 +971,7 @@ namespace XCharts
             }
         }
 
-        public Color GetLineColor(ThemeInfo theme, int index, bool highlight)
+        internal Color GetLineColor(ThemeInfo theme, int index, bool highlight)
         {
             if (lineStyle.color != Color.clear)
             {
@@ -988,7 +989,7 @@ namespace XCharts
             }
         }
 
-        public Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
+        internal Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
         {
             if (symbol.color != Color.clear)
             {
@@ -1006,13 +1007,13 @@ namespace XCharts
             }
         }
 
-        public float GetBarWidth(float categoryWidth)
+        internal float GetBarWidth(float categoryWidth)
         {
             if (m_BarWidth > 1) return m_BarWidth;
             else return m_BarWidth * categoryWidth;
         }
 
-        public float GetBarGap(float categoryWidth)
+        internal float GetBarGap(float categoryWidth)
         {
             if (m_BarGap == -1) return 0;
             else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
@@ -1027,7 +1028,7 @@ namespace XCharts
         {
             foreach (var data in m_Data)
             {
-                data.showIcon = flag;
+                data.iconStyle.show = flag;
             }
         }
 
@@ -1041,7 +1042,7 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.showIcon = flag;
+                data.iconStyle.show = flag;
             }
         }
 
@@ -1054,8 +1055,8 @@ namespace XCharts
         {
             foreach (var data in m_Data)
             {
-                data.iconWidth = width;
-                data.iconHeight = height;
+                data.iconStyle.width = width;
+                data.iconStyle.height = height;
             }
         }
 
@@ -1069,15 +1070,15 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconImage = image;
+                data.iconStyle.sprite = image;
             }
         }
 
-        public bool IsNeedShowDataIcon()
+        internal bool IsNeedShowDataIcon()
         {
             foreach (var data in m_Data)
             {
-                if (data.showIcon) return true;
+                if (data.iconStyle.show) return true;
             }
             return false;
         }
@@ -1093,8 +1094,8 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconWidth = width;
-                data.iconHeight = height;
+                data.iconStyle.width = width;
+                data.iconStyle.height = height;
             }
         }
 
@@ -1108,7 +1109,7 @@ namespace XCharts
             if (dataIndex >= 0 && dataIndex < m_Data.Count)
             {
                 var data = m_Data[dataIndex];
-                data.iconColor = color;
+                data.iconStyle.color = color;
             }
         }
 

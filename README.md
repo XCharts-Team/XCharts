@@ -1,9 +1,9 @@
 # XCharts
 
 ![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/issues/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/stars/monitor1394/unity-ugui-XCharts)
-![issues](https://img.shields.io/github/forks/monitor1394/unity-ugui-XCharts)
+[![npm Package](https://img.shields.io/npm/v/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
+[![downloads per month](http://img.shields.io/npm/dm/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
+![qq](https://img.shields.io/badge/QQ群-202030963-green)
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 
@@ -114,9 +114,8 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 * 在Editor上快速创建一个图表：
 
-  1. 在`Canvas`下通过`Create Empty`创建一个空`gameObject`，命名为 `line_chart`。
-  2. 通过菜单栏 `Component->XCharts->LineChart` 或者  `Inspector` 视图的 `Add Component` 添加 `LineChart` 脚本。一个简单的折线图就出来了。
-  3. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)。
+  1. 在`Hierarchy`试图下右键或菜单栏`GameObject`下拉：`XCharts->LineChart`，即可快速创建一个简单的折线图出来。
+  2. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)。
 
 * 更多的代码动态控制的例子请参考[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  。
 
@@ -131,135 +130,128 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 ## 结构
 
 ``` js
-.
-├── Demo                                        // Demo
-│   ├── Editor
-│   │   ├── ChartModuleDrawer.cs
-│   │   └── DemoEditor.cs
-│   ├── Runtime
-│   │   ├── Demo_Dynamic.cs
-│   │   ├── Demo_LargeData.cs
-│   │   ├── Demo_PieChart.cs
-│   │   ├── Demo_Test.cs
-│   │   ├── Demo.cs
-│   │   ├── Demo00_CheatSheet.cs
-│   │   ├── Demo10_LineChart.cs
-│   │   ├── Demo11_AddSinCurve.cs
-│   │   ├── Demo12_CustomDrawing.cs
-│   │   ├── Demo13_LineSimple.cs
-│   │   ├── Demo20_BarChart.cs
-│   │   ├── Demo30_PieChart.cs
-│   │   ├── Demo50_Scatter.cs
-│   │   ├── Demo60_Heatmap.cs
-│   └── demo-xchart.unity
-├── Scripts                                     // 源码
-.   ├── Editor                                  // Editor相关代码
-    │   ├── PropertyDrawers                     // 组件Drawer
-    │   │   ├── AnimationDrawer.cs
-    │   │   ├── AreaStyleDrawer.cs
-    │   │   ├── AxisDrawer.cs
-    │   │   ├── AxisLabelDrawer.cs
-    │   │   ├── AxisLineDrawer.cs
-    │   │   ├── AxisNameDrawer.cs
-    │   │   ├── AxisSplitAreaDrawer.cs
-    │   │   ├── AxisTickDrawer.cs
-    │   │   ├── DataZoomDrawer.cs
-    │   │   ├── EmphasisDrawer.cs
-    │   │   ├── GridDrawer.cs
-    │   │   ├── ItemStyleDrawer.cs
-    │   │   ├── LegendDrawer.cs
-    │   │   ├── LineArrowDrawer.cs
-    │   │   ├── LineStyleDrawer.cs
-    │   │   ├── LocationDrawer.cs
-    │   │   ├── RadarDrawer.cs
-    │   │   ├── RadarIndicatorDrawer.cs
-    │   │   ├── SerieDrawer.cs
-    │   │   ├── SerieLabelDrawer.cs
-    │   │   ├── SeriesDrawer.cs
-    │   │   ├── SerieSymbolDrawer.cs
-    │   │   ├── SettingsDrawer.cs
-    │   │   ├── ThemeInfoDrawer.cs
-    │   │   ├── TitleDrawer.cs
-    │   │   ├── TooltipDrawer.cs
-    │   │   ├── VisualMapDrawer.cs
-    │   │   ├── XAxisDrawer.cs
-    │   │   └── YAxisDrawer.cs
-    │   ├── Ultility                            // Editor相关工具类
-    │   │   └── ChartEditorHelper.cs
-    │   ├── BarChartEditor.cs
-    │   ├── BaseChartEditor.cs
-    │   ├── CoordinateChartEditor.cs
-    │   ├── HeatmapChartEditor.cs
-    │   ├── LineChartEditor.cs
-    │   ├── PieChartEditor.cs
-    │   ├── RadarChartEditor.cs
-    │   └── ScatterChartEditor.cs
-    └── Runtime                                 // 核心代码
-        ├── API                                 // Chart API
-        │   ├── BaseChart_API.cs
-        │   └── CoordinateChart_API.cs
-        ├── Component                           // Chart的主组件和子组件
-        │   ├── Main
-        │   │   ├── Axis.cs
-        │   │   ├── DataZoom.cs
-        │   │   ├── Grid.cs
-        │   │   ├── Legend.cs
-        │   │   ├── Radar.cs
-        │   │   ├── Serie.cs
-        │   │   ├── Series.cs
-        │   │   ├── Settings.cs
-        │   │   ├── Theme.cs
-        │   │   ├── Title.cs
-        │   │   ├── Tooltip.cs
-        │   │   └── VisualMap.cs
-        │   ├── Sub
-        │   │   ├── Animation.cs
-        │   │   ├── AreaStyle.cs
-        │   │   ├── AxisLabel.cs
-        │   │   ├── AxisLine.cs
-        │   │   ├── AxisName.cs
-        │   │   ├── AxisSplitName.cs
-        │   │   ├── AxisTick.cs
-        │   │   ├── Emphasis.cs
-        │   │   ├── ItemStyle.cs
-        │   │   ├── LineArrow.cs
-        │   │   ├── LineStyle.cs
-        │   │   ├── Location.cs
-        │   │   ├── SerieData.cs
-        │   │   ├── SerieLabel.cs
-        │   │   └── SerieSymbol.cs
-        │   ├── ChartComponent.cs
-        │   ├── MainComponent.cs
-        │   └── SubComponent.cs
-        ├── Helper
-        ├── Interface
-        │   ├── IJsonData.cs
-        │   └── IPropertyChanged.cs
-        ├── Internal
-        │   ├── AxisPool.cs
-        │   ├── BaseChart.cs
-        │   ├── CoordinateChart_DrawBar.cs
-        │   ├── CoordinateChart_DrawHeatmap.cs
-        │   ├── CoordinateChart_DrawLine.cs
-        │   ├── CoordinateChart_DrawScatter.cs
-        │   ├── CoordinateChart.cs
-        │   ├── JsonDataSupport.cs
-        │   ├── ListPool.cs
-        │   └── ObjectPool.cs
-        ├── Template
-        ├── Utility
-        │   ├── ChartCached.cs
-        │   ├── ChartDrawer.cs
-        │   └── ChartHelper.cs
-        ├── BarChart.cs
-        ├── HeatmapChart.cs
-        ├── LineChart.cs
-        ├── PieChart.cs
-        ├── RadarChart.cs
-        └── ScatterChart.cs
+<root>
+├── Demo                                   // Demo
+│   └── Runtime
+│       ├── Demo_Dynamic.cs
+│       ├── Demo_LargeData.cs
+│       ├── Demo_PieChart.cs
+│       ├── Demo_Test.cs
+│       ├── Demo.cs
+│       ├── Demo00_CheatSheet.cs
+│       ├── Demo10_LineChart.cs
+│       ├── Demo11_AddSinCurve.cs
+│       ├── Demo12_CustomDrawing.cs
+│       ├── Demo13_LineSimple.cs
+│       ├── Demo20_BarChart.cs
+│       ├── Demo30_PieChart.cs
+│       ├── Demo50_Scatter.cs
+│       └── Demo60_Heatmap.cs
+├── Editor                                  // Editor相关代码
+│   ├── PropertyDrawers                     // 组件Drawer
+│   │   ├── AnimationDrawer.cs
+│   │   ├── AreaStyleDrawer.cs
+│   │   ├── AxisDrawer.cs
+│   │   ├── AxisLabelDrawer.cs
+│   │   ├── AxisLineDrawer.cs
+│   │   ├── AxisNameDrawer.cs
+│   │   ├── AxisSplitAreaDrawer.cs
+│   │   ├── AxisTickDrawer.cs
+│   │   ├── DataZoomDrawer.cs
+│   │   ├── EmphasisDrawer.cs
+│   │   ├── GridDrawer.cs
+│   │   ├── ItemStyleDrawer.cs
+│   │   ├── LegendDrawer.cs
+│   │   ├── LineArrowDrawer.cs
+│   │   ├── LineStyleDrawer.cs
+│   │   ├── LocationDrawer.cs
+│   │   ├── RadarDrawer.cs
+│   │   ├── RadarIndicatorDrawer.cs
+│   │   ├── SerieDrawer.cs
+│   │   ├── SerieLabelDrawer.cs
+│   │   ├── SeriesDrawer.cs
+│   │   ├── SerieSymbolDrawer.cs
+│   │   ├── SettingsDrawer.cs
+│   │   ├── ThemeInfoDrawer.cs
+│   │   ├── TitleDrawer.cs
+│   │   ├── TooltipDrawer.cs
+│   │   ├── VisualMapDrawer.cs
+│   │   ├── XAxisDrawer.cs
+│   │   └── YAxisDrawer.cs
+│   ├── Ultility                            // Editor相关工具类
+│   │   └── ChartEditorHelper.cs
+│   ├── BarChartEditor.cs
+│   ├── BaseChartEditor.cs
+│   ├── CoordinateChartEditor.cs
+│   ├── HeatmapChartEditor.cs
+│   ├── LineChartEditor.cs
+│   ├── PieChartEditor.cs
+│   ├── RadarChartEditor.cs
+│   └── ScatterChartEditor.cs
+└── Runtime                                 // 核心代码
+    ├── API                                 // Chart API
+    │   ├── BaseChart_API.cs
+    │   └── CoordinateChart_API.cs
+    ├── Component                           // Chart的主组件和子组件
+    │   ├── Main
+    │   │   ├── Axis.cs
+    │   │   ├── DataZoom.cs
+    │   │   ├── Grid.cs
+    │   │   ├── Legend.cs
+    │   │   ├── Radar.cs
+    │   │   ├── Serie.cs
+    │   │   ├── Series.cs
+    │   │   ├── Settings.cs
+    │   │   ├── Theme.cs
+    │   │   ├── Title.cs
+    │   │   ├── Tooltip.cs
+    │   │   └── VisualMap.cs
+    │   ├── Sub
+    │   │   ├── Animation.cs
+    │   │   ├── AreaStyle.cs
+    │   │   ├── AxisLabel.cs
+    │   │   ├── AxisLine.cs
+    │   │   ├── AxisName.cs
+    │   │   ├── AxisSplitName.cs
+    │   │   ├── AxisTick.cs
+    │   │   ├── Emphasis.cs
+    │   │   ├── ItemStyle.cs
+    │   │   ├── LineArrow.cs
+    │   │   ├── LineStyle.cs
+    │   │   ├── Location.cs
+    │   │   ├── SerieData.cs
+    │   │   ├── SerieLabel.cs
+    │   │   └── SerieSymbol.cs
+    │   ├── ChartComponent.cs
+    │   ├── MainComponent.cs
+    │   └── SubComponent.cs
+    ├── Helper
+    ├── Interface
+    │   ├── IJsonData.cs
+    │   └── IPropertyChanged.cs
+    ├── Internal
+    │   ├── AxisPool.cs
+    │   ├── BaseChart.cs
+    │   ├── CoordinateChart_DrawBar.cs
+    │   ├── CoordinateChart_DrawHeatmap.cs
+    │   ├── CoordinateChart_DrawLine.cs
+    │   ├── CoordinateChart_DrawScatter.cs
+    │   ├── CoordinateChart.cs
+    │   ├── JsonDataSupport.cs
+    │   ├── ListPool.cs
+    │   └── ObjectPool.cs
+    ├── Template
+    ├── Utility
+    │   ├── ChartCached.cs
+    │   ├── ChartDrawer.cs
+    │   └── ChartHelper.cs
+    ├── BarChart.cs
+    ├── HeatmapChart.cs
+    ├── LineChart.cs
+    ├── PieChart.cs
+    ├── RadarChart.cs
+    └── ScatterChart.cs
 
-
-? directories, ? files
 ```
 
 ## 更新日志

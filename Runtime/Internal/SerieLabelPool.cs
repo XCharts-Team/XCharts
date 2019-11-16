@@ -30,7 +30,12 @@ namespace XCharts
                 element = m_Stack.Pop();
                 element.name = name;
                 element.transform.SetParent(parent);
-                element.GetComponentInChildren<Text>().color = color;
+                element.transform.localEulerAngles = new Vector3(0, 0, label.rotate);
+                var text = element.GetComponentInChildren<Text>();
+                text.color = color;
+                text.font = font;
+                text.fontSize =label.fontSize;
+                text.fontStyle = label.fontStyle;
                 ChartHelper.SetActive(element, true);
             }
             return element;

@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -29,6 +30,7 @@ namespace XCharts
                 element = m_Stack.Pop();
                 element.name = name;
                 element.transform.SetParent(parent);
+                element.GetComponentInChildren<Text>().color = color;
                 ChartHelper.SetActive(element, true);
             }
             return element;

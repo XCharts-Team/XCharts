@@ -82,7 +82,7 @@ namespace XCharts
         /// 标志位置。
         /// </summary>
         public Vector3 labelPosition { get; set; }
-        public bool m_CanShowLabel = true;
+        private bool m_CanShowLabel = true;
         /// <summary>
         /// 是否可以显示Label
         /// </summary>

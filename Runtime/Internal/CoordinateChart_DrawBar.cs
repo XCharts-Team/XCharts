@@ -23,7 +23,7 @@ namespace XCharts
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
             var showData = serie.GetDataList(m_DataZoom);
-            float categoryWidth = yAxis.GetDataWidth(coordinateHeight,showData.Count, m_DataZoom);
+            float categoryWidth = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -49,6 +49,8 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
+                var serieData = showData[i];
+                serieData.canShowLabel = true;
                 float value = showData[i].data[1];
                 float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
@@ -59,14 +61,15 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = value / valueTotal * coordinateWidth;
+                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateWidth) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
                 {
                     valueTotal = xAxis.runtimeMaxValue - xAxis.runtimeMinValue;
-                    barHig = (xAxis.runtimeMinValue > 0 ? value - xAxis.runtimeMinValue : value)
-                        / valueTotal * coordinateWidth;
+                    if (valueTotal != 0)
+                        barHig = (xAxis.runtimeMinValue > 0 ? value - xAxis.runtimeMinValue : value)
+                            / valueTotal * coordinateWidth;
                     seriesHig[i] += barHig;
                 }
 
@@ -132,7 +135,7 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
 
-            float categoryWidth = xAxis.GetDataWidth(coordinateWidth,showData.Count, m_DataZoom);
+            float categoryWidth = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -158,6 +161,8 @@ namespace XCharts
                 {
                     seriesHig.Add(0);
                 }
+                var serieData = showData[i];
+                serieData.canShowLabel = true;
                 float value = showData[i].data[1];
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
@@ -169,14 +174,15 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = value / valueTotal * coordinateHeight;
+                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateHeight) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
                 {
                     valueTotal = yAxis.runtimeMaxValue - yAxis.runtimeMinValue;
-                    barHig = (yAxis.runtimeMinValue > 0 ? value - yAxis.runtimeMinValue : value)
-                        / valueTotal * coordinateHeight;
+                    if (valueTotal != 0)
+                        barHig = (yAxis.runtimeMinValue > 0 ? value - yAxis.runtimeMinValue : value)
+                            / valueTotal * coordinateHeight;
                     seriesHig[i] += barHig;
                 }
 

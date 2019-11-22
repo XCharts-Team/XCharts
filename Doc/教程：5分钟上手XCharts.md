@@ -1,8 +1,9 @@
 # 教程：5分钟上手XCharts
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XChartsAPI接口](XChartsAPI.md)  
-[XCharts配置项手册](XCharts配置项手册.md)
+[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
+[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)
 
 ## 获取和引入 XCharts
 
@@ -105,5 +106,6 @@ for (int i = 0; i < 10; i++)
 你还可以用代码控制更多的参数，[XCharts配置项手册](XCharts配置项手册.md)里面的所有参数都是可以通过代码控制的。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XChartsAPI接口](XChartsAPI.md)  
-[XCharts配置项手册](XCharts配置项手册.md)
+[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
+[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)

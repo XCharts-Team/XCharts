@@ -15,7 +15,7 @@ namespace XCharts
     {
         private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
 
-        public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color, SerieData serieData)
+        public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color, float iconWidth, float iconHeight)
         {
             GameObject element;
             if (m_Stack.Count == 0 || !Application.isPlaying)
@@ -23,7 +23,7 @@ namespace XCharts
                 element = ChartHelper.AddSerieLabel(name, parent, font,
                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
                         label.backgroundWidth, label.backgroundHeight);
-                ChartHelper.AddIcon("Icon", element.transform, serieData.iconStyle.width, serieData.iconStyle.height);
+                ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
             }
             else
             {
@@ -34,7 +34,7 @@ namespace XCharts
                 var text = element.GetComponentInChildren<Text>();
                 text.color = color;
                 text.font = font;
-                text.fontSize =label.fontSize;
+                text.fontSize = label.fontSize;
                 text.fontStyle = label.fontStyle;
                 ChartHelper.SetActive(element, true);
             }

@@ -123,6 +123,7 @@ namespace XCharts
                     }
                 }
                 RefreshChart();
+                m_IsPlayingStartAnimation = true;
             }
             return currHig;
         }
@@ -155,15 +156,16 @@ namespace XCharts
             }
 
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            float updateDuration = serie.animation.GetUpdateAnimationDuration();
+            bool dataChanging = false;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
                 {
                     seriesHig.Add(0);
                 }
-                var serieData = showData[i];
-                serieData.canShowLabel = true;
-                float value = showData[i].data[1];
+                float value = showData[i].GetCurrData(1, updateDuration);
+                if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
@@ -212,6 +214,10 @@ namespace XCharts
                         ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
                     }
                 }
+            }
+            if (dataChanging)
+            {
+                RefreshChart();
             }
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))
             {

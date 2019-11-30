@@ -12,6 +12,7 @@
 * [Legend 图例](#Legend)  
 * [Radar 雷达](#Radar)  
 * [Series 系列](#Series)  
+* [Serie.Gauge 仪表盘](#Serie.Gauge)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
@@ -84,6 +85,17 @@
 * `subTextFontSize`：副标题文字的字体大小。
 * `itemGap`：主副标题之间的间距。
 * `location`：标题显示位置 [Location](#Location)。
+
+## `TitleStyle`
+
+标题样式。
+
+* `show`：是否显示标题组件。
+* `rotate`：旋转。
+* `offset`：偏移。
+* `color`：颜色。
+* `fontSize`：字体大小。
+* `fontStyle`：字体风格。
 
 ## `Legend`
 
@@ -262,6 +274,23 @@
 * `bottom`：组件离容器底部的距离。
 * `backgroundColor`：背景颜色。
 
+## `GaugeAxis`
+
+仪表盘坐标轴。
+
+* `axisLine`：坐标轴轴线样式。
+* `splitLine`：坐标轴分割线样式。
+* `axisTick`：坐标轴刻度样式。
+* `axisLabel`：坐标轴刻度标签样式。
+* `axisLabelText`：坐标轴刻度标签自定义内容。当内容为空时，axisLabel根据刻度自动显示内容，否则取自该列表定义的内容。
+
+## `GaugePointer`
+
+仪表盘指针。
+
+* `width`：指针宽度。
+* `length`：指针长度。当为0-1的浮点数时表示相对仪表盘半径的百分比。
+
 ## `XAxis`
 
 ---
@@ -415,6 +444,33 @@
 
 相关接口：
 
+## `Serie.Gauge`
+
+仪表盘系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Gauge`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `gaugeType`：仪表盘类型，支持以下类型：
+  * `Pointer`：指针类型。
+  * `ProgressBar`：进度条类型。
+* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `radius`：仪表盘半径。
+* `min`：最小的数据值。映射到startAngle。
+* `max`：最大的数据值。映射到endAngle。
+* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `endAngle`：仪表盘结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `splitNumber`：仪表盘刻度分割段数。
+* `arcShaped`：是否启用圆角效果。
+* `titleStyle`：仪表盘标题 [TitleStyle](#TitleStyle)。
+* `gaugeAxis`： 仪表盘坐标轴 [GaugeAxis](#GaugeAxis)。
+* `gaugePointer`：仪表盘指针 [GaugePointer](#GaugePointer)。
+* `itemStyle`：仪表盘指针样式 [ItemStyle](#ItemStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。仪表盘的数据一般只有一个，值通过`label`样式显示，`name`通过`titleStyle`样式显示。
+
 ## `Settings`
 
 ---
@@ -426,7 +482,7 @@
 * `lineSegmentDistance`： 线段的分割距离。普通折线图的线是由很多线段组成，段数由该数值决定。值越小段数越多，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
 * `cicleSmoothness`：圆形（包括扇形、环形等）的平滑度。数越小圆越平滑，但顶点数也会随之增加。
 
-## `Animation`
+## `SerieAnimation`
 
 ---
 
@@ -434,6 +490,8 @@
 * `easing`：动画的缓动效果。支持以下动画效果：
   * `Linear`：线性效果。
 * `duration`：设定的动画时长，单位毫秒。
+* `updateAnimation`：是否开启数据变更动画。
+* `updateDuration`：数据变更动画时长，单位毫秒。
 * `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
 * `delay`：动画延时，单位毫秒。
 

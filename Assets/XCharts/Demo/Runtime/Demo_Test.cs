@@ -14,27 +14,24 @@ namespace XCharts
     [ExecuteInEditMode]
     public class Demo_Test : MonoBehaviour
     {
-        LineChart chart;
+        private float updateTime = 0;
+        CoordinateChart chart;
         void Awake()
         {
-            chart = gameObject.GetComponent<LineChart>();
+            chart = gameObject.GetComponent<CoordinateChart>();
             if (chart == null)
             {
-                chart = gameObject.AddComponent<LineChart>();
+                chart = gameObject.AddComponent<CoordinateChart>();
             }
-
-            var buttom = transform.parent.gameObject.GetComponentInChildren<Button>();
-            buttom.onClick.AddListener(AddData);
         }
 
-        void AddData()
+        void Update()
         {
-            chart.series.list[0].ClearData();
-            chart.series.list[1].ClearData();
-            for (int i = 0; i < 5; i++)
+            updateTime += Time.deltaTime;
+            if (updateTime > 2)
             {
-                chart.AddData(0, Random.Range(20, 100));
-                chart.AddData(1, Random.Range(1, 10));
+                updateTime = 0;
+                chart.UpdateData(0, Random.Range(0, 5), Random.Range(10, 90));
             }
         }
     }

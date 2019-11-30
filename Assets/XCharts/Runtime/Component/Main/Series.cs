@@ -81,6 +81,18 @@ namespace XCharts
             }
         }
 
+        public float GetCurrData(int serieIndex, int dataIndex)
+        {
+            if (serieIndex >= 0 && serieIndex < Count)
+            {
+                return m_Series[serieIndex].GetYCurrData(dataIndex);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// 获得指定系列名的第一个系列
         /// </summary>
@@ -162,6 +174,18 @@ namespace XCharts
                 if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
                 {
                     if (serie.areaStyle.color != serie.areaStyle.toColor && serie.areaStyle.toColor != Color.clear) return true;
+                }
+            }
+            return false;
+        }
+
+        internal bool IsAnyUpdateAnimationSerie()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.animation.enable && serie.animation.updateAnimation)
+                {
+                    return true;
                 }
             }
             return false;
@@ -603,8 +627,9 @@ namespace XCharts
                             {
                                 if (yValue)
                                 {
-                                    if (data.data[1] > max) max = data.data[1];
-                                    if (data.data[1] < min) min = data.data[1];
+                                    var currData = data.GetData(1);
+                                    if (currData > max) max = currData;
+                                    if (currData < min) min = currData;
                                 }
                                 else
                                 {
@@ -641,7 +666,7 @@ namespace XCharts
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
                                     _serieTotalValueForMinMax[j] = 0;
                                 _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] +
-                                    (yValue ? showData[j].data[1] : showData[i].data[0]);
+                                    (yValue ? showData[j].GetData(1) : showData[i].data[0]);
                             }
                         }
 
@@ -668,7 +693,9 @@ namespace XCharts
                 {
                     minVaule = Mathf.FloorToInt(min);
                     maxValue = Mathf.CeilToInt(max);
-                }else{
+                }
+                else
+                {
                     minVaule = min;
                     maxValue = max;
                 }

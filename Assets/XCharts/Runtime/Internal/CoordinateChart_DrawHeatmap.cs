@@ -183,6 +183,7 @@ namespace XCharts
                 float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
                 float speed = xCount / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
+                m_IsPlayingStartAnimation = true;
                 RefreshChart();
             }
         }

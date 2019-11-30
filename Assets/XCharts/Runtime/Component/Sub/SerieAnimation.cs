@@ -23,10 +23,12 @@ namespace XCharts
         }
         [SerializeField] private bool m_Enable = true;
         [SerializeField] private Easing m_Easting;
-        [SerializeField] private int m_Duration = 1000;
+        [SerializeField] private float m_Duration = 1000;
         [SerializeField] private int m_Threshold = 2000;
-        [SerializeField] private int m_Delay = 0;
-        [SerializeField] private int m_ActualDuration;
+        [SerializeField] private float m_Delay = 0;
+        [SerializeField] private bool m_UpdateAnimation = false;
+        [SerializeField] private float m_UpdateDuration = 500;
+        [SerializeField] private float m_ActualDuration;
 
         /// <summary>
         /// Whether to enable animation.
@@ -42,12 +44,12 @@ namespace XCharts
         /// The milliseconds duration of the first animation.
         /// 设定的动画时长（毫秒）。
         /// </summary>
-        public int duration { get { return m_Duration; } set { m_Duration = value; } }
+        public float duration { get { return m_Duration; } set { m_Duration = value < 0 ? 0 : value; } }
         /// <summary>
         /// The milliseconds actual duration of the first animation.
         /// 实际的动画时长（毫秒）。
         /// </summary>
-        public int actualDuration { get { return m_ActualDuration; } }
+        public float actualDuration { get { return m_ActualDuration; } }
         /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
         /// 是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
@@ -57,7 +59,16 @@ namespace XCharts
         /// The milliseconds delay before updating the first animation.
         /// 动画延时（毫秒）。
         /// </summary>
-        public int delay { get { return m_Delay; } set { m_Delay = value; if (m_Delay < 0) m_Delay = 0; } }
+        public float delay { get { return m_Delay; } set { m_Delay = value < 0 ? 0 : value; } }
+        /// <summary>
+        /// 是否开启数据变更动画。
+        /// </summary>
+        public bool updateAnimation { get { return m_UpdateAnimation; } set { m_UpdateAnimation = value; } }
+        /// <summary>
+        /// The milliseconds duration of the first animation.
+        /// 数据变更的动画时长（毫秒）。
+        /// </summary>
+        public float updateDuration { get { return m_UpdateDuration; } set { m_UpdateDuration = value < 0 ? 0 : value; } }
 
         private Dictionary<int, float> m_DataAnimationState = new Dictionary<int, float>();
         private bool m_IsStart = false;
@@ -231,6 +242,12 @@ namespace XCharts
         public float GetCurrData()
         {
             return m_CurrDataProgress;
+        }
+
+        public float GetUpdateAnimationDuration()
+        {
+            if (m_Enable && m_UpdateAnimation && IsFinish()) return m_UpdateDuration;
+            else return 0;
         }
     }
 }

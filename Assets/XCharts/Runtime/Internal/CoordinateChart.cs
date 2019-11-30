@@ -90,6 +90,7 @@ namespace XCharts
         {
             base.DrawChart(vh);
             if (!m_CheckMinMaxValue) return;
+            m_IsPlayingStartAnimation = false;
             bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
             m_Series.GetStackSeries(ref m_StackSeries);
             int seriesCount = m_StackSeries.Count;
@@ -787,7 +788,7 @@ namespace XCharts
             {
                 m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, false, out tempMinValue, out tempMaxValue);
             }
-            axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue);
+            axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
                 m_CheckMinMaxValue = true;
@@ -814,9 +815,16 @@ namespace XCharts
                 {
                     float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
                     var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
-                    axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack);
+                    axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack, 500);
                     RefreshChart();
                 }
+            }
+            if (axis.IsValueChanging(500) && !m_IsPlayingStartAnimation)
+            {
+                float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
+                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+                axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack, 500);
+                RefreshChart();
             }
         }
 
@@ -1044,7 +1052,7 @@ namespace XCharts
                 float minValue = 0;
                 float maxValue = 0;
                 m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
-                axis.AdjustMinMaxValue(ref minValue, ref maxValue);
+                axis.AdjustMinMaxValue(ref minValue, ref maxValue, true);
 
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
@@ -1053,10 +1061,11 @@ namespace XCharts
                 if (rate < 1) rate = 1;
                 var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                     DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
-
+                var dataChanging = false;
                 for (int i = 0; i < maxCount; i += rate)
                 {
-                    float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i);
+                    float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
+                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging);
                     float pX = coordinateX + i * scaleWid;
                     float dataHig = (axis.runtimeMaxValue - axis.runtimeMinValue) == 0 ? 0 :
                         (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * hig;
@@ -1073,6 +1082,10 @@ namespace XCharts
                         ChartDrawer.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                     }
                     lp = np;
+                }
+                if (dataChanging)
+                {
+                    RefreshChart();
                 }
             }
             switch (m_DataZoom.rangeMode)
@@ -1373,7 +1386,7 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
-                    
+
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
                     if (serie.show && serie.label.show && serieData.canShowLabel)

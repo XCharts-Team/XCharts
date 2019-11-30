@@ -41,6 +41,18 @@ namespace XCharts
             SetActive(gameObject.transform, active);
         }
 
+        public static void SetActive(Image image, bool active)
+        {
+            if (image == null) return;
+            SetActive(image.gameObject, active);
+        }
+
+        public static void SetActive(Text text, bool active)
+        {
+            if (text == null) return;
+            SetActive(text.gameObject, active);
+        }
+
         /// <summary>
         /// 通过设置scale实现是否显示，优化性能，减少GC
         /// </summary>
@@ -357,6 +369,16 @@ namespace XCharts
                 color1.r == color2.r;
         }
 
+        public static bool IsValueEqualsVector2(Vector2 v1, Vector2 v2)
+        {
+            return v1.x == v2.x && v1.y == v2.y;
+        }
+
+        public static bool IsValueEqualsVector3(Vector3 v1, Vector3 v2)
+        {
+            return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+        }
+
         public static bool IsValueEqualsList<T>(List<T> list1, List<T> list2)
         {
             if (list1 == null || list2 == null) return false;
@@ -585,6 +607,14 @@ namespace XCharts
             Vector3 point = Quaternion.AngleAxis(angle, axis) * (position - center);
             Vector3 resultVec3 = center + point;
             return resultVec3;
+        }
+
+        public static Vector3 GetPosition(Vector3 center, float angle, float radius)
+        {
+            var rad = angle * Mathf.Deg2Rad;
+            var px = Mathf.Sin(rad) * radius;
+            var py = Mathf.Cos(rad) * radius;
+            return center + new Vector3(px, py);
         }
     }
 }

@@ -79,7 +79,6 @@ namespace XCharts
 
         private void InitAxisLabel()
         {
-            Debug.LogError("InitAxisLabel");
             var labelObject = ChartHelper.AddObject(s_AxisLabelObjectName, transform, Vector2.zero,
                 Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
             SerieLabelPool.ReleaseAll(labelObject.transform);
@@ -91,7 +90,6 @@ namespace XCharts
                 serie.gaugeAxis.ClearLabelObject();
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
                 var startAngle = serie.startAngle;
-                Debug.LogError("InitAxisLabel:"+serie.name+","+count);
                 for (int j = 0; j < count; j++)
                 {
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);

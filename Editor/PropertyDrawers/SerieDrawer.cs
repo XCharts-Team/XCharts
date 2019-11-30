@@ -58,6 +58,17 @@ namespace XCharts
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
             SerializedProperty m_ShowDataIcon = prop.FindPropertyRelative("m_ShowDataIcon");
+            SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
+            SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
+            SerializedProperty m_StartAngle = prop.FindPropertyRelative("m_StartAngle");
+            SerializedProperty m_EndAngle = prop.FindPropertyRelative("m_EndAngle");
+            SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
+            //SerializedProperty m_Clockwise = prop.FindPropertyRelative("m_Clockwise");
+            SerializedProperty m_ArcShaped = prop.FindPropertyRelative("m_ArcShaped");
+            SerializedProperty m_GaugeType = prop.FindPropertyRelative("m_GaugeType");
+            SerializedProperty m_GaugeAxis = prop.FindPropertyRelative("m_GaugeAxis");
+            SerializedProperty m_GaugePointer = prop.FindPropertyRelative("m_GaugePointer");
+            SerializedProperty m_TitleStyle = prop.FindPropertyRelative("m_TitleStyle");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -82,87 +93,155 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, name);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, stack);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (serieType == SerieType.Radar)
-                {
-                    EditorGUI.PropertyField(drawRect, m_RadarIndex);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
-                else
-                {
-                    EditorGUI.PropertyField(drawRect, m_AxisIndex);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
-                EditorGUI.PropertyField(drawRect, m_MinShow);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_MaxShow);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_MaxCache);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
-                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
-                if (m_MaxCache.intValue < 0) m_MaxCache.intValue = 0;
-                if (serieType == SerieType.Line)
-                {
-                    EditorGUI.PropertyField(drawRect, m_LineType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleDist);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleAverage);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
-                if (serieType == SerieType.Line
-                    || serieType == SerieType.Scatter
-                    || serieType == SerieType.EffectScatter
-                    || serieType == SerieType.Radar)
-                {
-                    EditorGUI.PropertyField(drawRect, m_Symbol);
-                    drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
-                }
-                if (serieType == SerieType.Bar)
-                {
-                    EditorGUI.PropertyField(drawRect, m_BarType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarPercentStack);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarWidth);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarGap);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarZebraWidth);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarZebraGap);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
-                if (serieType == SerieType.Pie)
-                {
-                    EditorGUI.PropertyField(drawRect, m_RoseType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_Space);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                    ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
-                    ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
-                }
-
-                EditorGUI.PropertyField(drawRect, m_LineStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
-                if (serieType == SerieType.Line)
+                switch (serieType)
                 {
-                    EditorGUI.PropertyField(drawRect, m_LineArrow);
-                    drawRect.y += EditorGUI.GetPropertyHeight(m_LineArrow);
+                    case SerieType.Line:
+                        EditorGUI.PropertyField(drawRect, stack);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_AxisIndex);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MinShow);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MaxShow);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MaxCache);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                        if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                        if (m_MaxCache.intValue < 0) m_MaxCache.intValue = 0;
+                        EditorGUI.PropertyField(drawRect, m_LineType);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_SampleDist);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_SampleType);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_SampleAverage);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Symbol);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                        EditorGUI.PropertyField(drawRect, m_LineStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                        EditorGUI.PropertyField(drawRect, m_LineArrow);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_LineArrow);
+                        EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
+                        EditorGUI.PropertyField(drawRect, m_AreaStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Bar:
+                        EditorGUI.PropertyField(drawRect, stack);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_AxisIndex);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MinShow);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MaxShow);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_MaxCache);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                        if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
+                        if (m_MaxCache.intValue < 0) m_MaxCache.intValue = 0;
+                        EditorGUI.PropertyField(drawRect, m_BarType);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_BarPercentStack);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_BarWidth);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_BarGap);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_BarZebraWidth);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_BarZebraGap);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Symbol);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                        EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
+                        EditorGUI.PropertyField(drawRect, m_AreaStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Pie:
+                        EditorGUI.PropertyField(drawRect, m_RoseType);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Space);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
+                        ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
+                        EditorGUI.PropertyField(drawRect, m_ArcShaped);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Radar:
+                        EditorGUI.PropertyField(drawRect, m_RadarIndex);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Symbol);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                        break;
+                    case SerieType.Scatter:
+                    case SerieType.EffectScatter:
+                        EditorGUI.PropertyField(drawRect, m_Symbol);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Heatmap:
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Gauge:
+                        EditorGUI.PropertyField(drawRect, m_GaugeType);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
+                        //ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
+                        EditorGUI.PropertyField(drawRect, m_Radius.GetArrayElementAtIndex(0), new GUIContent("Radius"));
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Min);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Max);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_StartAngle);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_EndAngle);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_SplitNumber);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        if (m_SplitNumber.intValue > 36)
+                        {
+                            m_SplitNumber.intValue = 36;
+                        }
+                        EditorGUI.PropertyField(drawRect, m_ArcShaped);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_TitleStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_TitleStyle);
+                        EditorGUI.PropertyField(drawRect, m_GaugeAxis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_GaugeAxis);
+                        EditorGUI.PropertyField(drawRect, m_GaugePointer);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_GaugePointer);
+                        EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
                 }
-                EditorGUI.PropertyField(drawRect, m_ItemStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
-                EditorGUI.PropertyField(drawRect, m_AreaStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
-                EditorGUI.PropertyField(drawRect, m_Label);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
-                EditorGUI.PropertyField(drawRect, m_Emphasis);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
                 EditorGUI.PropertyField(drawRect, m_Animation);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Animation);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
@@ -268,7 +347,6 @@ namespace XCharts
             else
             {
                 EditorGUI.LabelField(drawRect, "Element " + index);
-                Debug.LogError("Element " + index);
                 var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
                 var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                 var dataWid = dataWidTotal / fieldCount;
@@ -301,8 +379,20 @@ namespace XCharts
             {
                 EditorGUI.indentLevel++;
                 var m_Icon = serieData.FindPropertyRelative("m_IconStyle");
+                var m_EnableLabel = serieData.FindPropertyRelative("m_EnableLabel");
+                var m_Label = serieData.FindPropertyRelative("m_Label");
                 EditorGUI.PropertyField(drawRect, m_Icon);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Icon);
+                EditorGUI.PropertyField(drawRect, m_EnableLabel);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (m_EnableLabel.boolValue)
+                {
+                    EditorGUI.indentLevel++;
+                    EditorGUI.PropertyField(drawRect, m_Label);
+                    drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                    EditorGUI.indentLevel--;
+                }
+
                 EditorGUI.indentLevel--;
             }
         }
@@ -317,35 +407,67 @@ namespace XCharts
             }
             else
             {
-                height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;
-                if (serieType == SerieType.Line
-                    || serieType == SerieType.Scatter
-                    || serieType == SerieType.EffectScatter
-                    || serieType == SerieType.Radar)
-                {
 
-                    height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
-                }
-                if (serieType == SerieType.Pie)
+
+                switch (serieType)
                 {
-                    height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
-                }
-                if (serieType == SerieType.Line)
-                {
-                    height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
-                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
-                }
-                if (serieType == SerieType.Bar)
-                {
-                    height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
+                    case SerieType.Line:
+                        height += 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Bar:
+                        height += 16 * EditorGUIUtility.singleLineHeight + 15 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Pie:
+                        height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Radar:
+                        height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Scatter:
+                    case SerieType.EffectScatter:
+                        height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Heatmap:
+                        height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Gauge:
+                        height += 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TitleStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_GaugeAxis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_GaugePointer"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
                 }
                 if (m_DataFoldout[index])
                 {
@@ -366,7 +488,10 @@ namespace XCharts
                         for (int i = 0; i < num; i++)
                         {
                             var item = m_Data.GetArrayElementAtIndex(i);
+                            height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_IconStyle"));
+                            if (item.FindPropertyRelative("m_EnableLabel").boolValue)
+                                height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Label"));
                         }
                     }
                 }

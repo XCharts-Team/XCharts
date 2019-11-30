@@ -24,11 +24,13 @@ namespace XCharts
             SerializedProperty m_Enable = prop.FindPropertyRelative("m_Enable");
             SerializedProperty m_Easting = prop.FindPropertyRelative("m_Easting");
             SerializedProperty m_Duration = prop.FindPropertyRelative("m_Duration");
+            SerializedProperty m_UpdateAnimation = prop.FindPropertyRelative("m_UpdateAnimation");
+            SerializedProperty m_UpdateDuration = prop.FindPropertyRelative("m_UpdateDuration");
             SerializedProperty m_Delay = prop.FindPropertyRelative("m_Delay");
             SerializedProperty m_Threshold = prop.FindPropertyRelative("m_Threshold");
             SerializedProperty m_ActualDuration = prop.FindPropertyRelative("m_ActualDuration");
-            SerializedProperty m_CurrDetailProgress = prop.FindPropertyRelative("m_CurrDetailProgress");
-            SerializedProperty m_DestDetailProgress = prop.FindPropertyRelative("m_DestDetailProgress");
+            // SerializedProperty m_CurrDetailProgress = prop.FindPropertyRelative("m_CurrDetailProgress");
+            // SerializedProperty m_DestDetailProgress = prop.FindPropertyRelative("m_DestDetailProgress");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AnimationModuleToggle, prop, null, m_Enable, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -37,20 +39,26 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Easting);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Duration);
-                if (m_Duration.intValue < 0) m_Duration.intValue = 0;
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Delay);
-                if (m_Delay.intValue < 0) m_Delay.intValue = 0;
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Threshold);
                 if (m_Threshold.intValue < 0) m_Threshold.intValue = 0;
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.LabelField(drawRect, "CurrDetailProgress:" + m_CurrDetailProgress.floatValue);
+                EditorGUI.PropertyField(drawRect, m_Delay);
+                if (m_Delay.floatValue < 0) m_Delay.floatValue = 0;
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.LabelField(drawRect, "DestDetailProgress:" + m_DestDetailProgress.floatValue);
+                EditorGUI.PropertyField(drawRect, m_Duration);
+                if (m_Duration.floatValue < 0) m_Duration.floatValue = 0;
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.LabelField(drawRect, "Actual duration:" + m_ActualDuration.intValue + " ms");
+                EditorGUI.PropertyField(drawRect, m_UpdateAnimation);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_UpdateDuration);
+                if (m_UpdateDuration.floatValue < 0) m_UpdateDuration.floatValue = 0;
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                
+                // EditorGUI.LabelField(drawRect, "CurrDetailProgress:" + m_CurrDetailProgress.floatValue);
+                // drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                // EditorGUI.LabelField(drawRect, "DestDetailProgress:" + m_DestDetailProgress.floatValue);
+                // drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.LabelField(drawRect, "Actual duration:" + m_ActualDuration.floatValue + " ms");
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }

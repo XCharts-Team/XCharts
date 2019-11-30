@@ -34,9 +34,10 @@ namespace XCharts
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
-        private static readonly string s_TitleObjectName = "title";
-        private static readonly string s_LegendObjectName = "legend";
-        private static readonly string s_SerieLabelObjectName = "label";
+        protected static readonly string s_TitleObjectName = "title";
+        protected static readonly string s_LegendObjectName = "legend";
+        protected static readonly string s_SerieLabelObjectName = "label";
+        protected static readonly string s_SerieTitleObjectName = "serie";
 
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
@@ -62,7 +63,9 @@ namespace XCharts
         [NonSerialized] protected bool m_RefreshChart = false;
         [NonSerialized] protected bool m_RefreshLabel = false;
         [NonSerialized] protected bool m_ReinitLabel = false;
+        [NonSerialized] protected bool m_ReinitTitle = false;
         [NonSerialized] protected bool m_CheckAnimation = false;
+        [NonSerialized] protected bool m_IsPlayingStartAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
@@ -87,6 +90,7 @@ namespace XCharts
             InitTitle();
             InitLegend();
             InitSerieLabel();
+            InitSerieTitle();
             InitTooltip();
             m_Series.AnimationStop();
             m_Series.AnimationStart();
@@ -300,29 +304,60 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (!serie.label.show && j > 100) continue;
+                    var serieLabel = serieData.GetSerieLabel(serie.label);
+                    if (!serieLabel.show && j > 100) continue;
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
                     var color = Color.grey;
                     if (serie.type == SerieType.Pie)
                     {
-                        color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
+                        color = (serieLabel.position == SerieLabel.Position.Inside) ? Color.white :
                             (Color)m_ThemeInfo.GetColor(count);
                     }
                     else
                     {
-                        color = serie.label.color != Color.clear ? serie.label.color :
+                        color = serieLabel.color != Color.clear ? serieLabel.color :
                             (Color)m_ThemeInfo.GetColor(i);
                     }
-                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serie.label, m_ThemeInfo.font, color, serieData);
+                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serieLabel, m_ThemeInfo.font, color,
+                         serieData.iconStyle.width, serieData.iconStyle.height);
                     var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
                     serieData.SetIconImage(iconImage);
 
-                    var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
-                    serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
+                    var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
+                    serieData.InitLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
                     serieData.SetLabelActive(false);
-                    serieData.SetLabelText(serieData.name);
-
+                    //serieData.SetLabelText(serieData.name);
                     count++;
+                }
+            }
+        }
+
+        private void InitSerieTitle()
+        {
+            var titleObject = ChartHelper.AddObject(s_SerieTitleObjectName, transform, Vector2.zero,
+                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            ChartHelper.HideAllObject(titleObject);
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.list[i];
+                var textStyle = serie.titleStyle.textStyle;
+                var color = textStyle.color == Color.clear ? m_ThemeInfo.GetColor(i) : (Color32)textStyle.color;
+                var anchorMin = new Vector2(0.5f, 0.5f);
+                var anchorMax = new Vector2(0.5f, 0.5f);
+                var pivot = new Vector2(0.5f, 0.5f);
+                var fontSize = 10;
+                var sizeDelta = new Vector2(50, fontSize + 2);
+                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, m_ThemeInfo.font, color, TextAnchor.MiddleCenter,
+                anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                txt.text = "";
+                txt.transform.localPosition = new Vector2(0, 0);
+                txt.transform.localEulerAngles = Vector2.zero;
+                ChartHelper.SetActive(txt, false);
+                serie.titleStyle.runtimeText = txt;
+                var serieData = serie.GetSerieData(0);
+                if (serieData != null)
+                {
+                    txt.text = serieData.name;
                 }
             }
         }
@@ -506,6 +541,11 @@ namespace XCharts
                 m_ReinitLabel = false;
                 m_LegendRealShowName = m_Series.GetSerieNameList();
                 InitSerieLabel();
+            }
+            if (m_ReinitTitle)
+            {
+                m_ReinitTitle = false;
+                InitSerieTitle();
             }
             if (m_RefreshLabel)
             {
@@ -717,25 +757,26 @@ namespace XCharts
         {
             var labelHalfWid = serieData.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
-            var centerPos = serieData.labelPosition + serie.label.offset;
+            var serieLabel = serieData.GetSerieLabel(serie.label);
+            var centerPos = serieData.labelPosition + serieLabel.offset;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
             var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
             var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);
             var p4 = new Vector3(centerPos.x - labelHalfWid, centerPos.y - labelHalfHig);
 
-            if (serie.label.rotate > 0)
+            if (serieLabel.rotate > 0)
             {
-                p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
-                p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
-                p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
-                p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
+                p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serieLabel.rotate);
+                p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serieLabel.rotate);
+                p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serieLabel.rotate);
+                p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serieLabel.rotate);
             }
 
-            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, serie.label.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, serieLabel.backgroundColor);
 
-            if (serie.label.border)
+            if (serieLabel.border)
             {
-                var borderWid = serie.label.borderWidth;
+                var borderWid = serieLabel.borderWidth;
                 p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig + borderWid);
                 p2 = new Vector3(centerPos.x + labelHalfWid + 2 * borderWid, centerPos.y + labelHalfHig + borderWid);
                 p3 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y + labelHalfHig);
@@ -744,21 +785,21 @@ namespace XCharts
                 var p6 = new Vector3(centerPos.x - labelHalfWid - 2 * borderWid, centerPos.y - labelHalfHig - borderWid);
                 var p7 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y - labelHalfHig);
                 var p8 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y + labelHalfHig + 2 * borderWid);
-                if (serie.label.rotate > 0)
+                if (serieLabel.rotate > 0)
                 {
-                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
-                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
-                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
-                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
-                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serie.label.rotate);
-                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serie.label.rotate);
-                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serie.label.rotate);
-                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serie.label.rotate);
+                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serieLabel.rotate);
+                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serieLabel.rotate);
+                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serieLabel.rotate);
+                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serieLabel.rotate);
+                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serieLabel.rotate);
+                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serieLabel.rotate);
+                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serieLabel.rotate);
+                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serieLabel.rotate);
                 }
-                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
+                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serieLabel.borderColor);
+                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serieLabel.borderColor);
+                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serieLabel.borderColor);
+                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serieLabel.borderColor);
             }
         }
 

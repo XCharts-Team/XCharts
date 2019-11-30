@@ -66,10 +66,10 @@ namespace XCharts
 
             chart.RemoveData();
             serie = chart.AddSerie(SerieType.Pie, "访问来源");
-            serie.pieRadius[0] = 0;
-            serie.pieRadius[1] = 110;
-            serie.pieCenter[0] = 0.5f;
-            serie.pieCenter[1] = 0.4f;
+            serie.radius[0] = 0;
+            serie.radius[1] = 110;
+            serie.center[0] = 0.5f;
+            serie.center[1] = 0.4f;
             chart.AddData(0, 335, "直接访问");
             chart.AddData(0, 310, "邮件营销");
             chart.AddData(0, 243, "联盟广告");
@@ -105,10 +105,10 @@ namespace XCharts
         IEnumerator Doughnut()
         {
             chart.title.subText = "圆环图";
-            serie.pieRadius[0] = 2f;
-            while (serie.pieRadius[0] < serie.pieRadius[1] * 0.7f)
+            serie.radius[0] = 2f;
+            while (serie.radius[0] < serie.radius[1] * 0.7f)
             {
-                serie.pieRadius[0] += m_RadiusSpeed * Time.deltaTime;
+                serie.radius[0] += m_RadiusSpeed * Time.deltaTime;
                 chart.RefreshChart();
                 yield return null;
             }
@@ -134,14 +134,14 @@ namespace XCharts
             chart.AddData(1, 335, "直达");
             chart.AddData(1, 679, "营销广告");
             chart.AddData(1, 1548, "搜索引擎");
-            serie1.pieRadius[0] = 0;
-            serie1.pieRadius[1] = 2f;
-            serie1.pieCenter[0] = 0.5f;
-            serie1.pieCenter[1] = 0.4f;
+            serie1.radius[0] = 0;
+            serie1.radius[1] = 2f;
+            serie1.center[0] = 0.5f;
+            serie1.center[1] = 0.4f;
             chart.RefreshChart();
-            while (serie1.pieRadius[1] < serie.pieRadius[0] * 0.75f)
+            while (serie1.radius[1] < serie.radius[0] * 0.75f)
             {
-                serie1.pieRadius[1] += m_RadiusSpeed * Time.deltaTime;
+                serie1.radius[1] += m_RadiusSpeed * Time.deltaTime;
                 chart.RefreshChart();
                 yield return null;
             }
@@ -163,7 +163,7 @@ namespace XCharts
             chart.legend.show = false;
             serie1.ClearData();
             serie.ClearData();
-            serie1.pieRadius = serie.pieRadius = new float[2] { 0, 80 };
+            serie1.radius = serie.radius = new float[2] { 0, 80 };
             serie1.label.position = SerieLabel.Position.Outside;
             serie1.label.lineType = SerieLabel.LineType.Curves;
             serie1.label.color = Color.clear;
@@ -179,24 +179,24 @@ namespace XCharts
                 chart.AddData(i, 40, "rose8");
             }
 
-            while (serie.pieCenter[0] > 0.25f || serie1.pieCenter[0] < 0.7f)
+            while (serie.center[0] > 0.25f || serie1.center[0] < 0.7f)
             {
-                if (serie.pieCenter[0] > 0.25f) serie.pieCenter[0] -= m_CenterSpeed * Time.deltaTime;
-                if (serie1.pieCenter[0] < 0.7f) serie1.pieCenter[0] += m_CenterSpeed * Time.deltaTime;
+                if (serie.center[0] > 0.25f) serie.center[0] -= m_CenterSpeed * Time.deltaTime;
+                if (serie1.center[0] < 0.7f) serie1.center[0] += m_CenterSpeed * Time.deltaTime;
                 chart.RefreshChart();
                 yield return null;
             }
             yield return new WaitForSeconds(1);
-            while (serie.pieRadius[0] > 3f)
+            while (serie.radius[0] > 3f)
             {
-                serie.pieRadius[0] -= m_RadiusSpeed * Time.deltaTime;
-                serie1.pieRadius[0] -= m_RadiusSpeed * Time.deltaTime;
+                serie.radius[0] -= m_RadiusSpeed * Time.deltaTime;
+                serie1.radius[0] -= m_RadiusSpeed * Time.deltaTime;
                 chart.RefreshChart();
                 yield return null;
             }
 
-            serie.pieRadius[0] = 0;
-            serie1.pieRadius[0] = 0;
+            serie.radius[0] = 0;
+            serie1.radius[0] = 0;
             serie.pieRoseType = RoseType.Area;
             serie1.pieRoseType = RoseType.Radius;
             chart.RefreshChart();

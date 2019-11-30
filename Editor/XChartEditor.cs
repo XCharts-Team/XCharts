@@ -98,5 +98,11 @@ namespace XCharts
         {
             AddChart<HeatmapChart>("HeatmapChart");
         }
+
+        [MenuItem("GameObject/XCharts/GaugeChart", priority = 50)]
+        public static void AddGaugeChart()
+        {
+            AddChart<GaugeChart>("GaugeChart");
+        }
     }
 }

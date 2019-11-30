@@ -48,6 +48,10 @@ namespace XCharts
         /// 热力图。主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
         /// </summary>
         Heatmap,
+        /// <summary>
+        /// 仪表盘。
+        /// </summary>
+        Gauge,
     }
 
     /// <summary>
@@ -143,6 +147,21 @@ namespace XCharts
     }
 
     /// <summary>
+    /// 仪表盘类型
+    /// </summary>
+    public enum GaugeType
+    {
+        /// <summary>
+        /// 指针型
+        /// </summary>
+        Pointer,
+        /// <summary>
+        /// 进度条型
+        /// </summary>
+        ProgressBar
+    }
+
+    /// <summary>
     /// 采样类型
     /// </summary>
     public enum SampleType
@@ -202,6 +221,16 @@ namespace XCharts
         [SerializeField] private float m_BarZebraWidth = 4f;
         [SerializeField] private float m_BarZebraGap = 2f;
 
+        [SerializeField] private float m_Min;
+        [SerializeField] private float m_Max;
+        [SerializeField] private float m_StartAngle;
+        [SerializeField] private float m_EndAngle;
+        [SerializeField] private bool m_Clockwise;
+        [SerializeField] private bool m_ArcShaped;
+        [SerializeField] private int m_SplitNumber;
+        [SerializeField] private GaugeType m_GaugeType = GaugeType.Pointer;
+        [SerializeField] private GaugeAxis m_GaugeAxis = new GaugeAxis();
+        [SerializeField] private GaugePointer m_GaugePointer = new GaugePointer();
 
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
@@ -213,6 +242,7 @@ namespace XCharts
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
+        [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
@@ -383,15 +413,59 @@ namespace XCharts
         /// </summary>
         public float pieSpace { get { return m_Space; } set { m_Space = value; } }
         /// <summary>
-        /// the center of pie chart.
-        /// 饼图的中心点。
+        /// the center of chart.
+        /// 中心点。
         /// </summary>
-        public float[] pieCenter { get { return m_Center; } set { m_Center = value; } }
+        public float[] center { get { return m_Center; } set { m_Center = value; } }
         /// <summary>
-        /// the radius of pie chart.
-        /// 饼图的半径。radius[0]表示内径，radius[1]表示外径。
+        /// the radius of chart.
+        /// 半径。radius[0]表示内径，radius[1]表示外径。
         /// </summary>
-        public float[] pieRadius { get { return m_Radius; } set { m_Radius = value; } }
+        public float[] radius { get { return m_Radius; } set { m_Radius = value; } }
+        [Obsolete("Use Serie.center instead.", true)]
+        public float[] pieCenter { get { return center; } set { center = value; } }
+        [Obsolete("Use Serie.radius instead.", true)]
+        public float[] pieRadius { get { return radius; } set { radius = value; } }
+        /// <summary>
+        /// 最小值，映射到 startAngle。
+        /// </summary>
+        public float min { get { return m_Min; } set { m_Min = value; } }
+        /// <summary>
+        /// 最大值，映射到 endAngle。
+        /// </summary>
+        public float max { get { return m_Max; } set { m_Max = value; } }
+        /// <summary>
+        /// 起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+        /// </summary>
+        public float startAngle { get { return m_StartAngle; } set { m_StartAngle = value; } }
+        /// <summary>
+        /// 结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+        /// </summary>
+        public float endAngle { get { return m_EndAngle; } set { m_EndAngle = value; } }
+        /// <summary>
+        /// 是否顺时针。
+        /// </summary>
+        public bool clockwise { get { return m_Clockwise; } set { m_Clockwise = value; } }
+        /// <summary>
+        /// 刻度分割段数。
+        /// </summary>
+        public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value > 36 ? 36 : value; } }
+        /// <summary>
+        /// 是否开启圆弧形边角。
+        /// </summary>
+        public bool arcShaped { get { return m_ArcShaped; } set { m_ArcShaped = value; } }
+        /// <summary>
+        /// 仪表盘轴线。
+        /// </summary>
+        public GaugeAxis gaugeAxis { get { return m_GaugeAxis; } set { m_GaugeAxis = value; } }
+        /// <summary>
+        /// 仪表盘指针。
+        /// </summary>
+        public GaugePointer gaugePointer { get { return m_GaugePointer; } set { m_GaugePointer = value; } }
+        /// <summary>
+        /// 仪表盘类型。
+        /// </summary>
+        public GaugeType gaugeType { get { return m_GaugeType; } set { m_GaugeType = value; } }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
         /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
@@ -416,6 +490,10 @@ namespace XCharts
         /// 高亮的图形样式和文本标签样式。
         /// </summary>
         public Emphasis emphasis { get { return m_Emphasis; } set { m_Emphasis = value; } }
+        /// <summary>
+        /// 标题样式。
+        /// </summary>
+        public TitleStyle titleStyle { get { return m_TitleStyle; } set { m_TitleStyle = value; } }
 
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
@@ -444,15 +522,15 @@ namespace XCharts
         /// <summary>
         /// 饼图的中心点位置。
         /// </summary>
-        public Vector3 runtimePieCenterPos { get; internal set; }
+        public Vector3 runtimeCenterPos { get; internal set; }
         /// <summary>
         /// 饼图的内径
         /// </summary>
-        public float runtimePieInsideRadius { get; internal set; }
+        public float runtimeInsideRadius { get; internal set; }
         /// <summary>
         /// 饼图的外径
         /// </summary>
-        public float runtimePieOutsideRadius { get; internal set; }
+        public float runtimeOutsideRadius { get; internal set; }
         /// <summary>
         /// 饼图的数据项最大值
         /// </summary>
@@ -732,6 +810,17 @@ namespace XCharts
             return 0;
         }
 
+        public float GetYCurrData(int index, DataZoom dataZoom = null)
+        {
+            if (index < 0) return 0;
+            var serieData = GetDataList(dataZoom);
+            if (index < serieData.Count)
+            {
+                return serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+            }
+            return 0;
+        }
+
         /// <summary>
         /// 获得维度Y索引对应的数据和数据名
         /// </summary>
@@ -764,6 +853,24 @@ namespace XCharts
             if (index >= 0 && index <= data.Count - 1)
             {
                 return data[index];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获得指定索引的数据项的Label
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="dataZoom"></param>
+        /// <returns></returns>
+        public SerieLabel GetSerieLabel(int index, DataZoom dataZoom = null)
+        {
+            var data = GetDataList(dataZoom);
+            if (index >= 0 && index <= data.Count - 1)
+            {
+                var serieData = data[index];
+                if (serieData.enableLabel) return serieData.label;
+                else return label;
             }
             return null;
         }
@@ -896,9 +1003,9 @@ namespace XCharts
         public void UpdateData(int index, int dimension, float value)
         {
             if (index < 0) return;
-            if (index < m_Data.Count && dimension < m_Data[index].data.Count)
+            if (index < m_Data.Count)
             {
-                m_Data[index].data[dimension] = value;
+                m_Data[index].UpdateData(dimension, value);
             }
         }
 
@@ -1081,6 +1188,22 @@ namespace XCharts
                 if (data.iconStyle.show) return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 更新运行时中心点和半径
+        /// </summary>
+        /// <param name="chartWidth"></param>
+        /// <param name="chartHeight"></param>
+        internal void UpdateCenter(float chartWidth, float chartHeight)
+        {
+            if (center.Length < 2) return;
+            var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
+            var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
+            runtimeCenterPos = new Vector2(centerX, centerY);
+            var minWidth = Mathf.Min(chartWidth, chartHeight);
+            runtimeInsideRadius = radius[0] <= 1 ? minWidth * radius[0] : radius[0];
+            runtimeOutsideRadius = radius[1] <= 1 ? minWidth * radius[1] : radius[1];
         }
 
         /// <summary>

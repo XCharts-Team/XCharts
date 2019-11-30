@@ -24,6 +24,8 @@ namespace XCharts
         [SerializeField] private bool m_Selected;
         [SerializeField] private float m_Radius;
         [SerializeField] private IconStyle m_IconStyle = new IconStyle();
+        [SerializeField] private bool m_EnableLabel = false;
+        [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
@@ -57,6 +59,14 @@ namespace XCharts
         /// 数据项图标样式。
         /// </summary>
         public IconStyle iconStyle { get { return m_IconStyle; } set { m_IconStyle = value; } }
+        /// <summary>
+        /// 是否启用单个数据项的标签设置。
+        /// </summary>
+        public bool enableLabel { get { return m_EnableLabel; } set { m_EnableLabel = value; } }
+        /// <summary>
+        /// 单个数据项的标签设置。
+        /// </summary>
+        public SerieLabel label { get { return m_Label; } set { m_Label = value; } }
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
@@ -143,10 +153,65 @@ namespace XCharts
         public float runtimePieOffsetRadius { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
 
+        private bool m_DataChanged;
+        private float m_LastData;
+        private float m_DataUpdateTime;
+
         public float GetData(int index)
         {
-            if (index >= 0 && index < m_Data.Count) return m_Data[index];
+            if (index >= 0 && index < m_Data.Count)
+            {
+                return m_Data[index];
+            }
             else return 0;
+        }
+
+        public float GetCurrData(int index, float animationDuration = 500f)
+        {
+            if (index == 1 && m_DataChanged)
+            {
+                var time = Time.time - m_DataUpdateTime;
+                var total = animationDuration / 1000;
+                if (animationDuration > 0 && time <= total)
+                {
+                    var curr = Mathf.Lerp(m_LastData, GetData(index), time / total);
+                    return curr;
+                }
+                else
+                {
+                    m_DataChanged = false;
+                    return GetData(index);
+                }
+            }
+            else
+            {
+                return GetData(index);
+            }
+        }
+
+        public float GetLastData(int index)
+        {
+            if (index == 1 && m_DataChanged) return m_LastData;
+            else return GetData(index);
+        }
+
+        public void UpdateData(int dimension, float value)
+        {
+            if (dimension >= 0 && dimension < data.Count)
+            {
+                if (dimension == 1)
+                {
+                    m_LastData = data[dimension];
+                    m_DataUpdateTime = Time.time;
+                    m_DataChanged = true;
+                }
+                data[dimension] = value;
+            }
+        }
+
+        public bool IsDataChanged()
+        {
+            return m_DataChanged;
         }
 
         public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
@@ -169,7 +234,7 @@ namespace XCharts
 
         public bool SetLabelText(string text)
         {
-            if (labelText)
+            if (labelText && !labelText.text.Equals(text))
             {
                 labelText.text = text;
                 if (m_LabelAutoSize)
@@ -183,6 +248,14 @@ namespace XCharts
                 }
             }
             return false;
+        }
+
+        public void SetLabelColor(Color color)
+        {
+            if (labelText)
+            {
+                labelText.color = color;
+            }
         }
 
         public float GetLabelWidth()
@@ -223,6 +296,17 @@ namespace XCharts
         {
             if (iconStyle == null) return;
             iconStyle.UpdateIcon();
+        }
+
+        public bool IsInitLabel()
+        {
+            return labelText != null;
+        }
+
+        public SerieLabel GetSerieLabel(SerieLabel parentLabel)
+        {
+            if (enableLabel) return label;
+            else return parentLabel;
         }
     }
 }

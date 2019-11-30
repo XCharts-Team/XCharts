@@ -80,6 +80,7 @@ namespace XCharts
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position;
         [SerializeField] private Vector3 m_Offset;
+        [SerializeField] private float m_Margin;
         [SerializeField] private string m_Formatter;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private float m_PaddingLeftRight = 2f;
@@ -129,6 +130,10 @@ namespace XCharts
         /// 距离图形元素的偏移
         /// </summary>
         public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
+        /// <summary>
+        /// 距离轴线的距离。
+        /// </summary>
+        public float margin { get { return m_Margin; } set { m_Margin = value; } }
         /// <summary>
         /// Text color,If set as default ,the color will assigned as series color.
         /// 自定义文字颜色，默认和系列的颜色一致。

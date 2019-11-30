@@ -24,6 +24,7 @@ namespace XCharts
             SerializedProperty m_Position = prop.FindPropertyRelative("m_Position");
             SerializedProperty m_Formatter = prop.FindPropertyRelative("m_Formatter");
             SerializedProperty m_Offset = prop.FindPropertyRelative("m_Offset");
+            SerializedProperty m_Margin = prop.FindPropertyRelative("m_Margin");
             SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
             SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
             SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
@@ -62,6 +63,8 @@ namespace XCharts
                 m_Offset.vector3Value = new Vector3(x, y);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
+                EditorGUI.PropertyField(drawRect, m_Margin);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 
@@ -112,7 +115,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 23 * EditorGUIUtility.singleLineHeight + 22 * EditorGUIUtility.standardVerticalSpacing;
+                height += 24 * EditorGUIUtility.singleLineHeight + 23 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

@@ -208,12 +208,52 @@ namespace XCharts
         /// the current minimun value.
         /// 当前最小值。
         /// </summary>
-        public float runtimeMinValue { get; internal set; }
+        public float runtimeMinValue
+        {
+            get { return m_RuntimeMinValue; }
+            internal set
+            {
+                if (value != m_RuntimeMinValue)
+                {
+                    if (m_RuntimeMinValueFirstChanged)
+                    {
+                        m_RuntimeMinValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMinValue = m_RuntimeMinValue;
+                        m_RuntimeMinValueChanged = true;
+                        m_RuntimeMinValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMinValue = value;
+                }
+            }
+        }
         /// <summary>
         /// the current maximum value.
         /// 当前最大值。
         /// </summary>
-        public float runtimeMaxValue { get; internal set; }
+        public float runtimeMaxValue
+        {
+            get { return m_RuntimeMaxValue; }
+            internal set
+            {
+                if (value != m_RuntimeMaxValue)
+                {
+                    if (m_RuntimeMaxValueFirstChanged)
+                    {
+                        m_RuntimeMaxValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMaxValue = m_RuntimeMaxValue;
+                        m_RuntimeMaxValueChanged = true;
+                        m_RuntimeMaxValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMaxValue = value;
+                }
+            }
+        }
         /// <summary>
         /// the x offset of zero position.
         /// 坐标轴原点在X轴的偏移。
@@ -232,6 +272,16 @@ namespace XCharts
         private GameObject m_TooltipLabel;
         private Text m_TooltipLabelText;
         private RectTransform m_TooltipLabelRect;
+        private float m_RuntimeMinValue;
+        private float m_RuntimeLastMinValue;
+        private bool m_RuntimeMinValueChanged;
+        private float m_RuntimeMinValueUpdateTime;
+        private float m_RuntimeMaxValue;
+        private float m_RuntimeLastMaxValue;
+        private bool m_RuntimeMaxValueChanged;
+        private float m_RuntimeMaxValueUpdateTime;
+        private bool m_RuntimeMinValueFirstChanged = true;
+        private bool m_RuntimeMaxValueFirstChanged = true;
 
         public void Copy(Axis other)
         {
@@ -528,13 +578,15 @@ namespace XCharts
         /// 更新刻度标签文字
         /// </summary>
         /// <param name="dataZoom"></param>
-        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
+        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent, float duration)
         {
+            var minValue = GetCurrMinValue(duration);
+            var maxValue = GetCurrMaxValue(duration);
             for (int i = 0; i < axisLabelTextList.Count; i++)
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, runtimeMinValue, runtimeMaxValue, dataZoom, forcePercent);
+                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
                 }
             }
         }
@@ -591,7 +643,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        internal void AdjustMinMaxValue(ref float minValue, ref float maxValue)
+        internal void AdjustMinMaxValue(ref float minValue, ref float maxValue, bool needFormat)
         {
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
@@ -609,26 +661,72 @@ namespace XCharts
                         if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
-                            maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
                         }
                         else if (minValue < 0 && maxValue < 0)
                         {
-                            minValue = ChartHelper.GetMinDivisibleValue(minValue);
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
                             maxValue = 0;
                         }
                         else
                         {
-                            minValue = ChartHelper.GetMinDivisibleValue(minValue);
-                            maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
                         }
                         break;
                     case Axis.AxisMinMaxType.MinMax:
-                        minValue = ChartHelper.GetMinDivisibleValue(minValue);
-                        maxValue = ChartHelper.GetMaxDivisibleValue(maxValue);
+                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
+                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
                         break;
                 }
             }
             m_ValueRange = maxValue - minValue;
+        }
+
+        internal float GetCurrMinValue(float duration)
+        {
+            if (!m_RuntimeMinValueChanged) return m_RuntimeMinValue;
+            var time = Time.time - m_RuntimeMinValueUpdateTime;
+            var total = duration / 1000;
+            if (duration > 0 && time <= total)
+            {
+                var curr = Mathf.Lerp(m_RuntimeLastMinValue, m_RuntimeMinValue, time / total);
+                return curr;
+            }
+            else
+            {
+                m_RuntimeMinValueChanged = false;
+                return m_RuntimeMinValue;
+            }
+        }
+
+        internal float GetCurrMaxValue(float duration)
+        {
+            if (!m_RuntimeMaxValueChanged) return m_RuntimeMaxValue;
+            var time = Time.time - m_RuntimeMaxValueUpdateTime;
+            var total = duration / 1000;
+            if (duration > 0 && time <= total)
+            {
+                var curr = Mathf.Lerp(m_RuntimeLastMaxValue, m_RuntimeMaxValue, time / total);
+                return curr;
+            }
+            else
+            {
+                m_RuntimeMaxValueChanged = false;
+                return m_RuntimeMaxValue;
+            }
+        }
+
+        public bool IsValueChanging(float duration)
+        {
+            if (GetCurrMinValue(duration) != m_RuntimeMinValue || GetCurrMaxValue(duration) != m_RuntimeMaxValue)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override bool Equals(object obj)

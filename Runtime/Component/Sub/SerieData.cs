@@ -153,9 +153,10 @@ namespace XCharts
         public float runtimePieOffsetRadius { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
 
-        private bool m_DataChanged;
-        private float m_LastData;
-        private float m_DataUpdateTime;
+        private List<float> m_LastData = new List<float>();
+        private List<float> m_DataUpdateTime = new List<float>();
+        private List<bool> m_DataUpdateFlag = new List<bool>();
+        public List<float> lastData { get { return m_LastData; } internal set { m_LastData = value; } }
 
         public float GetData(int index)
         {
@@ -166,20 +167,30 @@ namespace XCharts
             else return 0;
         }
 
+        public float GetLastData(int index)
+        {
+            if (index >= 0 && index < lastData.Count)
+            {
+                return m_LastData[index];
+            }
+            else return 0;
+        }
+
         public float GetCurrData(int index, float animationDuration = 500f)
         {
-            if (index == 1 && m_DataChanged)
+            if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
-                var time = Time.time - m_DataUpdateTime;
+                var time = Time.time - m_DataUpdateTime[index];
                 var total = animationDuration / 1000;
-                if (animationDuration > 0 && time <= total)
+                if (time <= total)
                 {
-                    var curr = Mathf.Lerp(m_LastData, GetData(index), time / total);
+                    CheckLastData();
+                    var curr = Mathf.Lerp(GetLastData(index), GetData(index), time / total);
                     return curr;
                 }
                 else
                 {
-                    m_DataChanged = false;
+                    m_DataUpdateFlag[index] = false;
                     return GetData(index);
                 }
             }
@@ -189,29 +200,37 @@ namespace XCharts
             }
         }
 
-        public float GetLastData(int index)
-        {
-            if (index == 1 && m_DataChanged) return m_LastData;
-            else return GetData(index);
-        }
-
         public void UpdateData(int dimension, float value)
         {
             if (dimension >= 0 && dimension < data.Count)
             {
-                if (dimension == 1)
-                {
-                    m_LastData = data[dimension];
-                    m_DataUpdateTime = Time.time;
-                    m_DataChanged = true;
-                }
+                CheckLastData();
+                m_LastData[dimension] = data[dimension];
+                m_DataUpdateTime[dimension] = Time.time;
+                m_DataUpdateFlag[dimension] = true;
                 data[dimension] = value;
+            }
+        }
+
+        private void CheckLastData()
+        {
+            if (m_LastData.Count != m_Data.Count)
+            {
+                m_LastData.Clear();
+                for (int i = 0; i < m_Data.Count; i++)
+                {
+                    m_LastData.Add(m_Data[i]);
+                    m_DataUpdateTime.Add(Time.time);
+                    m_DataUpdateFlag.Add(false);
+                }
             }
         }
 
         public bool IsDataChanged()
         {
-            return m_DataChanged;
+            foreach (var b in m_DataUpdateFlag)
+                if (b) return true;
+            return false;
         }
 
         public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)

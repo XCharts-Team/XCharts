@@ -368,28 +368,37 @@ namespace XCharts
             var sampleDist = serie.sampleDist;
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
+            var dataChanging = false;
+            float updateDuration = serie.animation.GetUpdateAnimationDuration();
+            float xMinValue = xAxis.GetCurrMinValue(updateDuration);
+            float xMaxValue = xAxis.GetCurrMaxValue(updateDuration);
             for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float value = showData[i].data[1];
+                float value = showData[i].GetCurrData(1, updateDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
+                float dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
+                if (showData[i].IsDataChanged()) dataChanging = true;
+            }
+            if (dataChanging)
+            {
+                RefreshChart();
             }
             if (maxCount % rate != 0)
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float value = showData[i].data[1];
+                float value = showData[i].GetCurrData(1, updateDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
+                float dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;

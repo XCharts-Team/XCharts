@@ -668,7 +668,7 @@ namespace XCharts
                 foreach (var sdata in data)
                 {
                     if (sdata.show)
-                        total += sdata.data[1];
+                        total += sdata.GetCurrData(1, animation.GetUpdateAnimationDuration());
                 }
                 return total;
             }
@@ -724,9 +724,15 @@ namespace XCharts
                 }
             }
             int xValue = m_Data.Count;
-            var serieData = new SerieData() { data = new List<float>() { xValue, value }, name = dataName };
+            var serieData = new SerieData()
+            {
+                data = new List<float>() { xValue, value },
+                lastData = new List<float>() { xValue, value },
+                name = dataName
+            };
             serieData.index = xValue;
             m_Data.Add(serieData);
+            m_ShowDataDimension = 1;
             return serieData;
         }
 
@@ -747,9 +753,15 @@ namespace XCharts
                     m_Data.RemoveAt(0);
                 }
             }
-            var serieData = new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName };
+            var serieData = new SerieData()
+            {
+                data = new List<float>() { xValue, yValue },
+                lastData = new List<float>() { xValue, yValue },
+                name = dataName
+            };
             serieData.index = m_Data.Count;
             m_Data.Add(serieData);
+            m_ShowDataDimension = 2;
             return serieData;
         }
 
@@ -781,12 +793,14 @@ namespace XCharts
                         m_Data.RemoveAt(0);
                     }
                 }
+                m_ShowDataDimension = valueList.Count;
                 var serieData = new SerieData();
                 serieData.name = dataName;
                 serieData.index = m_Data.Count;
                 for (int i = 0; i < valueList.Count; i++)
                 {
                     serieData.data.Add(valueList[i]);
+                    serieData.lastData.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
                 return serieData;

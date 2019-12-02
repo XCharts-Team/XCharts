@@ -278,6 +278,32 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 更新指定系列指定索引指定维数的数据。维数从0开始。
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="dimension">指定维数，从0开始</param>
+        /// <param name="value"></param>
+         public virtual void UpdateData(string serieName, int dataIndex, int dimension, float value)
+        {
+            m_Series.UpdateData(serieName, dataIndex, dimension, value);
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// 更新指定系列指定索引指定维数的数据。维数从0开始。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="dimension">指定维数，从0开始</param>
+        /// <param name="value"></param>
+        public virtual void UpdateData(int serieIndex, int dataIndex, int dimension, float value)
+        {
+            m_Series.UpdateData(serieIndex, dataIndex, dimension, value);
+            RefreshChart();
+        }
+
+        /// <summary>
         /// Update serie data name.
         /// 更新指定系列中的指定索引数据名称。
         /// </summary>
@@ -419,7 +445,7 @@ namespace XCharts
             OnThemeChanged();
             RefreshChart();
         }
-  
+
         /// <summary>
         /// Update chart theme info.
         /// 切换图表主题。

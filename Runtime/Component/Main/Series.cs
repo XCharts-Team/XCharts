@@ -448,6 +448,38 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 更新指定系列指定数据项指定维度的数据值
+        /// </summary>
+        /// <param name="serieIndex">系列</param>
+        /// <param name="dataIndex">数据项</param>
+        /// <param name="dimension">数据维数，从0开始</param>
+        /// <param name="value">值</param>
+        public void UpdateData(int serieIndex, int dataIndex, int dimension, float value)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                serie.UpdateData(dataIndex, dimension, value);
+            }
+        }
+
+        /// <summary>
+        /// 更新指定系列指定数据项指定维度的数据值
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="dimension">数据维数，从0开始</param>
+        /// <param name="value"></param>
+        public void UpdateData(string serieName, int dataIndex, int dimension, float value)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                serie.UpdateData(dataIndex, dimension, value);
+            }
+        }
+
 
         /// <summary>
         /// 更新指定系列的维度X和维度Y数据

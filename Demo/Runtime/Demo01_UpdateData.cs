@@ -6,13 +6,12 @@
 /******************************************/
 
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    public class Demo_Test : MonoBehaviour
+    public class Demo01_UpdateData : MonoBehaviour
     {
         private float updateTime = 0;
         BaseChart chart;
@@ -28,9 +27,14 @@ namespace XCharts
             {
                 updateTime = 0;
                 var serie = chart.series.GetSerie(0);
-                serie.animation.updateAnimation = true;
+                //serie.animation.updateAnimation = true;
                 var dataCount = serie.dataCount;
-                if (chart is HeatmapChart)
+                if (chart is RadarChart)
+                {
+                    var dimension = serie.GetSerieData(0).data.Count - 1;
+                    chart.UpdateData(0, 0, Random.Range(0, dimension + 1), Random.Range(0, 100));
+                }
+                else if (chart is HeatmapChart)
                 {
                     var dimension = serie.GetSerieData(0).data.Count - 1;
                     for (int i = 0; i < dataCount; i++)

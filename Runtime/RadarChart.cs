@@ -218,6 +218,8 @@ namespace XCharts
                     continue;
                 }
                 var rate = serie.animation.GetCurrRate();
+                var dataChanging = false;
+                var updateDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -262,7 +264,8 @@ namespace XCharts
                         if (n >= serieData.data.Count) break;
                         float min = radar.GetIndicatorMin(n);
                         float max = radar.GetIndicatorMax(n);
-                        float value = serieData.data[n];
+                        float value = serieData.GetCurrData(n, updateDuration);
+                        if (serieData.IsDataChanged()) dataChanging = true;
                         if (max == 0)
                         {
                             serie.GetMinMaxData(n, out min, out max);
@@ -318,6 +321,10 @@ namespace XCharts
                     float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
                     float speed = 1 / duration;
                     serie.animation.CheckProgress(Time.deltaTime * speed);
+                    RefreshChart();
+                }
+                if (dataChanging)
+                {
                     RefreshChart();
                 }
             }

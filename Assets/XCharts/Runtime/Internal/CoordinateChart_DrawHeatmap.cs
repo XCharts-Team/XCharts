@@ -135,6 +135,8 @@ namespace XCharts
             serie.dataPoints.Clear();
             serie.animation.InitProgress(1, 0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
+            var updateDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChanging = false;
             for (int i = 0; i < xCount; i++)
             {
                 for (int j = 0; j < yCount; j++)
@@ -144,7 +146,8 @@ namespace XCharts
                     var serieData = dataList[dataIndex];
                     var dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
                         serieData.data.Count - 1;
-                    var value = serieData.data[dimension];
+                    var value = serieData.GetCurrData(dimension, updateDuration);
+                    if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);
                     serie.dataPoints.Add(pos);
                     serieData.canShowLabel = false;
@@ -159,7 +162,7 @@ namespace XCharts
                         if (!m_VisualMap.IsInSelectedValue(value)) continue;
                         color = m_VisualMap.GetColor(value);
                     }
-                    if(animationIndex>= 0 && i> animationIndex) continue;
+                    if (animationIndex >= 0 && i > animationIndex) continue;
                     serieData.canShowLabel = true;
                     var emphasis = (m_Tooltip.show && i == (int)m_Tooltip.runtimeXValues[0] && j == (int)m_Tooltip.runtimeYValues[0])
                         || m_VisualMap.runtimeSelectedIndex > 0;
@@ -184,6 +187,10 @@ namespace XCharts
                 float speed = xCount / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
                 m_IsPlayingStartAnimation = true;
+                RefreshChart();
+            }
+            if (dataChanging)
+            {
                 RefreshChart();
             }
         }

@@ -23,11 +23,14 @@ namespace XCharts
                 : serie.dataCount;
             serie.animation.InitProgress(1, 0, 1);
             var rate = serie.animation.GetCurrRate();
+            var updateDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChanging = false;
             for (int n = serie.minShow; n < maxCount; n++)
             {
                 var serieData = serie.GetDataList(m_DataZoom)[n];
-                float xValue = serieData.data[0];
-                float yValue = serieData.data[1];
+                float xValue = serieData.GetCurrData(0, updateDuration);
+                float yValue = serieData.GetCurrData(1, updateDuration);
+                if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = coordinateY + yAxis.axisLine.width;
                 float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
@@ -67,6 +70,10 @@ namespace XCharts
                 float speed = 1 / duration;
                 serie.animation.CheckProgress(Time.deltaTime * speed);
                 m_IsPlayingStartAnimation = true;
+                RefreshChart();
+            }
+            if (dataChanging)
+            {
                 RefreshChart();
             }
         }

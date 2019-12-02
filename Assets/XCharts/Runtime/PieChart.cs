@@ -76,12 +76,15 @@ namespace XCharts
                     if (sd.show && serie.pieRoseType == RoseType.Area) showdataCount++;
                     sd.canShowLabel = false;
                 }
+                bool dataChanging = false;
+                float updateDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int n = 0; n < data.Count; n++)
                 {
                     if (!serie.animation.NeedAnimation(n)) break;
                     var serieData = data[n];
                     serieData.index = n;
-                    float value = serieData.data[1];
+                    float value = serieData.GetCurrData(1, updateDuration);
+                    if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
                     serieData.runtimePieStartAngle = startDegree;
@@ -166,6 +169,10 @@ namespace XCharts
                     float symbolSpeed = serie.symbol.size / duration;
                     serie.animation.CheckProgress(Time.deltaTime * speed);
                     serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
+                    RefreshChart();
+                }
+                if (dataChanging)
+                {
                     RefreshChart();
                 }
             }

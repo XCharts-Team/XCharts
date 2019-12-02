@@ -43,6 +43,10 @@ namespace XCharts
                 }
             }
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            bool dataChanging = false;
+            float updateDuration = serie.animation.GetUpdateAnimationDuration();
+            float xMinValue = xAxis.GetCurrMinValue(updateDuration);
+            float xMaxValue = xAxis.GetCurrMaxValue(updateDuration);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -51,7 +55,8 @@ namespace XCharts
                 }
                 var serieData = showData[i];
                 serieData.canShowLabel = true;
-                float value = showData[i].data[1];
+                float value = showData[i].GetCurrData(1, updateDuration);
+                if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
@@ -66,9 +71,9 @@ namespace XCharts
                 }
                 else
                 {
-                    valueTotal = xAxis.runtimeMaxValue - xAxis.runtimeMinValue;
+                    valueTotal = xMaxValue - xMinValue;
                     if (valueTotal != 0)
-                        barHig = (xAxis.runtimeMinValue > 0 ? value - xAxis.runtimeMinValue : value)
+                        barHig = (xMinValue > 0 ? value - xMinValue : value)
                             / valueTotal * coordinateWidth;
                     seriesHig[i] += barHig;
                 }
@@ -102,6 +107,10 @@ namespace XCharts
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
+            }
+            if (dataChanging)
+            {
+                RefreshChart();
             }
         }
 
@@ -156,8 +165,10 @@ namespace XCharts
             }
 
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
-            float updateDuration = serie.animation.GetUpdateAnimationDuration();
             bool dataChanging = false;
+            float updateDuration = serie.animation.GetUpdateAnimationDuration();
+            float yMinValue = yAxis.GetCurrMinValue(updateDuration);
+            float yMaxValue = yAxis.GetCurrMaxValue(updateDuration);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -181,9 +192,9 @@ namespace XCharts
                 }
                 else
                 {
-                    valueTotal = yAxis.runtimeMaxValue - yAxis.runtimeMinValue;
+                    valueTotal = yMaxValue - yMinValue;
                     if (valueTotal != 0)
-                        barHig = (yAxis.runtimeMinValue > 0 ? value - yAxis.runtimeMinValue : value)
+                        barHig = (yMinValue > 0 ? value - yMinValue : value)
                             / valueTotal * coordinateHeight;
                     seriesHig[i] += barHig;
                 }

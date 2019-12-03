@@ -12,7 +12,13 @@
 * [Legend 图例](#Legend)  
 * [Radar 雷达](#Radar)  
 * [Series 系列](#Series)  
-* [Serie.Gauge 仪表盘](#Serie.Gauge)  
+* [Serie-Line 折线图](#Serie-Line)  
+* [Serie-Bar 柱形图](#Serie-Bar)  
+* [Serie-Pie 饼图](#Serie-Pie)  
+* [Serie-Radar 雷达图](#Serie-Radar)  
+* [Serie-Scatter 散点图](#Serie-Scatter)  
+* [Serie-Heatmap 热力图](#Serie-Heatmap)  
+* [Serie-Gauge 仪表盘](#Serie-Gauge)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
@@ -40,7 +46,6 @@
 
 ## `Theme`
 
----
 主题组件。主题用来配置图表的全局配色等其他参数。
 
 相关参数：
@@ -73,7 +78,6 @@
 
 ## `Title`
 
----
 标题组件，包含主标题和副标题。
 
 相关参数：
@@ -99,7 +103,6 @@
 
 ## `Legend`
 
----
 图例组件。图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
 
 相关参数：
@@ -131,8 +134,6 @@
 
 ## `Radar`
 
----
-
 * `shape`：雷达图绘制类型。
   * `Polygon`：多边形。
   * `Circle`：圆形。
@@ -149,16 +150,12 @@
 
 ## `Radar.Indicator`
 
----
-
 * `name`：指示器名称。
 * `max`：指示器的最大值，默认为 0 无限制。
 * `min`：指示器的最小值，默认为 0 无限制。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
 
 ## `TextStyle`
-
----
 
 * `rotate`：旋转。
 * `offset`：偏移。
@@ -167,8 +164,6 @@
 * `fontStyle`：字体风格。
 
 ## `Tooltip`
-
----
 
 提示框组件。
 
@@ -194,8 +189,6 @@
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `DataZoom`
-
----
 
 区域缩放组件。用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。  
 目前只支持控制 `X` 轴。
@@ -229,8 +222,6 @@
 
 ## `VisualMap`
 
----
-
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
 
 * `enable`：开启或关闭视觉映射功能。
@@ -261,8 +252,6 @@
 
 ## `Grid`
 
----
-
 网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图（气泡图）。目前最多只能存在一个 `grid` 组件。
 
 相关参数：
@@ -292,8 +281,6 @@
 * `length`：指针长度。当为0-1的浮点数时表示相对仪表盘半径的百分比。
 
 ## `XAxis`
-
----
 
 直角坐标系 `grid` 中的 `X` 轴。单个 `grid` 组件最多只能放上下两个 `X` 轴。两个 `X` 轴存储在 `xAxises` 中。
 
@@ -336,8 +323,6 @@
 
 ## `YAxis`
 
----
-
 直角坐标系 `grid` 中的 `Y` 轴。单个 `grid` 组件最多只能放左右两个 `Y` 轴。两个 `Y` 轴存储在 `yAxises` 中。
 
 相关参数：
@@ -377,8 +362,6 @@
 * `AddData(string category, int maxDataNumber)`：添加一个类目到类目数据列表。
 
 ## `Series`
-
----
 
 系列列表。每个系列通过 type 决定自己的图表类型。
 
@@ -436,17 +419,141 @@
 * `pieSpace`：饼图项间的空隙留白。
 * `pieCenter`：饼图的中心点。
 * `pieRadius`：饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
+* `arcShaped`：启用弧形圆角效果。目前只在仪表盘和圆环饼图中有效。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `lineArrow`：折线图的箭头 [LineArrow](#LineArrow)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
-相关接口：
+## `Serie-Line`
 
-## `Serie.Gauge`
+折线图系列。
 
----
+* `show`：系列是否显示在图表上。
+* `type`：`Line`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `stack`：数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
+* `axisIndex`：使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
+* `minShow`：系列显示数据的最小索引。
+* `maxShow`：系列显示数据的最大索引。
+* `maxCache`：系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `sampleDist`采样的最小水平像素距离，默认为`0`时不采样。当两个数据点间的水平像素距离小于该值时，开启采样，保证两点间的水平像素距离不小于该值。
+* `sampleType`：采样类型。当`sampleDist`大于`0`时有效。支持以下五种采样类型：
+  * `Peak`：取峰值。当过滤点的平均值大于等于`sampleAverage`时，取最大值；反之取最小值。
+  * `Average`：取过滤点的平均值。
+  * `Max`：取过滤点的最大值。
+  * `Min`：取过滤点的最小值。
+  * `Sum`：取过滤点之和。
+* `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
+* `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
+* `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `lineType`：折线图样式类型。支持以下十种类型：
+  * `Normal`：普通折线图。
+  * `Smooth`：平滑曲线。
+  * `SmoothDash`：平滑虚线。
+  * `StepStart`：阶梯线图：当前点。
+  * `StepMiddle`：阶梯线图：当前点和下一个点的中间。
+  * `StepEnd`：阶梯线图：下一个拐点。
+  * `Dash`：虚线。
+  * `Dot`：点线。
+  * `DashDot`：点划线。
+  * `DashDotDot`：双点划线。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `lineArrow`：折线图的箭头 [LineArrow](#LineArrow)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Bar`
+
+折线图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Bar`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `stack`：数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
+* `axisIndex`：使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
+* `minShow`：系列显示数据的最小索引。
+* `maxShow`：系列显示数据的最大索引。
+* `maxCache`：系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `barType`：柱状图类型。以下几种类型：
+  * `Normal`：普通柱状图。
+  * `Zebra`：斑马柱状图。
+  * `Capsule`：胶囊柱状图。
+* `barPercentStack`：是否百分比堆叠柱状图，相同 `stack` 的 `serie` 只要有一个 `barPercentStack` 为 `true`，则就显示成百分比堆叠柱状图。
+* `barWidth`：柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
+* `barGap`：不同系列的柱间距离。为百分比（如 `'0.3f'`，表示柱子宽度的 `30%`）。如果想要两个系列的柱子重叠，可以设置 `barGap` 为 `'-1f'`。这在用柱子做背景的时候有用。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
+* `barCategoryGap`：同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
+* `barZebraWidth`：斑马线的粗细。`barType` 为 `Zebra` 时有效。
+* `barZebraGap`：斑马线的间距。`barType` 为 `Zebra` 时有效。
+* `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
+* `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Pie`
+
+饼图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Pie`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `pieRoseType`：南丁格尔玫瑰图类型，支持以下类型：
+  * `None`：不展示成南丁格尔玫瑰图。
+  * `Radius`：扇区圆心角展现数据的百分比，半径展现数据的大小。
+  * `Area`：所有扇区圆心角相同，仅通过半径展现数据大小。
+* `space`：扇区间隙。
+* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
+* `arcShaped`：是否启用圆角效果。只在圆环图中有效。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Radar`
+
+雷达图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Radar`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
+* `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Scatter`
+
+散点图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Scatter`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Heatmap`
+
+热力图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Scatter`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+
+## `Serie-Gauge`
 
 仪表盘系列。
 
@@ -475,8 +582,6 @@
 
 ## `Settings`
 
----
-
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
 
 * `lineSmoothStyle`：曲线平滑系数。通过调整平滑系数可以改变曲线的曲率，得到外观稍微有变化的不同曲线。
@@ -485,8 +590,6 @@
 * `cicleSmoothness`：圆形（包括扇形、环形等）的平滑度。数越小圆越平滑，但顶点数也会随之增加。
 
 ## `SerieAnimation`
-
----
 
 * `enable`：是否开起始画效果。
 * `easing`：动画的缓动效果。支持以下动画效果：
@@ -498,8 +601,6 @@
 * `delay`：动画延时，单位毫秒。
 
 ## `AreaStyle`
-
----
 
 * `show`：是否显示区域填充。
 * `origin`：区域填充的起始位置 `AreaOrigin`。有以下三种填充方式：
@@ -515,8 +616,6 @@
 
 ## `AxisLabel`
 
----
-
 * `show`：是否显示刻度标签。
 * `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
 * `inside`：刻度标签是否朝内，默认朝外。
@@ -530,8 +629,6 @@
 
 ## `AxisLine`
 
----
-
 * `show`：是否显示坐标轴轴线。
 * `onZero`：X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
 * `width`：坐标轴线线宽。
@@ -542,8 +639,6 @@
 * `symbolDent`：箭头的凹陷程度。
 
 ## `AxisName`
-
----
 
 * `show`：是否显示坐标名称。
 * `name`：坐标轴名称。
@@ -559,14 +654,10 @@
 
 ## `AxisSplitArea`
 
----
-
 * `show`：是否显示坐标分割区域。
 * `color`：分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
 
 ## `AxisTick`
-
----
 
 * `show`：是否显示坐标轴刻度。
 * `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
@@ -575,15 +666,11 @@
 
 ## `Emphasis`
 
----
-
 * `show`：是否启用高亮样式。
 * `label`：图形文本标签样式 [SerieLabel](#SerieLabel)。
 * `itemStyle`：图形样式 [ItemStyle](#ItemStyle)。
 
 ## `ItemStyle`
-
----
 
 * `show`：是否启用。
 * `color`：颜色。
@@ -593,8 +680,6 @@
 * `borderWidth`：opacity。
 
 ## `LineArrow`
-
----
 
 * `show`：是否显示箭头。
 * `position`：箭头显示位置。支持以下两种位置：
@@ -606,8 +691,6 @@
 * `dent`：箭头的凹度。
 
 ## `LineStyle`
-
----
 
 * `show`：是否显示线条。在折线图中无效。
 * `type`：线条类型。支持以下五种类型：
@@ -622,8 +705,6 @@
 * `opacity`：线条的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
 
 ## `Location`
-
----
 
 * `align`：对齐方式。有以下对齐方式。
   * `TopLeft`：左上角对齐。
@@ -642,8 +723,6 @@
 
 ## `SerieData`
 
----
-
 * `name`：数据项名称。
 * `selected`：该数据项是否被选中。
 * `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
@@ -655,8 +734,6 @@
 * `iconOffset`：图标偏移。
 
 ## `SerieLabel`
-
----
 
 * `show`：是否显示文本标签。
 * `position`：标签的位置。折线图时强制默认为 `Center`，支持以下 `5` 种位置：
@@ -691,8 +768,6 @@
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `SerieSymbol`
-
----
 
 * `type`：标记类型。支持以下六种类型：
   * `EmptyCircle`：空心圆。

@@ -494,7 +494,11 @@ namespace XCharts
         /// 标题样式。
         /// </summary>
         public TitleStyle titleStyle { get { return m_TitleStyle; } set { m_TitleStyle = value; } }
-
+        /// <summary>
+        /// 数据项里的数据维数。
+        /// </summary>
+        /// <value></value>
+        public int showDataDimension { get { return m_ShowDataDimension; } }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
@@ -991,9 +995,10 @@ namespace XCharts
         /// </summary>
         /// <param name="index"></param>
         /// <param name="value"></param>
-        public void UpdateYData(int index, float value)
+        public bool UpdateYData(int index, float value)
         {
             UpdateData(index, 1, value);
+            return true;
         }
 
         /// <summary>
@@ -1002,10 +1007,11 @@ namespace XCharts
         /// <param name="index"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public void UpdateXYData(int index, float xValue, float yValue)
+        public bool UpdateXYData(int index, float xValue, float yValue)
         {
-            UpdateData(index, 0, xValue);
-            UpdateData(index, 1, yValue);
+            var flag1 = UpdateData(index, 0, xValue);
+            var flag2 = UpdateData(index, 1, yValue);
+            return flag1 || flag2;
         }
 
         /// <summary>
@@ -1014,16 +1020,36 @@ namespace XCharts
         /// <param name="index">要更新数据的索引</param>
         /// <param name="dimension">要更新数据的维数</param>
         /// <param name="value">新的数据值</param>
-        public void UpdateData(int index, int dimension, float value)
+        public bool UpdateData(int index, int dimension, float value)
         {
-            if (index < 0) return;
-            if (index < m_Data.Count)
+            if (index >= 0 && index < m_Data.Count)
             {
-                m_Data[index].UpdateData(dimension, value);
+                return m_Data[index].UpdateData(dimension, value);
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public void UpdateDataName(int index, string name)
+        /// <summary>
+        /// 更新指定索引的数据项数据列表
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="values"></param>
+        public bool UpdateData(int index, List<float> values)
+        {
+            if (index >= 0 && index < m_Data.Count && values != null)
+            {
+                var list = m_Data[index].data;
+                list.Clear();
+                foreach (var v in values) list.Add(v);
+                return true;
+            }
+            return false;
+        }
+
+        public bool UpdateDataName(int index, string name)
         {
             if (index >= 0 && index < m_Data.Count)
             {
@@ -1033,7 +1059,9 @@ namespace XCharts
                 {
                     serieData.labelText.text = name == null ? "" : name;
                 }
+                return true;
             }
+            return false;
         }
 
         /// <summary>

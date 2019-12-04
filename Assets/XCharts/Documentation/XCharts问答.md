@@ -27,6 +27,7 @@
 [QA 21：如何显示图例？](#如何显示图例)  
 [QA 22：如何做成预设？](#如何做成预设)  
 [QA 23：如何在图表上画点画线等自定义内容？](#如何在图表上画点画线等自定义内容)  
+[QA 24：如何实现心电图类似的数据移动效果？](#如何实现心电图类似的数据移动效果)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -119,6 +120,10 @@
 ## 如何在图表上画点画线等自定义内容
 
 答：xcharts有自定义绘制回调`customDrawCallback`，具体可参考`Demo12_CustomDrawing.cs`
+
+## 如何实现心电图类似的数据移动效果
+
+答：axis和serie都设置相同的maxCache。maxCache可固定数据个数，当数据超过设定时会先删除第一个在添加新数据，实现数据移动效果。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

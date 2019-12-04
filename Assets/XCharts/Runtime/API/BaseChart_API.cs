@@ -258,10 +258,14 @@ namespace XCharts
         /// <param name="serieName">the name of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(string serieName, int dataIndex, float value)
+        public virtual bool UpdateData(string serieName, int dataIndex, float value)
         {
-            m_Series.UpdateData(serieName, dataIndex, value);
-            RefreshChart();
+            if (m_Series.UpdateData(serieName, dataIndex, value))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -271,10 +275,46 @@ namespace XCharts
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(int serieIndex, int dataIndex, float value)
+        public virtual bool UpdateData(int serieIndex, int dataIndex, float value)
         {
-            m_Series.UpdateData(serieIndex, dataIndex, value);
-            RefreshChart();
+            if (m_Series.UpdateData(serieIndex, dataIndex, value))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 更新指定系列指定索引的数据项的多维数据。
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="multidimensionalData">一个数据项的多维数据列表，而不是多个数据项的数据</param>
+        public virtual bool UpdateData(string serieName, int dataIndex, List<float> multidimensionalData)
+        {
+            if (m_Series.UpdateData(serieName, dataIndex, multidimensionalData))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 更新指定系列指定索引的数据项的多维数据。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        /// <param name="dataIndex"></param>
+        /// <param name="multidimensionalData">一个数据项的多维数据列表，而不是多个数据项的数据</param>
+        public virtual bool UpdateData(int serieIndex, int dataIndex, List<float> multidimensionalData)
+        {
+            if (m_Series.UpdateData(serieIndex, dataIndex, multidimensionalData))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -284,10 +324,14 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="dimension">指定维数，从0开始</param>
         /// <param name="value"></param>
-         public virtual void UpdateData(string serieName, int dataIndex, int dimension, float value)
+        public virtual bool UpdateData(string serieName, int dataIndex, int dimension, float value)
         {
-            m_Series.UpdateData(serieName, dataIndex, dimension, value);
-            RefreshChart();
+            if (m_Series.UpdateData(serieName, dataIndex, dimension, value))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -297,10 +341,14 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="dimension">指定维数，从0开始</param>
         /// <param name="value"></param>
-        public virtual void UpdateData(int serieIndex, int dataIndex, int dimension, float value)
+        public virtual bool UpdateData(int serieIndex, int dataIndex, int dimension, float value)
         {
-            m_Series.UpdateData(serieIndex, dataIndex, dimension, value);
-            RefreshChart();
+            if (m_Series.UpdateData(serieIndex, dataIndex, dimension, value))
+            {
+                RefreshChart();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -310,9 +358,9 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="dataIndex"></param>
         /// <param name="dataName"></param>
-        public virtual void UpdateDataName(string serieName, int dataIndex, string dataName)
+        public virtual bool UpdateDataName(string serieName, int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieName, dataIndex, dataName);
+            return m_Series.UpdateDataName(serieName, dataIndex, dataName);
         }
 
         /// <summary>
@@ -322,9 +370,9 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="dataName"></param>
         /// <param name="dataIndex"></param>
-        public virtual void UpdateDataName(int serieIndex, int dataIndex, string dataName)
+        public virtual bool UpdateDataName(int serieIndex, int dataIndex, string dataName)
         {
-            m_Series.UpdateDataName(serieIndex, dataIndex, dataName);
+            return m_Series.UpdateDataName(serieIndex, dataIndex, dataName);
         }
 
         /// <summary>

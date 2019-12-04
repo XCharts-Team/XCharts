@@ -200,7 +200,7 @@ namespace XCharts
             }
         }
 
-        public void UpdateData(int dimension, float value)
+        public bool UpdateData(int dimension, float value)
         {
             if (dimension >= 0 && dimension < data.Count)
             {
@@ -209,7 +209,9 @@ namespace XCharts
                 m_DataUpdateTime[dimension] = Time.time;
                 m_DataUpdateFlag[dimension] = true;
                 data[dimension] = value;
+                return true;
             }
+            return false;
         }
 
         private void CheckLastData()

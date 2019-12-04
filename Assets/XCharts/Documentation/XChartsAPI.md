@@ -29,6 +29,10 @@
 * `BaseChart.AddData(int serieIndex, float xValue, float yValue, string dataName = null)`：添加`（x,y）`数据到指定系列中。
 * `BaseChart.UpdateData(string serieName,int dataIndex, float value)`：更新指定系列中的指定索引数据。
 * `BaseChart.UpdateData(int serieIndex,int dataIndex, float value)`：更新指定系列中的指定索引数据。
+* `BaseChart.UpdateData(string serieName, int dataIndex, List<float> multidimensionalData)`：更新指定系列指定索引的数据项的多维数据。
+* `BaseChart.UpdateData(int serieIndex, int dataIndex, List<float> multidimensionalData)`：更新指定系列指定索引的数据项的多维数据。
+* `BaseChart.UpdateData(string serieName, int dataIndex, int dimension, float value)`：更新指定系列指定索引指定维数的数据。维数从0开始。
+* `BaseChart.UpdateData(int serieIndex, int dataIndex, int dimension, float value)`：更新指定系列指定索引指定维数的数据。维数从0开始。
 * `BaseChart.UpdateDataName(string serieName,int dataIndex, string dataName)`：更新指定系列中的指定索引数据名称。
 * `BaseChart.UpdateDataName(int serieIndex, int dataIndex, string dataName)`：更新指定系列中的指定索引数据名称。
 * `BaseChart.SetActive(string serieName, bool active)`：设置指定系列是否显示。

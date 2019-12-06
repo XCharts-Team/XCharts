@@ -513,7 +513,8 @@ namespace XCharts
                 count++;
                 intvalue = (int)(value * Mathf.Pow(10, count));
             }
-            return count;
+            if (count == 12 && (value == 0 || value == 1)) return 1;
+            else return count;
         }
 
         public static void AddEventListener(GameObject obj, EventTriggerType type,

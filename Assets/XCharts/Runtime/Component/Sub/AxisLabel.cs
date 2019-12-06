@@ -154,7 +154,8 @@ namespace XCharts
                 {
                     int minAcc = ChartHelper.GetFloatAccuracy(minValue);
                     int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
-                    int acc = Mathf.Max(minAcc, maxAcc);
+                    int curAcc = ChartHelper.GetFloatAccuracy(value);
+                    int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
                     return ChartCached.FloatToStr(value, acc, m_ForceENotation);
                 }
                 else if (value - (int)value == 0)
@@ -181,7 +182,9 @@ namespace XCharts
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
                 return content;
-            } else {
+            }
+            else
+            {
                 return value.ToString(m_Formatter);
             }
         }

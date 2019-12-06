@@ -41,9 +41,9 @@ namespace XCharts
             }
             else
             {
-                if (f == 0) valueDic[value] = forceE ? value.ToString("E") : value.ToString();
-                else if (f == 1) valueDic[value] = value.ToString("f1");
-                else if (f == 2) valueDic[value] = value.ToString("f2");
+                if (f == 0) valueDic[value] = forceE ? value.ToString("E0") : value.ToString();
+                else if (f == 1) valueDic[value] = forceE ? value.ToString("E1") : value.ToString("f1");
+                else if (f == 2) valueDic[value] = forceE ? value.ToString("E2") : value.ToString("f2");
                 else valueDic[value] = (f > 3 || forceE) ? value.ToString("E0") : value.ToString(GetFn(f));
                 return valueDic[value];
             }
@@ -103,9 +103,9 @@ namespace XCharts
             }
         }
 
-        internal static string GetAxisLabelName(string prefix, bool isYAxis,int axisIndex, int i)
+        internal static string GetAxisLabelName(string prefix, bool isYAxis, int axisIndex, int i)
         {
-            int key = (isYAxis?2:1) * 1000000 + (axisIndex+1) * 100000 + i;
+            int key = (isYAxis ? 2 : 1) * 1000000 + (axisIndex + 1) * 100000 + i;
             if (s_AxisLabelName.ContainsKey(key))
             {
                 return s_AxisLabelName[key];

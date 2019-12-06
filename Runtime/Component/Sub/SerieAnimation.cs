@@ -26,7 +26,7 @@ namespace XCharts
         [SerializeField] private float m_Duration = 1000;
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField] private float m_Delay = 0;
-        [SerializeField] private bool m_UpdateAnimation = false;
+        [SerializeField] private bool m_UpdateAnimation = true;
         [SerializeField] private float m_UpdateDuration = 500;
         [SerializeField] private float m_ActualDuration;
 

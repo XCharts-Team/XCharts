@@ -495,6 +495,7 @@ namespace XCharts
             int split = GetSplitNumber(coordinateWidth, dataZoom);
             if (m_Type == AxisType.Value)
             {
+                if (minValue == 0 && maxValue == 0) return string.Empty;
                 float value = 0;
                 if (forcePercent) maxValue = 100;
                 if (m_Interval > 0)
@@ -635,6 +636,7 @@ namespace XCharts
         {
             if (!show) return false;
             if (IsCategory() && data.Count <= 0) return false;
+            else if (IsValue() && m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return false;
             else return true;
         }
 
@@ -658,7 +660,10 @@ namespace XCharts
                 switch (minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
-                        if (minValue > 0 && maxValue > 0)
+                        if (minValue == 0 && maxValue == 0)
+                        {
+                        }
+                        else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
                             maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
@@ -685,6 +690,7 @@ namespace XCharts
 
         internal float GetCurrMinValue(float duration)
         {
+            if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMinValueChanged) return m_RuntimeMinValue;
             var time = Time.time - m_RuntimeMinValueUpdateTime;
             var total = duration / 1000;
@@ -702,6 +708,7 @@ namespace XCharts
 
         internal float GetCurrMaxValue(float duration)
         {
+            if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMaxValueChanged) return m_RuntimeMaxValue;
             var time = Time.time - m_RuntimeMaxValueUpdateTime;
             var total = duration / 1000;

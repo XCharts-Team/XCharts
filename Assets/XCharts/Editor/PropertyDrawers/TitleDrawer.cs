@@ -21,9 +21,9 @@ namespace XCharts
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty text = prop.FindPropertyRelative("m_Text");
-            SerializedProperty m_TextFontSize = prop.FindPropertyRelative("m_TextFontSize");
+            SerializedProperty m_TextStyle = prop.FindPropertyRelative("m_TextStyle");
             SerializedProperty subText = prop.FindPropertyRelative("m_SubText");
-            SerializedProperty m_SubTextFontSize = prop.FindPropertyRelative("m_SubTextFontSize");
+            SerializedProperty m_SubTextStyle = prop.FindPropertyRelative("m_SubTextStyle");
             SerializedProperty m_ItemGap = prop.FindPropertyRelative("m_ItemGap");
             SerializedProperty location = prop.FindPropertyRelative("m_Location");
 
@@ -35,17 +35,17 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, text);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_TextFontSize, new GUIContent("Font Size"));
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_TextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_TextStyle);
                 --EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, subText);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_SubTextFontSize, new GUIContent("Font Size"));
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_SubTextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SubTextStyle);
+                --EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_ItemGap, new GUIContent("Item Gap"));
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                --EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, location);
             }
             --EditorGUI.indentLevel;
@@ -56,9 +56,10 @@ namespace XCharts
             float height = 0;
             if (m_TitleModuleToggle)
             {
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
-                SerializedProperty location = prop.FindPropertyRelative("m_Location");
-                height += EditorGUI.GetPropertyHeight(location);
+                height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TextStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SubTextStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Location"));
             }
             height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             return height;

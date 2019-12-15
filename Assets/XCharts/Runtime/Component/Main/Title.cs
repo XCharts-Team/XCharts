@@ -19,11 +19,11 @@ namespace XCharts
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Text;
-        [SerializeField] private int m_TextFontSize;
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle(16);
         [SerializeField] private string m_SubText;
-        [SerializeField] private int m_SubTextFontSize;
-        [SerializeField] private float m_ItemGap;
-        [SerializeField] private Location m_Location;
+        [SerializeField] private TextStyle m_SubTextStyle = new TextStyle(14);
+        [SerializeField] private float m_ItemGap = 8;
+        [SerializeField] private Location m_Location = Location.defaultTop;
 
         /// <summary>
         /// [default:true]
@@ -41,20 +41,30 @@ namespace XCharts
         /// main title font size.
         /// 主标题文字的字体大小。
         /// </summary>
-        public int textFontSize { get { return m_TextFontSize; } set { m_TextFontSize = value; } }
+        [Obsolete("use textStyle instead.", false)]
+        public int textFontSize { get { return m_TextStyle.fontSize; } set { m_TextStyle.fontSize = value; } }
+        /// <summary>
+        /// 主标题文本样式。
+        /// </summary>
+        public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
         /// <summary>
         /// Subtitle text, supporting for \n for newlines.
         /// 副标题文本，支持使用 \n 换行。
         /// </summary>
         public string subText { get { return m_SubText; } set { m_SubText = value; } }
         /// <summary>
+        /// 副标题文本样式。
+        /// </summary>
+        public TextStyle subTextStyle { get { return m_SubTextStyle; } set { m_SubTextStyle = value; } }
+        /// <summary>
         /// [default:14]
         /// subtitle font size.
         /// 副标题文字的字体大小。
         /// </summary>
-        public int subTextFontSize { get { return m_SubTextFontSize; } set { m_SubTextFontSize = value; } }
+        [Obsolete("use subTextStyle instead.", false)]
+        public int subTextFontSize { get { return m_SubTextStyle.fontSize; } set { m_SubTextStyle.fontSize = value; } }
         /// <summary>
-        /// [default:14]
+        /// [default:8]
         /// The gap between the main title and subtitle.
         /// 主副标题之间的间距。
         /// </summary>
@@ -73,9 +83,9 @@ namespace XCharts
                 {
                     m_Show = true,
                     m_Text = "Chart Title",
-                    m_TextFontSize = 16,
+                    m_TextStyle = new TextStyle(16),
                     m_SubText = "",
-                    m_SubTextFontSize = 14,
+                    m_SubTextStyle = new TextStyle(14),
                     m_ItemGap = 8,
                     m_Location = Location.defaultTop
                 };
@@ -86,9 +96,9 @@ namespace XCharts
         {
             m_Show = title.show;
             m_Text = title.text;
-            m_TextFontSize = title.textFontSize;
+            m_TextStyle.Copy(title.textStyle);
+            m_SubTextStyle.Copy(title.subTextStyle);
             m_SubText = title.subText;
-            m_SubTextFontSize = title.subTextFontSize;
             m_ItemGap = title.itemGap;
             m_Location.Copy(title.location);
         }
@@ -117,9 +127,9 @@ namespace XCharts
             }
             return m_Show == other.show &&
                 m_Text.Equals(other.text) &&
-                m_TextFontSize == other.textFontSize &&
+                m_TextStyle.Equals(other.textStyle) &&
                 m_SubText.Equals(other.subText) &&
-                m_SubTextFontSize == other.subTextFontSize &&
+                m_SubTextStyle.Equals(other.subTextStyle) &&
                 m_ItemGap == other.itemGap &&
                 m_Location.Equals(other.location);
         }

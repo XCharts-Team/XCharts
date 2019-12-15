@@ -160,7 +160,7 @@ namespace XCharts
             Vector2 anchorMax = m_Title.location.runtimeAnchorMax;
             Vector2 pivot = m_Title.location.runtimePivot;
             Vector3 titlePosition = m_Title.location.GetPosition(chartWidth, chartHeight);
-            Vector3 subTitlePosition = -new Vector3(0, m_Title.textFontSize + m_Title.itemGap, 0);
+            Vector3 subTitlePosition = -new Vector3(0, m_Title.textStyle.fontSize + m_Title.itemGap, 0);
             float titleWid = chartWidth;
 
             var titleObject = ChartHelper.AddObject(s_TitleObjectName, transform, anchorMin, anchorMax,
@@ -170,20 +170,22 @@ namespace XCharts
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
-                        new Vector2(titleWid, m_Title.textFontSize), m_Title.textFontSize);
+                        new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize, m_Title.textStyle.rotate,
+                        m_Title.textStyle.fontStyle);
 
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(m_Title.show);
-            titleText.transform.localPosition = Vector2.zero;
+            titleText.transform.localPosition = Vector3.zero + m_Title.textStyle.offsetv3;
             titleText.text = m_Title.text.Replace("\\n", "\n");
 
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
-                        new Vector2(titleWid, m_Title.subTextFontSize), m_Title.subTextFontSize);
+                        new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
+                        m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle);
 
             subText.alignment = anchor;
             subText.gameObject.SetActive(m_Title.show && !string.IsNullOrEmpty(m_Title.subText));
-            subText.transform.localPosition = subTitlePosition;
+            subText.transform.localPosition = subTitlePosition + m_Title.subTextStyle.offsetv3;
             subText.text = m_Title.subText.Replace("\\n", "\n");
         }
 

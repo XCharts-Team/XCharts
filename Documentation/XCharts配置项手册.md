@@ -84,9 +84,9 @@
 
 * `show`：是否显示标题组件。
 * `text`：主标题文本，支持使用 `\n` 换行。
-* `textFontSize`：主标题文字的字体大小。
+* `textStyle`：主标题文本样式 [TextStyle](#TextStyle)。
 * `subText`：副标题文本，支持使用 `\n` 换行。
-* `subTextFontSize`：副标题文字的字体大小。
+* `subTextStyle`：副标题文本样式 [TextStyle](#TextStyle)。
 * `itemGap`：主副标题之间的间距。
 * `location`：标题显示位置 [Location](#Location)。
 

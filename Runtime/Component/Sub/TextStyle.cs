@@ -35,6 +35,8 @@ namespace XCharts
         /// </summary>
         public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
 
+        public Vector3 offsetv3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
+
         /// <summary>
         /// the color of text. 
         /// 文本的颜色。
@@ -79,6 +81,15 @@ namespace XCharts
             this.fontStyle = fontStyle;
             this.color = color;
             this.rotate = rotate;
+        }
+
+        public void Copy(TextStyle style)
+        {
+            this.fontSize = style.fontSize;
+            this.fontStyle = style.fontStyle;
+            this.color = style.color;
+            this.rotate = style.rotate;
+            this.offset = style.offset;
         }
 
         public TextStyle Clone()

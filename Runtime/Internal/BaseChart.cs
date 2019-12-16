@@ -459,8 +459,9 @@ namespace XCharts
             {
                 if (canvas == null) return;
                 Vector2 local;
+                var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
                 if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                    Input.mousePosition, canvas.worldCamera, out local))
+                    Input.mousePosition, cam, out local))
                 {
                     pointerPos = Vector2.zero;
                 }

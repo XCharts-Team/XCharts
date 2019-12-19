@@ -19,7 +19,7 @@ namespace XCharts
         private Text m_LabelText;
         private RectTransform m_LabelRect;
         private Image m_IconImage;
-        private RectTransform m_IconRect;
+        // private RectTransform m_IconRect;
 
         public Image icon { get { return m_IconImage; } }
         public Text label { get { return m_LabelText; } }
@@ -43,7 +43,7 @@ namespace XCharts
             m_IconImage = image;
             if (image != null)
             {
-                m_IconRect = m_IconImage.GetComponent<RectTransform>();
+                // m_IconRect = m_IconImage.GetComponent<RectTransform>();
             }
         }
 

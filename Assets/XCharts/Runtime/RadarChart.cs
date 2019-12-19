@@ -512,7 +512,7 @@ namespace XCharts
             {
                 string key = radar.indicatorList[i].name;
                 float value = serieData.GetData(i);
-                sb.Append("\n");
+                if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
                 sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
             }
             m_Tooltip.UpdateContentText(sb.ToString());

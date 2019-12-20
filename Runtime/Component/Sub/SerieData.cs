@@ -156,7 +156,6 @@ namespace XCharts
         private List<float> m_LastData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
-        public List<float> lastData { get { return m_LastData; } internal set { m_LastData = value; } }
 
         public float GetData(int index)
         {
@@ -169,7 +168,7 @@ namespace XCharts
 
         public float GetLastData(int index)
         {
-            if (index >= 0 && index < lastData.Count)
+            if (index >= 0 && index < m_LastData.Count)
             {
                 return m_LastData[index];
             }
@@ -219,6 +218,8 @@ namespace XCharts
             if (m_LastData.Count != m_Data.Count)
             {
                 m_LastData.Clear();
+                m_DataUpdateTime.Clear();
+                m_DataUpdateFlag.Clear();
                 for (int i = 0; i < m_Data.Count; i++)
                 {
                     m_LastData.Add(m_Data[i]);

@@ -6,8 +6,6 @@
 
 ## `BaseChart`
 
----
-
 * `BaseChart.themeInfo`：主题组件`ThemeInfo`。
 * `BaseChart.title`：标题组件`Title`。
 * `BaseChart.legend`：图例组件`Legend`。
@@ -51,8 +49,6 @@
 
 ## `CoordinateChart`
 
----
-
 * `CoordinateChart.grid`：网格组件 `Grid`。
 * `CoordinateChart.xAxises`：左右两个 `X` 轴组件 `XAxis`。
 * `CoordinateChart.yAxises`：左右两个 `Y` 轴组件 `YAxis`。
@@ -74,41 +70,36 @@
 
 ## `LineChart`
 
----
-
 * 继承 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
 ## `BarChart`
-
----
 
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
 ## `PieChart`
 
----
-
 * 继承自 `BaseChart`。
 
 ## `RadarChart`
 
----
-
 * 继承自 `BaseChart`。
-* `radars`：雷达组件列表 `Radar`。
+* `RadarChart.radars`：雷达坐标系组件列表 `Radar`。
+* `RadarChart.RemoveRadar()`：移除所有雷达坐标系组件。
+* `RadarChart.AddRadar(Radar radar)`：添加雷达坐标系组件。
+* `RadarChart.AddRadar(Radar.Shape shape, Vector2 center, float radius, int splitNumber = 5,float lineWidth = 0.6f, bool showIndicator = true, bool showSplitArea = true)`：添加雷达坐标系组件。
+* `RadarChart.AddIndicator(int radarIndex, string name, float min, float max)`：添加指示器。
+* `RadarChart.UpdateIndicator(int radarIndex, int indicatorIndex, string name, float min, float max)`：更新指示器。
+* `RadarChart.GetRadar(int radarIndex)`：获得指定索引的雷达坐标系组件。
+* `RadarChart.GetIndicator(int radarIndex, int indicatorIndex)`：获得指定雷达坐标系组件指定索引的指示器。
 
 ## `ScatterChart`
-
----
 
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
 ## `HeatmapChart`
-
----
 
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
@@ -116,3 +107,4 @@
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XCharts配置项手册](XCharts配置项手册.md)  
 [XCharts问答](XCharts问答.md)
+

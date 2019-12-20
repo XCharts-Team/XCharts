@@ -417,5 +417,31 @@ namespace XCharts
             var y = runtimeCenterPos.y + (runtimeRadius + indicatorGap) * Mathf.Cos(angle);
             return new Vector3(x, y);
         }
+
+        public Radar.Indicator AddIndicator(string name, float min, float max)
+        {
+            var indicator = new Radar.Indicator();
+            indicator.name = name;
+            indicator.min = min;
+            indicator.max = max;
+            indicatorList.Add(indicator);
+            return indicator;
+        }
+
+        public bool UpdateIndicator(int indicatorIndex, string name, float min, float max)
+        {
+            var indicator = GetIndicator(indicatorIndex);
+            if (indicator == null) return false;
+            indicator.name = name;
+            indicator.min = min;
+            indicator.max = max;
+            return true;
+        }
+
+        public Radar.Indicator GetIndicator(int indicatorIndex)
+        {
+            if (indicatorIndex < 0 || indicatorIndex > indicatorList.Count - 1) return null;
+            return indicatorList[indicatorIndex];
+        }
     }
 }

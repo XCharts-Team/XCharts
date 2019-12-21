@@ -35,6 +35,7 @@ namespace XCharts
             SerializedProperty m_RangeMode = prop.FindPropertyRelative("m_RangeMode");
             SerializedProperty m_Start = prop.FindPropertyRelative("m_Start");
             SerializedProperty m_End = prop.FindPropertyRelative("m_End");
+            SerializedProperty m_MinShowNum = prop.FindPropertyRelative("m_MinShowNum");
             SerializedProperty m_ScrollSensitivity = prop.FindPropertyRelative("m_ScrollSensitivity");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
@@ -79,8 +80,11 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_End);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_MinShowNum);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_Start.floatValue < 0) m_Start.floatValue = 0;
                 if (m_End.floatValue > 100) m_End.floatValue = 100;
+                if (m_MinShowNum.intValue < 0) m_MinShowNum.intValue = 0;
                 --EditorGUI.indentLevel;
             }
         }
@@ -91,7 +95,7 @@ namespace XCharts
             int num = 1;
             if (m_DataZoomModuleToggle)
             {
-                num += 7;
+                num += 8;
                 if (prop.FindPropertyRelative("m_SupportSlider").boolValue) num += 6;
 
             }

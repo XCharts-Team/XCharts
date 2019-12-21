@@ -22,6 +22,7 @@ namespace XCharts
     {
         private static StringBuilder s_Builder = new StringBuilder();
 
+        public static StringBuilder sb { get { return s_Builder; } }
         public static string Cancat(string str1, string str2)
         {
             s_Builder.Length = 0;

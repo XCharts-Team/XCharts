@@ -175,11 +175,13 @@
   * `Shadow`：阴影指示器。
   * `None`：无指示器。
   * `Corss`：十字准星指示器。坐标轴显示Label和交叉线。
-* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。其中变量 `{a}`, `{b}`, `{c}`, `{d}` 在不同图表类型下代表数据含义为：
+* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。示例：`{a}:{c}`，`{a1}:{c1:f1}`。其中变量 `{a}`, `{b}`, `{c}`, `{d}` 在不同图表类型下代表数据含义为：
   * 折线（区域）图、柱状（条形）图、K线图 : `{a}`（系列名称），`{b}`（类目值），`{c}`（数值）, `{d}`（无）。
   * 散点图（气泡）图 : `{a}`（系列名称），`{b}`（数据名称），`{c}`（数值数组）, `{d}`（无）。
   * 地图 : `{a}`（系列名称），`{b}`（区域名称），`{c}`（合并数值）, `{d}`（无）。
   * 饼图、仪表盘、漏斗图: `{a}`（系列名称），`{b}`（数据项名称），`{c}`（数值）, `{d}`（百分比）。
+* `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。仅当`itemFormatter`生效时才有效。
+* `itemFormatter`：提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
 * `fixedWidth`：固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。

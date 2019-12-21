@@ -579,7 +579,7 @@ namespace XCharts
                 int index = m_Tooltip.runtimeDataIndex[serie.index];
                 if (index < 0) continue;
                 showTooltip = true;
-                if (string.IsNullOrEmpty(tooltip.formatter))
+                if (tooltip.IsNoFormatter())
                 {
                     string key = serie.data[index].name;
                     if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);

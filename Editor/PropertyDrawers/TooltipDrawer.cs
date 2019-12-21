@@ -22,6 +22,8 @@ namespace XCharts
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty type = prop.FindPropertyRelative("m_Type");
             SerializedProperty m_Formatter = prop.FindPropertyRelative("m_Formatter");
+            SerializedProperty m_TitleFormatter = prop.FindPropertyRelative("m_TitleFormatter");
+            SerializedProperty m_ItemFormatter = prop.FindPropertyRelative("m_ItemFormatter");
             SerializedProperty m_FixedWidth = prop.FindPropertyRelative("m_FixedWidth");
             SerializedProperty m_FixedHeight = prop.FindPropertyRelative("m_FixedHeight");
             SerializedProperty m_MinWidth = prop.FindPropertyRelative("m_MinWidth");
@@ -37,6 +39,10 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_TitleFormatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ItemFormatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FixedWidth);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -58,7 +64,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                return 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }

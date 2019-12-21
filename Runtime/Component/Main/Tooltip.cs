@@ -49,6 +49,8 @@ namespace XCharts
         [SerializeField] private bool m_Show;
         [SerializeField] private Type m_Type;
         [SerializeField] private string m_Formatter;
+        [SerializeField] private string m_ItemFormatter;
+        [SerializeField] private string m_TitleFormatter;
         [SerializeField] private float m_FixedWidth = 0;
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
@@ -75,7 +77,33 @@ namespace XCharts
         /// </summary>
         public Type type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
-        /// 提示框内容字符串模版格式器。支持用 \n 或 "<br/>" 换行。
+        /// 提示框总内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
+        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
+        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
+        /// <list type="bullet">
+        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
+        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
+        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
+        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
+        /// </list>
+        /// 示例："{a}:{c}","{a1}:{c1:f1}"
+        /// </summary>
+        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        /// <summary>
+        /// 提示框标题内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。仅当itemFormatter生效时才有效。
+        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
+        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
+        /// <list type="bullet">
+        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
+        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
+        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
+        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
+        /// </list>
+        /// 示例："{a}:{c}","{a1}:{c1:f1}"
+        /// </summary>
+        public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
+        /// <summary>
+        /// 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。
         /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
         /// <list type="bullet">
@@ -84,11 +112,10 @@ namespace XCharts
         /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
         /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
         /// </list>
+        /// 示例："{a}:{c}","{a}:{c:f1}"
         /// </summary>
-        /// <example>
-        /// 示例：“{a}:{c}”
-        /// </example>
-        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
+        
         /// <summary>
         /// 固定宽度。比 minWidth 优先。
         /// </summary>
@@ -341,11 +368,68 @@ namespace XCharts
             return runtimeDataIndex[0] == index || runtimeDataIndex[1] == index;
         }
 
+        public bool IsNoFormatter()
+        {
+            return string.IsNullOrEmpty(m_Formatter) && string.IsNullOrEmpty(m_ItemFormatter);
+        }
+
         internal string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
-                return "";
+                if (string.IsNullOrEmpty(m_ItemFormatter)) return "";
+                else
+                {
+                    var sb = ChartHelper.sb;
+                    var title = m_TitleFormatter;
+                    var formatTitle = !string.IsNullOrEmpty(title);
+                    var needCategory = false;
+                    var first = true;
+                    sb.Length = 0;
+                    for (int i = 0; i < series.Count; i++)
+                    {
+                        var serie = series.GetSerie(i);
+                        var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                        var percent = serieData.GetData(1) / serie.yTotal * 100;
+                        needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
+                        if (serie.show)
+                        {
+                            string content = m_ItemFormatter;
+                            content = content.Replace("{a}", serie.name);
+                            content = content.Replace("{b}", needCategory ? category : serieData.name);
+                            content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
+                            content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                            if (!first) sb.Append("\n");
+                            sb.Append(content);
+                            first = false;
+                        }
+                        if (formatTitle)
+                        {
+                            if (i == 0)
+                            {
+                                title = title.Replace("{a}", serie.name);
+                                title = title.Replace("{b}", needCategory ? category : serieData.name);
+                                title = title.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
+                                title = title.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                            }
+                            title = title.Replace("{a" + i + "}", serie.name);
+                            title = title.Replace("{b" + i + "}", needCategory ? category : serieData.name);
+                            title = title.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
+                            title = title.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
+                        }
+                    }
+                    if (string.IsNullOrEmpty(title))
+                    {
+                        if (needCategory) return category + "\n" + sb.ToString();
+                        else return sb.ToString();
+                    }
+                    else
+                    {
+                        title = title.Replace("\\n", "\n");
+                        title = title.Replace("<br/>", "\n");
+                        return title + "\n" + sb.ToString();
+                    }
+                }
             }
             else
             {
@@ -357,25 +441,18 @@ namespace XCharts
                     {
                         var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                        var percent = serieData.GetData(1) / serie.yTotal * 100;
                         if (i == 0)
                         {
                             content = content.Replace("{a}", serie.name);
                             content = content.Replace("{b}", needCategory ? category : serieData.name);
                             content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
-                            //if (serie.type == SerieType.Pie)
-                            {
-                                var percent = serieData.GetData(1) / serie.yTotal * 100;
-                                content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
-                            }
+                            content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
                         }
                         content = content.Replace("{a" + i + "}", serie.name);
                         content = content.Replace("{b" + i + "}", needCategory ? category : serieData.name);
                         content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
-                        //if (serie.type == SerieType.Pie)
-                        {
-                            var percent = serieData.GetData(1) / serie.yTotal * 100;
-                            content = content.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
-                        }
+                        content = content.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
                     }
                 }
                 content = content.Replace("\\n", "\n");

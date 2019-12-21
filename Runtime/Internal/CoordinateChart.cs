@@ -300,7 +300,7 @@ namespace XCharts
                 return;
             }
 
-            if (string.IsNullOrEmpty(tooltip.formatter))
+            if (tooltip.IsNoFormatter())
             {
                 sb.Length = 0;
                 if (!isCartesian)

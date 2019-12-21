@@ -80,6 +80,7 @@ namespace XCharts
         [SerializeField] private float m_End;
         [SerializeField] private float m_StartValue;
         [SerializeField] private float m_EndValue;
+        [SerializeField] private int m_MinShowNum = 1;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
         [SerializeField] private int m_FontSize = 18;
@@ -186,6 +187,10 @@ namespace XCharts
             get { return m_End; }
             set { m_End = value; if (m_End < 0) m_End = 0; if (m_End > 100) m_End = 100; }
         }
+        /// <summary>
+        /// 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
+        /// </summary>
+        public int minShowNum { get { return m_MinShowNum; } set { m_MinShowNum = value; } }
         /// <summary>
         /// The sensitivity of dataZoom scroll.
         /// The larger the number, the more sensitive it is.

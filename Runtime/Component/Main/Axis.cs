@@ -267,6 +267,7 @@ namespace XCharts
 
         private int filterStart;
         private int filterEnd;
+        private int filterMinShow;
         private List<string> filterData;
         private List<Text> m_AxisLabelTextList = new List<Text>();
         private GameObject m_TooltipLabel;
@@ -389,14 +390,17 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != filterStart || endIndex != filterEnd || m_NeedUpdateFilterData)
+                if (startIndex != filterStart || endIndex != filterEnd || dataZoom.minShowNum != filterMinShow || m_NeedUpdateFilterData)
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
+                    filterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
                     if (m_Data.Count > 0)
                     {
                         var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                        if (count < dataZoom.minShowNum) count = dataZoom.minShowNum;
+                        if (startIndex + count > m_Data.Count - 1) count = m_Data.Count - 1 - startIndex;
                         filterData = m_Data.GetRange(startIndex, count);
                     }
                     else

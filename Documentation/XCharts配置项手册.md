@@ -219,6 +219,7 @@
 * `scrollSensitivity`：缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
 * `fontSize`：字体大小。
 * `fontStyle`：字体样式。
+* `minShowNum`：最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
 
 ## `VisualMap`
 

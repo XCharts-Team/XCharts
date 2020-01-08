@@ -30,7 +30,7 @@ namespace XCharts
         Vertical
     }
 
-    public partial class BaseChart : Graphic, IPointerDownHandler, IPointerUpHandler,
+    public partial class BaseChart : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {

@@ -909,9 +909,17 @@ namespace XCharts
                             new Vector2(coordinateX, pY + scaleWidth),
                             yAxis.splitArea.getColor(i));
                     }
+                    if (yAxis.showSplitLine)
+                    {
+                        if (!xAxis.axisLine.show || !xAxis.axisLine.onZero || zeroPos.y != pY)
+                        {
+                            DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
+                                new Vector3(coordinateX + coordinateWidth, pY), m_ThemeInfo.axisSplitLineColor);
+                        }
+                    }
                     if (yAxis.axisTick.show)
                     {
-                        var startX = coordinateX + m_XAxises[yAxisIndex].runtimeZeroXOffset;
+                        var startX = coordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                         if (yAxis.IsValue() && yAxisIndex > 0) startX += coordinateWidth;
                         bool inside = yAxis.axisTick.inside;
                         if ((inside && yAxisIndex == 0) || (!inside && yAxisIndex == 1))
@@ -924,14 +932,6 @@ namespace XCharts
                         }
                         ChartDrawer.DrawLine(vh, new Vector3(startX, pY), new Vector3(pX, pY),
                             yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
-                    }
-                    if (yAxis.showSplitLine)
-                    {
-                        if (!xAxis.axisLine.show || zeroPos.y != pY)
-                        {
-                            DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
-                                new Vector3(coordinateX + coordinateWidth, pY), m_ThemeInfo.axisSplitLineColor);
-                        }
                     }
                     totalWidth += scaleWidth;
                 }
@@ -963,9 +963,17 @@ namespace XCharts
                             new Vector2(pX + scaleWidth, coordinateY),
                             xAxis.splitArea.getColor(i));
                     }
+                    if (xAxis.showSplitLine)
+                    {
+                        if (!yAxis.axisLine.show || !yAxis.axisLine.onZero || zeroPos.x != pX)
+                        {
+                            DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
+                                new Vector3(pX, coordinateY + coordinateHeight), m_ThemeInfo.axisSplitLineColor);
+                        }
+                    }
                     if (xAxis.axisTick.show)
                     {
-                        var startY = coordinateY + m_YAxises[xAxisIndex].runtimeZeroYOffset;
+                        var startY = coordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                         if (xAxis.IsValue() && xAxisIndex > 0) startY += coordinateHeight;
                         bool inside = xAxis.axisTick.inside;
                         if ((inside && xAxisIndex == 0) || (!inside && xAxisIndex == 1))
@@ -978,14 +986,6 @@ namespace XCharts
                         }
                         ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
                             xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
-                    }
-                    if (xAxis.showSplitLine)
-                    {
-                        if (!yAxis.axisLine.show || zeroPos.x != pX)
-                        {
-                            DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
-                                new Vector3(pX, coordinateY + coordinateHeight), m_ThemeInfo.axisSplitLineColor);
-                        }
                     }
                     totalWidth += scaleWidth;
                 }

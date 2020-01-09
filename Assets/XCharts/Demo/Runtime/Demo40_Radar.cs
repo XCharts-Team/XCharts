@@ -68,7 +68,7 @@ namespace XCharts
             chart.AddIndicator(0, "indicator4", 0, 100);
             chart.AddIndicator(0, "indicator5", 0, 100);
 
-            serie = chart.AddSerie(SerieType.Pie, "test");
+            serie = chart.AddSerie(SerieType.Radar, "test");
             serie.radarIndex = 0;
             chart.AddData(0, new List<float> { 10, 20, 60, 40, 20 }, "data1");
             chart.AddData(0, new List<float> { 40, 60, 90, 80, 70 }, "data2");
@@ -111,11 +111,11 @@ namespace XCharts
                 chart.AddIndicator(1, "radar2" + i, 0, 100);
             }
 
-            serie = chart.AddSerie(SerieType.Pie, "test1");
+            serie = chart.AddSerie(SerieType.Radar, "test1");
             serie.radarIndex = 0;
             chart.AddData(0, new List<float> { 10, 20, 60, 40, 20 }, "data1");
 
-            serie1 = chart.AddSerie(SerieType.Pie, "test2");
+            serie1 = chart.AddSerie(SerieType.Radar, "test2");
             serie1.radarIndex = 1;
             chart.AddData(1, new List<float> { 10, 20, 60, 40, 20 }, "data2");
             yield return new WaitForSeconds(1);

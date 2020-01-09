@@ -966,6 +966,8 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+                if (endIndex < startIndex) endIndex = startIndex;
+
                 if (startIndex != m_FilterStart || endIndex != m_FilterEnd || dataZoom.minShowNum != m_FilterMinShow || m_NeedUpdateFilterData)
                 {
                     m_FilterStart = startIndex;
@@ -973,11 +975,19 @@ namespace XCharts
                     m_FilterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
                     var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                    if (count < dataZoom.minShowNum) count = dataZoom.minShowNum;
+                    if (count < dataZoom.minShowNum)
+                    {
+                        if (dataZoom.minShowNum > m_Data.Count) count = m_Data.Count;
+                        else count = dataZoom.minShowNum;
+                    }
                     if (m_Data.Count > 0)
                     {
-                        if (startIndex + count > m_Data.Count - 1) count = m_Data.Count - 1 - startIndex;
-                        m_FilterData = m_Data.GetRange(startIndex, count);
+                        if (startIndex + count > m_Data.Count)
+                        {
+                            int start = endIndex - count;
+                            m_FilterData = m_Data.GetRange(start < 0 ? 0 : start, count);
+                        }
+                        else m_FilterData = m_Data.GetRange(startIndex, count);
                     }
                     else
                     {

@@ -146,10 +146,17 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterContent(float value, float minValue, float maxValue)
+        public string GetFormatterContent(float value, float minValue, float maxValue, bool isLog = false)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
+                if (isLog)
+                {
+                    if (value - (int)value == 0)
+                        return ChartCached.IntToStr((int)value);
+                    else
+                        return ChartCached.FloatToStr(value);
+                }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
                     int minAcc = ChartHelper.GetFloatAccuracy(minValue);

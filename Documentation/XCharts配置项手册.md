@@ -290,9 +290,12 @@
 相关参数：
 
 * `show`：是否显示 `X` 轴。默认 `xAxises[0]` 为 `true`，`xAxises[1]` 为 `false`。
-* `type`：坐标轴类型。默认为 `Category`。有以下两种类型：
+* `type`：坐标轴类型。默认为 `Category`。支持以下类型：
   * `Value`：数值轴，用于连续数据。
   * `Category`：类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
+  * `Log`：对数轴，适用于对数数据。
+* `logBaseE`：对数轴是否以自然数 `e` 为底数，为 `true` 时 `logBase` 失效，只在对数轴（`type:'Log'`）中有效。
+* `logBase`：对数轴的底数，只在对数轴（`type:'Log'`）中有效。
 * `minMaxType`：坐标轴刻度最大最小值显示类型。默认为 `Default`。有以下三种类型：
   * `Default`：0-最大值。
   * `MinMax`：最小值-最大值。

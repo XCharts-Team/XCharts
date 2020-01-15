@@ -33,6 +33,8 @@ namespace XCharts
 
             SerializedProperty m_Show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
+            SerializedProperty m_LogBaseE = prop.FindPropertyRelative("m_LogBaseE");
+            SerializedProperty m_LogBase = prop.FindPropertyRelative("m_LogBase");
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
             SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
@@ -59,6 +61,13 @@ namespace XCharts
                 EditorGUI.indentLevel++;
                 EditorGUI.PropertyField(drawRect, m_Type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (type == Axis.AxisType.Log)
+                {
+                    EditorGUI.PropertyField(drawRect, m_LogBaseE);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_LogBase);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
                 if (type == Axis.AxisType.Value)
                 {
                     EditorGUI.PropertyField(drawRect, m_MinMaxType);
@@ -80,6 +89,7 @@ namespace XCharts
                             break;
                     }
                 }
+
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Interval);
@@ -180,6 +190,15 @@ namespace XCharts
                         height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
                     }
                 }
+                else if (type == Axis.AxisType.Log)
+                {
+                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
+                    if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
+                    {
+                        height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
+                    }
+                }
                 height += EditorGUI.GetPropertyHeight(m_AxisName);
                 height += EditorGUI.GetPropertyHeight(m_AxisLine);
                 height += EditorGUI.GetPropertyHeight(m_AxisTick);
@@ -192,7 +211,7 @@ namespace XCharts
         private int InitToggle(SerializedProperty prop)
         {
             int index = 0;
-            int.TryParse(prop.displayName.Split(' ')[1],out index);
+            int.TryParse(prop.displayName.Split(' ')[1], out index);
             if (index >= m_DataFoldout.Count)
             {
                 m_DataFoldout.Add(false);

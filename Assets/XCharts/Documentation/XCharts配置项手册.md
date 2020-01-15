@@ -630,7 +630,7 @@
 * `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
-* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `AxisLine`

@@ -71,7 +71,7 @@ namespace XCharts
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+        /// 模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
@@ -173,6 +173,8 @@ namespace XCharts
             else if (m_Formatter.Contains("{value"))
             {
                 var content = m_Formatter;
+                if (content.Contains("{value:f0}"))
+                    content = m_Formatter.Replace("{value:f0}", ChartCached.IntToStr((int)value));
                 if (content.Contains("{value:f2}"))
                     content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, 2));
                 else if (content.Contains("{value:f1}"))
@@ -180,7 +182,6 @@ namespace XCharts
                 else if (content.Contains("{value}"))
                 {
                     if (value - (int)value == 0)
-
                         content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
                     else
                         content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, 1));

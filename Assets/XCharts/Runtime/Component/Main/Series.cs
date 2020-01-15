@@ -452,7 +452,8 @@ namespace XCharts
             return false;
         }
 
-        public bool UpdateData(string serieName,int dataIndex,List<float> values){
+        public bool UpdateData(string serieName, int dataIndex, List<float> values)
+        {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
@@ -460,7 +461,8 @@ namespace XCharts
             }
             return false;
         }
-        public bool UpdateData(int serieIndex,int dataIndex,List<float> values){
+        public bool UpdateData(int serieIndex, int dataIndex, List<float> values)
+        {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
@@ -746,16 +748,8 @@ namespace XCharts
             }
             else
             {
-                if (max > 1)
-                {
-                    minVaule = Mathf.FloorToInt(min);
-                    maxValue = Mathf.CeilToInt(max);
-                }
-                else
-                {
-                    minVaule = min;
-                    maxValue = max;
-                }
+                minVaule = min > 1 ? Mathf.FloorToInt(min) : min;
+                maxValue = max > 1 ? Mathf.CeilToInt(max) : max;
             }
         }
 

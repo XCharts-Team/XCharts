@@ -310,24 +310,52 @@ namespace XCharts
             float xMaxValue = xAxis.GetCurrMaxValue(duration);
             float yMinValue = yAxis.GetCurrMinValue(duration);
             float yMaxValue = yAxis.GetCurrMaxValue(duration);
-            if (xAxis.IsValue())
+            if (xAxis.IsValue() || xAxis.IsLog())
             {
                 float xValue = i > showData.Count - 1 ? 0 : showData[i].data[0];
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = serieHig + coordinateY + xAxis.axisLine.width;
-                if ((xMaxValue - xMinValue) <= 0) xDataHig = 0;
-                else xDataHig = (xValue - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
-                if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                if (xAxis.IsLog())
+                {
+                    int minIndex = xAxis.runtimeMinLogIndex;
+                    float nowIndex = xAxis.GetLogValue(xValue);
+                    xDataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                }
+                else
+                {
+                    if ((xMaxValue - xMinValue) <= 0) xDataHig = 0;
+                    else xDataHig = (xValue - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                }
+                if (yAxis.IsLog())
+                {
+                    int minIndex = yAxis.runtimeMinLogIndex;
+                    float nowIndex = yAxis.GetLogValue(yValue);
+                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * coordinateHeight;
+                }
+                else
+                {
+                    if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
+                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                }
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
             else
             {
                 float pX = startX + i * scaleWid;
                 float pY = serieHig + coordinateY + yAxis.axisLine.width;
-                if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                if (yAxis.IsLog())
+                {
+                    int minIndex = yAxis.runtimeMinLogIndex;
+                    float nowIndex = yAxis.GetLogValue(yValue);
+                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * coordinateHeight;
+                }
+                else
+                {
+                    if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
+                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                }
                 np = new Vector3(pX, pY + yDataHig);
+                
             }
             return yDataHig;
         }
@@ -381,7 +409,17 @@ namespace XCharts
                 float value = showData[i].GetCurrData(1, updateDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                float dataHig = 0;
+                if (xAxis.IsLog())
+                {
+                    int minIndex = xAxis.runtimeMinLogIndex;
+                    float nowIndex = xAxis.GetLogValue(value);
+                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                }
+                else
+                {
+                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                }
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;
@@ -398,7 +436,17 @@ namespace XCharts
                 float value = showData[i].GetCurrData(1, updateDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
-                float dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                float dataHig = 0;
+                if (xAxis.IsLog())
+                {
+                    int minIndex = xAxis.runtimeMinLogIndex;
+                    float nowIndex = xAxis.GetLogValue(value);
+                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                }
+                else
+                {
+                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                }
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
                 seriesHig[i] += dataHig;

@@ -27,14 +27,19 @@ namespace XCharts
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// 数值轴，适用于连续数据。
+            /// 数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// 类目轴，适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// 类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
             /// </summary>
-            Category
+            Category,
+            /// <summary>
+            /// Log axis, suitable for log data.
+            /// 对数轴。适用于对数数据。
+            /// </summary>
+            Log
         }
 
         /// <summary>
@@ -103,6 +108,8 @@ namespace XCharts
         [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected int m_MaxCache = 0;
+        [SerializeField] protected float m_LogBase = 10;
+        [SerializeField] protected bool m_LogBaseE = false;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -163,6 +170,15 @@ namespace XCharts
         /// 坐标轴两边是否留白。
         /// </summary>
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
+        /// <summary>
+        /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
+        /// 对数轴的底数，只在对数轴（type:'Log'）中有效。
+        /// </summary>
+        public float logBase { get { return m_LogBase; } set { m_LogBase = value; } }
+        /// <summary>
+        /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
+        /// </summary>
+        public bool logBaseE { get { return m_LogBaseE; } set { m_LogBaseE = value; } }
         /// <summary>
         /// The max number of axis data cache.
         /// The first data will be remove when the size of axis data is larger then maxCache.
@@ -264,6 +280,8 @@ namespace XCharts
         /// 坐标轴原点在Y轴的偏移。
         /// </summary>
         public float runtimeZeroYOffset { get; internal set; }
+        public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
+        public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
 
         private int filterStart;
         private int filterEnd;
@@ -312,7 +330,7 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 当前坐标轴是否时类目轴
+        /// 是否为类目轴。
         /// </summary>
         /// <returns></returns>
         public bool IsCategory()
@@ -321,12 +339,21 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 当前坐标轴是否时数值轴
+        /// 是否为数值轴。
         /// </summary>
         /// <returns></returns>
         public bool IsValue()
         {
             return type == AxisType.Value;
+        }
+
+        /// <summary>
+        /// 是否为对数轴。
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLog()
+        {
+            return type == AxisType.Log;
         }
 
         /// <summary>
@@ -447,6 +474,10 @@ namespace XCharts
                 }
                 else return m_SplitNumber;
             }
+            else if (type == AxisType.Log)
+            {
+                return m_SplitNumber;
+            }
             int dataCount = GetDataList(dataZoom).Count;
             if (m_SplitNumber <= 0) return dataCount;
             if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
@@ -506,6 +537,7 @@ namespace XCharts
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
+
             if (m_Type == AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
@@ -522,6 +554,12 @@ namespace XCharts
                 }
                 if (forcePercent) return string.Format("{0}%", (int)value);
                 else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
+            }
+            else if (m_Type == AxisType.Log)
+            {
+                float value = m_LogBaseE ? Mathf.Exp(runtimeMinLogIndex + index) :
+                    Mathf.Pow(m_LogBase, runtimeMinLogIndex + index);
+                return m_AxisLabel.GetFormatterContent(value, minValue, maxValue, true);
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -549,7 +587,7 @@ namespace XCharts
         /// <returns></returns>
         internal int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
         {
-            if (type == AxisType.Value)
+            if (type == AxisType.Value || type == AxisType.Log)
             {
                 int splitNum = GetSplitNumber(coordinateWidth, dataZoom);
                 return m_BoundaryGap ? splitNum + 1 : splitNum;
@@ -660,6 +698,15 @@ namespace XCharts
         /// <param name="maxValue"></param>
         internal void AdjustMinMaxValue(ref float minValue, ref float maxValue, bool needFormat)
         {
+            if (m_Type == AxisType.Log)
+            {
+                int minSplit = 0;
+                int maxSplit = 0;
+                maxValue = ChartHelper.GetMaxLogValue(maxValue, m_LogBase, m_LogBaseE, out maxSplit);
+                minValue = ChartHelper.GetMinLogValue(minValue, m_LogBase, m_LogBaseE, out minSplit);
+                splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
+                return;
+            }
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (min != 0 || max != 0)
@@ -747,6 +794,12 @@ namespace XCharts
             {
                 return false;
             }
+        }
+
+        public float GetLogValue(float value)
+        {
+            if (value <= 0) return 0;
+            return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
         }
 
         public override bool Equals(object obj)

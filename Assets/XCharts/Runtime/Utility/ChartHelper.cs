@@ -416,7 +416,6 @@ namespace XCharts
                 }
                 return list;
             }
-
         }
 
         public static List<string> ParseStringFromString(string jsonData)
@@ -502,6 +501,46 @@ namespace XCharts
             }
             if (min < 0) return -Mathf.FloorToInt(mm);
             else return Mathf.FloorToInt(mm);
+        }
+
+        public static float GetMaxLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        {
+            splitNumber = 0;
+            if (value <= 0) return 0;
+            float max = 0;
+            while (max < value)
+            {
+                if (isLogBaseE)
+                {
+                    max = Mathf.Exp(splitNumber);
+                }
+                else
+                {
+                    max = Mathf.Pow(logBase, splitNumber);
+                }
+                splitNumber++;
+            }
+            return max;
+        }
+
+        public static float GetMinLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        {
+            splitNumber = 0;
+            if (value > 1) return 1;
+            float min = 1;
+            while (splitNumber < 12 && min > value)
+            {
+                if (isLogBaseE)
+                {
+                    min = Mathf.Exp(-splitNumber);
+                }
+                else
+                {
+                    min = Mathf.Pow(logBase, -splitNumber);
+                }
+                splitNumber++;
+            }
+            return min;
         }
 
         public static int GetFloatAccuracy(float value)

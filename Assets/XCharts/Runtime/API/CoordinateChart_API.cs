@@ -146,18 +146,18 @@ namespace XCharts
 
         /// <summary>
         /// reutrn true when all the show axis is `Value` type.
-        /// 纯数值坐标。
+        /// 纯数值坐标轴（数值轴或对数轴）。
         /// </summary>
         /// <returns></returns>
         public bool IsValue()
         {
             foreach (var axis in m_XAxises)
             {
-                if (axis.show && !axis.IsValue()) return false;
+                if (axis.show && !axis.IsValue() && !axis.IsLog()) return false;
             }
             foreach (var axis in m_YAxises)
             {
-                if (axis.show && !axis.IsValue()) return false;
+                if (axis.show && !axis.IsValue() && !axis.IsLog()) return false;
             }
             return true;
         }

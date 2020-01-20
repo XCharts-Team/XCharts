@@ -373,7 +373,7 @@ namespace XCharts
             return string.IsNullOrEmpty(m_Formatter) && string.IsNullOrEmpty(m_ItemFormatter);
         }
 
-        internal string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
+        internal string GetFormatterContent(int dataIndex, Series series, string category,ThemeInfo themeInfo = null, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -400,6 +400,7 @@ namespace XCharts
                             content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
                             content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
                             if (!first) sb.Append("\n");
+                            sb.Append("<color=#").Append(themeInfo.GetColorStr(i)).Append(">● </color>");
                             sb.Append(content);
                             first = false;
                         }

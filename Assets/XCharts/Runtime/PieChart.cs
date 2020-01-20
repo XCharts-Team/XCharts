@@ -596,7 +596,7 @@ namespace XCharts
                 }
                 else
                 {
-                    m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, null));
+                    m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, null, m_ThemeInfo));
                 }
 
                 var pos = m_Tooltip.GetContentPos();

@@ -339,7 +339,7 @@ namespace XCharts
             else
             {
                 var category = tempAxis.GetData(index, m_DataZoom);
-                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, category, m_DataZoom));
+                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, category, m_ThemeInfo, m_DataZoom));
             }
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.runtimeWidth > chartWidth)

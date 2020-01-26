@@ -42,6 +42,7 @@
 * [SerieData 数据项](#SerieData)  
 * [SerieLabel 图形上的文本标签](#SerieLabel)  
 * [SerieSymbol 图形标记](#SerieSymbol)  
+* [TextLimit 文本自适应](#TextLimit)  
 * [TextStyle 文本样式](#TextStyle)  
 
 ## `Theme`
@@ -154,6 +155,13 @@
 * `max`：指示器的最大值，默认为 0 无限制。
 * `min`：指示器的最小值，默认为 0 无限制。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
+
+## `TextLimit`
+
+* `enable`：是否启用文本自适应。默认为`true`。
+* `maxWidth`：设定最大宽度。默认为`0`表示自动获取，否则表示自定义。当文本的宽度大于该值进行裁剪。
+* `gap`：两边留白像素距离。默认为`10`。
+* `suffix`： 长度超出被裁剪后附加的后缀。默认为`...`。
 
 ## `TextStyle`
 
@@ -632,6 +640,7 @@
 * `fontStyle`：文字字体的风格。
 * `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 
 ## `AxisLine`
 

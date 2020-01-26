@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.01.26) 增加`TextLimit`组件可以设置`AxisLabel`的文本自适应
 * (2020.01.20) 优化`Tooltip`设置`itemFormatter`时显示系列颜色
 * (2020.01.20) 增加`Radar`雷达图在`inspector`配置`areaStyle`的支持
 * (2020.01.15) 发布`v1.2.0`版本

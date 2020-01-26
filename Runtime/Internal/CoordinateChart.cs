@@ -487,8 +487,9 @@ namespace XCharts
                         Vector2.zero, new Vector2(1, 0.5f), new Vector2(m_Grid.left, 20),
                         yAxis.axisLabel.fontSize, yAxis.axisLabel.rotate, yAxis.axisLabel.fontStyle);
                 }
-                float labelWidth = yAxis.GetScaleWidth(coordinateHeight, i, m_DataZoom);
 
+                float labelWidth = yAxis.GetScaleWidth(coordinateHeight, i, m_DataZoom);
+                if (i == 0) yAxis.axisLabel.SetRelatedText(txt, labelWidth);
                 txt.transform.localPosition = GetLabelYPosition(totalWidth + (yAxis.boundaryGap ? labelWidth / 2 : 0), i, yAxisIndex, yAxis);
 
                 var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
@@ -582,12 +583,13 @@ namespace XCharts
                     m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0, 1),
                     new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(labelWidth, 20),
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
-
+                if (i == 0) xAxis.axisLabel.SetRelatedText(txt, labelWidth);
                 txt.transform.localPosition = GetLabelXPosition(totalWidth + (xAxis.boundaryGap ? labelWidth : labelWidth / 2),
                     i, xAxisIndex, xAxis);
                 totalWidth += labelWidth;
                 var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
-                txt.text = xAxis.GetLabelName(coordinateWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, m_DataZoom, isPercentStack);
+                txt.text = xAxis.GetLabelName(coordinateWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, m_DataZoom,
+                    isPercentStack);
                 txt.gameObject.SetActive(xAxis.show &&
                     (xAxis.axisLabel.interval == 0 || i % (xAxis.axisLabel.interval + 1) == 0));
                 xAxis.axisLabelTextList.Add(txt);

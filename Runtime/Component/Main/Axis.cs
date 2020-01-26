@@ -918,6 +918,7 @@ namespace XCharts
                         "x1","x2","x3","x4","x5"
                     }
                 };
+                axis.axisLabel.textLimit.enable = true;
                 return axis;
             }
         }
@@ -968,6 +969,7 @@ namespace XCharts
                     m_BoundaryGap = false,
                     m_Data = new List<string>(5),
                 };
+                axis.axisLabel.textLimit.enable = false;
                 return axis;
             }
         }

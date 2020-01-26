@@ -7,6 +7,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -27,7 +28,7 @@ namespace XCharts
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
         [SerializeField] private bool m_ForceENotation = false;
-
+        [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -78,6 +79,10 @@ namespace XCharts
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
         public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <summary>
+        /// 文本限制。
+        /// </summary>
+        public TextLimit textLimit { get { return m_TextLimit; } }
 
         public static AxisLabel defaultAxisLabel
         {
@@ -107,6 +112,7 @@ namespace XCharts
             m_FontSize = other.fontSize;
             m_FontStyle = other.fontStyle;
             m_Formatter = other.formatter;
+            m_TextLimit.Copy(other.textLimit);
         }
 
         public override bool Equals(object obj)
@@ -125,7 +131,8 @@ namespace XCharts
                 m_FontSize == other.fontSize &&
                 m_FontStyle == other.fontStyle &&
                 m_ForceENotation == other.forceENotation &&
-                m_Formatter == other.formatter;
+                m_Formatter.Equals(other.formatter) &&
+                m_TextLimit.Equals(other.textLimit);
         }
 
         public override int GetHashCode()
@@ -133,16 +140,24 @@ namespace XCharts
             return base.GetHashCode();
         }
 
+        public void SetRelatedText(Text txt, float labelWidth)
+        {
+            m_TextLimit.SetRelatedText(txt,labelWidth);
+        }
+
         public string GetFormatterContent(string category)
         {
+            if (string.IsNullOrEmpty(category)) return category;
             if (string.IsNullOrEmpty(m_Formatter))
-                return category;
+            {
+                return m_TextLimit.GetLimitContent(category);
+            }
             else
             {
                 var content = m_Formatter.Replace("{value}", category);
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
-                return content;
+                return m_TextLimit.GetLimitContent(content);
             }
         }
 

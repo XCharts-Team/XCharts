@@ -20,7 +20,7 @@ namespace XCharts
     {
         [SerializeField] private bool m_Enable = true;
         [SerializeField] private float m_MaxWidth = 0;
-        [SerializeField] private float m_Gap = 10;
+        [SerializeField] private float m_Gap = 1;
         [SerializeField] private string m_Suffix = "...";
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace XCharts
                 {
                     float len = m_RelatedText.cachedTextGenerator.GetPreferredWidth(content, m_RelatedTextSettings);
                     float suffixLen = m_RelatedText.cachedTextGenerator.GetPreferredWidth(suffix, m_RelatedTextSettings);
-                    if (len > checkWidth - m_Gap * 2 - suffixLen)
+                    if (len >= checkWidth - m_Gap * 2)
                     {
                         return content.Substring(0, GetAdaptLength(content, suffixLen)) + suffix;
                     }

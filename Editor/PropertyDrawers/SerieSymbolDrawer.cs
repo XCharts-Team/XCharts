@@ -32,6 +32,7 @@ namespace XCharts
             SerializedProperty m_StartIndex = prop.FindPropertyRelative("m_StartIndex");
             SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_ForceShowLast = prop.FindPropertyRelative("m_ForceShowLast");
+            SerializedProperty m_Gap = prop.FindPropertyRelative("m_Gap");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieSymbolToggle, prop, null, m_Type, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -39,6 +40,8 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
 
+                EditorGUI.PropertyField(drawRect, m_Gap);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SizeType);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 SerieSymbolSizeType sizeType = (SerieSymbolSizeType)m_SizeType.enumValueIndex;
@@ -84,13 +87,13 @@ namespace XCharts
                 switch (sizeType)
                 {
                     case SerieSymbolSizeType.Custom:
-                        return 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
-                    case SerieSymbolSizeType.FromData:
                         return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                    case SerieSymbolSizeType.FromData:
+                        return 11 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
                     case SerieSymbolSizeType.Callback:
-                        return 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                        return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
                 }
-                return 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

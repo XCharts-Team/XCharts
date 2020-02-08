@@ -37,7 +37,7 @@ namespace XCharts
                     float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
                     var symbolColor = serie.GetSymbolColor(m_ThemeInfo, n, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, p, symbolColor);
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, p, symbolColor, serie.symbol.gap);
                 }
             }
         }
@@ -355,7 +355,7 @@ namespace XCharts
                     else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
                 }
                 np = new Vector3(pX, pY + yDataHig);
-                
+
             }
             return yDataHig;
         }

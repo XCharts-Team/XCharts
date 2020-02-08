@@ -297,7 +297,8 @@ namespace XCharts
                         symbolColor.a *= serie.symbol.opacity;
                         foreach (var point in pointList)
                         {
-                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor);
+                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor,
+                                serie.symbol.gap);
                         }
                     }
                 }

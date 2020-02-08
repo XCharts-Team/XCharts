@@ -791,6 +791,7 @@
   * `Triangle`：三角形。
   * `Diamond`：菱形。
   * `None`：不显示标记。
+* `gap`：图形标记的外留白距离。
 * `sizeType`：标记图形的大小获取方式。支持以下三种类型：
   * `Custom`：自定义大小。
   * `FromData`：通过 `dataIndex` 从数据中获取，再乘以一个比例系数 `dataScale` 。

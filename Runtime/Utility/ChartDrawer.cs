@@ -152,6 +152,15 @@ namespace XCharts
             DrawDotLine(vh, p1, p2, size, color, zebraWidth, zebraGap);
         }
 
+        public static void DrawDiamond(VertexHelper vh, Vector3 pos, float size, Color32 color)
+        {
+            var p1 = new Vector2(pos.x - size, pos.y);
+            var p2 = new Vector2(pos.x, pos.y + size);
+            var p3 = new Vector2(pos.x + size, pos.y);
+            var p4 = new Vector2(pos.x, pos.y - size);
+            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
+        }
+
         public static void DrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
             bool vertical = true)
         {
@@ -264,6 +273,16 @@ namespace XCharts
             Vector3 p2, Vector3 p3, Color32 color)
         {
             DrawTriangle(vh, p1, p2, p3, color, color, color);
+        }
+
+        public static void DrawTriangle(VertexHelper vh, Vector3 pos, float size, Color32 color)
+        {
+            var x = size * Mathf.Cos(30 * Mathf.PI / 180);
+            var y = size * Mathf.Sin(30 * Mathf.PI / 180);
+            var p1 = new Vector2(pos.x - x, pos.y - y);
+            var p2 = new Vector2(pos.x, pos.y + size);
+            var p3 = new Vector2(pos.x + x, pos.y - y);
+            ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,

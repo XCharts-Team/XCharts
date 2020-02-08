@@ -370,6 +370,13 @@ namespace XCharts
                 color1.r == color2.r;
         }
 
+        public static bool IsValueEqualsString(string str1, string str2)
+        {
+            if (str1 == null && str2 == null) return true;
+            else if (str1 != null && str2 != null) return str1.Equals(str2);
+            else return false;
+        }
+
         public static bool IsValueEqualsVector2(Vector2 v1, Vector2 v2)
         {
             return v1.x == v2.x && v1.y == v2.y;

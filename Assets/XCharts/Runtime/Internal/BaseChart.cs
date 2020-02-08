@@ -723,35 +723,67 @@ namespace XCharts
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color)
+            float tickness, Vector3 pos, Color color, float gap)
         {
+            var backgroundColor = m_ThemeInfo.backgroundColor;
+            var smoothness = m_Settings.cicleSmoothness;
             switch (type)
             {
                 case SerieSymbolType.None:
                     break;
                 case SerieSymbolType.Circle:
-                    ChartDrawer.DrawCricle(vh, pos, symbolSize, color, m_Settings.cicleSmoothness);
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, smoothness);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, smoothness);
+                    }
                     break;
                 case SerieSymbolType.EmptyCircle:
-                    ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness);
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                    }
                     break;
                 case SerieSymbolType.Rect:
-                    ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                    }
                     break;
                 case SerieSymbolType.Triangle:
-                    var x = symbolSize * Mathf.Cos(30 * Mathf.PI / 180);
-                    var y = symbolSize * Mathf.Sin(30 * Mathf.PI / 180);
-                    var p1 = new Vector2(pos.x - x, pos.y - y);
-                    var p2 = new Vector2(pos.x, pos.y + symbolSize);
-                    var p3 = new Vector2(pos.x + x, pos.y - y);
-                    ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                    }
                     break;
                 case SerieSymbolType.Diamond:
-                    p1 = new Vector2(pos.x - symbolSize, pos.y);
-                    p2 = new Vector2(pos.x, pos.y + symbolSize);
-                    p3 = new Vector2(pos.x + symbolSize, pos.y);
-                    var p4 = new Vector2(pos.x, pos.y - symbolSize);
-                    ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                    }
                     break;
             }
         }

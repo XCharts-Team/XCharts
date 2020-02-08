@@ -92,6 +92,7 @@ namespace XCharts
         [SerializeField] private int m_StartIndex;
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;
+        [SerializeField] private float m_Gap = 0;
 
         /// <summary>
         /// the type of symbol.
@@ -163,6 +164,11 @@ namespace XCharts
         /// 是否强制显示最后一个图形标记。
         /// </summary>
         public bool forceShowLast { get { return m_ForceShowLast; } set { m_ForceShowLast = value; } }
+        /// <summary>
+        /// the gap of symbol and line segment.
+        /// 图形标记和线条的间隙距离。
+        /// </summary>
+        public float gap { get { return m_Gap; } set { m_Gap = value; } }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.

@@ -55,13 +55,13 @@ namespace XCharts
                     {
                         var nowSize = serie.symbol.animationSize[count];
                         color.a = (symbolSize - nowSize) / symbolSize;
-                        DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color);
+                        DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color, serie.symbol.gap);
                     }
                     RefreshChart();
                 }
                 else
                 {
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color);
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color, serie.symbol.gap);
                 }
             }
             if (!serie.animation.IsFinish())

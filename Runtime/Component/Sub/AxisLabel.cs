@@ -131,7 +131,7 @@ namespace XCharts
                 m_FontSize == other.fontSize &&
                 m_FontStyle == other.fontStyle &&
                 m_ForceENotation == other.forceENotation &&
-                m_Formatter.Equals(other.formatter) &&
+                ChartHelper.IsValueEqualsString(m_Formatter, other.formatter) &&
                 m_TextLimit.Equals(other.textLimit);
         }
 
@@ -142,7 +142,7 @@ namespace XCharts
 
         public void SetRelatedText(Text txt, float labelWidth)
         {
-            m_TextLimit.SetRelatedText(txt,labelWidth);
+            m_TextLimit.SetRelatedText(txt, labelWidth);
         }
 
         public string GetFormatterContent(string category)

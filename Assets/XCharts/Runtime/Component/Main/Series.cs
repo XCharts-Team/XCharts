@@ -179,6 +179,19 @@ namespace XCharts
             return false;
         }
 
+        /// <summary>
+        /// 是否有需裁剪的serie。
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsAnyClipSerie()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.clip) return true;
+            }
+            return false;
+        }
+
         internal bool IsAnyUpdateAnimationSerie()
         {
             foreach (var serie in m_Series)

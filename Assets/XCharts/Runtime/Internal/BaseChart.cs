@@ -179,7 +179,7 @@ namespace XCharts
             titleText.text = m_Title.text.Replace("\\n", "\n");
 
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
+                        m_ThemeInfo.font, m_ThemeInfo.titleSubTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
                         m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle);
 
@@ -712,9 +712,8 @@ namespace XCharts
         {
         }
 
-        private void DrawBackground(VertexHelper vh)
+        protected virtual void DrawBackground(VertexHelper vh)
         {
-            // draw bg
             Vector3 p1 = new Vector3(0, chartHeight);
             Vector3 p2 = new Vector3(chartWidth, chartHeight);
             Vector3 p3 = new Vector3(chartWidth, 0);

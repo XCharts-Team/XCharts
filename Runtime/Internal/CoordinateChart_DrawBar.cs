@@ -96,11 +96,12 @@ namespace XCharts
                     {
                         p1 = (p4 + p1) / 2;
                         p2 = (p2 + p3) / 2;
-                        ChartDrawer.DrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap, areaColor);
+                        CheckClipAndDrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
+                            areaColor, serie.clip);
                     }
                     else
                     {
-                        ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                        CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
                     }
                 }
             }
@@ -218,11 +219,12 @@ namespace XCharts
                     {
                         p1 = (p4 + p1) / 2;
                         p2 = (p2 + p3) / 2;
-                        ChartDrawer.DrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap, areaColor);
+                        CheckClipAndDrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
+                            areaColor, serie.clip);
                     }
                     else
                     {
-                        ChartDrawer.DrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor);
+                        CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
                     }
                 }
             }

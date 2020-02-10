@@ -81,10 +81,61 @@ namespace XCharts
             base.DrawChart(vh);
             DrawCoordinate(vh);
             DrawSerie(vh);
+            DrawAxisTick(vh);
             DrawDataZoomSlider(vh);
             DrawVisualMap(vh);
         }
 
+        protected override void DrawBackground(VertexHelper vh)
+        {
+            if (m_Series.IsAnyClipSerie())
+            {
+                var xLineDiff = xAxis0.axisLine.width;
+                var yLineDiff = yAxis0.axisLine.width;
+                var xSplitDiff = xAxis0.axisLine.width;
+                var ySplitDiff = yAxis0.axisLine.width;
+
+                var cpty = coordinateY + coordinateHeight + xSplitDiff;
+                var cp1 = new Vector3(coordinateX - yLineDiff, coordinateY - xLineDiff);
+                var cp2 = new Vector3(coordinateX - yLineDiff, cpty);
+                var cp3 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, cpty);
+                var cp4 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, coordinateY - xLineDiff);
+                ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, m_ThemeInfo.backgroundColor);
+            }
+            else
+            {
+                base.DrawBackground(vh);
+            }
+        }
+
+        protected void DrawClip(VertexHelper vh)
+        {
+            if (!m_Series.IsAnyClipSerie()) return;
+            var xLineDiff = xAxis0.axisLine.width;
+            var yLineDiff = yAxis0.axisLine.width;
+            var xSplitDiff = xAxis0.axisLine.width;
+            var ySplitDiff = yAxis0.axisLine.width;
+            var lp1 = new Vector3(0, 0);
+            var lp2 = new Vector3(0, chartHeight);
+            var lp3 = new Vector3(coordinateX - yLineDiff, chartHeight);
+            var lp4 = new Vector3(coordinateX - yLineDiff, 0);
+            ChartDrawer.DrawPolygon(vh, lp1, lp2, lp3, lp4, m_ThemeInfo.backgroundColor);
+            var rp1 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, 0);
+            var rp2 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, chartHeight);
+            var rp3 = new Vector3(chartWidth, chartHeight);
+            var rp4 = new Vector3(chartWidth, 0);
+            ChartDrawer.DrawPolygon(vh, rp1, rp2, rp3, rp4, m_ThemeInfo.backgroundColor);
+            var up1 = new Vector3(coordinateX - yLineDiff, coordinateY + coordinateHeight + ySplitDiff);
+            var up2 = new Vector3(coordinateX - yLineDiff, chartHeight);
+            var up3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, chartHeight);
+            var up4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY + coordinateHeight + ySplitDiff);
+            ChartDrawer.DrawPolygon(vh, up1, up2, up3, up4, m_ThemeInfo.backgroundColor);
+            var dp1 = new Vector3(coordinateX - yLineDiff, 0);
+            var dp2 = new Vector3(coordinateX - yLineDiff, coordinateY - xLineDiff);
+            var dp3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY - xLineDiff);
+            var dp4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, 0);
+            ChartDrawer.DrawPolygon(vh, dp1, dp2, dp3, dp4, m_ThemeInfo.backgroundColor);
+        }
 
         protected virtual void DrawSerie(VertexHelper vh)
         {
@@ -130,6 +181,7 @@ namespace XCharts
                     }
                 }
             }
+            DrawClip(vh);
             DrawLabelBackground(vh);
             DrawLinePoint(vh);
             DrawLineArrow(vh);
@@ -858,11 +910,11 @@ namespace XCharts
             DrawGrid(vh);
             for (int i = 0; i < m_XAxises.Count; i++)
             {
-                DrawXAxisTickAndSplit(vh, i, m_XAxises[i]);
+                DrawXAxisSplit(vh, i, m_XAxises[i]);
             }
             for (int i = 0; i < m_YAxises.Count; i++)
             {
-                DrawYAxisTickAndSplit(vh, i, m_YAxises[i]);
+                DrawYAxisSplit(vh, i, m_YAxises[i]);
             }
             for (int i = 0; i < m_XAxises.Count; i++)
             {
@@ -871,6 +923,18 @@ namespace XCharts
             for (int i = 0; i < m_YAxises.Count; i++)
             {
                 DrawYAxisLine(vh, i, m_YAxises[i]);
+            }
+        }
+
+        private void DrawAxisTick(VertexHelper vh)
+        {
+            for (int i = 0; i < m_XAxises.Count; i++)
+            {
+                DrawXAxisTick(vh, i, m_XAxises[i]);
+            }
+            for (int i = 0; i < m_YAxises.Count; i++)
+            {
+                DrawYAxisTick(vh, i, m_YAxises[i]);
             }
         }
 
@@ -886,7 +950,7 @@ namespace XCharts
             }
         }
 
-        private void DrawYAxisTickAndSplit(VertexHelper vh, int yAxisIndex, YAxis yAxis)
+        private void DrawYAxisSplit(VertexHelper vh, int yAxisIndex, YAxis yAxis)
         {
             if (yAxis.NeedShowSplit())
             {
@@ -897,7 +961,6 @@ namespace XCharts
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = yAxis.GetScaleWidth(coordinateHeight, i, m_DataZoom);
-                    float pX = 0;
                     float pY = totalWidth;
                     if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel)
                     {
@@ -919,9 +982,32 @@ namespace XCharts
                                 new Vector3(coordinateX + coordinateWidth, pY), m_ThemeInfo.axisSplitLineColor);
                         }
                     }
+                    totalWidth += scaleWidth;
+                }
+            }
+        }
+
+        private void DrawYAxisTick(VertexHelper vh, int yAxisIndex, YAxis yAxis)
+        {
+            if (yAxis.NeedShowSplit())
+            {
+                var size = yAxis.GetScaleNumber(coordinateWidth, m_DataZoom);
+                var totalWidth = coordinateY;
+                var xAxis = m_XAxises[yAxisIndex];
+                var zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY + yAxis.runtimeZeroYOffset);
+                for (int i = 0; i < size; i++)
+                {
+                    var scaleWidth = yAxis.GetScaleWidth(coordinateHeight, i, m_DataZoom);
+                    float pX = 0;
+                    float pY = totalWidth;
+                    if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel)
+                    {
+                        pY -= scaleWidth / 2;
+                    }
                     if (yAxis.axisTick.show)
                     {
                         var startX = coordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
+                        startX -= yAxis.axisLine.width;
                         if (yAxis.IsValue() && yAxisIndex > 0) startX += coordinateWidth;
                         bool inside = yAxis.axisTick.inside;
                         if ((inside && yAxisIndex == 0) || (!inside && yAxisIndex == 1))
@@ -940,7 +1026,7 @@ namespace XCharts
             }
         }
 
-        private void DrawXAxisTickAndSplit(VertexHelper vh, int xAxisIndex, XAxis xAxis)
+        private void DrawXAxisSplit(VertexHelper vh, int xAxisIndex, XAxis xAxis)
         {
             if (xAxis.NeedShowSplit())
             {
@@ -973,9 +1059,32 @@ namespace XCharts
                                 new Vector3(pX, coordinateY + coordinateHeight), m_ThemeInfo.axisSplitLineColor);
                         }
                     }
+                    totalWidth += scaleWidth;
+                }
+            }
+        }
+
+        private void DrawXAxisTick(VertexHelper vh, int xAxisIndex, XAxis xAxis)
+        {
+            if (xAxis.NeedShowSplit())
+            {
+                var size = xAxis.GetScaleNumber(coordinateWidth, m_DataZoom);
+                var totalWidth = coordinateX;
+                var yAxis = m_YAxises[xAxisIndex];
+                var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
+                for (int i = 0; i < size; i++)
+                {
+                    var scaleWidth = xAxis.GetScaleWidth(coordinateWidth, i, m_DataZoom);
+                    float pX = totalWidth;
+                    float pY = 0;
+                    if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel)
+                    {
+                        pX -= scaleWidth / 2;
+                    }
                     if (xAxis.axisTick.show)
                     {
                         var startY = coordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
+                        startY -= xAxis.axisLine.width;
                         if (xAxis.IsValue() && xAxisIndex > 0) startY += coordinateHeight;
                         bool inside = xAxis.axisTick.inside;
                         if ((inside && xAxisIndex == 0) || (!inside && xAxisIndex == 1))
@@ -1642,6 +1751,71 @@ namespace XCharts
             }
             RefreshDataZoomLabel();
             RefreshChart();
+        }
+
+        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color32 color, bool clip)
+        {
+            if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3) || !IsInChart(p4)) return;
+            CheckClipAndDrawPolygon(vh, p1, p2, p3, p4, color, color, clip);
+        }
+
+        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            bool clip, bool vertical = true)
+        {
+            if (!IsInChart(p)) return;
+            if (!clip || (clip && (IsInCooridate(p))))
+                ChartDrawer.DrawPolygon(vh, p, radius, color, vertical);
+        }
+
+        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color32 startColor, Color32 toColor, bool clip)
+        {
+            p1 = ClampInChart(p1);
+            p2 = ClampInChart(p2);
+            p3 = ClampInChart(p3);
+            p4 = ClampInChart(p4);
+            //if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3) || !IsInChart(p4)) return;
+            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2) || IsInCooridate(p3) || IsInCooridate(p4))))
+                ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
+        }
+
+        protected void CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3,
+            Color32 color, bool clip)
+        {
+            CheckClipAndDrawTriangle(vh, p1, p2, p3, color, color, color, clip);
+        }
+
+        protected void CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1,
+           Vector3 p2, Vector3 p3, Color32 color, Color32 color2, Color32 color3, bool clip)
+        {
+            if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3)) return;
+            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2) || IsInCooridate(p3))))
+                ChartDrawer.DrawTriangle(vh, p1, p2, p3, color, color2, color3);
+        }
+
+        protected void CheckClipAndDrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,
+            Color32 color, bool clip)
+        {
+            if (!IsInChart(p1) || !IsInChart(p2)) return;
+            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2))))
+                ChartDrawer.DrawLine(vh, p1, p2, size, color);
+        }
+
+        protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
+            float tickness, Vector3 pos, Color color, float gap, bool clip)
+        {
+            if (!IsInChart(pos)) return;
+            if (!clip || (clip && (IsInCooridate(pos))))
+                DrawSymbol(vh, type, symbolSize, tickness, pos, color, gap);
+        }
+
+        protected void CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,
+            float zebraWidth, float zebraGap, Color32 color, bool clip)
+        {
+            p1 = ClampInChart(p1);
+            p2 = ClampInChart(p2);
+            ChartDrawer.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color);
         }
     }
 }

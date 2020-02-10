@@ -460,6 +460,7 @@
   * `Min`：取过滤点的最小值。
   * `Sum`：取过滤点之和。
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -502,6 +503,7 @@
 * `barCategoryGap`：同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
 * `barZebraWidth`：斑马线的粗细。`barType` 为 `Zebra` 时有效。
 * `barZebraGap`：斑马线的间距。`barType` 为 `Zebra` 时有效。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
@@ -549,6 +551,7 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Scatter`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。

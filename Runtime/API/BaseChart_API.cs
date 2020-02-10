@@ -556,5 +556,34 @@ namespace XCharts
             OnLegendButtonClick(legendIndex, legendName, show);
             RefreshChart();
         }
+
+        /// <summary>
+        /// 坐标是否在图表范围内
+        /// </summary>
+        /// <param name="local"></param>
+        /// <returns></returns>
+        public bool IsInChart(Vector2 local)
+        {
+            if (local.x < 0 || local.x > chartWidth ||
+                local.y < 0 || local.y > chartHeight)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public Vector3 ClampInChart(Vector3 pos)
+        {
+            if (IsInChart(pos)) return pos;
+            else
+            {
+                var np = new Vector3(pos.x, pos.y);
+                if (np.x < 0) np.x = 0;
+                if (np.x > chartWidth) np.x = chartWidth;
+                if (np.y < 0) np.y = 0;
+                if (np.y > chartHeight) np.y = chartHeight;
+                return np;
+            }
+        }
     }
 }

@@ -227,8 +227,6 @@ namespace XCharts
             DrawPolygon(vh, p1, p2, p3, p4, color, toColor);
         }
 
-
-
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 color)
         {

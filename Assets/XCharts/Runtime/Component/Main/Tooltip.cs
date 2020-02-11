@@ -60,11 +60,13 @@ namespace XCharts
         [SerializeField] private bool m_ForceENotation = false;
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
 
         private GameObject m_GameObject;
         private GameObject m_Content;
         private Text m_ContentText;
+        private Image m_ContentImage;
         private RectTransform m_ContentRect;
         private RectTransform m_ContentTextRect;
         private List<int> lastDataIndex { get; set; }
@@ -161,6 +163,11 @@ namespace XCharts
         /// </summary>
         public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
+        /// The image of icon.
+        /// 图标的图片。
+        /// </summary>
+        public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetBackground(m_BackgroundImage); } }
+        /// <summary>
         /// 指示线样式。
         /// </summary>
         public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
@@ -240,11 +247,13 @@ namespace XCharts
         {
             m_Content = content;
             m_ContentRect = m_Content.GetComponent<RectTransform>();
+            m_ContentImage = m_Content.GetComponent<Image>();
             m_ContentText = m_Content.GetComponentInChildren<Text>();
             if (m_ContentText != null)
             {
                 m_ContentTextRect = m_ContentText.gameObject.GetComponentInChildren<RectTransform>();
             }
+            SetBackground(backgroundImage);
         }
 
         /// <summary>
@@ -263,8 +272,21 @@ namespace XCharts
         /// <param name="color"></param>
         public void SetContentBackgroundColor(Color color)
         {
-            if (m_Content != null && m_Content.GetComponent<Image>() != null)
-                m_Content.GetComponent<Image>().color = color;
+            if (m_ContentImage != null)
+                m_ContentImage.color = color;
+        }
+
+        /// <summary>
+        /// 设置提示框文本背景图片
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void SetBackground(Sprite sprite)
+        {
+            if (m_ContentImage != null)
+            {
+                m_ContentImage.type = Image.Type.Sliced;
+                m_ContentImage.sprite = sprite;
+            }
         }
 
         /// <summary>

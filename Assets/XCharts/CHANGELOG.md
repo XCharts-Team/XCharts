@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.02.11) 增加`Tooltip`的`backgroundImage`参数配置背景图
 * (2020.02.11) 增加`Tooltip`的`paddingLeftRight`和`paddingTopBottom`参数配置文字和边框的间距
 * (2020.02.11) 增加`Tooltip`的`lineStyle`参数配置指示线样式
 * (2020.02.11) 增加`Axis`的`splitLine`参数控制分割线，去掉`showSplitLine`和`splitLineType`参数（更新时需要重新设置分割线相关设置）

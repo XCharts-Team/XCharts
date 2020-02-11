@@ -33,6 +33,7 @@ namespace XCharts
             SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
             SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
             SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
+            SerializedProperty m_BackgroundImage = prop.FindPropertyRelative("m_BackgroundImage");
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
@@ -64,6 +65,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontStyle);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundImage);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ForceENotation);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
@@ -75,7 +78,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 14 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing +
+                return 15 * EditorGUIUtility.singleLineHeight + 14 * EditorGUIUtility.standardVerticalSpacing +
                     EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

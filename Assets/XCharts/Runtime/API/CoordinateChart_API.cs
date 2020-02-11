@@ -200,6 +200,20 @@ namespace XCharts
         {
             CheckMinMaxValue();
         }
+
+        public Vector3 ClampInCoordinate(Vector3 pos)
+        {
+            if (IsInCooridate(pos)) return pos;
+            else
+            {
+                var np = new Vector3(pos.x, pos.y);
+                if (np.x < coordinateX) np.x = coordinateX;
+                if (np.x > coordinateX + coordinateWidth) np.x = coordinateX + coordinateWidth;
+                if (np.y < coordinateY) np.y = coordinateY;
+                if (np.y > coordinateY + coordinateHeight) np.y = coordinateY + coordinateHeight;
+                return np;
+            }
+        }
     }
 }
 

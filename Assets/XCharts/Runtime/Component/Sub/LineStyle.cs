@@ -75,5 +75,49 @@ namespace XCharts
         /// 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
         public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+
+        public LineStyle()
+        {
+
+        }
+
+        public LineStyle(float width)
+        {
+            this.width = width;
+        }
+
+        public LineStyle(LineStyle.Type type, float width)
+        {
+            this.type = type;
+            this.width = width;
+        }
+
+        public void Copy(LineStyle other)
+        {
+            m_Show = other.show;
+            m_Type = other.type;
+            m_Color = other.color;
+            m_Width = other.width;
+            m_Opacity = other.opacity;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            var other = (LineStyle)obj;
+            return m_Show == other.show &&
+                m_Type == other.type &&
+                m_Width == other.width &&
+                m_Opacity == other.opacity &&
+                ChartHelper.IsValueEqualsColor(m_Color, other.color);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

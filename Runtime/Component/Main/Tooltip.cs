@@ -58,6 +58,7 @@ namespace XCharts
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid,0.7f);
 
         private GameObject m_GameObject;
         private GameObject m_Content;
@@ -146,6 +147,10 @@ namespace XCharts
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
         public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <summary>
+        /// 指示线样式。
+        /// </summary>
+        public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.
@@ -474,6 +479,22 @@ namespace XCharts
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
                 return content;
+            }
+        }
+
+        internal Color GetLineColor(ThemeInfo theme)
+        {
+            if (lineStyle.color != Color.clear)
+            {
+                var color = lineStyle.color;
+                color.a *= lineStyle.opacity;
+                return color;
+            }
+            else
+            {
+                var color = (Color)theme.tooltipLineColor;
+                color.a *= lineStyle.opacity;
+                return color;
             }
         }
     }

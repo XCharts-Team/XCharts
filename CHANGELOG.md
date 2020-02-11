@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.02.11) 增加`Tooltip`的`lineStyle`参数配置指示线样式
+* (2020.02.11) 增加`Axis`的`splitLine`参数控制分割线，去掉`showSplitLine`和`splitLineType`参数（更新时需要重新设置分割线相关设置）
 * (2020.02.10) 增加`Serie`的`clip`参数控制是否超出坐标系外裁剪（只适用于折线图、柱状图、散点图）
 * (2020.02.08) 增加`SerieSymbol`的`gap`参数控制图形标记的外留白距离
 * (2020.01.26) 增加`TextLimit`组件可以设置`AxisLabel`的文本自适应

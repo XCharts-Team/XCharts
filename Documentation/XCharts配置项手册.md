@@ -197,6 +197,7 @@
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字的字体风格。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 
 ## `DataZoom`
 
@@ -312,13 +313,6 @@
 * `max`：设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
 * `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
 * `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
-* `splitLineType`：分割线类型。默认为 `Dashed`。有以下五种类型：
-  * `None`：不显示分割线。
-  * `Solid`：实线。
-  * `Dashed`：虚线。
-  * `Dotted`：点线。
-  * `DashDot`：点划线。
-  * `DashDotDot`：双点划线。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
 * `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
@@ -326,7 +320,8 @@
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
 * `axisTick`：坐标轴刻度相关配置 [AxisTick](#AxisTick)。
 * `axisLabel`：坐标轴刻度标签 [AxisLabel](#AxisLabel)。
-* `splitArea`：坐标轴轴线坐标轴分割区域 [SplitArea](#SplitArea)。
+* `splitLine`：坐标轴轴线坐标轴分割线 [AxisSplitLine](#SplitLine)。
+* `splitArea`：坐标轴轴线坐标轴分割区域 [AxisSplitArea](#AxisSplitArea)。
 
 相关接口：
 
@@ -669,6 +664,12 @@
 * `color`：坐标轴名称的文字颜色。
 * `fontSize`：坐标轴名称的文字大小。
 * `fontStyle`：坐标轴名称的文字风格。
+
+## `AxisSplitLine`
+
+* `show`：是否显示坐标分割线。
+* `interval`：分割线的显示间隔。0表示显示所有分割线，1表示隔一个隔显示一个分割线，以此类推。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 
 ## `AxisSplitArea`
 

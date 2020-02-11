@@ -65,38 +65,6 @@ namespace XCharts
             Custom
         }
 
-        /// <summary>
-        /// the type of split line. 
-        /// 分割线类型
-        /// </summary>
-        public enum SplitLineType
-        {
-            /// <summary>
-            /// 不显示分割线
-            /// </summary>
-            None,
-            /// <summary>
-            /// 实线
-            /// </summary>
-            Solid,
-            /// <summary>
-            /// 虚线
-            /// </summary>
-            Dashed,
-            /// <summary>
-            /// 点线
-            /// </summary>
-            Dotted,
-            /// <summary>
-            /// 点划线
-            /// </summary>
-            DashDot,
-            /// <summary>
-            /// 双点划线
-            /// </summary>
-            DashDotDot
-        }
-
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
@@ -104,8 +72,6 @@ namespace XCharts
         [SerializeField] protected float m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
         [SerializeField] protected float m_Interval = 0;
-        [SerializeField] protected bool m_ShowSplitLine = false;
-        [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
@@ -115,6 +81,7 @@ namespace XCharts
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
+        [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
         [NonSerialized] private float m_ValueRange;
@@ -155,16 +122,6 @@ namespace XCharts
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
         /// </summary>
         public float interval { get { return m_Interval; } set { m_Interval = value; } }
-        /// <summary>
-        /// showSplitLineSet this to false to prevent the splitLine from showing. value type axes are shown by default, while category type axes are hidden.
-        /// 是否显示分隔线。默认数值轴显示，类目轴不显示。
-        /// </summary>
-        public bool showSplitLine { get { return m_ShowSplitLine; } set { m_ShowSplitLine = value; } }
-        /// <summary>
-        /// the type of split line. 
-        /// 分割线类型。
-        /// </summary>
-        public SplitLineType splitLineType { get { return m_SplitLineType; } set { m_SplitLineType = value; } }
         /// <summary>
         /// The boundary gap on both sides of a coordinate axis. 
         /// 坐标轴两边是否留白。
@@ -210,6 +167,11 @@ namespace XCharts
         /// 坐标轴刻度标签。
         /// </summary>
         public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
+        /// <summary>
+        /// axis split line.
+        /// 坐标轴分割线。
+        /// </summary>
+        public AxisSplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
         /// <summary>
         /// axis split area.
         /// 坐标轴分割区域。
@@ -311,8 +273,6 @@ namespace XCharts
             m_SplitNumber = other.splitNumber;
             m_Interval = other.interval;
 
-            m_ShowSplitLine = other.showSplitLine;
-            m_SplitLineType = other.splitLineType;
             m_BoundaryGap = other.boundaryGap;
             m_AxisName.Copy(other.axisName);
             m_AxisLabel.Copy(other.axisLabel);
@@ -830,9 +790,7 @@ namespace XCharts
                 max == other.max &&
                 splitNumber == other.splitNumber &&
                 interval == other.interval &&
-                showSplitLine == other.showSplitLine &&
                 m_AxisLabel.Equals(other.axisLabel) &&
-                splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
                 runtimeMinValue == other.runtimeMinValue &&
                 runtimeMaxValue == other.runtimeMaxValue &&
@@ -887,10 +845,9 @@ namespace XCharts
             axis.max = max;
             axis.splitNumber = splitNumber;
             axis.interval = interval;
-
-            axis.showSplitLine = showSplitLine;
-            axis.splitLineType = splitLineType;
             axis.boundaryGap = boundaryGap;
+
+            axis.splitLine.Copy(axis.splitLine);
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
@@ -910,14 +867,14 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_ShowSplitLine = false,
-                    m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = true,
                     m_Data = new List<string>()
                     {
                         "x1","x2","x3","x4","x5"
                     }
                 };
+                axis.splitLine.show = false;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
                 axis.axisLabel.textLimit.enable = true;
                 return axis;
             }
@@ -942,11 +899,10 @@ namespace XCharts
             axis.splitNumber = splitNumber;
             axis.interval = interval;
 
-            axis.showSplitLine = showSplitLine;
-            axis.splitLineType = splitLineType;
             axis.boundaryGap = boundaryGap;
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
+            axis.splitLine.Copy(splitLine);
             axis.data.Clear();
             if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
@@ -964,11 +920,11 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_ShowSplitLine = true,
-                    m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = false,
                     m_Data = new List<string>(5),
                 };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
                 axis.axisLabel.textLimit.enable = false;
                 return axis;
             }

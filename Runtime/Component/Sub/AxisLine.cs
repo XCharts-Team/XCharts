@@ -78,7 +78,7 @@ namespace XCharts
                     m_Symbol = false,
                     m_SymbolWidth = 10,
                     m_SymbolHeight = 15,
-                    m_SymbolOffset = 0,
+                    m_SymbolOffset = -5f,
                     m_SymbolDent = 3,
                 };
                 return axisLine;

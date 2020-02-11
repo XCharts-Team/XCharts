@@ -92,14 +92,14 @@ namespace XCharts
             {
                 var xLineDiff = xAxis0.axisLine.width;
                 var yLineDiff = yAxis0.axisLine.width;
-                var xSplitDiff = xAxis0.axisLine.width;
-                var ySplitDiff = yAxis0.axisLine.width;
+                var xSplitDiff = xAxis0.splitLine.lineStyle.width;
+                var ySplitDiff = yAxis0.splitLine.lineStyle.width;
 
-                var cpty = coordinateY + coordinateHeight + xSplitDiff;
+                var cpty = coordinateY + coordinateHeight + ySplitDiff;
                 var cp1 = new Vector3(coordinateX - yLineDiff, coordinateY - xLineDiff);
                 var cp2 = new Vector3(coordinateX - yLineDiff, cpty);
-                var cp3 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, cpty);
-                var cp4 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, coordinateY - xLineDiff);
+                var cp3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, cpty);
+                var cp4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY - xLineDiff);
                 ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, m_ThemeInfo.backgroundColor);
             }
             else
@@ -113,15 +113,15 @@ namespace XCharts
             if (!m_Series.IsAnyClipSerie()) return;
             var xLineDiff = xAxis0.axisLine.width;
             var yLineDiff = yAxis0.axisLine.width;
-            var xSplitDiff = xAxis0.axisLine.width;
-            var ySplitDiff = yAxis0.axisLine.width;
+            var xSplitDiff = xAxis0.splitLine.lineStyle.width;
+            var ySplitDiff = yAxis0.splitLine.lineStyle.width;
             var lp1 = new Vector3(0, 0);
             var lp2 = new Vector3(0, chartHeight);
             var lp3 = new Vector3(coordinateX - yLineDiff, chartHeight);
             var lp4 = new Vector3(coordinateX - yLineDiff, 0);
             ChartDrawer.DrawPolygon(vh, lp1, lp2, lp3, lp4, m_ThemeInfo.backgroundColor);
-            var rp1 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, 0);
-            var rp2 = new Vector3(coordinateX + coordinateWidth + ySplitDiff, chartHeight);
+            var rp1 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, 0);
+            var rp2 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, chartHeight);
             var rp3 = new Vector3(chartWidth, chartHeight);
             var rp4 = new Vector3(chartWidth, 0);
             ChartDrawer.DrawPolygon(vh, rp1, rp2, rp3, rp4, m_ThemeInfo.backgroundColor);
@@ -974,12 +974,15 @@ namespace XCharts
                             new Vector2(coordinateX, pY + scaleWidth),
                             yAxis.splitArea.getColor(i));
                     }
-                    if (yAxis.showSplitLine)
+                    if (yAxis.splitLine.show)
                     {
                         if (!xAxis.axisLine.show || !xAxis.axisLine.onZero || zeroPos.y != pY)
                         {
-                            DrawSplitLine(vh, yAxis, yAxis.splitLineType, new Vector3(coordinateX, pY),
-                                new Vector3(coordinateX + coordinateWidth, pY), m_ThemeInfo.axisSplitLineColor);
+                            if (yAxis.splitLine.NeedShow(i))
+                            {
+                                DrawSplitLine(vh, yAxis.splitLine.lineStyle, new Vector3(coordinateX, pY),
+                                    new Vector3(coordinateX + coordinateWidth, pY), yAxis.splitLine.GetColor(m_ThemeInfo));
+                            }
                         }
                     }
                     totalWidth += scaleWidth;
@@ -994,7 +997,6 @@ namespace XCharts
                 var size = yAxis.GetScaleNumber(coordinateWidth, m_DataZoom);
                 var totalWidth = coordinateY;
                 var xAxis = m_XAxises[yAxisIndex];
-                var zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY + yAxis.runtimeZeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = yAxis.GetScaleWidth(coordinateHeight, i, m_DataZoom);
@@ -1024,6 +1026,18 @@ namespace XCharts
                     totalWidth += scaleWidth;
                 }
             }
+            if (yAxis.show && yAxis.axisLine.show)
+            {
+                var lineX = coordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
+                if (yAxis.IsValue() && yAxisIndex > 0) lineX += coordinateWidth;
+                var top = new Vector3(lineX, coordinateY + coordinateHeight + yAxis.axisLine.width);
+                if (yAxis.axisLine.symbol)
+                {
+                    var axisLine = yAxis.axisLine;
+                    ChartDrawer.DrawArrow(vh, new Vector3(lineX, coordinateX), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
+                }
+            }
         }
 
         private void DrawXAxisSplit(VertexHelper vh, int xAxisIndex, XAxis xAxis)
@@ -1038,7 +1052,6 @@ namespace XCharts
                 {
                     var scaleWidth = xAxis.GetScaleWidth(coordinateWidth, i, m_DataZoom);
                     float pX = totalWidth;
-                    float pY = 0;
                     if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel)
                     {
                         pX -= scaleWidth / 2;
@@ -1051,12 +1064,15 @@ namespace XCharts
                             new Vector2(pX + scaleWidth, coordinateY),
                             xAxis.splitArea.getColor(i));
                     }
-                    if (xAxis.showSplitLine)
+                    if (xAxis.splitLine.show)
                     {
                         if (!yAxis.axisLine.show || !yAxis.axisLine.onZero || zeroPos.x != pX)
                         {
-                            DrawSplitLine(vh, xAxis, xAxis.splitLineType, new Vector3(pX, coordinateY),
-                                new Vector3(pX, coordinateY + coordinateHeight), m_ThemeInfo.axisSplitLineColor);
+                            if (xAxis.splitLine.NeedShow(i))
+                            {
+                                DrawSplitLine(vh, xAxis.splitLine.lineStyle, new Vector3(pX, coordinateY),
+                                    new Vector3(pX, coordinateY + coordinateHeight), xAxis.splitLine.GetColor(m_ThemeInfo));
+                            }
                         }
                     }
                     totalWidth += scaleWidth;
@@ -1071,7 +1087,6 @@ namespace XCharts
                 var size = xAxis.GetScaleNumber(coordinateWidth, m_DataZoom);
                 var totalWidth = coordinateX;
                 var yAxis = m_YAxises[xAxisIndex];
-                var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = xAxis.GetScaleWidth(coordinateWidth, i, m_DataZoom);
@@ -1101,6 +1116,18 @@ namespace XCharts
                     totalWidth += scaleWidth;
                 }
             }
+            if (xAxis.show && xAxis.axisLine.show)
+            {
+                var lineY = coordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
+                if (xAxis.IsValue() && xAxisIndex > 0) lineY += coordinateHeight;
+                var top = new Vector3(coordinateX + coordinateWidth + xAxis.axisLine.width, lineY);
+                if (xAxis.axisLine.symbol)
+                {
+                    var axisLine = xAxis.axisLine;
+                    ChartDrawer.DrawArrow(vh, new Vector3(coordinateX, lineY), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
+                }
+            }
         }
 
         private void DrawXAxisLine(VertexHelper vh, int xAxisIndex, XAxis xAxis)
@@ -1112,12 +1139,6 @@ namespace XCharts
                 var left = new Vector3(coordinateX - xAxis.axisLine.width, lineY);
                 var top = new Vector3(coordinateX + coordinateWidth + xAxis.axisLine.width, lineY);
                 ChartDrawer.DrawLine(vh, left, top, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
-                if (xAxis.axisLine.symbol)
-                {
-                    var axisLine = xAxis.axisLine;
-                    ChartDrawer.DrawArrow(vh, new Vector3(coordinateX, lineY), top, axisLine.symbolWidth, axisLine.symbolHeight,
-                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
-                }
             }
         }
 
@@ -1130,12 +1151,6 @@ namespace XCharts
                 var top = new Vector3(lineX, coordinateY + coordinateHeight + yAxis.axisLine.width);
                 ChartDrawer.DrawLine(vh, new Vector3(lineX, coordinateY - yAxis.axisLine.width),
                     top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
-                if (yAxis.axisLine.symbol)
-                {
-                    var axisLine = yAxis.axisLine;
-                    ChartDrawer.DrawArrow(vh, new Vector3(lineX, coordinateX), top, axisLine.symbolWidth, axisLine.symbolHeight,
-                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
-                }
             }
         }
 
@@ -1215,25 +1230,27 @@ namespace XCharts
             }
         }
 
-        protected void DrawSplitLine(VertexHelper vh, Axis axis, Axis.SplitLineType type,
+        protected void DrawSplitLine(VertexHelper vh, LineStyle lineStyle,
             Vector3 startPos, Vector3 endPos, Color color)
         {
+            var type = lineStyle.type;
+            var width = lineStyle.width;
             switch (type)
             {
-                case Axis.SplitLineType.Dashed:
-                    ChartDrawer.DrawDashLine(vh, startPos, endPos, axis.axisLine.width, color);
+                case LineStyle.Type.Dashed:
+                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
                     break;
-                case Axis.SplitLineType.Dotted:
-                    ChartDrawer.DrawDotLine(vh, startPos, endPos, axis.axisLine.width, color);
+                case LineStyle.Type.Dotted:
+                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
                     break;
-                case Axis.SplitLineType.Solid:
-                    ChartDrawer.DrawLine(vh, startPos, endPos, axis.axisLine.width, color);
+                case LineStyle.Type.Solid:
+                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
                     break;
-                case Axis.SplitLineType.DashDot:
-                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, axis.axisLine.width, color);
+                case LineStyle.Type.DashDot:
+                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
                     break;
-                case Axis.SplitLineType.DashDotDot:
-                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, axis.axisLine.width, color);
+                case LineStyle.Type.DashDotDot:
+                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
                     break;
             }
         }
@@ -1258,12 +1275,12 @@ namespace XCharts
                         if (xAxis.IsValue()) pX = m_Tooltip.runtimePointerPos.x;
                         Vector2 sp = new Vector2(pX, coordinateY);
                         Vector2 ep = new Vector2(pX, coordinateY + coordinateHeight);
-                        DrawSplitLine(vh, xAxis, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawSplitLine(vh, yAxis, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                            DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         }
                         break;
                     case Tooltip.Type.Shadow:
@@ -1301,12 +1318,12 @@ namespace XCharts
                         float pY = coordinateY + m_Tooltip.runtimeYValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0);
                         Vector2 sp = new Vector2(coordinateX, pY);
                         Vector2 ep = new Vector2(coordinateX + coordinateWidth, pY);
-                        DrawSplitLine(vh, xAxis, Axis.SplitLineType.Solid, sp, ep, m_ThemeInfo.tooltipLineColor);
+                        DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawSplitLine(vh, yAxis, Axis.SplitLineType.Dashed, sp, ep, m_ThemeInfo.tooltipLineColor);
+                            DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         }
                         break;
                     case Tooltip.Type.Shadow:
@@ -1757,7 +1774,8 @@ namespace XCharts
             Color32 color, bool clip)
         {
             if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3) || !IsInChart(p4)) return;
-            CheckClipAndDrawPolygon(vh, p1, p2, p3, p4, color, color, clip);
+            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2) || IsInCooridate(p3) || IsInCooridate(p4))))
+                ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
 
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
@@ -1771,12 +1789,11 @@ namespace XCharts
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 startColor, Color32 toColor, bool clip)
         {
-            p1 = ClampInChart(p1);
-            p2 = ClampInChart(p2);
-            p3 = ClampInChart(p3);
-            p4 = ClampInChart(p4);
-            //if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3) || !IsInChart(p4)) return;
-            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2) || IsInCooridate(p3) || IsInCooridate(p4))))
+            p1 = ClampInCoordinate(p1);
+            p2 = ClampInCoordinate(p2);
+            p3 = ClampInCoordinate(p3);
+            p4 = ClampInCoordinate(p4);
+            if (!clip || (clip && (IsInCooridate(p1) && IsInCooridate(p2) && IsInCooridate(p3) && IsInCooridate(p4))))
                 ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
         }
 

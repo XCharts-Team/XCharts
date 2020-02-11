@@ -38,14 +38,13 @@ namespace XCharts
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
             SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
-            SerializedProperty m_ShowSplitLine = prop.FindPropertyRelative("m_ShowSplitLine");
-            SerializedProperty m_SplitLineType = prop.FindPropertyRelative("m_SplitLineType");
             SerializedProperty m_BoundaryGap = prop.FindPropertyRelative("m_BoundaryGap");
             SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
             SerializedProperty m_AxisLine = prop.FindPropertyRelative("m_AxisLine");
             SerializedProperty m_AxisName = prop.FindPropertyRelative("m_AxisName");
             SerializedProperty m_AxisTick = prop.FindPropertyRelative("m_AxisTick");
             SerializedProperty m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
+            SerializedProperty m_SplitLine = prop.FindPropertyRelative("m_SplitLine");
             SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
@@ -94,23 +93,6 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Interval);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (m_ShowSplitLine.boolValue)
-                {
-                    drawRect.width = EditorGUIUtility.labelWidth + 10;
-                    EditorGUI.PropertyField(drawRect, m_ShowSplitLine);
-                    //drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    drawRect.x = EditorGUIUtility.labelWidth + 35;
-                    drawRect.width = EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 55;
-                    EditorGUI.PropertyField(drawRect, m_SplitLineType, GUIContent.none);
-                    drawRect.x = pos.x;
-                    drawRect.width = pos.width;
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
-                else
-                {
-                    EditorGUI.PropertyField(drawRect, m_ShowSplitLine);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
                 EditorGUI.PropertyField(drawRect, m_BoundaryGap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_AxisLine);
@@ -125,6 +107,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_AxisLabel);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AxisLabel);
+                EditorGUI.PropertyField(drawRect, m_SplitLine);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SplitLine);
                 EditorGUI.PropertyField(drawRect, m_SplitArea);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_SplitArea);
@@ -159,8 +143,9 @@ namespace XCharts
                 SerializedProperty m_AxisName = prop.FindPropertyRelative("m_AxisName");
                 SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
                 SerializedProperty m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
+                SerializedProperty m_SplitLine = prop.FindPropertyRelative("m_SplitLine");
                 float height = 0;
-                height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 if (type == Axis.AxisType.Category)
                 {
@@ -204,6 +189,7 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(m_AxisTick);
                 height += EditorGUI.GetPropertyHeight(m_AxisLabel);
                 height += EditorGUI.GetPropertyHeight(m_SplitArea);
+                height += EditorGUI.GetPropertyHeight(m_SplitLine);
                 return height;
             }
         }

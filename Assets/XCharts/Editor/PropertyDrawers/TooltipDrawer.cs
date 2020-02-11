@@ -31,11 +31,13 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
+            SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_TooltipModuleToggle)
             {
+                EditorGUI.indentLevel++;
                 EditorGUI.PropertyField(drawRect, type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
@@ -58,13 +60,17 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ForceENotation);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_LineStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                EditorGUI.indentLevel--;
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
+                return 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing +
+                    EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }

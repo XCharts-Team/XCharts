@@ -194,6 +194,8 @@
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `minHeight`：最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
+* `paddingLeftRight`：文字和边框的左右边距。
+* `paddingTopBottom`：文字和边框的上下边距。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字的字体风格。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。

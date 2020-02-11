@@ -58,12 +58,15 @@ namespace XCharts
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_ForceENotation = false;
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid,0.7f);
+        [SerializeField] private float m_PaddingLeftRight = 5f;
+        [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
 
         private GameObject m_GameObject;
         private GameObject m_Content;
         private Text m_ContentText;
         private RectTransform m_ContentRect;
+        private RectTransform m_ContentTextRect;
         private List<int> lastDataIndex { get; set; }
 
         /// <summary>
@@ -116,7 +119,7 @@ namespace XCharts
         /// 示例："{a}:{c}","{a}:{c:f1}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
-        
+
         /// <summary>
         /// 固定宽度。比 minWidth 优先。
         /// </summary>
@@ -147,6 +150,16 @@ namespace XCharts
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
         public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <summary>
+        /// the text padding of left and right. defaut:5.
+        /// 左右边距。
+        /// </summary>
+        public float paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
+        /// <summary>
+        /// the text padding of top and bottom. defaut:5.
+        /// 上下边距。
+        /// </summary>
+        public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
         /// 指示线样式。
         /// </summary>
@@ -228,6 +241,10 @@ namespace XCharts
             m_Content = content;
             m_ContentRect = m_Content.GetComponent<RectTransform>();
             m_ContentText = m_Content.GetComponentInChildren<Text>();
+            if (m_ContentText != null)
+            {
+                m_ContentTextRect = m_ContentText.gameObject.GetComponentInChildren<RectTransform>();
+            }
         }
 
         /// <summary>
@@ -274,11 +291,15 @@ namespace XCharts
                 float wid, hig;
                 if (m_FixedWidth > 0) wid = m_FixedWidth;
                 else if (m_MinWidth > 0 && m_ContentText.preferredWidth < m_MinWidth) wid = m_MinWidth;
-                else wid = m_ContentText.preferredWidth + 8;
+                else wid = m_ContentText.preferredWidth + m_PaddingLeftRight * 2;
                 if (m_FixedHeight > 0) hig = m_FixedHeight;
                 else if (m_MinHeight > 0 && m_ContentText.preferredHeight < m_MinHeight) hig = m_MinHeight;
-                else hig = m_ContentText.preferredHeight + 8;
-                m_ContentRect.sizeDelta = new Vector2(wid, hig);
+                else hig = m_ContentText.preferredHeight + m_PaddingTopBottom * 2;
+                if (m_ContentRect != null) m_ContentRect.sizeDelta = new Vector2(wid, hig);
+                if (m_ContentTextRect != null)
+                {
+                    m_ContentTextRect.anchoredPosition = new Vector3(m_PaddingLeftRight, -m_PaddingTopBottom);
+                }
             }
         }
 
@@ -378,7 +399,7 @@ namespace XCharts
             return string.IsNullOrEmpty(m_Formatter) && string.IsNullOrEmpty(m_ItemFormatter);
         }
 
-        internal string GetFormatterContent(int dataIndex, Series series, string category,ThemeInfo themeInfo = null, DataZoom dataZoom = null)
+        internal string GetFormatterContent(int dataIndex, Series series, string category, ThemeInfo themeInfo = null, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {

@@ -31,6 +31,8 @@ namespace XCharts
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
+            SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
+            SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
@@ -54,6 +56,10 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_MinHeight);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PaddingLeftRight);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_PaddingTopBottom);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontSize);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FontStyle);
@@ -69,7 +75,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing +
+                return 14 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing +
                     EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

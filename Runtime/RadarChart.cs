@@ -276,7 +276,7 @@ namespace XCharts
                             }
                             if (serie.lineStyle.show)
                             {
-                                ChartDrawer.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
+                                DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                             }
                             startPoint = toPoint;
                         }
@@ -288,7 +288,7 @@ namespace XCharts
                     }
                     if (serie.lineStyle.show)
                     {
-                        ChartDrawer.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
+                        DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                     }
                     if (serie.symbol.type != SerieSymbolType.None)
                     {
@@ -318,7 +318,7 @@ namespace XCharts
 
         private void DrawRadar(VertexHelper vh, Radar radar)
         {
-            if (!radar.lineStyle.show && !radar.splitArea.show)
+            if (!radar.splitLine.show && !radar.splitArea.show)
             {
                 return;
             }
@@ -346,9 +346,9 @@ namespace XCharts
                     {
                         ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
                     }
-                    if (radar.lineStyle.show)
+                    if (radar.splitLine.NeedShow(i))
                     {
-                        ChartDrawer.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
+                        DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -360,16 +360,16 @@ namespace XCharts
                 float currAngle = j * angle;
                 p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
+                    DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
                 }
             }
         }
 
         private void DrawCricleRadar(VertexHelper vh, Radar radar)
         {
-            if (!radar.lineStyle.show && !radar.splitArea.show)
+            if (!radar.splitLine.show && !radar.splitArea.show)
             {
                 return;
             }
@@ -389,9 +389,9 @@ namespace XCharts
                     ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
                          m_Settings.cicleSmoothness, 0, 360);
                 }
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.lineStyle.width, lineColor,
+                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.splitLine.lineStyle.width, lineColor,
                         Color.clear, m_Settings.cicleSmoothness);
                 }
                 insideRadius = outsideRadius;
@@ -401,29 +401,17 @@ namespace XCharts
                 float currAngle = j * angle;
                 p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
+                    ChartDrawer.DrawLine(vh, p, p1, radar.splitLine.lineStyle.width / 2, lineColor);
                 }
             }
         }
 
         private Color GetLineColor(Radar radar)
         {
-            if (radar.lineStyle.color != Color.clear)
-            {
-                var color = radar.lineStyle.color;
-                color.a *= radar.lineStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)m_ThemeInfo.axisLineColor;
-                color.a *= radar.lineStyle.opacity;
-                return color;
-            }
+            return radar.splitLine.GetColor(m_ThemeInfo);
         }
-
 
         protected override void CheckTootipArea(Vector2 local)
         {

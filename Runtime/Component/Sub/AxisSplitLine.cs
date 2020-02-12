@@ -85,7 +85,7 @@ namespace XCharts
 
         internal bool NeedShow(int index)
         {
-            return interval == 0 || index % (interval + 1) == 0;
+            return show && (interval == 0 || index % (interval + 1) == 0);
         }
     }
 }

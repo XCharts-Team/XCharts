@@ -787,6 +787,31 @@ namespace XCharts
             }
         }
 
+        protected void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
+            Vector3 startPos, Vector3 endPos, Color color)
+        {
+            var type = lineStyle.type;
+            var width = lineStyle.width;
+            switch (type)
+            {
+                case LineStyle.Type.Dashed:
+                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Dotted:
+                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Solid:
+                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDot:
+                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDotDot:
+                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
+                    break;
+            }
+        }
+
         protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
         {
             var labelHalfWid = serieData.GetLabelWidth() / 2;

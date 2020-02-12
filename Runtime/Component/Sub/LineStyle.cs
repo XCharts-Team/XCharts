@@ -52,7 +52,7 @@ namespace XCharts
 
         /// <summary>
         /// Whether show line.
-        /// 是否显示线条。在折线图中无效。
+        /// 是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>

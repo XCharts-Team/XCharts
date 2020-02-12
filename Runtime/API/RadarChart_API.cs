@@ -68,7 +68,7 @@ namespace XCharts
             radar.center[0] = center.x;
             radar.center[1] = center.y;
             radar.splitArea.show = showSplitArea;
-            radar.lineStyle.width = lineWidth;
+            radar.splitLine.lineStyle.width = lineWidth;
             m_Radars.Add(radar);
             return radar;
         }

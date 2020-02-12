@@ -31,6 +31,7 @@
 * [AxisLabel 坐标轴刻度标签](#AxisLabel)  
 * [AxisLine 坐标轴轴线](#AxisLine)  
 * [AxisName 坐标轴名称](#AxisName)  
+* [AxisSplitLine 坐标轴分割线条](#AxisSplitLine)  
 * [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
 * [AxisTick 坐标轴刻度](#AxisTick)  
 * [Emphasis 高亮样式](#Emphasis)  
@@ -143,7 +144,7 @@
   * `Between`：显示在顶点之间。
 * `radius`：雷达图的半径。
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
-* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
 * `indicatorGap`：指示器和雷达的间距。
@@ -539,6 +540,7 @@
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
@@ -714,7 +716,7 @@
 
 ## `LineStyle`
 
-* `show`：是否显示线条。在折线图中无效。
+* `show`：是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
 * `type`：线条类型。支持以下五种类型：
   * `None`：不显示分割线。
   * `Solid`：实线。

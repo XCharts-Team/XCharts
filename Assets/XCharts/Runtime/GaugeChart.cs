@@ -137,7 +137,7 @@ namespace XCharts
 
             DrawProgressBar(vh, serie, currAngle);
             DrawStageColor(vh, serie);
-            DrawSplitLine(vh, serie);
+            DrawLineStyle(vh, serie);
             DrawAxisTick(vh, serie);
             DrawPointer(vh, serie, currAngle);
             UpdateTitle(serie);
@@ -215,7 +215,7 @@ namespace XCharts
             ChartDrawer.DrawPolygon(vh, p1, p3, p2, p4, pointerColor);
         }
 
-        private void DrawSplitLine(VertexHelper vh, Serie serie)
+        private void DrawLineStyle(VertexHelper vh, Serie serie)
         {
             if (serie.gaugeType != GaugeType.Pointer) return;
             if (!serie.gaugeAxis.show || !serie.gaugeAxis.splitLine.show) return;

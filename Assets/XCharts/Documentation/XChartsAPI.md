@@ -40,6 +40,7 @@
 * `BaseChart.IsActiveByLegend(string legendName)`：获得指定图例名字的系列是否显示。
 * `BaseChart.RefreshChart()`：在下一帧刷新图表。
 * `BaseChart.RefreshLabel()`：在下一帧刷新文本标签。
+* `BaseChart.RefreshTooltip()`：立即刷新`Tooltip`组件。
 * `BaseChart.UpdateTheme(Theme theme)`：切换图表主题。
 * `BaseChart.AnimationEnable(bool flag)`：启用或关闭起始动画。
 * `BaseChart.AnimationStart()`：开始初始动画。

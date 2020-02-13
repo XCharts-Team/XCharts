@@ -163,7 +163,7 @@ namespace XCharts
 
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
             TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal)
+            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal, float lineSpacing = 1)
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             Text txt = GetOrAddComponent<Text>(txtObj);
@@ -175,6 +175,7 @@ namespace XCharts
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
+            txt.lineSpacing = lineSpacing;
             txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
@@ -188,20 +189,21 @@ namespace XCharts
 
         public static Button AddButtonObject(string name, Transform parent, Font font, int fontSize,
             Color color, TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
-            Vector2 sizeDelta)
+            Vector2 sizeDelta, float lineSpacing)
         {
             GameObject btnObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             GetOrAddComponent<Image>(btnObj);
             GetOrAddComponent<Button>(btnObj);
             Text txt = AddTextObject("Text", btnObj.transform, font, color, TextAnchor.MiddleCenter,
                     new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-                    sizeDelta, fontSize);
+                    sizeDelta, fontSize, lineSpacing);
             txt.rectTransform.offsetMin = Vector2.zero;
             txt.rectTransform.offsetMax = Vector2.zero;
             return btnObj.GetComponent<Button>();
         }
 
-        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
+        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize,
+            FontStyle fontStyle, float lineSpacing)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -211,7 +213,7 @@ namespace XCharts
             var img = GetOrAddComponent<Image>(tooltipObj);
             img.color = Color.black;
             Text txt = AddTextObject("Text", tooltipObj.transform, font, Color.white, TextAnchor.UpperLeft,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
+                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle, lineSpacing);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(3, -3);
             tooltipObj.transform.localPosition = Vector3.zero;
@@ -229,8 +231,9 @@ namespace XCharts
             return iconObj;
         }
 
-        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
-            int fontSize, FontStyle fontStyle, float rotate, float width, float height)
+        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor,
+            Color backgroundColor, int fontSize, FontStyle fontStyle, float rotate, float width, float height,
+            float lineSpacing)
         {
             var anchorMin = new Vector2(0.5f, 0.5f);
             var anchorMax = new Vector2(0.5f, 0.5f);
@@ -241,7 +244,7 @@ namespace XCharts
             //img.color = backgroundColor;
             labelObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
             Text txt = AddTextObject("Text", labelObj.transform, font, textColor, TextAnchor.MiddleCenter,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
+                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle, lineSpacing);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(0, 0);
             txt.transform.localEulerAngles = Vector3.zero;

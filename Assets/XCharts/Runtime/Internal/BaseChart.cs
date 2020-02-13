@@ -142,6 +142,11 @@ namespace XCharts
             m_Series = Series.defaultSeries;
             Awake();
         }
+
+        protected override void OnValidate()
+        {
+            //TODO:
+        }
 #endif
 
         protected override void OnDestroy()
@@ -170,8 +175,8 @@ namespace XCharts
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
-                        new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize, m_Title.textStyle.rotate,
-                        m_Title.textStyle.fontStyle);
+                        new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize,
+                        m_Title.textStyle.rotate, m_Title.textStyle.fontStyle, m_Title.textStyle.lineSpacing);
 
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(m_Title.show);
@@ -181,7 +186,7 @@ namespace XCharts
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleSubTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
-                        m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle);
+                        m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle, m_Title.subTextStyle.lineSpacing);
 
             subText.alignment = anchor;
             subText.gameObject.SetActive(m_Title.show && !string.IsNullOrEmpty(m_Title.subText));
@@ -232,7 +237,7 @@ namespace XCharts
                 var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
                 Button btn = ChartHelper.AddButtonObject(objName, legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
-                    anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
+                    anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight), 1);
                 var bgColor = IsActiveByLegend(datas[i]) ?
                     m_ThemeInfo.GetColor(readIndex) : m_ThemeInfo.legendUnableColor;
                 m_Legend.SetButton(legendName, btn, totalLegend);
@@ -349,8 +354,9 @@ namespace XCharts
                 var pivot = new Vector2(0.5f, 0.5f);
                 var fontSize = 10;
                 var sizeDelta = new Vector2(50, fontSize + 2);
-                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, m_ThemeInfo.font, color, TextAnchor.MiddleCenter,
-                anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, m_ThemeInfo.font, color,
+                    TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize, textStyle.rotate,
+                    textStyle.fontStyle, textStyle.lineSpacing);
                 txt.text = "";
                 txt.transform.localPosition = new Vector2(0, 0);
                 txt.transform.localEulerAngles = Vector2.zero;
@@ -372,9 +378,10 @@ namespace XCharts
             tooltipObject.transform.localPosition = Vector3.zero;
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
+            var textStyle = m_Tooltip.textStyle;
             ChartHelper.HideAllObject(tooltipObject.transform);
             GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font,
-                m_Tooltip.fontSize, m_Tooltip.fontStyle);
+                textStyle.fontSize, textStyle.fontStyle, textStyle.lineSpacing);
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
             m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
@@ -687,7 +694,7 @@ namespace XCharts
             return show;
         }
 
-        protected virtual void RefreshTooltip()
+        protected virtual void UpdateTooltip()
         {
         }
 

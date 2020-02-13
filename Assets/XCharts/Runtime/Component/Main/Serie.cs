@@ -194,7 +194,7 @@ namespace XCharts
     [System.Serializable]
     public class Serie : MainComponent
     {
-        [SerializeField] [DefaultValue("true")] private bool m_Show = true;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private SerieType m_Type;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
@@ -246,7 +246,7 @@ namespace XCharts
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
-        [SerializeField] private bool m_Clip = false;
+        [SerializeField] private bool m_Clip = true;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 

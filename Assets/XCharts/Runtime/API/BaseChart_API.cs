@@ -483,6 +483,14 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 刷新Tooltip组件。
+        /// </summary>
+        public void RefreshTooltip()
+        {
+            InitTooltip();
+        }
+
+        /// <summary>
         /// Update chart theme.
         /// 切换图表主题。
         /// </summary>

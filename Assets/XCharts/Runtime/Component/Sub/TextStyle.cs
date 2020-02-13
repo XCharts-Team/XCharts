@@ -23,6 +23,7 @@ namespace XCharts
         [SerializeField] private Color m_Color = Color.clear;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
+        [SerializeField] private float m_LineSpacing = 1;
 
         /// <summary>
         /// Rotation of text.
@@ -52,6 +53,11 @@ namespace XCharts
         /// 文本字体的风格。
         /// </summary>
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        /// <summary>
+        /// text line spacing.
+        /// 行间距。
+        /// </summary>
+        public float lineSpacing { get { return m_LineSpacing; } set { m_LineSpacing = value; } }
 
         public TextStyle()
         {
@@ -90,6 +96,7 @@ namespace XCharts
             this.color = style.color;
             this.rotate = style.rotate;
             this.offset = style.offset;
+            this.lineSpacing = style.lineSpacing;
         }
 
         public TextStyle Clone()
@@ -100,6 +107,7 @@ namespace XCharts
             textStyle.fontSize = fontSize;
             textStyle.fontStyle = fontStyle;
             textStyle.offset = offset;
+            textStyle.lineSpacing = lineSpacing;
             return textStyle;
         }
 
@@ -129,6 +137,7 @@ namespace XCharts
                 fontSize == other.fontSize &&
                 fontStyle == other.fontStyle &&
                 offset == other.offset &&
+                lineSpacing == other.lineSpacing &&
                 ChartHelper.IsValueEqualsColor(m_Color, other.color);
         }
 

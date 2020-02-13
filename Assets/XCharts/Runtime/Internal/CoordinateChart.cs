@@ -194,7 +194,7 @@ namespace XCharts
             if (!IsInCooridate(local))
             {
                 m_Tooltip.ClearValue();
-                RefreshTooltip();
+                UpdateTooltip();
             }
             else
             {
@@ -306,7 +306,7 @@ namespace XCharts
             if (m_Tooltip.IsSelected())
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
                 if (m_Tooltip.IsDataIndexChanged() || m_Tooltip.type == Tooltip.Type.Corss)
                 {
                     m_Tooltip.UpdateLastDataIndex();
@@ -321,9 +321,9 @@ namespace XCharts
         }
 
         protected StringBuilder sb = new StringBuilder(100);
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             int index;
             Axis tempAxis;
             bool isCartesian = IsValue();

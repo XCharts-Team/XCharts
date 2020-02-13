@@ -531,7 +531,7 @@ namespace XCharts
             if (selected)
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
             }
             else if (m_Tooltip.IsActive())
             {
@@ -570,9 +570,9 @@ namespace XCharts
         }
 
         StringBuilder sb = new StringBuilder();
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             bool showTooltip = false;
             foreach (var serie in m_Series.list)
             {

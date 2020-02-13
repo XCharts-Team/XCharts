@@ -97,7 +97,7 @@ namespace XCharts
                     var textColor = textStyle.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
                     var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
                     textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                    new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                    new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
                     txt.text = radar.indicatorList[i].name;
                     txt.gameObject.SetActive(radar.indicator);
                     var txtWidth = txt.preferredWidth;
@@ -459,14 +459,14 @@ namespace XCharts
             else
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
                 RefreshChart();
             }
         }
 
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             int serieIndex = m_Tooltip.runtimeDataIndex[0];
             if (serieIndex < 0)
             {

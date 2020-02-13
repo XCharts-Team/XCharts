@@ -171,6 +171,7 @@
 * `color`：颜色。
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
+* `lineSpacing`：行间距。
 
 ## `Tooltip`
 
@@ -197,11 +198,10 @@
 * `minHeight`：最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `paddingLeftRight`：文字和边框的左右边距。
 * `paddingTopBottom`：文字和边框的上下边距。
-* `fontSize`：文字的字体大小。
-* `fontStyle`：文字的字体风格。
 * `backgroundImage`：提示框的背景图。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
+* `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
 ## `DataZoom`
 

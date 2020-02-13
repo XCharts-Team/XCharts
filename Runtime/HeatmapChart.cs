@@ -85,7 +85,7 @@ namespace XCharts
         }
 #endif
 
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
             var xData = m_Tooltip.runtimeXValues[0];
             var yData = m_Tooltip.runtimeYValues[0];

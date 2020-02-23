@@ -37,7 +37,7 @@ namespace XCharts
             serie.center[1] = 0.5f;
             serie.radius[0] = 80;
             serie.splitNumber = 5;
-            serie.animation.updateAnimation = true;
+            serie.animation.dataChangeEnable = true;
             serie.arcShaped = true;
 
             serie.titleStyle.show = true;

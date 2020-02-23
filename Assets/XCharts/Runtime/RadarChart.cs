@@ -198,13 +198,13 @@ namespace XCharts
                 var angle = 2 * Mathf.PI / indicatorNum;
                 Vector3 p = radar.runtimeCenterPos;
                 serie.animation.InitProgress(1, 0, 1);
-                if (!IsActive(i))
+                if (!IsActive(i) || serie.animation.HasFadeOut())
                 {
                     continue;
                 }
                 var rate = serie.animation.GetCurrRate();
                 var dataChanging = false;
-                var updateDuration = serie.animation.GetUpdateAnimationDuration();
+                var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -249,7 +249,7 @@ namespace XCharts
                         if (n >= serieData.data.Count) break;
                         float min = radar.GetIndicatorMin(n);
                         float max = radar.GetIndicatorMax(n);
-                        float value = serieData.GetCurrData(n, updateDuration);
+                        float value = serieData.GetCurrData(n, dataChangeDuration);
                         if (serieData.IsDataChanged()) dataChanging = true;
                         if (max == 0)
                         {
@@ -304,9 +304,7 @@ namespace XCharts
                 }
                 if (!serie.animation.IsFinish())
                 {
-                    float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                    float speed = 1 / duration;
-                    serie.animation.CheckProgress(Time.deltaTime * speed);
+                    serie.animation.CheckProgress(1);
                     RefreshChart();
                 }
                 if (dataChanging)

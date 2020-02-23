@@ -608,14 +608,13 @@
 
 ## `SerieAnimation`
 
-* `enable`：是否开起始画效果。
-* `easing`：动画的缓动效果。支持以下动画效果：
-  * `Linear`：线性效果。
-* `duration`：设定的动画时长，单位毫秒。
-* `updateAnimation`：是否开启数据变更动画。
-* `updateDuration`：数据变更动画时长，单位毫秒。
-* `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
-* `delay`：动画延时，单位毫秒。
+* `enable`：是否开启动画系统。
+* ~~`threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。~~
+* `fadeInDelay`：设定的渐入动画延时，单位毫秒。
+* `fadeInDuration`：设定的渐入动画时长，单位毫秒。
+* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。
+* `dataChangeEnable`：是否开启数据变更动画。
+* `dataChangeDuration`：数据变更动画时长，单位毫秒。
 
 ## `AreaStyle`
 

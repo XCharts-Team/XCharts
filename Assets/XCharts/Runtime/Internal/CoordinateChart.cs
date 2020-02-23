@@ -141,7 +141,7 @@ namespace XCharts
         {
             base.DrawChart(vh);
             if (!m_CheckMinMaxValue) return;
-            m_IsPlayingStartAnimation = false;
+            m_IsPlayingAnimation = false;
             bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
             m_Series.GetStackSeries(ref m_StackSeries);
             int seriesCount = m_StackSeries.Count;
@@ -846,8 +846,8 @@ namespace XCharts
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
                 m_CheckMinMaxValue = true;
-                axis.runtimeMinValue = tempMinValue;
-                axis.runtimeMaxValue = tempMaxValue;
+                axis.UpdateMinValue(tempMinValue, !m_IsPlayingAnimation);
+                axis.UpdateMaxValue(tempMaxValue, !m_IsPlayingAnimation);
                 axis.runtimeZeroXOffset = 0;
                 axis.runtimeZeroYOffset = 0;
                 if (tempMinValue != 0 || tempMaxValue != 0)
@@ -873,7 +873,7 @@ namespace XCharts
                     RefreshChart();
                 }
             }
-            if (axis.IsValueChanging(500) && !m_IsPlayingStartAnimation)
+            if (axis.IsValueChanging(500) && !m_IsPlayingAnimation)
             {
                 float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
                 var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);

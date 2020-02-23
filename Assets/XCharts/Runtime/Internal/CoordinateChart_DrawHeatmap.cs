@@ -116,6 +116,7 @@ namespace XCharts
 
         protected void DrawHeatmapSerie(VertexHelper vh, int colorIndex, Serie serie)
         {
+            if (serie.animation.HasFadeOut()) return;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             var xCount = xAxis.data.Count;
@@ -135,7 +136,7 @@ namespace XCharts
             serie.dataPoints.Clear();
             serie.animation.InitProgress(1, 0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
-            var updateDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
             for (int i = 0; i < xCount; i++)
             {
@@ -146,7 +147,7 @@ namespace XCharts
                     var serieData = dataList[dataIndex];
                     var dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
                         serieData.data.Count - 1;
-                    var value = serieData.GetCurrData(dimension, updateDuration);
+                    var value = serieData.GetCurrData(dimension, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);
                     serie.dataPoints.Add(pos);
@@ -183,10 +184,8 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = xCount / duration;
-                serie.animation.CheckProgress(Time.deltaTime * speed);
-                m_IsPlayingStartAnimation = true;
+                serie.animation.CheckProgress(xCount);
+                m_IsPlayingAnimation = true;
                 RefreshChart();
             }
             if (dataChanging)

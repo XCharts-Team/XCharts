@@ -14,6 +14,7 @@ namespace XCharts
     {
         protected void DrawScatterSerie(VertexHelper vh, int colorIndex, Serie serie)
         {
+            if (serie.animation.HasFadeOut()) return;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(colorIndex);
@@ -23,13 +24,13 @@ namespace XCharts
                 : serie.dataCount;
             serie.animation.InitProgress(1, 0, 1);
             var rate = serie.animation.GetCurrRate();
-            var updateDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
             for (int n = serie.minShow; n < maxCount; n++)
             {
                 var serieData = serie.GetDataList(m_DataZoom)[n];
-                float xValue = serieData.GetCurrData(0, updateDuration);
-                float yValue = serieData.GetCurrData(1, updateDuration);
+                float xValue = serieData.GetCurrData(0, dataChangeDuration);
+                float yValue = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = coordinateY + yAxis.axisLine.width;
@@ -66,10 +67,8 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = 1 / duration;
-                serie.animation.CheckProgress(Time.deltaTime * speed);
-                m_IsPlayingStartAnimation = true;
+                serie.animation.CheckProgress(1);
+                m_IsPlayingAnimation = true;
                 RefreshChart();
             }
             if (dataChanging)

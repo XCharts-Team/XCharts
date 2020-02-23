@@ -79,6 +79,7 @@ namespace XCharts
         protected void DrawXLineSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
+            if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             if (showData.Count <= 0) return;
             Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
@@ -114,7 +115,7 @@ namespace XCharts
             var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                 DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
-            var updateDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i == maxCount - 1) includeLastData = true;
@@ -123,9 +124,9 @@ namespace XCharts
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
                 float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
-                    i, updateDuration, ref dataChanging);
+                    i, dataChangeDuration, ref dataChanging);
                 seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
-                    updateDuration);
+                    dataChangeDuration);
                 serie.dataPoints.Add(np);
             }
             if (dataChanging)
@@ -136,9 +137,9 @@ namespace XCharts
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float yValue = showData[i].GetCurrData(1, updateDuration);
+                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
                 seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
-                    updateDuration);
+                    dataChangeDuration);
                 serie.dataPoints.Add(np);
             }
             if (serie.dataPoints.Count <= 0)
@@ -155,8 +156,8 @@ namespace XCharts
             if (serie.minShow > 0 && serie.minShow < showData.Count)
             {
                 i = serie.minShow - 1;
-                float yValue = showData[i].GetCurrData(1, updateDuration);
-                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, updateDuration);
+                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, dataChangeDuration);
             }
             else
             {
@@ -165,8 +166,8 @@ namespace XCharts
             if (serie.maxShow > 0 && serie.maxShow < showData.Count)
             {
                 i = serie.maxShow;
-                float yValue = showData[i].GetCurrData(1, updateDuration);
-                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, updateDuration);
+                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, dataChangeDuration);
             }
             else
             {
@@ -221,12 +222,9 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = totalDetailProgress / duration;
-                float symbolSpeed = serie.symbol.size / duration;
-                serie.animation.CheckProgress(Time.deltaTime * speed);
-                serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
-                m_IsPlayingStartAnimation = true;
+                serie.animation.CheckProgress(totalDetailProgress);
+                serie.animation.CheckSymbol(serie.symbol.size);
+                m_IsPlayingAnimation = true;
                 RefreshChart();
             }
         }
@@ -247,12 +245,12 @@ namespace XCharts
         }
 
         private float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
-            int minCount, int maxCount, float totalAverage, int index, float updateDuration, ref bool dataChanging)
+            int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration, ref bool dataChanging)
         {
             if (rate <= 1 || index == minCount)
             {
                 if (showData[index].IsDataChanged()) dataChanging = true;
-                return showData[index].GetCurrData(1, updateDuration);
+                return showData[index].GetCurrData(1, dataChangeDuration);
             }
             switch (sampleType)
             {
@@ -261,7 +259,7 @@ namespace XCharts
                     float total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        total += showData[i].GetCurrData(1, updateDuration);
+                        total += showData[i].GetCurrData(1, dataChangeDuration);
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
                     if (sampleType == SampleType.Average) return total / rate;
@@ -270,7 +268,7 @@ namespace XCharts
                     float max = float.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, updateDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration);
                         if (value > max) max = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -279,7 +277,7 @@ namespace XCharts
                     float min = float.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, updateDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration);
                         if (value < min) min = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -290,7 +288,7 @@ namespace XCharts
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, updateDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration);
                         total += value;
                         if (value < min) min = value;
                         if (value > max) max = value;
@@ -301,7 +299,7 @@ namespace XCharts
                     else return min;
             }
             if (showData[index].IsDataChanged()) dataChanging = true;
-            return showData[index].GetCurrData(1, updateDuration);
+            return showData[index].GetCurrData(1, dataChangeDuration);
         }
 
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
@@ -365,6 +363,7 @@ namespace XCharts
         protected void DrawYLineSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.index)) return;
+            if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
@@ -399,16 +398,16 @@ namespace XCharts
             if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
             var dataChanging = false;
-            float updateDuration = serie.animation.GetUpdateAnimationDuration();
-            float xMinValue = xAxis.GetCurrMinValue(updateDuration);
-            float xMaxValue = xAxis.GetCurrMaxValue(updateDuration);
+            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
+            float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
             for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i >= seriesHig.Count)
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float value = showData[i].GetCurrData(1, updateDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
                 float dataHig = 0;
@@ -435,7 +434,7 @@ namespace XCharts
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float value = showData[i].GetCurrData(1, updateDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
                 float dataHig = 0;
@@ -517,12 +516,10 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = (totalDetailProgress - dataCount * serie.lineStyle.width * 0.5f) / duration;
-                float symbolSpeed = serie.symbol.size / duration;
-                serie.animation.CheckProgress(Time.deltaTime * speed);
-                serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
-                m_IsPlayingStartAnimation = true;
+                float total = totalDetailProgress - dataCount * serie.lineStyle.width * 0.5f;
+                serie.animation.CheckProgress(total);
+                serie.animation.CheckSymbol(serie.symbol.size);
+                m_IsPlayingAnimation = true;
                 RefreshChart();
             }
         }

@@ -523,32 +523,62 @@ namespace XCharts
             m_Series.AnimationEnable(flag);
         }
 
-        /// <summary>
-        /// Start play animation.
-        /// 开始初始动画。
-        /// </summary>
+        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
         public void AnimationStart()
         {
-            m_Series.AnimationStart();
+        }
+
+        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
+        public void MissAnimationStart()
+        {
+        }
+
+        /// <summary>
+        /// fadeIn animation.
+        /// 开始渐入动画。
+        /// </summary>
+        public void AnimationFadeIn()
+        {
+            m_Series.AnimationFadeIn();
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// fadeIn animation.
+        /// 开始渐出动画。
+        /// </summary>
+        public void AnimationFadeOut()
+        {
+            m_Series.AnimationFadeOut();
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// Pause animation.
+        /// 暂停动画。
+        /// </summary>
+        public void AnimationPause()
+        {
+            m_Series.AnimationPause();
+            RefreshChart();
         }
 
         /// <summary>
         /// Stop play animation.
-        /// 停止初始化动画。
+        /// 继续动画。
         /// </summary>
-        public void AnimationStop()
+        public void AnimationResume()
         {
-            m_CheckAnimation = false;
-            m_Series.AnimationStop();
+            m_Series.AnimationResume();
+            RefreshChart();
         }
 
         /// <summary>
-        /// Reset animation to play.
-        /// 重置初始动画，重新播放。
+        /// Reset animation.
+        /// 重置动画。
         /// </summary>
         public void AnimationReset()
         {
-            m_CheckAnimation = false;
             m_Series.AnimationReset();
             RefreshChart();
         }

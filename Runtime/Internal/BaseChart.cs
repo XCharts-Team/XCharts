@@ -65,7 +65,7 @@ namespace XCharts
         [NonSerialized] protected bool m_ReinitLabel = false;
         [NonSerialized] protected bool m_ReinitTitle = false;
         [NonSerialized] protected bool m_CheckAnimation = false;
-        [NonSerialized] protected bool m_IsPlayingStartAnimation = false;
+        [NonSerialized] protected bool m_IsPlayingAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
@@ -92,8 +92,8 @@ namespace XCharts
             InitSerieLabel();
             InitSerieTitle();
             InitTooltip();
-            m_Series.AnimationStop();
-            m_Series.AnimationStart();
+            m_Series.AnimationReset();
+            m_Series.AnimationFadeIn();
         }
 
         protected override void Start()
@@ -569,7 +569,7 @@ namespace XCharts
             if (!m_CheckAnimation)
             {
                 m_CheckAnimation = true;
-                m_Series.AnimationStart();
+                m_Series.AnimationFadeIn();
             }
         }
 

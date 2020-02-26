@@ -21,7 +21,7 @@ namespace XCharts
         /// <summary>
         /// The theme info.
         /// </summary>
-        public ThemeInfo themeInfo { get { return m_ThemeInfo; } }
+        public ThemeInfo themeInfo { get { return m_ThemeInfo; } set { m_ThemeInfo = value; } }
         /// <summary>
         /// The title setting of chart.
         /// 标题组件
@@ -402,9 +402,19 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null && !string.IsNullOrEmpty(serie.name))
             {
-                var legendIndex = m_LegendRealShowName.IndexOf(serie.name);
-                var bgColor1 = active ? m_ThemeInfo.GetColor(legendIndex) : m_ThemeInfo.legendUnableColor;
-                m_Legend.UpdateButtonColor(serie.name, bgColor1);
+                UpdateLegendColor(serie.name, active);
+            }
+        }
+
+        protected virtual void UpdateLegendColor(string legendName, bool active)
+        {
+            var legendIndex = m_LegendRealShowName.IndexOf(legendName);
+            if (legendIndex >= 0)
+            {
+                var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_ThemeInfo, active);
+                var contentColor = LegendHelper.GetContentColor(legend, m_ThemeInfo, active);
+                m_Legend.UpdateButtonColor(legendName, iconColor);
+                m_Legend.UpdateContentColor(legendName, contentColor);
             }
         }
 

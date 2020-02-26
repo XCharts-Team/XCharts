@@ -615,6 +615,8 @@ namespace XCharts
             if (serie != null)
             {
                 serie.show = active;
+                serie.animation.Reset();
+                if (active) serie.animation.FadeIn();
             }
         }
 

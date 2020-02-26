@@ -26,9 +26,8 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            bool active = CheckDataShow(legendName, show);
-            var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
-            m_Legend.UpdateButtonColor(legendName, bgColor1);
+            CheckDataShow(legendName, show);
+            UpdateLegendColor(legendName, show);
             RefreshChart();
         }
 
@@ -69,12 +68,13 @@ namespace XCharts
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
+            serie.showDataName = true;
             List<float> data = new List<float>();
             for (int i = 0; i < 5; i++)
             {
                 data.Add(Random.Range(20, 90));
             }
-            AddData(0, data);
+            AddData(0, data, "legendName");
         }
 #endif
 

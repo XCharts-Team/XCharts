@@ -1,4 +1,3 @@
-using System.Threading;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -18,12 +17,18 @@ namespace XCharts
     [Serializable]
     public class TextStyle : SubComponent, IEquatable<TextStyle>
     {
+        [SerializeField] private Font m_Font;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private Color m_Color = Color.clear;
+        [SerializeField] private Color m_BackgroundColor = Color.clear;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
-        [SerializeField] private float m_LineSpacing = 1;
+        [SerializeField] private float m_LineSpacing = 1f;
+        [SerializeField] private float m_PaddingLeft = 0f;
+        [SerializeField] private float m_PaddingRight = 0f;
+        [SerializeField] private float m_PaddingTop = 0f;
+        [SerializeField] private float m_PaddingBottom = 0f;
 
         /// <summary>
         /// Rotation of text.
@@ -43,6 +48,16 @@ namespace XCharts
         /// 文本的颜色。
         /// </summary>
         public Color color { get { return m_Color; } set { m_Color = value; } }
+        /// <summary>
+        /// the color of text. 
+        /// 文本的背景颜色。
+        /// </summary>
+        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        /// <summary>
+        /// the font of text.
+        /// 文本字体
+        /// </summary>
+        public Font font { get { return m_Font; } set { m_Font = value; } }
         /// <summary>
         /// font size.
         /// 文本字体大小。
@@ -94,6 +109,7 @@ namespace XCharts
             this.fontSize = style.fontSize;
             this.fontStyle = style.fontStyle;
             this.color = style.color;
+            this.backgroundColor = style.backgroundColor;
             this.rotate = style.rotate;
             this.offset = style.offset;
             this.lineSpacing = style.lineSpacing;
@@ -104,6 +120,7 @@ namespace XCharts
             var textStyle = new TextStyle();
             textStyle.rotate = rotate;
             textStyle.color = color;
+            textStyle.backgroundColor = backgroundColor;
             textStyle.fontSize = fontSize;
             textStyle.fontStyle = fontStyle;
             textStyle.offset = offset;
@@ -138,6 +155,7 @@ namespace XCharts
                 fontStyle == other.fontStyle &&
                 offset == other.offset &&
                 lineSpacing == other.lineSpacing &&
+                ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.backgroundColor) &&
                 ChartHelper.IsValueEqualsColor(m_Color, other.color);
         }
 

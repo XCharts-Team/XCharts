@@ -207,7 +207,7 @@ namespace XCharts
                 var radar = new Radar
                 {
                     m_Shape = Shape.Polygon,
-                    m_Radius = 0.4f,
+                    m_Radius = 0.35f,
                     m_SplitNumber = 5,
                     m_Indicator = true,
                     m_IndicatorList = new List<Indicator>(5){
@@ -219,7 +219,7 @@ namespace XCharts
                     }
                 };
                 radar.center[0] = 0.5f;
-                radar.center[1] = 0.45f;
+                radar.center[1] = 0.4f;
                 radar.splitLine.show = true;
                 radar.splitArea.show = true;
                 radar.splitLine.lineStyle.width = 0.6f;

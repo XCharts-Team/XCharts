@@ -501,6 +501,10 @@ namespace XCharts
         /// </summary>
         public int showDataDimension { get { return m_ShowDataDimension; } }
         /// <summary>
+        /// 在Editor的inpsector上是否显示name参数
+        /// </summary>
+        public bool showDataName { get { return m_ShowDataName; } set { m_ShowDataName = value; } }
+        /// <summary>
         /// If clip the overflow on the coordinate system.
         /// 是否裁剪超出坐标系部分的图形。
         /// </summary>

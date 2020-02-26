@@ -32,6 +32,7 @@ namespace XCharts
         {
             base.Reset();
             m_Title.text = "PieChart";
+            m_Legend.show = true;
             RemoveData();
             AddSerie(SerieType.Pie, "serie1");
             AddData(0, 70, "pie1");
@@ -484,9 +485,8 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            bool active = CheckDataShow(legendName, show);
-            var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
-            m_Legend.UpdateButtonColor(legendName, bgColor1);
+            CheckDataShow(legendName, show);
+            UpdateLegendColor(legendName, show);
             RefreshChart();
         }
 

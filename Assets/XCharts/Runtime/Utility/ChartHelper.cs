@@ -158,6 +158,7 @@ namespace XCharts
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
+            rect.anchoredPosition3D = Vector3.zero;
             return obj;
         }
 
@@ -268,7 +269,6 @@ namespace XCharts
             txt.text = "Text";
             return labelObj;
         }
-
 
         public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)
         {
@@ -396,8 +396,27 @@ namespace XCharts
             if (list1.Count != list2.Count) return false;
             for (int i = 0; i < list1.Count; i++)
             {
-                if (!list1[i].Equals(list2[i])) return false;
+                if (list1[i] == null && list2[i] == null) { }
+                else
+                {
+                    if (list1[i] != null)
+                    {
+                        if (!list1[i].Equals(list2[i])) return false;
+                    }
+                    else
+                    {
+                        if (!list2[i].Equals(list1[i])) return false;
+                    }
+                }
             }
+            return true;
+        }
+
+        public static bool CopyList<T>(List<T> toList, List<T> fromList)
+        {
+            if (toList == null || fromList == null) return false;
+            toList.Clear();
+            foreach (var item in fromList) toList.Add(item);
             return true;
         }
 

@@ -118,12 +118,14 @@
   * `Horizonal`：水平。
   * `Vertical`：垂直。
 * `location`：图例的显示位置 [Location](#Location)。
-* `itemWidth`：每个图例项的宽度。
-* `itemHeight`：每个图例项的高度。
+* `itemWidth`：图例标记的图形宽度。
+* `itemHeight`：图例标记的图形高度。
 * `itemGap`：图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
-* `itemFontSize`：图例项的字体大小。
+* `itemAutoColor`：图例标记的图形是否自动匹配颜色。
 * `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{name}`
 * `data`：图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 `name`（如果是饼图，也可以是饼图单个数据的 `name`）。如果 `data` 没有被指定，会自动从当前系列中获取。指定 `data` 时里面的数据项和 `serie` 匹配时才会生效。
+* `icons`：自定义的图例标记图形。
+* `textStyle`：图例的内容文本样式 [TextStyle](#TextStyle)。
 
 相关接口：
 
@@ -169,6 +171,8 @@
 * `rotate`：旋转。
 * `offset`：偏移。
 * `color`：颜色。
+* `backgroundColor`：背景颜色。
+* `font`：字体。
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
 * `lineSpacing`：行间距。

@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.02.26) 重构`Legend`图例，改变样式，增加自定义图标等设置
 * (2020.02.23) 增加`BaseChart.AnimationFadeOut()`渐出动画，重构动画系统
 * (2020.02.13) 增加`BaseChart.RefreshTooltip()`接口立即重新初始化`Tooltip`组件
 * (2020.02.13) 增加`Tooltip`的`textStyle`参数配置内容文本样式，去掉`fontSize`和`fontStyle`参数

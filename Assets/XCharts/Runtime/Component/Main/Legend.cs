@@ -43,14 +43,16 @@ namespace XCharts
         [SerializeField] private SelectedMode m_SelectedMode;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultRight;
-        [SerializeField] private float m_ItemWidth = 50.0f;
-        [SerializeField] private float m_ItemHeight = 20.0f;
-        [SerializeField] private float m_ItemGap = 5;
-        [SerializeField] private int m_ItemFontSize = 18;
+        [SerializeField] private float m_ItemWidth = 24.0f;
+        [SerializeField] private float m_ItemHeight = 12.0f;
+        [SerializeField] private float m_ItemGap = 10f;
+        [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private string m_Formatter;
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18);
         [SerializeField] private List<string> m_Data = new List<string>();
+        [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
 
-        private Dictionary<string, Button> m_DataBtnList = new Dictionary<string, Button>();
+        private Dictionary<string, LegendItem> m_DataBtnList = new Dictionary<string, LegendItem>();
 
         /// <summary>
         /// Whether to show legend component. 
@@ -74,13 +76,13 @@ namespace XCharts
         /// </summary>
         public Location location { get { return m_Location; } set { m_Location = value; } }
         /// <summary>
-        /// the width of legend item.
-        /// 每个图例项的宽度。
+        /// Image width of legend symbol.
+        /// 图例标记的图形宽度。
         /// </summary>
         public float itemWidth { get { return m_ItemWidth; } set { m_ItemWidth = value; } }
         /// <summary>
-        /// the height of legend item.
-        /// 每个图例项的高度。
+        /// Image height of legend symbol.
+        /// 图例标记的图形高度。
         /// </summary>
         public float itemHeight { get { return m_ItemHeight; } set { m_ItemHeight = value; } }
         /// <summary>
@@ -89,15 +91,20 @@ namespace XCharts
         /// </summary>
         public float itemGap { get { return m_ItemGap; } set { m_ItemGap = value; } }
         /// <summary>
-        /// font size of item text.
-        /// 图例项的字体大小。
+        /// Whether the legend symbol matches the color automatically.
+        /// 图例标记的图形是否自动匹配颜色。
         /// </summary>
-        public int itemFontSize { get { return m_ItemFontSize; } set { m_ItemFontSize = value; } }
+        public bool itemAutoColor { get { return m_ItemAutoColor; } set { m_ItemAutoColor = value; } }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量为图例名称 {name}
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        /// <summary>
+        /// the style of text.
+        /// 文本样式。
+        /// </summary>
+        public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
         /// it could also be the name of a single data in the pie chart) of a series. 
@@ -107,11 +114,47 @@ namespace XCharts
         /// </summary>
         public List<string> data { get { return m_Data; } }
         /// <summary>
+        /// 自定义的图例标记图形。
+        /// </summary>
+        public List<Sprite> icons { get { return m_Icons; } }
+        /// <summary>
         /// the button list of legend.
         /// 图例按钮列表。
         /// </summary>
         /// <value></value>
-        public Dictionary<string, Button> buttonList { get { return m_DataBtnList; } }
+        public Dictionary<string, LegendItem> buttonList { get { return m_DataBtnList; } }
+
+        public float runtimeWidth
+        {
+            get
+            {
+                var width = 0f;
+                foreach (var kv in buttonList)
+                {
+                    if (orient == Orient.Horizonal)
+                        width += kv.Value.width + m_ItemGap;
+                    else if (kv.Value.width > width)
+                        width = kv.Value.width;
+                }
+                return orient == Orient.Horizonal ? width - m_ItemGap : width;
+            }
+        }
+
+        public float runtimeHeight
+        {
+            get
+            {
+                var height = 0f;
+                foreach (var kv in buttonList)
+                {
+                    if (orient == Orient.Vertical)
+                        height += kv.Value.height + m_ItemGap;
+                    else if (kv.Value.height > height)
+                        height = kv.Value.height;
+                }
+                return orient == Orient.Vertical ? height - m_ItemGap : height;
+            }
+        }
 
         /// <summary>
         /// 一个在顶部居中显示的默认图例。
@@ -126,12 +169,13 @@ namespace XCharts
                     m_SelectedMode = SelectedMode.Multiple,
                     m_Orient = Orient.Horizonal,
                     m_Location = Location.defaultTop,
-                    m_ItemWidth = 60.0f,
-                    m_ItemHeight = 20.0f,
-                    m_ItemGap = 5,
-                    m_ItemFontSize = 16
+                    m_ItemWidth = 24.0f,
+                    m_ItemHeight = 12.0f,
+                    m_ItemGap = 10f,
                 };
                 legend.location.top = 30;
+                legend.textStyle.offset = new Vector2(2, 0);
+                legend.textStyle.fontSize = 18;
                 return legend;
             }
         }
@@ -144,9 +188,10 @@ namespace XCharts
             m_ItemWidth = legend.itemWidth;
             m_ItemHeight = legend.itemHeight;
             m_ItemGap = legend.itemGap;
-            m_ItemFontSize = legend.itemFontSize;
-            m_Data.Clear();
-            foreach (var d in legend.data) m_Data.Add(d);
+            itemAutoColor = legend.itemAutoColor;
+            m_TextStyle.Copy(legend.textStyle);
+            ChartHelper.CopyList<string>(m_Data, legend.data);
+            ChartHelper.CopyList<Sprite>(m_Icons, legend.icons);
         }
 
         public override bool Equals(object obj)
@@ -178,8 +223,10 @@ namespace XCharts
                 itemWidth == other.itemWidth &&
                 itemHeight == other.itemHeight &&
                 itemGap == other.itemGap &&
-                itemFontSize == other.itemFontSize &&
-                ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
+                itemAutoColor == other.itemAutoColor &&
+                textStyle.Equals(other.textStyle) &&
+                ChartHelper.IsValueEqualsList<string>(m_Data, other.data) &&
+                ChartHelper.IsValueEqualsList<Sprite>(m_Icons, other.icons);
         }
 
         public static bool operator ==(Legend left, Legend right)
@@ -285,13 +332,11 @@ namespace XCharts
         /// <param name="name"></param>
         /// <param name="btn"></param>
         /// <param name="total"></param>
-        public void SetButton(string name, Button btn, int total)
+        public void SetButton(string name, LegendItem item, int total)
         {
+            m_DataBtnList[name] = item;
             int index = m_DataBtnList.Values.Count;
-            btn.transform.localPosition = GetButtonLocationPosition(total, index);
-            m_DataBtnList[name] = btn;
-            btn.gameObject.SetActive(show);
-            btn.GetComponentInChildren<Text>().text = name;
+            item.SetActive(show);
         }
 
         /// <summary>
@@ -303,7 +348,27 @@ namespace XCharts
         {
             if (m_DataBtnList.ContainsKey(name))
             {
-                m_DataBtnList[name].GetComponent<Image>().color = color;
+                m_DataBtnList[name].SetIconColor(color);
+            }
+        }
+
+        public void UpdateContentColor(string name, Color color)
+        {
+            if (m_DataBtnList.ContainsKey(name))
+            {
+                m_DataBtnList[name].SetContentColor(color);
+            }
+        }
+
+        public Sprite GetIcon(int index)
+        {
+            if (index >= 0 && index < m_Icons.Count)
+            {
+                return m_Icons[index];
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -314,63 +379,7 @@ namespace XCharts
         {
             m_Location.OnChanged();
         }
-
-        /// <summary>
-        /// 根据图例的布局和位置类型获得具体位置
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private Vector2 GetButtonLocationPosition(int size, int index)
-        {
-            switch (m_Orient)
-            {
-                case Orient.Vertical:
-                    switch (m_Location.align)
-                    {
-                        case Location.Align.TopCenter:
-                        case Location.Align.TopLeft:
-                        case Location.Align.TopRight:
-                            return new Vector2(0, -index * (itemHeight + itemGap));
-
-                        case Location.Align.Center:
-                        case Location.Align.CenterLeft:
-                        case Location.Align.CenterRight:
-                            float totalHeight = size * itemHeight + (size - 1) * itemGap;
-                            float startY = totalHeight / 2;
-                            return new Vector2(0, startY - index * (itemHeight + itemGap));
-
-                        case Location.Align.BottomCenter:
-                        case Location.Align.BottomLeft:
-                        case Location.Align.BottomRight:
-                            return new Vector2(0, (size - index - 1) * (itemHeight + itemGap));
-                    }
-                    return Vector2.zero;
-
-                case Orient.Horizonal:
-                    switch (m_Location.align)
-                    {
-                        case Location.Align.TopLeft:
-                        case Location.Align.CenterLeft:
-                        case Location.Align.BottomLeft:
-                            return new Vector2(index * (itemWidth + itemGap), 0);
-
-                        case Location.Align.TopCenter:
-                        case Location.Align.Center:
-                        case Location.Align.BottomCenter:
-                            float totalWidth = size * itemWidth + (size - 1) * itemGap;
-                            float startX = totalWidth / 2;
-                            return new Vector2(-startX + itemWidth / 2 + index * (itemWidth + itemGap), 0);
-                        case Location.Align.TopRight:
-                        case Location.Align.CenterRight:
-                        case Location.Align.BottomRight:
-                            return new Vector2(-(size - index - 1) * (itemWidth + itemGap), 0);
-                    }
-                    return Vector2.zero;
-            }
-            return Vector2.zero;
-        }
-
+       
         /// <summary>
         /// 从json字符串解析数据，json格式如：['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
         /// </summary>

@@ -102,7 +102,7 @@ public class ChartEditorHelper
 
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
-        drawRect.width = EditorGUIUtility.labelWidth;
+        drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
         var displayName = string.IsNullOrEmpty(moduleName) ? prop.displayName : moduleName;
         toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? foldoutStyle : EditorStyles.foldout);
         if (moduleToggle[key] != toggle)

@@ -90,13 +90,15 @@ namespace XCharts
 
         public static void DestroyAllChildren(Transform parent)
         {
+#if UNITY_2019_1_OR_NEWER
+#else
             if (parent == null) return;
-#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+            #if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
             if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
             {
                 return;
             }
-#endif
+            #endif
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);
@@ -105,6 +107,7 @@ namespace XCharts
                     GameObject.DestroyImmediate(go.gameObject);
                 }
             }
+#endif
         }
 
         public static string GetFullName(Transform transform)

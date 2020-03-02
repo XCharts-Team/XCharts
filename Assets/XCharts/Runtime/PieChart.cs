@@ -32,6 +32,7 @@ namespace XCharts
         {
             base.Reset();
             m_Title.text = "PieChart";
+            m_Legend.show = true;
             RemoveData();
             AddSerie(SerieType.Pie, "serie1");
             AddData(0, 70, "pie1");
@@ -58,7 +59,7 @@ namespace XCharts
                 serie.index = i;
                 var data = serie.data;
                 serie.animation.InitProgress(data.Count, 0, 360);
-                if (!serie.show)
+                if (!serie.show || serie.animation.HasFadeOut())
                 {
                     continue;
                 }
@@ -77,13 +78,12 @@ namespace XCharts
                     sd.canShowLabel = false;
                 }
                 bool dataChanging = false;
-                float updateDuration = serie.animation.GetUpdateAnimationDuration();
+                float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int n = 0; n < data.Count; n++)
                 {
-                    if (!serie.animation.NeedAnimation(n)) break;
                     var serieData = data[n];
                     serieData.index = n;
-                    float value = serieData.GetCurrData(1, updateDuration);
+                    float value = serieData.GetCurrData(1, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
@@ -164,11 +164,8 @@ namespace XCharts
                 }
                 if (!serie.animation.IsFinish())
                 {
-                    float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                    float speed = 360 / duration;
-                    float symbolSpeed = serie.symbol.size / duration;
-                    serie.animation.CheckProgress(Time.deltaTime * speed);
-                    serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
+                    serie.animation.CheckProgress(360);
+                    serie.animation.CheckSymbol(serie.symbol.size);
                     RefreshChart();
                 }
                 if (dataChanging)
@@ -488,9 +485,8 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            bool active = CheckDataShow(legendName, show);
-            var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
-            m_Legend.UpdateButtonColor(legendName, bgColor1);
+            CheckDataShow(legendName, show);
+            UpdateLegendColor(legendName, show);
             RefreshChart();
         }
 
@@ -531,7 +527,7 @@ namespace XCharts
             if (selected)
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
             }
             else if (m_Tooltip.IsActive())
             {
@@ -570,9 +566,9 @@ namespace XCharts
         }
 
         StringBuilder sb = new StringBuilder();
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             bool showTooltip = false;
             foreach (var serie in m_Series.list)
             {

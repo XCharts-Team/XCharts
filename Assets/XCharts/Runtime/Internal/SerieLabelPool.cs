@@ -15,14 +15,15 @@ namespace XCharts
     {
         private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
 
-        public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color, float iconWidth, float iconHeight)
+        public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color,
+            float iconWidth, float iconHeight)
         {
             GameObject element;
             if (m_Stack.Count == 0 || !Application.isPlaying)
             {
                 element = ChartHelper.AddSerieLabel(name, parent, font,
                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
-                        label.backgroundWidth, label.backgroundHeight);
+                        label.backgroundWidth, label.backgroundHeight, 1);
                 ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
             }
             else

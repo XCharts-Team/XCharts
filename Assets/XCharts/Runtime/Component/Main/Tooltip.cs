@@ -1,4 +1,5 @@
-﻿/******************************************/
+﻿using System.Collections.ObjectModel;
+/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -8,6 +9,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -55,12 +58,11 @@ namespace XCharts
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
         [SerializeField] private float m_MinHeight = 0;
-        [SerializeField] private int m_FontSize = 18;
-        [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_ForceENotation = false;
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
         [SerializeField] private Sprite m_BackgroundImage;
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
 
         private GameObject m_GameObject;
@@ -138,16 +140,10 @@ namespace XCharts
         /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
-        /// <summary>
-        /// font size.
-        /// 文字的字体大小。
-        /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
-        /// <summary>
-        /// font style.
-        /// 文字的字体风格。
-        /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        [Obsolete("Use Tooltip.textStyle.fontSize instead.", true)]
+        public int fontSize { get; set; }
+        [Obsolete("Use Tooltip.textStyle.fontStyle instead.", true)]
+        public FontStyle fontStyle { get; set; }
         /// <summary>
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
@@ -167,6 +163,10 @@ namespace XCharts
         /// 图标的图片。
         /// </summary>
         public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetBackground(m_BackgroundImage); } }
+        /// <summary>
+        /// 提示框内容文本样式。
+        /// </summary>
+        public TextStyle textStyle { get { return m_TextStyle; } set { if (value != null) m_TextStyle = value; } }
         /// <summary>
         /// 指示线样式。
         /// </summary>

@@ -31,6 +31,7 @@
 * [AxisLabel 坐标轴刻度标签](#AxisLabel)  
 * [AxisLine 坐标轴轴线](#AxisLine)  
 * [AxisName 坐标轴名称](#AxisName)  
+* [AxisSplitLine 坐标轴分割线条](#AxisSplitLine)  
 * [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
 * [AxisTick 坐标轴刻度](#AxisTick)  
 * [Emphasis 高亮样式](#Emphasis)  
@@ -117,12 +118,14 @@
   * `Horizonal`：水平。
   * `Vertical`：垂直。
 * `location`：图例的显示位置 [Location](#Location)。
-* `itemWidth`：每个图例项的宽度。
-* `itemHeight`：每个图例项的高度。
+* `itemWidth`：图例标记的图形宽度。
+* `itemHeight`：图例标记的图形高度。
 * `itemGap`：图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
-* `itemFontSize`：图例项的字体大小。
+* `itemAutoColor`：图例标记的图形是否自动匹配颜色。
 * `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{name}`
 * `data`：图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 `name`（如果是饼图，也可以是饼图单个数据的 `name`）。如果 `data` 没有被指定，会自动从当前系列中获取。指定 `data` 时里面的数据项和 `serie` 匹配时才会生效。
+* `icons`：自定义的图例标记图形。
+* `textStyle`：图例的内容文本样式 [TextStyle](#TextStyle)。
 
 相关接口：
 
@@ -143,7 +146,7 @@
   * `Between`：显示在顶点之间。
 * `radius`：雷达图的半径。
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
-* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
 * `indicatorGap`：指示器和雷达的间距。
@@ -168,8 +171,11 @@
 * `rotate`：旋转。
 * `offset`：偏移。
 * `color`：颜色。
+* `backgroundColor`：背景颜色。
+* `font`：字体。
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
+* `lineSpacing`：行间距。
 
 ## `Tooltip`
 
@@ -196,11 +202,10 @@
 * `minHeight`：最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `paddingLeftRight`：文字和边框的左右边距。
 * `paddingTopBottom`：文字和边框的上下边距。
-* `fontSize`：文字的字体大小。
-* `fontStyle`：文字的字体风格。
 * `backgroundImage`：提示框的背景图。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
+* `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
 ## `DataZoom`
 
@@ -539,6 +544,7 @@
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
@@ -606,14 +612,13 @@
 
 ## `SerieAnimation`
 
-* `enable`：是否开起始画效果。
-* `easing`：动画的缓动效果。支持以下动画效果：
-  * `Linear`：线性效果。
-* `duration`：设定的动画时长，单位毫秒。
-* `updateAnimation`：是否开启数据变更动画。
-* `updateDuration`：数据变更动画时长，单位毫秒。
-* `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
-* `delay`：动画延时，单位毫秒。
+* `enable`：是否开启动画系统。
+* ~~`threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。~~
+* `fadeInDelay`：设定的渐入动画延时，单位毫秒。
+* `fadeInDuration`：设定的渐入动画时长，单位毫秒。
+* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。
+* `dataChangeEnable`：是否开启数据变更动画。
+* `dataChangeDuration`：数据变更动画时长，单位毫秒。
 
 ## `AreaStyle`
 
@@ -714,7 +719,7 @@
 
 ## `LineStyle`
 
-* `show`：是否显示线条。在折线图中无效。
+* `show`：是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
 * `type`：线条类型。支持以下五种类型：
   * `None`：不显示分割线。
   * `Solid`：实线。

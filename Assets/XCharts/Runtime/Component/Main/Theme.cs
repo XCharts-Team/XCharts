@@ -132,6 +132,8 @@ namespace XCharts
             get { return m_CustomLegendTextColor != Color.clear ? m_CustomLegendTextColor : m_LegendTextColor; }
             set { m_CustomLegendTextColor = value; }
         }
+
+        public Color32 defaultLegendTextColor{get{return m_LegendTextColor;}set{m_LegendTextColor=value;}}
         /// <summary>
         /// the legend unable text color.
         /// 图例变为不可用时的按钮颜色。
@@ -391,7 +393,7 @@ namespace XCharts
                     m_LegendUnableColor = GetColor("#cccccc"),
                     m_TitleTextColor = GetColor("#514D4D"),
                     m_TitleSubTextColor = GetColor("#514D4D"),
-                    m_LegendTextColor = GetColor("#eee"),
+                    m_LegendTextColor = GetColor("#514D4D"),
                     m_AxisTextColor = GetColor("#514D4D"),
                     m_AxisLineColor = GetColor("#514D4D"),
                     m_AxisSplitLineColor = GetColor("#51515120"),

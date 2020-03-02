@@ -8,6 +8,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -28,6 +29,10 @@ namespace XCharts
                     canvas.renderMode = RenderMode.ScreenSpaceOverlay;
                     canvasObject.AddComponent<CanvasScaler>();
                     canvasObject.AddComponent<GraphicRaycaster>();
+                    var eventSystem = new GameObject();
+                    eventSystem.name = "EventSystem";
+                    eventSystem.AddComponent<EventSystem>();
+                    eventSystem.AddComponent<StandaloneInputModule>();
                     return canvas.transform;
                 }
             }

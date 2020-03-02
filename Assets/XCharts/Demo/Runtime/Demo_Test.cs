@@ -28,7 +28,7 @@ namespace XCharts
             {
                 updateTime = 0;
                 var serie = chart.series.GetSerie(0);
-                serie.animation.updateAnimation = true;
+                serie.animation.dataChangeEnable = true;
                 var dataCount = serie.dataCount;
                 if (chart is HeatmapChart)
                 {

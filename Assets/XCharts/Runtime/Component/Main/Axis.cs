@@ -191,20 +191,10 @@ namespace XCharts
             get { return m_RuntimeMinValue; }
             internal set
             {
-                if (value != m_RuntimeMinValue)
-                {
-                    if (m_RuntimeMinValueFirstChanged)
-                    {
-                        m_RuntimeMinValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMinValue = m_RuntimeMinValue;
-                        m_RuntimeMinValueChanged = true;
-                        m_RuntimeMinValueUpdateTime = Time.time;
-                    }
-                    m_RuntimeMinValue = value;
-                }
+                m_RuntimeMinValue = value;
+                m_RuntimeLastMinValue = value;
+                m_RuntimeMinValueUpdateTime = Time.time;
+                m_RuntimeMinValueChanged = true;
             }
         }
         /// <summary>
@@ -216,20 +206,10 @@ namespace XCharts
             get { return m_RuntimeMaxValue; }
             internal set
             {
-                if (value != m_RuntimeMaxValue)
-                {
-                    if (m_RuntimeMaxValueFirstChanged)
-                    {
-                        m_RuntimeMaxValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMaxValue = m_RuntimeMaxValue;
-                        m_RuntimeMaxValueChanged = true;
-                        m_RuntimeMaxValueUpdateTime = Time.time;
-                    }
-                    m_RuntimeMaxValue = value;
-                }
+                m_RuntimeMaxValue = value;
+                m_RuntimeLastMaxValue = value;
+                m_RuntimeMaxValueUpdateTime = Time.time;
+                m_RuntimeMaxValueChanged = false;
             }
         }
         /// <summary>
@@ -706,6 +686,62 @@ namespace XCharts
                 }
             }
             m_ValueRange = maxValue - minValue;
+        }
+
+        internal void UpdateMinValue(float value, bool check)
+        {
+            if (value != m_RuntimeMaxValue)
+            {
+                if (check)
+                {
+                    if (m_RuntimeMinValueFirstChanged)
+                    {
+                        m_RuntimeMinValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMinValue = m_RuntimeMinValue;
+                        m_RuntimeMinValueChanged = true;
+                        m_RuntimeMinValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMinValue = value;
+                }
+                else
+                {
+                    m_RuntimeMinValue = value;
+                    m_RuntimeLastMinValue = value;
+                    m_RuntimeMinValueUpdateTime = Time.time;
+                    m_RuntimeMinValueChanged = true;
+                }
+            }
+        }
+
+        internal void UpdateMaxValue(float value, bool check)
+        {
+            if (value != m_RuntimeMaxValue)
+            {
+                if (check)
+                {
+                    if (m_RuntimeMaxValueFirstChanged)
+                    {
+                        m_RuntimeMaxValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMaxValue = m_RuntimeMaxValue;
+                        m_RuntimeMaxValueChanged = true;
+                        m_RuntimeMaxValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMaxValue = value;
+                }
+                else
+                {
+                    m_RuntimeMaxValue = value;
+                    m_RuntimeLastMaxValue = value;
+                    m_RuntimeMaxValueUpdateTime = Time.time;
+                    m_RuntimeMaxValueChanged = false;
+                }
+            }
         }
 
         internal float GetCurrMinValue(float duration)

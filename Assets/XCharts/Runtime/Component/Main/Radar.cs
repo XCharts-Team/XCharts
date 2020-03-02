@@ -126,7 +126,7 @@ namespace XCharts
         [SerializeField] private float m_Radius = 100;
         [SerializeField] private int m_SplitNumber = 5;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] private AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] private AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
@@ -155,10 +155,10 @@ namespace XCharts
         /// </summary>
         public float[] center { get { return m_Center; } set { m_Center = value; } }
         /// <summary>
-        /// the line style of radar.
-        /// 线条样式。
+        /// split line.
+        /// 分割线。
         /// </summary>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
+        public AxisSplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
         /// <summary>
         /// Split area of axis in grid area.
         /// 分割区域。
@@ -207,7 +207,7 @@ namespace XCharts
                 var radar = new Radar
                 {
                     m_Shape = Shape.Polygon,
-                    m_Radius = 0.4f,
+                    m_Radius = 0.35f,
                     m_SplitNumber = 5,
                     m_Indicator = true,
                     m_IndicatorList = new List<Indicator>(5){
@@ -219,9 +219,10 @@ namespace XCharts
                     }
                 };
                 radar.center[0] = 0.5f;
-                radar.center[1] = 0.45f;
+                radar.center[1] = 0.4f;
+                radar.splitLine.show = true;
                 radar.splitArea.show = true;
-                radar.lineStyle.width = 0.6f;
+                radar.splitLine.lineStyle.width = 0.6f;
                 return radar;
             }
         }
@@ -234,6 +235,8 @@ namespace XCharts
             m_Center[0] = other.center[0];
             m_Center[1] = other.center[1];
             m_Indicator = other.indicator;
+            //m_SplitLine.Copy(other.splitLine);
+            //m_SplitArea.Copy(other.splitArea);
             indicatorList.Clear();
             foreach (var d in other.indicatorList) indicatorList.Add(d.Clone());
         }

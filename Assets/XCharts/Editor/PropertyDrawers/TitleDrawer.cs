@@ -34,19 +34,16 @@ namespace XCharts
             {
                 EditorGUI.PropertyField(drawRect, text);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_TextStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_TextStyle);
-                --EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, subText);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_SubTextStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_SubTextStyle);
-                --EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_ItemGap, new GUIContent("Item Gap"));
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, location);
+                drawRect.y += EditorGUI.GetPropertyHeight(location);
+                EditorGUI.PropertyField(drawRect, m_TextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_TextStyle);
+                EditorGUI.PropertyField(drawRect, m_SubTextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SubTextStyle);
             }
             --EditorGUI.indentLevel;
         }

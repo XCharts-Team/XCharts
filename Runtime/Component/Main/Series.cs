@@ -56,7 +56,7 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
-            AnimationStop();
+            AnimationPause();
             foreach (var serie in m_Series)
             {
                 serie.ClearData();
@@ -196,7 +196,7 @@ namespace XCharts
         {
             foreach (var serie in m_Series)
             {
-                if (serie.animation.enable && serie.animation.updateAnimation)
+                if (serie.animation.enable && serie.animation.dataChangeEnable)
                 {
                     return true;
                 }
@@ -257,7 +257,7 @@ namespace XCharts
         /// </summary>
         public void RemoveAll()
         {
-            AnimationStop();
+            AnimationPause();
             m_Series.Clear();
         }
 
@@ -292,7 +292,7 @@ namespace XCharts
             {
                 serie.symbol.type = SerieSymbolType.None;
             }
-            serie.animation.Reset();
+            serie.animation.Restart();
             m_Series.Add(serie);
             return serie;
         }
@@ -615,6 +615,8 @@ namespace XCharts
             if (serie != null)
             {
                 serie.show = active;
+                serie.animation.Reset();
+                if (active) serie.animation.FadeIn();
             }
         }
 
@@ -1006,32 +1008,54 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 开始初始动画
+        /// 渐入动画
         /// </summary>
-        public void AnimationStart()
+        public void AnimationFadeIn()
         {
             foreach (var serie in m_Series)
             {
                 if (serie.animation.enable)
                 {
-                    serie.animation.Start();
+                    serie.animation.FadeIn();
                 }
             }
         }
 
         /// <summary>
-        /// 停止初始动画
+        /// 渐出动画
         /// </summary>
-        public void AnimationStop()
+        public void AnimationFadeOut()
         {
             foreach (var serie in m_Series)
             {
-                if (serie.animation.enable) serie.animation.Stop();
+                if (serie.animation.enable) serie.animation.FadeOut();
             }
         }
 
         /// <summary>
-        /// 重置初始动画
+        /// 暂停动画
+        /// </summary>
+        public void AnimationPause()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.animation.enable) serie.animation.Pause();
+            }
+        }
+
+        /// <summary>
+        /// 继续动画
+        /// </summary>
+        public void AnimationResume()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.animation.enable) serie.animation.Resume();
+            }
+        }
+
+        /// <summary>
+        /// 重置动画
         /// </summary>
         public void AnimationReset()
         {

@@ -19,7 +19,7 @@ namespace XCharts
         SerializedProperty m_Radius;
         SerializedProperty m_SplitNumber;
         SerializedProperty m_Center;
-        SerializedProperty m_LineStyle;
+        SerializedProperty m_SplitLine;
         SerializedProperty m_SplitArea;
         SerializedProperty m_Indicator;
         SerializedProperty m_IndicatorGap;
@@ -39,7 +39,7 @@ namespace XCharts
             m_Radius = prop.FindPropertyRelative("m_Radius");
             m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
             m_Center = prop.FindPropertyRelative("m_Center");
-            m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            m_SplitLine = prop.FindPropertyRelative("m_SplitLine");
             m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
             m_Indicator = prop.FindPropertyRelative("m_Indicator");
             m_IndicatorGap = prop.FindPropertyRelative("m_IndicatorGap");
@@ -85,8 +85,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                EditorGUI.PropertyField(drawRect, m_LineStyle);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                EditorGUI.PropertyField(drawRect, m_SplitLine);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_SplitLine);
                 EditorGUI.PropertyField(drawRect, m_SplitArea);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_SplitArea);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -112,7 +112,7 @@ namespace XCharts
                 propNum += 7;
                 if (m_IndicatorJsonAreaToggle) propNum += 4;
                 float height = propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitLine"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitArea"));
 
                 if (ChartEditorHelper.IsToggle(m_IndicatorToggle, prop))

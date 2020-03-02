@@ -194,6 +194,8 @@ namespace XCharts
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_Symbol);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
+                        EditorGUI.PropertyField(drawRect, m_LineStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
                         EditorGUI.PropertyField(drawRect, m_AreaStyle);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
                         break;
@@ -451,6 +453,7 @@ namespace XCharts
                     case SerieType.Radar:
                         height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));

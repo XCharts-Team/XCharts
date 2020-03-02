@@ -40,11 +40,14 @@
 * `BaseChart.IsActiveByLegend(string legendName)`：获得指定图例名字的系列是否显示。
 * `BaseChart.RefreshChart()`：在下一帧刷新图表。
 * `BaseChart.RefreshLabel()`：在下一帧刷新文本标签。
+* `BaseChart.RefreshTooltip()`：立即刷新`Tooltip`组件。
 * `BaseChart.UpdateTheme(Theme theme)`：切换图表主题。
-* `BaseChart.AnimationEnable(bool flag)`：启用或关闭起始动画。
-* `BaseChart.AnimationStart()`：开始初始动画。
-* `BaseChart.AnimationStop()`：停止初始化动画。
-* `BaseChart.AnimationReset()`：重置初始动画，重新播放。
+* `BaseChart.AnimationEnable(bool flag)`：启用或关闭动画。
+* `BaseChart.AnimationFadeIn()`：渐入动画。
+* `BaseChart.AnimationFadeOut()`：渐出动画。
+* `BaseChart.AnimationPause()`：暂停动画。
+* `BaseChart.AnimationResume()`：继续动画。
+* `BaseChart.AnimationReset()`：重置动画。
 * `BaseChart.ClickLegendButton(int legendIndex, string legendName, bool show)`：点击图例按钮。
 
 ## `CoordinateChart`

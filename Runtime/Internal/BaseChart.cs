@@ -65,7 +65,7 @@ namespace XCharts
         [NonSerialized] protected bool m_ReinitLabel = false;
         [NonSerialized] protected bool m_ReinitTitle = false;
         [NonSerialized] protected bool m_CheckAnimation = false;
-        [NonSerialized] protected bool m_IsPlayingStartAnimation = false;
+        [NonSerialized] protected bool m_IsPlayingAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
@@ -92,8 +92,8 @@ namespace XCharts
             InitSerieLabel();
             InitSerieTitle();
             InitTooltip();
-            m_Series.AnimationStop();
-            m_Series.AnimationStart();
+            m_Series.AnimationReset();
+            m_Series.AnimationFadeIn();
         }
 
         protected override void Start()
@@ -142,6 +142,11 @@ namespace XCharts
             m_Series = Series.defaultSeries;
             Awake();
         }
+
+        protected override void OnValidate()
+        {
+            //TODO:
+        }
 #endif
 
         protected override void OnDestroy()
@@ -170,8 +175,8 @@ namespace XCharts
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
-                        new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize, m_Title.textStyle.rotate,
-                        m_Title.textStyle.fontStyle);
+                        new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize,
+                        m_Title.textStyle.rotate, m_Title.textStyle.fontStyle, m_Title.textStyle.lineSpacing);
 
             titleText.alignment = anchor;
             titleText.gameObject.SetActive(m_Title.show);
@@ -181,7 +186,7 @@ namespace XCharts
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleSubTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
-                        m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle);
+                        m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle, m_Title.subTextStyle.lineSpacing);
 
             subText.alignment = anchor;
             subText.gameObject.SetActive(m_Title.show && !string.IsNullOrEmpty(m_Title.subText));
@@ -230,21 +235,18 @@ namespace XCharts
                 string legendName = m_Legend.GetFormatterContent(datas[i]);
                 var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
                 var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
-                Button btn = ChartHelper.AddButtonObject(objName, legendObject.transform,
-                    m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
-                    anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-                var bgColor = IsActiveByLegend(datas[i]) ?
-                    m_ThemeInfo.GetColor(readIndex) : m_ThemeInfo.legendUnableColor;
-                m_Legend.SetButton(legendName, btn, totalLegend);
-                m_Legend.UpdateButtonColor(legendName, bgColor);
-                btn.GetComponentInChildren<Text>().text = legendName;
-                ChartHelper.ClearEventListener(btn.gameObject);
-                ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
+                var active = IsActiveByLegend(datas[i]);
+                var bgColor = LegendHelper.GetIconColor(m_Legend, readIndex, themeInfo, active);
+                var item = LegendHelper.AddLegendItem(m_Legend, i, datas[i], legendObject.transform, m_ThemeInfo,
+                    legendName, bgColor, active);
+                m_Legend.SetButton(legendName, item, totalLegend);
+                ChartHelper.ClearEventListener(item.button.gameObject);
+                ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
                     if (data.selectedObject == null || m_Legend.selectedMode == Legend.SelectedMode.None) return;
                     var temp = data.selectedObject.name.Split('_');
-                    string selectedName = temp[2];
-                    int clickedIndex = int.Parse(temp[1]);
+                    string selectedName = temp[1];
+                    int clickedIndex = int.Parse(temp[0]);
                     if (m_Legend.selectedMode == Legend.SelectedMode.Multiple)
                     {
                         OnLegendButtonClick(clickedIndex, selectedName, !IsActiveByLegend(selectedName));
@@ -261,27 +263,27 @@ namespace XCharts
                             for (int n = 0; n < btnList.Length; n++)
                             {
                                 temp = btnList[n].name.Split('_');
-                                selectedName = temp[2];
-                                var index = int.Parse(temp[1]);
+                                selectedName = btnList[n].legendName;
+                                var index = btnList[n].index;
                                 OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
                             }
                         }
                     }
                 });
-                ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerEnter, (data) =>
+                ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerEnter, (data) =>
                 {
-                    if (btn == null) return;
-                    var temp = btn.name.Split('_');
-                    string selectedName = temp[2];
-                    int index = int.Parse(temp[1]);
+                    if (item.button == null) return;
+                    var temp = item.button.name.Split('_');
+                    string selectedName = temp[1];
+                    int index = int.Parse(temp[0]);
                     OnLegendButtonEnter(index, selectedName);
                 });
-                ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerExit, (data) =>
+                ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerExit, (data) =>
                 {
-                    if (btn == null) return;
-                    var temp = btn.name.Split('_');
-                    string selectedName = temp[2];
-                    int index = int.Parse(temp[1]);
+                    if (item.button == null) return;
+                    var temp = item.button.name.Split('_');
+                    string selectedName = temp[1];
+                    int index = int.Parse(temp[0]);
                     OnLegendButtonExit(index, selectedName);
                 });
             }
@@ -292,6 +294,7 @@ namespace XCharts
                     OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
                 }
             }
+            LegendHelper.ResetItemPosition(m_Legend);
         }
 
         private void InitSerieLabel()
@@ -349,8 +352,9 @@ namespace XCharts
                 var pivot = new Vector2(0.5f, 0.5f);
                 var fontSize = 10;
                 var sizeDelta = new Vector2(50, fontSize + 2);
-                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, m_ThemeInfo.font, color, TextAnchor.MiddleCenter,
-                anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, m_ThemeInfo.font, color,
+                    TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize, textStyle.rotate,
+                    textStyle.fontStyle, textStyle.lineSpacing);
                 txt.text = "";
                 txt.transform.localPosition = new Vector2(0, 0);
                 txt.transform.localEulerAngles = Vector2.zero;
@@ -372,9 +376,10 @@ namespace XCharts
             tooltipObject.transform.localPosition = Vector3.zero;
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
+            var textStyle = m_Tooltip.textStyle;
             ChartHelper.HideAllObject(tooltipObject.transform);
             GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font,
-                m_Tooltip.fontSize, m_Tooltip.fontStyle);
+                textStyle.fontSize, textStyle.fontStyle, textStyle.lineSpacing);
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
             m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
@@ -562,7 +567,7 @@ namespace XCharts
             if (!m_CheckAnimation)
             {
                 m_CheckAnimation = true;
-                m_Series.AnimationStart();
+                m_Series.AnimationFadeIn();
             }
         }
 
@@ -687,7 +692,7 @@ namespace XCharts
             return show;
         }
 
-        protected virtual void RefreshTooltip()
+        protected virtual void UpdateTooltip()
         {
         }
 
@@ -783,6 +788,31 @@ namespace XCharts
                     {
                         ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
                     }
+                    break;
+            }
+        }
+
+        protected void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
+            Vector3 startPos, Vector3 endPos, Color color)
+        {
+            var type = lineStyle.type;
+            var width = lineStyle.width;
+            switch (type)
+            {
+                case LineStyle.Type.Dashed:
+                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Dotted:
+                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Solid:
+                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDot:
+                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDotDot:
+                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
                     break;
             }
         }

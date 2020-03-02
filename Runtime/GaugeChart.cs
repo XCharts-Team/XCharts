@@ -64,7 +64,7 @@ namespace XCharts
             serie.center[1] = 0.5f;
             serie.radius[0] = 80;
             serie.splitNumber = 5;
-            serie.animation.updateAnimation = true;
+            serie.animation.dataChangeEnable = true;
             serie.titleStyle.show = true;
             serie.titleStyle.textStyle.offset = new Vector2(0, 20);
             serie.label.show = true;
@@ -85,7 +85,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                
+
                 var serieLabel = serie.gaugeAxis.axisLabel;
                 serie.gaugeAxis.ClearLabelObject();
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
@@ -103,7 +103,7 @@ namespace XCharts
                     item.SetIconActive(false);
                     serie.gaugeAxis.AddLabelObject(item);
                 }
-                 UpdateAxisLabel(serie);
+                UpdateAxisLabel(serie);
             }
         }
 
@@ -130,14 +130,15 @@ namespace XCharts
 
         private void DrawGauge(VertexHelper vh, Serie serie)
         {
+
             serie.UpdateCenter(chartWidth, chartHeight);
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
+            //var currAngle = serie.animation.GetCurrDetail();
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
-
             DrawProgressBar(vh, serie, currAngle);
             DrawStageColor(vh, serie);
-            DrawSplitLine(vh, serie);
+            DrawLineStyle(vh, serie);
             DrawAxisTick(vh, serie);
             DrawPointer(vh, serie, currAngle);
             UpdateTitle(serie);
@@ -147,9 +148,7 @@ namespace XCharts
             CheckAnimation(serie);
             if (!serie.animation.IsFinish())
             {
-                float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                float speed = (destAngle - serie.startAngle) / duration;
-                serie.animation.CheckProgress(Time.deltaTime * speed);
+                serie.animation.CheckProgress(destAngle - serie.startAngle);
                 RefreshChart();
             }
             else if (NeedRefresh(serie))
@@ -215,7 +214,7 @@ namespace XCharts
             ChartDrawer.DrawPolygon(vh, p1, p3, p2, p4, pointerColor);
         }
 
-        private void DrawSplitLine(VertexHelper vh, Serie serie)
+        private void DrawLineStyle(VertexHelper vh, Serie serie)
         {
             if (serie.gaugeType != GaugeType.Pointer) return;
             if (!serie.gaugeAxis.show || !serie.gaugeAxis.splitLine.show) return;
@@ -405,6 +404,10 @@ namespace XCharts
 
         private float GetCurrAngle(Serie serie, bool dest)
         {
+            if (serie.animation.HasFadeOut())
+            {
+                return serie.animation.GetCurrDetail();
+            }
             float rangeValue = serie.max - serie.min;
             float rangeAngle = serie.endAngle - serie.startAngle;
             float value = 0;

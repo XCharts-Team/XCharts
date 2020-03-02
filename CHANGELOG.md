@@ -1,6 +1,12 @@
 
 # 更新日志
 
+* (2020.02.26) 重构`Legend`图例，改变样式，增加自定义图标等设置
+* (2020.02.23) 增加`BaseChart.AnimationFadeOut()`渐出动画，重构动画系统
+* (2020.02.13) 增加`BaseChart.RefreshTooltip()`接口立即重新初始化`Tooltip`组件
+* (2020.02.13) 增加`Tooltip`的`textStyle`参数配置内容文本样式，去掉`fontSize`和`fontStyle`参数
+* (2020.02.13) 增加`TextStyle`的`lineSpacing`参数配置行间距
+* (2020.02.11) 增加`Radar`的`splitLine`参数配置分割线，去掉`lineStyle`参数
 * (2020.02.11) 增加`Tooltip`的`backgroundImage`参数配置背景图
 * (2020.02.11) 增加`Tooltip`的`paddingLeftRight`和`paddingTopBottom`参数配置文字和边框的间距
 * (2020.02.11) 增加`Tooltip`的`lineStyle`参数配置指示线样式
@@ -28,7 +34,7 @@
 * (2019.12.06) 修复数据过小时`AxisLabel`直接科学计数法显示的问题
 * (2019.12.04) 优化和完善数据更新`UpdateData`接口
 * (2019.12.03) 增加圆环饼图的圆角支持，参数：`serie.arcShaped`
-* (2019.12.03) 增加数据更新动画,参数：`serie.animation.updateAnimation`
+* (2019.12.03) 增加数据更新动画,参数：`serie.animation.dataChangeEnable`
 * (2019.11.30) 增加`GaugeChart`仪表盘
 * (2019.11.22) 修复`BarChart`清空数据重新赋值后`SerieLabel`显示异常的问题
 * (2019.11.16) 修复`SerieLabel`设置`color`等参数不生效的问题

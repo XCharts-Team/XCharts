@@ -141,7 +141,7 @@ namespace XCharts
         {
             base.DrawChart(vh);
             if (!m_CheckMinMaxValue) return;
-            m_IsPlayingStartAnimation = false;
+            m_IsPlayingAnimation = false;
             bool yCategory = m_YAxises[0].IsCategory() || m_YAxises[1].IsCategory();
             m_Series.GetStackSeries(ref m_StackSeries);
             int seriesCount = m_StackSeries.Count;
@@ -194,7 +194,7 @@ namespace XCharts
             if (!IsInCooridate(local))
             {
                 m_Tooltip.ClearValue();
-                RefreshTooltip();
+                UpdateTooltip();
             }
             else
             {
@@ -306,7 +306,7 @@ namespace XCharts
             if (m_Tooltip.IsSelected())
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
                 if (m_Tooltip.IsDataIndexChanged() || m_Tooltip.type == Tooltip.Type.Corss)
                 {
                     m_Tooltip.UpdateLastDataIndex();
@@ -321,9 +321,9 @@ namespace XCharts
         }
 
         protected StringBuilder sb = new StringBuilder(100);
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             int index;
             Axis tempAxis;
             bool isCartesian = IsValue();
@@ -846,8 +846,8 @@ namespace XCharts
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
                 m_CheckMinMaxValue = true;
-                axis.runtimeMinValue = tempMinValue;
-                axis.runtimeMaxValue = tempMaxValue;
+                axis.UpdateMinValue(tempMinValue, !m_IsPlayingAnimation);
+                axis.UpdateMaxValue(tempMaxValue, !m_IsPlayingAnimation);
                 axis.runtimeZeroXOffset = 0;
                 axis.runtimeZeroYOffset = 0;
                 if (tempMinValue != 0 || tempMaxValue != 0)
@@ -873,7 +873,7 @@ namespace XCharts
                     RefreshChart();
                 }
             }
-            if (axis.IsValueChanging(500) && !m_IsPlayingStartAnimation)
+            if (axis.IsValueChanging(500) && !m_IsPlayingAnimation)
             {
                 float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
                 var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
@@ -980,7 +980,7 @@ namespace XCharts
                         {
                             if (yAxis.splitLine.NeedShow(i))
                             {
-                                DrawSplitLine(vh, yAxis.splitLine.lineStyle, new Vector3(coordinateX, pY),
+                                DrawLineStyle(vh, yAxis.splitLine.lineStyle, new Vector3(coordinateX, pY),
                                     new Vector3(coordinateX + coordinateWidth, pY), yAxis.splitLine.GetColor(m_ThemeInfo));
                             }
                         }
@@ -1070,7 +1070,7 @@ namespace XCharts
                         {
                             if (xAxis.splitLine.NeedShow(i))
                             {
-                                DrawSplitLine(vh, xAxis.splitLine.lineStyle, new Vector3(pX, coordinateY),
+                                DrawLineStyle(vh, xAxis.splitLine.lineStyle, new Vector3(pX, coordinateY),
                                     new Vector3(pX, coordinateY + coordinateHeight), xAxis.splitLine.GetColor(m_ThemeInfo));
                             }
                         }
@@ -1230,31 +1230,6 @@ namespace XCharts
             }
         }
 
-        protected void DrawSplitLine(VertexHelper vh, LineStyle lineStyle,
-            Vector3 startPos, Vector3 endPos, Color color)
-        {
-            var type = lineStyle.type;
-            var width = lineStyle.width;
-            switch (type)
-            {
-                case LineStyle.Type.Dashed:
-                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.Dotted:
-                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.Solid:
-                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.DashDot:
-                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.DashDotDot:
-                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
-                    break;
-            }
-        }
-
         protected void DrawXTooltipIndicator(VertexHelper vh)
         {
             if (!m_Tooltip.show || !m_Tooltip.IsSelected()) return;
@@ -1275,12 +1250,12 @@ namespace XCharts
                         if (xAxis.IsValue()) pX = m_Tooltip.runtimePointerPos.x;
                         Vector2 sp = new Vector2(pX, coordinateY);
                         Vector2 ep = new Vector2(pX, coordinateY + coordinateHeight);
-                        DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         }
                         break;
                     case Tooltip.Type.Shadow:
@@ -1318,12 +1293,12 @@ namespace XCharts
                         float pY = coordinateY + m_Tooltip.runtimeYValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0);
                         Vector2 sp = new Vector2(coordinateX, pY);
                         Vector2 ep = new Vector2(coordinateX + coordinateWidth, pY);
-                        DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawSplitLine(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
                         }
                         break;
                     case Tooltip.Type.Shadow:

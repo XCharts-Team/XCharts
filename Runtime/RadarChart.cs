@@ -26,9 +26,8 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            bool active = CheckDataShow(legendName, show);
-            var bgColor1 = active ? m_ThemeInfo.GetColor(index) : m_ThemeInfo.legendUnableColor;
-            m_Legend.UpdateButtonColor(legendName, bgColor1);
+            CheckDataShow(legendName, show);
+            UpdateLegendColor(legendName, show);
             RefreshChart();
         }
 
@@ -69,12 +68,13 @@ namespace XCharts
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
+            serie.showDataName = true;
             List<float> data = new List<float>();
             for (int i = 0; i < 5; i++)
             {
                 data.Add(Random.Range(20, 90));
             }
-            AddData(0, data);
+            AddData(0, data, "legendName");
         }
 #endif
 
@@ -97,7 +97,7 @@ namespace XCharts
                     var textColor = textStyle.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
                     var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
                     textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                    new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle);
+                    new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
                     txt.text = radar.indicatorList[i].name;
                     txt.gameObject.SetActive(radar.indicator);
                     var txtWidth = txt.preferredWidth;
@@ -198,13 +198,13 @@ namespace XCharts
                 var angle = 2 * Mathf.PI / indicatorNum;
                 Vector3 p = radar.runtimeCenterPos;
                 serie.animation.InitProgress(1, 0, 1);
-                if (!IsActive(i))
+                if (!IsActive(i) || serie.animation.HasFadeOut())
                 {
                     continue;
                 }
                 var rate = serie.animation.GetCurrRate();
                 var dataChanging = false;
-                var updateDuration = serie.animation.GetUpdateAnimationDuration();
+                var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -249,7 +249,7 @@ namespace XCharts
                         if (n >= serieData.data.Count) break;
                         float min = radar.GetIndicatorMin(n);
                         float max = radar.GetIndicatorMax(n);
-                        float value = serieData.GetCurrData(n, updateDuration);
+                        float value = serieData.GetCurrData(n, dataChangeDuration);
                         if (serieData.IsDataChanged()) dataChanging = true;
                         if (max == 0)
                         {
@@ -276,7 +276,7 @@ namespace XCharts
                             }
                             if (serie.lineStyle.show)
                             {
-                                ChartDrawer.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
+                                DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                             }
                             startPoint = toPoint;
                         }
@@ -288,7 +288,7 @@ namespace XCharts
                     }
                     if (serie.lineStyle.show)
                     {
-                        ChartDrawer.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
+                        DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                     }
                     if (serie.symbol.type != SerieSymbolType.None)
                     {
@@ -304,9 +304,7 @@ namespace XCharts
                 }
                 if (!serie.animation.IsFinish())
                 {
-                    float duration = serie.animation.duration > 0 ? (float)serie.animation.duration / 1000 : 1;
-                    float speed = 1 / duration;
-                    serie.animation.CheckProgress(Time.deltaTime * speed);
+                    serie.animation.CheckProgress(1);
                     RefreshChart();
                 }
                 if (dataChanging)
@@ -318,7 +316,7 @@ namespace XCharts
 
         private void DrawRadar(VertexHelper vh, Radar radar)
         {
-            if (!radar.lineStyle.show && !radar.splitArea.show)
+            if (!radar.splitLine.show && !radar.splitArea.show)
             {
                 return;
             }
@@ -346,9 +344,9 @@ namespace XCharts
                     {
                         ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
                     }
-                    if (radar.lineStyle.show)
+                    if (radar.splitLine.NeedShow(i))
                     {
-                        ChartDrawer.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
+                        DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -360,16 +358,16 @@ namespace XCharts
                 float currAngle = j * angle;
                 p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
+                    DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
                 }
             }
         }
 
         private void DrawCricleRadar(VertexHelper vh, Radar radar)
         {
-            if (!radar.lineStyle.show && !radar.splitArea.show)
+            if (!radar.splitLine.show && !radar.splitArea.show)
             {
                 return;
             }
@@ -389,9 +387,9 @@ namespace XCharts
                     ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
                          m_Settings.cicleSmoothness, 0, 360);
                 }
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.lineStyle.width, lineColor,
+                    ChartDrawer.DrawEmptyCricle(vh, p, outsideRadius, radar.splitLine.lineStyle.width, lineColor,
                         Color.clear, m_Settings.cicleSmoothness);
                 }
                 insideRadius = outsideRadius;
@@ -401,29 +399,17 @@ namespace XCharts
                 float currAngle = j * angle;
                 p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.lineStyle.show)
+                if (radar.splitLine.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
+                    ChartDrawer.DrawLine(vh, p, p1, radar.splitLine.lineStyle.width / 2, lineColor);
                 }
             }
         }
 
         private Color GetLineColor(Radar radar)
         {
-            if (radar.lineStyle.color != Color.clear)
-            {
-                var color = radar.lineStyle.color;
-                color.a *= radar.lineStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)m_ThemeInfo.axisLineColor;
-                color.a *= radar.lineStyle.opacity;
-                return color;
-            }
+            return radar.splitLine.GetColor(m_ThemeInfo);
         }
-
 
         protected override void CheckTootipArea(Vector2 local)
         {
@@ -471,14 +457,14 @@ namespace XCharts
             else
             {
                 m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
-                RefreshTooltip();
+                UpdateTooltip();
                 RefreshChart();
             }
         }
 
-        protected override void RefreshTooltip()
+        protected override void UpdateTooltip()
         {
-            base.RefreshTooltip();
+            base.UpdateTooltip();
             int serieIndex = m_Tooltip.runtimeDataIndex[0];
             if (serieIndex < 0)
             {

@@ -18,6 +18,7 @@ namespace XCharts
         protected void DrawYBarSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.name)) return;
+            if (serie.animation.HasFadeOut()) return;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
@@ -44,9 +45,9 @@ namespace XCharts
             }
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
             bool dataChanging = false;
-            float updateDuration = serie.animation.GetUpdateAnimationDuration();
-            float xMinValue = xAxis.GetCurrMinValue(updateDuration);
-            float xMaxValue = xAxis.GetCurrMaxValue(updateDuration);
+            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
+            float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -55,7 +56,7 @@ namespace XCharts
                 }
                 var serieData = showData[i];
                 serieData.canShowLabel = true;
-                float value = showData[i].GetCurrData(1, updateDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration);
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
@@ -117,23 +118,11 @@ namespace XCharts
 
         private float CheckAnimation(Serie serie, int dataIndex, float barHig)
         {
-            float currHig = barHig;
+            float currHig = serie.animation.CheckBarProgress(dataIndex,barHig);
             if (!serie.animation.IsFinish())
             {
-                if (serie.animation.IsInDelay()) currHig = 0;
-                else
-                {
-                    var speed = serie.animation.duration > 0 ? barHig / serie.animation.duration * 1000 : barHig;
-                    currHig = serie.animation.GetDataState(dataIndex) + speed * Time.deltaTime;
-                    serie.animation.SetDataState(dataIndex, currHig);
-                    if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
-                    {
-                        serie.animation.End();
-                        currHig = barHig;
-                    }
-                }
                 RefreshChart();
-                m_IsPlayingStartAnimation = true;
+                m_IsPlayingAnimation = true;
             }
             return currHig;
         }
@@ -141,6 +130,7 @@ namespace XCharts
         protected void DrawXBarSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
             if (!IsActive(serie.name)) return;
+            if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -167,16 +157,16 @@ namespace XCharts
 
             var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
             bool dataChanging = false;
-            float updateDuration = serie.animation.GetUpdateAnimationDuration();
-            float yMinValue = yAxis.GetCurrMinValue(updateDuration);
-            float yMaxValue = yAxis.GetCurrMaxValue(updateDuration);
+            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
+            float yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
                 {
                     seriesHig.Add(0);
                 }
-                float value = showData[i].GetCurrData(1, updateDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration);
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;

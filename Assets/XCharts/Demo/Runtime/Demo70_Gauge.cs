@@ -38,7 +38,7 @@ namespace XCharts
             serie.radius[0] = 80;
             serie.splitNumber = 5;
             serie.animation.dataChangeEnable = true;
-            serie.arcShaped = true;
+            serie.roundCap = true;
 
             serie.titleStyle.show = true;
             serie.titleStyle.textStyle.offset = new Vector2(0, 20);

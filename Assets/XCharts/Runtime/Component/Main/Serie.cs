@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace XCharts
 {
@@ -225,7 +226,8 @@ namespace XCharts
         [SerializeField] private float m_StartAngle;
         [SerializeField] private float m_EndAngle;
         [SerializeField] private bool m_Clockwise;
-        [SerializeField] private bool m_ArcShaped;
+        [FormerlySerializedAs("m_ArcShaped")]
+        [SerializeField] private bool m_RoundCap;
         [SerializeField] private int m_SplitNumber;
         [SerializeField] private GaugeType m_GaugeType = GaugeType.Pointer;
         [SerializeField] private GaugeAxis m_GaugeAxis = new GaugeAxis();
@@ -584,12 +586,12 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value > 36 ? 36 : value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否开启圆弧形边角。
+        /// 是否开启圆弧效果。
         /// </summary>
-        public bool arcShaped
+        public bool roundCap
         {
-            get { return m_ArcShaped; }
-            set { if (PropertyUtility.SetStruct(ref m_ArcShaped, value)) SetVerticesDirty(); }
+            get { return m_RoundCap; }
+            set { if (PropertyUtility.SetStruct(ref m_RoundCap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘轴线。

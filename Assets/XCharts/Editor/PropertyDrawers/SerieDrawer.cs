@@ -64,7 +64,7 @@ namespace XCharts
             SerializedProperty m_EndAngle = prop.FindPropertyRelative("m_EndAngle");
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
             //SerializedProperty m_Clockwise = prop.FindPropertyRelative("m_Clockwise");
-            SerializedProperty m_ArcShaped = prop.FindPropertyRelative("m_ArcShaped");
+            SerializedProperty m_RoundCap = prop.FindPropertyRelative("m_RoundCap");
             SerializedProperty m_GaugeType = prop.FindPropertyRelative("m_GaugeType");
             SerializedProperty m_GaugeAxis = prop.FindPropertyRelative("m_GaugeAxis");
             SerializedProperty m_GaugePointer = prop.FindPropertyRelative("m_GaugePointer");
@@ -182,7 +182,7 @@ namespace XCharts
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
                         ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
-                        EditorGUI.PropertyField(drawRect, m_ArcShaped);
+                        EditorGUI.PropertyField(drawRect, m_RoundCap);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_Label);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
@@ -239,7 +239,7 @@ namespace XCharts
                         {
                             m_SplitNumber.intValue = 36;
                         }
-                        EditorGUI.PropertyField(drawRect, m_ArcShaped);
+                        EditorGUI.PropertyField(drawRect, m_RoundCap);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_TitleStyle);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_TitleStyle);

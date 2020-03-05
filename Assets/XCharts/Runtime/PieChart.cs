@@ -181,7 +181,7 @@ namespace XCharts
         private void DrawArcShape(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
             Color color, ref float drawStartDegree, ref float drawEndDegree)
         {
-            if (serie.arcShaped && serieData.runtimePieInsideRadius > 0)
+            if (serie.roundCap && serieData.runtimePieInsideRadius > 0)
             {
                 var width = (serieData.runtimePieOutsideRadius - serieData.runtimePieInsideRadius) / 2;
                 var radius = serieData.runtimePieInsideRadius + width;

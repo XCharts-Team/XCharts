@@ -436,7 +436,7 @@
 * `pieSpace`：饼图项间的空隙留白。
 * `pieCenter`：饼图的中心点。
 * `pieRadius`：饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
-* `arcShaped`：启用弧形圆角效果。目前只在仪表盘和圆环饼图中有效。
+* `roundCap`：启用圆弧效果。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -529,7 +529,7 @@
 * `space`：扇区间隙。
 * `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
-* `arcShaped`：是否启用圆角效果。只在圆环图中有效。
+* `roundCap`：是否启用圆弧效果。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -591,7 +591,7 @@
 * `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 * `endAngle`：仪表盘结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 * `splitNumber`：仪表盘刻度分割段数。
-* `arcShaped`：是否启用圆角效果。
+* `roundCap`：是否启用圆弧效果。
 * `titleStyle`：仪表盘标题 [TitleStyle](#TitleStyle)。
 * `gaugeAxis`： 仪表盘坐标轴 [GaugeAxis](#GaugeAxis)。
 * `gaugePointer`：仪表盘指针 [GaugePointer](#GaugePointer)。

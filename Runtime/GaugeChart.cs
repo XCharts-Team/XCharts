@@ -166,14 +166,14 @@ namespace XCharts
             var outsideRadius = serie.runtimeInsideRadius + serie.gaugeAxis.axisLine.width;
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
                 backgroundColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, serie.endAngle);
-            if (serie.arcShaped)
+            if (serie.roundCap)
             {
                 DrawArcShape(vh, serie, serie.startAngle, backgroundColor, true);
                 DrawArcShape(vh, serie, serie.endAngle, backgroundColor);
             }
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
                 color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, currAngle);
-            if (serie.arcShaped && currAngle != serie.startAngle)
+            if (serie.roundCap && currAngle != serie.startAngle)
             {
                 DrawArcShape(vh, serie, currAngle, color);
                 DrawArcShape(vh, serie, serie.startAngle, color, true);

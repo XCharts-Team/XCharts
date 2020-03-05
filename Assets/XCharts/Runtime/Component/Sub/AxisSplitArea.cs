@@ -25,14 +25,22 @@ namespace XCharts
         /// Set this to true to show the splitArea.
         /// 是否显示分隔区域。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Color of split area. SplitArea color could also be set in color array,
         /// which the split lines would take as their colors in turns. 
         /// Dark and light colors in turns are used by default.
         /// 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
         /// </summary>
-        public List<Color> color { get { return m_Color; } set { m_Color = value; } }
+        public List<Color> color
+        {
+            get { return m_Color; }
+            set { if (value != null) { m_Color = value; SetVerticesDirty(); } }
+        }
 
         public static AxisSplitArea defaultSplitArea
         {

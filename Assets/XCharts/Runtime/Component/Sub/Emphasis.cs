@@ -22,14 +22,43 @@ namespace XCharts
         /// <summary>
         /// 是否启用高亮样式。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { m_Show = value; }
+        }
         /// <summary>
         /// 图形文本标签。
         /// </summary>
-        public SerieLabel label { get { return m_Label; } }
+        public SerieLabel label
+        {
+            get { return m_Label; }
+            set { if (PropertyUtility.SetClass(ref m_Label, value, true)) SetAllDirty(); }
+        }
         /// <summary>
         /// 图形样式。
         /// </summary>
-        public ItemStyle itemStyle { get { return m_ItemStyle; } }
+        public ItemStyle itemStyle
+        {
+            get { return m_ItemStyle; }
+            set { if (PropertyUtility.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
+        }
+
+        public override bool vertsDirty { get { return m_VertsDirty || label.vertsDirty || itemStyle.vertsDirty; } }
+
+        public override bool componentDirty { get { return m_ComponentDirty || label.componentDirty; } }
+
+        internal override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            label.ClearVerticesDirty();
+            itemStyle.ClearVerticesDirty();
+        }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            label.ClearComponentDirty();
+        }
     }
 }

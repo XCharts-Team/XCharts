@@ -25,16 +25,28 @@ namespace XCharts
         /// <summary>
         /// 是否显示指针。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 指针长度。可以是绝对值，也可以是相对于半径的百分比（0-1的浮点数）
         /// </summary>
         /// <value></value>
-        public float length { get { return m_Length; } set { m_Length = value; } }
+        public float length
+        {
+            get { return m_Length; }
+            set { if (PropertyUtility.SetStruct(ref m_Length, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 指针宽度。
         /// </summary>
         /// <value></value>
-        public float width { get { return m_Width; } set { m_Width = value; } }
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtility.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
+        }
     }
 }

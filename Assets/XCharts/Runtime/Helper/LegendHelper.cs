@@ -75,7 +75,6 @@ namespace XCharts
         public static void ResetItemPosition(Legend legend)
         {
             var startX = 0f;
-            var startY = 0f;
             var currWidth = 0f;
             var currHeight = 0f;
 
@@ -210,7 +209,6 @@ namespace XCharts
                                 item.SetPosition(new Vector3(startX + currWidth + item.width, 0));
                                 currWidth += item.width + legend.itemGap;
                             }
-                            break;
                             break;
                     }
                     break;

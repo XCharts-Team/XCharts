@@ -72,7 +72,6 @@ namespace XChartsDemo
             var charts = transform.GetComponentsInChildren<BaseChart>();
             foreach (var chart in charts)
             {
-                chart.themeInfo.defaultLegendTextColor = ThemeInfo.GetColor("#514D4D");
                 chart.legend.itemWidth = 20f;
                 chart.legend.itemHeight = 10f;
                 chart.legend.textStyle.fontSize = 16;

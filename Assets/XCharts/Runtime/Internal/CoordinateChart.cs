@@ -31,13 +31,10 @@ namespace XCharts
         private bool m_DataZoomEndDrag;
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
-        private bool m_XAxisChanged;
-        private bool m_YAxisChanged;
         private bool m_CheckMinMaxValue;
         private bool m_CheckDataZoomLabel;
-        private List<XAxis> m_CheckXAxises = new List<XAxis>();
-        private List<YAxis> m_CheckYAxises = new List<YAxis>();
-        private Grid m_CheckCoordinate = Grid.defaultGrid;
+        private bool m_XAxisesDirty;
+        private bool m_YAxisesDirty;
         private Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
         private List<float> m_SeriesCurrHig = new List<float>();
 
@@ -55,14 +52,61 @@ namespace XCharts
 
         protected override void Update()
         {
-            base.Update();
-            CheckYAxis();
-            CheckXAxis();
             CheckMinMaxValue();
-            CheckCoordinate();
             CheckRaycastTarget();
             CheckDataZoom();
             CheckVisualMap();
+            base.Update();
+        }
+
+        protected override void CheckComponent()
+        {
+            if (m_DataZoom.anyDirty)
+            {
+                if (m_DataZoom.componentDirty) InitDataZoom();
+                if (m_DataZoom.vertsDirty) RefreshChart();
+                m_DataZoom.ClearDirty();
+            }
+            if (m_VisualMap.anyDirty)
+            {
+                if (m_VisualMap.vertsDirty) RefreshChart();
+                m_VisualMap.ClearDirty();
+            }
+            if (m_Grid.anyDirty)
+            {
+                if (m_Grid.componentDirty)
+                {
+                    m_XAxisesDirty = true;
+                    m_YAxisesDirty = true;
+                    OnCoordinateChanged();
+                }
+                if (m_Grid.vertsDirty) RefreshChart();
+                m_Grid.ClearDirty();
+            }
+            for (int i = 0; i < m_XAxises.Count; i++)
+            {
+                var axis = m_XAxises[i];
+                if (m_XAxisesDirty || axis.anyDirty)
+                {
+                    if (axis.componentDirty || m_XAxisesDirty) InitXAxis(i, axis);
+                    if (axis.vertsDirty || m_XAxisesDirty) RefreshChart();
+                    axis.ClearDirty();
+
+                    m_XAxisesDirty = false;
+                }
+            }
+            for (int i = 0; i < m_YAxises.Count; i++)
+            {
+                var axis = m_YAxises[i];
+                if (m_YAxisesDirty || axis.anyDirty)
+                {
+                    if (axis.componentDirty || m_YAxisesDirty) InitYAxis(i, axis);
+                    if (axis.vertsDirty || m_YAxisesDirty) RefreshChart();
+                    axis.ClearDirty();
+                    m_YAxisesDirty = false;
+                }
+            }
+            base.CheckComponent();
         }
 
 #if UNITY_EDITOR
@@ -73,6 +117,16 @@ namespace XCharts
             m_XAxises.Clear();
             m_YAxises.Clear();
             Awake();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
+            m_Grid.SetAllDirty();
+            m_DataZoom.SetAllDirty();
+            m_VisualMap.SetAllDirty();
         }
 #endif
 
@@ -465,9 +519,9 @@ namespace XCharts
         protected override void OnThemeChanged()
         {
             base.OnThemeChanged();
-            InitDataZoom();
-            InitAxisX();
-            InitAxisY();
+            m_DataZoom.SetAllDirty();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         private void InitDefaultAxises()
@@ -753,54 +807,7 @@ namespace XCharts
             {
                 posY = startY - xAxis.axisLabel.margin - xAxis.axisLabel.fontSize / 2;
             }
-            // if (xAxis.boundaryGap)
-            // {
-            //     return new Vector3(coordinateX + (i + 1) * scaleWid, posY);
-            // }
-            // else
-            // {
-            //     return new Vector3(coordinateX + (i + 1 - 0.5f) * scaleWid, posY);
-            // }
             return new Vector3(coordinateX + scaleWid, posY);
-        }
-
-        private void CheckCoordinate()
-        {
-            if (m_CheckCoordinate != m_Grid)
-            {
-                m_CheckCoordinate.Copy(m_Grid);
-                OnCoordinateChanged();
-            }
-        }
-
-        private void CheckYAxis()
-        {
-            if (m_YAxisChanged || !ChartHelper.IsValueEqualsList<YAxis>(m_CheckYAxises, m_YAxises))
-            {
-                foreach (var axis in m_CheckYAxises)
-                {
-                    YAxisPool.Release(axis);
-                }
-                m_CheckYAxises.Clear();
-                foreach (var axis in m_YAxises) m_CheckYAxises.Add(axis.Clone());
-                m_YAxisChanged = false;
-                OnYAxisChanged();
-            }
-        }
-
-        private void CheckXAxis()
-        {
-            if (m_XAxisChanged || !ChartHelper.IsValueEqualsList<XAxis>(m_CheckXAxises, m_XAxises))
-            {
-                foreach (var axis in m_CheckXAxises)
-                {
-                    XAxisPool.Release(axis);
-                }
-                m_CheckXAxises.Clear();
-                foreach (var axis in m_XAxises) m_CheckXAxises.Add(axis.Clone());
-                m_XAxisChanged = false;
-                OnXAxisChanged();
-            }
         }
 
         private void CheckMinMaxValue()
@@ -884,25 +891,15 @@ namespace XCharts
 
         protected virtual void OnCoordinateChanged()
         {
-            InitAxisX();
-            InitAxisY();
-        }
-
-        protected virtual void OnYAxisChanged()
-        {
-            InitAxisY();
-        }
-
-        protected virtual void OnXAxisChanged()
-        {
-            InitAxisX();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         protected override void OnSizeChanged()
         {
             base.OnSizeChanged();
-            InitAxisX();
-            InitAxisY();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         private void DrawCoordinate(VertexHelper vh)

@@ -77,13 +77,20 @@ namespace XCharts
         /// Whether to show the tooltip component.
         /// 是否显示提示框组件。
         /// </summary>
-        /// <returns></returns>
-        public bool show { get { return m_Show; } set { m_Show = value; SetActive(value); } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) { SetAllDirty(); SetActive(value); } }
+        }
         /// <summary>
         /// Indicator type.
         /// 提示框指示器类型。
         /// </summary>
-        public Type type { get { return m_Type; } set { m_Type = value; } }
+        public Type type
+        {
+            get { return m_Type; }
+            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// 提示框总内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
@@ -166,11 +173,34 @@ namespace XCharts
         /// <summary>
         /// 提示框内容文本样式。
         /// </summary>
-        public TextStyle textStyle { get { return m_TextStyle; } set { if (value != null) m_TextStyle = value; } }
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (value != null) { m_TextStyle = value; SetComponentDirty(); } }
+        }
         /// <summary>
         /// 指示线样式。
         /// </summary>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
+        public LineStyle lineStyle
+        {
+            get { return m_LineStyle; }
+            set { if (value != null) m_LineStyle = value; SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// 组件是否需要刷新
+        /// </summary>
+        public override bool componentDirty
+        {
+            get { return m_ComponentDirty || lineStyle.componentDirty || textStyle.componentDirty; }
+        }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            lineStyle.ClearComponentDirty();
+            textStyle.ClearComponentDirty();
+        }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.

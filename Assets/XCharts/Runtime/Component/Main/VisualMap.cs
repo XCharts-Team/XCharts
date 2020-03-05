@@ -73,27 +73,51 @@ namespace XCharts
         /// <summary>
         /// 是否开启组件功能。
         /// </summary>
-        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        public bool enable
+        {
+            get { return m_Enable; }
+            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 组件类型。
         /// </summary>
-        public Type type { get { return m_Type; } set { m_Type = value; } }
+        public Type type
+        {
+            get { return m_Type; }
+            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 选择模式。
         /// </summary>
-        public SelectedMode selectedMode { get { return m_SelectedMode; } set { m_SelectedMode = value; } }
+        public SelectedMode selectedMode
+        {
+            get { return m_SelectedMode; }
+            set { if (PropertyUtility.SetStruct(ref m_SelectedMode, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
         /// </summary>
-        public float min { get { return m_Min; } set { m_Min = value; } }
+        public float min
+        {
+            get { return m_Min; }
+            set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
         /// </summary>
-        public float max { get { return m_Max; } set { m_Max = value < min ? min + 1 : value; } }
+        public float max
+        {
+            get { return m_Max; }
+            set { m_Max = value < min ? min + 1 : value; SetVerticesDirty(); }
+        }
         /// <summary>
         /// 指定手柄对应数值的位置。range 应在 min max 范围内。
         /// </summary>
@@ -110,55 +134,116 @@ namespace XCharts
         /// 对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
         /// </summary>
         /// <value></value>
-        public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
+        public int splitNumber
+        {
+            get { return m_SplitNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。
         /// </summary>
-        public bool calculable { get { return m_Calculable; } set { m_Calculable = value; } }
+        public bool calculable
+        {
+            get { return m_Calculable; }
+            set { if (PropertyUtility.SetStruct(ref m_Calculable, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 拖拽时，是否实时更新。
         /// </summary>
-        public bool realtime { get { return m_Realtime; } set { m_Realtime = value; } }
+        public bool realtime
+        {
+            get { return m_Realtime; }
+            set { if (PropertyUtility.SetStruct(ref m_Realtime, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 图形的宽度，即颜色条的宽度。
         /// </summary>
-        public float itemWidth { get { return m_ItemWidth; } set { m_ItemWidth = value; } }
+        public float itemWidth
+        {
+            get { return m_ItemWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemWidth, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 图形的高度，即颜色条的高度。
         /// </summary>
-        public float itemHeight { get { return m_ItemHeight; } set { m_ItemHeight = value; } }
+        public float itemHeight
+        {
+            get { return m_ItemHeight; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemHeight, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 边框线宽，单位px。
         /// </summary>
-        public float borderWidth { get { return m_BorderWidth; } set { m_BorderWidth = value; } }
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 指定用数据的『哪个维度』，映射到视觉元素上。『数据』即 series.data。从1开始，默认为0取 data 中最后一个维度。
         /// </summary>
-        public int dimension { get { return m_Dimension; } set { m_Dimension = value; } }
+        public int dimension
+        {
+            get { return m_Dimension; }
+            set { if (PropertyUtility.SetStruct(ref m_Dimension, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
         /// 反之，鼠标悬浮到图表中的图形元素上时，在 visualMap 组件的相应位置会有三角提示其所对应的数值。
         /// </summary>
         /// <value></value>
-        public bool hoverLink { get { return m_HoverLink; } set { m_HoverLink = value; } }
+        public bool hoverLink
+        {
+            get { return m_HoverLink; }
+            set { if (PropertyUtility.SetStruct(ref m_HoverLink, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Specify whether the layout of component is horizontal or vertical. 
         /// 布局方式是横还是竖。
         /// </summary>
-        public Orient orient { get { return m_Orient; } set { m_Orient = value; } }
+        public Orient orient
+        {
+            get { return m_Orient; }
+            set { if (PropertyUtility.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The location of component.
         /// 组件显示的位置。
         /// </summary>
-        public Location location { get { return m_Location; } set { m_Location = value; } }
+        public Location location
+        {
+            get { return m_Location; }
+            set { if (PropertyUtility.SetClass(ref m_Location, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 定义 在选中范围中 的视觉颜色。
         /// </summary>
-        public List<Color> inRange { get { return m_InRange; } set { if (value != null) m_InRange = value; } }
+        public List<Color> inRange
+        {
+            get { return m_InRange; }
+            set { if (value != null) { m_InRange = value; SetVerticesDirty(); } }
+        }
         /// <summary>
         /// 定义 在选中范围外 的视觉颜色。
         /// </summary>
-        public List<Color> outOfRange { get { return m_OutOfRange; } set { if (value != null) m_OutOfRange = value; } }
+        public List<Color> outOfRange
+        {
+            get { return m_OutOfRange; }
+            set { if (value != null) { m_OutOfRange = value; SetVerticesDirty(); } }
+        }
+
+        public override bool vertsDirty { get { return m_VertsDirty || location.anyDirty; } }
+        internal override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            location.ClearVerticesDirty();
+        }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            location.ClearComponentDirty();
+        }
 
         /// <summary>
         /// 鼠标悬停选中的index

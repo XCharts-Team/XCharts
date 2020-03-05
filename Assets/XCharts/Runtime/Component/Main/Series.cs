@@ -18,11 +18,12 @@ namespace XCharts
     [System.Serializable]
     public class Series : MainComponent
     {
-
         [SerializeField] protected List<Serie> m_Series;
+        [NonSerialized] private bool m_LabelDirty;
 
         [Obsolete("Use Series.list instead.", true)]
         public List<Serie> series { get { return m_Series; } }
+
 
         /// <summary>
         /// the list of serie
@@ -49,6 +50,74 @@ namespace XCharts
                 };
                 return series;
             }
+        }
+
+        public override bool vertsDirty
+        {
+            get
+            {
+                if (m_VertsDirty) return true;
+                foreach (var serie in m_Series)
+                {
+                    if (serie.vertsDirty) return true;
+                }
+                return false;
+            }
+        }
+
+        public bool labelDirty
+        {
+            get
+            {
+                if (m_LabelDirty) return true;
+                foreach (var serie in m_Series)
+                {
+                    if (serie.label.componentDirty) return true;
+                }
+                return false;
+            }
+        }
+
+        public bool labelUpdate
+        {
+            get
+            {
+                foreach (var serie in m_Series)
+                {
+                    if (serie.label.vertsDirty) return true;
+                }
+                return false;
+            }
+        }
+
+
+        public void SetLabelDirty()
+        {
+            m_LabelDirty = true;
+        }
+
+        internal override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            foreach (var serie in m_Series)
+            {
+                serie.ClearVerticesDirty();
+            }
+        }
+
+        internal void ClearLabelDirty()
+        {
+            m_LabelDirty = false;
+            foreach (var serie in m_Series)
+            {
+                serie.label.ClearVerticesDirty();
+            }
+        }
+
+        public override void SetAllDirty()
+        {
+            base.SetAllDirty();
+            SetLabelDirty();
         }
 
         /// <summary>
@@ -294,6 +363,7 @@ namespace XCharts
             }
             serie.animation.Restart();
             m_Series.Add(serie);
+            SetVerticesDirty();
             return serie;
         }
 

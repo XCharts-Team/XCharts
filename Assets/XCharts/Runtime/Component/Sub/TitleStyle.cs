@@ -33,9 +33,6 @@ namespace XCharts
         /// 文本的颜色。
         /// </summary>
         public TextStyle textStyle { get { return m_textStyle; } set { m_textStyle = value; } }
-        /// <summary>
-        /// 
-        /// </summary>
         public Text runtimeText { get; set; }
 
         public TitleStyle Clone()

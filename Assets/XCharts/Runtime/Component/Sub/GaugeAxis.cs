@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace XCharts
 {
-
     /// <summary>
     /// Settings related to gauge axis line.
     /// 仪表盘轴线相关设置。

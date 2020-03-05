@@ -44,26 +44,50 @@ namespace XCharts
         /// <summary>
         /// 是否启用。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 数据项颜色。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 边框的类型。
         /// </summary>
-        public Type borderType { get { return m_BorderType; } set { m_BorderType = value; } }
+        public Type borderType
+        {
+            get { return m_BorderType; }
+            set { if (PropertyUtility.SetStruct(ref m_BorderType, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 边框的颜色。
         /// </summary>
-        public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
+        public Color borderColor
+        {
+            get { return m_BorderColor; }
+            set { if (PropertyUtility.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 边框宽。
         /// </summary>
-        public float borderWidth { get { return m_BorderWidth; } set { m_BorderWidth = value; } }
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opacity
+        {
+            get { return m_Opacity; }
+            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+        }
     }
 }

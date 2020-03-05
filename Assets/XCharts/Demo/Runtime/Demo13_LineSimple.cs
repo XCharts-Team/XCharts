@@ -38,10 +38,12 @@ namespace XCharts
 
             chart.RemoveData();
             chart.AddSerie(SerieType.Line);
+            chart.AddSerie(SerieType.Line);
             for (int i = 0; i < 10; i++)
             {
                 chart.AddXAxisData("x" + i);
                 chart.AddData(0, Random.Range(10, 20));
+                chart.AddData(1, Random.Range(10, 20));
             }
         }
     }

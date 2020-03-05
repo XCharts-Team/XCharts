@@ -36,7 +36,7 @@ namespace XCharts
     /// Theme.
     /// 主题相关配置。
     /// </summary>
-    public class ThemeInfo : MainComponent, IEquatable<ThemeInfo>
+    public class ThemeInfo : MainComponent
     {
         [SerializeField] private Theme m_Theme = Theme.Default;
         [SerializeField] private Font m_Font;
@@ -86,7 +86,11 @@ namespace XCharts
         /// the theme of chart.
         /// 主题类型。
         /// </summary>
-        public Theme theme { get { return m_Theme; } set { m_Theme = value; } }
+        public Theme theme
+        {
+            get { return m_Theme; }
+            set { if (PropertyUtility.SetStruct(ref m_Theme, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the font of chart text。
         /// 字体。
@@ -94,7 +98,7 @@ namespace XCharts
         public Font font
         {
             get { return m_CustomFont != null ? m_CustomFont : m_Font; }
-            set { m_CustomFont = value; }
+            set { if (PropertyUtility.SetClass(ref m_CustomFont, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the background color of chart.
@@ -103,7 +107,7 @@ namespace XCharts
         public Color32 backgroundColor
         {
             get { return m_CustomBackgroundColor != Color.clear ? m_CustomBackgroundColor : m_BackgroundColor; }
-            set { m_CustomBackgroundColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomBackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the main title text color.
@@ -112,7 +116,7 @@ namespace XCharts
         public Color32 titleTextColor
         {
             get { return m_CustomTitleTextColor != Color.clear ? m_CustomTitleTextColor : m_TitleTextColor; }
-            set { m_CustomTitleTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTitleTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the subtitie text color.
@@ -121,7 +125,7 @@ namespace XCharts
         public Color32 titleSubTextColor
         {
             get { return m_CustomTitleSubTextColor != Color.clear ? m_CustomTitleSubTextColor : m_TitleSubTextColor; }
-            set { m_CustomTitleSubTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTitleSubTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the legend text color.
@@ -130,10 +134,8 @@ namespace XCharts
         public Color32 legendTextColor
         {
             get { return m_CustomLegendTextColor != Color.clear ? m_CustomLegendTextColor : m_LegendTextColor; }
-            set { m_CustomLegendTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomLegendTextColor, value)) SetComponentDirty(); }
         }
-
-        public Color32 defaultLegendTextColor{get{return m_LegendTextColor;}set{m_LegendTextColor=value;}}
         /// <summary>
         /// the legend unable text color.
         /// 图例变为不可用时的按钮颜色。
@@ -141,7 +143,7 @@ namespace XCharts
         public Color32 legendUnableColor
         {
             get { return m_CustomLegendUnableColor != Color.clear ? m_CustomLegendUnableColor : m_LegendUnableColor; }
-            set { m_CustomLegendUnableColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomLegendUnableColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the axis text color.
@@ -150,7 +152,7 @@ namespace XCharts
         public Color32 axisTextColor
         {
             get { return m_CustomAxisTextColor != Color.clear ? m_CustomAxisTextColor : m_AxisTextColor; }
-            set { m_CustomAxisTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomAxisTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the color of axis line.
@@ -159,7 +161,7 @@ namespace XCharts
         public Color32 axisLineColor
         {
             get { return m_CustomAxisLineColor != Color.clear ? m_CustomAxisLineColor : m_AxisLineColor; }
-            set { m_CustomAxisLineColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomAxisLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of axis split line.
@@ -168,7 +170,7 @@ namespace XCharts
         public Color32 axisSplitLineColor
         {
             get { return m_CustomAxisSplitLineColor != Color.clear ? m_CustomAxisSplitLineColor : m_AxisSplitLineColor; }
-            set { m_CustomAxisSplitLineColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomAxisSplitLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the tooltip background color.
@@ -177,7 +179,7 @@ namespace XCharts
         public Color32 tooltipBackgroundColor
         {
             get { return m_CustomTooltipBackgroundColor != Color.clear ? m_CustomTooltipBackgroundColor : m_TooltipBackgroundColor; }
-            set { m_CustomTooltipBackgroundColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTooltipBackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the color of tooltip shadow crosshair indicator. 
@@ -186,7 +188,7 @@ namespace XCharts
         public Color32 tooltipFlagAreaColor
         {
             get { return m_CustomTooltipFlagAreaColor != Color.clear ? m_CustomTooltipFlagAreaColor : m_TooltipFlagAreaColor; }
-            set { m_CustomTooltipFlagAreaColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTooltipFlagAreaColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of tooltip text.
@@ -195,7 +197,7 @@ namespace XCharts
         public Color32 tooltipTextColor
         {
             get { return m_CustomTooltipTextColor != Color.clear ? m_CustomTooltipTextColor : m_TooltipTextColor; }
-            set { m_CustomTooltipTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTooltipTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the background color of tooltip cross indicator's axis label.
@@ -204,7 +206,7 @@ namespace XCharts
         public Color32 tooltipLabelColor
         {
             get { return m_CustomTooltipLabelColor != Color.clear ? m_CustomTooltipLabelColor : m_TooltipLabelColor; }
-            set { m_CustomTooltipLabelColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTooltipLabelColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color tooltip indicator line.
@@ -213,7 +215,7 @@ namespace XCharts
         public Color32 tooltipLineColor
         {
             get { return m_CustomTooltipLineColor != Color.clear ? m_CustomTooltipLineColor : m_TooltipLineColor; }
-            set { m_CustomTooltipLineColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomTooltipLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of datazoom text.
@@ -222,7 +224,7 @@ namespace XCharts
         public Color32 dataZoomTextColor
         {
             get { return m_CustomDataZoomTextColor != Color.clear ? m_CustomDataZoomTextColor : m_DataZoomTextColor; }
-            set { m_CustomDataZoomTextColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomDataZoomTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the color of datazoom line.
@@ -231,7 +233,7 @@ namespace XCharts
         public Color32 dataZoomLineColor
         {
             get { return m_CustomDataZoomLineColor != Color.clear ? m_CustomDataZoomLineColor : m_DataZoomLineColor; }
-            set { m_CustomDataZoomLineColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomDataZoomLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of datazoom selected area.
@@ -240,7 +242,7 @@ namespace XCharts
         public Color32 dataZoomSelectedColor
         {
             get { return m_CustomDataZoomSelectedColor != Color.clear ? m_CustomDataZoomSelectedColor : m_DataZoomSelectedColor; }
-            set { m_CustomDataZoomSelectedColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomDataZoomSelectedColor, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -249,7 +251,7 @@ namespace XCharts
         public Color32 visualMapBackgroundColor
         {
             get { return m_CustomVisualMapBackgroundColor != Color.clear ? m_CustomVisualMapBackgroundColor : m_VisualMapBackgroundColor; }
-            set { m_CustomVisualMapBackgroundColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomVisualMapBackgroundColor, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -258,14 +260,14 @@ namespace XCharts
         public Color32 visualMapBorderColor
         {
             get { return m_CustomVisualMapBorderColor != Color.clear ? m_CustomVisualMapBorderColor : m_VisualMapBorderColor; }
-            set { m_CustomVisualMapBorderColor = value; }
+            set { if (PropertyUtility.SetColor(ref m_CustomVisualMapBorderColor, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
         /// The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
         /// 调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
         /// </summary>
-        public List<Color32> colorPalette { set { m_CustomColorPalette = value; } }
+        public List<Color32> colorPalette { set { m_CustomColorPalette = value; SetVerticesDirty(); } }
 
         /// <summary>
         /// Gets the color of the specified index from the palette. 
@@ -309,6 +311,22 @@ namespace XCharts
             {
                 _colorDic[index] = ColorUtility.ToHtmlStringRGBA(GetColor(index));
                 return _colorDic[index];
+            }
+        }
+
+        public void Copy(Theme theme)
+        {
+            switch (theme)
+            {
+                case Theme.Dark:
+                    Copy(ThemeInfo.Dark);
+                    break;
+                case Theme.Default:
+                    Copy(ThemeInfo.Default);
+                    break;
+                case Theme.Light:
+                    Copy(ThemeInfo.Light);
+                    break;
             }
         }
 
@@ -577,64 +595,6 @@ namespace XCharts
             Color color;
             ColorUtility.TryParseHtmlString(hexColorStr, out color);
             return (Color32)color;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is ThemeInfo)
-            {
-                return Equals((ThemeInfo)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(ThemeInfo other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return m_Font == other.m_Font &&
-                ChartHelper.IsValueEqualsColor(m_LegendUnableColor, other.m_LegendUnableColor) &&
-                ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.m_BackgroundColor) &&
-                ChartHelper.IsValueEqualsColor(m_TitleTextColor, other.m_TitleTextColor) &&
-                ChartHelper.IsValueEqualsColor(m_TitleSubTextColor, other.m_TitleSubTextColor) &&
-                ChartHelper.IsValueEqualsColor(m_AxisTextColor, other.m_AxisTextColor) &&
-                ChartHelper.IsValueEqualsColor(m_AxisLineColor, other.m_AxisLineColor) &&
-                ChartHelper.IsValueEqualsColor(m_AxisSplitLineColor, other.m_AxisSplitLineColor) &&
-                ChartHelper.IsValueEqualsColor(m_TooltipBackgroundColor, other.m_TooltipBackgroundColor) &&
-                ChartHelper.IsValueEqualsColor(m_AxisSplitLineColor, other.m_AxisSplitLineColor) &&
-                ChartHelper.IsValueEqualsColor(m_TooltipTextColor, other.m_TooltipTextColor) &&
-                ChartHelper.IsValueEqualsColor(m_TooltipFlagAreaColor, other.m_TooltipFlagAreaColor) &&
-                ChartHelper.IsValueEqualsColor(m_DataZoomLineColor, other.m_DataZoomLineColor) &&
-                ChartHelper.IsValueEqualsColor(m_DataZoomSelectedColor, other.m_DataZoomSelectedColor) &&
-                ChartHelper.IsValueEqualsColor(m_DataZoomTextColor, other.m_DataZoomTextColor) &&
-                m_ColorPalette.Length == other.m_ColorPalette.Length;
-        }
-
-        public static bool operator ==(ThemeInfo left, ThemeInfo right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(ThemeInfo left, ThemeInfo right)
-        {
-            return !(left == right);
         }
 
         public override int GetHashCode()

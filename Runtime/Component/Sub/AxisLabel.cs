@@ -34,55 +34,106 @@ namespace XCharts
         /// Set this to false to prevent the axis label from appearing.
         /// 是否显示刻度标签。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// The display interval of the axis label.
         /// 坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
         /// </summary>
-        public int interval { get { return m_Interval; } set { m_Interval = value; } }
+        public int interval
+        {
+            get { return m_Interval; }
+            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Set this to true so the axis labels face the inside direction.
         /// 刻度标签是否朝内，默认朝外。
         /// </summary>
-        public bool inside { get { return m_Inside; } set { m_Inside = value; } }
+        public bool inside
+        {
+            get { return m_Inside; }
+            set { if (PropertyUtility.SetStruct(ref m_Inside, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Rotation degree of axis label, which is especially useful when there is no enough space for category axis.
         /// 刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
         /// </summary>
-        public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+        public float rotate
+        {
+            get { return m_Rotate; }
+            set { if (PropertyUtility.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// The margin between the axis label and the axis line.
         /// 刻度标签与轴线之间的距离。
         /// </summary>
-        public float margin { get { return m_Margin; } set { m_Margin = value; } }
+        public float margin
+        {
+            get { return m_Margin; }
+            set { if (PropertyUtility.SetStruct(ref m_Margin, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the color of axis label text. 
         /// 刻度标签文字的颜色，默认取Theme的axisTextColor。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font size.
         /// 文字的字体大小。
         /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        public int fontSize
+        {
+            get { return m_FontSize; }
+            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font style.
         /// 文字字体的风格。
         /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        public FontStyle fontStyle
+        {
+            get { return m_FontStyle; }
+            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}
         /// </summary>
-        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        public string formatter
+        {
+            get { return m_Formatter; }
+            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
-        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        public bool forceENotation
+        {
+            get { return m_ForceENotation; }
+            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 文本限制。
         /// </summary>
-        public TextLimit textLimit { get { return m_TextLimit; } }
+        public TextLimit textLimit
+        {
+            get { return m_TextLimit; }
+            set { if (value != null) { m_TextLimit = value; SetComponentDirty(); } }
+        }
+
+        public override bool componentDirty { get { return m_ComponentDirty || m_TextLimit.componentDirty; } }
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            textLimit.ClearComponentDirty();
+        }
 
         public static AxisLabel defaultAxisLabel
         {
@@ -100,44 +151,6 @@ namespace XCharts
                     m_FontStyle = FontStyle.Normal
                 };
             }
-        }
-        public void Copy(AxisLabel other)
-        {
-            m_Show = other.show;
-            m_Interval = other.interval;
-            m_Inside = other.inside;
-            m_Rotate = other.rotate;
-            m_Margin = other.margin;
-            m_Color = other.color;
-            m_FontSize = other.fontSize;
-            m_FontStyle = other.fontStyle;
-            m_Formatter = other.formatter;
-            m_TextLimit.Copy(other.textLimit);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            var other = (AxisLabel)obj;
-            return m_Show == other.show &&
-                m_Interval.Equals(other.interval) &&
-                m_Inside == other.inside &&
-                m_Rotate == other.rotate &&
-                m_Margin == other.margin &&
-                m_Color == other.color &&
-                m_FontSize == other.fontSize &&
-                m_FontStyle == other.fontStyle &&
-                m_ForceENotation == other.forceENotation &&
-                ChartHelper.IsValueEqualsString(m_Formatter, other.formatter) &&
-                m_TextLimit.Equals(other.textLimit);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public void SetRelatedText(Text txt, float labelWidth)

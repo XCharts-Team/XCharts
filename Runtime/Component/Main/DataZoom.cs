@@ -90,52 +90,92 @@ namespace XCharts
         /// Whether to show dataZoom. 
         /// 是否显示缩放区域。
         /// </summary>
-        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        public bool enable
+        {
+            get { return m_Enable; }
+            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The mode of data filter. 
         /// 数据过滤类型。
         /// </summary>
-        public FilterMode filterMode { get { return m_FilterMode; } set { m_FilterMode = value; } }
+        public FilterMode filterMode
+        {
+            get { return m_FilterMode; }
+            set { if (PropertyUtility.SetStruct(ref m_FilterMode, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Specify which xAxis is controlled by the dataZoom. 
         /// 控制哪一个 x 轴。
         /// </summary>
-        public int xAxisIndex { get { return m_XAxisIndex; } set { m_XAxisIndex = value; } }
+        public int xAxisIndex
+        {
+            get { return m_XAxisIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_XAxisIndex, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Specify which yAxis is controlled by the dataZoom. 
         /// 控制哪一个 y 轴。
         /// </summary>
-        public int yAxisIndex { get { return m_YAxisIndex; } set { m_YAxisIndex = value; } }
+        public int yAxisIndex
+        {
+            get { return m_YAxisIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_YAxisIndex, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
         /// </summary>
-        public bool supportInside { get { return m_SupportInside; } set { m_SupportInside = value; } }
+        public bool supportInside
+        {
+            get { return m_SupportInside; }
+            set { if (PropertyUtility.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。
         /// </summary>
-        public bool supportSlider { get { return m_SupportSlider; } set { m_SupportSlider = value; } }
+        public bool supportSlider
+        {
+            get { return m_SupportSlider; }
+            set { if (PropertyUtility.SetStruct(ref m_SupportSlider, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否支持框选。提供一个选框进行数据区域缩放。
         /// </summary>
-        private bool supportSelect { get { return m_SupportSelect; } set { m_SupportSelect = value; } }
+        private bool supportSelect
+        {
+            get { return m_SupportSelect; }
+            set { if (PropertyUtility.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
         /// default:true
         /// 是否显示数据阴影。数据阴影可以简单地反应数据走势。
         /// </summary>
-        public bool showDataShadow { get { return m_ShowDataShadow; } set { m_ShowDataShadow = value; } }
+        public bool showDataShadow
+        {
+            get { return m_ShowDataShadow; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowDataShadow, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Whether to show detail, that is, show the detailed data information when dragging.
         /// 是否显示detail，即拖拽时候显示详细数值信息。
         /// </summary>
-        public bool showDetail { get { return m_ShowDetail; } set { m_ShowDetail = value; } }
+        public bool showDetail
+        {
+            get { return m_ShowDetail; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowDetail, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Specify whether to lock the size of window (selected area).
         /// default:false
         /// 是否锁定选择区域（或叫做数据窗口）的大小。
         /// 如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
         /// </summary>
-        public bool zoomLock { get { return m_ZoomLock; } set { m_ZoomLock = value; } }
+        public bool zoomLock
+        {
+            get { return m_ZoomLock; }
+            set { if (PropertyUtility.SetStruct(ref m_ZoomLock, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief.
         /// default:true
@@ -146,27 +186,43 @@ namespace XCharts
         /// The background color of the component.
         /// 组件的背景颜色。
         /// </summary>
-        private Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        private Color backgroundColor
+        {
+            get { return m_BackgroundColor; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Distance between dataZoom component and the bottom side of the container.
         /// bottom value is a instant pixel value like 10.
         /// default:10
         /// 组件离容器下侧的距离。
         /// </summary>
-        public float bottom { get { return m_Bottom; } set { m_Bottom = value; } }
+        public float bottom
+        {
+            get { return m_Bottom; }
+            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The height of dataZoom component.
         /// height value is a instant pixel value like 10.
         /// default:50
         /// 组件高度。
         /// </summary>
-        public float height { get { return m_Height; } set { m_Height = value; } }
+        public float height
+        {
+            get { return m_Height; }
+            set { if (PropertyUtility.SetStruct(ref m_Height, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Use absolute value or percent value in DataZoom.start and DataZoom.end.
         /// default:RangeMode.Percent.
         /// 取绝对值还是百分比。
         /// </summary>
-        public RangeMode rangeMode { get { return m_RangeMode; } set { m_RangeMode = value; } }
+        public RangeMode rangeMode
+        {
+            get { return m_RangeMode; }
+            set { if (PropertyUtility.SetStruct(ref m_RangeMode, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The start percentage of the window out of the data extent, in the range of 0 ~ 100.
         /// default:30
@@ -175,7 +231,7 @@ namespace XCharts
         public float start
         {
             get { return m_Start; }
-            set { m_Start = value; if (m_Start < 0) m_Start = 0; if (m_Start > 100) m_Start = 100; }
+            set { m_Start = value; if (m_Start < 0) m_Start = 0; if (m_Start > 100) m_Start = 100; SetVerticesDirty(); }
         }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.
@@ -185,29 +241,45 @@ namespace XCharts
         public float end
         {
             get { return m_End; }
-            set { m_End = value; if (m_End < 0) m_End = 0; if (m_End > 100) m_End = 100; }
+            set { m_End = value; if (m_End < 0) m_End = 0; if (m_End > 100) m_End = 100; SetVerticesDirty(); }
         }
         /// <summary>
         /// 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
         /// </summary>
-        public int minShowNum { get { return m_MinShowNum; } set { m_MinShowNum = value; } }
+        public int minShowNum
+        {
+            get { return m_MinShowNum; }
+            set { if (PropertyUtility.SetStruct(ref m_MinShowNum, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The sensitivity of dataZoom scroll.
         /// The larger the number, the more sensitive it is.
         /// default:10
         /// 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
         /// </summary>
-        public float scrollSensitivity { get { return m_ScrollSensitivity; } set { m_ScrollSensitivity = value; } }
+        public float scrollSensitivity
+        {
+            get { return m_ScrollSensitivity; }
+            set { if (PropertyUtility.SetStruct(ref m_ScrollSensitivity, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// font size.
         /// 文字的字体大小。
         /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        public int fontSize
+        {
+            get { return m_FontSize; }
+            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font style.
         /// 文字字体的风格。
         /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        public FontStyle fontStyle
+        {
+            get { return m_FontStyle; }
+            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetComponentDirty(); }
+        }
 
         /// <summary>
         /// The start label.

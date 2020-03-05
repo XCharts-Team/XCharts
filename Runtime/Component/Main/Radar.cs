@@ -18,7 +18,7 @@ namespace XCharts
     /// 雷达图坐标系组件，只适用于雷达图。
     /// </summary>
     [System.Serializable]
-    public class Radar : MainComponent, IEquatable<Radar>
+    public class Radar : MainComponent
     {
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -48,7 +48,7 @@ namespace XCharts
         /// 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
         /// </summary>
         [System.Serializable]
-        public class Indicator : IEquatable<Indicator>
+        public class Indicator
         {
             [SerializeField] private string m_Name;
             [SerializeField] private float m_Max;
@@ -79,48 +79,6 @@ namespace XCharts
             /// 指示器的文本组件。
             /// </summary>
             public Text text { get; set; }
-
-            public Indicator Clone()
-            {
-                return new Indicator()
-                {
-                    m_Name = name,
-                    m_Max = max,
-                    m_Min = min,
-                    m_TextStyle = textStyle.Clone()
-                };
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (ReferenceEquals(null, obj))
-                {
-                    return false;
-                }
-                else if (obj is Indicator)
-                {
-                    return Equals((Indicator)obj);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            public bool Equals(Indicator other)
-            {
-                if (ReferenceEquals(null, other))
-                {
-                    return false;
-                }
-                return m_Name.Equals(other.name) &&
-                    m_TextStyle.Equals(other.textStyle);
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
         }
         [SerializeField] private Shape m_Shape;
         [SerializeField] private float m_Radius = 100;
@@ -137,46 +95,82 @@ namespace XCharts
         /// 雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
         /// <value></value>
-        public Shape shape { get { return m_Shape; } set { m_Shape = value; } }
+        public Shape shape
+        {
+            get { return m_Shape; }
+            set { if (PropertyUtility.SetStruct(ref m_Shape, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the radius of radar.
         /// 雷达图的半径。
         /// </summary>
-        public float radius { get { return m_Radius; } set { m_Radius = value; } }
+        public float radius
+        {
+            get { return m_Radius; }
+            set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Segments of indicator axis.
         /// 指示器轴的分割段数。
         /// </summary>
-        public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
+        public int splitNumber
+        {
+            get { return m_SplitNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the center of radar chart.
         /// 雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。
         /// 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
         /// </summary>
-        public float[] center { get { return m_Center; } set { m_Center = value; } }
+        public float[] center
+        {
+            get { return m_Center; }
+            set { if (value != null) { m_Center = value; SetAllDirty(); } }
+        }
         /// <summary>
         /// split line.
         /// 分割线。
         /// </summary>
-        public AxisSplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
+        public AxisSplitLine splitLine
+        {
+            get { return m_SplitLine; }
+            set { if (PropertyUtility.SetClass(ref m_SplitLine, value, true)) SetAllDirty(); }
+        }
         /// <summary>
         /// Split area of axis in grid area.
         /// 分割区域。
         /// </summary>
-        public AxisSplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
+        public AxisSplitArea splitArea
+        {
+            get { return m_SplitArea; }
+            set { if (PropertyUtility.SetClass(ref m_SplitArea, value, true)) SetAllDirty(); }
+        }
         /// <summary>
         /// Whether to show indicator.
         /// 是否显示指示器。
         /// </summary>
-        public bool indicator { get { return m_Indicator; } set { m_Indicator = value; } }
+        public bool indicator
+        {
+            get { return m_Indicator; }
+            set { if (PropertyUtility.SetStruct(ref m_Indicator, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 指示器和雷达的间距。
         /// </summary>
-        public float indicatorGap { get { return m_IndicatorGap; } set { m_IndicatorGap = value; } }
+        public float indicatorGap
+        {
+            get { return m_IndicatorGap; }
+            set { if (PropertyUtility.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
+        }
         /// <summary>
-        /// 显示位置类型。
+        /// /// 显示位置类型。
         /// </summary>
-        public PositionType positionType { get { return m_PositionType; } set { m_PositionType = value; } }
+        public PositionType positionType
+        {
+            get { return m_PositionType; }
+            set { if (PropertyUtility.SetStruct(ref m_PositionType, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the indicator list.
         /// 指示器列表。
@@ -227,69 +221,6 @@ namespace XCharts
             }
         }
 
-        public void Copy(Radar other)
-        {
-            m_Shape = other.shape;
-            m_Radius = other.radius;
-            m_SplitNumber = other.splitNumber;
-            m_Center[0] = other.center[0];
-            m_Center[1] = other.center[1];
-            m_Indicator = other.indicator;
-            //m_SplitLine.Copy(other.splitLine);
-            //m_SplitArea.Copy(other.splitArea);
-            indicatorList.Clear();
-            foreach (var d in other.indicatorList) indicatorList.Add(d.Clone());
-        }
-
-        public Radar Clone()
-        {
-            var radar = new Radar();
-            radar.shape = shape;
-            radar.positionType = positionType;
-            radar.radius = radius;
-            radar.splitNumber = splitNumber;
-            radar.center[0] = center[0];
-            radar.center[1] = center[1];
-            radar.indicatorList.Clear();
-            radar.indicator = indicator;
-            radar.indicatorGap = indicatorGap;
-            foreach (var d in indicatorList) radar.indicatorList.Add(d.Clone());
-            return radar;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Radar)
-            {
-                return Equals((Radar)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Radar other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return radius == other.radius &&
-                shape == other.shape &&
-                positionType == other.positionType &&
-                splitNumber == other.splitNumber &&
-                center[0] == other.center[0] &&
-                center[1] == other.center[1] &&
-                indicator == other.indicator &&
-                indicatorGap == other.indicatorGap &&
-                IsEqualsIndicatorList(indicatorList, other.indicatorList);
-        }
-
         private bool IsEqualsIndicatorList(List<Indicator> indicators1, List<Indicator> indicators2)
         {
             if (indicators1.Count != indicators2.Count) return false;
@@ -300,29 +231,6 @@ namespace XCharts
                 if (!indicator1.Equals(indicator2)) return false;
             }
             return true;
-        }
-
-        public static bool operator ==(Radar left, Radar right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Radar left, Radar right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public override void ParseJsonData(string jsonData)
@@ -428,6 +336,7 @@ namespace XCharts
             indicator.min = min;
             indicator.max = max;
             indicatorList.Add(indicator);
+            SetAllDirty();
             return indicator;
         }
 
@@ -438,6 +347,7 @@ namespace XCharts
             indicator.name = name;
             indicator.min = min;
             indicator.max = max;
+            SetAllDirty();
             return true;
         }
 

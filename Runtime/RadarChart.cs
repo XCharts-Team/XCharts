@@ -19,10 +19,9 @@ namespace XCharts
     public partial class RadarChart : BaseChart
     {
         private const string INDICATOR_TEXT = "indicator";
-
         [SerializeField] private List<Radar> m_Radars = new List<Radar>();
-        private List<Radar> m_CheckRadars = new List<Radar>();
         private bool m_IsEnterLegendButtom;
+        private bool m_RadarsDirty;
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
@@ -54,7 +53,26 @@ namespace XCharts
         protected override void Update()
         {
             base.Update();
-            CheckRadarInfoChanged();
+        }
+
+        protected override void CheckComponent()
+        {
+            var anyDirty = IsAnyRadarDirty();
+            if (m_RadarsDirty || anyDirty)
+            {
+                InitIndicator();
+                OnRadarChanged();
+                RefreshChart();
+                m_Tooltip.UpdateToTop();
+                if (anyDirty)
+                {
+                    foreach (var radar in m_Radars)
+                    {
+                        radar.ClearDirty();
+                    }
+                }
+            }
+            base.CheckComponent();
         }
 
 #if UNITY_EDITOR
@@ -75,6 +93,12 @@ namespace XCharts
                 data.Add(Random.Range(20, 90));
             }
             AddData(0, data, "legendName");
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            m_RadarsDirty = true;
         }
 #endif
 
@@ -122,20 +146,17 @@ namespace XCharts
             }
         }
 
-        private void CheckRadarInfoChanged()
+        private bool IsAnyRadarDirty()
         {
-            if (!ChartHelper.IsValueEqualsList(m_CheckRadars, m_Radars))
+            foreach (var radar in m_Radars)
             {
-                m_CheckRadars.Clear();
-                foreach (var radar in m_Radars) m_CheckRadars.Add(radar.Clone());
-                OnRadarChanged();
+                if (radar.anyDirty) return true;
             }
+            return false;
         }
 
-        private void OnRadarChanged()
+        protected virtual void OnRadarChanged()
         {
-            InitIndicator();
-            m_Tooltip.UpdateToTop();
         }
 
         protected override void DrawChart(VertexHelper vh)
@@ -178,7 +199,7 @@ namespace XCharts
                         break;
                 }
             }
-            InitIndicator();
+            m_RadarsDirty = true;
         }
 
         Dictionary<string, int> serieNameSet = new Dictionary<string, int>();

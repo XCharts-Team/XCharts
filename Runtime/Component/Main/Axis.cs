@@ -17,7 +17,7 @@ namespace XCharts
     /// 直角坐标系的坐标轴组件。
     /// </summary>
     [System.Serializable]
-    public class Axis : MainComponent, IEquatable<Axis>
+    public class Axis : MainComponent
     {
         /// <summary>
         /// the type of axis.
@@ -91,92 +91,187 @@ namespace XCharts
         /// Set this to false to prevent the axis from showing.
         /// 是否显示坐标轴。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the type of axis. 
         /// 坐标轴类型。
         /// </summary>
-        public AxisType type { get { return m_Type; } set { m_Type = value; } }
+        public AxisType type
+        {
+            get { return m_Type; }
+            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the type of axis minmax.
         /// 坐标轴刻度最大最小值显示类型。
         /// </summary>
-        public AxisMinMaxType minMaxType { get { return m_MinMaxType; } set { m_MinMaxType = value; } }
+        public AxisMinMaxType minMaxType
+        {
+            get { return m_MinMaxType; }
+            set { if (PropertyUtility.SetStruct(ref m_MinMaxType, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// The minimun value of axis.
         /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
-        public float min { get { return m_Min; } set { m_Min = value; } }
+        public float min
+        {
+            get { return m_Min; }
+            set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// The maximum value of axis.
         /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
-        public float max { get { return m_Max; } set { m_Max = value; } }
+        public float max
+        {
+            get { return m_Max; }
+            set { if (PropertyUtility.SetStruct(ref m_Max, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Number of segments that the axis is split into.
         /// 坐标轴的分割段数。
         /// </summary>
-        public int splitNumber { get { return m_SplitNumber; } set { m_SplitNumber = value; } }
+        public int splitNumber
+        {
+            get { return m_SplitNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
         /// </summary>
-        public float interval { get { return m_Interval; } set { m_Interval = value; } }
+        public float interval
+        {
+            get { return m_Interval; }
+            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// The boundary gap on both sides of a coordinate axis. 
         /// 坐标轴两边是否留白。
         /// </summary>
-        public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
+        public bool boundaryGap
+        {
+            get { return m_BoundaryGap; }
+            set { if (PropertyUtility.SetStruct(ref m_BoundaryGap, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
         /// 对数轴的底数，只在对数轴（type:'Log'）中有效。
         /// </summary>
-        public float logBase { get { return m_LogBase; } set { m_LogBase = value; } }
+        public float logBase
+        {
+            get { return m_LogBase; }
+            set { if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
         /// </summary>
-        public bool logBaseE { get { return m_LogBaseE; } set { m_LogBaseE = value; } }
+        public bool logBaseE
+        {
+            get { return m_LogBaseE; }
+            set { if (PropertyUtility.SetStruct(ref m_LogBaseE, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// The max number of axis data cache.
         /// The first data will be remove when the size of axis data is larger then maxCache.
         /// 可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
-        public int maxCache { get { return m_MaxCache; } set { m_MaxCache = value < 0 ? 0 : value; } }
+        public int maxCache
+        {
+            get { return m_MaxCache; }
+            set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
         /// 类目数据，在类目轴（type: 'category'）中有效。
         /// </summary>
-        public List<string> data { get { return m_Data; } set { if (value != null) m_Data = value; } }
+        public List<string> data
+        {
+            get { return m_Data; }
+            set { if (value != null) { m_Data = value; SetAllDirty(); } }
+        }
         /// <summary>
         /// axis Line.
         /// 坐标轴轴线。
-        /// </summary>
-        public AxisLine axisLine { get { return m_AxisLine; } set { m_AxisLine = value; } }
+        /// /// </summary>
+        public AxisLine axisLine
+        {
+            get { return m_AxisLine; }
+            set { if (value != null) { m_AxisLine = value; SetVerticesDirty(); } }
+        }
         /// <summary>
         /// axis name.
         /// 坐标轴名称。
         /// </summary>
-        public AxisName axisName { get { return m_AxisName; } set { m_AxisName = value; } }
+        public AxisName axisName
+        {
+            get { return m_AxisName; }
+            set { if (value != null) { m_AxisName = value; SetComponentDirty(); } }
+        }
         /// <summary>
         /// axis tick.
         /// 坐标轴刻度。
         /// </summary>
-        public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
+        public AxisTick axisTick
+        {
+            get { return m_AxisTick; }
+            set { if (value != null) { m_AxisTick = value; SetVerticesDirty(); } }
+        }
         /// <summary>
         /// axis label.
         /// 坐标轴刻度标签。
         /// </summary>
-        public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
+        public AxisLabel axisLabel
+        {
+            get { return m_AxisLabel; }
+            set { if (value != null) { m_AxisLabel = value; SetComponentDirty(); } }
+        }
         /// <summary>
         /// axis split line.
         /// 坐标轴分割线。
         /// </summary>
-        public AxisSplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
+        public AxisSplitLine splitLine
+        {
+            get { return m_SplitLine; }
+            set { if (value != null) { m_SplitLine = value; SetVerticesDirty(); } }
+        }
         /// <summary>
         /// axis split area.
         /// 坐标轴分割区域。
         /// </summary>
-        public AxisSplitArea splitArea { get { return m_SplitArea; } set { m_SplitArea = value; } }
+        public AxisSplitArea splitArea
+        {
+            get { return m_SplitArea; }
+            set { if (value != null) { m_SplitArea = value; SetVerticesDirty(); } }
+        }
+        public override bool vertsDirty
+        {
+            get { return m_VertsDirty || axisLine.anyDirty || axisTick.anyDirty || splitLine.anyDirty || splitArea.anyDirty; }
+        }
+        public override bool componentDirty
+        {
+            get { return m_ComponentDirty || axisName.anyDirty || axisLabel.anyDirty; }
+        }
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            axisName.ClearComponentDirty();
+            axisLabel.ClearComponentDirty();
+        }
+
+        internal override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            axisLine.ClearVerticesDirty();
+            axisTick.ClearVerticesDirty();
+            splitLine.ClearVerticesDirty();
+            splitArea.ClearVerticesDirty();
+        }
         /// <summary>
         /// the axis label text list. 
         /// 坐标轴刻度标签的Text列表。
@@ -244,29 +339,13 @@ namespace XCharts
         private bool m_RuntimeMinValueFirstChanged = true;
         private bool m_RuntimeMaxValueFirstChanged = true;
 
-        public void Copy(Axis other)
-        {
-            m_Show = other.show;
-            m_Type = other.type;
-            m_Min = other.min;
-            m_Max = other.max;
-            m_SplitNumber = other.splitNumber;
-            m_Interval = other.interval;
-
-            m_BoundaryGap = other.boundaryGap;
-            m_AxisName.Copy(other.axisName);
-            m_AxisLabel.Copy(other.axisLabel);
-            m_Data.Clear();
-            m_Data.Capacity = m_Data.Count;
-            foreach (var d in other.data) m_Data.Add(d);
-        }
-
         /// <summary>
         /// 清空类目数据
         /// </summary>
         public void ClearData()
         {
             m_Data.Clear();
+            SetAllDirty();
         }
 
         /// <summary>
@@ -311,6 +390,7 @@ namespace XCharts
                 }
             }
             m_Data.Add(category);
+            SetAllDirty();
         }
 
         /// <summary>
@@ -692,7 +772,7 @@ namespace XCharts
         {
             if (value != m_RuntimeMaxValue)
             {
-                if (check)
+                if (check && Application.isPlaying)
                 {
                     if (m_RuntimeMinValueFirstChanged)
                     {
@@ -720,7 +800,7 @@ namespace XCharts
         {
             if (value != m_RuntimeMaxValue)
             {
-                if (check)
+                if (check && Application.isPlaying)
                 {
                     if (m_RuntimeMaxValueFirstChanged)
                     {
@@ -746,6 +826,7 @@ namespace XCharts
 
         internal float GetCurrMinValue(float duration)
         {
+            if (!Application.isPlaying) return m_RuntimeMinValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMinValueChanged) return m_RuntimeMinValue;
             var time = Time.time - m_RuntimeMinValueUpdateTime;
@@ -764,6 +845,7 @@ namespace XCharts
 
         internal float GetCurrMaxValue(float duration)
         {
+            if (!Application.isPlaying) return m_RuntimeMaxValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMaxValueChanged) return m_RuntimeMaxValue;
             var time = Time.time - m_RuntimeMaxValueUpdateTime;
@@ -782,6 +864,7 @@ namespace XCharts
 
         public bool IsValueChanging(float duration)
         {
+            if (!Application.isPlaying) return false;
             if (GetCurrMinValue(duration) != m_RuntimeMinValue || GetCurrMaxValue(duration) != m_RuntimeMaxValue)
             {
                 return true;
@@ -796,65 +879,6 @@ namespace XCharts
         {
             if (value <= 0) return 0;
             return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Axis)
-            {
-                return Equals((Axis)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Axis other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return show == other.show &&
-                type == other.type &&
-                min == other.min &&
-                max == other.max &&
-                splitNumber == other.splitNumber &&
-                interval == other.interval &&
-                m_AxisLabel.Equals(other.axisLabel) &&
-                boundaryGap == other.boundaryGap &&
-                runtimeMinValue == other.runtimeMinValue &&
-                runtimeMaxValue == other.runtimeMaxValue &&
-                axisName.Equals(other.axisName) &&
-                ChartHelper.IsValueEqualsList<string>(m_Data, other.data);
-        }
-
-        public static bool operator ==(Axis left, Axis right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Axis left, Axis right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public override void ParseJsonData(string jsonData)
@@ -872,26 +896,6 @@ namespace XCharts
     [System.Serializable]
     public class XAxis : Axis
     {
-        public XAxis Clone()
-        {
-            var axis = XAxisPool.Get();
-            axis.show = show;
-            axis.type = type;
-            axis.min = min;
-            axis.max = max;
-            axis.splitNumber = splitNumber;
-            axis.interval = interval;
-            axis.boundaryGap = boundaryGap;
-
-            axis.splitLine.Copy(axis.splitLine);
-            axis.axisName.Copy(axisName);
-            axis.axisLabel.Copy(axisLabel);
-            axis.data.Clear();
-            if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
-            foreach (var d in data) axis.data.Add(d);
-            return axis;
-        }
-
         public static XAxis defaultXAxis
         {
             get
@@ -925,26 +929,6 @@ namespace XCharts
     [System.Serializable]
     public class YAxis : Axis
     {
-        public YAxis Clone()
-        {
-            var axis = YAxisPool.Get();
-            axis.show = show;
-            axis.type = type;
-            axis.min = min;
-            axis.max = max;
-            axis.splitNumber = splitNumber;
-            axis.interval = interval;
-
-            axis.boundaryGap = boundaryGap;
-            axis.axisName.Copy(axisName);
-            axis.axisLabel.Copy(axisLabel);
-            axis.splitLine.Copy(splitLine);
-            axis.data.Clear();
-            if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
-            foreach (var d in data) axis.data.Add(d);
-            return axis;
-        }
-
         public static YAxis defaultYAxis
         {
             get

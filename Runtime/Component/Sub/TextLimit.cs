@@ -26,49 +26,39 @@ namespace XCharts
         /// <summary>
         /// 是否启用文本自适应。默认为true。
         /// </summary>
-        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        public bool enable
+        {
+            get { return m_Enable; }
+            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 设定最大宽度。默认为0表示自动获取，否则表示自定义。当文本的宽度大于该值进行裁剪。
         /// </summary>
-        public float maxWidth { get { return m_MaxWidth; } set { m_MaxWidth = value; } }
+        public float maxWidth
+        {
+            get { return m_MaxWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_MaxWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 两边留白像素距离。默认为10
         /// </summary>
-        public float gap { get { return m_Gap; } set { m_Gap = value; } }
+        public float gap
+        {
+            get { return m_Gap; }
+            set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 长度超出时的后缀。
         /// </summary>
-        public string suffix { get { return m_Suffix; } set { m_Suffix = value; } }
+        public string suffix
+        {
+            get { return m_Suffix; }
+            set { if (PropertyUtility.SetClass(ref m_Suffix, value)) SetComponentDirty(); }
+        }
 
         private Text m_RelatedText;
         private TextGenerationSettings m_RelatedTextSettings;
         private float m_RelatedTextWidth = 0;
-
-        public void Copy(TextLimit other)
-        {
-            m_Enable = other.enable;
-            m_Gap = other.gap;
-            m_Suffix = other.suffix;
-            m_MaxWidth = other.maxWidth;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            var other = (TextLimit)obj;
-            return m_Enable == other.enable &&
-                m_MaxWidth == other.maxWidth &&
-                m_Gap == other.gap &&
-                m_Suffix.Equals(other.suffix);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
 
         public void SetRelatedText(Text txt, float labelWidth)
         {

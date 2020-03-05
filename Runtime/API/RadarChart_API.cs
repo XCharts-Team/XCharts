@@ -27,7 +27,6 @@ namespace XCharts
             {
                 radar.indicatorList.Clear();
             }
-            m_CheckRadars.Clear();
         }
 
         /// <summary>

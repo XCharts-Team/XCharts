@@ -15,7 +15,7 @@ namespace XCharts
     /// 标题组件，包含主标题和副标题。
     /// </summary>
     [Serializable]
-    public class Title : MainComponent, IPropertyChanged, IEquatable<Title>
+    public class Title : MainComponent, IPropertyChanged
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Text;
@@ -30,50 +30,61 @@ namespace XCharts
         /// Set this to false to prevent the title from showing.
         /// 是否显示标题组件。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show { get { return m_Show; } set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
         /// <summary>
         /// The main title text, supporting for \n for newlines.
         /// 主标题文本，支持使用 \n 换行。
         /// </summary>
-        public string text { get { return m_Text; } set { m_Text = value; } }
+        public string text { get { return m_Text; } set { if (PropertyUtility.SetClass(ref m_Text, value)) SetComponentDirty(); } }
         /// <summary>
         /// [default:16]
         /// main title font size.
         /// 主标题文字的字体大小。
         /// </summary>
-        [Obsolete("use textStyle instead.", false)]
+        [Obsolete("use textStyle instead.", true)]
         public int textFontSize { get { return m_TextStyle.fontSize; } set { m_TextStyle.fontSize = value; } }
         /// <summary>
         /// 主标题文本样式。
         /// </summary>
-        public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
+        public TextStyle textStyle { get { return m_TextStyle; } set { if (PropertyUtility.SetClass(ref m_TextStyle, value)) SetComponentDirty(); } }
         /// <summary>
         /// Subtitle text, supporting for \n for newlines.
         /// 副标题文本，支持使用 \n 换行。
         /// </summary>
-        public string subText { get { return m_SubText; } set { m_SubText = value; } }
+        public string subText { get { return m_SubText; } set { if (PropertyUtility.SetClass(ref m_SubText, value)) SetComponentDirty(); } }
         /// <summary>
         /// 副标题文本样式。
         /// </summary>
-        public TextStyle subTextStyle { get { return m_SubTextStyle; } set { m_SubTextStyle = value; } }
+        public TextStyle subTextStyle { get { return m_SubTextStyle; } set { if (PropertyUtility.SetClass(ref m_SubTextStyle, value)) SetComponentDirty(); } }
         /// <summary>
         /// [default:14]
         /// subtitle font size.
         /// 副标题文字的字体大小。
         /// </summary>
-        [Obsolete("use subTextStyle instead.", false)]
+        [Obsolete("use subTextStyle instead.", true)]
         public int subTextFontSize { get { return m_SubTextStyle.fontSize; } set { m_SubTextStyle.fontSize = value; } }
         /// <summary>
         /// [default:8]
         /// The gap between the main title and subtitle.
         /// 主副标题之间的间距。
         /// </summary>
-        public float itemGap { get { return m_ItemGap; } set { m_ItemGap = value; } }
+        public float itemGap { get { return m_ItemGap; } set { if (PropertyUtility.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); } }
         /// <summary>
         /// The location of title component.
         /// 标题显示位置。
         /// </summary>
-        public Location location { get { return m_Location; } set { m_Location = value; } }
+        public Location location { get { return m_Location; } set { if (PropertyUtility.SetClass(ref m_Location, value)) SetComponentDirty(); } }
+
+        public override bool vertsDirty { get { return false; } }
+        public override bool componentDirty { get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty || subTextStyle.componentDirty; } }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            location.ClearComponentDirty();
+            textStyle.ClearComponentDirty();
+            subTextStyle.ClearComponentDirty();
+        }
 
         public static Title defaultTitle
         {
@@ -91,70 +102,6 @@ namespace XCharts
                 };
                 return title;
             }
-        }
-        public void Copy(Title title)
-        {
-            m_Show = title.show;
-            m_Text = title.text;
-            m_TextStyle.Copy(title.textStyle);
-            m_SubTextStyle.Copy(title.subTextStyle);
-            m_SubText = title.subText;
-            m_ItemGap = title.itemGap;
-            m_Location.Copy(title.location);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Title)
-            {
-                return Equals((Title)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Title other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return m_Show == other.show &&
-                m_Text.Equals(other.text) &&
-                m_TextStyle.Equals(other.textStyle) &&
-                m_SubText.Equals(other.subText) &&
-                m_SubTextStyle.Equals(other.subTextStyle) &&
-                m_ItemGap == other.itemGap &&
-                m_Location.Equals(other.location);
-        }
-
-        public static bool operator ==(Title left, Title right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Title left, Title right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public void OnChanged()

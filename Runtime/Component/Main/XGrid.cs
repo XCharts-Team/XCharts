@@ -22,7 +22,7 @@ namespace XCharts
     /// </para>
     /// </summary>
     [Serializable]
-    public class Grid : MainComponent, IEquatable<Grid>
+    public class Grid : MainComponent
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private float m_Left;
@@ -35,32 +35,56 @@ namespace XCharts
         /// Whether to show the grid in rectangular coordinate.
         /// 是否显示直角坐标系网格。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Distance between grid component and the left side of the container.
         /// grid 组件离容器左侧的距离。
         /// </summary>
-        public float left { get { return m_Left; } set { m_Left = value; } }
+        public float left
+        {
+            get { return m_Left; }
+            set { if (PropertyUtility.SetStruct(ref m_Left, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Distance between grid component and the right side of the container.
         /// grid 组件离容器右侧的距离。
         /// </summary>
-        public float right { get { return m_Right; } set { m_Right = value; } }
+        public float right
+        {
+            get { return m_Right; }
+            set { if (PropertyUtility.SetStruct(ref m_Right, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Distance between grid component and the top side of the container.
         /// grid 组件离容器上侧的距离。
         /// </summary>
-        public float top { get { return m_Top; } set { m_Top = value; } }
+        public float top
+        {
+            get { return m_Top; }
+            set { if (PropertyUtility.SetStruct(ref m_Top, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Distance between grid component and the bottom side of the container.
         /// grid 组件离容器下侧的距离。
         /// </summary>
-        public float bottom { get { return m_Bottom; } set { m_Bottom = value; } }
+        public float bottom
+        {
+            get { return m_Bottom; }
+            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Background color of grid, which is transparent by default.
         /// 网格背景色，默认透明。
         /// </summary>
-        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        public Color backgroundColor
+        {
+            get { return m_BackgroundColor; }
+            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
 
         public static Grid defaultGrid
         {
@@ -76,68 +100,6 @@ namespace XCharts
                 };
                 return coordinate;
             }
-        }
-        public void Copy(Grid other)
-        {
-            m_Show = other.show;
-            m_Left = other.left;
-            m_Right = other.right;
-            m_Top = other.top;
-            m_Bottom = other.bottom;
-            m_BackgroundColor = other.backgroundColor;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Grid)
-            {
-                return Equals((Grid)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Grid other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return m_Show == other.show &&
-                m_Left == other.left &&
-                m_Right == other.right &&
-                m_Top == other.top &&
-                m_Bottom == other.bottom &&
-                ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.backgroundColor);
-        }
-
-        public static bool operator ==(Grid left, Grid right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Grid left, Grid right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

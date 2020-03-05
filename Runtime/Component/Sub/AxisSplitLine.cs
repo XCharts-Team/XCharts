@@ -25,13 +25,31 @@ namespace XCharts
         /// Set this to true to show the split line.
         /// 是否显示分隔线。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
-        public int interval { get { return m_Interval; } set { m_Interval = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
+        public int interval
+        {
+            get { return m_Interval; }
+            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 线条样式
         /// </summary>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
+        public LineStyle lineStyle
+        {
+            get { return m_LineStyle; }
+            set { if (value != null) { m_LineStyle = value; SetVerticesDirty(); } }
+        }
 
+        public override bool vertsDirty { get { return m_VertsDirty || m_LineStyle.anyDirty; } }
+        internal override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            m_LineStyle.ClearVerticesDirty();
+        }
         public static AxisSplitLine defaultSplitLine
         {
             get
@@ -41,30 +59,6 @@ namespace XCharts
                     m_Show = false,
                 };
             }
-        }
-
-        public void Copy(AxisSplitLine other)
-        {
-            m_Show = other.show;
-            m_Interval = other.interval;
-            m_LineStyle.Copy(other.m_LineStyle);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            var other = (AxisSplitLine)obj;
-            return m_Show == other.show &&
-                m_Interval == other.interval &&
-                m_LineStyle.Equals(other.lineStyle);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         internal Color GetColor(ThemeInfo theme)

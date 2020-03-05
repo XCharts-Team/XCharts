@@ -5,6 +5,7 @@
 /*                                        */
 /******************************************/
 
+using System;
 using UnityEngine;
 
 namespace XCharts
@@ -101,16 +102,26 @@ namespace XCharts
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
         [SerializeField] private bool m_ForceENotation = false;
+        [NonSerialized] private bool m_LabelDirty = false;
+
         /// <summary>
         /// Whether the label is showed.
         /// 是否显示文本标签。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The position of label.
         /// 标签的位置。
         /// </summary>
-        public Position position { get { return m_Position; } set { m_Position = value; } }
+        public Position position
+        {
+            get { return m_Position; }
+            set { if (PropertyUtility.SetStruct(ref m_Position, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 标签内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量有：
@@ -124,112 +135,200 @@ namespace XCharts
         /// <example>
         /// 示例：“{b}:{c}”
         /// </example>
-        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        public string formatter
+        {
+            get { return m_Formatter; }
+            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// offset to the host graphic element. 
         /// 距离图形元素的偏移
         /// </summary>
-        public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
+        public Vector3 offset
+        {
+            get { return m_Offset; }
+            set { if (PropertyUtility.SetStruct(ref m_Offset, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 距离轴线的距离。
         /// </summary>
-        public float margin { get { return m_Margin; } set { m_Margin = value; } }
+        public float margin
+        {
+            get { return m_Margin; }
+            set { if (PropertyUtility.SetStruct(ref m_Margin, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Text color,If set as default ,the color will assigned as series color.
         /// 自定义文字颜色，默认和系列的颜色一致。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetStruct(ref m_Color, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the background color. If set as default, it means than don't show background.
         /// 标签的背景色，默认无颜色。
         /// </summary>
-        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        public Color backgroundColor
+        {
+            get { return m_BackgroundColor; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
         /// 标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
         /// <value></value>
-        public float backgroundWidth { get { return m_BackgroundWidth; } set { m_BackgroundWidth = value; } }
+        public float backgroundWidth
+        {
+            get { return m_BackgroundWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the height of background. If set as default value 0, it means than the background height auto set as the text height.
         /// 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
         /// <value></value>
-        public float backgroundHeight { get { return m_BackgroundHeight; } set { m_BackgroundHeight = value; } }
+        public float backgroundHeight
+        {
+            get { return m_BackgroundHeight; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Rotate label.
         /// 标签旋转。
         /// </summary>
-        public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+        public float rotate
+        {
+            get { return m_Rotate; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the text padding of left and right. defaut:2.
         /// 左右边距。
         /// </summary>
-        public float paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
+        public float paddingLeftRight
+        {
+            get { return m_PaddingLeftRight; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the text padding of top and bottom. defaut:2.
         /// 上下边距。
         /// </summary>
-        public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
+        public float paddingTopBottom
+        {
+            get { return m_PaddingTopBottom; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font size.
         /// 文字的字体大小。
         /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        public int fontSize
+        {
+            get { return m_FontSize; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// font style.
         /// 文字的字体风格。
         /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        public FontStyle fontStyle
+        {
+            get { return m_FontStyle; }
+            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// Whether to show visual guide line.Will show when label position is set as 'outside'.
         /// 是否显示视觉引导线。在 label 位置 设置为'outside'的时候会显示视觉引导线。
         /// </summary>
-        public bool line { get { return m_Line; } set { m_Line = value; } }
+        public bool line
+        {
+            get { return m_Line; }
+            set { if (PropertyUtility.SetStruct(ref m_Line, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the type of visual guide line.
         /// 视觉引导线类型。
         /// </summary>
-        public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
+        public LineType lineType
+        {
+            get { return m_LineType; }
+            set { if (PropertyUtility.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the color of visual guild line.
         /// 视觉引导线颜色。默认和serie一致取自调色板。
         /// </summary>
-        public Color lineColor { get { return m_LineColor; } set { m_LineColor = value; } }
+        public Color lineColor
+        {
+            get { return m_LineColor; }
+            set { if (PropertyUtility.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the width of visual guild line.
         /// 视觉引导线的宽度。
         /// </summary>
-        public float lineWidth { get { return m_LineWidth; } set { m_LineWidth = value; } }
+        public float lineWidth
+        {
+            get { return m_LineWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The length of the first segment of visual guide line.
         /// 视觉引导线第一段的长度。
         /// </summary>
-        public float lineLength1 { get { return m_LineLength1; } set { m_LineLength1 = value; } }
+        public float lineLength1
+        {
+            get { return m_LineLength1; }
+            set { if (PropertyUtility.SetStruct(ref m_LineLength1, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// The length of the second segment of visual guide line.
         /// 视觉引导线第二段的长度。
         /// </summary>
-        public float lineLength2 { get { return m_LineLength2; } set { m_LineLength2 = value; } }
+        public float lineLength2
+        {
+            get { return m_LineLength2; }
+            set { if (PropertyUtility.SetStruct(ref m_LineLength2, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Whether to show border.
         /// 是否显示边框。
         /// </summary>
-        public bool border { get { return m_Border; } set { m_Border = value; } }
+        public bool border
+        {
+            get { return m_Border; }
+            set { if (PropertyUtility.SetStruct(ref m_Border, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the width of border.
         /// 边框宽度。
         /// </summary>
-        public float borderWidth { get { return m_BorderWidth; } set { m_BorderWidth = value; } }
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the color of border.
         /// 边框颜色。
         /// </summary>
-        public Color borderColor { get { return m_BorderColor; } set { m_BorderColor = value; } }
+        public Color borderColor
+        {
+            get { return m_BorderColor; }
+            set { if (PropertyUtility.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
-        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        public bool forceENotation
+        {
+            get { return m_ForceENotation; }
+            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetVerticesDirty(); }
+        }
 
         public string GetFormatterContent(string serieName, string dataName, float dataValue, float dataTotal = 0)
         {

@@ -98,77 +98,137 @@ namespace XCharts
         /// the type of symbol.
         /// 标记类型。
         /// </summary>
-        public SerieSymbolType type { get { return m_Type; } set { m_Type = value; } }
+        public SerieSymbolType type
+        {
+            get { return m_Type; }
+            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the type of symbol size.
         /// 标记图形的大小获取方式。
         /// </summary>
-        public SerieSymbolSizeType sizeType { get { return m_SizeType; } set { m_SizeType = value; } }
+        public SerieSymbolSizeType sizeType
+        {
+            get { return m_SizeType; }
+            set { if (PropertyUtility.SetStruct(ref m_SizeType, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the size of symbol.
         /// 标记的大小。
         /// </summary>
-        public float size { get { return m_Size; } set { m_Size = value; } }
+        public float size
+        {
+            get { return m_Size; }
+            set { if (PropertyUtility.SetStruct(ref m_Size, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the size of selected symbol.
         /// 被选中的标记的大小。
         /// </summary>
-        public float selectedSize { get { return m_SelectedSize; } set { m_SelectedSize = value; } }
+        public float selectedSize
+        {
+            get { return m_SelectedSize; }
+            set { if (PropertyUtility.SetStruct(ref m_SelectedSize, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// whitch data index is when the sizeType assined as FromData.
         /// 当sizeType指定为FromData时，指定的数据源索引。
         /// </summary>
-        public int dataIndex { get { return m_DataIndex; } set { m_DataIndex = value; } }
+        public int dataIndex
+        {
+            get { return m_DataIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_DataIndex, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the scale of data when sizeType assined as FromData.
         /// 当sizeType指定为FromData时，指定的倍数系数。
         /// </summary>
-        public float dataScale { get { return m_DataScale; } set { m_DataScale = value; } }
+        public float dataScale
+        {
+            get { return m_DataScale; }
+            set { if (PropertyUtility.SetStruct(ref m_DataScale, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the scale of selected data when sizeType assined as FromData.
         /// 当sizeType指定为FromData时，指定的高亮倍数系数。
         /// </summary>
-        public float selectedDataScale { get { return m_SelectedDataScale; } set { m_SelectedDataScale = value; } }
+        public float selectedDataScale
+        {
+            get { return m_SelectedDataScale; }
+            set { if (PropertyUtility.SetStruct(ref m_SelectedDataScale, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the callback of size when sizeType assined as Callback.
         /// 当sizeType指定为Callback时，指定的回调函数。
         /// </summary>
-        public SymbolSizeCallback sizeCallback { get { return m_SizeCallback; } set { m_SizeCallback = value; } }
+        public SymbolSizeCallback sizeCallback
+        {
+            get { return m_SizeCallback; }
+            set { if (PropertyUtility.SetClass(ref m_SizeCallback, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the callback of size when sizeType assined as Callback.
         /// 当sizeType指定为Callback时，指定的高亮回调函数。
         /// </summary>
-        public SymbolSizeCallback selectedSizeCallback { get { return m_SelectedSizeCallback; } set { m_SelectedSizeCallback = value; } }
+        public SymbolSizeCallback selectedSizeCallback
+        {
+            get { return m_SelectedSizeCallback; }
+            set { if (PropertyUtility.SetClass(ref m_SelectedSizeCallback, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the color of symbol,default from serie.
         /// 标记图形的颜色，默认和系列一致。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the opacity of color.
         /// 图形标记的透明度。
         /// </summary>
-        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opacity
+        {
+            get { return m_Opacity; }
+            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the index start to show symbol.
         /// 开始显示图形标记的索引。
         /// </summary>
-        public int startIndex { get { return m_StartIndex; } set { m_StartIndex = value; } }
+        public int startIndex
+        {
+            get { return m_StartIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_StartIndex, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the interval of show symbol.
         /// 显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
         /// </summary>
-        public int interval { get { return m_Interval; } set { m_Interval = value; } }
+        public int interval
+        {
+            get { return m_Interval; }
+            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// whether to show the last symbol.
         /// 是否强制显示最后一个图形标记。
         /// </summary>
-        public bool forceShowLast { get { return m_ForceShowLast; } set { m_ForceShowLast = value; } }
+        public bool forceShowLast
+        {
+            get { return m_ForceShowLast; }
+            set { if (PropertyUtility.SetStruct(ref m_ForceShowLast, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the gap of symbol and line segment.
         /// 图形标记和线条的间隙距离。
         /// </summary>
-        public float gap { get { return m_Gap; } set { m_Gap = value; } }
+        public float gap
+        {
+            get { return m_Gap; }
+            set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
+        }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.

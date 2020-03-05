@@ -5,10 +5,8 @@
 /*                                        */
 /******************************************/
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -17,7 +15,7 @@ namespace XCharts
     /// 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
     /// </summary>
     [System.Serializable]
-    public class Legend : MainComponent, IPropertyChanged, IEquatable<Legend>
+    public class Legend : MainComponent, IPropertyChanged
     {
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
@@ -58,53 +56,93 @@ namespace XCharts
         /// Whether to show legend component. 
         /// 是否显示图例组件。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
         /// 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
         /// </summary>
         /// <value></value>
-        public SelectedMode selectedMode { get { return m_SelectedMode; } set { m_SelectedMode = value; } }
+        public SelectedMode selectedMode
+        {
+            get { return m_SelectedMode; }
+            set { if (PropertyUtility.SetStruct(ref m_SelectedMode, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Specify whether the layout of legend component is horizontal or vertical. 
         /// 布局方式是横还是竖。
         /// </summary>
-        public Orient orient { get { return m_Orient; } set { m_Orient = value; } }
+        public Orient orient
+        {
+            get { return m_Orient; }
+            set { if (PropertyUtility.SetStruct(ref m_Orient, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// The location of legend.
         /// 图例显示的位置。
         /// </summary>
-        public Location location { get { return m_Location; } set { m_Location = value; } }
+        public Location location
+        {
+            get { return m_Location; }
+            set { if (PropertyUtility.SetClass(ref m_Location, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Image width of legend symbol.
         /// 图例标记的图形宽度。
         /// </summary>
-        public float itemWidth { get { return m_ItemWidth; } set { m_ItemWidth = value; } }
+        public float itemWidth
+        {
+            get { return m_ItemWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemWidth, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Image height of legend symbol.
         /// 图例标记的图形高度。
         /// </summary>
-        public float itemHeight { get { return m_ItemHeight; } set { m_ItemHeight = value; } }
+        public float itemHeight
+        {
+            get { return m_ItemHeight; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
         /// 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
         /// </summary>
-        public float itemGap { get { return m_ItemGap; } set { m_ItemGap = value; } }
+        public float itemGap
+        {
+            get { return m_ItemGap; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Whether the legend symbol matches the color automatically.
         /// 图例标记的图形是否自动匹配颜色。
         /// </summary>
-        public bool itemAutoColor { get { return m_ItemAutoColor; } set { m_ItemAutoColor = value; } }
+        public bool itemAutoColor
+        {
+            get { return m_ItemAutoColor; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量为图例名称 {name}
         /// </summary>
-        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
+        public string formatter
+        {
+            get { return m_Formatter; }
+            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the style of text.
         /// 文本样式。
         /// </summary>
-        public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (PropertyUtility.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
         /// it could also be the name of a single data in the pie chart) of a series. 
@@ -112,11 +150,38 @@ namespace XCharts
         /// 图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。
         /// 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
         /// </summary>
-        public List<string> data { get { return m_Data; } }
+        public List<string> data
+        {
+            get { return m_Data; }
+            set { if (value != null) { m_Data = value; SetComponentDirty(); } }
+        }
         /// <summary>
         /// 自定义的图例标记图形。
         /// </summary>
-        public List<Sprite> icons { get { return m_Icons; } }
+        public List<Sprite> icons
+        {
+            get { return m_Icons; }
+            set { if (value != null) { m_Icons = value; SetComponentDirty(); } }
+        }
+        /// <summary>
+        /// 图表是否需要刷新（图例组件不需要刷新图表）
+        /// </summary>
+        public override bool vertsDirty { get { return false; } }
+        /// <summary>
+        /// 组件是否需要刷新
+        /// </summary>
+        public override bool componentDirty
+        {
+            get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty; }
+        }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            location.ClearComponentDirty();
+            textStyle.ClearComponentDirty();
+        }
+
         /// <summary>
         /// the button list of legend.
         /// 图例按钮列表。
@@ -179,78 +244,6 @@ namespace XCharts
                 return legend;
             }
         }
-        public void Copy(Legend legend)
-        {
-            m_Show = legend.show;
-            m_SelectedMode = legend.selectedMode;
-            m_Orient = legend.orient;
-            m_Location.Copy(legend.location);
-            m_ItemWidth = legend.itemWidth;
-            m_ItemHeight = legend.itemHeight;
-            m_ItemGap = legend.itemGap;
-            itemAutoColor = legend.itemAutoColor;
-            m_TextStyle.Copy(legend.textStyle);
-            ChartHelper.CopyList<string>(m_Data, legend.data);
-            ChartHelper.CopyList<Sprite>(m_Icons, legend.icons);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Legend)
-            {
-                return Equals((Legend)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Legend other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return show == other.show &&
-                selectedMode == other.selectedMode &&
-                orient == other.orient &&
-                location == other.location &&
-                itemWidth == other.itemWidth &&
-                itemHeight == other.itemHeight &&
-                itemGap == other.itemGap &&
-                itemAutoColor == other.itemAutoColor &&
-                textStyle.Equals(other.textStyle) &&
-                ChartHelper.IsValueEqualsList<string>(m_Data, other.data) &&
-                ChartHelper.IsValueEqualsList<Sprite>(m_Icons, other.icons);
-        }
-
-        public static bool operator ==(Legend left, Legend right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Legend left, Legend right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
 
         /// <summary>
         /// 清空
@@ -258,6 +251,7 @@ namespace XCharts
         public void ClearData()
         {
             m_Data.Clear();
+            SetComponentDirty();
         }
 
         /// <summary>
@@ -279,6 +273,7 @@ namespace XCharts
             if (m_Data.Contains(name))
             {
                 m_Data.Remove(name);
+                SetComponentDirty();
             }
         }
 
@@ -291,6 +286,7 @@ namespace XCharts
             if (!m_Data.Contains(name) && !string.IsNullOrEmpty(name))
             {
                 m_Data.Add(name);
+                SetComponentDirty();
             }
         }
 
@@ -379,7 +375,7 @@ namespace XCharts
         {
             m_Location.OnChanged();
         }
-       
+
         /// <summary>
         /// 从json字符串解析数据，json格式如：['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
         /// </summary>
@@ -388,6 +384,7 @@ namespace XCharts
         {
             if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
             m_Data = ChartHelper.ParseStringFromString(jsonData);
+            SetComponentDirty();
         }
 
         public string GetFormatterContent(string category)

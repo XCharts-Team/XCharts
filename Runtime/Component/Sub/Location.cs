@@ -15,7 +15,7 @@ namespace XCharts
     /// 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
     /// </summary>
     [Serializable]
-    public class Location : SubComponent, IPropertyChanged, IEquatable<Location>
+    public class Location : SubComponent, IPropertyChanged
     {
         /// <summary>
         /// 对齐方式
@@ -47,27 +47,47 @@ namespace XCharts
         /// <summary>
         /// 对齐方式。
         /// </summary>
-        public Align align { get { return m_Align; } set { m_Align = value; UpdateAlign(); } }
+        public Align align
+        {
+            get { return m_Align; }
+            set { if (PropertyUtility.SetStruct(ref m_Align, value)) { SetComponentDirty(); UpdateAlign(); } }
+        }
         /// <summary>
         /// Distance between component and the left side of the container.
         /// 离容器左侧的距离。
         /// </summary>
-        public float left { get { return m_Left; } set { m_Left = value; UpdateAlign(); } }
+        public float left
+        {
+            get { return m_Left; }
+            set { if (PropertyUtility.SetStruct(ref m_Left, value)) { SetComponentDirty(); UpdateAlign(); } }
+        }
         /// <summary>
         /// Distance between component and the left side of the container.
         /// 离容器右侧的距离。
         /// </summary>
-        public float right { get { return m_Right; } set { m_Right = value; UpdateAlign(); } }
+        public float right
+        {
+            get { return m_Right; }
+            set { if (PropertyUtility.SetStruct(ref m_Right, value)) { SetComponentDirty(); UpdateAlign(); } }
+        }
         /// <summary>
         /// Distance between component and the left side of the container.
         /// 离容器上侧的距离。
         /// </summary>
-        public float top { get { return m_Top; } set { m_Top = value; UpdateAlign(); } }
+        public float top
+        {
+            get { return m_Top; }
+            set { if (PropertyUtility.SetStruct(ref m_Top, value)) { SetComponentDirty(); UpdateAlign(); } }
+        }
         /// <summary>
         /// Distance between component and the left side of the container.
         /// 离容器下侧的距离。
         /// </summary>
-        public float bottom { get { return m_Bottom; } set { m_Bottom = value; UpdateAlign(); } }
+        public float bottom
+        {
+            get { return m_Bottom; }
+            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) { SetComponentDirty(); UpdateAlign(); } }
+        }
 
         /// <summary>
         /// the anchor of text.
@@ -248,67 +268,6 @@ namespace XCharts
                 default:
                     return Vector2.zero;
             }
-        }
-
-        public void Copy(Location location)
-        {
-            m_Align = location.align;
-            m_Left = location.left;
-            m_Right = location.right;
-            m_Top = location.top;
-            m_Bottom = location.bottom;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is Location)
-            {
-                return Equals((Location)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(Location other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return align == other.align &&
-                left == other.left &&
-                right == other.right &&
-                top == other.top &&
-                bottom == other.bottom;
-        }
-
-        public static bool operator ==(Location left, Location right)
-        {
-            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
-            {
-                return true;
-            }
-            else if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Location left, Location right)
-        {
-            return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         /// <summary>

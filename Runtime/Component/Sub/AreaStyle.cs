@@ -52,41 +52,73 @@ namespace XCharts
         /// Set this to false to prevent the areafrom showing.
         /// 是否显示区域填充。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the origin of area.
         /// 区域填充的起始位置。
         /// </summary>
-        public AreaOrigin origin { get { return m_Origin; } set { m_Origin = value; } }
+        public AreaOrigin origin
+        {
+            get { return m_Origin; }
+            set { if (PropertyUtility.SetStruct(ref m_Origin, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the color of area,default use serie color.
         /// 区域填充的颜色，如果toColor不是默认值，则表示渐变色的起点颜色。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Gradient color, start color to toColor.
         /// 渐变色的终点颜色。
         /// </summary>
-        public Color toColor { get { return m_ToColor; } set { m_ToColor = value; } }
+        public Color toColor
+        {
+            get { return m_ToColor; }
+            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
         /// 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opacity
+        {
+            get { return m_Opacity; }
+            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 鼠标悬浮时是否高亮之前的区域
         /// </summary>
-        public bool tooltipHighlight { get { return m_TooltipHighlight; } set { m_TooltipHighlight = value; } }
+        public bool tooltipHighlight
+        {
+            get { return m_TooltipHighlight; }
+            set { if (PropertyUtility.SetStruct(ref m_TooltipHighlight, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// the color of area,default use serie color.
         /// 高亮时区域填充的颜色，如果highlightToColor不是默认值，则表示渐变色的起点颜色。
         /// </summary>
-        public Color highlightColor { get { return m_HighlightColor; } set { m_HighlightColor = value; } }
+        public Color highlightColor
+        {
+            get { return m_HighlightColor; }
+            set { if (PropertyUtility.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Gradient color, start highlightColor to highlightToColor.
         /// 高亮时渐变色的终点颜色。
         /// </summary>
-        public Color highlightToColor { get { return m_HighlightToColor; } set { m_HighlightToColor = value; } }
+        public Color highlightToColor
+        {
+            get { return m_HighlightToColor; }
+            set { if (PropertyUtility.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
+        }
 
         public static AreaStyle defaultAreaStyle
         {

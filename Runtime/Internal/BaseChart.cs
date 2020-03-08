@@ -163,6 +163,10 @@ namespace XCharts
                 if (m_Series.vertsDirty) RefreshChart();
                 if (m_Series.labelDirty) m_ReinitLabel = true;
                 if (m_Series.labelUpdate && !m_RefreshChart) m_RefreshLabel = true;
+                foreach (var serie in m_Series.list)
+                {
+                    if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
+                }
                 m_Series.ClearDirty();
             }
         }
@@ -203,6 +207,7 @@ namespace XCharts
             m_Legend.SetAllDirty();
             m_Tooltip.SetAllDirty();
             m_ReinitLabel = true;
+            m_ReinitTitle = true;
         }
 #endif
 
@@ -388,10 +393,10 @@ namespace XCharts
                     var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
                     serieData.SetLabelActive(false);
-                    //serieData.SetLabelText(serieData.name);
                     count++;
                 }
             }
+            SerieLabelHelper.UpdateLabelText(m_Series,m_ThemeInfo);
         }
 
         private void InitSerieTitle()
@@ -415,8 +420,9 @@ namespace XCharts
                 txt.text = "";
                 txt.transform.localPosition = new Vector2(0, 0);
                 txt.transform.localEulerAngles = Vector2.zero;
-                ChartHelper.SetActive(txt, false);
+                ChartHelper.SetActive(txt, serie.titleStyle.show);
                 serie.titleStyle.runtimeText = txt;
+                serie.titleStyle.UpdatePosition(serie.runtimeCenterPos);
                 var serieData = serie.GetSerieData(0);
                 if (serieData != null)
                 {

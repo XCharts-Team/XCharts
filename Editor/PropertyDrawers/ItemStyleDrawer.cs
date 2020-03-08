@@ -22,6 +22,10 @@ namespace XCharts
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
+            SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
+            SerializedProperty m_BackgroundWidth = prop.FindPropertyRelative("m_BackgroundWidth");
+            SerializedProperty m_CenterColor = prop.FindPropertyRelative("m_CenterColor");
+            SerializedProperty m_CenterGap = prop.FindPropertyRelative("m_CenterGap");
             SerializedProperty m_BorderType = prop.FindPropertyRelative("m_BorderType");
             SerializedProperty m_BorderWidth = prop.FindPropertyRelative("m_BorderWidth");
             SerializedProperty m_BorderColor = prop.FindPropertyRelative("m_BorderColor");
@@ -32,6 +36,14 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Color);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundWidth);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_CenterColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_CenterGap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BorderType);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -50,7 +62,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
             {
-                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
+                height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

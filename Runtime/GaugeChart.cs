@@ -32,20 +32,25 @@ namespace XCharts
             base.Start();
             foreach (var serie in m_Series.list)
             {
-                UpdateTitle(serie);
-                UpdateLabel(serie);
+                TitleStyleHelper.CheckTitle(serie, ref m_ReinitTitle, ref m_UpdateTitleText);
+                SerieLabelHelper.CheckLabel(serie, ref m_ReinitLabel, ref m_UpdateLabelText);
             }
-            UpdateTitleAndLabelText();
+            UpdateAxisLabel();
         }
 
         protected override void Update()
         {
             base.Update();
-            if (m_UpdateLabelText || m_UpdateTitleText)
+            if (m_UpdateTitleText)
             {
                 m_UpdateTitleText = false;
+                TitleStyleHelper.UpdateTitleText(m_Series);
+            }
+            if (m_UpdateLabelText)
+            {
                 m_UpdateLabelText = false;
-                UpdateTitleAndLabelText();
+                SerieLabelHelper.UpdateLabelText(m_Series,m_ThemeInfo);
+                UpdateAxisLabel();
             }
         }
 
@@ -134,16 +139,14 @@ namespace XCharts
             serie.UpdateCenter(chartWidth, chartHeight);
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
-            //var currAngle = serie.animation.GetCurrDetail();
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
             DrawProgressBar(vh, serie, currAngle);
             DrawStageColor(vh, serie);
             DrawLineStyle(vh, serie);
             DrawAxisTick(vh, serie);
             DrawPointer(vh, serie, currAngle);
-            UpdateTitle(serie);
-            // UpdateAxisLabel(serie);
-            UpdateLabel(serie);
+            TitleStyleHelper.CheckTitle(serie, ref m_ReinitTitle, ref m_UpdateTitleText);
+            SerieLabelHelper.CheckLabel(serie, ref m_ReinitLabel, ref m_UpdateLabelText);
 
             CheckAnimation(serie);
             if (!serie.animation.IsFinish())
@@ -168,15 +171,15 @@ namespace XCharts
                 backgroundColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, serie.endAngle);
             if (serie.roundCap)
             {
-                DrawArcShape(vh, serie, serie.startAngle, backgroundColor, true);
-                DrawArcShape(vh, serie, serie.endAngle, backgroundColor);
+                DrawRoundCap(vh, serie, serie.startAngle, backgroundColor, true);
+                DrawRoundCap(vh, serie, serie.endAngle, backgroundColor);
             }
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
                 color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, currAngle);
             if (serie.roundCap && currAngle != serie.startAngle)
             {
-                DrawArcShape(vh, serie, currAngle, color);
-                DrawArcShape(vh, serie, serie.startAngle, color, true);
+                DrawRoundCap(vh, serie, currAngle, color);
+                DrawRoundCap(vh, serie, serie.startAngle, color, true);
             }
         }
 
@@ -275,7 +278,7 @@ namespace XCharts
             return false;
         }
 
-        private void DrawArcShape(VertexHelper vh, Serie serie, float angle, Color color, bool invert = false)
+        private void DrawRoundCap(VertexHelper vh, Serie serie, float angle, Color color, bool invert = false)
         {
             var radius = serie.gaugeAxis.axisLine.width / 2;
             var len = serie.runtimeInsideRadius + radius;
@@ -293,27 +296,6 @@ namespace XCharts
                 var value = serieData.GetCurrData(1, serie.animation.GetUpdateAnimationDuration());
                 var data = serieData.GetData(1);
                 if (value != data) m_RefreshChart = true;
-            }
-        }
-
-        private void UpdateTitle(Serie serie)
-        {
-            if (serie.titleStyle.show)
-            {
-                if (serie.titleStyle.IsInited())
-                {
-                    serie.titleStyle.SetActive(true);
-                    serie.titleStyle.UpdatePosition(serie.runtimeCenterPos);
-                    m_UpdateTitleText = true;
-                }
-                else
-                {
-                    m_ReinitTitle = true;
-                }
-            }
-            else
-            {
-                serie.titleStyle.SetActive(false);
             }
         }
 
@@ -347,56 +329,12 @@ namespace XCharts
             }
         }
 
-        private void UpdateLabel(Serie serie)
-        {
-            var serieData = serie.GetSerieData(0);
-            if (serieData != null)
-            {
-                if (serie.label.show)
-                {
-                    if (serieData.IsInitLabel())
-                    {
-                        serieData.SetLabelActive(true);
-                        serieData.SetLabelPosition(serie.runtimeCenterPos + serie.label.offset);
-                        m_UpdateLabelText = true;
-                    }
-                    else
-                    {
-                        m_ReinitLabel = true;
-                    }
-                }
-                else
-                {
-                    serieData.SetLabelActive(false);
-                }
-            }
-        }
-
-        private void UpdateTitleAndLabelText()
+        private void UpdateAxisLabel()
         {
             foreach (var serie in m_Series.list)
             {
                 if (serie.type == SerieType.Gauge)
                 {
-                    var serieData = serie.GetSerieData(0);
-                    if (serieData != null)
-                    {
-                        if (serie.label.show && serieData.IsInitLabel())
-                        {
-                            var value = serieData.GetData(1);
-                            var total = serie.max;
-                            var content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
-                            serieData.SetLabelText(content);
-                            if (serie.label.color != Color.clear)
-                            {
-                                serieData.SetLabelColor(serie.label.color);
-                            }
-                        }
-                        if (serie.titleStyle.show && serie.titleStyle.IsInited())
-                        {
-                            serie.titleStyle.SetText(serieData.name);
-                        }
-                    }
                     UpdateAxisLabel(serie);
                 }
             }
@@ -415,6 +353,7 @@ namespace XCharts
             if (serie.dataCount > 0)
             {
                 var serieData = serie.data[0];
+                serieData.labelPosition = serie.runtimeCenterPos + serie.label.offset;
                 value = dest ? serieData.GetData(1) : serieData.GetCurrData(1, serie.animation.GetUpdateAnimationDuration());
                 value = Mathf.Clamp(value, serie.min, serie.max);
             }

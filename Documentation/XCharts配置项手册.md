@@ -19,6 +19,7 @@
 * [Serie-Scatter 散点图](#Serie-Scatter)  
 * [Serie-Heatmap 热力图](#Serie-Heatmap)  
 * [Serie-Gauge 仪表盘](#Serie-Gauge)  
+* [Serie-Ring 环形图](#Serie-Ring)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
@@ -601,6 +602,26 @@
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。仪表盘的数据一般只有一个，值通过`label`样式显示，`name`通过`titleStyle`样式显示。
 
+## `Serie-Ring`
+
+环形图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Ring`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `radius`：仪表盘半径。
+* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `ringGap`：环形图的环间隙。
+* `roundCap`：是否启用圆弧效果。
+* `clockwise`：是否顺时针，默认为`true`。
+* `titleStyle`：环形图中心标题 [TitleStyle](#TitleStyle)。
+* `itemStyle`：环形图的圆环样式，包括设置背景颜色和边框等 [ItemStyle](#ItemStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。环形图的数据只有二维，`data[0]`表示当前值，`data[1]`表示最大值。
+
 ## `Settings`
 
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
@@ -701,6 +722,8 @@
 
 * `show`：是否启用。
 * `color`：颜色。
+* `backgroundColor`：背景颜色。
+* `backgroundWidth`：背景的宽。
 * `borderType`：边框的类型。
 * `borderColor`：边框的颜色。
 * `borderWidth`：边框宽。

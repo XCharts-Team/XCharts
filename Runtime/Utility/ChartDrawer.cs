@@ -335,6 +335,28 @@ namespace XCharts
             }
         }
 
+        public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
+            bool clockwise, Color color, bool end)
+        {
+            var px = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
+            var py = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
+            var pos = new Vector3(px, py) + center;
+            if (end)
+            {
+                if (clockwise)
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180);
+                else
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180);
+            }
+            else
+            {
+                if (clockwise)
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360);
+                else
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360);
+            }
+        }
+
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
             Color32 color, Color emptyColor, float smoothness = 2f, float startDegree = 0, float toDegree = 360)
         {

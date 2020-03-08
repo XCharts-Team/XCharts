@@ -62,8 +62,9 @@ namespace XCharts
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
             SerializedProperty m_StartAngle = prop.FindPropertyRelative("m_StartAngle");
             SerializedProperty m_EndAngle = prop.FindPropertyRelative("m_EndAngle");
+            SerializedProperty m_RingGap = prop.FindPropertyRelative("m_RingGap");
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
-            //SerializedProperty m_Clockwise = prop.FindPropertyRelative("m_Clockwise");
+            SerializedProperty m_Clockwise = prop.FindPropertyRelative("m_Clockwise");
             SerializedProperty m_RoundCap = prop.FindPropertyRelative("m_RoundCap");
             SerializedProperty m_GaugeType = prop.FindPropertyRelative("m_GaugeType");
             SerializedProperty m_GaugeAxis = prop.FindPropertyRelative("m_GaugeAxis");
@@ -184,6 +185,26 @@ namespace XCharts
                         ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
                         EditorGUI.PropertyField(drawRect, m_RoundCap);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
+                        EditorGUI.PropertyField(drawRect, m_Emphasis);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Ring:
+                        ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Center, "Center");
+                        ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
+                        EditorGUI.PropertyField(drawRect, m_StartAngle);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_RingGap);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_RoundCap);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Clockwise);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_TitleStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_TitleStyle);
+                        EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
                         EditorGUI.PropertyField(drawRect, m_Label);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                         EditorGUI.PropertyField(drawRect, m_Emphasis);
@@ -448,6 +469,14 @@ namespace XCharts
                         break;
                     case SerieType.Pie:
                         height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Ring:
+                        height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TitleStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));

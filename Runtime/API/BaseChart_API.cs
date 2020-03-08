@@ -220,7 +220,7 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName)
+        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName = null)
         {
             var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (serieData != null)

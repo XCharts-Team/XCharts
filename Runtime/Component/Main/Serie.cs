@@ -52,6 +52,10 @@ namespace XCharts
         /// 仪表盘。
         /// </summary>
         Gauge,
+        /// <summary>
+        /// 环形图。只支持一个数据的环形图。
+        /// </summary>
+        Ring,
     }
 
     /// <summary>
@@ -225,9 +229,11 @@ namespace XCharts
         [SerializeField] private float m_Max;
         [SerializeField] private float m_StartAngle;
         [SerializeField] private float m_EndAngle;
-        [SerializeField] private bool m_Clockwise;
+        [SerializeField] private bool m_Clockwise = true;
         [FormerlySerializedAs("m_ArcShaped")]
         [SerializeField] private bool m_RoundCap;
+        [SerializeField] private float m_RingGap = 10f;
+
         [SerializeField] private int m_SplitNumber;
         [SerializeField] private GaugeType m_GaugeType = GaugeType.Pointer;
         [SerializeField] private GaugeAxis m_GaugeAxis = new GaugeAxis();
@@ -577,6 +583,15 @@ namespace XCharts
             get { return m_Clockwise; }
             set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetVerticesDirty(); }
         }
+
+        /// <summary>
+        /// 环形图的环间隙。
+        /// </summary>
+        public float ringGap
+        {
+            get { return m_RingGap; }
+            set { if (PropertyUtility.SetStruct(ref m_RingGap, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// 刻度分割段数。最大可设置36。
         /// </summary>
@@ -704,10 +719,11 @@ namespace XCharts
                     label.vertsDirty ||
                     emphasis.vertsDirty ||
                     gaugeAxis.vertsDirty ||
-                    gaugePointer.vertsDirty ||
-                    titleStyle.vertsDirty;
+                    gaugePointer.vertsDirty;
             }
         }
+
+        public override bool componentDirty { get { return m_ComponentDirty || titleStyle.componentDirty; } }
         internal override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
@@ -995,11 +1011,20 @@ namespace XCharts
             m_Data.Add(serieData);
             m_ShowDataDimension = 1;
             SetVerticesDirty();
+            CheckDataName(dataName);
+            return serieData;
+        }
+
+        private void CheckDataName(string dataName)
+        {
             if (string.IsNullOrEmpty(dataName))
             {
                 SetNameDirty();
             }
-            return serieData;
+            else
+            {
+                m_ShowDataName = true;
+            }
         }
 
         /// <summary>
@@ -1028,10 +1053,7 @@ namespace XCharts
             m_Data.Add(serieData);
             m_ShowDataDimension = 2;
             SetVerticesDirty();
-            if (string.IsNullOrEmpty(dataName))
-            {
-                SetNameDirty();
-            }
+            CheckDataName(dataName);
             return serieData;
         }
 
@@ -1073,10 +1095,7 @@ namespace XCharts
                 }
                 m_Data.Add(serieData);
                 SetVerticesDirty();
-                if (string.IsNullOrEmpty(dataName))
-                {
-                    SetNameDirty();
-                }
+                CheckDataName(dataName);
                 return serieData;
             }
         }

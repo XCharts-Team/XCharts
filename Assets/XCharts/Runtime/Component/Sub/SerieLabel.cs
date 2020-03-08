@@ -193,7 +193,7 @@ namespace XCharts
         public float backgroundHeight
         {
             get { return m_BackgroundHeight; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundHeight, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Rotate label.
@@ -202,7 +202,7 @@ namespace XCharts
         public float rotate
         {
             get { return m_Rotate; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the text padding of left and right. defaut:2.
@@ -211,7 +211,7 @@ namespace XCharts
         public float paddingLeftRight
         {
             get { return m_PaddingLeftRight; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_PaddingLeftRight, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the text padding of top and bottom. defaut:2.
@@ -220,7 +220,7 @@ namespace XCharts
         public float paddingTopBottom
         {
             get { return m_PaddingTopBottom; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_PaddingTopBottom, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// font size.
@@ -229,7 +229,7 @@ namespace XCharts
         public int fontSize
         {
             get { return m_FontSize; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetAllDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetAllDirty(); }
         }
         /// <summary>
         /// font style.

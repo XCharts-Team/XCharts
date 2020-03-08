@@ -7,7 +7,7 @@
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图等常见图表。
 
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
@@ -66,6 +66,8 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 * `RadarChart` 雷达图：雷达图主要用于表现多变量的数据，例如球员的各个属性分析。依赖 radar 组件。
 * `ScatterChart` 散点图：直角坐标系上的散点图可以用来展现数据的 x，y 之间的关系，如果数据项有多个维度，其它维度的值可以通过不同大小的 symbol 展现成气泡图，也可以用颜色来表现。
 * `HeatmapChart` 热力图：热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
+* `GuageChart` 仪表盘。
+* `RingChart` 环形图。区别于`PieChart`中的环形图，`RingChart`只支持一个数据，一般用于表示百分比。
 
 以下是LineChart折线图和主组件、子组件的关系结构：
 

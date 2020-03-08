@@ -15,7 +15,7 @@ namespace XCharts
     /// 文本的相关设置。
     /// </summary>
     [Serializable]
-    public class TextStyle : SubComponent, IEquatable<TextStyle>
+    public class TextStyle : SubComponent
     {
         [SerializeField] private Font m_Font;
         [SerializeField] private float m_Rotate = 0;
@@ -134,66 +134,6 @@ namespace XCharts
             this.fontStyle = fontStyle;
             this.color = color;
             this.rotate = rotate;
-        }
-
-        public void Copy(TextStyle style)
-        {
-            this.fontSize = style.fontSize;
-            this.fontStyle = style.fontStyle;
-            this.color = style.color;
-            this.backgroundColor = style.backgroundColor;
-            this.rotate = style.rotate;
-            this.offset = style.offset;
-            this.lineSpacing = style.lineSpacing;
-        }
-
-        public TextStyle Clone()
-        {
-            var textStyle = new TextStyle();
-            textStyle.rotate = rotate;
-            textStyle.color = color;
-            textStyle.backgroundColor = backgroundColor;
-            textStyle.fontSize = fontSize;
-            textStyle.fontStyle = fontStyle;
-            textStyle.offset = offset;
-            textStyle.lineSpacing = lineSpacing;
-            return textStyle;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is TextStyle)
-            {
-                return Equals((TextStyle)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(TextStyle other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return rotate == other.rotate &&
-                fontSize == other.fontSize &&
-                fontStyle == other.fontStyle &&
-                offset == other.offset &&
-                lineSpacing == other.lineSpacing &&
-                ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.backgroundColor) &&
-                ChartHelper.IsValueEqualsColor(m_Color, other.color);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

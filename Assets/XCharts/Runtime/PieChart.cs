@@ -123,7 +123,7 @@ namespace XCharts
                     serieData.runtimePieCurrAngle = serieData.runtimePieToAngle;
                     serieData.runtiemPieOffsetCenter = center;
                     serieData.runtimePieInsideRadius = serie.runtimeInsideRadius;
-                    if (serie.animation.CheckDetailBreak(n, serieData.runtimePieToAngle))
+                    if (serie.animation.CheckDetailBreak(serieData.runtimePieToAngle))
                     {
                         isFinish = false;
                         serieData.runtimePieCurrAngle = serie.animation.GetCurrDetail();
@@ -144,7 +144,7 @@ namespace XCharts
                             center.y + serieData.runtimePieOffsetRadius * currCos);
                         var drawStartDegree = startDegree + serie.pieSpace;
                         var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawArcShape(vh, serie, serieData, serieData.runtiemPieOffsetCenter, color, ref drawStartDegree, ref drawEndDegree);
+                        DrawRoundCap(vh, serie, serieData, serieData.runtiemPieOffsetCenter, color, ref drawStartDegree, ref drawEndDegree);
                         ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
                             color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
                     }
@@ -152,7 +152,7 @@ namespace XCharts
                     {
                         var drawStartDegree = startDegree + serie.pieSpace;
                         var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawArcShape(vh, serie, serieData, center, color, ref drawStartDegree, ref drawEndDegree);
+                        DrawRoundCap(vh, serie, serieData, center, color, ref drawStartDegree, ref drawEndDegree);
                         ChartDrawer.DrawDoughnut(vh, center, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
                             color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
                     }
@@ -178,7 +178,7 @@ namespace XCharts
             raycastTarget = isClickOffset && isDataHighlight;
         }
 
-        private void DrawArcShape(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
+        private void DrawRoundCap(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
             Color color, ref float drawStartDegree, ref float drawEndDegree)
         {
             if (serie.roundCap && serieData.runtimePieInsideRadius > 0)
@@ -189,14 +189,8 @@ namespace XCharts
                 drawStartDegree += diffDegree;
                 drawEndDegree -= diffDegree;
 
-                var px = Mathf.Sin(drawStartDegree * Mathf.Deg2Rad) * radius;
-                var py = Mathf.Cos(drawStartDegree * Mathf.Deg2Rad) * radius;
-                var pos = new Vector3(px, py) + centerPos;
-                ChartDrawer.DrawSector(vh, pos, width, color, drawStartDegree + 180, drawStartDegree + 360);
-                px = Mathf.Sin(drawEndDegree * Mathf.Deg2Rad) * radius;
-                py = Mathf.Cos(drawEndDegree * Mathf.Deg2Rad) * radius;
-                pos = new Vector3(px, py) + centerPos;
-                ChartDrawer.DrawSector(vh, pos, width, color, drawEndDegree, drawEndDegree + 180);
+                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawStartDegree, serie.clockwise, color, false);
+                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawEndDegree, serie.clockwise, color, true);
             }
         }
 

@@ -1033,6 +1033,7 @@ namespace XCharts
                 {
                     case SerieType.Pie:
                     case SerieType.Radar:
+                    case SerieType.Ring:
                         for (int i = 0; i < serie.data.Count; i++)
                         {
                             if (string.IsNullOrEmpty(serie.data[i].name))

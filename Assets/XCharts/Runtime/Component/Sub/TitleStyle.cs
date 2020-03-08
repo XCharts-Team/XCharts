@@ -9,6 +9,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 namespace XCharts
 {
@@ -17,61 +18,41 @@ namespace XCharts
     /// 标题相关设置。
     /// </summary>
     [Serializable]
-    public class TitleStyle : SubComponent, IEquatable<TitleStyle>
+    public class TitleStyle : SubComponent
     {
         [SerializeField] private bool m_Show;
-        [SerializeField] private TextStyle m_textStyle = new TextStyle(18);
+        [FormerlySerializedAs("m_textStyle")]
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18);
 
         /// <summary>
         /// Whether to show title.
         /// 是否显示标题。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+        }
 
         /// <summary>
         /// the color of text. 
         /// 文本的颜色。
         /// </summary>
-        public TextStyle textStyle { get { return m_textStyle; } set { m_textStyle = value; } }
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (PropertyUtility.SetClass(ref m_TextStyle, value, true)) SetComponentDirty(); }
+        }
+
+        public override bool componentDirty { get { return m_ComponentDirty || textStyle.componentDirty; } }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            textStyle.ClearComponentDirty();
+        }
+
         public Text runtimeText { get; set; }
-
-        public TitleStyle Clone()
-        {
-            var title = new TitleStyle();
-            title.show = show;
-            title.textStyle = textStyle.Clone();
-            return title;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is TitleStyle)
-            {
-                return Equals((TitleStyle)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(TitleStyle other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return textStyle.Equals(other.textStyle);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
 
         public bool IsInited()
         {
@@ -90,13 +71,13 @@ namespace XCharts
         {
             if (runtimeText)
             {
-                runtimeText.transform.localPosition = pos + new Vector3(m_textStyle.offset.x, m_textStyle.offset.y);
+                runtimeText.transform.localPosition = pos + new Vector3(m_TextStyle.offset.x, m_TextStyle.offset.y);
             }
         }
 
         public void SetText(string text)
         {
-            if (runtimeText)
+            if (runtimeText && !runtimeText.text.Equals(text))
             {
                 if (textStyle.color != Color.clear) runtimeText.color = textStyle.color;
                 runtimeText.text = text;

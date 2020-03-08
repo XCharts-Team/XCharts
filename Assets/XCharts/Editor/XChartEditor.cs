@@ -109,5 +109,11 @@ namespace XCharts
         {
             AddChart<GaugeChart>("GaugeChart");
         }
+
+        [MenuItem("GameObject/XCharts/RingChart", priority = 51)]
+        public static void AddRingChart()
+        {
+            AddChart<RingChart>("RingChart");
+        }
     }
 }

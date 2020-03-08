@@ -36,6 +36,10 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color m_Color;
+        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private float m_BackgroundWidth;
+        [SerializeField] private Color m_CenterColor;
+        [SerializeField] private float m_CenterGap;
         [SerializeField] private Type m_BorderType = Type.Solid;
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color m_BorderColor;
@@ -56,6 +60,38 @@ namespace XCharts
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 数据项背景颜色。
+        /// </summary>
+        public Color backgroundColor
+        {
+            get { return m_BackgroundColor; }
+            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 中心区域颜色。
+        /// </summary>
+        public Color centerColor
+        {
+            get { return m_CenterColor; }
+            set { if (PropertyUtility.SetColor(ref m_CenterColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 中心区域间隙。
+        /// </summary>
+        public float centerGap
+        {
+            get { return m_CenterGap; }
+            set { if (PropertyUtility.SetStruct(ref m_CenterGap, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 数据项背景颜色。
+        /// </summary>
+        public float backgroundWidth
+        {
+            get { return m_BackgroundWidth; }
+            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框的类型。

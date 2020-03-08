@@ -237,7 +237,7 @@ namespace XCharts
             return (delay > 0 && Time.time - startTime < delay / 1000);
         }
 
-        public bool CheckDetailBreak(int dataIndex, float detail)
+        public bool CheckDetailBreak(float detail)
         {
             return !IsFinish() && detail > m_CurrDetailProgress;
         }

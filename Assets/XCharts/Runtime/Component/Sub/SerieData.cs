@@ -153,7 +153,7 @@ namespace XCharts
         public float runtimePieOffsetRadius { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
 
-        private List<float> m_LastData = new List<float>();
+        private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
 
@@ -166,13 +166,25 @@ namespace XCharts
             else return 0;
         }
 
-        public float GetLastData(int index)
+        public float GetPreviousData(int index)
         {
-            if (index >= 0 && index < m_LastData.Count)
+            if (index >= 0 && index < m_PreviousData.Count)
             {
-                return m_LastData[index];
+                return m_PreviousData[index];
             }
             else return 0;
+        }
+
+        public float GetFirstData(float animationDuration = 500f)
+        {
+            if (m_Data.Count > 0) return GetCurrData(0, animationDuration);
+            return 0;
+        }
+
+        public float GetLastData()
+        {
+            if (m_Data.Count > 0) return m_Data[m_Data.Count - 1];
+            return 0;
         }
 
         public float GetCurrData(int index, float animationDuration = 500f)
@@ -184,7 +196,7 @@ namespace XCharts
                 if (time <= total)
                 {
                     CheckLastData();
-                    var curr = Mathf.Lerp(GetLastData(index), GetData(index), time / total);
+                    var curr = Mathf.Lerp(GetPreviousData(index), GetData(index), time / total);
                     return curr;
                 }
                 else
@@ -204,7 +216,7 @@ namespace XCharts
             if (dimension >= 0 && dimension < data.Count)
             {
                 CheckLastData();
-                m_LastData[dimension] = data[dimension];
+                m_PreviousData[dimension] = data[dimension];
                 m_DataUpdateTime[dimension] = Time.time;
                 m_DataUpdateFlag[dimension] = true;
                 data[dimension] = value;
@@ -215,14 +227,14 @@ namespace XCharts
 
         private void CheckLastData()
         {
-            if (m_LastData.Count != m_Data.Count)
+            if (m_PreviousData.Count != m_Data.Count)
             {
-                m_LastData.Clear();
+                m_PreviousData.Clear();
                 m_DataUpdateTime.Clear();
                 m_DataUpdateFlag.Clear();
                 for (int i = 0; i < m_Data.Count; i++)
                 {
-                    m_LastData.Add(m_Data[i]);
+                    m_PreviousData.Add(m_Data[i]);
                     m_DataUpdateTime.Add(Time.time);
                     m_DataUpdateFlag.Add(false);
                 }

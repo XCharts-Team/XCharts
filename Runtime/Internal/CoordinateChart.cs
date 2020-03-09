@@ -1769,6 +1769,17 @@ namespace XCharts
                 ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
         }
 
+        protected void CheckClipAndDrawPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
+           Color32 startColor, Color32 toColor, bool clip)
+        {
+            p1 = ClampInCoordinate(p1);
+            p2 = ClampInCoordinate(p2);
+            p3 = ClampInCoordinate(p3);
+            p4 = ClampInCoordinate(p4);
+            if (!clip || (clip && (IsInCooridate(p1) && IsInCooridate(p2) && IsInCooridate(p3) && IsInCooridate(p4))))
+                ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
+        }
+
         protected void CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3,
             Color32 color, bool clip)
         {

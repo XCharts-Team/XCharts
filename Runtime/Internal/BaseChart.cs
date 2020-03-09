@@ -396,7 +396,7 @@ namespace XCharts
                     count++;
                 }
             }
-            SerieLabelHelper.UpdateLabelText(m_Series,m_ThemeInfo);
+            SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
         }
 
         private void InitSerieTitle()
@@ -839,30 +839,8 @@ namespace XCharts
 
             if (serieLabel.border)
             {
-                var borderWid = serieLabel.borderWidth;
-                p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig + borderWid);
-                p2 = new Vector3(centerPos.x + labelHalfWid + 2 * borderWid, centerPos.y + labelHalfHig + borderWid);
-                p3 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y + labelHalfHig);
-                p4 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y - labelHalfHig - 2 * borderWid);
-                var p5 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig - borderWid);
-                var p6 = new Vector3(centerPos.x - labelHalfWid - 2 * borderWid, centerPos.y - labelHalfHig - borderWid);
-                var p7 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y - labelHalfHig);
-                var p8 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y + labelHalfHig + 2 * borderWid);
-                if (serieLabel.rotate > 0)
-                {
-                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serieLabel.rotate);
-                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serieLabel.rotate);
-                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serieLabel.rotate);
-                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serieLabel.rotate);
-                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serieLabel.rotate);
-                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serieLabel.rotate);
-                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serieLabel.rotate);
-                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serieLabel.rotate);
-                }
-                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serieLabel.borderColor);
+                ChartDrawer.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
+                    serieLabel.borderWidth, serieLabel.borderColor, serieLabel.rotate);
             }
         }
 

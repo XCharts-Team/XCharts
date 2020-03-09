@@ -48,6 +48,7 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
             float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
+            float borderWidth = serie.itemStyle.runtimeBorderWidth;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -81,11 +82,17 @@ namespace XCharts
 
                 float currHig = CheckAnimation(serie, i, barHig);
 
-                Vector3 p1 = new Vector3(pX, pY + space + barWidth);
-                Vector3 p2 = new Vector3(pX + currHig, pY + space + barWidth);
-                Vector3 p3 = new Vector3(pX + currHig, pY + space);
-                Vector3 p4 = new Vector3(pX, pY + space);
-                serie.dataPoints.Add(new Vector3(pX + currHig, pY + space + barWidth / 2));
+                Vector3 p1 = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
+                Vector3 p2 = new Vector3(pX + currHig - 2 * borderWidth, pY + space + barWidth - borderWidth);
+                Vector3 p3 = new Vector3(pX + currHig - 2 * borderWidth, pY + space + borderWidth);
+                Vector3 p4 = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                Vector3 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
+                p1 = ClampInCoordinate(p1);
+                p2 = ClampInCoordinate(p2);
+                p3 = ClampInCoordinate(p3);
+                p4 = ClampInCoordinate(p4);
+                top = ClampInCoordinate(top);
+                serie.dataPoints.Add(top);
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
@@ -103,6 +110,14 @@ namespace XCharts
                     else
                     {
                         CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
+                        if (borderWidth > 0)
+                        {
+                            var borderColor = serie.itemStyle.borderColor;
+                            var itemWidth = Mathf.Abs(p3.x - p1.x);
+                            var itemHeight = Mathf.Abs(p2.y - p4.y);
+                            var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);
+                            ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                        }
                     }
                 }
             }
@@ -118,7 +133,7 @@ namespace XCharts
 
         private float CheckAnimation(Serie serie, int dataIndex, float barHig)
         {
-            float currHig = serie.animation.CheckBarProgress(dataIndex,barHig);
+            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig);
             if (!serie.animation.IsFinish())
             {
                 RefreshChart();
@@ -160,6 +175,7 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
             float yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
+            float borderWidth = serie.itemStyle.runtimeBorderWidth;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -191,16 +207,20 @@ namespace XCharts
                 }
 
                 float currHig = CheckAnimation(serie, i, barHig);
-
-                Vector3 p1 = new Vector3(pX + space, pY);
-                Vector3 p2 = new Vector3(pX + space, pY + currHig);
-                Vector3 p3 = new Vector3(pX + space + barWidth, pY + currHig);
-                Vector3 p4 = new Vector3(pX + space + barWidth, pY);
-                serie.dataPoints.Add(new Vector3(pX + space + barWidth / 2, pY + currHig));
+                Vector3 p1 = new Vector3(pX + space + borderWidth, pY + borderWidth);
+                Vector3 p2 = new Vector3(pX + space + borderWidth, pY + currHig - 2 * borderWidth);
+                Vector3 p3 = new Vector3(pX + space + barWidth, pY + currHig - 2 * borderWidth);
+                Vector3 p4 = new Vector3(pX + space + barWidth, pY + borderWidth);
+                Vector3 top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+                p1 = ClampInCoordinate(p1);
+                p2 = ClampInCoordinate(p2);
+                p3 = ClampInCoordinate(p3);
+                p4 = ClampInCoordinate(p4);
+                top = ClampInCoordinate(top);
+                serie.dataPoints.Add(top);
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
-
                 if (serie.show)
                 {
                     Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
@@ -214,7 +234,15 @@ namespace XCharts
                     }
                     else
                     {
-                        CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
+                        CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, areaColor, areaToColor, serie.clip);
+                        if (borderWidth > 0)
+                        {
+                            var borderColor = serie.itemStyle.borderColor;
+                            var itemWidth = Mathf.Abs(p3.x - p1.x);
+                            var itemHeight = Mathf.Abs(p2.y - p4.y);
+                            var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);
+                            ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                        }
                     }
                 }
             }

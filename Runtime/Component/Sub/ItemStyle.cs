@@ -125,5 +125,19 @@ namespace XCharts
             get { return m_Opacity; }
             set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 实际边框宽。边框不显示时为0。
+        /// </summary>
+        public float runtimeBorderWidth { get { return NeedShowBorder() ? borderWidth : 0; } }
+
+        /// <summary>
+        /// 是否需要显示边框。
+        /// </summary>
+        public bool NeedShowBorder()
+        {
+            return borderWidth != 0 && borderColor != Color.clear;
+        }
+
+
     }
 }

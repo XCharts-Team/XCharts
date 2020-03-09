@@ -724,10 +724,12 @@
 * `color`：颜色。
 * `backgroundColor`：背景颜色。
 * `backgroundWidth`：背景的宽。
+* `centerColor`：中心区域的颜色。如环形图的中心区域。
+* `centerGap`：中心区域的间隙。如环形图的中心区域于最内环的间隙。
 * `borderType`：边框的类型。
 * `borderColor`：边框的颜色。
 * `borderWidth`：边框宽。
-* `borderWidth`：opacity。
+* `opacity`：透明度。
 
 ## `LineArrow`
 

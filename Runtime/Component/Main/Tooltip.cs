@@ -61,6 +61,7 @@ namespace XCharts
         [SerializeField] private bool m_ForceENotation = false;
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private string m_IngoreDataDefaultContent = "-";
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
@@ -165,6 +166,10 @@ namespace XCharts
         /// 上下边距。
         /// </summary>
         public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
+        /// <summary>
+        /// 被忽略数据的默认显示字符信息。
+        /// </summary>
+        public string ingoreDataDefaultContent { get { return m_IngoreDataDefaultContent; } set { m_IngoreDataDefaultContent = value; } }
         /// <summary>
         /// The image of icon.
         /// 图标的图片。

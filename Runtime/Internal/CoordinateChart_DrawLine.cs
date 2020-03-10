@@ -33,6 +33,7 @@ namespace XCharts
                         if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1) continue;
                     }
                     Vector3 p = serie.dataPoints[i];
+                    if (ChartHelper.IsIngore(p)) continue;
                     bool highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                         || serie.data[i].highlighted || serie.highlighted;
                     float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
@@ -123,11 +124,18 @@ namespace XCharts
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
-                    i, dataChangeDuration, ref dataChanging);
-                seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
-                    dataChangeDuration);
-                serie.dataPoints.Add(np);
+                if (serie.IsIngoreValue(showData[i].GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                }
+                else
+                {
+                    float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
+                        i, dataChangeDuration, ref dataChanging);
+                    seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
+                        dataChangeDuration);
+                    serie.dataPoints.Add(np);
+                }
             }
             if (dataChanging)
             {
@@ -137,10 +145,17 @@ namespace XCharts
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
-                seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
-                    dataChangeDuration);
-                serie.dataPoints.Add(np);
+                if (serie.IsIngoreValue(showData[i].GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                }
+                else
+                {
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
+                        dataChangeDuration);
+                    serie.dataPoints.Add(np);
+                }
             }
             if (serie.dataPoints.Count <= 0)
             {
@@ -156,8 +171,15 @@ namespace XCharts
             if (serie.minShow > 0 && serie.minShow < showData.Count)
             {
                 i = serie.minShow - 1;
-                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
-                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, dataChangeDuration);
+                if (serie.IsIngoreValue(showData[i].GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                }
+                else
+                {
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, dataChangeDuration);
+                }
             }
             else
             {
@@ -166,8 +188,15 @@ namespace XCharts
             if (serie.maxShow > 0 && serie.maxShow < showData.Count)
             {
                 i = serie.maxShow;
-                float yValue = showData[i].GetCurrData(1, dataChangeDuration);
-                GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, dataChangeDuration);
+                if (serie.IsIngoreValue(showData[i].GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                }
+                else
+                {
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, dataChangeDuration);
+                }
             }
             else
             {
@@ -177,7 +206,8 @@ namespace XCharts
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);
-                if (!serie.animation.NeedAnimation(i)) break;
+                //if(np == Vector3.zero) continue;
+                //if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
                 if (serie.areaStyle.tooltipHighlight && m_Tooltip.show && i <= m_Tooltip.runtimeDataIndex[0])
                 {
@@ -192,21 +222,24 @@ namespace XCharts
                 switch (serie.lineType)
                 {
                     case LineType.Normal:
-                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                        nnp = GetNNPos(serie.dataPoints, i, np);
                         isFinish = DrawNormalLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
-                        llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
-                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
+                        //llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
+                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
+                        llp = GetLLPos(serie.dataPoints, i, firstLastPos);
+                        nnp = GetNNPos(serie.dataPoints, i, lastNextPos);
                         isFinish = DrawSmoothLine(vh, serie, xAxis, lp, np, llp, nnp, i,
                             lineColor, areaColor, areaToColor, isStack, zeroPos);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
-                        nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
+                        nnp = GetNNPos(serie.dataPoints, i, np);
                         isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
                         break;
@@ -218,7 +251,7 @@ namespace XCharts
                         break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);
-                lp = np;
+                if (np != Vector3.zero) lp = np;
             }
             if (!serie.animation.IsFinish())
             {
@@ -227,6 +260,37 @@ namespace XCharts
                 m_IsPlayingAnimation = true;
                 RefreshChart();
             }
+        }
+
+        private Vector3 GetNNPos(List<Vector3> dataPoints, int index, Vector3 np)
+        {
+            int size = dataPoints.Count;
+            if (index >= size) return np;
+            for (int i = index + 1; i < size; i++)
+            {
+                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+            }
+            return np;
+        }
+
+        private Vector3 GetLastPos(List<Vector3> dataPoints, int index, Vector3 pos)
+        {
+            if (index <= 0) return pos;
+            for (int i = index - 1; i > 0; i--)
+            {
+                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+            }
+            return pos;
+        }
+
+        private Vector3 GetLLPos(List<Vector3> dataPoints, int index, Vector3 lp)
+        {
+            if (index <= 1) return lp;
+            for (int i = index - 2; i > 0; i--)
+            {
+                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+            }
+            return lp;
         }
 
         private float DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
@@ -303,8 +367,13 @@ namespace XCharts
         }
 
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
-            float scaleWid, float serieHig, ref Vector3 np, float duration)
+            float scaleWid, float serieHig, ref Vector3 np, float duration, bool isIngoreValue = false)
         {
+            if (isIngoreValue)
+            {
+                np = Vector3.zero;
+                return 0;
+            }
             float xDataHig, yDataHig;
             float xMinValue = xAxis.GetCurrMinValue(duration);
             float xMaxValue = xAxis.GetCurrMaxValue(duration);
@@ -355,7 +424,6 @@ namespace XCharts
                     else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
                 }
                 np = new Vector3(pX, pY + yDataHig);
-
             }
             return yDataHig;
         }

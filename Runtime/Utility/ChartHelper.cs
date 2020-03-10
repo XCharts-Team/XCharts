@@ -21,8 +21,15 @@ namespace XCharts
     public static class ChartHelper
     {
         private static StringBuilder s_Builder = new StringBuilder();
+        private static Vector3 s_DefaultIngoreDataVector3 = Vector3.zero;
 
         public static StringBuilder sb { get { return s_Builder; } }
+        public static Vector3 ingoreVector3 { get { return s_DefaultIngoreDataVector3; } }
+
+        public static bool IsIngore(Vector3 pos)
+        {
+            return pos == s_DefaultIngoreDataVector3;
+        }
         public static string Cancat(string str1, string str2)
         {
             s_Builder.Length = 0;
@@ -93,12 +100,12 @@ namespace XCharts
 #if UNITY_2019_1_OR_NEWER
 #else
             if (parent == null) return;
-            #if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
             if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
             {
                 return;
             }
-            #endif
+#endif
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);

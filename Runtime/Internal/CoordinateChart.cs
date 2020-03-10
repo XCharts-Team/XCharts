@@ -1441,33 +1441,41 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    var isIngore = ChartHelper.IsIngore(serie.dataPoints[j]);
-                    if ((serie.label.show || serieData.iconStyle.show) && !isIngore)
+
+                    if ((serie.label.show || serieData.iconStyle.show))
                     {
                         var pos = serie.dataPoints[j];
-                        var value = serieData.data[1];
-                        switch (serie.type)
+                        var isIngore = ChartHelper.IsIngore(pos);
+                        if (isIngore)
                         {
-                            case SerieType.Line:
-                                break;
-                            case SerieType.Bar:
-                                var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
-                                switch (serie.label.position)
-                                {
-                                    case SerieLabel.Position.Center:
-
-                                        pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
-                                            new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
-                                        break;
-                                    case SerieLabel.Position.Bottom:
-                                        pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
-                                        break;
-                                }
-                                break;
+                            serieData.SetLabelActive(false);
                         }
-                        m_RefreshLabel = true;
-                        serieData.labelPosition = pos;
-                        if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
+                        else
+                        {
+                            var value = serieData.data[1];
+                            switch (serie.type)
+                            {
+                                case SerieType.Line:
+                                    break;
+                                case SerieType.Bar:
+                                    var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
+                                    switch (serie.label.position)
+                                    {
+                                        case SerieLabel.Position.Center:
+
+                                            pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
+                                                new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
+                                            break;
+                                        case SerieLabel.Position.Bottom:
+                                            pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            m_RefreshLabel = true;
+                            serieData.labelPosition = pos;
+                            if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
+                        }
                     }
                     else
                     {

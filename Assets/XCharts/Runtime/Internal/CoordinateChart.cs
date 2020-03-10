@@ -421,6 +421,7 @@ namespace XCharts
                         string key = serie.name;
                         float xValue, yValue;
                         serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
+                        var isIngore = ChartHelper.IsIngore(serie.dataPoints[index]);
                         if (isCartesian)
                         {
                             var serieData = serie.GetSerieData(index, m_DataZoom);
@@ -433,10 +434,12 @@ namespace XCharts
                         }
                         else
                         {
+                            var valueTxt = isIngore ? m_Tooltip.ingoreDataDefaultContent :
+                                ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation);
                             sb.Append("\n")
                                 .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
                                 .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                                .Append(ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation));
+                                .Append(valueTxt);
                         }
                     }
                 }
@@ -1438,7 +1441,8 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (serie.label.show || serieData.iconStyle.show)
+                    var isIngore = ChartHelper.IsIngore(serie.dataPoints[j]);
+                    if ((serie.label.show || serieData.iconStyle.show) && !isIngore)
                     {
                         var pos = serie.dataPoints[j];
                         var value = serieData.data[1];

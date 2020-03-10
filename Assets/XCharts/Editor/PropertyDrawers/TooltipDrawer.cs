@@ -32,6 +32,7 @@ namespace XCharts
             SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
             SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
             SerializedProperty m_BackgroundImage = prop.FindPropertyRelative("m_BackgroundImage");
+            SerializedProperty m_IngoreDataDefaultContent = prop.FindPropertyRelative("m_IngoreDataDefaultContent");
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
             SerializedProperty m_TextStyle = prop.FindPropertyRelative("m_TextStyle");
 
@@ -64,6 +65,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ForceENotation);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_IngoreDataDefaultContent);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
                 EditorGUI.PropertyField(drawRect, m_TextStyle);
@@ -75,7 +78,7 @@ namespace XCharts
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing +
+                return 14 * EditorGUIUtility.singleLineHeight + 13 * EditorGUIUtility.standardVerticalSpacing +
                     EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle")) +
                     EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TextStyle"));
             else

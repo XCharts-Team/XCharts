@@ -434,7 +434,7 @@ namespace XCharts
                         }
                         else
                         {
-                            var valueTxt = isIngore ? m_Tooltip.ingoreDataDefaultContent :
+                            var valueTxt = isIngore ? m_Tooltip.ignoreDataDefaultContent :
                                 ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation);
                             sb.Append("\n")
                                 .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")

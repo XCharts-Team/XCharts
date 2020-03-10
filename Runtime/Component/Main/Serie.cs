@@ -254,8 +254,8 @@ namespace XCharts
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
         [SerializeField] private bool m_Clip = true;
-        [SerializeField] private bool m_Ingore = true;
-        [SerializeField] private float m_IngoreValue = 0;
+        [SerializeField] private bool m_Ignore = false;
+        [SerializeField] private float m_IgnoreValue = 0;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -611,20 +611,20 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_RoundCap, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否开启忽略数据。当为 true 时，数据值为 ingoreValue 时不进行绘制。
+        /// 是否开启忽略数据。当为 true 时，数据值为 ignoreValue 时不进行绘制。
         /// </summary>
-        public bool ingore
+        public bool ignore
         {
-            get { return m_Ingore; }
-            set { if (PropertyUtility.SetStruct(ref m_Ingore, value)) SetVerticesDirty(); }
+            get { return m_Ignore; }
+            set { if (PropertyUtility.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 忽略数据的默认值。当ingore为true才有效。
+        /// 忽略数据的默认值。当ignore为true才有效。
         /// </summary>
-        public float ingoreValue
+        public float ignoreValue
         {
-            get { return m_IngoreValue; }
-            set { if (PropertyUtility.SetStruct(ref m_IngoreValue, value)) SetVerticesDirty(); }
+            get { return m_IgnoreValue; }
+            set { if (PropertyUtility.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘轴线。
@@ -1558,7 +1558,7 @@ namespace XCharts
 
         public bool IsIngoreValue(float value)
         {
-            return m_Ingore && Mathf.Approximately(value, m_IngoreValue);
+            return m_Ignore && Mathf.Approximately(value, m_IgnoreValue);
         }
 
         /// <summary>

@@ -205,7 +205,7 @@
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
-* `ingoreDataDefaultContent`：被忽略数据的默认显示字符信息。
+* `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
@@ -466,8 +466,8 @@
   * `Sum`：取过滤点之和。
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
 * `clip`：是否裁剪超出坐标系部分的图形。
-* `ingore`：是否开启忽略数据。当为 `true` 时，数据值为 `ingoreValue` 时不进行绘制。
-* `ingoreValue`：忽略数据的默认值。当 `ingore` 为 `true` 才有效。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
+* `ignoreValue`：忽略数据的默认值。当 `ignore` 为 `true` 才有效。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：

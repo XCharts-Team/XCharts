@@ -1,7 +1,7 @@
 
 # 更新日志
 
-* (2020.03.10) 增加`LineChart`的普通折线图可通过设置`ingore`参数过滤数据的支持
+* (2020.03.10) 增加`LineChart`的普通折线图可通过`ignore`参数设置忽略数据的支持
 * (2020.03.09) 增加`BarChart`可通过`ItemStyle`配置边框的支持
 * (2020.03.08) 增加`RingChart`环形图
 * (2020.03.05) 调整`Serie`的`arcShaped`参数重命名为`roundCap`

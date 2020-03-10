@@ -24,7 +24,7 @@ namespace XCharts
         private static Vector3 s_DefaultIngoreDataVector3 = Vector3.zero;
 
         public static StringBuilder sb { get { return s_Builder; } }
-        public static Vector3 ingoreVector3 { get { return s_DefaultIngoreDataVector3; } }
+        public static Vector3 ignoreVector3 { get { return s_DefaultIngoreDataVector3; } }
 
         public static bool IsIngore(Vector3 pos)
         {

@@ -32,7 +32,7 @@ namespace XCharts
             SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
             SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
             SerializedProperty m_BackgroundImage = prop.FindPropertyRelative("m_BackgroundImage");
-            SerializedProperty m_IngoreDataDefaultContent = prop.FindPropertyRelative("m_IngoreDataDefaultContent");
+            SerializedProperty m_IgnoreDataDefaultContent = prop.FindPropertyRelative("m_IgnoreDataDefaultContent");
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
             SerializedProperty m_TextStyle = prop.FindPropertyRelative("m_TextStyle");
 
@@ -65,7 +65,7 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ForceENotation);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_IngoreDataDefaultContent);
+                EditorGUI.PropertyField(drawRect, m_IgnoreDataDefaultContent);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);

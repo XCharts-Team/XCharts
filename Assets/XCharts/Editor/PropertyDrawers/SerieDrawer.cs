@@ -71,8 +71,8 @@ namespace XCharts
             SerializedProperty m_GaugePointer = prop.FindPropertyRelative("m_GaugePointer");
             SerializedProperty m_TitleStyle = prop.FindPropertyRelative("m_TitleStyle");
             SerializedProperty m_Clip = prop.FindPropertyRelative("m_Clip");
-            SerializedProperty m_Ingore = prop.FindPropertyRelative("m_Ingore");
-            SerializedProperty m_IngoreValue = prop.FindPropertyRelative("m_IngoreValue");
+            SerializedProperty m_Ignore = prop.FindPropertyRelative("m_Ignore");
+            SerializedProperty m_IgnoreValue = prop.FindPropertyRelative("m_IgnoreValue");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -124,9 +124,9 @@ namespace XCharts
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_Clip);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                        EditorGUI.PropertyField(drawRect, m_Ingore);
+                        EditorGUI.PropertyField(drawRect, m_Ignore);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                        EditorGUI.PropertyField(drawRect, m_IngoreValue);
+                        EditorGUI.PropertyField(drawRect, m_IgnoreValue);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_Symbol);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);

@@ -125,7 +125,7 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
-            AnimationPause();
+            AnimationFadeIn();
             foreach (var serie in m_Series)
             {
                 serie.ClearData();
@@ -326,7 +326,7 @@ namespace XCharts
         /// </summary>
         public void RemoveAll()
         {
-            AnimationPause();
+            AnimationFadeIn();
             m_Series.Clear();
         }
 

@@ -421,7 +421,7 @@ namespace XCharts
                         string key = serie.name;
                         float xValue, yValue;
                         serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
-                        var isIngore = ChartHelper.IsIngore(serie.dataPoints[index]);
+                        var isIngore = serie.IsIngorePoint(index);
                         if (isCartesian)
                         {
                             var serieData = serie.GetSerieData(index, m_DataZoom);
@@ -1521,7 +1521,7 @@ namespace XCharts
                         {
                             content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         }
-                        serieData.SetLabelActive(value != 0);
+                        serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
                         serieData.SetLabelPosition(serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }

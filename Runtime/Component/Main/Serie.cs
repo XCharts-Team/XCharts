@@ -1561,6 +1561,15 @@ namespace XCharts
             return m_Ignore && Mathf.Approximately(value, m_IgnoreValue);
         }
 
+        public bool IsIngorePoint(int index)
+        {
+            if (index >= 0 && index < dataPoints.Count)
+            {
+                return ChartHelper.IsIngore(dataPoints[index]);
+            }
+            return false;
+        }
+
         /// <summary>
         /// 更新运行时中心点和半径
         /// </summary>

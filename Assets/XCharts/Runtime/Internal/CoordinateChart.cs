@@ -411,7 +411,13 @@ namespace XCharts
                 sb.Length = 0;
                 if (!isCartesian)
                 {
-                    sb.Append(tempAxis.GetData(index, m_DataZoom));
+                    var category = tempAxis.GetData(index, m_DataZoom);
+                    if (!string.IsNullOrEmpty(category)) sb.Append(category);
+                    else
+                    {
+                        m_Tooltip.SetActive(false);
+                        return;
+                    }
                 }
                 for (int i = 0; i < m_Series.Count; i++)
                 {
@@ -1498,7 +1504,6 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
-
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
                     if (serie.show && serie.label.show && serieData.canShowLabel)
@@ -1522,7 +1527,8 @@ namespace XCharts
                             content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
-                        serieData.SetLabelPosition(serie.label.offset);
+                        var down = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j);
+                        serieData.SetLabelPosition(down ? -serie.label.offset : serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
                     else

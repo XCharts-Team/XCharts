@@ -46,5 +46,31 @@ namespace XCharts
                 return color;
             }
         }
+
+        public static bool IsDownPoint(Serie serie, int index)
+        {
+            var dataPoints = serie.dataPoints;
+            if (dataPoints.Count < 2) return false;
+            else if (index > 0 && index < dataPoints.Count - 1)
+            {
+                var lp = dataPoints[index - 1];
+                var np = dataPoints[index + 1];
+                var cp = dataPoints[index];
+                var dot = Vector3.Cross(np - lp, cp - np);
+                return dot.z < 0;
+            }
+            else if (index == 0)
+            {
+                return dataPoints[0].y < dataPoints[1].y;
+            }
+            else if (index == dataPoints.Count - 1)
+            {
+                return dataPoints[index].y < dataPoints[index - 1].y;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

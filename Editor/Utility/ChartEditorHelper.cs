@@ -79,15 +79,30 @@ public class ChartEditorHelper
         float defaultX = drawRect.x;
         drawRect.width = EditorGUIUtility.labelWidth;
         moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? foldoutStyle : EditorStyles.foldout);
-        drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
-        drawRect.width = 40;
-        if (prop != null)
-        {
-            EditorGUI.PropertyField(drawRect, prop, GUIContent.none);
-        }
+        MakeBool(ref drawRect, prop);
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
         return moduleToggle;
+    }
+
+    public static void MakeBool(ref Rect drawRect, SerializedProperty boolProp, int index = 0, string name = null)
+    {
+        float defaultWidth = drawRect.width;
+        float defaultX = drawRect.x;
+        drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + index * 30;
+        drawRect.width = 20 + EditorGUI.indentLevel * 20;
+        if (boolProp != null)
+        {
+            EditorGUI.PropertyField(drawRect, boolProp, GUIContent.none);
+            drawRect.x += 13;
+            drawRect.width = 200;
+            if (!string.IsNullOrEmpty(name))
+            {
+                EditorGUI.LabelField(drawRect, name);
+            }
+        }
+        drawRect.width = defaultWidth;
+        drawRect.x = defaultX;
     }
 
     public static bool MakeFoldout(ref Rect drawRect, ref Dictionary<string, bool> moduleToggle, SerializedProperty prop,
@@ -114,7 +129,7 @@ public class ChartEditorHelper
         {
             if (showProp.propertyType == SerializedPropertyType.Boolean)
             {
-                drawRect.width = 80;
+                drawRect.width = 100;
             }
             else
             {

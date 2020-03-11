@@ -417,23 +417,17 @@ namespace XCharts
             }
             if (showDetail)
             {
-                EditorGUI.indentLevel++;
+                EditorGUI.indentLevel += 2;
                 var m_Icon = serieData.FindPropertyRelative("m_IconStyle");
                 var m_EnableLabel = serieData.FindPropertyRelative("m_EnableLabel");
                 var m_Label = serieData.FindPropertyRelative("m_Label");
                 EditorGUI.PropertyField(drawRect, m_Icon);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Icon);
-                EditorGUI.PropertyField(drawRect, m_EnableLabel);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (m_EnableLabel.boolValue)
-                {
-                    EditorGUI.indentLevel++;
-                    EditorGUI.PropertyField(drawRect, m_Label);
-                    drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
-                    EditorGUI.indentLevel--;
-                }
+                EditorGUI.PropertyField(drawRect, m_Label);
+                ChartEditorHelper.MakeBool(ref drawRect, m_EnableLabel, 1, "(enable)");
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
 
-                EditorGUI.indentLevel--;
+                EditorGUI.indentLevel -= 2;
             }
         }
 
@@ -537,10 +531,9 @@ namespace XCharts
                         for (int i = 0; i < num; i++)
                         {
                             var item = m_Data.GetArrayElementAtIndex(i);
-                            height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                            //height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_IconStyle"));
-                            if (item.FindPropertyRelative("m_EnableLabel").boolValue)
-                                height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Label"));
+                            height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Label"));
                         }
                     }
                 }

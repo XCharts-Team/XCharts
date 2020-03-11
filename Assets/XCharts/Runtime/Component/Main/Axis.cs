@@ -830,6 +830,7 @@ namespace XCharts
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMinValueChanged) return m_RuntimeMinValue;
             var time = Time.time - m_RuntimeMinValueUpdateTime;
+            if (time == 0) return m_RuntimeMinValue;
             var total = duration / 1000;
             if (duration > 0 && time <= total)
             {
@@ -849,8 +850,9 @@ namespace XCharts
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMaxValueChanged) return m_RuntimeMaxValue;
             var time = Time.time - m_RuntimeMaxValueUpdateTime;
+            if (time == 0) return m_RuntimeMaxValue;
             var total = duration / 1000;
-            if (duration > 0 && time <= total)
+            if (duration > 0 && time < total)
             {
                 var curr = Mathf.Lerp(m_RuntimeLastMaxValue, m_RuntimeMaxValue, time / total);
                 return curr;

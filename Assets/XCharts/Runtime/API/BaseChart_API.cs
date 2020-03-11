@@ -92,7 +92,9 @@ namespace XCharts
         {
             m_Series.ClearData();
             m_Legend.ClearData();
+            m_Tooltip.ClearValue();
             m_CheckAnimation = false;
+            m_ReinitLabel = true;
             RefreshChart();
         }
 
@@ -105,7 +107,9 @@ namespace XCharts
         {
             m_Legend.ClearData();
             m_Series.RemoveAll();
+            m_Tooltip.ClearValue();
             m_CheckAnimation = false;
+            m_ReinitLabel = true;
             RefreshChart();
         }
 

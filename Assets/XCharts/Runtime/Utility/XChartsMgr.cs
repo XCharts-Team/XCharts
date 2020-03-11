@@ -24,8 +24,8 @@ namespace XCharts
 
     public class XChartsMgr : MonoBehaviour
     {
-        public const string version = "1.2.0";
-        public const int date = 20200308;
+        public const string version = "1.3.0";
+        public const int date = 20200311;
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;

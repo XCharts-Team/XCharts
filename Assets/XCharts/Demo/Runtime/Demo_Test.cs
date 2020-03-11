@@ -28,32 +28,29 @@ namespace XCharts
 
         void Update()
         {
-            // updateTime += Time.deltaTime;
-            // if (chart && updateTime > 2)
-            // {
-            //     updateTime = 0;
-            //     var serie = chart.series.GetSerie(0);
-            //     serie.animation.dataChangeEnable = true;
-            //     var dataCount = serie.dataCount;
-            //     if (chart is HeatmapChart)
-            //     {
-            //         var dimension = serie.GetSerieData(0).data.Count - 1;
-            //         for (int i = 0; i < dataCount; i++)
-            //         {
-            //             chart.UpdateData(0, i, dimension, Random.Range(0, 10));
-            //         }
-            //     }
-            //     else
-            //     {
-            //         chart.UpdateData(0, Random.Range(0, dataCount), Random.Range(10, 90));
-            //     }
-            // }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AddData();
+            }
         }
 
         void OnTestBtn()
         {
-            //chart.series.list[0].lineStyle.width =UnityEngine.Random.Range(1, 5);
-            chart.series.list[0].lineStyle.width =UnityEngine.Random.Range(1, 5);
+            chart.ClearData();
+        }
+
+        void AddData()
+        {
+            chart.ClearData();
+            int count = Random.Range(5, 20);
+            for (int i = 0; i < count; i++)
+            {
+                (chart as CoordinateChart).AddXAxisData("x" + i);
+                if (Random.Range(1, 3) == 2)
+                    chart.AddData(0, Random.Range(10, 200));
+                else
+                    chart.AddData(0, Random.Range(10, 100));
+            }
         }
     }
 }

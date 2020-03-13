@@ -821,7 +821,10 @@ namespace XCharts
             var labelHalfWid = serieData.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
             var serieLabel = serieData.GetSerieLabel(serie.label);
-            var centerPos = serieData.labelPosition + serieLabel.offset;
+            var invert = serie.type == SerieType.Line
+                && SerieHelper.IsDownPoint(serie, serieData.index)
+                && !serie.areaStyle.show;
+            var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
             var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
             var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);

@@ -1447,6 +1447,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
+                    serieData.index = j;
 
                     if ((serie.label.show || serieData.iconStyle.show))
                     {
@@ -1527,8 +1528,8 @@ namespace XCharts
                             content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
-                        var down = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j);
-                        serieData.SetLabelPosition(down ? -serie.label.offset : serie.label.offset);
+                        var invert = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j) && !serie.areaStyle.show;
+                        serieData.SetLabelPosition(invert ? -serie.label.offset : serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
                     else

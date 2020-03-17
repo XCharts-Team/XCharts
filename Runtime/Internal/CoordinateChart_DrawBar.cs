@@ -98,9 +98,9 @@ namespace XCharts
                 p4 = ClampInCoordinate(p4);
                 top = ClampInCoordinate(top);
                 serie.dataPoints.Add(top);
-
                 if (serie.show)
                 {
+                    DrawBarBackground(vh, serie, serieData, colorIndex, highlight, pX, pY, space, barWidth, true);
                     Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                     Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                     if (serie.barType == BarType.Zebra)
@@ -231,6 +231,7 @@ namespace XCharts
                 {
                     Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                     Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+                    DrawBarBackground(vh, serie, serieData, colorIndex, highlight, pX, pY, space, barWidth, false);
                     if (serie.barType == BarType.Zebra)
                     {
                         p1 = (p4 + p1) / 2;
@@ -259,6 +260,31 @@ namespace XCharts
             if (!m_Series.IsStack(serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
+            }
+        }
+
+        private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, int colorIndex, bool highlight,
+            float pX, float pY, float space, float barWidth, bool isYAxis)
+        {
+            Color color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
+            if (color != Color.clear)
+            {
+                if (isYAxis)
+                {
+                    Vector3 p1 = new Vector3(coordinateX, pY + space + barWidth);
+                    Vector3 p2 = new Vector3(coordinateX + coordinateWidth, pY + space + barWidth);
+                    Vector3 p3 = new Vector3(coordinateX + coordinateWidth, pY + space);
+                    Vector3 p4 = new Vector3(coordinateX, pY + space);
+                    CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, color, color, serie.clip);
+                }
+                else
+                {
+                    Vector3 p1 = new Vector3(pX + space, coordinateY);
+                    Vector3 p2 = new Vector3(pX + space, coordinateY + coordinateHeight);
+                    Vector3 p3 = new Vector3(pX + space + barWidth, coordinateY + coordinateHeight);
+                    Vector3 p4 = new Vector3(pX + space + barWidth, coordinateY);
+                    CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, color, color, serie.clip);
+                }
             }
         }
 

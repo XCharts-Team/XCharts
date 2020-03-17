@@ -82,11 +82,13 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
+                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                     serieData.index = n;
                     float value = serieData.GetCurrData(1, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
-                    Color color = m_ThemeInfo.GetColor(serieNameCount);
+                    var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
+                    var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
                     serieData.runtimePieStartAngle = startDegree;
                     serieData.runtimePieToAngle = startDegree;
                     serieData.runtimePieHalfAngle = startDegree;
@@ -105,7 +107,6 @@ namespace XCharts
                     if (serieData.highlighted)
                     {
                         isDataHighlight = true;
-                        color *= 1.2f;
                         serieData.runtimePieOutsideRadius += m_Settings.pieTooltipExtraRadius;
                     }
                     var offset = serie.pieSpace;
@@ -146,7 +147,7 @@ namespace XCharts
                         var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
                         DrawRoundCap(vh, serie, serieData, serieData.runtiemPieOffsetCenter, color, ref drawStartDegree, ref drawEndDegree);
                         ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                            color, toColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
                     }
                     else
                     {
@@ -154,7 +155,8 @@ namespace XCharts
                         var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
                         DrawRoundCap(vh, serie, serieData, center, color, ref drawStartDegree, ref drawEndDegree);
                         ChartDrawer.DrawDoughnut(vh, center, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                            color, toColor, Color.clear, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                        DrawCenter(vh, serie, itemStyle, serieData.runtimePieInsideRadius);
                     }
                     serieData.canShowLabel = serieData.runtimePieCurrAngle >= serieData.runtimePieHalfAngle;
                     isDrawPie = true;
@@ -176,6 +178,15 @@ namespace XCharts
             DrawLabelLine(vh);
             DrawLabelBackground(vh);
             raycastTarget = isClickOffset && isDataHighlight;
+        }
+
+        private void DrawCenter(VertexHelper vh, Serie serie, ItemStyle itemStyle, float insideRadius)
+        {
+            if (itemStyle.centerColor != Color.clear)
+            {
+                var radius = insideRadius - itemStyle.centerGap;
+                ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, m_Settings.cicleSmoothness);
+            }
         }
 
         private void DrawRoundCap(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
@@ -202,7 +213,7 @@ namespace XCharts
                 {
                     foreach (var serieData in serie.data)
                     {
-                        var serieLabel = serieData.GetSerieLabel(serie.label);
+                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                         if (serieLabel.show && serieData.canShowLabel)
                         {
                             int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
@@ -222,7 +233,7 @@ namespace XCharts
                 {
                     foreach (var serieData in serie.data)
                     {
-                        var serieLabel = serieData.GetSerieLabel(serie.label);
+                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                         if (serieLabel.show && serieData.canShowLabel)
                         {
                             UpdateLabelPostion(serie, serieData);
@@ -235,7 +246,7 @@ namespace XCharts
 
         private void DrawLabelLine(VertexHelper vh, Serie serie, SerieData serieData, Color color)
         {
-            var serieLabel = serieData.GetSerieLabel(serie.label);
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (serieLabel.show
                 && serieLabel.position == SerieLabel.Position.Outside
                 && serieLabel.line)
@@ -363,7 +374,7 @@ namespace XCharts
             if (serieData.labelText == null) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
-            var serieLabel = serieData.GetSerieLabel(serie.label);
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var showLabel = ((serieLabel.show || isHighlight) && serieData.canShowLabel);
             if (showLabel || serieData.iconStyle.show)
             {
@@ -428,7 +439,7 @@ namespace XCharts
             var offsetRadius = serieData.runtimePieOffsetRadius;
             var insideRadius = serieData.runtimePieInsideRadius;
             var outsideRadius = serieData.runtimePieOutsideRadius;
-            var serieLabel = serieData.GetSerieLabel(serie.label);
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             switch (serieLabel.position)
             {
                 case SerieLabel.Position.Center:

@@ -48,7 +48,7 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
             float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
-            float borderWidth = serie.itemStyle.runtimeBorderWidth;
+
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -56,6 +56,11 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
                 var serieData = showData[i];
+                var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
+                    || serie.data[i].highlighted
+                    || serie.highlighted;
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var borderWidth = itemStyle.runtimeBorderWidth;
                 serieData.canShowLabel = true;
                 float value = showData[i].GetCurrData(1, dataChangeDuration);
                 if (showData[i].IsDataChanged()) dataChanging = true;
@@ -93,13 +98,11 @@ namespace XCharts
                 p4 = ClampInCoordinate(p4);
                 top = ClampInCoordinate(top);
                 serie.dataPoints.Add(top);
-                var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
-                    || serie.data[i].highlighted
-                    || serie.highlighted;
+
                 if (serie.show)
                 {
-                    Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
-                    Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, highlight);
+                    Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+                    Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                     if (serie.barType == BarType.Zebra)
                     {
                         p1 = (p4 + p1) / 2;
@@ -112,7 +115,7 @@ namespace XCharts
                         CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
                         if (borderWidth > 0)
                         {
-                            var borderColor = serie.itemStyle.borderColor;
+                            var borderColor = itemStyle.borderColor;
                             var itemWidth = Mathf.Abs(p3.x - p1.x);
                             var itemHeight = Mathf.Abs(p2.y - p4.y);
                             var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);
@@ -175,15 +178,20 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
             float yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
-            float borderWidth = serie.itemStyle.runtimeBorderWidth;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
                 {
                     seriesHig.Add(0);
                 }
-                float value = showData[i].GetCurrData(1, dataChangeDuration);
-                if (showData[i].IsDataChanged()) dataChanging = true;
+                var serieData = showData[i];
+                var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
+                    || serie.data[i].highlighted
+                    || serie.highlighted;
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var borderWidth = itemStyle.runtimeBorderWidth;
+                float value = serieData.GetCurrData(1, dataChangeDuration);
+                if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
@@ -218,13 +226,11 @@ namespace XCharts
                 p4 = ClampInCoordinate(p4);
                 top = ClampInCoordinate(top);
                 serie.dataPoints.Add(top);
-                var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
-                    || serie.data[i].highlighted
-                    || serie.highlighted;
+
                 if (serie.show)
                 {
-                    Color areaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, highlight);
-                    Color areaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, highlight);
+                    Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+                    Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                     if (serie.barType == BarType.Zebra)
                     {
                         p1 = (p4 + p1) / 2;
@@ -237,7 +243,7 @@ namespace XCharts
                         CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, areaColor, areaToColor, serie.clip);
                         if (borderWidth > 0)
                         {
-                            var borderColor = serie.itemStyle.borderColor;
+                            var borderColor = itemStyle.borderColor;
                             var itemWidth = Mathf.Abs(p3.x - p1.x);
                             var itemHeight = Mathf.Abs(p2.y - p4.y);
                             var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);

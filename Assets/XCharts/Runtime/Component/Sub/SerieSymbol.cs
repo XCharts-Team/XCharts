@@ -176,24 +176,6 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_SelectedSizeCallback, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the color of symbol,default from serie.
-        /// 标记图形的颜色，默认和系列一致。
-        /// </summary>
-        public Color color
-        {
-            get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the opacity of color.
-        /// 图形标记的透明度。
-        /// </summary>
-        public float opacity
-        {
-            get { return m_Opacity; }
-            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// the index start to show symbol.
         /// 开始显示图形标记的索引。
         /// </summary>

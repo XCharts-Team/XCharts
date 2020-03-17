@@ -154,14 +154,26 @@ namespace XCharts
 
         public static void DrawDiamond(VertexHelper vh, Vector3 pos, float size, Color32 color)
         {
+            DrawDiamond(vh, pos, size, color, color);
+        }
+
+        public static void DrawDiamond(VertexHelper vh, Vector3 pos, float size, Color32 color, Color32 toColor)
+        {
             var p1 = new Vector2(pos.x - size, pos.y);
             var p2 = new Vector2(pos.x, pos.y + size);
             var p3 = new Vector2(pos.x + size, pos.y);
             var p4 = new Vector2(pos.x, pos.y - size);
-            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
+            DrawTriangle(vh, p4, p1, p2, color, color, toColor);
+            DrawTriangle(vh, p3, p4, p2, color, color, toColor);
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            bool vertical = true)
+        {
+            DrawPolygon(vh, p, radius, color, color, vertical);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
             bool vertical = true)
         {
             Vector3 p1, p2, p3, p4;
@@ -179,7 +191,7 @@ namespace XCharts
                 p3 = new Vector3(p.x + radius, p.y + radius);
                 p4 = new Vector3(p.x + radius, p.y - radius);
             }
-            DrawPolygon(vh, p1, p2, p3, p4, color, color);
+            DrawPolygon(vh, p1, p2, p3, p4, color, toColor);
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, float radius, Color32 color)
@@ -286,12 +298,17 @@ namespace XCharts
 
         public static void DrawTriangle(VertexHelper vh, Vector3 pos, float size, Color32 color)
         {
+            DrawTriangle(vh, pos, size, color, color);
+        }
+
+        public static void DrawTriangle(VertexHelper vh, Vector3 pos, float size, Color32 color, Color32 toColor)
+        {
             var x = size * Mathf.Cos(30 * Mathf.PI / 180);
             var y = size * Mathf.Sin(30 * Mathf.PI / 180);
             var p1 = new Vector2(pos.x - x, pos.y - y);
             var p2 = new Vector2(pos.x, pos.y + size);
             var p3 = new Vector2(pos.x + x, pos.y - y);
-            ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
+            ChartDrawer.DrawTriangle(vh, p1, p2, p3, color, toColor, color);
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,
@@ -317,19 +334,37 @@ namespace XCharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            Color32 toColor, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, toColor, 0, 360, smoothness);
+        }
+
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
             float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, 0, 360, smoothness);
+            DrawCricle(vh, p, radius, color, color, smoothness);
         }
 
         public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
             Color32 color, Color emptyColor, float smoothness = 2f)
         {
-            DrawDoughnut(vh, p, radius - tickness, radius, color, emptyColor, smoothness);
+            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, smoothness);
+        }
+
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, radius - tickness, radius, color, toColor, emptyColor, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
             float startDegree, float toDegree, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, color, startDegree, toDegree, smoothness);
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            Color32 toColor, float startDegree, float toDegree, float smoothness = 2f)
         {
             int segments = (int)((2 * Mathf.PI * radius) / (smoothness < 0 ? 2f : smoothness));
             Vector3 p2, p3;
@@ -341,7 +376,7 @@ namespace XCharts
                 float currAngle = startAngle + i * angle;
                 p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                     p.y + radius * Mathf.Cos(currAngle));
-                DrawTriangle(vh, p, p2, p3, color);
+                DrawTriangle(vh, p, p2, p3, toColor, color, color);
                 p2 = p3;
             }
         }
@@ -371,9 +406,17 @@ namespace XCharts
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
             Color32 color, Color emptyColor, float smoothness = 2f, float startDegree = 0, float toDegree = 360)
         {
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, smoothness,
+                startDegree, toDegree);
+        }
+
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
+            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f, float startDegree = 0,
+            float toDegree = 360)
+        {
             if (insideRadius <= 0)
             {
-                DrawSector(vh, p, outsideRadius, color, startDegree, toDegree, smoothness);
+                DrawSector(vh, p, outsideRadius, color, toColor, startDegree, toDegree, smoothness);
                 return;
             }
             Vector3 p1, p2, p3, p4;
@@ -392,7 +435,8 @@ namespace XCharts
                 p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
                     p.y + insideRadius * Mathf.Cos(currAngle));
                 if (emptyColor != Color.clear) DrawTriangle(vh, p, p1, p4, emptyColor);
-                DrawPolygon(vh, p1, p2, p3, p4, color);
+                //DrawPolygon(vh, p1, p2, p3, p4, color,Color.blue);
+                DrawPolygon(vh, p2, p3, p4, p1, color, toColor);
                 p1 = p4;
                 p2 = p3;
             }

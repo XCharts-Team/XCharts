@@ -112,32 +112,11 @@ namespace XCharts
             this.width = width;
         }
 
-        public void Copy(LineStyle other)
+        public Color GetColor()
         {
-            m_Show = other.show;
-            m_Type = other.type;
-            m_Color = other.color;
-            m_Width = other.width;
-            m_Opacity = other.opacity;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            var other = (LineStyle)obj;
-            return m_Show == other.show &&
-                m_Type == other.type &&
-                m_Width == other.width &&
-                m_Opacity == other.opacity &&
-                ChartHelper.IsValueEqualsColor(m_Color, other.color);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
+            var color = m_Color;
+            color.a *= m_Opacity;
+            return color;
         }
     }
 }

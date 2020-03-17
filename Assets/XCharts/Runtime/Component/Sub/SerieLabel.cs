@@ -98,7 +98,7 @@ namespace XCharts
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
-        [SerializeField] private bool m_Border = true;
+        [SerializeField] private bool m_Border = false;
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
         [SerializeField] private bool m_ForceENotation = false;

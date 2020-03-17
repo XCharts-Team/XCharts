@@ -49,7 +49,7 @@ namespace XCharts
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                SerieLabelHelper.UpdateLabelText(m_Series,m_ThemeInfo);
+                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
                 UpdateAxisLabel();
             }
         }
@@ -207,6 +207,7 @@ namespace XCharts
         {
             if (!serie.gaugePointer.show) return;
             var pointerColor = serie.gaugeAxis.GetPointerColor(m_ThemeInfo, serie.index, currAngle, serie.itemStyle);
+            var pointerToColor = serie.itemStyle.toColor != Color.clear ? serie.itemStyle.toColor : pointerColor;
             var len = serie.gaugePointer.length < 1 && serie.gaugePointer.length > -1 ?
                 serie.runtimeInsideRadius * serie.gaugePointer.length :
                 serie.gaugePointer.length;
@@ -214,7 +215,8 @@ namespace XCharts
             var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 180, serie.gaugePointer.width);
             var p3 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle - 90, serie.gaugePointer.width / 2);
             var p4 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 90, serie.gaugePointer.width / 2);
-            ChartDrawer.DrawPolygon(vh, p1, p3, p2, p4, pointerColor);
+            ChartDrawer.DrawTriangle(vh, p2, p3, p1, pointerColor, pointerColor, pointerToColor);
+            ChartDrawer.DrawTriangle(vh, p4, p2, p1, pointerColor, pointerColor, pointerToColor);
         }
 
         private void DrawLineStyle(VertexHelper vh, Serie serie)

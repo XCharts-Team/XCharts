@@ -27,8 +27,6 @@ namespace XCharts
             SerializedProperty m_DataIndex = prop.FindPropertyRelative("m_DataIndex");
             SerializedProperty m_DataScale = prop.FindPropertyRelative("m_DataScale");
             SerializedProperty m_SelectedDataScale = prop.FindPropertyRelative("m_SelectedDataScale");
-            SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
-            SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
             SerializedProperty m_StartIndex = prop.FindPropertyRelative("m_StartIndex");
             SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_ForceShowLast = prop.FindPropertyRelative("m_ForceShowLast");
@@ -64,10 +62,6 @@ namespace XCharts
                     case SerieSymbolSizeType.Callback:
                         break;
                 }
-                EditorGUI.PropertyField(drawRect, m_Color);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Opacity);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_StartIndex);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Interval);
@@ -87,13 +81,13 @@ namespace XCharts
                 switch (sizeType)
                 {
                     case SerieSymbolSizeType.Custom:
-                        return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                        return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
                     case SerieSymbolSizeType.FromData:
-                        return 11 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
+                        return 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
                     case SerieSymbolSizeType.Callback:
-                        return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                        return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
                 }
-                return 10 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

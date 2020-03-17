@@ -1426,32 +1426,16 @@ namespace XCharts
             {
                 var serie = m_Series.GetSerie(n);
                 if (!serie.show) continue;
-                var zeroPos = Vector3.zero;
-                var lastStackSerie = m_Series.GetLastStackSerie(n);
-                if (serie.type == SerieType.Bar)
-                {
-                    if (serie.label.position == SerieLabel.Position.Bottom || serie.label.position == SerieLabel.Position.Center)
-                    {
-                        if (isYAxis)
-                        {
-                            var xAxis = m_XAxises[serie.axisIndex];
-                            zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY);
-                        }
-                        else
-                        {
-                            var yAxis = m_YAxises[serie.axisIndex];
-                            zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
-                        }
-                    }
-                }
+
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
+                    var serieLabel = SerieHelper.GetSerieLabel(serie,serieData,serieData.highlighted);
                     serieData.index = j;
-
-                    if ((serie.label.show || serieData.iconStyle.show))
+                    if ((serieLabel.show || serieData.iconStyle.show))
                     {
                         var pos = serie.dataPoints[j];
+                        
                         var isIngore = ChartHelper.IsIngore(pos);
                         if (isIngore)
                         {
@@ -1465,8 +1449,26 @@ namespace XCharts
                                 case SerieType.Line:
                                     break;
                                 case SerieType.Bar:
+                                    var zeroPos = Vector3.zero;
+                                    var lastStackSerie = m_Series.GetLastStackSerie(n);
+                                    if (serie.type == SerieType.Bar)
+                                    {
+                                        if (serieLabel.position == SerieLabel.Position.Bottom || serieLabel.position == SerieLabel.Position.Center)
+                                        {
+                                            if (isYAxis)
+                                            {
+                                                var xAxis = m_XAxises[serie.axisIndex];
+                                                zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY);
+                                            }
+                                            else
+                                            {
+                                                var yAxis = m_YAxises[serie.axisIndex];
+                                                zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
+                                            }
+                                        }
+                                    }
                                     var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
-                                    switch (serie.label.position)
+                                    switch (serieLabel.position)
                                     {
                                         case SerieLabel.Position.Center:
 
@@ -1481,7 +1483,7 @@ namespace XCharts
                             }
                             m_RefreshLabel = true;
                             serieData.labelPosition = pos;
-                            if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
+                            if (serieLabel.show) DrawLabelBackground(vh, serie, serieData);
                         }
                     }
                     else
@@ -1505,9 +1507,10 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
-                    if (serie.show && serie.label.show && serieData.canShowLabel)
+                    if (serie.show && serieLabel.show && serieData.canShowLabel)
                     {
                         float value = 0f;
                         var dimension = 1;
@@ -1516,20 +1519,23 @@ namespace XCharts
                             dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
                             serieData.data.Count - 1;
                         }
+                        
+                        SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
+
                         value = serieData.data[dimension];
                         var content = "";
                         if (anyPercentStack && isPercentStack)
                         {
                             var tempTotal = GetSameStackTotalValue(serie.stack, j);
-                            content = serie.label.GetFormatterContent(serie.name, serieData.name, value, tempTotal);
+                            content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, tempTotal);
                         }
                         else
                         {
-                            content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
+                            content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, total);
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
                         var invert = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j) && !serie.areaStyle.show;
-                        serieData.SetLabelPosition(invert ? -serie.label.offset : serie.label.offset);
+                        serieData.SetLabelPosition(invert ? -serieLabel.offset : serieLabel.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
                     else
@@ -1822,11 +1828,11 @@ namespace XCharts
         }
 
         protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, float gap, bool clip)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInCooridate(pos))))
-                DrawSymbol(vh, type, symbolSize, tickness, pos, color, gap);
+                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap);
         }
 
         protected void CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,

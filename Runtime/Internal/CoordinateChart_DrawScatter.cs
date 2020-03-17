@@ -17,8 +17,6 @@ namespace XCharts
             if (serie.animation.HasFadeOut()) return;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
-            var color = serie.symbol.color != Color.clear ? serie.symbol.color : (Color)m_ThemeInfo.GetColor(colorIndex);
-            color.a *= serie.symbol.opacity;
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                 : serie.dataCount;
@@ -29,6 +27,10 @@ namespace XCharts
             for (int n = serie.minShow; n < maxCount; n++)
             {
                 var serieData = serie.GetDataList(m_DataZoom)[n];
+                var highlight = serie.highlighted || serieData.highlighted;
+                var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+                var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
                 float xValue = serieData.GetCurrData(0, dataChangeDuration);
                 float yValue = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
@@ -37,7 +39,7 @@ namespace XCharts
                 float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
                 float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
-
+                serie.dataPoints.Add(pos);
                 var datas = serie.data[n].data;
                 float symbolSize = 0;
                 if (serie.highlighted || serieData.highlighted)
@@ -56,13 +58,13 @@ namespace XCharts
                     {
                         var nowSize = serie.symbol.animationSize[count];
                         color.a = (symbolSize - nowSize) / symbolSize;
-                        DrawSymbol(vh, serie.symbol.type, nowSize, 3, pos, color, serie.symbol.gap);
+                        DrawSymbol(vh, serie.symbol.type, nowSize, symbolBorder, pos, color, toColor, serie.symbol.gap);
                     }
                     RefreshChart();
                 }
                 else
                 {
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, 3, pos, color, serie.symbol.gap);
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, pos, color, toColor, serie.symbol.gap);
                 }
             }
             if (!serie.animation.IsFinish())

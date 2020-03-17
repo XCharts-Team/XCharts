@@ -36,6 +36,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color m_Color;
+        [SerializeField] private Color m_ToColor;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color m_CenterColor;
@@ -60,6 +61,15 @@ namespace XCharts
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Gradient color, start color to toColor.
+        /// 渐变色的终点颜色。
+        /// </summary>
+        public Color toColor
+        {
+            get { return m_ToColor; }
+            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景颜色。
@@ -138,6 +148,11 @@ namespace XCharts
             return borderWidth != 0 && borderColor != Color.clear;
         }
 
-
+        public Color GetColor()
+        {
+            var color = m_Color;
+            color.a *= m_Opacity;
+            return color;
+        }
     }
 }

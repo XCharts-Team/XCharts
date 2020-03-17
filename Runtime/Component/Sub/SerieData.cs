@@ -26,6 +26,10 @@ namespace XCharts
         [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private bool m_EnableLabel = false;
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
+        [SerializeField] private bool m_EnableItemStyle = false;
+        [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
+        [SerializeField] private bool m_EnableEmphasis = false;
+        [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private List<float> m_Data = new List<float>();
 
         private bool m_Show = true;
@@ -67,6 +71,22 @@ namespace XCharts
         /// 单个数据项的标签设置。
         /// </summary>
         public SerieLabel label { get { return m_Label; } set { m_Label = value; } }
+        /// <summary>
+        /// 是否启用单个数据项的样式。
+        /// </summary>
+        public bool enableItemStyle { get { return m_EnableItemStyle; } set { m_EnableItemStyle = value; } }
+        /// <summary>
+        /// 单个数据项的样式设置。
+        /// </summary>
+        public ItemStyle itemStyle { get { return m_ItemStyle; } set { m_ItemStyle = value; } }
+        /// <summary>
+        /// 是否启用单个数据项的高亮样式。
+        /// </summary>
+        public bool enableEmphasis{ get { return m_EnableEmphasis; } set { m_EnableEmphasis = value; } }
+        /// <summary>
+        /// 单个数据项的高亮样式设置。
+        /// </summary>
+        public Emphasis emphasis { get { return m_Emphasis; } set { m_Emphasis = value; } }
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
@@ -335,12 +355,6 @@ namespace XCharts
         public bool IsInitLabel()
         {
             return labelText != null;
-        }
-
-        public SerieLabel GetSerieLabel(SerieLabel parentLabel)
-        {
-            if (enableLabel) return label;
-            else return parentLabel;
         }
     }
 }

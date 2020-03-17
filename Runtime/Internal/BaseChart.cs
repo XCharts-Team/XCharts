@@ -371,7 +371,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    var serieLabel = serieData.GetSerieLabel(serie.label);
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     if (!serieLabel.show && j > 100) continue;
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
                     var color = Color.grey;
@@ -726,7 +726,7 @@ namespace XCharts
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, float gap)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap)
         {
             var backgroundColor = m_ThemeInfo.backgroundColor;
             var smoothness = m_Settings.cicleSmoothness;
@@ -737,55 +737,55 @@ namespace XCharts
                 case SerieSymbolType.Circle:
                     if (gap > 0)
                     {
-                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, toColor, smoothness);
                     }
                     else
                     {
-                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, smoothness);
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.EmptyCircle:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
                     }
                     else
                     {
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.Rect:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawPolygon(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
                     }
                     break;
                 case SerieSymbolType.Triangle:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
                     }
                     break;
                 case SerieSymbolType.Diamond:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
                     }
                     break;
             }
@@ -818,13 +818,14 @@ namespace XCharts
 
         protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
         {
-            var labelHalfWid = serieData.GetLabelWidth() / 2;
-            var labelHalfHig = serieData.GetLabelHeight() / 2;
-            var serieLabel = serieData.GetSerieLabel(serie.label);
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (!serieLabel.show) return;
             var invert = serie.type == SerieType.Line
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
             var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
+            var labelHalfWid = serieData.GetLabelWidth() / 2;
+            var labelHalfHig = serieData.GetLabelHeight() / 2;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
             var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
             var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);

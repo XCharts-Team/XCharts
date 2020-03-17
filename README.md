@@ -1,24 +1,22 @@
 # XCharts
 
-A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
+A powerful, easy-to-use, configurable charting and data visualization library for Unity. Support line charts, bar charts, pie charts, radar charts, scatter charts, heatmaps, gauge, ring charts and other common charts.
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图等常见图表。
+## Features
 
-## 特性
+* Rich built-in examples and templates, parameter visualization configuration, effect real-time preview, pure code drawing.
+* Support line charts, bar charts, pie charts, radar charts, scatter charts, heatmaps, gauge charts, ring charts and other common charts.
+* Support line graph, curve graph, area graph, step graph, etc.
+* Support parallel bar chart, stack bar chart, stack percentage bar chart, zebra bar chart, etc.
+* Support for ring chart, rose chart and other pie chart.
+* Support broken line graph - bar graph, scatter graph - broken line graph, etc.
+* Support solid line, curve, ladder line, dotted line, dot line, dot line, double point line and other lines.
+* Support custom theme, built-in theme switching.
+* support custom chart content drawing, drawing points, line, curve, triangle, quadrilateral, circle, ring, sector, border, arrow and other drawing API.
+* support interactive operations such as data filtering, view zooming and detail display on PC and mobile terminals.
+* support 10,000-level big data rendering.
 
-* 内置丰富示例和模板，参数可视化配置，效果实时预览，纯代码绘制。
-* 支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图等常见图表。
-* 支持直线图、曲线图、面积图、阶梯线图等折线图。
-* 支持并列柱图、堆叠柱图、堆积百分比柱图、斑马柱图等柱状图。
-* 支持环形图、玫瑰图等饼图。
-* 支持折线图—柱状图、散点图-折线图等组合图。
-* 支持实线、曲线、阶梯线、虚线、点线、点划线、双点划线等线条。
-* 支持自定义主题，内置主题切换。
-* 支持自定义图表内容绘制，提供绘制点、直线、曲线、三角形、四边形、圆形、环形、扇形、边框、箭头等绘图API。
-* 支持PC端和手机端上的数据筛选、视图缩放、细节展示等交互操作。
-* 支持万级大数据绘制。
-
-## 使用
+## Usage
 
 * 本项目在`Unity 2018.3.14f1`和`.Net 3.5`下开发，在 `Unity 5`、`Unity 2017`、`Unity 2019`上测试正常。理论上可运行于任何支持`UGUI`的`Unity`版本。
 * 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，强烈建议通过`Package Manager`的`Git`来导入包：

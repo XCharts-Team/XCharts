@@ -30,7 +30,9 @@ namespace XCharts
             m_YAxises[1].type = Axis.AxisType.Value;
             m_XAxises[1].boundaryGap = false;
             RemoveData();
-            AddSerie(SerieType.Scatter, "serie1");
+            var serie = AddSerie(SerieType.Scatter, "serie1");
+            serie.itemStyle.opacity = 0.8f;
+            serie.clip = false;
             for (int i = 0; i < 10; i++)
             {
                 AddData(0, Random.Range(10, 100), Random.Range(10, 100));

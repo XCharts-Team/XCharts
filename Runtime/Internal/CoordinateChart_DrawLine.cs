@@ -33,14 +33,17 @@ namespace XCharts
                         if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1) continue;
                     }
                     Vector3 p = serie.dataPoints[i];
+                    var serieData = serie.GetSerieData(i);
                     if (ChartHelper.IsIngore(p)) continue;
                     bool highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                         || serie.data[i].highlighted || serie.highlighted;
                     float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
-                    var symbolColor = serie.GetSymbolColor(m_ThemeInfo, n, highlight);
+                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, n, highlight);
+                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, n, highlight);
+                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    CheckClipAndDrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, p, symbolColor,
-                        serie.symbol.gap, clip);
+                    CheckClipAndDrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, p, symbolColor,
+                        symbolToColor, serie.symbol.gap, clip);
                 }
             }
         }
@@ -53,7 +56,7 @@ namespace XCharts
                 if (serie.type != SerieType.Line) continue;
                 if (!serie.show || !serie.lineArrow.show) continue;
                 if (serie.dataPoints.Count < 2) return;
-                Color lineColor = serie.GetLineColor(m_ThemeInfo, n, false);
+                Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, n, false);
 
                 switch (serie.lineArrow.position)
                 {
@@ -83,11 +86,11 @@ namespace XCharts
             if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             if (showData.Count <= 0) return;
-            Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
-            Color srcAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
-            Color srcAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
-            Color highlightAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, true);
-            Color highlightAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, true);
+            Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
+            Color srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
+            Color srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
+            Color highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
+            Color highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
             Color areaColor, areaToColor;
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
@@ -475,11 +478,11 @@ namespace XCharts
             Vector3 np = Vector3.zero;
             Vector3 llp = Vector3.zero;
             Vector3 nnp = Vector3.zero;
-            Color lineColor = serie.GetLineColor(m_ThemeInfo, colorIndex, false);
-            Color srcAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, false);
-            Color srcAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, false);
-            Color highlightAreaColor = serie.GetAreaColor(m_ThemeInfo, colorIndex, true);
-            Color highlightAreaToColor = serie.GetAreaToColor(m_ThemeInfo, colorIndex, true);
+            Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
+            Color srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
+            Color srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
+            Color highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
+            Color highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
             Color areaColor, areaToColor;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
@@ -715,7 +718,7 @@ namespace XCharts
                                 isStart = true;
                                 if (stPos2 != Vector3.zero)
                                 {
-                                    
+
                                     CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
                                 }
                             }
@@ -769,7 +772,7 @@ namespace XCharts
                                 isStart = true;
                                 if (stPos2 != Vector3.zero)
                                 {
-                                    
+
                                     CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
                                 }
                             }

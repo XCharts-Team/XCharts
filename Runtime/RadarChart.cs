@@ -261,8 +261,9 @@ namespace XCharts
                     }
                     var isHighlight = serie.highlighted || serieData.highlighted ||
                         (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
-                    var areaColor = serie.GetAreaColor(m_ThemeInfo, serieIndex, isHighlight);
-                    var lineColor = serie.GetLineColor(m_ThemeInfo, serieIndex, isHighlight);
+                    var areaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                    var areaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                    var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, serieIndex, isHighlight);
                     int dataCount = radar.indicatorList.Count;
                     List<Vector3> pointList = radar.runtimeDataPosList[key];
                     for (int n = 0; n < dataCount; n++)
@@ -293,7 +294,7 @@ namespace XCharts
                                 p.y + radius * Mathf.Cos(currAngle));
                             if (serie.areaStyle.show)
                             {
-                                ChartDrawer.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
+                                ChartDrawer.DrawTriangle(vh, startPoint, toPoint, p, areaColor, areaColor, areaToColor);
                             }
                             if (serie.lineStyle.show)
                             {
@@ -305,7 +306,7 @@ namespace XCharts
                     }
                     if (serie.areaStyle.show)
                     {
-                        ChartDrawer.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
+                        ChartDrawer.DrawTriangle(vh, startPoint, firstPoint, p, areaColor, areaColor, areaToColor);
                     }
                     if (serie.lineStyle.show)
                     {
@@ -314,12 +315,13 @@ namespace XCharts
                     if (serie.symbol.type != SerieSymbolType.None)
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
-                        var symbolColor = serie.symbol.color != Color.clear ? serie.symbol.color : lineColor;
-                        symbolColor.a *= serie.symbol.opacity;
+                        var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                        var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                        var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
                         foreach (var point in pointList)
                         {
-                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor,
-                                serie.symbol.gap);
+                            DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
+                               symbolToColor, serie.symbol.gap);
                         }
                     }
                 }

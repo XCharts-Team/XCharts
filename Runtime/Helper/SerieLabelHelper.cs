@@ -70,6 +70,20 @@ namespace XCharts
             }
         }
 
+        
+
+        public static void ResetLabel(SerieData serieData, SerieLabel label, ThemeInfo themeInfo, int colorIndex)
+        {
+            if (serieData.labelText)
+            {
+                serieData.labelText.color = label.color != Color.clear ? label.color :
+                    (Color)themeInfo.GetColor(colorIndex);
+                serieData.labelText.fontSize = label.fontSize;
+                serieData.labelText.fontStyle = label.fontStyle;
+            }
+        }
+
+
         private static void SetGaugeLabelText(Serie serie)
         {
             var serieData = serie.GetSerieData(0);
@@ -95,7 +109,8 @@ namespace XCharts
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
-                if (serieData.IsInitLabel())
+                var serieLabel = SerieHelper.GetSerieLabel(serie,serieData,serieData.highlighted);
+                if (serieLabel.show && serieData.IsInitLabel())
                 {
                     if (!serie.show || !serieData.show)
                     {

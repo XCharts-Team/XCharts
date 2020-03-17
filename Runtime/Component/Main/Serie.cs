@@ -1413,72 +1413,9 @@ namespace XCharts
             }
         }
 
-        internal Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
-        {
-            var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
-            if (highlight)
-            {
-                if (areaStyle.highlightColor != Color.clear) color = areaStyle.highlightColor;
-                else color *= color;
-            }
-            color.a *= areaStyle.opacity;
-            return color;
-        }
+        
 
-        internal Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (areaStyle.toColor != Color.clear)
-            {
-                var color = areaStyle.toColor;
-                if (highlight)
-                {
-                    if (areaStyle.highlightToColor != Color.clear) color = areaStyle.highlightToColor;
-                    else color *= color;
-                }
-                color.a *= areaStyle.opacity;
-                return color;
-            }
-            else
-            {
-                return GetAreaColor(theme, index, highlight);
-            }
-        }
-
-        internal Color GetLineColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (lineStyle.color != Color.clear)
-            {
-                var color = lineStyle.color;
-                if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
-                return color;
-            }
-        }
-
-        internal Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (symbol.color != Color.clear)
-            {
-                var color = symbol.color;
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-        }
+        
 
         internal float GetBarWidth(float categoryWidth)
         {

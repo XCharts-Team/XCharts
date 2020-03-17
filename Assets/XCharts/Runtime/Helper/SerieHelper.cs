@@ -11,7 +11,7 @@ namespace XCharts
 {
     internal static class SerieHelper
     {
-        internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
+        internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight, bool useDefault = true)
         {
             var itemStyle = GetItemStyle(serie, serieData);
             var color = Color.clear;
@@ -32,13 +32,14 @@ namespace XCharts
                 color.a *= itemStyle.opacity;
                 return color;
             }
-            else
+            else if (useDefault)
             {
                 color = (Color)theme.GetColor(index);
                 if (highlight) color *= color;
                 color.a = 0.2f;
                 return color;
             }
+            return Color.clear;
         }
 
         internal static Color GetItemColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)

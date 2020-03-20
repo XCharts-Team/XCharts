@@ -166,6 +166,20 @@ namespace XCharts
     }
 
     /// <summary>
+    /// 雷达图类型
+    /// </summary>
+    public enum RadarType
+    {
+        /// <summary>
+        /// 多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+        /// </summary>
+        Multiple,
+        /// <summary>
+        /// 单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+        /// </summary>
+        Single
+    }
+    /// <summary>
     /// 采样类型
     /// </summary>
     public enum SampleType
@@ -256,6 +270,7 @@ namespace XCharts
         [SerializeField] private bool m_Clip = true;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
+        [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -625,6 +640,14 @@ namespace XCharts
         {
             get { return m_IgnoreValue; }
             set { if (PropertyUtility.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 雷达图类型。
+        /// </summary>
+        public RadarType radarType
+        {
+            get { return m_RadarType; }
+            set { if (PropertyUtility.SetStruct(ref m_RadarType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘轴线。
@@ -1413,9 +1436,9 @@ namespace XCharts
             }
         }
 
-        
 
-        
+
+
 
         internal float GetBarWidth(float categoryWidth)
         {

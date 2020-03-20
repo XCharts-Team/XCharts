@@ -21,6 +21,7 @@ namespace XCharts
         [SerializeField] private bool m_AlignWithLabel;
         [SerializeField] private bool m_Inside;
         [SerializeField] private float m_Length;
+        [SerializeField] private float m_Width;
 
         /// <summary>
         /// Set this to false to prevent the axis tick from showing.
@@ -58,6 +59,15 @@ namespace XCharts
             get { return m_Length; }
             set { if (PropertyUtility.SetStruct(ref m_Length, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// The width of the axis tick.Keep the same width with axis line when default 0.
+        /// 坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
+        /// </summary>
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtility.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
+        }
 
         public static AxisTick defaultTick
         {
@@ -68,6 +78,7 @@ namespace XCharts
                     m_Show = true,
                     m_AlignWithLabel = false,
                     m_Inside = false,
+                    m_Width = 0f,
                     m_Length = 5f
                 };
                 return tick;

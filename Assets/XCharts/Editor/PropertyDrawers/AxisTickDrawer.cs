@@ -23,6 +23,7 @@ namespace XCharts
             SerializedProperty m_AlignWithLabel = prop.FindPropertyRelative("m_AlignWithLabel");
             SerializedProperty m_Inside = prop.FindPropertyRelative("m_Inside");
             SerializedProperty m_Length = prop.FindPropertyRelative("m_Length");
+            SerializedProperty m_Width = prop.FindPropertyRelative("m_Width");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisTickToggle, "Axis Tick", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -35,6 +36,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Length);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Width);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
         }
@@ -44,7 +47,7 @@ namespace XCharts
             float height = 0;
             if (m_AxisTickToggle)
             {
-                height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+                height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
             }
             return height;
         }

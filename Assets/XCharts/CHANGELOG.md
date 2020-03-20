@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.03.20) 增加`AxisTick`的`width`参数可单独设置坐标轴刻度的宽度
 * (2020.03.20) 增加`Serie`的`radarType`参数设置`多圈`和`单圈`雷达图
 * (2020.03.17) 增加`BarChart`可用`ItemStyle`的`backgroundColor`设置数据项背景颜色
 * (2020.03.17) 增加`SerieData`的`ItemStyle`和`Emphasis`可单独配置数据项样式的支持

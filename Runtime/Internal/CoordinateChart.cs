@@ -1027,7 +1027,7 @@ namespace XCharts
                             pX += startX - yAxis.axisTick.length;
                         }
                         ChartDrawer.DrawLine(vh, new Vector3(startX, pY), new Vector3(pX, pY),
-                            yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
+                            AxisHelper.GetTickWidth(yAxis), m_ThemeInfo.axisLineColor);
                     }
                     totalWidth += scaleWidth;
                 }
@@ -1117,7 +1117,7 @@ namespace XCharts
                             pY += startY - xAxis.axisTick.length;
                         }
                         ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
-                            xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
+                            AxisHelper.GetTickWidth(xAxis), m_ThemeInfo.axisLineColor);
                     }
                     totalWidth += scaleWidth;
                 }
@@ -1430,12 +1430,12 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    var serieLabel = SerieHelper.GetSerieLabel(serie,serieData,serieData.highlighted);
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
                     serieData.index = j;
                     if ((serieLabel.show || serieData.iconStyle.show))
                     {
                         var pos = serie.dataPoints[j];
-                        
+
                         var isIngore = ChartHelper.IsIngore(pos);
                         if (isIngore)
                         {
@@ -1519,7 +1519,7 @@ namespace XCharts
                             dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
                             serieData.data.Count - 1;
                         }
-                        
+
                         SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
 
                         value = serieData.data[dimension];

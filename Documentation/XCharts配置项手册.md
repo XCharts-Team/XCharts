@@ -720,6 +720,7 @@
 * `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
 * `inside`：坐标轴刻度是否朝内，默认朝外。
 * `length`：坐标轴刻度的长度。
+* `width`：坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
 
 ## `Emphasis`
 

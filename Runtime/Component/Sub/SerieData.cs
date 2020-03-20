@@ -82,7 +82,7 @@ namespace XCharts
         /// <summary>
         /// 是否启用单个数据项的高亮样式。
         /// </summary>
-        public bool enableEmphasis{ get { return m_EnableEmphasis; } set { m_EnableEmphasis = value; } }
+        public bool enableEmphasis { get { return m_EnableEmphasis; } set { m_EnableEmphasis = value; } }
         /// <summary>
         /// 单个数据项的高亮样式设置。
         /// </summary>
@@ -172,7 +172,6 @@ namespace XCharts
         /// </summary>
         public float runtimePieOffsetRadius { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
-
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();

@@ -181,7 +181,7 @@ namespace XCharts
         /// the center position of radar in container.
         /// 雷达图在容器中的具体中心点。
         /// </summary>
-        public Vector2 runtimeCenterPos { get; internal set; }
+        public Vector3 runtimeCenterPos { get; internal set; }
         /// <summary>
         /// the true radius of radar.
         /// 雷达图的运行时实际半径。

@@ -546,9 +546,15 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Radar`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `radarType`：雷达图类型`RadarType`，支持以下类型：
+  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `itemStyle`：标记样式 [ItemStyle](#ItemStyle)。
+* `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 

@@ -71,6 +71,7 @@ namespace XCharts
                         radar.ClearDirty();
                     }
                 }
+                m_RadarsDirty = false;
             }
             base.CheckComponent();
         }
@@ -205,134 +206,320 @@ namespace XCharts
         Dictionary<string, int> serieNameSet = new Dictionary<string, int>();
         private void DrawData(VertexHelper vh)
         {
-            Vector3 startPoint = Vector3.zero;
-            Vector3 toPoint = Vector3.zero;
-            Vector3 firstPoint = Vector3.zero;
-
             serieNameSet.Clear();
-            int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                var radar = m_Radars[serie.radarIndex];
-                int indicatorNum = radar.indicatorList.Count;
-                var angle = 2 * Mathf.PI / indicatorNum;
-                Vector3 p = radar.runtimeCenterPos;
-                serie.animation.InitProgress(1, 0, 1);
-                if (!IsActive(i) || serie.animation.HasFadeOut())
+                serie.index = i;
+                switch (serie.radarType)
+                {
+                    case RadarType.Multiple:
+                        DrawMutipleRadar(vh, serie, i);
+                        break;
+                    case RadarType.Single:
+                        DrawSingleRadar(vh, serie, i);
+                        break;
+                }
+            }
+        }
+
+        private void DrawMutipleRadar(VertexHelper vh, Serie serie, int i)
+        {
+            var startPoint = Vector3.zero;
+            var toPoint = Vector3.zero;
+            var firstPoint = Vector3.zero;
+
+            var radar = m_Radars[serie.radarIndex];
+            var indicatorNum = radar.indicatorList.Count;
+            var angle = 2 * Mathf.PI / indicatorNum;
+            var centerPos = radar.runtimeCenterPos;
+            var serieNameCount = -1;
+            serie.animation.InitProgress(1, 0, 1);
+            if (!IsActive(i) || serie.animation.HasFadeOut())
+            {
+                return;
+            }
+            var rate = serie.animation.GetCurrRate();
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            for (int j = 0; j < serie.data.Count; j++)
+            {
+                var serieData = serie.data[j];
+                int key = i * 1000 + j;
+                if (!radar.runtimeDataPosList.ContainsKey(key))
+                {
+                    radar.runtimeDataPosList.Add(i * 1000 + j, new List<Vector3>(serieData.data.Count));
+                }
+                else
+                {
+                    radar.runtimeDataPosList[key].Clear();
+                }
+                string dataName = serieData.name;
+                int serieIndex = 0;
+                if (string.IsNullOrEmpty(dataName))
+                {
+                    serieNameCount++;
+                    serieIndex = serieNameCount;
+                }
+                else if (!serieNameSet.ContainsKey(dataName))
+                {
+                    serieNameSet.Add(dataName, serieNameCount);
+                    serieNameCount++;
+                    serieIndex = serieNameCount;
+                }
+                else
+                {
+                    serieIndex = serieNameSet[dataName];
+                }
+                if (!serieData.show)
                 {
                     continue;
                 }
-                var rate = serie.animation.GetCurrRate();
-                var dataChanging = false;
-                var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-                for (int j = 0; j < serie.data.Count; j++)
+                var isHighlight = serie.highlighted || serieData.highlighted ||
+                    (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
+                var areaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                var areaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                int dataCount = radar.indicatorList.Count;
+                List<Vector3> pointList = radar.runtimeDataPosList[key];
+                for (int n = 0; n < dataCount; n++)
                 {
-                    var serieData = serie.data[j];
-                    int key = i * 100 + j;
-                    if (!radar.runtimeDataPosList.ContainsKey(key))
+                    if (n >= serieData.data.Count) break;
+                    float min = radar.GetIndicatorMin(n);
+                    float max = radar.GetIndicatorMax(n);
+                    float value = serieData.GetCurrData(n, dataChangeDuration);
+                    if (serieData.IsDataChanged()) dataChanging = true;
+                    if (max == 0)
                     {
-                        radar.runtimeDataPosList.Add(i * 100 + j, new List<Vector3>(serieData.data.Count));
+                        serie.GetMinMaxData(n, out min, out max);
+                        min = radar.GetIndicatorMin(n);
+                    }
+                    var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
+                    : radar.runtimeDataRadius * value / max;
+                    var currAngle = (n + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
+                    radius *= rate;
+                    if (n == 0)
+                    {
+                        startPoint = new Vector3(centerPos.x + radius * Mathf.Sin(currAngle),
+                            centerPos.y + radius * Mathf.Cos(currAngle));
+                        firstPoint = startPoint;
                     }
                     else
                     {
-                        radar.runtimeDataPosList[key].Clear();
-                    }
-                    string dataName = serieData.name;
-                    int serieIndex = 0;
-                    if (string.IsNullOrEmpty(dataName))
-                    {
-                        serieNameCount++;
-                        serieIndex = serieNameCount;
-                    }
-                    else if (!serieNameSet.ContainsKey(dataName))
-                    {
-                        serieNameSet.Add(dataName, serieNameCount);
-                        serieNameCount++;
-                        serieIndex = serieNameCount;
-                    }
-                    else
-                    {
-                        serieIndex = serieNameSet[dataName];
-                    }
-                    if (!serieData.show)
-                    {
-                        continue;
-                    }
-                    var isHighlight = serie.highlighted || serieData.highlighted ||
-                        (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
-                    var areaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, serieIndex, isHighlight);
-                    var areaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, serieIndex, isHighlight);
-                    var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, serieIndex, isHighlight);
-                    int dataCount = radar.indicatorList.Count;
-                    List<Vector3> pointList = radar.runtimeDataPosList[key];
-                    for (int n = 0; n < dataCount; n++)
-                    {
-                        if (n >= serieData.data.Count) break;
-                        float min = radar.GetIndicatorMin(n);
-                        float max = radar.GetIndicatorMax(n);
-                        float value = serieData.GetCurrData(n, dataChangeDuration);
-                        if (serieData.IsDataChanged()) dataChanging = true;
-                        if (max == 0)
+                        toPoint = new Vector3(centerPos.x + radius * Mathf.Sin(currAngle),
+                            centerPos.y + radius * Mathf.Cos(currAngle));
+                        if (serie.areaStyle.show)
                         {
-                            serie.GetMinMaxData(n, out min, out max);
-                            min = radar.GetIndicatorMin(n);
+                            ChartDrawer.DrawTriangle(vh, startPoint, toPoint, centerPos, areaColor, areaColor, areaToColor);
                         }
-                        var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
-                        : radar.runtimeDataRadius * value / max;
-                        var currAngle = (n + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
-                        radius *= rate;
-                        if (n == 0)
+                        if (serie.lineStyle.show)
                         {
-                            startPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
-                                p.y + radius * Mathf.Cos(currAngle));
-                            firstPoint = startPoint;
+                            DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                         }
-                        else
-                        {
-                            toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
-                                p.y + radius * Mathf.Cos(currAngle));
-                            if (serie.areaStyle.show)
-                            {
-                                ChartDrawer.DrawTriangle(vh, startPoint, toPoint, p, areaColor, areaColor, areaToColor);
-                            }
-                            if (serie.lineStyle.show)
-                            {
-                                DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
-                            }
-                            startPoint = toPoint;
-                        }
-                        pointList.Add(startPoint);
+                        startPoint = toPoint;
                     }
+                    pointList.Add(startPoint);
+                }
+                if (serie.areaStyle.show)
+                {
+                    ChartDrawer.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
+                }
+                if (serie.lineStyle.show)
+                {
+                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                }
+                if (serie.symbol.type != SerieSymbolType.None)
+                {
+                    var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
+                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    foreach (var point in pointList)
+                    {
+                        DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
+                           symbolToColor, serie.symbol.gap);
+                    }
+                }
+            }
+            if (!serie.animation.IsFinish())
+            {
+                serie.animation.CheckProgress(1);
+                RefreshChart();
+            }
+            if (dataChanging)
+            {
+                RefreshChart();
+            }
+        }
+
+        private void DrawSingleRadar(VertexHelper vh, Serie serie, int i)
+        {
+            var startPoint = Vector3.zero;
+            var toPoint = Vector3.zero;
+            var firstPoint = Vector3.zero;
+
+            var radar = m_Radars[serie.radarIndex];
+            var indicatorNum = radar.indicatorList.Count;
+            var angle = 2 * Mathf.PI / indicatorNum;
+            var centerPos = radar.runtimeCenterPos;
+            var serieNameCount = -1;
+            serie.animation.InitProgress(1, 0, 1);
+            if (!IsActive(i) || serie.animation.HasFadeOut())
+            {
+                return;
+            }
+            var rate = serie.animation.GetCurrRate();
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            int key = i * 1000;
+            if (!radar.runtimeDataPosList.ContainsKey(key))
+            {
+                radar.runtimeDataPosList.Add(i * 1000, new List<Vector3>(serie.dataCount));
+            }
+            else
+            {
+                radar.runtimeDataPosList[key].Clear();
+            }
+            var pointList = radar.runtimeDataPosList[key];
+            var startIndex = GetStartShowIndex(serie);
+            var endIndex = GetEndShowIndex(serie);
+            for (int j = 0; j < serie.data.Count; j++)
+            {
+                var serieData = serie.data[j];
+                serieData.index = j;
+                string dataName = serieData.name;
+                int serieIndex = 0;
+                if (string.IsNullOrEmpty(dataName))
+                {
+                    serieNameCount++;
+                    serieIndex = serieNameCount;
+                }
+                else if (!serieNameSet.ContainsKey(dataName))
+                {
+                    serieNameSet.Add(dataName, serieNameCount);
+                    serieNameCount++;
+                    serieIndex = serieNameCount;
+                }
+                else
+                {
+                    serieIndex = serieNameSet[dataName];
+                }
+                if (!serieData.show)
+                {
+                    serieData.labelPosition = Vector3.zero;
+                    continue;
+                }
+                var isHighlight = serie.highlighted || serieData.highlighted ||
+                    (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
+                var areaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                var areaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, serieIndex, isHighlight);
+                int dataCount = radar.indicatorList.Count;
+                var index = serieData.index;
+                var p = radar.runtimeCenterPos;
+                var min = radar.GetIndicatorMin(index);
+                var max = radar.GetIndicatorMax(index);
+                var value = serieData.GetCurrData(1, dataChangeDuration);
+                if (serieData.IsDataChanged()) dataChanging = true;
+                if (max == 0)
+                {
+                    serie.GetMinMaxData(index, out min, out max);
+                    min = radar.GetIndicatorMin(index);
+                }
+                var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
+                : radar.runtimeDataRadius * value / max;
+                var currAngle = (index + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
+                radius *= rate;
+                if (index == startIndex)
+                {
+                    startPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
+                        p.y + radius * Mathf.Cos(currAngle));
+                    firstPoint = startPoint;
+                }
+                else
+                {
+                    toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
+                        p.y + radius * Mathf.Cos(currAngle));
                     if (serie.areaStyle.show)
                     {
-                        ChartDrawer.DrawTriangle(vh, startPoint, firstPoint, p, areaColor, areaColor, areaToColor);
+                        ChartDrawer.DrawTriangle(vh, startPoint, toPoint, p, areaColor, areaColor, areaToColor);
                     }
                     if (serie.lineStyle.show)
                     {
-                        DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                        DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                     }
-                    if (serie.symbol.type != SerieSymbolType.None)
-                    {
-                        var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
-                        var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
-                        var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
-                        var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
-                        foreach (var point in pointList)
-                        {
-                            DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                               symbolToColor, serie.symbol.gap);
-                        }
-                    }
+                    startPoint = toPoint;
                 }
-                if (!serie.animation.IsFinish())
+                serieData.labelPosition = startPoint;
+                pointList.Add(startPoint);
+
+                if (serie.areaStyle.show && j == endIndex)
                 {
-                    serie.animation.CheckProgress(1);
-                    RefreshChart();
+                    ChartDrawer.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
-                if (dataChanging)
+                if (serie.lineStyle.show && j == endIndex)
                 {
-                    RefreshChart();
+                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                }
+            }
+            if (serie.symbol.type != SerieSymbolType.None)
+            {
+                for (int j = 0; j < serie.data.Count; j++)
+                {
+                    var serieData = serie.data[j];
+                    if (!serieData.show) continue;
+                    var isHighlight = serie.highlighted || serieData.highlighted ||
+                    (m_Tooltip.show && m_Tooltip.runtimeDataIndex[0] == i && m_Tooltip.runtimeDataIndex[1] == j);
+                    var serieIndex = serieData.index;
+                    var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
+                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
+                           symbolToColor, serie.symbol.gap);
+                }
+            }
+            if (!serie.animation.IsFinish())
+            {
+                serie.animation.CheckProgress(1);
+                RefreshChart();
+            }
+            if (dataChanging)
+            {
+                RefreshChart();
+            }
+        }
+
+        private int GetStartShowIndex(Serie serie)
+        {
+            for (int i = 0; i < serie.dataCount; i++)
+            {
+                if (serie.data[i].show) return i;
+            }
+            return 0;
+        }
+        private int GetEndShowIndex(Serie serie)
+        {
+            for (int i = serie.dataCount - 1; i >= 0; i--)
+            {
+                if (serie.data[i].show) return i;
+            }
+            return 0;
+        }
+
+        private void DrawRadarSymbol(VertexHelper vh, Serie serie, SerieData serieData, int serieIndex, bool isHighlight,
+            List<Vector3> pointList)
+        {
+            if (serie.symbol.type != SerieSymbolType.None)
+            {
+                var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
+                var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                foreach (var point in pointList)
+                {
+                    DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
+                       symbolToColor, serie.symbol.gap);
                 }
             }
         }
@@ -449,15 +636,33 @@ namespace XCharts
                 {
                     continue;
                 }
-                for (int n = 0; n < serie.data.Count; n++)
+                switch (serie.radarType)
                 {
-                    var posKey = i * 100 + n;
-                    if (radar.runtimeDataPosList.ContainsKey(posKey))
-                    {
-                        var posList = radar.runtimeDataPosList[posKey];
-                        foreach (var pos in posList)
+                    case RadarType.Multiple:
+                        for (int n = 0; n < serie.data.Count; n++)
                         {
-                            if (Vector2.Distance(pos, local) <= serie.symbol.size * 1.2f)
+                            var posKey = i * 1000 + n;
+                            if (radar.runtimeDataPosList.ContainsKey(posKey))
+                            {
+                                var posList = radar.runtimeDataPosList[posKey];
+                                foreach (var pos in posList)
+                                {
+                                    if (Vector2.Distance(pos, local) <= serie.symbol.size * 1.2f)
+                                    {
+                                        m_Tooltip.runtimeDataIndex[0] = i;
+                                        m_Tooltip.runtimeDataIndex[1] = n;
+                                        highlight = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case RadarType.Single:
+                        for (int n = 0; n < serie.data.Count; n++)
+                        {
+                            var serieData = serie.data[n];
+                            if (Vector2.Distance(serieData.labelPosition, local) <= serie.symbol.size * 1.2f)
                             {
                                 m_Tooltip.runtimeDataIndex[0] = i;
                                 m_Tooltip.runtimeDataIndex[1] = n;
@@ -465,8 +670,9 @@ namespace XCharts
                                 break;
                             }
                         }
-                    }
+                        break;
                 }
+
             }
 
             if (!highlight)
@@ -501,14 +707,30 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
-            var serieData = serie.GetSerieData(m_Tooltip.runtimeDataIndex[1]);
-            StringBuilder sb = new StringBuilder(serieData.name);
-            for (int i = 0; i < radar.indicatorList.Count; i++)
+            var dataIndex = m_Tooltip.runtimeDataIndex[1];
+            var serieData = serie.GetSerieData(dataIndex);
+            StringBuilder sb = new StringBuilder();
+            switch (serie.radarType)
             {
-                string key = radar.indicatorList[i].name;
-                float value = serieData.GetData(i);
-                if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
-                sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
+                case RadarType.Multiple:
+                    sb.Append(serieData.name);
+                    for (int i = 0; i < radar.indicatorList.Count; i++)
+                    {
+                        string key = radar.indicatorList[i].name;
+                        float value = serieData.GetData(i);
+                        if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
+                        sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
+                    }
+                    break;
+                case RadarType.Single:
+                    string key2 = serieData.name;
+                    float value2 = serieData.GetData(1);
+                    if (string.IsNullOrEmpty(key2))
+                    {
+                        key2 = radar.indicatorList[dataIndex].name;
+                    }
+                    sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, 0, m_Tooltip.forceENotation));
+                    break;
             }
             m_Tooltip.UpdateContentText(sb.ToString());
             var pos = m_Tooltip.GetContentPos();
@@ -521,6 +743,43 @@ namespace XCharts
                 pos.y = m_Tooltip.runtimeHeight;
             }
             m_Tooltip.UpdateContentPos(pos);
+        }
+
+        protected override void OnRefreshLabel()
+        {
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series.GetSerie(i);
+                if (!serie.show && serie.radarType != RadarType.Single) continue;
+                var radar = m_Radars[serie.radarIndex];
+                var center = radar.runtimeCenterPos;
+                for (int n = 0; n < serie.dataCount; n++)
+                {
+                    var serieData = serie.data[n];
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    var labelPos = serieData.labelPosition;
+                    if (serieLabel.margin != 0)
+                    {
+                        labelPos += serieLabel.margin * (labelPos - center).normalized;
+                    }
+                    serieData.SetGameObjectPosition(labelPos);
+                    serieData.UpdateIcon();
+                    if (serie.show && serieLabel.show && serieData.canShowLabel)
+                    {
+                        var value = serieData.GetCurrData(1);
+                        var max = radar.GetIndicatorMax(n);
+                        SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
+                        serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
+                        serieData.SetLabelPosition(serieLabel.offset);
+                        var content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, max);
+                        if (serieData.SetLabelText(content)) RefreshChart();
+                    }
+                    else
+                    {
+                        serieData.SetLabelActive(false);
+                    }
+                }
+            }
         }
     }
 }

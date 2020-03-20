@@ -91,8 +91,6 @@ namespace XCharts
                     if (axis.componentDirty || m_XAxisesDirty) InitXAxis(i, axis);
                     if (axis.vertsDirty || m_XAxisesDirty) RefreshChart();
                     axis.ClearDirty();
-
-                    m_XAxisesDirty = false;
                 }
             }
             for (int i = 0; i < m_YAxises.Count; i++)
@@ -103,9 +101,10 @@ namespace XCharts
                     if (axis.componentDirty || m_YAxisesDirty) InitYAxis(i, axis);
                     if (axis.vertsDirty || m_YAxisesDirty) RefreshChart();
                     axis.ClearDirty();
-                    m_YAxisesDirty = false;
                 }
             }
+            m_XAxisesDirty = false;
+            m_YAxisesDirty = false;
             base.CheckComponent();
         }
 

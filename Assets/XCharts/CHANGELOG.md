@@ -1,12 +1,13 @@
 
 # 更新日志
 
+* (2020.03.20) 修复`X Axis 1`和`Y Axis 1`配置变更时不会自动刷新的问题
 * (2020.03.20) 增加`AxisTick`的`width`参数可单独设置坐标轴刻度的宽度
 * (2020.03.20) 增加`Serie`的`radarType`参数设置`多圈`和`单圈`雷达图
 * (2020.03.17) 增加`BarChart`可用`ItemStyle`的`backgroundColor`设置数据项背景颜色
 * (2020.03.17) 增加`SerieData`的`ItemStyle`和`Emphasis`可单独配置数据项样式的支持
 * (2020.03.15) 重构`EmptyCricle`类型的`Symbol`边宽取自`ItemStyle`的`borderWidth`参数
-* (2020.03.15) 重构`SerieSymbol`，去掉`color`和`opacity`参数，用`ItemStyle`参数代替
+* (2020.03.15) 重构`SerieSymbol`，去掉`color`和`opacity`参数，取自`ItemStyle`
 * (2020.03.14) 发布`v1.3.1`版本
 * (2020.03.14) 修复`LineChart`开启`ingore`时部分数据可能绘制异常的问题
 * (2020.03.13) 修复`LineChart`的`label`偏移显示异常的问题

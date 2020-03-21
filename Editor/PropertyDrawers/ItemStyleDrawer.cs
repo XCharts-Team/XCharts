@@ -31,6 +31,7 @@ namespace XCharts
             SerializedProperty m_BorderWidth = prop.FindPropertyRelative("m_BorderWidth");
             SerializedProperty m_BorderColor = prop.FindPropertyRelative("m_BorderColor");
             SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
+            SerializedProperty m_TooltipFormatter = prop.FindPropertyRelative("m_TooltipFormatter");
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ItemStyleToggle, prop, "Item Style", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
@@ -56,6 +57,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Opacity);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_TooltipFormatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 --EditorGUI.indentLevel;
             }
         }
@@ -65,7 +68,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
             {
-                height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

@@ -580,26 +580,8 @@ namespace XCharts
                 int index = m_Tooltip.runtimeDataIndex[serie.index];
                 if (index < 0) continue;
                 showTooltip = true;
-                if (tooltip.IsNoFormatter())
-                {
-                    string key = serie.data[index].name;
-                    if (string.IsNullOrEmpty(key)) key = m_Legend.GetData(index);
-
-                    float value = serie.data[index].data[1];
-                    sb.Length = 0;
-                    if (!string.IsNullOrEmpty(serie.name))
-                    {
-                        sb.Append(serie.name).Append("\n");
-                    }
-                    sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
-                        .Append(key).Append(": ").Append(ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
-                    m_Tooltip.UpdateContentText(sb.ToString());
-                }
-                else
-                {
-                    m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, null, m_ThemeInfo));
-                }
-
+                var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
+                m_Tooltip.UpdateContentText(content);
                 var pos = m_Tooltip.GetContentPos();
                 if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
                 {

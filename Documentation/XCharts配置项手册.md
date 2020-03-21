@@ -36,7 +36,7 @@
 * [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
 * [AxisTick 坐标轴刻度](#AxisTick)  
 * [Emphasis 高亮样式](#Emphasis)  
-* [ItemStyle 图形样式](#ItemStyle)  
+* [ItemStyle 数据项样式](#ItemStyle)  
 * [LineArrow 折线图箭头](#LineArrow)  
 * [LineStyle 折线图样式](#LineStyle)  
 * [Location 位置](#Location)  
@@ -740,6 +740,7 @@
 * `borderColor`：边框的颜色。
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
+* `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
 
 ## `LineArrow`
 

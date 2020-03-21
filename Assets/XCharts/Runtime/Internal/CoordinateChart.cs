@@ -404,57 +404,10 @@ namespace XCharts
                 }
                 return;
             }
-
-            if (tooltip.IsNoFormatter())
-            {
-                sb.Length = 0;
-                if (!isCartesian)
-                {
-                    var category = tempAxis.GetData(index, m_DataZoom);
-                    if (!string.IsNullOrEmpty(category)) sb.Append(category);
-                    else
-                    {
-                        m_Tooltip.SetActive(false);
-                        return;
-                    }
-                }
-                for (int i = 0; i < m_Series.Count; i++)
-                {
-                    var serie = m_Series.GetSerie(i);
-                    if (serie.show)
-                    {
-                        string key = serie.name;
-                        float xValue, yValue;
-                        serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
-                        var isIngore = serie.IsIngorePoint(index);
-                        if (isCartesian)
-                        {
-                            var serieData = serie.GetSerieData(index, m_DataZoom);
-                            if (serieData != null && serieData.highlighted)
-                            {
-                                sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
-                                sb.Append("[").Append(ChartCached.FloatToStr(xValue, 0, m_Tooltip.forceENotation)).Append(",")
-                                    .Append(ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation)).Append("]\n");
-                            }
-                        }
-                        else
-                        {
-                            var valueTxt = isIngore ? m_Tooltip.ignoreDataDefaultContent :
-                                ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation);
-                            sb.Append("\n")
-                                .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
-                                .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                                .Append(valueTxt);
-                        }
-                    }
-                }
-                m_Tooltip.UpdateContentText(sb.ToString().Trim());
-            }
-            else
-            {
-                var category = tempAxis.GetData(index, m_DataZoom);
-                m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, category, m_ThemeInfo, m_DataZoom));
-            }
+            var category = tempAxis.GetData(index, m_DataZoom);
+            var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo, category,
+                m_DataZoom, isCartesian);
+            m_Tooltip.UpdateContentText(content);
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
             {
@@ -1255,12 +1208,13 @@ namespace XCharts
                         if (xAxis.IsValue()) pX = m_Tooltip.runtimePointerPos.x;
                         Vector2 sp = new Vector2(pX, coordinateY);
                         Vector2 ep = new Vector2(pX, coordinateY + coordinateHeight);
-                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                        var lineColor = TooltipHelper.GetLineColor(tooltip, m_ThemeInfo);
+                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
                         }
                         break;
                     case Tooltip.Type.Shadow:
@@ -1294,16 +1248,16 @@ namespace XCharts
                 {
                     case Tooltip.Type.Corss:
                     case Tooltip.Type.Line:
-
                         float pY = coordinateY + m_Tooltip.runtimeYValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0);
                         Vector2 sp = new Vector2(coordinateX, pY);
                         Vector2 ep = new Vector2(coordinateX + coordinateWidth, pY);
-                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                        var lineColor = TooltipHelper.GetLineColor(tooltip, m_ThemeInfo);
+                        DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
                         if (m_Tooltip.type == Tooltip.Type.Corss)
                         {
                             sp = new Vector2(coordinateX, m_Tooltip.runtimePointerPos.y);
                             ep = new Vector2(coordinateX + coordinateWidth, m_Tooltip.runtimePointerPos.y);
-                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, m_Tooltip.GetLineColor(m_ThemeInfo));
+                            DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
                         }
                         break;
                     case Tooltip.Type.Shadow:

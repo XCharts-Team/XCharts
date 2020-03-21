@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.03.21) 增加`ItemStyle`的`tooltipFormatter`参数可单独配置`Serie`的`Tooltip`显示
 * (2020.03.20) 修复`X Axis 1`和`Y Axis 1`配置变更时不会自动刷新的问题
 * (2020.03.20) 增加`AxisTick`的`width`参数可单独设置坐标轴刻度的宽度
 * (2020.03.20) 增加`Serie`的`radarType`参数设置`多圈`和`单圈`雷达图

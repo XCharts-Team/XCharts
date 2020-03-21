@@ -707,31 +707,8 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
-            var dataIndex = m_Tooltip.runtimeDataIndex[1];
-            var serieData = serie.GetSerieData(dataIndex);
             StringBuilder sb = new StringBuilder();
-            switch (serie.radarType)
-            {
-                case RadarType.Multiple:
-                    sb.Append(serieData.name);
-                    for (int i = 0; i < radar.indicatorList.Count; i++)
-                    {
-                        string key = radar.indicatorList[i].name;
-                        float value = serieData.GetData(i);
-                        if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
-                        sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
-                    }
-                    break;
-                case RadarType.Single:
-                    string key2 = serieData.name;
-                    float value2 = serieData.GetData(1);
-                    if (string.IsNullOrEmpty(key2))
-                    {
-                        key2 = radar.indicatorList[dataIndex].name;
-                    }
-                    sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, 0, m_Tooltip.forceENotation));
-                    break;
-            }
+            TooltipHelper.InitRadarTooltip(ref sb, tooltip, serie, radar, themeInfo);
             m_Tooltip.UpdateContentText(sb.ToString());
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.runtimeWidth > chartWidth)

@@ -45,6 +45,7 @@ namespace XCharts
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
+        [SerializeField] private string m_TooltipFormatter;
 
         /// <summary>
         /// 是否启用。
@@ -134,6 +135,14 @@ namespace XCharts
         {
             get { return m_Opacity; }
             set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
+        /// </summary>
+        public string tooltipFormatter
+        {
+            get { return m_TooltipFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 实际边框宽。边框不显示时为0。

@@ -147,6 +147,11 @@ namespace XCharts
                     var serieData = dataList[dataIndex];
                     var dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
                         serieData.data.Count - 1;
+                    if (serie.IsIgnoreIndex(dataIndex, dimension))
+                    {
+                        serie.dataPoints.Add(Vector3.zero);
+                        continue;
+                    }
                     var value = serieData.GetCurrData(dimension, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);

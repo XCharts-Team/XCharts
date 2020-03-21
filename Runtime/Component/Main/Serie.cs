@@ -1516,12 +1516,25 @@ namespace XCharts
             return false;
         }
 
-        public bool IsIngoreValue(float value)
+        public bool IsIgnoreIndex(int index, int dimension)
+        {
+            if (m_Ignore)
+            {
+                var serieData = GetSerieData(index);
+                if (serieData != null)
+                {
+                    return IsIgnoreValue(serieData.GetData(dimension));
+                }
+            }
+            return false;
+        }
+
+        public bool IsIgnoreValue(float value)
         {
             return m_Ignore && Mathf.Approximately(value, m_IgnoreValue);
         }
 
-        public bool IsIngorePoint(int index)
+        public bool IsIgnorePoint(int index)
         {
             if (index >= 0 && index < dataPoints.Count)
             {

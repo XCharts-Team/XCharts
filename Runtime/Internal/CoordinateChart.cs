@@ -1461,12 +1461,14 @@ namespace XCharts
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    var dimension = 1;
+                    var isIgnore = serie.IsIgnoreIndex(j, 1);
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
-                    if (serie.show && serieLabel.show && serieData.canShowLabel)
+                    if (serie.show && serieLabel.show && serieData.canShowLabel && !isIgnore)
                     {
                         float value = 0f;
-                        var dimension = 1;
+
                         if (serie.type == SerieType.Heatmap)
                         {
                             dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :

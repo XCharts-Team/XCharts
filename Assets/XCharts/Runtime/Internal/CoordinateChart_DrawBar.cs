@@ -56,6 +56,11 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
                 var serieData = showData[i];
+                if (serie.IsIgnoreValue(serieData.GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                    continue;
+                }
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;
@@ -185,6 +190,11 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
                 var serieData = showData[i];
+                if (serie.IsIgnoreValue(serieData.GetData(1)))
+                {
+                    serie.dataPoints.Add(Vector3.zero);
+                    continue;
+                }
                 var highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                     || serie.data[i].highlighted
                     || serie.highlighted;

@@ -82,7 +82,7 @@ namespace XCharts
             string key = serie.name;
             float xValue, yValue;
             serie.GetXYData(index, dataZoom, out xValue, out yValue);
-            var isIngore = serie.IsIngorePoint(index);
+            var isIngore = serie.IsIgnorePoint(index);
             if (isCartesian)
             {
                 var serieData = serie.GetSerieData(index, dataZoom);
@@ -97,10 +97,9 @@ namespace XCharts
             {
                 var valueTxt = isIngore ? tooltip.ignoreDataDefaultContent :
                     ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation);
-                sb.Append("\n")
-                    .Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>")
-                    .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                    .Append(valueTxt);
+                sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>")
+                .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
+                .Append(valueTxt);
             }
         }
 
@@ -147,15 +146,17 @@ namespace XCharts
                     if (!serie.show) continue;
                     var serieData = serie.GetSerieData(dataIndex, dataZoom);
                     var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
-                    if (string.IsNullOrEmpty(itemFormatter))
-                    {
-                        InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian);
-                        continue;
-                    }
                     var percent = serieData.GetData(1) / serie.yTotal * 100;
                     needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                     if (serie.show)
                     {
+                        if (string.IsNullOrEmpty(itemFormatter))
+                        {
+                            if (!first) sb.Append("\n");
+                            InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian);
+                            first = false;
+                            continue;
+                        }
                         string content = itemFormatter;
                         content = content.Replace("{a}", serie.name);
                         content = content.Replace("{b}", needCategory ? category : serieData.name);

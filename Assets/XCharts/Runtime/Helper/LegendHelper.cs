@@ -55,7 +55,7 @@ namespace XCharts
             ChartHelper.GetOrAddComponent<Button>(btnObj);
             ChartHelper.GetOrAddComponent<Image>(iconObj);
             ChartHelper.GetOrAddComponent<Image>(contentObj);
-            Text txt = ChartHelper.AddTextObject("Text", contentObj.transform, font, contentColor,
+            ChartHelper.AddTextObject("Text", contentObj.transform, font, contentColor,
                     TextAnchor.MiddleLeft, anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize,
                     textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
             var item = new LegendItem();

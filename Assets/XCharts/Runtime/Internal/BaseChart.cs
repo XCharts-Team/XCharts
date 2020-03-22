@@ -51,13 +51,11 @@ namespace XCharts
         [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
-        [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
         [NonSerialized] private Vector2 m_CheckMinAnchor;
         [NonSerialized] private Vector2 m_CheckMaxAnchor;
 
-        [NonSerialized] private float m_CheckSerieCount = 0;
         [NonSerialized] protected bool m_RefreshChart = false;
         [NonSerialized] protected bool m_RefreshLabel = false;
         [NonSerialized] protected bool m_ReinitLabel = false;
@@ -296,7 +294,6 @@ namespace XCharts
                 if (!m_Series.IsLegalLegendName(datas[i])) continue;
                 string legendName = m_Legend.GetFormatterContent(datas[i]);
                 var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
-                var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
                 var active = IsActiveByLegend(datas[i]);
                 var bgColor = LegendHelper.GetIconColor(m_Legend, readIndex, themeInfo, active);
                 var item = LegendHelper.AddLegendItem(m_Legend, i, datas[i], legendObject.transform, m_ThemeInfo,

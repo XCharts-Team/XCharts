@@ -25,10 +25,10 @@ namespace XCharts
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private float m_LineSpacing = 1f;
-        [SerializeField] private float m_PaddingLeft = 0f;
-        [SerializeField] private float m_PaddingRight = 0f;
-        [SerializeField] private float m_PaddingTop = 0f;
-        [SerializeField] private float m_PaddingBottom = 0f;
+        // [SerializeField] private float m_PaddingLeft = 0f;
+        // [SerializeField] private float m_PaddingRight = 0f;
+        // [SerializeField] private float m_PaddingTop = 0f;
+        // [SerializeField] private float m_PaddingBottom = 0f;
 
         /// <summary>
         /// Rotation of text.

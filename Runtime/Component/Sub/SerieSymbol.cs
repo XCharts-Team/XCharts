@@ -87,8 +87,6 @@ namespace XCharts
         [SerializeField] private float m_SelectedDataScale = 1.5f;
         [SerializeField] private SymbolSizeCallback m_SizeCallback;
         [SerializeField] private SymbolSizeCallback m_SelectedSizeCallback;
-        [SerializeField] private Color m_Color;
-        [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private int m_StartIndex;
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;

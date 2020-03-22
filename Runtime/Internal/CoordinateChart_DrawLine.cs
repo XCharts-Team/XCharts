@@ -171,7 +171,6 @@ namespace XCharts
             lp = startPos;
             stPos1 = stPos2 = lastDir = lastDnPos = Vector3.zero;
             smoothStartPosUp = smoothStartPosDn = Vector3.zero;
-            int dataCount = endIndex - startIndex;
             float currDetailProgress = lp.x;
             float totalDetailProgress = endPos.x;
             serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);

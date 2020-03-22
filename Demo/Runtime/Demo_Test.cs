@@ -14,7 +14,6 @@ namespace XCharts
     [ExecuteInEditMode]
     public class Demo_Test : MonoBehaviour
     {
-        private float updateTime = 0;
         BaseChart chart;
         void Awake()
         {

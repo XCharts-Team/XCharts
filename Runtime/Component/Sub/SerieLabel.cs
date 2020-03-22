@@ -102,7 +102,6 @@ namespace XCharts
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
         [SerializeField] private bool m_ForceENotation = false;
-        [NonSerialized] private bool m_LabelDirty = false;
 
         /// <summary>
         /// Whether the label is showed.

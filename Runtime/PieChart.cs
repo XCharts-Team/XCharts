@@ -570,7 +570,6 @@ namespace XCharts
             return angle;
         }
 
-        StringBuilder sb = new StringBuilder();
         protected override void UpdateTooltip()
         {
             base.UpdateTooltip();

@@ -92,40 +92,33 @@ namespace XCharts
 
                 float currHig = CheckAnimation(serie, i, barHig);
 
-                Vector3 p1 = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 p2 = new Vector3(pX + currHig - 2 * borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 p3 = new Vector3(pX + currHig - 2 * borderWidth, pY + space + borderWidth);
-                Vector3 p4 = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                Vector3 plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
+                Vector3 prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
+                Vector3 prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
+                Vector3 plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
                 Vector3 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
-                p1 = ClampInCoordinate(p1);
-                p2 = ClampInCoordinate(p2);
-                p3 = ClampInCoordinate(p3);
-                p4 = ClampInCoordinate(p4);
+                plt = ClampInCoordinate(plt);
+                prt = ClampInCoordinate(prt);
+                prb = ClampInCoordinate(prb);
+                plb = ClampInCoordinate(plb);
                 top = ClampInCoordinate(top);
                 serie.dataPoints.Add(top);
                 if (serie.show)
                 {
-                    DrawBarBackground(vh, serie, serieData, colorIndex, highlight, pX, pY, space, barWidth, true);
-                    Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                    Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                    if (serie.barType == BarType.Zebra)
+                    switch (serie.barType)
                     {
-                        p1 = (p4 + p1) / 2;
-                        p2 = (p2 + p3) / 2;
-                        CheckClipAndDrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                            areaColor, serie.clip);
-                    }
-                    else
-                    {
-                        CheckClipAndDrawPolygon(vh, p4, p1, p2, p3, areaColor, areaToColor, serie.clip);
-                        if (borderWidth > 0)
-                        {
-                            var borderColor = itemStyle.borderColor;
-                            var itemWidth = Mathf.Abs(p3.x - p1.x);
-                            var itemHeight = Mathf.Abs(p2.y - p4.y);
-                            var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);
-                            ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
-                        }
+                        case BarType.Normal:
+                            DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                                pX, pY, plb, plt, prt, prb, true);
+                            break;
+                        case BarType.Zebra:
+                            DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                                pX, pY, plb, plt, prt, prb, true);
+                            break;
+                        case BarType.Capsule:
+                            DrawCapsuleBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                                pX, pY, plb, plt, prt, prb, true);
+                            break;
                     }
                 }
             }
@@ -223,43 +216,34 @@ namespace XCharts
                             / valueTotal * coordinateHeight;
                     seriesHig[i] += barHig;
                 }
-
                 float currHig = CheckAnimation(serie, i, barHig);
-                Vector3 p1 = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                Vector3 p2 = new Vector3(pX + space + borderWidth, pY + currHig - 2 * borderWidth);
-                Vector3 p3 = new Vector3(pX + space + barWidth, pY + currHig - 2 * borderWidth);
-                Vector3 p4 = new Vector3(pX + space + barWidth, pY + borderWidth);
+                Vector3 plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
+                Vector3 plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
+                Vector3 prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
+                Vector3 prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
                 Vector3 top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
-                p1 = ClampInCoordinate(p1);
-                p2 = ClampInCoordinate(p2);
-                p3 = ClampInCoordinate(p3);
-                p4 = ClampInCoordinate(p4);
+                plb = ClampInCoordinate(plb);
+                plt = ClampInCoordinate(plt);
+                prt = ClampInCoordinate(prt);
+                prb = ClampInCoordinate(prb);
                 top = ClampInCoordinate(top);
                 serie.dataPoints.Add(top);
-
                 if (serie.show)
                 {
-                    Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                    Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                    DrawBarBackground(vh, serie, serieData, colorIndex, highlight, pX, pY, space, barWidth, false);
-                    if (serie.barType == BarType.Zebra)
+                    switch (serie.barType)
                     {
-                        p1 = (p4 + p1) / 2;
-                        p2 = (p2 + p3) / 2;
-                        CheckClipAndDrawZebraLine(vh, p1, p2, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                            areaColor, serie.clip);
-                    }
-                    else
-                    {
-                        CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, areaColor, areaToColor, serie.clip);
-                        if (borderWidth > 0)
-                        {
-                            var borderColor = itemStyle.borderColor;
-                            var itemWidth = Mathf.Abs(p3.x - p1.x);
-                            var itemHeight = Mathf.Abs(p2.y - p4.y);
-                            var center = new Vector3((p1.x + p3.x) / 2, (p2.y + p4.y) / 2);
-                            ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
-                        }
+                        case BarType.Normal:
+                            DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                                pX, pY, plb, plt, prt, prb, false);
+                            break;
+                        case BarType.Zebra:
+                            DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                                pX, pY, plb, plt, prt, prb, false);
+                            break;
+                        case BarType.Capsule:
+                            DrawCapsuleBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                               pX, pY, plb, plt, prt, prb, false);
+                            break;
                     }
                 }
             }
@@ -273,27 +257,178 @@ namespace XCharts
             }
         }
 
-        private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, int colorIndex, bool highlight,
-            float pX, float pY, float space, float barWidth, bool isYAxis)
+        private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
+            bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+            Vector3 prb, bool isYAxis)
+        {
+            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
+            var borderWidth = itemStyle.runtimeBorderWidth;
+            if (isYAxis)
+            {
+                CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
+                if (borderWidth > 0)
+                {
+                    var borderColor = itemStyle.borderColor;
+                    var itemWidth = Mathf.Abs(prb.x - plt.x);
+                    var itemHeight = Mathf.Abs(prt.y - plb.y);
+                    var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                }
+            }
+            else
+            {
+                CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
+                if (borderWidth > 0)
+                {
+                    var borderColor = itemStyle.borderColor;
+                    var itemWidth = Mathf.Abs(prt.x - plb.x);
+                    var itemHeight = Mathf.Abs(plt.y - prb.y);
+                    var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                }
+            }
+        }
+
+        private void DrawZebraBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
+            bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+            Vector3 prb, bool isYAxis)
+        {
+            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
+            if (isYAxis)
+            {
+                plt = (plb + plt) / 2;
+                prt = (prt + prb) / 2;
+                CheckClipAndDrawZebraLine(vh, plt, prt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
+                    areaColor, serie.clip);
+            }
+            else
+            {
+                plb = (prb + plb) / 2;
+                plt = (plt + prt) / 2;
+                CheckClipAndDrawZebraLine(vh, plb, plt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
+                    areaColor, serie.clip);
+            }
+        }
+
+        private void DrawCapsuleBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
+            bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+            Vector3 prb, bool isYAxis)
+        {
+            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
+            var borderWidth = itemStyle.runtimeBorderWidth;
+            var radius = barWidth / 2 - borderWidth;
+            if (isYAxis)
+            {
+                var diff = Vector3.right * radius;
+                var pcl = (plt + plb) / 2 + diff;
+                var pcr = (prt + prb) / 2 - diff;
+                if (pcr.x > pcl.x)
+                {
+                    CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
+                    ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
+                    ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                }
+            }
+            else
+            {
+                var diff = Vector3.up * radius;
+                var pct = (plt + prt) / 2 - diff;
+                var pcb = (plb + prb) / 2 + diff;
+                if (pct.y > pcb.y)
+                {
+                    CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
+                    ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
+                    ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                }
+            }
+        }
+
+        private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
+             bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis)
         {
             Color color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
-            if (color != Color.clear)
+            if (color == Color.clear) return;
+            if (isYAxis)
             {
-                if (isYAxis)
+                var axis = m_YAxises[serie.axisIndex];
+                var axisWidth = axis.axisLine.width;
+                Vector3 plt = new Vector3(coordinateX + axisWidth, pY + space + barWidth);
+                Vector3 prt = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space + barWidth);
+                Vector3 prb = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space);
+                Vector3 plb = new Vector3(coordinateX + axisWidth, pY + space);
+                if (serie.barType == BarType.Capsule)
                 {
-                    Vector3 p1 = new Vector3(coordinateX, pY + space + barWidth);
-                    Vector3 p2 = new Vector3(coordinateX + coordinateWidth, pY + space + barWidth);
-                    Vector3 p3 = new Vector3(coordinateX + coordinateWidth, pY + space);
-                    Vector3 p4 = new Vector3(coordinateX, pY + space);
-                    CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, color, color, serie.clip);
+                    var radius = barWidth / 2;
+                    var diff = Vector3.right * radius;
+                    var pcl = (plt + plb) / 2 + diff;
+                    var pcr = (prt + prb) / 2 - diff;
+                    CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, color, color, serie.clip);
+                    ChartDrawer.DrawSector(vh, pcl, radius, color, 180, 360);
+                    ChartDrawer.DrawSector(vh, pcr, radius, color, 0, 180);
+                    if (itemStyle.NeedShowBorder())
+                    {
+                        var borderWidth = itemStyle.borderWidth;
+                        var borderColor = itemStyle.borderColor;
+                        var smoothness = m_Settings.cicleSmoothness;
+                        var inRadius = radius - borderWidth;
+                        var outRadius = radius;
+                        var p1 = plb + diff + Vector3.up * borderWidth / 2;
+                        var p2 = prb - diff + Vector3.up * borderWidth / 2;
+                        var p3 = plt + diff - Vector3.up * borderWidth / 2;
+                        var p4 = prt - diff - Vector3.up * borderWidth / 2;
+                        ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
+                        ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
+                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, smoothness, 180, 360);
+                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, smoothness, 0, 180);
+                    }
                 }
                 else
                 {
-                    Vector3 p1 = new Vector3(pX + space, coordinateY);
-                    Vector3 p2 = new Vector3(pX + space, coordinateY + coordinateHeight);
-                    Vector3 p3 = new Vector3(pX + space + barWidth, coordinateY + coordinateHeight);
-                    Vector3 p4 = new Vector3(pX + space + barWidth, coordinateY);
-                    CheckClipAndDrawPolygon(vh, ref p4, ref p1, ref p2, ref p3, color, color, serie.clip);
+                    CheckClipAndDrawPolygon(vh, ref plb, ref plt, ref prt, ref prb, color, color, serie.clip);
+                }
+            }
+            else
+            {
+                var axis = m_XAxises[serie.axisIndex];
+                var axisWidth = axis.axisLine.width;
+                Vector3 plb = new Vector3(pX + space, coordinateY + axisWidth);
+                Vector3 plt = new Vector3(pX + space, coordinateY + coordinateHeight + axisWidth);
+                Vector3 prt = new Vector3(pX + space + barWidth, coordinateY + coordinateHeight + axisWidth);
+                Vector3 prb = new Vector3(pX + space + barWidth, coordinateY + axisWidth);
+                if (serie.barType == BarType.Capsule)
+                {
+                    var radius = barWidth / 2;
+                    var diff = Vector3.up * radius;
+                    var pct = (plt + prt) / 2 - diff;
+                    var pcb = (plb + prb) / 2 + diff;
+                    CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, color, color, serie.clip);
+                    ChartDrawer.DrawSector(vh, pct, radius, color, 270, 450);
+                    ChartDrawer.DrawSector(vh, pcb, radius, color, 90, 270);
+                    if (itemStyle.NeedShowBorder())
+                    {
+                        var borderWidth = itemStyle.borderWidth;
+                        var borderColor = itemStyle.borderColor;
+                        var smoothness = m_Settings.cicleSmoothness;
+                        var inRadius = radius - borderWidth;
+                        var outRadius = radius;
+                        var p1 = plb + diff + Vector3.right * borderWidth / 2;
+                        var p2 = plt - diff + Vector3.right * borderWidth / 2;
+                        var p3 = prb + diff - Vector3.right * borderWidth / 2;
+                        var p4 = prt - diff - Vector3.right * borderWidth / 2;
+                        ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
+                        ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
+                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, smoothness, 270, 450);
+                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, smoothness, 90, 270);
+                    }
+                }
+                else
+                {
+                    CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, color, color, serie.clip);
                 }
             }
         }

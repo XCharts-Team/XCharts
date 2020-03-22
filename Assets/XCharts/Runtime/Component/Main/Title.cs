@@ -46,37 +46,64 @@ namespace XCharts
         /// <summary>
         /// 主标题文本样式。
         /// </summary>
-        public TextStyle textStyle { get { return m_TextStyle; } set { if (PropertyUtility.SetClass(ref m_TextStyle, value)) SetComponentDirty(); } }
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (PropertyUtility.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Subtitle text, supporting for \n for newlines.
         /// 副标题文本，支持使用 \n 换行。
         /// </summary>
-        public string subText { get { return m_SubText; } set { if (PropertyUtility.SetClass(ref m_SubText, value)) SetComponentDirty(); } }
+        public string subText
+        {
+            get { return m_SubText; }
+            set { if (PropertyUtility.SetClass(ref m_SubText, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 副标题文本样式。
         /// </summary>
-        public TextStyle subTextStyle { get { return m_SubTextStyle; } set { if (PropertyUtility.SetClass(ref m_SubTextStyle, value)) SetComponentDirty(); } }
+        public TextStyle subTextStyle
+        {
+            get { return m_SubTextStyle; }
+            set { if (PropertyUtility.SetClass(ref m_SubTextStyle, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// [default:14]
         /// subtitle font size.
         /// 副标题文字的字体大小。
         /// </summary>
         [Obsolete("use subTextStyle instead.", true)]
-        public int subTextFontSize { get { return m_SubTextStyle.fontSize; } set { m_SubTextStyle.fontSize = value; } }
+        public int subTextFontSize
+        {
+            get { return m_SubTextStyle.fontSize; }
+            set { m_SubTextStyle.fontSize = value; }
+        }
         /// <summary>
         /// [default:8]
         /// The gap between the main title and subtitle.
         /// 主副标题之间的间距。
         /// </summary>
-        public float itemGap { get { return m_ItemGap; } set { if (PropertyUtility.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); } }
+        public float itemGap
+        {
+            get { return m_ItemGap; }
+            set { if (PropertyUtility.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// The location of title component.
         /// 标题显示位置。
         /// </summary>
-        public Location location { get { return m_Location; } set { if (PropertyUtility.SetClass(ref m_Location, value)) SetComponentDirty(); } }
+        public Location location
+        {
+            get { return m_Location; }
+            set { if (PropertyUtility.SetClass(ref m_Location, value)) SetComponentDirty(); }
+        }
 
         public override bool vertsDirty { get { return false; } }
-        public override bool componentDirty { get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty || subTextStyle.componentDirty; } }
+        public override bool componentDirty
+        {
+            get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty || subTextStyle.componentDirty; }
+        }
 
         internal override void ClearComponentDirty()
         {

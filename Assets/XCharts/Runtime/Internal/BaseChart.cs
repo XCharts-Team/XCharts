@@ -233,8 +233,10 @@ namespace XCharts
             titleObject.transform.localPosition = titlePosition;
             ChartHelper.HideAllObject(titleObject);
 
+            var textFont = TitleHelper.GetTextFont(title, themeInfo);
+            var textColor = TitleHelper.GetTextColor(title, themeInfo);
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
+                        textFont, textColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize,
                         m_Title.textStyle.rotate, m_Title.textStyle.fontStyle, m_Title.textStyle.lineSpacing);
 
@@ -243,8 +245,10 @@ namespace XCharts
             titleText.transform.localPosition = Vector3.zero + m_Title.textStyle.offsetv3;
             titleText.text = m_Title.text.Replace("\\n", "\n");
 
+            var subTextFont = TitleHelper.GetSubTextFont(title, themeInfo);
+            var subTextColor = TitleHelper.GetSubTextColor(title, themeInfo);
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.titleSubTextColor, anchor, anchorMin, anchorMax, pivot,
+                        subTextFont, subTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
                         m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle, m_Title.subTextStyle.lineSpacing);
 

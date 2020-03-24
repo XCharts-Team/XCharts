@@ -27,11 +27,10 @@ namespace XCharts
             drawRect.width = EditorGUIUtility.labelWidth + 10;
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SeriesModuleToggle, "Series");
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            //ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop);
             drawRect.width = pos.width;
             if (m_SeriesModuleToggle)
             {
-                ChartEditorHelper.MakeList(ref drawRect, ref m_DataSize, m_Series);
+                ChartEditorHelper.MakeList(ref drawRect, ref m_DataSize, m_Series, true);
             }
         }
 

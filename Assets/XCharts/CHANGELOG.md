@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.03.24) 增加`Serie`在`inspector`上可进行调整顺序、添加和删除操作
 * (2020.03.23) 修复`Title`的`textStyle`和`subTextStyle`无效的问题
 * (2020.03.22) 增加`BarChart`通过`barType`参数设置`胶囊柱状图`
 * (2020.03.21) 增加`BarChart`和`HeatmapChart`可通过`ignore`参数设置忽略数据的支持

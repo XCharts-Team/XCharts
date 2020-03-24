@@ -143,11 +143,27 @@ public class ChartEditorHelper
         return toggle;
     }
 
-    public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, SerializedProperty large = null)
+    public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, bool showOrder = false)
     {
         EditorGUI.indentLevel++;
         listSize = listProp.arraySize;
-        listSize = EditorGUI.IntField(drawRect, "Size", listSize);
+        if (showOrder)
+        {
+            var nameWid = 15;
+            var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid, drawRect.height);
+            //listSize = EditorGUI.IntField(elementRect, "Size", listSize);
+            var iconRect = new Rect(drawRect.width - nameWid + 14, drawRect.y, nameWid, drawRect.height);
+            if (GUI.Button(iconRect, new GUIContent("+", "add")))
+            {
+                listProp.InsertArrayElementAtIndex(listProp.arraySize);
+            }
+            listSize = listProp.arraySize;
+            listSize = EditorGUI.IntField(elementRect, "Size", listSize);
+        }
+        else
+        {
+            listSize = EditorGUI.IntField(drawRect, "Size", listSize);
+        }
         if (listSize < 0) listSize = 0;
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
@@ -182,8 +198,37 @@ public class ChartEditorHelper
             for (int i = 0; i < listProp.arraySize; i++)
             {
                 SerializedProperty element = listProp.GetArrayElementAtIndex(i);
-                EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
-                drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                if (showOrder)
+                {
+                    var nameWid = 15;
+                    var isSerie = "Serie".Equals(element.type);
+                    var elementRect = isSerie ? drawRect : new Rect(drawRect.x, drawRect.y, drawRect.width - 2 * 15, drawRect.height);
+                    EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
+                    var iconRect = new Rect(drawRect.width - 3 * nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    if (GUI.Button(iconRect, new GUIContent("↑", "up")))
+                    {
+                        if (i > 0) listProp.MoveArrayElement(i, i - 1);
+                    }
+                    iconRect = new Rect(drawRect.width - 2 * nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    if (GUI.Button(iconRect, new GUIContent("↓", "down")))
+                    {
+                        if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
+                    }
+                    iconRect = new Rect(drawRect.width - nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    if (GUI.Button(iconRect, new GUIContent("-", "delete")))
+                    {
+                        if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
+                    }
+                    else
+                    {
+                        drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                    }
+                }
+                else
+                {
+                    EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
+                    drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                }
             }
         }
         EditorGUI.indentLevel--;

@@ -81,8 +81,9 @@ namespace XCharts
             var toggle = ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieModuleToggle, prop, moduleName, show);
             if (!toggle)
             {
+                var orderButton = 47;
                 drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + 20;
-                drawRect.width = pos.width - drawRect.x + 15;
+                drawRect.width = pos.width - drawRect.x + 15 - orderButton;
                 EditorGUI.PropertyField(drawRect, type, GUIContent.none);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -249,7 +250,7 @@ namespace XCharts
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
                         break;
                     case SerieType.Heatmap:
-                    EditorGUI.PropertyField(drawRect, m_Ignore);
+                        EditorGUI.PropertyField(drawRect, m_Ignore);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_IgnoreValue);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -359,6 +360,7 @@ namespace XCharts
                             DrawDataElement(ref drawRect, dimension, m_Datas, showName, showIcon, showSelected, i, pos.width);
                         }
                     }
+                    drawRect.y += EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.indentLevel--;
                 }
                 --EditorGUI.indentLevel;
@@ -460,7 +462,7 @@ namespace XCharts
         {
             float height = 0;
             int index = InitToggle(prop);
-            if (!m_SerieModuleToggle[prop.propertyPath])
+            if (!m_SerieModuleToggle.ContainsKey(prop.propertyPath) || !m_SerieModuleToggle[prop.propertyPath])
             {
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -553,6 +555,7 @@ namespace XCharts
                     {
                         height += (num) * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
                     }
+                    height += EditorGUIUtility.standardVerticalSpacing;
                     if (prop.FindPropertyRelative("m_ShowDataIcon").boolValue)
                     {
                         for (int i = 0; i < num; i++)

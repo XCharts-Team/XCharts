@@ -81,9 +81,10 @@ namespace XCharts
             var toggle = ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieModuleToggle, prop, moduleName, show);
             if (!toggle)
             {
-                var orderButton = 47;
-                drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + 20;
-                drawRect.width = pos.width - drawRect.x + 15 - orderButton;
+                var orderButton = 46;
+                var gap = 4;
+                drawRect.x += EditorGUIUtility.labelWidth + gap;
+                drawRect.width = pos.width - drawRect.x + ChartEditorHelper.BOOL_WIDTH - orderButton;
                 EditorGUI.PropertyField(drawRect, type, GUIContent.none);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -309,13 +310,20 @@ namespace XCharts
                     EditorGUI.indentLevel++;
 
                     float nameWid = 45;
+#if UNITY_2019_3_OR_NEWER
+                var gap = 2;
+                var namegap = 3;
+#else
+                var gap = 0;
+                var namegap = 0;
+#endif
                     EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height), m_DataDimension);
-                    var nameRect = new Rect(pos.width - 2 * nameWid + 14, drawRect.y, nameWid, pos.height);
+                    var nameRect = new Rect(pos.width - 2 * nameWid + 14 + gap, drawRect.y, nameWid - gap, pos.height);
                     if (GUI.Button(nameRect, new GUIContent("Name")))
                     {
                         m_ShowDataName.boolValue = !m_ShowDataName.boolValue;
                     }
-                    var iconRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid, pos.height);
+                    var iconRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid + namegap, pos.height);
                     if (GUI.Button(iconRect, new GUIContent("More...")))
                     {
                         m_ShowDataIcon.boolValue = !m_ShowDataIcon.boolValue;
@@ -403,8 +411,15 @@ namespace XCharts
             }
             else
             {
+#if UNITY_2019_3_OR_NEWER
+                var gap = 2;
+                var namegap = 3;
+#else
+                var gap = 0;
+                var namegap = 0;
+#endif
                 EditorGUI.LabelField(drawRect, "Element " + index);
-                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
                 var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                 var dataWid = dataWidTotal / fieldCount;
                 var xWid = dataWid - 4;
@@ -422,7 +437,7 @@ namespace XCharts
                 if (showName)
                 {
                     drawRect.x = startX + (fieldCount - 1) * xWid;
-                    drawRect.width = dataWid + 40;
+                    drawRect.width = dataWid + 40 + dimension * namegap;
                     EditorGUI.PropertyField(drawRect, sereName, GUIContent.none);
                 }
 
@@ -445,13 +460,13 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Icon);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Icon);
                 EditorGUI.PropertyField(drawRect, m_Label);
-                ChartEditorHelper.MakeBool(ref drawRect, m_EnableLabel, 1, "(enable)");
+                ChartEditorHelper.MakeBool(drawRect, m_EnableLabel, 1, "(enable)");
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                 EditorGUI.PropertyField(drawRect, m_ItemStyle);
-                ChartEditorHelper.MakeBool(ref drawRect, m_EnableItemStyle, 1, "(enable)");
+                ChartEditorHelper.MakeBool(drawRect, m_EnableItemStyle, 1, "(enable)");
                 drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
                 EditorGUI.PropertyField(drawRect, m_Emphasis);
-                ChartEditorHelper.MakeBool(ref drawRect, m_EnableEmphasis, 1, "(enable)");
+                ChartEditorHelper.MakeBool(drawRect, m_EnableEmphasis, 1, "(enable)");
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
 
                 EditorGUI.indentLevel -= 2;

@@ -67,14 +67,16 @@ namespace XCharts
             SerializedProperty m_CustomVisualMapBorderColor = prop.FindPropertyRelative("m_CustomVisualMapBorderColor");
             SerializedProperty m_CustomColorPalette = prop.FindPropertyRelative("m_CustomColorPalette");
 
+            var btnWidth = 45;
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ThemeModuleToggle, "Theme");
-            drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
-            drawRect.width = defaultWidth - EditorGUIUtility.labelWidth - (m_ThemeModuleToggle ? 45 : 0);
+            drawRect.x += EditorGUIUtility.labelWidth + ChartEditorHelper.GAP_WIDTH;
+            drawRect.width = defaultWidth - EditorGUIUtility.labelWidth - ChartEditorHelper.GAP_WIDTH
+                - (m_ThemeModuleToggle ? btnWidth + 3 : 0);
             EditorGUI.PropertyField(drawRect, m_Theme, GUIContent.none);
             if (m_ThemeModuleToggle)
             {
-                drawRect.x = defaultWidth - 30;
-                drawRect.width = 45;
+                drawRect.x = defaultX + defaultWidth - btnWidth;
+                drawRect.width = btnWidth;
                 if (GUI.Button(drawRect, new GUIContent("Reset", "Reset to theme default color")))
                 {
                     m_CustomFont.objectReferenceValue = null;
@@ -139,7 +141,7 @@ namespace XCharts
 
                 ++EditorGUI.indentLevel;
                 EditorGUI.BeginChangeCheck();
-                var font =m_CustomFont.objectReferenceValue != null?m_CustomFont: m_Font;
+                var font = m_CustomFont.objectReferenceValue != null ? m_CustomFont : m_Font;
                 EditorGUI.PropertyField(drawRect, font);
                 if (EditorGUI.EndChangeCheck())
                 {

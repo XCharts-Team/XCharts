@@ -53,21 +53,14 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Position);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                EditorGUI.LabelField(drawRect, "Offset");
-                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
-                var tempWidth = (drawRect.width - startX + 52) / 2;
-                var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
-                var centerYRect = new Rect(centerXRect.x + tempWidth - 38, drawRect.y, tempWidth, drawRect.height);
-                var x = EditorGUI.FloatField(centerXRect, m_Offset.vector3Value.x);
-                var y = EditorGUI.FloatField(centerYRect, m_Offset.vector3Value.y);
-                m_Offset.vector3Value = new Vector3(x, y);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_Offset);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Offset);
 
                 EditorGUI.PropertyField(drawRect, m_Margin);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                
+
                 EditorGUI.PropertyField(drawRect, m_Color);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BackgroundColor);
@@ -115,7 +108,8 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_SerieLabelToggle, prop))
             {
-                height += 24 * EditorGUIUtility.singleLineHeight + 23 * EditorGUIUtility.standardVerticalSpacing;
+                height += 23 * EditorGUIUtility.singleLineHeight + 22 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Offset"));
             }
             else
             {

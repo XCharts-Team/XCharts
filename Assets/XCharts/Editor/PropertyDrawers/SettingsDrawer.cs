@@ -29,7 +29,6 @@ namespace XCharts
             SerializedProperty m_PieSelectedOffset = prop.FindPropertyRelative("m_PieSelectedOffset");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SettingsModuleToggle, "Settings");
-            EditorGUI.LabelField(drawRect, "Settings", EditorStyles.boldLabel);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_SettingsModuleToggle)
             {

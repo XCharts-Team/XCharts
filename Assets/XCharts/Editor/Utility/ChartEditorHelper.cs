@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 public class ChartEditorHelper
 {
+#if UNITY_2019_3_OR_NEWER
+    public const float INDENT_WIDTH = 15;
+    public const float BOOL_WIDTH = 15;
+    public const float ARROW_WIDTH = 20;
+    public const float GAP_WIDTH =2;
+#else
+    public const float INDENT_WIDTH = 15;
+    public const float BOOL_WIDTH = 15;
+    public const float ARROW_WIDTH = 13;
+    public const float GAP_WIDTH = 0;
+#endif
     public static GUIStyle headerStyle = EditorStyles.boldLabel;
     public static GUIStyle foldoutStyle = new GUIStyle(EditorStyles.foldout)
     {
@@ -31,14 +42,29 @@ public class ChartEditorHelper
     public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty prop1, SerializedProperty prop2, string name)
     {
         EditorGUI.LabelField(drawRect, name);
-        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
+        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
         var diff = 14 + EditorGUI.indentLevel * 14;
-        var offset = diff - 15;
+        var offset = diff - INDENT_WIDTH;
         var tempWidth = (rectWidth - startX + diff) / 2;
         var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
         var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth, drawRect.height);
         EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
         EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+    }
+
+    public static void MakeVector2(ref Rect drawRect, float rectWidth, SerializedProperty prop, string name)
+    {
+        EditorGUI.LabelField(drawRect, name);
+        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
+        var diff = 14 + EditorGUI.indentLevel * 14;
+        var offset = diff - INDENT_WIDTH;
+        var tempWidth = (rectWidth - startX + diff) / 2;
+        var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
+        var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth, drawRect.height);
+        var x = EditorGUI.FloatField(centerXRect, prop.vector3Value.x);
+        var y = EditorGUI.FloatField(centerYRect, prop.vector3Value.y);
+        prop.vector3Value = new Vector3(x, y);
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
     }
 
@@ -48,8 +74,8 @@ public class ChartEditorHelper
         SerializedProperty stringDataProp = prop.FindPropertyRelative("m_JsonData");
         SerializedProperty needParseProp = prop.FindPropertyRelative("m_DataFromJson");
         float defalutX = drawRect.x;
-        drawRect.x = EditorGUIUtility.labelWidth + 14 + diff;
-        drawRect.width = currentWidth - EditorGUIUtility.labelWidth - diff;
+        drawRect.x = EditorGUIUtility.labelWidth + ARROW_WIDTH + diff;
+        drawRect.width = currentWidth - EditorGUIUtility.labelWidth - GAP_WIDTH - diff;
         if (GUI.Button(drawRect, new GUIContent("Parse JsonData", "Parse data from input json")))
         {
             showTextArea = !showTextArea;
@@ -77,27 +103,28 @@ public class ChartEditorHelper
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
-        drawRect.width = EditorGUIUtility.labelWidth;
+        drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
         moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? foldoutStyle : EditorStyles.foldout);
-        MakeBool(ref drawRect, prop);
+        MakeBool(drawRect, prop);
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
         return moduleToggle;
     }
 
-    public static void MakeBool(ref Rect drawRect, SerializedProperty boolProp, int index = 0, string name = null)
+    public static void MakeBool(Rect drawRect, SerializedProperty boolProp, int index = 0, string name = null)
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
-        drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2 + index * 30;
-        drawRect.width = 20 + EditorGUI.indentLevel * 20;
+        float boolWidth = index * (BOOL_WIDTH + GAP_WIDTH);
+        drawRect.x = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + ARROW_WIDTH + boolWidth;
+        drawRect.width = (EditorGUI.indentLevel + 1) * BOOL_WIDTH + index * 110;
         if (boolProp != null)
         {
             EditorGUI.PropertyField(drawRect, boolProp, GUIContent.none);
-            drawRect.x += 13;
-            drawRect.width = 200;
             if (!string.IsNullOrEmpty(name))
             {
+                drawRect.x += BOOL_WIDTH;
+                drawRect.width = 200;
                 EditorGUI.LabelField(drawRect, name);
             }
         }
@@ -117,24 +144,28 @@ public class ChartEditorHelper
 
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
-        drawRect.width = EditorGUIUtility.labelWidth - 5;
+#if UNITY_2019_3_OR_NEWER
+        drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
+#else
+        drawRect.width = EditorGUIUtility.labelWidth;
+#endif
         var displayName = string.IsNullOrEmpty(moduleName) ? prop.displayName : moduleName;
-
         toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? foldoutStyle : EditorStyles.foldout);
+
         if (moduleToggle[key] != toggle)
         {
             moduleToggle[key] = toggle;
         }
-        drawRect.x = EditorGUIUtility.labelWidth - (EditorGUI.indentLevel - 1) * 15 - 2;
         if (showProp != null)
         {
+            drawRect.x = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + ARROW_WIDTH;
             if (showProp.propertyType == SerializedPropertyType.Boolean)
             {
-                drawRect.width = 100;
+                drawRect.width = (EditorGUI.indentLevel + 1) * BOOL_WIDTH;
             }
             else
             {
-                drawRect.width = defaultWidth - drawRect.x + 15;
+                drawRect.width = defaultWidth - drawRect.x + ARROW_WIDTH - GAP_WIDTH;
             }
             EditorGUI.PropertyField(drawRect, showProp, GUIContent.none);
         }
@@ -150,9 +181,9 @@ public class ChartEditorHelper
         if (showOrder)
         {
             var nameWid = 15;
-            var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid, drawRect.height);
-            //listSize = EditorGUI.IntField(elementRect, "Size", listSize);
-            var iconRect = new Rect(drawRect.width - nameWid + 14, drawRect.y, nameWid, drawRect.height);
+            var temp = INDENT_WIDTH + GAP_WIDTH;
+            var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid - 1, drawRect.height);
+            var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
             if (GUI.Button(iconRect, new GUIContent("+", "add")))
             {
                 listProp.InsertArrayElementAtIndex(listProp.arraySize);
@@ -201,20 +232,21 @@ public class ChartEditorHelper
                 if (showOrder)
                 {
                     var nameWid = 15;
+                    var temp = INDENT_WIDTH + GAP_WIDTH;
                     var isSerie = "Serie".Equals(element.type);
-                    var elementRect = isSerie ? drawRect : new Rect(drawRect.x, drawRect.y, drawRect.width - 2 * 15, drawRect.height);
+                    var elementRect = isSerie ? drawRect : new Rect(drawRect.x, drawRect.y, drawRect.width - 2 * nameWid, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
-                    var iconRect = new Rect(drawRect.width - 3 * nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    var iconRect = new Rect(drawRect.width - 3 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
                     if (GUI.Button(iconRect, new GUIContent("↑", "up")))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
-                    iconRect = new Rect(drawRect.width - 2 * nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    iconRect = new Rect(drawRect.width - 2 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
                     if (GUI.Button(iconRect, new GUIContent("↓", "down")))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
-                    iconRect = new Rect(drawRect.width - nameWid + 14, drawRect.y, nameWid, drawRect.height);
+                    iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
                     if (GUI.Button(iconRect, new GUIContent("-", "delete")))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);

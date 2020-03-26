@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.03.24) 优化`Editor`参数编辑，兼容`Unity2019.3`及以上版本
 * (2020.03.24) 增加`Serie`在`inspector`上可进行调整顺序、添加和删除操作
 * (2020.03.23) 修复`Title`的`textStyle`和`subTextStyle`无效的问题
 * (2020.03.22) 增加`BarChart`通过`barType`参数设置`胶囊柱状图`

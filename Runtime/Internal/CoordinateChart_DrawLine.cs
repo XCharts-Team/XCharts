@@ -41,9 +41,10 @@ namespace XCharts
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     CheckClipAndDrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, p, symbolColor,
-                        symbolToColor, serie.symbol.gap, clip);
+                        symbolToColor, serie.symbol.gap, clip, cornerRadius);
                 }
             }
         }

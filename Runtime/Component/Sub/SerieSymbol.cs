@@ -25,7 +25,7 @@ namespace XCharts
         /// </summary>
         Circle,
         /// <summary>
-        /// 正方形。
+        /// 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。
         /// </summary>
         Rect,
         /// <summary>

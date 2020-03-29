@@ -745,6 +745,7 @@
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
 * `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
+* `cornerRadius`：圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
 
 ## `LineArrow`
 
@@ -839,7 +840,7 @@
 * `type`：标记类型。支持以下六种类型：
   * `EmptyCircle`：空心圆。
   * `Circle`：实心圆。
-  * `Rect`：正方形。
+  * `Rect`：正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。
   * `Triangle`：三角形。
   * `Diamond`：菱形。
   * `None`：不显示标记。

@@ -727,7 +727,7 @@ namespace XCharts
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
         {
             var backgroundColor = m_ThemeInfo.backgroundColor;
             var smoothness = m_Settings.cicleSmoothness;
@@ -764,7 +764,8 @@ namespace XCharts
                     }
                     else
                     {
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
+                        //ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
+                        ChartDrawer.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, 0, cornerRadius);
                     }
                     break;
                 case SerieSymbolType.Triangle:

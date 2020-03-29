@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.03.29) 增加`Axis`的`ceilRate`设置最大最小值的取整倍率
 * (2020.03.29) 增加`BarChart`可通过`itemStyle`的`cornerRadius`设置`圆角柱图`
 * (2020.03.29) 增加`itemStyle`的`cornerRadius`支持圆角矩形
 * (2020.03.24) 优化`Editor`参数编辑，兼容`Unity2019.3`及以上版本

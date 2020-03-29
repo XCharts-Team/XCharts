@@ -76,6 +76,7 @@ namespace XCharts
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
         [SerializeField] protected bool m_LogBaseE = false;
+        [SerializeField] protected int m_CeilRate = 0;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -185,6 +186,14 @@ namespace XCharts
         {
             get { return m_MaxCache; }
             set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 最大最小值向上取整的倍率。默认为0时自动计算。
+        /// </summary>
+        public int ceilRate
+        {
+            get { return m_CeilRate; }
+            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -746,22 +755,22 @@ namespace XCharts
                         else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
                         }
                         else if (minValue < 0 && maxValue < 0)
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
                             maxValue = 0;
                         }
                         else
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
                         }
                         break;
                     case Axis.AxisMinMaxType.MinMax:
-                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
-                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
+                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
+                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
                         break;
                 }
             }

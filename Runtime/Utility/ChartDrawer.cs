@@ -269,7 +269,6 @@ namespace XCharts
             brRb = cornerRadius != null && cornerRadius.Length > 2 ? cornerRadius[2] : 0;
             brLb = cornerRadius != null && cornerRadius.Length > 3 ? cornerRadius[3] : 0;
             needRound = brLb != 0 || brRt != 0 || brRb != 0 || brLb != 0;
-            var min = Mathf.Min(width, height);
             if (needRound)
             {
                 if (brLt + brRt > width)

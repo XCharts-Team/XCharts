@@ -65,9 +65,10 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                var borderWidth = itemStyle.runtimeBorderWidth;
+
                 serieData.canShowLabel = true;
                 float value = showData[i].GetCurrData(1, dataChangeDuration);
+                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
@@ -192,8 +193,8 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                var borderWidth = itemStyle.runtimeBorderWidth;
                 float value = serieData.GetCurrData(1, dataChangeDuration);
+                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
@@ -267,26 +268,54 @@ namespace XCharts
             var borderWidth = itemStyle.runtimeBorderWidth;
             if (isYAxis)
             {
-                CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
-                if (borderWidth > 0)
+                if (serie.clip)
                 {
-                    var borderColor = itemStyle.borderColor;
-                    var itemWidth = Mathf.Abs(prb.x - plt.x);
-                    var itemHeight = Mathf.Abs(prt.y - plb.y);
-                    var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                    prb = ClampInCoordinate(prb);
+                    plb = ClampInCoordinate(plb);
+                    plt = ClampInCoordinate(plt);
+                    prt = ClampInCoordinate(prt);
+                }
+                var borderColor = itemStyle.borderColor;
+                var itemWidth = Mathf.Abs(prb.x - plt.x);
+                var itemHeight = Mathf.Abs(prt.y - plb.y);
+                var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
+                if (itemWidth > 0 && itemHeight > 0)
+                {
+                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    {
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, 0, itemStyle.cornerRadius);
+                    }
+                    else
+                    {
+                        CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
+                    }
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius);
                 }
             }
             else
             {
-                CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
-                if (borderWidth > 0)
+                if (serie.clip)
                 {
-                    var borderColor = itemStyle.borderColor;
-                    var itemWidth = Mathf.Abs(prt.x - plb.x);
-                    var itemHeight = Mathf.Abs(plt.y - prb.y);
-                    var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                    prb = ClampInCoordinate(prb);
+                    plb = ClampInCoordinate(plb);
+                    plt = ClampInCoordinate(plt);
+                    prt = ClampInCoordinate(prt);
+                }
+                var borderColor = itemStyle.borderColor;
+                var itemWidth = Mathf.Abs(prt.x - plb.x);
+                var itemHeight = Mathf.Abs(plt.y - prb.y);
+                var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
+                if (itemWidth > 0 && itemHeight > 0)
+                {
+                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    {
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, 0, itemStyle.cornerRadius);
+                    }
+                    else
+                    {
+                        CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
+                    }
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius);
                 }
             }
         }

@@ -1783,11 +1783,11 @@ namespace XCharts
         }
 
         protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip,float[] cornerRadius)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInCooridate(pos))))
-                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap);
+                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,cornerRadius);
         }
 
         protected void CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,

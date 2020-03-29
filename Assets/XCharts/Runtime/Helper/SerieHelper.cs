@@ -233,5 +233,12 @@ namespace XCharts
             else if (serie.lineStyle.width != 0) return serie.lineStyle.width;
             else return 1;
         }
+
+        public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)
+        {
+            var itemStyle = GetItemStyle(serie, serieData, highlight);
+            if(itemStyle != null) return itemStyle.cornerRadius;
+            else return null;
+        }
     }
 }

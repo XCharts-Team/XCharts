@@ -39,6 +39,32 @@ public class ChartEditorHelper
         MakeTwoField(ref drawRect, rectWidth, arrayProp.GetArrayElementAtIndex(0), arrayProp.GetArrayElementAtIndex(1), name);
     }
 
+    public static void MakeDivideList(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name, int showNum)
+    {
+        while (arrayProp.arraySize < showNum)
+        {
+            arrayProp.InsertArrayElementAtIndex(arrayProp.arraySize);
+        }
+        EditorGUI.LabelField(drawRect, name);
+#if UNITY_2019_3_OR_NEWER
+        var gap = 2;
+#else
+        var gap = 0;
+#endif
+        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + gap;
+        var dataWidTotal = (rectWidth - (startX + INDENT_WIDTH + 1));
+        EditorGUI.DrawRect(new Rect(startX, drawRect.y, dataWidTotal, drawRect.height), Color.grey);
+        var dataWid = dataWidTotal / showNum;
+        var xWid = dataWid - gap;
+        for (int i = 0; i < 1; i++)
+        {
+            drawRect.x = startX + i * xWid;
+            drawRect.width = dataWid + (EditorGUI.indentLevel - 2) * 40.5f;
+            EditorGUI.PropertyField(drawRect, arrayProp.GetArrayElementAtIndex(i), GUIContent.none);
+        }
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+    }
+
     public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty prop1, SerializedProperty prop2, string name)
     {
         EditorGUI.LabelField(drawRect, name);
@@ -174,36 +200,39 @@ public class ChartEditorHelper
         return toggle;
     }
 
-    public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, bool showOrder = false)
+    public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
     {
         EditorGUI.indentLevel++;
         listSize = listProp.arraySize;
-        if (showOrder)
+        if (showSize)
         {
-            var nameWid = 15;
-            var temp = INDENT_WIDTH + GAP_WIDTH;
-            var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid - 1, drawRect.height);
-            var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
-            if (GUI.Button(iconRect, new GUIContent("+", "add")))
+            if (showOrder)
             {
-                listProp.InsertArrayElementAtIndex(listProp.arraySize);
+                var nameWid = 15;
+                var temp = INDENT_WIDTH + GAP_WIDTH;
+                var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid - 1, drawRect.height);
+                var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                if (GUI.Button(iconRect, new GUIContent("+", "add")))
+                {
+                    listProp.InsertArrayElementAtIndex(listProp.arraySize);
+                }
+                listSize = listProp.arraySize;
+                listSize = EditorGUI.IntField(elementRect, "Size", listSize);
             }
-            listSize = listProp.arraySize;
-            listSize = EditorGUI.IntField(elementRect, "Size", listSize);
-        }
-        else
-        {
-            listSize = EditorGUI.IntField(drawRect, "Size", listSize);
-        }
-        if (listSize < 0) listSize = 0;
-        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            else
+            {
+                listSize = EditorGUI.IntField(drawRect, "Size", listSize);
+            }
+            if (listSize < 0) listSize = 0;
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-        if (listSize != listProp.arraySize)
-        {
-            while (listSize > listProp.arraySize)
-                listProp.InsertArrayElementAtIndex(listProp.arraySize);
-            while (listSize < listProp.arraySize)
-                listProp.DeleteArrayElementAtIndex(listProp.arraySize - 1);
+            if (listSize != listProp.arraySize)
+            {
+                while (listSize > listProp.arraySize)
+                    listProp.InsertArrayElementAtIndex(listProp.arraySize);
+                while (listSize < listProp.arraySize)
+                    listProp.DeleteArrayElementAtIndex(listProp.arraySize - 1);
+            }
         }
         if (listSize > 30)
         {

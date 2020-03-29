@@ -5,7 +5,8 @@
 /*                                        */
 /******************************************/
 
-
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -46,6 +47,7 @@ namespace XCharts
         [SerializeField] private Color m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
+        [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
 
         /// <summary>
         /// 是否启用。
@@ -143,6 +145,15 @@ namespace XCharts
         {
             get { return m_TooltipFormatter; }
             set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
+        /// 圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+        /// </summary>
+        public float[] cornerRadius
+        {
+            get { return m_CornerRadius; }
+            set { if (PropertyUtility.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 实际边框宽。边框不显示时为0。

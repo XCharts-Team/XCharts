@@ -14,7 +14,9 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(ItemStyle), true)]
     public class ItemStyleDrawer : PropertyDrawer
     {
+        private int m_CornerRadius = 0;
         private Dictionary<string, bool> m_ItemStyleToggle = new Dictionary<string, bool>();
+        private Dictionary<string, bool> m_CornerRadiusToggle = new Dictionary<string, bool>();
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
@@ -32,6 +34,7 @@ namespace XCharts
             SerializedProperty m_BorderColor = prop.FindPropertyRelative("m_BorderColor");
             SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
             SerializedProperty m_TooltipFormatter = prop.FindPropertyRelative("m_TooltipFormatter");
+            SerializedProperty m_CornerRadius = prop.FindPropertyRelative("m_CornerRadius");
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ItemStyleToggle, prop, "Item Style", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
@@ -59,6 +62,12 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_TooltipFormatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                ChartEditorHelper.MakeFoldout(ref drawRect, ref m_CornerRadiusToggle, m_CornerRadius, "Corner Radius", null, false);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (ChartEditorHelper.IsToggle(m_CornerRadiusToggle, m_CornerRadius))
+                {
+                    ChartEditorHelper.MakeList(ref drawRect, ref this.m_CornerRadius, m_CornerRadius, false, false);
+                }
                 --EditorGUI.indentLevel;
             }
         }
@@ -68,7 +77,12 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
             {
-                height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
+                height += 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing;
+                var m_CornerRadius = prop.FindPropertyRelative("m_CornerRadius");
+                if (ChartEditorHelper.IsToggle(m_CornerRadiusToggle, m_CornerRadius))
+                {
+                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+                }
             }
             else
             {

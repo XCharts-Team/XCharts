@@ -334,10 +334,11 @@ namespace XCharts
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     foreach (var point in pointList)
                     {
                         DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                           symbolToColor, serie.symbol.gap);
+                           symbolToColor, serie.symbol.gap, cornerRadius);
                     }
                 }
             }
@@ -475,8 +476,9 @@ namespace XCharts
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
-                           symbolToColor, serie.symbol.gap);
+                           symbolToColor, serie.symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())
@@ -516,10 +518,11 @@ namespace XCharts
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                 foreach (var point in pointList)
                 {
                     DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                       symbolToColor, serie.symbol.gap);
+                       symbolToColor, serie.symbol.gap, cornerRadius);
                 }
             }
         }

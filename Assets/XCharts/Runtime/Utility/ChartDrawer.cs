@@ -1,3 +1,4 @@
+using System.Linq;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -260,34 +261,236 @@ namespace XCharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            float borderWidth, Color32 color, float rotate = 0)
+        private static void InitCornerRadius(float[] cornerRadius, float width, float height, ref float brLt,
+        ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
+        {
+            brLt = cornerRadius != null && cornerRadius.Length > 0 ? cornerRadius[0] : 0;
+            brRt = cornerRadius != null && cornerRadius.Length > 1 ? cornerRadius[1] : 0;
+            brRb = cornerRadius != null && cornerRadius.Length > 2 ? cornerRadius[2] : 0;
+            brLb = cornerRadius != null && cornerRadius.Length > 3 ? cornerRadius[3] : 0;
+            needRound = brLb != 0 || brRt != 0 || brRb != 0 || brLb != 0;
+            var min = Mathf.Min(width, height);
+            if (needRound)
+            {
+                if (brLt + brRt > width)
+                {
+                    var total = brLt + brRt;
+                    brLt = width * (brLt / total);
+                    brRt = width * (brRt / total);
+                }
+                if (brRt + brRb > height)
+                {
+                    var total = brRt + brRb;
+                    brRt = height * (brRt / total);
+                    brRb = height * (brRb / total);
+                }
+                if (brRb + brLb > width)
+                {
+                    var total = brRb + brLb;
+                    brRb = width * (brRb / total);
+                    brLb = width * (brLb / total);
+                }
+                if (brLb + brLt > height)
+                {
+                    var total = brLb + brLt;
+                    brLb = height * (brLb / total);
+                    brLt = height * (brLt / total);
+                }
+                if (brLt + brRb > height)
+                {
+                    var total = brLt + brRb;
+                    brLt = height * (brLt / total);
+                    brRb = height * (brRb / total);
+                }
+                if (brRt + brLb > height)
+                {
+                    var total = brRt + brRt;
+                    brRt = height * (brRt / total);
+                    brLb = height * (brLb / total);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 绘制圆角矩形
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="rectWidth"></param>
+        /// <param name="rectHeight"></param>
+        /// <param name="color"></param>
+        /// <param name="rotate"></param>
+        /// <param name="cornerRadius"></param>
+        public static void DrawRoundRectangle(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
+            Color32 color, float rotate = 0, float[] cornerRadius = null)
         {
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
-            var p1In = new Vector3(center.x - halfWid, center.y - halfHig);
-            var p1Ot = new Vector3(center.x - halfWid - borderWidth, center.y - halfHig - borderWidth);
-            var p2In = new Vector3(center.x - halfWid, center.y + halfHig);
-            var p2Ot = new Vector3(center.x - halfWid - borderWidth, center.y + halfHig + borderWidth);
-            var p3In = new Vector3(center.x + halfWid, center.y + halfHig);
-            var p3Ot = new Vector3(center.x + halfWid + borderWidth, center.y + halfHig + borderWidth);
-            var p4In = new Vector3(center.x + halfWid, center.y - halfHig);
-            var p4Ot = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
-            if (rotate > 0)
+            float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
+            bool needRound = false;
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
+            var tempCenter = Vector3.zero;
+            var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
+            var ltIn = new Vector3(center.x - halfWid, center.y + halfHig);
+            var rtIn = new Vector3(center.x + halfWid, center.y + halfHig);
+            var rbIn = new Vector3(center.x + halfWid, center.y - halfHig);
+            if (needRound)
             {
-                p1In = ChartHelper.RotateRound(p1In, center, Vector3.forward, rotate);
-                p1Ot = ChartHelper.RotateRound(p1Ot, center, Vector3.forward, rotate);
-                p2In = ChartHelper.RotateRound(p2In, center, Vector3.forward, rotate);
-                p2Ot = ChartHelper.RotateRound(p2Ot, center, Vector3.forward, rotate);
-                p3In = ChartHelper.RotateRound(p3In, center, Vector3.forward, rotate);
-                p3Ot = ChartHelper.RotateRound(p3Ot, center, Vector3.forward, rotate);
-                p4In = ChartHelper.RotateRound(p4In, center, Vector3.forward, rotate);
-                p4Ot = ChartHelper.RotateRound(p4Ot, center, Vector3.forward, rotate);
+                var lbIn2 = lbIn;
+                var ltIn2 = ltIn;
+                var rtIn2 = rtIn;
+                var rbIn2 = rbIn;
+                var roundLb = lbIn;
+                var roundLt = ltIn;
+                var roundRt = rtIn;
+                var roundRb = rbIn;
+                if (brLt > 0)
+                {
+                    roundLt = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
+                    DrawSector(vh, roundLt, brLt, color, color, 270, 360);
+                    ltIn = roundLt + brLt * Vector3.left;
+                    ltIn2 = roundLt + brLt * Vector3.up;
+                }
+                if (brRt > 0)
+                {
+                    roundRt = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
+                    DrawSector(vh, roundRt, brRt, color, color, 0, 90);
+                    rtIn = roundRt + brRt * Vector3.up;
+                    rtIn2 = roundRt + brRt * Vector3.right;
+                }
+                if (brRb > 0)
+                {
+                    roundRb = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
+                    DrawSector(vh, roundRb, brRb, color, color, 90, 180);
+                    rbIn = roundRb + brRb * Vector3.right;
+                    rbIn2 = roundRb + brRb * Vector3.down;
+                }
+                if (brLb > 0)
+                {
+                    roundLb = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
+                    DrawSector(vh, roundLb, brLb, color, color, 180, 270);
+                    lbIn = roundLb + brLb * Vector3.left;
+                    lbIn2 = roundLb + brLb * Vector3.down;
+                }
+                var maxup = Mathf.Max(brLt, brRt);
+                DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, color);
+                DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, color);
+                DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, color);
+                var maxdown = Mathf.Max(brLb, brRb);
+                DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color);
+                DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color);
+                DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn2 + (maxdown - brRb) * Vector3.up, rbIn2, color);
+                var clt = new Vector3(center.x - halfWid, center.y + halfHig - maxup);
+                var crt = new Vector3(center.x + halfWid, center.y + halfHig - maxup);
+                var crb = new Vector3(center.x + halfWid, center.y - halfHig + maxdown);
+                var clb = new Vector3(center.x - halfWid, center.y - halfHig + maxdown);
+                if (clt.y > clb.y)
+                    DrawPolygon(vh, clt, crt, crb, clb, color);
             }
-            DrawPolygon(vh, p1In, p1Ot, p2Ot, p2In, color);
-            DrawPolygon(vh, p2In, p2Ot, p3Ot, p3In, color);
-            DrawPolygon(vh, p3In, p3Ot, p4Ot, p4In, color);
-            DrawPolygon(vh, p4In, p4Ot, p1Ot, p1In, color);
+            else
+            {
+                DrawPolygon(vh, lbIn, ltIn, rtIn, rbIn, color);
+            }
+        }
+
+        /// <summary>
+        /// 绘制（圆角）边框
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="rectWidth"></param>
+        /// <param name="rectHeight"></param>
+        /// <param name="borderWidth"></param>
+        /// <param name="color"></param>
+        /// <param name="rotate"></param>
+        /// <param name="cornerRadius"></param>
+        public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
+            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null)
+        {
+            if (borderWidth == 0 || color == Color.clear) return;
+            var halfWid = rectWidth / 2;
+            var halfHig = rectHeight / 2;
+            var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
+            var lbOt = new Vector3(center.x - halfWid - borderWidth, center.y - halfHig - borderWidth);
+            var ltIn = new Vector3(center.x - halfWid, center.y + halfHig);
+            var ltOt = new Vector3(center.x - halfWid - borderWidth, center.y + halfHig + borderWidth);
+            var rtIn = new Vector3(center.x + halfWid, center.y + halfHig);
+            var rtOt = new Vector3(center.x + halfWid + borderWidth, center.y + halfHig + borderWidth);
+            var rbIn = new Vector3(center.x + halfWid, center.y - halfHig);
+            var rbOt = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
+            float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
+            bool needRound = false;
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
+            var tempCenter = Vector3.zero;
+            if (needRound)
+            {
+                var lbIn2 = lbIn;
+                var lbOt2 = lbOt;
+                var ltIn2 = ltIn;
+                var ltOt2 = ltOt;
+                var rtIn2 = rtIn;
+                var rtOt2 = rtOt;
+                var rbIn2 = rbIn;
+                var rbOt2 = rbOt;
+                if (brLt > 0)
+                {
+                    tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
+                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, Color.clear, 2, 270, 360);
+                    ltIn = tempCenter + brLt * Vector3.left;
+                    ltOt = tempCenter + (brLt + borderWidth) * Vector3.left;
+                    ltIn2 = tempCenter + brLt * Vector3.up;
+                    ltOt2 = tempCenter + (brLt + borderWidth) * Vector3.up;
+                }
+                if (brRt > 0)
+                {
+                    tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
+                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, Color.clear, 2, 0, 90);
+                    rtIn = tempCenter + brRt * Vector3.up;
+                    rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
+                    rtIn2 = tempCenter + brRt * Vector3.right;
+                    rtOt2 = tempCenter + (brRt + borderWidth) * Vector3.right;
+                }
+                if (brRb > 0)
+                {
+                    tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
+                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, Color.clear, 2, 90, 180);
+                    rbIn = tempCenter + brRb * Vector3.right;
+                    rbOt = tempCenter + (brRb + borderWidth) * Vector3.right;
+                    rbIn2 = tempCenter + brRb * Vector3.down;
+                    rbOt2 = tempCenter + (brRb + borderWidth) * Vector3.down;
+                }
+                if (brLb > 0)
+                {
+                    tempCenter = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
+                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, Color.clear, 2, 180, 270);
+                    lbIn = tempCenter + brLb * Vector3.left;
+                    lbOt = tempCenter + (brLb + borderWidth) * Vector3.left;
+                    lbIn2 = tempCenter + brLb * Vector3.down;
+                    lbOt2 = tempCenter + (brLb + borderWidth) * Vector3.down;
+                }
+                DrawPolygon(vh, lbIn, lbOt, ltOt, ltIn, color);
+                DrawPolygon(vh, ltIn2, ltOt2, rtOt, rtIn, color);
+                DrawPolygon(vh, rtIn2, rtOt2, rbOt, rbIn, color);
+                DrawPolygon(vh, rbIn2, rbOt2, lbOt2, lbIn2, color);
+            }
+            else
+            {
+                if (rotate > 0)
+                {
+                    lbIn = ChartHelper.RotateRound(lbIn, center, Vector3.forward, rotate);
+                    lbOt = ChartHelper.RotateRound(lbOt, center, Vector3.forward, rotate);
+                    ltIn = ChartHelper.RotateRound(ltIn, center, Vector3.forward, rotate);
+                    ltOt = ChartHelper.RotateRound(ltOt, center, Vector3.forward, rotate);
+                    rtIn = ChartHelper.RotateRound(rtIn, center, Vector3.forward, rotate);
+                    rtOt = ChartHelper.RotateRound(rtOt, center, Vector3.forward, rotate);
+                    rbIn = ChartHelper.RotateRound(rbIn, center, Vector3.forward, rotate);
+                    rbOt = ChartHelper.RotateRound(rbOt, center, Vector3.forward, rotate);
+                }
+                DrawPolygon(vh, lbIn, lbOt, ltOt, ltIn, color);
+                DrawPolygon(vh, ltIn, ltOt, rtOt, rtIn, color);
+                DrawPolygon(vh, rtIn, rtOt, rbOt, rbIn, color);
+                DrawPolygon(vh, rbIn, rbOt, lbOt, lbIn, color);
+            }
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,

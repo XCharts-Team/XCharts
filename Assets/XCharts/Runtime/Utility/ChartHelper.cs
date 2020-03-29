@@ -480,7 +480,7 @@ namespace XCharts
             return (Color32)color;
         }
 
-        public static float GetMaxDivisibleValue(float max)
+        public static float GetMaxDivisibleValue(float max, int ceilRate)
         {
             if (max == 0) return 0;
             if (max > -1 && max < 1)
@@ -495,23 +495,32 @@ namespace XCharts
                 if (max > 0) return 1 / Mathf.Pow(10, count - 1);
                 else return -1 / Mathf.Pow(10, count);
             }
-            int bigger = Mathf.CeilToInt(Mathf.Abs(max));
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
+            if (ceilRate == 0)
             {
-                n++;
+                int bigger = Mathf.CeilToInt(Mathf.Abs(max));
+                int n = 1;
+                while (bigger / (Mathf.Pow(10, n)) > 10)
+                {
+                    n++;
+                }
+                float mm = bigger;
+                if (mm > 10)
+                {
+                    mm = bigger - bigger % (Mathf.Pow(10, n));
+                    mm += max > 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+                }
+                if (max < 0) return -Mathf.CeilToInt(mm);
+                else return Mathf.CeilToInt(mm);
             }
-            float mm = bigger;
-            if (mm > 10)
+            else
             {
-                mm = bigger - bigger % (Mathf.Pow(10, n));
-                mm += max > 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+                var mod = max % ceilRate;
+                int rate = (int)(max / ceilRate);
+                return mod == 0 ? max : (max < 0 ? rate : rate + 1) * ceilRate;
             }
-            if (max < 0) return -Mathf.CeilToInt(mm);
-            else return Mathf.CeilToInt(mm);
         }
 
-        public static float GetMinDivisibleValue(float min)
+        public static float GetMinDivisibleValue(float min, int ceilRate)
         {
             if (min == 0) return 0;
             if (min > -1 && min < 1)
@@ -526,20 +535,29 @@ namespace XCharts
                 if (min > 0) return 1 / Mathf.Pow(10, count);
                 else return -1 / Mathf.Pow(10, count - 1);
             }
-            int bigger = Mathf.FloorToInt(Mathf.Abs(min));
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
+            if (ceilRate == 0)
             {
-                n++;
+                int bigger = Mathf.FloorToInt(Mathf.Abs(min));
+                int n = 1;
+                while (bigger / (Mathf.Pow(10, n)) > 10)
+                {
+                    n++;
+                }
+                float mm = bigger;
+                if (mm > 10)
+                {
+                    mm = bigger - bigger % (Mathf.Pow(10, n));
+                    mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+                }
+                if (min < 0) return -Mathf.FloorToInt(mm);
+                else return Mathf.FloorToInt(mm);
             }
-            float mm = bigger;
-            if (mm > 10)
+            else
             {
-                mm = bigger - bigger % (Mathf.Pow(10, n));
-                mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+                var mod = min % ceilRate;
+                int rate = (int)(min / ceilRate);
+                return mod == 0 ? min : (min < 0 ? rate - 1 : rate) * ceilRate;
             }
-            if (min < 0) return -Mathf.FloorToInt(mm);
-            else return Mathf.FloorToInt(mm);
         }
 
         public static float GetMaxLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)

@@ -135,7 +135,6 @@ namespace XCharts
 
         private void DrawGauge(VertexHelper vh, Serie serie)
         {
-
             serie.UpdateCenter(chartWidth, chartHeight);
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
@@ -167,20 +166,14 @@ namespace XCharts
             var color = serie.gaugeAxis.GetAxisLineColor(m_ThemeInfo, serie.index);
             var backgroundColor = serie.gaugeAxis.GetAxisLineBackgroundColor(m_ThemeInfo, serie.index);
             var outsideRadius = serie.runtimeInsideRadius + serie.gaugeAxis.axisLine.width;
+            var borderWidth = serie.itemStyle.borderWidth;
+            var borderColor = serie.itemStyle.borderColor;
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                backgroundColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, serie.endAngle);
-            if (serie.roundCap)
-            {
-                DrawRoundCap(vh, serie, serie.startAngle, backgroundColor, true);
-                DrawRoundCap(vh, serie, serie.endAngle, backgroundColor);
-            }
+                backgroundColor, backgroundColor, Color.clear, serie.startAngle, serie.endAngle, 0, Color.clear,
+                0, m_Settings.cicleSmoothness, serie.roundCap);
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, currAngle);
-            if (serie.roundCap && currAngle != serie.startAngle)
-            {
-                DrawRoundCap(vh, serie, currAngle, color);
-                DrawRoundCap(vh, serie, serie.startAngle, color, true);
-            }
+                color, color, Color.clear, serie.startAngle, currAngle, 0, Color.clear,
+                0, m_Settings.cicleSmoothness, serie.roundCap);
         }
 
         private void DrawStageColor(VertexHelper vh, Serie serie)
@@ -198,7 +191,8 @@ namespace XCharts
                 tempEndAngle = serie.startAngle + totalAngle * stageColor.percent;
                 serie.gaugeAxis.runtimeStageAngle.Add(tempEndAngle);
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                    stageColor.color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, tempStartAngle, tempEndAngle);
+                    stageColor.color, stageColor.color, Color.clear, tempStartAngle, tempEndAngle, 0, Color.clear,
+                    0, m_Settings.cicleSmoothness);
                 tempStartAngle = tempEndAngle;
             }
         }

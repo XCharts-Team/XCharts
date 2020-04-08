@@ -89,23 +89,22 @@ namespace XCharts
                     var degree = 360 * value / max;
                     var startDegree = GetStartAngle(serie);
                     var toDegree = GetToAngle(serie, degree);
+                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     var itemColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
                     var outsideRadius = serie.runtimeOutsideRadius - j * (ringWidth + serie.ringGap);
                     var insideRadius = outsideRadius - ringWidth;
                     var centerRadius = (outsideRadius + insideRadius) / 2;
+                    var borderWidth = itemStyle.borderWidth;
+                    var borderColor = itemStyle.borderColor;
+                    var roundCap = serie.roundCap && insideRadius > 0;
 
                     serieData.runtimePieStartAngle = serie.clockwise ? startDegree : toDegree;
                     serieData.runtimePieToAngle = serie.clockwise ? toDegree : startDegree;
                     serieData.runtimePieInsideRadius = insideRadius;
                     serieData.runtimePieOutsideRadius = outsideRadius;
-
-                    DrawBackground(vh, serie, serieData, j, insideRadius, outsideRadius);
-                    DrawRoundCap(vh, serie, serie.runtimeCenterPos, itemColor, insideRadius, outsideRadius,
-                        ref startDegree, ref toDegree);
-                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
-                        outsideRadius, itemColor, Color.clear, m_Settings.cicleSmoothness,
-                        startDegree, toDegree);
-                    DrawBorder(vh, serie, serieData, insideRadius, outsideRadius);
+                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemColor,
+                        Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, m_Settings.cicleSmoothness,
+                        roundCap, serie.clockwise);
                     DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);
                     UpateLabelPosition(serie, serieData, j, startDegree, toDegree, centerRadius);
                 }
@@ -132,7 +131,7 @@ namespace XCharts
             var toAngle = angle + serie.startAngle;
             if (!serie.clockwise)
             {
-                toAngle = 360 - toAngle - serie.startAngle;
+                toAngle = 360 - angle - serie.startAngle;
             }
             if (!serie.animation.IsFinish())
             {

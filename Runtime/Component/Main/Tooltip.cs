@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
+using System.Collections.ObjectModel;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -365,9 +366,9 @@ namespace XCharts
         /// </summary>
         internal void ClearValue()
         {
-            runtimeDataIndex[0] = runtimeDataIndex[1] = -1;
-            runtimeXValues[0] = runtimeXValues[1] = -1;
-            runtimeYValues[0] = runtimeYValues[1] = -1;
+            for (int i = 0; i < runtimeDataIndex.Count; i++) runtimeDataIndex[i] = -1;
+            for (int i = 0; i < runtimeXValues.Length; i++) runtimeXValues[i] = -1;
+            for (int i = 0; i < runtimeYValues.Length; i++) runtimeYValues[i] = -1;
         }
 
         /// <summary>

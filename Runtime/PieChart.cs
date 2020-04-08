@@ -82,13 +82,16 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
-                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     serieData.index = n;
                     float value = serieData.GetCurrData(1, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
                     var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
+                    var borderWidth = itemStyle.borderWidth;
+                    var borderColor = itemStyle.borderColor;
+
                     serieData.runtimePieStartAngle = startDegree;
                     serieData.runtimePieToAngle = startDegree;
                     serieData.runtimePieHalfAngle = startDegree;
@@ -109,7 +112,7 @@ namespace XCharts
                         isDataHighlight = true;
                         serieData.runtimePieOutsideRadius += m_Settings.pieTooltipExtraRadius;
                     }
-                    var offset = serie.pieSpace;
+                    var offset = 0f;
                     if (serie.pieClickOffset && serieData.selected)
                     {
                         offset += m_Settings.pieSelectedOffset;
@@ -131,7 +134,7 @@ namespace XCharts
                     }
                     if (offset > 0)
                     {
-                        serieData.runtimePieOffsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        serieData.runtimePieOffsetRadius = 0;
                         serieData.runtimePieInsideRadius -= serieData.runtimePieOffsetRadius;
                         serieData.runtimePieOutsideRadius -= serieData.runtimePieOffsetRadius;
                         if (serie.pieClickOffset && serieData.selected)
@@ -143,19 +146,19 @@ namespace XCharts
 
                         serieData.runtiemPieOffsetCenter = new Vector3(center.x + serieData.runtimePieOffsetRadius * currSin,
                             center.y + serieData.runtimePieOffsetRadius * currCos);
-                        var drawStartDegree = startDegree + serie.pieSpace;
-                        var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawRoundCap(vh, serie, serieData, serieData.runtiemPieOffsetCenter, color, ref drawStartDegree, ref drawEndDegree);
-                        ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, toColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                        var drawEndDegree = serieData.runtimePieCurrAngle;
+                        var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
+                        ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius,
+                            serieData.runtimePieOutsideRadius, color, toColor, Color.clear, startDegree, drawEndDegree,
+                             borderWidth, borderColor, serie.pieSpace / 2, m_Settings.cicleSmoothness, needRoundCap, serie.clockwise);
                     }
-                    else
+                    else //if(n==0)
                     {
-                        var drawStartDegree = startDegree + serie.pieSpace;
-                        var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawRoundCap(vh, serie, serieData, center, color, ref drawStartDegree, ref drawEndDegree);
+                        var drawEndDegree = serieData.runtimePieCurrAngle;
+                        var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
                         ChartDrawer.DrawDoughnut(vh, center, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, toColor, Color.clear, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                            color, toColor, Color.clear, startDegree, drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2,
+                            m_Settings.cicleSmoothness, needRoundCap, serie.clockwise);
                         DrawCenter(vh, serie, itemStyle, serieData.runtimePieInsideRadius);
                     }
                     serieData.canShowLabel = serieData.runtimePieCurrAngle >= serieData.runtimePieHalfAngle;
@@ -186,22 +189,6 @@ namespace XCharts
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, m_Settings.cicleSmoothness);
-            }
-        }
-
-        private void DrawRoundCap(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
-            Color color, ref float drawStartDegree, ref float drawEndDegree)
-        {
-            if (serie.roundCap && serieData.runtimePieInsideRadius > 0)
-            {
-                var width = (serieData.runtimePieOutsideRadius - serieData.runtimePieInsideRadius) / 2;
-                var radius = serieData.runtimePieInsideRadius + width;
-                var diffDegree = Mathf.Asin(width / radius) * Mathf.Rad2Deg;
-                drawStartDegree += diffDegree;
-                drawEndDegree -= diffDegree;
-
-                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawStartDegree, serie.clockwise, color, false);
-                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawEndDegree, serie.clockwise, color, true);
             }
         }
 

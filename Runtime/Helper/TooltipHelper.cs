@@ -145,6 +145,7 @@ namespace XCharts
                     var serie = series.GetSerie(i);
                     if (!serie.show) continue;
                     var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                    if (serieData == null) continue;
                     var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
                     var percent = serieData.GetData(1) / serie.yTotal * 100;
                     needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);

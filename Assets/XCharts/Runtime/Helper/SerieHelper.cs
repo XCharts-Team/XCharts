@@ -142,7 +142,7 @@ namespace XCharts
                 if (style == null) return GetItemStyle(serie, serieData, false);
                 else return style;
             }
-            else if (serieData.enableItemStyle) return serieData.itemStyle;
+            else if (serieData != null && serieData.enableItemStyle) return serieData.itemStyle;
             else return serie.itemStyle;
         }
 
@@ -226,18 +226,18 @@ namespace XCharts
             return color;
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight)
+        public static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight, bool useLineWidth = true)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else if (serie.lineStyle.width != 0) return serie.lineStyle.width;
-            else return 1;
+            else if (serie.lineStyle.width != 0 && useLineWidth) return serie.lineStyle.width;
+            else return 0;
         }
 
         public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if(itemStyle != null) return itemStyle.cornerRadius;
+            if (itemStyle != null) return itemStyle.cornerRadius;
             else return null;
         }
     }

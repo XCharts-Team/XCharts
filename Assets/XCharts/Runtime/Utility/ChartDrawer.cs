@@ -434,7 +434,7 @@ namespace XCharts
                 if (brLt > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, Color.clear, 2, 270, 360);
+                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, Color.clear, 270, 360);
                     ltIn = tempCenter + brLt * Vector3.left;
                     ltOt = tempCenter + (brLt + borderWidth) * Vector3.left;
                     ltIn2 = tempCenter + brLt * Vector3.up;
@@ -443,7 +443,7 @@ namespace XCharts
                 if (brRt > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, Color.clear, 2, 0, 90);
+                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, Color.clear, 0, 90);
                     rtIn = tempCenter + brRt * Vector3.up;
                     rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
                     rtIn2 = tempCenter + brRt * Vector3.right;
@@ -452,7 +452,7 @@ namespace XCharts
                 if (brRb > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, Color.clear, 2, 90, 180);
+                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, Color.clear, 90, 180);
                     rbIn = tempCenter + brRb * Vector3.right;
                     rbOt = tempCenter + (brRb + borderWidth) * Vector3.right;
                     rbIn2 = tempCenter + brRb * Vector3.down;
@@ -461,7 +461,7 @@ namespace XCharts
                 if (brLb > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
-                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, Color.clear, 2, 180, 270);
+                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, Color.clear, 180, 270);
                     lbIn = tempCenter + brLb * Vector3.left;
                     lbOt = tempCenter + (brLb + borderWidth) * Vector3.left;
                     lbIn2 = tempCenter + brLb * Vector3.down;
@@ -536,51 +536,166 @@ namespace XCharts
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            Color32 toColor, float smoothness = 2f)
+            float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, toColor, 0, 360, smoothness);
+            DrawCricle(vh, p, radius, color, color, 0, Color.clear, smoothness);
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
+           Color32 toColor, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, toColor, 0, 360, 0, Color.clear, smoothness);
+        }
+
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            Color32 toColor, float borderWidth, Color32 borderColor, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, toColor, 0, 360, borderWidth, borderColor, smoothness);
+        }
+
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            float borderWidth, Color32 borderColor, float smoothness = 2f)
+        {
+            DrawCricle(vh, p, radius, color, color, borderWidth, borderColor, smoothness);
+        }
+
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color32 emptyColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, 0, 360, 0, Color.clear, 0, smoothness);
+        }
+
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color32 emptyColor, float borderWidth, Color32 borderColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, 0, 360, borderWidth,
+                borderColor, 0, smoothness);
+        }
+
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color32 toColor, Color32 emptyColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, radius - tickness, radius, color, toColor, emptyColor, 0, 360, 0,
+                Color.clear, 0, smoothness);
+        }
+
+        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, Color32 toColor, Color32 emptyColor, float borderWidth, Color32 borderColor,
             float smoothness = 2f)
         {
-            DrawCricle(vh, p, radius, color, color, smoothness);
-        }
-
-        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
-            Color32 color, Color emptyColor, float smoothness = 2f)
-        {
-            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, smoothness);
-        }
-
-        public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
-            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f)
-        {
-            DrawDoughnut(vh, p, radius - tickness, radius, color, toColor, emptyColor, smoothness);
+            DrawDoughnut(vh, p, radius - tickness, radius, color, toColor, emptyColor, 0, 360, borderWidth,
+                borderColor, 0, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            float startDegree, float toDegree, float smoothness = 2f)
+                    float startDegree, float toDegree, float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, color, startDegree, toDegree, smoothness);
+            DrawSector(vh, p, radius, color, color, startDegree, toDegree, 0, Color.clear, smoothness);
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
+                    float startDegree, float toDegree, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, 0, Color.clear, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
-            Color32 toColor, float startDegree, float toDegree, float smoothness = 2f)
+            float startDegree, float toDegree, float borderWidth, Color32 borderColor, float smoothness = 2f)
         {
-            int segments = (int)((2 * Mathf.PI * radius) / (smoothness < 0 ? 2f : smoothness));
-            Vector3 p2, p3;
+            DrawSector(vh, p, radius, color, color, startDegree, toDegree, borderWidth, borderColor, smoothness);
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
+            float startDegree, float toDegree, float borderWidth, Color32 borderColor, float smoothness = 2f)
+        {
+            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, borderWidth, borderColor, 0, smoothness);
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
+            float startDegree, float toDegree, float borderWidth, Color32 borderColor, float space,
+            float smoothness = 2f)
+        {
+            radius -= borderWidth;
+            smoothness = (smoothness < 0 ? 2f : smoothness);
+            int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
             float startAngle = startDegree * Mathf.Deg2Rad;
-            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
-            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
+            float toAngle = toDegree * Mathf.Deg2Rad;
+            float realStartAngle = startAngle;
+            float realToAngle = toAngle;
+            float halfAngle = (toAngle - startAngle) / 2;
+            float borderAngle = 0;
+            float spaceAngle = 0;
+
+            var p2 = p + radius * GetDire(startAngle);
+            var p3 = Vector3.zero;
+            var spaceCenter = p;
+            var realCenter = p;
+            var needBorder = borderWidth != 0;
+            var needSpace = space != 0;
+            var lastPos = Vector3.zero;
+            var middleDire = GetDire(startAngle + halfAngle);
+            if (needBorder || needSpace)
+            {
+                float spaceDiff = 0f;
+                float borderDiff = 0f;
+                if (needSpace)
+                {
+                    spaceDiff = space / Mathf.Sin(halfAngle);
+                    spaceCenter = p + spaceDiff * middleDire;
+                    realCenter = spaceCenter;
+                    spaceAngle = 2 * Mathf.Asin(space / (2 * radius));
+                    realStartAngle = startAngle + spaceAngle;
+                    realToAngle = toAngle - spaceAngle;
+                    p2 = GetPos(p, radius, realStartAngle);
+                }
+                if (needBorder)
+                {
+                    borderDiff = borderWidth / Mathf.Sin(halfAngle);
+                    realCenter += borderDiff * middleDire;
+                    borderAngle = 2 * Mathf.Asin(borderWidth / (2 * radius));
+                    realStartAngle = realStartAngle + borderAngle;
+                    var borderX1 = GetPos(p, radius, realStartAngle);
+                    DrawPolygon(vh, realCenter, spaceCenter, p2, borderX1, borderColor);
+                    p2 = borderX1;
+
+                    realToAngle = realToAngle - borderAngle;
+                    var borderX2 = GetPos(p, radius, realToAngle);
+                    var pEnd = GetPos(p, radius, toAngle - spaceAngle);
+                    DrawPolygon(vh, realCenter, borderX2, pEnd, spaceCenter, borderColor);
+                }
+            }
+            float segmentAngle = (realToAngle - realStartAngle) / segments;
             for (int i = 0; i <= segments; i++)
             {
-                float currAngle = startAngle + i * angle;
-                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle),
-                    p.y + radius * Mathf.Cos(currAngle));
-                DrawTriangle(vh, p, p2, p3, toColor, color, color);
+                float currAngle = realStartAngle + i * segmentAngle;
+                p3 = p + radius * GetDire(currAngle);
+                DrawTriangle(vh, realCenter, p2, p3, toColor, color, color);
                 p2 = p3;
             }
+            if (needBorder || needSpace)
+            {
+                var borderX2 = p + radius * GetDire(realToAngle);
+                DrawTriangle(vh, realCenter, p2, borderX2, toColor, color, color);
+                if (needBorder)
+                {
+                    var realStartDegree = (realStartAngle - borderAngle) * Mathf.Rad2Deg;
+                    var realToDegree = (realToAngle + borderAngle) * Mathf.Rad2Deg;
+                    DrawDoughnut(vh, p, radius, radius + borderWidth, borderColor, Color.clear, realStartDegree,
+                        realToDegree, smoothness);
+                }
+            }
+        }
+
+        private static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)
+        {
+            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
+            return new Vector3(center.x + radius * Mathf.Sin(angle), center.y + radius * Mathf.Cos(angle));
+        }
+
+        private static Vector3 GetDire(float angle, bool isDegree = false)
+        {
+            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
+            return new Vector3(Mathf.Sin(angle), Mathf.Cos(angle));
         }
 
         public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
@@ -592,55 +707,284 @@ namespace XCharts
             if (end)
             {
                 if (clockwise)
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180, 0, Color.clear);
                 else
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180, 0, Color.clear);
             }
             else
             {
                 if (clockwise)
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360, 0, Color.clear);
                 else
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360, 0, Color.clear);
             }
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color emptyColor, float smoothness = 2f, float startDegree = 0, float toDegree = 360)
+            Color32 color, Color emptyColor, float smoothness = 2f)
         {
-            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, smoothness,
-                startDegree, toDegree);
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, 0, 360, 0, Color.clear,
+                0, smoothness);
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f, float startDegree = 0,
-            float toDegree = 360)
+            Color32 color, Color emptyColor, float startDegree,
+            float toDegree, float smoothness = 2f)
         {
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, startDegree, toDegree,
+                0, Color.clear, 0, smoothness);
+        }
+
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
+            Color32 color, Color emptyColor, float startDegree,
+            float toDegree, float borderWidth, Color32 borderColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, startDegree, toDegree,
+                borderWidth, borderColor, 0, smoothness);
+        }
+
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
+            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f)
+        {
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, toColor, emptyColor, 0, 360, 0, Color.clear,
+                0, smoothness);
+        }
+
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
+            Color32 color, Color32 toColor, Color emptyColor, float startDegree, float toDegree, float borderWidth,
+            Color32 borderColor, float space, float smoothness, bool roundCap = false, bool clockwise = true)
+        {
+            if (toDegree - startDegree == 0) return;
             if (insideRadius <= 0)
             {
-                DrawSector(vh, p, outsideRadius, color, toColor, startDegree, toDegree, smoothness);
+                DrawSector(vh, p, outsideRadius, color, toColor, startDegree, toDegree, borderWidth, borderColor,
+                    space, smoothness);
                 return;
             }
-            Vector3 p1, p2, p3, p4;
-            int segments = (int)((2 * Mathf.PI * outsideRadius) / (smoothness < 0 ? 2f : smoothness));
+            outsideRadius -= borderWidth;
+            insideRadius += borderWidth;
+            smoothness = smoothness < 0 ? 2f : smoothness;
+            Vector3 p1, p2, p3, p4, e1, e2;
+            var needBorder = borderWidth != 0;
+            var needSpace = space != 0;
+            var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
+            
+            int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
             float startAngle = startDegree * Mathf.Deg2Rad;
-            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
-            p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle),
-                p.y + insideRadius * Mathf.Cos(startAngle));
-            p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle),
-                p.y + outsideRadius * Mathf.Cos(startAngle));
+            float toAngle = toDegree * Mathf.Deg2Rad;
+
+            float realStartOutAngle = startAngle;
+            float realToOutAngle = toAngle;
+            float realStartInAngle = startAngle;
+            float realToInAngle = toAngle;
+            float halfAngle = (toAngle - startAngle) / 2;
+            float borderAngle = 0, borderInAngle = 0, borderHalfAngle = 0;
+            float spaceAngle = 0, spaceInAngle = 0, spaceHalfAngle = 0;
+
+            var spaceCenter = p;
+            var realCenter = p;
+            var startDire = new Vector3(Mathf.Sin(startAngle), Mathf.Cos(startAngle)).normalized;
+            var toDire = new Vector3(Mathf.Sin(toAngle), Mathf.Cos(toAngle)).normalized;
+            var middleDire = new Vector3(Mathf.Sin(startAngle + halfAngle), Mathf.Cos(startAngle + halfAngle)).normalized;
+            p1 = p + insideRadius * startDire;
+            p2 = p + outsideRadius * startDire;
+            e1 = p + insideRadius * toDire;
+            e2 = p + outsideRadius * toDire;
+            if (roundCap)
+            {
+                var roundRadius = (outsideRadius - insideRadius) / 2;
+                var roundAngleRadius = insideRadius + roundRadius;
+                var roundAngle = Mathf.Atan(roundRadius / roundAngleRadius);
+                if (diffAngle < 2 * roundAngle)
+                {
+                    roundCap = false;
+                }
+            }
+            if (needBorder || needSpace)
+            {
+                if (needSpace)
+                {
+                    var spaceDiff = space / Mathf.Sin(halfAngle);
+                    spaceCenter = p + Mathf.Abs(spaceDiff) * middleDire;
+                    realCenter = spaceCenter;
+                    spaceAngle = 2 * Mathf.Asin(space / (2 * outsideRadius));
+                    spaceInAngle = 2 * Mathf.Asin(space / (2 * insideRadius));
+                    spaceHalfAngle = 2 * Mathf.Asin(space / (2 * (insideRadius + (outsideRadius - insideRadius) / 2)));
+                    if (clockwise)
+                    {
+                        p1 = GetPos(p, insideRadius, startAngle + spaceInAngle, false);
+                        e1 = GetPos(p, insideRadius, toAngle - spaceInAngle, false);
+                        realStartOutAngle = startAngle + spaceAngle;
+                        realToOutAngle = toAngle - spaceAngle;
+                        realStartInAngle = startAngle + spaceInAngle;
+                        realToInAngle = toAngle - spaceInAngle;
+                    }
+                    else
+                    {
+                        p1 = GetPos(p, insideRadius, startAngle - spaceInAngle, false);
+                        e1 = GetPos(p, insideRadius, toAngle + spaceInAngle, false);
+                        realStartOutAngle = startAngle - spaceAngle;
+                        realToOutAngle = toAngle + spaceAngle;
+                        realStartInAngle = startAngle - spaceInAngle;
+                        realToOutAngle = toAngle + spaceInAngle;
+                    }
+                    p2 = GetPos(p, outsideRadius, realStartOutAngle, false);
+                    e2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                }
+                if (needBorder)
+                {
+                    var borderDiff = borderWidth / Mathf.Sin(halfAngle);
+                    realCenter += Mathf.Abs(borderDiff) * middleDire;
+                    borderAngle = 2 * Mathf.Asin(borderWidth / (2 * outsideRadius));
+                    borderInAngle = 2 * Mathf.Asin(borderWidth / (2 * insideRadius));
+                    borderHalfAngle = 2 * Mathf.Asin(borderWidth / (2 * (insideRadius + (outsideRadius - insideRadius) / 2)));
+                    if (clockwise)
+                    {
+                        realStartOutAngle = realStartOutAngle + borderAngle;
+                        realToOutAngle = realToOutAngle - borderAngle;
+                        realStartInAngle = startAngle + spaceInAngle + borderInAngle;
+                        realToInAngle = toAngle - spaceInAngle - borderInAngle;
+                        var newp1 = GetPos(p, insideRadius, startAngle + spaceInAngle + borderInAngle, false);
+                        var newp2 = GetPos(p, outsideRadius, realStartOutAngle, false);
+                        if (!roundCap) DrawPolygon(vh, newp2, newp1, p1, p2, borderColor);
+                        p1 = newp1;
+                        p2 = newp2;
+                        if (toAngle - spaceInAngle - 2 * borderInAngle > realStartOutAngle)
+                        {
+                            var newe1 = GetPos(p, insideRadius, toAngle - spaceInAngle - borderInAngle, false);
+                            var newe2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                            if (!roundCap) DrawPolygon(vh, newe2, e2, e1, newe1, borderColor);
+                            e1 = newe1;
+                            e2 = newe2;
+                        }
+                    }
+                    else
+                    {
+                        realStartOutAngle = realStartOutAngle - borderAngle;
+                        realToOutAngle = realToOutAngle + borderAngle;
+                        realStartInAngle = startAngle - spaceInAngle - borderInAngle;
+                        realToInAngle = toAngle + spaceInAngle + borderInAngle;
+                        var newp1 = GetPos(p, insideRadius, startAngle - spaceInAngle - borderInAngle, false);
+                        var newp2 = GetPos(p, outsideRadius, realStartOutAngle, false);
+                        if (!roundCap) DrawPolygon(vh, newp2, newp1, p1, p2, borderColor);
+                        p1 = newp1;
+                        p2 = newp2;
+                        if (toAngle + spaceInAngle + 2 * borderInAngle < realStartOutAngle)
+                        {
+                            var newe1 = GetPos(p, insideRadius, toAngle + spaceInAngle + borderInAngle, false);
+                            var newe2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                            if (!roundCap) DrawPolygon(vh, newe2, e2, e1, newe1, borderColor);
+                            e1 = newe1;
+                            e2 = newe2;
+                        }
+                    }
+                }
+            }
+            if (roundCap)
+            {
+                var roundRadius = (outsideRadius - insideRadius) / 2;
+                var roundAngleRadius = insideRadius + roundRadius;
+                var roundAngle = Mathf.Atan(roundRadius / roundAngleRadius);
+                if (clockwise)
+                {
+                    realStartOutAngle = startAngle + 2 * spaceHalfAngle + borderHalfAngle + roundAngle;
+                    realStartInAngle = startAngle + 2 * spaceHalfAngle + borderHalfAngle + roundAngle;
+                }
+                else
+                {
+                    realStartOutAngle = startAngle - 2 * spaceHalfAngle - borderHalfAngle - roundAngle;
+                    realStartInAngle = startAngle - 2 * spaceHalfAngle - borderHalfAngle - roundAngle;
+                }
+                var roundTotalDegree = realStartOutAngle * Mathf.Rad2Deg;
+                var roundCenter = p + roundAngleRadius * GetDire(realStartOutAngle);
+                var sectorStartDegree = clockwise ? roundTotalDegree + 180 : roundTotalDegree;
+                var sectorToDegree = clockwise ? roundTotalDegree + 360 : roundTotalDegree + 180;
+                DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
+                if (needBorder)
+                {
+                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
+                        sectorStartDegree, sectorToDegree, smoothness / 2);
+                }
+                p1 = GetPos(p, insideRadius, realStartOutAngle);
+                p2 = GetPos(p, outsideRadius, realStartOutAngle);
+
+                if (clockwise)
+                {
+                    realToOutAngle = toAngle - 2 * spaceHalfAngle - borderHalfAngle - roundAngle;
+                    realToInAngle = toAngle - 2 * spaceHalfAngle - borderHalfAngle - roundAngle;
+                    if (realToOutAngle < realStartOutAngle) realToOutAngle = realStartOutAngle;
+                }
+                else
+                {
+                    realToOutAngle = toAngle + 2 * spaceHalfAngle + borderHalfAngle + roundAngle;
+                    realToInAngle = toAngle + 2 * spaceHalfAngle + borderHalfAngle + roundAngle;
+                    if (realToOutAngle > realStartOutAngle) realToOutAngle = realStartOutAngle;
+                }
+                roundTotalDegree = realToOutAngle * Mathf.Rad2Deg;
+                roundCenter = p + roundAngleRadius * GetDire(realToOutAngle);
+                sectorStartDegree = clockwise ? roundTotalDegree : roundTotalDegree + 180;
+                sectorToDegree = clockwise ? roundTotalDegree + 180 : roundTotalDegree + 360;
+                DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
+                if (needBorder)
+                {
+                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
+                        sectorStartDegree, sectorToDegree, smoothness / 2);
+                }
+                e1 = GetPos(p, insideRadius, realToOutAngle);
+                e2 = GetPos(p, outsideRadius, realToOutAngle);
+            }
+            float segmentAngle = (realToInAngle - realStartInAngle) / segments;
             for (int i = 0; i <= segments; i++)
             {
-                float currAngle = startAngle + i * angle;
+                float currAngle = realStartInAngle + i * segmentAngle;
                 p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
                     p.y + insideRadius * Mathf.Cos(currAngle));
                 if (emptyColor != Color.clear) DrawTriangle(vh, p, p1, p4, emptyColor);
-                //DrawPolygon(vh, p1, p2, p3, p4, color,Color.blue);
                 DrawPolygon(vh, p2, p3, p4, p1, color, toColor);
                 p1 = p4;
                 p2 = p3;
+            }
+            if (needBorder || needSpace || roundCap)
+            {
+                if (clockwise)
+                {
+                    var isInAngleFixed = toAngle - spaceInAngle - 2 * borderInAngle > realStartOutAngle;
+                    if (isInAngleFixed) DrawPolygon(vh, p2, e2, e1, p1, color, toColor);
+                    else DrawTriangle(vh, p2, e2, p1, color, color, toColor);
+                    if (needBorder)
+                    {
+                        var realStartDegree = (realStartOutAngle - (roundCap ? 0 : borderAngle)) * Mathf.Rad2Deg;
+                        var realToDegree = (realToOutAngle + (roundCap ? 0 : borderAngle)) * Mathf.Rad2Deg;
+                        if (realToDegree < realStartOutAngle) realToDegree = realStartOutAngle;
+                        var inStartDegree = roundCap ? realStartDegree : (startAngle + spaceInAngle) * Mathf.Rad2Deg;
+                        var inToDegree = roundCap ? realToDegree : (toAngle - spaceInAngle) * Mathf.Rad2Deg;
+                        if (inToDegree < inStartDegree) inToDegree = inStartDegree;
+                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, Color.clear,
+                              inStartDegree, inToDegree, smoothness);
+                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, Color.clear,
+                            realStartDegree, realToDegree, smoothness);
+                    }
+                }
+                else
+                {
+                    var isInAngleFixed = toAngle + spaceInAngle + 2 * borderInAngle < realStartOutAngle;
+                    if (isInAngleFixed) DrawPolygon(vh, p2, e2, e1, p1, color, toColor);
+                    else DrawTriangle(vh, p2, e2, p1, color, color, toColor);
+                    if (needBorder)
+                    {
+                        var realStartDegree = (realStartOutAngle + (roundCap ? 0 : borderAngle)) * Mathf.Rad2Deg;
+                        var realToDegree = (realToOutAngle - (roundCap ? 0 : borderAngle)) * Mathf.Rad2Deg;
+                        var inStartDegree = roundCap ? realStartDegree : (startAngle - spaceInAngle) * Mathf.Rad2Deg;
+                        var inToDegree = roundCap ? realToDegree : (toAngle + spaceInAngle) * Mathf.Rad2Deg;
+                        if (inToDegree > inStartDegree) inToDegree = inStartDegree;
+                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, Color.clear,
+                              inStartDegree, inToDegree, smoothness);
+                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, Color.clear,
+                            realStartDegree, realToDegree, smoothness);
+                    }
+                }
             }
         }
 

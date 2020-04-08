@@ -172,13 +172,13 @@ namespace XCharts
         protected override void OnEnable()
         {
             base.OnEnable();
-            Awake();
+            ChartHelper.ActiveAllObject(transform, true);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            ChartHelper.HideAllObject(transform);
+            ChartHelper.ActiveAllObject(transform, false);
         }
 
 #if UNITY_EDITOR

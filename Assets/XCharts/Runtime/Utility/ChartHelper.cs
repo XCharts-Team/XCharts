@@ -78,18 +78,21 @@ namespace XCharts
 
         public static void HideAllObject(Transform parent, string match = null)
         {
+            ActiveAllObject(parent, false, match);
+        }
+
+        public static void ActiveAllObject(Transform parent, bool active, string match = null)
+        {
             for (int i = 0; i < parent.childCount; i++)
             {
                 if (match == null)
-                    SetActive(parent.GetChild(i), false);
-                //parent.GetChild(i).gameObject.SetActive(false);
+                    SetActive(parent.GetChild(i), active);
                 else
                 {
                     var go = parent.GetChild(i);
                     if (go.name.StartsWith(match))
                     {
-                        SetActive(go, false);
-                        //go.gameObject.SetActive(false);
+                        SetActive(go, active);
                     }
                 }
             }
@@ -97,24 +100,17 @@ namespace XCharts
 
         public static void DestroyAllChildren(Transform parent)
         {
-#if UNITY_2019_1_OR_NEWER
-#else
             if (parent == null) return;
-#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
-            if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
+            var childCount = parent.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
             {
-                return;
-            }
-#endif
-            while (parent.childCount > 0)
-            {
-                var go = parent.GetChild(0);
+                var go = parent.GetChild(i);
                 if (go != null)
                 {
                     GameObject.DestroyImmediate(go.gameObject);
+                    //GameObject.Destroy(go.gameObject);
                 }
             }
-#endif
         }
 
         public static string GetFullName(Transform transform)

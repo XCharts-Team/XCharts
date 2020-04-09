@@ -35,6 +35,7 @@ namespace XCharts
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("最新版本：" + mgr.newVersion);
                 if (mgr.isCheck) GUILayout.Label("检测中...");
+                else if (mgr.isNetworkError) GUILayout.Label("检测失败：" + mgr.networkError);
                 else GUILayout.Label("有更新！");
                 if (GUILayout.Button("去Github主页"))
                 {
@@ -56,22 +57,27 @@ namespace XCharts
             else
             {
                 if (mgr.isCheck) GUILayout.Label("最新版本：检测中...");
+                else if (mgr.isNetworkError) GUILayout.Label("检测失败：" + mgr.networkError);
                 else GUILayout.Label("最新版本：" + mgr.newVersion);
 
-                if (!mgr.needUpdate && !mgr.isCheck)
+                GUILayout.Label("");
+                if (!mgr.isNetworkError && !mgr.needUpdate && !mgr.isCheck)
                 {
-                    GUILayout.Label("");
                     GUILayout.Label("已是最新版本！");
+                }
+                GUILayout.Label("");
+                if (!string.IsNullOrEmpty(mgr.desc))
+                {
+                    GUILayout.Label(mgr.desc);
                     GUILayout.Label("");
-                    if (!string.IsNullOrEmpty(mgr.desc))
-                    {
-                        GUILayout.Label(mgr.desc);
-                        GUILayout.Label("");
-                    }
-                    if (GUILayout.Button("去Github主页"))
-                    {
-                        Application.OpenURL(mgr.homepage);
-                    }
+                }
+                if (GUILayout.Button("去Github主页"))
+                {
+                    Application.OpenURL(mgr.homepage);
+                }
+                if (mgr.isNetworkError && GUILayout.Button("重新检测"))
+                {
+                    XChartsMgr.Instance.CheckVersion();
                 }
             }
         }

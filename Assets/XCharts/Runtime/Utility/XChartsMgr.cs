@@ -10,6 +10,7 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using UnityEngine.Networking;
 
 namespace XCharts
 {
@@ -78,6 +79,8 @@ namespace XCharts
         public int newDate { get; private set; }
         public int newCheckDate { get; private set; }
         public bool isCheck { get; private set; }
+        public bool isNetworkError { get; private set; }
+        public string networkError { get; private set; }
 
         public bool needUpdate
         {
@@ -90,6 +93,8 @@ namespace XCharts
         public void CheckVersion()
         {
             isCheck = true;
+            isNetworkError = false;
+            networkError = "";
             StartCoroutine(GetVersion());
             if (date < newCheckDate)
             {
@@ -100,13 +105,17 @@ namespace XCharts
         IEnumerator GetVersion()
         {
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/version.json";
-            var web = new WWW(url);
+            var web = UnityWebRequest.Get(url);
             yield return web;
-            if (!string.IsNullOrEmpty(web.error))
-                Debug.LogError(web.error);
-            else
+            if (web.isNetworkError)
             {
-                var cv = JsonUtility.FromJson<XChartsVersion>(web.text);
+                isNetworkError = true;
+                networkError = web.error;
+                m_NewVersion = "-";
+            }
+            else if (web.responseCode == 200)
+            {
+                var cv = JsonUtility.FromJson<XChartsVersion>(web.downloadHandler.text);
                 m_NewVersion = cv.version + " (" + cv.date + ")";
                 newDate = cv.date;
                 newCheckDate = cv.checkdate;
@@ -115,20 +124,38 @@ namespace XCharts
                 web.Dispose();
                 isCheck = false;
             }
+            else
+            {
+                isCheck = false;
+                isNetworkError = true;
+                if (web.responseCode > 0)
+                    networkError = web.responseCode.ToString();
+                else if (!string.IsNullOrEmpty(web.error))
+                    networkError = web.error;
+                else
+                    networkError = "-";
+                m_NewVersion = "-";
+            }
         }
 
         IEnumerator GetChangeLog()
         {
             isCheck = true;
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
-            var web = new WWW(url);
+            var web = new UnityWebRequest(url);
             yield return web;
-            if (!string.IsNullOrEmpty(web.error))
+            if (!web.isNetworkError)
+            {
                 Debug.LogError(web.error);
+            }
+            else if (web.responseCode == 200)
+            {
+                CheckLog(web.downloadHandler.text);
+                web.Dispose();
+                isCheck = false;
+            }
             else
             {
-                CheckLog(web.text);
-                web.Dispose();
                 isCheck = false;
             }
         }

@@ -46,8 +46,7 @@ namespace XCharts
             var objAnchorMin = legend.location.runtimeAnchorMin;
             var objAnchorMax = legend.location.runtimeAnchorMax;
             var objPivot = legend.location.runtimePivot;
-
-            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
+            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta, i);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
             var contentObj = ChartHelper.AddObject("content", btnObj.transform, anchorMin, anchorMax, pivot, sizeDelta);
             var img = ChartHelper.GetOrAddComponent<Image>(btnObj);

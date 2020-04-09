@@ -291,7 +291,7 @@ namespace XCharts
                 totalLegend++;
             }
             m_Legend.RemoveButton();
-            ChartHelper.DestroyAllChildren(legendObject.transform);
+            ChartHelper.HideAllObject(legendObject);
             if (!m_Legend.show) return;
             for (int i = 0; i < datas.Count; i++)
             {

@@ -108,7 +108,7 @@ namespace XChartsDemo
             var btnPanel = transform.Find("chart_list");
             m_BtnClone = transform.Find("btn_clone").gameObject;
             m_BtnClone.SetActive(false);
-            ChartHelper.DestroyAllChildren(btnPanel);
+            ChartHelper.HideAllObject(btnPanel);
             foreach (var module in m_ChartModule)
             {
                 var btnName = "btn_" + module.name;
@@ -116,7 +116,8 @@ namespace XChartsDemo
                 if (btnPanel.Find(btnName))
                 {
                     btn = btnPanel.Find(btnName).gameObject;
-                    btn.SetActive(true);
+                    btn.name = btnName;
+                    ChartHelper.SetActive(btn, true);
                 }
                 else
                 {

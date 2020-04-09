@@ -108,7 +108,6 @@ namespace XCharts
                 if (go != null)
                 {
                     GameObject.DestroyImmediate(go.gameObject);
-                    //GameObject.Destroy(go.gameObject);
                 }
             }
         }
@@ -140,7 +139,7 @@ namespace XCharts
         }
 
         public static GameObject AddObject(string name, Transform parent, Vector2 anchorMin,
-            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
+            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1)
         {
             GameObject obj;
             if (parent.Find(name))
@@ -149,6 +148,12 @@ namespace XCharts
                 obj.SetActive(true);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localScale = Vector3.one;
+            }
+            else if (replaceIndex >= 0 && replaceIndex < parent.childCount)
+            {
+                obj = parent.GetChild(replaceIndex).gameObject;
+                if (!obj.name.Equals(name)) obj.name = name;
+                SetActive(obj, true);
             }
             else
             {

@@ -1,4 +1,3 @@
-using System.Linq;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -7,7 +6,6 @@ using System.Linq;
 /******************************************/
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {

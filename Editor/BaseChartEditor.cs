@@ -6,6 +6,7 @@
 /******************************************/
 
 using UnityEditor;
+using UnityEngine;
 
 namespace XCharts
 {
@@ -32,6 +33,8 @@ namespace XCharts
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
         private int m_SeriesSize;
+        private Vector2 scrollPos;
+        private bool m_CheckWarning = false;
 
         protected virtual void OnEnable()
         {
@@ -65,6 +68,7 @@ namespace XCharts
             OnMiddleInspectorGUI();
             OnEndInspectorGUI();
 
+            CheckWarning();
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -87,6 +91,51 @@ namespace XCharts
 
         protected virtual void OnEndInspectorGUI()
         {
+        }
+
+
+        private void CheckWarning()
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+            if (m_CheckWarning)
+            {
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Check warning"))
+                {
+                    m_CheckWarning = true;
+                    m_Target.CheckWarning();
+                }
+                if (GUILayout.Button("Hide warning"))
+                {
+                    m_CheckWarning = false;
+                }
+                EditorGUILayout.EndHorizontal();
+                var version = string.Format("version:{0}_{1}\n", XChartsMgr.version, XChartsMgr.date);
+                EditorGUILayout.LabelField(version);
+                if (!string.IsNullOrEmpty(m_Target.warningInfo))
+                {
+                    var infos = m_Target.warningInfo.Split('\n');
+                    foreach (var info in infos)
+                    {
+                        EditorGUILayout.LabelField(info);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.LabelField("Perfect! No warning!");
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Check warning"))
+                {
+                    m_CheckWarning = true;
+                    m_Target.CheckWarning();
+                }
+            }
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
         }
     }
 }

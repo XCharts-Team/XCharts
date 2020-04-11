@@ -67,6 +67,10 @@ namespace XCharts
         /// </summary>
         public Action<VertexHelper> customDrawCallback { set { m_CustomDrawCallback = value; } }
         /// <summary>
+        /// 警告信息。
+        /// </summary>
+        public string warningInfo { get; protected set; }
+        /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
         /// </summary>
@@ -636,6 +640,17 @@ namespace XCharts
                 if (np.y > chartHeight) np.y = chartHeight;
                 return np;
             }
+        }
+
+        /// <summary>
+        /// 检测警告信息。
+        /// </summary>
+        /// <returns></returns>
+        public string CheckWarning()
+        {
+            warningInfo = CheckHelper.CheckChart(this);
+            Debug.LogError(warningInfo);
+            return warningInfo;
         }
     }
 }

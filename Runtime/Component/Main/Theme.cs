@@ -1,4 +1,5 @@
-﻿/******************************************/
+﻿using System.Text;
+/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -290,6 +291,28 @@ namespace XCharts
             if (newIndex < m_ColorPalette.Length)
                 return m_ColorPalette[newIndex];
             else return Color.clear;
+        }
+
+        public void CheckWarning(StringBuilder sb)
+        {
+            if (m_Font == null && m_CustomFont == null)
+            {
+                sb.AppendFormat("warning:theme->font is null");
+            }
+            if (m_ColorPalette.Length == 0 && m_CustomColorPalette.Count == 0)
+            {
+                sb.AppendFormat("warning:theme->colorPalette is empty");
+            }
+            for (int i = 0; i < m_ColorPalette.Length; i++)
+            {
+                if (m_ColorPalette[i] != Color.clear && m_ColorPalette[i].a == 0)
+                    sb.AppendFormat("warning:theme->colorPalette[{0}] alpha = 0\n", i);
+            }
+            for (int i = 0; i < m_CustomColorPalette.Count; i++)
+            {
+                if (m_CustomColorPalette[i] != Color.clear && m_CustomColorPalette[i].a == 0)
+                    sb.AppendFormat("warning:theme->colorPalette[{0}] alpha = 0\n", i);
+            }
         }
 
         Dictionary<int, string> _colorDic = new Dictionary<int, string>();

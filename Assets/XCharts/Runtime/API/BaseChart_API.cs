@@ -649,7 +649,6 @@ namespace XCharts
         public string CheckWarning()
         {
             warningInfo = CheckHelper.CheckChart(this);
-            Debug.LogError(warningInfo);
             return warningInfo;
         }
     }

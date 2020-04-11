@@ -102,7 +102,7 @@ for (int i = 0; i < 10; i++)
 这样一个简单的折线图就出来了：
 ![linechart-simple](screenshot/linechart-simple.png)
 
-完整代码请查阅`Demo`：`Demo10_LineSimple.cs`  
+完整代码请查阅`Demo`：`Demo13_LineSimple.cs`  
 你还可以用代码控制更多的参数，[XCharts配置项手册](XCharts配置项手册.md)里面的所有参数都是可以通过代码控制的。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  

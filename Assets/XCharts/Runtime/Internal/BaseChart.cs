@@ -49,6 +49,7 @@ namespace XCharts
         [SerializeField] protected Settings m_Settings = new Settings();
         [SerializeField] protected float m_Large = 1;
         [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
+        [SerializeField] protected string m_DebugInfo = "";
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] private float m_CheckWidth = 0;

@@ -1053,6 +1053,33 @@ namespace XCharts
             return serieNameList;
         }
 
+        internal List<string> GetLegalSerieNameList()
+        {
+            var list = new List<string>();
+            for (int n = 0; n < m_Series.Count; n++)
+            {
+                var serie = m_Series[n];
+                switch (serie.type)
+                {
+                    case SerieType.Pie:
+                    case SerieType.Radar:
+                    case SerieType.Ring:
+                        for (int i = 0; i < serie.data.Count; i++)
+                        {
+                            var dataName = serie.data[i].name;
+                            if (!string.IsNullOrEmpty(dataName) && IsLegalLegendName(dataName) && !list.Contains(dataName))
+                                list.Add(dataName);
+                        }
+                        break;
+                    default:
+                        if (!string.IsNullOrEmpty(serie.name) && !list.Contains(serie.name) && IsLegalLegendName(serie.name))
+                            list.Add(serie.name);
+                        break;
+                }
+            }
+            return list;
+        }
+
         /// <summary>
         /// 设置获得标志图形大小的回调
         /// </summary>

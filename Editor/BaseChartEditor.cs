@@ -111,10 +111,10 @@ namespace XCharts
                     m_CheckWarning = false;
                 }
                 EditorGUILayout.EndHorizontal();
-                var version = string.Format("version:{0}_{1}\n", XChartsMgr.version, XChartsMgr.date);
-                EditorGUILayout.LabelField(version);
                 if (!string.IsNullOrEmpty(m_Target.warningInfo))
                 {
+                    var version = string.Format("version:{0}_{1}", XChartsMgr.version, XChartsMgr.date);
+                    EditorGUILayout.LabelField(version);
                     var infos = m_Target.warningInfo.Split('\n');
                     foreach (var info in infos)
                     {

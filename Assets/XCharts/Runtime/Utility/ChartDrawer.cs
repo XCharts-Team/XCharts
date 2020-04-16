@@ -646,6 +646,7 @@ namespace XCharts
                     spaceAngle = 2 * Mathf.Asin(space / (2 * radius));
                     realStartAngle = startAngle + spaceAngle;
                     realToAngle = toAngle - spaceAngle;
+                    if (realToAngle < realStartAngle) realToAngle = realStartAngle;
                     p2 = GetPos(p, radius, realStartAngle);
                 }
                 if (needBorder)
@@ -659,6 +660,7 @@ namespace XCharts
                     p2 = borderX1;
 
                     realToAngle = realToAngle - borderAngle;
+                    if (realToAngle < realStartAngle) realToAngle = realStartAngle;
                     var borderX2 = GetPos(p, radius, realToAngle);
                     var pEnd = GetPos(p, radius, toAngle - spaceAngle);
                     DrawPolygon(vh, realCenter, borderX2, pEnd, spaceCenter, borderColor);
@@ -768,7 +770,7 @@ namespace XCharts
             var needBorder = borderWidth != 0;
             var needSpace = space != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
-            
+
             int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;

@@ -655,15 +655,22 @@ namespace XCharts
                     realCenter += borderDiff * middleDire;
                     borderAngle = 2 * Mathf.Asin(borderWidth / (2 * radius));
                     realStartAngle = realStartAngle + borderAngle;
-                    var borderX1 = GetPos(p, radius, realStartAngle);
-                    DrawPolygon(vh, realCenter, spaceCenter, p2, borderX1, borderColor);
-                    p2 = borderX1;
-
                     realToAngle = realToAngle - borderAngle;
-                    if (realToAngle < realStartAngle) realToAngle = realStartAngle;
-                    var borderX2 = GetPos(p, radius, realToAngle);
-                    var pEnd = GetPos(p, radius, toAngle - spaceAngle);
-                    DrawPolygon(vh, realCenter, borderX2, pEnd, spaceCenter, borderColor);
+                    if (realToAngle < realStartAngle)
+                    {
+                        realToAngle = realStartAngle;
+                        p2 = GetPos(p, radius, realStartAngle);
+                    }
+                    else
+                    {
+                        var borderX1 = GetPos(p, radius, realStartAngle);
+                        DrawPolygon(vh, realCenter, spaceCenter, p2, borderX1, borderColor);
+                        p2 = borderX1;
+
+                        var borderX2 = GetPos(p, radius, realToAngle);
+                        var pEnd = GetPos(p, radius, toAngle - spaceAngle);
+                        DrawPolygon(vh, realCenter, borderX2, pEnd, spaceCenter, borderColor);
+                    }
                 }
             }
             float segmentAngle = (realToAngle - realStartAngle) / segments;
@@ -676,14 +683,17 @@ namespace XCharts
             }
             if (needBorder || needSpace)
             {
-                var borderX2 = p + radius * GetDire(realToAngle);
-                DrawTriangle(vh, realCenter, p2, borderX2, toColor, color, color);
-                if (needBorder)
+                if (realToAngle > realStartAngle)
                 {
-                    var realStartDegree = (realStartAngle - borderAngle) * Mathf.Rad2Deg;
-                    var realToDegree = (realToAngle + borderAngle) * Mathf.Rad2Deg;
-                    DrawDoughnut(vh, p, radius, radius + borderWidth, borderColor, Color.clear, realStartDegree,
-                        realToDegree, smoothness);
+                    var borderX2 = p + radius * GetDire(realToAngle);
+                    DrawTriangle(vh, realCenter, p2, borderX2, toColor, color, color);
+                    if (needBorder)
+                    {
+                        var realStartDegree = (realStartAngle - borderAngle) * Mathf.Rad2Deg;
+                        var realToDegree = (realToAngle + borderAngle) * Mathf.Rad2Deg;
+                        DrawDoughnut(vh, p, radius, radius + borderWidth, borderColor, Color.clear, realStartDegree,
+                            realToDegree, smoothness);
+                    }
                 }
             }
         }

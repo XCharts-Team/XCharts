@@ -70,7 +70,7 @@ namespace XCharts
                 float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
-                float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
+                float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + (value < 0 ? -1 : 1) * yAxis.axisLine.width;
                 float pY = coordinateY + +i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
 
@@ -91,13 +91,24 @@ namespace XCharts
                     seriesHig[i] += barHig;
                 }
 
-                float currHig = CheckAnimation(serie, i, barHig);
 
-                Vector3 plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
-                Vector3 plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
-                Vector3 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
+                float currHig = CheckAnimation(serie, i, barHig);
+                Vector3 plt, prt, prb, plb, top;
+                if (value < 0)
+                {
+                    plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig + borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig + borderWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
+                }
+                else
+                {
+                    plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                }
+                top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
                 plt = ClampInCoordinate(plt);
                 prt = ClampInCoordinate(prt);
                 prb = ClampInCoordinate(prb);
@@ -199,7 +210,7 @@ namespace XCharts
                 float pX = coordinateX + i * categoryWidth;
                 float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
-                float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
+                float pY = seriesHig[i] + zeroY + (value < 0 ? -1 : 1) * xAxis.axisLine.width;
 
                 var barHig = 0f;
                 var valueTotal = 0f;
@@ -218,11 +229,22 @@ namespace XCharts
                     seriesHig[i] += barHig;
                 }
                 float currHig = CheckAnimation(serie, i, barHig);
-                Vector3 plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                Vector3 plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
-                Vector3 prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
-                Vector3 prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
-                Vector3 top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+                Vector3 plb, plt, prt, prb, top;
+                if (value < 0)
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
+                }
+                else
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
+                }
+                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
                 plb = ClampInCoordinate(plb);
                 plt = ClampInCoordinate(plt);
                 prt = ClampInCoordinate(prt);
@@ -440,8 +462,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.up * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, smoothness, 180, 360);
-                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, smoothness, 0, 180);
+                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, 180, 360, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, 0, 180, smoothness);
                     }
                 }
                 else
@@ -479,8 +501,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.right * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, smoothness, 270, 450);
-                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, smoothness, 90, 270);
+                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, 270, 450, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, 90, 270, smoothness);
                     }
                 }
                 else

@@ -176,20 +176,20 @@ namespace XCharts
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
 
-        public float GetData(int index)
+        public float GetData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_Data.Count)
             {
-                return m_Data[index];
+                return inverse ? -m_Data[index] : m_Data[index];
             }
             else return 0;
         }
 
-        public float GetPreviousData(int index)
+        public float GetPreviousData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_PreviousData.Count)
             {
-                return m_PreviousData[index];
+                return inverse ? -m_PreviousData[index] : m_PreviousData[index];
             }
             else return 0;
         }
@@ -206,7 +206,7 @@ namespace XCharts
             return 0;
         }
 
-        public float GetCurrData(int index, float animationDuration = 500f)
+        public float GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
@@ -215,18 +215,18 @@ namespace XCharts
                 if (time <= total)
                 {
                     CheckLastData();
-                    var curr = Mathf.Lerp(GetPreviousData(index), GetData(index), time / total);
+                    var curr = Mathf.Lerp(GetPreviousData(index, inverse), GetData(index, inverse), time / total);
                     return curr;
                 }
                 else
                 {
                     m_DataUpdateFlag[index] = false;
-                    return GetData(index);
+                    return GetData(index, inverse);
                 }
             }
             else
             {
-                return GetData(index);
+                return GetData(index, inverse);
             }
         }
 

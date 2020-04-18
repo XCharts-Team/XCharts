@@ -32,8 +32,8 @@ namespace XCharts
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
-                float xValue = serieData.GetCurrData(0, dataChangeDuration);
-                float yValue = serieData.GetCurrData(1, dataChangeDuration);
+                float xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
+                float yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + xAxis.axisLine.width;
                 float pY = coordinateY + yAxis.axisLine.width;

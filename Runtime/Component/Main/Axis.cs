@@ -77,6 +77,7 @@ namespace XCharts
         [SerializeField] protected float m_LogBase = 10;
         [SerializeField] protected bool m_LogBaseE = false;
         [SerializeField] protected int m_CeilRate = 0;
+        [SerializeField] protected bool m_Inverse = false;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -194,6 +195,15 @@ namespace XCharts
         {
             get { return m_CeilRate; }
             set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the axis are reversed or not. Invalid in `Category` axis.
+        /// 是否反向坐标轴。在类目轴中无效。
+        /// </summary>
+        public bool inverse
+        {
+            get { return m_Inverse; }
+            set { if (m_Type == AxisType.Value && PropertyUtility.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -328,7 +338,7 @@ namespace XCharts
         public float runtimeZeroYOffset { get; internal set; }
         public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
-
+        internal bool runtimeLastCheckInverse { get; set; }
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;
@@ -566,7 +576,6 @@ namespace XCharts
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
-
             if (m_Type == AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
@@ -581,6 +590,12 @@ namespace XCharts
                 {
                     value = (minValue + (maxValue - minValue) * index / (split - 1));
                 }
+                if (inverse)
+                {
+                    value = -value;
+                    minValue = -minValue;
+                    maxValue = -maxValue;
+                }
                 if (forcePercent) return string.Format("{0}%", (int)value);
                 else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
             }
@@ -588,6 +603,12 @@ namespace XCharts
             {
                 float value = m_LogBaseE ? Mathf.Exp(runtimeMinLogIndex + index) :
                     Mathf.Pow(m_LogBase, runtimeMinLogIndex + index);
+                if (inverse)
+                {
+                    value = -value;
+                    minValue = -minValue;
+                    maxValue = -maxValue;
+                }
                 return m_AxisLabel.GetFormatterContent(value, minValue, maxValue, true);
             }
             var showData = GetDataList(dataZoom);
@@ -740,8 +761,16 @@ namespace XCharts
             {
                 if (min != 0 || max != 0)
                 {
-                    minValue = min;
-                    maxValue = max;
+                    if (inverse)
+                    {
+                        minValue = -max;
+                        maxValue = -min;
+                    }
+                    else
+                    {
+                        minValue = min;
+                        maxValue = max;
+                    }
                 }
             }
             else
@@ -755,22 +784,22 @@ namespace XCharts
                         else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
                         }
                         else if (minValue < 0 && maxValue < 0)
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
                             maxValue = 0;
                         }
                         else
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
                         }
                         break;
                     case Axis.AxisMinMaxType.MinMax:
-                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue,m_CeilRate) : minValue;
-                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue,m_CeilRate) : maxValue;
+                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
+                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
                         break;
                 }
             }

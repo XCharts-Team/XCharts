@@ -275,8 +275,8 @@ namespace XCharts
                             for (int n = 0; n < serie.data.Count; n++)
                             {
                                 var serieData = serie.data[n];
-                                var xdata = serieData.data[0];
-                                var ydata = serieData.data[1];
+                                var xdata = serieData.GetData(0, xAxis.inverse);
+                                var ydata = serieData.GetData(1, yAxis.inverse);
                                 var symbolSize = serie.symbol.GetSize(serieData == null ? null : serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
@@ -799,25 +799,28 @@ namespace XCharts
             {
                 if (axis is XAxis)
                 {
-                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, true, out tempMinValue, out tempMaxValue);
+                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
                 }
                 else
                 {
-                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, true, out tempMinValue, out tempMaxValue);
+                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
                 }
             }
             else
             {
-                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, false, out tempMinValue, out tempMaxValue);
+                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
                 m_CheckMinMaxValue = true;
-                axis.UpdateMinValue(tempMinValue, !m_IsPlayingAnimation);
-                axis.UpdateMaxValue(tempMaxValue, !m_IsPlayingAnimation);
+                m_IsPlayingAnimation = true;
+                var needCheck = !m_IsPlayingAnimation && axis.runtimeLastCheckInverse == axis.inverse;
+                axis.UpdateMinValue(tempMinValue, needCheck);
+                axis.UpdateMaxValue(tempMaxValue, needCheck);
                 axis.runtimeZeroXOffset = 0;
                 axis.runtimeZeroYOffset = 0;
+                axis.runtimeLastCheckInverse = axis.inverse;
                 if (tempMinValue != 0 || tempMaxValue != 0)
                 {
                     if (axis is XAxis && axis.IsValue())
@@ -1135,7 +1138,7 @@ namespace XCharts
                 Vector3 np = Vector3.zero;
                 float minValue = 0;
                 float maxValue = 0;
-                m_Series.GetYMinMaxValue(null, 0, IsValue(), out minValue, out maxValue);
+                m_Series.GetYMinMaxValue(null, 0, IsValue(), axis.inverse, out minValue, out maxValue);
                 axis.AdjustMinMaxValue(ref minValue, ref maxValue, true);
 
                 int rate = 1;
@@ -1149,7 +1152,7 @@ namespace XCharts
                 for (int i = 0; i < maxCount; i += rate)
                 {
                     float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging);
+                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis.inverse);
                     float pX = coordinateX + i * scaleWid;
                     float dataHig = (axis.runtimeMaxValue - axis.runtimeMinValue) == 0 ? 0 :
                         (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * hig;
@@ -1783,11 +1786,11 @@ namespace XCharts
         }
 
         protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip,float[] cornerRadius)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip, float[] cornerRadius)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInCooridate(pos))))
-                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,cornerRadius);
+                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius);
         }
 
         protected void CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size,

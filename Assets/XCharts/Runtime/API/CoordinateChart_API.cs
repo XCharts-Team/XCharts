@@ -221,9 +221,19 @@ namespace XCharts
         {
             if (index >= 0 && index <= 1)
             {
+                var xAxis = m_XAxises[index];
+                var yAxis = m_YAxises[index];
                 var tempX = m_XAxises[index].Clone();
-                m_XAxises[index].Copy(m_YAxises[index]);
-                m_YAxises[index].Copy(tempX);
+                xAxis.Copy(m_YAxises[index]);
+                yAxis.Copy(tempX);
+                xAxis.runtimeZeroXOffset = 0;
+                xAxis.runtimeZeroYOffset = 0;
+                yAxis.runtimeZeroXOffset = 0;
+                yAxis.runtimeZeroYOffset = 0;
+                xAxis.runtimeMinValue = 0;
+                xAxis.runtimeMaxValue = 0;
+                yAxis.runtimeMinValue = 0;
+                yAxis.runtimeMaxValue = 0;
             }
         }
     }

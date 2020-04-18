@@ -91,13 +91,12 @@ namespace XCharts
 
         protected virtual void OnEndInspectorGUI()
         {
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
         }
-
 
         private void CheckWarning()
         {
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
             if (m_CheckWarning)
             {
                 EditorGUILayout.BeginHorizontal();

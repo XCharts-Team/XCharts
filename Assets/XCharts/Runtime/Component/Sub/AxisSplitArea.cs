@@ -57,6 +57,22 @@ namespace XCharts
             }
         }
 
+        public AxisSplitArea Clone()
+        {
+            var axisSplitArea = new AxisSplitArea();
+            axisSplitArea.show = show;
+            axisSplitArea.color = new List<Color>();
+            ChartHelper.CopyList(axisSplitArea.color, color);
+            return axisSplitArea;
+        }
+
+        public void Copy(AxisSplitArea splitArea)
+        {
+            show = splitArea.show;
+            color.Clear();
+            ChartHelper.CopyList(color, splitArea.color);
+        }
+
         public Color getColor(int index)
         {
             var i = index % color.Count;

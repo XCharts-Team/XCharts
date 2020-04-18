@@ -125,5 +125,31 @@ namespace XCharts
                 };
             }
         }
+
+        public AxisName Clone()
+        {
+            var axisName = new AxisName();
+            axisName.show = show;
+            axisName.name = name;
+            axisName.location = location;
+            axisName.offset = offset;
+            axisName.rotate = rotate;
+            axisName.color = color;
+            axisName.fontSize = fontSize;
+            axisName.fontStyle = fontStyle;
+            return axisName;
+        }
+
+        public void Copy(AxisName axisName)
+        {
+            show = axisName.show;
+            name = axisName.name;
+            location = axisName.location;
+            offset = axisName.offset;
+            rotate = axisName.rotate;
+            color = axisName.color;
+            fontSize = axisName.fontSize;
+            fontStyle = axisName.fontStyle;
+        }
     }
 }

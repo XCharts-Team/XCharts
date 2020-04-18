@@ -153,6 +153,36 @@ namespace XCharts
             }
         }
 
+        public AxisLabel Clone()
+        {
+            var axisLable = new AxisLabel();
+            axisLable.show = show;
+            axisLable.formatter = formatter;
+            axisLable.interval = interval;
+            axisLable.inside = inside;
+            axisLable.rotate = rotate;
+            axisLable.margin = margin;
+            axisLable.color = color;
+            axisLable.fontSize = fontSize;
+            axisLable.forceENotation = forceENotation;
+            axisLable.textLimit = textLimit.Clone();
+            return axisLable;
+        }
+
+        public void Copy(AxisLabel axisLable)
+        {
+            show = axisLable.show;
+            formatter = axisLable.formatter;
+            interval = axisLable.interval;
+            inside = axisLable.inside;
+            rotate = axisLable.rotate;
+            margin = axisLable.margin;
+            color = axisLable.color;
+            fontSize = axisLable.fontSize;
+            forceENotation = axisLable.forceENotation;
+            textLimit.Copy(axisLable.textLimit);
+        }
+
         public void SetRelatedText(Text txt, float labelWidth)
         {
             m_TextLimit.SetRelatedText(txt, labelWidth);

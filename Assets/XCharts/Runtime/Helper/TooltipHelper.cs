@@ -90,7 +90,7 @@ namespace XCharts
                 {
                     sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
                     sb.Append("[").Append(ChartCached.FloatToStr(xValue, 0, tooltip.forceENotation)).Append(",")
-                        .Append(ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation)).Append("]\n");
+                        .Append(ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation)).Append("]");
                 }
             }
             else

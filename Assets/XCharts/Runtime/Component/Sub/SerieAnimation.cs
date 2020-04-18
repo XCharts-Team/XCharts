@@ -311,7 +311,7 @@ namespace XCharts
                 SetDataState(dataIndex, currHig);
                 if (m_FadeOut)
                 {
-                    if (currHig <= 0)
+                    if ((destHig > 0 && currHig <= 0) || (destHig < 0 && currHig >= 0))
                     {
                         End();
                         currHig = 0;

@@ -67,7 +67,7 @@ namespace XCharts
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
 
                 serieData.canShowLabel = true;
-                float value = showData[i].GetCurrData(1, dataChangeDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
@@ -193,7 +193,7 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                float value = serieData.GetCurrData(1, dataChangeDuration);
+                float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = coordinateX + i * categoryWidth;
@@ -354,25 +354,53 @@ namespace XCharts
             if (isYAxis)
             {
                 var diff = Vector3.right * radius;
-                var pcl = (plt + plb) / 2 + diff;
-                var pcr = (prt + prb) / 2 - diff;
-                if (pcr.x > pcl.x)
+                if (plt.x < prt.x)
                 {
-                    CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
-                    ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
-                    ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                    var pcl = (plt + plb) / 2 + diff;
+                    var pcr = (prt + prb) / 2 - diff;
+                    if (pcr.x > pcl.x)
+                    {
+                        CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
+                        ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
+                        ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                    }
+                }
+                else if (plt.x > prt.x)
+                {
+                    var pcl = (plt + plb) / 2 - diff;
+                    var pcr = (prt + prb) / 2 + diff;
+                    if (pcr.x < pcl.x)
+                    {
+                        CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, areaColor, areaToColor, serie.clip);
+                        ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 0, 180);
+                        ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 180, 360);
+                    }
                 }
             }
             else
             {
                 var diff = Vector3.up * radius;
-                var pct = (plt + prt) / 2 - diff;
-                var pcb = (plb + prb) / 2 + diff;
-                if (pct.y > pcb.y)
+                if (plt.y > plb.y)
                 {
-                    CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
-                    ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
-                    ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                    var pct = (plt + prt) / 2 - diff;
+                    var pcb = (plb + prb) / 2 + diff;
+                    if (pct.y > pcb.y)
+                    {
+                        CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
+                        ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
+                        ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                    }
+                }
+                else if (plt.y < plb.y)
+                {
+                    var pct = (plt + prt) / 2 + diff;
+                    var pcb = (plb + prb) / 2 - diff;
+                    if (pct.y < pcb.y)
+                    {
+                        CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, areaColor, areaToColor, serie.clip);
+                        ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 90, 270);
+                        ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 270, 450);
+                    }
                 }
             }
         }

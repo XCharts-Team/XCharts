@@ -723,10 +723,10 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        internal void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        internal void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool inverse,
             out float minVaule, out float maxValue)
         {
-            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, false, out minVaule, out maxValue);
+            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue);
         }
 
         /// <summary>
@@ -736,15 +736,15 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        internal void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        internal void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool inverse,
             out float minVaule, out float maxValue)
         {
-            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, true, out minVaule, out maxValue);
+            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue);
         }
 
         private Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
-        internal void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool yValue,
+        internal void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool inverse, bool yValue,
             out float minVaule, out float maxValue)
         {
             float min = int.MaxValue;
@@ -769,17 +769,9 @@ namespace XCharts
                             var showData = m_Series[i].GetDataList(dataZoom);
                             foreach (var data in showData)
                             {
-                                if (yValue)
-                                {
-                                    var currData = data.GetData(1);
-                                    if (currData > max) max = currData;
-                                    if (currData < min) min = currData;
-                                }
-                                else
-                                {
-                                    if (data.data[0] > max) max = data.data[0];
-                                    if (data.data[0] < min) min = data.data[0];
-                                }
+                                var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                if (currData > max) max = currData;
+                                if (currData < min) min = currData;
                             }
                         }
                     }
@@ -809,11 +801,11 @@ namespace XCharts
                             {
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
                                     _serieTotalValueForMinMax[j] = 0;
-                                _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] +
-                                    (yValue ? showData[j].GetData(1) : showData[i].data[0]);
+                                var currData = (yValue ? showData[j].GetData(1) : showData[j].GetData(0));
+                                if (inverse) currData = -currData;
+                                _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }
                         }
-
                     }
                     float tmax = int.MinValue;
                     float tmin = int.MaxValue;

@@ -49,6 +49,7 @@ namespace XCharts
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
             SerializedProperty m_CeilRate = prop.FindPropertyRelative("m_CeilRate");
+            SerializedProperty m_Inverse = prop.FindPropertyRelative("m_Inverse");
 
             int index = InitToggle(prop);
             bool toggle = m_AxisModuleToggle[index];
@@ -89,6 +90,8 @@ namespace XCharts
                             break;
                     }
                     EditorGUI.PropertyField(drawRect, m_CeilRate);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_Inverse);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
@@ -170,7 +173,7 @@ namespace XCharts
                 }
                 else if (type == Axis.AxisType.Value)
                 {
-                    height += 2 * EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
                     SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
                     if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
                     {

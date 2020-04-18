@@ -323,9 +323,10 @@
 * `max`：设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
 * `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
 * `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
-* `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
+* `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置该值时 `splitNumber` 无效。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
 * `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `inverse`：是否反向坐标轴。只在数值轴`Value`中有效。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
 * `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。

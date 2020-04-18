@@ -358,6 +358,55 @@ namespace XCharts
         private bool m_RuntimeMinValueFirstChanged = true;
         private bool m_RuntimeMaxValueFirstChanged = true;
 
+        public Axis Clone()
+        {
+            var axis = new Axis();
+            axis.show = show;
+            axis.type = type;
+            axis.minMaxType = minMaxType;
+            axis.min = min;
+            axis.max = max;
+            axis.splitNumber = splitNumber;
+            axis.interval = interval;
+            axis.boundaryGap = boundaryGap;
+            axis.maxCache = maxCache;
+            axis.logBase = logBase;
+            axis.logBaseE = logBaseE;
+            axis.ceilRate = ceilRate;
+            axis.axisLine = axisLine.Clone();
+            axis.axisName = axisName.Clone();
+            axis.axisTick = axisTick.Clone();
+            axis.axisLabel = axisLabel.Clone();
+            axis.splitLine = splitLine.Clone();
+            axis.splitArea = splitArea.Clone();
+            axis.data = new List<string>();
+            ChartHelper.CopyList(axis.data, data);
+            return axis;
+        }
+
+        public void Copy(Axis axis)
+        {
+            show = axis.show;
+            type = axis.type;
+            minMaxType = axis.minMaxType;
+            min = axis.min;
+            max = axis.max;
+            splitNumber = axis.splitNumber;
+            interval = axis.interval;
+            boundaryGap = axis.boundaryGap;
+            maxCache = axis.maxCache;
+            logBase = axis.logBase;
+            logBaseE = axis.logBaseE;
+            ceilRate = axis.ceilRate;
+            axisLine.Copy(axis.axisLine);
+            axisName.Copy(axis.axisName);
+            axisTick.Copy(axis.axisTick);
+            axisLabel.Copy(axis.axisLabel);
+            splitLine.Copy(axis.splitLine);
+            splitArea.Copy(axis.splitArea);
+            ChartHelper.CopyList(data, axis.data);
+        }
+
         /// <summary>
         /// 清空类目数据
         /// </summary>

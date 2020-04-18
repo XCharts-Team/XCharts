@@ -41,7 +41,7 @@ namespace XCharts
         public bool onZero
         {
             get { return m_OnZero; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_OnZero, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// line style line width.
@@ -115,6 +115,32 @@ namespace XCharts
                 };
                 return axisLine;
             }
+        }
+
+        public AxisLine Clone()
+        {
+            var axisLine = new AxisLine();
+            axisLine.show = show;
+            axisLine.onZero = onZero;
+            axisLine.width = width;
+            axisLine.symbol = symbol;
+            axisLine.symbolWidth = symbolWidth;
+            axisLine.symbolHeight = symbolHeight;
+            axisLine.symbolOffset = symbolOffset;
+            axisLine.symbolDent = symbolDent;
+            return axisLine;
+        }
+
+        public void Copy(AxisLine axisLine)
+        {
+            show = axisLine.show;
+            onZero = axisLine.onZero;
+            width = axisLine.width;
+            symbol = axisLine.symbol;
+            symbolWidth = axisLine.symbolWidth;
+            symbolHeight = axisLine.symbolHeight;
+            symbolOffset = axisLine.symbolOffset;
+            symbolDent = axisLine.symbolDent;
         }
     }
 }

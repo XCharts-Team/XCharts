@@ -6,6 +6,7 @@
 /******************************************/
 
 using UnityEditor;
+using UnityEngine;
 
 namespace XCharts
 {
@@ -50,6 +51,20 @@ namespace XCharts
             {
                 SerializedProperty axis = m_YAxises.GetArrayElementAtIndex(i);
                 EditorGUILayout.PropertyField(axis);
+            }
+        }
+
+        protected override void OnEndInspectorGUI()
+        {
+            base.OnEndInspectorGUI();
+            CovertXYAxis();
+        }
+
+        private void CovertXYAxis()
+        {
+            if (GUILayout.Button("Covert XY Axis"))
+            {
+                (m_Target as CoordinateChart).CovertXYAxis(0);
             }
         }
     }

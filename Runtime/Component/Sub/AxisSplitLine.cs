@@ -61,6 +61,22 @@ namespace XCharts
             }
         }
 
+        public AxisSplitLine Clone()
+        {
+            var axisSplitLine = new AxisSplitLine();
+            axisSplitLine.show = show;
+            axisSplitLine.interval = interval;
+            axisSplitLine.lineStyle = lineStyle.Clone();
+            return axisSplitLine;
+        }
+
+        public void Copy(AxisSplitLine splitLine)
+        {
+            show = splitLine.show;
+            interval = splitLine.interval;
+            lineStyle.Copy(splitLine.lineStyle);
+        }
+
         internal Color GetColor(ThemeInfo theme)
         {
             if (lineStyle.color != Color.clear)

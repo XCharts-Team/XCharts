@@ -84,5 +84,25 @@ namespace XCharts
                 return tick;
             }
         }
+
+        public AxisTick Clone()
+        {
+            var axisTick = new AxisTick();
+            axisTick.show = show;
+            axisTick.alignWithLabel = alignWithLabel;
+            axisTick.inside = inside;
+            axisTick.length = length;
+            axisTick.width = width;
+            return axisTick;
+        }
+
+        public void Copy(AxisTick axisTick)
+        {
+            show = axisTick.show;
+            alignWithLabel = axisTick.alignWithLabel;
+            inside = axisTick.inside;
+            length = axisTick.length;
+            width = axisTick.width;
+        }
     }
 }

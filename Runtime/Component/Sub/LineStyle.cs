@@ -98,7 +98,6 @@ namespace XCharts
 
         public LineStyle()
         {
-
         }
 
         public LineStyle(float width)
@@ -110,6 +109,26 @@ namespace XCharts
         {
             this.type = type;
             this.width = width;
+        }
+
+        public LineStyle Clone()
+        {
+            var lineStyle = new LineStyle();
+            lineStyle.show = show;
+            lineStyle.type = type;
+            lineStyle.color = color;
+            lineStyle.width = width;
+            lineStyle.opacity = opacity;
+            return lineStyle;
+        }
+
+        public void Copy(LineStyle lineStyle)
+        {
+            show = lineStyle.show;
+            type = lineStyle.type;
+            color = lineStyle.color;
+            width = lineStyle.width;
+            opacity = lineStyle.opacity;
         }
 
         public Color GetColor()

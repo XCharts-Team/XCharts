@@ -60,6 +60,24 @@ namespace XCharts
         private TextGenerationSettings m_RelatedTextSettings;
         private float m_RelatedTextWidth = 0;
 
+        public TextLimit Clone()
+        {
+            var textLimit = new TextLimit();
+            textLimit.enable = enable;
+            textLimit.maxWidth = maxWidth;
+            textLimit.gap = gap;
+            textLimit.suffix = suffix;
+            return textLimit;
+        }
+
+        public void Copy(TextLimit textLimit)
+        {
+            enable = textLimit.enable;
+            maxWidth = textLimit.maxWidth;
+            gap = textLimit.gap;
+            suffix = textLimit.suffix;
+        }
+
         public void SetRelatedText(Text txt, float labelWidth)
         {
             m_RelatedText = txt;

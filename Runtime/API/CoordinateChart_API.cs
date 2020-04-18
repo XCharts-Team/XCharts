@@ -212,6 +212,20 @@ namespace XCharts
                 return np;
             }
         }
+
+        /// <summary>
+        /// 转换X轴和Y轴的配置
+        /// </summary>
+        /// <param name="index">坐标轴索引，0或1</param>
+        public void CovertXYAxis(int index)
+        {
+            if (index >= 0 && index <= 1)
+            {
+                var tempX = m_XAxises[index].Clone();
+                m_XAxises[index].Copy(m_YAxises[index]);
+                m_YAxises[index].Copy(tempX);
+            }
+        }
     }
 }
 

@@ -470,6 +470,7 @@
 * `clip`：是否裁剪超出坐标系部分的图形。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -515,6 +516,7 @@
 * `clip`：是否裁剪超出坐标系部分的图形。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
@@ -682,6 +684,7 @@
 * `fontStyle`：文字字体的风格。
 * `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 
 ## `AxisLine`

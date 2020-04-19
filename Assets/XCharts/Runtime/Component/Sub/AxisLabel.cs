@@ -28,6 +28,7 @@ namespace XCharts
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
         [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
@@ -119,6 +120,17 @@ namespace XCharts
             get { return m_ForceENotation; }
             set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetComponentDirty(); }
         }
+
+        /// <summary>
+        /// Show negative number as positive number.
+        /// 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
+        /// </summary>
+        public bool showAsPositiveNumber
+        {
+            get { return m_ShowAsPositiveNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+        }
+
         /// <summary>
         /// 文本限制。
         /// </summary>
@@ -206,6 +218,10 @@ namespace XCharts
 
         public string GetFormatterContent(float value, float minValue, float maxValue, bool isLog = false)
         {
+            if (showAsPositiveNumber && value < 0)
+            {
+                value = Mathf.Abs(value);
+            }
             if (string.IsNullOrEmpty(m_Formatter))
             {
                 if (isLog)

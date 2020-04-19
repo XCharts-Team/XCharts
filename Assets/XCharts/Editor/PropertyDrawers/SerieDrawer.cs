@@ -74,6 +74,7 @@ namespace XCharts
             SerializedProperty m_Clip = prop.FindPropertyRelative("m_Clip");
             SerializedProperty m_Ignore = prop.FindPropertyRelative("m_Ignore");
             SerializedProperty m_IgnoreValue = prop.FindPropertyRelative("m_IgnoreValue");
+            SerializedProperty m_ShowAsPositiveNumber = prop.FindPropertyRelative("m_ShowAsPositiveNumber");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -131,6 +132,8 @@ namespace XCharts
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_IgnoreValue);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_ShowAsPositiveNumber);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_Symbol);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
                         EditorGUI.PropertyField(drawRect, m_LineStyle);
@@ -177,6 +180,8 @@ namespace XCharts
                         EditorGUI.PropertyField(drawRect, m_Ignore);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_IgnoreValue);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_ShowAsPositiveNumber);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_ItemStyle);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
@@ -316,8 +321,8 @@ namespace XCharts
                 var gap = 2;
                 var namegap = 3;
 #else
-                var gap = 0;
-                var namegap = 0;
+                    var gap = 0;
+                    var namegap = 0;
 #endif
                     EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height), m_DataDimension);
                     var nameRect = new Rect(pos.width - 2 * nameWid + 14 + gap, drawRect.y, nameWid - gap, pos.height);
@@ -490,7 +495,7 @@ namespace XCharts
                 switch (serieType)
                 {
                     case SerieType.Line:
-                        height += 16 * EditorGUIUtility.singleLineHeight + 15 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 17 * EditorGUIUtility.singleLineHeight + 16 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
@@ -501,7 +506,7 @@ namespace XCharts
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                         break;
                     case SerieType.Bar:
-                        height += 18 * EditorGUIUtility.singleLineHeight + 17 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 19 * EditorGUIUtility.singleLineHeight + 18 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));

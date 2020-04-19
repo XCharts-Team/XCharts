@@ -270,6 +270,7 @@ namespace XCharts
         [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
+        [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -741,6 +742,15 @@ namespace XCharts
         {
             get { return m_Clip; }
             set { if (PropertyUtility.SetStruct(ref m_Clip, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Show negative number as positive number.
+        /// 将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+        /// </summary>
+        public bool showAsPositiveNumber
+        {
+            get { return m_ShowAsPositiveNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
@@ -1241,6 +1251,11 @@ namespace XCharts
                 var serieData = showData[index];
                 xValue = serieData.data[0];
                 yVlaue = serieData.data[1];
+                if (showAsPositiveNumber)
+                {
+                    xValue = Mathf.Abs(xValue);
+                    yVlaue = Mathf.Abs(yVlaue);
+                }
             }
         }
 

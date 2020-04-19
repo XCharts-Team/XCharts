@@ -1728,9 +1728,7 @@ namespace XCharts
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 color, bool clip)
         {
-            if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3) || !IsInChart(p4)) return;
-            if (!clip || (clip && (IsInCooridate(p1) || IsInCooridate(p2) || IsInCooridate(p3) || IsInCooridate(p4))))
-                ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color, color);
+            CheckClipAndDrawPolygon(vh, p1, p2, p3, p4, color, color, clip);
         }
 
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
@@ -1744,10 +1742,17 @@ namespace XCharts
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 startColor, Color32 toColor, bool clip)
         {
-            p1 = ClampInCoordinate(p1);
-            p2 = ClampInCoordinate(p2);
-            p3 = ClampInCoordinate(p3);
-            p4 = ClampInCoordinate(p4);
+            p1 = ClampInChart(p1);
+            p2 = ClampInChart(p2);
+            p3 = ClampInChart(p3);
+            p4 = ClampInChart(p4);
+            if (clip)
+            {
+                p1 = ClampInCoordinate(p1);
+                p2 = ClampInCoordinate(p2);
+                p3 = ClampInCoordinate(p3);
+                p4 = ClampInCoordinate(p4);
+            }
             if (!clip || (clip && (IsInCooridate(p1) && IsInCooridate(p2) && IsInCooridate(p3) && IsInCooridate(p4))))
                 ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
         }
@@ -1755,10 +1760,17 @@ namespace XCharts
         protected void CheckClipAndDrawPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
            Color32 startColor, Color32 toColor, bool clip)
         {
-            p1 = ClampInCoordinate(p1);
-            p2 = ClampInCoordinate(p2);
-            p3 = ClampInCoordinate(p3);
-            p4 = ClampInCoordinate(p4);
+            p1 = ClampInChart(p1);
+            p2 = ClampInChart(p2);
+            p3 = ClampInChart(p3);
+            p4 = ClampInChart(p4);
+            if (clip)
+            {
+                p1 = ClampInCoordinate(p1);
+                p2 = ClampInCoordinate(p2);
+                p3 = ClampInCoordinate(p3);
+                p4 = ClampInCoordinate(p4);
+            }
             if (!clip || (clip && (IsInCooridate(p1) && IsInCooridate(p2) && IsInCooridate(p3) && IsInCooridate(p4))))
                 ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
         }

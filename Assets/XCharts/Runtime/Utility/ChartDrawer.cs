@@ -346,28 +346,28 @@ namespace XCharts
                 if (brLt > 0)
                 {
                     roundLt = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    DrawSector(vh, roundLt, brLt, color, color, 270, 360);
+                    DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1);
                     ltIn = roundLt + brLt * Vector3.left;
                     ltIn2 = roundLt + brLt * Vector3.up;
                 }
                 if (brRt > 0)
                 {
                     roundRt = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    DrawSector(vh, roundRt, brRt, color, color, 0, 90);
+                    DrawSector(vh, roundRt, brRt, color, color, 0, 90, 1);
                     rtIn = roundRt + brRt * Vector3.up;
                     rtIn2 = roundRt + brRt * Vector3.right;
                 }
                 if (brRb > 0)
                 {
                     roundRb = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    DrawSector(vh, roundRb, brRb, color, color, 90, 180);
+                    DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1);
                     rbIn = roundRb + brRb * Vector3.right;
                     rbIn2 = roundRb + brRb * Vector3.down;
                 }
                 if (brLb > 0)
                 {
                     roundLb = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
-                    DrawSector(vh, roundLb, brLb, color, color, 180, 270);
+                    DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1);
                     lbIn = roundLb + brLb * Vector3.left;
                     lbIn2 = roundLb + brLb * Vector3.down;
                 }

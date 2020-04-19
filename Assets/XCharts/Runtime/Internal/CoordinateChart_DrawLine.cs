@@ -243,8 +243,6 @@ namespace XCharts
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
-                        //llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
-                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
                         llp = GetLLPos(serie.dataPoints, i, firstLastPos);
                         nnp = GetNNPos(serie.dataPoints, i, lastNextPos);
                         isFinish = DrawSmoothLine(vh, serie, xAxis, lp, np, llp, nnp, i,
@@ -253,7 +251,6 @@ namespace XCharts
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
-                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         nnp = GetNNPos(serie.dataPoints, i, np);
                         isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
@@ -1006,6 +1003,7 @@ namespace XCharts
             {
                 var isLessthan0 = (sp.x < zeroPos.x || ep.x < zeroPos.x);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
+                areaColor = GetYLerpColor(areaColor, areaToColor, sp);
                 if (isLessthan0) areaDiff = -areaDiff;
                 CheckClipAndDrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y),
                     ep + areaDiff, sp + areaDiff, areaToColor, areaColor, clip);
@@ -1014,6 +1012,7 @@ namespace XCharts
             {
                 var isLessthan0 = (sp.y < zeroPos.y || ep.y < zeroPos.y);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
+                areaColor = GetXLerpColor(areaColor, areaToColor, sp);
                 if (isLessthan0) areaDiff = -areaDiff;
                 if (isLessthan0)
                 {
@@ -1118,6 +1117,7 @@ namespace XCharts
                 smoothPoints.Add(startUp);
                 smoothDownPoints.Add(startDn);
             }
+            var sourAreaColor = areaColor;
             for (int k = 1; k < bezierPoints.Count; k++)
             {
                 to = bezierPoints[k];
@@ -1154,12 +1154,14 @@ namespace XCharts
                             {
                                 tnp = new Vector3(zeroPos.x + xAxis.axisLine.width, toDn.y);
                                 tlp = new Vector3(zeroPos.x + xAxis.axisLine.width, startDn.y);
+                                areaColor = GetYLerpColor(sourAreaColor, areaToColor, start);
                                 CheckClipAndDrawPolygon(vh, startDn, toDn, tnp, tlp, areaColor, areaToColor, serie.clip);
                             }
                             else if (start.x < zeroPos.x && to.x < zeroPos.x)
                             {
                                 tnp = new Vector3(zeroPos.x - xAxis.axisLine.width, toUp.y);
                                 tlp = new Vector3(zeroPos.x - xAxis.axisLine.width, startUp.y);
+                                areaColor = GetYLerpColor(sourAreaColor, areaToColor, start);
                                 CheckClipAndDrawPolygon(vh, tnp, tlp, startUp, toUp, areaToColor, areaColor, serie.clip);
                             }
                         }
@@ -1169,12 +1171,14 @@ namespace XCharts
                             {
                                 tnp = new Vector3(toDn.x, zeroPos.y + xAxis.axisLine.width);
                                 tlp = new Vector3(startDn.x, zeroPos.y + xAxis.axisLine.width);
+                                areaColor = GetXLerpColor(sourAreaColor, areaToColor, start);
                                 CheckClipAndDrawPolygon(vh, startDn, toDn, tnp, tlp, areaColor, areaToColor, serie.clip);
                             }
                             else if (start.y < zeroPos.y && to.y < zeroPos.y)
                             {
                                 tnp = new Vector3(toUp.x, zeroPos.y - xAxis.axisLine.width);
                                 tlp = new Vector3(startUp.x, zeroPos.y - xAxis.axisLine.width);
+                                areaColor = GetXLerpColor(sourAreaColor, areaToColor, start);
                                 CheckClipAndDrawPolygon(vh, tlp, tnp, toUp, startUp, areaToColor, areaColor, serie.clip);
                             }
                         }
@@ -1206,11 +1210,14 @@ namespace XCharts
 
             var lastCount = 1;
             start = smoothPoints[0];
+            var sourAreaColor = areaColor;
             for (int k = 1; k < smoothPoints.Count; k++)
             {
                 to = smoothPoints[k];
                 if (serie.animation.CheckDetailBreak(to, isYAxis)) break;
                 Vector3 tnp, tlp;
+                if (isYAxis) areaColor = GetYLerpColor(sourAreaColor, areaToColor, to);
+                else areaColor = GetXLerpColor(sourAreaColor, areaToColor, to);
                 if (k == smoothPoints.Count - 1)
                 {
                     if (k < lastSmoothPoints.Count - 1)

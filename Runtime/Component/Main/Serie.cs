@@ -267,7 +267,7 @@ namespace XCharts
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
-        [SerializeField] private bool m_Clip = true;
+        [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;

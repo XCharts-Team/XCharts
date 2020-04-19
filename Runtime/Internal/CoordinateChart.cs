@@ -757,7 +757,8 @@ namespace XCharts
 
         private Vector3 GetLabelXPosition(float scaleWid, int i, int xAxisIndex, XAxis xAxis)
         {
-            var startY = xAxisIndex == 0 ? coordinateY : coordinateY + coordinateHeight;
+            var startY = coordinateY + (xAxis.axisLabel.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
+            if (xAxisIndex > 0) startY += coordinateHeight;
             var posY = 0f;
             var inside = xAxis.axisLabel.inside;
             if ((inside && xAxisIndex == 0) || (!inside && xAxisIndex == 1))

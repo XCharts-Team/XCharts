@@ -29,6 +29,7 @@ namespace XCharts
         [SerializeField] private FontStyle m_FontStyle;
         [SerializeField] private bool m_ForceENotation = false;
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
+        [SerializeField] private bool m_OnZero = false;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
@@ -129,6 +130,15 @@ namespace XCharts
         {
             get { return m_ShowAsPositiveNumber; }
             set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// 刻度标签显示在0刻度上。
+        /// </summary>
+        public bool onZero
+        {
+            get { return m_OnZero; }
+            set { if (PropertyUtility.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
         }
 
         /// <summary>

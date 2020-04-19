@@ -66,7 +66,8 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_AxisNameToggle, prop))
             {
-                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Offset"));
             }
             return height;
         }

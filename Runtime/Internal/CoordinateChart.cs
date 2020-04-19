@@ -1813,6 +1813,18 @@ namespace XCharts
             p2 = ClampInChart(p2);
             ChartDrawer.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color);
         }
+
+        protected Color GetXLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        {
+            if (areaColor == areaToColor) return areaColor;
+            return Color.Lerp(areaToColor, areaColor, (pos.y - coordinateY) / coordinateHeight);
+        }
+
+        protected Color GetYLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        {
+            if (areaColor == areaToColor) return areaColor;
+            return Color.Lerp(areaToColor, areaColor, (pos.x - coordinateX) / coordinateWidth);
+        }
     }
 }
 

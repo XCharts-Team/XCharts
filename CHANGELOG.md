@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
 * (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
 * (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数
 * (2020.04.18) 增加`Covert XY Axis`互换XY轴配置

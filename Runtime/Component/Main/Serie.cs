@@ -1163,7 +1163,12 @@ namespace XCharts
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                return serieData[index].data[1];
+                var value = serieData[index].data[1];
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
             }
             return 0;
         }
@@ -1174,7 +1179,12 @@ namespace XCharts
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                return serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
             }
             return 0;
         }
@@ -1195,6 +1205,10 @@ namespace XCharts
             if (index < serieData.Count)
             {
                 yData = serieData[index].data[1];
+                if (showAsPositiveNumber)
+                {
+                    yData = Mathf.Abs(yData);
+                }
                 dataName = serieData[index].name;
             }
         }

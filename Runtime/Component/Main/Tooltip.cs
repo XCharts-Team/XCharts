@@ -95,8 +95,10 @@ namespace XCharts
         }
         /// <summary>
         /// 提示框总内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
-        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
-        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
+        /// 模板变量有 {a}, {b}，{c}，{d}，{i}，分别表示系列名，数据名，数据值等。{a0},{b1},{c1}等可指定serie。
+        /// {.}表示带动态颜色的圆点。
+        /// {c1:0}、{c1:1}表示索引为1的serie的数据项的第0、第1个数据。
+        /// 其它变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
         /// <list type="bullet">
         /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
         /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
@@ -207,7 +209,10 @@ namespace XCharts
             lineStyle.ClearComponentDirty();
             textStyle.ClearComponentDirty();
         }
-
+        /// <summary>
+        /// 当前提示框所指示的Serie索引（目前只对散点图有效）。
+        /// </summary>
+        public Dictionary<int, List<int>> runtimeSerieDataIndex { get; internal set; }
         /// <summary>
         /// The data index currently indicated by Tooltip.
         /// 当前提示框所指示的数据项索引。
@@ -259,7 +264,8 @@ namespace XCharts
                     runtimeXValues = new float[2] { -1, -1 },
                     runtimeYValues = new float[2] { -1, -1 },
                     runtimeDataIndex = new List<int>() { -1, -1 },
-                    lastDataIndex = new List<int>() { -1, -1 }
+                    lastDataIndex = new List<int>() { -1, -1 },
+                    runtimeSerieDataIndex = new Dictionary<int, List<int>>()
                 };
                 return tooltip;
             }
@@ -451,5 +457,33 @@ namespace XCharts
         {
             return runtimeDataIndex[0] == index || runtimeDataIndex[1] == index;
         }
+
+        public void ClearSerieDataIndex()
+        {
+            foreach (var kv in runtimeSerieDataIndex)
+            {
+                kv.Value.Clear();
+            }
+        }
+
+        public void AddSerieDataIndex(int serieIndex, int dataIndex)
+        {
+            if (!runtimeSerieDataIndex.ContainsKey(serieIndex))
+            {
+                runtimeSerieDataIndex[serieIndex] = new List<int>();
+            }
+            runtimeSerieDataIndex[serieIndex].Add(dataIndex);
+        }
+
+        public bool isAnySerieDataIndex()
+        {
+            foreach (var kv in runtimeSerieDataIndex)
+            {
+                if (kv.Value.Count > 0) return true;
+            }
+            return false;
+        }
+
+       
     }
 }

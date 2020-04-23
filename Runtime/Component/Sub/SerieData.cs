@@ -171,6 +171,7 @@ namespace XCharts
         /// 饼图数据项的偏移半径
         /// </summary>
         public float runtimePieOffsetRadius { get; internal set; }
+        public Vector3 runtimePosition { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();

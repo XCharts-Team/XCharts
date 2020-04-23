@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.04.23) 优化`ScatterChart`的`Tooltip`显示效果
+* (2020.04.23) 增加`Tooltip`的`formatter`对`{.}`、`{c:0}`、`{c1:1}`的支持
 * (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
 * (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
 * (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -12,6 +14,48 @@ namespace XCharts
 {
     internal static class TooltipHelper
     {
+        private const string PH_A = "{a}";
+        private const string PH_B = "{b}";
+        private const string PH_C = "{c}";
+        private const string PH_D = "{d}";
+        private const string PH_I = "{.}";
+        private const string PH_Y = "{j}";
+        private const string PH_ON = "\\n";
+        private const string PH_NN = "\n";
+        private const string PH_NN_BBB = "\n";
+        private const string PH_BR = "<br/>";
+        private static Dictionary<string, Dictionary<int, string>> s_PHDic = new Dictionary<string, Dictionary<int, string>>();
+        private static Dictionary<int, string> s_PHCCDic = new Dictionary<int, string>();
+        private static Dictionary<int, Dictionary<int, string>> s_PHSerieCCDic = new Dictionary<int, Dictionary<int, string>>();
+
+        private static void InitScatterTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
+            ThemeInfo themeInfo)
+        {
+            if (!tooltip.runtimeSerieDataIndex.ContainsKey(serie.index)) return;
+            var dataIndexList = tooltip.runtimeSerieDataIndex[serie.index];
+            if (!string.IsNullOrEmpty(serie.name))
+            {
+                sb.Append(serie.name).Append(PH_NN);
+            }
+            for (int i = 0; i < dataIndexList.Count; i++)
+            {
+                var dataIndex = dataIndexList[i];
+                var serieData = serie.GetSerieData(dataIndex);
+                float xValue, yValue;
+                serie.GetXYData(dataIndex, null, out xValue, out yValue);
+
+                sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>");
+                if (!string.IsNullOrEmpty(serieData.name))
+                    sb.Append(serieData.name).Append(": ");
+                sb.AppendFormat("({0},{1})", ChartCached.FloatToStr(xValue, 0, tooltip.forceENotation),
+                ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation));
+                if (i != dataIndexList.Count - 1)
+                {
+                    sb.Append("\n");
+                }
+            }
+        }
+
 
         private static void InitPieTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             ThemeInfo themeInfo)
@@ -22,7 +66,7 @@ namespace XCharts
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serie.name))
             {
-                sb.Append(serie.name).Append("\n");
+                sb.Append(serie.name).Append(PH_NN);
             }
             sb.Append("<color=#").Append(themeInfo.GetColorStr(index)).Append(">● </color>");
             if (!string.IsNullOrEmpty(key))
@@ -60,7 +104,7 @@ namespace XCharts
                     {
                         string key = radar.indicatorList[i].name;
                         float value = serieData.GetData(i);
-                        if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
+                        if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append(PH_NN);
                         sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, tooltip.forceENotation));
                     }
                     break;
@@ -110,9 +154,11 @@ namespace XCharts
             {
                 case SerieType.Line:
                 case SerieType.Bar:
+                    InitCoordinateTooltip(ref sb, tooltip, serie, index, themeInfo, isCartesian, dataZoom);
+                    break;
                 case SerieType.Scatter:
                 case SerieType.EffectScatter:
-                    InitCoordinateTooltip(ref sb, tooltip, serie, index, themeInfo, isCartesian, dataZoom);
+                    InitScatterTooltip(ref sb, tooltip, serie, index, themeInfo);
                     break;
                 case SerieType.Radar:
                     break;
@@ -139,60 +185,112 @@ namespace XCharts
                 var formatTitle = !string.IsNullOrEmpty(title);
                 var needCategory = false;
                 var first = true;
+                var isScatter = false;
                 sb.Length = 0;
                 for (int i = 0; i < series.Count; i++)
                 {
                     var serie = series.GetSerie(i);
-                    if (!serie.show) continue;
-                    var serieData = serie.GetSerieData(dataIndex, dataZoom);
-                    if (serieData == null) continue;
-                    var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
-                    var percent = serieData.GetData(1) / serie.yTotal * 100;
-                    needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
-                    if (serie.show)
+                    if (serie.type == SerieType.Scatter || serie.type == SerieType.EffectScatter)
                     {
-                        if (string.IsNullOrEmpty(itemFormatter))
+                        if (serie.show && IsSelectedSerie(tooltip, serie.index))
                         {
-                            if (!first) sb.Append("\n");
-                            InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian);
-                            first = false;
-                            continue;
+                            isScatter = true;
+                            var itemFormatter = GetItemFormatter(tooltip, serie, null);
+                            if (string.IsNullOrEmpty(itemFormatter))
+                            {
+                                if (!first) sb.Append(PH_NN);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian);
+                                first = false;
+                                continue;
+                            }
+                            var itemTitle = title;
+                            if (!string.IsNullOrEmpty(itemTitle))
+                            {
+                                Replace(ref itemTitle, PH_A, i, serie.name, true);
+                                sb.Append(itemTitle).Append(PH_NN);
+                            }
+                            var dataIndexList = tooltip.runtimeSerieDataIndex[serie.index];
+                            foreach (var tempIndex in dataIndexList)
+                            {
+                                var foundDot = false;
+                                var serieData = serie.GetSerieData(tempIndex);
+                                string content = itemFormatter;
+                                Replace(ref content, PH_A, i, serie.name, true);
+                                Replace(ref content, PH_B, i, needCategory ? category : serieData.name, true);
+                                if (itemFormatter.IndexOf(PH_I) >= 0)
+                                {
+                                    foundDot = true;
+                                    Replace(ref content, PH_I, i, ChartCached.ColorToDotStr(themeInfo.GetColor(serie.index)), true);
+                                }
+                                for (int n = 0; n < serieData.data.Count; n++)
+                                {
+                                    var valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                                    Replace(ref content, GetPHCC(n), i, valueStr, true);
+                                }
+                                if (!foundDot)
+                                {
+                                    sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(serie.index)));
+                                }
+                                sb.Append(content).Append(PH_NN);
+                            }
                         }
-                        string content = itemFormatter;
-                        content = content.Replace("{a}", serie.name);
-                        content = content.Replace("{b}", needCategory ? category : serieData.name);
-                        content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                        content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
-                        if (!first) sb.Append("\n");
-                        sb.Append("<color=#").Append(themeInfo.GetColorStr(i)).Append(">● </color>");
-                        sb.Append(content);
-                        first = false;
                     }
-                    if (formatTitle)
+                    else
                     {
-                        if (i == 0)
+                        var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                        if (serieData == null) continue;
+                        var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
+                        var percent = serieData.GetData(1) / serie.yTotal * 100;
+                        needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
+                        if (formatTitle)
                         {
-                            title = title.Replace("{a}", serie.name);
-                            title = title.Replace("{b}", needCategory ? category : serieData.name);
-                            title = title.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                            title = title.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation);
+                            Replace(ref title, PH_A, i, serie.name, true);
+                            Replace(ref title, PH_B, i, needCategory ? category : serieData.name, true);
+                            Replace(ref title, PH_C, i, valueStr, true);
+                            Replace(ref title, PH_D, i, ChartCached.FloatToStr(percent, 1), true);
                         }
-                        title = title.Replace("{a" + i + "}", serie.name);
-                        title = title.Replace("{b" + i + "}", needCategory ? category : serieData.name);
-                        title = title.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                        title = title.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
+                        if (serie.show)
+                        {
+                            if (string.IsNullOrEmpty(itemFormatter))
+                            {
+                                if (!first) sb.Append(PH_NN);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian);
+                                first = false;
+                                continue;
+                            }
+                            string content = itemFormatter;
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation);
+                            Replace(ref content, PH_A, i, serie.name, true);
+                            Replace(ref content, PH_B, i, needCategory ? category : serieData.name, true);
+                            Replace(ref content, PH_C, i, valueStr, true);
+                            Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, 1), true);
+                            for (int n = 0; n < serieData.data.Count; n++)
+                            {
+                                valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                                Replace(ref content, GetPHCC(n), i, valueStr, true);
+                            }
+                            if (!first) sb.Append(PH_NN);
+                            sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(i)));
+                            sb.Append(content);
+                            first = false;
+                        }
                     }
                 }
-                if (string.IsNullOrEmpty(title))
+                if (isScatter)
                 {
-                    if (needCategory) return category + "\n" + sb.ToString();
-                    else return sb.ToString();
+                    return TrimAndReplaceLine(sb);
+                }
+                else if (string.IsNullOrEmpty(title))
+                {
+                    if (needCategory) return category + PH_NN + TrimAndReplaceLine(sb);
+                    else return TrimAndReplaceLine(sb);
                 }
                 else
                 {
-                    title = title.Replace("\\n", "\n");
-                    title = title.Replace("<br/>", "\n");
-                    return title + "\n" + sb.ToString();
+                    title = title.Replace(PH_ON, PH_NN);
+                    title = title.Replace(PH_BR, PH_NN);
+                    return title + PH_NN + TrimAndReplaceLine(sb);
                 }
             }
             else
@@ -206,23 +304,80 @@ namespace XCharts
                         var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
                         var percent = serieData.GetData(1) / serie.yTotal * 100;
-                        if (i == 0)
+                        Replace(ref content, PH_A, i, serie.name);
+                        Replace(ref content, PH_B, i, needCategory ? category : serieData.name);
+                        Replace(ref content, PH_C, i, ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
+                        Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, 1));
+                        Replace(ref content, PH_I, i, ChartCached.ColorToDotStr(themeInfo.GetColor(i)));
+                        for (int n = 0; n < serieData.data.Count; n++)
                         {
-                            content = content.Replace("{a}", serie.name);
-                            content = content.Replace("{b}", needCategory ? category : serieData.name);
-                            content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                            content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                            if (i == 0) Replace(ref content, GetPHCC(n), i, valueStr, true);
+                            Replace(ref content, GetPHCC(i, n), i, valueStr, true);
                         }
-                        content = content.Replace("{a" + i + "}", serie.name);
-                        content = content.Replace("{b" + i + "}", needCategory ? category : serieData.name);
-                        content = content.Replace("{c" + i + "}", ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                        content = content.Replace("{d" + i + "}", ChartCached.FloatToStr(percent, 1));
                     }
                 }
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
+                content = content.Replace(PH_ON, PH_NN);
+                content = content.Replace(PH_BR, PH_NN);
                 return content;
             }
+        }
+
+        private static string TrimAndReplaceLine(StringBuilder sb)
+        {
+            return sb.ToString().Trim().Replace(PH_ON, PH_NN_BBB).Replace(PH_BR, PH_NN_BBB);
+        }
+
+        private static bool IsSelectedSerie(Tooltip tooltip, int serieIndex)
+        {
+            if (tooltip.runtimeSerieDataIndex.ContainsKey(serieIndex))
+            {
+                return tooltip.runtimeSerieDataIndex[serieIndex].Count > 0;
+            }
+            return false;
+        }
+
+        private static void Replace(ref string content, string placeHolder, int index, string newStr, bool all = false)
+        {
+            if ((all || index == 0) && content.IndexOf(placeHolder) >= 0)
+            {
+                content = content.Replace(placeHolder, newStr);
+            }
+            if (!s_PHDic.ContainsKey(placeHolder))
+            {
+                s_PHDic[placeHolder] = new Dictionary<int, string>();
+            }
+            if (!s_PHDic[placeHolder].ContainsKey(index))
+            {
+                s_PHDic[placeHolder][index] = placeHolder.Insert(2, index.ToString());
+            }
+            var holder = s_PHDic[placeHolder][index];
+            if (content.IndexOf(holder) >= 0)
+            {
+                content = content.Replace(holder, newStr);
+            }
+        }
+
+        private static string GetPHCC(int index)
+        {
+            if (!s_PHCCDic.ContainsKey(index))
+            {
+                s_PHCCDic[index] = "{c:" + index + "}";
+            }
+            return s_PHCCDic[index];
+        }
+
+        private static string GetPHCC(int serieIndex, int dataIndex)
+        {
+            if (!s_PHSerieCCDic.ContainsKey(serieIndex))
+            {
+                s_PHSerieCCDic[serieIndex] = new Dictionary<int, string>();
+            }
+            if (!s_PHSerieCCDic[serieIndex].ContainsKey(dataIndex))
+            {
+                s_PHSerieCCDic[serieIndex][dataIndex] = "{c" + serieIndex + ":" + dataIndex + "}";
+            }
+            return s_PHSerieCCDic[serieIndex][dataIndex];
         }
 
         private static string GetItemFormatter(Tooltip tooltip, Serie serie, SerieData serieData)

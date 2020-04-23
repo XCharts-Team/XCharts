@@ -15,6 +15,7 @@ namespace XCharts
         protected void DrawScatterSerie(VertexHelper vh, int colorIndex, Serie serie)
         {
             if (serie.animation.HasFadeOut()) return;
+            if (!serie.show) return;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             int maxCount = serie.maxShow > 0 ?
@@ -41,6 +42,7 @@ namespace XCharts
                 float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
                 serie.dataPoints.Add(pos);
+                serieData.runtimePosition = pos;
                 var datas = serie.data[n].data;
                 float symbolSize = 0;
                 if (serie.highlighted || serieData.highlighted)

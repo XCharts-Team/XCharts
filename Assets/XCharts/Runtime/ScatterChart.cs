@@ -64,5 +64,71 @@ namespace XCharts
                 RefreshChart();
             }
         }
+
+        protected override void CheckTootipArea(Vector2 local)
+        {
+            base.CheckTootipArea(local);
+            m_Tooltip.ClearSerieDataIndex();
+            bool selected = false;
+            var localv3 = new Vector3(local.x, local.y);
+            foreach (var serie in m_Series.list)
+            {
+                if (!serie.show) continue;
+                if (serie.type != SerieType.Scatter && serie.type != SerieType.EffectScatter) continue;
+                bool refresh = false;
+                for (int j = 0; j < serie.data.Count; j++)
+                {
+                    var serieData = serie.data[j];
+                    var dist = Vector3.Distance(local, serieData.runtimePosition);
+                    if (dist <= serie.symbol.size)
+                    {
+                        serieData.selected = true;
+                        m_Tooltip.AddSerieDataIndex(serie.index, j);
+                        selected = true;
+                    }
+                    else
+                    {
+                        serieData.selected = false;
+                    }
+                }
+                if (refresh) RefreshChart();
+            }
+            if (selected)
+            {
+                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                UpdateTooltip();
+            }
+            else if (m_Tooltip.IsActive())
+            {
+                m_Tooltip.SetActive(false);
+                RefreshChart();
+            }
+        }
+
+        protected override void UpdateTooltip()
+        {
+            base.UpdateTooltip();
+            if (m_Tooltip.isAnySerieDataIndex())
+            {
+                var content = TooltipHelper.GetFormatterContent(m_Tooltip, 0, m_Series, m_ThemeInfo);
+                m_Tooltip.UpdateContentText(content);
+
+                var pos = m_Tooltip.GetContentPos();
+                if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
+                {
+                    pos.x = chartWidth - m_Tooltip.runtimeWidth;
+                }
+                if (pos.y - m_Tooltip.runtimeHeight < 0)
+                {
+                    pos.y = m_Tooltip.runtimeHeight;
+                }
+                m_Tooltip.UpdateContentPos(pos);
+                m_Tooltip.SetActive(true);
+            }
+            else
+            {
+                m_Tooltip.SetActive(false);
+            }
+        }
     }
 }

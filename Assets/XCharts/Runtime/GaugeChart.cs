@@ -93,6 +93,7 @@ namespace XCharts
 
                 var serieLabel = serie.gaugeAxis.axisLabel;
                 serie.gaugeAxis.ClearLabelObject();
+                serie.UpdateCenter(chartWidth, chartHeight);
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
                 var startAngle = serie.startAngle;
                 for (int j = 0; j < count; j++)
@@ -146,7 +147,6 @@ namespace XCharts
             DrawPointer(vh, serie, currAngle);
             TitleStyleHelper.CheckTitle(serie, ref m_ReinitTitle, ref m_UpdateTitleText);
             SerieLabelHelper.CheckLabel(serie, ref m_ReinitLabel, ref m_UpdateLabelText);
-
             CheckAnimation(serie);
             if (!serie.animation.IsFinish())
             {

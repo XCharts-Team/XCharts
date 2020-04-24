@@ -182,6 +182,7 @@ namespace XCharts
                     serieData.labelPosition = serie.runtimeCenterPos + new Vector3(px2, py2);
                     break;
             }
+            serieData.SetLabelPosition(serieData.labelPosition);
         }
 
         private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)

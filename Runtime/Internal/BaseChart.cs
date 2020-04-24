@@ -370,6 +370,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
+                serie.UpdateCenter(chartWidth, chartHeight);
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];

@@ -22,12 +22,12 @@ namespace XCharts
         /// The lower left position x of coordinate system.
         /// 坐标系的左下角坐标X。
         /// </summary>
-        public float coordinateX { get { return m_Grid.left; } }
+        public float coordinateX { get { return m_ChartX + m_Grid.left; } }
         /// <summary>
         /// The lower left position y of coordinate system.
         /// 坐标系的左下角坐标Y。
         /// </summary>
-        public float coordinateY { get { return m_Grid.bottom; } }
+        public float coordinateY { get { return m_ChartY + m_Grid.bottom; } }
 
         [Obsolete("Use CoordinateChart.coordinateWidth instead.", true)]
         public float coordinateWid { get { return coordinateWidth; } }

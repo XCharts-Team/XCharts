@@ -67,7 +67,7 @@ namespace XCharts
                 if (serie.pieClickOffset) isClickOffset = true;
                 serie.runtimePieDataMax = serie.yMax;
                 serie.runtimePieDataTotal = serie.yTotal;
-                serie.UpdateCenter(chartWidth, chartHeight);
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
 
                 float totalDegree = 360;
                 float startDegree = 0;
@@ -567,17 +567,7 @@ namespace XCharts
                 if (index < 0) continue;
                 showTooltip = true;
                 var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
-                m_Tooltip.UpdateContentText(content);
-                var pos = m_Tooltip.GetContentPos();
-                if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-                {
-                    pos.x = chartWidth - m_Tooltip.runtimeWidth;
-                }
-                if (pos.y - m_Tooltip.runtimeHeight < 0)
-                {
-                    pos.y = m_Tooltip.runtimeHeight;
-                }
-                m_Tooltip.UpdateContentPos(pos);
+                TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             }
             m_Tooltip.SetActive(showTooltip);
         }

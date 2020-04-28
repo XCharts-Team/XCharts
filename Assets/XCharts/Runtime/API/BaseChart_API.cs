@@ -48,6 +48,16 @@ namespace XCharts
         /// </summary>
         public Settings settings { get { return m_Settings; } }
         /// <summary>
+        /// The x of chart. 
+        /// 图表的X
+        /// </summary>
+        public float chartX { get { return m_ChartX; } }
+        /// <summary>
+        /// The y of chart. 
+        /// 图表的Y
+        /// </summary>
+        public float chartY { get { return m_ChartY; } }
+        /// <summary>
         /// The width of chart. 
         /// 图表的宽
         /// </summary>
@@ -57,6 +67,13 @@ namespace XCharts
         /// 图表的高
         /// </summary>
         public float chartHeight { get { return m_ChartHeight; } }
+        /// <summary>
+        /// The position of chart.
+        /// 图表的左下角起始坐标。
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 chartPosition { get { return m_ChartPosition; } }
+        public Rect chartRect { get { return m_ChartRect; } }
         /// <summary>
         /// The postion of pointer.
         /// 鼠标位置
@@ -70,21 +87,22 @@ namespace XCharts
         /// 警告信息。
         /// </summary>
         public string warningInfo { get; protected set; }
+
         /// <summary>
-        /// Set the size of chart.
-        /// 设置图表的大小。
+        /// 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）
         /// </summary>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public virtual void SetSize(float width, float height)
         {
-            m_ChartWidth = width;
-            m_ChartHeight = height;
-            m_CheckWidth = width;
-            m_CheckHeight = height;
-
-            rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
-            OnSizeChanged();
+            if (LayerHelper.IsFixedWidthHeight(rectTransform))
+            {
+                rectTransform.sizeDelta = new Vector2(width, height);
+            }
+            else
+            {
+                Debug.LogError("Can't set size on stretch pivot,you need to modify rectTransform by yourself.");
+            }
         }
 
         /// <summary>
@@ -486,11 +504,7 @@ namespace XCharts
             m_RefreshChart = true;
         }
 
-        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
-        public void ReinitChartLabel()
-        {
-            RefreshLabel();
-        }
+
 
         /// <summary>
         /// 刷新文本标签Label，重新初始化，当有改动Label参数时手动调用改接口
@@ -541,15 +555,7 @@ namespace XCharts
             m_Series.AnimationEnable(flag);
         }
 
-        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
-        public void AnimationStart()
-        {
-        }
 
-        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
-        public void MissAnimationStart()
-        {
-        }
 
         /// <summary>
         /// fadeIn animation.
@@ -620,8 +626,8 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInChart(Vector2 local)
         {
-            if (local.x < 0 || local.x > chartWidth ||
-                local.y < 0 || local.y > chartHeight)
+            if (local.x < m_ChartX || local.x > m_ChartX + chartWidth ||
+                local.y < m_ChartY || local.y > m_ChartY + chartHeight)
             {
                 return false;
             }
@@ -634,10 +640,10 @@ namespace XCharts
             else
             {
                 var np = new Vector3(pos.x, pos.y);
-                if (np.x < 0) np.x = 0;
-                if (np.x > chartWidth) np.x = chartWidth;
-                if (np.y < 0) np.y = 0;
-                if (np.y > chartHeight) np.y = chartHeight;
+                if (np.x < m_ChartX) np.x = m_ChartX;
+                if (np.x > m_ChartX + chartWidth) np.x = m_ChartX + chartWidth;
+                if (np.y < m_ChartY) np.y = m_ChartY;
+                if (np.y > m_ChartY + chartHeight) np.y = m_ChartY + chartHeight;
                 return np;
             }
         }
@@ -651,5 +657,24 @@ namespace XCharts
             warningInfo = CheckHelper.CheckChart(this);
             return warningInfo;
         }
+
+        public Vector3 GetTitlePosition()
+        {
+            return chartPosition + m_Title.location.GetPosition(chartWidth, chartHeight);
+        }
+
+        public Vector3 GetLegendPosition()
+        {
+            return chartPosition + m_Legend.location.GetPosition(chartWidth, chartHeight);
+        }
+
+        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
+        public void ReinitChartLabel() { }
+
+        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
+        public void AnimationStart() { }
+
+        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
+        public void MissAnimationStart() { }
     }
 }

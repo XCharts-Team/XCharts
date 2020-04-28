@@ -115,17 +115,7 @@ namespace XCharts
                     }
                 }
             }
-            m_Tooltip.UpdateContentText(sb.ToString().Trim());
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.runtimeWidth;
-            }
-            if (pos.y - m_Tooltip.runtimeHeight < 0)
-            {
-                pos.y = m_Tooltip.runtimeHeight;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            TooltipHelper.SetContentAndPosition(tooltip,sb.ToString().Trim(),chartRect);
             m_Tooltip.SetActive(true);
 
             for (int i = 0; i < m_XAxises.Count; i++)

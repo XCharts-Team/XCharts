@@ -66,6 +66,10 @@ namespace XCharts
             chart.transform.SetParent(parent);
             chart.transform.localScale = Vector3.one;
             chart.transform.localPosition = Vector3.zero;
+            var rect = chart.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
         }
 
         [MenuItem("GameObject/XCharts/LineChart", priority = 44)]

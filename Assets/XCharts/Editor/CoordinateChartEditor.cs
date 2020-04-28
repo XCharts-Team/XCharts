@@ -39,8 +39,14 @@ namespace XCharts
         protected override void OnStartInspectorGUI()
         {
             base.OnStartInspectorGUI();
-            EditorGUILayout.PropertyField(m_DataZoom);
-            EditorGUILayout.PropertyField(m_VisualMap);
+            if (m_Target is LineChart || m_Target is BarChart)
+            {
+                EditorGUILayout.PropertyField(m_DataZoom);
+            }
+            if (m_Target is HeatmapChart)
+            {
+                EditorGUILayout.PropertyField(m_VisualMap);
+            }
             EditorGUILayout.PropertyField(m_Grid);
             for (int i = 0; i < m_XAxises.arraySize; i++)
             {

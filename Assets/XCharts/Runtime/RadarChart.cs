@@ -103,13 +103,19 @@ namespace XCharts
         }
 #endif
 
+        protected override void OnSizeChanged()
+        {
+            base.OnSizeChanged();
+            m_RadarsDirty = true;
+        }
+
         private void InitIndicator()
         {
             ChartHelper.HideAllObject(transform, INDICATOR_TEXT);
             for (int n = 0; n < m_Radars.Count; n++)
             {
                 Radar radar = m_Radars[n];
-                radar.UpdateRadarCenter(chartWidth, chartHeight);
+                radar.UpdateRadarCenter(chartPosition, chartWidth, chartHeight);
                 int indicatorNum = radar.indicatorList.Count;
                 float txtWid = 100;
                 float txtHig = 20;
@@ -165,7 +171,7 @@ namespace XCharts
             base.DrawChart(vh);
             foreach (var radar in m_Radars)
             {
-                radar.UpdateRadarCenter(chartWidth, chartHeight);
+                radar.UpdateRadarCenter(chartPosition, chartWidth, chartHeight);
                 if (radar.shape == Radar.Shape.Circle)
                 {
                     DrawCricleRadar(vh, radar);
@@ -712,17 +718,7 @@ namespace XCharts
             var radar = m_Radars[serie.radarIndex];
             StringBuilder sb = new StringBuilder();
             TooltipHelper.InitRadarTooltip(ref sb, tooltip, serie, radar, themeInfo);
-            m_Tooltip.UpdateContentText(sb.ToString());
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.runtimeWidth;
-            }
-            if (pos.y - m_Tooltip.runtimeHeight < 0)
-            {
-                pos.y = m_Tooltip.runtimeHeight;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            TooltipHelper.SetContentAndPosition(tooltip, sb.ToString(), chartRect);
         }
 
         protected override void OnRefreshLabel()

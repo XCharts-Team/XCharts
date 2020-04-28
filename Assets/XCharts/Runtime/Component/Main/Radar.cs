@@ -282,12 +282,12 @@ namespace XCharts
             return 0;
         }
 
-        internal void UpdateRadarCenter(float chartWidth, float chartHeight)
+        internal void UpdateRadarCenter(Vector3 chartPosition, float chartWidth, float chartHeight)
         {
             if (center.Length < 2) return;
             var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
             var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            runtimeCenterPos = new Vector2(centerX, centerY);
+            runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
             if (radius <= 0)
             {
                 runtimeRadius = 0;

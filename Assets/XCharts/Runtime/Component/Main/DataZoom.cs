@@ -321,9 +321,9 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInZoom(Vector2 pos, float startX, float width)
+        public bool IsInZoom(Vector2 pos, float startX, float startY, float width)
         {
-            Rect rect = Rect.MinMaxRect(startX, m_Bottom, startX + width, m_Bottom + m_Height);
+            Rect rect = Rect.MinMaxRect(startX, startY + m_Bottom, startX + width, startY + m_Bottom + m_Height);
             return rect.Contains(pos);
         }
 
@@ -334,11 +334,11 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInSelectedZoom(Vector2 pos, float startX, float width)
+        public bool IsInSelectedZoom(Vector2 pos, float startX, float startY, float width)
         {
             var start = startX + width * m_Start / 100;
             var end = startX + width * m_End / 100;
-            Rect rect = Rect.MinMaxRect(start, m_Bottom, end, m_Bottom + m_Height);
+            Rect rect = Rect.MinMaxRect(start, startY + m_Bottom, end, startY + m_Bottom + m_Height);
             return rect.Contains(pos);
         }
 
@@ -349,10 +349,10 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInStartZoom(Vector2 pos, float startX, float width)
+        public bool IsInStartZoom(Vector2 pos, float startX, float startY, float width)
         {
             var start = startX + width * m_Start / 100;
-            Rect rect = Rect.MinMaxRect(start - 10, m_Bottom, start + 10, m_Bottom + m_Height);
+            Rect rect = Rect.MinMaxRect(start - 10, startY + m_Bottom, start + 10, startY + m_Bottom + m_Height);
             return rect.Contains(pos);
         }
 
@@ -363,10 +363,10 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInEndZoom(Vector2 pos, float startX, float width)
+        public bool IsInEndZoom(Vector2 pos, float startX, float startY, float width)
         {
             var end = startX + width * m_End / 100;
-            Rect rect = Rect.MinMaxRect(end - 10, m_Bottom, end + 10, m_Bottom + m_Height);
+            Rect rect = Rect.MinMaxRect(end - 10, startY + m_Bottom, end + 10, startY + m_Bottom + m_Height);
             return rect.Contains(pos);
         }
 

@@ -28,8 +28,8 @@ namespace XCharts
 
         protected override void OnEndInspectorGUI()
         {
-            base.OnEndInspectorGUI();
             EditorGUILayout.PropertyField(m_Radars, true);
+            base.OnEndInspectorGUI();
         }
     }
 }

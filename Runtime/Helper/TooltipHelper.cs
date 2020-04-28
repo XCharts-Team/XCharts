@@ -175,6 +175,20 @@ namespace XCharts
             }
         }
 
+        public static void SetContentAndPosition(Tooltip tooltip,string content,Rect chartRect){
+            tooltip.UpdateContentText(content);
+            var pos = tooltip.GetContentPos();
+            if (pos.x + tooltip.runtimeWidth > chartRect.x + chartRect.width)
+            {
+                pos.x = chartRect.x + chartRect.width - tooltip.runtimeWidth;
+            }
+            if (pos.y - tooltip.runtimeHeight < chartRect.y)
+            {
+                pos.y = chartRect.y + tooltip.runtimeHeight;
+            }
+            tooltip.UpdateContentPos(pos);
+        }
+
         public static string GetFormatterContent(Tooltip tooltip, int dataIndex, Series series, ThemeInfo themeInfo,
             string category = null, DataZoom dataZoom = null, bool isCartesian = false)
         {

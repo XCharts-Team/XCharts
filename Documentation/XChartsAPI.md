@@ -14,7 +14,7 @@
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
 * `BaseChart.customDrawCallback`：自定义绘制回调函数。
-* `BaseChart.SetSize(float width, float height)`：设置图表的大小。
+* `BaseChart.SetSize(float width, float height)`： 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。
 * `BaseChart.RemoveData(string serieName)`：清除指定系列名称的数据。

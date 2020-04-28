@@ -381,9 +381,9 @@ namespace XCharts
             }
         }
 
-        public float GetValue(Vector3 pos, float chartWidth, float chartHeight)
+        public float GetValue(Vector3 pos, Rect chartRect)
         {
-            var centerPos = location.GetPosition(chartWidth, chartHeight);
+            var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             var pos1 = centerPos + (runtimeIsVertical ? Vector3.down : Vector3.left) * itemHeight / 2;
             var pos2 = centerPos + (runtimeIsVertical ? Vector3.up : Vector3.right) * itemHeight / 2;
             if (runtimeIsVertical)
@@ -400,9 +400,9 @@ namespace XCharts
             }
         }
 
-        public bool IsInRect(Vector3 local, float chartWidth, float chartHeight, float triangleLen = 20)
+        public bool IsInRect(Vector3 local, Rect chartRect, float triangleLen = 20)
         {
-            var centerPos = location.GetPosition(chartWidth, chartHeight);
+            var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             var diff = calculable ? triangleLen : 0;
             if (local.x >= centerPos.x - itemWidth / 2 - diff && local.x <= centerPos.x + itemWidth / 2 + diff &&
                 local.y >= centerPos.y - itemHeight / 2 - diff && local.y <= centerPos.y + itemHeight / 2 + diff)
@@ -415,9 +415,9 @@ namespace XCharts
             }
         }
 
-        public bool IsInRangeRect(Vector3 local, float chartWidth, float chartHeight)
+        public bool IsInRangeRect(Vector3 local, Rect chartRect)
         {
-            var centerPos = location.GetPosition(chartWidth, chartHeight);
+            var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             if (orient == Orient.Vertical)
             {
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
@@ -432,9 +432,9 @@ namespace XCharts
             }
         }
 
-        public bool IsInRangeMinRect(Vector3 local, float chartWidth, float chartHeight, float triangleLen)
+        public bool IsInRangeMinRect(Vector3 local, Rect chartRect, float triangleLen)
         {
-            var centerPos = location.GetPosition(chartWidth, chartHeight);
+            var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             if (orient == Orient.Vertical)
             {
                 var radius = triangleLen / 2;
@@ -454,9 +454,9 @@ namespace XCharts
             }
         }
 
-        public bool IsInRangeMaxRect(Vector3 local, float chartWidth, float chartHeight, float triangleLen)
+        public bool IsInRangeMaxRect(Vector3 local, Rect chartRect, float triangleLen)
         {
-            var centerPos = location.GetPosition(chartWidth, chartHeight);
+            var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             if (orient == Orient.Vertical)
             {
                 var radius = triangleLen / 2;

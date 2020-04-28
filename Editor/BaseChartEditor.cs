@@ -75,8 +75,8 @@ namespace XCharts
         protected virtual void OnStartInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Script);
-            EditorGUILayout.PropertyField(m_ChartWidth);
-            EditorGUILayout.PropertyField(m_ChartHeight);
+            // EditorGUILayout.PropertyField(m_ChartWidth);
+            // EditorGUILayout.PropertyField(m_ChartHeight);
             EditorGUILayout.PropertyField(m_ThemeInfo, true);
             EditorGUILayout.PropertyField(m_Title, true);
             EditorGUILayout.PropertyField(m_Legend, true);

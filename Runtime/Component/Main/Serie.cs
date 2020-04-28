@@ -1572,21 +1572,7 @@ namespace XCharts
             return false;
         }
 
-        /// <summary>
-        /// 更新运行时中心点和半径
-        /// </summary>
-        /// <param name="chartWidth"></param>
-        /// <param name="chartHeight"></param>
-        internal void UpdateCenter(float chartWidth, float chartHeight)
-        {
-            if (center.Length < 2) return;
-            var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
-            var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            runtimeCenterPos = new Vector2(centerX, centerY);
-            var minWidth = Mathf.Min(chartWidth, chartHeight);
-            runtimeInsideRadius = radius[0] <= 1 ? minWidth * radius[0] : radius[0];
-            runtimeOutsideRadius = radius[1] <= 1 ? minWidth * radius[1] : radius[1];
-        }
+       
 
         /// <summary>
         /// 设置指定index的数据图标的尺寸

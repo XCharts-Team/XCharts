@@ -240,5 +240,21 @@ namespace XCharts
             if (itemStyle != null) return itemStyle.cornerRadius;
             else return null;
         }
+
+        /// <summary>
+        /// 更新运行时中心点和半径
+        /// </summary>
+        /// <param name="chartWidth"></param>
+        /// <param name="chartHeight"></param>
+        internal static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
+        {
+            if (serie.center.Length < 2) return;
+            var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
+            var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
+            serie.runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
+            var minWidth = Mathf.Min(chartWidth, chartHeight);
+            serie.runtimeInsideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
+            serie.runtimeOutsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
+        }
     }
 }

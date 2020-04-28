@@ -35,7 +35,8 @@ namespace XCharts
 
         void OnTestBtn()
         {
-            chart.ClearData();
+            //chart.ClearData();
+            chart.SetSize(800,400);
         }
 
         void AddData()

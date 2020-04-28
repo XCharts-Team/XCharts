@@ -61,7 +61,6 @@ namespace XCharts
             if (legend.textStyle.color != Color.clear && legend.textStyle.color.a == 0)
                 sb.Append("warning:legend->textStyle->color alpha is 0\n");
             var serieNameList = chart.series.GetLegalSerieNameList();
-            Debug.LogError("namelist:" + serieNameList.Count);
             if (serieNameList.Count == 0) sb.Append("warning:legend need serie.name or serieData.name not empty\n");
             foreach (var category in legend.data)
             {

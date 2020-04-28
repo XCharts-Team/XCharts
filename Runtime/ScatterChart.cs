@@ -111,18 +111,7 @@ namespace XCharts
             if (m_Tooltip.isAnySerieDataIndex())
             {
                 var content = TooltipHelper.GetFormatterContent(m_Tooltip, 0, m_Series, m_ThemeInfo);
-                m_Tooltip.UpdateContentText(content);
-
-                var pos = m_Tooltip.GetContentPos();
-                if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-                {
-                    pos.x = chartWidth - m_Tooltip.runtimeWidth;
-                }
-                if (pos.y - m_Tooltip.runtimeHeight < 0)
-                {
-                    pos.y = m_Tooltip.runtimeHeight;
-                }
-                m_Tooltip.UpdateContentPos(pos);
+                TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
                 m_Tooltip.SetActive(true);
             }
             else

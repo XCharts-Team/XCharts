@@ -154,6 +154,7 @@ namespace XCharts
                 var cp3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, cpty);
                 var cp4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY - xLineDiff);
                 ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, m_ThemeInfo.backgroundColor);
+
             }
             else
             {
@@ -168,25 +169,25 @@ namespace XCharts
             var yLineDiff = yAxis0.axisLine.width;
             var xSplitDiff = xAxis0.splitLine.lineStyle.width;
             var ySplitDiff = yAxis0.splitLine.lineStyle.width;
-            var lp1 = new Vector3(0, 0);
-            var lp2 = new Vector3(0, chartHeight);
-            var lp3 = new Vector3(coordinateX - yLineDiff, chartHeight);
-            var lp4 = new Vector3(coordinateX - yLineDiff, 0);
+            var lp1 = new Vector3(m_ChartX, m_ChartY);
+            var lp2 = new Vector3(m_ChartX, m_ChartY + chartHeight);
+            var lp3 = new Vector3(coordinateX - yLineDiff, m_ChartY + chartHeight);
+            var lp4 = new Vector3(coordinateX - yLineDiff, m_ChartY);
             ChartDrawer.DrawPolygon(vh, lp1, lp2, lp3, lp4, m_ThemeInfo.backgroundColor);
-            var rp1 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, 0);
-            var rp2 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, chartHeight);
-            var rp3 = new Vector3(chartWidth, chartHeight);
-            var rp4 = new Vector3(chartWidth, 0);
+            var rp1 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, m_ChartY);
+            var rp2 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, m_ChartY + chartHeight);
+            var rp3 = new Vector3(m_ChartX + chartWidth, m_ChartY + chartHeight);
+            var rp4 = new Vector3(m_ChartX + chartWidth, m_ChartY);
             ChartDrawer.DrawPolygon(vh, rp1, rp2, rp3, rp4, m_ThemeInfo.backgroundColor);
             var up1 = new Vector3(coordinateX - yLineDiff, coordinateY + coordinateHeight + ySplitDiff);
-            var up2 = new Vector3(coordinateX - yLineDiff, chartHeight);
-            var up3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, chartHeight);
+            var up2 = new Vector3(coordinateX - yLineDiff, m_ChartY + chartHeight);
+            var up3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, m_ChartY + chartHeight);
             var up4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY + coordinateHeight + ySplitDiff);
             ChartDrawer.DrawPolygon(vh, up1, up2, up3, up4, m_ThemeInfo.backgroundColor);
-            var dp1 = new Vector3(coordinateX - yLineDiff, 0);
+            var dp1 = new Vector3(coordinateX - yLineDiff, m_ChartY);
             var dp2 = new Vector3(coordinateX - yLineDiff, coordinateY - xLineDiff);
             var dp3 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, coordinateY - xLineDiff);
-            var dp4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, 0);
+            var dp4 = new Vector3(coordinateX + coordinateWidth + xSplitDiff, m_ChartY);
             ChartDrawer.DrawPolygon(vh, dp1, dp2, dp3, dp4, m_ThemeInfo.backgroundColor);
         }
 
@@ -407,17 +408,7 @@ namespace XCharts
             var category = tempAxis.GetData(index, m_DataZoom);
             var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo, category,
                 m_DataZoom, isCartesian);
-            m_Tooltip.UpdateContentText(content);
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.runtimeWidth;
-            }
-            if (pos.y - m_Tooltip.runtimeHeight < 0)
-            {
-                pos.y = m_Tooltip.runtimeHeight;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            TooltipHelper.SetContentAndPosition(m_Tooltip, content, chartRect);
             m_Tooltip.SetActive(true);
 
             for (int i = 0; i < m_XAxises.Count; i++)
@@ -800,16 +791,16 @@ namespace XCharts
             {
                 if (axis is XAxis)
                 {
-                    m_Series.GetXMinMaxValue(m_DataZoom, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                    m_Series.GetXMinMaxValue(null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
                 }
                 else
                 {
-                    m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                    m_Series.GetYMinMaxValue(null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
                 }
             }
             else
             {
-                m_Series.GetYMinMaxValue(m_DataZoom, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
+                m_Series.GetYMinMaxValue(null, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
             }
             axis.AdjustMinMaxValue(ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
@@ -1120,10 +1111,10 @@ namespace XCharts
         {
             if (!m_DataZoom.enable || !m_DataZoom.supportSlider) return;
             var hig = m_DataZoom.GetHeight(grid.bottom);
-            var p1 = new Vector2(coordinateX, m_DataZoom.bottom);
-            var p2 = new Vector2(coordinateX, m_DataZoom.bottom + hig);
-            var p3 = new Vector2(coordinateX + coordinateWidth, m_DataZoom.bottom + hig);
-            var p4 = new Vector2(coordinateX + coordinateWidth, m_DataZoom.bottom);
+            var p1 = new Vector3(coordinateX, m_ChartY + m_DataZoom.bottom);
+            var p2 = new Vector3(coordinateX, m_ChartY + m_DataZoom.bottom + hig);
+            var p3 = new Vector3(coordinateX + coordinateWidth, m_ChartY + m_DataZoom.bottom + hig);
+            var p4 = new Vector3(coordinateX + coordinateWidth, m_ChartY + m_DataZoom.bottom);
             var xAxis = xAxises[0];
             ChartDrawer.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
             ChartDrawer.DrawLine(vh, p2, p3, xAxis.axisLine.width, m_ThemeInfo.dataZoomLineColor);
@@ -1155,9 +1146,11 @@ namespace XCharts
                     float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                     serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis.inverse);
                     float pX = coordinateX + i * scaleWid;
-                    float dataHig = (axis.runtimeMaxValue - axis.runtimeMinValue) == 0 ? 0 :
-                        (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * hig;
-                    np = new Vector3(pX, m_DataZoom.bottom + dataHig);
+                    // float dataHig = (axis.runtimeMaxValue - axis.runtimeMinValue) == 0 ? 0 :
+                    //     (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * hig;
+                    float dataHig = (maxValue - minValue) == 0 ? 0 :
+                        (value - minValue) / (maxValue - minValue) * hig;
+                    np = new Vector3(pX, m_ChartY + m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {
                         Color color = m_ThemeInfo.dataZoomLineColor;
@@ -1165,8 +1158,8 @@ namespace XCharts
                         Vector3 alp = new Vector3(lp.x, lp.y - xAxis.axisLine.width);
                         Vector3 anp = new Vector3(np.x, np.y - xAxis.axisLine.width);
                         Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
-                        Vector3 tnp = new Vector3(np.x, m_DataZoom.bottom + xAxis.axisLine.width);
-                        Vector3 tlp = new Vector3(lp.x, m_DataZoom.bottom + xAxis.axisLine.width);
+                        Vector3 tnp = new Vector3(np.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
+                        Vector3 tlp = new Vector3(lp.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
                         ChartDrawer.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
                     }
                     lp = np;
@@ -1181,10 +1174,10 @@ namespace XCharts
                 case DataZoom.RangeMode.Percent:
                     var start = coordinateX + coordinateWidth * m_DataZoom.start / 100;
                     var end = coordinateX + coordinateWidth * m_DataZoom.end / 100;
-                    p1 = new Vector2(start, m_DataZoom.bottom);
-                    p2 = new Vector2(start, m_DataZoom.bottom + hig);
-                    p3 = new Vector2(end, m_DataZoom.bottom + hig);
-                    p4 = new Vector2(end, m_DataZoom.bottom);
+                    p1 = new Vector2(start, m_ChartY + m_DataZoom.bottom);
+                    p2 = new Vector2(start, m_ChartY + m_DataZoom.bottom + hig);
+                    p3 = new Vector2(end, m_ChartY + m_DataZoom.bottom + hig);
+                    p4 = new Vector2(end, m_ChartY + m_DataZoom.bottom);
                     ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.dataZoomSelectedColor);
                     ChartDrawer.DrawLine(vh, p1, p2, xAxis.axisLine.width, m_ThemeInfo.dataZoomSelectedColor);
                     ChartDrawer.DrawLine(vh, p3, p4, xAxis.axisLine.width, m_ThemeInfo.dataZoomSelectedColor);
@@ -1337,9 +1330,9 @@ namespace XCharts
                     m_DataZoom.SetLabelActive(false);
                     return;
                 }
-                if (m_DataZoom.IsInSelectedZoom(local, coordinateX, coordinateWidth)
-                    || m_DataZoom.IsInStartZoom(local, coordinateX, coordinateWidth)
-                    || m_DataZoom.IsInEndZoom(local, coordinateX, coordinateWidth))
+                if (m_DataZoom.IsInSelectedZoom(local, coordinateX, chartY, coordinateWidth)
+                    || m_DataZoom.IsInStartZoom(local, coordinateX, chartY, coordinateWidth)
+                    || m_DataZoom.IsInEndZoom(local, coordinateX, chartY, coordinateWidth))
                 {
                     m_DataZoom.SetLabelActive(true);
                     RefreshDataZoomLabel();
@@ -1370,8 +1363,8 @@ namespace XCharts
                 var start = coordinateX + coordinateWidth * m_DataZoom.start / 100;
                 var end = coordinateX + coordinateWidth * m_DataZoom.end / 100;
                 var hig = m_DataZoom.GetHeight(grid.bottom);
-                m_DataZoom.UpdateStartLabelPosition(new Vector3(start - 10, m_DataZoom.bottom + hig / 2));
-                m_DataZoom.UpdateEndLabelPosition(new Vector3(end + 10, m_DataZoom.bottom + hig / 2));
+                m_DataZoom.UpdateStartLabelPosition(new Vector3(start - 10, chartY + m_DataZoom.bottom + hig / 2));
+                m_DataZoom.UpdateEndLabelPosition(new Vector3(end + 10, chartY + m_DataZoom.bottom + hig / 2));
             }
         }
 
@@ -1523,15 +1516,15 @@ namespace XCharts
             }
             if (m_DataZoom.supportSlider)
             {
-                if (m_DataZoom.IsInStartZoom(pos, coordinateX, coordinateWidth))
+                if (m_DataZoom.IsInStartZoom(pos, coordinateX, chartY, coordinateWidth))
                 {
                     m_DataZoomStartDrag = true;
                 }
-                else if (m_DataZoom.IsInEndZoom(pos, coordinateX, coordinateWidth))
+                else if (m_DataZoom.IsInEndZoom(pos, coordinateX, chartY, coordinateWidth))
                 {
                     m_DataZoomEndDrag = true;
                 }
-                else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, coordinateWidth))
+                else if (m_DataZoom.IsInSelectedZoom(pos, coordinateX, chartY, coordinateWidth))
                 {
                     m_DataZoomDrag = true;
                 }
@@ -1656,13 +1649,14 @@ namespace XCharts
             {
                 return;
             }
-            if (m_DataZoom.IsInStartZoom(localPos, coordinateX, coordinateWidth) ||
-                m_DataZoom.IsInEndZoom(localPos, coordinateX, coordinateWidth))
+
+            if (m_DataZoom.IsInStartZoom(localPos, coordinateX, chartY, coordinateWidth) ||
+                m_DataZoom.IsInEndZoom(localPos, coordinateX, chartY, coordinateWidth))
             {
                 return;
             }
-            if (m_DataZoom.IsInZoom(localPos, coordinateX, coordinateWidth)
-                && !m_DataZoom.IsInSelectedZoom(localPos, coordinateX, coordinateWidth))
+            if (m_DataZoom.IsInZoom(localPos, coordinateX, chartY, coordinateWidth)
+                && !m_DataZoom.IsInSelectedZoom(localPos, coordinateX, chartY, coordinateWidth))
             {
                 var pointerX = localPos.x;
                 var selectWidth = coordinateWidth * (m_DataZoom.end - m_DataZoom.start) / 100;
@@ -1688,14 +1682,14 @@ namespace XCharts
         public override void OnScroll(PointerEventData eventData)
         {
             if (Input.touchCount > 1) return;
-            if (!m_DataZoom.enable || m_DataZoom.zoomLock || !m_DataZoom.supportInside) return;
+            if (!m_DataZoom.enable || m_DataZoom.zoomLock) return;
             Vector2 pos;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 eventData.position, canvas.worldCamera, out pos))
             {
                 return;
             }
-            if (!IsInCooridate(pos))
+            if (!IsInCooridate(pos) && !m_DataZoom.IsInSelectedZoom(pos, coordinateX, chartY, coordinateWidth))
             {
                 return;
             }

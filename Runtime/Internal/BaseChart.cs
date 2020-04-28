@@ -41,6 +41,8 @@ namespace XCharts
 
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
+        [SerializeField] protected float m_ChartX;
+        [SerializeField] protected float m_ChartY;
         [SerializeField] protected ThemeInfo m_ThemeInfo;
         [SerializeField] protected Title m_Title = Title.defaultTitle;
         [SerializeField] protected Legend m_Legend = Legend.defaultLegend;
@@ -52,10 +54,12 @@ namespace XCharts
         [SerializeField] protected string m_DebugInfo = "";
 
         [NonSerialized] private Theme m_CheckTheme = 0;
-        [NonSerialized] private float m_CheckWidth = 0;
-        [NonSerialized] private float m_CheckHeight = 0;
-        [NonSerialized] private Vector2 m_CheckMinAnchor;
-        [NonSerialized] private Vector2 m_CheckMaxAnchor;
+        [NonSerialized] protected Vector3 m_ChartPosition = Vector3.zero;
+        [NonSerialized] protected Vector2 m_ChartMinAnchor;
+        [NonSerialized] protected Vector2 m_ChartMaxAnchor;
+        [NonSerialized] protected Vector2 m_ChartPivot;
+        [NonSerialized] protected Vector2 m_ChartSizeDelta;
+        [NonSerialized] protected Rect m_ChartRect = new Rect(0, 0, 0, 0);
 
         [NonSerialized] protected bool m_RefreshChart = false;
         [NonSerialized] protected bool m_RefreshLabel = false;
@@ -65,9 +69,9 @@ namespace XCharts
         [NonSerialized] protected bool m_IsPlayingAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
-        protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
-        protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
-        protected Vector2 chartPivot { get { return rectTransform.pivot; } }
+        protected Vector2 chartAnchorMax { get { return m_ChartMinAnchor; } }
+        protected Vector2 chartAnchorMin { get { return m_ChartMaxAnchor; } }
+        protected Vector2 chartPivot { get { return m_ChartPivot; } }
 
         protected virtual void InitComponent()
         {
@@ -85,13 +89,10 @@ namespace XCharts
                 m_ThemeInfo = ThemeInfo.Default;
             }
             raycastTarget = false;
-            rectTransform.anchorMax = Vector2.zero;
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.pivot = Vector2.zero;
-            m_ChartWidth = rectTransform.sizeDelta.x;
-            m_ChartHeight = rectTransform.sizeDelta.y;
-            m_CheckWidth = m_ChartWidth;
-            m_CheckHeight = m_ChartHeight;
+            m_ChartX = 100;
+            m_ChartY = 100;
+            m_ChartWidth = rectTransform.rect.width;
+            m_ChartHeight = rectTransform.rect.height;
             m_CheckTheme = m_ThemeInfo.theme;
             InitComponent();
             m_Series.AnimationReset();
@@ -225,7 +226,7 @@ namespace XCharts
             Vector2 anchorMin = m_Title.location.runtimeAnchorMin;
             Vector2 anchorMax = m_Title.location.runtimeAnchorMax;
             Vector2 pivot = m_Title.location.runtimePivot;
-            Vector3 titlePosition = m_Title.location.GetPosition(chartWidth, chartHeight);
+            Vector3 titlePosition = GetTitlePosition();
             Vector3 subTitlePosition = -new Vector3(0, m_Title.textStyle.fontSize + m_Title.itemGap, 0);
             float titleWid = chartWidth;
 
@@ -269,7 +270,7 @@ namespace XCharts
 
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
-            legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
+            legendObject.transform.localPosition = GetLegendPosition();
 
             m_LegendRealShowName = m_Series.GetSerieNameList();
             List<string> datas;
@@ -363,14 +364,14 @@ namespace XCharts
 
         private void InitSerieLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, Vector2.zero,
-                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, m_ChartMinAnchor,
+                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             SerieLabelPool.ReleaseAll(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                serie.UpdateCenter(chartWidth, chartHeight);
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -404,8 +405,8 @@ namespace XCharts
 
         private void InitSerieTitle()
         {
-            var titleObject = ChartHelper.AddObject(s_SerieTitleObjectName, transform, Vector2.zero,
-                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            var titleObject = ChartHelper.AddObject(s_SerieTitleObjectName, transform, m_ChartMinAnchor,
+                m_ChartMaxAnchor, m_ChartPivot, new Vector2(chartWidth, chartHeight));
             ChartHelper.HideAllObject(titleObject);
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -436,8 +437,8 @@ namespace XCharts
 
         private void InitTooltip()
         {
-            var tooltipObject = ChartHelper.AddObject("tooltip", transform, chartAnchorMin,
-                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            var tooltipObject = ChartHelper.AddObject("tooltip", transform, m_ChartMinAnchor,
+                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             tooltipObject.transform.localPosition = Vector3.zero;
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
@@ -459,22 +460,43 @@ namespace XCharts
 
         private void CheckSize()
         {
-            var sizeDelta = rectTransform.sizeDelta;
-            if (m_CheckWidth == 0 && m_CheckHeight == 0 && (sizeDelta.x != 0 || sizeDelta.y != 0))
+            var currWidth = rectTransform.rect.width;
+            var currHeight = rectTransform.rect.height;
+
+            if (m_ChartWidth == 0 && m_ChartHeight == 0 && (currWidth != 0 || currHeight != 0))
             {
                 Awake();
             }
-            else if (m_CheckWidth != sizeDelta.x || m_CheckHeight != sizeDelta.y)
-            {
-                SetSize(sizeDelta.x, sizeDelta.y);
-            }
 
-            if (m_CheckMinAnchor != rectTransform.anchorMin || m_CheckMaxAnchor != rectTransform.anchorMax)
+            if (m_ChartWidth != currWidth || m_ChartHeight != currHeight ||
+                m_ChartMinAnchor != rectTransform.anchorMin || m_ChartMaxAnchor != rectTransform.anchorMax)
             {
-                m_CheckMaxAnchor = rectTransform.anchorMax;
-                m_CheckMinAnchor = rectTransform.anchorMin;
-                m_ReinitLabel = true;
+                UpdateSize();
             }
+        }
+
+        private void UpdateSize()
+        {
+            m_ChartWidth = rectTransform.rect.width;
+            m_ChartHeight = rectTransform.rect.height;
+
+            m_ChartMaxAnchor = rectTransform.anchorMax;
+            m_ChartMinAnchor = rectTransform.anchorMin;
+            m_ChartSizeDelta = rectTransform.sizeDelta;
+            m_ReinitLabel = true;
+
+            rectTransform.pivot = LayerHelper.ResetChartPositionAndPivot(m_ChartMinAnchor, m_ChartMaxAnchor,
+               m_ChartWidth, m_ChartHeight, ref m_ChartX, ref m_ChartY);
+            m_ChartPivot = rectTransform.pivot;
+
+            m_ChartRect.x = m_ChartX;
+            m_ChartRect.y = m_ChartY;
+            m_ChartRect.width = m_ChartWidth;
+            m_ChartRect.height = m_ChartHeight;
+            m_ChartPosition.x = m_ChartX;
+            m_ChartPosition.y = m_ChartY;
+
+            OnSizeChanged();
         }
 
         private void CheckLegend()
@@ -541,8 +563,7 @@ namespace XCharts
                 }
                 return;
             }
-            if (local.x < 0 || local.x > chartWidth ||
-                local.y < 0 || local.y > chartHeight)
+            if (!IsInChart(local))
             {
                 if (m_Tooltip.IsActive())
                 {
@@ -609,6 +630,7 @@ namespace XCharts
             m_Legend.SetAllDirty();
             m_Tooltip.SetAllDirty();
             m_Series.SetLabelDirty();
+            RefreshChart();
         }
 
         protected virtual void OnThemeChanged()
@@ -721,10 +743,10 @@ namespace XCharts
 
         protected virtual void DrawBackground(VertexHelper vh)
         {
-            Vector3 p1 = new Vector3(0, chartHeight);
-            Vector3 p2 = new Vector3(chartWidth, chartHeight);
-            Vector3 p3 = new Vector3(chartWidth, 0);
-            Vector3 p4 = new Vector3(0, 0);
+            Vector3 p1 = new Vector3(chartX, chartY + chartHeight);
+            Vector3 p2 = new Vector3(chartX + chartWidth, chartY + chartHeight);
+            Vector3 p3 = new Vector3(chartX + chartWidth, chartY);
+            Vector3 p4 = new Vector3(chartX, chartY);
             ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
         }
 
@@ -858,7 +880,6 @@ namespace XCharts
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)

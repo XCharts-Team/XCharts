@@ -84,18 +84,17 @@ namespace XCharts
 
         private void InitAxisLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_AxisLabelObjectName, transform, Vector2.zero,
-                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            var labelObject = ChartHelper.AddObject(s_AxisLabelObjectName, transform, m_ChartMinAnchor,
+                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             SerieLabelPool.ReleaseAll(labelObject.transform);
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-
                 var serieLabel = serie.gaugeAxis.axisLabel;
-                serie.gaugeAxis.ClearLabelObject();
-                serie.UpdateCenter(chartWidth, chartHeight);
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
                 var startAngle = serie.startAngle;
+                serie.gaugeAxis.ClearLabelObject();
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
                 for (int j = 0; j < count; j++)
                 {
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
@@ -124,6 +123,12 @@ namespace XCharts
             base.OnThemeChanged();
         }
 
+        protected override void OnSizeChanged()
+        {
+            base.OnSizeChanged();
+            InitAxisLabel();
+        }
+
         private void DrawData(VertexHelper vh)
         {
             for (int i = 0; i < m_Series.Count; i++)
@@ -136,7 +141,7 @@ namespace XCharts
 
         private void DrawGauge(VertexHelper vh, Serie serie)
         {
-            serie.UpdateCenter(chartWidth, chartHeight);
+            SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();

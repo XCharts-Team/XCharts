@@ -521,7 +521,6 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
-            if (yAxis.IsValue() && yAxis.runtimeMinValue == 0 && yAxis.runtimeMaxValue == 0) return;
             var labelColor = yAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 yAxis.axisLabel.color;
@@ -627,7 +626,6 @@ namespace XCharts
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
             ChartHelper.HideAllObject(axisObj);
-            if (xAxis.IsValue() && xAxis.runtimeMinValue == 0 && xAxis.runtimeMaxValue == 0) return;
             var labelColor = xAxis.axisLabel.color == Color.clear ?
                 (Color)m_ThemeInfo.axisTextColor :
                 xAxis.axisLabel.color;
@@ -830,19 +828,22 @@ namespace XCharts
                 }
                 if (updateChart)
                 {
-                    float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
-                    var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
-                    axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack, 500);
+                    UpdateAxisLabelText(axis);
                     RefreshChart();
                 }
             }
             if (axis.IsValueChanging(500) && !m_IsPlayingAnimation)
             {
-                float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
-                var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
-                axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack, 500);
+                UpdateAxisLabelText(axis);
                 RefreshChart();
             }
+        }
+
+        protected void UpdateAxisLabelText(Axis axis)
+        {
+            float coordinateWidth = axis is XAxis ? this.coordinateWidth : coordinateHeight;
+            var isPercentStack = m_Series.IsPercentStack(SerieType.Bar);
+            axis.UpdateLabelText(coordinateWidth, m_DataZoom, isPercentStack, 500);
         }
 
         protected virtual void OnCoordinateChanged()

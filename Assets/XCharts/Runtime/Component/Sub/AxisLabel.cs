@@ -264,10 +264,7 @@ namespace XCharts
                     content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, string.Empty, 1));
                 else if (content.Contains("{value}"))
                 {
-                    if (value - (int)value == 0)
-                        content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
-                    else
-                        content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, string.Empty, 1));
+                    content = m_Formatter.Replace("{value}", ChartCached.NumberToStr((int)value, numericFormatter));
                 }
 
                 content = content.Replace("\\n", "\n");

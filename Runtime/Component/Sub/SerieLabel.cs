@@ -101,7 +101,7 @@ namespace XCharts
         [SerializeField] private bool m_Border = false;
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
-        [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private string m_NumericFormatter = "";
 
         /// <summary>
         /// Whether the label is showed.
@@ -321,38 +321,16 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        public bool forceENotation
+        /// <value></value>
+        public string numericFormatter
         {
-            get { return m_ForceENotation; }
-            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetVerticesDirty(); }
-        }
-
-        public string GetFormatterContent(string serieName, string dataName, float dataValue, float dataTotal = 0)
-        {
-            if (string.IsNullOrEmpty(m_Formatter))
-                return ChartCached.FloatToStr(dataValue, 0, m_ForceENotation);
-            else
-            {
-                var content = m_Formatter.Replace("{a}", serieName);
-                content = content.Replace("{b}", dataName);
-                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue, 0, m_ForceENotation));
-                content = content.Replace("{c:f0}", ChartCached.IntToStr((int)Mathf.Round(dataValue)));
-                content = content.Replace("{c:f1}", ChartCached.FloatToStr(dataValue, 1));
-                content = content.Replace("{c:f2}", ChartCached.FloatToStr(dataValue, 2));
-                if (dataTotal > 0)
-                {
-                    var percent = dataValue / dataTotal * 100;
-                    content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
-                    content = content.Replace("{d:f0}", ChartCached.IntToStr((int)Mathf.Round(percent)));
-                    content = content.Replace("{d:f1}", ChartCached.FloatToStr(percent, 1));
-                    content = content.Replace("{d:f2}", ChartCached.FloatToStr(percent, 2));
-                }
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
-                return content;
-            }
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
     }
 }

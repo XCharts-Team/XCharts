@@ -70,7 +70,6 @@ namespace XCharts
             base.CheckTootipArea(local);
             m_Tooltip.ClearSerieDataIndex();
             bool selected = false;
-            var localv3 = new Vector3(local.x, local.y);
             foreach (var serie in m_Series.list)
             {
                 if (!serie.show) continue;

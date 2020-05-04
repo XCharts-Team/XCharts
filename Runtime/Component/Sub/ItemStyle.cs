@@ -47,6 +47,7 @@ namespace XCharts
         [SerializeField] private Color m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
+        [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
 
         /// <summary>
@@ -145,6 +146,18 @@ namespace XCharts
         {
             get { return m_TooltipFormatter; }
             set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// </summary>
+        /// <value></value>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).

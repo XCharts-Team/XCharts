@@ -190,13 +190,14 @@
   * `Shadow`：阴影指示器。
   * `None`：无指示器。
   * `Corss`：十字准星指示器。坐标轴显示Label和交叉线。
-* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。示例：`{a}:{c}`，`{a1}:{c1:f1}`。其中`{.}`表示带动态颜色的圆点；`{c:0}`、`{c1:1}`表示索引为0、1的serie的数据项的第0、第1个数据；其它变量 `{a}`, `{b}`, `{c}`, `{d}` 在不同图表类型下代表数据含义为：
+* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。示例：`{a}:{c}`，`{a1}:{c1}`。其中`{.}`表示带动态颜色的圆点；`{c:0}`、`{c1:1}`表示索引为0、1的serie的数据项的第0、第1个数据；其它变量 `{a}`, `{b}`, `{c}`, `{d}` 在不同图表类型下代表数据含义为：
   * 折线（区域）图、柱状（条形）图、K线图 : `{a}`（系列名称），`{b}`（类目值），`{c}`（数值）, `{d}`（无）。
   * 散点图（气泡）图 : `{a}`（系列名称），`{b}`（数据名称），`{c}`（数值数组）, `{d}`（无）。
   * 地图 : `{a}`（系列名称），`{b}`（区域名称），`{c}`（合并数值）, `{d}`（无）。
   * 饼图、仪表盘、漏斗图: `{a}`（系列名称），`{b}`（数据项名称），`{c}`（数值）, `{d}`（百分比）。
 * `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。仅当`itemFormatter`生效时才有效。
 * `itemFormatter`：提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `fixedWidth`：固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
@@ -204,7 +205,6 @@
 * `paddingLeftRight`：文字和边框的左右边距。
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 * `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
@@ -682,8 +682,8 @@
 * `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
-* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，数值格式化通过`numericFormatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `onZero`：刻度标签显示在0刻度上。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
@@ -751,6 +751,7 @@
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
 * `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。此字段优先于`SerieLabel`和`Tooltip`的`numericFormatter`。
 * `cornerRadius`：圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
 
 ## `LineArrow`
@@ -816,7 +817,8 @@
   * `Center`：在中心位置（折线图，柱状图，饼图）。
   * `Top`：顶部（柱状图）。
   * `Bottom`：底部（柱状图）。
-* `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c:f1}`。
+* `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c}`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `offset`：距离图形元素的偏移。
 * `color`：自定义文字颜色，默认和系列的颜色一致。
 * `backgroundColor`：标签的背景色，默认无颜色。
@@ -839,7 +841,6 @@
 * `border`：是否显示边框。
 * `borderWidth`：边框宽度。
 * `borderColor`：边框颜色。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `SerieSymbol`
 

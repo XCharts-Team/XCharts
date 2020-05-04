@@ -59,7 +59,7 @@ namespace XCharts
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
         [SerializeField] private float m_MinHeight = 0;
-        [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
@@ -156,9 +156,17 @@ namespace XCharts
         [Obsolete("Use Tooltip.textStyle.fontStyle instead.", true)]
         public FontStyle fontStyle { get; set; }
         /// <summary>
-        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <value></value>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the text padding of left and right. defaut:5.
         /// 左右边距。
@@ -483,7 +491,5 @@ namespace XCharts
             }
             return false;
         }
-
-       
     }
 }

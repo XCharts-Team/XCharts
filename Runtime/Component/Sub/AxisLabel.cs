@@ -27,7 +27,7 @@ namespace XCharts
         [SerializeField] private Color m_Color;
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
-        [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_OnZero = false;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
@@ -106,20 +106,25 @@ namespace XCharts
         }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}
+        /// 模板变量为图例名称 {value}。
         /// </summary>
         public string formatter
         {
             get { return m_Formatter; }
             set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
+
         /// <summary>
-        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        public bool forceENotation
+        /// <value></value>
+        public string numericFormatter
         {
-            get { return m_ForceENotation; }
-            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetComponentDirty(); }
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -186,7 +191,7 @@ namespace XCharts
             axisLable.margin = margin;
             axisLable.color = color;
             axisLable.fontSize = fontSize;
-            axisLable.forceENotation = forceENotation;
+            axisLable.numericFormatter = numericFormatter;
             axisLable.textLimit = textLimit.Clone();
             return axisLable;
         }
@@ -201,7 +206,7 @@ namespace XCharts
             margin = axisLable.margin;
             color = axisLable.color;
             fontSize = axisLable.fontSize;
-            forceENotation = axisLable.forceENotation;
+            numericFormatter = axisLable.numericFormatter;
             textLimit.Copy(axisLable.textLimit);
         }
 
@@ -236,10 +241,7 @@ namespace XCharts
             {
                 if (isLog)
                 {
-                    if (value - (int)value == 0)
-                        return ChartCached.IntToStr((int)value);
-                    else
-                        return ChartCached.FloatToStr(value);
+                    return ChartCached.NumberToStr(value, numericFormatter);
                 }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
@@ -247,12 +249,9 @@ namespace XCharts
                     int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
                     int curAcc = ChartHelper.GetFloatAccuracy(value);
                     int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
-                    return ChartCached.FloatToStr(value, acc, m_ForceENotation);
+                    return ChartCached.FloatToStr(value, numericFormatter, acc);
                 }
-                else if (value - (int)value == 0)
-                    return ChartCached.IntToStr((int)value);
-                else
-                    return ChartCached.FloatToStr(value, 1);
+                return ChartCached.NumberToStr(value, numericFormatter);
             }
             else if (m_Formatter.Contains("{value"))
             {
@@ -260,15 +259,15 @@ namespace XCharts
                 if (content.Contains("{value:f0}"))
                     content = m_Formatter.Replace("{value:f0}", ChartCached.IntToStr((int)value));
                 if (content.Contains("{value:f2}"))
-                    content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, 2));
+                    content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, string.Empty, 2));
                 else if (content.Contains("{value:f1}"))
-                    content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, 1));
+                    content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, string.Empty, 1));
                 else if (content.Contains("{value}"))
                 {
                     if (value - (int)value == 0)
                         content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
                     else
-                        content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, 1));
+                        content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, string.Empty, 1));
                 }
 
                 content = content.Replace("\\n", "\n");

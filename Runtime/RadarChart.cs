@@ -747,7 +747,7 @@ namespace XCharts
                         SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
                         serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
                         serieData.SetLabelPosition(serieLabel.offset);
-                        var content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, max);
+                        var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max, serieLabel);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
                     else

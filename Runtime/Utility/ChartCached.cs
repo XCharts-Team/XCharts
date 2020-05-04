@@ -6,72 +6,80 @@
 /******************************************/
 
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace XCharts
 {
     public static class ChartCached
     {
-        private static Dictionary<float, string> s_ValueToF1Str = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToE1Str = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToF2Str = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToE2Str = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToFnStr = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToEnStr = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToFStr = new Dictionary<float, string>(1000);
-        private static Dictionary<float, string> s_ValueToEStr = new Dictionary<float, string>(1000);
-        private static Dictionary<int, string> s_IntToStr = new Dictionary<int, string>(1000);
-        private static Dictionary<int, string> s_IntToFn = new Dictionary<int, string>(20);
+        private const string NUMERIC_FORMATTER_D = "D";
+        private const string NUMERIC_FORMATTER_d = "d";
+        private const string NUMERIC_FORMATTER_X = "X";
+        private const string NUMERIC_FORMATTER_x = "x";
+        private static CultureInfo ci = new CultureInfo("en-us");// "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
 
-        public static string FloatToStr(float value, int f = 0, bool forceE = false)
+        private static Dictionary<float, Dictionary<string, string>> s_NumberToStr = new Dictionary<float, Dictionary<string, string>>();
+        private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
+
+        public static string FloatToStr(float value, string numericFormatter = "F", int precision = 0)
         {
-            Dictionary<float, string> valueDic;
-            if (f == 0) valueDic = forceE ? s_ValueToEStr : s_ValueToFStr;
-            if (f == 1) valueDic = forceE ? s_ValueToE1Str : s_ValueToF1Str;
-            else if (f == 2) valueDic = forceE ? s_ValueToE2Str : s_ValueToF2Str;
-            else valueDic = forceE ? s_ValueToEnStr : s_ValueToFnStr;
-            if (valueDic.ContainsKey(value))
+            if (precision > 0 && numericFormatter.Length == 1)
             {
-                return valueDic[value];
+                if (!s_PrecisionToStr.ContainsKey(precision))
+                {
+                    s_PrecisionToStr[precision] = new Dictionary<string, string>();
+                }
+                if (!s_PrecisionToStr[precision].ContainsKey(numericFormatter))
+                {
+                    s_PrecisionToStr[precision][numericFormatter] = numericFormatter + precision;
+                }
+                return NumberToStr(value, s_PrecisionToStr[precision][numericFormatter]);
             }
             else
             {
-                if (f == 0) valueDic[value] = forceE ? value.ToString("E0") : value.ToString();
-                else if (f == 1) valueDic[value] = forceE ? value.ToString("E1") : value.ToString("f1");
-                else if (f == 2) valueDic[value] = forceE ? value.ToString("E2") : value.ToString("f2");
-                else valueDic[value] = (f > 3 || forceE) ? value.ToString("E0") : value.ToString(GetFn(f));
-                return valueDic[value];
+                return NumberToStr(value, numericFormatter);
             }
         }
 
-        private static string GetFn(int f)
+        public static string NumberToStr(float value, string formatter)
         {
-            if (s_IntToFn.ContainsKey(f))
+            if (!s_NumberToStr.ContainsKey(value))
             {
-                return s_IntToFn[f];
+                s_NumberToStr[value] = new Dictionary<string, string>();
             }
-            else
+            if (!s_NumberToStr[value].ContainsKey(formatter))
             {
-                s_IntToFn[f] = "f" + f;
-                return s_IntToFn[f];
+                if (string.IsNullOrEmpty(formatter))
+                {
+                    if (value - (int)value == 0)
+                        s_NumberToStr[value][formatter] = ((int)value).ToString();
+                    else
+                        s_NumberToStr[value][formatter] = value.ToString();
+                }
+                else if (formatter.StartsWith(NUMERIC_FORMATTER_D)
+                    || formatter.StartsWith(NUMERIC_FORMATTER_d)
+                    || formatter.StartsWith(NUMERIC_FORMATTER_X)
+                    || formatter.StartsWith(NUMERIC_FORMATTER_x)
+                    )
+                {
+                    s_NumberToStr[value][formatter] = ((int)value).ToString(formatter, ci);
+                }
+                else
+                {
+                    s_NumberToStr[value][formatter] = value.ToString(formatter, ci);
+                }
             }
+            return s_NumberToStr[value][formatter];
         }
 
-        public static string IntToStr(int value)
+        public static string IntToStr(int value, string numericFormatter = "")
         {
-            if (s_IntToStr.ContainsKey(value))
-            {
-                return s_IntToStr[value];
-            }
-            else
-            {
-                s_IntToStr[value] = value.ToString();
-                return s_IntToStr[value];
-            }
+            return NumberToStr(value, numericFormatter);
         }
 
         public static string ColorToStr(Color color)

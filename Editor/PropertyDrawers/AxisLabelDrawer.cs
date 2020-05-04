@@ -29,7 +29,7 @@ namespace XCharts
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
-            SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
+            SerializedProperty m_NumericFormatter = prop.FindPropertyRelative("m_NumericFormatter");
             SerializedProperty m_ShowAsPositiveNumber = prop.FindPropertyRelative("m_ShowAsPositiveNumber");
             SerializedProperty m_OnZero = prop.FindPropertyRelative("m_OnZero");
             SerializedProperty m_TextLimit = prop.FindPropertyRelative("m_TextLimit");
@@ -57,7 +57,7 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_ForceENotation);
+                EditorGUI.PropertyField(drawRect, m_NumericFormatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ShowAsPositiveNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

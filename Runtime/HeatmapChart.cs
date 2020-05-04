@@ -111,11 +111,11 @@ namespace XCharts
                             .Append(key).Append(!string.IsNullOrEmpty(key) ? "\n" : "")
                             .Append("<color=#").Append(ChartCached.ColorToStr(color)).Append(">● </color>")
                             .Append(xAxis.data[(int)xData]).Append(": ")
-                            .Append(ChartCached.FloatToStr(value));
+                            .Append(ChartCached.FloatToStr(value, string.Empty));
                     }
                 }
             }
-            TooltipHelper.SetContentAndPosition(tooltip,sb.ToString().Trim(),chartRect);
+            TooltipHelper.SetContentAndPosition(tooltip, sb.ToString().Trim(), chartRect);
             m_Tooltip.SetActive(true);
 
             for (int i = 0; i < m_XAxises.Count; i++)

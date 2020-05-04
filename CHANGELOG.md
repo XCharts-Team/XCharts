@@ -1,7 +1,7 @@
 
 # 更新日志
 
-* (2020.04.28) 增加`numericFormatter`参数可配置数值格式化显示，去掉`forceENotation`参数
+* (2020.05.04) 增加`numericFormatter`参数可配置数值格式化显示，去掉`forceENotation`参数
 * (2020.04.28) 增加`自由锚点`支持，任意对齐方式
 * (2020.04.23) 优化`ScatterChart`的`Tooltip`显示效果
 * (2020.04.23) 增加`Tooltip`的`formatter`对`{.}`、`{c:0}`、`{c1:1}`的支持

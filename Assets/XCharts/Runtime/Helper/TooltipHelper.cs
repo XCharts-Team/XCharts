@@ -41,14 +41,15 @@ namespace XCharts
             {
                 var dataIndex = dataIndexList[i];
                 var serieData = serie.GetSerieData(dataIndex);
+                var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
                 float xValue, yValue;
                 serie.GetXYData(dataIndex, null, out xValue, out yValue);
 
                 sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>");
                 if (!string.IsNullOrEmpty(serieData.name))
                     sb.Append(serieData.name).Append(": ");
-                sb.AppendFormat("({0},{1})", ChartCached.FloatToStr(xValue, 0, tooltip.forceENotation),
-                ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation));
+                sb.AppendFormat("({0},{1})", ChartCached.FloatToStr(xValue, numericFormatter),
+                ChartCached.FloatToStr(yValue, numericFormatter));
                 if (i != dataIndexList.Count - 1)
                 {
                     sb.Append("\n");
@@ -61,8 +62,10 @@ namespace XCharts
             ThemeInfo themeInfo)
         {
             string key = serie.data[index].name;
+            var serieData = serie.GetSerieData(index);
+            var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
 
-            float value = serie.data[index].data[1];
+            float value = serieData.GetData(1);
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serie.name))
             {
@@ -71,23 +74,24 @@ namespace XCharts
             sb.Append("<color=#").Append(themeInfo.GetColorStr(index)).Append(">● </color>");
             if (!string.IsNullOrEmpty(key))
                 sb.Append(key).Append(": ");
-            sb.Append(ChartCached.FloatToStr(value, 0, tooltip.forceENotation));
+            sb.Append(ChartCached.FloatToStr(value, numericFormatter));
         }
 
         private static void InitRingTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             ThemeInfo themeInfo)
         {
             var serieData = serie.GetSerieData(index);
+            var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
             float value = serieData.GetFirstData();
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serieData.name))
             {
                 sb.Append("<color=#").Append(themeInfo.GetColorStr(index)).Append(">● </color>")
-                .Append(serieData.name).Append(": ").Append(ChartCached.FloatToStr(value, 0, tooltip.forceENotation));
+                .Append(serieData.name).Append(": ").Append(ChartCached.FloatToStr(value, numericFormatter));
             }
             else
             {
-                sb.Append(ChartCached.FloatToStr(value, 0, tooltip.forceENotation));
+                sb.Append(ChartCached.FloatToStr(value, numericFormatter));
             }
         }
 
@@ -96,6 +100,7 @@ namespace XCharts
         {
             var dataIndex = tooltip.runtimeDataIndex[1];
             var serieData = serie.GetSerieData(dataIndex);
+            var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
             switch (serie.radarType)
             {
                 case RadarType.Multiple:
@@ -105,7 +110,7 @@ namespace XCharts
                         string key = radar.indicatorList[i].name;
                         float value = serieData.GetData(i);
                         if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append(PH_NN);
-                        sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, tooltip.forceENotation));
+                        sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, numericFormatter));
                     }
                     break;
                 case RadarType.Single:
@@ -115,7 +120,7 @@ namespace XCharts
                     {
                         key2 = radar.indicatorList[dataIndex].name;
                     }
-                    sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, 0, tooltip.forceENotation));
+                    sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, numericFormatter));
                     break;
             }
         }
@@ -127,20 +132,21 @@ namespace XCharts
             float xValue, yValue;
             serie.GetXYData(index, dataZoom, out xValue, out yValue);
             var isIngore = serie.IsIgnorePoint(index);
+            var serieData = serie.GetSerieData(index, dataZoom);
+            var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
             if (isCartesian)
             {
-                var serieData = serie.GetSerieData(index, dataZoom);
                 if (serieData != null && serieData.highlighted)
                 {
                     sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
-                    sb.Append("[").Append(ChartCached.FloatToStr(xValue, 0, tooltip.forceENotation)).Append(",")
-                        .Append(ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation)).Append("]");
+                    sb.Append("[").Append(ChartCached.FloatToStr(xValue, numericFormatter)).Append(",")
+                        .Append(ChartCached.FloatToStr(yValue, numericFormatter)).Append("]");
                 }
             }
             else
             {
                 var valueTxt = isIngore ? tooltip.ignoreDataDefaultContent :
-                    ChartCached.FloatToStr(yValue, 0, tooltip.forceENotation);
+                    ChartCached.FloatToStr(yValue, numericFormatter);
                 sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>")
                 .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
                 .Append(valueTxt);
@@ -175,7 +181,8 @@ namespace XCharts
             }
         }
 
-        public static void SetContentAndPosition(Tooltip tooltip,string content,Rect chartRect){
+        public static void SetContentAndPosition(Tooltip tooltip, string content, Rect chartRect)
+        {
             tooltip.UpdateContentText(content);
             var pos = tooltip.GetContentPos();
             if (pos.x + tooltip.runtimeWidth > chartRect.x + chartRect.width)
@@ -210,6 +217,7 @@ namespace XCharts
                         {
                             isScatter = true;
                             var itemFormatter = GetItemFormatter(tooltip, serie, null);
+                            var numericFormatter = GetItemNumericFormatter(tooltip, serie, null);
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
                                 if (!first) sb.Append(PH_NN);
@@ -238,7 +246,7 @@ namespace XCharts
                                 }
                                 for (int n = 0; n < serieData.data.Count; n++)
                                 {
-                                    var valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                                    var valueStr = ChartCached.FloatToStr(serieData.GetData(n), numericFormatter);
                                     Replace(ref content, GetPHCC(n), i, valueStr, true);
                                 }
                                 if (!foundDot)
@@ -254,15 +262,16 @@ namespace XCharts
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
                         if (serieData == null) continue;
                         var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
+                        var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
                         var percent = serieData.GetData(1) / serie.yTotal * 100;
                         needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                         if (formatTitle)
                         {
-                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation);
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), numericFormatter);
                             Replace(ref title, PH_A, i, serie.name, true);
                             Replace(ref title, PH_B, i, needCategory ? category : serieData.name, true);
                             Replace(ref title, PH_C, i, valueStr, true);
-                            Replace(ref title, PH_D, i, ChartCached.FloatToStr(percent, 1), true);
+                            Replace(ref title, PH_D, i, ChartCached.FloatToStr(percent, string.Empty, 1), true);
                         }
                         if (serie.show)
                         {
@@ -274,14 +283,14 @@ namespace XCharts
                                 continue;
                             }
                             string content = itemFormatter;
-                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation);
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(1), numericFormatter);
                             Replace(ref content, PH_A, i, serie.name, true);
                             Replace(ref content, PH_B, i, needCategory ? category : serieData.name, true);
                             Replace(ref content, PH_C, i, valueStr, true);
-                            Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, 1), true);
+                            Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, string.Empty, 1), true);
                             for (int n = 0; n < serieData.data.Count; n++)
                             {
-                                valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                                valueStr = ChartCached.FloatToStr(serieData.GetData(n), numericFormatter);
                                 Replace(ref content, GetPHCC(n), i, valueStr, true);
                             }
                             if (!first) sb.Append(PH_NN);
@@ -317,15 +326,16 @@ namespace XCharts
                     {
                         var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
+                        var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
                         var percent = serieData.GetData(1) / serie.yTotal * 100;
                         Replace(ref content, PH_A, i, serie.name);
                         Replace(ref content, PH_B, i, needCategory ? category : serieData.name);
-                        Replace(ref content, PH_C, i, ChartCached.FloatToStr(serieData.GetData(1), 0, tooltip.forceENotation));
-                        Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, 1));
+                        Replace(ref content, PH_C, i, ChartCached.FloatToStr(serieData.GetData(1), numericFormatter));
+                        Replace(ref content, PH_D, i, ChartCached.FloatToStr(percent, string.Empty, 1));
                         Replace(ref content, PH_I, i, ChartCached.ColorToDotStr(themeInfo.GetColor(i)));
                         for (int n = 0; n < serieData.data.Count; n++)
                         {
-                            var valueStr = ChartCached.FloatToStr(serieData.GetData(n), 0, tooltip.forceENotation);
+                            var valueStr = ChartCached.FloatToStr(serieData.GetData(n), numericFormatter);
                             if (i == 0) Replace(ref content, GetPHCC(n), i, valueStr, true);
                             Replace(ref content, GetPHCC(i, n), i, valueStr, true);
                         }
@@ -399,6 +409,13 @@ namespace XCharts
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
             if (!string.IsNullOrEmpty(itemStyle.tooltipFormatter)) return itemStyle.tooltipFormatter;
             else return tooltip.itemFormatter;
+        }
+
+        private static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)
+        {
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
+            else return tooltip.numericFormatter;
         }
 
         public static Color GetLineColor(Tooltip tooltip, ThemeInfo theme)

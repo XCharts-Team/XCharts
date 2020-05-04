@@ -34,6 +34,7 @@ namespace XCharts
             SerializedProperty m_BorderColor = prop.FindPropertyRelative("m_BorderColor");
             SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
             SerializedProperty m_TooltipFormatter = prop.FindPropertyRelative("m_TooltipFormatter");
+            SerializedProperty m_NumericFormatter = prop.FindPropertyRelative("m_NumericFormatter");
             SerializedProperty m_CornerRadius = prop.FindPropertyRelative("m_CornerRadius");
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_ItemStyleToggle, prop, "Item Style", show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -62,6 +63,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_TooltipFormatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_NumericFormatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 ChartEditorHelper.MakeFoldout(ref drawRect, ref m_CornerRadiusToggle, m_CornerRadius, "Corner Radius", null, false);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (ChartEditorHelper.IsToggle(m_CornerRadiusToggle, m_CornerRadius))
@@ -77,7 +80,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
             {
-                height += 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing;
+                height += 14 * EditorGUIUtility.singleLineHeight + 13 * EditorGUIUtility.standardVerticalSpacing;
                 var m_CornerRadius = prop.FindPropertyRelative("m_CornerRadius");
                 if (ChartEditorHelper.IsToggle(m_CornerRadiusToggle, m_CornerRadius))
                 {

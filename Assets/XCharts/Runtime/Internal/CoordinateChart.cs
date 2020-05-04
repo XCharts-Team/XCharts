@@ -434,7 +434,7 @@ namespace XCharts
                 var diff = axisIndex > 0 ? -axis.axisLabel.fontSize - axis.axisLabel.margin - 3.5f : axis.axisLabel.margin / 2 + 1;
                 if (axis.IsValue())
                 {
-                    labelText = ChartCached.FloatToStr(m_Tooltip.runtimeXValues[axisIndex], 2);
+                    labelText = ChartCached.NumberToStr(m_Tooltip.runtimeXValues[axisIndex], axis.axisLabel.numericFormatter);
                     labelPos = new Vector2(m_Tooltip.runtimePointerPos.x, posY - diff);
                 }
                 else
@@ -452,7 +452,7 @@ namespace XCharts
                 var diff = axisIndex > 0 ? -axis.axisLabel.margin + 3 : axis.axisLabel.margin - 3;
                 if (axis.IsValue())
                 {
-                    labelText = ChartCached.FloatToStr(m_Tooltip.runtimeYValues[axisIndex], 2);
+                    labelText = ChartCached.NumberToStr(m_Tooltip.runtimeYValues[axisIndex], axis.axisLabel.numericFormatter);
                     labelPos = new Vector2(posX - diff, m_Tooltip.runtimePointerPos.y);
                 }
                 else
@@ -1480,11 +1480,11 @@ namespace XCharts
                         if (anyPercentStack && isPercentStack)
                         {
                             var tempTotal = GetSameStackTotalValue(serie.stack, j);
-                            content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, tempTotal);
+                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, tempTotal, serieLabel);
                         }
                         else
                         {
-                            content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, total);
+                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
                         var invert = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j) && !serie.areaStyle.show;

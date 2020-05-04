@@ -316,7 +316,6 @@ namespace XCharts
             var diffValue = totalValue / count;
             var radius = serie.runtimeInsideRadius - serie.gaugeAxis.axisLabel.margin;
             var serieData = serie.GetSerieData(0);
-            var dataName = serieData != null ? serieData.name : null;
             var customLabelText = serie.gaugeAxis.axisLabelText;
             for (int j = 0; j <= count; j++)
             {
@@ -324,7 +323,7 @@ namespace XCharts
                 var value = serie.min + j * diffValue;
                 var pos = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, radius);
                 var text = customLabelText != null && j < customLabelText.Count ? customLabelText[j] :
-                    serie.gaugeAxis.axisLabel.GetFormatterContent(serie.name, dataName, value, totalValue);
+                    SerieLabelHelper.GetFormatterContent(serie, serieData, value, totalValue, serie.gaugeAxis.axisLabel);
                 serie.gaugeAxis.SetLabelObjectText(j, text);
                 serie.gaugeAxis.SetLabelObjectPosition(j, pos);
             }

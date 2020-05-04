@@ -400,7 +400,7 @@ namespace XCharts
                 {
                     var value = serieData.data[1];
                     var total = serie.yTotal;
-                    var content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, total);
+                    var content =  SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
                     if (serieData.SetLabelText(content)) RefreshChart();
                 }
                 else

@@ -107,7 +107,7 @@ namespace XCharts
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/version.json";
             var web = UnityWebRequest.Get(url);
             yield return web;
-            if (web.isNetworkError)
+            if (IsNetworkError(web))
             {
                 isNetworkError = true;
                 networkError = web.error;
@@ -144,7 +144,7 @@ namespace XCharts
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
             var web = new UnityWebRequest(url);
             yield return web;
-            if (!web.isNetworkError)
+            if (IsNetworkError(web))
             {
                 Debug.LogError(web.error);
             }
@@ -192,5 +192,29 @@ namespace XCharts
             }
             changeLog = sb.ToString();
         }
+
+#if UNITY_5 || UNITY_2017_1
+        public bool IsNetworkError(UnityWebRequest request)
+        {
+            return request.isError && !IsHttpError(request);
+        }
+#else
+        public bool IsNetworkError(UnityWebRequest request)
+        {
+            return request.isNetworkError;
+        }
+#endif
+
+#if UNITY_5
+        public bool IsHttpError(UnityWebRequest request)
+        {
+            return request.responseCode >= 400;
+        }
+#else
+        public bool IsHttpError(UnityWebRequest request)
+        {
+            return request.isHttpError;
+        }
+#endif
     }
 }

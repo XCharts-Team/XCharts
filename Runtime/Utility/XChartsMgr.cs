@@ -58,7 +58,7 @@ namespace XCharts
                             m_XCharts = go.AddComponent<XChartsMgr>();
                         }
                     }
-                    m_XCharts.m_NowVersion = version + " (" + date + ")";
+                    m_XCharts.m_NowVersion = version + "_" + date;
                 }
                 return m_XCharts;
             }

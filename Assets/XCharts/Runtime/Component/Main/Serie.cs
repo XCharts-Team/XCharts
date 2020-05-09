@@ -1016,6 +1016,10 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
+            foreach (var serieData in m_Data)
+            {
+                SerieDataPool.Release(serieData);
+            }
             m_Data.Clear();
             SetVerticesDirty();
         }
@@ -1049,15 +1053,15 @@ namespace XCharts
                 while (m_Data.Count > m_MaxCache)
                 {
                     m_NeedUpdateFilterData = true;
+                    SerieDataPool.Release(m_Data[0]);
                     m_Data.RemoveAt(0);
                 }
             }
             int xValue = m_Data.Count;
-            var serieData = new SerieData()
-            {
-                data = new List<float>() { xValue, value },
-                name = dataName
-            };
+            var serieData = SerieDataPool.Get();
+            serieData.data.Add(xValue);
+            serieData.data.Add(value);
+            serieData.name = dataName;
             serieData.index = xValue;
             m_Data.Add(serieData);
             m_ShowDataDimension = 1;
@@ -1087,19 +1091,11 @@ namespace XCharts
         /// <param name="maxDataNumber"></param>
         public SerieData AddXYData(float xValue, float yValue, string dataName = null)
         {
-            if (m_MaxCache > 0)
-            {
-                while (m_Data.Count > m_MaxCache)
-                {
-                    m_NeedUpdateFilterData = true;
-                    m_Data.RemoveAt(0);
-                }
-            }
-            var serieData = new SerieData()
-            {
-                data = new List<float>() { xValue, yValue },
-                name = dataName
-            };
+            CheckMaxCache();
+            var serieData = SerieDataPool.Get();
+            serieData.data.Add(xValue);
+            serieData.data.Add(yValue);
+            serieData.name = dataName;
             serieData.index = m_Data.Count;
             m_Data.Add(serieData);
             m_ShowDataDimension = 2;
@@ -1128,16 +1124,9 @@ namespace XCharts
             }
             else
             {
-                if (m_MaxCache > 0)
-                {
-                    while (m_Data.Count > m_MaxCache)
-                    {
-                        m_NeedUpdateFilterData = true;
-                        m_Data.RemoveAt(0);
-                    }
-                }
+                CheckMaxCache();
                 m_ShowDataDimension = valueList.Count;
-                var serieData = new SerieData();
+                var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
                 serieData.index = m_Data.Count;
                 for (int i = 0; i < valueList.Count; i++)
@@ -1148,6 +1137,17 @@ namespace XCharts
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 return serieData;
+            }
+        }
+
+        private void CheckMaxCache()
+        {
+            if (m_MaxCache <= 0) return;
+            while (m_Data.Count > m_MaxCache)
+            {
+                m_NeedUpdateFilterData = true;
+                SerieDataPool.Release(m_Data[0]);
+                m_Data.RemoveAt(0);
             }
         }
 
@@ -1572,7 +1572,7 @@ namespace XCharts
             return false;
         }
 
-       
+
 
         /// <summary>
         /// 设置指定index的数据图标的尺寸

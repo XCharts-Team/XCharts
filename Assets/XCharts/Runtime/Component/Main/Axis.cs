@@ -747,7 +747,7 @@ namespace XCharts
             m_TooltipLabel = label;
             m_TooltipLabelRect = label.GetComponent<RectTransform>();
             m_TooltipLabelText = label.GetComponentInChildren<Text>();
-            m_TooltipLabel.SetActive(true);
+            ChartHelper.SetActive(m_TooltipLabel, true);
         }
 
         internal void SetTooltipLabelColor(Color bgColor, Color textColor)
@@ -760,7 +760,7 @@ namespace XCharts
         {
             if (m_TooltipLabel && m_TooltipLabel.activeInHierarchy != flag)
             {
-                m_TooltipLabel.SetActive(flag);
+                ChartHelper.SetActive(m_TooltipLabel, flag);
             }
         }
 

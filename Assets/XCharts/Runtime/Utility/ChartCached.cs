@@ -17,11 +17,17 @@ namespace XCharts
         private const string NUMERIC_FORMATTER_d = "d";
         private const string NUMERIC_FORMATTER_X = "X";
         private const string NUMERIC_FORMATTER_x = "x";
+        private static readonly string s_DefaultAxisY = "axis_y";
+        private static readonly string s_DefaultAxisX = "axis_x";
         private static CultureInfo ci = new CultureInfo("en-us");// "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
+        private static Dictionary<int, string> s_XAxisName = new Dictionary<int, string>();
+        private static Dictionary<int, string> s_YAxisName = new Dictionary<int, string>();
+        private static Dictionary<string, string> s_AxisLabel = new Dictionary<string, string>();
+
 
         private static Dictionary<float, Dictionary<string, string>> s_NumberToStr = new Dictionary<float, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
@@ -119,19 +125,51 @@ namespace XCharts
             }
         }
 
-        internal static string GetAxisLabelName(string prefix, bool isYAxis, int axisIndex, int i)
+        internal static string GetXAxisName(int axisIndex, int index = -1)
         {
-            int key = (isYAxis ? 2 : 1) * 1000000 + (axisIndex + 1) * 100000 + i;
-            if (s_AxisLabelName.ContainsKey(key))
+            if (axisIndex > 0) axisIndex = 2;
+            if (index >= 0)
             {
-                return s_AxisLabelName[key];
+                int key = (axisIndex + 1) * 10000 + index;
+                if (!s_XAxisName.ContainsKey(key))
+                {
+                    s_XAxisName[key] = axisIndex > 0 ? s_DefaultAxisX + axisIndex + index : s_DefaultAxisX + index;
+                }
+                return s_XAxisName[key];
             }
-            else
+            else if (!s_XAxisName.ContainsKey(axisIndex))
             {
-                string name = prefix + "_" + axisIndex + "_" + i;
-                s_AxisLabelName[key] = name;
-                return name;
+                s_XAxisName[axisIndex] = axisIndex > 0 ? s_DefaultAxisX + axisIndex : s_DefaultAxisX;
             }
+            return s_XAxisName[axisIndex];
+        }
+
+        internal static string GetYAxisName(int axisIndex, int index = -1)
+        {
+            if (axisIndex > 0) axisIndex = 2;
+            if (index >= 0)
+            {
+                int key = (axisIndex + 1) * 10000 + index;
+                if (!s_YAxisName.ContainsKey(key))
+                {
+                    s_YAxisName[key] = axisIndex > 0 ? s_DefaultAxisY + axisIndex + index : s_DefaultAxisY + index;
+                }
+                return s_YAxisName[key];
+            }
+            else if (!s_YAxisName.ContainsKey(axisIndex))
+            {
+                s_YAxisName[axisIndex] = axisIndex > 0 ? s_DefaultAxisY + axisIndex : s_DefaultAxisY;
+            }
+            return s_YAxisName[axisIndex];
+        }
+
+        internal static string GetAxisTooltipLabel(string axisName)
+        {
+            if (!s_AxisLabel.ContainsKey(axisName))
+            {
+                s_AxisLabel[axisName] = axisName + "_label";
+            }
+            return s_AxisLabel[axisName];
         }
     }
 }

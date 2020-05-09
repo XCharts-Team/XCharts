@@ -229,7 +229,7 @@ namespace XCharts
 #if UNITY_EDITOR
             if (!Application.isPlaying) return true;
 #endif
-            return !enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
+            return !m_Enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
         public bool IsInDelay()

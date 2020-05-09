@@ -177,6 +177,17 @@ namespace XCharts
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
 
+        public void Clear()
+        {
+            m_Name = string.Empty;
+            m_Selected = false;
+            m_Radius = 0;
+            m_Data.Clear();
+            m_PreviousData.Clear();
+            m_DataUpdateTime.Clear();
+            m_DataUpdateFlag.Clear();
+        }
+
         public float GetData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_Data.Count)

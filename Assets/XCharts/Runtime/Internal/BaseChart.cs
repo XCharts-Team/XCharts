@@ -39,6 +39,8 @@ namespace XCharts
         protected static readonly string s_SerieLabelObjectName = "label";
         protected static readonly string s_SerieTitleObjectName = "serie";
 
+        [SerializeField] protected string m_ChartName;
+        [SerializeField] protected string m_ChartUUID;
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
         [SerializeField] protected float m_ChartX;
@@ -97,6 +99,7 @@ namespace XCharts
             InitComponent();
             m_Series.AnimationReset();
             m_Series.AnimationFadeIn();
+            XChartsMgr.Instance.AddChart(this);
         }
 
         protected override void Start()

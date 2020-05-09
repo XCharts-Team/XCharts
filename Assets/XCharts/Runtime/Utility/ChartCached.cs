@@ -22,7 +22,6 @@ namespace XCharts
         private static CultureInfo ci = new CultureInfo("en-us");// "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
-        private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_XAxisName = new Dictionary<int, string>();
         private static Dictionary<int, string> s_YAxisName = new Dictionary<int, string>();

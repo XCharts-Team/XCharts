@@ -17,7 +17,6 @@ namespace XCharts
     {
         private static readonly string s_DefaultDataZoom = "datazoom";
         private static readonly string s_DefaultAxisName = "name";
-        private static readonly string s_DefaultAxisLabel = "label";
 
         [SerializeField] protected Grid m_Grid = Grid.defaultGrid;
         [SerializeField] protected List<XAxis> m_XAxises = new List<XAxis>();

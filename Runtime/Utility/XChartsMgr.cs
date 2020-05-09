@@ -1,3 +1,4 @@
+
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -8,9 +9,11 @@
 using System.Text;
 
 using System.Collections;
-using UnityEngine;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace XCharts
 {
@@ -23,6 +26,7 @@ namespace XCharts
         public string homepage = "";
     }
 
+    [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
         public const string version = "1.4.0";
@@ -30,7 +34,7 @@ namespace XCharts
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
-
+        private Dictionary<string, BaseChart> m_ChartDic = new Dictionary<string, BaseChart>();
         private static XChartsMgr m_XCharts;
 
         public static XChartsMgr Instance
@@ -216,5 +220,43 @@ namespace XCharts
             return request.isHttpError;
         }
 #endif
+
+        void OnEnable()
+        {
+            SceneManager.sceneUnloaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneUnloaded -= OnSceneLoaded;
+        }
+
+        void OnSceneLoaded(Scene scene)
+        {
+            SerieLabelPool.ClearAll();
+        }
+
+        public void AddChart(BaseChart chart)
+        {
+            //TODO:
+        }
+
+        public BaseChart GetChart(string uuid)
+        {
+            return m_ChartDic[uuid];
+        }
+
+        public void RemoveChart(string uuid)
+        {
+            if (m_ChartDic.ContainsKey(uuid))
+            {
+                m_ChartDic.Remove(uuid);
+            }
+        }
+
+        public bool ContainsChart(string uuid)
+        {
+            return m_ChartDic.ContainsKey(uuid);
+        }
     }
 }

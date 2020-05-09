@@ -16,7 +16,6 @@ namespace XCharts
     public static class ChartDrawer
     {
         private static readonly Vector2 zeroVector2 = Vector2.zero;
-        private static readonly Vector3 zeroVector3 = Vector3.zero;
         private static UIVertex[] vertex = new UIVertex[4];
         private static List<Vector3> s_CurvesPosList = new List<Vector3>();
 

@@ -19,6 +19,23 @@ namespace XCharts
     public partial class BaseChart
     {
         /// <summary>
+        /// The name of chart.
+        /// </summary>
+        public string chartName
+        {
+            get { return m_ChartName; }
+            set
+            {
+                if (XChartsMgr.Instance.ContainsChart(value)) Debug.LogError("chartName repeated:" + value);
+                else
+                {
+                    m_ChartName = value;
+                    m_ChartUUID = value;
+                }
+            }
+        }
+        public string chartUUID { get { return m_ChartUUID; } }
+        /// <summary>
         /// The theme info.
         /// </summary>
         public ThemeInfo themeInfo { get { return m_ThemeInfo; } set { m_ThemeInfo = value; } }

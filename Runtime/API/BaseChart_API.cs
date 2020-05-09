@@ -626,8 +626,8 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInChart(Vector2 local)
         {
-            if (local.x < m_ChartX || local.x > m_ChartX + chartWidth ||
-                local.y < m_ChartY || local.y > m_ChartY + chartHeight)
+            if (local.x < m_ChartX || local.x > m_ChartX + m_ChartWidth ||
+                local.y < m_ChartY || local.y > m_ChartY + m_ChartHeight)
             {
                 return false;
             }

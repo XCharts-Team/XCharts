@@ -15,6 +15,8 @@ namespace XCharts
 {
     public static class ChartDrawer
     {
+        private static readonly Vector2 zeroVector2 = Vector2.zero;
+        private static readonly Vector3 zeroVector3 = Vector3.zero;
         private static UIVertex[] vertex = new UIVertex[4];
         private static List<Vector3> s_CurvesPosList = new List<Vector3>();
 
@@ -44,7 +46,7 @@ namespace XCharts
             for (int j = 0; j < 4; j++)
             {
                 vertex[j].color = color;
-                vertex[j].uv0 = Vector2.zero;
+                vertex[j].uv0 = zeroVector2;
             }
             vh.AddUIVertexQuad(vertex);
         }
@@ -256,7 +258,7 @@ namespace XCharts
             for (int j = 0; j < 4; j++)
             {
                 vertex[j].color = j >= 2 ? toColor : startColor;
-                vertex[j].uv0 = Vector2.zero;
+                vertex[j].uv0 = zeroVector2;
             }
             vh.AddUIVertexQuad(vertex);
         }
@@ -519,15 +521,15 @@ namespace XCharts
             UIVertex v1 = new UIVertex();
             v1.position = p1;
             v1.color = color;
-            v1.uv0 = Vector3.zero;
+            v1.uv0 = zeroVector2;
             UIVertex v2 = new UIVertex();
             v2.position = p2;
             v2.color = color2;
-            v2.uv0 = Vector3.zero;
+            v2.uv0 = zeroVector2;
             UIVertex v3 = new UIVertex();
             v3.position = p3;
             v3.color = color3;
-            v3.uv0 = Vector3.zero;
+            v3.uv0 = zeroVector2;
             int startIndex = vh.currentVertCount;
             vh.AddVert(v1);
             vh.AddVert(v2);

@@ -15,9 +15,9 @@ namespace XCharts
 {
     public partial class CoordinateChart : BaseChart
     {
-        private static readonly string s_DefaultAxisY = "axis_y";
-        private static readonly string s_DefaultAxisX = "axis_x";
         private static readonly string s_DefaultDataZoom = "datazoom";
+        private static readonly string s_DefaultAxisName = "name";
+        private static readonly string s_DefaultAxisLabel = "label";
 
         [SerializeField] protected Grid m_Grid = Grid.defaultGrid;
         [SerializeField] protected List<XAxis> m_XAxises = new List<XAxis>();
@@ -513,9 +513,7 @@ namespace XCharts
         private void InitYAxis(int yAxisIndex, YAxis yAxis)
         {
             yAxis.axisLabelTextList.Clear();
-
-            string objName = yAxisIndex > 0 ? s_DefaultAxisY + "2" : s_DefaultAxisY;
-
+            string objName = ChartCached.GetYAxisName(yAxisIndex);
             var axisObj = ChartHelper.AddObject(objName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
@@ -567,7 +565,7 @@ namespace XCharts
                 switch (yAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              yAxis.axisName.rotate, yAxis.axisName.fontStyle);
@@ -576,7 +574,7 @@ namespace XCharts
                             new Vector2(zeroPos.x + offset.x, coordinateY - offset.y);
                         break;
                     case AxisName.Location.Middle:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                             m_ThemeInfo.font, color, TextAnchor.MiddleRight, new Vector2(1, 0.5f),
                             new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
                             yAxis.axisName.rotate, yAxis.axisName.fontStyle);
@@ -585,7 +583,7 @@ namespace XCharts
                         new Vector2(coordinateX - offset.x, coordinateY + coordinateHeight / 2 + offset.y);
                         break;
                     case AxisName.Location.End:
-                        axisName = ChartHelper.AddTextObject(objName + "_name", axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              yAxis.axisName.rotate, yAxis.axisName.fontStyle);
@@ -601,7 +599,7 @@ namespace XCharts
             {
                 Vector2 privot = yAxisIndex > 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
                 var labelParent = m_Tooltip.runtimeGameObject.transform;
-                GameObject labelObj = ChartHelper.AddTooltipLabel(objName + "_label", labelParent, m_ThemeInfo.font, privot);
+                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent, m_ThemeInfo.font, privot);
                 yAxis.SetTooltipLabel(labelObj);
                 yAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
                 yAxis.SetTooltipLabelActive(yAxis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);
@@ -620,7 +618,7 @@ namespace XCharts
         {
             xAxis.axisLabelTextList.Clear();
 
-            string objName = xAxisIndex > 0 ? ChartHelper.Cancat(s_DefaultAxisX, 2) : s_DefaultAxisX;
+            string objName = ChartCached.GetXAxisName(xAxisIndex);
             var axisObj = ChartHelper.AddObject(objName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
@@ -635,7 +633,7 @@ namespace XCharts
             {
                 float labelWidth = xAxis.GetScaleWidth(coordinateWidth, i, m_DataZoom);
                 bool inside = xAxis.axisLabel.inside;
-                Text txt = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, i), axisObj.transform,
+                Text txt = ChartHelper.AddTextObject(ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform,
                     m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0, 1),
                     new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(labelWidth, 20),
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
@@ -661,7 +659,7 @@ namespace XCharts
                 switch (xAxis.axisName.location)
                 {
                     case AxisName.Location.Start:
-                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                             m_ThemeInfo.font, color, TextAnchor.MiddleRight, new Vector2(1, 0.5f),
                             new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), fontSize,
                             xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -670,7 +668,7 @@ namespace XCharts
                             new Vector2(zeroPos.x - offset.x, zeroPos.y + offset.y);
                         break;
                     case AxisName.Location.Middle:
-                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
                              new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -679,7 +677,7 @@ namespace XCharts
                             new Vector2(coordinateX + coordinateWidth / 2 + offset.x, coordinateY - offset.y);
                         break;
                     case AxisName.Location.End:
-                        axisName = ChartHelper.AddTextObject(ChartHelper.Cancat(objName, "_name"), axisObj.transform,
+                        axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform,
                              m_ThemeInfo.font, color, TextAnchor.MiddleLeft, new Vector2(0, 0.5f),
                              new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(100, 20), fontSize,
                              xAxis.axisName.rotate, xAxis.axisName.fontStyle);
@@ -694,7 +692,7 @@ namespace XCharts
             {
                 Vector2 privot = xAxisIndex > 0 ? new Vector2(0.5f, 1) : new Vector2(0.5f, 1);
                 var labelParent = m_Tooltip.runtimeGameObject.transform;
-                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartHelper.Cancat(objName, "_label"), labelParent, m_ThemeInfo.font, privot);
+                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent, m_ThemeInfo.font, privot);
                 xAxis.SetTooltipLabel(labelObj);
                 xAxis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
                 xAxis.SetTooltipLabelActive(xAxis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);

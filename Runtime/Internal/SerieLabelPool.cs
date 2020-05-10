@@ -22,14 +22,15 @@ namespace XCharts
             GameObject element;
             if (m_Stack.Count == 0 || !Application.isPlaying)
             {
-                element = ChartHelper.AddSerieLabel(name, parent, font,
-                        color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
-                        label.backgroundWidth, label.backgroundHeight, 1);
-                ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
+                element = CreateSerieLabel(name, parent, label, font, color, iconWidth, iconHeight);
             }
             else
             {
                 element = m_Stack.Pop();
+                if (element == null)
+                {
+                    element = CreateSerieLabel(name, parent, label, font, color, iconWidth, iconHeight);
+                }
                 m_ReleaseDic.Remove(element.GetInstanceID());
                 element.name = name;
                 element.transform.SetParent(parent);
@@ -41,6 +42,16 @@ namespace XCharts
                 text.fontStyle = label.fontStyle;
                 ChartHelper.SetActive(element, true);
             }
+            return element;
+        }
+
+        private static GameObject CreateSerieLabel(string name, Transform parent, SerieLabel label, Font font, Color color,
+            float iconWidth, float iconHeight)
+        {
+            var element = ChartHelper.AddSerieLabel(name, parent, font,
+                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
+                         label.backgroundWidth, label.backgroundHeight, 1);
+            ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
             return element;
         }
 

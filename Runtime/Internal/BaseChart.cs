@@ -91,11 +91,8 @@ namespace XCharts
                 m_ThemeInfo = ThemeInfo.Default;
             }
             raycastTarget = false;
-            m_ChartX = 100;
-            m_ChartY = 100;
-            m_ChartWidth = rectTransform.rect.width;
-            m_ChartHeight = rectTransform.rect.height;
             m_CheckTheme = m_ThemeInfo.theme;
+            UpdateSize();
             InitComponent();
             m_Series.AnimationReset();
             m_Series.AnimationFadeIn();

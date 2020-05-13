@@ -15,7 +15,7 @@
 
 如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，将 `XCharts-vx.x.x.unitypackage` 通过 Unity 导入到你的项目中，或下载 Source code 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
 
-如果你是Unity 2018.3版本以上，强烈建议通过Package Manager来安装XCharts包，具体操作步骤如下：
+如果你是Unity 2018.3版本以上，可通过Package Manager来安装XCharts包，具体操作步骤如下：
 
   1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
      ```

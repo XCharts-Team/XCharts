@@ -33,7 +33,7 @@ namespace XCharts
         /// Whether the data icon is show.
         /// 是否显示图标。
         /// </summary>
-        public bool show { get { return m_Show; } set { m_Show = value; UpdateIcon(); } }
+        public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
         /// 显示在上层还是在下层。
         /// </summary>
@@ -59,47 +59,5 @@ namespace XCharts
         /// 图标偏移。
         /// </summary>
         public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
-
-        public Image image { get; private set; }
-        public RectTransform rect { get; private set; }
-
-        public void SetImage(Image image)
-        {
-            this.image = image;
-            if (image)
-            {
-                rect = image.GetComponent<RectTransform>();
-                if (m_Layer == Layer.UnderLabel)
-                    rect.SetSiblingIndex(0);
-                else
-                    rect.SetSiblingIndex(image.transform.childCount - 1);
-                UpdateIcon();
-            }
-        }
-
-        public void SetActive(bool flag)
-        {
-            if (image)
-            {
-                ChartHelper.SetActive(image.gameObject, flag);
-            }
-        }
-
-        public void UpdateIcon()
-        {
-            if (image == null) return;
-            if (show)
-            {
-                ChartHelper.SetActive(image.gameObject, true);
-                image.sprite = m_Sprite;
-                image.color = m_Color;
-                rect.sizeDelta = new Vector2(m_Width, m_Height);
-                image.transform.localPosition = m_Offset;
-            }
-            else
-            {
-                ChartHelper.SetActive(image.gameObject, false);
-            }
-        }
     }
 }

@@ -421,7 +421,7 @@ namespace XCharts
         public static Color GetLineColor(Tooltip tooltip, ThemeInfo theme)
         {
             var lineStyle = tooltip.lineStyle;
-            if (lineStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(lineStyle.color))
             {
                 var color = lineStyle.color;
                 color.a *= lineStyle.opacity;

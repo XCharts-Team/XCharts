@@ -178,11 +178,12 @@ namespace XCharts
         /// </summary>
         public bool NeedShowBorder()
         {
-            return borderWidth != 0 && borderColor != Color.clear;
+            return borderWidth != 0 && !ChartHelper.IsClearColor(borderColor);
         }
 
         public Color GetColor()
         {
+            if (m_Opacity == 1) return m_Color;
             var color = m_Color;
             color.a *= m_Opacity;
             return color;

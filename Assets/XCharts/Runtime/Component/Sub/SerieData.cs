@@ -32,10 +32,9 @@ namespace XCharts
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private List<float> m_Data = new List<float>();
 
+        public LabelObject labelObject { get; set; }
+
         private bool m_Show = true;
-        private bool m_LabelAutoSize;
-        private float m_LabelPaddingLeftRight;
-        private float m_LabelPaddingTopBottom;
         private float m_RtPieOutsideRadius;
 
         public int index { get; set; }
@@ -102,15 +101,6 @@ namespace XCharts
         /// 该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
         public bool highlighted { get; set; }
-        /// <summary>
-        /// the label of data item.
-        /// 该数据项的文本标签。
-        /// </summary>
-        public Text labelText { get; private set; }
-        public RectTransform labelRect { get; private set; }
-        /// <summary>
-        /// 标志位置。
-        /// </summary>
         public Vector3 labelPosition { get; set; }
         private bool m_CanShowLabel = true;
         /// <summary>
@@ -127,11 +117,6 @@ namespace XCharts
         /// 最小值。
         /// </summary>
         public float min { get { return m_Data.Min(); } }
-
-        /// <summary>
-        /// 关联的gameObject
-        /// </summary>
-        public GameObject gameObject { get; private set; }
         /// <summary>
         /// 饼图数据项的开始角度（运行时自动计算）
         /// </summary>
@@ -279,93 +264,21 @@ namespace XCharts
             return false;
         }
 
-        public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
-        {
-            gameObject = labelObj;
-            m_LabelAutoSize = autoSize;
-            m_LabelPaddingLeftRight = paddingLeftRight;
-            m_LabelPaddingTopBottom = paddingTopBottom;
-            labelText = labelObj.GetComponentInChildren<Text>();
-            labelRect = labelText.GetComponent<RectTransform>();
-        }
-
-        public void SetLabelActive(bool active)
-        {
-            if (labelRect)
-            {
-                ChartHelper.SetActive(labelRect, active);
-            }
-        }
-
-        public bool SetLabelText(string text)
-        {
-            if (labelText && !labelText.text.Equals(text))
-            {
-                labelText.text = text;
-                if (m_LabelAutoSize)
-                {
-                    var newSize = string.IsNullOrEmpty(text) ? Vector2.zero :
-                        new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
-                                        labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
-                    var sizeChange = newSize.x != labelRect.sizeDelta.x || newSize.y != labelRect.sizeDelta.y;
-                    if (sizeChange) labelRect.sizeDelta = newSize;
-                    return sizeChange;
-                }
-            }
-            return false;
-        }
-
-        public void SetLabelColor(Color color)
-        {
-            if (labelText)
-            {
-                labelText.color = color;
-            }
-        }
-
         public float GetLabelWidth()
         {
-            if (labelRect) return labelRect.sizeDelta.x;
+            if (labelObject != null) return labelObject.GetLabelWidth();
             else return 0;
         }
 
         public float GetLabelHeight()
         {
-            if (labelRect) return labelRect.sizeDelta.y;
+            if (labelObject != null) return labelObject.GetLabelHeight();
             return 0;
         }
 
-        public void SetGameObjectPosition(Vector3 position)
+        public void SetLabelActive(bool flag)
         {
-            if (gameObject)
-            {
-                gameObject.transform.localPosition = position;
-            }
-        }
-
-        public void SetLabelPosition(Vector3 position)
-        {
-            if (labelRect) labelRect.localPosition = position;
-        }
-
-        [Obsolete("Use SerieData.SetIconImage() instead.", true)]
-        public void SetIconObj(GameObject iconObj) { }
-
-        public void SetIconImage(Image image)
-        {
-            if (iconStyle == null) return;
-            iconStyle.SetImage(image);
-        }
-
-        public void UpdateIcon()
-        {
-            if (iconStyle == null) return;
-            iconStyle.UpdateIcon();
-        }
-
-        public bool IsInitLabel()
-        {
-            return labelText != null;
+            if (labelObject != null) labelObject.SetLabelActive(flag);
         }
     }
 }

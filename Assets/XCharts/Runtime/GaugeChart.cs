@@ -206,7 +206,7 @@ namespace XCharts
         {
             if (!serie.gaugePointer.show) return;
             var pointerColor = serie.gaugeAxis.GetPointerColor(m_ThemeInfo, serie.index, currAngle, serie.itemStyle);
-            var pointerToColor = serie.itemStyle.toColor != Color.clear ? serie.itemStyle.toColor : pointerColor;
+            var pointerToColor = !ChartHelper.IsClearColor(serie.itemStyle.toColor) ? serie.itemStyle.toColor : pointerColor;
             var len = serie.gaugePointer.length < 1 && serie.gaugePointer.length > -1 ?
                 serie.runtimeInsideRadius * serie.gaugePointer.length :
                 serie.gaugePointer.length;

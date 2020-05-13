@@ -29,6 +29,8 @@ namespace XCharts
         protected SerializedProperty m_Series;
         protected SerializedProperty m_Settings;
         protected SerializedProperty m_Large;
+        protected SerializedProperty m_ChartName;
+        protected SerializedProperty m_ChartUUID;
 
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
@@ -40,6 +42,8 @@ namespace XCharts
         {
             m_Target = (BaseChart)target;
             m_Script = serializedObject.FindProperty("m_Script");
+            m_ChartName = serializedObject.FindProperty("m_ChartName");
+            m_ChartUUID = serializedObject.FindProperty("m_ChartUUID");
             m_ChartWidth = serializedObject.FindProperty("m_ChartWidth");
             m_ChartHeight = serializedObject.FindProperty("m_ChartHeight");
             m_Theme = serializedObject.FindProperty("m_Theme");
@@ -75,8 +79,21 @@ namespace XCharts
         protected virtual void OnStartInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Script);
-            // EditorGUILayout.PropertyField(m_ChartWidth);
-            // EditorGUILayout.PropertyField(m_ChartHeight);
+            // EditorGUI.BeginChangeCheck();
+            // EditorGUILayout.PropertyField(m_ChartName);
+            // if (EditorGUI.EndChangeCheck())
+            // {
+            //     if (XChartsMgr.Instance.ContainsChart(m_ChartName.stringValue))
+            //     {
+            //         m_ChartName.stringValue = "";
+            //         serializedObject.ApplyModifiedProperties();
+            //     }
+            //     else
+            //     {
+            //         m_ChartUUID.stringValue = m_ChartName.stringValue;
+            //     }
+            // }
+            // EditorGUILayout.PropertyField(m_ChartUUID);
             EditorGUILayout.PropertyField(m_ThemeInfo, true);
             EditorGUILayout.PropertyField(m_Title, true);
             EditorGUILayout.PropertyField(m_Legend, true);

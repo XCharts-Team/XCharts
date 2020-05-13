@@ -107,7 +107,7 @@ namespace XCharts
         /// </summary>
         public Color32 backgroundColor
         {
-            get { return m_CustomBackgroundColor != Color.clear ? m_CustomBackgroundColor : m_BackgroundColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomBackgroundColor) ? m_CustomBackgroundColor : m_BackgroundColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomBackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace XCharts
         /// </summary>
         public Color32 titleTextColor
         {
-            get { return m_CustomTitleTextColor != Color.clear ? m_CustomTitleTextColor : m_TitleTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTitleTextColor) ? m_CustomTitleTextColor : m_TitleTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTitleTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -125,7 +125,7 @@ namespace XCharts
         /// </summary>
         public Color32 titleSubTextColor
         {
-            get { return m_CustomTitleSubTextColor != Color.clear ? m_CustomTitleSubTextColor : m_TitleSubTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTitleSubTextColor) ? m_CustomTitleSubTextColor : m_TitleSubTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTitleSubTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -134,7 +134,7 @@ namespace XCharts
         /// </summary>
         public Color32 legendTextColor
         {
-            get { return m_CustomLegendTextColor != Color.clear ? m_CustomLegendTextColor : m_LegendTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomLegendTextColor) ? m_CustomLegendTextColor : m_LegendTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomLegendTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -143,7 +143,7 @@ namespace XCharts
         /// </summary>
         public Color32 legendUnableColor
         {
-            get { return m_CustomLegendUnableColor != Color.clear ? m_CustomLegendUnableColor : m_LegendUnableColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomLegendUnableColor) ? m_CustomLegendUnableColor : m_LegendUnableColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomLegendUnableColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -152,7 +152,7 @@ namespace XCharts
         /// </summary>
         public Color32 axisTextColor
         {
-            get { return m_CustomAxisTextColor != Color.clear ? m_CustomAxisTextColor : m_AxisTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomAxisTextColor) ? m_CustomAxisTextColor : m_AxisTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomAxisTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -161,7 +161,7 @@ namespace XCharts
         /// </summary>
         public Color32 axisLineColor
         {
-            get { return m_CustomAxisLineColor != Color.clear ? m_CustomAxisLineColor : m_AxisLineColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomAxisLineColor) ? m_CustomAxisLineColor : m_AxisLineColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomAxisLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -170,7 +170,7 @@ namespace XCharts
         /// </summary>
         public Color32 axisSplitLineColor
         {
-            get { return m_CustomAxisSplitLineColor != Color.clear ? m_CustomAxisSplitLineColor : m_AxisSplitLineColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomAxisSplitLineColor) ? m_CustomAxisSplitLineColor : m_AxisSplitLineColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomAxisSplitLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -179,7 +179,7 @@ namespace XCharts
         /// </summary>
         public Color32 tooltipBackgroundColor
         {
-            get { return m_CustomTooltipBackgroundColor != Color.clear ? m_CustomTooltipBackgroundColor : m_TooltipBackgroundColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTooltipBackgroundColor) ? m_CustomTooltipBackgroundColor : m_TooltipBackgroundColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTooltipBackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -188,7 +188,7 @@ namespace XCharts
         /// </summary>
         public Color32 tooltipFlagAreaColor
         {
-            get { return m_CustomTooltipFlagAreaColor != Color.clear ? m_CustomTooltipFlagAreaColor : m_TooltipFlagAreaColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTooltipFlagAreaColor) ? m_CustomTooltipFlagAreaColor : m_TooltipFlagAreaColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTooltipFlagAreaColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -197,7 +197,7 @@ namespace XCharts
         /// </summary>
         public Color32 tooltipTextColor
         {
-            get { return m_CustomTooltipTextColor != Color.clear ? m_CustomTooltipTextColor : m_TooltipTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTooltipTextColor) ? m_CustomTooltipTextColor : m_TooltipTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTooltipTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -206,7 +206,7 @@ namespace XCharts
         /// </summary>
         public Color32 tooltipLabelColor
         {
-            get { return m_CustomTooltipLabelColor != Color.clear ? m_CustomTooltipLabelColor : m_TooltipLabelColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTooltipLabelColor) ? m_CustomTooltipLabelColor : m_TooltipLabelColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTooltipLabelColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -215,7 +215,7 @@ namespace XCharts
         /// </summary>
         public Color32 tooltipLineColor
         {
-            get { return m_CustomTooltipLineColor != Color.clear ? m_CustomTooltipLineColor : m_TooltipLineColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomTooltipLineColor) ? m_CustomTooltipLineColor : m_TooltipLineColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomTooltipLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -224,7 +224,7 @@ namespace XCharts
         /// </summary>
         public Color32 dataZoomTextColor
         {
-            get { return m_CustomDataZoomTextColor != Color.clear ? m_CustomDataZoomTextColor : m_DataZoomTextColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomDataZoomTextColor) ? m_CustomDataZoomTextColor : m_DataZoomTextColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomDataZoomTextColor, value)) SetComponentDirty(); }
         }
         /// <summary>
@@ -233,7 +233,7 @@ namespace XCharts
         /// </summary>
         public Color32 dataZoomLineColor
         {
-            get { return m_CustomDataZoomLineColor != Color.clear ? m_CustomDataZoomLineColor : m_DataZoomLineColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomDataZoomLineColor) ? m_CustomDataZoomLineColor : m_DataZoomLineColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomDataZoomLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
@@ -242,7 +242,7 @@ namespace XCharts
         /// </summary>
         public Color32 dataZoomSelectedColor
         {
-            get { return m_CustomDataZoomSelectedColor != Color.clear ? m_CustomDataZoomSelectedColor : m_DataZoomSelectedColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomDataZoomSelectedColor) ? m_CustomDataZoomSelectedColor : m_DataZoomSelectedColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomDataZoomSelectedColor, value)) SetVerticesDirty(); }
         }
 
@@ -251,7 +251,7 @@ namespace XCharts
         /// </summary>
         public Color32 visualMapBackgroundColor
         {
-            get { return m_CustomVisualMapBackgroundColor != Color.clear ? m_CustomVisualMapBackgroundColor : m_VisualMapBackgroundColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomVisualMapBackgroundColor) ? m_CustomVisualMapBackgroundColor : m_VisualMapBackgroundColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomVisualMapBackgroundColor, value)) SetVerticesDirty(); }
         }
 
@@ -260,7 +260,7 @@ namespace XCharts
         /// </summary>
         public Color32 visualMapBorderColor
         {
-            get { return m_CustomVisualMapBorderColor != Color.clear ? m_CustomVisualMapBorderColor : m_VisualMapBorderColor; }
+            get { return !ChartHelper.IsClearColor(m_CustomVisualMapBorderColor) ? m_CustomVisualMapBorderColor : m_VisualMapBorderColor; }
             set { if (PropertyUtility.SetColor(ref m_CustomVisualMapBorderColor, value)) SetVerticesDirty(); }
         }
 
@@ -282,7 +282,8 @@ namespace XCharts
             if (m_CustomColorPalette.Count > 0)
             {
                 var customIndex = index < m_CustomColorPalette.Count ? index : index % m_CustomColorPalette.Count;
-                if (customIndex < m_CustomColorPalette.Count && m_CustomColorPalette[customIndex] != Color.clear)
+                if (customIndex < m_CustomColorPalette.Count
+                && !ChartHelper.IsClearColor(m_CustomColorPalette[customIndex]))
                 {
                     return m_CustomColorPalette[customIndex];
                 }
@@ -305,12 +306,12 @@ namespace XCharts
             }
             for (int i = 0; i < m_ColorPalette.Length; i++)
             {
-                if (m_ColorPalette[i] != Color.clear && m_ColorPalette[i].a == 0)
+                if (!ChartHelper.IsClearColor(m_ColorPalette[i]) && m_ColorPalette[i].a == 0)
                     sb.AppendFormat("warning:theme->colorPalette[{0}] alpha = 0\n", i);
             }
             for (int i = 0; i < m_CustomColorPalette.Count; i++)
             {
-                if (m_CustomColorPalette[i] != Color.clear && m_CustomColorPalette[i].a == 0)
+                if (!ChartHelper.IsClearColor(m_CustomColorPalette[i]) && m_CustomColorPalette[i].a == 0)
                     sb.AppendFormat("warning:theme->colorPalette[{0}] alpha = 0\n", i);
             }
         }

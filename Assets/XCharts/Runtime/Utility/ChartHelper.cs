@@ -145,7 +145,7 @@ namespace XCharts
             if (parent.Find(name))
             {
                 obj = parent.Find(name).gameObject;
-                obj.SetActive(true);
+                SetActive(obj, true);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localScale = Vector3.one;
             }
@@ -421,6 +421,16 @@ namespace XCharts
                 }
             }
             return true;
+        }
+
+        public static bool IsClearColor(Color32 color)
+        {
+            return color.a == 0 && color.b == 0 && color.g == 0 && color.r == 0;
+        }
+
+        public static bool IsClearColor(Color color)
+        {
+            return color.a == 0 && color.b == 0 && color.g == 0 && color.r == 0;
         }
 
         public static bool CopyList<T>(List<T> toList, List<T> fromList)

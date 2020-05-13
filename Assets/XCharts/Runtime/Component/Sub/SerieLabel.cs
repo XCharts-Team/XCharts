@@ -110,7 +110,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The position of label.

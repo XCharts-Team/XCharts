@@ -79,7 +79,7 @@ namespace XCharts
 
         internal Color GetColor(ThemeInfo theme)
         {
-            if (lineStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(lineStyle.color))
             {
                 var color = lineStyle.color;
                 color.a *= lineStyle.opacity;

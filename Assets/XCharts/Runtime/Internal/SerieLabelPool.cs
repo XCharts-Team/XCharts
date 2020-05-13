@@ -57,6 +57,7 @@ namespace XCharts
 
         public static void Release(GameObject element)
         {
+            if (element == null) return;
             ChartHelper.SetActive(element, false);
             if (!Application.isPlaying) return;
             if (!m_ReleaseDic.ContainsKey(element.GetInstanceID()))

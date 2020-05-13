@@ -121,11 +121,11 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
-            var xWidth = coordinateWidth / xCount;
-            var yWidth = coordinateHeight / yCount;
+            var xWidth = m_CoordinateWidth / xCount;
+            var yWidth = m_CoordinateHeight / yCount;
 
-            var zeroX = coordinateX;
-            var zeroY = coordinateY;
+            var zeroX = m_CoordinateX;
+            var zeroY = m_CoordinateY;
             var dataList = serie.GetDataList();
             var rangeMin = m_VisualMap.rangeMin;
             var rangeMax = m_VisualMap.rangeMax;
@@ -175,7 +175,7 @@ namespace XCharts
                     var rectWid = xWidth - 2 * borderWidth;
                     var rectHig = yWidth - 2 * borderWidth;
                     ChartDrawer.DrawPolygon(vh, pos, rectWid / 2, rectHig / 2, color);
-                    if (borderWidth > 0 && borderColor != Color.clear)
+                    if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
                     {
                         ChartDrawer.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor);
                     }

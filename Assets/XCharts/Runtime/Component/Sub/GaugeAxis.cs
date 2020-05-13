@@ -177,14 +177,14 @@ namespace XCharts
 
         internal Color GetAxisLineColor(ThemeInfo theme, int index)
         {
-            var color = axisLine.barColor != Color.clear ? axisLine.barColor : (Color)theme.GetColor(index);
+            var color = !ChartHelper.IsClearColor(axisLine.barColor) ? axisLine.barColor : (Color)theme.GetColor(index);
             color.a *= axisLine.opacity;
             return color;
         }
 
         internal Color GetAxisLineBackgroundColor(ThemeInfo theme, int index)
         {
-            var color = axisLine.barBackgroundColor != Color.clear ? axisLine.barBackgroundColor : Color.grey;
+            var color = !ChartHelper.IsClearColor(axisLine.barBackgroundColor) ? axisLine.barBackgroundColor : Color.grey;
             color.a *= axisLine.opacity;
             return color;
         }
@@ -192,7 +192,7 @@ namespace XCharts
         internal Color GetSplitLineColor(ThemeInfo theme, int serieIndex, float angle)
         {
             Color color;
-            if (splitLine.lineStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(splitLine.lineStyle.color))
             {
                 color = splitLine.lineStyle.color;
                 color.a *= splitLine.lineStyle.opacity;
@@ -215,7 +215,7 @@ namespace XCharts
         internal Color GetAxisTickColor(ThemeInfo theme, int serieIndex, float angle)
         {
             Color color;
-            if (axisTick.lineStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(axisTick.lineStyle.color))
             {
                 color = axisTick.lineStyle.color;
                 color.a *= axisTick.lineStyle.opacity;
@@ -238,7 +238,7 @@ namespace XCharts
         internal Color GetPointerColor(ThemeInfo theme, int serieIndex, float angle, ItemStyle itemStyle)
         {
             Color color;
-            if (itemStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(itemStyle.color))
             {
                 color = itemStyle.color;
                 color.a *= itemStyle.opacity;

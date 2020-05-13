@@ -149,6 +149,7 @@ namespace XCharts
             m_Tooltip.ClearValue();
             m_CheckAnimation = false;
             m_ReinitLabel = true;
+            m_SerieLabelRoot = null;
             RefreshChart();
         }
 
@@ -161,6 +162,7 @@ namespace XCharts
         {
             m_Series.Remove(serieName);
             m_Legend.RemoveData(serieName);
+            m_SerieLabelRoot = null;
             RefreshChart();
         }
 
@@ -191,8 +193,9 @@ namespace XCharts
             var serieData = m_Series.AddData(serieName, data, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -210,8 +213,9 @@ namespace XCharts
             var serieData = m_Series.AddData(serieIndex, data, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -229,8 +233,9 @@ namespace XCharts
             var serieData = m_Series.AddData(serieName, multidimensionalData, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -248,8 +253,9 @@ namespace XCharts
             var serieData = m_Series.AddData(serieIndex, multidimensionalData, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -268,8 +274,9 @@ namespace XCharts
             var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -288,8 +295,9 @@ namespace XCharts
             var serieData = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                AddSerieLabel(serie, serieData);
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -529,6 +537,7 @@ namespace XCharts
         public void RefreshLabel()
         {
             m_ReinitLabel = true;
+            m_SerieLabelRoot = null;
         }
 
         /// <summary>
@@ -643,25 +652,27 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInChart(Vector2 local)
         {
-            if (local.x < m_ChartX || local.x > m_ChartX + m_ChartWidth ||
-                local.y < m_ChartY || local.y > m_ChartY + m_ChartHeight)
+            return IsInChart(local.x, local.y);
+        }
+
+        public bool IsInChart(float x, float y)
+        {
+            if (x < m_ChartX || x > m_ChartX + m_ChartWidth ||
+               y < m_ChartY || y > m_ChartY + m_ChartHeight)
             {
                 return false;
             }
             return true;
         }
 
-        public Vector3 ClampInChart(Vector3 pos)
+        public void ClampInChart(ref Vector3 pos)
         {
-            if (IsInChart(pos)) return pos;
-            else
+            if (!IsInChart(pos.x, pos.y))
             {
-                var np = new Vector3(pos.x, pos.y);
-                if (np.x < m_ChartX) np.x = m_ChartX;
-                if (np.x > m_ChartX + chartWidth) np.x = m_ChartX + chartWidth;
-                if (np.y < m_ChartY) np.y = m_ChartY;
-                if (np.y > m_ChartY + chartHeight) np.y = m_ChartY + chartHeight;
-                return np;
+                if (pos.x < m_ChartX) pos.x = m_ChartX;
+                if (pos.x > m_ChartX + m_ChartWidth) pos.x = m_ChartX + m_ChartWidth;
+                if (pos.y < m_ChartY) pos.y = m_ChartY;
+                if (pos.y > m_ChartY + m_ChartHeight) pos.y = m_ChartY + m_ChartHeight;
             }
         }
 

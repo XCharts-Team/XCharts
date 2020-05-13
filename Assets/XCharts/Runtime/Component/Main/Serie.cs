@@ -271,6 +271,8 @@ namespace XCharts
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
+        [SerializeField] private bool m_Large = true;
+        [SerializeField] private int m_LargeThreshold = 200;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -753,6 +755,38 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// 是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。
+        /// 开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。
+        /// 缺点：优化后不能自定义设置单个数据项的样式，不能显示Label。
+        /// </summary>
+        public bool large
+        {
+            get { return m_Large; }
+            set
+            {
+                if (PropertyUtility.SetStruct(ref m_Large, value))
+                {
+                    SetAllDirty();
+                    label.SetComponentDirty();
+                }
+            }
+        }
+        /// <summary>
+        /// 开启大数量优化的阈值。
+        /// </summary>
+        public int largeThreshold
+        {
+            get { return m_LargeThreshold; }
+            set
+            {
+                if (PropertyUtility.SetStruct(ref m_LargeThreshold, value))
+                {
+                    SetAllDirty();
+                    label.SetComponentDirty();
+                }
+            }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -869,7 +903,7 @@ namespace XCharts
             }
             else
             {
-                var list = new List<Vector3>(size);
+                var list = ListPool<Vector3>.Get();
                 m_UpSmoothPoints[dataIndex] = list;
                 return list;
             }
@@ -883,7 +917,7 @@ namespace XCharts
             }
             else
             {
-                var list = new List<Vector3>(size);
+                var list = ListPool<Vector3>.Get();
                 m_DownSmoothPoints[dataIndex] = list;
                 return list;
             }
@@ -1016,9 +1050,9 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
-            foreach (var serieData in m_Data)
+            while (m_Data.Count > 0)
             {
-                SerieDataPool.Release(serieData);
+                RemoveData(0);
             }
             m_Data.Clear();
             SetVerticesDirty();
@@ -1037,6 +1071,22 @@ namespace XCharts
                     SetNameDirty();
                 }
                 SetVerticesDirty();
+                var serieData = m_Data[index];
+                SerieDataPool.Release(serieData);
+                if (serieData.labelObject != null)
+                {
+                    SerieLabelPool.Release(serieData.labelObject.gameObject);
+                }
+                if (m_UpSmoothPoints.ContainsKey(serieData.index))
+                {
+                    ListPool<Vector3>.Release(m_UpSmoothPoints[serieData.index]);
+                    m_UpSmoothPoints.Remove(serieData.index);
+                }
+                if (m_DownSmoothPoints.ContainsKey(serieData.index))
+                {
+                    ListPool<Vector3>.Release(m_DownSmoothPoints[serieData.index]);
+                    m_DownSmoothPoints.Remove(serieData.index);
+                }
                 m_Data.RemoveAt(index);
             }
         }
@@ -1048,15 +1098,7 @@ namespace XCharts
         /// <param name="dataName"></param>
         public SerieData AddYData(float value, string dataName = null)
         {
-            if (m_MaxCache > 0)
-            {
-                while (m_Data.Count > m_MaxCache)
-                {
-                    m_NeedUpdateFilterData = true;
-                    SerieDataPool.Release(m_Data[0]);
-                    m_Data.RemoveAt(0);
-                }
-            }
+            CheckMaxCache();
             int xValue = m_Data.Count;
             var serieData = SerieDataPool.Get();
             serieData.data.Add(xValue);
@@ -1146,8 +1188,7 @@ namespace XCharts
             while (m_Data.Count > m_MaxCache)
             {
                 m_NeedUpdateFilterData = true;
-                SerieDataPool.Release(m_Data[0]);
-                m_Data.RemoveAt(0);
+                RemoveData(0);
             }
         }
 
@@ -1431,9 +1472,9 @@ namespace XCharts
                 var serieData = m_Data[index];
                 serieData.name = name;
                 SetNameDirty();
-                if (serieData.labelText != null)
+                if (serieData.labelObject != null)
                 {
-                    serieData.labelText.text = name == null ? "" : name;
+                    serieData.labelObject.SetText(name == null ? "" : name);
                 }
                 return true;
             }
@@ -1572,7 +1613,16 @@ namespace XCharts
             return false;
         }
 
-
+        /// <summary>
+        /// 是否为性能模式。只有折线图和柱状图才有性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。
+        /// </summary>
+        public bool IsPerformanceMode()
+        {
+            if (m_Type == SerieType.Line || m_Type == SerieType.Bar)
+                return m_Large && m_Data.Count > m_LargeThreshold;
+            else
+                return false;
+        }
 
         /// <summary>
         /// 设置指定index的数据图标的尺寸

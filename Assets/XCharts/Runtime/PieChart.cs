@@ -185,7 +185,7 @@ namespace XCharts
 
         private void DrawCenter(VertexHelper vh, Serie serie, ItemStyle itemStyle, float insideRadius)
         {
-            if (itemStyle.centerColor != Color.clear)
+            if (!ChartHelper.IsClearColor(itemStyle.centerColor))
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, m_Settings.cicleSmoothness);
@@ -242,7 +242,7 @@ namespace XCharts
                 var outSideRadius = serieData.runtimePieOutsideRadius;
                 var center = serie.runtimeCenterPos;
                 var currAngle = serieData.runtimePieHalfAngle;
-                if (serieLabel.lineColor != Color.clear) color = serieLabel.lineColor;
+                if (!ChartHelper.IsClearColor(serieLabel.lineColor)) color = serieLabel.lineColor;
                 else if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine) color *= color;
                 float currSin = Mathf.Sin(currAngle * Mathf.Deg2Rad);
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
@@ -358,7 +358,7 @@ namespace XCharts
 
         private void DrawLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {
-            if (serieData.labelText == null) return;
+            if (serieData.labelObject == null) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
@@ -376,9 +376,9 @@ namespace XCharts
                 Color color = serieColor;
                 if (isHighlight)
                 {
-                    if (serie.emphasis.label.color != Color.clear) color = serie.emphasis.label.color;
+                    if (!ChartHelper.IsClearColor(serie.emphasis.label.color)) color = serie.emphasis.label.color;
                 }
-                else if (serieLabel.color != Color.clear)
+                else if (!ChartHelper.IsClearColor(serieLabel.color))
                 {
                     color = serieLabel.color;
                 }
@@ -389,38 +389,37 @@ namespace XCharts
                 var fontSize = isHighlight ? serie.emphasis.label.fontSize : serieLabel.fontSize;
                 var fontStyle = isHighlight ? serie.emphasis.label.fontStyle : serieLabel.fontStyle;
 
-                serieData.labelText.color = color;
-                serieData.labelText.fontSize = fontSize;
-                serieData.labelText.fontStyle = fontStyle;
-
-                serieData.labelRect.transform.localEulerAngles = new Vector3(0, 0, rotate);
+                serieData.labelObject.label.color = color;
+                serieData.labelObject.label.fontSize = fontSize;
+                serieData.labelObject.label.fontStyle = fontStyle;
+                serieData.labelObject.SetLabelRotate(rotate);
 
                 UpdateLabelPostion(serie, serieData);
                 if (!string.IsNullOrEmpty(serieLabel.formatter))
                 {
                     var value = serieData.data[1];
                     var total = serie.yTotal;
-                    var content =  SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
-                    if (serieData.SetLabelText(content)) RefreshChart();
+                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
+                    if (serieData.labelObject.SetText(content)) RefreshChart();
                 }
                 else
                 {
-                    if (serieData.SetLabelText(serieData.name)) RefreshChart();
+                    if (serieData.labelObject.SetText(serieData.name)) RefreshChart();
                 }
-                serieData.SetGameObjectPosition(serieData.labelPosition);
-                if (showLabel) serieData.SetLabelPosition(serieLabel.offset);
+                serieData.labelObject.SetPosition(serieData.labelPosition);
+                if (showLabel) serieData.labelObject.SetLabelPosition(serieLabel.offset);
                 else serieData.SetLabelActive(false);
             }
             else
             {
                 serieData.SetLabelActive(false);
             }
-            serieData.UpdateIcon();
+            serieData.labelObject.UpdateIcon(serieData.iconStyle);
         }
 
         protected void UpdateLabelPostion(Serie serie, SerieData serieData)
         {
-            if (serieData.labelText == null) return;
+            if (serieData.labelObject == null) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var currRad = currAngle * Mathf.Deg2Rad;
             var offsetRadius = serieData.runtimePieOffsetRadius;
@@ -453,7 +452,7 @@ namespace XCharts
                         }
                         var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
                         r4 += serieLabel.lineLength1 + serieLabel.lineWidth * 4;
-                        r4 += serieData.labelText.preferredWidth / 2;
+                        r4 += serieData.labelObject.label.preferredWidth / 2;
                         serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
                     }
                     else
@@ -461,7 +460,7 @@ namespace XCharts
                         labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
                         labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
                             serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                        float labelWidth = serieData.labelText.preferredWidth;
+                        float labelWidth = serieData.labelObject.label.preferredWidth;
                         if (currAngle > 180)
                         {
                             serieData.labelPosition = new Vector2(labelCenter.x - serieLabel.lineLength2 - 5 - labelWidth / 2, labelCenter.y);

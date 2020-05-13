@@ -5,6 +5,8 @@
 /*                                        */
 /******************************************/
 
+using UnityEngine;
+
 namespace XCharts
 {
     internal static class SerieDataPool

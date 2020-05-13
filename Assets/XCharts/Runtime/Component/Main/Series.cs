@@ -120,6 +120,12 @@ namespace XCharts
             SetLabelDirty();
         }
 
+        public override void ClearDirty()
+        {
+            base.ClearDirty();
+            ClearLabelDirty();
+        }
+
         /// <summary>
         /// 清空所有系列的数据
         /// </summary>
@@ -242,7 +248,9 @@ namespace XCharts
             {
                 if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
                 {
-                    if (serie.areaStyle.color != serie.areaStyle.toColor && serie.areaStyle.toColor != Color.clear) return true;
+                    if (serie.areaStyle.color != serie.areaStyle.toColor
+                    && !ChartHelper.IsClearColor(serie.areaStyle.toColor))
+                        return true;
                 }
             }
             return false;

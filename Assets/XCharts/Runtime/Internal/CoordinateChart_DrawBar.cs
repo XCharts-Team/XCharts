@@ -24,7 +24,7 @@ namespace XCharts
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
             var showData = serie.GetDataList(m_DataZoom);
-            float categoryWidth = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
+            float categoryWidth = yAxis.GetDataWidth(m_CoordinateHeight, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -71,8 +71,8 @@ namespace XCharts
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float axisLineWidth = (value < 0 ? -1 : 1) * yAxis.axisLine.width;
-                float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + axisLineWidth;
-                float pY = coordinateY + i * categoryWidth;
+                float pX = seriesHig[i] + m_CoordinateX + xAxis.runtimeZeroXOffset + axisLineWidth;
+                float pY = m_CoordinateY + i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
 
                 var barHig = 0f;
@@ -80,7 +80,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateWidth) : 0;
+                    barHig = valueTotal != 0 ? (value / valueTotal * m_CoordinateWidth) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -88,7 +88,7 @@ namespace XCharts
                     valueTotal = xMaxValue - xMinValue;
                     if (valueTotal != 0)
                         barHig = (xMinValue > 0 ? value - xMinValue : value)
-                            / valueTotal * coordinateWidth;
+                            / valueTotal * m_CoordinateWidth;
                     seriesHig[i] += barHig;
                 }
 
@@ -165,7 +165,7 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
 
-            float categoryWidth = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
+            float categoryWidth = xAxis.GetDataWidth(m_CoordinateWidth, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -208,8 +208,8 @@ namespace XCharts
                 float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = coordinateX + i * categoryWidth;
-                float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
+                float pX = m_CoordinateX + i * categoryWidth;
+                float zeroY = m_CoordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float axisLineWidth = (value < 0 ? -1 : 1) * xAxis.axisLine.width;
                 float pY = seriesHig[i] + zeroY + axisLineWidth;
@@ -219,7 +219,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateHeight) : 0;
+                    barHig = valueTotal != 0 ? (value / valueTotal * m_CoordinateHeight) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -227,7 +227,7 @@ namespace XCharts
                     valueTotal = yMaxValue - yMinValue;
                     if (valueTotal != 0)
                         barHig = (yMinValue > 0 ? value - yMinValue : value)
-                            / valueTotal * coordinateHeight;
+                            / valueTotal * m_CoordinateHeight;
                     seriesHig[i] += barHig;
                 }
                 float currHig = CheckAnimation(serie, i, barHig);
@@ -436,15 +436,15 @@ namespace XCharts
              bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis)
         {
             Color color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
-            if (color == Color.clear) return;
+            if (ChartHelper.IsClearColor(color)) return;
             if (isYAxis)
             {
                 var axis = m_YAxises[serie.axisIndex];
                 var axisWidth = axis.axisLine.width;
-                Vector3 plt = new Vector3(coordinateX + axisWidth, pY + space + barWidth);
-                Vector3 prt = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space + barWidth);
-                Vector3 prb = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space);
-                Vector3 plb = new Vector3(coordinateX + axisWidth, pY + space);
+                Vector3 plt = new Vector3(m_CoordinateX + axisWidth, pY + space + barWidth);
+                Vector3 prt = new Vector3(m_CoordinateX + axisWidth + m_CoordinateWidth, pY + space + barWidth);
+                Vector3 prb = new Vector3(m_CoordinateX + axisWidth + m_CoordinateWidth, pY + space);
+                Vector3 plb = new Vector3(m_CoordinateX + axisWidth, pY + space);
                 if (serie.barType == BarType.Capsule)
                 {
                     var radius = barWidth / 2;
@@ -480,10 +480,10 @@ namespace XCharts
             {
                 var axis = m_XAxises[serie.axisIndex];
                 var axisWidth = axis.axisLine.width;
-                Vector3 plb = new Vector3(pX + space, coordinateY + axisWidth);
-                Vector3 plt = new Vector3(pX + space, coordinateY + coordinateHeight + axisWidth);
-                Vector3 prt = new Vector3(pX + space + barWidth, coordinateY + coordinateHeight + axisWidth);
-                Vector3 prb = new Vector3(pX + space + barWidth, coordinateY + axisWidth);
+                Vector3 plb = new Vector3(pX + space, m_CoordinateY + axisWidth);
+                Vector3 plt = new Vector3(pX + space, m_CoordinateY + m_CoordinateHeight + axisWidth);
+                Vector3 prt = new Vector3(pX + space + barWidth, m_CoordinateY + m_CoordinateHeight + axisWidth);
+                Vector3 prb = new Vector3(pX + space + barWidth, m_CoordinateY + axisWidth);
                 if (serie.barType == BarType.Capsule)
                 {
                     var radius = barWidth / 2;

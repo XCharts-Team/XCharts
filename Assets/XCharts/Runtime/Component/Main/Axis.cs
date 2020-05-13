@@ -555,7 +555,7 @@ namespace XCharts
                     int maxNum = Mathf.CeilToInt(coordinateWid / 15);
                     if (num > maxNum)
                     {
-                        m_Interval = m_ValueRange / (maxNum - 1);
+                        m_Interval *= 2;
                         num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
                     }
                     return num;
@@ -852,7 +852,15 @@ namespace XCharts
                         break;
                 }
             }
-            m_ValueRange = maxValue - minValue;
+            var tempRange = maxValue - minValue;
+            if (m_ValueRange != tempRange)
+            {
+                m_ValueRange = tempRange;
+                if (type == AxisType.Value && m_Interval > 0)
+                {
+                    SetComponentDirty();
+                }
+            }
         }
 
         internal void UpdateMinValue(float value, bool check)

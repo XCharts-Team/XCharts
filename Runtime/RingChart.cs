@@ -151,7 +151,7 @@ namespace XCharts
         private void DrawCenter(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, bool last)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (itemStyle.centerColor != Color.clear && last)
+            if (!ChartHelper.IsClearColor(itemStyle.centerColor) && last)
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 var smoothness = m_Settings.cicleSmoothness;
@@ -163,6 +163,7 @@ namespace XCharts
             float toAngle, float centerRadius)
         {
             if (!serie.label.show) return;
+            if (serieData.labelObject == null) return;
             switch (serie.label.position)
             {
                 case SerieLabel.Position.Center:
@@ -182,7 +183,7 @@ namespace XCharts
                     serieData.labelPosition = serie.runtimeCenterPos + new Vector3(px2, py2);
                     break;
             }
-            serieData.SetLabelPosition(serieData.labelPosition);
+            serieData.labelObject.SetLabelPosition(serieData.labelPosition);
         }
 
         private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)
@@ -207,7 +208,7 @@ namespace XCharts
         private void DrawBorder(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, float outsideRadius)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (itemStyle.show && itemStyle.borderWidth > 0 && itemStyle.borderColor != Color.clear)
+            if (itemStyle.show && itemStyle.borderWidth > 0 && !ChartHelper.IsClearColor(itemStyle.borderColor))
             {
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, outsideRadius,
                 outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,

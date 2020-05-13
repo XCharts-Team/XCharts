@@ -14,7 +14,7 @@ namespace XCharts
         public static Color GetContentColor(Legend legend, ThemeInfo themeInfo, bool active)
         {
             var textStyle = legend.textStyle;
-            if (active) return textStyle.color != Color.clear ? textStyle.color : (Color)themeInfo.legendTextColor;
+            if (active) return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : (Color)themeInfo.legendTextColor;
             else return (Color)themeInfo.legendUnableColor;
         }
 

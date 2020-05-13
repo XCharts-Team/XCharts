@@ -13,7 +13,7 @@ namespace XCharts
     {
         private static bool IsColorAlphaZero(Color color)
         {
-            return color != Color.clear && color.a == 0;
+            return !ChartHelper.IsClearColor(color) && color.a == 0;
         }
         public static string CheckChart(BaseChart chart)
         {
@@ -48,9 +48,9 @@ namespace XCharts
             var title = chart.title;
             if (!title.show) return;
             if (string.IsNullOrEmpty(title.text)) sb.Append("warning:title->text is null\n");
-            if (title.textStyle.color != Color.clear && title.textStyle.color.a == 0)
+            if(IsColorAlphaZero(title.textStyle.color))
                 sb.Append("warning:title->textStyle->color alpha is 0\n");
-            if (title.subTextStyle.color != Color.clear && title.subTextStyle.color.a == 0)
+            if(IsColorAlphaZero(title.subTextStyle.color))
                 sb.Append("warning:title->subTextStyle->color alpha is 0\n");
         }
 
@@ -58,7 +58,7 @@ namespace XCharts
         {
             var legend = chart.legend;
             if (!legend.show) return;
-            if (legend.textStyle.color != Color.clear && legend.textStyle.color.a == 0)
+            if(IsColorAlphaZero(legend.textStyle.color))
                 sb.Append("warning:legend->textStyle->color alpha is 0\n");
             var serieNameList = chart.series.GetLegalSerieNameList();
             if (serieNameList.Count == 0) sb.Append("warning:legend need serie.name or serieData.name not empty\n");
@@ -106,7 +106,7 @@ namespace XCharts
                             sb.AppendFormat("warning:serie {0} lineStyle->width is 0\n", serie.index);
                         if (serie.lineStyle.opacity == 0)
                             sb.AppendFormat("warning:serie {0} lineStyle->opacity is 0\n", serie.index);
-                        if (serie.lineStyle.color != Color.clear && serie.lineStyle.color.a == 0)
+                        if(IsColorAlphaZero(serie.lineStyle.color))
                             sb.AppendFormat("warning:serie {0} lineStyle->color alpha is 0\n", serie.index);
                         break;
                     case SerieType.Bar:

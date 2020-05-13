@@ -407,7 +407,7 @@ namespace XCharts
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null)
         {
-            if (borderWidth == 0 || color == Color.clear) return;
+            if (borderWidth == 0 || ChartHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
             var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
@@ -954,7 +954,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
                     p.y + insideRadius * Mathf.Cos(currAngle));
-                if (emptyColor != Color.clear) DrawTriangle(vh, p, p1, p4, emptyColor);
+                if (!ChartHelper.IsClearColor(emptyColor)) DrawTriangle(vh, p, p1, p4, emptyColor);
                 DrawPolygon(vh, p2, p3, p4, p1, color, toColor);
                 p1 = p4;
                 p2 = p3;

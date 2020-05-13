@@ -125,7 +125,7 @@ namespace XCharts
                     var pos = radar.GetIndicatorPosition(i);
                     TextAnchor anchor = TextAnchor.MiddleCenter;
                     var textStyle = indicator.textStyle;
-                    var textColor = textStyle.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
+                    var textColor = ChartHelper.IsClearColor(textStyle.color) ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
                     var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
                     textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                     new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
@@ -732,23 +732,24 @@ namespace XCharts
                 for (int n = 0; n < serie.dataCount; n++)
                 {
                     var serieData = serie.data[n];
+                    if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var labelPos = serieData.labelPosition;
                     if (serieLabel.margin != 0)
                     {
                         labelPos += serieLabel.margin * (labelPos - center).normalized;
                     }
-                    serieData.SetGameObjectPosition(labelPos);
-                    serieData.UpdateIcon();
+                    serieData.labelObject.SetPosition(labelPos);
+                    serieData.labelObject.UpdateIcon(serieData.iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel)
                     {
                         var value = serieData.GetCurrData(1);
                         var max = radar.GetIndicatorMax(n);
                         SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
                         serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
-                        serieData.SetLabelPosition(serieLabel.offset);
+                        serieData.labelObject.SetLabelPosition(serieLabel.offset);
                         var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max, serieLabel);
-                        if (serieData.SetLabelText(content)) RefreshChart();
+                        if (serieData.labelObject.SetText(content)) RefreshChart();
                     }
                     else
                     {

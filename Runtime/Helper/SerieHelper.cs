@@ -13,19 +13,19 @@ namespace XCharts
     {
         internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight, bool useDefault = true)
         {
-            var itemStyle = GetItemStyle(serie, serieData);
             var color = Color.clear;
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.backgroundColor != Color.clear)
+                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.backgroundColor))
                 {
                     color = itemStyleEmphasis.backgroundColor;
                     color.a *= itemStyleEmphasis.opacity;
                     return color;
                 }
             }
-            if (itemStyle.backgroundColor != Color.clear)
+            var itemStyle = GetItemStyle(serie, serieData);
+            if (!ChartHelper.IsClearColor(itemStyle.backgroundColor))
             {
                 color = itemStyle.backgroundColor;
                 if (highlight) color *= color;
@@ -39,23 +39,23 @@ namespace XCharts
                 color.a = 0.2f;
                 return color;
             }
-            return Color.clear;
+            return color;
         }
 
         internal static Color GetItemColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
         {
-            var itemStyle = GetItemStyle(serie, serieData);
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.color != Color.clear)
+                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
                 {
                     var color = itemStyleEmphasis.color;
                     color.a *= itemStyleEmphasis.opacity;
                     return color;
                 }
             }
-            if (itemStyle.color != Color.clear)
+            var itemStyle = GetItemStyle(serie, serieData);
+            if (!ChartHelper.IsClearColor(itemStyle.color))
             {
                 var color = itemStyle.color;
                 if (highlight) color *= color;
@@ -73,26 +73,26 @@ namespace XCharts
 
         internal static Color GetItemToColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.toColor != Color.clear)
+                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.toColor))
                 {
                     var color = itemStyleEmphasis.toColor;
                     color.a *= itemStyleEmphasis.opacity;
                     return color;
                 }
             }
+            var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle == null) itemStyle = serieData.itemStyle;
-            if (itemStyle.toColor != Color.clear)
+            if (!ChartHelper.IsClearColor(itemStyle.toColor))
             {
                 var color = itemStyle.toColor;
                 if (highlight) color *= color;
                 color.a *= itemStyle.opacity;
                 return color;
             }
-            if (itemStyle.color != Color.clear)
+            if (!ChartHelper.IsClearColor(itemStyle.color))
             {
                 var color = itemStyle.color;
                 if (highlight) color *= color;
@@ -142,13 +142,14 @@ namespace XCharts
                 if (style == null) return GetItemStyle(serie, serieData, false);
                 else return style;
             }
+            else if (serie.IsPerformanceMode()) return serie.itemStyle;
             else if (serieData != null && serieData.enableItemStyle) return serieData.itemStyle;
             else return serie.itemStyle;
         }
 
         public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
         {
-            if (serieData != null && serieData.enableEmphasis && serieData.emphasis.show)
+            if (!serie.IsPerformanceMode() && serieData != null && serieData.enableEmphasis && serieData.emphasis.show)
                 return serieData.emphasis.itemStyle;
             else if (serie.emphasis.show) return serie.emphasis.itemStyle;
             else return null;
@@ -158,13 +159,14 @@ namespace XCharts
         {
             if (highlight)
             {
-                if (serieData.enableEmphasis && serieData.emphasis.show) return serieData.emphasis.label;
+                if (!serie.IsPerformanceMode() && serieData.enableEmphasis && serieData.emphasis.show)
+                    return serieData.emphasis.label;
                 else if (serie.emphasis.show) return serie.emphasis.label;
                 else return serie.label;
             }
             else
             {
-                if (serieData.enableLabel) return serieData.label;
+                if (!serie.IsPerformanceMode() && serieData.enableLabel) return serieData.label;
                 else return serie.label;
             }
         }
@@ -172,10 +174,10 @@ namespace XCharts
         public static Color GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
-            var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
+            var color = !ChartHelper.IsClearColor(areaStyle.color) ? areaStyle.color : (Color)theme.GetColor(index);
             if (highlight)
             {
-                if (areaStyle.highlightColor != Color.clear) color = areaStyle.highlightColor;
+                if (!ChartHelper.IsClearColor(areaStyle.highlightColor)) color = areaStyle.highlightColor;
                 else color *= color;
             }
             color.a *= areaStyle.opacity;
@@ -185,12 +187,12 @@ namespace XCharts
         public static Color GetAreaToColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
-            if (areaStyle.toColor != Color.clear)
+            if (!ChartHelper.IsClearColor(areaStyle.toColor))
             {
                 var color = areaStyle.toColor;
                 if (highlight)
                 {
-                    if (areaStyle.highlightToColor != Color.clear) color = areaStyle.highlightToColor;
+                    if (!ChartHelper.IsClearColor(areaStyle.highlightToColor)) color = areaStyle.highlightToColor;
                     else color *= color;
                 }
                 color.a *= areaStyle.opacity;
@@ -208,16 +210,16 @@ namespace XCharts
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, null);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.color != Color.clear)
+                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
                 {
                     color = itemStyleEmphasis.color;
                     color.a *= itemStyleEmphasis.opacity;
                     return color;
                 }
             }
-            if (serie.lineStyle.color != Color.clear) color = serie.lineStyle.GetColor();
-            else if (serie.itemStyle.color != Color.clear) color = serie.itemStyle.GetColor();
-            if (color == Color.clear)
+            if (!ChartHelper.IsClearColor(serie.lineStyle.color)) color = serie.lineStyle.GetColor();
+            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.GetColor();
+            if (ChartHelper.IsClearColor(color))
             {
                 color = (Color)theme.GetColor(index);
                 color.a = serie.lineStyle.opacity;

@@ -52,5 +52,10 @@ namespace XCharts
                 m_ActionOnRelease(element);
             m_Stack.Push(element);
         }
+
+        public void ClearAll()
+        {
+            m_Stack.Clear();
+        }
     }
 }

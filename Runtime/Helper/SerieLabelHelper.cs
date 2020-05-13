@@ -22,7 +22,7 @@ namespace XCharts
                     {
                         if (serie.label.show && serie.show)
                         {
-                            if (serieData.IsInitLabel())
+                            if (serieData.labelObject != null)
                             {
                                 serieData.SetLabelActive(true);
                                 m_UpdateLabelText = true;
@@ -32,7 +32,7 @@ namespace XCharts
                                 m_ReinitLabel = true;
                             }
                         }
-                        else
+                        else if (serieData.labelObject != null)
                         {
                             serieData.SetLabelActive(false);
                         }
@@ -60,7 +60,7 @@ namespace XCharts
 
         public static Color GetLabelColor(Serie serie, ThemeInfo themeInfo, int index)
         {
-            if (serie.label.color != Color.clear)
+            if (!ChartHelper.IsClearColor(serie.label.color))
             {
                 return serie.label.color;
             }
@@ -72,13 +72,12 @@ namespace XCharts
 
         public static void ResetLabel(SerieData serieData, SerieLabel label, ThemeInfo themeInfo, int colorIndex)
         {
-            if (serieData.labelText)
-            {
-                serieData.labelText.color = label.color != Color.clear ? label.color :
-                    (Color)themeInfo.GetColor(colorIndex);
-                serieData.labelText.fontSize = label.fontSize;
-                serieData.labelText.fontStyle = label.fontStyle;
-            }
+            if (serieData.labelObject == null) return;
+            if (serieData.labelObject.label == null) return;
+            serieData.labelObject.label.color = !ChartHelper.IsClearColor(label.color) ? label.color :
+                (Color)themeInfo.GetColor(colorIndex);
+            serieData.labelObject.label.fontSize = label.fontSize;
+            serieData.labelObject.label.fontStyle = label.fontStyle;
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,
@@ -126,20 +125,16 @@ namespace XCharts
         private static void SetGaugeLabelText(Serie serie)
         {
             var serieData = serie.GetSerieData(0);
-            if (serieData != null)
+            if (serieData == null) return;
+            if (serieData.labelObject == null) return;
+            var value = serieData.GetData(1);
+            var total = serie.max;
+            var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
+            serieData.labelObject.SetText(content);
+            serieData.labelObject.SetLabelPosition(serie.runtimeCenterPos + serie.label.offset);
+            if (!ChartHelper.IsClearColor(serie.label.color))
             {
-                if (serieData.IsInitLabel())
-                {
-                    var value = serieData.GetData(1);
-                    var total = serie.max;
-                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
-                    serieData.SetLabelText(content);
-                    serieData.SetLabelPosition(serie.runtimeCenterPos + serie.label.offset);
-                    if (serie.label.color != Color.clear)
-                    {
-                        serieData.SetLabelColor(serie.label.color);
-                    }
-                }
+                serieData.labelObject.label.color = serie.label.color;
             }
         }
 
@@ -149,7 +144,7 @@ namespace XCharts
             {
                 var serieData = serie.data[i];
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
-                if (serieLabel.show && serieData.IsInitLabel())
+                if (serieLabel.show && serieData.labelObject != null)
                 {
                     if (!serie.show || !serieData.show)
                     {
@@ -160,20 +155,20 @@ namespace XCharts
                     var total = serieData.GetData(1);
                     var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
                     serieData.SetLabelActive(true);
-                    serieData.SetLabelText(content);
-                    serieData.SetLabelColor(GetLabelColor(serie, themeInfo, i));
+                    serieData.labelObject.SetText(content);
+                    serieData.labelObject.SetLabelColor(GetLabelColor(serie, themeInfo, i));
 
                     if (serie.label.position == SerieLabel.Position.Bottom)
                     {
                         var labelWidth = serieData.GetLabelWidth();
                         if (serie.clockwise)
-                            serieData.SetLabelPosition(serieData.labelPosition - new Vector3(labelWidth / 2, 0));
+                            serieData.labelObject.SetLabelPosition(serieData.labelPosition - new Vector3(labelWidth / 2, 0));
                         else
-                            serieData.SetLabelPosition(serieData.labelPosition + new Vector3(labelWidth / 2, 0));
+                            serieData.labelObject.SetLabelPosition(serieData.labelPosition + new Vector3(labelWidth / 2, 0));
                     }
                     else
                     {
-                        serieData.SetLabelPosition(serieData.labelPosition);
+                        serieData.labelObject.SetLabelPosition(serieData.labelPosition);
                     }
                 }
             }

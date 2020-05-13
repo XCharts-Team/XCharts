@@ -79,7 +79,7 @@ namespace XCharts
         {
             if (runtimeText && !runtimeText.text.Equals(text))
             {
-                if (textStyle.color != Color.clear) runtimeText.color = textStyle.color;
+                if (!ChartHelper.IsClearColor(textStyle.color)) runtimeText.color = textStyle.color;
                 runtimeText.text = text;
             }
         }

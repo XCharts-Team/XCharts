@@ -18,7 +18,7 @@ namespace XCharts
 
         public static Color GetTextColor(Title title, ThemeInfo themeInfo)
         {
-            return title.textStyle.color != Color.clear ? title.textStyle.color : (Color)themeInfo.titleTextColor;
+            return !ChartHelper.IsClearColor(title.textStyle.color) ? title.textStyle.color : (Color)themeInfo.titleTextColor;
         }
 
         public static Font GetSubTextFont(Title title, ThemeInfo themeInfo)
@@ -28,7 +28,7 @@ namespace XCharts
 
         public static Color GetSubTextColor(Title title, ThemeInfo themeInfo)
         {
-            return title.subTextStyle.color != Color.clear ? title.subTextStyle.color : (Color)themeInfo.titleSubTextColor;
+            return !ChartHelper.IsClearColor(title.subTextStyle.color) ? title.subTextStyle.color : (Color)themeInfo.titleSubTextColor;
         }
     }
 }

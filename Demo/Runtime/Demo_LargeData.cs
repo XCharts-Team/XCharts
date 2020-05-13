@@ -28,8 +28,7 @@ namespace XCharts
             timeNow = System.DateTime.Now;
             chart.ClearAxisData();
             chart.series.ClearData();
-            chart.series.list[0].maxCache = maxCacheDataNumber;
-            chart.xAxises[0].maxCache = maxCacheDataNumber;
+            chart.SetMaxCache(maxCacheDataNumber);
             chart.title.text = maxCacheDataNumber + "数据";
         }
 

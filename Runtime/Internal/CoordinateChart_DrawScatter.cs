@@ -36,10 +36,10 @@ namespace XCharts
                 float xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
                 float yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = coordinateX + xAxis.axisLine.width;
-                float pY = coordinateY + yAxis.axisLine.width;
-                float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * coordinateWidth;
-                float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * coordinateHeight;
+                float pX = m_CoordinateX + xAxis.axisLine.width;
+                float pY = m_CoordinateY + yAxis.axisLine.width;
+                float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * m_CoordinateWidth;
+                float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * m_CoordinateHeight;
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
                 serie.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;

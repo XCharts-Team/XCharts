@@ -35,6 +35,7 @@ namespace XCharts
         IDragHandler, IEndDragHandler, IScrollHandler
     {
         protected static readonly string s_TitleObjectName = "title";
+        protected static readonly string s_SubTitleObjectName = "title_sub";
         protected static readonly string s_LegendObjectName = "legend";
         protected static readonly string s_SerieLabelObjectName = "label";
         protected static readonly string s_SerieTitleObjectName = "serie";
@@ -70,6 +71,7 @@ namespace XCharts
         [NonSerialized] protected bool m_CheckAnimation = false;
         [NonSerialized] protected bool m_IsPlayingAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
+        [NonSerialized] protected GameObject m_SerieLabelRoot;
 
         protected Vector2 chartAnchorMax { get { return m_ChartMinAnchor; } }
         protected Vector2 chartAnchorMin { get { return m_ChartMaxAnchor; } }
@@ -249,7 +251,7 @@ namespace XCharts
 
             var subTextFont = TitleHelper.GetSubTextFont(title, themeInfo);
             var subTextColor = TitleHelper.GetSubTextColor(title, themeInfo);
-            Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
+            Text subText = ChartHelper.AddTextObject(s_SubTitleObjectName, titleObject.transform,
                         subTextFont, subTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
                         m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle, m_Title.subTextStyle.lineSpacing);
@@ -364,9 +366,9 @@ namespace XCharts
 
         private void InitSerieLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, m_ChartMinAnchor,
+            m_SerieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, transform, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-            SerieLabelPool.ReleaseAll(labelObject.transform);
+            SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -375,32 +377,42 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                    if (!serieLabel.show && j > 100) continue;
-                    var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
-                    var color = Color.grey;
-                    if (serie.type == SerieType.Pie)
-                    {
-                        color = (serieLabel.position == SerieLabel.Position.Inside) ? Color.white :
-                            (Color)m_ThemeInfo.GetColor(count);
-                    }
-                    else
-                    {
-                        color = serieLabel.color != Color.clear ? serieLabel.color :
-                            (Color)m_ThemeInfo.GetColor(i);
-                    }
-                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serieLabel, m_ThemeInfo.font, color,
-                         serieData.iconStyle.width, serieData.iconStyle.height);
-                    var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
-                    serieData.SetIconImage(iconImage);
-
-                    var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
-                    serieData.InitLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
-                    serieData.SetLabelActive(false);
+                    serieData.index = j;
+                    AddSerieLabel(serie, serieData, count);
                     count++;
                 }
             }
             SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+        }
+
+        protected void AddSerieLabel(Serie serie, SerieData serieData, int count = -1)
+        {
+            if (m_SerieLabelRoot == null) return;
+            if (count == -1) count = serie.dataCount;
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (serie.IsPerformanceMode()) return;
+            if (!serieLabel.show) return;
+            var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
+            var color = Color.grey;
+            if (serie.type == SerieType.Pie)
+            {
+                color = (serieLabel.position == SerieLabel.Position.Inside) ? Color.white :
+                    (Color)m_ThemeInfo.GetColor(count);
+            }
+            else
+            {
+                color = !ChartHelper.IsClearColor(serieLabel.color) ? serieLabel.color :
+                    (Color)m_ThemeInfo.GetColor(serie.index);
+            }
+            var labelObj = SerieLabelPool.Get(textName, m_SerieLabelRoot.transform, serieLabel, m_ThemeInfo.font, color,
+                       serieData.iconStyle.width, serieData.iconStyle.height);
+            var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
+            var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
+            var item = new LabelObject();
+            item.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
+            item.SetIcon(iconImage);
+            item.SetIconActive(false);
+            serieData.labelObject = item;
         }
 
         private void InitSerieTitle()
@@ -412,7 +424,7 @@ namespace XCharts
             {
                 var serie = m_Series.list[i];
                 var textStyle = serie.titleStyle.textStyle;
-                var color = textStyle.color == Color.clear ? m_ThemeInfo.GetColor(i) : (Color32)textStyle.color;
+                var color = ChartHelper.IsClearColor(textStyle.color) ? m_ThemeInfo.GetColor(i) : (Color32)textStyle.color;
                 var anchorMin = new Vector2(0.5f, 0.5f);
                 var anchorMax = new Vector2(0.5f, 0.5f);
                 var pivot = new Vector2(0.5f, 0.5f);
@@ -850,7 +862,7 @@ namespace XCharts
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
             var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
-            var labelHalfWid = serieData.GetLabelWidth() / 2;
+            var labelHalfWid = serieData.labelObject.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
             var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);

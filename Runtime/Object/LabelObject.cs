@@ -10,17 +10,17 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    public class LabelObject
+    public class LabelObject : ChartObject
     {
-        private GameObject m_GameObject;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
         private float m_LabelPaddingTopBottom = 3f;
         private Text m_LabelText;
         private RectTransform m_LabelRect;
+        private RectTransform m_IconRect;
         private Image m_IconImage;
-        // private RectTransform m_IconRect;
 
+        public GameObject gameObject { get { return m_GameObject; } }
         public Image icon { get { return m_IconImage; } }
         public Text label { get { return m_LabelText; } }
 
@@ -43,7 +43,7 @@ namespace XCharts
             m_IconImage = image;
             if (image != null)
             {
-                // m_IconRect = m_IconImage.GetComponent<RectTransform>();
+                m_IconRect = m_IconImage.GetComponent<RectTransform>();
             }
         }
 
@@ -54,12 +54,50 @@ namespace XCharts
 
         public void SetIconSize(float width, float height)
         {
-            if (m_LabelRect != null) m_LabelRect.sizeDelta = new Vector3(width, height);
+            if (m_IconRect != null) m_IconRect.sizeDelta = new Vector3(width, height);
         }
 
-        public void SetIconActive(bool flag)
+        public void UpdateIcon(IconStyle iconStyle)
         {
-            ChartHelper.SetActive(m_IconImage, flag);
+            if (m_IconImage == null) return;
+            if (iconStyle.show)
+            {
+                ChartHelper.SetActive(m_IconImage.gameObject, true);
+                m_IconImage.sprite = iconStyle.sprite;
+                m_IconImage.color = iconStyle.color;
+                m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
+                m_IconImage.transform.localPosition = iconStyle.offset;
+                if (iconStyle.layer == IconStyle.Layer.UnderLabel)
+                    m_IconRect.SetSiblingIndex(0);
+                else
+                    m_IconRect.SetSiblingIndex(m_GameObject.transform.childCount - 1);
+            }
+            else
+            {
+                ChartHelper.SetActive(m_IconImage.gameObject, false);
+            }
+        }
+
+        public float GetLabelWidth()
+        {
+            if (m_LabelRect) return m_LabelRect.sizeDelta.x;
+            else return 0;
+        }
+
+        public float GetLabelHeight()
+        {
+            if (m_LabelRect) return m_LabelRect.sizeDelta.y;
+            return 0;
+        }
+
+        public void SetLabelColor(Color color)
+        {
+            if (m_LabelText) m_LabelText.color = color;
+        }
+
+        public void SetLabelRotate(float rotate)
+        {
+            if (m_LabelText) m_LabelText.transform.localEulerAngles = new Vector3(0, 0, rotate);
         }
 
         public void SetPosition(Vector3 position)
@@ -70,9 +108,22 @@ namespace XCharts
             }
         }
 
+        public void SetLabelPosition(Vector3 position)
+        {
+            if (m_LabelRect) m_LabelRect.localPosition = position;
+        }
+
         public void SetActive(bool flag)
         {
-            ChartHelper.SetActive(m_GameObject, flag);
+            if (m_GameObject) ChartHelper.SetActive(m_GameObject, flag);
+        }
+        public void SetLabelActive(bool flag)
+        {
+            if (m_LabelText) ChartHelper.SetActive(m_LabelText, flag);
+        }
+        public void SetIconActive(bool flag)
+        {
+            if (m_IconImage) ChartHelper.SetActive(m_IconImage, flag);
         }
 
         public bool SetText(string text)

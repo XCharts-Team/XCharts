@@ -772,7 +772,7 @@ namespace XCharts
             }
         }
         /// <summary>
-        /// 开启大数量优化的阈值。
+        /// 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
         /// </summary>
         public int largeThreshold
         {

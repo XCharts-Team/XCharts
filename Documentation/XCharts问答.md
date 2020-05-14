@@ -107,7 +107,7 @@
 
 ## 如何用代码动态更新数据
 
-答：请查阅`Demo`下的代码，`Demo13_LineSimple.cs`就是一个简单添加数据构建折线图的例子，其他`Demo`也都是通过代码控制不同的组件实现不同的功能，相关API请查看文档：[XChartsAPI接口](XChartsAPI.md)  。
+答：请查阅`Example`下的代码，`Example13_LineSimple.cs`就是一个简单添加数据构建折线图的例子，其他`Demo`也都是通过代码控制不同的组件实现不同的功能，相关API请查看文档：[XChartsAPI接口](XChartsAPI.md)  。
 
 ## 如何显示图例
 
@@ -123,7 +123,7 @@
 
 ## 如何实现心电图类似的数据移动效果
 
-答：参考Demo目录下的`Demo_Dynamic.cs`。主要通过设置`maxCache`参数实现。axis和serie都设置相同的maxCache。maxCache可固定数据个数，当数据超过设定时会先删除第一个在添加新数据，实现数据移动效果。
+答：参考Example目录下的`Example_Dynamic.cs`。主要通过设置`maxCache`参数实现。axis和serie都设置相同的maxCache。maxCache可固定数据个数，当数据超过设定时会先删除第一个在添加新数据，实现数据移动效果。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

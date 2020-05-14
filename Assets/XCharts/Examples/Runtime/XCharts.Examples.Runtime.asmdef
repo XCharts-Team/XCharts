@@ -1,0 +1,14 @@
+{
+    "name": "XCharts.Examples.Runtime",
+    "references": [
+        "XCharts.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

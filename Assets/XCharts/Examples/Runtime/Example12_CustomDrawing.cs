@@ -21,7 +21,7 @@ namespace XCharts.Examples
             chart = gameObject.GetComponent<LineChart>();
             if (chart == null) return;
 
-            chart.customDrawCallback = delegate (VertexHelper vh)
+            chart.onCustomDraw = delegate (VertexHelper vh)
             {
                 var dataPoints = chart.series.list[0].dataPoints;
                 if (dataPoints.Count > 0)

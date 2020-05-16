@@ -13,7 +13,17 @@
 * `BaseChart.series`：系列列表`Series`。
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
-* `BaseChart.customDrawCallback`：自定义绘制回调函数。
+* `BaseChart.forceOpenRaycastTarget`：强制开启鼠标事件检测。一般不用手动设置，内部会自动判断是否需要检测。
+* `BaseChart.onCustomDraw`：自定义绘制回调。
+* `BaseChart.onPointerClick`：鼠标点击回调。
+* `BaseChart.onPointerDown`：鼠标按下回调。
+* `BaseChart.onPointerUp`：鼠标弹起回调。
+* `BaseChart.onPointerEnter`：鼠标进入图表回调。
+* `BaseChart.onPointerExit`：鼠标退出图表回调。
+* `BaseChart.onBeginDrag`：鼠标开始拖拽回调。
+* `BaseChart.onDrag`：鼠标拖拽回调。
+* `BaseChart.onEndDrag`：鼠标结束拖拽回调。
+* `BaseChart.onScroll`：鼠标滚动回调。
 * `BaseChart.SetSize(float width, float height)`： 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。
@@ -49,6 +59,8 @@
 * `BaseChart.AnimationResume()`：继续动画。
 * `BaseChart.AnimationReset()`：重置动画。
 * `BaseChart.ClickLegendButton(int legendIndex, string legendName, bool show)`：点击图例按钮。
+* `BaseChart.IsInChart(Vector2 local)`：坐标是否在图表范围内。
+* `BaseChart.IsInChart(float x, float y)`：坐标是否在图表范围内。
 
 ## `CoordinateChart`
 
@@ -70,6 +82,14 @@
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
 * `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。
 * `CoordinateChart.RefreshAxisMinMaxValue()`：立即刷新数值坐标轴的最大最小值（更新坐标轴标签并触发重绘）。
+* `CoordinateChart.IsInCooridate(Vector2 local)`：坐标是否在坐标轴内。
+* `CoordinateChart.IsInCooridate(Vector3 local)`：坐标是否在坐标轴内。
+* `CoordinateChart.IsInCooridate(float x, float y)`：坐标是否在坐标轴内。
+* `CoordinateChart.IsInCooridate(Vector2 local)`：坐标是否在坐标轴内。
+* `CoordinateChart.ClampInCoordinate(Vector3 pos)`：将坐标限制在坐标系内。
+* `CoordinateChart.CovertXYAxis(int index)`：转换X轴和Y轴的配置。
+* `CoordinateChart.UpdateCoordinate()`：更新坐标系原点和宽高。一般内部会自动更新，也可强制更新。
+* `CoordinateChart.SetMaxCache(int maxCache)`：设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。
 
 ## `LineChart`
 

@@ -31,7 +31,7 @@ namespace XCharts
     }
 
     public partial class BaseChart : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
-        IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,
+        IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
         protected static readonly string s_TitleObjectName = "title";
@@ -53,8 +53,19 @@ namespace XCharts
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected Settings m_Settings = new Settings();
         [SerializeField] protected float m_Large = 1;
-        [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
         [SerializeField] protected string m_DebugInfo = "";
+
+        [SerializeField] protected Action<VertexHelper> m_OnCustomDrawCallback;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerClick;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerDown;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerUp;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerEnter;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerExit;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnBeginDrag;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnDrag;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnEndDrag;
+        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnScroll;
+
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] protected Vector3 m_ChartPosition = Vector3.zero;
@@ -72,6 +83,7 @@ namespace XCharts
         [NonSerialized] protected bool m_IsPlayingAnimation = false;
         [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
         [NonSerialized] protected GameObject m_SerieLabelRoot;
+        [NonSerialized] protected bool m_ForceOpenRaycastTarget;
 
         protected Vector2 chartAnchorMax { get { return m_ChartMinAnchor; } }
         protected Vector2 chartAnchorMin { get { return m_ChartMaxAnchor; } }
@@ -528,6 +540,7 @@ namespace XCharts
 
         private void CheckPointerPos()
         {
+            if (m_ForceOpenRaycastTarget) raycastTarget = true;
             var needCheck = (m_Tooltip.show && m_Tooltip.runtimeInited)
                 || raycastTarget;
             if (needCheck)
@@ -737,9 +750,9 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawChart(vh);
-            if (m_CustomDrawCallback != null)
+            if (m_OnCustomDrawCallback != null)
             {
-                m_CustomDrawCallback(vh);
+                m_OnCustomDrawCallback(vh);
             }
             DrawTooltip(vh);
             m_RefreshLabel = true;
@@ -886,36 +899,49 @@ namespace XCharts
             }
         }
 
+        public virtual void OnPointerClick(PointerEventData eventData)
+        {
+            if (m_OnPointerClick != null) m_OnPointerClick(this, eventData);
+        }
+
         public virtual void OnPointerDown(PointerEventData eventData)
         {
+            if (m_OnPointerDown != null) m_OnPointerDown(this, eventData);
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
+            if (m_OnPointerUp != null) m_OnPointerUp(this, eventData);
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
+            if (m_OnPointerEnter != null) m_OnPointerEnter(this, eventData);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
+            if (m_OnPointerExit != null) m_OnPointerExit(this, eventData);
         }
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
+            if (m_OnBeginDrag != null) m_OnBeginDrag(this, eventData);
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
         {
+            if (m_OnEndDrag != null) m_OnEndDrag(this, eventData);
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
+            if (m_OnDrag != null) m_OnDrag(this, eventData);
         }
 
         public virtual void OnScroll(PointerEventData eventData)
         {
+            if (m_OnScroll != null) m_OnScroll(this, eventData);
         }
     }
 }

@@ -1505,6 +1505,7 @@ namespace XCharts
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
+            base.OnBeginDrag(eventData);
             if (Input.touchCount > 1) return;
             Vector2 pos;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
@@ -1539,6 +1540,7 @@ namespace XCharts
 
         public override void OnDrag(PointerEventData eventData)
         {
+            base.OnDrag(eventData);
             if (Input.touchCount > 1) return;
             float deltaX = eventData.delta.x;
             float deltaPercent = deltaX / m_CoordinateWidth * 100;
@@ -1634,6 +1636,7 @@ namespace XCharts
 
         public override void OnEndDrag(PointerEventData eventData)
         {
+            base.OnEndDrag(eventData);
             if (m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag || m_DataZoomCoordinateDrag)
             {
                 RefreshChart();
@@ -1647,6 +1650,7 @@ namespace XCharts
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            base.OnPointerDown(eventData);
             if (Input.touchCount > 1) return;
             Vector2 localPos;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
@@ -1686,6 +1690,7 @@ namespace XCharts
 
         public override void OnScroll(PointerEventData eventData)
         {
+            base.OnScroll(eventData);
             if (Input.touchCount > 1) return;
             if (!m_DataZoom.enable || m_DataZoom.zoomLock) return;
             Vector2 pos;

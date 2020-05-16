@@ -140,7 +140,6 @@ namespace XCharts
         /// reutrn true when all the show axis is `Value` type.
         /// 纯数值坐标轴（数值轴或对数轴）。
         /// </summary>
-        /// <returns></returns>
         public bool IsValue()
         {
             foreach (var axis in m_XAxises)
@@ -154,6 +153,9 @@ namespace XCharts
             return true;
         }
 
+        /// <summary>
+        /// 纯类目轴。
+        /// </summary>
         public bool IsCategory()
         {
             foreach (var axis in m_XAxises)
@@ -167,6 +169,9 @@ namespace XCharts
             return true;
         }
 
+        /// <summary>
+        /// 坐标是否在坐标轴内。
+        /// </summary>
         public bool IsInCooridate(Vector2 local)
         {
             return IsInCooridate(local.x, local.y);
@@ -253,7 +258,7 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 设置可缓存的最大数据量。
+        /// 设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。
         /// </summary>
         public void SetMaxCache(int maxCache)
         {

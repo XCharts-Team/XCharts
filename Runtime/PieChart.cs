@@ -573,6 +573,8 @@ namespace XCharts
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            base.OnPointerDown(eventData);
+
             Vector2 local;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 eventData.position, canvas.worldCamera, out local))

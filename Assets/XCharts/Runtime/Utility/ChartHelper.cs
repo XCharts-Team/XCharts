@@ -118,7 +118,7 @@ namespace XCharts
             Transform obj = transform;
             while (obj.transform.parent)
             {
-                name += "/" + obj.transform.parent.name;
+                name = obj.transform.parent.name + "/" + name;
                 obj = obj.transform.parent;
             }
             return name;

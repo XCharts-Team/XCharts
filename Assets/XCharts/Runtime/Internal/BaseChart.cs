@@ -41,7 +41,6 @@ namespace XCharts
         protected static readonly string s_SerieTitleObjectName = "serie";
 
         [SerializeField] protected string m_ChartName;
-        [SerializeField] protected string m_ChartUUID;
         [SerializeField] protected float m_ChartWidth;
         [SerializeField] protected float m_ChartHeight;
         [SerializeField] protected float m_ChartX;
@@ -52,22 +51,18 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected Settings m_Settings = new Settings();
-        [SerializeField] protected float m_Large = 1;
-        [SerializeField] protected string m_DebugInfo = "";
 
-        [SerializeField] protected Action<VertexHelper> m_OnCustomDrawCallback;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerClick;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerDown;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerUp;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerEnter;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnPointerExit;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnBeginDrag;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnDrag;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnEndDrag;
-        [SerializeField] protected Action<BaseChart, PointerEventData> m_OnScroll;
+        [NonSerialized] protected Action<VertexHelper> m_OnCustomDrawCallback;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnPointerClick;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnPointerDown;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnPointerUp;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnPointerEnter;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnPointerExit;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnBeginDrag;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnDrag;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnEndDrag;
+        [NonSerialized] protected Action<BaseChart, PointerEventData> m_OnScroll;
 
-
-        [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] protected Vector3 m_ChartPosition = Vector3.zero;
         [NonSerialized] protected Vector2 m_ChartMinAnchor;
         [NonSerialized] protected Vector2 m_ChartMaxAnchor;
@@ -88,6 +83,8 @@ namespace XCharts
         protected Vector2 chartAnchorMax { get { return m_ChartMinAnchor; } }
         protected Vector2 chartAnchorMin { get { return m_ChartMaxAnchor; } }
         protected Vector2 chartPivot { get { return m_ChartPivot; } }
+
+        private Theme m_CheckTheme = 0;
 
         protected virtual void InitComponent()
         {

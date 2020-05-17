@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.05.18) 增加`chartName`属性，可通过`XChartMgr.Instance.GetChart(chartName)`获取图表
 * (2020.05.16) 增加部分鼠标事件回调
 * (2020.05.15) 优化自带例子，`Demo`改名为`Example`
 * (2020.05.13) 增加`Serie`的`large`和`largeThreshold`参数配置折线图和柱状图的性能模式

@@ -11,6 +11,7 @@
 * `BaseChart.legend`：图例组件`Legend`。
 * `BaseChart.tooltip`：提示框组件`Tooltip`。
 * `BaseChart.series`：系列列表`Series`。
+* `BaseChart.chartName`：图表的别称。
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
 * `BaseChart.forceOpenRaycastTarget`：强制开启鼠标事件检测。一般不用手动设置，内部会自动判断是否需要检测。

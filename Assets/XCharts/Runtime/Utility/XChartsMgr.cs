@@ -1,4 +1,5 @@
 
+
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
@@ -34,7 +35,7 @@ namespace XCharts
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
-        private Dictionary<string, BaseChart> m_ChartDic = new Dictionary<string, BaseChart>();
+        [SerializeField] private List<BaseChart> m_ChartList = new List<BaseChart>();
         private static XChartsMgr m_XCharts;
 
         public static XChartsMgr Instance
@@ -73,6 +74,7 @@ namespace XCharts
         private void Awake()
         {
             SerieLabelPool.ClearAll();
+            m_ChartList.Clear();
         }
 
         public string changeLog { get; private set; }
@@ -238,25 +240,45 @@ namespace XCharts
 
         public void AddChart(BaseChart chart)
         {
-            //TODO:
-        }
-
-        public BaseChart GetChart(string uuid)
-        {
-            return m_ChartDic[uuid];
-        }
-
-        public void RemoveChart(string uuid)
-        {
-            if (m_ChartDic.ContainsKey(uuid))
+            var sameNameChart = GetChart(chart.chartName);
+            if (sameNameChart != null)
             {
-                m_ChartDic.Remove(uuid);
+                var path = ChartHelper.GetFullName(sameNameChart.transform);
+                Debug.LogError("A chart named `" + chart.chartName + "` already exists:" + path);
+            }
+            if (!ContainsChart(chart))
+            {
+                m_ChartList.Add(chart);
             }
         }
 
-        public bool ContainsChart(string uuid)
+        public BaseChart GetChart(string chartName)
         {
-            return m_ChartDic.ContainsKey(uuid);
+            if (string.IsNullOrEmpty(chartName)) return null;
+            return m_ChartList.Find(chart => chartName.Equals(chart.chartName));
+        }
+
+        public List<BaseChart> GetCharts(string chartName)
+        {
+            if (string.IsNullOrEmpty(chartName)) return null;
+            return m_ChartList.FindAll(chart => chartName.Equals(chartName));
+        }
+
+        public void RemoveChart(string chartName)
+        {
+            if (string.IsNullOrEmpty(chartName)) return;
+            m_ChartList.RemoveAll(chart => chartName.Equals(chart.chartName));
+        }
+
+        public bool ContainsChart(string chartName)
+        {
+            if (string.IsNullOrEmpty(chartName)) return false;
+            return GetCharts(chartName) != null;
+        }
+
+        public bool ContainsChart(BaseChart chart)
+        {
+            return m_ChartList.Contains(chart);
         }
     }
 }

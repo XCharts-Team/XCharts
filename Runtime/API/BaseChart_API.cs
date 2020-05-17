@@ -27,15 +27,16 @@ namespace XCharts
             get { return m_ChartName; }
             set
             {
-                if (XChartsMgr.Instance.ContainsChart(value)) Debug.LogError("chartName repeated:" + value);
+                if (!string.IsNullOrEmpty(value) && XChartsMgr.Instance.ContainsChart(value))
+                {
+                    Debug.LogError("chartName repeated:" + value);
+                }
                 else
                 {
                     m_ChartName = value;
-                    m_ChartUUID = value;
                 }
             }
         }
-        public string chartUUID { get { return m_ChartUUID; } }
         /// <summary>
         /// The theme info.
         /// </summary>

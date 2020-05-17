@@ -225,12 +225,6 @@ namespace XCharts
                         case SerieType.Scatter:
                         case SerieType.EffectScatter:
                             DrawScatterSerie(vh, colorIndex, serie);
-                            if (vh.currentVertCount > 60000)
-                            {
-                                m_Large++;
-                                RefreshChart();
-                                return;
-                            }
                             break;
                         case SerieType.Heatmap:
                             DrawHeatmapSerie(vh, colorIndex, serie);

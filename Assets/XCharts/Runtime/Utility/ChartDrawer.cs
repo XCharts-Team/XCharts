@@ -1038,5 +1038,96 @@ namespace XCharts
                 }
             }
         }
+
+        public static void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
+           float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius,
+           Color backgroundColor, float smoothness)
+        {
+            switch (type)
+            {
+                case SerieSymbolType.None:
+                    break;
+                case SerieSymbolType.Circle:
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, toColor, smoothness);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
+                    }
+                    break;
+                case SerieSymbolType.EmptyCircle:
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
+                    }
+                    break;
+                case SerieSymbolType.Rect:
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
+                    }
+                    else
+                    {
+                        //ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
+                        ChartDrawer.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, 0, cornerRadius);
+                    }
+                    break;
+                case SerieSymbolType.Triangle:
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                    }
+                    break;
+                case SerieSymbolType.Diamond:
+                    if (gap > 0)
+                    {
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                    }
+                    else
+                    {
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                    }
+                    break;
+            }
+        }
+
+        public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
+            Vector3 startPos, Vector3 endPos, Color color)
+        {
+            var type = lineStyle.type;
+            var width = lineStyle.width;
+            switch (type)
+            {
+                case LineStyle.Type.Dashed:
+                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Dotted:
+                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.Solid:
+                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDot:
+                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
+                    break;
+                case LineStyle.Type.DashDotDot:
+                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
+                    break;
+            }
+        }
     }
 }

@@ -213,5 +213,56 @@ namespace XCharts
                     break;
             }
         }
+
+        public static bool CheckDataShow(Series series, string legendName, bool show)
+        {
+            bool needShow = false;
+            foreach (var serie in series.list)
+            {
+                if (legendName.Equals(serie.name))
+                {
+                    serie.show = show;
+                    serie.highlighted = false;
+                    if (serie.show) needShow = true;
+                }
+                else
+                {
+                    foreach (var data in serie.data)
+                    {
+                        if (legendName.Equals(data.name))
+                        {
+                            data.show = show;
+                            data.highlighted = false;
+                            if (data.show) needShow = true;
+                        }
+                    }
+                }
+            }
+            return needShow;
+        }
+
+        public static bool CheckDataHighlighted(Series series, string legendName, bool heighlight)
+        {
+            bool show = false;
+            foreach (var serie in series.list)
+            {
+                if (legendName.Equals(serie.name))
+                {
+                    serie.highlighted = heighlight;
+                }
+                else
+                {
+                    foreach (var data in serie.data)
+                    {
+                        if (legendName.Equals(data.name))
+                        {
+                            data.highlighted = heighlight;
+                            if (data.highlighted) show = true;
+                        }
+                    }
+                }
+            }
+            return show;
+        }
     }
 }

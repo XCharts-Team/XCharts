@@ -175,8 +175,8 @@ namespace XCharts
             if (m_Series.anyDirty)
             {
                 if (m_Series.vertsDirty) RefreshChart();
-                if (m_Series.labelDirty) m_ReinitLabel = true;
-                if (m_Series.labelUpdate && !m_RefreshChart) m_RefreshLabel = true;
+                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
+                if (SeriesHelper.IsNeedLabelUpdate(m_Series) && !m_RefreshChart) m_RefreshLabel = true;
                 foreach (var serie in m_Series.list)
                 {
                     if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
@@ -285,8 +285,7 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = GetLegendPosition();
-
-            m_LegendRealShowName = m_Series.GetSerieNameList();
+            SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
             List<string> datas;
             if (m_Legend.show && m_Legend.data.Count > 0)
             {
@@ -303,7 +302,7 @@ namespace XCharts
             int totalLegend = 0;
             for (int i = 0; i < datas.Count; i++)
             {
-                if (!m_Series.IsLegalLegendName(datas[i])) continue;
+                if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
                 totalLegend++;
             }
             m_Legend.RemoveButton();
@@ -311,7 +310,7 @@ namespace XCharts
             if (!m_Legend.show) return;
             for (int i = 0; i < datas.Count; i++)
             {
-                if (!m_Series.IsLegalLegendName(datas[i])) continue;
+                if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
                 string legendName = m_Legend.GetFormatterContent(datas[i]);
                 var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
                 var active = IsActiveByLegend(datas[i]);
@@ -621,7 +620,7 @@ namespace XCharts
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;
-                m_LegendRealShowName = m_Series.GetSerieNameList();
+                SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
                 InitSerieLabel();
             }
             if (m_ReinitTitle)
@@ -690,57 +689,6 @@ namespace XCharts
             RefreshChart();
         }
 
-        protected bool CheckDataShow(string legendName, bool show)
-        {
-            bool needShow = false;
-            foreach (var serie in m_Series.list)
-            {
-                if (legendName.Equals(serie.name))
-                {
-                    serie.show = show;
-                    serie.highlighted = false;
-                    if (serie.show) needShow = true;
-                }
-                else
-                {
-                    foreach (var data in serie.data)
-                    {
-                        if (legendName.Equals(data.name))
-                        {
-                            data.show = show;
-                            data.highlighted = false;
-                            if (data.show) needShow = true;
-                        }
-                    }
-                }
-            }
-            return needShow;
-        }
-
-        protected bool CheckDataHighlighted(string legendName, bool heighlight)
-        {
-            bool show = false;
-            foreach (var serie in m_Series.list)
-            {
-                if (legendName.Equals(serie.name))
-                {
-                    serie.highlighted = heighlight;
-                }
-                else
-                {
-                    foreach (var data in serie.data)
-                    {
-                        if (legendName.Equals(data.name))
-                        {
-                            data.highlighted = heighlight;
-                            if (data.highlighted) show = true;
-                        }
-                    }
-                }
-            }
-            return show;
-        }
-
         protected virtual void UpdateTooltip()
         {
         }
@@ -775,100 +723,18 @@ namespace XCharts
             ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
         }
 
-        protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
+        public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
+          float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
         {
             var backgroundColor = m_ThemeInfo.backgroundColor;
             var smoothness = m_Settings.cicleSmoothness;
-            switch (type)
-            {
-                case SerieSymbolType.None:
-                    break;
-                case SerieSymbolType.Circle:
-                    if (gap > 0)
-                    {
-                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, toColor, smoothness);
-                    }
-                    else
-                    {
-                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
-                    }
-                    break;
-                case SerieSymbolType.EmptyCircle:
-                    if (gap > 0)
-                    {
-                        ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
-                    }
-                    else
-                    {
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
-                    }
-                    break;
-                case SerieSymbolType.Rect:
-                    if (gap > 0)
-                    {
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
-                    }
-                    else
-                    {
-                        //ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
-                        ChartDrawer.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, 0, cornerRadius);
-                    }
-                    break;
-                case SerieSymbolType.Triangle:
-                    if (gap > 0)
-                    {
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
-                    }
-                    else
-                    {
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
-                    }
-                    break;
-                case SerieSymbolType.Diamond:
-                    if (gap > 0)
-                    {
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
-                    }
-                    else
-                    {
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
-                    }
-                    break;
-            }
-        }
-
-        protected void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
-            Vector3 startPos, Vector3 endPos, Color color)
-        {
-            var type = lineStyle.type;
-            var width = lineStyle.width;
-            switch (type)
-            {
-                case LineStyle.Type.Dashed:
-                    ChartDrawer.DrawDashLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.Dotted:
-                    ChartDrawer.DrawDotLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.Solid:
-                    ChartDrawer.DrawLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.DashDot:
-                    ChartDrawer.DrawDashDotLine(vh, startPos, endPos, width, color);
-                    break;
-                case LineStyle.Type.DashDotDot:
-                    ChartDrawer.DrawDashDotDotLine(vh, startPos, endPos, width, color);
-                    break;
-            }
+            ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
+                cornerRadius, backgroundColor, smoothness);
         }
 
         protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
         {
+            if (serieData == null || serieData.labelObject == null) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (!serieLabel.show) return;
             var invert = serie.type == SerieType.Line

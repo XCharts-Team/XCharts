@@ -238,7 +238,7 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            CheckDataShow(legendName, show);
+            LegendHelper.CheckDataShow(m_Series, legendName, show);
             UpdateLegendColor(legendName, show);
             RefreshChart();
         }
@@ -246,14 +246,14 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName, true);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName, false);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, false);
             RefreshChart();
         }
 

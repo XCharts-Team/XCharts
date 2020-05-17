@@ -86,7 +86,7 @@ namespace XCharts
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
-        [NonSerialized] private float m_ValueRange;
+        [NonSerialized] private float m_MinMaxValueRange;
         [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
@@ -339,6 +339,7 @@ namespace XCharts
         public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
         internal bool runtimeLastCheckInverse { get; set; }
+        internal float runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;
@@ -462,12 +463,25 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 获得指定索引的类目数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public string GetData(int index)
+        {
+            if (index >= 0 && index < m_Data.Count)
+                return m_Data[index];
+            else
+                return null;
+        }
+
+        /// <summary>
         /// 获得在dataZoom范围内指定索引的类目数据
         /// </summary>
         /// <param name="index">类目数据索引</param>
         /// <param name="dataZoom">区域缩放</param>
         /// <returns></returns>
-        internal string GetData(int index, DataZoom dataZoom)
+        public string GetData(int index, DataZoom dataZoom)
         {
             var showData = GetDataList(dataZoom);
             if (index >= 0 && index < showData.Count)
@@ -540,55 +554,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得分割段数
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal int GetSplitNumber(float coordinateWid, DataZoom dataZoom)
-        {
-            if (type == AxisType.Value)
-            {
-                if (m_Interval > 0)
-                {
-                    if (coordinateWid <= 0) return 0;
-                    int num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
-                    int maxNum = Mathf.CeilToInt(coordinateWid / 15);
-                    if (num > maxNum)
-                    {
-                        m_Interval *= 2;
-                        num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
-                    }
-                    return num;
-                }
-                else return m_SplitNumber;
-            }
-            else if (type == AxisType.Log)
-            {
-                return m_SplitNumber;
-            }
-            int dataCount = GetDataList(dataZoom).Count;
-            if (m_SplitNumber <= 0) return dataCount;
-            if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
-                return m_SplitNumber;
-            else
-                return dataCount;
-        }
-
-        /// <summary>
-        /// 获得分割段的宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
-        {
-            int split = GetSplitNumber(coordinateWidth, dataZoom);
-            int segment = (m_BoundaryGap ? split : split - 1);
-            segment = segment <= 0 ? 1 : segment;
-            return coordinateWidth / segment;
-        }
-
-        /// <summary>
         /// 获得类目数据个数
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -596,133 +561,6 @@ namespace XCharts
         internal int GetDataNumber(DataZoom dataZoom)
         {
             return GetDataList(dataZoom).Count;
-        }
-
-        /// <summary>
-        /// 获得一个类目数据在坐标系中代表的宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetDataWidth(float coordinateWidth, int dataCount, DataZoom dataZoom)
-        {
-            if (dataCount < 1) dataCount = 1;
-            var categoryCount = GetDataNumber(dataZoom);
-            int segment = (m_BoundaryGap ? categoryCount : categoryCount - 1);
-            segment = segment <= 0 ? dataCount : segment;
-            return coordinateWidth / segment;
-        }
-
-        /// <summary>
-        /// 获得标签显示的名称
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="minValue"></param>
-        /// <param name="maxValue"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue,
-            DataZoom dataZoom, bool forcePercent)
-        {
-            int split = GetSplitNumber(coordinateWidth, dataZoom);
-            if (m_Type == AxisType.Value)
-            {
-                if (minValue == 0 && maxValue == 0) return string.Empty;
-                float value = 0;
-                if (forcePercent) maxValue = 100;
-                if (m_Interval > 0)
-                {
-                    if (index == split - 1) value = maxValue;
-                    else value = minValue + index * m_Interval;
-                }
-                else
-                {
-                    value = (minValue + (maxValue - minValue) * index / (split - 1));
-                }
-                if (inverse)
-                {
-                    value = -value;
-                    minValue = -minValue;
-                    maxValue = -maxValue;
-                }
-                if (forcePercent) return string.Format("{0}%", (int)value);
-                else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
-            }
-            else if (m_Type == AxisType.Log)
-            {
-                float value = m_LogBaseE ? Mathf.Exp(runtimeMinLogIndex + index) :
-                    Mathf.Pow(m_LogBase, runtimeMinLogIndex + index);
-                if (inverse)
-                {
-                    value = -value;
-                    minValue = -minValue;
-                    maxValue = -maxValue;
-                }
-                return m_AxisLabel.GetFormatterContent(value, minValue, maxValue, true);
-            }
-            var showData = GetDataList(dataZoom);
-            int dataCount = showData.Count;
-            if (dataCount <= 0) return "";
-
-            if (index == split - 1 && !m_BoundaryGap)
-            {
-                return m_AxisLabel.GetFormatterContent(showData[dataCount - 1]);
-            }
-            else
-            {
-                float rate = dataCount / split;
-                if (rate < 1) rate = 1;
-                int offset = m_BoundaryGap ? (int)(rate / 2) : 0;
-                int newIndex = (int)(index * rate >= dataCount - 1 ?
-                    dataCount - 1 : offset + index * rate);
-                return m_AxisLabel.GetFormatterContent(showData[newIndex]);
-            }
-        }
-
-        /// <summary>
-        /// 获得分割线条数
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
-        {
-            if (type == AxisType.Value || type == AxisType.Log)
-            {
-                int splitNum = GetSplitNumber(coordinateWidth, dataZoom);
-                return m_BoundaryGap ? splitNum + 1 : splitNum;
-            }
-            else
-            {
-                var showData = GetDataList(dataZoom);
-                int dataCount = showData.Count;
-                if (m_SplitNumber <= 0) return m_BoundaryGap ? dataCount + 1 : dataCount;
-                if (dataCount > 2 * splitNumber || dataCount <= 0)
-                    return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
-                else
-                    return m_BoundaryGap ? dataCount + 1 : dataCount;
-            }
-        }
-
-        /// <summary>
-        /// 获得分割段宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetScaleWidth(float coordinateWidth, int index, DataZoom dataZoom)
-        {
-            int num = GetScaleNumber(coordinateWidth, dataZoom) - 1;
-            if (num <= 0) num = 1;
-            if (type == AxisType.Value && m_Interval > 0)
-            {
-                if (index == num - 1) return coordinateWidth - (num - 1) * m_Interval * coordinateWidth / m_ValueRange;
-                else return m_Interval * coordinateWidth / m_ValueRange;
-            }
-            else
-            {
-                return coordinateWidth / num;
-            }
-
         }
 
         /// <summary>
@@ -737,7 +575,8 @@ namespace XCharts
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    axisLabelTextList[i].text = text;
                 }
             }
         }
@@ -779,87 +618,6 @@ namespace XCharts
             if (m_TooltipLabel)
             {
                 m_TooltipLabel.transform.localPosition = pos;
-            }
-        }
-
-        internal bool NeedShowSplit()
-        {
-            if (!show) return false;
-            if (IsCategory() && data.Count <= 0) return false;
-            else if (IsValue() && m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return false;
-            else return true;
-        }
-
-        /// <summary>
-        /// 调整最大最小值
-        /// </summary>
-        /// <param name="minValue"></param>
-        /// <param name="maxValue"></param>
-        internal void AdjustMinMaxValue(ref float minValue, ref float maxValue, bool needFormat)
-        {
-            if (m_Type == AxisType.Log)
-            {
-                int minSplit = 0;
-                int maxSplit = 0;
-                maxValue = ChartHelper.GetMaxLogValue(maxValue, m_LogBase, m_LogBaseE, out maxSplit);
-                minValue = ChartHelper.GetMinLogValue(minValue, m_LogBase, m_LogBaseE, out minSplit);
-                splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
-                return;
-            }
-            if (minMaxType == Axis.AxisMinMaxType.Custom)
-            {
-                if (min != 0 || max != 0)
-                {
-                    if (inverse)
-                    {
-                        minValue = -max;
-                        maxValue = -min;
-                    }
-                    else
-                    {
-                        minValue = min;
-                        maxValue = max;
-                    }
-                }
-            }
-            else
-            {
-                switch (minMaxType)
-                {
-                    case Axis.AxisMinMaxType.Default:
-                        if (minValue == 0 && maxValue == 0)
-                        {
-                        }
-                        else if (minValue > 0 && maxValue > 0)
-                        {
-                            minValue = 0;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
-                        }
-                        else if (minValue < 0 && maxValue < 0)
-                        {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
-                            maxValue = 0;
-                        }
-                        else
-                        {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
-                        }
-                        break;
-                    case Axis.AxisMinMaxType.MinMax:
-                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, m_CeilRate) : minValue;
-                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, m_CeilRate) : maxValue;
-                        break;
-                }
-            }
-            var tempRange = maxValue - minValue;
-            if (m_ValueRange != tempRange)
-            {
-                m_ValueRange = tempRange;
-                if (type == AxisType.Value && m_Interval > 0)
-                {
-                    SetComponentDirty();
-                }
             }
         }
 

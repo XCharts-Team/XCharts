@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    internal static class CheckHelper
+    public static class CheckHelper
     {
         private static bool IsColorAlphaZero(Color color)
         {
@@ -19,7 +19,6 @@ namespace XCharts
         {
             var sb = ChartHelper.sb;
             sb.Length = 0;
-            //sb.AppendFormat("version:{0}_{1}\n", XChartsMgr.version, XChartsMgr.date);
             CheckSize(chart, sb);
             CheckTheme(chart, sb);
             CheckTitle(chart, sb);
@@ -48,9 +47,9 @@ namespace XCharts
             var title = chart.title;
             if (!title.show) return;
             if (string.IsNullOrEmpty(title.text)) sb.Append("warning:title->text is null\n");
-            if(IsColorAlphaZero(title.textStyle.color))
+            if (IsColorAlphaZero(title.textStyle.color))
                 sb.Append("warning:title->textStyle->color alpha is 0\n");
-            if(IsColorAlphaZero(title.subTextStyle.color))
+            if (IsColorAlphaZero(title.subTextStyle.color))
                 sb.Append("warning:title->subTextStyle->color alpha is 0\n");
         }
 
@@ -58,9 +57,9 @@ namespace XCharts
         {
             var legend = chart.legend;
             if (!legend.show) return;
-            if(IsColorAlphaZero(legend.textStyle.color))
+            if (IsColorAlphaZero(legend.textStyle.color))
                 sb.Append("warning:legend->textStyle->color alpha is 0\n");
-            var serieNameList = chart.series.GetLegalSerieNameList();
+            var serieNameList = SeriesHelper.GetLegalSerieNameList(chart.series);
             if (serieNameList.Count == 0) sb.Append("warning:legend need serie.name or serieData.name not empty\n");
             foreach (var category in legend.data)
             {
@@ -106,7 +105,7 @@ namespace XCharts
                             sb.AppendFormat("warning:serie {0} lineStyle->width is 0\n", serie.index);
                         if (serie.lineStyle.opacity == 0)
                             sb.AppendFormat("warning:serie {0} lineStyle->opacity is 0\n", serie.index);
-                        if(IsColorAlphaZero(serie.lineStyle.color))
+                        if (IsColorAlphaZero(serie.lineStyle.color))
                             sb.AppendFormat("warning:serie {0} lineStyle->color alpha is 0\n", serie.index);
                         break;
                     case SerieType.Bar:

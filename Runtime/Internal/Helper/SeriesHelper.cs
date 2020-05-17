@@ -1,0 +1,447 @@
+/******************************************/
+/*                                        */
+/*     Copyright (c) 2018 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
+
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace XCharts
+{
+    internal static class SeriesHelper
+    {
+        public static bool IsNeedLabelUpdate(Series series)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.label.vertsDirty) return true;
+            }
+            return false;
+        }
+
+        public static bool IsLabelDirty(Series series)
+        {
+            if (series.labelDirty) return true;
+            foreach (var serie in series.list)
+            {
+                if (serie.label.componentDirty) return true;
+            }
+            return false;
+        }
+
+        public static bool IsLegalLegendName(string name)
+        {
+            int numName = -1;
+            if (int.TryParse(name, out numName))
+            {
+                if (numName >= 0 && numName < 100) return false;
+            }
+            return true;
+        }
+
+        public static List<string> GetLegalSerieNameList(Series series)
+        {
+            var list = new List<string>();
+            for (int n = 0; n < series.list.Count; n++)
+            {
+                var serie = series.GetSerie(n);
+                switch (serie.type)
+                {
+                    case SerieType.Pie:
+                    case SerieType.Radar:
+                    case SerieType.Ring:
+                        for (int i = 0; i < serie.data.Count; i++)
+                        {
+                            var dataName = serie.data[i].name;
+                            if (!string.IsNullOrEmpty(dataName) && IsLegalLegendName(dataName) && !list.Contains(dataName))
+                                list.Add(dataName);
+                        }
+                        break;
+                    default:
+                        if (!string.IsNullOrEmpty(serie.name) && !list.Contains(serie.name) && IsLegalLegendName(serie.name))
+                            list.Add(serie.name);
+                        break;
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获得所有系列名，不包含空名字。
+        /// </summary>
+        /// <returns></returns>
+        internal static void UpdateSerieNameList(Series series, ref List<string> serieNameList)
+        {
+            serieNameList.Clear();
+            for (int n = 0; n < series.list.Count; n++)
+            {
+                var serie = series.GetSerie(n);
+                switch (serie.type)
+                {
+                    case SerieType.Pie:
+                    case SerieType.Radar:
+                    case SerieType.Ring:
+                        for (int i = 0; i < serie.data.Count; i++)
+                        {
+                            if (string.IsNullOrEmpty(serie.data[i].name))
+                                serieNameList.Add(ChartCached.IntToStr(i));
+                            else if (!serieNameList.Contains(serie.data[i].name))
+                                serieNameList.Add(serie.data[i].name);
+                        }
+                        break;
+                    default:
+                        if (string.IsNullOrEmpty(serie.name))
+                            serieNameList.Add(ChartCached.IntToStr(n));
+                        else if (!serieNameList.Contains(serie.name))
+                            serieNameList.Add(serie.name);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 同堆叠的serie是否有渐变色的。
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <returns></returns>
+        internal static bool IsAnyGradientSerie(Series series, string stack)
+        {
+            if (string.IsNullOrEmpty(stack)) return false;
+            foreach (var serie in series.list)
+            {
+                if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
+                {
+                    if (serie.areaStyle.color != serie.areaStyle.toColor
+                    && !ChartHelper.IsClearColor(serie.areaStyle.toColor))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否有需裁剪的serie。
+        /// </summary>
+        /// <returns></returns>
+        internal static bool IsAnyClipSerie(Series series)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.clip) return true;
+            }
+            return false;
+        }
+
+        internal static bool IsAnyUpdateAnimationSerie(Series series)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.animation.enable && serie.animation.dataChangeEnable)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 获得上一个同堆叠且显示的serie。
+        /// </summary>
+        /// <param name="serie"></param>
+        /// <returns></returns>
+        internal static Serie GetLastStackSerie(Series series, Serie serie)
+        {
+            if (serie == null || string.IsNullOrEmpty(serie.stack)) return null;
+            for (int i = serie.index - 1; i >= 0; i--)
+            {
+                var temp = series.list[i];
+                if (temp.show && serie.stack.Equals(temp.stack)) return temp;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获得上一个同堆叠且显示的serie。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal static Serie GetLastStackSerie(Series series, int index)
+        {
+            var serie = series.GetSerie(index);
+            return GetLastStackSerie(series, serie);
+        }
+
+        /// <summary>
+        /// 是否由系列在用指定索引的axis
+        /// </summary>
+        /// <param name="axisIndex"></param>
+        /// <returns></returns>
+        internal static bool IsUsedAxisIndex(Series series, int axisIndex)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.axisIndex == axisIndex) return true;
+            }
+            return false;
+        }
+
+        private static HashSet<string> _setForStack = new HashSet<string>();
+        /// <summary>
+        /// 是否由数据堆叠
+        /// </summary>
+        /// <returns></returns>
+        internal static bool IsStack(Series series)
+        {
+            _setForStack.Clear();
+            foreach (var serie in series.list)
+            {
+                if (string.IsNullOrEmpty(serie.stack)) continue;
+                if (_setForStack.Contains(serie.stack)) return true;
+                else
+                {
+                    _setForStack.Add(serie.stack);
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否堆叠
+        /// </summary>
+        /// <param name="stackName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static bool IsStack(Series series, string stackName, SerieType type)
+        {
+            if (string.IsNullOrEmpty(stackName)) return false;
+            int count = 0;
+            foreach (var serie in series.list)
+            {
+                if (serie.show && serie.type == type)
+                {
+                    if (stackName.Equals(serie.stack)) count++;
+                    if (count >= 2) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否时百分比堆叠
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static bool IsPercentStack(Series series, SerieType type)
+        {
+            int count = 0;
+            bool isPercentStack = false;
+            foreach (var serie in series.list)
+            {
+                if (serie.show && serie.type == type)
+                {
+                    if (!string.IsNullOrEmpty(serie.stack))
+                    {
+                        count++;
+                        if (serie.barPercentStack) isPercentStack = true;
+                    }
+                    if (count >= 2 && isPercentStack) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否时百分比堆叠
+        /// </summary>
+        /// <param name="stackName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static bool IsPercentStack(Series series, string stackName, SerieType type)
+        {
+            if (string.IsNullOrEmpty(stackName)) return false;
+            int count = 0;
+            bool isPercentStack = false;
+            foreach (var serie in series.list)
+            {
+                if (serie.show && serie.type == type)
+                {
+                    if (stackName.Equals(serie.stack))
+                    {
+                        count++;
+                        if (serie.barPercentStack) isPercentStack = true;
+                    }
+                    if (count >= 2 && isPercentStack) return true;
+                }
+            }
+            return false;
+        }
+
+        private static Dictionary<string, int> sets = new Dictionary<string, int>();
+        /// <summary>
+        /// 获得堆叠系列列表
+        /// </summary>
+        /// <param name="Dictionary<int"></param>
+        /// <param name="stackSeries"></param>
+        internal static void GetStackSeries(Series series, ref Dictionary<int, List<Serie>> stackSeries)
+        {
+            int count = 0;
+            var serieCount = series.list.Count;
+            sets.Clear();
+            if (stackSeries == null)
+            {
+                stackSeries = new Dictionary<int, List<Serie>>(serieCount);
+            }
+            else
+            {
+                foreach (var kv in stackSeries)
+                {
+                    kv.Value.Clear();
+                }
+            }
+            for (int i = 0; i < serieCount; i++)
+            {
+                var serie = series.GetSerie(i);
+                serie.index = i;
+                if (string.IsNullOrEmpty(serie.stack))
+                {
+                    if (!stackSeries.ContainsKey(count))
+                        stackSeries[count] = new List<Serie>(serieCount);
+                    stackSeries[count].Add(serie);
+                    count++;
+                }
+                else
+                {
+                    if (!sets.ContainsKey(serie.stack))
+                    {
+                        sets.Add(serie.stack, count);
+                        if (!stackSeries.ContainsKey(count))
+                            stackSeries[count] = new List<Serie>(serieCount);
+                        stackSeries[count].Add(serie);
+                        count++;
+                    }
+                    else
+                    {
+                        int stackIndex = sets[serie.stack];
+                        stackSeries[stackIndex].Add(serie);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获得维度X的最大最小值
+        /// </summary>
+        /// <param name="dataZoom"></param>
+        /// <param name="axisIndex"></param>
+        /// <param name="minVaule"></param>
+        /// <param name="maxValue"></param>
+        internal static void GetXMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+            bool inverse, out float minVaule, out float maxValue)
+        {
+            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue);
+        }
+
+        /// <summary>
+        /// 获得维度Y的最大最小值
+        /// </summary>
+        /// <param name="dataZoom"></param>
+        /// <param name="axisIndex"></param>
+        /// <param name="minVaule"></param>
+        /// <param name="maxValue"></param>
+        internal static void GetYMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+            bool inverse, out float minVaule, out float maxValue)
+        {
+            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue);
+        }
+
+        private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
+        private static Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
+        internal static void GetMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+            bool inverse, bool yValue, out float minVaule, out float maxValue)
+        {
+            float min = int.MaxValue;
+            float max = int.MinValue;
+            var isPercentStack = SeriesHelper.IsPercentStack(series, SerieType.Bar);
+            if (!SeriesHelper.IsStack(series) || (isValueAxis && !yValue))
+            {
+                for (int i = 0; i < series.list.Count; i++)
+                {
+                    var serie = series.GetSerie(i);
+                    if (serie.axisIndex != axisIndex) continue;
+
+                    if (series.IsActive(i))
+                    {
+                        if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
+                        {
+                            if (100 > max) max = 100;
+                            if (0 < min) min = 0;
+                        }
+                        else
+                        {
+                            var showData = serie.GetDataList(dataZoom);
+                            foreach (var data in showData)
+                            {
+                                var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                if (currData > max) max = currData;
+                                if (currData < min) min = currData;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                SeriesHelper.GetStackSeries(series, ref _stackSeriesForMinMax);
+                foreach (var ss in _stackSeriesForMinMax)
+                {
+                    _serieTotalValueForMinMax.Clear();
+                    for (int i = 0; i < ss.Value.Count; i++)
+                    {
+                        var serie = ss.Value[i];
+                        if (serie.axisIndex != axisIndex || !series.IsActive(i)) continue;
+                        var showData = serie.GetDataList(dataZoom);
+                        if (SeriesHelper.IsPercentStack(series, serie.stack, SerieType.Bar))
+                        {
+                            for (int j = 0; j < showData.Count; j++)
+                            {
+                                _serieTotalValueForMinMax[j] = 100;
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < showData.Count; j++)
+                            {
+                                if (!_serieTotalValueForMinMax.ContainsKey(j))
+                                    _serieTotalValueForMinMax[j] = 0;
+                                var currData = (yValue ? showData[j].GetData(1) : showData[j].GetData(0));
+                                if (inverse) currData = -currData;
+                                _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
+                            }
+                        }
+                    }
+                    float tmax = int.MinValue;
+                    float tmin = int.MaxValue;
+                    foreach (var tt in _serieTotalValueForMinMax)
+                    {
+                        if (tt.Value > tmax) tmax = tt.Value;
+                        if (tt.Value < tmin) tmin = tt.Value;
+                    }
+                    if (tmax > max) max = tmax;
+                    if (tmin < min) min = tmin;
+                }
+            }
+            if (max == int.MinValue && min == int.MaxValue)
+            {
+                minVaule = 0;
+                maxValue = 0;
+            }
+            else
+            {
+                minVaule = min > 1 ? Mathf.FloorToInt(min) : min;
+                maxValue = max > 1 ? Mathf.CeilToInt(max) : max;
+            }
+        }
+    }
+}

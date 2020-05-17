@@ -17,7 +17,7 @@ namespace XCharts
     {
         protected void DrawLinePoint(VertexHelper vh)
         {
-            var clip = m_Series.IsAnyClipSerie();
+            var clip = SeriesHelper.IsAnyClipSerie(m_Series);
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
@@ -98,9 +98,9 @@ namespace XCharts
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             var zeroPos = new Vector3(m_CoordinateX, m_CoordinateY + yAxis.runtimeZeroYOffset);
-            var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
+            var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
-            float scaleWid = xAxis.GetDataWidth(m_CoordinateWidth, showData.Count, m_DataZoom);
+            float scaleWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, showData.Count, m_DataZoom);
             float startX = m_CoordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
@@ -486,9 +486,9 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             var zeroPos = new Vector3(m_CoordinateX + xAxis.runtimeZeroXOffset, m_CoordinateY);
-            var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
+            var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
-            float scaleWid = yAxis.GetDataWidth(m_CoordinateHeight, showData.Count, m_DataZoom);
+            float scaleWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, showData.Count, m_DataZoom);
             float startY = m_CoordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
@@ -653,7 +653,7 @@ namespace XCharts
                 return true;
             }
 
-            var lastSerie = m_Series.GetLastStackSerie(serie);
+            var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
             Vector3 dnPos, upPos1, upPos2, dir1v, dir2v;
             bool isDown;
             var dir1 = (np - lp).normalized;
@@ -1192,7 +1192,7 @@ namespace XCharts
 
             if (serie.areaStyle.show)
             {
-                var lastSerie = m_Series.GetLastStackSerie(serie);
+                var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);

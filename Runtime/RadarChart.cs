@@ -25,7 +25,7 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            CheckDataShow(legendName, show);
+            LegendHelper.CheckDataShow(m_Series, legendName, show);
             UpdateLegendColor(legendName, show);
             RefreshChart();
         }
@@ -33,14 +33,14 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName, true);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName, false);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, false);
             RefreshChart();
         }
 
@@ -320,7 +320,7 @@ namespace XCharts
                         }
                         if (serie.lineStyle.show)
                         {
-                            DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
+                            ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                         }
                         startPoint = toPoint;
                     }
@@ -332,7 +332,7 @@ namespace XCharts
                 }
                 if (serie.lineStyle.show)
                 {
-                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
                 if (serie.symbol.type != SerieSymbolType.None)
                 {
@@ -453,7 +453,7 @@ namespace XCharts
                     }
                     if (serie.lineStyle.show)
                     {
-                        DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
+                        ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                     }
                     startPoint = toPoint;
                 }
@@ -466,7 +466,7 @@ namespace XCharts
                 }
                 if (serie.lineStyle.show && j == endIndex)
                 {
-                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
             }
             if (serie.symbol.type != SerieSymbolType.None)
@@ -565,7 +565,7 @@ namespace XCharts
                     }
                     if (radar.splitLine.NeedShow(i))
                     {
-                        DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
+                        ChartDrawer.DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -579,7 +579,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.splitLine.show)
                 {
-                    DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
                 }
             }
         }

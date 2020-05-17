@@ -24,7 +24,7 @@ namespace XCharts
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
             var showData = serie.GetDataList(m_DataZoom);
-            float categoryWidth = yAxis.GetDataWidth(m_CoordinateHeight, showData.Count, m_DataZoom);
+            float categoryWidth = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -43,7 +43,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
-            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
@@ -135,7 +135,7 @@ namespace XCharts
                     }
                 }
             }
-            if (!m_Series.IsStack(serie.stack, SerieType.Bar))
+            if (!SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
             }
@@ -165,7 +165,7 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
 
-            float categoryWidth = xAxis.GetDataWidth(m_CoordinateWidth, showData.Count, m_DataZoom);
+            float categoryWidth = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -184,7 +184,7 @@ namespace XCharts
                 }
             }
 
-            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
@@ -279,7 +279,7 @@ namespace XCharts
             {
                 RefreshChart();
             }
-            if (!m_Series.IsStack(serie.stack, SerieType.Bar))
+            if (!SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
             }

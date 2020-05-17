@@ -1271,24 +1271,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得指定索引的数据项的Label
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public SerieLabel GetSerieLabel(int index, DataZoom dataZoom = null)
-        {
-            var data = GetDataList(dataZoom);
-            if (index >= 0 && index <= data.Count - 1)
-            {
-                var serieData = data[index];
-                if (serieData.enableLabel) return serieData.label;
-                else return label;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// 获得指定索引的维度X和维度Y的数据
         /// </summary>
         /// <param name="index"></param>
@@ -1505,10 +1487,6 @@ namespace XCharts
                 m_Data[i].highlighted = index == i;
             }
         }
-
-
-
-
 
         internal float GetBarWidth(float categoryWidth)
         {

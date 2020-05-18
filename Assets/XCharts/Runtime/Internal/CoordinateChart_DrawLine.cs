@@ -59,16 +59,24 @@ namespace XCharts
                 if (!serie.show || !serie.lineArrow.show) continue;
                 if (serie.dataPoints.Count < 2) return;
                 Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, n, false);
-
+                Vector3 startPos, arrowPos;
                 switch (serie.lineArrow.position)
                 {
                     case LineArrow.Position.End:
                         var dataPoints = serie.GetUpSmoothList(serie.dataCount - 1);
-                        if (dataPoints.Count < 2) dataPoints = serie.dataPoints;
-                        var startPos = dataPoints[dataPoints.Count - 2];
-                        var arrowPos = dataPoints[dataPoints.Count - 1];
+                        if (dataPoints.Count < 3)
+                        {
+                            dataPoints = serie.dataPoints;
+                            startPos = dataPoints[dataPoints.Count - 2];
+                            arrowPos = dataPoints[dataPoints.Count - 1];
+                        }
+                        else
+                        {
+                            startPos = dataPoints[dataPoints.Count - 3];
+                            arrowPos = dataPoints[dataPoints.Count - 2];
+                        }
                         ChartDrawer.DrawArrow(vh, startPos, arrowPos, serie.lineArrow.width,
-                            serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
+                             serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
                         break;
                     case LineArrow.Position.Start:
                         dataPoints = serie.GetUpSmoothList(1);

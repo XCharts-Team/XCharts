@@ -17,6 +17,20 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 包含箭头偏移的轴线长度
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public static float GetAxisLineSymbolOffset(Axis axis)
+        {
+            if (axis.axisLine.show && axis.axisLine.symbol && axis.axisLine.symbolOffset > 0)
+            {
+                return axis.axisLine.symbolOffset;
+            }
+            return 0;
+        }
+
+        /// <summary>
         /// 获得分割段数
         /// </summary>
         /// <param name="dataZoom"></param>

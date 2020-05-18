@@ -1083,11 +1083,12 @@ namespace XCharts
         {
             if (xAxis.show && xAxis.axisLine.show)
             {
+                var offset = AxisHelper.GetAxisLineSymbolOffset(xAxis);
                 var lineY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += m_CoordinateHeight;
                 var left = new Vector3(m_CoordinateX - xAxis.axisLine.width, lineY);
-                var top = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width, lineY);
-                ChartDrawer.DrawLine(vh, left, top, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
+                var right = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width + offset, lineY);
+                ChartDrawer.DrawLine(vh, left, right, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
             }
         }
 
@@ -1095,11 +1096,12 @@ namespace XCharts
         {
             if (yAxis.show && yAxis.axisLine.show)
             {
+                var offset = AxisHelper.GetAxisLineSymbolOffset(yAxis);
                 var lineX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += m_CoordinateWidth;
-                var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width);
-                ChartDrawer.DrawLine(vh, new Vector3(lineX, m_CoordinateY - yAxis.axisLine.width),
-                    top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
+                var bottom = new Vector3(lineX, m_CoordinateY - yAxis.axisLine.width);
+                var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width + offset);
+                ChartDrawer.DrawLine(vh, bottom, top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
             }
         }
 

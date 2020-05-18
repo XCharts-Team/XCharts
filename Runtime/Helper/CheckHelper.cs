@@ -19,6 +19,7 @@ namespace XCharts
         {
             var sb = ChartHelper.sb;
             sb.Length = 0;
+            CheckName(chart, sb);
             CheckSize(chart, sb);
             CheckTheme(chart, sb);
             CheckTitle(chart, sb);
@@ -26,6 +27,16 @@ namespace XCharts
             CheckGrid(chart, sb);
             CheckSerie(chart, sb);
             return sb.ToString();
+        }
+
+        private static void CheckName(BaseChart chart, StringBuilder sb)
+        {
+            if (string.IsNullOrEmpty(chart.chartName)) return;
+            var list = XChartsMgr.Instance.GetCharts(chart.chartName);
+            if (list.Count > 1)
+            {
+                sb.AppendFormat("warning:chart name is repeated: {0}\n", chart.chartName);
+            }
         }
 
         private static void CheckSize(BaseChart chart, StringBuilder sb)

@@ -16,12 +16,6 @@ namespace XCharts
     public class BarChart : CoordinateChart
     {
 
-        protected override void Awake()
-        {
-            base.Awake();
-            XChartsMgr.Instance.AddChart(this);
-        }
-
 #if UNITY_EDITOR
         protected override void Reset()
         {

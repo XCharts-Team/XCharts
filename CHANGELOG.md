@@ -1,7 +1,7 @@
 
 # 更新日志
 
-* (2020.05.18) 隐藏`Hierarchy`试图下自动生成的子节点
+* (2020.05.19) 隐藏`Hierarchy`试图下自动生成的子节点
 * (2020.05.18) 增加`chartName`属性可指定图表的别称，可通过`XChartMgr.Instance.GetChart(chartName)`获取图表
 * (2020.05.16) 增加部分鼠标事件回调
 * (2020.05.15) 优化自带例子，`Demo`改名为`Example`

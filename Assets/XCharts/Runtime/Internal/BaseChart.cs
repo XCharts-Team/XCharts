@@ -39,6 +39,7 @@ namespace XCharts
         protected static readonly string s_LegendObjectName = "legend";
         protected static readonly string s_SerieLabelObjectName = "label";
         protected static readonly string s_SerieTitleObjectName = "serie";
+        protected static HideFlags s_HideFlags = HideFlags.HideAndDontSave;
 
         [SerializeField] protected string m_ChartName;
         [SerializeField] protected float m_ChartWidth;
@@ -244,6 +245,7 @@ namespace XCharts
             var titleObject = ChartHelper.AddObject(s_TitleObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             titleObject.transform.localPosition = titlePosition;
+            titleObject.hideFlags = s_HideFlags;
             ChartHelper.HideAllObject(titleObject);
 
             var textFont = TitleHelper.GetTextFont(title, themeInfo);
@@ -282,6 +284,7 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = GetLegendPosition();
+            legendObject.hideFlags = s_HideFlags;
             SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
             List<string> datas;
             if (m_Legend.show && m_Legend.data.Count > 0)
@@ -376,6 +379,7 @@ namespace XCharts
         {
             m_SerieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, transform, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
+            m_SerieLabelRoot.hideFlags = s_HideFlags;
             SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
@@ -427,6 +431,7 @@ namespace XCharts
         {
             var titleObject = ChartHelper.AddObject(s_SerieTitleObjectName, transform, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, new Vector2(chartWidth, chartHeight));
+            titleObject.hideFlags = s_HideFlags;
             ChartHelper.HideAllObject(titleObject);
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -460,6 +465,7 @@ namespace XCharts
             var tooltipObject = ChartHelper.AddObject("tooltip", transform, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             tooltipObject.transform.localPosition = Vector3.zero;
+            tooltipObject.hideFlags = s_HideFlags;
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
             var textStyle = m_Tooltip.textStyle;

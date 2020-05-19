@@ -515,6 +515,7 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
+            axisObj.hideFlags = s_HideFlags;
             ChartHelper.HideAllObject(axisObj);
             var labelColor = ChartHelper.IsClearColor(yAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
@@ -620,6 +621,7 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
+            axisObj.hideFlags = s_HideFlags;
             ChartHelper.HideAllObject(axisObj);
             var labelColor = ChartHelper.IsClearColor(xAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
@@ -701,6 +703,7 @@ namespace XCharts
             var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             dataZoomObject.transform.localPosition = Vector3.zero;
+            dataZoomObject.hideFlags = s_HideFlags;
             ChartHelper.HideAllObject(dataZoomObject);
             var startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleRight,
@@ -980,7 +983,6 @@ namespace XCharts
                 var lineX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += m_CoordinateWidth;
                 var inverse = yAxis.IsValue() && yAxis.inverse;
-                var offset = AxisHelper.GetAxisLineSymbolOffset(yAxis);
                 if (inverse)
                 {
                     var startPos = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight);
@@ -1081,7 +1083,6 @@ namespace XCharts
                 var lineY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += m_CoordinateHeight;
                 var inverse = xAxis.IsValue() && xAxis.inverse;
-                var offset = AxisHelper.GetAxisLineSymbolOffset(xAxis);
                 if (inverse)
                 {
                     var startPos = new Vector3(m_CoordinateX + m_CoordinateWidth, lineY);

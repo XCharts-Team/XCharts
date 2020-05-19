@@ -975,15 +975,26 @@ namespace XCharts
                     totalWidth += scaleWidth;
                 }
             }
-            if (yAxis.show && yAxis.axisLine.show)
+            if (yAxis.show && yAxis.axisLine.show && yAxis.axisLine.symbol)
             {
                 var lineX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += m_CoordinateWidth;
-                var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width);
-                if (yAxis.axisLine.symbol)
+                var inverse = yAxis.IsValue() && yAxis.inverse;
+                var offset = AxisHelper.GetAxisLineSymbolOffset(yAxis);
+                if (inverse)
                 {
+                    var startPos = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight);
+                    var arrowPos = new Vector3(lineX, m_CoordinateY);
                     var axisLine = yAxis.axisLine;
-                    ChartDrawer.DrawArrow(vh, new Vector3(lineX, m_CoordinateX), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                    ChartDrawer.DrawArrow(vh, startPos, arrowPos, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
+                }
+                else
+                {
+                    var startPos = new Vector3(lineX, m_CoordinateX);
+                    var arrowPos = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width);
+                    var axisLine = yAxis.axisLine;
+                    ChartDrawer.DrawArrow(vh, startPos, arrowPos, axisLine.symbolWidth, axisLine.symbolHeight,
                         axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
                 }
             }
@@ -1065,15 +1076,26 @@ namespace XCharts
                     totalWidth += scaleWidth;
                 }
             }
-            if (xAxis.show && xAxis.axisLine.show)
+            if (xAxis.show && xAxis.axisLine.show && xAxis.axisLine.symbol)
             {
                 var lineY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += m_CoordinateHeight;
-                var top = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width, lineY);
-                if (xAxis.axisLine.symbol)
+                var inverse = xAxis.IsValue() && xAxis.inverse;
+                var offset = AxisHelper.GetAxisLineSymbolOffset(xAxis);
+                if (inverse)
                 {
+                    var startPos = new Vector3(m_CoordinateX + m_CoordinateWidth, lineY);
+                    var arrowPos = new Vector3(m_CoordinateX, lineY);
                     var axisLine = xAxis.axisLine;
-                    ChartDrawer.DrawArrow(vh, new Vector3(m_CoordinateX, lineY), top, axisLine.symbolWidth, axisLine.symbolHeight,
+                    ChartDrawer.DrawArrow(vh, startPos, arrowPos, axisLine.symbolWidth, axisLine.symbolHeight,
+                        axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
+                }
+                else
+                {
+                    var startPos = new Vector3(m_CoordinateX, lineY);
+                    var arrowPos = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width, lineY);
+                    var axisLine = xAxis.axisLine;
+                    ChartDrawer.DrawArrow(vh, startPos, arrowPos, axisLine.symbolWidth, axisLine.symbolHeight,
                         axisLine.symbolOffset, axisLine.symbolDent, m_ThemeInfo.axisLineColor);
                 }
             }
@@ -1083,11 +1105,12 @@ namespace XCharts
         {
             if (xAxis.show && xAxis.axisLine.show)
             {
+                var inverse = xAxis.IsValue() && xAxis.inverse;
                 var offset = AxisHelper.GetAxisLineSymbolOffset(xAxis);
                 var lineY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                 if (xAxis.IsValue() && xAxisIndex > 0) lineY += m_CoordinateHeight;
-                var left = new Vector3(m_CoordinateX - xAxis.axisLine.width, lineY);
-                var right = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width + offset, lineY);
+                var left = new Vector3(m_CoordinateX - xAxis.axisLine.width - (inverse ? offset : 0), lineY);
+                var right = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width + (!inverse ? offset : 0), lineY);
                 ChartDrawer.DrawLine(vh, left, right, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
             }
         }
@@ -1097,10 +1120,11 @@ namespace XCharts
             if (yAxis.show && yAxis.axisLine.show)
             {
                 var offset = AxisHelper.GetAxisLineSymbolOffset(yAxis);
+                var inverse = yAxis.IsValue() && yAxis.inverse;
                 var lineX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                 if (yAxis.IsValue() && yAxisIndex > 0) lineX += m_CoordinateWidth;
-                var bottom = new Vector3(lineX, m_CoordinateY - yAxis.axisLine.width);
-                var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width + offset);
+                var bottom = new Vector3(lineX, m_CoordinateY - yAxis.axisLine.width - (inverse ? offset : 0));
+                var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width + (!inverse ? offset : 0));
                 ChartDrawer.DrawLine(vh, bottom, top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
             }
         }

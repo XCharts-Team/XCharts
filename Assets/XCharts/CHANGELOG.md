@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.05.21) 增加`圆角柱图`支持渐变
 * (2020.05.21) 增加`Background`背景组件
 * (2020.05.19) 隐藏`Hierarchy`试图下自动生成的子节点
 * (2020.05.18) 增加`chartName`属性可指定图表的别称，可通过`XChartMgr.Instance.GetChart(chartName)`获取图表

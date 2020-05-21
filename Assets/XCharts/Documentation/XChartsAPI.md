@@ -62,6 +62,7 @@
 * `BaseChart.ClickLegendButton(int legendIndex, string legendName, bool show)`：点击图例按钮。
 * `BaseChart.IsInChart(Vector2 local)`：坐标是否在图表范围内。
 * `BaseChart.IsInChart(float x, float y)`：坐标是否在图表范围内。
+* `BaseChart.EnableBackground(bool flag)`：开启背景组件。背景组件在`chart`受上层布局控制时无法开启。
 
 ## `CoordinateChart`
 

@@ -23,6 +23,7 @@ namespace XCharts
         protected SerializedProperty m_ChartHeight;
         protected SerializedProperty m_Theme;
         protected SerializedProperty m_ThemeInfo;
+        protected SerializedProperty m_Background;
         protected SerializedProperty m_Title;
         protected SerializedProperty m_Legend;
         protected SerializedProperty m_Tooltip;
@@ -30,6 +31,7 @@ namespace XCharts
         protected SerializedProperty m_Settings;
         protected SerializedProperty m_Large;
         protected SerializedProperty m_ChartName;
+        protected SerializedProperty m_DebugMode;
 
         protected float m_DefaultLabelWidth;
         protected float m_DefaultFieldWidth;
@@ -46,6 +48,7 @@ namespace XCharts
             m_ChartHeight = serializedObject.FindProperty("m_ChartHeight");
             m_Theme = serializedObject.FindProperty("m_Theme");
             m_ThemeInfo = serializedObject.FindProperty("m_ThemeInfo");
+            m_Background = serializedObject.FindProperty("m_Background");
             m_Title = serializedObject.FindProperty("m_Title");
             m_Legend = serializedObject.FindProperty("m_Legend");
             m_Tooltip = serializedObject.FindProperty("m_Tooltip");
@@ -53,6 +56,7 @@ namespace XCharts
 
             m_Large = serializedObject.FindProperty("m_Large");
             m_Settings = serializedObject.FindProperty("m_Settings");
+            m_DebugMode = serializedObject.FindProperty("m_DebugMode");
         }
 
         public override void OnInspectorGUI()
@@ -70,6 +74,7 @@ namespace XCharts
             OnMiddleInspectorGUI();
             OnEndInspectorGUI();
 
+            EditorGUILayout.PropertyField(m_DebugMode);
             CheckWarning();
             serializedObject.ApplyModifiedProperties();
         }
@@ -77,9 +82,17 @@ namespace XCharts
         protected virtual void OnStartInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_Script);
-            EditorGUI.BeginChangeCheck();
+
             EditorGUILayout.PropertyField(m_ChartName);
             EditorGUILayout.PropertyField(m_ThemeInfo, true);
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(m_Background, true);
+
+            var m_Show = m_Background.FindPropertyRelative("m_Show");
+            if (m_Show.boolValue && !m_Target.CanShowBackgroundComponent())
+            {
+                EditorGUILayout.HelpBox("can't show background component:chart is control by LayoutGroup.", MessageType.Warning);
+            }
             EditorGUILayout.PropertyField(m_Title, true);
             EditorGUILayout.PropertyField(m_Legend, true);
             EditorGUILayout.PropertyField(m_Tooltip, true);

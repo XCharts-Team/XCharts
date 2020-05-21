@@ -243,6 +243,7 @@ namespace XCharts
                 xAxis.runtimeMaxValue = 0;
                 yAxis.runtimeMinValue = 0;
                 yAxis.runtimeMaxValue = 0;
+                RefreshChart();
             }
         }
 

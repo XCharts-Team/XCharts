@@ -727,6 +727,29 @@ namespace XCharts
             return warningInfo;
         }
 
+        /// <summary>
+        /// 是否可以开启背景组件。背景组件在chart受上层布局控制时无法开启。
+        /// </summary>
+        /// <returns></returns>
+        public bool CanShowBackgroundComponent()
+        {
+            return !m_IsControlledByLayout;
+        }
+
+        /// <summary>
+        /// 开启背景组件。背景组件在chart受上层布局控制时不适用。
+        /// </summary>
+        /// <param name="flag"></param>
+        public void EnableBackground(bool flag)
+        {
+            if (flag && !CanShowBackgroundComponent())
+            {
+                Debug.LogError("can't show background component:chart is controlled by LayoutGroup.");
+                return;
+            }
+            m_Background.show = flag;
+        }
+
         public Vector3 GetTitlePosition()
         {
             return chartPosition + m_Title.location.GetPosition(chartWidth, chartHeight);

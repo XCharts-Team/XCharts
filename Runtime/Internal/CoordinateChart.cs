@@ -156,7 +156,8 @@ namespace XCharts
                 var cp2 = new Vector3(m_CoordinateX - yLineDiff, cpty);
                 var cp3 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, cpty);
                 var cp4 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_CoordinateY - xLineDiff);
-                ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, m_ThemeInfo.backgroundColor);
+                var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
+                ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, backgroundColor);
 
             }
             else
@@ -172,26 +173,27 @@ namespace XCharts
             var yLineDiff = yAxis0.axisLine.width;
             var xSplitDiff = xAxis0.splitLine.lineStyle.width;
             var ySplitDiff = yAxis0.splitLine.lineStyle.width;
+            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
             var lp1 = new Vector3(m_ChartX, m_ChartY);
             var lp2 = new Vector3(m_ChartX, m_ChartY + chartHeight);
             var lp3 = new Vector3(m_CoordinateX - yLineDiff, m_ChartY + chartHeight);
             var lp4 = new Vector3(m_CoordinateX - yLineDiff, m_ChartY);
-            ChartDrawer.DrawPolygon(vh, lp1, lp2, lp3, lp4, m_ThemeInfo.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, lp1, lp2, lp3, lp4, backgroundColor);
             var rp1 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_ChartY);
             var rp2 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_ChartY + chartHeight);
             var rp3 = new Vector3(m_ChartX + chartWidth, m_ChartY + chartHeight);
             var rp4 = new Vector3(m_ChartX + chartWidth, m_ChartY);
-            ChartDrawer.DrawPolygon(vh, rp1, rp2, rp3, rp4, m_ThemeInfo.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, rp1, rp2, rp3, rp4, backgroundColor);
             var up1 = new Vector3(m_CoordinateX - yLineDiff, m_CoordinateY + m_CoordinateHeight + ySplitDiff);
             var up2 = new Vector3(m_CoordinateX - yLineDiff, m_ChartY + chartHeight);
             var up3 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_ChartY + chartHeight);
             var up4 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_CoordinateY + m_CoordinateHeight + ySplitDiff);
-            ChartDrawer.DrawPolygon(vh, up1, up2, up3, up4, m_ThemeInfo.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, up1, up2, up3, up4, backgroundColor);
             var dp1 = new Vector3(m_CoordinateX - yLineDiff, m_ChartY);
             var dp2 = new Vector3(m_CoordinateX - yLineDiff, m_CoordinateY - xLineDiff);
             var dp3 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_CoordinateY - xLineDiff);
             var dp4 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_ChartY);
-            ChartDrawer.DrawPolygon(vh, dp1, dp2, dp3, dp4, m_ThemeInfo.backgroundColor);
+            ChartDrawer.DrawPolygon(vh, dp1, dp2, dp3, dp4, backgroundColor);
         }
 
         protected virtual void DrawSerie(VertexHelper vh)
@@ -515,7 +517,7 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
-            axisObj.hideFlags = s_HideFlags;
+            axisObj.hideFlags = chartHideFlags;
             ChartHelper.HideAllObject(axisObj);
             var labelColor = ChartHelper.IsClearColor(yAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
@@ -621,7 +623,7 @@ namespace XCharts
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
-            axisObj.hideFlags = s_HideFlags;
+            axisObj.hideFlags = chartHideFlags;
             ChartHelper.HideAllObject(axisObj);
             var labelColor = ChartHelper.IsClearColor(xAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
@@ -703,7 +705,7 @@ namespace XCharts
             var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             dataZoomObject.transform.localPosition = Vector3.zero;
-            dataZoomObject.hideFlags = s_HideFlags;
+            dataZoomObject.hideFlags = chartHideFlags;
             ChartHelper.HideAllObject(dataZoomObject);
             var startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start",
                 dataZoomObject.transform, m_ThemeInfo.font, m_ThemeInfo.dataZoomTextColor, TextAnchor.MiddleRight,

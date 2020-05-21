@@ -90,7 +90,7 @@ namespace XCharts
         {
             get
             {
-                var coordinate = new Grid
+                var grid = new Grid
                 {
                     m_Show = true,
                     m_Left = 50,
@@ -98,7 +98,7 @@ namespace XCharts
                     m_Top = 50,
                     m_Bottom = 30
                 };
-                return coordinate;
+                return grid;
             }
         }
     }

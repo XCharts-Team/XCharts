@@ -7,6 +7,7 @@
 主组件：
 
 * [Axis 坐标轴](#XAxis)  
+* [Background 背景图](#Background)  
 * [DataZoom 区域缩放](#DataZoom)  
 * [Grid 网格](#Grid)  
 * [Legend 图例](#Legend)  
@@ -341,6 +342,21 @@
 * `IsCategory()`：是否为类目轴。
 * `IsValue()`：是否为数值轴。
 * `AddData(string category, int maxDataNumber)`：添加一个类目到类目数据列表。
+
+## `Background`
+
+背景组件。
+由于框架的局限性，背景组件在`chart`受上层布局控制时不适用。因为背景组件节点和`chart`节点是同一级的。
+自动布局下的一种解决方案是，可以将`chart`节点再包一层`parent`。
+背景组件的开启需要通过接口来开启：`BaseChart.EnableBackground(bool flag)`
+
+相关参数：
+
+* `show`：是否显示启用背景组件。注意背景组件在`chart`受上层布局控制时不适用。
+* `image`：背景图。
+* `imageType`：背景图填充类型。
+* `imageColor`背景图颜色。默认`white`。
+* `hideThemeBackgroundColor`：当背景组件启用时，是否隐藏主题中设置的背景色。
 
 ## `YAxis`
 

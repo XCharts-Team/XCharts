@@ -272,6 +272,11 @@ namespace XCharts
             needRound = brLb != 0 || brRt != 0 || brRb != 0 || brLb != 0;
             if (needRound)
             {
+                var min = Mathf.Min(width, height);
+                if (brLt > 0 && brLt <= 1) brLt = brLt * min;
+                if (brRt > 0 && brRt <= 1) brRt = brRt * min;
+                if (brRb > 0 && brRb <= 1) brRb = brRb * min;
+                if (brLb > 0 && brLb <= 1) brLb = brLb * min;
                 if (brLt + brRt > width)
                 {
                     var total = brLt + brRt;

@@ -310,7 +310,7 @@ namespace XCharts
                 {
                     if (ItemStyleHelper.IsNeedCorner(itemStyle))
                     {
-                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, 0, itemStyle.cornerRadius);
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0, itemStyle.cornerRadius, isYAxis);
                     }
                     else
                     {
@@ -336,7 +336,7 @@ namespace XCharts
                 {
                     if (ItemStyleHelper.IsNeedCorner(itemStyle))
                     {
-                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, 0, itemStyle.cornerRadius);
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0, itemStyle.cornerRadius, isYAxis);
                     }
                     else
                     {

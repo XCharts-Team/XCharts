@@ -772,7 +772,7 @@
 * `opacity`：透明度。
 * `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。此字段优先于`SerieLabel`和`Tooltip`的`numericFormatter`。
-* `cornerRadius`：圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+* `cornerRadius`：圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。支持用0-1的浮点数设置百分比。
 
 ## `LineArrow`
 

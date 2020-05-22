@@ -74,7 +74,6 @@ namespace XCharts
             OnMiddleInspectorGUI();
             OnEndInspectorGUI();
 
-            EditorGUILayout.PropertyField(m_DebugMode);
             CheckWarning();
             serializedObject.ApplyModifiedProperties();
         }
@@ -108,6 +107,7 @@ namespace XCharts
         {
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+            EditorGUILayout.PropertyField(m_DebugMode);
         }
 
         private void CheckWarning()

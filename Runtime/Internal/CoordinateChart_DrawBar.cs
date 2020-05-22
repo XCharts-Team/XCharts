@@ -158,7 +158,7 @@ namespace XCharts
 
         protected void DrawXBarSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
-            if (!IsActive(serie.name)) return;
+            if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];

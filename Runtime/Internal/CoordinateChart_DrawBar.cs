@@ -316,7 +316,7 @@ namespace XCharts
                     {
                         CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
                     }
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius);
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
             else
@@ -342,7 +342,7 @@ namespace XCharts
                     {
                         CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
                     }
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius);
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
         }

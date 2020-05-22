@@ -263,7 +263,7 @@ namespace XCharts
             var backgroundName = s_BackgroundObjectName + GetInstanceID();
             m_BackgroundRoot = ChartHelper.AddObject(backgroundName, transform.parent, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-            //m_BackgroundRoot.hideFlags = chartHideFlags;
+            m_BackgroundRoot.hideFlags = chartHideFlags;
             var backgroundImage = ChartHelper.GetOrAddComponent<Image>(m_BackgroundRoot);
             var backgroundRect = m_BackgroundRoot.GetComponent<RectTransform>();
             backgroundRect.position = rectTransform.position;

@@ -262,46 +262,52 @@ namespace XCharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        private static void InitCornerRadius(float[] cornerRadius, float width, float height, ref float brLt,
+        private static void InitCornerRadius(float[] cornerRadius, float width, float height, bool isYAxis, ref float brLt,
         ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
         {
-            brLt = cornerRadius != null && cornerRadius.Length > 0 ? cornerRadius[0] : 0;
-            brRt = cornerRadius != null && cornerRadius.Length > 1 ? cornerRadius[1] : 0;
-            brRb = cornerRadius != null && cornerRadius.Length > 2 ? cornerRadius[2] : 0;
-            brLb = cornerRadius != null && cornerRadius.Length > 3 ? cornerRadius[3] : 0;
+            if (cornerRadius == null) return;
+            brLt = cornerRadius.Length > 0 ? cornerRadius[0] : 0;
+            brRt = cornerRadius.Length > 1 ? cornerRadius[1] : 0;
+            brRb = cornerRadius.Length > 2 ? cornerRadius[2] : 0;
+            brLb = cornerRadius.Length > 3 ? cornerRadius[3] : 0;
             needRound = brLb != 0 || brRt != 0 || brRb != 0 || brLb != 0;
             if (needRound)
             {
                 var min = Mathf.Min(width, height);
+                if (brLt == 1 && brRt == 1 && brRb == 1 && brLb == 1)
+                {
+                    brLt = brRt = brRb = brLb = min / 2;
+                    return;
+                }
                 if (brLt > 0 && brLt <= 1) brLt = brLt * min;
                 if (brRt > 0 && brRt <= 1) brRt = brRt * min;
                 if (brRb > 0 && brRb <= 1) brRb = brRb * min;
                 if (brLb > 0 && brLb <= 1) brLb = brLb * min;
-                if (brLt + brRt > width)
+                if (brLt + brRt >= width)
                 {
                     var total = brLt + brRt;
                     brLt = width * (brLt / total);
                     brRt = width * (brRt / total);
                 }
-                if (brRt + brRb > height)
+                if (brRt + brRb >= height)
                 {
                     var total = brRt + brRb;
                     brRt = height * (brRt / total);
                     brRb = height * (brRb / total);
                 }
-                if (brRb + brLb > width)
+                if (brRb + brLb >= width)
                 {
                     var total = brRb + brLb;
                     brRb = width * (brRb / total);
                     brLb = width * (brLb / total);
                 }
-                if (brLb + brLt > height)
+                if (brLb + brLt >= height)
                 {
                     var total = brLb + brLt;
                     brLb = height * (brLb / total);
                     brLt = height * (brLt / total);
                 }
-                if (brLt + brRb > height)
+                if (brLt + brRb >= height)
                 {
                     var total = brLt + brRb;
                     brLt = height * (brLt / total);
@@ -333,7 +339,7 @@ namespace XCharts
             var halfHig = rectHeight / 2;
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
             var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
             var ltIn = new Vector3(center.x - halfWid, center.y + halfHig);
@@ -400,13 +406,13 @@ namespace XCharts
                 {
                     DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, toColor);
                     DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
-                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn2 + (maxdown - brRb) * Vector3.up, rbIn2, toColor, toColor);
+                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, toColor, toColor);
                 }
                 else
                 {
                     DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, color);
                     DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
-                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn2 + (maxdown - brRb) * Vector3.up, rbIn2, color, color);
+                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, color, color);
                 }
                 var clt = new Vector3(center.x - halfWid, center.y + halfHig - maxup);
                 var crt = new Vector3(center.x + halfWid, center.y + halfHig - maxup);
@@ -437,7 +443,7 @@ namespace XCharts
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null)
+            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false)
         {
             if (borderWidth == 0 || ChartHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
@@ -452,7 +458,7 @@ namespace XCharts
             var rbOt = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
             if (needRound)
             {

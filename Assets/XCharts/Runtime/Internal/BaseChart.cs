@@ -267,12 +267,19 @@ namespace XCharts
             var backgroundImage = ChartHelper.GetOrAddComponent<Image>(m_BackgroundRoot);
             var backgroundRect = m_BackgroundRoot.GetComponent<RectTransform>();
             backgroundRect.position = rectTransform.position;
-            backgroundRect.SetSiblingIndex(rectTransform.GetSiblingIndex() - 1);
-
             backgroundImage.sprite = m_Background.image;
             backgroundImage.type = m_Background.imageType;
             backgroundImage.color = m_Background.imageColor;
             m_BackgroundRoot.SetActive(m_Background.show);
+            var siblindIndex = rectTransform.GetSiblingIndex();
+            if (siblindIndex == 0)
+            {
+                backgroundRect.SetSiblingIndex(0);
+            }
+            else
+            {
+                backgroundRect.SetSiblingIndex(rectTransform.GetSiblingIndex() - 1);
+            }
         }
 
         private void InitTitle()

@@ -30,8 +30,8 @@ namespace XCharts
     [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
-        public const string version = "1.4.0";
-        public const int date = 20200411;
+        public const string version = "1.5.0";
+        public const int date = 20200522;
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
@@ -92,27 +92,49 @@ namespace XCharts
         {
             get
             {
-                return date < newCheckDate;
+                return !isNetworkError && !m_NowVersion.Equals(m_NewVersion);
             }
         }
 
         public void CheckVersion()
         {
-            isCheck = true;
-            isNetworkError = false;
-            networkError = "";
             StartCoroutine(GetVersion());
-            if (date < newCheckDate)
-            {
-                StartCoroutine(GetChangeLog());
-            }
         }
 
         IEnumerator GetVersion()
         {
-            var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/version.json";
+            isCheck = true;
+            isNetworkError = false;
+            networkError = "";
+            var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/package.json";
             var web = UnityWebRequest.Get(url);
-            yield return web;
+            yield return web.SendWebRequest();
+            CheckVersionWebRequest(web);
+            if (isNetworkError)
+            {
+                url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/package.json";
+                web = UnityWebRequest.Get(url);
+                yield return web.SendWebRequest();
+                CheckVersionWebRequest(web);
+            }
+            if (needUpdate)
+            {
+                url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
+                web = UnityWebRequest.Get(url);
+                yield return web.SendWebRequest();
+                if (!CheckLogWebRequest(web))
+                {
+                    url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/CHANGELOG.md";
+                    web = UnityWebRequest.Get(url);
+                    yield return web.SendWebRequest();
+                    CheckLogWebRequest(web);
+                }
+            }
+            isCheck = false;
+        }
+
+        private void CheckVersionWebRequest(UnityWebRequest web)
+        {
             if (IsNetworkError(web))
             {
                 isNetworkError = true;
@@ -121,49 +143,40 @@ namespace XCharts
             }
             else if (web.responseCode == 200)
             {
+                isNetworkError = false;
                 var cv = JsonUtility.FromJson<XChartsVersion>(web.downloadHandler.text);
-                m_NewVersion = cv.version + " (" + cv.date + ")";
+                m_NewVersion = cv.version + "_" + cv.date;
                 newDate = cv.date;
                 newCheckDate = cv.checkdate;
                 desc = cv.desc;
                 homepage = cv.homepage;
-                web.Dispose();
-                isCheck = false;
             }
             else
             {
-                isCheck = false;
                 isNetworkError = true;
                 if (web.responseCode > 0)
                     networkError = web.responseCode.ToString();
-                else if (!string.IsNullOrEmpty(web.error))
-                    networkError = web.error;
-                else
+                if (!string.IsNullOrEmpty(web.error))
+                    networkError += "," + web.error;
+                if (string.IsNullOrEmpty(networkError))
+                {
                     networkError = "-";
+                }
                 m_NewVersion = "-";
             }
+            web.Dispose();
         }
 
-        IEnumerator GetChangeLog()
+        private bool CheckLogWebRequest(UnityWebRequest web)
         {
-            isCheck = true;
-            var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
-            var web = new UnityWebRequest(url);
-            yield return web;
-            if (IsNetworkError(web))
-            {
-                Debug.LogError(web.error);
-            }
-            else if (web.responseCode == 200)
+            bool success = false;
+            if (web.responseCode == 200)
             {
                 CheckLog(web.downloadHandler.text);
-                web.Dispose();
-                isCheck = false;
+                success = true;
             }
-            else
-            {
-                isCheck = false;
-            }
+            web.Dispose();
+            return success;
         }
 
         private void CheckLog(string text)

@@ -16,13 +16,18 @@ namespace XCharts
         private static CheckVersionEditor window;
 
         [MenuItem("Component/XCharts/Check For Update")]
-        private static void ShowWindow()
+        public static void ShowWindow()
         {
             window = GetWindow<CheckVersionEditor>();
             window.titleContent = new GUIContent("XCharts Check For Update");
             window.minSize = new Vector2(550, window.minSize.y);
             window.Show();
             XChartsMgr.Instance.CheckVersion();
+        }
+
+        void OnInspectorUpdate()
+        {
+            Repaint();
         }
 
         private void OnGUI()
@@ -32,27 +37,38 @@ namespace XCharts
             GUILayout.Label("当前版本：" + mgr.nowVersion);
             if (mgr.needUpdate && !mgr.isCheck)
             {
-                GUILayout.BeginHorizontal();
                 GUILayout.Label("最新版本：" + mgr.newVersion);
+                GUILayout.Label("");
                 if (mgr.isCheck) GUILayout.Label("检测中...");
                 else if (mgr.isNetworkError) GUILayout.Label("检测失败：" + mgr.networkError);
-                else GUILayout.Label("有更新！");
-                if (GUILayout.Button("去Github主页"))
+                else
                 {
-                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts");
+                    GUILayout.Label("有更新！");
                 }
-                GUILayout.EndHorizontal();
 
                 GUILayout.Label("");
                 if (!string.IsNullOrEmpty(mgr.desc))
                 {
                     GUILayout.Label(mgr.desc);
-                    GUILayout.Label("");
                 }
-
-                scrollPos = GUILayout.BeginScrollView(scrollPos);
-                GUILayout.TextArea(mgr.changeLog);
-                GUILayout.EndScrollView();
+                if (GUILayout.Button("去Github主页"))
+                {
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts");
+                }
+                if (GUILayout.Button("点Star支持"))
+                {
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/stargazers");
+                }
+                if (GUILayout.Button("问题反馈"))
+                {
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/issues");
+                }
+                if (!string.IsNullOrEmpty(mgr.changeLog))
+                {
+                    scrollPos = GUILayout.BeginScrollView(scrollPos);
+                    GUILayout.TextArea(mgr.changeLog);
+                    GUILayout.EndScrollView();
+                }
             }
             else
             {
@@ -69,11 +85,18 @@ namespace XCharts
                 if (!string.IsNullOrEmpty(mgr.desc))
                 {
                     GUILayout.Label(mgr.desc);
-                    GUILayout.Label("");
                 }
                 if (GUILayout.Button("去Github主页"))
                 {
-                    Application.OpenURL(mgr.homepage);
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts");
+                }
+                if (GUILayout.Button("点Star支持"))
+                {
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/stargazers");
+                }
+                if (GUILayout.Button("问题反馈"))
+                {
+                    Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/issues");
                 }
                 if (mgr.isNetworkError && GUILayout.Button("重新检测"))
                 {

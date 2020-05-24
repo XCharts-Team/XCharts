@@ -112,15 +112,19 @@ namespace XCharts
 
         private void CheckWarning()
         {
+            if (GUILayout.Button("Check Update "))
+            {
+                CheckVersionEditor.ShowWindow();
+            }
             if (m_CheckWarning)
             {
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Check warning"))
+                if (GUILayout.Button("Check Warning"))
                 {
                     m_CheckWarning = true;
                     m_Target.CheckWarning();
                 }
-                if (GUILayout.Button("Hide warning"))
+                if (GUILayout.Button("Hide Warning"))
                 {
                     m_CheckWarning = false;
                 }

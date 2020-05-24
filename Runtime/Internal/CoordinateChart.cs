@@ -960,7 +960,7 @@ namespace XCharts
                     {
                         pY -= scaleWidth / 2;
                     }
-                    if (yAxis.axisTick.show)
+                    if (yAxis.axisTick.show && i > 0)
                     {
                         var startX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
                         startX -= yAxis.axisLine.width;
@@ -1060,7 +1060,7 @@ namespace XCharts
                     {
                         pX -= scaleWidth / 2;
                     }
-                    if (xAxis.axisTick.show)
+                    if (xAxis.axisTick.show && i > 0)
                     {
                         var startY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
                         startY -= xAxis.axisLine.width;

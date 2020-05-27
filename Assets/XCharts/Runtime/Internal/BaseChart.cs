@@ -591,6 +591,8 @@ namespace XCharts
                     {
                         m_Legend.SetAllDirty();
                         serie.ClearNameDirty();
+                        RefreshChart();
+                        break;
                     }
                 }
             }

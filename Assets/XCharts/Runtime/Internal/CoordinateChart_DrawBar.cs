@@ -378,6 +378,7 @@ namespace XCharts
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             var radius = barWidth / 2 - borderWidth;
+            var isGradient = !ChartHelper.IsValueEqualsColor(areaColor, areaToColor);
             if (isYAxis)
             {
                 var diff = Vector3.right * radius;
@@ -387,9 +388,21 @@ namespace XCharts
                     var pcr = (prt + prb) / 2 - diff;
                     if (pcr.x > pcl.x)
                     {
-                        CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
-                        ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
-                        ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                        if (isGradient)
+                        {
+                            var barLen = prt.x - plt.x;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, rectStartColor, 180, 360, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcr, radius, rectEndColor, areaToColor, 0, 180, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                        }
                     }
                 }
                 else if (plt.x > prt.x)
@@ -398,9 +411,21 @@ namespace XCharts
                     var pcr = (prt + prb) / 2 + diff;
                     if (pcr.x < pcl.x)
                     {
-                        CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, areaColor, areaToColor, serie.clip);
-                        ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 0, 180);
-                        ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 180, 360);
+                        if (isGradient)
+                        {
+                            var barLen = plt.x - prt.x;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, rectStartColor, areaColor, 0, 180, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, rectEndColor, 180, 360, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 0, 180);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 180, 360);
+                        }
                     }
                 }
             }
@@ -413,9 +438,21 @@ namespace XCharts
                     var pcb = (plb + prb) / 2 + diff;
                     if (pct.y > pcb.y)
                     {
-                        CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
-                        ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
-                        ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                        if (isGradient)
+                        {
+                            var barLen = plt.y - plb.y;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 270, 450, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 90, 270, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
+                            ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                        }
                     }
                 }
                 else if (plt.y < plb.y)
@@ -424,9 +461,21 @@ namespace XCharts
                     var pcb = (plb + prb) / 2 - diff;
                     if (pct.y < pcb.y)
                     {
-                        CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, areaColor, areaToColor, serie.clip);
-                        ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 90, 270);
-                        ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 270, 450);
+                        if (isGradient)
+                        {
+                            var barLen = plb.y - plt.y;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 90, 270, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 270, 450, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 90, 270);
+                            ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 270, 450);
+                        }
                     }
                 }
             }

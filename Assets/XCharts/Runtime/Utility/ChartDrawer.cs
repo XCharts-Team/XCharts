@@ -283,41 +283,59 @@ namespace XCharts
                 if (brRt > 0 && brRt <= 1) brRt = brRt * min;
                 if (brRb > 0 && brRb <= 1) brRb = brRb * min;
                 if (brLb > 0 && brLb <= 1) brLb = brLb * min;
-                if (brLt + brRt >= width)
+                if (isYAxis)
                 {
-                    var total = brLt + brRt;
-                    brLt = width * (brLt / total);
-                    brRt = width * (brRt / total);
+                    if (brLb + brLt >= height)
+                    {
+                        var total = brLb + brLt;
+                        brLb = height * (brLb / total);
+                        brLt = height * (brLt / total);
+                    }
+                    if (brRt + brRb >= height)
+                    {
+                        var total = brRt + brRb;
+                        brRt = height * (brRt / total);
+                        brRb = height * (brRb / total);
+                    }
+                    if (brLt + brRt >= width)
+                    {
+                        var total = brLt + brRt;
+                        brLt = width * (brLt / total);
+                        brRt = width * (brRt / total);
+                    }
+                    if (brRb + brLb >= width)
+                    {
+                        var total = brRb + brLb;
+                        brRb = width * (brRb / total);
+                        brLb = width * (brLb / total);
+                    }
                 }
-                if (brRt + brRb >= height)
+                else
                 {
-                    var total = brRt + brRb;
-                    brRt = height * (brRt / total);
-                    brRb = height * (brRb / total);
-                }
-                if (brRb + brLb >= width)
-                {
-                    var total = brRb + brLb;
-                    brRb = width * (brRb / total);
-                    brLb = width * (brLb / total);
-                }
-                if (brLb + brLt >= height)
-                {
-                    var total = brLb + brLt;
-                    brLb = height * (brLb / total);
-                    brLt = height * (brLt / total);
-                }
-                if (brLt + brRb >= height)
-                {
-                    var total = brLt + brRb;
-                    brLt = height * (brLt / total);
-                    brRb = height * (brRb / total);
-                }
-                if (brRt + brLb > height)
-                {
-                    var total = brRt + brRt;
-                    brRt = height * (brRt / total);
-                    brLb = height * (brLb / total);
+                    if (brLt + brRt >= width)
+                    {
+                        var total = brLt + brRt;
+                        brLt = width * (brLt / total);
+                        brRt = width * (brRt / total);
+                    }
+                    if (brRb + brLb >= width)
+                    {
+                        var total = brRb + brLb;
+                        brRb = width * (brRb / total);
+                        brLb = width * (brLb / total);
+                    }
+                    if (brLb + brLt >= height)
+                    {
+                        var total = brLb + brLt;
+                        brLb = height * (brLb / total);
+                        brLt = height * (brLt / total);
+                    }
+                    if (brRt + brRb >= height)
+                    {
+                        var total = brRt + brRb;
+                        brRt = height * (brRt / total);
+                        brRb = height * (brRb / total);
+                    }
                 }
             }
         }
@@ -335,6 +353,7 @@ namespace XCharts
         public static void DrawRoundRectangle(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false)
         {
+            var isGradient = !ChartHelper.IsValueEqualsColor(color, toColor);
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
@@ -358,72 +377,146 @@ namespace XCharts
                 if (brLt > 0)
                 {
                     roundLt = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    if (isYAxis) DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1);
-                    else DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1);
                     ltIn = roundLt + brLt * Vector3.left;
                     ltIn2 = roundLt + brLt * Vector3.up;
                 }
                 if (brRt > 0)
                 {
                     roundRt = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    if (isYAxis) DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1);
-                    else DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1);
                     rtIn = roundRt + brRt * Vector3.up;
                     rtIn2 = roundRt + brRt * Vector3.right;
                 }
                 if (brRb > 0)
                 {
                     roundRb = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    if (isYAxis) DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1);
-                    else DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1);
                     rbIn = roundRb + brRb * Vector3.right;
                     rbIn2 = roundRb + brRb * Vector3.down;
                 }
                 if (brLb > 0)
                 {
                     roundLb = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
-                    if (isYAxis) DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1);
-                    else DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1);
                     lbIn = roundLb + brLb * Vector3.left;
                     lbIn2 = roundLb + brLb * Vector3.down;
                 }
-                var maxup = Mathf.Max(brLt, brRt);
+
                 if (isYAxis)
                 {
-                    DrawPolygon(vh, ltIn2 + maxup * Vector3.down, ltIn2, rtIn, rtIn + maxup * Vector3.down, color, toColor);
-                    DrawPolygon(vh, ltIn + (maxup - brLt) * Vector3.down, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, color, color);
-                    DrawPolygon(vh, roundRt + (maxup - brRt) * Vector3.down, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, toColor, toColor);
+                    var maxLeft = Mathf.Max(brLt, brLb);
+                    var maxRight = Mathf.Max(brRt, brRb);
+                    if (!isGradient)
+                    {
+                        DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, isYAxis);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis);
+                        DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, isYAxis);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
+
+                        DrawPolygon(vh, ltIn, ltIn + maxLeft * Vector3.right, lbIn + maxLeft * Vector3.right, lbIn, color, color);
+                        DrawPolygon(vh, roundLb + (maxLeft - brLb) * Vector3.down, roundLb, roundLb + (maxLeft - brLb) * Vector3.right, lbIn2 + (maxLeft - brLb) * Vector3.right, color, color);
+                        DrawPolygon(vh, roundLt, ltIn2, ltIn2 + (maxLeft - brLt) * Vector3.right, roundLt + (maxLeft - brLt) * Vector3.right, color, color);
+
+
+                        DrawPolygon(vh, roundRb + (maxRight - brRb) * Vector3.left, roundRt + (maxRight - brRt) * Vector3.left, rtIn2, rbIn, toColor, toColor);
+                        DrawPolygon(vh, roundRt + (maxRight - brRt) * Vector3.left, rtIn + (maxRight - brRt) * Vector3.left, rtIn, roundRt, toColor, toColor);
+                        DrawPolygon(vh, rbIn2 + (maxRight - brRb) * Vector3.left, roundRb + (maxRight - brRb) * Vector3.left, roundRb, rbIn2, toColor, toColor);
+
+                        var clt = new Vector3(center.x - halfWid + maxLeft, center.y + halfHig);
+                        var crt = new Vector3(center.x + halfWid - maxRight, center.y + halfHig);
+                        var crb = new Vector3(center.x + halfWid - maxRight, center.y - halfHig);
+                        var clb = new Vector3(center.x - halfWid + maxLeft, center.y - halfHig);
+                        if (crt.x > clt.x)
+                        {
+                            DrawPolygon(vh, clb, clt, crt, crb, color, toColor);
+                        }
+                    }
+                    else
+                    {
+                        var tempLeftColor = Color.Lerp(color, toColor, maxLeft / rectWidth);
+                        var upLeftColor = Color.Lerp(color, tempLeftColor, brLt / maxLeft);
+                        var downLeftColor = Color.Lerp(color, tempLeftColor, brLb / maxLeft);
+
+                        var tempRightColor = Color.Lerp(color, toColor, (rectWidth - maxRight) / rectWidth);
+                        var upRightColor = Color.Lerp(tempRightColor, toColor, (maxRight - brRt) / maxRight);
+                        var downRightColor = Color.Lerp(tempRightColor, toColor, (maxRight - brRb) / maxRight);
+
+                        DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, isYAxis);
+                        DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, isYAxis);
+                        DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, isYAxis);
+                        DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, isYAxis);
+
+                        DrawPolygon(vh, lbIn, ltIn, ltIn + maxLeft * Vector3.right, lbIn + maxLeft * Vector3.right, color, tempLeftColor);
+                        DrawPolygon(vh, roundLb + brLb * Vector3.down, roundLb, roundLb + (maxLeft - brLb) * Vector3.right, lbIn2 + (maxLeft - brLb) * Vector3.right, downLeftColor, tempLeftColor);
+                        DrawPolygon(vh, roundLt, ltIn2, ltIn2 + (maxLeft - brLt) * Vector3.right, roundLt + (maxLeft - brLt) * Vector3.right, upLeftColor, tempLeftColor);
+
+
+                        DrawPolygon(vh, roundRb + (maxRight - brRb) * Vector3.left, roundRt + (maxRight - brRt) * Vector3.left, rtIn2, rbIn, tempRightColor, toColor);
+                        DrawPolygon(vh, roundRt + (maxRight - brRt) * Vector3.left, rtIn + (maxRight - brRt) * Vector3.left, rtIn, roundRt, tempRightColor, upRightColor);
+                        DrawPolygon(vh, rbIn2 + (maxRight - brRb) * Vector3.left, roundRb + (maxRight - brRb) * Vector3.left, roundRb, rbIn2, tempRightColor, downRightColor);
+
+                        var clt = new Vector3(center.x - halfWid + maxLeft, center.y + halfHig);
+                        var crt = new Vector3(center.x + halfWid - maxRight, center.y + halfHig);
+                        var crb = new Vector3(center.x + halfWid - maxRight, center.y - halfHig);
+                        var clb = new Vector3(center.x - halfWid + maxLeft, center.y - halfHig);
+                        if (crt.x > clt.x)
+                        {
+                            DrawPolygon(vh, clb, clt, crt, crb, tempLeftColor, tempRightColor);
+                        }
+                    }
                 }
                 else
                 {
-                    DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, toColor, toColor);
-                    DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, toColor, toColor);
-                    DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, toColor, toColor);
-                }
+                    var maxup = Mathf.Max(brLt, brRt);
+                    var maxdown = Mathf.Max(brLb, brRb);
+                    var clt = new Vector3(center.x - halfWid, center.y + halfHig - maxup);
+                    var crt = new Vector3(center.x + halfWid, center.y + halfHig - maxup);
+                    var crb = new Vector3(center.x + halfWid, center.y - halfHig + maxdown);
+                    var clb = new Vector3(center.x - halfWid, center.y - halfHig + maxdown);
+                    if (!isGradient)
+                    {
+                        DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, isYAxis);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis);
+                        DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, isYAxis);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
 
-                var maxdown = Mathf.Max(brLb, brRb);
-                if (isYAxis)
-                {
-                    DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, toColor);
-                    DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
-                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, toColor, toColor);
-                }
-                else
-                {
-                    DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, color);
-                    DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
-                    DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, color, color);
-                }
-                var clt = new Vector3(center.x - halfWid, center.y + halfHig - maxup);
-                var crt = new Vector3(center.x + halfWid, center.y + halfHig - maxup);
-                var crb = new Vector3(center.x + halfWid, center.y - halfHig + maxdown);
-                var clb = new Vector3(center.x - halfWid, center.y - halfHig + maxdown);
-                if (clt.y > clb.y)
-                {
-                    if (isYAxis) DrawPolygon(vh, clb, clt, crt, crb, color, toColor);
-                    else DrawPolygon(vh, clt, crt, crb, clb, toColor, color);
-                }
+                        DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, toColor, toColor);
+                        DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, toColor, toColor);
+                        DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, toColor, toColor);
 
+                        DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, color);
+                        DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
+                        DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, color, color);
+                        if (clt.y > clb.y)
+                        {
+                            DrawPolygon(vh, clt, crt, crb, clb, toColor, color);
+                        }
+                    }
+                    else
+                    {
+                        var tempUpColor = Color.Lerp(color, toColor, (rectHeight - maxup) / rectHeight);
+                        var leftUpColor = Color.Lerp(tempUpColor, toColor, (maxup - brLt) / maxup);
+                        var rightUpColor = Color.Lerp(tempUpColor, toColor, (maxup - brRt) / maxup);
+                        var tempDownColor = Color.Lerp(color, toColor, maxdown / rectHeight);
+                        var leftDownColor = Color.Lerp(color, tempDownColor, brLb / maxdown);
+                        var rightDownColor = Color.Lerp(color, tempDownColor, brRb / maxdown);
+
+                        DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, isYAxis);
+                        DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, isYAxis);
+                        DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, isYAxis);
+                        DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, isYAxis);
+
+                        DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, toColor, tempUpColor);
+                        DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, leftUpColor, tempUpColor);
+                        DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, rightUpColor, tempUpColor);
+
+                        DrawPolygon(vh, rbIn2, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, color, tempDownColor);
+                        
+                        DrawPolygon(vh, roundLb, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, leftDownColor, tempDownColor);
+                        DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, rightDownColor, tempDownColor);
+                        if (clt.y > clb.y)
+                        {
+                            DrawPolygon(vh, clt, crt, crb, clb, tempUpColor, tempDownColor);
+                        }
+                    }
+                }
             }
             else
             {
@@ -633,9 +726,9 @@ namespace XCharts
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
-                    float startDegree, float toDegree, float smoothness = 2f)
+                    float startDegree, float toDegree, int gradientType = 0, bool isYAxis = false, float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, 0, Color.clear, smoothness);
+            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, 0, Color.clear, 0, smoothness, gradientType, isYAxis);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
@@ -650,10 +743,27 @@ namespace XCharts
             DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, borderWidth, borderColor, 0, smoothness);
         }
 
+        /// <summary>
+        /// 绘制扇形（可带边框、有空白边距、3种类型渐变）
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="p">中心点</param>
+        /// <param name="radius">半径</param>
+        /// <param name="color">颜色</param>
+        /// <param name="toColor">渐变颜色</param>
+        /// <param name="startDegree">开始角度</param>
+        /// <param name="toDegree">结束角度</param>
+        /// <param name="borderWidth">边框宽度</param>
+        /// <param name="borderColor">边框颜色</param>
+        /// <param name="space">边距</param>
+        /// <param name="smoothness">光滑度</param>
+        /// <param name="gradientType">渐变类型，0:向圆形渐变，1:水平或垂直渐变，2:开始角度向结束角度渐变</param>
+        /// <param name="isYAxis">水平渐变还是垂直渐变，gradientType为1时生效</param>
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
             float startDegree, float toDegree, float borderWidth, Color32 borderColor, float space,
-            float smoothness = 2f)
+            float smoothness, int gradientType = 0, bool isYAxis = false)
         {
+            if (radius == 0) return;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
             int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
@@ -667,8 +777,11 @@ namespace XCharts
 
             var p2 = p + radius * GetDire(startAngle);
             var p3 = Vector3.zero;
+            var p4 = Vector3.zero;
             var spaceCenter = p;
             var realCenter = p;
+            var lastP4 = p;
+            var lastColor = color;
             var needBorder = borderWidth != 0;
             var needSpace = space != 0;
             var lastPos = Vector3.zero;
@@ -713,12 +826,44 @@ namespace XCharts
                 }
             }
             float segmentAngle = (realToAngle - realStartAngle) / segments;
+            bool isLeft = startDegree >= 180;
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = realStartAngle + i * segmentAngle;
                 p3 = p + radius * GetDire(currAngle);
-                DrawTriangle(vh, realCenter, p2, p3, toColor, color, color);
+                if (gradientType == 1)
+                {
+                    if (isYAxis)
+                    {
+                        p4 = new Vector3(p3.x, realCenter.y);
+                        var dist = p4.x - realCenter.x;
+                        var tcolor = Color.Lerp(color, toColor, dist >= 0 ? dist / radius : Mathf.Min(radius + dist, radius) / radius);
+                        if (isLeft && (i == segments || i == 0)) tcolor = toColor;
+                        DrawPolygon(vh, lastP4, p2, p3, p4, lastColor, tcolor);
+                        lastP4 = p4;
+                        lastColor = tcolor;
+                    }
+                    else
+                    {
+                        p4 = new Vector3(realCenter.x, p3.y);
+                        var tcolor = Color.Lerp(color, toColor, Mathf.Abs(p4.y - realCenter.y) / radius);
+                        DrawPolygon(vh, lastP4, p2, p3, p4, lastColor, tcolor);
+                        lastP4 = p4;
+                        lastColor = tcolor;
+                    }
+                }
+                else if (gradientType == 2)
+                {
+                    var tcolor = Color.Lerp(color, toColor, i / segments);
+                    DrawPolygon(vh, realCenter, p2, p3, realCenter, lastColor, tcolor);
+                    lastColor = tcolor;
+                }
+                else
+                {
+                    DrawTriangle(vh, realCenter, p2, p3, toColor, color, color);
+                }
                 p2 = p3;
+
             }
             if (needBorder || needSpace)
             {

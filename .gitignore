@@ -6,6 +6,8 @@
 /Temp
 /Logs
 /UnityPackageManager
+/Packages
+/ProjectSettings/XRSettings.asset
 /Assets/Res
 /Assets/Res.meta
 /Assets/Package

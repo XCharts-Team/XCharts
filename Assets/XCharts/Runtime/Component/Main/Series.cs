@@ -99,6 +99,7 @@ namespace XCharts
         {
             base.ClearDirty();
             ClearLabelDirty();
+            SeriesHelper.ClearNameDirty(this);
         }
 
         /// <summary>

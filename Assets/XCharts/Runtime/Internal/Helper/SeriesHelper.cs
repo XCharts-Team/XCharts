@@ -31,6 +31,23 @@ namespace XCharts
             return false;
         }
 
+        public static bool IsNameDirty(Series series)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.nameDirty) return true;
+            }
+            return false;
+        }
+
+        public static void ClearNameDirty(Series series)
+        {
+            foreach (var serie in series.list)
+            {
+                serie.ClearNameDirty();
+            }
+        }
+
         public static bool IsLegalLegendName(string name)
         {
             int numName = -1;

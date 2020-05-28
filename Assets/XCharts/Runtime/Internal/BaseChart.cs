@@ -131,7 +131,6 @@ namespace XCharts
         protected virtual void Update()
         {
             CheckSize();
-            CheckLegend();
             CheckComponent();
             CheckPointerPos();
             CheckTooltip();
@@ -142,6 +141,24 @@ namespace XCharts
 
         protected virtual void CheckComponent()
         {
+            if (m_Series.anyDirty)
+            {
+                if (m_Series.vertsDirty) RefreshChart();
+                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
+                if (SeriesHelper.IsNeedLabelUpdate(m_Series) && !m_RefreshChart) m_RefreshLabel = true;
+                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
+                foreach (var serie in m_Series.list)
+                {
+                    if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
+                    if (serie.nameDirty)
+                    {
+                        m_Legend.SetAllDirty();
+                        RefreshChart();
+                        serie.ClearNameDirty();
+                    }
+                }
+                m_Series.ClearDirty();
+            }
             if (m_ThemeInfo.anyDirty)
             {
                 if (m_CheckTheme != m_ThemeInfo.theme)
@@ -187,17 +204,6 @@ namespace XCharts
             {
                 RefreshChart();
                 m_Settings.ClearDirty();
-            }
-            if (m_Series.anyDirty)
-            {
-                if (m_Series.vertsDirty) RefreshChart();
-                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
-                if (SeriesHelper.IsNeedLabelUpdate(m_Series) && !m_RefreshChart) m_RefreshLabel = true;
-                foreach (var serie in m_Series.list)
-                {
-                    if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
-                }
-                m_Series.ClearDirty();
             }
         }
 
@@ -579,23 +585,6 @@ namespace XCharts
             m_ChartPosition.y = m_ChartY;
 
             OnSizeChanged();
-        }
-
-        private void CheckLegend()
-        {
-            if (m_Legend.show)
-            {
-                foreach (var serie in series.list)
-                {
-                    if (serie.nameDirty)
-                    {
-                        m_Legend.SetAllDirty();
-                        serie.ClearNameDirty();
-                        RefreshChart();
-                        break;
-                    }
-                }
-            }
         }
 
         private void CheckPointerPos()

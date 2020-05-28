@@ -403,6 +403,30 @@ namespace XCharts
                 {
                     var maxLeft = Mathf.Max(brLt, brLb);
                     var maxRight = Mathf.Max(brRt, brRb);
+                    var ltInRight = ltIn + maxLeft * Vector3.right;
+                    var lbInRight = lbIn + maxLeft * Vector3.right;
+                    var rtIn2Left = rtIn2 + maxRight * Vector3.left;
+                    var rbInLeft = rbIn + maxRight * Vector3.left;
+
+                    var roundLbRight = roundLb + (maxLeft - brLb) * Vector3.right;
+                    var lbIn2Right = lbIn2 + (maxLeft - brLb) * Vector3.right;
+                    if (roundLbRight.x > roundRb.x) roundLbRight.x = roundRb.x;
+                    if (lbIn2Right.x > roundRb.x) lbIn2Right.x = roundRb.x;
+
+                    var ltIn2Right = ltIn2 + (maxLeft - brLt) * Vector3.right;
+                    var roundLtRight = roundLt + (maxLeft - brLt) * Vector3.right;
+                    if (ltIn2Right.x > roundRt.x) ltIn2Right.x = roundRt.x;
+                    if (roundLtRight.x > roundRt.x) roundLtRight.x = roundRt.x;
+
+                    var roundRtLeft = roundRt + (maxRight - brRt) * Vector3.left;
+                    var rtInLeft = rtIn + (maxRight - brRt) * Vector3.left;
+                    if (roundRtLeft.x < roundLt.x) roundRtLeft.x = roundLt.x;
+                    if (rtInLeft.x < roundLt.x) rtInLeft.x = roundLt.x;
+
+                    var rbIn2Left = rbIn2 + (maxRight - brRb) * Vector3.left;
+                    var roundRbLeft = roundRb + (maxRight - brRb) * Vector3.left;
+                    if (rbIn2Left.x < roundLb.x) rbIn2Left.x = roundLb.x;
+                    if (roundRbLeft.x < roundLb.x) roundRbLeft.x = roundLb.x;
                     if (!isGradient)
                     {
                         DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, isYAxis);
@@ -410,14 +434,13 @@ namespace XCharts
                         DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, isYAxis);
                         DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
 
-                        DrawPolygon(vh, ltIn, ltIn + maxLeft * Vector3.right, lbIn + maxLeft * Vector3.right, lbIn, color, color);
-                        DrawPolygon(vh, roundLb + (maxLeft - brLb) * Vector3.down, roundLb, roundLb + (maxLeft - brLb) * Vector3.right, lbIn2 + (maxLeft - brLb) * Vector3.right, color, color);
-                        DrawPolygon(vh, roundLt, ltIn2, ltIn2 + (maxLeft - brLt) * Vector3.right, roundLt + (maxLeft - brLt) * Vector3.right, color, color);
+                        DrawPolygon(vh, ltIn, ltInRight, lbInRight, lbIn, color, color);
+                        DrawPolygon(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, color, color);
+                        DrawPolygon(vh, roundLt, ltIn2, ltIn2Right, roundLtRight, color, color);
 
-
-                        DrawPolygon(vh, roundRb + (maxRight - brRb) * Vector3.left, roundRt + (maxRight - brRt) * Vector3.left, rtIn2, rbIn, toColor, toColor);
-                        DrawPolygon(vh, roundRt + (maxRight - brRt) * Vector3.left, rtIn + (maxRight - brRt) * Vector3.left, rtIn, roundRt, toColor, toColor);
-                        DrawPolygon(vh, rbIn2 + (maxRight - brRb) * Vector3.left, roundRb + (maxRight - brRb) * Vector3.left, roundRb, rbIn2, toColor, toColor);
+                        DrawPolygon(vh, rbInLeft, rtIn2Left, rtIn2, rbIn, toColor, toColor);
+                        DrawPolygon(vh, roundRtLeft, rtInLeft, rtIn, roundRt, toColor, toColor);
+                        DrawPolygon(vh, rbIn2Left, roundRbLeft, roundRb, rbIn2, toColor, toColor);
 
                         var clt = new Vector3(center.x - halfWid + maxLeft, center.y + halfHig);
                         var crt = new Vector3(center.x + halfWid - maxRight, center.y + halfHig);
@@ -443,14 +466,14 @@ namespace XCharts
                         DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, isYAxis);
                         DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, isYAxis);
 
-                        DrawPolygon(vh, lbIn, ltIn, ltIn + maxLeft * Vector3.right, lbIn + maxLeft * Vector3.right, color, tempLeftColor);
-                        DrawPolygon(vh, roundLb + brLb * Vector3.down, roundLb, roundLb + (maxLeft - brLb) * Vector3.right, lbIn2 + (maxLeft - brLb) * Vector3.right, downLeftColor, tempLeftColor);
-                        DrawPolygon(vh, roundLt, ltIn2, ltIn2 + (maxLeft - brLt) * Vector3.right, roundLt + (maxLeft - brLt) * Vector3.right, upLeftColor, tempLeftColor);
 
+                        DrawPolygon(vh, lbIn, ltIn, ltInRight, lbInRight, color, tempLeftColor);
+                        DrawPolygon(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, downLeftColor, roundLbRight.x == roundRb.x ? downRightColor : tempLeftColor);
+                        DrawPolygon(vh, roundLt, ltIn2, ltIn2Right, roundLtRight, upLeftColor, ltIn2Right.x == roundRt.x ? upRightColor : tempLeftColor);
 
-                        DrawPolygon(vh, roundRb + (maxRight - brRb) * Vector3.left, roundRt + (maxRight - brRt) * Vector3.left, rtIn2, rbIn, tempRightColor, toColor);
-                        DrawPolygon(vh, roundRt + (maxRight - brRt) * Vector3.left, rtIn + (maxRight - brRt) * Vector3.left, rtIn, roundRt, tempRightColor, upRightColor);
-                        DrawPolygon(vh, rbIn2 + (maxRight - brRb) * Vector3.left, roundRb + (maxRight - brRb) * Vector3.left, roundRb, rbIn2, tempRightColor, downRightColor);
+                        DrawPolygon(vh, rbInLeft, rtIn2Left, rtIn2, rbIn, tempRightColor, toColor);
+                        DrawPolygon(vh, roundRtLeft, rtInLeft, rtIn, roundRt, roundRtLeft.x == roundLt.x ? upLeftColor : tempRightColor, upRightColor);
+                        DrawPolygon(vh, rbIn2Left, roundRbLeft, roundRb, rbIn2, rbIn2Left.x == roundLb.x ? downLeftColor : tempRightColor, downRightColor);
 
                         var clt = new Vector3(center.x - halfWid + maxLeft, center.y + halfHig);
                         var crt = new Vector3(center.x + halfWid - maxRight, center.y + halfHig);
@@ -470,6 +493,31 @@ namespace XCharts
                     var crt = new Vector3(center.x + halfWid, center.y + halfHig - maxup);
                     var crb = new Vector3(center.x + halfWid, center.y - halfHig + maxdown);
                     var clb = new Vector3(center.x - halfWid, center.y - halfHig + maxdown);
+                    var lbIn2Up = lbIn2 + maxdown * Vector3.up;
+                    var rbIn2Up = rbIn2 + maxdown * Vector3.up;
+                    var rtInDown = rtIn + maxup * Vector3.down;
+                    var ltIn2Down = ltIn2 + maxup * Vector3.down;
+
+                    var roundLtDown = roundLt + (maxup - brLt) * Vector3.down;
+                    var ltInDown = ltIn + (maxup - brLt) * Vector3.down;
+                    if (roundLtDown.y < roundLb.y) roundLtDown.y = roundLb.y;
+                    if (ltInDown.y < roundLb.y) ltInDown.y = roundLb.y;
+
+                    var rtIn2Down = rtIn2 + (maxup - brRt) * Vector3.down;
+                    var roundRtDown = roundRt + (maxup - brRt) * Vector3.down;
+                    if (rtIn2Down.y < roundRb.y) rtIn2Down.y = roundRb.y;
+                    if (roundRtDown.y < roundRb.y) roundRtDown.y = roundRb.y;
+
+                    var lbInUp = lbIn + (maxdown - brLb) * Vector3.up;
+                    var roundLbUp = roundLb + (maxdown - brLb) * Vector3.up;
+                    if (lbInUp.y > roundLt.y) lbInUp.y = roundLt.y;
+                    if (roundLbUp.y > roundLt.y) roundLbUp.y = roundLt.y;
+
+                    var roundRbUp = roundRb + (maxdown - brRb) * Vector3.up;
+                    var rbInUp = rbIn + (maxdown - brRb) * Vector3.up;
+                    if (roundRbUp.y > roundRt.y) roundRbUp.y = roundRt.y;
+                    if (rbInUp.y > roundRt.y) rbInUp.y = roundRt.y;
+
                     if (!isGradient)
                     {
                         DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, isYAxis);
@@ -477,13 +525,13 @@ namespace XCharts
                         DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, isYAxis);
                         DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
 
-                        DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, toColor, toColor);
-                        DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, toColor, toColor);
-                        DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, toColor, toColor);
+                        DrawPolygon(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, toColor);
+                        DrawPolygon(vh, ltIn, roundLt, roundLtDown, ltInDown, toColor, toColor);
+                        DrawPolygon(vh, roundRt, rtIn2, rtIn2Down, roundRtDown, toColor, toColor);
 
-                        DrawPolygon(vh, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, rbIn2, color, color);
-                        DrawPolygon(vh, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, roundLb, color, color);
-                        DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, color, color);
+                        DrawPolygon(vh, lbIn2, lbIn2Up, rbIn2Up, rbIn2, color, color);
+                        DrawPolygon(vh, lbIn, lbInUp, roundLbUp, roundLb, color, color);
+                        DrawPolygon(vh, roundRb, roundRbUp, rbInUp, rbIn, color, color);
                         if (clt.y > clb.y)
                         {
                             DrawPolygon(vh, clt, crt, crb, clb, toColor, color);
@@ -503,14 +551,13 @@ namespace XCharts
                         DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, isYAxis);
                         DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, isYAxis);
 
-                        DrawPolygon(vh, ltIn2, rtIn, rtIn + maxup * Vector3.down, ltIn2 + maxup * Vector3.down, toColor, tempUpColor);
-                        DrawPolygon(vh, ltIn, roundLt, roundLt + (maxup - brLt) * Vector3.down, ltIn + (maxup - brLt) * Vector3.down, leftUpColor, tempUpColor);
-                        DrawPolygon(vh, roundRt, rtIn2, rtIn2 + (maxup - brRt) * Vector3.down, roundRt + (maxup - brRt) * Vector3.down, rightUpColor, tempUpColor);
+                        DrawPolygon(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, tempUpColor);
+                        DrawPolygon(vh, ltIn, roundLt, roundLtDown, ltInDown, leftUpColor, roundLtDown.y == roundLb.y ? leftDownColor : tempUpColor);
+                        DrawPolygon(vh, roundRt, rtIn2, rtIn2Down, roundRtDown, rightUpColor, rtIn2Down.y == roundRb.y ? rightDownColor : tempUpColor);
 
-                        DrawPolygon(vh, rbIn2, lbIn2, lbIn2 + maxdown * Vector3.up, rbIn2 + maxdown * Vector3.up, color, tempDownColor);
-                        
-                        DrawPolygon(vh, roundLb, lbIn, lbIn + (maxdown - brLb) * Vector3.up, roundLb + (maxdown - brLb) * Vector3.up, leftDownColor, tempDownColor);
-                        DrawPolygon(vh, roundRb, roundRb + (maxdown - brRb) * Vector3.up, rbIn + (maxdown - brRb) * Vector3.up, rbIn, rightDownColor, tempDownColor);
+                        DrawPolygon(vh, rbIn2, lbIn2, lbIn2Up, rbIn2Up, color, tempDownColor);
+                        DrawPolygon(vh, roundLb, lbIn, lbInUp, roundLbUp, leftDownColor, lbInUp.y == roundLt.y ? leftUpColor : tempDownColor);
+                        DrawPolygon(vh, rbIn, roundRb, roundRbUp, rbInUp, rightDownColor, roundRbUp.y == roundRt.y ? rightUpColor : tempDownColor);
                         if (clt.y > clb.y)
                         {
                             DrawPolygon(vh, clt, crt, crb, clb, tempUpColor, tempDownColor);

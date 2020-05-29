@@ -129,6 +129,7 @@ namespace XCharts
                     var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
                     textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                     new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
+                    txt.gameObject.hideFlags = chartHideFlags;
                     txt.text = radar.indicatorList[i].name;
                     txt.gameObject.SetActive(radar.indicator);
                     var txtWidth = txt.preferredWidth;

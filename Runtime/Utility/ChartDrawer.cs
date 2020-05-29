@@ -811,6 +811,7 @@ namespace XCharts
             float smoothness, int gradientType = 0, bool isYAxis = false)
         {
             if (radius == 0) return;
+            if (space > 0 && Mathf.Abs(toDegree - startDegree) >= 360) space = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
             int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
@@ -998,6 +999,7 @@ namespace XCharts
             Color32 borderColor, float space, float smoothness, bool roundCap = false, bool clockwise = true)
         {
             if (toDegree - startDegree == 0) return;
+            if (space > 0 && Mathf.Abs(toDegree - startDegree) >= 360) space = 0;
             if (insideRadius <= 0)
             {
                 DrawSector(vh, p, outsideRadius, color, toColor, startDegree, toDegree, borderWidth, borderColor,

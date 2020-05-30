@@ -603,7 +603,7 @@ namespace XCharts
                 if (radar.splitArea.show)
                 {
                     ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
-                         m_Settings.cicleSmoothness, 0, 360);
+                          0, 360, m_Settings.cicleSmoothness);
                 }
                 if (radar.splitLine.show)
                 {

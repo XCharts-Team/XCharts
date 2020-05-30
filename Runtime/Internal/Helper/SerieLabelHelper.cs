@@ -80,6 +80,11 @@ namespace XCharts
             serieData.labelObject.label.fontStyle = label.fontStyle;
         }
 
+        public static bool CanShowLabel(Serie serie, SerieData serieData, SerieLabel label, int dimesion)
+        {
+            return serie.show && serieData.canShowLabel && !serie.IsIgnoreValue(serieData.GetData(dimesion));
+        }
+
         public static string GetFormatterContent(Serie serie, SerieData serieData,
             float dataValue, float dataTotal, SerieLabel serieLabel = null)
         {

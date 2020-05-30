@@ -209,6 +209,10 @@ namespace XCharts
                         ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Radius, "Radius");
                         EditorGUI.PropertyField(drawRect, m_RoundCap);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Ignore);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_IgnoreValue);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_ItemStyle);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
                         EditorGUI.PropertyField(drawRect, m_Label);
@@ -523,7 +527,7 @@ namespace XCharts
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                         break;
                     case SerieType.Pie:
-                        height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));

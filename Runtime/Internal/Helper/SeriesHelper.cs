@@ -102,6 +102,7 @@ namespace XCharts
                     case SerieType.Ring:
                         for (int i = 0; i < serie.data.Count; i++)
                         {
+                            if (serie.type == SerieType.Pie && serie.IsIgnoreValue(serie.data[i].GetData(1))) continue;
                             if (string.IsNullOrEmpty(serie.data[i].name))
                                 serieNameList.Add(ChartCached.IntToStr(i));
                             else if (!serieNameList.Contains(serie.data[i].name))

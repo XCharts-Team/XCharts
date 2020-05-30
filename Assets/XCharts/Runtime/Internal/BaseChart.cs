@@ -258,15 +258,35 @@ namespace XCharts
 
         private void InitBackground()
         {
-            if (!m_Background.show || m_IsControlledByLayout)
+            int childCount = transform.parent.childCount;
+            if (childCount > 2) m_Background.runtimeActive = false;
+            else if (childCount == 1) m_Background.runtimeActive = true;
+            else
             {
-                if (m_BackgroundRoot)
+                m_Background.runtimeActive = false;
+                for (int i = 0; i < childCount; i++)
                 {
-                    m_BackgroundRoot.SetActive(false);
+                    if (transform.parent.GetChild(i).name.StartsWith(s_BackgroundObjectName))
+                    {
+                        m_Background.runtimeActive = true;
+                        break;
+                    }
                 }
+            }
+            if (!m_Background.runtimeActive || m_IsControlledByLayout)
+            {
+                //find old gameobject and delete
+                var objName = s_BackgroundObjectName + GetInstanceID();
+                ChartHelper.DestoryGameObject(transform.parent, objName);
+                ChartHelper.DestoryGameObject(m_BackgroundRoot);
                 return;
             }
-            var backgroundName = s_BackgroundObjectName + GetInstanceID();
+            if (!m_Background.show)
+            {
+                ChartHelper.DestoryGameObject(m_BackgroundRoot);
+                return;
+            }
+            var backgroundName = s_BackgroundObjectName;
             m_BackgroundRoot = ChartHelper.AddObject(backgroundName, transform.parent, m_ChartMinAnchor,
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             m_BackgroundRoot.hideFlags = chartHideFlags;
@@ -777,14 +797,14 @@ namespace XCharts
             Vector3 p2 = new Vector3(chartX + chartWidth, chartY + chartHeight);
             Vector3 p3 = new Vector3(chartX + chartWidth, chartY);
             Vector3 p4 = new Vector3(chartX, chartY);
-            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
+            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
             ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, backgroundColor);
         }
 
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
           float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
         {
-            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
+            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
             var smoothness = m_Settings.cicleSmoothness;
             ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
                 cornerRadius, backgroundColor, smoothness);

@@ -413,7 +413,10 @@ namespace XCharts
             if (fieldCount <= 1)
             {
                 while (2 > data.arraySize)
+                {
                     data.InsertArrayElementAtIndex(data.arraySize);
+                    data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = 0;
+                }
                 SerializedProperty element = data.GetArrayElementAtIndex(1);
                 if (showSelected)
                 {
@@ -449,6 +452,7 @@ namespace XCharts
                     while (i > data.arraySize - 1)
                     {
                         data.InsertArrayElementAtIndex(data.arraySize);
+                        data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = 0;
                     }
                     drawRect.x = startX + i * xWid;
                     drawRect.width = dataWid + 40;

@@ -109,6 +109,14 @@ namespace XCharts
                     sb.AppendFormat("warning:serie {0} itemStyle->opacity is 0\n", serie.index);
                 if (serie.itemStyle.borderWidth != 0 && IsColorAlphaZero(serie.itemStyle.borderColor))
                     sb.AppendFormat("warning:serie {0} itemStyle->borderColor alpha is 0\n", serie.index);
+                if (serie.dataCount > 0)
+                {
+                    var dataCount = serie.GetSerieData(0).data.Count;
+                    if (serie.showDataDimension != dataCount)
+                    {
+                        sb.AppendFormat("warning:serie {0} serieData.data.count[{1}] not match showDataDimension[{2}]\n", serie.index, dataCount, serie.showDataDimension);
+                    }
+                }
                 switch (serie.type)
                 {
                     case SerieType.Line:
@@ -132,7 +140,6 @@ namespace XCharts
                         if (serie.symbol.type == SerieSymbolType.None)
                             sb.AppendFormat("warning:symbol type is None");
                         break;
-
                 }
             }
         }

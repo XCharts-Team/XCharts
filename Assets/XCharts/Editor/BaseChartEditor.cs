@@ -7,6 +7,7 @@
 
 using UnityEditor;
 using UnityEngine;
+using System.Text;
 
 namespace XCharts
 {
@@ -38,6 +39,7 @@ namespace XCharts
         private int m_SeriesSize;
         private Vector2 scrollPos;
         private bool m_CheckWarning = false;
+        private StringBuilder sb = new StringBuilder();
 
         protected virtual void OnEnable()
         {
@@ -90,7 +92,9 @@ namespace XCharts
             var m_Show = m_Background.FindPropertyRelative("m_Show");
             if (m_Show.boolValue && !m_Target.CanShowBackgroundComponent())
             {
-                EditorGUILayout.HelpBox("can't show background component:chart is control by LayoutGroup.", MessageType.Warning);
+                var msg = "The background component cannot be activated because chart is controlled by LayoutGroup,"
+                + " or its parent have more than one child.";
+                EditorGUILayout.HelpBox(msg, MessageType.Error);
             }
             EditorGUILayout.PropertyField(m_Title, true);
             EditorGUILayout.PropertyField(m_Legend, true);
@@ -112,7 +116,7 @@ namespace XCharts
 
         private void CheckWarning()
         {
-            if (GUILayout.Button("Check Update "))
+            if (GUILayout.Button("Check XCharts Update "))
             {
                 CheckVersionEditor.ShowWindow();
             }
@@ -129,19 +133,19 @@ namespace XCharts
                     m_CheckWarning = false;
                 }
                 EditorGUILayout.EndHorizontal();
-                EditorGUILayout.LabelField("version:" + XChartsMgr.Instance.nowVersion);
+                sb.Length = 0;
+                sb.AppendFormat("version:{0}", XChartsMgr.Instance.nowVersion);
                 if (!string.IsNullOrEmpty(m_Target.warningInfo))
                 {
-                    var infos = m_Target.warningInfo.Split('\n');
-                    foreach (var info in infos)
-                    {
-                        EditorGUILayout.LabelField(info);
-                    }
+                    sb.AppendLine();
+                    sb.Append(XChartsMgr.Instance.nowVersion);
                 }
                 else
                 {
-                    EditorGUILayout.LabelField("Perfect! No warning!");
+                    sb.AppendLine();
+                    sb.Append("Perfect! No warning!");
                 }
+                EditorGUILayout.HelpBox(sb.ToString(), MessageType.Warning);
             }
             else
             {

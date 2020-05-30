@@ -65,7 +65,7 @@ namespace XCharts
                 }
                 bool isFinish = true;
                 if (serie.pieClickOffset) isClickOffset = true;
-                serie.runtimePieDataMax = serie.yMax;
+                serie.runtimeDataMax = serie.yMax;
                 serie.runtimePieDataTotal = serie.yTotal;
                 SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
 
@@ -105,7 +105,7 @@ namespace XCharts
                     serieData.runtimePieToAngle = startDegree + degree;
 
                     serieData.runtimePieOutsideRadius = serie.pieRoseType > 0 ?
-                        serie.runtimeInsideRadius + (serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimePieDataMax :
+                        serie.runtimeInsideRadius + (serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimeDataMax :
                         serie.runtimeOutsideRadius;
                     if (serieData.highlighted)
                     {

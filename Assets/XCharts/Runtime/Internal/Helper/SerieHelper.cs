@@ -258,5 +258,53 @@ namespace XCharts
             serie.runtimeInsideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
             serie.runtimeOutsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
         }
+
+        /// <summary>
+        /// 获得指定维数的最大最小值
+        /// </summary>
+        /// <param name="dimension"></param>
+        /// <param name="dataZoom"></param>
+        /// <returns></returns>
+        public static void GetDimensionMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)
+        {
+            var dataList = serie.GetDataList(dataZoom);
+            float max = float.MinValue;
+            float min = float.MaxValue;
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value > max) max = value;
+                    if (value < min) min = value;
+                }
+            }
+            serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+            serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+        }
+
+        public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)
+        {
+            var dataList = serie.GetDataList(dataZoom);
+            float max = float.MinValue;
+            float min = float.MaxValue;
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show)
+                {
+                    var count = serie.showDataDimension > serieData.data.Count ? serieData.data.Count : serie.showDataDimension;
+                    for (int j = 0; j < count; j++)
+                    {
+                        var value = serieData.data[j];
+                        if (value > max) max = value;
+                        if (value < min) min = value;
+                    }
+                }
+            }
+            serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+            serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+        }
     }
 }

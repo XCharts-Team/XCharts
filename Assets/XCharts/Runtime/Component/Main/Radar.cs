@@ -205,11 +205,11 @@ namespace XCharts
                     m_SplitNumber = 5,
                     m_Indicator = true,
                     m_IndicatorList = new List<Indicator>(5){
-                        new Indicator(){name="indicator1",max = 100},
-                        new Indicator(){name="indicator2",max = 100},
-                        new Indicator(){name="indicator3",max = 100},
-                        new Indicator(){name="indicator4",max = 100},
-                        new Indicator(){name="indicator5",max = 100},
+                        new Indicator(){name="indicator1",max = 0},
+                        new Indicator(){name="indicator2",max = 0},
+                        new Indicator(){name="indicator3",max = 0},
+                        new Indicator(){name="indicator4",max = 0},
+                        new Indicator(){name="indicator5",max = 0},
                     }
                 };
                 radar.center[0] = 0.5f;

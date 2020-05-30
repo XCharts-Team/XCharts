@@ -871,9 +871,13 @@ namespace XCharts
         /// </summary>
         public float runtimeOutsideRadius { get; internal set; }
         /// <summary>
-        /// 饼图的数据项最大值
+        /// 运行时的最大数据值
         /// </summary>
-        public float runtimePieDataMax { get; internal set; }
+        public float runtimeDataMax { get; internal set; }
+        /// <summary>
+        /// 运行时的最小数据值
+        /// </summary>
+        public float runtimeDataMin { get; internal set; }
         /// <summary>
         /// 饼图的数据项之和
         /// </summary>
@@ -1312,31 +1316,6 @@ namespace XCharts
             {
                 return m_Data;
             }
-        }
-
-        /// <summary>
-        /// 获得指定维数的最大最小值
-        /// </summary>
-        /// <param name="dimension"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public void GetMinMaxData(int dimension, out float minValue, out float maxValue, DataZoom dataZoom = null)
-        {
-            var dataList = GetDataList(dataZoom);
-            float max = float.MinValue;
-            float min = float.MaxValue;
-            for (int i = 0; i < dataList.Count; i++)
-            {
-                var serieData = dataList[i];
-                if (serieData.data.Count > dimension)
-                {
-                    var value = serieData.data[dimension];
-                    if (value > max) max = value;
-                    if (value < min) min = value;
-                }
-            }
-            maxValue = max;
-            minValue = min;
         }
 
         private List<SerieData> emptyFilter = new List<SerieData>();

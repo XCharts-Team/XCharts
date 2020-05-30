@@ -446,7 +446,7 @@ namespace XCharts
                 var xWid = dataWid - 4;
                 for (int i = 0; i < dimension; i++)
                 {
-                    while (i >= data.arraySize - 1)
+                    while (i > data.arraySize - 1)
                     {
                         data.InsertArrayElementAtIndex(data.arraySize);
                     }

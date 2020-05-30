@@ -101,6 +101,7 @@ namespace XCharts
         /// 警告信息。
         /// </summary>
         public string warningInfo { get; protected set; }
+        public bool isControlledByLayout { get { return m_IsControlledByLayout; } }
         /// <summary>
         /// 强制开启鼠标事件检测。
         /// </summary>
@@ -733,7 +734,7 @@ namespace XCharts
         /// <returns></returns>
         public bool CanShowBackgroundComponent()
         {
-            return !m_IsControlledByLayout;
+            return !m_IsControlledByLayout && m_Background.runtimeActive;
         }
 
         /// <summary>
@@ -744,7 +745,9 @@ namespace XCharts
         {
             if (flag && !CanShowBackgroundComponent())
             {
-                Debug.LogError("can't show background component:chart is controlled by LayoutGroup.");
+                var msg = "The background component cannot be activated because chart is controlled by LayoutGroup,"
+                + " or its parent have more than one child.";
+                Debug.LogError(msg);
                 return;
             }
             m_Background.show = flag;

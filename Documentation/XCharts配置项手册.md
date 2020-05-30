@@ -346,13 +346,14 @@
 ## `Background`
 
 背景组件。
-由于框架的局限性，背景组件在`chart`受上层布局控制时不适用。因为背景组件节点和`chart`节点是同一级的。
-自动布局下的一种解决方案是，可以将`chart`节点再包一层`parent`。
-背景组件的开启需要通过接口来开启：`BaseChart.EnableBackground(bool flag)`
+由于框架的局限性，背景组件使用有以下两个限制：
+1：`chart`的父节点不能有布局控制类组件。
+2：`chart`的父节点只能有当前`chart`一个子节点。
+背景组件的开启需要通过接口来开启：`BaseChart.EnableBackground(bool flag)`。
 
 相关参数：
 
-* `show`：是否显示启用背景组件。注意背景组件在`chart`受上层布局控制时不适用。
+* `show`：是否显示启用背景组件。但能否激活背景组件还要受其他条件限制。
 * `image`：背景图。
 * `imageType`：背景图填充类型。
 * `imageColor`背景图颜色。默认`white`。

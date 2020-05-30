@@ -112,6 +112,21 @@ namespace XCharts
             }
         }
 
+        public static void DestoryGameObject(Transform parent, string childName)
+        {
+            if (parent == null) return;
+            var go = parent.Find(childName);
+            if (go != null)
+            {
+                GameObject.DestroyImmediate(go.gameObject);
+            }
+        }
+
+        public static void DestoryGameObject(GameObject go)
+        {
+            if (go != null) GameObject.DestroyImmediate(go);
+        }
+
         public static string GetFullName(Transform transform)
         {
             string name = transform.name;

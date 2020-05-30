@@ -14,9 +14,9 @@ namespace XCharts
 {
     /// <summary>
     /// 背景组件。
-    /// 由于框架的局限性，背景组件在chart受上层布局控制时不适用。因为背景组件节点和chart节点是同一级的。
-    /// 自动布局下的一种解决方案是，可以将chart节点再包一层parent。
-    /// 要处理这个问题底层框架要大改了，目前暂时不打算改。
+    /// 由于框架的局限性，背景组件使用有以下两个限制：
+    /// 1：chart的父节点不能有布局控制类组件。
+    /// 2：chart的父节点只能有当前chart一个子节点。
     /// 背景组件的开启需要通过接口来开启：BaseChart.EnableBackground(bool flag)
     /// </summary>
     [Serializable]
@@ -33,7 +33,7 @@ namespace XCharts
         [SerializeField] private bool m_HideThemeBackgroundColor = true;
 
         /// <summary>
-        /// 是否启用背景组件。注意背景组件在chart受上层布局控制时不适用。
+        /// 是否启用背景组件。但能否激活背景组件还要受其他条件限制。
         /// </summary>
         public bool show
         {
@@ -111,6 +111,11 @@ namespace XCharts
             get { return m_HideThemeBackgroundColor; }
             set { if (PropertyUtility.SetStruct(ref m_HideThemeBackgroundColor, value)) SetVerticesDirty(); }
         }
+
+        /// <summary>
+        /// 是否已激活
+        /// </summary>
+        public bool runtimeActive{get;internal set;}
 
         public static Background defaultBackground
         {

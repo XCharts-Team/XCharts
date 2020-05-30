@@ -156,9 +156,8 @@ namespace XCharts
                 var cp2 = new Vector3(m_CoordinateX - yLineDiff, cpty);
                 var cp3 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, cpty);
                 var cp4 = new Vector3(m_CoordinateX + m_CoordinateWidth + xSplitDiff, m_CoordinateY - xLineDiff);
-                var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
+                var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
                 ChartDrawer.DrawPolygon(vh, cp1, cp2, cp3, cp4, backgroundColor);
-
             }
             else
             {
@@ -173,7 +172,7 @@ namespace XCharts
             var yLineDiff = yAxis0.axisLine.width;
             var xSplitDiff = xAxis0.splitLine.lineStyle.width;
             var ySplitDiff = yAxis0.splitLine.lineStyle.width;
-            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background, m_IsControlledByLayout);
+            var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
             var lp1 = new Vector3(m_ChartX, m_ChartY);
             var lp2 = new Vector3(m_ChartX, m_ChartY + chartHeight);
             var lp3 = new Vector3(m_CoordinateX - yLineDiff, m_ChartY + chartHeight);

@@ -560,6 +560,8 @@
 * `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
 * `roundCap`：是否启用圆弧效果。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。

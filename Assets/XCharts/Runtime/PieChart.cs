@@ -201,7 +201,7 @@ namespace XCharts
                     foreach (var serieData in serie.data)
                     {
                         var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (serieLabel.show && serieData.canShowLabel)
+                        if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                         {
                             int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
                             Color color = m_ThemeInfo.GetColor(colorIndex);
@@ -221,7 +221,7 @@ namespace XCharts
                     foreach (var serieData in serie.data)
                     {
                         var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (serieLabel.show && serieData.canShowLabel)
+                        if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                         {
                             UpdateLabelPostion(serie, serieData);
                             DrawLabelBackground(vh, serie, serieData);
@@ -342,7 +342,7 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
-                    if (!serieData.canShowLabel)
+                    if (!serieData.canShowLabel || serie.IsIgnoreValue(serieData.GetData(1)))
                     {
                         serieData.SetLabelActive(false);
                         continue;

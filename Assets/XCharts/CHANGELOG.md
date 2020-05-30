@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.05.30) 优化`PieChart`支持设置`ignoreValue`不显示指定数据
+* (2020.05.30) 修复`RadarChart`为`Circle`时不绘制`SplitArea`的问题
 * (2020.05.30) 优化`RadarChart`在设置`max`为`0`时可自动刷新最大值
 * (2020.05.29) 修复`PieChart`设置`space`时只有一个数据时绘制异常的问题
 * (2020.05.27) 修复调用`UpdateDataName()`接口时不会自动刷新的问题

@@ -249,6 +249,7 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            SerieHelper.GetAllMinMaxData(serie);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -292,14 +293,12 @@ namespace XCharts
                 for (int n = 0; n < dataCount; n++)
                 {
                     if (n >= serieData.data.Count) break;
-                    float min = radar.GetIndicatorMin(n);
                     float max = radar.GetIndicatorMax(n);
                     float value = serieData.GetCurrData(n, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
-                        serie.GetMinMaxData(n, out min, out max);
-                        min = radar.GetIndicatorMin(n);
+                        max = serie.runtimeDataMax;
                     }
                     var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
                     : radar.runtimeDataRadius * value / max;
@@ -391,6 +390,7 @@ namespace XCharts
             var pointList = radar.runtimeDataPosList[key];
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
+            SerieHelper.GetDimensionMinMaxData(serie, 1);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -425,14 +425,12 @@ namespace XCharts
                 int dataCount = radar.indicatorList.Count;
                 var index = serieData.index;
                 var p = radar.runtimeCenterPos;
-                var min = radar.GetIndicatorMin(index);
                 var max = radar.GetIndicatorMax(index);
                 var value = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {
-                    serie.GetMinMaxData(index, out min, out max);
-                    min = radar.GetIndicatorMin(index);
+                    max = serie.runtimeDataMax;
                 }
                 var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
                 : radar.runtimeDataRadius * value / max;

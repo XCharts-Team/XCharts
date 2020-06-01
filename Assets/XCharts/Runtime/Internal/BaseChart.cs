@@ -258,6 +258,7 @@ namespace XCharts
 
         private void InitBackground()
         {
+            if (!transform.parent) return;
             int childCount = transform.parent.childCount;
             if (childCount > 2) m_Background.runtimeActive = false;
             else if (childCount == 1) m_Background.runtimeActive = true;

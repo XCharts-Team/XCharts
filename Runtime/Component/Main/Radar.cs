@@ -89,6 +89,7 @@ namespace XCharts
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
         [SerializeField] private float m_IndicatorGap = 10;
+        [SerializeField] protected int m_CeilRate = 0;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -162,6 +163,14 @@ namespace XCharts
         {
             get { return m_IndicatorGap; }
             set { if (PropertyUtility.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 最大最小值向上取整的倍率。默认为0时自动计算。
+        /// </summary>
+        public int ceilRate
+        {
+            get { return m_CeilRate; }
+            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
         /// /// 显示位置类型。

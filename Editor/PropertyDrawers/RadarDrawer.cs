@@ -23,6 +23,7 @@ namespace XCharts
         SerializedProperty m_SplitArea;
         SerializedProperty m_Indicator;
         SerializedProperty m_IndicatorGap;
+        SerializedProperty m_CeilRate;
         SerializedProperty m_IndicatorList;
 
         private Dictionary<string, bool> m_RadarModuleToggle = new Dictionary<string, bool>();
@@ -43,6 +44,7 @@ namespace XCharts
             m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
             m_Indicator = prop.FindPropertyRelative("m_Indicator");
             m_IndicatorGap = prop.FindPropertyRelative("m_IndicatorGap");
+            m_CeilRate = prop.FindPropertyRelative("m_CeilRate");
             m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
         }
 
@@ -84,6 +86,8 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_CeilRate);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 EditorGUI.PropertyField(drawRect, m_SplitLine);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_SplitLine);
@@ -109,7 +113,7 @@ namespace XCharts
             int propNum = 1;
             if (ChartEditorHelper.IsToggle(m_RadarModuleToggle, prop))
             {
-                propNum += 7;
+                propNum += 8;
                 if (m_IndicatorJsonAreaToggle) propNum += 4;
                 float height = propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitLine"));

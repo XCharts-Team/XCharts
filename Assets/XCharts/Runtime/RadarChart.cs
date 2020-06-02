@@ -249,7 +249,7 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            SerieHelper.GetAllMinMaxData(serie);
+            SerieHelper.GetAllMinMaxData(serie, radar.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -390,7 +390,7 @@ namespace XCharts
             var pointList = radar.runtimeDataPosList[key];
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
-            SerieHelper.GetDimensionMinMaxData(serie, 1);
+            SerieHelper.GetDimensionMinMaxData(serie, radar.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];

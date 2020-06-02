@@ -94,44 +94,47 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// 提示框总内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
-        /// 模板变量有 {a}, {b}，{c}，{d}，{i}，分别表示系列名，数据名，数据值等。{a0},{b1},{c1}等可指定serie。
+        /// 提示框总内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}。
         /// {.}表示带动态颜色的圆点。
-        /// {c1:0}、{c1:1}表示索引为1的serie的数据项的第0、第1个数据。
-        /// 其它变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
-        /// <list type="bullet">
-        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
-        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
-        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
-        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
-        /// </list>
-        /// 示例："{a}:{c}","{a1}:{c1:f1}"
+        /// {a}为系列名serie的name。
+        /// {b}为数据项名serieData的name，或者类目值（如折线图的X轴）。
+        /// {c}为数值。
+        /// {d}为百分比值，注意不带%号。
+        /// {a1}、{b1}、{c1}表示指定index为1的serie，{a}默认index为0的serie。
+        /// {c1:2}表示索引为1的serie的数据项的第3个数据（index为2）。
+        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据。
+        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
+        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:1f1}"
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
-        /// 提示框标题内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。仅当itemFormatter生效时才有效。
-        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
-        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
-        /// <list type="bullet">
-        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
-        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
-        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
-        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
-        /// </list>
-        /// 示例："{a}:{c}","{a1}:{c1:f1}"
+        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。仅当itemFormatter生效时才有效。
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}。
+        /// {.}表示带动态颜色的圆点。
+        /// {a}为系列名serie的name。
+        /// {b}为数据项名serieData的name，或者类目值（如折线图的X轴）。
+        /// {c}为数值。
+        /// {d}为百分比值，注意不带%号。
+        /// {a1}、{b1}、{c1}表示指定index为1的serie，{a}默认index为0的serie。
+        /// {c1:2}表示索引为1的serie的数据项的第3个数据（index为2）。
+        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据。
+        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
+        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:1f1}"
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
-        /// 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
-        /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。
-        /// 其中变量{a}, {b}, {c}, {d}在不同图表类型下代表数据含义为：
-        /// <list type="bullet">
-        /// <item><description>折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）。</description></item>
-        /// <item><description>散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）。</description></item>
-        /// <item><description>地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）。</description></item>
-        /// <item><description>饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）。</description></item>
-        /// </list>
-        /// 示例："{a}:{c}","{a}:{c:f1}"
+        /// 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}。
+        /// {.}表示带动态颜色的圆点。
+        /// {a}为系列名serie的name。
+        /// {b}为数据项名serieData的name，或者类目值（如折线图的X轴）。
+        /// {c}为数值。
+        /// {d}为百分比值，注意不带%号。
+        /// {c:2}表示索引为1的serie的数据项的第3个数据（index为2）。
+        /// {c:2-2}表示索引为1的serie的第3个数据项的第3个数据。
+        /// {d:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
+        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:1f1}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
 

@@ -148,6 +148,8 @@
   * `Between`：显示在顶点之间。
 * `radius`：雷达图的半径。
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+* `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
+* `splitNumber`：分割段数。默认为 `5`。
 * `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
@@ -190,7 +192,7 @@
   * `Line`：线性指示器。
   * `Shadow`：阴影指示器。
   * `None`：无指示器。
-  * `Corss`：十字准星指示器。坐标轴显示Label和交叉线。
+  * `Corss`：十字准星指示器。坐标轴显示`Label`和交叉线。
 * `formatter`：提示框内容字符串模版格式器。支持用 `\n` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
   * 模板变量有`{.}`、`{a}`、`{b}`、`{c}`、`{d}`。
   * `{.}`表示带动态颜色的圆点。
@@ -255,7 +257,7 @@
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
 
 * `enable`：开启或关闭视觉映射功能。
-* `show`：是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
+* `show`：是否显示组件。如果设置为 `false`，不会显示，但是数据映射的功能还存在。
 * `type`：组件类型。支持以下类型：
   * `Continuous`：连续型。
   * ~~`Piecewise`：分段型。~~
@@ -282,7 +284,7 @@
 
 ## `Grid`
 
-网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图（气泡图）。目前最多只能存在一个 `grid` 组件。
+网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图。目前最多只能存在一个 `grid` 组件。
 
 相关参数：
 
@@ -301,14 +303,14 @@
 * `splitLine`：坐标轴分割线样式。
 * `axisTick`：坐标轴刻度样式。
 * `axisLabel`：坐标轴刻度标签样式。
-* `axisLabelText`：坐标轴刻度标签自定义内容。当内容为空时，axisLabel根据刻度自动显示内容，否则取自该列表定义的内容。
+* `axisLabelText`：坐标轴刻度标签自定义内容。当内容为空时，`axisLabel`根据刻度自动显示内容，否则取自该列表定义的内容。
 
 ## `GaugePointer`
 
 仪表盘指针。
 
 * `width`：指针宽度。
-* `length`：指针长度。当为0-1的浮点数时表示相对仪表盘半径的百分比。
+* `length`：指针长度。当为`0-1`的浮点数时表示相对仪表盘半径的百分比。
 
 ## `XAxis`
 
@@ -333,7 +335,7 @@
 * `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
 * `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置该值时 `splitNumber` 无效。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
-* `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `maxCache`：类目数据中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `inverse`：是否反向坐标轴。只在数值轴`Value`中有效。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
 * `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
@@ -565,7 +567,7 @@
   * `Radius`：扇区圆心角展现数据的百分比，半径展现数据的大小。
   * `Area`：所有扇区圆心角相同，仅通过半径展现数据大小。
 * `space`：扇区间隙。
-* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `center`：中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
 * `roundCap`：是否启用圆弧效果。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
@@ -583,8 +585,8 @@
 * `type`：`Radar`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `radarType`：雷达图类型`RadarType`，支持以下类型：
-  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
-  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个`serieData`就可组成一个圈（多维数据）。
+  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个`serieData`组成一个圈，数据取自`data[1]`。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
@@ -616,7 +618,7 @@
 * `type`：`Scatter`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
-* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `ignoreValue`：忽略数据的默认值。默认值默认为`0`，当 `ignore` 为 `true` 才有效。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -634,10 +636,10 @@
   * `ProgressBar`：进度条类型。
 * `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
 * `radius`：仪表盘半径。
-* `min`：最小的数据值。映射到startAngle。
-* `max`：最大的数据值。映射到endAngle。
-* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
-* `endAngle`：仪表盘结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `min`：最小的数据值。映射到`startAngle`。
+* `max`：最大的数据值。映射到`endAngle`。
+* `startAngle`：仪表盘起始角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
+* `endAngle`：仪表盘结束角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
 * `splitNumber`：仪表盘刻度分割段数。
 * `roundCap`：是否启用圆弧效果。
 * `titleStyle`：仪表盘标题 [TitleStyle](#TitleStyle)。
@@ -656,9 +658,9 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Ring`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `center`：中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`：仪表盘半径。
-* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `startAngle`：仪表盘起始角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
 * `ringGap`：环形图的环间隙。
 * `roundCap`：是否启用圆弧效果。
 * `clockwise`：是否顺时针，默认为`true`。
@@ -699,29 +701,29 @@
 * `toColor`：区域填充的渐变色的终点颜色。
 * `highlightColor`：高亮时区域填充的颜色，默认取 `serie` 对应的颜色。如果 `highlightToColor` 不是默认值，则表示渐变色的起点颜色。
 * `highlightToColor`：高亮时区域填充的渐变色的终点颜色。
-* `opacity`：图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `opacity`：图形透明度。支持从 `0` 到 `1` 的数字，为 `0` 时不绘制该图形。
 * `tooltipHighlight`：鼠标悬浮时是否高亮之前的区域。
 
 ## `AxisLabel`
 
 * `show`：是否显示刻度标签。
-* `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `inside`：刻度标签是否朝内，默认朝外。
 * `rotate`：刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
 * `margin`：刻度标签与轴线之间的距离。
-* `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
+* `color`：刻度标签文字的颜色，默认取主题`Theme`的`axisTextColor`。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
-* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，数值格式化通过`numericFormatter`。
+* `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{value}`，数值格式化通过`numericFormatter`。
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
-* `onZero`：刻度标签显示在0刻度上。
+* `onZero`：刻度标签显示在`0`刻度上。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 
 ## `AxisLine`
 
 * `show`：是否显示坐标轴轴线。
-* `onZero`：X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
+* `onZero`： `X` 轴或者 `Y` 轴的轴线是否在另一个轴的 `0` 刻度上，只有在另一个轴为数值轴且包含 `0` 刻度时有效。
 * `width`：坐标轴线线宽。
 * `symbol`：是否显示箭头。
 * `symbolWidth`：箭头宽。
@@ -746,7 +748,7 @@
 ## `AxisSplitLine`
 
 * `show`：是否显示坐标分割线。
-* `interval`：分割线的显示间隔。0表示显示所有分割线，1表示隔一个隔显示一个分割线，以此类推。
+* `interval`：分割线的显示间隔。`0` 表示显示所有分割线，`1` 表示隔一个隔显示一个分割线，以此类推。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 
 ## `AxisSplitArea`
@@ -757,7 +759,7 @@
 ## `AxisTick`
 
 * `show`：是否显示坐标轴刻度。
-* `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
+* `alignWithLabel`：类目轴中在 `boundaryGap` 为 `true` 的时候有效，可以保证刻度线和标签对齐。
 * `inside`：坐标轴刻度是否朝内，默认朝外。
 * `length`：坐标轴刻度的长度。
 * `width`：坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
@@ -807,7 +809,7 @@
   * `DashDotDot`：双点划线。
 * `color`：线条颜色。默认和 `serie` 一致。
 * `width`：线条宽。
-* `opacity`：线条的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `opacity`：线条的透明度。支持从 `0` 到 `1` 的数字，为 `0` 时不绘制该图形。
 
 ## `Location`
 
@@ -896,7 +898,7 @@
 * `color`：标记图形的颜色，默认和系列一致。
 * `opacity`：图形标记的透明度。
 * `startIndex`：开始显示图形标记的索引。
-* `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `interval`：显示图形标记的间隔。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  

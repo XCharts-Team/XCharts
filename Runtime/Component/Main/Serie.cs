@@ -1197,6 +1197,32 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 获得指定index指定维数的数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="dimension"></param>
+        /// <param name="dataZoom"></param>
+        /// <returns></returns>
+        public float GetData(int index, int dimension, DataZoom dataZoom = null)
+        {
+            if (index < 0 || dimension < 0) return 0;
+            var serieData = GetSerieData(index, dataZoom);
+            if (serieData != null && dimension < serieData.data.Count)
+            {
+                var value = serieData.GetData(dimension);
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
         /// 获得维度Y索引对应的数据
         /// </summary>
         /// <param name="index"></param>

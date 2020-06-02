@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.06.02) 优化`Tooltip`的`formatter`，支持`{c1:1-1:f1}`格式配置
 * (2020.05.31) 优化`Background`组件的生效条件，需要有单独的父节点（升级前需要自己处理旧的背景节点）
 * (2020.05.30) 优化`PieChart`支持设置`ignoreValue`不显示指定数据
 * (2020.05.30) 修复`RadarChart`为`Circle`时不绘制`SplitArea`的问题

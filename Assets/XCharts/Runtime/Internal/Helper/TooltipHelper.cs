@@ -313,11 +313,14 @@ namespace XCharts
                 }
                 if (p == '.')
                 {
-                    if (argsCount == 1)
+                    var bIndex = targetIndex;
+                    if (argsCount >= 2)
                     {
-                        content = content.Replace(old, ChartCached.ColorToDotStr(themeInfo.GetColor(targetIndex)));
-                        foundDot = true;
+                        var args1Str = args[1].ToString();
+                        if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
+                    content = content.Replace(old, ChartCached.ColorToDotStr(themeInfo.GetColor(bIndex)));
+                    foundDot = true;
                 }
                 else if (p == 'a' || p == 'A')
                 {

@@ -390,7 +390,7 @@ namespace XCharts
             var pointList = radar.runtimeDataPosList[key];
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
-            SerieHelper.GetDimensionMinMaxData(serie, radar.ceilRate);
+            SerieHelper.GetDimensionMinMaxData(serie, 1, radar.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];

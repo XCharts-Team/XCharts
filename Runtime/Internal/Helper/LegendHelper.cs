@@ -71,102 +71,150 @@ namespace XCharts
             return item;
         }
 
-        public static void ResetItemPosition(Legend legend)
+        public static void ResetItemPosition(Legend legend, float chartWidth, float chartHeight)
         {
             var startX = 0f;
+            var startY = 0f;
+            var offsetX = 0f;
             var currWidth = 0f;
             var currHeight = 0f;
-
+            var legendWidth = chartWidth - legend.location.left - legend.location.right;
+            var legendHeight = chartHeight - legend.location.top - legend.location.bottom;
+            var legendRuntimeWidth = legend.runtimeWidth;
+            var legendRuntimeHeight = legend.runtimeHeight;
             switch (legend.orient)
             {
                 case Orient.Vertical:
                     switch (legend.location.align)
                     {
                         case Location.Align.TopCenter:
-                            startX = legend.runtimeWidth / 2;
-                            currHeight = 0f;
+                            startX = legendRuntimeWidth / 2;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(-startX + item.width / 2, -currHeight));
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(-startX + item.width / 2 + offsetX, -currHeight));
                                 currHeight += item.height + legend.itemGap;
                             }
                             break;
                         case Location.Align.TopLeft:
-                            currHeight = 0f;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(0, -currHeight));
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(0 + offsetX, -currHeight));
                                 currHeight += item.height + legend.itemGap;
                             }
                             break;
-
                         case Location.Align.TopRight:
-                            currHeight = 0f;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(item.width - legend.runtimeWidth, -currHeight));
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX -= legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(item.width - legendRuntimeWidth + offsetX, -currHeight));
                                 currHeight += item.height + legend.itemGap;
                             }
                             break;
 
                         case Location.Align.Center:
-                            startX = legend.runtimeWidth / 2;
-                            currHeight = legend.runtimeHeight;
+                            startX = legendRuntimeWidth / 2;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight / 2 : legendRuntimeHeight / 2;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(-startX + item.width / 2, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(-startX + item.width / 2 + offsetX, startY - currHeight));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
                         case Location.Align.CenterLeft:
-                            currHeight = legend.runtimeHeight;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight / 2 : legendRuntimeHeight / 2;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(0, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(offsetX, startY - currHeight - item.height));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
                         case Location.Align.CenterRight:
-                            currHeight = legend.runtimeHeight;
+                            startX = 0;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight / 2 : legendRuntimeHeight / 2;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(item.width - legend.runtimeWidth, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX -= legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(item.width - legendRuntimeWidth + offsetX, startY - currHeight - item.height));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
                         case Location.Align.BottomCenter:
-                            startX = legend.runtimeWidth / 2;
-                            currHeight = legend.runtimeHeight;
+                            startX = legendRuntimeWidth / 2;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight : legendRuntimeHeight;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(-startX + item.width / 2, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(-startX + item.width / 2 + offsetX, startY - currHeight - item.height));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
-
                         case Location.Align.BottomLeft:
-                            currHeight = legend.runtimeHeight;
+                            startX = 0;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight : legendRuntimeHeight;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(0, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX += legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(startX + offsetX, startY - currHeight - item.height));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
                         case Location.Align.BottomRight:
-                            currHeight = legend.runtimeHeight;
+                            startX = 0;
+                            startY = legendRuntimeHeight > legendHeight ? legendHeight : legendRuntimeHeight;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(item.width - legend.runtimeWidth, currHeight - item.height));
-                                currHeight -= item.height + legend.itemGap;
+                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                {
+                                    currHeight = 0;
+                                    offsetX -= legendRuntimeWidth + legend.itemGap;
+                                }
+                                item.SetPosition(new Vector3(item.width - legendRuntimeWidth + offsetX, startY - currHeight - item.height));
+                                currHeight += item.height + legend.itemGap;
                             }
                             break;
                     }
@@ -177,41 +225,71 @@ namespace XCharts
                         case Location.Align.TopLeft:
                         case Location.Align.CenterLeft:
                         case Location.Align.BottomLeft:
-                            currWidth = 0f;
+                            var isBottom = legend.location.align == Location.Align.BottomLeft;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(currWidth, 0));
+                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                {
+                                    currWidth = 0f;
+                                    if (isBottom) currHeight += legend.itemGap + item.height;
+                                    else currHeight -= legend.itemGap + item.height;
+                                }
+                                item.SetPosition(new Vector3(currWidth, currHeight));
                                 currWidth += item.width + legend.itemGap;
                             }
                             break;
                         case Location.Align.TopCenter:
                         case Location.Align.Center:
                         case Location.Align.BottomCenter:
-                            startX = legend.runtimeWidth / 2;
-                            currWidth = 0f;
+                            isBottom = legend.location.align == Location.Align.BottomCenter;
+                            startX = legendRuntimeWidth > legendWidth ? legendWidth / 2 : legendRuntimeWidth / 2;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(-startX + item.width / 2 + currWidth, 0));
+                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                {
+                                    currWidth = 0f;
+                                    if (isBottom) currHeight += legend.itemGap + item.height;
+                                    else currHeight -= legend.itemGap + item.height;
+                                }
+                                item.SetPosition(new Vector3(-startX + item.width / 2 + currWidth, currHeight));
                                 currWidth += item.width + legend.itemGap;
                             }
                             break;
                         case Location.Align.TopRight:
                         case Location.Align.CenterRight:
                         case Location.Align.BottomRight:
-                            startX = -legend.runtimeWidth;
-                            currWidth = 0f;
+                            isBottom = legend.location.align == Location.Align.BottomRight;
+                            startX = legendRuntimeWidth > legendWidth ? -legendWidth : -legendRuntimeWidth;
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                item.SetPosition(new Vector3(startX + currWidth + item.width, 0));
+                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                {
+                                    currWidth = 0f;
+                                    if (isBottom) currHeight += legend.itemGap + item.height;
+                                    else currHeight -= legend.itemGap + item.height;
+                                }
+                                item.SetPosition(new Vector3(startX + currWidth + item.width, currHeight));
                                 currWidth += item.width + legend.itemGap;
                             }
                             break;
                     }
                     break;
             }
+        }
+
+        private static bool IsBeyondWidth(Legend legend, float maxWidth)
+        {
+            var totalWidth = 0f;
+            foreach (var kv in legend.buttonList)
+            {
+                var item = kv.Value;
+                totalWidth += item.width + legend.itemGap;
+                if (totalWidth > maxWidth) return true;
+            }
+            return false;
         }
 
         public static bool CheckDataShow(Series series, string legendName, bool show)

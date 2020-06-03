@@ -217,6 +217,7 @@
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
 * `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
+* `alwayShow`：是否触发后一直显示。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 

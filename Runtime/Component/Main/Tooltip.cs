@@ -101,9 +101,10 @@ namespace XCharts
         /// {b}为数据项名serieData的name，或者类目值（如折线图的X轴）。
         /// {c}为数值。
         /// {d}为百分比值，注意不带%号。
-        /// {a1}、{b1}、{c1}表示指定index为1的serie，{a}默认index为0的serie。
+        /// {.1}表示指定index为1的serie对应颜色的圆点。
+        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie，{a}默认index为0的serie。
         /// {c1:2}表示索引为1的serie的数据项的第3个数据（index为2）。
-        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据。
+        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（一个数据项有多个数据）。
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:1f1}"
         /// </summary>

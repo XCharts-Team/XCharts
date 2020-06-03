@@ -450,7 +450,7 @@ namespace XCharts
                     OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
                 }
             }
-            LegendHelper.ResetItemPosition(m_Legend);
+            LegendHelper.ResetItemPosition(m_Legend, m_ChartWidth, m_ChartHeight);
         }
 
         private void InitSerieLabel()

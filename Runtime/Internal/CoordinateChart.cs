@@ -1511,7 +1511,10 @@ namespace XCharts
                             content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
-                        var invert = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j) && !serie.areaStyle.show;
+                        var invert = serieLabel.autoOffset
+                            && serie.type == SerieType.Line
+                            && SerieHelper.IsDownPoint(serie, j)
+                            && !serie.areaStyle.show;
                         serieData.labelObject.SetLabelPosition(invert ? -serieLabel.offset : serieLabel.offset);
                         if (serieData.labelObject.SetText(content)) RefreshChart();
                     }

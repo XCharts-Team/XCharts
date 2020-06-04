@@ -816,7 +816,8 @@ namespace XCharts
             if (serieData == null || serieData.labelObject == null) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (!serieLabel.show) return;
-            var invert = serie.type == SerieType.Line
+            var invert = serieLabel.autoOffset 
+                && serie.type == SerieType.Line
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
             var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);

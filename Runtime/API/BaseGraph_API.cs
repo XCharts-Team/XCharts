@@ -19,27 +19,27 @@ namespace XCharts
     {
         /// <summary>
         /// The x of graph. 
-        /// 图表的X
+        /// 图形的X
         /// </summary>
         public float graphX { get { return m_GraphX; } }
         /// <summary>
         /// The y of graph. 
-        /// 图表的Y
+        /// 图形的Y
         /// </summary>
         public float graphY { get { return m_GraphY; } }
         /// <summary>
         /// The width of graph. 
-        /// 图表的宽
+        /// 图形的宽
         /// </summary>
         public float graphWidth { get { return m_GraphWidth; } }
         /// <summary>
         /// The height of graph. 
-        /// 图表的高
+        /// 图形的高
         /// </summary>
         public float graphHeight { get { return m_GraphHeight; } }
         /// <summary>
         /// The position of graph.
-        /// 图表的左下角起始坐标。
+        /// 图形的左下角起始坐标。
         /// </summary>
         public Vector3 graphPosition { get { return m_GraphPosition; } }
         public Rect graphRect { get { return m_GraphRect; } }
@@ -95,7 +95,7 @@ namespace XCharts
         public Action<BaseGraph, PointerEventData> onScroll { set { m_OnScroll = value; m_ForceOpenRaycastTarget = true; } }
 
         /// <summary>
-        /// 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）
+        /// 设置图形的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -113,7 +113,7 @@ namespace XCharts
 
         /// <summary>
         /// Redraw graph in next frame.
-        /// 在下一帧刷新图表。
+        /// 在下一帧刷新图形。
         /// </summary>
         public void RefreshGraph()
         {

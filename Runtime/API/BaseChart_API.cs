@@ -9,13 +9,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace XCharts
 {
     /// <summary>
     /// The base class of all charts.
-    /// 所有Chart的基类，不可直接使用。
+    /// 所有Chart的基类。
     /// </summary>
     public partial class BaseChart
     {
@@ -92,76 +91,19 @@ namespace XCharts
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
-        /// <summary>
-        /// The postion of pointer.
-        /// 鼠标位置
-        /// </summary>
-        public Vector2 pointerPos { get; protected set; }
-        /// <summary>
-        /// 警告信息。
-        /// </summary>
-        public string warningInfo { get; protected set; }
-        public bool isControlledByLayout { get { return m_IsControlledByLayout; } }
-        /// <summary>
-        /// 强制开启鼠标事件检测。
-        /// </summary>
-        public bool forceOpenRaycastTarget { get { return m_ForceOpenRaycastTarget; } set { m_ForceOpenRaycastTarget = value; } }
+
         /// <summary>
         /// 自定义绘制回调。
         /// </summary>
         public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawCallback = value; } }
-        /// <summary>
-        /// 鼠标点击回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onPointerClick { set { m_OnPointerClick = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标按下回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onPointerDown { set { m_OnPointerDown = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标弹起回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onPointerUp { set { m_OnPointerUp = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标进入回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onPointerEnter { set { m_OnPointerEnter = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标退出回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onPointerExit { set { m_OnPointerExit = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标开始拖拽回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onBeginDrag { set { m_OnBeginDrag = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标拖拽回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onDrag { set { m_OnDrag = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标结束拖拽回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onEndDrag { set { m_OnEndDrag = value; m_ForceOpenRaycastTarget = true; } }
-        /// <summary>
-        /// 鼠标滚动回调。
-        /// </summary>
-        public Action<BaseChart, PointerEventData> onScroll { set { m_OnScroll = value; m_ForceOpenRaycastTarget = true; } }
 
         /// <summary>
-        /// 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）
+        /// Redraw chart in next frame.
+        /// 在下一帧刷新图表。
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public virtual void SetSize(float width, float height)
+        public void RefreshChart()
         {
-            if (LayerHelper.IsFixedWidthHeight(rectTransform))
-            {
-                rectTransform.sizeDelta = new Vector2(width, height);
-            }
-            else
-            {
-                Debug.LogError("Can't set size on stretch pivot,you need to modify rectTransform by yourself.");
-            }
+            m_RefreshChart = true;
         }
 
         /// <summary>
@@ -563,17 +505,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Redraw chart in next frame.
-        /// 在下一帧刷新图表。
-        /// </summary>
-        public void RefreshChart()
-        {
-            m_RefreshChart = true;
-        }
-
-
-
-        /// <summary>
         /// 刷新文本标签Label，重新初始化，当有改动Label参数时手动调用改接口
         /// </summary>
         public void RefreshLabel()
@@ -716,16 +647,6 @@ namespace XCharts
                 if (pos.y < m_ChartY) pos.y = m_ChartY;
                 if (pos.y > m_ChartY + m_ChartHeight) pos.y = m_ChartY + m_ChartHeight;
             }
-        }
-
-        /// <summary>
-        /// 检测警告信息。
-        /// </summary>
-        /// <returns></returns>
-        public string CheckWarning()
-        {
-            warningInfo = CheckHelper.CheckChart(this);
-            return warningInfo;
         }
 
         /// <summary>

@@ -15,6 +15,13 @@ namespace XCharts
         {
             return !ChartHelper.IsClearColor(color) && color.a == 0;
         }
+
+        public static string CheckChart(BaseGraph chart)
+        {
+            if (chart is BaseChart) return CheckChart((BaseChart)chart);
+            else return string.Empty;
+        }
+
         public static string CheckChart(BaseChart chart)
         {
             var sb = ChartHelper.sb;

@@ -63,7 +63,7 @@ namespace XCharts
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
-        [SerializeField] private bool m_AlwayShow = true;
+        [SerializeField] private bool m_AlwayShow = false;
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);

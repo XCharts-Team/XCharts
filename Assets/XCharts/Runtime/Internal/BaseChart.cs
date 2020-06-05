@@ -30,9 +30,7 @@ namespace XCharts
         Vertical
     }
 
-    public partial class BaseChart : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
-        IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
-        IDragHandler, IEndDragHandler, IScrollHandler
+    public partial class BaseChart : BaseGraph
     {
         protected static readonly string s_BackgroundObjectName = "background";
         protected static readonly string s_TitleObjectName = "title";
@@ -42,10 +40,7 @@ namespace XCharts
         protected static readonly string s_SerieTitleObjectName = "serie";
 
         [SerializeField] protected string m_ChartName;
-        [SerializeField] protected float m_ChartWidth;
-        [SerializeField] protected float m_ChartHeight;
-        [SerializeField] protected float m_ChartX;
-        [SerializeField] protected float m_ChartY;
+
         [SerializeField] protected ThemeInfo m_ThemeInfo;
         [SerializeField] protected Title m_Title = Title.defaultTitle;
         [SerializeField] protected Background m_Background = Background.defaultBackground;
@@ -53,27 +48,19 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected Settings m_Settings = new Settings();
-        [SerializeField] protected bool m_DebugMode = false;
 
-        protected Action<VertexHelper> m_OnCustomDrawCallback;
-        protected Action<BaseChart, PointerEventData> m_OnPointerClick;
-        protected Action<BaseChart, PointerEventData> m_OnPointerDown;
-        protected Action<BaseChart, PointerEventData> m_OnPointerUp;
-        protected Action<BaseChart, PointerEventData> m_OnPointerEnter;
-        protected Action<BaseChart, PointerEventData> m_OnPointerExit;
-        protected Action<BaseChart, PointerEventData> m_OnBeginDrag;
-        protected Action<BaseChart, PointerEventData> m_OnDrag;
-        protected Action<BaseChart, PointerEventData> m_OnEndDrag;
-        protected Action<BaseChart, PointerEventData> m_OnScroll;
-
+        protected float m_ChartWidth;
+        protected float m_ChartHeight;
+        protected float m_ChartX;
+        protected float m_ChartY;
         protected Vector3 m_ChartPosition = Vector3.zero;
         protected Vector2 m_ChartMinAnchor;
         protected Vector2 m_ChartMaxAnchor;
         protected Vector2 m_ChartPivot;
         protected Vector2 m_ChartSizeDelta;
         protected Rect m_ChartRect = new Rect(0, 0, 0, 0);
+        protected Action<VertexHelper> m_OnCustomDrawCallback;
 
-        protected bool m_RefreshChart = false;
         protected bool m_RefreshLabel = false;
         protected bool m_ReinitLabel = false;
         protected bool m_ReinitTitle = false;
@@ -82,19 +69,12 @@ namespace XCharts
         protected List<string> m_LegendRealShowName = new List<string>();
         protected GameObject m_SerieLabelRoot;
         protected GameObject m_BackgroundRoot;
-        protected bool m_ForceOpenRaycastTarget;
-        protected bool m_IsControlledByLayout = false;
-
-        protected Vector2 chartAnchorMax { get { return m_ChartMinAnchor; } }
-        protected Vector2 chartAnchorMin { get { return m_ChartMaxAnchor; } }
-        protected Vector2 chartPivot { get { return m_ChartPivot; } }
-        protected HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
 
         private Theme m_CheckTheme = 0;
-        private Vector3 m_LastLocalPosition;
 
-        protected virtual void InitComponent()
+        protected override void InitComponent()
         {
+            base.InitComponent();
             InitBackground();
             InitTitle();
             InitLegend();
@@ -128,18 +108,16 @@ namespace XCharts
             RefreshChart();
         }
 
-        protected virtual void Update()
+        protected override void Update()
         {
-            CheckSize();
-            CheckComponent();
-            CheckPointerPos();
+            base.Update();
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
             CheckAnimation();
         }
 
-        protected virtual void CheckComponent()
+        protected override void CheckComponent()
         {
             if (m_Series.anyDirty)
             {
@@ -562,72 +540,10 @@ namespace XCharts
             return m_Legend.location.GetPosition(chartWidth, chartHeight);
         }
 
-        private void CheckSize()
+        protected override bool IsNeedCheckPointerPos()
         {
-            var currWidth = rectTransform.rect.width;
-            var currHeight = rectTransform.rect.height;
-
-            if (m_ChartWidth == 0 && m_ChartHeight == 0 && (currWidth != 0 || currHeight != 0))
-            {
-                Awake();
-            }
-
-            if (m_ChartWidth != currWidth || m_ChartHeight != currHeight ||
-                m_ChartMinAnchor != rectTransform.anchorMin || m_ChartMaxAnchor != rectTransform.anchorMax)
-            {
-                UpdateSize();
-            }
-            if (!ChartHelper.IsValueEqualsVector3(m_LastLocalPosition, transform.localPosition))
-            {
-                m_LastLocalPosition = transform.localPosition;
-                OnLocalPositionChanged();
-            }
-        }
-
-        private void UpdateSize()
-        {
-            m_ChartWidth = rectTransform.rect.width;
-            m_ChartHeight = rectTransform.rect.height;
-
-            m_ChartMaxAnchor = rectTransform.anchorMax;
-            m_ChartMinAnchor = rectTransform.anchorMin;
-            m_ChartSizeDelta = rectTransform.sizeDelta;
-            m_ReinitLabel = true;
-
-            rectTransform.pivot = LayerHelper.ResetChartPositionAndPivot(m_ChartMinAnchor, m_ChartMaxAnchor,
-               m_ChartWidth, m_ChartHeight, ref m_ChartX, ref m_ChartY);
-            m_ChartPivot = rectTransform.pivot;
-
-            m_ChartRect.x = m_ChartX;
-            m_ChartRect.y = m_ChartY;
-            m_ChartRect.width = m_ChartWidth;
-            m_ChartRect.height = m_ChartHeight;
-            m_ChartPosition.x = m_ChartX;
-            m_ChartPosition.y = m_ChartY;
-
-            OnSizeChanged();
-        }
-
-        private void CheckPointerPos()
-        {
-            if (m_ForceOpenRaycastTarget) raycastTarget = true;
-            var needCheck = (m_Tooltip.show && m_Tooltip.runtimeInited)
+            return (m_Tooltip.show && m_Tooltip.runtimeInited)
                 || raycastTarget;
-            if (needCheck)
-            {
-                if (canvas == null) return;
-                Vector2 local;
-                var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
-                if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                    Input.mousePosition, cam, out local))
-                {
-                    pointerPos = Vector2.zero;
-                }
-                else
-                {
-                    pointerPos = local;
-                }
-            }
         }
 
         private void CheckTooltip()
@@ -675,7 +591,7 @@ namespace XCharts
         {
         }
 
-        protected void CheckRefreshChart()
+        protected override void CheckRefreshChart()
         {
             if (m_RefreshChart || m_Series.vertsDirty)
             {
@@ -719,8 +635,20 @@ namespace XCharts
         {
         }
 
-        protected virtual void OnSizeChanged()
+        protected override void OnSizeChanged()
         {
+            base.OnSizeChanged();
+            m_ChartWidth = m_GraphWidth;
+            m_ChartHeight = m_GraphHeight;
+            m_ChartX = m_GraphX;
+            m_ChartY = m_GraphY;
+            m_ChartPosition = m_GraphPosition;
+            m_ChartMinAnchor = m_GraphMinAnchor;
+            m_ChartMaxAnchor = m_GraphMaxAnchor;
+            m_ChartPivot = m_GraphPivot;
+            m_ChartSizeDelta = m_GraphSizeDelta;
+            m_ChartRect = m_GraphRect;
+
             m_Background.SetAllDirty();
             m_Title.SetAllDirty();
             m_Legend.SetAllDirty();
@@ -730,7 +658,7 @@ namespace XCharts
             RefreshChart();
         }
 
-        protected virtual void OnLocalPositionChanged()
+        protected override void OnLocalPositionChanged()
         {
             m_Background.SetAllDirty();
         }
@@ -792,7 +720,7 @@ namespace XCharts
         {
         }
 
-        protected virtual void DrawBackground(VertexHelper vh)
+        protected override void DrawBackground(VertexHelper vh)
         {
             Vector3 p1 = new Vector3(chartX, chartY + chartHeight);
             Vector3 p2 = new Vector3(chartX + chartWidth, chartY + chartHeight);
@@ -816,7 +744,7 @@ namespace XCharts
             if (serieData == null || serieData.labelObject == null) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (!serieLabel.show) return;
-            var invert = serieLabel.autoOffset 
+            var invert = serieLabel.autoOffset
                 && serie.type == SerieType.Line
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
@@ -843,51 +771,6 @@ namespace XCharts
                 ChartDrawer.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
                     serieLabel.borderWidth, serieLabel.borderColor, serieLabel.rotate);
             }
-        }
-
-        public virtual void OnPointerClick(PointerEventData eventData)
-        {
-            if (m_OnPointerClick != null) m_OnPointerClick(this, eventData);
-        }
-
-        public virtual void OnPointerDown(PointerEventData eventData)
-        {
-            if (m_OnPointerDown != null) m_OnPointerDown(this, eventData);
-        }
-
-        public virtual void OnPointerUp(PointerEventData eventData)
-        {
-            if (m_OnPointerUp != null) m_OnPointerUp(this, eventData);
-        }
-
-        public virtual void OnPointerEnter(PointerEventData eventData)
-        {
-            if (m_OnPointerEnter != null) m_OnPointerEnter(this, eventData);
-        }
-
-        public virtual void OnPointerExit(PointerEventData eventData)
-        {
-            if (m_OnPointerExit != null) m_OnPointerExit(this, eventData);
-        }
-
-        public virtual void OnBeginDrag(PointerEventData eventData)
-        {
-            if (m_OnBeginDrag != null) m_OnBeginDrag(this, eventData);
-        }
-
-        public virtual void OnEndDrag(PointerEventData eventData)
-        {
-            if (m_OnEndDrag != null) m_OnEndDrag(this, eventData);
-        }
-
-        public virtual void OnDrag(PointerEventData eventData)
-        {
-            if (m_OnDrag != null) m_OnDrag(this, eventData);
-        }
-
-        public virtual void OnScroll(PointerEventData eventData)
-        {
-            if (m_OnScroll != null) m_OnScroll(this, eventData);
         }
     }
 }

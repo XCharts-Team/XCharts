@@ -1326,6 +1326,17 @@ namespace XCharts
             }
         }
 
+        public float GetDataTotal(int dimension)
+        {
+            float total = 0;
+            foreach (var sdata in data)
+            {
+                if (sdata.show)
+                    total += sdata.GetData(dimension);
+            }
+            return total;
+        }
+
         /// <summary>
         /// 获得系列的数据列表
         /// </summary>

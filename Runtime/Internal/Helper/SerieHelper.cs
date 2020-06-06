@@ -306,5 +306,21 @@ namespace XCharts
             serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
             serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
         }
+
+        public static bool IsAllZeroValue(Serie serie, int dimension = 1)
+        {
+            foreach (var serieData in serie.data)
+            {
+                if (serieData.GetData(dimension) != 0) return false;
+            }
+            return true;
+        }
+
+        public static string GetNumericFormatter(Serie serie, SerieData serieData)
+        {
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
+            else return string.Empty;
+        }
     }
 }

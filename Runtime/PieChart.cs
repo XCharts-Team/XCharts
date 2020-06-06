@@ -79,12 +79,19 @@ namespace XCharts
                 }
                 bool dataChanging = false;
                 float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+                bool isAllZeroValue = SerieHelper.IsAllZeroValue(serie, 1);
+                float zeroReplaceValue = 360f / data.Count;
+                if (isAllZeroValue)
+                {
+                    serie.runtimeDataMax = zeroReplaceValue;
+                    serie.runtimePieDataTotal = 360f;
+                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
                     var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     serieData.index = n;
-                    float value = serieData.GetCurrData(1, dataChangeDuration);
+                    float value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
@@ -152,7 +159,7 @@ namespace XCharts
                             serieData.runtimePieOutsideRadius, color, toColor, Color.clear, startDegree, drawEndDegree,
                              borderWidth, borderColor, serie.pieSpace / 2, m_Settings.cicleSmoothness, needRoundCap, serie.clockwise);
                     }
-                    else //if(n==0)
+                    else
                     {
                         var drawEndDegree = serieData.runtimePieCurrAngle;
                         var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
@@ -331,14 +338,6 @@ namespace XCharts
                 if (!serie.show) continue;
                 var data = serie.data;
 
-                int showdataCount = 0;
-                if (serie.pieRoseType == RoseType.Area)
-                {
-                    foreach (var sd in serie.data)
-                    {
-                        if (sd.show) showdataCount++;
-                    }
-                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];

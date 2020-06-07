@@ -31,6 +31,7 @@
 [QA 25：如何实现心电图类似的数据移动效果？](#如何实现心电图类似的数据移动效果)  
 [QA 26：如何使用背景组件？有什么条件限制？](#如何使用背景组件？有什么条件限制)  
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
+[QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -143,6 +144,10 @@
 ## Mesh_cannot_have_more_than_65000_vertices
 
 答：这是`UGUI`对单个`Graphic`的顶点数限制。`XCharts`是将图形绘制在单个`Graphic`上，所以也会有这个限制。解决的办法可以参考：[QA 10：可以显示超过1000以上的大数据吗？](#可以显示超过1000以上的大数据吗)  
+
+## 为什么serie里设置的参数运行后又被重置了
+
+答：检测下代码里是否调用了`RemoveData()`并重新添加`Serie`了。如果想保留`Serie`的配置可以只`ClearData()`，然后重新添加数据。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

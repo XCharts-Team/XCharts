@@ -25,69 +25,78 @@ namespace XCharts
             EditorGUI.PropertyField(drawRect, align, new GUIContent("Location"));
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             ++EditorGUI.indentLevel;
-            switch ((Location.Align)align.enumValueIndex)
-            {
-                case Location.Align.TopCenter:
-                    EditorGUI.PropertyField(drawRect, top);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.TopLeft:
-                    EditorGUI.PropertyField(drawRect, top);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, left);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.TopRight:
-                    EditorGUI.PropertyField(drawRect, top);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, right);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.BottomCenter:
-                    EditorGUI.PropertyField(drawRect, bottom);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.BottomLeft:
-                    EditorGUI.PropertyField(drawRect, bottom);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, left);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.BottomRight:
-                    EditorGUI.PropertyField(drawRect, bottom);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, right);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.Center:
-                    break;
-                case Location.Align.CenterLeft:
-                    EditorGUI.PropertyField(drawRect, left);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-                case Location.Align.CenterRight:
-                    EditorGUI.PropertyField(drawRect, right);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    break;
-            }
+            EditorGUI.PropertyField(drawRect, top);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, bottom);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, left);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(drawRect, right);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            // switch ((Location.Align)align.enumValueIndex)
+            // {
+            //     case Location.Align.TopCenter:
+            //         EditorGUI.PropertyField(drawRect, top);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.TopLeft:
+            //         EditorGUI.PropertyField(drawRect, top);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         EditorGUI.PropertyField(drawRect, left);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.TopRight:
+            //         EditorGUI.PropertyField(drawRect, top);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         EditorGUI.PropertyField(drawRect, right);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.BottomCenter:
+            //         EditorGUI.PropertyField(drawRect, bottom);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.BottomLeft:
+            //         EditorGUI.PropertyField(drawRect, bottom);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         EditorGUI.PropertyField(drawRect, left);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.BottomRight:
+            //         EditorGUI.PropertyField(drawRect, bottom);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         EditorGUI.PropertyField(drawRect, right);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.Center:
+            //         break;
+            //     case Location.Align.CenterLeft:
+            //         EditorGUI.PropertyField(drawRect, left);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            //     case Location.Align.CenterRight:
+            //         EditorGUI.PropertyField(drawRect, right);
+            //         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            //         break;
+            // }
             --EditorGUI.indentLevel;
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            SerializedProperty align = prop.FindPropertyRelative("m_Align");
-            switch ((Location.Align)align.enumValueIndex)
-            {
-                case Location.Align.Center:
-                    return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
-                case Location.Align.TopCenter:
-                case Location.Align.BottomCenter:
-                case Location.Align.CenterLeft:
-                case Location.Align.CenterRight:
-                    return 2 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
-                default:
-                    return 3 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
-            }
+            return 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+            // SerializedProperty align = prop.FindPropertyRelative("m_Align");
+            // switch ((Location.Align)align.enumValueIndex)
+            // {
+            //     case Location.Align.Center:
+            //         return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+            //     case Location.Align.TopCenter:
+            //     case Location.Align.BottomCenter:
+            //     case Location.Align.CenterLeft:
+            //     case Location.Align.CenterRight:
+            //         return 2 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+            //     default:
+            //         return 3 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
+            // }
         }
     }
 }

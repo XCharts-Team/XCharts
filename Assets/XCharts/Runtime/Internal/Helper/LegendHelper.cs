@@ -92,7 +92,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -105,7 +105,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -118,7 +118,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX -= legendRuntimeWidth + legend.itemGap;
@@ -134,7 +134,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -148,7 +148,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -163,7 +163,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX -= legendRuntimeWidth + legend.itemGap;
@@ -178,7 +178,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -193,7 +193,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX += legendRuntimeWidth + legend.itemGap;
@@ -208,7 +208,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currHeight + item.height + legend.itemGap > legendHeight)
+                                if (currHeight + item.height > legendHeight)
                                 {
                                     currHeight = 0;
                                     offsetX -= legendRuntimeWidth + legend.itemGap;
@@ -229,7 +229,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                if (currWidth + item.width > legendWidth)
                                 {
                                     currWidth = 0f;
                                     if (isBottom) currHeight += legend.itemGap + item.height;
@@ -247,7 +247,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                if (currWidth + item.width > legendWidth)
                                 {
                                     currWidth = 0f;
                                     if (isBottom) currHeight += legend.itemGap + item.height;
@@ -265,7 +265,7 @@ namespace XCharts
                             foreach (var kv in legend.buttonList)
                             {
                                 var item = kv.Value;
-                                if (currWidth + item.width + legend.itemGap >= legendWidth)
+                                if (currWidth + item.width > legendWidth)
                                 {
                                     currWidth = 0f;
                                     if (isBottom) currHeight += legend.itemGap + item.height;

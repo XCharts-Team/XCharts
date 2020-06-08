@@ -686,9 +686,10 @@
 
 * `enable`：是否开启动画系统。
 * ~~`threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。~~
-* `fadeInDelay`：设定的渐入动画延时，单位毫秒。
-* `fadeInDuration`：设定的渐入动画时长，单位毫秒。
-* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。
+* `fadeInDelay`：设定的渐入动画延时，单位毫秒。如果要设置单个数据项的延时，可以用代码定制：`customFadeInDelay`。
+* `fadeInDuration`：设定的渐入动画时长，单位毫秒。如果要设置单个数据项的渐入时长，可以用代码定制：`customFadeInDuration`。
+* `fadeOutDelay`：设定的渐出动画延时，单位毫秒。如果要设置单个数据项的延时，可以用代码定制：`customFadeOutDelay`。
+* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。如果要设置单个数据项的渐出时长，可以用代码定制：`customFadeOutDuration`。
 * `dataChangeEnable`：是否开启数据变更动画。
 * `dataChangeDuration`：数据变更动画时长，单位毫秒。
 

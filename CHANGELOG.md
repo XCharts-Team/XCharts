@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数
 * (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果
 * (2020.06.04) 增加`SerieLabel`的`autoOffset`参数设置是否自动判断上下偏移
 * (2020.06.04) 增加`Tooltip`的`alwayShow`参数设置触发后一直显示

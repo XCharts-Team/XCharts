@@ -30,6 +30,7 @@ namespace XCharts
             SerializedProperty m_FadeInDelay = prop.FindPropertyRelative("m_FadeInDelay");
             SerializedProperty m_Threshold = prop.FindPropertyRelative("m_Threshold");
             SerializedProperty m_ActualDuration = prop.FindPropertyRelative("m_ActualDuration");
+            SerializedProperty m_FadeOutDelay = prop.FindPropertyRelative("m_FadeOutDelay");
             // SerializedProperty m_CurrDetailProgress = prop.FindPropertyRelative("m_CurrDetailProgress");
             // SerializedProperty m_DestDetailProgress = prop.FindPropertyRelative("m_DestDetailProgress");
 
@@ -40,14 +41,17 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 //EditorGUI.PropertyField(drawRect, m_Easting);
                 //drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Threshold);
-                if (m_Threshold.intValue < 0) m_Threshold.intValue = 0;
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                // EditorGUI.PropertyField(drawRect, m_Threshold);
+                // if (m_Threshold.intValue < 0) m_Threshold.intValue = 0;
+                // drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FadeInDelay);
                 if (m_FadeInDelay.floatValue < 0) m_FadeInDelay.floatValue = 0;
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FadeInDuration);
                 if (m_FadeInDuration.floatValue < 0) m_FadeInDuration.floatValue = 0;
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_FadeOutDelay);
+                if (m_FadeOutDelay.floatValue < 0) m_FadeOutDelay.floatValue = 0;
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_FadeOutDuration);
                 if (m_FadeOutDuration.floatValue < 0) m_FadeOutDuration.floatValue = 0;

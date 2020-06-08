@@ -1,5 +1,4 @@
-﻿using System.Threading;
-/******************************************/
+﻿/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -8,9 +7,13 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace XCharts
 {
+    public delegate float CustomAnimationDelay(int dataIndex);
+    public delegate float CustomAnimationDuration(int dataIndex);
+
     /// <summary>
     /// the animation of serie.
     /// 动画表现。
@@ -28,9 +31,26 @@ namespace XCharts
         [SerializeField] private float m_FadeInDuration = 1000;
         [SerializeField] private float m_FadeInDelay = 0;
         [SerializeField] private float m_FadeOutDuration = 1000f;
+        [SerializeField] private float m_FadeOutDelay = 0;
         [SerializeField] private bool m_DataChangeEnable = true;
         [SerializeField] private float m_DataChangeDuration = 500;
         [SerializeField] private float m_ActualDuration;
+        /// <summary>
+        /// 自定义渐入动画延时函数。返回ms值。
+        /// </summary>
+        public CustomAnimationDelay customFadeInDelay;
+        /// <summary>
+        /// 自定义渐入动画时长函数。返回ms值。
+        /// </summary>
+        public CustomAnimationDuration customFadeInDuration;
+        /// <summary>
+        /// 自定义渐出动画延时函数。返回ms值。
+        /// </summary>
+        public CustomAnimationDelay customFadeOutDelay;
+        /// <summary>
+        /// 自定义渐出动画时长函数。返回ms值。
+        /// </summary>
+        public CustomAnimationDuration customFadeOutDuration;
 
         /// <summary>
         /// Whether to enable animation.
@@ -44,12 +64,12 @@ namespace XCharts
         //public Easing easing { get { return m_Easting; } set { m_Easting = value; } }
         /// <summary>
         /// The milliseconds duration of the fadeIn animation.
-        /// 设定的渐入动画时长（毫秒）。
+        /// 设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。
         /// </summary>
         public float fadeInDuration { get { return m_FadeInDuration; } set { m_FadeInDuration = value < 0 ? 0 : value; } }
         /// <summary>
         /// The milliseconds duration of the fadeOut animation.
-        /// 设定的渐出动画时长（毫秒）。
+        /// 设定的渐出动画时长（毫秒）。如果要设置单个数据项的渐出时长，可以用代码定制：customFadeOutDuration。
         /// </summary>
         public float fadeOutDuration { get { return m_FadeOutDuration; } set { m_FadeOutDuration = value < 0 ? 0 : value; } }
         /// <summary>
@@ -64,9 +84,13 @@ namespace XCharts
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
         /// <summary>
         /// The milliseconds delay before updating the first animation.
-        /// 动画延时（毫秒）。
+        /// 渐入动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeInDelay。
         /// </summary>
-        public float delay { get { return m_FadeInDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
+        public float fadeInDelay { get { return m_FadeInDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
+        /// <summary>
+        /// 渐出动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeOutDelay。
+        /// </summary>
+        public float fadeOutDelay { get { return m_FadeOutDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
         /// <summary>
         /// 是否开启数据变更动画。
         /// </summary>
@@ -77,7 +101,8 @@ namespace XCharts
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
 
-        private Dictionary<int, float> m_DataAnimationState = new Dictionary<int, float>();
+        private Dictionary<int, float> m_DataCurrProgress = new Dictionary<int, float>();
+        private Dictionary<int, float> m_DataDestProgress = new Dictionary<int, float>();
         private bool m_FadeIn = false;
         private bool m_IsEnd = true;
         private bool m_IsPause = false;
@@ -112,7 +137,8 @@ namespace XCharts
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
-            m_DataAnimationState.Clear();
+            m_DataCurrProgress.Clear();
+            m_DataDestProgress.Clear();
         }
 
         public void Restart()
@@ -139,7 +165,8 @@ namespace XCharts
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
-            m_DataAnimationState.Clear();
+            m_DataCurrProgress.Clear();
+            m_DataDestProgress.Clear();
         }
 
         public void Pause()
@@ -161,7 +188,7 @@ namespace XCharts
         private void End()
         {
             if (m_IsEnd) return;
-            m_ActualDuration = (int)((Time.time - startTime) * 1000) - delay;
+            m_ActualDuration = (int)((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
             m_CurrDataProgress = m_DestDataProgress + (m_FadeOut ? -1 : 1);
             m_FadeIn = false;
             m_IsEnd = true;
@@ -181,7 +208,7 @@ namespace XCharts
             m_IsPause = false;
             m_FadeOut = false;
             m_FadeOuted = false;
-            m_DataAnimationState.Clear();
+            m_DataCurrProgress.Clear();
         }
 
         public void InitProgress(int data, float curr, float dest)
@@ -209,32 +236,73 @@ namespace XCharts
             m_CurrDataProgress = dataIndex + (m_FadeOut ? -1 : 1);
         }
 
-        private void SetDataState(int index, float state)
+        private void SetDataCurrProgress(int index, float state)
         {
-            m_DataAnimationState[index] = state;
+            m_DataCurrProgress[index] = state;
         }
 
-        private float GetDataState(int index, float dest)
+        private float GetDataCurrProgress(int index, float initValue, float destValue)
         {
-            if (IsInDelay()) return dest;
-            if (!m_DataAnimationState.ContainsKey(index))
+            if (IsInDelay()) return initValue;
+            if (!m_DataCurrProgress.ContainsKey(index))
             {
-                m_DataAnimationState.Add(index, dest);
+                m_DataCurrProgress.Add(index, initValue);
+                m_DataDestProgress.Add(index, destValue);
             }
-            return m_DataAnimationState[index];
+            return m_DataCurrProgress[index];
         }
 
-        public bool IsFinish()
+        public bool IsFinish(int dataCount = -1)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying) return true;
 #endif
+            if (dataCount > 0 && (!IsAllOutDelay(dataCount) || !IsAllDataFinishProgress(dataCount))) return false;
             return !m_Enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
         public bool IsInDelay()
         {
-            return (delay > 0 && Time.time - startTime < delay / 1000);
+            if (m_FadeOut) return (fadeOutDelay > 0 && Time.time - startTime < fadeOutDelay / 1000);
+            return (fadeInDelay > 0 && Time.time - startTime < fadeInDelay / 1000);
+        }
+
+        public float GetDataDelay(int dataIndex)
+        {
+            if (m_FadeOut && customFadeOutDelay != null) return customFadeOutDelay(dataIndex);
+            if (m_FadeIn && customFadeInDelay != null) return customFadeInDelay(dataIndex);
+            return 0;
+        }
+
+        public bool IsInDataDelay(int dataIndex)
+        {
+            return Time.time - startTime < GetDataDelay(dataIndex) / 1000f;
+        }
+
+        public bool IsAllOutDelay(int dataCount)
+        {
+            var nowTime = Time.time - startTime;
+            for (int i = 0; i < dataCount; i++)
+            {
+                if (nowTime < GetDataDelay(i) / 1000) return false;
+            }
+            return true;
+        }
+
+        public bool IsAllDataFinishProgress(int dataCount)
+        {
+            for (int i = 0; i < dataCount; i++)
+            {
+                if (m_DataDestProgress.ContainsKey(i) && m_DataCurrProgress.ContainsKey(i))
+                {
+                    if (m_DataCurrProgress[i] != m_DataDestProgress[i]) return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool CheckDetailBreak(float detail)
@@ -262,7 +330,7 @@ namespace XCharts
             if (IsFinish()) return;
             if (!m_IsInit || m_IsPause || m_IsEnd) return;
             if (IsInDelay()) return;
-            m_ActualDuration = (int)((Time.time - startTime) * 1000) - delay;
+            m_ActualDuration = (int)((Time.time - startTime) * 1000) - fadeInDelay;
             var duration = GetCurrAnimationDuration();
             var delta = total / duration * Time.deltaTime;
             if (m_FadeOut)
@@ -285,42 +353,53 @@ namespace XCharts
             }
         }
 
-        internal float GetCurrAnimationDuration()
+        internal float GetCurrAnimationDuration(int dataIndex = -1)
         {
-            if (m_FadeOut) return m_FadeOutDuration > 0 ? m_FadeOutDuration / 1000 : 1;
-            else return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1;
+            if (dataIndex >= 0)
+            {
+                if (m_FadeOut && customFadeOutDuration != null) return customFadeOutDuration(dataIndex) / 1000f;
+                if (m_FadeIn && customFadeInDuration != null) return customFadeInDuration(dataIndex) / 1000f;
+            }
+            if (m_FadeOut) return m_FadeOutDuration > 0 ? m_FadeOutDuration / 1000 : 1f;
+            else return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
         }
 
-        internal float CheckBarProgress(int dataIndex, float barHig)
+        internal float CheckBarProgress(int dataIndex, float barHig, int dataCount)
         {
-            //if (!m_IsInit) return barHig;
-            var destHig = m_FadeOut ? barHig : 0;
-            if (IsInDelay() || IsFinish() || m_IsEnd)
+            var initHig = m_FadeOut ? barHig : 0;
+            var destHig = m_FadeOut ? 0 : barHig;
+            if (IsFinish() || m_IsEnd)
             {
                 return m_FadeOuted ? 0 : barHig;
             }
+            else if (IsInDelay() || IsInDataDelay(dataIndex))
+            {
+                return m_FadeOut ? barHig : 0;
+            }
             else if (m_IsPause)
             {
-                return GetDataState(dataIndex, destHig);
+                return GetDataCurrProgress(dataIndex, initHig, destHig);
             }
             else
             {
-                var duration = GetCurrAnimationDuration();
+                var duration = GetCurrAnimationDuration(dataIndex);
                 var delta = barHig / duration * Time.deltaTime;
-                var currHig = GetDataState(dataIndex, destHig) + (m_FadeOut ? -delta : delta);
-                SetDataState(dataIndex, currHig);
+                var currHig = GetDataCurrProgress(dataIndex, initHig, destHig) + (m_FadeOut ? -delta : delta);
                 if (m_FadeOut)
                 {
-                    if ((destHig > 0 && currHig <= 0) || (destHig < 0 && currHig >= 0))
+                    if ((initHig > 0 && currHig <= 0) || (initHig < 0 && currHig >= 0))
                     {
-                        End();
                         currHig = 0;
                     }
                 }
                 else if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
                 {
-                    End();
                     currHig = barHig;
+                }
+                SetDataCurrProgress(dataIndex, currHig);
+                if (IsAllOutDelay(dataCount) && IsAllDataFinishProgress(dataCount))
+                {
+                    End();
                 }
                 return currHig;
             }

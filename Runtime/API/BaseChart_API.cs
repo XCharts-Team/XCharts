@@ -679,11 +679,6 @@ namespace XCharts
             return chartPosition + m_Title.location.GetPosition(chartWidth, chartHeight);
         }
 
-        public Vector3 GetLegendPosition()
-        {
-            return chartPosition + m_Legend.location.GetPosition(chartWidth, chartHeight);
-        }
-
         [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
         public void ReinitChartLabel() { }
 

@@ -332,14 +332,8 @@ namespace XCharts
         private void InitLegend()
         {
             m_Legend.OnChanged();
-            TextAnchor anchor = m_Legend.location.runtimeTextAnchor;
-            Vector2 anchorMin = m_Legend.location.runtimeAnchorMin;
-            Vector2 anchorMax = m_Legend.location.runtimeAnchorMax;
-            Vector2 pivot = m_Legend.location.runtimePivot;
-
-            var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
-                pivot, new Vector2(chartWidth, chartHeight));
-            legendObject.transform.localPosition = GetLegendPosition();
+            var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, m_ChartMinAnchor,
+                 m_ChartMaxAnchor, m_ChartPivot, new Vector2(chartWidth, chartHeight));
             legendObject.hideFlags = chartHideFlags;
             SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
             List<string> datas;
@@ -428,7 +422,7 @@ namespace XCharts
                     OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
                 }
             }
-            LegendHelper.ResetItemPosition(m_Legend, m_ChartWidth, m_ChartHeight);
+            LegendHelper.ResetItemPosition(m_Legend, m_ChartPosition, m_ChartWidth, m_ChartHeight);
         }
 
         private void InitSerieLabel()

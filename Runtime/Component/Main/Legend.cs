@@ -188,38 +188,22 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public Dictionary<string, LegendItem> buttonList { get { return m_DataBtnList; } }
-
-        public float runtimeWidth
-        {
-            get
-            {
-                var width = 0f;
-                foreach (var kv in buttonList)
-                {
-                    if (orient == Orient.Horizonal)
-                        width += kv.Value.width + m_ItemGap;
-                    else if (kv.Value.width > width)
-                        width = kv.Value.width;
-                }
-                return orient == Orient.Horizonal ? width - m_ItemGap : width;
-            }
-        }
-
-        public float runtimeHeight
-        {
-            get
-            {
-                var height = 0f;
-                foreach (var kv in buttonList)
-                {
-                    if (orient == Orient.Vertical)
-                        height += kv.Value.height + m_ItemGap;
-                    else if (kv.Value.height > height)
-                        height = kv.Value.height;
-                }
-                return orient == Orient.Vertical ? height - m_ItemGap : height;
-            }
-        }
+        /// <summary>
+        /// 运行时图例的总宽度
+        /// </summary>
+        public float runtimeWidth { get; internal set; }
+        /// <summary>
+        /// 运行时图例的总高度
+        /// </summary>
+        public float runtimeHeight { get; internal set; }
+        /// <summary>
+        /// 多列时每列的宽度
+        /// </summary>
+        public Dictionary<int, float> runtimeEachWidth { get; internal set; }
+        /// <summary>
+        /// 单列高度
+        /// </summary>
+        public float runtimeEachHeight { get; internal set; }
 
         /// <summary>
         /// 一个在顶部居中显示的默认图例。
@@ -237,6 +221,7 @@ namespace XCharts
                     m_ItemWidth = 24.0f,
                     m_ItemHeight = 12.0f,
                     m_ItemGap = 10f,
+                    runtimeEachWidth = new Dictionary<int, float>()
                 };
                 legend.location.top = 30;
                 legend.textStyle.offset = new Vector2(2, 0);

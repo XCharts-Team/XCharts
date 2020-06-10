@@ -29,6 +29,16 @@ namespace XCharts
         [SerializeField] private float m_Height = 40;
         [SerializeField] private Vector3 m_Offset;
 
+        public void Reset()
+        {
+            m_Show = false;
+            m_Layer = Layer.UnderLabel;
+            m_Sprite = null;
+            m_Color = Color.white;
+            m_Width = 40;
+            m_Height = 40;
+            m_Offset = Vector3.zero;
+        }
         /// <summary>
         /// Whether the data icon is show.
         /// 是否显示图标。
@@ -59,5 +69,7 @@ namespace XCharts
         /// 图标偏移。
         /// </summary>
         public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
+
+
     }
 }

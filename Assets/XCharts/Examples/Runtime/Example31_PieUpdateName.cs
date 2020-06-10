@@ -15,7 +15,6 @@ namespace XCharts.Examples
     public class Example31_PieUpdateName : MonoBehaviour
     {
         PieChart chart;
-        int count = 0;
 
         void Awake()
         {
@@ -35,9 +34,9 @@ namespace XCharts.Examples
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (count % 2 == 0) ResetSameName();
-                else UpdateDataName();
-                count++;
+                ClearAndAddData();
+                //UpdateDataName();
+                //UpdateDataName();
             }
         }
 
@@ -63,7 +62,19 @@ namespace XCharts.Examples
             {
                 chart.UpdateDataName(serieIndex, i, "piename");
             }
-            chart.themeInfo.SetAllDirty();
+        }
+
+        void ClearAndAddData()
+        {
+            var serieIndex = 0;
+            var serie = chart.series.GetSerie(serieIndex);
+            if (serie == null) return;
+            int count = serie.dataCount;
+            serie.ClearData();
+            for (int i = 0; i < count; i++)
+            {
+                chart.AddData(0, Random.Range(0, 100), "pie" + i);
+            }
         }
     }
 }

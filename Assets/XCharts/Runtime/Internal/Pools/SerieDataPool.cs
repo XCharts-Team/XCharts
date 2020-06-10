@@ -19,7 +19,7 @@ namespace XCharts
 
         static void OnClear(SerieData serieData)
         {
-            serieData.Clear();
+            serieData.Reset();
         }
 
         public static SerieData Get()

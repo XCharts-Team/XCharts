@@ -79,7 +79,7 @@ namespace XCharts
             HorizontalLine
         }
         [SerializeField] private bool m_Show = false;
-        [SerializeField] Position m_Position;
+        [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
         [SerializeField] private float m_Margin;
         [SerializeField] private string m_Formatter;
@@ -103,6 +103,33 @@ namespace XCharts
         [SerializeField] private Color m_BorderColor = Color.grey;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
+
+        public void Reset()
+        {
+            m_Show = false;
+            m_Position = Position.Outside;
+            m_Offset = Vector3.zero;
+            m_Margin = 0;
+            m_PaddingLeftRight = 2f;
+            m_PaddingTopBottom = 2f;
+            m_Color = Color.clear;
+            m_BackgroundColor = Color.clear;
+            m_BackgroundWidth = 0;
+            m_BackgroundHeight = 0;
+            m_FontSize = 18;
+            m_FontStyle = FontStyle.Normal;
+            m_Line = true;
+            m_LineType = LineType.BrokenLine;
+            m_LineColor = Color.clear;
+            m_LineWidth = 1.0f;
+            m_LineLength1 = 25f;
+            m_LineLength2 = 15f;
+            m_Border = false;
+            m_BorderWidth = 0.5f;
+            m_BorderColor = Color.grey;
+            m_NumericFormatter = "";
+            m_AutoOffset = false;
+        }
 
         /// <summary>
         /// Whether the label is showed.

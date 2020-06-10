@@ -50,6 +50,27 @@ namespace XCharts
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
 
+        public void Reset()
+        {
+            m_Show = false;
+            m_Color = Color.clear;
+            m_ToColor = Color.clear;
+            m_BackgroundColor = Color.clear;
+            m_BackgroundWidth = 0;
+            m_CenterColor = Color.clear;
+            m_CenterGap = 0;
+            m_BorderType = Type.Solid;
+            m_BorderWidth = 0;
+            m_BorderColor = Color.clear;
+            m_Opacity = 1;
+            m_TooltipFormatter = null;
+            m_NumericFormatter = "";
+            m_CornerRadius[0] = 0;
+            m_CornerRadius[1] = 0;
+            m_CornerRadius[2] = 0;
+            m_CornerRadius[3] = 0;
+        }
+
         /// <summary>
         /// 是否启用。
         /// </summary>

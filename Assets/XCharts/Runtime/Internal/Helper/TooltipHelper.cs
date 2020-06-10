@@ -236,7 +236,8 @@ namespace XCharts
                         needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                         if (formatTitle)
                         {
-                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, null, series, themeInfo, category, dataZoom);
+                            if (title.Equals("{i}")) title = string.Empty;
+                            else FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, null, series, themeInfo, category, dataZoom);
                         }
                         if (serie.show)
                         {

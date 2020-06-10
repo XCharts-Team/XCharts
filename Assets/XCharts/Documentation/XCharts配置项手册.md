@@ -206,7 +206,7 @@
   * `{c1:2-2}`表示索引为`1`的`serie`的第`3`个数据项的第`3`个数据（一个数据项有多个数据）。
   * `{d1:2:f2}`表示单独指定了数值的格式化字符串为`f2`（不指定时用`numericFormatter`）。
   * 示例：`"{a}:{c}"`、`"{a1}:{c1:f1}"`、`"{a1}:{c1:1f1}"`
-* `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 换行。仅当`itemFormatter`生效时才有效。
+* `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 换行。仅当`itemFormatter`生效时才有效。可以单独设置占位符`{i}`表示忽略不显示标题内容。
 * `itemFormatter`：提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n`  换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `fixedWidth`：固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。

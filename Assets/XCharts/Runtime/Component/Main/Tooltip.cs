@@ -111,7 +111,7 @@ namespace XCharts
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
-        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。仅当itemFormatter生效时才有效。
+        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。仅当itemFormatter生效时才有效。可以单独设置占位符{i}表示忽略不显示title。
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>

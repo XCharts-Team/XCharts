@@ -286,6 +286,7 @@ namespace XCharts
             m_Content = content;
             m_ContentRect = m_Content.GetComponent<RectTransform>();
             m_ContentImage = m_Content.GetComponent<Image>();
+            m_ContentImage.raycastTarget = false;
             m_ContentText = m_Content.GetComponentInChildren<Text>();
             if (m_ContentText != null)
             {

@@ -203,6 +203,7 @@ namespace XCharts
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
             txt.lineSpacing = lineSpacing;
+            txt.raycastTarget = false;
             txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
@@ -254,7 +255,8 @@ namespace XCharts
             var pivot = new Vector2(0.5f, 0.5f);
             var sizeDelta = new Vector2(width, height);
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            GetOrAddComponent<Image>(iconObj);
+            var img = GetOrAddComponent<Image>(iconObj);
+            img.raycastTarget = false;
             return iconObj;
         }
 

@@ -19,6 +19,14 @@ namespace XCharts
         [SerializeField] private bool m_Show;
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
+
+        public void Reset()
+        {
+            m_Show = false;
+            m_Label.Reset();
+            m_ItemStyle.Reset();
+        }
+
         /// <summary>
         /// 是否启用高亮样式。
         /// </summary>

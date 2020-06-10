@@ -28,7 +28,7 @@ namespace XCharts
             SerializedProperty m_DataChangeEnable = prop.FindPropertyRelative("m_DataChangeEnable");
             SerializedProperty m_DataChangeDuration = prop.FindPropertyRelative("m_DataChangeDuration");
             SerializedProperty m_FadeInDelay = prop.FindPropertyRelative("m_FadeInDelay");
-            SerializedProperty m_Threshold = prop.FindPropertyRelative("m_Threshold");
+            //SerializedProperty m_Threshold = prop.FindPropertyRelative("m_Threshold");
             SerializedProperty m_ActualDuration = prop.FindPropertyRelative("m_ActualDuration");
             SerializedProperty m_FadeOutDelay = prop.FindPropertyRelative("m_FadeOutDelay");
             // SerializedProperty m_CurrDetailProgress = prop.FindPropertyRelative("m_CurrDetailProgress");

@@ -138,7 +138,7 @@ namespace XCharts
                 if (!string.IsNullOrEmpty(m_Target.warningInfo))
                 {
                     sb.AppendLine();
-                    sb.Append(XChartsMgr.Instance.nowVersion);
+                    sb.Append(m_Target.warningInfo);
                 }
                 else
                 {

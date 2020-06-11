@@ -188,10 +188,17 @@ namespace XCharts
                 var sb = ChartHelper.sb;
                 var title = tooltip.titleFormatter;
                 var formatTitle = !string.IsNullOrEmpty(title);
+                var titleIsIgnroe = false;
                 var needCategory = false;
                 var first = true;
                 var isScatter = false;
                 sb.Length = 0;
+                if ("{i}".Equals(tooltip.titleFormatter))
+                {
+                    title = string.Empty;
+                    formatTitle = false;
+                    titleIsIgnroe = true;
+                }
                 for (int i = 0; i < series.Count; i++)
                 {
                     var serie = series.GetSerie(i);
@@ -235,8 +242,7 @@ namespace XCharts
                         needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                         if (formatTitle)
                         {
-                            if (title.Equals("{i}")) title = string.Empty;
-                            else FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, null, series, themeInfo, category, dataZoom);
+                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, null, series, themeInfo, category, dataZoom);
                         }
                         if (serie.show)
                         {
@@ -262,8 +268,10 @@ namespace XCharts
                 }
                 else if (string.IsNullOrEmpty(title))
                 {
-                    if (needCategory) return category + FormatterHelper.PH_NN + FormatterHelper.TrimAndReplaceLine(sb);
-                    else return FormatterHelper.TrimAndReplaceLine(sb);
+                    if (needCategory && !titleIsIgnroe)
+                        return category + FormatterHelper.PH_NN + FormatterHelper.TrimAndReplaceLine(sb);
+                    else
+                        return FormatterHelper.TrimAndReplaceLine(sb);
                 }
                 else
                 {

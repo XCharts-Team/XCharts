@@ -815,6 +815,7 @@ namespace XCharts
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
             int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
+            if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
             float realStartAngle = startAngle;
@@ -1015,6 +1016,7 @@ namespace XCharts
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
 
             int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
+            if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
 

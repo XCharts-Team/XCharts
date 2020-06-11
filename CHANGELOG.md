@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.06.11) 修复`Check warning`不生效的问题
+* (2020.06.11) 修复`PieChart`和`RingChart`在数据占比很小时不显示的问题
 * (2020.06.11) 增加`Tooltip`的`titleFormatter`支持配置占位符`{i}`表示忽略不显示标题
 * (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数
 * (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果

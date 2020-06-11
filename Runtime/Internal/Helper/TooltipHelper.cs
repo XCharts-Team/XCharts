@@ -201,7 +201,6 @@ namespace XCharts
                         {
                             isScatter = true;
                             var itemFormatter = GetItemFormatter(tooltip, serie, null);
-                            var numericFormatter = GetItemNumericFormatter(tooltip, serie, null);
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
                                 if (!first) sb.Append(FormatterHelper.PH_NN);

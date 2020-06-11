@@ -108,22 +108,43 @@ namespace XCharts
 
         private static void CheckSerie(BaseChart chart, StringBuilder sb)
         {
+            var allDataIsEmpty = true;
+            var allDataIsZero = true;
+            var allSerieIsHide = true;
             foreach (var serie in chart.series.list)
             {
+                if (serie.show) allSerieIsHide = false;
+                if (serie.dataCount > 0)
+                {
+                    allDataIsEmpty = false;
+                    for (int i = 1; i < serie.dataCount; i++)
+                    {
+                        var serieData = serie.GetSerieData(i);
+                        for (int j = 1; j < serieData.data.Count; j++)
+                        {
+                            if (serieData.GetData(j) != 0)
+                            {
+                                allDataIsZero = false;
+                                break;
+                            }
+                        }
+                    }
+                    var dataCount = serie.GetSerieData(0).data.Count;
+                    if (serie.showDataDimension > 1 && serie.showDataDimension != dataCount)
+                    {
+                        sb.AppendFormat("warning:serie {0} serieData.data.count[{1}] not match showDataDimension[{2}]\n", serie.index, dataCount, serie.showDataDimension);
+                    }
+                }
+                else
+                {
+                    sb.AppendFormat("warning:serie {0} no data\n", serie.index);
+                }
                 if (IsColorAlphaZero(serie.itemStyle.color))
                     sb.AppendFormat("warning:serie {0} itemStyle->color alpha is 0\n", serie.index);
                 if (serie.itemStyle.opacity == 0)
                     sb.AppendFormat("warning:serie {0} itemStyle->opacity is 0\n", serie.index);
                 if (serie.itemStyle.borderWidth != 0 && IsColorAlphaZero(serie.itemStyle.borderColor))
                     sb.AppendFormat("warning:serie {0} itemStyle->borderColor alpha is 0\n", serie.index);
-                if (serie.dataCount > 0)
-                {
-                    var dataCount = serie.GetSerieData(0).data.Count;
-                    if (serie.showDataDimension != dataCount)
-                    {
-                        sb.AppendFormat("warning:serie {0} serieData.data.count[{1}] not match showDataDimension[{2}]\n", serie.index, dataCount, serie.showDataDimension);
-                    }
-                }
                 switch (serie.type)
                 {
                     case SerieType.Line:
@@ -145,10 +166,13 @@ namespace XCharts
                     case SerieType.Scatter:
                     case SerieType.EffectScatter:
                         if (serie.symbol.type == SerieSymbolType.None)
-                            sb.AppendFormat("warning:symbol type is None");
+                            sb.AppendFormat("warning:serie {0} symbol type is None\n", serie.index);
                         break;
                 }
             }
+            if (allDataIsEmpty) sb.Append("warning:all serie data is empty\n");
+            if (!allDataIsEmpty && allDataIsZero) sb.Append("warning:all serie data is 0\n");
+            if (allSerieIsHide) sb.Append("warning:all serie is hide\n");
         }
     }
 }

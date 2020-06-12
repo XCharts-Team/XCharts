@@ -65,10 +65,15 @@ namespace XCharts
             m_Opacity = 1;
             m_TooltipFormatter = null;
             m_NumericFormatter = "";
-            m_CornerRadius[0] = 0;
-            m_CornerRadius[1] = 0;
-            m_CornerRadius[2] = 0;
-            m_CornerRadius[3] = 0;
+            if (m_CornerRadius == null)
+            {
+                m_CornerRadius = new float[] { 0, 0, 0, 0 };
+            }
+            else
+            {
+                for (int i = 0; i < m_CornerRadius.Length; i++)
+                    m_CornerRadius[i] = 0;
+            }
         }
 
         /// <summary>

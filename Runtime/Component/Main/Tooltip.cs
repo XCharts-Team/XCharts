@@ -97,17 +97,17 @@ namespace XCharts
         /// <summary>
         /// 提示框总内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}。
-        /// {.}表示带动态颜色的圆点。
-        /// {a}为系列名serie的name。
-        /// {b}为数据项名serieData的name，或者类目值（如折线图的X轴）。
-        /// {c}为数值。
-        /// {d}为百分比值，注意不带%号。
+        /// {.}为当前所指示或index为0的serie的对应颜色的圆点。
+        /// {a}为当前所指示或index为0的serie的系列名name。
+        /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。
+        /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。
+        /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。
         /// {.1}表示指定index为1的serie对应颜色的圆点。
-        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie，{a}默认index为0的serie。
+        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。
         /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
-        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:1f1}"
+        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"、
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>

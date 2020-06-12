@@ -74,10 +74,7 @@ namespace XCharts
                 var tempWidth = (pos.width - startX + 35) / 2;
                 var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
                 var centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
-                while (m_Center.arraySize < 2)
-                {
-                    m_Center.InsertArrayElementAtIndex(m_Center.arraySize);
-                }
+                while (m_Center.arraySize < 2) m_Center.arraySize++;
                 EditorGUI.PropertyField(centerXRect, m_Center.GetArrayElementAtIndex(0), GUIContent.none);
                 EditorGUI.PropertyField(centerYRect, m_Center.GetArrayElementAtIndex(1), GUIContent.none);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

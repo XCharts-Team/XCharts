@@ -32,19 +32,13 @@ public class ChartEditorHelper
 
     public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name)
     {
-        while (arrayProp.arraySize < 2)
-        {
-            arrayProp.InsertArrayElementAtIndex(arrayProp.arraySize);
-        }
+        while (arrayProp.arraySize < 2) arrayProp.arraySize++;
         MakeTwoField(ref drawRect, rectWidth, arrayProp.GetArrayElementAtIndex(0), arrayProp.GetArrayElementAtIndex(1), name);
     }
 
     public static void MakeDivideList(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name, int showNum)
     {
-        while (arrayProp.arraySize < showNum)
-        {
-            arrayProp.InsertArrayElementAtIndex(arrayProp.arraySize);
-        }
+        while (arrayProp.arraySize < showNum) arrayProp.arraySize++;
         EditorGUI.LabelField(drawRect, name);
 #if UNITY_2019_3_OR_NEWER
         var gap = 2;
@@ -214,7 +208,7 @@ public class ChartEditorHelper
                 var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
                 if (GUI.Button(iconRect, new GUIContent("+", "add")))
                 {
-                    listProp.InsertArrayElementAtIndex(listProp.arraySize);
+                    listProp.arraySize++;
                 }
                 listSize = listProp.arraySize;
                 listSize = EditorGUI.IntField(elementRect, "Size", listSize);
@@ -228,10 +222,8 @@ public class ChartEditorHelper
 
             if (listSize != listProp.arraySize)
             {
-                while (listSize > listProp.arraySize)
-                    listProp.InsertArrayElementAtIndex(listProp.arraySize);
-                while (listSize < listProp.arraySize)
-                    listProp.DeleteArrayElementAtIndex(listProp.arraySize - 1);
+                while (listSize > listProp.arraySize) listProp.arraySize++;
+                while (listSize < listProp.arraySize) listProp.arraySize--;
             }
         }
         if (listSize > 30)

@@ -117,7 +117,7 @@ namespace XCharts
                 if (serie.dataCount > 0)
                 {
                     allDataIsEmpty = false;
-                    for (int i = 1; i < serie.dataCount; i++)
+                    for (int i = 0; i < serie.dataCount; i++)
                     {
                         var serieData = serie.GetSerieData(i);
                         for (int j = 1; j < serieData.data.Count; j++)

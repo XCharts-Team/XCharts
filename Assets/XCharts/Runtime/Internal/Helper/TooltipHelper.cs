@@ -218,14 +218,14 @@ namespace XCharts
                             var itemTitle = title;
                             if (!string.IsNullOrEmpty(itemTitle))
                             {
-                                FormatterHelper.ReplaceContent(ref itemTitle, dataIndex, tooltip.numericFormatter, serie, null, themeInfo, category, dataZoom);
+                                FormatterHelper.ReplaceContent(ref itemTitle, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                                 sb.Append(itemTitle).Append(FormatterHelper.PH_NN);
                             }
                             var dataIndexList = tooltip.runtimeSerieDataIndex[serie.index];
                             foreach (var tempIndex in dataIndexList)
                             {
                                 string content = itemFormatter;
-                                var foundDot = FormatterHelper.ReplaceContent(ref content, tempIndex, tooltip.numericFormatter, serie, null, themeInfo, category, dataZoom);
+                                var foundDot = FormatterHelper.ReplaceContent(ref content, tempIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                                 if (!foundDot)
                                 {
                                     sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(serie.index)));
@@ -242,7 +242,7 @@ namespace XCharts
                         needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                         if (formatTitle)
                         {
-                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, null, series, themeInfo, category, dataZoom);
+                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                         }
                         if (serie.show)
                         {
@@ -254,7 +254,7 @@ namespace XCharts
                                 continue;
                             }
                             string content = itemFormatter;
-                            FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, null, themeInfo, category, dataZoom);
+                            FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                             if (!first) sb.Append(FormatterHelper.PH_NN);
                             sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(i)));
                             sb.Append(content);

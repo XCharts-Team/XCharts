@@ -50,10 +50,8 @@ namespace XChartsDemo
             size = EditorGUILayout.IntField("Chart Module Size", size);
             if (size != m_ChartModule.arraySize)
             {
-                while (size > m_ChartModule.arraySize)
-                    m_ChartModule.InsertArrayElementAtIndex(m_ChartModule.arraySize);
-                while (size < m_ChartModule.arraySize)
-                    m_ChartModule.DeleteArrayElementAtIndex(m_ChartModule.arraySize - 1);
+                while (size > m_ChartModule.arraySize) m_ChartModule.arraySize++;
+                while (size < m_ChartModule.arraySize) m_ChartModule.arraySize--;
             }
             for (int i = 0; i < size; i++)
             {

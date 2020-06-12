@@ -363,10 +363,8 @@ namespace XCharts
                     bool showSelected = (serieType == SerieType.Pie);
                     if (listSize != m_Datas.arraySize)
                     {
-                        while (listSize > m_Datas.arraySize)
-                            m_Datas.InsertArrayElementAtIndex(m_Datas.arraySize);
-                        while (listSize < m_Datas.arraySize)
-                            m_Datas.DeleteArrayElementAtIndex(m_Datas.arraySize - 1);
+                        while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
+                        while (listSize < m_Datas.arraySize) m_Datas.arraySize--;
                     }
                     if (listSize > 30)
                     {
@@ -414,8 +412,9 @@ namespace XCharts
             {
                 while (2 > data.arraySize)
                 {
-                    data.InsertArrayElementAtIndex(data.arraySize);
-                    data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = 0;
+                    var value = data.arraySize == 0 ? index : 0;
+                    data.arraySize++;
+                    data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
                 }
                 SerializedProperty element = data.GetArrayElementAtIndex(1);
                 if (showSelected)
@@ -452,8 +451,9 @@ namespace XCharts
                     var dataCount = i < 1 ? 2 : i + 1;
                     while (dataCount > data.arraySize)
                     {
-                        data.InsertArrayElementAtIndex(data.arraySize);
-                        data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = 0;
+                        var value = data.arraySize == 0 ? index : 0;
+                        data.arraySize++;
+                        data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
                     }
                     drawRect.x = startX + i * xWid;
                     drawRect.width = dataWid + 40;

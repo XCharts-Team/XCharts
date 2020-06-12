@@ -298,11 +298,11 @@ namespace XCharts
         {
             if (m_Font == null && m_CustomFont == null)
             {
-                sb.AppendFormat("warning:theme->font is null");
+                sb.AppendFormat("warning:theme->font is null\n");
             }
             if (m_ColorPalette.Length == 0 && m_CustomColorPalette.Count == 0)
             {
-                sb.AppendFormat("warning:theme->colorPalette is empty");
+                sb.AppendFormat("warning:theme->colorPalette is empty\n");
             }
             for (int i = 0; i < m_ColorPalette.Length; i++)
             {

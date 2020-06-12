@@ -47,13 +47,12 @@ namespace XCharts
                 if (argsCount <= 0) continue;
                 int targetIndex = 0;
                 char p = GetSerieIndex(args[0].ToString(), ref targetIndex);
-                if (serie == null)
+                if (targetIndex >= 0)
                 {
-                    if (targetIndex == -1) continue;
                     serie = series.GetSerie(targetIndex);
                     if (serie == null) continue;
                 }
-                else
+                else if (serie != null)
                 {
                     targetIndex = serie.index;
                 }
@@ -150,7 +149,7 @@ namespace XCharts
 
         private static char GetSerieIndex(string strType, ref int index)
         {
-            index = 0;
+            index = -1;
             if (strType.Length > 1)
             {
                 if (!int.TryParse(strType.Substring(1), out index))

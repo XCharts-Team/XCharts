@@ -15,8 +15,8 @@ namespace XCharts
         private static void InitScatterTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             ThemeInfo themeInfo)
         {
-            if (!tooltip.runtimeSerieDataIndex.ContainsKey(serie.index)) return;
-            var dataIndexList = tooltip.runtimeSerieDataIndex[serie.index];
+            if (!tooltip.runtimeSerieIndex.ContainsKey(serie.index)) return;
+            var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
             if (!string.IsNullOrEmpty(serie.name))
             {
                 sb.Append(serie.name).Append(FormatterHelper.PH_NN);
@@ -222,7 +222,7 @@ namespace XCharts
                                 FormatterHelper.ReplaceContent(ref itemTitle, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                                 sb.Append(itemTitle).Append(FormatterHelper.PH_NN);
                             }
-                            var dataIndexList = tooltip.runtimeSerieDataIndex[serie.index];
+                            var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
                             foreach (var tempIndex in dataIndexList)
                             {
                                 string content = itemFormatter;
@@ -235,7 +235,7 @@ namespace XCharts
                             }
                         }
                     }
-                    else if (tooltip.runtimeDataIndex[serie.index] >= 0)
+                    else if (IsNeedTooltipSerie(serie, tooltip))
                     {
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
                         if (serieData == null) continue;
@@ -289,11 +289,23 @@ namespace XCharts
             }
         }
 
+        private static bool IsNeedTooltipSerie(Serie serie, Tooltip tooltip)
+        {
+            if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
+            {
+                return tooltip.runtimeDataIndex[serie.index] >= 0;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private static bool IsSelectedSerie(Tooltip tooltip, int serieIndex)
         {
-            if (tooltip.runtimeSerieDataIndex.ContainsKey(serieIndex))
+            if (tooltip.runtimeSerieIndex.ContainsKey(serieIndex))
             {
-                return tooltip.runtimeSerieDataIndex[serieIndex].Count > 0;
+                return tooltip.runtimeSerieIndex[serieIndex].Count > 0;
             }
             return false;
         }

@@ -56,6 +56,12 @@ namespace XCharts
                 {
                     targetIndex = serie.index;
                 }
+                else
+                {
+                    serie = series.GetSerie(0);
+                    targetIndex = 0;
+                }
+                if (serie == null) continue;
                 if (p == '.')
                 {
                     var bIndex = targetIndex;

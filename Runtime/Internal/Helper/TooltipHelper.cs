@@ -45,6 +45,7 @@ namespace XCharts
         private static void InitPieTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             ThemeInfo themeInfo)
         {
+            if (tooltip.runtimeDataIndex[serie.index] < 0) return;
             string key = serie.data[index].name;
             var serieData = serie.GetSerieData(index);
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
@@ -234,7 +235,7 @@ namespace XCharts
                             }
                         }
                     }
-                    else
+                    else if (tooltip.runtimeDataIndex[serie.index] >= 0)
                     {
                         var serieData = serie.GetSerieData(dataIndex, dataZoom);
                         if (serieData == null) continue;
@@ -256,7 +257,8 @@ namespace XCharts
                             string content = itemFormatter;
                             FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, category, dataZoom);
                             if (!first) sb.Append(FormatterHelper.PH_NN);
-                            sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(i)));
+                            var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring ? dataIndex : i;
+                            sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(dotColorIndex)));
                             sb.Append(content);
                             first = false;
                         }

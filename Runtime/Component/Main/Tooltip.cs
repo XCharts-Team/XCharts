@@ -208,7 +208,7 @@ namespace XCharts
         /// <summary>
         /// 当前提示框所指示的Serie索引（目前只对散点图有效）。
         /// </summary>
-        public Dictionary<int, List<int>> runtimeSerieDataIndex { get; internal set; }
+        public Dictionary<int, List<int>> runtimeSerieIndex { get; internal set; }
         /// <summary>
         /// The data index currently indicated by Tooltip.
         /// 当前提示框所指示的数据项索引。
@@ -261,7 +261,7 @@ namespace XCharts
                     runtimeYValues = new float[2] { -1, -1 },
                     runtimeDataIndex = new List<int>() { -1, -1 },
                     lastDataIndex = new List<int>() { -1, -1 },
-                    runtimeSerieDataIndex = new Dictionary<int, List<int>>()
+                    runtimeSerieIndex = new Dictionary<int, List<int>>()
                 };
                 return tooltip;
             }
@@ -458,7 +458,7 @@ namespace XCharts
 
         public void ClearSerieDataIndex()
         {
-            foreach (var kv in runtimeSerieDataIndex)
+            foreach (var kv in runtimeSerieIndex)
             {
                 kv.Value.Clear();
             }
@@ -466,16 +466,16 @@ namespace XCharts
 
         public void AddSerieDataIndex(int serieIndex, int dataIndex)
         {
-            if (!runtimeSerieDataIndex.ContainsKey(serieIndex))
+            if (!runtimeSerieIndex.ContainsKey(serieIndex))
             {
-                runtimeSerieDataIndex[serieIndex] = new List<int>();
+                runtimeSerieIndex[serieIndex] = new List<int>();
             }
-            runtimeSerieDataIndex[serieIndex].Add(dataIndex);
+            runtimeSerieIndex[serieIndex].Add(dataIndex);
         }
 
         public bool isAnySerieDataIndex()
         {
-            foreach (var kv in runtimeSerieDataIndex)
+            foreach (var kv in runtimeSerieIndex)
             {
                 if (kv.Value.Count > 0) return true;
             }

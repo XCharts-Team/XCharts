@@ -440,6 +440,7 @@ namespace XCharts
                 {
                     var serieData = serie.data[j];
                     serieData.index = j;
+                    serieData.labelObject = null;
                     AddSerieLabel(serie, serieData, count);
                     count++;
                 }

@@ -273,6 +273,7 @@ namespace XCharts
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_Large = true;
         [SerializeField] private int m_LargeThreshold = 200;
+        [SerializeField] private bool m_AvoidLabelOverlap = false;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -785,6 +786,14 @@ namespace XCharts
                     label.SetComponentDirty();
                 }
             }
+        }
+        /// <summary>
+        /// 在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
+        /// </summary>
+        public bool avoidLabelOverlap
+        {
+            get { return m_AvoidLabelOverlap; }
+            set { if (PropertyUtility.SetStruct(ref m_AvoidLabelOverlap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。

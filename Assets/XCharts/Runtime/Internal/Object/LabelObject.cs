@@ -18,6 +18,8 @@ namespace XCharts
         private Text m_LabelText;
         private RectTransform m_LabelRect;
         private RectTransform m_IconRect;
+        private RectTransform m_ObjectRect;
+
         private Image m_IconImage;
 
         public GameObject gameObject { get { return m_GameObject; } }
@@ -36,6 +38,7 @@ namespace XCharts
             m_LabelPaddingTopBottom = paddingTopBottom;
             m_LabelText = labelObj.GetComponentInChildren<Text>();
             m_LabelRect = m_LabelText.GetComponent<RectTransform>();
+            m_ObjectRect = labelObj.GetComponent<RectTransform>();
         }
 
         public void SetIcon(Image image)
@@ -137,7 +140,11 @@ namespace XCharts
                         new Vector2(m_LabelText.preferredWidth + m_LabelPaddingLeftRight * 2,
                                         m_LabelText.preferredHeight + m_LabelPaddingTopBottom * 2);
                     var sizeChange = newSize.x != m_LabelRect.sizeDelta.x || newSize.y != m_LabelRect.sizeDelta.y;
-                    if (sizeChange) m_LabelRect.sizeDelta = newSize;
+                    if (sizeChange)
+                    {
+                        m_LabelRect.sizeDelta = newSize;
+                        m_ObjectRect.sizeDelta = newSize;
+                    }
                     return sizeChange;
                 }
             }

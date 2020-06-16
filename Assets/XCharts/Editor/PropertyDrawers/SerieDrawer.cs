@@ -77,6 +77,7 @@ namespace XCharts
             SerializedProperty m_ShowAsPositiveNumber = prop.FindPropertyRelative("m_ShowAsPositiveNumber");
             SerializedProperty m_Large = prop.FindPropertyRelative("m_Large");
             SerializedProperty m_LargeThreshold = prop.FindPropertyRelative("m_LargeThreshold");
+            SerializedProperty m_AvoidLabelOverlap = prop.FindPropertyRelative("m_AvoidLabelOverlap");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -212,6 +213,8 @@ namespace XCharts
                         EditorGUI.PropertyField(drawRect, m_Ignore);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_IgnoreValue);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_AvoidLabelOverlap);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_ItemStyle);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
@@ -532,7 +535,7 @@ namespace XCharts
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                         break;
                     case SerieType.Pie:
-                        height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));

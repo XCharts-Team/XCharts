@@ -175,5 +175,134 @@ namespace XCharts
                 }
             }
         }
+
+        public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)
+        {
+            if (serieData.labelObject == null) return;
+            var currAngle = serieData.runtimePieHalfAngle;
+            var currRad = currAngle * Mathf.Deg2Rad;
+            var offsetRadius = serieData.runtimePieOffsetRadius;
+            var insideRadius = serieData.runtimePieInsideRadius;
+            var outsideRadius = serieData.runtimePieOutsideRadius;
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            switch (serieLabel.position)
+            {
+                case SerieLabel.Position.Center:
+                    serieData.labelPosition = serie.runtimeCenterPos;
+                    break;
+                case SerieLabel.Position.Inside:
+                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
+                    var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
+                        serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
+                    serieData.labelPosition = labelCenter;
+                    break;
+                case SerieLabel.Position.Outside:
+                    if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine)
+                    {
+                        var radius1 = serie.runtimeOutsideRadius;
+                        var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
+                        var currSin = Mathf.Sin(currRad);
+                        var currCos = Mathf.Cos(currRad);
+                        var pos0 = new Vector3(serie.runtimeCenterPos.x + radius3 * currSin, serie.runtimeCenterPos.y + radius3 * currCos);
+                        if (currAngle > 180)
+                        {
+                            currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
+                            currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
+                        }
+                        var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
+                        r4 += serieLabel.lineLength1 + serieLabel.lineWidth * 4;
+                        r4 += serieData.labelObject.label.preferredWidth / 2;
+                        serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
+                    }
+                    else
+                    {
+                        labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
+                        labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
+                            serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
+                        float labelWidth = serieData.labelObject.label.preferredWidth;
+                        serieData.labelPosition = labelCenter;
+                    }
+                    break;
+            }
+        }
+
+        internal static void AvoidLabelOverlap(Serie serie)
+        {
+            if (!serie.avoidLabelOverlap) return;
+            var lastCheckPos = Vector3.zero;
+            var data = serie.data;
+            var splitCount = 0;
+            for (int n = 0; n < data.Count; n++)
+            {
+                var serieData = data[n];
+                if (serieData.labelPosition.x != 0 && serieData.labelPosition.x < serie.runtimeCenterPos.x)
+                {
+                    splitCount = n;
+                    break;
+                }
+            }
+            if (splitCount <= 0) return;
+            for (int n = 0; n < splitCount; n++)
+            {
+                var serieData = data[n];
+                CheckSerieDataLabel(serie, serieData, false, ref lastCheckPos);
+            }
+            lastCheckPos = Vector3.zero;
+            for (int n = data.Count - 1; n >= splitCount; n--)
+            {
+                var serieData = data[n];
+                CheckSerieDataLabel(serie, serieData, true, ref lastCheckPos);
+            }
+        }
+
+        private static void CheckSerieDataLabel(Serie serie, SerieData serieData, bool isLeft, ref Vector3 lastCheckPos)
+        {
+            if (!serieData.canShowLabel)
+            {
+                serieData.SetLabelActive(false);
+                return;
+            }
+            if (!serieData.show) return;
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (serieLabel.position != SerieLabel.Position.Outside) return;
+            if (lastCheckPos == Vector3.zero)
+            {
+                lastCheckPos = serieData.labelPosition;
+            }
+            else if (serieData.labelPosition.x != 0)
+            {
+                float hig = serieLabel.fontSize;
+                if (lastCheckPos.y - serieData.labelPosition.y < hig)
+                {
+                    var labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
+                    var y1 = lastCheckPos.y - hig;
+                    var cy = serie.runtimeCenterPos.y;
+                    var diff = Mathf.Abs(y1 - cy);
+                    var diffX = labelRadius * labelRadius - diff * diff;
+                    diffX = diffX <= 0 ? 0 : diffX;
+                    var x1 = serie.runtimeCenterPos.x + Mathf.Sqrt(diffX) * (isLeft ? -1 : 1);
+                    serieData.labelPosition = new Vector3(x1, y1);
+                }
+                lastCheckPos = serieData.labelPosition;
+                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel));
+            }
+        }
+
+        internal static Vector3 GetRealLabelPosition(SerieData serieData, SerieLabel label)
+        {
+            if (label.position == SerieLabel.Position.Outside && label.lineType != SerieLabel.LineType.HorizontalLine)
+            {
+                var currAngle = serieData.runtimePieHalfAngle;
+                var offset = label.lineLength2 + serieData.labelObject.GetLabelWidth() / 2;
+                if (currAngle > 180)
+                    return serieData.labelPosition + new Vector3(-offset, 0, 0);
+                else
+                    return serieData.labelPosition + new Vector3(offset, 0, 0);
+            }
+            else
+            {
+                return serieData.labelPosition;
+            }
+        }
     }
 }

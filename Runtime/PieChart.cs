@@ -5,7 +5,6 @@
 /*                                        */
 /******************************************/
 
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -203,17 +202,15 @@ namespace XCharts
         {
             foreach (var serie in m_Series.list)
             {
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                foreach (var serieData in serie.data)
                 {
-                    foreach (var serieData in serie.data)
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                     {
-                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
-                        {
-                            int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
-                            Color color = m_ThemeInfo.GetColor(colorIndex);
-                            DrawLabelLine(vh, serie, serieData, color);
-                        }
+                        int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
+                        Color color = m_ThemeInfo.GetColor(colorIndex);
+                        DrawLabelLine(vh, serie, serieData, color);
                     }
                 }
             }
@@ -223,16 +220,14 @@ namespace XCharts
         {
             foreach (var serie in m_Series.list)
             {
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                foreach (var serieData in serie.data)
                 {
-                    foreach (var serieData in serie.data)
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                     {
-                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
-                        {
-                            UpdateLabelPostion(serie, serieData);
-                            DrawLabelBackground(vh, serie, serieData);
-                        }
+                        SerieLabelHelper.UpdatePieLabelPosition(serie, serieData);
+                        DrawLabelBackground(vh, serie, serieData);
                     }
                 }
             }
@@ -261,7 +256,11 @@ namespace XCharts
                 radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
-                var pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
+                var pos2 = serieData.labelPosition;
+                if (pos2.x == 0)
+                {
+                    pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
+                }
                 float tx, ty;
                 Vector3 pos3, pos4, pos6;
                 var horizontalLineCircleRadius = serieLabel.lineWidth * 4f;
@@ -337,7 +336,6 @@ namespace XCharts
                 serie.index = i;
                 if (!serie.show) continue;
                 var data = serie.data;
-
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
@@ -349,9 +347,9 @@ namespace XCharts
                     if (!serieData.show) continue;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.name);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
-
                     DrawLabel(serie, n, serieData, color);
                 }
+                SerieLabelHelper.AvoidLabelOverlap(serie);
             }
         }
 
@@ -392,8 +390,7 @@ namespace XCharts
                 serieData.labelObject.label.fontSize = fontSize;
                 serieData.labelObject.label.fontStyle = fontStyle;
                 serieData.labelObject.SetLabelRotate(rotate);
-
-                UpdateLabelPostion(serie, serieData);
+                SerieLabelHelper.UpdatePieLabelPosition(serie, serieData);
                 if (!string.IsNullOrEmpty(serieLabel.formatter))
                 {
                     var value = serieData.data[1];
@@ -405,7 +402,7 @@ namespace XCharts
                 {
                     if (serieData.labelObject.SetText(serieData.name)) RefreshChart();
                 }
-                serieData.labelObject.SetPosition(serieData.labelPosition);
+                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel));
                 if (showLabel) serieData.labelObject.SetLabelPosition(serieLabel.offset);
                 else serieData.SetLabelActive(false);
             }
@@ -414,63 +411,6 @@ namespace XCharts
                 serieData.SetLabelActive(false);
             }
             serieData.labelObject.UpdateIcon(serieData.iconStyle);
-        }
-
-        protected void UpdateLabelPostion(Serie serie, SerieData serieData)
-        {
-            if (serieData.labelObject == null) return;
-            var currAngle = serieData.runtimePieHalfAngle;
-            var currRad = currAngle * Mathf.Deg2Rad;
-            var offsetRadius = serieData.runtimePieOffsetRadius;
-            var insideRadius = serieData.runtimePieInsideRadius;
-            var outsideRadius = serieData.runtimePieOutsideRadius;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            switch (serieLabel.position)
-            {
-                case SerieLabel.Position.Center:
-                    serieData.labelPosition = serie.runtimeCenterPos;
-                    break;
-                case SerieLabel.Position.Inside:
-                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
-                    var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                        serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                    serieData.labelPosition = labelCenter;
-                    break;
-                case SerieLabel.Position.Outside:
-                    if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine)
-                    {
-                        var radius1 = serie.runtimeOutsideRadius;
-                        var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
-                        var currSin = Mathf.Sin(currRad);
-                        var currCos = Mathf.Cos(currRad);
-                        var pos0 = new Vector3(serie.runtimeCenterPos.x + radius3 * currSin, serie.runtimeCenterPos.y + radius3 * currCos);
-                        if (currAngle > 180)
-                        {
-                            currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
-                            currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
-                        }
-                        var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
-                        r4 += serieLabel.lineLength1 + serieLabel.lineWidth * 4;
-                        r4 += serieData.labelObject.label.preferredWidth / 2;
-                        serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
-                    }
-                    else
-                    {
-                        labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
-                        labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                            serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                        float labelWidth = serieData.labelObject.label.preferredWidth;
-                        if (currAngle > 180)
-                        {
-                            serieData.labelPosition = new Vector2(labelCenter.x - serieLabel.lineLength2 - 5 - labelWidth / 2, labelCenter.y);
-                        }
-                        else
-                        {
-                            serieData.labelPosition = new Vector2(labelCenter.x + serieLabel.lineLength2 + 5 + labelWidth / 2, labelCenter.y);
-                        }
-                    }
-                    break;
-            }
         }
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
@@ -532,7 +472,7 @@ namespace XCharts
             var dist = Vector2.Distance(local, serie.runtimeCenterPos);
             if (dist < serie.runtimeInsideRadius || dist > serie.runtimeOutsideRadius) return -1;
             Vector2 dir = local - new Vector2(serie.runtimeCenterPos.x, serie.runtimeCenterPos.y);
-            float angle = VectorAngle(Vector2.up, dir);
+            float angle = ChartHelper.GetAngle360(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
             {
                 var serieData = serie.data[i];
@@ -542,17 +482,6 @@ namespace XCharts
                 }
             }
             return -1;
-        }
-
-        float VectorAngle(Vector2 from, Vector2 to)
-        {
-            float angle;
-
-            Vector3 cross = Vector3.Cross(from, to);
-            angle = Vector2.Angle(from, to);
-            angle = cross.z > 0 ? -angle : angle;
-            angle = (angle + 360) % 360;
-            return angle;
         }
 
         protected override void UpdateTooltip()
@@ -583,16 +512,14 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                var index = GetPosPieIndex(serie, local);
+                if (index >= 0)
                 {
-                    var index = GetPosPieIndex(serie, local);
-                    if (index >= 0)
+                    for (int j = 0; j < serie.data.Count; j++)
                     {
-                        for (int j = 0; j < serie.data.Count; j++)
-                        {
-                            if (j == index) serie.data[j].selected = !serie.data[j].selected;
-                            else serie.data[j].selected = false;
-                        }
+                        if (j == index) serie.data[j].selected = !serie.data[j].selected;
+                        else serie.data[j].selected = false;
                     }
                 }
             }

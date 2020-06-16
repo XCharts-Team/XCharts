@@ -742,5 +742,22 @@ namespace XCharts
             var py = Mathf.Cos(rad) * radius;
             return center + new Vector3(px, py);
         }
+
+        /// <summary>
+        /// 获得0-360的角度（12点钟方向为0度）
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public static float GetAngle360(Vector2 from, Vector2 to)
+        {
+            float angle;
+
+            Vector3 cross = Vector3.Cross(from, to);
+            angle = Vector2.Angle(from, to);
+            angle = cross.z > 0 ? -angle : angle;
+            angle = (angle + 360) % 360;
+            return angle;
+        }
     }
 }

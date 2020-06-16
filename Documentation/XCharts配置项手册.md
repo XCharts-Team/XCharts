@@ -574,6 +574,7 @@
 * `roundCap`：是否启用圆弧效果。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `avoidLabelOverlap`：在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。

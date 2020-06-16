@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.06.17) 修复`Check For Update`在`Unity 2018`部分版本报错的问题#63
 * (2020.06.16) 增加`Serie`的`avoidLabelOverlap`参数避免饼图标签堆叠的情况#56
 * (2020.06.15) 修复`SerieLabel`单独控制显示时可能错乱的问题
 * (2020.06.11) 修复`Check warning`不生效的问题

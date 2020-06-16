@@ -15,7 +15,7 @@ namespace XCharts
         private Vector2 scrollPos;
         private static CheckVersionEditor window;
 
-        [MenuItem("Component/XCharts/Check For Update")]
+        [MenuItem("XCharts/Check For Update")]
         public static void ShowWindow()
         {
             window = GetWindow<CheckVersionEditor>();

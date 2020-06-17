@@ -1,18 +1,19 @@
 
 # 更新日志
 
+* (2020.06.17) 增加`SerieData`可单独设置`SerieSymbol`#66
 * (2020.06.17) 修复`Check For Update`在`Unity 2018`部分版本报错的问题#63
 * (2020.06.16) 增加`Serie`的`avoidLabelOverlap`参数避免饼图标签堆叠的情况#56
 * (2020.06.15) 修复`SerieLabel`单独控制显示时可能错乱的问题
 * (2020.06.11) 修复`Check warning`不生效的问题
 * (2020.06.11) 修复`PieChart`和`RingChart`在数据占比很小时不显示的问题
 * (2020.06.11) 增加`Tooltip`的`titleFormatter`支持配置占位符`{i}`表示忽略不显示标题
-* (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数
-* (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果
+* (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数#58
+* (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果#59
 * (2020.06.04) 增加`SerieLabel`的`autoOffset`参数设置是否自动判断上下偏移
 * (2020.06.04) 增加`Tooltip`的`alwayShow`参数设置触发后一直显示
 * (2020.06.04) 优化`Tooltip`的`formatter`支持`{.1}`通配符
-* (2020.06.04) 优化`Legend`数量过多时自动换行显示
+* (2020.06.04) 优化`Legend`数量过多时自动换行显示#53
 * (2020.06.03) 发布`v1.5.1`版本
 * (2020.06.02) 增加`Radar`的`ceilRate`，设置最大最小值的取整倍率
 * (2020.06.02) 优化`Tooltip`的`formatter`，支持`{c1:1-1:f1}`格式配置

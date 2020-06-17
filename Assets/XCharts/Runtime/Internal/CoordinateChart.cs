@@ -276,7 +276,8 @@ namespace XCharts
                                 var serieData = serie.data[n];
                                 var xdata = serieData.GetData(0, xAxis.inverse);
                                 var ydata = serieData.GetData(1, yAxis.inverse);
-                                var symbolSize = serie.symbol.GetSize(serieData == null ? null : serieData.data);
+                                var symbol = SerieHelper.GetSerieSymbol(serie,serieData);
+                                var symbolSize = symbol.GetSize(serieData == null ? null : serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
                                 {

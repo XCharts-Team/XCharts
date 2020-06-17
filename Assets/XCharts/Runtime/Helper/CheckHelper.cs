@@ -165,7 +165,7 @@ namespace XCharts
                         break;
                     case SerieType.Scatter:
                     case SerieType.EffectScatter:
-                        if (serie.symbol.type == SerieSymbolType.None)
+                        if (!serie.symbol.show)
                             sb.AppendFormat("warning:serie {0} symbol type is None\n", serie.index);
                         break;
                 }

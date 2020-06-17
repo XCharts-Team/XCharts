@@ -20,6 +20,7 @@ namespace XCharts
         {
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
+            SerializedProperty m_Show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
             SerializedProperty m_SizeType = prop.FindPropertyRelative("m_SizeType");
             SerializedProperty m_Size = prop.FindPropertyRelative("m_Size");
@@ -32,12 +33,14 @@ namespace XCharts
             SerializedProperty m_ForceShowLast = prop.FindPropertyRelative("m_ForceShowLast");
             SerializedProperty m_Gap = prop.FindPropertyRelative("m_Gap");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieSymbolToggle, prop, null, m_Type, false);
+            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieSymbolToggle, prop, null, m_Show, false);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (ChartEditorHelper.IsToggle(m_SerieSymbolToggle, prop))
             {
                 ++EditorGUI.indentLevel;
 
+                EditorGUI.PropertyField(drawRect, m_Type);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Gap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SizeType);
@@ -78,16 +81,18 @@ namespace XCharts
             {
                 SerializedProperty m_SizeType = prop.FindPropertyRelative("m_SizeType");
                 SerieSymbolSizeType sizeType = (SerieSymbolSizeType)m_SizeType.enumValueIndex;
+                var hig = 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
                 switch (sizeType)
                 {
                     case SerieSymbolSizeType.Custom:
-                        return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                        break;
                     case SerieSymbolSizeType.FromData:
-                        return 9 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                        hig += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                        break;
                     case SerieSymbolSizeType.Callback:
-                        return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                        break;
                 }
-                return 8 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                return hig;
             }
             else
             {

@@ -837,12 +837,16 @@
 * `name`：数据项名称。
 * `selected`：该数据项是否被选中。
 * `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
-* `showIcon`：是否显示图标。
-* `iconImage`：图标的图片。
-* `iconColor`：图标颜色。
-* `iconWidth`：图标宽。
-* `iconHeight`：图标高。
-* `iconOffset`：图标偏移。
+* `iconStyle`：数据项图标样式。
+* `enableLabel`：是否启用单个数据项的标签设置。
+* `label`：单个数据项的标签设置。
+* `enableItemStyle`：是否启用单个数据项的样式。
+* `itemStyle`：单个数据项的样式设置。
+* `enableEmphasis`：是否启用单个数据项的高亮样式。
+* `emphasis`：单个数据项的高亮样式设置。
+* `enableSymbol`：是否启用单个数据项的标记设置。
+* `symbol`：单个数据项的标记设置。
+* `data`：可指定任意维数的数值列表。对于折线图和柱状图，`data`其实是`size`为`2`的数组，`data[0]`是x的编号，`data[1]`是`y`的数值，默认显示`data[1]`。其他图表看需求而定是长度大于`2`的数组。可通过`Serie`的`showDataDimension`指定数据长度。
 
 ## `SerieLabel`
 
@@ -881,6 +885,7 @@
 
 ## `SerieSymbol`
 
+* `show`：是否显示标记。
 * `type`：标记类型。支持以下六种类型：
   * `EmptyCircle`：空心圆。
   * `Circle`：实心圆。

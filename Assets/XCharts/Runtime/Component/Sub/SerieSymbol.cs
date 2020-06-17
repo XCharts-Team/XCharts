@@ -78,6 +78,7 @@ namespace XCharts
     [System.Serializable]
     public class SerieSymbol : SubComponent
     {
+        [SerializeField] private bool m_Show = false;
         [SerializeField] private SerieSymbolType m_Type = SerieSymbolType.EmptyCircle;
         [SerializeField] private SerieSymbolSizeType m_SizeType = SerieSymbolSizeType.Custom;
         [SerializeField] private float m_Size = 6f;
@@ -92,6 +93,33 @@ namespace XCharts
         [SerializeField] private bool m_ForceShowLast = false;
         [SerializeField] private float m_Gap = 0;
 
+        public void Reset()
+        {
+            m_Show = false;
+            m_Type = SerieSymbolType.EmptyCircle;
+            m_SizeType = SerieSymbolSizeType.Custom;
+            m_Size = 6f;
+            m_SelectedDataScale = 10f;
+            m_DataIndex = 1;
+            m_DataScale = 1;
+            m_SelectedDataScale = 1.5f;
+            m_SizeCallback = null;
+            m_SelectedSizeCallback = null;
+            m_StartIndex = 0;
+            m_Interval = 0;
+            m_ForceShowLast = false;
+            m_Gap = 0;
+        }
+
+        /// <summary>
+        /// Whether the symbol is showed.
+        /// 是否显示标记。
+        /// </summary>
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the type of symbol.
         /// 标记类型。
@@ -274,7 +302,7 @@ namespace XCharts
 
         public bool ShowSymbol(int dataIndex, int dataCount)
         {
-            if (type == SerieSymbolType.None) return false;
+            if (!show) return false;
             if (dataIndex < startIndex) return false;
             if (m_Interval <= 0) return true;
             if (m_ForceShowLast && dataIndex == dataCount - 1) return true;

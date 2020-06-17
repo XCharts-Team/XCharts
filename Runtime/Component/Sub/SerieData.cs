@@ -30,6 +30,8 @@ namespace XCharts
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private bool m_EnableEmphasis = false;
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
+        [SerializeField] private bool m_EnableSymbol = false;
+        [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private List<float> m_Data = new List<float>();
 
         public LabelObject labelObject { get; set; }
@@ -86,6 +88,14 @@ namespace XCharts
         /// 单个数据项的高亮样式设置。
         /// </summary>
         public Emphasis emphasis { get { return m_Emphasis; } set { m_Emphasis = value; } }
+        /// <summary>
+        /// 是否启用单个数据项的标记设置。
+        /// </summary>
+        public bool enableSymbol { get { return m_EnableSymbol; } set { m_EnableSymbol = value; } }
+        /// <summary>
+        /// 单个数据项的标记设置。
+        /// </summary>
+        public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
@@ -169,6 +179,10 @@ namespace XCharts
             m_Name = string.Empty;
             m_Selected = false;
             m_CanShowLabel = false;
+            m_EnableSymbol = false;
+            m_EnableLabel = false;
+            m_EnableEmphasis = false;
+            m_EnableItemStyle = false;
             m_Radius = 0;
             m_Data.Clear();
             m_PreviousData.Clear();

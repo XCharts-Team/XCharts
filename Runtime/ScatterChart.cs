@@ -75,11 +75,14 @@ namespace XCharts
                 if (!serie.show) continue;
                 if (serie.type != SerieType.Scatter && serie.type != SerieType.EffectScatter) continue;
                 bool refresh = false;
+                var dataCount = serie.data.Count;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    if (!symbol.ShowSymbol(j, dataCount)) continue;
                     var dist = Vector3.Distance(local, serieData.runtimePosition);
-                    if (dist <= serie.symbol.size)
+                    if (dist <= symbol.size)
                     {
                         serieData.selected = true;
                         m_Tooltip.AddSerieDataIndex(serie.index, j);

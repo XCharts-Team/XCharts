@@ -46,7 +46,7 @@ namespace XCharts.Examples
             chart.RemoveData();
 
             var serie = chart.AddSerie(SerieType.Line);
-            serie.symbol.type = SerieSymbolType.None;
+            serie.symbol.show = false;
             serie.lineType = LineType.Normal;
             for (angle = 0; angle < 1080; angle++)
             {

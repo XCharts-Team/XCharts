@@ -171,6 +171,12 @@ namespace XCharts
             }
         }
 
+        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
+        {
+            if (!serie.IsPerformanceMode() && serieData.enableSymbol) return serieData.symbol;
+            else return serie.symbol;
+        }
+
         public static Color GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;

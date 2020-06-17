@@ -21,31 +21,30 @@ namespace XCharts
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
-                if (serie.IsPerformanceMode()) continue;
+                if (!serie.show || serie.IsPerformanceMode()) continue;
                 if (serie.type != SerieType.Line) continue;
-                if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
                 var count = serie.dataPoints.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    if (!serie.symbol.ShowSymbol(i, count)) continue;
+                    var serieData = serie.GetSerieData(i);
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    if (!symbol.show || !symbol.ShowSymbol(i, count)) continue;
                     if (serie.lineArrow.show)
                     {
                         if (serie.lineArrow.position == LineArrow.Position.Start && i == 0) continue;
                         if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1) continue;
                     }
-                    Vector3 p = serie.dataPoints[i];
-                    var serieData = serie.GetSerieData(i);
-                    if (ChartHelper.IsIngore(p)) continue;
+                    if (ChartHelper.IsIngore(serie.dataPoints[i])) continue;
                     bool highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                         || serie.data[i].highlighted || serie.highlighted;
-                    float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
+                    float symbolSize = highlight ? symbol.selectedSize : symbol.size;
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    CheckClipAndDrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, p, symbolColor,
-                        symbolToColor, serie.symbol.gap, clip, cornerRadius);
+                    CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
+                        symbolToColor, symbol.gap, clip, cornerRadius);
                 }
             }
         }

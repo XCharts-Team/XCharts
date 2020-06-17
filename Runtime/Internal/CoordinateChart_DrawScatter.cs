@@ -28,6 +28,8 @@ namespace XCharts
             for (int n = serie.minShow; n < maxCount; n++)
             {
                 var serieData = serie.GetDataList(m_DataZoom)[n];
+                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                if (!symbol.ShowSymbol(n, maxCount)) continue;
                 var highlight = serie.highlighted || serieData.highlighted;
                 var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
@@ -47,27 +49,27 @@ namespace XCharts
                 float symbolSize = 0;
                 if (serie.highlighted || serieData.highlighted)
                 {
-                    symbolSize = serie.symbol.GetSelectedSize(datas);
+                    symbolSize = symbol.GetSelectedSize(datas);
                 }
                 else
                 {
-                    symbolSize = serie.symbol.GetSize(datas);
+                    symbolSize = symbol.GetSize(datas);
                 }
                 symbolSize *= rate;
                 if (symbolSize > 100) symbolSize = 100;
                 if (serie.type == SerieType.EffectScatter)
                 {
-                    for (int count = 0; count < serie.symbol.animationSize.Count; count++)
+                    for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
-                        var nowSize = serie.symbol.animationSize[count];
+                        var nowSize = symbol.animationSize[count];
                         color.a = (symbolSize - nowSize) / symbolSize;
-                        DrawSymbol(vh, serie.symbol.type, nowSize, symbolBorder, pos, color, toColor, serie.symbol.gap, cornerRadius);
+                        DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
                     }
                     RefreshChart();
                 }
                 else
                 {
-                    DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, pos, color, toColor, serie.symbol.gap, cornerRadius);
+                    DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())

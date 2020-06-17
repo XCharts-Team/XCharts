@@ -31,7 +31,7 @@ namespace XCharts.Examples
             chart = gameObject.GetComponentInChildren<CoordinateChart>();
             chart.RemoveData();
             var serie = chart.AddSerie(SerieType.Line);
-            serie.symbol.type = SerieSymbolType.None;
+            serie.symbol.show = false;
             serie.maxCache = maxCacheDataNumber;
             chart.xAxises[0].maxCache = maxCacheDataNumber;
             timeNow = DateTime.Now;

@@ -84,6 +84,7 @@ namespace XCharts
             m_Radars.Add(Radar.defaultRadar);
             m_Title.text = "RadarChart";
             var serie = AddSerie(SerieType.Radar, "serie1");
+            serie.symbol.show = true;
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
@@ -334,7 +335,7 @@ namespace XCharts
                 {
                     ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
-                if (serie.symbol.type != SerieSymbolType.None)
+                if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
                 {
                     var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
@@ -468,7 +469,7 @@ namespace XCharts
                     ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
             }
-            if (serie.symbol.type != SerieSymbolType.None)
+            if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
             {
                 for (int j = 0; j < serie.data.Count; j++)
                 {
@@ -517,7 +518,7 @@ namespace XCharts
         private void DrawRadarSymbol(VertexHelper vh, Serie serie, SerieData serieData, int serieIndex, bool isHighlight,
             List<Vector3> pointList)
         {
-            if (serie.symbol.type != SerieSymbolType.None)
+            if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
             {
                 var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);

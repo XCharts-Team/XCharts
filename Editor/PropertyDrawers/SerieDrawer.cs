@@ -486,8 +486,13 @@ namespace XCharts
                 var m_ItemStyle = serieData.FindPropertyRelative("m_ItemStyle");
                 var m_EnableEmphasis = serieData.FindPropertyRelative("m_EnableEmphasis");
                 var m_Emphasis = serieData.FindPropertyRelative("m_Emphasis");
+                var m_EnableSymbol = serieData.FindPropertyRelative("m_EnableSymbol");
+                var m_Symbol = serieData.FindPropertyRelative("m_Symbol");
                 EditorGUI.PropertyField(drawRect, m_Icon);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Icon);
+                EditorGUI.PropertyField(drawRect, m_Symbol);
+                ChartEditorHelper.MakeBool(drawRect, m_EnableSymbol, 1, "(enable)");
+                drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
                 EditorGUI.PropertyField(drawRect, m_Label);
                 ChartEditorHelper.MakeBool(drawRect, m_EnableLabel, 1, "(enable)");
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
@@ -497,7 +502,6 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Emphasis);
                 ChartEditorHelper.MakeBool(drawRect, m_EnableEmphasis, 1, "(enable)");
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
-
                 EditorGUI.indentLevel -= 2;
             }
         }
@@ -607,6 +611,7 @@ namespace XCharts
                         {
                             var item = m_Data.GetArrayElementAtIndex(i);
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_IconStyle"));
+                            height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Symbol"));
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Label"));
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_ItemStyle"));
                             height += EditorGUI.GetPropertyHeight(item.FindPropertyRelative("m_Emphasis"));

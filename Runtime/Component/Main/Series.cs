@@ -259,19 +259,21 @@ namespace XCharts
 
             if (type == SerieType.Scatter)
             {
+                serie.symbol.show = true;
                 serie.symbol.type = SerieSymbolType.Circle;
                 serie.symbol.size = 20f;
                 serie.symbol.selectedSize = 30f;
             }
             else if (type == SerieType.Line)
             {
+                serie.symbol.show = true;
                 serie.symbol.type = SerieSymbolType.EmptyCircle;
                 serie.symbol.size = 2.5f;
                 serie.symbol.selectedSize = 5f;
             }
             else
             {
-                serie.symbol.type = SerieSymbolType.None;
+                serie.symbol.show = false;
             }
             serie.animation.Restart();
             m_Series.Add(serie);

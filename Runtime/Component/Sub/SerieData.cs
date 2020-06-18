@@ -176,9 +176,11 @@ namespace XCharts
         {
             index = 0;
             labelObject = null;
+            highlighted = false;
             m_Name = string.Empty;
+            m_Show = true;
             m_Selected = false;
-            m_CanShowLabel = false;
+            m_CanShowLabel = true;
             m_EnableSymbol = false;
             m_EnableLabel = false;
             m_EnableEmphasis = false;

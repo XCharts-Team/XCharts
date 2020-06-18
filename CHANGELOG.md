@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.06.18) 修复`SerieLabel`在重新添加数据时可能不显示的问题
 * (2020.06.17) 增加`SerieData`可单独设置`SerieSymbol`#66
 * (2020.06.17) 修复`Check For Update`在`Unity 2018`部分版本报错的问题#63
 * (2020.06.16) 增加`Serie`的`avoidLabelOverlap`参数避免饼图标签堆叠的情况#56

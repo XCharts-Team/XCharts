@@ -78,7 +78,7 @@ namespace XCharts
     [System.Serializable]
     public class SerieSymbol : SubComponent
     {
-        [SerializeField] private bool m_Show = false;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private SerieSymbolType m_Type = SerieSymbolType.EmptyCircle;
         [SerializeField] private SerieSymbolSizeType m_SizeType = SerieSymbolSizeType.Custom;
         [SerializeField] private float m_Size = 6f;

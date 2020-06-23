@@ -31,6 +31,8 @@ namespace XCharts
             m_XAxises[1].boundaryGap = false;
             RemoveData();
             var serie = AddSerie(SerieType.Scatter, "serie1");
+            serie.symbol.show = true;
+            serie.symbol.type = SerieSymbolType.Circle;
             serie.itemStyle.opacity = 0.8f;
             serie.clip = false;
             for (int i = 0; i < 10; i++)

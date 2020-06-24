@@ -755,16 +755,10 @@ namespace XCharts
                             }
                         }
                     }
-                    if (isYAxis)
-                    {
-                        if ((tp1.y < dnPos.y && tp1.y > lastDnPos.y) || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y < dnPos.y || IsValue()) smoothDownPoints.Add(tp2);
-                    }
-                    else
-                    {
-                        if ((tp1.x < dnPos.x && tp1.x > lastDnPos.x) || isSecond || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x < dnPos.x && tp2.x > stPos2.x) smoothDownPoints.Add(tp2);
-                    }
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
+                        smoothPoints.Add(tp1);
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp2, dnPos) && IsInRightOrUp(isYAxis, stPos2, tp2)))
+                        smoothDownPoints.Add(tp2);
                 }
                 else
                 {
@@ -809,16 +803,10 @@ namespace XCharts
                             }
                         }
                     }
-                    if (isYAxis)
-                    {
-                        if ((tp1.y < dnPos.y && tp1.y > lastDnPos.y) || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y > lastDnPos.y || IsValue()) smoothDownPoints.Add(tp2);
-                    }
-                    else
-                    {
-                        if ((tp1.x < dnPos.x && tp1.x > lastDnPos.x) || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x > lastDnPos.x) smoothDownPoints.Add(tp2);
-                    }
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
+                        smoothPoints.Add(tp1);
+                    if (IsValue() || IsInRightOrUp(isYAxis, lastDnPos, tp2))
+                        smoothDownPoints.Add(tp2);
                 }
                 start = cp;
                 ltp1 = tp1;
@@ -1012,7 +1000,7 @@ namespace XCharts
 
         private bool IsInRightOrUp(bool isYAxis, Vector3 lp, Vector3 rp)
         {
-            return ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
+            return lp == Vector3.zero || ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
         }
 
         private void DrawPolygonToZero(VertexHelper vh, Vector3 sp, Vector3 ep, Axis axis, Vector3 zeroPos,

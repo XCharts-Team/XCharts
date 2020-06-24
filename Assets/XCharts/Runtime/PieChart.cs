@@ -154,9 +154,10 @@ namespace XCharts
                             center.y + serieData.runtimePieOffsetRadius * currCos);
                         var drawEndDegree = serieData.runtimePieCurrAngle;
                         var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
+
                         ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius,
                             serieData.runtimePieOutsideRadius, color, toColor, Color.clear, startDegree, drawEndDegree,
-                             borderWidth, borderColor, serie.pieSpace / 2, m_Settings.cicleSmoothness, needRoundCap, serie.clockwise);
+                             borderWidth, borderColor, serie.pieSpace / 2, m_Settings.cicleSmoothness, needRoundCap, true);
                     }
                     else
                     {
@@ -164,7 +165,7 @@ namespace XCharts
                         var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
                         ChartDrawer.DrawDoughnut(vh, center, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
                             color, toColor, Color.clear, startDegree, drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2,
-                            m_Settings.cicleSmoothness, needRoundCap, serie.clockwise);
+                            m_Settings.cicleSmoothness, needRoundCap, true);
                         DrawCenter(vh, serie, itemStyle, serieData.runtimePieInsideRadius);
                     }
                     serieData.canShowLabel = serieData.runtimePieCurrAngle >= serieData.runtimePieHalfAngle;

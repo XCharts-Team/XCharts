@@ -1262,6 +1262,7 @@ namespace XCharts
             for (int k = 1; k < smoothPoints.Count; k++)
             {
                 to = smoothPoints[k];
+                if (!IsInRightOrUp(isYAxis, start, to)) continue;
                 if (serie.animation.CheckDetailBreak(to, isYAxis)) break;
                 Vector3 tnp, tlp;
                 if (isYAxis) areaColor = GetYLerpColor(sourAreaColor, areaToColor, to);

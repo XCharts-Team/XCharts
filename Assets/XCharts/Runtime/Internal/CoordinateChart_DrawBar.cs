@@ -147,7 +147,7 @@ namespace XCharts
 
         private float CheckAnimation(Serie serie, int dataIndex, float barHig)
         {
-            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig,serie.dataCount);
+            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig, serie.dataCount);
             if (!serie.animation.IsFinish())
             {
                 RefreshChart();
@@ -256,7 +256,7 @@ namespace XCharts
                     top = ClampInCoordinate(top);
                 }
                 serie.dataPoints.Add(top);
-                if (serie.show)
+                if (serie.show && currHig != 0)
                 {
                     switch (serie.barType)
                     {

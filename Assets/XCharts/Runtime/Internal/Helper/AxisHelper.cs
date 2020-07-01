@@ -120,6 +120,7 @@ namespace XCharts
                 else
                 {
                     value = (minValue + (maxValue - minValue) * index / (split - 1));
+                    if (!axis.clockwise && value != minValue) value = maxValue - value;
                 }
                 if (axis.inverse)
                 {

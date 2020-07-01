@@ -486,10 +486,19 @@ namespace XCharts
 
         private Vector3 GetPolarPos(SerieData serieData, float min, float max, float polarRadius)
         {
-            var angle = m_AngleAxis.runtimeStartAngle + serieData.GetData(1);
+            var angle = 0f;
+            if (!m_AngleAxis.clockwise)
+            {
+                angle = m_AngleAxis.runtimeStartAngle - serieData.GetData(1);
+            }
+            else
+            {
+                angle = m_AngleAxis.runtimeStartAngle + serieData.GetData(1);
+            }
+            angle = (angle + 360) % 360;
             var value = serieData.GetData(0);
             var radius = (value - min) / (max - min) * polarRadius;
-            serieData.runtimeAngle = (angle + 360) % 360;
+            serieData.runtimeAngle = angle;
             serieData.runtimePosition = ChartHelper.GetPos(m_Polar.runtimeCenterPos, radius, angle, true);
             return serieData.runtimePosition;
         }
@@ -583,7 +592,7 @@ namespace XCharts
             var showTooltip = m_Tooltip.isAnySerieDataIndex();
             if (showTooltip)
             {
-                var content = TooltipHelper.GetPolarFormatterContent(m_Tooltip, m_Series, m_ThemeInfo);
+                var content = TooltipHelper.GetPolarFormatterContent(m_Tooltip, m_Series, m_ThemeInfo, m_AngleAxis);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             }
             m_Tooltip.SetActive(showTooltip);

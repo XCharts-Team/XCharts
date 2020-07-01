@@ -78,6 +78,7 @@ namespace XCharts
         [SerializeField] protected bool m_LogBaseE = false;
         [SerializeField] protected int m_CeilRate = 0;
         [SerializeField] protected bool m_Inverse = false;
+        [SerializeField] private bool m_Clockwise = true;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -204,6 +205,15 @@ namespace XCharts
         {
             get { return m_Inverse; }
             set { if (m_Type == AxisType.Value && PropertyUtility.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the positive position of axis is in clockwise. True for clockwise by default.
+        /// 刻度增长是否按顺时针，默认顺时针。
+        /// </summary>
+        public bool clockwise
+        {
+            get { return m_Clockwise; }
+            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -843,7 +853,7 @@ namespace XCharts
     public class AngleAxis : Axis
     {
         [SerializeField] private float m_StartAngle = 90;
-        [SerializeField] private bool m_Clockwise = true;
+        
         /// <summary>
         /// Starting angle of axis. 90 degrees by default, standing for top position of center. 0 degree stands for right position of center.
         /// 起始刻度的角度，默认为 90 度，即圆心的正上方。0 度为圆心的正右方。
@@ -853,16 +863,7 @@ namespace XCharts
             get { return m_StartAngle; }
             set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
         }
-        /// <summary>
-        /// Whether the positive position of axis is in clockwise. True for clockwise by default.
-        /// 刻度增长是否按顺时针，默认顺时针。
-        /// </summary>
-        public bool clockWise
-        {
-            get { return m_Clockwise; }
-            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
-        }
-
+        
         public float runtimeStartAngle { get; set; }
 
         public static AngleAxis defaultAngleAxis

@@ -181,13 +181,14 @@ namespace XCharts
             tooltip.UpdateContentPos(pos);
         }
 
-        public static string GetPolarFormatterContent(Tooltip tooltip, Series series, ThemeInfo themeInfo)
+        public static string GetPolarFormatterContent(Tooltip tooltip, Series series, ThemeInfo themeInfo, AngleAxis angleAxis)
         {
             if (string.IsNullOrEmpty(tooltip.formatter))
             {
                 var sb = ChartHelper.sb;
                 sb.Length = 0;
-                sb.Append(tooltip.runtimeAngle).Append("\n");
+                var angle = angleAxis.clockwise ? tooltip.runtimeAngle : 360 - tooltip.runtimeAngle;
+                sb.Append(angle).Append("\n");
                 foreach (var serie in series.list)
                 {
                     if (serie.show && IsSelectedSerie(tooltip, serie.index))

@@ -181,6 +181,48 @@ namespace XCharts
             tooltip.UpdateContentPos(pos);
         }
 
+        public static string GetPolarFormatterContent(Tooltip tooltip, Series series, ThemeInfo themeInfo)
+        {
+            if (string.IsNullOrEmpty(tooltip.formatter))
+            {
+                var sb = ChartHelper.sb;
+                sb.Length = 0;
+                sb.Append(tooltip.runtimeAngle).Append("\n");
+                foreach (var serie in series.list)
+                {
+                    if (serie.show && IsSelectedSerie(tooltip, serie.index))
+                    {
+                        var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
+                        for (int i = 0; i < dataIndexList.Count; i++)
+                        {
+                            var dataIndex = dataIndexList[i];
+                            var serieData = serie.GetSerieData(dataIndex);
+                            var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
+                            float xValue, yValue;
+                            serie.GetXYData(dataIndex, null, out xValue, out yValue);
+
+                            sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>");
+                            if (!string.IsNullOrEmpty(serie.name))
+                                sb.Append(serie.name).Append(": ");
+                            sb.AppendFormat("{0}", ChartCached.FloatToStr(xValue, numericFormatter));
+                            if (i != dataIndexList.Count - 1)
+                            {
+                                sb.Append("\n");
+                            }
+                        }
+                        sb.Append("\n");
+                    }
+                }
+                return sb.ToString().Trim();
+            }
+            else
+            {
+                string content = tooltip.formatter;
+                FormatterHelper.ReplaceContent(ref content, 0, tooltip.numericFormatter, null, series, themeInfo, null, null);
+                return content;
+            }
+        }
+
         public static string GetFormatterContent(Tooltip tooltip, int dataIndex, Series series, ThemeInfo themeInfo,
             string category = null, DataZoom dataZoom = null, bool isCartesian = false)
         {

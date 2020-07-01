@@ -249,6 +249,10 @@ namespace XCharts
         /// 提示框的gameObject。
         /// </summary>
         public GameObject runtimeGameObject { get { return m_GameObject; } }
+        /// <summary>
+        /// 当前指示的角度。
+        /// </summary>
+        public float runtimeAngle { get; internal set; }
 
         public static Tooltip defaultTooltip
         {
@@ -389,7 +393,7 @@ namespace XCharts
         /// <param name="flag"></param>
         public void SetActive(bool flag)
         {
-            if(!flag && m_AlwayShow) return;
+            if (!flag && m_AlwayShow) return;
             lastDataIndex[0] = lastDataIndex[1] = -1;
             if (m_GameObject && m_GameObject.activeInHierarchy != flag)
                 m_GameObject.SetActive(flag);

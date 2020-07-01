@@ -127,5 +127,12 @@ namespace XCharts
         {
             AddChart<RingChart>("RingChart");
         }
+
+        [MenuItem("XCharts/PolarChart", priority = 52)]
+        [MenuItem("GameObject/XCharts/PolarChart", priority = 52)]
+        public static void AddPolarChart()
+        {
+            AddChart<PolarChart>("PolarChart");
+        }
     }
 }

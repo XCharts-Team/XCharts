@@ -100,6 +100,7 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BoundaryGap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                DrawExtended(ref drawRect, prop);
                 EditorGUI.PropertyField(drawRect, m_AxisLine);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AxisLine);
@@ -131,6 +132,11 @@ namespace XCharts
                 }
                 EditorGUI.indentLevel--;
             }
+        }
+
+        protected virtual void DrawExtended(ref Rect drawRect, SerializedProperty prop)
+        {
+
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
@@ -195,8 +201,14 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(m_AxisLabel);
                 height += EditorGUI.GetPropertyHeight(m_SplitArea);
                 height += EditorGUI.GetPropertyHeight(m_SplitLine);
+                height += GetExtendedHeight();
                 return height;
             }
+        }
+
+        protected virtual float GetExtendedHeight()
+        {
+            return 0;
         }
 
         private int InitToggle(SerializedProperty prop)

@@ -286,8 +286,16 @@ namespace XCharts
                     if (value < min) min = value;
                 }
             }
-            serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
-            serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+            if (ceilRate < 0)
+            {
+                serie.runtimeDataMin = min;
+                serie.runtimeDataMax = max;
+            }
+            else
+            {
+                serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+                serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+            }
         }
 
         public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)

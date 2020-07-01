@@ -6,6 +6,7 @@
 /******************************************/
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -165,7 +166,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        internal static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom)
+        internal static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
             if (axis.type == Axis.AxisType.Value || axis.type == Axis.AxisType.Log)
             {
@@ -190,7 +191,7 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        internal static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom)
+        internal static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)
         {
             int num = GetScaleNumber(axis, coordinateWidth, dataZoom) - 1;
             if (num <= 0) num = 1;
@@ -284,6 +285,50 @@ namespace XCharts
             if (axis.IsCategory() && axis.data.Count <= 0) return false;
             else if (axis.IsValue() && axis.runtimeMinValue == 0 && axis.runtimeMaxValue == 0) return false;
             else return true;
+        }
+
+        internal static void AdjustCircleLabelPos(Text txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        {
+            var txtWidth = txt.preferredWidth;
+            var sizeDelta = new Vector2(txtWidth, txt.preferredHeight);
+            txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+            var diff = pos.x - cenPos.x;
+            if (diff < -1f) //left
+            {
+                pos = new Vector3(pos.x - txtWidth / 2, pos.y);
+            }
+            else if (diff > 1f) //right
+            {
+                pos = new Vector3(pos.x + txtWidth / 2, pos.y);
+            }
+            else
+            {
+                float y = pos.y > cenPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
+                pos = new Vector3(pos.x, y);
+            }
+            txt.transform.localPosition = pos + offset;
+        }
+
+        internal static void AdjustRadiusAxisLabelPos(Text txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        {
+            var txtWidth = txt.preferredWidth;
+            var sizeDelta = new Vector2(txtWidth, txt.preferredHeight);
+            txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+            var diff = pos.y - cenPos.y;
+            if (diff > 20f) //left
+            {
+                pos = new Vector3(pos.x - txtWidth / 2, pos.y);
+            }
+            else if (diff < -20f) //right
+            {
+                pos = new Vector3(pos.x + txtWidth / 2, pos.y);
+            }
+            else
+            {
+                float y = pos.y > cenPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
+                pos = new Vector3(pos.x, y);
+            }
+            txt.transform.localPosition = pos;
         }
     }
 }

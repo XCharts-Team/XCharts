@@ -133,24 +133,8 @@ namespace XCharts
                     txt.gameObject.hideFlags = chartHideFlags;
                     txt.text = radar.indicatorList[i].name;
                     txt.gameObject.SetActive(radar.indicator);
-                    var txtWidth = txt.preferredWidth;
-                    var sizeDelta = new Vector2(txt.preferredWidth, txt.preferredHeight);
-                    txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-                    var diff = pos.x - radar.runtimeCenterPos.x;
-                    if (diff < -1f) //left
-                    {
-                        pos = new Vector3(pos.x - txtWidth / 2, pos.y);
-                    }
-                    else if (diff > 1f) //right
-                    {
-                        pos = new Vector3(pos.x + txtWidth / 2, pos.y);
-                    }
-                    else
-                    {
-                        float y = pos.y > radar.runtimeCenterPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
-                        pos = new Vector3(pos.x, y);
-                    }
-                    txt.transform.localPosition = pos + new Vector3(textStyle.offset.x, textStyle.offset.y);
+                    var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);
+                    AxisHelper.AdjustCircleLabelPos(txt, pos, radar.runtimeCenterPos, txtHig, offset);
                 }
             }
         }

@@ -824,7 +824,7 @@ namespace XCharts
             float borderAngle = 0;
             float spaceAngle = 0;
 
-            var p2 = p + radius * GetDire(startAngle);
+            var p2 = p + radius * ChartHelper.GetDire(startAngle);
             var p3 = Vector3.zero;
             var p4 = Vector3.zero;
             var spaceCenter = p;
@@ -834,7 +834,7 @@ namespace XCharts
             var needBorder = borderWidth != 0;
             var needSpace = space != 0;
             var lastPos = Vector3.zero;
-            var middleDire = GetDire(startAngle + halfAngle);
+            var middleDire = ChartHelper.GetDire(startAngle + halfAngle);
             if (needBorder || needSpace)
             {
                 float spaceDiff = 0f;
@@ -848,7 +848,7 @@ namespace XCharts
                     realStartAngle = startAngle + spaceAngle;
                     realToAngle = toAngle - spaceAngle;
                     if (realToAngle < realStartAngle) realToAngle = realStartAngle;
-                    p2 = GetPos(p, radius, realStartAngle);
+                    p2 = ChartHelper.GetPos(p, radius, realStartAngle);
                 }
                 if (needBorder)
                 {
@@ -860,16 +860,16 @@ namespace XCharts
                     if (realToAngle < realStartAngle)
                     {
                         realToAngle = realStartAngle;
-                        p2 = GetPos(p, radius, realStartAngle);
+                        p2 = ChartHelper.GetPos(p, radius, realStartAngle);
                     }
                     else
                     {
-                        var borderX1 = GetPos(p, radius, realStartAngle);
+                        var borderX1 = ChartHelper.GetPos(p, radius, realStartAngle);
                         DrawPolygon(vh, realCenter, spaceCenter, p2, borderX1, borderColor);
                         p2 = borderX1;
 
-                        var borderX2 = GetPos(p, radius, realToAngle);
-                        var pEnd = GetPos(p, radius, toAngle - spaceAngle);
+                        var borderX2 = ChartHelper.GetPos(p, radius, realToAngle);
+                        var pEnd = ChartHelper.GetPos(p, radius, toAngle - spaceAngle);
                         DrawPolygon(vh, realCenter, borderX2, pEnd, spaceCenter, borderColor);
                     }
                 }
@@ -879,7 +879,7 @@ namespace XCharts
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = realStartAngle + i * segmentAngle;
-                p3 = p + radius * GetDire(currAngle);
+                p3 = p + radius * ChartHelper.GetDire(currAngle);
                 if (gradientType == 1)
                 {
                     if (isYAxis)
@@ -918,7 +918,7 @@ namespace XCharts
             {
                 if (realToAngle > realStartAngle)
                 {
-                    var borderX2 = p + radius * GetDire(realToAngle);
+                    var borderX2 = p + radius * ChartHelper.GetDire(realToAngle);
                     DrawTriangle(vh, realCenter, p2, borderX2, toColor, color, color);
                     if (needBorder)
                     {
@@ -931,17 +931,7 @@ namespace XCharts
             }
         }
 
-        private static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)
-        {
-            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
-            return new Vector3(center.x + radius * Mathf.Sin(angle), center.y + radius * Mathf.Cos(angle));
-        }
-
-        private static Vector3 GetDire(float angle, bool isDegree = false)
-        {
-            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
-            return new Vector3(Mathf.Sin(angle), Mathf.Cos(angle));
-        }
+        
 
         public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
             bool clockwise, Color color, bool end)
@@ -1059,8 +1049,8 @@ namespace XCharts
                     spaceHalfAngle = 2 * Mathf.Asin(space / (2 * (insideRadius + (outsideRadius - insideRadius) / 2)));
                     if (clockwise)
                     {
-                        p1 = GetPos(p, insideRadius, startAngle + spaceInAngle, false);
-                        e1 = GetPos(p, insideRadius, toAngle - spaceInAngle, false);
+                        p1 = ChartHelper.GetPos(p, insideRadius, startAngle + spaceInAngle, false);
+                        e1 = ChartHelper.GetPos(p, insideRadius, toAngle - spaceInAngle, false);
                         realStartOutAngle = startAngle + spaceAngle;
                         realToOutAngle = toAngle - spaceAngle;
                         realStartInAngle = startAngle + spaceInAngle;
@@ -1068,15 +1058,15 @@ namespace XCharts
                     }
                     else
                     {
-                        p1 = GetPos(p, insideRadius, startAngle - spaceInAngle, false);
-                        e1 = GetPos(p, insideRadius, toAngle + spaceInAngle, false);
+                        p1 = ChartHelper.GetPos(p, insideRadius, startAngle - spaceInAngle, false);
+                        e1 = ChartHelper.GetPos(p, insideRadius, toAngle + spaceInAngle, false);
                         realStartOutAngle = startAngle - spaceAngle;
                         realToOutAngle = toAngle + spaceAngle;
                         realStartInAngle = startAngle - spaceInAngle;
                         realToOutAngle = toAngle + spaceInAngle;
                     }
-                    p2 = GetPos(p, outsideRadius, realStartOutAngle, false);
-                    e2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                    p2 = ChartHelper.GetPos(p, outsideRadius, realStartOutAngle, false);
+                    e2 = ChartHelper.GetPos(p, outsideRadius, realToOutAngle, false);
                 }
                 if (needBorder)
                 {
@@ -1091,15 +1081,15 @@ namespace XCharts
                         realToOutAngle = realToOutAngle - borderAngle;
                         realStartInAngle = startAngle + spaceInAngle + borderInAngle;
                         realToInAngle = toAngle - spaceInAngle - borderInAngle;
-                        var newp1 = GetPos(p, insideRadius, startAngle + spaceInAngle + borderInAngle, false);
-                        var newp2 = GetPos(p, outsideRadius, realStartOutAngle, false);
+                        var newp1 = ChartHelper.GetPos(p, insideRadius, startAngle + spaceInAngle + borderInAngle, false);
+                        var newp2 = ChartHelper.GetPos(p, outsideRadius, realStartOutAngle, false);
                         if (!roundCap) DrawPolygon(vh, newp2, newp1, p1, p2, borderColor);
                         p1 = newp1;
                         p2 = newp2;
                         if (toAngle - spaceInAngle - 2 * borderInAngle > realStartOutAngle)
                         {
-                            var newe1 = GetPos(p, insideRadius, toAngle - spaceInAngle - borderInAngle, false);
-                            var newe2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                            var newe1 = ChartHelper.GetPos(p, insideRadius, toAngle - spaceInAngle - borderInAngle, false);
+                            var newe2 = ChartHelper.GetPos(p, outsideRadius, realToOutAngle, false);
                             if (!roundCap) DrawPolygon(vh, newe2, e2, e1, newe1, borderColor);
                             e1 = newe1;
                             e2 = newe2;
@@ -1111,15 +1101,15 @@ namespace XCharts
                         realToOutAngle = realToOutAngle + borderAngle;
                         realStartInAngle = startAngle - spaceInAngle - borderInAngle;
                         realToInAngle = toAngle + spaceInAngle + borderInAngle;
-                        var newp1 = GetPos(p, insideRadius, startAngle - spaceInAngle - borderInAngle, false);
-                        var newp2 = GetPos(p, outsideRadius, realStartOutAngle, false);
+                        var newp1 = ChartHelper.GetPos(p, insideRadius, startAngle - spaceInAngle - borderInAngle, false);
+                        var newp2 = ChartHelper.GetPos(p, outsideRadius, realStartOutAngle, false);
                         if (!roundCap) DrawPolygon(vh, newp2, newp1, p1, p2, borderColor);
                         p1 = newp1;
                         p2 = newp2;
                         if (toAngle + spaceInAngle + 2 * borderInAngle < realStartOutAngle)
                         {
-                            var newe1 = GetPos(p, insideRadius, toAngle + spaceInAngle + borderInAngle, false);
-                            var newe2 = GetPos(p, outsideRadius, realToOutAngle, false);
+                            var newe1 = ChartHelper.GetPos(p, insideRadius, toAngle + spaceInAngle + borderInAngle, false);
+                            var newe2 = ChartHelper.GetPos(p, outsideRadius, realToOutAngle, false);
                             if (!roundCap) DrawPolygon(vh, newe2, e2, e1, newe1, borderColor);
                             e1 = newe1;
                             e2 = newe2;
@@ -1143,7 +1133,7 @@ namespace XCharts
                     realStartInAngle = startAngle - 2 * spaceHalfAngle - borderHalfAngle - roundAngle;
                 }
                 var roundTotalDegree = realStartOutAngle * Mathf.Rad2Deg;
-                var roundCenter = p + roundAngleRadius * GetDire(realStartOutAngle);
+                var roundCenter = p + roundAngleRadius * ChartHelper.GetDire(realStartOutAngle);
                 var sectorStartDegree = clockwise ? roundTotalDegree + 180 : roundTotalDegree;
                 var sectorToDegree = clockwise ? roundTotalDegree + 360 : roundTotalDegree + 180;
                 DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
@@ -1152,8 +1142,8 @@ namespace XCharts
                     DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
                         sectorStartDegree, sectorToDegree, smoothness / 2);
                 }
-                p1 = GetPos(p, insideRadius, realStartOutAngle);
-                p2 = GetPos(p, outsideRadius, realStartOutAngle);
+                p1 = ChartHelper.GetPos(p, insideRadius, realStartOutAngle);
+                p2 = ChartHelper.GetPos(p, outsideRadius, realStartOutAngle);
 
                 if (clockwise)
                 {
@@ -1168,7 +1158,7 @@ namespace XCharts
                     if (realToOutAngle > realStartOutAngle) realToOutAngle = realStartOutAngle;
                 }
                 roundTotalDegree = realToOutAngle * Mathf.Rad2Deg;
-                roundCenter = p + roundAngleRadius * GetDire(realToOutAngle);
+                roundCenter = p + roundAngleRadius * ChartHelper.GetDire(realToOutAngle);
                 sectorStartDegree = clockwise ? roundTotalDegree : roundTotalDegree + 180;
                 sectorToDegree = clockwise ? roundTotalDegree + 180 : roundTotalDegree + 360;
                 DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
@@ -1177,8 +1167,8 @@ namespace XCharts
                     DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
                         sectorStartDegree, sectorToDegree, smoothness / 2);
                 }
-                e1 = GetPos(p, insideRadius, realToOutAngle);
-                e2 = GetPos(p, outsideRadius, realToOutAngle);
+                e1 = ChartHelper.GetPos(p, insideRadius, realToOutAngle);
+                e2 = ChartHelper.GetPos(p, outsideRadius, realToOutAngle);
             }
             float segmentAngle = (realToInAngle - realStartInAngle) / segments;
             for (int i = 0; i <= segments; i++)

@@ -805,4 +805,86 @@ namespace XCharts
             }
         }
     }
+
+    /// <summary>
+    /// Radial axis of polar coordinate.
+    /// 极坐标系的径向轴。
+    /// </summary>
+    [System.Serializable]
+    public class RadiusAxis : Axis
+    {
+        public static RadiusAxis defaultRadiusAxis
+        {
+            get
+            {
+                var axis = new RadiusAxis
+                {
+                    m_Show = true,
+                    m_Type = AxisType.Value,
+                    m_Min = 0,
+                    m_Max = 0,
+                    m_SplitNumber = 5,
+                    m_BoundaryGap = false,
+                    m_Data = new List<string>(5),
+                };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Solid;
+                axis.axisLabel.textLimit.enable = false;
+                return axis;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Angle axis of Polar Coordinate.
+    /// 极坐标系的角度轴。
+    /// </summary>
+    [System.Serializable]
+    public class AngleAxis : Axis
+    {
+        [SerializeField] private float m_StartAngle = 90;
+        [SerializeField] private bool m_Clockwise = true;
+        /// <summary>
+        /// Starting angle of axis. 90 degrees by default, standing for top position of center. 0 degree stands for right position of center.
+        /// 起始刻度的角度，默认为 90 度，即圆心的正上方。0 度为圆心的正右方。
+        /// </summary>
+        public float startAngle
+        {
+            get { return m_StartAngle; }
+            set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the positive position of axis is in clockwise. True for clockwise by default.
+        /// 刻度增长是否按顺时针，默认顺时针。
+        /// </summary>
+        public bool clockWise
+        {
+            get { return m_Clockwise; }
+            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
+        }
+
+        public float runtimeStartAngle { get; set; }
+
+        public static AngleAxis defaultAngleAxis
+        {
+            get
+            {
+                var axis = new AngleAxis
+                {
+                    m_Show = true,
+                    m_Type = AxisType.Value,
+                    m_SplitNumber = 13,
+                    m_BoundaryGap = false,
+                    m_Data = new List<string>(13),
+                };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Solid;
+                axis.axisLabel.textLimit.enable = false;
+                axis.minMaxType = AxisMinMaxType.Custom;
+                axis.min = 0;
+                axis.max = 360;
+                return axis;
+            }
+        }
+    }
 }

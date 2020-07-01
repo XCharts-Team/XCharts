@@ -759,5 +759,33 @@ namespace XCharts
             angle = (angle + 360) % 360;
             return angle;
         }
+
+        public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)
+        {
+            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
+            return new Vector3(center.x + radius * Mathf.Sin(angle), center.y + radius * Mathf.Cos(angle));
+        }
+
+        public static Vector3 GetDire(float angle, bool isDegree = false)
+        {
+            angle = isDegree ? angle * Mathf.Deg2Rad : angle;
+            return new Vector3(Mathf.Sin(angle), Mathf.Cos(angle));
+        }
+
+        public static Vector3 GetVertialDire(Vector3 dire)
+        {
+            if (dire.x == 0)
+            {
+                return new Vector3(-1, 0, 0);
+            }
+            if (dire.y == 0)
+            {
+                return new Vector3(0, -1, 0);
+            }
+            else
+            {
+                return new Vector3(-dire.y / dire.x, 1, 0).normalized;
+            }
+        }
     }
 }

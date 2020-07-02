@@ -853,7 +853,7 @@ namespace XCharts
     public class AngleAxis : Axis
     {
         [SerializeField] private float m_StartAngle = 90;
-        
+
         /// <summary>
         /// Starting angle of axis. 90 degrees by default, standing for top position of center. 0 degree stands for right position of center.
         /// 起始刻度的角度，默认为 90 度，即圆心的正上方。0 度为圆心的正右方。
@@ -863,7 +863,7 @@ namespace XCharts
             get { return m_StartAngle; }
             set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
         }
-        
+
         public float runtimeStartAngle { get; set; }
 
         public static AngleAxis defaultAngleAxis

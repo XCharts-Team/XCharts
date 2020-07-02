@@ -31,6 +31,7 @@ namespace XCharts
             InitRadiusAxis(m_RadiusAxis);
             InitAngleAxis(m_AngleAxis);
             m_Tooltip.UpdateToTop();
+            m_Tooltip.runtimeAngle = -1;
         }
 
 
@@ -39,7 +40,7 @@ namespace XCharts
         {
             base.Reset();
             m_Title.text = "PolarChart";
-            m_Tooltip.type = Tooltip.Type.Line;
+            m_Tooltip.type = Tooltip.Type.Corss;
             RemoveData();
             ResetValuePolar();
             Awake();
@@ -214,9 +215,10 @@ namespace XCharts
             }
             if (m_Tooltip.runtimeGameObject)
             {
-                Vector2 privot = new Vector2(0.5f, 1);
+                Vector2 privot = new Vector2(0.5f, 0.5f);
                 var labelParent = m_Tooltip.runtimeGameObject.transform;
-                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent, m_ThemeInfo.font, privot);
+                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent,
+                    m_ThemeInfo.font, privot, privot, privot, new Vector2(10, txtHig));
                 axis.SetTooltipLabel(labelObj);
                 axis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
                 axis.SetTooltipLabelActive(axis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);
@@ -471,16 +473,26 @@ namespace XCharts
             if (m_Tooltip.runtimeAngle < 0) return;
             var lineColor = TooltipHelper.GetLineColor(tooltip, m_ThemeInfo);
             var cenPos = m_Polar.runtimeCenterPos;
+            var radius = m_Polar.runtimeRadius;
             var sp = m_Polar.runtimeCenterPos;
             var tooltipAngle = m_Tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
-            var ep = ChartHelper.GetPos(sp, m_Polar.runtimeRadius, tooltipAngle, true);
-            ChartDrawer.DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
-            if (m_Tooltip.type == Tooltip.Type.Corss)
+            var ep = ChartHelper.GetPos(sp, radius, tooltipAngle, true);
+
+            switch (m_Tooltip.type)
             {
-                var dist = Vector2.Distance(pointerPos, cenPos);
-                if (dist > m_Polar.runtimeRadius) dist = m_Polar.runtimeRadius;
-                var outsideRaidus = dist + m_Tooltip.lineStyle.width * 2;
-                ChartDrawer.DrawDoughnut(vh, cenPos, dist, outsideRaidus, lineColor, Color.clear);
+                case Tooltip.Type.Corss:
+                    ChartDrawer.DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
+                    var dist = Vector2.Distance(pointerPos, cenPos);
+                    if (dist > radius) dist = radius;
+                    var outsideRaidus = dist + m_Tooltip.lineStyle.width * 2;
+                    ChartDrawer.DrawDoughnut(vh, cenPos, dist, outsideRaidus, lineColor, Color.clear);
+                    break;
+                case Tooltip.Type.Line:
+                    ChartDrawer.DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
+                    break;
+                case Tooltip.Type.Shadow:
+                    ChartDrawer.DrawSector(vh, cenPos, radius, lineColor, tooltipAngle - 2, tooltipAngle + 2, m_Settings.cicleSmoothness);
+                    break;
             }
         }
 
@@ -521,6 +533,8 @@ namespace XCharts
                     }
                     m_Tooltip.ClearSerieDataIndex();
                     m_Tooltip.SetActive(false);
+                    m_AngleAxis.SetTooltipLabelActive(false);
+                    m_RadiusAxis.SetTooltipLabelActive(false);
                     RefreshChart();
                 }
                 return;
@@ -594,8 +608,31 @@ namespace XCharts
             {
                 var content = TooltipHelper.GetPolarFormatterContent(m_Tooltip, m_Series, m_ThemeInfo, m_AngleAxis);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
+                UdpateTooltipLabel();
             }
             m_Tooltip.SetActive(showTooltip);
         }
+
+        private void UdpateTooltipLabel()
+        {
+            if (m_Tooltip.type != Tooltip.Type.Corss) return;
+            var cenPos = m_Polar.runtimeCenterPos;
+            var radius = m_Polar.runtimeRadius;
+            m_AngleAxis.SetTooltipLabelActive(true);
+            m_RadiusAxis.SetTooltipLabelActive(true);
+            m_AngleAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(m_Tooltip.runtimeAngle));
+            var tooltipAngle = m_Tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
+            var ep = ChartHelper.GetPos(cenPos, radius + 5, tooltipAngle, true);
+            m_AngleAxis.UpdateTooltipLabelPos(ep);
+
+            var dist = Vector2.Distance(pointerPos, cenPos);
+            if (dist > radius) dist = radius;
+            float min = m_RadiusAxis.runtimeMinValue;
+            float max = m_RadiusAxis.runtimeMaxValue;
+            var value = min + dist / radius * m_RadiusAxis.runtimeMinMaxRange;
+            m_RadiusAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(value));
+            m_RadiusAxis.UpdateTooltipLabelPos(ChartHelper.GetPos(cenPos, dist, m_AngleAxis.runtimeStartAngle, true));
+        }
     }
 }
+;

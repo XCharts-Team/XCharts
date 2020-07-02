@@ -38,11 +38,12 @@ namespace XCharts.Examples
         void AddData()
         {
             chart.RemoveData();
+            chart.tooltip.type = Tooltip.Type.Corss;
             chart.angleAxis.type = Axis.AxisType.Value;
             chart.angleAxis.minMaxType = Axis.AxisMinMaxType.Custom;
             chart.angleAxis.min = 0;
             chart.angleAxis.max = 360;
-            chart.angleAxis.startAngle = Random.Range(0,90);
+            chart.angleAxis.startAngle = Random.Range(0, 90);
             chart.AddSerie(SerieType.Line, "line1");
 
             var rate = Random.Range(1, 4);

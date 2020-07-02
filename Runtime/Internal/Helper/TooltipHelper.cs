@@ -187,34 +187,68 @@ namespace XCharts
             {
                 var sb = ChartHelper.sb;
                 sb.Length = 0;
-                var angle = angleAxis.clockwise ? tooltip.runtimeAngle : 360 - tooltip.runtimeAngle;
-                sb.Append(angle).Append("\n");
+                var title = tooltip.titleFormatter;
+                var formatTitle = !string.IsNullOrEmpty(title);
+                if ("{i}".Equals(tooltip.titleFormatter))
+                {
+                    title = string.Empty;
+                    formatTitle = false;
+                }
+                else if (string.IsNullOrEmpty(title))
+                {
+                    var angle = angleAxis.clockwise ? tooltip.runtimeAngle : 360 - tooltip.runtimeAngle;
+                    title = ChartCached.FloatToStr(angle);
+                }
                 foreach (var serie in series.list)
                 {
                     if (serie.show && IsSelectedSerie(tooltip, serie.index))
                     {
+                        if (formatTitle)
+                        {
+                            FormatterHelper.ReplaceContent(ref title, 0, tooltip.numericFormatter, serie, series, themeInfo, null, null);
+                        }
                         var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
+
                         for (int i = 0; i < dataIndexList.Count; i++)
                         {
                             var dataIndex = dataIndexList[i];
                             var serieData = serie.GetSerieData(dataIndex);
+                            var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
                             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
                             float xValue, yValue;
                             serie.GetXYData(dataIndex, null, out xValue, out yValue);
-
-                            sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>");
-                            if (!string.IsNullOrEmpty(serie.name))
-                                sb.Append(serie.name).Append(": ");
-                            sb.AppendFormat("{0}", ChartCached.FloatToStr(xValue, numericFormatter));
-                            if (i != dataIndexList.Count - 1)
+                            if (string.IsNullOrEmpty(itemFormatter))
                             {
-                                sb.Append("\n");
+                                sb.Append("<color=#").Append(themeInfo.GetColorStr(serie.index)).Append(">● </color>");
+                                if (!string.IsNullOrEmpty(serie.name))
+                                    sb.Append(serie.name).Append(": ");
+                                sb.AppendFormat("{0}", ChartCached.FloatToStr(xValue, numericFormatter));
+                                if (i != dataIndexList.Count - 1)
+                                {
+                                    sb.Append(FormatterHelper.PH_NN);
+                                }
+                            }
+                            else
+                            {
+                                string content = itemFormatter;
+                                FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, series, themeInfo, null, null);
+                                var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring ? dataIndex : serie.index;
+                                sb.Append(ChartCached.ColorToDotStr(themeInfo.GetColor(dotColorIndex)));
+                                sb.Append(content);
                             }
                         }
-                        sb.Append("\n");
+                        sb.Append(FormatterHelper.PH_NN);
                     }
                 }
-                return sb.ToString().Trim();
+                if (string.IsNullOrEmpty(title))
+                {
+                    return FormatterHelper.TrimAndReplaceLine(sb);
+                }
+                else
+                {
+                    title = FormatterHelper.TrimAndReplaceLine(title);
+                    return title + FormatterHelper.PH_NN + FormatterHelper.TrimAndReplaceLine(sb);
+                }
             }
             else
             {

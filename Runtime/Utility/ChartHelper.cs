@@ -286,6 +286,11 @@ namespace XCharts
             var anchorMax = new Vector2(0, 0);
             var anchorMin = new Vector2(0, 0);
             var sizeDelta = new Vector2(100, 50);
+            return AddTooltipLabel(name, parent, font, pivot, anchorMin, anchorMax, sizeDelta);
+        }
+
+        internal static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot, Vector2 anchorMin, Vector2 anchorMax, Vector2 sizeDelta)
+        {
             GameObject labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             labelObj.transform.localPosition = Vector3.zero;
             var img = GetOrAddComponent<Image>(labelObj);

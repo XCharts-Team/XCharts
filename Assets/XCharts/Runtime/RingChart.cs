@@ -279,7 +279,7 @@ namespace XCharts
             }
             if (selected)
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
             }
             else if (m_Tooltip.IsActive())

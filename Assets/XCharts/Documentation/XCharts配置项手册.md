@@ -232,6 +232,8 @@
 * `backgroundImage`：提示框的背景图。
 * `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
 * `alwayShow`：是否触发后一直显示。
+* `offset`：`(since v1.5.3)`提示框相对于鼠标位置的偏移。
+
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 

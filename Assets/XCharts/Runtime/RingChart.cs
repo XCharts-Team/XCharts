@@ -34,7 +34,7 @@ namespace XCharts
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo, m_LegendRealShowName);
             }
         }
 
@@ -331,7 +331,7 @@ namespace XCharts
                 if (index < 0) continue;
                 showTooltip = true;
                 var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
-                TooltipHelper.SetContentAndPosition(tooltip,content,chartRect);
+                TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             }
             m_Tooltip.SetActive(showTooltip);
         }

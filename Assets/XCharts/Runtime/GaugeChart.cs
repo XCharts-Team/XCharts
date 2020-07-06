@@ -49,7 +49,7 @@ namespace XCharts
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo, m_LegendRealShowName);
                 UpdateAxisLabel();
             }
         }

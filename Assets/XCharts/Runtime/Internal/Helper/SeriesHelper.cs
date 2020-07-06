@@ -191,6 +191,15 @@ namespace XCharts
             return GetLastStackSerie(series, serie);
         }
 
+        internal static Serie GetSerieByVesselIndex(Series series, int vesselIndex)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.vesselIndex == vesselIndex) return serie;
+            }
+            return null;
+        }
+
         /// <summary>
         /// 是否由系列在用指定索引的axis
         /// </summary>

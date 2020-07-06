@@ -792,5 +792,21 @@ namespace XCharts
                 return new Vector3(-dire.y / dire.x, 1, 0).normalized;
             }
         }
+
+        public static float GetRuntimeRelativeOrAbsoluteValue(float check, float total)
+        {
+            if (check <= 0)
+            {
+                return 0;
+            }
+            else if (check <= 1)
+            {
+                return total * check;
+            }
+            else
+            {
+                return check;
+            }
+        }
     }
 }

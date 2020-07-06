@@ -30,6 +30,7 @@ namespace XCharts
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_RadarType = prop.FindPropertyRelative("m_RadarType");
             SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
+            SerializedProperty m_VesselIndex = prop.FindPropertyRelative("m_VesselIndex");
             SerializedProperty m_MinShow = prop.FindPropertyRelative("m_MinShow");
             SerializedProperty m_MaxShow = prop.FindPropertyRelative("m_MaxShow");
             SerializedProperty m_MaxCache = prop.FindPropertyRelative("m_MaxCache");
@@ -78,6 +79,10 @@ namespace XCharts
             SerializedProperty m_Large = prop.FindPropertyRelative("m_Large");
             SerializedProperty m_LargeThreshold = prop.FindPropertyRelative("m_LargeThreshold");
             SerializedProperty m_AvoidLabelOverlap = prop.FindPropertyRelative("m_AvoidLabelOverlap");
+            SerializedProperty m_WaveHeight = prop.FindPropertyRelative("m_WaveHeight");
+            SerializedProperty m_WaveLength = prop.FindPropertyRelative("m_WaveLength");
+            SerializedProperty m_WaveSpeed = prop.FindPropertyRelative("m_WaveSpeed");
+            SerializedProperty m_WaveOffset = prop.FindPropertyRelative("m_WaveOffset");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -321,6 +326,26 @@ namespace XCharts
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                         EditorGUI.PropertyField(drawRect, m_Emphasis);
                         drawRect.y += EditorGUI.GetPropertyHeight(m_Emphasis);
+                        break;
+                    case SerieType.Liquid:
+                        EditorGUI.PropertyField(drawRect, m_VesselIndex);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Min);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_Max);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_WaveLength);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_WaveHeight);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_WaveSpeed);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_WaveOffset);
+                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.PropertyField(drawRect, m_ItemStyle);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_ItemStyle);
+                        EditorGUI.PropertyField(drawRect, m_Label);
+                        drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                         break;
                 }
                 EditorGUI.PropertyField(drawRect, m_Animation);
@@ -587,6 +612,12 @@ namespace XCharts
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
+                        break;
+                    case SerieType.Liquid:
+                        height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
+                        height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                         break;
                 }

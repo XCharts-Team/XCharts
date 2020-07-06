@@ -44,6 +44,7 @@ namespace XCharts
 
         internal static Color GetItemColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
         {
+            if (serie == null) return Color.clear;
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);

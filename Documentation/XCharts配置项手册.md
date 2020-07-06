@@ -11,6 +11,7 @@
 * [DataZoom 区域缩放](#DataZoom)  
 * [Grid 网格](#Grid)  
 * [Legend 图例](#Legend)  
+* [Polar 极坐标](#Polar)  
 * [Radar 雷达](#Radar)  
 * [Series 系列](#Series)  
 * [Serie-Line 折线图](#Serie-Line)  
@@ -21,9 +22,11 @@
 * [Serie-Heatmap 热力图](#Serie-Heatmap)  
 * [Serie-Gauge 仪表盘](#Serie-Gauge)  
 * [Serie-Ring 环形图](#Serie-Ring)  
+* [Serie-Liquid 水位图](#Serie-Liquid)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
+* [Vessel 容器](#Vessel)  
 * [Title 标题](#Title)  
 * [VisualMap 视觉映射](#VisualMap)  
 
@@ -138,6 +141,17 @@
 * `GetData(int index)`：获得指定索引的图例。
 * `GetIndex(string legendName)`：获得指定图例的索引。
 
+## `Polar`
+
+极坐标系组件。极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
+
+相关参数：
+
+* `show`：是否显示直角坐标系网格。
+* `center`：极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+* `radius`：极坐标的半径。
+* `backgroundColor`：极坐标的背景色，默认透明。
+
 ## `Radar`
 
 * `shape`：雷达图绘制类型。
@@ -220,6 +234,23 @@
 * `alwayShow`：是否触发后一直显示。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
+
+## `Vessel`
+
+容器组件。一般用于LiquidChart。
+
+相关参数：
+
+* `show`：是否显示容器组件。
+* `shape`：容器形状。
+* `shapeWidth`：容器的厚度。
+* `gap`：间隙。容器和液体的间隙。
+* `center`：中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
+* `radius`：半径。
+* `smoothness`：开启或关闭缩放区域功能。
+* `backgroundColor`：背景色，默认透明。
+* `color`：容器颜色。当`autoColor`为`false`时生效。
+* `autoColor`：是否自动颜色。默认`true`。为`true`时颜色会和`serie`一致。
 
 ## `DataZoom`
 
@@ -673,6 +704,25 @@
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。环形图的数据只有二维，`data[0]`表示当前值，`data[1]`表示最大值。
+
+## `Serie-Liquid`
+
+水位图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Liquid`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `vesselIndex`：水位图所使用的`vessel`组件的`index`。
+* `min`：最小值。
+* `max`：最大值。
+* `waveLength`：水波长。
+* `waveHeight`：水波高。
+* `waveSpeed`：水波移动速度。正数时左移，负数时右移。
+* `waveOffset`：水波偏移。
+* `itemStyle`：环形图的圆环样式，包括设置背景颜色和边框等 [ItemStyle](#ItemStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。水位图的数据一般只有一个，表示当前水位值，用`max`设置最大水位值。
 
 ## `Settings`
 

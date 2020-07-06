@@ -55,8 +55,8 @@ namespace XCharts
         [SerializeField] [Range(0.5f, 10f)] private float m_Smoothness = 1f;
 
         /// <summary>
-        /// Whether to show the grid in rectangular coordinate.
-        /// 是否显示直角坐标系网格。
+        /// Whether to show the vessel.
+        /// 是否显示容器组件。
         /// </summary>
         public bool show
         {
@@ -64,7 +64,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 形状。
+        /// The shape of vessel.
+        /// 容器形状。
         /// </summary>
         public Shape shape
         {
@@ -72,7 +73,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Shape, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 容器宽度。
+        /// 容器厚度。
         /// </summary>
         public float shapeWidth
         {
@@ -80,7 +81,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ShapeWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 间隙
+        /// 间隙。容器和液体的间隙。
         /// </summary>
         public float gap
         {
@@ -89,7 +90,7 @@ namespace XCharts
         }
         /// <summary>
         /// 中心点。数组的第一项是横坐标，第二项是纵坐标。
-        /// 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+        /// 当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
         /// </summary>
         public float[] center
         {
@@ -97,6 +98,7 @@ namespace XCharts
             set { if (value != null) { m_Center = value; SetAllDirty(); } }
         }
         /// <summary>
+        /// The radius of vessel.
         /// 半径。
         /// </summary>
         public float radius
@@ -105,6 +107,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// The smoothness of wave.
         /// 水波平滑度。
         /// </summary>
         public float smoothness

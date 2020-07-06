@@ -4,14 +4,15 @@
 /*     https://github.com/monitor1394     */
 /*                                        */
 /******************************************/
+
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class SerieHelper
+    public static partial class SerieHelper
     {
-        internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight, bool useDefault = true)
+        internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index,
+            bool highlight, bool useDefault = true)
         {
             var color = Color.clear;
             if (highlight)
@@ -109,7 +110,7 @@ namespace XCharts
             }
         }
 
-        public static bool IsDownPoint(Serie serie, int index)
+        internal static bool IsDownPoint(Serie serie, int index)
         {
             var dataPoints = serie.dataPoints;
             if (dataPoints.Count < 2) return false;
@@ -135,7 +136,7 @@ namespace XCharts
             }
         }
 
-        public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)
+        internal static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)
         {
             if (highlight)
             {
@@ -148,7 +149,7 @@ namespace XCharts
             else return serie.itemStyle;
         }
 
-        public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
+        internal static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
         {
             if (!serie.IsPerformanceMode() && serieData != null && serieData.enableEmphasis && serieData.emphasis.show)
                 return serieData.emphasis.itemStyle;
@@ -156,7 +157,7 @@ namespace XCharts
             else return null;
         }
 
-        public static SerieLabel GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
+        internal static SerieLabel GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
         {
             if (highlight)
             {
@@ -172,13 +173,13 @@ namespace XCharts
             }
         }
 
-        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
+        internal static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
         {
             if (!serie.IsPerformanceMode() && serieData.enableSymbol) return serieData.symbol;
             else return serie.symbol;
         }
 
-        public static Color GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             var color = !ChartHelper.IsClearColor(areaStyle.color) ? areaStyle.color : (Color)theme.GetColor(index);
@@ -191,7 +192,7 @@ namespace XCharts
             return color;
         }
 
-        public static Color GetAreaToColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color GetAreaToColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             if (!ChartHelper.IsClearColor(areaStyle.toColor))
@@ -211,7 +212,7 @@ namespace XCharts
             }
         }
 
-        public static Color GetLineColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color GetLineColor(Serie serie, ThemeInfo theme, int index, bool highlight)
         {
             var color = Color.clear;
             if (highlight)
@@ -235,7 +236,7 @@ namespace XCharts
             return color;
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight, bool useLineWidth = true)
+        internal static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight, bool useLineWidth = true)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
@@ -243,7 +244,7 @@ namespace XCharts
             else return 0;
         }
 
-        public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)
+        internal static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null) return itemStyle.cornerRadius;
@@ -266,27 +267,23 @@ namespace XCharts
             serie.runtimeOutsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
         }
 
+        internal static string GetNumericFormatter(Serie serie, SerieData serieData)
+        {
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
+            else return string.Empty;
+        }
+
         /// <summary>
         /// 获得指定维数的最大最小值
         /// </summary>
         /// <param name="dimension"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public static void GetDimensionMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)
+        internal static void UpdateMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)
         {
-            var dataList = serie.GetDataList(dataZoom);
-            float max = float.MinValue;
-            float min = float.MaxValue;
-            for (int i = 0; i < dataList.Count; i++)
-            {
-                var serieData = dataList[i];
-                if (serieData.show && serieData.data.Count > dimension)
-                {
-                    var value = serieData.data[dimension];
-                    if (value > max) max = value;
-                    if (value < min) min = value;
-                }
-            }
+            float min = 0, max = 0;
+            GetMinMaxData(serie, dimension, out min, out max, dataZoom);
             if (ceilRate < 0)
             {
                 serie.runtimeDataMin = min;
@@ -299,43 +296,20 @@ namespace XCharts
             }
         }
 
-        public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)
+        internal static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)
         {
-            var dataList = serie.GetDataList(dataZoom);
-            float max = float.MinValue;
-            float min = float.MaxValue;
-            for (int i = 0; i < dataList.Count; i++)
+            float min = 0, max = 0;
+            GetMinMaxData(serie, out min, out max, dataZoom);
+            if (ceilRate < 0)
             {
-                var serieData = dataList[i];
-                if (serieData.show)
-                {
-                    var count = serie.showDataDimension > serieData.data.Count ? serieData.data.Count : serie.showDataDimension;
-                    for (int j = 0; j < count; j++)
-                    {
-                        var value = serieData.data[j];
-                        if (value > max) max = value;
-                        if (value < min) min = value;
-                    }
-                }
+                serie.runtimeDataMin = min;
+                serie.runtimeDataMax = max;
             }
-            serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
-            serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
-        }
-
-        public static bool IsAllZeroValue(Serie serie, int dimension = 1)
-        {
-            foreach (var serieData in serie.data)
+            else
             {
-                if (serieData.GetData(dimension) != 0) return false;
+                serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+                serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
             }
-            return true;
-        }
-
-        public static string GetNumericFormatter(Serie serie, SerieData serieData)
-        {
-            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
-            else return string.Empty;
         }
     }
 }

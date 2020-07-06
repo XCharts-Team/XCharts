@@ -7,7 +7,7 @@
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图等常见图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
 
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
@@ -18,7 +18,7 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 ## 特性
 
 * 内置丰富示例和模板，参数可视化配置，效果实时预览，纯代码绘制。
-* 支持折线图、柱状图、饼图、雷达图、散点图、热力图等常见图表。
+* 支持折线图、柱状图、饼图、雷达图、散点图、热力图、热力图、仪表盘、环形图、极坐标、水位图等十种常见图表。
 * 支持直线图、曲线图、面积图、阶梯线图等折线图。
 * 支持并列柱图、堆叠柱图、堆积百分比柱图、斑马柱图等柱状图。
 * 支持环形图、玫瑰图等饼图。

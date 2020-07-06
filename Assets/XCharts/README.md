@@ -16,6 +16,15 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 * support interactive operations such as data filtering, view zooming and detail display on PC and mobile terminals.
 * support 10,000-level big data rendering.
 
+## Screenshot
+
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png" width="550" height="auto"/>
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png" width="550" height="auto"/>
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png" width="550" height="auto"/>
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png" width="550" height="auto"/>
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png" width="550" height="auto"/>
+<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png" width="550" height="auto"/>
+
 ## Environment
 
 * Unity2017.4.27f1

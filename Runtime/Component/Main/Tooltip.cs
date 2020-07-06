@@ -64,6 +64,7 @@ namespace XCharts
         [SerializeField] private float m_PaddingTopBottom = 5f;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
         [SerializeField] private bool m_AlwayShow = false;
+        [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
@@ -174,6 +175,10 @@ namespace XCharts
         /// 是否触发后一直显示。
         /// </summary>
         public bool alwayShow { get { return m_AlwayShow; } set { m_AlwayShow = value; } }
+        /// <summary>
+        /// 提示框相对于鼠标位置的偏移。
+        /// </summary>
+        public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
         /// 提示框内容文本样式。
         /// </summary>

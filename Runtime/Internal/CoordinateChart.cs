@@ -358,7 +358,7 @@ namespace XCharts
             }
             if (m_Tooltip.IsSelected())
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
                 if (m_Tooltip.IsDataIndexChanged() || m_Tooltip.type == Tooltip.Type.Corss)
                 {

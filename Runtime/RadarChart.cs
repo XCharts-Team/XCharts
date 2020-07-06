@@ -678,7 +678,7 @@ namespace XCharts
             }
             else
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
                 RefreshChart();
             }

@@ -134,5 +134,12 @@ namespace XCharts
         {
             AddChart<PolarChart>("PolarChart");
         }
+
+        [MenuItem("XCharts/LiquidChart", priority = 53)]
+        [MenuItem("GameObject/XCharts/LiquidChart", priority = 53)]
+        public static void AddLiquidChart()
+        {
+            AddChart<LiquidChart>("LiquidChart");
+        }
     }
 }

@@ -446,7 +446,7 @@ namespace XCharts
                     count++;
                 }
             }
-            SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+            SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo, m_LegendRealShowName);
         }
 
         protected void AddSerieLabel(Serie serie, SerieData serieData, int count = -1)

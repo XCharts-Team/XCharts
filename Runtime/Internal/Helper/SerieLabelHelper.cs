@@ -4,6 +4,7 @@
 /*     https://github.com/monitor1394     */
 /*                                        */
 /******************************************/
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,11 +42,12 @@ namespace XCharts
             }
         }
 
-        public static void UpdateLabelText(Series series, ThemeInfo themeInfo)
+        public static void UpdateLabelText(Series series, ThemeInfo themeInfo, List<string> legendRealShowName)
         {
             foreach (var serie in series.list)
             {
                 if (!serie.label.show) continue;
+                var colorIndex = legendRealShowName.IndexOf(serie.name);
                 switch (serie.type)
                 {
                     case SerieType.Gauge:
@@ -53,6 +55,9 @@ namespace XCharts
                         break;
                     case SerieType.Ring:
                         SetRingLabelText(serie, themeInfo);
+                        break;
+                    case SerieType.Liquid:
+                        SetLiquidLabelText(serie, themeInfo, colorIndex);
                         break;
                 }
             }
@@ -173,6 +178,28 @@ namespace XCharts
                         serieData.labelObject.SetLabelPosition(serieData.labelPosition);
                     }
                 }
+            }
+        }
+
+        private static void SetLiquidLabelText(Serie serie, ThemeInfo themeInfo, int colorIndex)
+        {
+            var serieData = serie.GetSerieData(0);
+            if (serieData == null) return;
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
+            if (serieLabel.show && serieData.labelObject != null)
+            {
+                if (!serie.show || !serieData.show)
+                {
+                    serieData.SetLabelActive(false);
+                    return;
+                }
+                var value = serieData.GetData(1);
+                var total = serie.max - serie.min;
+                var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
+                serieData.SetLabelActive(true);
+                serieData.labelObject.SetText(content);
+                serieData.labelObject.SetLabelColor(GetLabelColor(serie, themeInfo, colorIndex));
+                serieData.labelObject.SetLabelPosition(serieData.labelPosition + serieLabel.offset);
             }
         }
 

@@ -56,6 +56,10 @@ namespace XCharts
         /// 环形图。只支持一个数据的环形图。
         /// </summary>
         Ring,
+        /// <summary>
+        /// 水位图。
+        /// </summary>
+        Liquid,
     }
 
     /// <summary>
@@ -218,6 +222,7 @@ namespace XCharts
         [SerializeField] private string m_Stack;
         [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
+        [SerializeField] private int m_VesselIndex = 0;
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
@@ -274,6 +279,10 @@ namespace XCharts
         [SerializeField] private bool m_Large = true;
         [SerializeField] private int m_LargeThreshold = 200;
         [SerializeField] private bool m_AvoidLabelOverlap = false;
+        [SerializeField] private float m_WaveHeight = 10f;
+        [SerializeField] private float m_WaveLength = 20f;
+        [SerializeField] private float m_WaveSpeed = 5f;
+        [SerializeField] private float m_WaveOffset = 0f;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -345,6 +354,15 @@ namespace XCharts
         {
             get { return m_RadarIndex; }
             set { if (PropertyUtility.SetStruct(ref m_RadarIndex, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Index of vesel component that liquid chart uses.
+        /// 水位图所使用的 vessel 组件的 index。
+        /// </summary>
+        public int vesselIndex
+        {
+            get { return m_VesselIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_VesselIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The min number of data to show in chart.
@@ -796,6 +814,39 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_AvoidLabelOverlap, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Wave length of the wave, which is relative to the diameter.
+        /// 波长。为0-1小数时指直线的百分比。
+        /// </summary>
+        public float waveLength
+        {
+            get { return m_WaveLength; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveLength, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波高。
+        /// </summary>
+        public float waveHeight
+        {
+            get { return m_WaveHeight; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveHeight, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波偏移。
+        /// </summary>
+        public float waveOffset
+        {
+            get { return m_WaveOffset; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveOffset, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波速。正数时左移，负数时右移。
+        /// </summary>
+        public float waveSpeed
+        {
+            get { return m_WaveSpeed; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveSpeed, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -891,7 +942,9 @@ namespace XCharts
         /// 饼图的数据项之和
         /// </summary>
         public float runtimePieDataTotal { get; internal set; }
+        public float runtimeWaveSpeed { get; internal set; }
         internal int runtimeLastCheckDataCount { get; set; }
+        internal float runtimeCheckValue { get; set; }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()

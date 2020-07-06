@@ -178,7 +178,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieName);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;
@@ -198,7 +201,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieIndex);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;
@@ -218,7 +224,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieName);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;
@@ -238,7 +247,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieIndex);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;
@@ -259,7 +271,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieName);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;
@@ -280,7 +295,10 @@ namespace XCharts
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieIndex);
-                AddSerieLabel(serie, serieData);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
             }
             return serieData;

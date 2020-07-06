@@ -124,7 +124,6 @@ namespace XCharts
                 if (m_Series.vertsDirty) RefreshChart();
                 if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
                 if (SeriesHelper.IsNeedLabelUpdate(m_Series) && !m_RefreshChart) m_RefreshLabel = true;
-                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
                 foreach (var serie in m_Series.list)
                 {
                     if (serie.titleStyle.componentDirty) m_ReinitTitle = true;

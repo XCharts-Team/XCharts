@@ -550,7 +550,7 @@ namespace XCharts
                     case SerieType.Line:
                         bool refresh = false;
                         var count = serie.data.Count;
-                        SerieHelper.GetDimensionMinMaxData(serie, 1, -1);
+                        SerieHelper.UpdateMinMaxData(serie, 1, -1);
                         var diff = (serie.runtimeDataMax - serie.runtimeDataMin) / (count - 1);
                         for (int j = 0; j < count; j++)
                         {

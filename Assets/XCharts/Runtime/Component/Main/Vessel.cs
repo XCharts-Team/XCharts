@@ -14,7 +14,7 @@ namespace XCharts
     /// Vessel component for liquid chart.
     /// <para>
     /// 容器组件。
-    /// 一般用于LiquidChart。
+    /// 一般用于LiquidChart。可以有多个Vessel，Serie中用vesselIndex来对应。
     /// </para>
     /// </summary>
     [Serializable]
@@ -73,6 +73,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Shape, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Thickness of vessel.
         /// 容器厚度。
         /// </summary>
         public float shapeWidth
@@ -81,6 +82,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ShapeWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The gap between the vessel and the liquid.
         /// 间隙。容器和液体的间隙。
         /// </summary>
         public float gap
@@ -152,7 +154,8 @@ namespace XCharts
         /// </summary>
         public float runtimeRadius { get; internal set; }
         /// <summary>
-        /// 运行时内半径。
+        /// The actual radius after deducting shapeWidth and gap.
+        /// 运行时内半径。扣除厚度和间隙后的实际半径。
         /// </summary>
         public float runtimeInnerRadius { get; internal set; }
         public static Vessel defaultVessel

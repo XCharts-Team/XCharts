@@ -943,7 +943,6 @@ namespace XCharts
         /// </summary>
         public float runtimePieDataTotal { get; internal set; }
         public float runtimeWaveSpeed { get; internal set; }
-        internal int runtimeLastCheckDataCount { get; set; }
         internal float runtimeCheckValue { get; set; }
         public bool nameDirty { get { return m_NameDirty; } }
 
@@ -1547,22 +1546,21 @@ namespace XCharts
         public void ClearHighlight()
         {
             highlighted = false;
-            foreach (var sd in m_Data)
+            foreach (var serieData in m_Data)
             {
-                sd.highlighted = false;
+                serieData.highlighted = false;
             }
         }
 
         /// <summary>
         /// 设置指定索引的数据为高亮状态
         /// </summary>
-        /// <param name="index"></param>
-        public void SetHighlight(int index)
+        public void SetHighlight(int index, bool flag)
         {
-            if (index <= 0) return;
-            for (int i = 0; i < m_Data.Count; i++)
+            var serieData = GetSerieData(index);
+            if (serieData != null)
             {
-                m_Data[i].highlighted = index == i;
+                serieData.highlighted = flag;
             }
         }
 
@@ -1570,13 +1568,6 @@ namespace XCharts
         {
             if (m_BarWidth > 1) return m_BarWidth;
             else return m_BarWidth * categoryWidth;
-        }
-
-        internal float GetBarGap(float categoryWidth)
-        {
-            if (m_BarGap == -1) return 0;
-            else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
-            else return m_BarGap;
         }
 
         /// <summary>
@@ -1631,15 +1622,6 @@ namespace XCharts
                 var data = m_Data[dataIndex];
                 data.iconStyle.sprite = image;
             }
-        }
-
-        internal bool IsNeedShowDataIcon()
-        {
-            foreach (var data in m_Data)
-            {
-                if (data.iconStyle.show) return true;
-            }
-            return false;
         }
 
         public bool IsIgnoreIndex(int index, int dimension)

@@ -40,8 +40,8 @@ namespace XCharts
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = m_CoordinateX + xAxis.axisLine.width;
                 float pY = m_CoordinateY + yAxis.axisLine.width;
-                float xDataHig = (xValue - xAxis.runtimeMinValue) / (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * m_CoordinateWidth;
-                float yDataHig = (yValue - yAxis.runtimeMinValue) / (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * m_CoordinateHeight;
+                float xDataHig = GetDataHig(xAxis, xValue, m_CoordinateWidth);
+                float yDataHig = GetDataHig(yAxis, yValue, m_CoordinateHeight);
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
                 serie.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
@@ -81,6 +81,20 @@ namespace XCharts
             if (dataChanging)
             {
                 RefreshChart();
+            }
+        }
+
+        private float GetDataHig(Axis axis, float value, float totalWidth)
+        {
+            if (axis.IsLog())
+            {
+                int minIndex = axis.runtimeMinLogIndex;
+                float nowIndex = axis.GetLogValue(value);
+                return (nowIndex - minIndex) / (axis.splitNumber - 1) * totalWidth;
+            }
+            else
+            {
+                return (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * totalWidth;
             }
         }
     }

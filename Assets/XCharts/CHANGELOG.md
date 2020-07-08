@@ -1,7 +1,7 @@
 
 # 更新日志
 
-* (2020.07.08) 优化`Scatter`类型的`Serie`支持`Log`轴
+* (2020.07.08) 优化`Scatter`类型`Serie`支持`Log`轴#68
 * (2020.07.07) 修复`SerieLabel`位置错乱的问题
 * (2020.07.07) 增加`Tooltip`的`offset`参数配置偏移
 * (2020.07.06) 增加`LiquidChart`水位图

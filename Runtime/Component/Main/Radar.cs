@@ -14,7 +14,7 @@ using UnityEngine.UI;
 namespace XCharts
 {
     /// <summary>
-    /// Coordinate for radar charts. 
+    /// Radar coordinate conponnet for radar charts. 
     /// 雷达图坐标系组件，只适用于雷达图。
     /// </summary>
     [System.Serializable]
@@ -30,15 +30,18 @@ namespace XCharts
             Circle
         }
         /// <summary>
+        /// The position type of radar.
         /// 显示位置。
         /// </summary>
         public enum PositionType
         {
             /// <summary>
+            /// Display at the vertex.
             /// 显示在顶点处。
             /// </summary>
             Vertice,
             /// <summary>
+            /// Display at the middle of line.
             /// 显示在两者之间。
             /// </summary>
             Between,
@@ -56,6 +59,7 @@ namespace XCharts
             [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
             /// <summary>
+            /// The name of indicator.
             /// 指示器名称。
             /// </summary>
             public string name { get { return m_Name; } set { m_Name = value; } }
@@ -157,6 +161,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Indicator, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// The gap of indicator and radar.
         /// 指示器和雷达的间距。
         /// </summary>
         public float indicatorGap
@@ -165,6 +170,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
         /// 最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
         public int ceilRate
@@ -173,7 +179,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
-        /// /// 显示位置类型。
+        /// The position type of indicator.
+        /// 显示位置类型。
         /// </summary>
         public PositionType positionType
         {

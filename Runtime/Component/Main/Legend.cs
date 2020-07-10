@@ -11,6 +11,8 @@ using UnityEngine;
 namespace XCharts
 {
     /// <summary>
+    /// Legend component.The legend component shows different sets of tags, colors, and names. 
+    /// You can control which series are not displayed by clicking on the legend.
     /// 图例组件。
     /// 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
     /// </summary>
@@ -19,7 +21,6 @@ namespace XCharts
     {
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
-        /// It is enabled by default, and you may set it to be false to disabled it.
         /// 图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
         /// </summary>
         public enum SelectedMode
@@ -64,6 +65,7 @@ namespace XCharts
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
         /// 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
+        /// [default:SelectedMode.Multiple] 
         /// </summary>
         /// <value></value>
         public SelectedMode selectedMode
@@ -74,6 +76,7 @@ namespace XCharts
         /// <summary>
         /// Specify whether the layout of legend component is horizontal or vertical. 
         /// 布局方式是横还是竖。
+        /// [default:Orient.Horizonal]
         /// </summary>
         public Orient orient
         {
@@ -83,6 +86,7 @@ namespace XCharts
         /// <summary>
         /// The location of legend.
         /// 图例显示的位置。
+        /// [default:Location.defaultTop]
         /// </summary>
         public Location location
         {
@@ -92,6 +96,7 @@ namespace XCharts
         /// <summary>
         /// Image width of legend symbol.
         /// 图例标记的图形宽度。
+        /// [default:24f]
         /// </summary>
         public float itemWidth
         {
@@ -101,6 +106,7 @@ namespace XCharts
         /// <summary>
         /// Image height of legend symbol.
         /// 图例标记的图形高度。
+        /// [default:12f]
         /// </summary>
         public float itemHeight
         {
@@ -110,6 +116,7 @@ namespace XCharts
         /// <summary>
         /// The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
         /// 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
+        /// [default:10f]
         /// </summary>
         public float itemGap
         {
@@ -119,6 +126,7 @@ namespace XCharts
         /// <summary>
         /// Whether the legend symbol matches the color automatically.
         /// 图例标记的图形是否自动匹配颜色。
+        /// [default:true]
         /// </summary>
         public bool itemAutoColor
         {
@@ -126,8 +134,10 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// Legend content string template formatter. Support for wrapping lines with \n. Template:{name}.
         /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {name}
+        /// 模板变量为图例名称 {name}。
+        /// [default:null]
         /// </summary>
         public string formatter
         {
@@ -231,7 +241,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 清空
+        /// Clear legend data.
+        /// 清空。
         /// </summary>
         public void ClearData()
         {
@@ -240,6 +251,7 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Whether include in legend data by the specified name.
         /// 是否包括由指定名字的图例
         /// </summary>
         /// <param name="name"></param>
@@ -250,7 +262,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 移除指定名字的图例
+        /// Removes the legend with the specified name.
+        /// 移除指定名字的图例。
         /// </summary>
         /// <param name="name"></param>
         public void RemoveData(string name)
@@ -263,7 +276,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 添加图例项
+        /// Add legend data.
+        /// 添加图例。
         /// </summary>
         /// <param name="name"></param>
         public void AddData(string name)
@@ -276,7 +290,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得指定索引的图例
+        /// Gets the legend for the specified index.
+        /// 获得指定索引的图例。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -290,7 +305,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得指定图例的索引
+        /// Gets the index of the specified legend.
+        /// 获得指定图例的索引。
         /// </summary>
         /// <param name="legendName"></param>
         /// <returns></returns>
@@ -300,7 +316,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 移除所有图例按钮
+        /// Remove all legend buttons.
+        /// 移除所有图例按钮。
         /// </summary>
         public void RemoveButton()
         {
@@ -308,7 +325,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 给图例绑定按钮
+        /// Bind buttons to legends.
+        /// 给图例绑定按钮。
         /// </summary>
         /// <param name="name"></param>
         /// <param name="btn"></param>
@@ -321,7 +339,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 更新图例按钮颜色
+        /// Update the legend button color.
+        /// 更新图例按钮颜色。
         /// </summary>
         /// <param name="name"></param>
         /// <param name="color"></param>
@@ -333,6 +352,12 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// Update the text color of legend.
+        /// 更新图例文字颜色。
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="color"></param>
         public void UpdateContentColor(string name, Color color)
         {
             if (m_DataBtnList.ContainsKey(name))
@@ -341,6 +366,12 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// Gets the legend button for the specified index.
+        /// 获得指定索引的图例按钮。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Sprite GetIcon(int index)
         {
             if (index >= 0 && index < m_Icons.Count)
@@ -354,7 +385,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 参数变更时的回调处理
+        /// Callback handling when parameters change.
+        /// 参数变更时的回调处理。
         /// </summary>
         public void OnChanged()
         {
@@ -362,7 +394,8 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 从json字符串解析数据，json格式如：['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+        /// Parsing the data from the JSON string.
+        /// 从json字符串解析数据，json格式如：['legend1','legend2','legend3','legend4','legend5']
         /// </summary>
         /// <param name="jsonData"></param>
         public override void ParseJsonData(string jsonData)
@@ -372,6 +405,11 @@ namespace XCharts
             SetComponentDirty();
         }
 
+        /// <summary>
+        /// 获得图例格式化后的显示内容。
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public string GetFormatterContent(string category)
         {
             if (string.IsNullOrEmpty(m_Formatter))

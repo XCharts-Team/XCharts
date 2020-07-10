@@ -32,7 +32,7 @@ namespace XCharts
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
         /// <summary>
-        /// The main title text, supporting for \n for newlines.
+        /// The main title text, supporting \n for newlines.
         /// 主标题文本，支持使用 \n 换行。
         /// </summary>
         public string text { get { return m_Text; } set { if (PropertyUtility.SetClass(ref m_Text, value)) SetComponentDirty(); } }
@@ -44,6 +44,7 @@ namespace XCharts
         [Obsolete("use textStyle instead.", true)]
         public int textFontSize { get { return m_TextStyle.fontSize; } set { m_TextStyle.fontSize = value; } }
         /// <summary>
+        /// The text style of main title.
         /// 主标题文本样式。
         /// </summary>
         public TextStyle textStyle
@@ -61,6 +62,7 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_SubText, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// The text style of sub title.
         /// 副标题文本样式。
         /// </summary>
         public TextStyle subTextStyle

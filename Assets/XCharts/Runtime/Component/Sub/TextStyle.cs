@@ -33,6 +33,7 @@ namespace XCharts
         /// <summary>
         /// Rotation of text.
         /// 文本的旋转。
+        /// [default: `0f`]
         /// </summary>
         public float rotate
         {
@@ -42,6 +43,7 @@ namespace XCharts
         /// <summary>
         /// the offset of position.
         /// 坐标偏移。
+        /// [Default: `Vector2.zero`]
         /// </summary>
         public Vector2 offset
         {
@@ -54,6 +56,7 @@ namespace XCharts
         /// <summary>
         /// the color of text. 
         /// 文本的颜色。
+        /// [default: `Color.clear`]
         /// </summary>
         public Color color
         {
@@ -63,6 +66,7 @@ namespace XCharts
         /// <summary>
         /// the color of text. 
         /// 文本的背景颜色。
+        /// [default: `Color.clear`]
         /// </summary>
         public Color backgroundColor
         {
@@ -70,8 +74,9 @@ namespace XCharts
             set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the font of text.
-        /// 文本字体
+        /// the font of text. When `null`, the theme's font is used by default.
+        /// 文本字体。
+        /// [default: null]
         /// </summary>
         public Font font
         {
@@ -81,6 +86,7 @@ namespace XCharts
         /// <summary>
         /// font size.
         /// 文本字体大小。
+        /// [default: 18]
         /// </summary>
         public int fontSize
         {
@@ -90,6 +96,7 @@ namespace XCharts
         /// <summary>
         /// font style.
         /// 文本字体的风格。
+        /// [default: FontStyle.Normal]
         /// </summary>
         public FontStyle fontStyle
         {
@@ -99,6 +106,7 @@ namespace XCharts
         /// <summary>
         /// text line spacing.
         /// 行间距。
+        /// [default: 1f]
         /// </summary>
         public float lineSpacing
         {

@@ -27,8 +27,8 @@ namespace XCharts
 
 
         /// <summary>
-        /// Whether to show the grid in rectangular coordinate.
-        /// 是否显示直角坐标系网格。
+        /// Whether to show the polor component.
+        /// 是否显示极坐标。
         /// </summary>
         public bool show
         {
@@ -36,7 +36,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the center of ploar.
+        /// [default:[0.5f,0.45f]]The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate.
+        /// When value between 0 and 1 represents a percentage  relative to the chart.
         /// 极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。
         /// 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
         /// </summary>
@@ -46,7 +47,7 @@ namespace XCharts
             set { if (value != null) { m_Center = value; SetAllDirty(); } }
         }
         /// <summary>
-        /// the radius of polar.
+        /// [default:0.35f]the radius of polar.
         /// 极坐标的半径。
         /// </summary>
         public float radius
@@ -55,7 +56,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// Background color of polar, which is transparent by default.
+        /// [default:Color.clear]Background color of polar, which is transparent by default.
         /// 极坐标的背景色，默认透明。
         /// </summary>
         public Color backgroundColor
@@ -74,6 +75,7 @@ namespace XCharts
         /// 极坐标的运行时实际半径。
         /// </summary>
         public float runtimeRadius { get; internal set; }
+
         public static Polar defaultPolar
         {
             get

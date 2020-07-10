@@ -4,8 +4,8 @@
 [XCharts API](xcharts-api-EN.md)  
 [XCharts Configuration](xcharts-configuration-EN.md)
 
-[QA 1: How to adjust the margin between the axis and the background？](#Q：How-to-adjust-the-margin-between-the-axis-and-the-background)  
-[QA 2: How to play agian the fadeIn animation](#Q:How-to-play-agian-the-fadeIn-animation)  
+[QA 1: How to adjust the margin between the axis and the background?](#How to adjust the margin between the axis and the background)  
+[QA 2: How to play agian the fadeIn animation](#How-to-play-agian-the-fadeIn-animation)  
 [QA 3: How to customize the color of data item in line chart and pie chart?](#Q:How-to-customize-the-color-of-data-item-in-line-chart-and-pie-chart)  
 [QA 4: How to formatter the text of axis label, such as add a units text](#Q:How-to-formatter-the-text-of-axis-label-such-as-add-a-units-text)  
 [QA 5: How to stack the bar of bar chart](#Q:How-to-stack-the-bar-of-bar-chart)  
@@ -33,11 +33,11 @@
 [QA 27: Mesh can not have more than 65000 vertices?](#Q:Mesh-cannot-have-more-than-65000-vertices)  
 [QA 28: Why are the parameters set in Serie reset after they run?](#Q:Why-are-the-parameters-set-in-Serie-reset-after-they-run)  
 
-## Q:How-to-adjust-the-margin-between-the-axis-and-the-background
+## How to adjust the margin between the axis and the background
 
 A: `Grid` conponent，which can adjust the left, right, up, down margins of chart.
 
-## Q:How-to-play-agian-the-fadeIn-animation
+## How-to-play-agian-the-fadeIn-animation
 
 A: call the `chart.AnimationReset()` API.
 

@@ -17,7 +17,7 @@ namespace XCharts
 {
     /// <summary>
     /// Tooltip component.
-    /// 提示框组件
+    /// 提示框组件。
     /// </summary>
     [System.Serializable]
     public class Tooltip : MainComponent
@@ -96,6 +96,20 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// A string template formatter for the total content of the prompt box. Support for wrapping lines with \n. 
+        /// When formatter is not null, use formatter first, otherwise use itemFormatter.
+        /// Template variables are {.}, {a}, {b}, {c}, {d}.
+        /// {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.
+        /// {a} is the series name of the serie that is currently indicated or whose index is 0.
+        /// {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).
+        /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.
+        /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.
+        /// {.1} represents a dot from serie corresponding color that specifies index as 1.
+        /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.
+        /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).
+        /// {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).
+        /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).
+        /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"
         /// 提示框总内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}。
         /// {.}为当前所指示或index为0的serie的对应颜色的圆点。
@@ -108,14 +122,19 @@ namespace XCharts
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。
         /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
-        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"、
+        /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
+        /// The string template formatter for the tooltip title content. Support for wrapping lines with \n. 
+        /// This is only valid if the itemFormatter is in effect. 
+        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
         /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。仅当itemFormatter生效时才有效。可以单独设置占位符{i}表示忽略不显示title。
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
+        /// a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. 
+        /// When formatter is not null, use formatter first, otherwise use itemFormatter.
         /// 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
@@ -141,7 +160,10 @@ namespace XCharts
         [Obsolete("Use Tooltip.textStyle.fontStyle instead.", true)]
         public FontStyle fontStyle { get; set; }
         /// <summary>
-        /// Standard numeric format strings.
+        /// Standard numeric format string. Used to format numeric values to display as strings. 
+        /// Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
+        /// 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 
+        /// 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'.
         /// 标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings

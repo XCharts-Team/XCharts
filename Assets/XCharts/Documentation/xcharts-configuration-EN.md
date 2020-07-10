@@ -203,32 +203,30 @@ The component of settings related to text.
 
 ## `Tooltip`
 
-提示框组件。
+Tooltip component.
 
-相关参数: 
-
-* `show`: 是否显示提示框组件。
-* `type`: 提示框指示器类型。指示器类型有: 
-  * `Line`: 线性指示器。
-  * `Shadow`: 阴影指示器。
-  * `None`: 无指示器。
-  * `Corss`: 十字准星指示器。坐标轴显示`Label`和交叉线。
-* `formatter`: 提示框内容字符串模版格式器。支持用 `\n` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
-  * 模板变量有`{.}`、`{a}`、`{b}`、`{c}`、`{d}`。
-  * `{.}`为当前所指示或`index`为`0`的`serie`的对应颜色的圆点。
-  * `{a}`为当前所指示或`index`为`0`的`serie`的系列名`name`。
-  * `{b}`为当前所指示或`index`为`0`的`serie`的数据项`serieData`的`name`，或者类目值（如折线图的`X`轴）。
-  * `{c}`为当前所指示或`index`为`0`的`serie`的`y`维（`dimesion`为`1`）的数值。
-  * `{d}`为当前所指示或`index`为`0`的`serie`的`y`维（`dimesion`为`1`）百分比值，注意不带`%`号。
-  * `{.1}`表示指定`index`为`1`的`serie`对应颜色的圆点。
-  * `{a1}`、`{b1}`、`{c1}`中的`1`表示指定`index`为`1`的`serie`。
-  * `{c1:2}`表示索引为`1`的`serie`的当前指示数据项的第`3`个数据（一个数据项有多个数据，index为`2`表示第`3`个数据）。
-  * `{c1:2-2}`表示索引为`1`的`serie`的第`3`个数据项的第`3`个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
-  * `{d1:2:f2}`表示单独指定了数值的格式化字符串为`f2`（不指定时用`numericFormatter`）。
-  * 示例: `"{a}:{c}"`、`"{a1}:{c1:f1}"`、`"{a1}:{c1:1f1}"`
-* `titleFormatter`: 提示框标题内容的字符串模版格式器。支持用 `\n` 换行。仅当`itemFormatter`生效时才有效。可以单独设置占位符`{i}`表示忽略不显示标题内容。
-* `itemFormatter`: 提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n`  换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
-* `numericFormatter`: 标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式: `A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
+* `show`: Whether to show the tooltip component.
+* `type`: Indicator type. Indicator types are:
+  * `Line`: line indicator.
+  * `Shadow`: shadow crosshair indicator.
+  * `None`: no indicator displayed.
+  * `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
+* `formatter`: A string template formatter for the total content of the prompt box. Support for wrapping lines with `\n`. When formatter is not null, use formatter first, otherwise use itemFormatter.
+  * Template variables are `{.}`, `{a}`, `{b}`, `{c}`, `{d}`.
+  * `{.}` is the dot of the corresponding color of `serie` that is currently indicated or whose `index` is `0`.`
+  * `{a}` is the `name` of the `serie` that is currently indicated or whose `index` is `0`.
+  * `{b}` is the `name` of the `serieData` that is currently indicated or whose `index` is `0`, or a `category` value (such as the X-axis of a line chart).
+  * `{c}` is the value of a Y-dimension (`dimesion` is 1) from the `serie` that is currently indicated or whose `index` is `0`.
+  * `{d}` is the percentage value of Y-dimensions (`dimesion` is 1) from the `serie` that is currently indicated or whose `index` is `0`, with no `%` sign.
+  * `{.1}` represents a dot from serie corresponding color that specifies `index` as `1`.
+  * `1` in `{a1}`, `{b1}`, `{c1}` represents a `serie` that specifies an `index` of `1`.
+  * `{c1:2}` represents the third data from `serie`'s current indication data item indexed to `1` (a data item has multiple data, `index` 2 represents the third data).
+  * `{c1:2-2}` represents the third data item from `serie`'s third data item indexed to `1` (i.e., which data item must be specified to specify).
+  * `{d1:2: F2}` indicates that a formatted string with a value specified separately is `F2` (`numericFormatter` is used when not specified).
+  * Example: `"{a}, {c}"`, `"{a1}, {c1: f1}"`, `"{a1}, {c1:0: f1}"`, `"{a1} : {c1:1-1: f1}"`
+* `titleFormatter`: The string template formatter for the tooltip title content. Support for wrapping lines with `\n`. This is only valid if the `itemFormatter` is in effect. The placeholder `{I}` can be set separately to indicate that the title is ignored and not displayed.
+* `itemFormatter`: a string template formatter for a single Serie or data item content. Support for wrapping lines with `\n`. When `formatter` is not null, use `formatter` first, otherwise use `itemFormatter`.
+* `numericFormatter`: Standard numeric format string. Used to format numeric values to display as strings. Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'. see: <https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings>
 * `fixedWidth`: 固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `fixedHeight`: 固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`: 最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。

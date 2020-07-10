@@ -15,7 +15,6 @@
 /Doc/*.meta
 
 /Assets/XCharts/*.meta
-/Assets/XCharts/Runtime/*.meta
 /Assets/XCharts/Runtime/Internal/*.meta
 /Assets/XCharts/Runtime/Internal/Helper/*.meta
 /Assets/XCharts/Runtime/Internal/Interface/*.meta
@@ -26,15 +25,11 @@
 /Assets/XCharts/Runtime/Component/*.meta
 /Assets/XCharts/Runtime/Component/Sub/*.meta
 /Assets/XCharts/Runtime/Component/Main/*.meta
-/Assets/XCharts/Runtime/API/*.meta
-/Assets/XCharts/Examples/*.meta
-/Assets/XCharts/Examples/Runtime/*.meta
 /Assets/XCharts/Editor/PropertyDrawers/*.meta
 /Assets/XCharts/Editor/Utility/*.meta
 /Assets/XCharts/Editor/*.meta
 /Assets/XCharts/Documentation/*.meta
 /Assets/XCharts/Documentation/*.meta
-
 
 /Assets/XChartsDemo/demo_test.unity
 /Assets/XChartsDemo/demo_test.unity.meta

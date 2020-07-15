@@ -140,18 +140,22 @@ namespace XCharts
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
 
         /// <summary>
+        /// Fixed width. Higher priority than minWidth.
         /// 固定宽度。比 minWidth 优先。
         /// </summary>
         public float fixedWidth { get { return m_FixedWidth; } set { m_FixedWidth = value; } }
         /// <summary>
+        /// Fixed height. Higher priority than minHeight.
         /// 固定高度。比 minHeight 优先。
         /// </summary>
         public float fixedHeight { get { return m_FixedHeight; } set { m_FixedHeight = value; } }
         /// <summary>
+        /// Minimum width. If fixedWidth has a value, get fixedWidth first.
         /// 最小宽度。如若 fixedWidth 设有值，优先取 fixedWidth。
         /// </summary>
         public float minWidth { get { return m_MinWidth; } set { m_MinWidth = value; } }
         /// <summary>
+        /// Minimum height. If fixedHeight has a value, take priority over fixedHeight.
         /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
@@ -185,6 +189,7 @@ namespace XCharts
         /// </summary>
         public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
+        /// The default display character information for ignored data.
         /// 被忽略数据的默认显示字符信息。
         /// </summary>
         public string ignoreDataDefaultContent { get { return m_IgnoreDataDefaultContent; } set { m_IgnoreDataDefaultContent = value; } }
@@ -194,14 +199,17 @@ namespace XCharts
         /// </summary>
         public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetBackground(m_BackgroundImage); } }
         /// <summary>
+        /// Whether to trigger after always display.
         /// 是否触发后一直显示。
         /// </summary>
         public bool alwayShow { get { return m_AlwayShow; } set { m_AlwayShow = value; } }
         /// <summary>
+        /// The position offset of tooltip relative to the mouse position.
         /// 提示框相对于鼠标位置的偏移。
         /// </summary>
         public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
+        /// the text style of content.
         /// 提示框内容文本样式。
         /// </summary>
         public TextStyle textStyle
@@ -210,6 +218,7 @@ namespace XCharts
             set { if (value != null) { m_TextStyle = value; SetComponentDirty(); } }
         }
         /// <summary>
+        /// the line style of indicator line.
         /// 指示线样式。
         /// </summary>
         public LineStyle lineStyle

@@ -14,6 +14,7 @@ namespace XCharts
     /// DataZoom component is used for zooming a specific area,
     /// which enables user to investigate data in detail,
     /// or get an overview of the data, or get rid of outlier points.
+    /// 
     /// <para>DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。</para>
     /// </summary>
     [System.Serializable]
@@ -23,6 +24,7 @@ namespace XCharts
         /// Generally dataZoom component zoom or roam coordinate system through data filtering
         /// and set the windows of axes internally.
         /// Its behaviours vary according to filtering mode settings.
+        /// 
         /// dataZoom 的运行原理是通过 数据过滤 来达到 数据窗口缩放 的效果。数据过滤模式的设置不同，效果也不同。
         /// </summary>
         public enum FilterMode
@@ -30,17 +32,20 @@ namespace XCharts
             /// <summary>
             /// data that outside the window will be filtered, which may lead to some changes of windows of other axes.
             /// For each data item, it will be filtered if one of the relevant dimensions is out of the window.
+            /// 
             /// 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只要有一个维度在数据窗口外，整个数据项就会被过滤掉。
             /// </summary>
             Filter,
             /// <summary>
             /// data that outside the window will be filtered, which may lead to some changes of windows of other axes.
             /// For each data item, it will be filtered only if all of the relevant dimensions are out of the same side of the window.
+            /// 
             /// 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只有当全部维度都在数据窗口同侧外部，整个数据项才会被过滤掉。
             /// </summary>
             WeakFilter,
             /// <summary>
             /// data that outside the window will be set to NaN, which will not lead to changes of windows of other axes. 
+            /// 
             /// 当前数据窗口外的数据，被 设置为空。即 不会 影响其他轴的数据范围。
             /// </summary>
             Empty,
@@ -123,6 +128,10 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_YAxisIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether built-in support is supported. 
+        /// Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, 
+        /// mouse wheel, finger swiping (on the touch screen).
+        /// 
         /// 是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
         /// </summary>
         public bool supportInside
@@ -131,6 +140,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether a slider is supported. There are separate sliders on which the user zooms or roams.
         /// 是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。
         /// </summary>
         public bool supportSlider
@@ -159,6 +169,7 @@ namespace XCharts
         /// <summary>
         /// Whether to show detail, that is, show the detailed data information when dragging.
         /// 是否显示detail，即拖拽时候显示详细数值信息。
+        /// [default: false]
         /// </summary>
         public bool showDetail
         {
@@ -225,7 +236,7 @@ namespace XCharts
         }
         /// <summary>
         /// The start percentage of the window out of the data extent, in the range of 0 ~ 100.
-        /// default:30
+        /// [default:30].
         /// 数据窗口范围的起始百分比。范围是：0 ~ 100。
         /// </summary>
         public float start
@@ -244,6 +255,7 @@ namespace XCharts
             set { m_End = value; if (m_End < 0) m_End = 0; if (m_End > 100) m_End = 100; SetVerticesDirty(); }
         }
         /// <summary>
+        /// Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
         /// 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
         /// </summary>
         public int minShowNum

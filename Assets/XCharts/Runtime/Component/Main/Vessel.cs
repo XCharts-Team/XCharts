@@ -11,10 +11,10 @@ using UnityEngine;
 namespace XCharts
 {
     /// <summary>
-    /// Vessel component for liquid chart.
+    /// Vessel component for liquid chart. There can be multiple vessels in a Chart, which can be matched by vesselIndex in Serie.
     /// <para>
     /// 容器组件。
-    /// 一般用于LiquidChart。可以有多个Vessel，Serie中用vesselIndex来对应。
+    /// 一般用于LiquidChart。一个Chart中可以有多个Vessel，Serie中用vesselIndex来对应。
     /// </para>
     /// </summary>
     [Serializable]
@@ -57,6 +57,7 @@ namespace XCharts
         /// <summary>
         /// Whether to show the vessel.
         /// 是否显示容器组件。
+        /// [defaut: true]
         /// </summary>
         public bool show
         {
@@ -66,6 +67,7 @@ namespace XCharts
         /// <summary>
         /// The shape of vessel.
         /// 容器形状。
+        /// [default: Shape.Circle]
         /// </summary>
         public Shape shape
         {
@@ -75,6 +77,7 @@ namespace XCharts
         /// <summary>
         /// Thickness of vessel.
         /// 容器厚度。
+        /// [defaut: 5f]
         /// </summary>
         public float shapeWidth
         {
@@ -84,6 +87,7 @@ namespace XCharts
         /// <summary>
         /// The gap between the vessel and the liquid.
         /// 间隙。容器和液体的间隙。
+        /// [defaut: 10f]
         /// </summary>
         public float gap
         {
@@ -91,8 +95,11 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The center of vesselß. The center[0] is the x-coordinate, and the center[1] is the y-coordinate.
+        /// When value between 0 and 1 represents a percentage  relative to the chart.
         /// 中心点。数组的第一项是横坐标，第二项是纵坐标。
         /// 当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
+        /// [default:[0.5f,0.45f]]
         /// </summary>
         public float[] center
         {
@@ -101,7 +108,9 @@ namespace XCharts
         }
         /// <summary>
         /// The radius of vessel.
+        /// When value between 0 and 1 represents a percentage  relative to the chart.
         /// 半径。
+        /// [default: 0.35f]
         /// </summary>
         public float radius
         {
@@ -111,6 +120,7 @@ namespace XCharts
         /// <summary>
         /// The smoothness of wave.
         /// 水波平滑度。
+        /// [default: 1f]
         /// </summary>
         public float smoothness
         {
@@ -120,6 +130,7 @@ namespace XCharts
         /// <summary>
         /// Background color of polar, which is transparent by default.
         /// 背景色，默认透明。
+        /// [default: `Color.clear`]
         /// </summary>
         public Color backgroundColor
         {
@@ -127,6 +138,7 @@ namespace XCharts
             set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Vessel color. The default is consistent with Serie.
         /// 容器颜色。默认和serie一致。
         /// </summary>
         public Color color
@@ -135,7 +147,9 @@ namespace XCharts
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether automatic color. If true, the color matches serie.
         /// 是否自动颜色。为true时颜色会和serie一致。
+        /// [default: true]
         /// </summary>
         public bool autoColor
         {

@@ -11,7 +11,7 @@ using UnityEngine;
 namespace XCharts
 {
     /// <summary>
-    /// VisualMap component.
+    /// VisualMap component. Mapping data to visual elements such as colors.
     /// 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
     /// </summary>
     [System.Serializable]
@@ -71,7 +71,11 @@ namespace XCharts
         [SerializeField] private List<Color> m_OutOfRange = new List<Color>();
 
         /// <summary>
+        /// Whether enable visualMap component.
+        /// 
         /// 是否开启组件功能。
+        /// 
+        /// [default: false]
         /// </summary>
         public bool enable
         {
@@ -79,7 +83,11 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
+        /// 
         /// 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
+        /// 
+        /// [default: true]
         /// </summary>
         public bool show
         {
@@ -87,6 +95,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// the type of visualmap component.
         /// 组件类型。
         /// </summary>
         public Type type
@@ -95,6 +104,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// the selected mode for Piecewise visualMap.
         /// 选择模式。
         /// </summary>
         public SelectedMode selectedMode
@@ -103,6 +113,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SelectedMode, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The minimum allowed. 'min' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
+        /// 
         /// 允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public float min
@@ -111,6 +123,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The maximum allowed. 'max' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
+        /// 
         /// 允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public float max
@@ -119,18 +133,25 @@ namespace XCharts
             set { m_Max = value < min ? min + 1 : value; SetVerticesDirty(); }
         }
         /// <summary>
-        /// 指定手柄对应数值的位置。range 应在 min max 范围内。
+        /// Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
+        /// 
+        /// 指定手柄对应数值的位置。range 应在[min,max]范围内。
         /// </summary>
         public float[] range { get { return m_Range; } }
         /// <summary>
+        /// Text on both ends.
         /// 两端的文本，如 ['High', 'Low']。
         /// </summary>
         public string[] text { get { return m_Text; } }
         /// <summary>
+        /// The distance between the two text bodies.
         /// 两端文字主体之间的距离，单位为px。
         /// </summary>
         public float[] textGap { get { return m_TextGap; } }
         /// <summary>
+        /// For continuous data, it is automatically evenly divided into several segments 
+        /// and automatically matches the size of inRange color list when the default is 0.
+        /// 
         /// 对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
         /// </summary>
         /// <value></value>
@@ -140,6 +161,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
+        /// 
         /// 是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。
         /// </summary>
         public bool calculable
@@ -148,6 +171,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Calculable, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether to update in real time while dragging.
+        /// 
         /// 拖拽时，是否实时更新。
         /// </summary>
         public bool realtime
@@ -156,6 +181,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Realtime, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The width of the figure, that is, the width of the color bar.
+        /// 
         /// 图形的宽度，即颜色条的宽度。
         /// </summary>
         public float itemWidth
@@ -164,6 +191,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ItemWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The height of the figure, that is, the height of the color bar.
+        /// 
         /// 图形的高度，即颜色条的高度。
         /// </summary>
         public float itemHeight
@@ -172,6 +201,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ItemHeight, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Border line width.
+        /// 
         /// 边框线宽，单位px。
         /// </summary>
         public float borderWidth
@@ -180,6 +211,9 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Specifies "which dimension" of the data to map to the visual element. "Data" is series.data. 
+        /// Starting at 1, the default is 0 to take the last dimension in data.
+        /// 
         /// 指定用数据的『哪个维度』，映射到视觉元素上。『数据』即 series.data。从1开始，默认为0取 data 中最后一个维度。
         /// </summary>
         public int dimension
@@ -188,6 +222,11 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Dimension, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// When the hoverLink function is turned on, when the mouse hovers over the visualMap component, 
+        /// the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram. 
+        /// Conversely, when the mouse hovers over a graphic element in a diagram, 
+        /// the corresponding value of the visualMap component is triangulated in the corresponding position.
+        /// 
         /// 打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
         /// 反之，鼠标悬浮到图表中的图形元素上时，在 visualMap 组件的相应位置会有三角提示其所对应的数值。
         /// </summary>
@@ -199,6 +238,7 @@ namespace XCharts
         }
         /// <summary>
         /// Specify whether the layout of component is horizontal or vertical. 
+        /// 
         /// 布局方式是横还是竖。
         /// </summary>
         public Orient orient
@@ -216,6 +256,7 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_Location, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Defines the visual color in the selected range.
         /// 定义 在选中范围中 的视觉颜色。
         /// </summary>
         public List<Color> inRange
@@ -224,6 +265,7 @@ namespace XCharts
             set { if (value != null) { m_InRange = value; SetVerticesDirty(); } }
         }
         /// <summary>
+        /// Defines a visual color outside of the selected range.
         /// 定义 在选中范围外 的视觉颜色。
         /// </summary>
         public List<Color> outOfRange

@@ -27,9 +27,9 @@ Main component:
 * [Serie-Liquid](#Serie-Liquid)  
 * [Settings](#Settings)
 * [Theme](#Theme)  
+* [Title](#Title)  
 * [Tooltip](#Tooltip)  
 * [Vessel](#Vessel)  
-* [Title](#Title)  
 * [VisualMap](#VisualMap)  
 
 Sub component:
@@ -104,7 +104,7 @@ Parameters:
 Sub component for serie title.
 
 * `show`: Whether to show serie title.
-* `textStyle`: The text style of title.
+* `textStyle`: The text style of title [TextStyle](#TextStyle).
 
 ## `Legend`
 
@@ -227,99 +227,94 @@ Tooltip component.
 * `titleFormatter`: The string template formatter for the tooltip title content. Support for wrapping lines with `\n`. This is only valid if the `itemFormatter` is in effect. The placeholder `{I}` can be set separately to indicate that the title is ignored and not displayed.
 * `itemFormatter`: a string template formatter for a single Serie or data item content. Support for wrapping lines with `\n`. When `formatter` is not null, use `formatter` first, otherwise use `itemFormatter`.
 * `numericFormatter`: Standard numeric format string. Used to format numeric values to display as strings. Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'. see: <https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings>
-* `fixedWidth`: 固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
-* `fixedHeight`: 固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
-* `minWidth`: 最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
-* `minHeight`: 最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
-* `paddingLeftRight`: 文字和边框的左右边距。
-* `paddingTopBottom`: 文字和边框的上下边距。
-* `backgroundImage`: 提示框的背景图。
-* `ignoreDataDefaultContent`: 被忽略数据的默认显示字符信息。
-* `alwayShow`: 是否触发后一直显示。
-* `offset`: `(since v1.5.3)`提示框相对于鼠标位置的偏移。
-
-* `lineStyle`: 指示器线条样式 [LineStyle](#LineStyle)。
-* `textStyle`: 显示内容文本样式 [TextStyle](#TextStyle)。
+* `fixedWidth`: Fixed width. Higher priority than `minWidth`.
+* `fixedHeight`: Fixed height. Higher priority than `minHeight`.
+* `minWidth`: Minimum width. If `fixedWidth` has a value, get `fixedWidth` first.
+* `minHeight`: Minimum height. If `fixedHeight` has a value, get `fixedHeight` first.
+* `paddingLeftRight`: the text padding of left and right. [defaut: `5f`].
+* `paddingTopBottom`: the text padding of top and bottom. [defaut: `5f`].
+* `backgroundImage`: The image of icon.
+* `ignoreDataDefaultContent`: The default display character information for ignored data.
+* `alwayShow`: Whether to trigger after always display.
+* `offset`: `(since v1.5.3)`The position offset of tooltip relative to the mouse position.
+* `lineStyle`: the line style of indicator line [LineStyle](#LineStyle).
+* `textStyle`: the text style of content [TextStyle](#TextStyle).
 
 ## `Vessel`
 
-容器组件。一般用于LiquidChart。
+Vessel component for liquid chart. There can be multiple vessels in a Chart, which can be matched by vesselIndex in Serie.
 
-相关参数: 
-
-* `show`: 是否显示容器组件。
-* `shape`: 容器形状。
-* `shapeWidth`: 容器的厚度。
-* `gap`: 间隙。容器和液体的间隙。
-* `center`: 中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
-* `radius`: 半径。
-* `smoothness`: 开启或关闭缩放区域功能。
-* `backgroundColor`: 背景色，默认透明。
-* `color`: 容器颜色。当`autoColor`为`false`时生效。
-* `autoColor`: 是否自动颜色。默认`true`。为`true`时颜色会和`serie`一致。
+* `show`: Whether to show the vessel. [defaut: `true`]
+* `shape`: The shape of vessel. [default: `Shape.Circle`]
+* `shapeWidth`: Thickness of vessel. [defaut: `5f`]
+* `gap`: The gap between the vessel and the liquid. [defaut: `10f`]
+* `center`: The center of vessel. The `center[0]` is the x-coordinate, and the `center[1]` is the y-coordinate. When value between `0` and `1` represents a percentage relative to the chart. [default: `[0.5f,0.45f]`]
+* `radius`: The radius of vessel. When value between 0 and 1 represents a percentage relative to the chart. [default: `0.35f`]
+* `smoothness`: The smoothness of wave. [default: `1f`]
+* `backgroundColor`: Background color of polar, which is transparent by default. [default: `Color.clear`]
+* `color`: Vessel color. The default is consistent with Serie. [default: `Color32(70, 70, 240, 255)`]
+* `autoColor`: Whether automatic color. If true, the color matches serie. [default: `true`]
 
 ## `DataZoom`
 
-区域缩放组件。用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。  
-目前只支持控制 `X` 轴。
+DataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.  
+Currently only the control 'X' axis is supported.
 
-相关参数: 
-
-* `enable`: 开启或关闭缩放区域功能。
-* `supportInside`: 是否支持内置缩放。内置于坐标系中，可在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
-* `supportSlider`: 是否支持滑动条缩放。有单独的滑动条，可在滑动条上进行缩放或漫游。
-* ~~`filterMode`: 数据过滤，暂未启用。支持以下几种类型: ~~
-  * ~~`Filter`: 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只要有一个维度在数据窗口外，整个数据项就会被过滤掉。~~
-  * ~~`WeakFilter`: 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只有当全部维度都在数据窗口同侧外部，整个数据项才会被过滤掉。~~
-  * ~~`Empty`: 当前数据窗口外的数据，被 设置为空。即 不会 影响其他轴的数据范围。~~
-  * ~~`None`: 不过滤数据，只改变数轴范围。~~
-* ~~`xAxisIndex`: 控制哪一个 `x` 轴。~~
-* ~~`yAxisIndex`: 控制哪一个 `y` 轴。~~
-* `showDataShadow`: 是否显示数据阴影。数据阴影可以简单地反应数据走势。
-* `showDetail`: 是否显示 `detail`，即拖拽时候显示详细数值信息。
-* `zoomLock`: 是否锁定选择区域（或叫做数据窗口）的大小。如果设置为 `true` 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
-* ~~`realtime`: 拖动时，是否实时更新系列的视图。如果设置为 `false`，则只在拖拽结束的时候更新。~~
-* ~~`backgroundColor`: 组件的背景颜色。~~
-* `bottom`: 组件离容器下侧的距离。
-* `height`: 组件高度。
-* `rangeMode`: 取值类型是取绝对值还是百分比。
-  * `Percent`: 百分比。
-* `start`: 数据窗口范围的起始百分比。范围是: 0 ~ 100。
-* `end`: 数据窗口范围的结束百分比。范围是: 0 ~ 100。
-* `scrollSensitivity`: 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
-* `fontSize`: 字体大小。
-* `fontStyle`: 字体样式。
-* `minShowNum`: 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
+* `enable`: Whether to show dataZoom.
+* `supportInside`: Whether built-in support is supported. Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, mouse wheel, finger swiping (on the touch screen).
+* `supportSlider`: Whether a slider is supported. There are separate sliders on which the user zooms or roams.
+* ~~`filterMode`: The mode of data filter, not support yet.~~
+  * ~~`Filter`: data that outside the window will be filtered, which may lead to some changes of windows of other axes. For each data item, it will be filtered if one of the relevant dimensions is out of the window.~~
+  * ~~`WeakFilter`: data that outside the window will be filtered, which may lead to some changes of windows of other axes. For each data item, it will be filtered only if all of the relevant dimensions are out of the same side of the window.~~
+  * ~~`Empty`: data that outside the window will be set to NaN, which will not lead to changes of windows of other axes.~~
+  * ~~`None`: Do not filter data.~~
+* ~~`xAxisIndex`: Specify which xAxis is controlled by the dataZoom.~~
+* ~~`yAxisIndex`: Specify which yAxis is controlled by the dataZoom.~~
+* `showDataShadow`: Whether to show data shadow, to indicate the data tendency in brief. [default: `true`]
+* `showDetail`: Whether to show detail, that is, show the detailed data information when dragging. [default: `false`]
+* `zoomLock`: Specify whether to lock the size of window (selected area). [default: `false`]
+* ~~`realtime`: Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief. [default: `true`]~~
+* ~~`backgroundColor`: The background color of the component.~~
+* `bottom`: Distance between dataZoom component and the bottom side of the container. bottom value is a instant pixel value like 10. [default: `10f`]
+* `height`: The height of dataZoom component. height value is a instant pixel value like 10. [default: `50f`]
+* `rangeMode`: Use absolute value or percent value in `DataZoom.start` and `DataZoom.end`. [default: `RangeMode.Percent`].
+  * `Percent`: percent.
+* `start`: The start percentage of the window out of the data extent, in the range of `0 ~ 100`. [default: `30f`]
+* `end`: The end percentage of the window out of the data extent, in the range of 0 ~ 100. [default: `70f`]
+* `scrollSensitivity`: The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is. [default: `10f`]
+* `fontSize`: font size of datazoom label.
+* `fontStyle`: font style of datazoom label.
+* `minShowNum`: Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum. [default: `1`]
 
 ## `VisualMap`
 
-视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+VisualMap component. mapping data to visual elements such as colors.
 
-* `enable`: 开启或关闭视觉映射功能。
-* `show`: 是否显示组件。如果设置为 `false`，不会显示，但是数据映射的功能还存在。
-* `type`: 组件类型。支持以下类型: 
-  * `Continuous`: 连续型。
-  * ~~`Piecewise`: 分段型。~~
-* ~~`selectedMode`: 分段型的选择模式，支持以下模式: ~~
-  * ~~`Multiple`: 多选。~~
-  * ~~`Single`: 单选。~~
-* `min`: 允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
-* `max`: 允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
-* `range`: 指定手柄对应数值的位置。range 应在 min max 范围内。
-* ~~`text`: 两端的文本，如 ['High', 'Low']。~~
-* ~~`textGap`: 两端文字主体之间的距离，单位为px。~~
-* `splitNumber`: 对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
-* `calculable`: 是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。
-* ~~`realtime`: 拖拽时，是否实时更新。~~
-* `itemWidth`: 图形的宽度，即颜色条的宽度。
-* `itemHeight`: 图形的高度，即颜色条的高度。
+* `enable`: Whether enable visualMap component. [default: false]
+* `show`: Whether to display components. If set to false, it will not show up, but the data mapping function still exists. [default: true]
+* `type`: the type of visualmap component.
+  * `Continuous`: Continuous.
+  * ~~`Piecewise`: Piecewise.~~
+* ~~`selectedMode`: the selected mode for Piecewise visualMap.~~
+  * ~~`Multiple`: Multiple.~~
+  * ~~`Single`: Single.~~
+* `min`: The minimum allowed. `min` must be user specified. `[min, max]` forms the domain of the visualMap.
+* `max`: The maximum allowed. `max` must be user specified. `[min, max]` forms the domain of the visualMap.
+* `range`: Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
+* ~~`text`: Text on both ends. such as ['High', 'Low'].~~
+* ~~`textGap`: The distance between the two text bodies.~~
+* `splitNumber`: For continuous data, it is automatically evenly divided into several segments and automatically matches the size of inRange color list when the default is 0.
+* `calculable`: Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
+* ~~`realtime`: Whether to update in real time while dragging.~~
+* `itemWidth`: The width of the figure, that is, the width of the color bar.
+* `itemHeight`: The height of the figure, that is, the height of the color bar.
 * `borderWidth`: 边框线宽，单位px。
-* `dimension`: 指定用数据的『哪个维度』，映射到视觉元素上。『数据』即 series.data。从1开始，默认为0取 data 中最后一个维度。
-* `hoverLink`: 打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
-* `orient`: 布局方式是横还是竖。
-* `location`: 组件显示在图表中的位置。
-* `inRange`: 定义 在选中范围中 的视觉颜色。
-* ~~`outOfRange`: 定义 在选中范围外 的视觉颜色。~~
+* `dimension`: Specifies which `dimension` of the `Data` to map to the visual element. `Data` is series.data. Starting at 1, the default is 0 to take the last dimension in data.
+* `hoverLink`: When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram. Conversely, when the mouse hovers over a graphic element in a diagram, the corresponding value of the visualMap component is triangulated in the corresponding position.
+* `orient`: Is the layout horizontal or vertical.
+* `location`: The location of component.
+* `inRange`: Defines the visual color in the selected range.
+* ~~`outOfRange`: Defines a visual color outside of the selected range.~~
 
 ## `Grid`
 

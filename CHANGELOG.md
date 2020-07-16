@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.07.16) Fixed a problem with `Tooltip` that would also show up if it was blocked on top. #74  
+               修复`Tooltip`在上层有遮挡还会显示的问题#74
 * (2020.07.08) 优化`Scatter`类型`Serie`支持`Log`轴#70
 * (2020.07.07) 修复`SerieLabel`位置错乱的问题
 * (2020.07.07) 增加`Tooltip`的`offset`参数配置偏移

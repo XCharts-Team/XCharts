@@ -160,6 +160,7 @@ namespace XCharts
             if (m_ForceOpenRaycastTarget) raycastTarget = true;
             if (IsNeedCheckPointerPos())
             {
+                raycastTarget = true;
                 if (canvas == null) return;
                 Vector2 local;
                 var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
@@ -172,6 +173,10 @@ namespace XCharts
                 {
                     pointerPos = local;
                 }
+            }
+            else
+            {
+                raycastTarget = false;
             }
         }
 
@@ -215,6 +220,7 @@ namespace XCharts
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
+            Debug.LogError("click");
             if (m_OnPointerClick != null) m_OnPointerClick(this, eventData);
         }
 
@@ -230,11 +236,13 @@ namespace XCharts
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
+            isPointerInChart = true;
             if (m_OnPointerEnter != null) m_OnPointerEnter(this, eventData);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
+            isPointerInChart = false;
             if (m_OnPointerExit != null) m_OnPointerExit(this, eventData);
         }
 

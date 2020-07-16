@@ -543,7 +543,7 @@ namespace XCharts
 
         private void CheckTooltip()
         {
-            if (!m_Tooltip.show || !m_Tooltip.runtimeInited)
+            if (!isPointerInChart || !m_Tooltip.show || !m_Tooltip.runtimeInited)
             {
                 if (m_Tooltip.IsActive())
                 {

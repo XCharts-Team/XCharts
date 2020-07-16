@@ -45,9 +45,14 @@ namespace XCharts
         public Rect graphRect { get { return m_GraphRect; } }
         /// <summary>
         /// The postion of pointer.
-        /// 鼠标位置
+        /// 鼠标位置。
         /// </summary>
         public Vector2 pointerPos { get; protected set; }
+        /// <summary>
+        /// Whether the mouse pointer is in the chart.
+        /// 鼠标是否在图表内。
+        /// </summary>
+        public bool isPointerInChart { get; protected set; }
         /// <summary>
         /// 警告信息。
         /// </summary>

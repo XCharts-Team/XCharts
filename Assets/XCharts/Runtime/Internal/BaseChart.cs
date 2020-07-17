@@ -96,6 +96,7 @@ namespace XCharts
             raycastTarget = false;
             m_CheckTheme = m_ThemeInfo.theme;
             m_LastLocalPosition = transform.localPosition;
+            CheckIsInScrollRect();
             UpdateSize();
             InitComponent();
             m_Series.AnimationReset();

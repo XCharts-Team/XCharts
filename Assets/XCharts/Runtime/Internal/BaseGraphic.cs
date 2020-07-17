@@ -48,6 +48,8 @@ namespace XCharts
         protected Vector2 chartPivot { get { return m_GraphPivot; } }
         protected HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
 
+        private ScrollRect m_ScrollRect;
+
 
         protected virtual void InitComponent()
         {
@@ -63,6 +65,7 @@ namespace XCharts
             m_LastLocalPosition = transform.localPosition;
             UpdateSize();
             InitComponent();
+            CheckIsInScrollRect();
         }
 
         protected override void Start()
@@ -180,6 +183,11 @@ namespace XCharts
             }
         }
 
+        protected virtual void CheckIsInScrollRect()
+        {
+            m_ScrollRect = GetComponentInParent<ScrollRect>();
+        }
+
         protected virtual bool IsNeedCheckPointerPos()
         {
             return raycastTarget;
@@ -247,21 +255,25 @@ namespace XCharts
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
+            if (m_ScrollRect != null) m_ScrollRect.OnBeginDrag(eventData);
             if (m_OnBeginDrag != null) m_OnBeginDrag(this, eventData);
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
         {
+            if (m_ScrollRect != null) m_ScrollRect.OnEndDrag(eventData);
             if (m_OnEndDrag != null) m_OnEndDrag(this, eventData);
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
+            if (m_ScrollRect != null) m_ScrollRect.OnDrag(eventData);
             if (m_OnDrag != null) m_OnDrag(this, eventData);
         }
 
         public virtual void OnScroll(PointerEventData eventData)
         {
+            if (m_ScrollRect != null) m_ScrollRect.OnScroll(eventData);
             if (m_OnScroll != null) m_OnScroll(this, eventData);
         }
     }

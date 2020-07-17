@@ -96,10 +96,6 @@ namespace XCharts
                     m_Show = false,
                     m_Image = null,
                     m_ImageType = Image.Type.Sliced,
-                    m_Left = 0,
-                    m_Right = 0,
-                    m_Top = 0,
-                    m_Bottom = 0,
                     m_ImageColor = Color.white,
                     m_HideThemeBackgroundColor = true,
                 };

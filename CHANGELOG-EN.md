@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.17) Added animation completion callback interface for `SerieAnimation`.
 * (2020.07.17) Optimize `Chart` under `ScrollView` without affecting the scrolling and dragging of `ScrollView`.
 * (2020.07.16) Fixed a problem with `Tooltip` that would also show up if it was blocked on top. #74
 * (2020.07.08) 优化`Scatter`类型`Serie`支持`Log`轴#70

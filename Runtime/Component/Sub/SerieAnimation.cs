@@ -100,7 +100,14 @@ namespace XCharts
         /// 数据变更的动画时长（毫秒）。
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
-
+        /// <summary>
+        /// 渐入动画完成回调
+        /// </summary>
+        public Action fadeInFinishCallback { get; set; }
+        /// <summary>
+        /// 渐出动画完成回调
+        /// </summary>
+        public Action fadeOutFinishCallback { get; set; }
         private Dictionary<int, float> m_DataCurrProgress = new Dictionary<int, float>();
         private Dictionary<int, float> m_DataDestProgress = new Dictionary<int, float>();
         private bool m_FadeIn = false;
@@ -190,13 +197,26 @@ namespace XCharts
             if (m_IsEnd) return;
             m_ActualDuration = (int)((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
             m_CurrDataProgress = m_DestDataProgress + (m_FadeOut ? -1 : 1);
-            m_FadeIn = false;
             m_IsEnd = true;
             m_IsInit = false;
+            if (m_FadeIn)
+            {
+                m_FadeIn = false;
+                if (fadeInFinishCallback != null)
+                {
+                    fadeInFinishCallback();
+                    fadeInFinishCallback = null;
+                }
+            }
             if (m_FadeOut)
             {
                 m_FadeOut = false;
                 m_FadeOuted = true;
+                if (fadeOutFinishCallback != null)
+                {
+                    fadeOutFinishCallback();
+                    fadeOutFinishCallback = null;
+                }
             }
         }
 

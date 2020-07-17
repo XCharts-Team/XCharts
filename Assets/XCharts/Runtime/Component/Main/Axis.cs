@@ -91,7 +91,7 @@ namespace XCharts
         [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
-        /// Set this to false to prevent the axis from showing.
+        /// Whether to show axis.
         /// 是否显示坐标轴。
         /// </summary>
         public bool show
@@ -118,7 +118,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_MinMaxType, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The minimun value of axis.
+        /// The minimun value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
         public float min
@@ -127,7 +127,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The maximum value of axis.
+        /// The maximum value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
         public float max
@@ -145,8 +145,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
+        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// </summary>
         public float interval
         {
@@ -172,6 +172,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// On the log axis, if base e is the natural number, and is true, logBase fails.
         /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
         /// </summary>
         public bool logBaseE
@@ -190,6 +191,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
+        /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
         /// 最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
         public int ceilRate

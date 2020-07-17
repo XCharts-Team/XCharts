@@ -151,22 +151,30 @@ namespace XCharts
 
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
-        /// 仪表盘轴线。
+        /// axis line style.
+        /// 仪表盘轴线样式。
         /// </summary>
         public AxisLine axisLine { get { return m_AxisLine; } set { m_AxisLine = value; } }
         /// <summary>
+        /// slit line style.
         /// 分割线。
         /// </summary>
         public SplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
         /// <summary>
+        /// axis tick style.
         /// 刻度。
         /// </summary>
         public AxisTick axisTick { get { return m_AxisTick; } set { m_AxisTick = value; } }
         /// <summary>
+        /// axis label style.
         /// 文本标签。
         /// </summary>
         public SerieLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
         /// <summary>
+        /// Coordinate axis scale label custom content. When the content is empty, 
+        /// `axisLabel` automatically displays the content according to the scale; otherwise, 
+        /// the content is taken from the list definition.
+        /// 
         /// 自定义Label的内容。
         /// </summary>
         public List<string> axisLabelText { get { return m_AxisLabelText; } set { m_AxisLabelText = value; } }

@@ -13,6 +13,11 @@ using UnityEngine.UI;
 namespace XCharts
 {
     /// <summary>
+    /// Background component.
+    /// Due to the limitations of the framework, there are two limitations to the use of background component:
+    /// 1: The parent node of chart cannot have a layout control class component.
+    /// 2: The parent node of Chart can only have one child node of the current chart.
+    /// 
     /// 背景组件。
     /// 由于框架的局限性，背景组件使用有以下两个限制：
     /// 1：chart的父节点不能有布局控制类组件。
@@ -25,14 +30,12 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Sprite m_Image;
         [SerializeField] private Image.Type m_ImageType;
-        [SerializeField] private float m_Left;
-        [SerializeField] private float m_Right;
-        [SerializeField] private float m_Top;
-        [SerializeField] private float m_Bottom;
         [SerializeField] private Color m_ImageColor = Color.white;
         [SerializeField] private bool m_HideThemeBackgroundColor = true;
 
         /// <summary>
+        /// Whether to enable the background component. However, 
+        /// the ability to activate the background component is subject to other conditions.
         /// 是否启用背景组件。但能否激活背景组件还要受其他条件限制。
         /// </summary>
         public bool show
@@ -41,6 +44,7 @@ namespace XCharts
             internal set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// the image of background.
         /// 背景图。
         /// </summary>
         public Sprite image
@@ -50,6 +54,7 @@ namespace XCharts
         }
 
         /// <summary>
+        /// the fill type of background image.
         /// 背景图填充类型。
         /// </summary>
         public Image.Type imageType
@@ -58,42 +63,6 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_ImageType, value)) SetComponentDirty(); }
         }
 
-        /// <summary>
-        /// Distance between background component and the left side of the container.
-        /// background 组件离容器左侧的距离。
-        /// </summary>
-        public float left
-        {
-            get { return m_Left; }
-            set { if (PropertyUtility.SetStruct(ref m_Left, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Distance between background component and the right side of the container.
-        /// background 组件离容器右侧的距离。
-        /// </summary>
-        public float right
-        {
-            get { return m_Right; }
-            set { if (PropertyUtility.SetStruct(ref m_Right, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Distance between background component and the top side of the container.
-        /// background 组件离容器上侧的距离。
-        /// </summary>
-        public float top
-        {
-            get { return m_Top; }
-            set { if (PropertyUtility.SetStruct(ref m_Top, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Distance between background component and the bottom side of the container.
-        /// background 组件离容器下侧的距离。
-        /// </summary>
-        public float bottom
-        {
-            get { return m_Bottom; }
-            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) SetComponentDirty(); }
-        }
         /// <summary>
         /// 背景图颜色。
         /// </summary>
@@ -104,6 +73,7 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Whether to hide the background color set in the theme when the background component is on.
         /// 当background组件开启时，是否隐藏主题中设置的背景色。
         /// </summary>
         public bool hideThemeBackgroundColor
@@ -115,7 +85,7 @@ namespace XCharts
         /// <summary>
         /// 是否已激活
         /// </summary>
-        public bool runtimeActive{get;internal set;}
+        public bool runtimeActive { get; internal set; }
 
         public static Background defaultBackground
         {

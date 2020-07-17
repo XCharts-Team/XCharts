@@ -318,89 +318,75 @@ VisualMap component. mapping data to visual elements such as colors.
 
 ## `Grid`
 
-网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图。目前最多只能存在一个 `grid` 组件。
+Grid component. Drawing grid in rectangular coordinate. In a single grid, at most two X and Y axes each is allowed. Line chart, bar chart, and scatter chart can be drawn in grid. There is only one single grid component at most in a single echarts instance.
 
-相关参数: 
-
-* `show`: 是否显示直角坐标系网格组件。
-* `left`: 组件离容器左侧的距离。
-* `right`: 组件离容器右侧的距离。
-* `top`: 组件离容器顶部的距离。
-* `bottom`: 组件离容器底部的距离。
-* `backgroundColor`: 背景颜色。
+* `show`: Whether to show the grid in rectangular coordinate.
+* `left`: Distance between grid component and the left side of the container.
+* `right`: Distance between grid component and the right side of the container.
+* `top`: Distance between grid component and the top side of the container.
+* `bottom`: Distance between grid component and the bottom side of the container.
+* `backgroundColor`: Background color of grid, which is transparent by default.
 
 ## `GaugeAxis`
 
-仪表盘坐标轴。
+GaugeAxis sub component. Settings related to gauge axis line.
 
-* `axisLine`: 坐标轴轴线样式。
-* `splitLine`: 坐标轴分割线样式。
-* `axisTick`: 坐标轴刻度样式。
-* `axisLabel`: 坐标轴刻度标签样式。
-* `axisLabelText`: 坐标轴刻度标签自定义内容。当内容为空时，`axisLabel`根据刻度自动显示内容，否则取自该列表定义的内容。
+* `axisLine`: axis line style.
+* `splitLine`: slit line style.
+* `axisTick`: axis tick style.
+* `axisLabel`: axis label style.
+* `axisLabelText`: Coordinate axis scale label custom content. When the content is empty, `axisLabel` automatically displays the content according to the scale; otherwise, the content is taken from the list definition.
 
 ## `GaugePointer`
 
-仪表盘指针。
+GaugePointer sub component. Settings related to gauge pointer.
 
-* `width`: 指针宽度。
-* `length`: 指针长度。当为`0-1`的浮点数时表示相对仪表盘半径的百分比。
+* `show`: Whether to display a pointer.
+* `width`: Pointer width.
+* `length`: Pointer length. It can be an absolute value, or it can be a percentage relative to the radius (0-1).
 
 ## `XAxis`
 
-直角坐标系 `grid` 中的 `X` 轴。单个 `grid` 组件最多只能放上下两个 `X` 轴。两个 `X` 轴存储在 `xAxises` 中。
+The x axis in cartesian(rectangular) coordinate. a grid component can place at most 2 x axis, one on the bottom and another on the top.
 
-相关参数: 
-
-* `show`: 是否显示 `X` 轴。默认 `xAxises[0]` 为 `true`，`xAxises[1]` 为 `false`。
-* `type`: 坐标轴类型。默认为 `Category`。支持以下类型: 
-  * `Value`: 数值轴，用于连续数据。
-  * `Category`: 类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
-  * `Log`: 对数轴，适用于对数数据。
-* `logBaseE`: 对数轴是否以自然数 `e` 为底数，为 `true` 时 `logBase` 失效，只在对数轴（`type:'Log'`）中有效。
-* `logBase`: 对数轴的底数，只在对数轴（`type:'Log'`）中有效。
-* `minMaxType`: 坐标轴刻度最大最小值显示类型。默认为 `Default`。有以下三种类型: 
-  * `Default`: 0-最大值。
-  * `MinMax`: 最小值-最大值。
-  * `Custom`: 自定义的最小值-最大值。
-* `min`: 设定的坐标轴刻度最小值，当 `minMaxType` 为 `Custom` 时有效。
-* `max`: 设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
-* `ceilRate`: 最大最小值向上取整的倍率。默认为0时自动计算。
-* `splitNumber`: 坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
-* `interval`: 强制设置坐标轴分割间隔。无法在类目轴中使用。设置该值时 `splitNumber` 无效。
-* `boundaryGap`: 坐标轴两边是否留白。默认为 `true`。
-* `maxCache`: 类目数据中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
-* `inverse`: 是否反向坐标轴。只在数值轴`Value`中有效。
-* `data`: 类目数据，在类目轴（`type: 'Category'`）中有效。
-* `axisLine`: 坐标轴轴线相关配置 [AxisLine](#AxisLine)。
-* `axisName`: 坐标轴名称相关配置 [AxisName](#AxisName)。
-* `axisTick`: 坐标轴刻度相关配置 [AxisTick](#AxisTick)。
-* `axisLabel`: 坐标轴刻度标签 [AxisLabel](#AxisLabel)。
-* `splitLine`: 坐标轴轴线坐标轴分割线 [AxisSplitLine](#SplitLine)。
-* `splitArea`: 坐标轴轴线坐标轴分割区域 [AxisSplitArea](#AxisSplitArea)。
-
-相关接口: 
-
-* `ClearData()`: 清空类目数据。
-* `IsCategory()`: 是否为类目轴。
-* `IsValue()`: 是否为数值轴。
-* `AddData(string category, int maxDataNumber)`: 添加一个类目到类目数据列表。
+* `show`: Whether to show axis. By default `xAxises[0]` is `true` and `xAxises[1]` is `false`.
+* `type`: the type of axis. The default is `Category`.
+  * `Value`: Numerical axis for continuous data.
+  * `Category`: Category axis, applicable to discrete category data, category data must be set through `data` for this type.
+  * `Log`: Log axis, it applies to logarithmic data.
+* `logBaseE`: On the log axis, if base e is the natural number, and is true, logBase fails.
+* `logBase`: Base of logarithm, which is valid only for numeric axes with type: `Log`.
+* `minMaxType`: the type of axis minmax.The default is `Default`.
+  * `Default`: 0 - max.
+  * `MinMax`: min - max.
+  * `Custom`: Custom min - max.
+* `min`: The minimun value of axis. Valid when `minMaxType` is `Custom`.
+* `max`: The maximum value of axis. Valid when `minMaxType` is `Custom`.
+* `ceilRate`: The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
+* `splitNumber`: Number of segments that the axis is split into. The default is `5`, When `splitNumber` is set to `0`, it draws all the category data.
+* `interval`: Compulsively set segmentation interval for axis.This is unavailable for category axis. The `splitNumber` is invalid when set.
+* `boundaryGap`: The boundary gap on both sides of a coordinate axis.
+* `maxCache`: The max number of axis data cache. The first data will be remove when the size of axis data is larger then `maxCache`.
+* `inverse`: Whether the axis are reversed or not. Invalid in `Category` axis.
+* `data`: Category data, valid in the `Category` axis.
+* `axisLine`: the style of axis line [AxisLine](#AxisLine).
+* `axisName`: the style of axis name [AxisName](#AxisName).
+* `axisTick`: the style of axis tick [AxisTick](#AxisTick).
+* `axisLabel`: the style of axis label [AxisLabel](#AxisLabel).
+* `splitLine`: the style of axis split line [AxisSplitLine](#SplitLine).
+* `splitArea`: the style of axis split area [AxisSplitArea](#AxisSplitArea).
 
 ## `Background`
 
-背景组件。
-由于框架的局限性，背景组件使用有以下两个限制: 
-1: `chart`的父节点不能有布局控制类组件。
-2: `chart`的父节点只能有当前`chart`一个子节点。
-背景组件的开启需要通过接口来开启: `BaseChart.EnableBackground(bool flag)`。
+Background component.Due to the limitations of the framework, there are two limitations to the use of background component:
+1: The parent node of chart cannot have a layout control class component.
+2: The parent node of Chart can only have one child node of the current chart.
 
-相关参数: 
-
-* `show`: 是否显示启用背景组件。但能否激活背景组件还要受其他条件限制。
-* `image`: 背景图。
-* `imageType`: 背景图填充类型。
-* `imageColor`背景图颜色。默认`white`。
-* `hideThemeBackgroundColor`: 当背景组件启用时，是否隐藏主题中设置的背景色。
+* `show`: Whether to enable the background component. However, the ability to activate the background component is subject to other conditions.
+* `image`: the image of background.
+* `imageType`: the fill type of background image.
+* `imageColor`: the color of background image, The default is `white`.
+* `hideThemeBackgroundColor`: Whether to hide the background color set in the `theme` when the background component is on.
 
 ## `YAxis`
 

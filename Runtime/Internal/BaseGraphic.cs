@@ -220,7 +220,6 @@ namespace XCharts
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            Debug.LogError("click");
             if (m_OnPointerClick != null) m_OnPointerClick(this, eventData);
         }
 

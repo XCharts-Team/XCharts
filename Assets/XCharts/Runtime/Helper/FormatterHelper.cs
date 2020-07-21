@@ -21,6 +21,10 @@ namespace XCharts
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexFn = new Regex(@"[c-g|x|p|r]\d*", RegexOptions.IgnoreCase);
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-d](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"([a-d])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}。
@@ -174,6 +178,64 @@ namespace XCharts
         public static string TrimAndReplaceLine(string content)
         {
             return s_RegexNewLine.Replace(content.Trim(), PH_NN);
+        }
+
+        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, float value)
+        {
+            var mc = s_RegexForAxisLabel.Matches(content);
+            foreach (var m in mc)
+            {
+                var old = m.ToString();
+                var args = s_RegexSubForAxisLabel.Matches(m.ToString());
+                var argsCount = args.Count;
+                if (argsCount <= 0) continue;
+                if (argsCount >= 2)
+                {
+                    numericFormatter = args[1].ToString();
+                }
+                content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
+            }
+            content = TrimAndReplaceLine(content);
+        }
+
+        public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, float value, float total,
+            string serieName, string dataName)
+        {
+            var mc = s_RegexForSerieLabel.Matches(content);
+            foreach (var m in mc)
+            {
+                var old = m.ToString();
+                var args = s_RegexSubForSerieLabel.Matches(old);
+                var argsCount = args.Count;
+                if (argsCount <= 0) continue;
+                var p = args[0].ToString().ElementAt(0);
+                if (argsCount >= 2)
+                {
+                    numericFormatter = args[1].ToString();
+                }
+                if (p == 'a' || p == 'A')
+                {
+                    content = content.Replace(old, serieName);
+                }
+                else if (p == 'b' || p == 'B')
+                {
+                    content = content.Replace(old, dataName);
+                }
+                else if (p == 'c' || p == 'C' || p == 'd' || p == 'D')
+                {
+                    var isPercent = p == 'd' || p == 'D';
+                    if (isPercent)
+                    {
+                        var percent = total == 0 ? 0 : value / total * 100;
+                        content = content.Replace(old, ChartCached.FloatToStr(percent, numericFormatter));
+                    }
+                    else
+                    {
+                        content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
+                    }
+                }
+            }
+            content = TrimAndReplaceLine(content);
         }
     }
 }

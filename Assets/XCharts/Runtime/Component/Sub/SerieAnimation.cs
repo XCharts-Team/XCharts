@@ -205,7 +205,6 @@ namespace XCharts
                 if (fadeInFinishCallback != null)
                 {
                     fadeInFinishCallback();
-                    fadeInFinishCallback = null;
                 }
             }
             if (m_FadeOut)
@@ -215,7 +214,6 @@ namespace XCharts
                 if (fadeOutFinishCallback != null)
                 {
                     fadeOutFinishCallback();
-                    fadeOutFinishCallback = null;
                 }
             }
         }

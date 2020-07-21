@@ -253,27 +253,11 @@ namespace XCharts
                 }
                 return ChartCached.NumberToStr(value, numericFormatter);
             }
-            else if (m_Formatter.Contains("{value"))
-            {
-                var content = m_Formatter;
-                if (content.Contains("{value:f0}"))
-                    content = m_Formatter.Replace("{value:f0}", ChartCached.IntToStr((int)value));
-                if (content.Contains("{value:f2}"))
-                    content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, string.Empty, 2));
-                else if (content.Contains("{value:f1}"))
-                    content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, string.Empty, 1));
-                else if (content.Contains("{value}"))
-                {
-                    content = m_Formatter.Replace("{value}", ChartCached.NumberToStr((int)value, numericFormatter));
-                }
-
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
-                return content;
-            }
             else
             {
-                return value.ToString(m_Formatter);
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
+                return content;
             }
         }
     }

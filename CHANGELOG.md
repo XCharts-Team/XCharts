@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.21) 增加`AxisLabel`和`SerieLabel`的`formatter`可单独配置数值格式化#68
 * (2020.07.17) 增加`SerieAnimation`动画完成回调接口
 * (2020.07.17) 优化`Chart`放在`ScrollView`下时不影响`ScrollView`的滚动和拖动
 * (2020.07.16) 修复`Tooltip`在上层有遮挡还会显示的问题#74

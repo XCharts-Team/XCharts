@@ -104,19 +104,9 @@ namespace XCharts
                 return ChartCached.NumberToStr(dataValue, numericFormatter);
             else
             {
-                var content = serieLabel.formatter.Replace("{a}", serieName);
-                content = content.Replace("{b}", dataName);
-                content = content.Replace("{c}", ChartCached.NumberToStr(dataValue, numericFormatter));
-                content = content.Replace("{c:f0}", ChartCached.IntToStr((int)Mathf.Round(dataValue)));
-                content = content.Replace("{c:f1}", ChartCached.FloatToStr(dataValue, string.Empty, 1));
-                content = content.Replace("{c:f2}", ChartCached.FloatToStr(dataValue, string.Empty, 2));
-                var percent = dataValue == 0 && dataTotal == 0 ? 0 : dataValue / dataTotal * 100;
-                content = content.Replace("{d}", ChartCached.NumberToStr(percent, numericFormatter));
-                content = content.Replace("{d:f0}", ChartCached.IntToStr((int)Mathf.Round(percent)));
-                content = content.Replace("{d:f1}", ChartCached.FloatToStr(percent, string.Empty, 1));
-                content = content.Replace("{d:f2}", ChartCached.FloatToStr(percent, string.Empty, 2));
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
+                var content = serieLabel.formatter;
+                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, dataValue,
+                    dataTotal, serieName, dataName);
                 return content;
             }
         }

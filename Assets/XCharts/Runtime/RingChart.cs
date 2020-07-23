@@ -91,6 +91,7 @@ namespace XCharts
                     var toDegree = GetToAngle(serie, degree);
                     var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     var itemColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
+                    var itemToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
                     var outsideRadius = serie.runtimeOutsideRadius - j * (ringWidth + serie.ringGap);
                     var insideRadius = outsideRadius - ringWidth;
                     var centerRadius = (outsideRadius + insideRadius) / 2;
@@ -102,7 +103,7 @@ namespace XCharts
                     serieData.runtimePieToAngle = serie.clockwise ? toDegree : startDegree;
                     serieData.runtimePieInsideRadius = insideRadius;
                     serieData.runtimePieOutsideRadius = outsideRadius;
-                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemColor,
+                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemToColor,
                         Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, m_Settings.cicleSmoothness,
                         roundCap, serie.clockwise);
                     DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);

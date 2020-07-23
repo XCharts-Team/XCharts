@@ -1160,7 +1160,7 @@ namespace XCharts
                 roundCenter = p + roundAngleRadius * ChartHelper.GetDire(realToOutAngle);
                 sectorStartDegree = clockwise ? roundTotalDegree : roundTotalDegree + 180;
                 sectorToDegree = clockwise ? roundTotalDegree + 180 : roundTotalDegree + 360;
-                DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
+                DrawSector(vh, roundCenter, roundRadius, toColor, sectorStartDegree, sectorToDegree, smoothness / 2);
                 if (needBorder)
                 {
                     DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
@@ -1169,7 +1169,8 @@ namespace XCharts
                 e1 = ChartHelper.GetPos(p, insideRadius, realToOutAngle);
                 e2 = ChartHelper.GetPos(p, outsideRadius, realToOutAngle);
             }
-            float segmentAngle = (realToInAngle - realStartInAngle) / segments;
+            var segmentAngle = (realToInAngle - realStartInAngle) / segments;
+            var isGradient = !ChartHelper.IsValueEqualsColor(color, toColor);
             for (int i = 0; i <= segments; i++)
             {
                 float currAngle = realStartInAngle + i * segmentAngle;
@@ -1178,7 +1179,15 @@ namespace XCharts
                 p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
                     p.y + insideRadius * Mathf.Cos(currAngle));
                 if (!ChartHelper.IsClearColor(emptyColor)) DrawTriangle(vh, p, p1, p4, emptyColor);
-                DrawPolygon(vh, p2, p3, p4, p1, color, toColor);
+                if (isGradient)
+                {
+                    var tcolor = Color.Lerp(color, toColor, i * 1.0f / segments);
+                    DrawPolygon(vh, p2, p3, p4, p1, tcolor, tcolor);
+                }
+                else
+                {
+                    DrawPolygon(vh, p2, p3, p4, p1, color, color);
+                }
                 p1 = p4;
                 p2 = p3;
             }

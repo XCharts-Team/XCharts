@@ -189,22 +189,28 @@ namespace XCharts
     public enum SampleType
     {
         /// <summary>
+        /// Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', 
+        /// take the maximum value; If you do it the other way around, you get the minimum.
         /// 取峰值。
         /// </summary>
         Peak,
         /// <summary>
+        /// Take the average of the filter points.
         /// 取过滤点的平均值。
         /// </summary>
         Average,
         /// <summary>
+        /// Take the maximum value of the filter point.
         /// 取过滤点的最大值。
         /// </summary>
         Max,
         /// <summary>
+        /// Take the minimum value of the filter point.
         /// 取过滤点的最小值。
         /// </summary>
         Min,
         /// <summary>
+        /// Take the sum of the filter points.
         /// 取过滤点的和。
         /// </summary>
         Sum
@@ -325,6 +331,7 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_Name, value)) { SetVerticesDirty(); SetNameDirty(); } }
         }
         /// <summary>
+        /// Legend name. When the serie name is not empty, the legend name is the series name; Otherwise, it is index.
         /// 图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }

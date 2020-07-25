@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.25) Added `RadarChart` support for `formatter` of `Tooltip`#77
 * (2020.07.23) Added `RingChart` ring gradient support#75
 * (2020.07.21) Added `formatter` of `AxisLabel` and `SerieLabel` to configure numeric formatting separately.
 * (2020.07.17) Added animation completion callback interface for `SerieAnimation`.

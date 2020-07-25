@@ -93,7 +93,8 @@ namespace XCharts
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
         [SerializeField] private float m_IndicatorGap = 10;
-        [SerializeField] protected int m_CeilRate = 0;
+        [SerializeField] private int m_CeilRate = 0;
+        [SerializeField] private bool m_IsAxisTooltip;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -177,6 +178,14 @@ namespace XCharts
         {
             get { return m_CeilRate; }
             set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 是否Tooltip显示轴线上的所有数据。
+        /// </summary>
+        public bool isAxisTooltip
+        {
+            get { return m_IsAxisTooltip; }
+            set { if (PropertyUtility.SetStruct(ref m_IsAxisTooltip, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The position type of indicator.

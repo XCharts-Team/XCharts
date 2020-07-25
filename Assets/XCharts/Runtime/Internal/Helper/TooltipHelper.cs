@@ -89,23 +89,77 @@ namespace XCharts
             switch (serie.radarType)
             {
                 case RadarType.Multiple:
-                    sb.Append(serieData.name);
-                    for (int i = 0; i < radar.indicatorList.Count; i++)
+                    if (radar.isAxisTooltip)
                     {
-                        string key = radar.indicatorList[i].name;
-                        float value = serieData.GetData(i);
-                        if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append(FormatterHelper.PH_NN);
-                        sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, numericFormatter));
+                        var dimension = tooltip.runtimeDataIndex[2];
+                        if (!string.IsNullOrEmpty(serie.name))
+                            sb.Append(serie.name).Append("\n");
+                        var total = serie.GetDataTotal(dimension);
+                        var first = true;
+                        for (int i = 0; i < serie.dataCount; i++)
+                        {
+                            var sd = serie.GetSerieData(i);
+
+                            var key = sd.name;
+                            var value = sd.GetData(dimension);
+                            var itemFormatter = GetItemFormatter(tooltip, serie, sd);
+                            numericFormatter = GetItemNumericFormatter(tooltip, serie, sd);
+                            if (!first) sb.Append("\n");
+                            first = false;
+                            sb.Append("<color=#").Append(themeInfo.GetColorStr(i)).Append(">● </color>");
+                            if (string.IsNullOrEmpty(itemFormatter))
+                            {
+                                if (string.IsNullOrEmpty(key))
+                                {
+                                    //key = radar.indicatorList[dataIndex].name;
+                                    sb.AppendFormat("{0}\n", ChartCached.FloatToStr(value, numericFormatter));
+                                }
+                                else
+                                {
+                                    sb.AppendFormat("{0}: {1}\n", key, ChartCached.FloatToStr(value, numericFormatter));
+                                }
+                            }
+                            else
+                            {
+                                string content = itemFormatter;
+                                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value, total, serie.name, sd.name);
+                                sb.Append(content);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (serie.index != tooltip.runtimeDataIndex[0]) return;
+                        sb.Append(serieData.name);
+                        for (int i = 0; i < radar.indicatorList.Count; i++)
+                        {
+                            string key = radar.indicatorList[i].name;
+                            float value = serieData.GetData(i);
+                            if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append(FormatterHelper.PH_NN);
+                            sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, numericFormatter));
+                        }
                     }
                     break;
                 case RadarType.Single:
-                    string key2 = serieData.name;
-                    float value2 = serieData.GetData(1);
-                    if (string.IsNullOrEmpty(key2))
+                    var key2 = serieData.name;
+                    var value2 = serieData.GetData(1);
+                    var total2 = serie.GetDataTotal(1);
+                    var itemFormatter2 = GetItemFormatter(tooltip, serie, serieData);
+                    if (string.IsNullOrEmpty(itemFormatter2))
                     {
-                        key2 = radar.indicatorList[dataIndex].name;
+                        if (string.IsNullOrEmpty(key2))
+                        {
+                            key2 = radar.indicatorList[dataIndex].name;
+                        }
+                        sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, numericFormatter));
                     }
-                    sb.AppendFormat("{0}: {1}", key2, ChartCached.FloatToStr(value2, numericFormatter));
+                    else
+                    {
+                        string content = itemFormatter2;
+                        FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value2, total2, serie.name, serieData.name);
+                        sb.Append(content);
+                    }
+
                     break;
             }
         }
@@ -139,7 +193,8 @@ namespace XCharts
         }
 
         private static void InitDefaultContent(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
-            string category, ThemeInfo themeInfo = null, DataZoom dataZoom = null, bool isCartesian = false)
+            string category, ThemeInfo themeInfo = null, DataZoom dataZoom = null, bool isCartesian = false,
+            Radar radar = null)
         {
             switch (serie.type)
             {
@@ -152,6 +207,7 @@ namespace XCharts
                     InitScatterTooltip(ref sb, tooltip, serie, index, themeInfo);
                     break;
                 case SerieType.Radar:
+                    InitRadarTooltip(ref sb, tooltip, serie, radar, themeInfo);
                     break;
                 case SerieType.Pie:
                     InitPieTooltip(ref sb, tooltip, serie, index, themeInfo);
@@ -259,7 +315,7 @@ namespace XCharts
         }
 
         public static string GetFormatterContent(Tooltip tooltip, int dataIndex, Series series, ThemeInfo themeInfo,
-            string category = null, DataZoom dataZoom = null, bool isCartesian = false)
+            string category = null, DataZoom dataZoom = null, bool isCartesian = false, Radar radar = null)
         {
             if (string.IsNullOrEmpty(tooltip.formatter))
             {
@@ -289,7 +345,7 @@ namespace XCharts
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
                                 if (!first) sb.Append(FormatterHelper.PH_NN);
-                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian, radar);
                                 first = false;
                                 continue;
                             }
@@ -324,10 +380,10 @@ namespace XCharts
                         }
                         if (serie.show)
                         {
-                            if (string.IsNullOrEmpty(itemFormatter))
+                            if (string.IsNullOrEmpty(itemFormatter) || serie.type == SerieType.Radar)
                             {
                                 if (!first) sb.Append(FormatterHelper.PH_NN);
-                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, themeInfo, dataZoom, isCartesian, radar);
                                 first = false;
                                 continue;
                             }
@@ -368,7 +424,8 @@ namespace XCharts
 
         private static bool IsNeedTooltipSerie(Serie serie, Tooltip tooltip)
         {
-            if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
+            //if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
+            if (serie.type == SerieType.Pie || serie.type == SerieType.Ring)
             {
                 return tooltip.runtimeDataIndex[serie.index] >= 0;
             }

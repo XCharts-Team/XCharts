@@ -164,6 +164,7 @@
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
 * `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
 * `splitNumber`：分割段数。默认为 `5`。
+* `isAxisTooltip`：是否Tooltip显示轴线上的所有数据。只对Mutiple类型的Radar有效。
 * `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。

@@ -164,6 +164,7 @@ Radar coordinate conponnet for radar charts.
 * `center`: the center of radar chart. The `center[0]` is the x-coordinate, and the `center[1]` is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.[default:[0.5f,0.4f]].
 * `ceilRate`: The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.[default:0].
 * `splitNumber`: Segments of indicator axis.[default:5].
+* `splitNumber`: Tooltip displays all the data on the axis.[default:false].
 * `splitLine`: The split line style of radar [AxisSplitLine](#AxisSplitLine).
 * `splitArea`: The split area style of radar [AxisSplitArea](#AxisSplitArea).
 * `indicator`: Whether to show indicator.
@@ -390,129 +391,36 @@ Background component.Due to the limitations of the framework, there are two limi
 
 ## `YAxis`
 
-直角坐标系 `grid` 中的 `Y` 轴。单个 `grid` 组件最多只能放左右两个 `Y` 轴。两个 `Y` 轴存储在 `yAxises` 中。
+The y axis in cartesian(rectangular) coordinate. a grid component can place at most 2 y axis, one on the left and another on the right.
 
-相关参数: 
-
-* `show`: 是否显示 `Y` 轴。默认 `yAxises[0]` 为 `true`，`yAxises[1]` 为 `false`。
-* `type`: 坐标轴类型。默认为 `Value`。有以下两种类型: 
-  * `Value`: 数值轴，用于连续数据。
-  * `Category`: 类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
-* `minMaxType`: 坐标轴刻度最大最小值显示类型。默认为 `Default`。有以下三种类型: 
-  * `Default`: 0-最大值。
-  * `MinMax`: 最小值-最大值。
-  * `Custom`: 自定义的最小值-最大值。
-* `min`: 设定的坐标轴刻度最小值，当 `minMaxType` 为 `Custom` 时有效。
-* `max`: 设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
-* `splitNumber`: 坐标轴的分割段数。默认为 `5`。
-* `interval`: 强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
-* `splitLineType`: 分割线类型。默认为 `Dashed`。支持以下五种类型: 
-  * `None`: 不显示分割线。
-  * `Solid`: 实线。
-  * `Dashed`: 虚线。
-  * `Dotted`: 点线。
-  * `DashDot`: 点划线。
-  * `DashDotDot`: 双点划线。
-* `boundaryGap`: 坐标轴两边是否留白。默认为 `false`。
-* `data`: 类目数据，在类目轴（`type: 'Category'`）中有效。
-* `axisLine`: 坐标轴轴线相关配置 [AxisLine](#AxisLine)。
-* `axisName`: 坐标轴名称相关配置 [AxisName](#AxisName)。
-* `axisTick`: 坐标轴刻度相关配置 [AxisTick](#AxisTick)。
-* `axisLabel`: 坐标轴刻度标签 [AxisLabel](#AxisLabel)。
-* `splitArea`: 坐标轴轴线坐标轴分割区域 [SplitArea](#SplitArea)。
-
-相关接口: 
-
-* `ClearData()`: 清空类目数据。
-* `IsCategory()`: 是否为类目轴。
-* `IsValue()`: 是否为数值轴。
-* `AddData(string category, int maxDataNumber)`: 添加一个类目到类目数据列表。
+The parameters are the same as XAxis.
 
 ## `Series`
 
-系列列表。每个系列通过 type 决定自己的图表类型。
+Serie list. Each serie determines its own chart type by `type`.
 
-相关参数: 
-
-* `show`: 系列是否显示在图表上。
-* `type`: 系列的图表类型。有以下几种类型: 
-  * `Line`: 折线图。
-  * `Bar`: 柱状图。
-  * `Pie`: 饼图。
-  * `Radar`: 雷达图。
-  * `Scatter`: 散点图。
-  * `EffectScatter`: 带有涟漪特效动画的散点图。
-* `name`: 系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `stack`: 数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
-* `axisIndex`: 使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
-* `radarIndex`: 雷达图所使用的 `radar` 组件的 `index`。
-* `minShow`: 系列显示数据的最小索引。
-* `maxShow`: 系列显示数据的最大索引。
-* `maxCache`: 系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
-* `sampleDist`采样的最小水平像素距离，默认为`0`时不采样。当两个数据点间的水平像素距离小于该值时，开启采样，保证两点间的水平像素距离不小于该值。
-* `sampleType`: 采样类型。当`sampleDist`大于`0`时有效。支持以下五种采样类型: 
-  * `Peak`: 取峰值。当过滤点的平均值大于等于`sampleAverage`时，取最大值；反之取最小值。
-  * `Average`: 取过滤点的平均值。
-  * `Max`: 取过滤点的最大值。
-  * `Min`: 取过滤点的最小值。
-  * `Sum`: 取过滤点之和。
-* `sampleAverage`: 设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
-* `areaStyle`: 区域填充样式 [AreaStyle](#AreaStyle)。
-* `symbol`: 标记的图形 [SerieSymbol](#SerieSymbol)。
-* `lineType`: 折线图样式类型。支持以下十种类型: 
-  * `Normal`: 普通折线图。
-  * `Smooth`: 平滑曲线。
-  * `SmoothDash`: 平滑虚线。
-  * `StepStart`: 阶梯线图: 当前点。
-  * `StepMiddle`: 阶梯线图: 当前点和下一个点的中间。
-  * `StepEnd`: 阶梯线图: 下一个拐点。
-  * `Dash`: 虚线。
-  * `Dot`: 点线。
-  * `DashDot`: 点划线。
-  * `DashDotDot`: 双点划线。
-* `lineStyle`: 线条样式 [LineStyle](#LineStyle)。
-* `barType`: 柱状图类型。以下几种类型: 
-  * `Normal`: 普通柱状图。
-  * `Zebra`: 斑马柱状图。
-  * `Capsule`: 胶囊柱状图。
-* `barPercentStack`: 是否百分比堆叠柱状图，相同 `stack` 的 `serie` 只要有一个 `barPercentStack` 为 `true`，则就显示成百分比堆叠柱状图。
-* `barWidth`: 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
-* `barGap`: 不同系列的柱间距离。为百分比（如 `'0.3f'`，表示柱子宽度的 `30%`）。如果想要两个系列的柱子重叠，可以设置 `barGap` 为 `'-1f'`。这在用柱子做背景的时候有用。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
-* `barCategoryGap`: 同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
-* `barZebraWidth`: 斑马线的粗细。`barType` 为 `Zebra` 时有效。
-* `barZebraGap`: 斑马线的间距。`barType` 为 `Zebra` 时有效。
-* `pieClickOffset`: 鼠标点击时是否开启偏移，一般用在PieChart图表中。
-* `pieRoseType`: 是否展示成南丁格尔图，通过半径区分数据大小。
-* `pieSpace`: 饼图项间的空隙留白。
-* `pieCenter`: 饼图的中心点。
-* `pieRadius`: 饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
-* `roundCap`: 启用圆弧效果。
-* `label`: 图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
-* `emphasis`: 高亮样式 [Emphasis](#Emphasis)。
-* `animation`: 起始动画 [SerieAnimation](#SerieAnimation)。
-* `lineArrow`: 折线图的箭头 [LineArrow](#LineArrow)。
-* `data`: 系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
+Check each serie for parameters.
 
 ## `Serie-Line`
 
-折线图系列。
+Line chart serie.
 
-* `show`: 系列是否显示在图表上。
+* `show`: Whether to show serie in chart.
 * `type`: `Line`。
-* `name`: 系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `stack`: 数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
-* `axisIndex`: 使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
-* `minShow`: 系列显示数据的最小索引。
-* `maxShow`: 系列显示数据的最大索引。
-* `maxCache`: 系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
-* `sampleDist`采样的最小水平像素距离，默认为`0`时不采样。当两个数据点间的水平像素距离小于该值时，开启采样，保证两点间的水平像素距离不小于该值。
-* `sampleType`: 采样类型。当`sampleDist`大于`0`时有效。支持以下五种采样类型: 
-  * `Peak`: 取峰值。当过滤点的平均值大于等于`sampleAverage`时，取最大值；反之取最小值。
-  * `Average`: 取过滤点的平均值。
-  * `Max`: 取过滤点的最大值。
-  * `Min`: 取过滤点的最小值。
-  * `Sum`: 取过滤点之和。
-* `sampleAverage`: 设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
+* `name`: Series name used for displaying in tooltip and filtering with legend.
+* `stack`: If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
+* `axisIndex`: Index of axis to combine with, which is useful for multiple x axes in one chart.
+* `minShow`: The min number of data to show in chart.
+* `maxShow`: The max number of data to show in chart.
+* `maxCache`: The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache.
+* `sampleDist`: The minimum horizontal pixel distance of sampling, which defaults to `0` without sampling. When the horizontal pixel distance between two data points is less than this value, start sampling to ensure that the horizontal pixel distance between two points is not less than this value.
+* `sampleType`: Sample type. This is valid when `sampleDist` is greater than `0`. The following five sampling types are supported:
+  * `Peak`: Take a peak. When the average value of the filter point is greater than or equal to `sampleAverage`, take the maximum value; If you do it the other way around, you get the minimum.
+  * `Average`: Take the average of the filter points.
+  * `Max`: Take the maximum value of the filter point.
+  * `Min`: Take the minimum value of the filter point.
+  * `Sum`: Take the sum of the filter points.
+* `sampleAverage`: Set the sampling average. When `sampleType` is `Peak`, is the maximum or minimum value used to compare the average value of the filtered data. The default of `0` is to calculate the average of all data in real time.
 * `clip`: 是否裁剪超出坐标系部分的图形。
 * `ignore`: 是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
 * `ignoreValue`: 忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。

@@ -1116,8 +1116,11 @@ namespace XCharts
             {
                 if (smoothStartPosDn != Vector3.zero && smoothStartPosUp != Vector3.zero)
                 {
-                    CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
-                    CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
+                    if (!serie.animation.IsInFadeOut())
+                    {
+                        CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
+                        CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
+                    }
                     smoothPoints.Add(smoothStartPosUp);
                     smoothDownPoints.Add(smoothStartPosDn);
                 }
@@ -1352,6 +1355,7 @@ namespace XCharts
                         for (int i = 1; i < linePointList.Count; i++)
                         {
                             ep = linePointList[i];
+                            if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
                             CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip);
                             sp = ep;
                         }

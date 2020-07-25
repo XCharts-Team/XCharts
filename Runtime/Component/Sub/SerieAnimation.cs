@@ -279,6 +279,11 @@ namespace XCharts
             return !m_Enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
+        public bool IsInFadeOut()
+        {
+            return m_FadeOut;
+        }
+
         public bool IsInDelay()
         {
             if (m_FadeOut) return (fadeOutDelay > 0 && Time.time - startTime < fadeOutDelay / 1000);

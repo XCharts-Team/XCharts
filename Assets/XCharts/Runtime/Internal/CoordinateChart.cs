@@ -276,7 +276,7 @@ namespace XCharts
                                 var serieData = serie.data[n];
                                 var xdata = serieData.GetData(0, xAxis.inverse);
                                 var ydata = serieData.GetData(1, yAxis.inverse);
-                                var symbol = SerieHelper.GetSerieSymbol(serie,serieData);
+                                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                                 var symbolSize = symbol.GetSize(serieData == null ? null : serieData.data);
                                 if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
                                     && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
@@ -1406,7 +1406,7 @@ namespace XCharts
                     if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
                     serieData.index = j;
-                    if ((serieLabel.show || serieData.iconStyle.show))
+                    if ((serieLabel.show || serieData.iconStyle.show) && j < serie.dataPoints.Count)
                     {
                         var pos = serie.dataPoints[j];
 

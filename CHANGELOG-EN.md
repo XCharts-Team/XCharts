@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.25) Fixed problem with gradual discoloration on `LiquidChart` at `100%`#80
 * (2020.07.25) Added `RadarChart` support for `formatter` of `Tooltip`#77
 * (2020.07.23) Added `RingChart` ring gradient support#75
 * (2020.07.21) Added `formatter` of `AxisLabel` and `SerieLabel` to configure numeric formatting separately.

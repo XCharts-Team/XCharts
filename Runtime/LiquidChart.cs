@@ -169,8 +169,10 @@ namespace XCharts
 
             var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, false);
             var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, false);
-
-            if (hig >= 2 * radius)
+            var isNeedGradient = !ChartHelper.IsValueEqualsColor(color, toColor);
+            var isFull = hig >= 2 * radius;
+            if (hig >= 2 * radius) hig = 2 * radius;
+            if (isFull && !isNeedGradient)
             {
                 ChartDrawer.DrawCricle(vh, cenPos, radius, toColor, m_Settings.cicleSmoothness);
             }
@@ -238,7 +240,7 @@ namespace XCharts
                 }
             }
 
-            if (serie.waveSpeed != 0 && Application.isPlaying)
+            if (serie.waveSpeed != 0 && Application.isPlaying && !isFull)
             {
                 RefreshChart();
             }

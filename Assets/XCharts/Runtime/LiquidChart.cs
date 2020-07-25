@@ -194,6 +194,7 @@ namespace XCharts
                 serie.runtimeWaveSpeed += serie.waveSpeed * Time.deltaTime;
                 var isStarted = false;
                 var isEnded = false;
+                var waveHeight = isFull ? 0 : serie.waveHeight;
                 while (startX < endX)
                 {
                     startX += step;
@@ -215,7 +216,7 @@ namespace XCharts
                     }
                     else
                     {
-                        var py2 = serie.waveHeight * Mathf.Sin(1 / serie.waveLength * angle + serie.runtimeWaveSpeed + serie.waveOffset);
+                        var py2 = waveHeight * Mathf.Sin(1 / serie.waveLength * angle + serie.runtimeWaveSpeed + serie.waveOffset);
                         var nupY = waveStartPos.y + py2;
                         if (nupY > cenPos.y + py) nupY = cenPos.y + py;
                         else if (nupY < cenPos.y - py) nupY = cenPos.y - py;

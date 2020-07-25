@@ -1,4 +1,5 @@
-﻿/******************************************/
+﻿using System.Linq;
+/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -619,6 +620,7 @@ namespace XCharts
             if (m_IsEnterLegendButtom) return;
 
             bool highlight = false;
+            //m_Tooltip.ClearValue();
             for (int i = 0; i < m_Series.Count; i++)
             {
                 if (!IsActive(i)) continue;
@@ -638,12 +640,16 @@ namespace XCharts
                             if (radar.runtimeDataPosList.ContainsKey(posKey))
                             {
                                 var posList = radar.runtimeDataPosList[posKey];
-                                foreach (var pos in posList)
+                                for (int k = 0; k < posList.Count; k++)
                                 {
-                                    if (Vector2.Distance(pos, local) <= serie.symbol.size * 1.2f)
+                                    if (Vector2.Distance(posList[k], local) <= serie.symbol.size * 1.3f)
                                     {
                                         m_Tooltip.runtimeDataIndex[0] = i;
                                         m_Tooltip.runtimeDataIndex[1] = n;
+                                        if (m_Tooltip.runtimeDataIndex.Count >= 3)
+                                            m_Tooltip.runtimeDataIndex[2] = k;
+                                        else
+                                            m_Tooltip.runtimeDataIndex.Add(k);
                                         highlight = true;
                                         break;
                                     }
@@ -655,7 +661,7 @@ namespace XCharts
                         for (int n = 0; n < serie.data.Count; n++)
                         {
                             var serieData = serie.data[n];
-                            if (Vector2.Distance(serieData.labelPosition, local) <= serie.symbol.size * 1.2f)
+                            if (Vector2.Distance(serieData.labelPosition, local) <= serie.symbol.size * 1.3f)
                             {
                                 m_Tooltip.runtimeDataIndex[0] = i;
                                 m_Tooltip.runtimeDataIndex[1] = n;
@@ -700,9 +706,10 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
+            var dataIndex = tooltip.runtimeDataIndex[1];
             StringBuilder sb = new StringBuilder();
-            TooltipHelper.InitRadarTooltip(ref sb, tooltip, serie, radar, themeInfo);
-            TooltipHelper.SetContentAndPosition(tooltip, sb.ToString(), chartRect);
+            var content = TooltipHelper.GetFormatterContent(m_Tooltip, dataIndex, m_Series, m_ThemeInfo, null, null, false, radar);
+            TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
         }
 
         protected override void OnRefreshLabel()

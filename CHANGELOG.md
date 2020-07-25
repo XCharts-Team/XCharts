@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.25) 增加`RadarChart`对`Tooltip`的`formatter`支持#77
 * (2020.07.23) 增加`RingChart`环形渐变支持#75
 * (2020.07.21) 增加`AxisLabel`和`SerieLabel`的`formatter`可单独配置数值格式化#68
 * (2020.07.17) 增加`SerieAnimation`动画完成回调接口

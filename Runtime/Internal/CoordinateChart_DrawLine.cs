@@ -275,7 +275,7 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                serie.animation.CheckProgress(totalDetailProgress);
+                serie.animation.CheckProgress(totalDetailProgress - currDetailProgress);
                 serie.animation.CheckSymbol(serie.symbol.size);
                 m_IsPlayingAnimation = true;
                 RefreshChart();
@@ -631,7 +631,7 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float total = totalDetailProgress - dataCount * serie.lineStyle.width * 0.5f;
+                float total = totalDetailProgress - currDetailProgress - dataCount * serie.lineStyle.width * 0.5f;
                 serie.animation.CheckProgress(total);
                 serie.animation.CheckSymbol(serie.symbol.size);
                 m_IsPlayingAnimation = true;

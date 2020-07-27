@@ -139,6 +139,10 @@ namespace XCharts
 
         private void DrawSerie(VertexHelper vh, Serie serie)
         {
+            if (serie.animation.HasFadeOut())
+            {
+                return;
+            }
             var vessel = GetVessel(serie.vesselIndex);
             if (vessel == null) return;
             var cenPos = vessel.runtimeCenterPos;

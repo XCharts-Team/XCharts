@@ -33,6 +33,25 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 方向。X轴还是Y轴。
+        /// </summary>
+        public enum Direction
+        {
+            /// <summary>
+            /// 默认方向。
+            /// </summary>
+            Default,
+            /// <summary>
+            /// X轴方向。
+            /// </summary>
+            X,
+            /// <summary>
+            /// Y轴方向。
+            /// </summary>
+            Y
+        }
+
+        /// <summary>
         /// 选择模式
         /// </summary>
         public enum SelectedMode
@@ -50,6 +69,7 @@ namespace XCharts
         [SerializeField] private bool m_Enable = false;
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Continuous;
+        [SerializeField] private Direction m_Direction = Direction.Default;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
         [SerializeField] private float m_Min = 0;
         [SerializeField] private float m_Max = 100f;
@@ -63,8 +83,9 @@ namespace XCharts
         [SerializeField] private float m_ItemWidth = 20f;
         [SerializeField] private float m_ItemHeight = 140f;
         [SerializeField] private float m_BorderWidth = 0;
-        [SerializeField] private int m_Dimension = 0;
+        [SerializeField] private int m_Dimension = -1;
         [SerializeField] private bool m_HoverLink = true;
+        [SerializeField] private bool m_AutoMinMax = true;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultLeft;
         [SerializeField] private List<Color> m_InRange = new List<Color>();
@@ -92,7 +113,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of visualmap component.
@@ -102,6 +123,14 @@ namespace XCharts
         {
             get { return m_Type; }
             set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 映射方向。
+        /// </summary>
+        public Direction direction
+        {
+            get { return m_Direction; }
+            set { if (PropertyUtility.SetStruct(ref m_Direction, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the selected mode for Piecewise visualMap.
@@ -115,7 +144,7 @@ namespace XCharts
         /// <summary>
         /// The minimum allowed. 'min' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
         /// 
-        /// 允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
+        /// 允许的最小值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public float min
         {
@@ -125,12 +154,12 @@ namespace XCharts
         /// <summary>
         /// The maximum allowed. 'max' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
         /// 
-        /// 允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
+        /// 允许的最大值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public float max
         {
             get { return m_Max; }
-            set { m_Max = value < min ? min + 1 : value; SetVerticesDirty(); }
+            set { m_Max = (value < min ? min + 1 : value); SetVerticesDirty(); }
         }
         /// <summary>
         /// Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
@@ -237,6 +266,15 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_HoverLink, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Automatically set min, Max value
+        /// 自动设置min，max的值
+        /// </summary>
+        public bool autoMinMax
+        {
+            get { return m_AutoMinMax; }
+            set { if (PropertyUtility.SetStruct(ref m_AutoMinMax, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// Specify whether the layout of component is horizontal or vertical. 
         /// 
         /// 布局方式是横还是竖。
@@ -330,7 +368,7 @@ namespace XCharts
             get
             {
                 if (splitNumber > 0 && splitNumber <= m_InRange.Count) return splitNumber;
-                else return inRange.Count;
+                else return m_InRange.Count;
             }
         }
 
@@ -342,7 +380,10 @@ namespace XCharts
         {
             get
             {
-                if (splitNumber == 0 || m_InRange.Count >= splitNumber || m_InRange.Count < 1) return m_InRange;
+                if (splitNumber == 0 || m_InRange.Count >= splitNumber || m_InRange.Count < 1 || IsPiecewise())
+                {
+                    return m_InRange;
+                }
                 else
                 {
                     if (m_RtInRange.Count != runtimeSplitNumber)
@@ -383,35 +424,52 @@ namespace XCharts
 
         public Color GetColor(float value)
         {
+            if (value < m_Min || value > m_Max)
+            {
+                if (m_OutOfRange.Count > 0) return m_OutOfRange[0];
+                else return Color.clear;
+            }
             int splitNumber = runtimeInRange.Count;
             if (splitNumber <= 0) return Color.clear;
-            value = Mathf.Clamp(value, min, max);
-
-            var diff = (max - min) / (splitNumber - 1);
             var index = GetIndex(value);
-            var nowMin = min + index * diff;
-            var rate = (value - nowMin) / diff;
-            if (index == splitNumber - 1) return runtimeInRange[index];
-            else return Color.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
+            if (m_Type == VisualMap.Type.Piecewise)
+            {
+                if (index >= 0 && index < runtimeInRange.Count)
+                    return runtimeInRange[index];
+                else return Color.clear;
+            }
+            else
+            {
+                var diff = (m_Max - m_Min) / (splitNumber - 1);
+                var nowMin = m_Min + index * diff;
+                var rate = (value - nowMin) / diff;
+                if (index == splitNumber - 1) return runtimeInRange[index];
+                else return Color.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
+            }
         }
 
         public int GetIndex(float value)
         {
             int splitNumber = runtimeInRange.Count;
             if (splitNumber <= 0) return -1;
-            value = Mathf.Clamp(value, min, max);
+            value = Mathf.Clamp(value, m_Min, m_Max);
 
-            var diff = (max - min) / (splitNumber - 1);
+            var diff = (m_Max - m_Min) / (splitNumber - (IsPiecewise() ? 0 : 1));
             var index = -1;
             for (int i = 0; i < splitNumber; i++)
             {
-                if (value <= min + (i + 1) * diff)
+                if (value <= m_Min + (i + 1) * diff)
                 {
                     index = i;
                     break;
                 }
             }
             return index;
+        }
+
+        public bool IsPiecewise()
+        {
+            return m_Type == VisualMap.Type.Piecewise;
         }
 
         public bool IsInSelectedValue(float value)

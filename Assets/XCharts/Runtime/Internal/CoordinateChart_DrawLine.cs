@@ -220,6 +220,7 @@ namespace XCharts
             {
                 lastNextPos = endPos;
             }
+            VisualMapHelper.AutoSetLineMinMax(visualMap, serie, xAxis, yAxis);
             for (i = startIndex + 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
@@ -641,10 +642,11 @@ namespace XCharts
 
         private Vector3 stPos1, stPos2, lastDir, lastDnPos;
         private bool lastIsDown;
-        private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp,
-            Vector3 np, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
+        private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 nnp,
+            int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
             Vector3 zeroPos, int startIndex = 0)
         {
+            var defaultLineColor = lineColor;
             var isSecond = dataIndex == startIndex + 1;
             var isTheLastPos = np == nnp;
             bool isYAxis = axis is YAxis;
@@ -715,6 +717,7 @@ namespace XCharts
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
                 var tp2 = cp + dir1v * serie.lineStyle.width;
+                CheckLineGradientColor(cp, serie.itemStyle, axis, defaultLineColor, ref lineColor);
                 if (isDown)
                 {
                     if (!isBreak)
@@ -849,7 +852,7 @@ namespace XCharts
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);
-                    DrawStackArea(vh, serie, axis, smoothDownPoints, lastSmoothPoints, lineColor, areaColor, areaToColor);
+                    DrawStackArea(vh, serie, axis, smoothDownPoints, lastSmoothPoints, areaColor, areaToColor);
                 }
                 else
                 {
@@ -985,6 +988,14 @@ namespace XCharts
             return !isBreak;
         }
 
+        private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color defaultLineColor, ref Color lineColor)
+        {
+            if (VisualMapHelper.IsNeedGradient(m_VisualMap))
+                lineColor = VisualMapHelper.GetLineGradientColor(m_VisualMap, cp, this, axis, defaultLineColor);
+            else if (itemStyle.IsNeedGradient())
+                lineColor = VisualMapHelper.GetItemStyleGradientColor(itemStyle, cp, this, axis, defaultLineColor);
+        }
+
         private bool IsInRightOrUp(bool isYAxis, bool isLastDown, Vector3 dnPos, Vector3 checkPos)
         {
             if ((isLastDown && ((isYAxis && checkPos.y <= dnPos.y) || (!isYAxis && checkPos.x <= dnPos.x))) ||
@@ -1082,6 +1093,7 @@ namespace XCharts
             Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor,
             Color areaToColor, bool isStack, Vector3 zeroPos, int startIndex = 0)
         {
+            var defaultLineColor = lineColor;
             bool isYAxis = xAxis is YAxis;
             var lineWidth = serie.lineStyle.width;
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
@@ -1096,6 +1108,7 @@ namespace XCharts
                 {
                     start = bezierPoints[i];
                     to = bezierPoints[i + 1];
+                    CheckLineGradientColor(start, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                     CheckClipAndDrawLine(vh, start, to, lineWidth, lineColor, serie.clip);
                 }
                 return true;
@@ -1118,6 +1131,7 @@ namespace XCharts
                 {
                     if (!serie.animation.IsInFadeOut())
                     {
+                        CheckLineGradientColor(lp, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                         CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
                         CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
                     }
@@ -1146,6 +1160,7 @@ namespace XCharts
                 diff = dir1v * lineWidth;
                 toUp = to - diff;
                 toDn = to + diff;
+                CheckLineGradientColor(to, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                 if (isYAxis) CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip);
                 else CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip);
                 smoothPoints.Add(toUp);
@@ -1209,7 +1224,7 @@ namespace XCharts
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);
-                    DrawStackArea(vh, serie, xAxis, smoothDownPoints, lastSmoothPoints, lineColor, areaColor, areaToColor);
+                    DrawStackArea(vh, serie, xAxis, smoothDownPoints, lastSmoothPoints, areaColor, areaToColor);
                 }
             }
             return isFinish;
@@ -1241,7 +1256,7 @@ namespace XCharts
         }
 
         private void DrawStackArea(VertexHelper vh, Serie serie, Axis axis, List<Vector3> smoothPoints,
-            List<Vector3> lastSmoothPoints, Color lineColor, Color areaColor, Color areaToColor)
+            List<Vector3> lastSmoothPoints, Color areaColor, Color areaToColor)
         {
             if (!serie.areaStyle.show || lastSmoothPoints.Count <= 0) return;
             Vector3 start, to;

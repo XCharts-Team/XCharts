@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.30) 增加`LineChart`可通过`VisualMap`或`ItemStyle`配置渐变#78
 * (2020.07.25) 修复`LineChart`渐出动画绘制异常的问题#79
 * (2020.07.25) 修复`LiquidChart`在`100%`时渐变色会失效的问题#80
 * (2020.07.25) 增加`RadarChart`对`Tooltip`的`formatter`支持#77

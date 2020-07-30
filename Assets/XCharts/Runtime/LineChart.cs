@@ -23,6 +23,15 @@ namespace XCharts
             base.Reset();
             m_Title.text = "LineChart";
             m_Tooltip.type = Tooltip.Type.Line;
+
+            m_VisualMap.enable = false;
+            m_VisualMap.show = false;
+            m_VisualMap.autoMinMax = true;
+            m_VisualMap.direction = VisualMap.Direction.Y;
+            m_VisualMap.inRange.Clear();
+            m_VisualMap.inRange.Add(Color.blue);
+            m_VisualMap.inRange.Add(Color.red);
+
             RemoveData();
             var serie = AddSerie(SerieType.Line, "serie1");
             serie.symbol.show = true;

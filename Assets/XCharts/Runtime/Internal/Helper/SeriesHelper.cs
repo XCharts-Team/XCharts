@@ -470,5 +470,15 @@ namespace XCharts
                 maxValue = max > 1 ? Mathf.CeilToInt(max) : max;
             }
         }
+
+        public static int GetMaxSerieDataCount(Series series)
+        {
+            int max = 0;
+            foreach (var serie in series.list)
+            {
+                if (serie.dataCount > max) max = serie.dataCount;
+            }
+            return max;
+        }
     }
 }

@@ -42,7 +42,9 @@ namespace XCharts
             SerializedProperty m_Orient = prop.FindPropertyRelative("m_Orient");
             SerializedProperty m_Location = prop.FindPropertyRelative("m_Location");
             SerializedProperty m_InRange = prop.FindPropertyRelative("m_InRange");
-            // SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
+            SerializedProperty m_AutoMinMax = prop.FindPropertyRelative("m_AutoMinMax");
+            SerializedProperty m_Direction = prop.FindPropertyRelative("m_Direction");
+            SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_VisualMapModuleToggle, "Visual Map", m_Enable);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -51,7 +53,10 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 EditorGUI.PropertyField(drawRect, m_Type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
+                EditorGUI.PropertyField(drawRect, m_Direction);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_AutoMinMax);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Min);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Max);
@@ -59,8 +64,6 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Dimension);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_HoverLink);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 m_InRangeFoldout = EditorGUI.Foldout(drawRect, m_InRangeFoldout, "InRange");
@@ -71,12 +74,12 @@ namespace XCharts
                 }
 
                 // drawRect.width = pos.width;
-                // m_OutOfRangeFoldout = EditorGUI.Foldout(drawRect, m_OutOfRangeFoldout, "OutOfRange");
-                // drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                // if (m_OutOfRangeFoldout)
-                // {
-                //     ChartEditorHelper.MakeList(ref drawRect, ref m_OutOfRangeSize, m_OutOfRange);
-                // }
+                m_OutOfRangeFoldout = EditorGUI.Foldout(drawRect, m_OutOfRangeFoldout, "OutOfRange");
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (m_OutOfRangeFoldout)
+                {
+                    ChartEditorHelper.MakeList(ref drawRect, ref m_OutOfRangeSize, m_OutOfRange);
+                }
                 // drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 EditorGUI.PropertyField(drawRect, m_Show);
@@ -88,6 +91,8 @@ namespace XCharts
                     ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Range, "Range");
                     ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Text, "Text");
                     ChartEditorHelper.MakeTwoField(ref drawRect, pos.width, m_Text, "TextGap");
+                    EditorGUI.PropertyField(drawRect, m_HoverLink);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_Calculable);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     EditorGUI.PropertyField(drawRect, m_ItemWidth);
@@ -111,7 +116,7 @@ namespace XCharts
             int num = 1;
             if (m_VisualMapModuleToggle)
             {
-                num += 8;
+                num += 10;
                 height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
 
                 if (m_InRangeFoldout)
@@ -121,16 +126,16 @@ namespace XCharts
                     height += size * EditorGUIUtility.singleLineHeight + (size - 1) * EditorGUIUtility.standardVerticalSpacing;
                     height += EditorGUIUtility.standardVerticalSpacing;
                 }
-                // if (m_OutOfRangeFoldout)
-                // {
-                //     SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
-                //     int size = m_OutOfRange.arraySize + 1;
-                //     height += size * EditorGUIUtility.singleLineHeight + (size - 1) * EditorGUIUtility.standardVerticalSpacing;
-                //     height += EditorGUIUtility.standardVerticalSpacing;
-                // }
+                if (m_OutOfRangeFoldout)
+                {
+                    SerializedProperty m_OutOfRange = prop.FindPropertyRelative("m_OutOfRange");
+                    int size = m_OutOfRange.arraySize + 1;
+                    height += size * EditorGUIUtility.singleLineHeight + (size - 1) * EditorGUIUtility.standardVerticalSpacing;
+                    height += EditorGUIUtility.standardVerticalSpacing;
+                }
                 if (prop.FindPropertyRelative("m_Show").boolValue)
                 {
-                    height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
                     height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Location"));
                 }
             }

@@ -300,8 +300,9 @@
 * ~~`selectedMode`：分段型的选择模式，支持以下模式：~~
   * ~~`Multiple`：多选。~~
   * ~~`Single`：单选。~~
-* `min`：允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
-* `max`：允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
+* `autoMinMax`：自动设置`min`，`max`的值。
+* `min`：允许的最小值。`autoMinMax`为`false`时必须指定。`[min, max]` 形成了视觉映射的『定义域』。
+* `max`：允许的最大值。`autoMinMax`为`false`时必须指定。`[min, max]` 形成了视觉映射的『定义域』。
 * `range`：指定手柄对应数值的位置。range 应在 min max 范围内。
 * ~~`text`：两端的文本，如 ['High', 'Low']。~~
 * ~~`textGap`：两端文字主体之间的距离，单位为px。~~
@@ -831,6 +832,8 @@
 
 * `show`：是否启用。
 * `color`：颜色。
+* `toColor`：渐变颜色1。
+* `toColor2`：渐变颜色2。只在折线图中有效。
 * `backgroundColor`：背景颜色。
 * `backgroundWidth`：背景的宽。
 * `centerColor`：中心区域的颜色。如环形图的中心区域。

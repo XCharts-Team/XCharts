@@ -25,6 +25,7 @@ namespace XCharts
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_ToColor = prop.FindPropertyRelative("m_ToColor");
+            SerializedProperty m_ToColor2 = prop.FindPropertyRelative("m_ToColor2");
             SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
             SerializedProperty m_BackgroundWidth = prop.FindPropertyRelative("m_BackgroundWidth");
             SerializedProperty m_CenterColor = prop.FindPropertyRelative("m_CenterColor");
@@ -44,6 +45,8 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Color);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ToColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ToColor2);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BackgroundColor);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -80,7 +83,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_ItemStyleToggle, prop))
             {
-                height += 14 * EditorGUIUtility.singleLineHeight + 13 * EditorGUIUtility.standardVerticalSpacing;
+                height += 15 * EditorGUIUtility.singleLineHeight + 14 * EditorGUIUtility.standardVerticalSpacing;
                 var m_CornerRadius = prop.FindPropertyRelative("m_CornerRadius");
                 if (ChartEditorHelper.IsToggle(m_CornerRadiusToggle, m_CornerRadius))
                 {

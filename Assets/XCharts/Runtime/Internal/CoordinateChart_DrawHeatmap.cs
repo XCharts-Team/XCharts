@@ -145,8 +145,7 @@ namespace XCharts
                     var dataIndex = i * yCount + j;
                     if (dataIndex >= dataList.Count) continue;
                     var serieData = dataList[dataIndex];
-                    var dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
-                        serieData.data.Count - 1;
+                    var dimension = VisualMapHelper.GetDimension(m_VisualMap, serieData.data.Count);
                     if (serie.IsIgnoreIndex(dataIndex, dimension))
                     {
                         serie.dataPoints.Add(Vector3.zero);

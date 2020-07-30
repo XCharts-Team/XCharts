@@ -299,6 +299,8 @@ VisualMap component. mapping data to visual elements such as colors.
 * ~~`selectedMode`: the selected mode for Piecewise visualMap.~~
   * ~~`Multiple`: Multiple.~~
   * ~~`Single`: Single.~~
+
+* `autoMinMax`: Automatically set min, Max value.
 * `min`: The minimum allowed. `min` must be user specified. `[min, max]` forms the domain of the visualMap.
 * `max`: The maximum allowed. `max` must be user specified. `[min, max]` forms the domain of the visualMap.
 * `range`: Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
@@ -406,7 +408,7 @@ Check each serie for parameters.
 Line chart serie.
 
 * `show`: Whether to show serie in chart.
-* `type`: `Line`。
+* `type`: `Line`.
 * `name`: Series name used for displaying in tooltip and filtering with legend.
 * `stack`: If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 * `axisIndex`: Index of axis to combine with, which is useful for multiple x axes in one chart.
@@ -723,6 +725,8 @@ Line chart serie.
 
 * `show`: 是否启用。
 * `color`: 颜色。
+* `toColor`：gradient color1.
+* `toColor2`：gradient color2.
 * `backgroundColor`: 背景颜色。
 * `backgroundWidth`: 背景的宽。
 * `centerColor`: 中心区域的颜色。如环形图的中心区域。

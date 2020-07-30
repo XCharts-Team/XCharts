@@ -43,7 +43,7 @@ namespace XCharts
             {
                 EditorGUILayout.PropertyField(m_DataZoom);
             }
-            if (m_Target is HeatmapChart)
+            if (m_Target is HeatmapChart || m_Target is LineChart)
             {
                 EditorGUILayout.PropertyField(m_VisualMap);
             }

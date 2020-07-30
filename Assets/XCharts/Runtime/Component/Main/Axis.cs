@@ -303,6 +303,7 @@ namespace XCharts
             splitLine.ClearVerticesDirty();
             splitArea.ClearVerticesDirty();
         }
+        public int index { get; internal set; }
         /// <summary>
         /// the axis label text list. 
         /// 坐标轴刻度标签的Text列表。

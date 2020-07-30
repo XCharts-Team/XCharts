@@ -38,6 +38,7 @@ namespace XCharts
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color m_Color;
         [SerializeField] private Color m_ToColor;
+        [SerializeField] private Color m_ToColor2;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color m_CenterColor;
@@ -55,6 +56,7 @@ namespace XCharts
             m_Show = false;
             m_Color = Color.clear;
             m_ToColor = Color.clear;
+            m_ToColor2 = Color.clear;
             m_BackgroundColor = Color.clear;
             m_BackgroundWidth = 0;
             m_CenterColor = Color.clear;
@@ -93,13 +95,22 @@ namespace XCharts
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Gradient color, start color to toColor.
-        /// 渐变色的终点颜色。
+        /// Gradient color1.
+        /// 渐变色的颜色1。
         /// </summary>
         public Color toColor
         {
             get { return m_ToColor; }
             set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Gradient color2.Only valid in line diagrams.
+        /// 渐变色的颜色2。只在折线图中有效。
+        /// </summary>
+        public Color toColor2
+        {
+            get { return m_ToColor2; }
+            set { if (PropertyUtility.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景颜色。
@@ -213,6 +224,27 @@ namespace XCharts
             var color = m_Color;
             color.a *= m_Opacity;
             return color;
+        }
+
+        public bool IsNeedGradient()
+        {
+            return !ChartHelper.IsClearColor(m_ToColor) || !ChartHelper.IsClearColor(m_ToColor2);
+        }
+
+        public Color GetGradientColor(float value, Color defaultColor)
+        {
+            if (!IsNeedGradient()) return Color.clear;
+            value = Mathf.Clamp01(value);
+            var startColor = m_Color == Color.clear ? defaultColor : m_Color;
+            if (m_ToColor2 != Color.clear)
+            {
+                if (value <= 0.5f) return Color.Lerp(startColor, m_ToColor, 2 * value);
+                else return Color.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
+            }
+            else
+            {
+                return Color.Lerp(startColor, m_ToColor, value);
+            }
         }
     }
 }

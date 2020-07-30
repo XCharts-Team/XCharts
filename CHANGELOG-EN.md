@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.07.30) Added `LineChart` to configure gradient through `VisualMap` or `ItemStyle`#78
 * (2020.07.25) Fixed a problem with `LineChart` emerging abnormal in animation drawing#79
 * (2020.07.25) Fixed a problem with gradual discoloration on `LiquidChart` at `100%`#80
 * (2020.07.25) Added `RadarChart` support for `formatter` of `Tooltip`#77

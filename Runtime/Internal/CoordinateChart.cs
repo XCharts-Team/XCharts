@@ -764,11 +764,6 @@ namespace XCharts
         private void CheckMinMaxValue()
         {
             if (m_XAxises == null || m_YAxises == null) return;
-            if (IsCategory())
-            {
-                m_CheckMinMaxValue = true;
-                return;
-            }
             for (int i = 0; i < m_XAxises.Count; i++)
             {
                 UpdateAxisMinMaxValue(i, m_XAxises[i]);
@@ -781,7 +776,14 @@ namespace XCharts
 
         private void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
         {
-            if (axis.IsCategory() || !axis.show) return;
+            if (!axis.show) return;
+            if (axis.IsCategory())
+            {
+                m_CheckMinMaxValue = true;
+                axis.runtimeMinValue = 0;
+                axis.runtimeMaxValue = SeriesHelper.GetMaxSerieDataCount(m_Series);
+                return;
+            }
             float tempMinValue = 0;
             float tempMaxValue = 0;
 
@@ -864,10 +866,12 @@ namespace XCharts
             DrawGrid(vh);
             for (int i = 0; i < m_XAxises.Count; i++)
             {
+                m_XAxises[i].index = i;
                 DrawXAxisSplit(vh, i, m_XAxises[i]);
             }
             for (int i = 0; i < m_YAxises.Count; i++)
             {
+                m_YAxises[i].index = i;
                 DrawYAxisSplit(vh, i, m_YAxises[i]);
             }
             for (int i = 0; i < m_XAxises.Count; i++)
@@ -1494,8 +1498,7 @@ namespace XCharts
 
                         if (serie.type == SerieType.Heatmap)
                         {
-                            dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
-                            serieData.data.Count - 1;
+                            dimension = VisualMapHelper.GetDimension(m_VisualMap, serieData.data.Count);
                         }
 
                         SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);

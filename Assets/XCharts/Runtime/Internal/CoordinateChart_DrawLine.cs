@@ -653,18 +653,7 @@ namespace XCharts
             var lineWidth = serie.lineStyle.width;
             var ySmall = Mathf.Abs(lp.y - np.y) < lineWidth * 3;
             var xSmall = Mathf.Abs(lp.x - np.x) < lineWidth * 3;
-            if ((isYAxis && ySmall) || (!isYAxis && xSmall))
-            {
-                if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
-                CheckClipAndDrawLine(vh, lp, np, serie.lineStyle.width, lineColor, serie.clip);
-                if (serie.areaStyle.show)
-                {
-                    DrawPolygonToZero(vh, lp, np, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                }
-                return true;
-            }
 
-            var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
             Vector3 dnPos, upPos1, upPos2, dir1v, dir2v;
             bool isDown;
             var dir1 = (np - lp).normalized;
@@ -698,6 +687,21 @@ namespace XCharts
                 stPos1 = lp - dir1v * serie.lineStyle.width;
                 stPos2 = lp + dir1v * serie.lineStyle.width;
             }
+            if ((isYAxis && ySmall) || (!isYAxis && xSmall))
+            {
+                if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
+                CheckClipAndDrawLine(vh, lp, np, serie.lineStyle.width, lineColor, serie.clip);
+                if (serie.areaStyle.show)
+                {
+                    DrawPolygonToZero(vh, lp, np, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                }
+                stPos1 = isDown ? upPos2 : dnPos;
+                stPos2 = isDown ? dnPos : upPos2;
+                lastDnPos = dnPos;
+                lastIsDown = isDown;
+                return true;
+            }
+
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var dist = Vector3.Distance(lp, np);
@@ -849,6 +853,7 @@ namespace XCharts
             }
             if (serie.areaStyle.show)
             {
+                var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);

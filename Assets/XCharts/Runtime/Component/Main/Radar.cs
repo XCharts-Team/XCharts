@@ -202,6 +202,7 @@ namespace XCharts
         /// </summary>
         public List<Indicator> indicatorList { get { return m_IndicatorList; } }
 
+        public int index { get; internal set; }
         /// <summary>
         /// the center position of radar in container.
         /// 雷达图在容器中的具体中心点。

@@ -83,8 +83,11 @@ namespace XCharts
         public static void InitRadarTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, Radar radar,
             ThemeInfo themeInfo)
         {
+            if (!serie.show) return;
+            if (serie.radarIndex != radar.index) return;
             var dataIndex = tooltip.runtimeDataIndex[1];
             var serieData = serie.GetSerieData(dataIndex);
+            if (!serieData.show) return;
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
             switch (serie.radarType)
             {
@@ -99,7 +102,7 @@ namespace XCharts
                         for (int i = 0; i < serie.dataCount; i++)
                         {
                             var sd = serie.GetSerieData(i);
-
+                            if (!sd.show) continue;
                             var key = sd.name;
                             var value = sd.GetData(dimension);
                             var itemFormatter = GetItemFormatter(tooltip, serie, sd);
@@ -109,15 +112,11 @@ namespace XCharts
                             sb.Append("<color=#").Append(themeInfo.GetColorStr(i)).Append(">● </color>");
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
+                                if (string.IsNullOrEmpty(key)) key = radar.indicatorList[dataIndex].name;
                                 if (string.IsNullOrEmpty(key))
-                                {
-                                    //key = radar.indicatorList[dataIndex].name;
                                     sb.AppendFormat("{0}\n", ChartCached.FloatToStr(value, numericFormatter));
-                                }
                                 else
-                                {
                                     sb.AppendFormat("{0}: {1}\n", key, ChartCached.FloatToStr(value, numericFormatter));
-                                }
                             }
                             else
                             {

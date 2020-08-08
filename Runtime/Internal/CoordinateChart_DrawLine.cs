@@ -1,10 +1,10 @@
+using System.Runtime.InteropServices.ComTypes;
 /******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
 /*                                        */
 /******************************************/
-
 
 using System;
 using System.Collections.Generic;
@@ -650,9 +650,8 @@ namespace XCharts
             var isSecond = dataIndex == startIndex + 1;
             var isTheLastPos = np == nnp;
             bool isYAxis = axis is YAxis;
+            var isTurnBack = IsInRightOrUp(isYAxis, np, lp);
             var lineWidth = serie.lineStyle.width;
-            var ySmall = Mathf.Abs(lp.y - np.y) < lineWidth * 3;
-            var xSmall = Mathf.Abs(lp.x - np.x) < lineWidth * 3;
 
             Vector3 dnPos, upPos1, upPos2, dir1v, dir2v;
             bool isDown;
@@ -687,36 +686,37 @@ namespace XCharts
                 stPos1 = lp - dir1v * serie.lineStyle.width;
                 stPos2 = lp + dir1v * serie.lineStyle.width;
             }
-            if ((isYAxis && ySmall) || (!isYAxis && xSmall))
-            {
-                if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
-                CheckClipAndDrawLine(vh, lp, np, serie.lineStyle.width, lineColor, serie.clip);
-                if (serie.areaStyle.show)
-                {
-                    DrawPolygonToZero(vh, lp, np, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                }
-                stPos1 = isDown ? upPos2 : dnPos;
-                stPos2 = isDown ? dnPos : upPos2;
-                lastDnPos = dnPos;
-                lastIsDown = isDown;
-                return true;
-            }
-
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
             var dist = Vector3.Distance(lp, np);
+            var lastSmoothPoint = Vector3.zero;
+            var lastSmoothDownPoint = Vector3.zero;
             int segment = (int)(dist / m_Settings.lineSegmentDistance);
             if (segment <= 3) segment = (int)(dist / lineWidth);
+            if (segment < 2) segment = 2;
+            if (dataIndex > startIndex)
+            {
+                lastSmoothPoint = ChartHelper.GetLastPoint(serie.GetUpSmoothList(dataIndex - 1));
+                lastSmoothDownPoint = ChartHelper.GetLastPoint(serie.GetDownSmoothList(dataIndex - 1));
+            }
             smoothPoints.Clear();
             smoothDownPoints.Clear();
-            smoothPoints.Add(stPos1);
-            smoothDownPoints.Add(stPos2);
+            if (!TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, stPos1, false))
+            {
+                smoothPoints.Add(lastSmoothPoint);
+            }
+            if (!TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, stPos2, false))
+            {
+                smoothDownPoints.Add(lastSmoothDownPoint);
+            }
             var start = lp;
-            Vector3 ltp1 = Vector3.zero, ltp2 = Vector3.zero;
+            Vector3 ltp1 = stPos1, ltp2 = stPos2;
             bool isBreak = false;
             bool isStart = false;
+            bool isShort = false;
             for (int i = 1; i < segment; i++)
             {
+                var isEndPos = i == segment - 1;
                 var cp = lp + dir1 * (dist * i / segment);
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
@@ -728,9 +728,19 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if (isSecond || IsValue() ||
-                                (lastIsDown && ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x))) ||
-                                (!lastIsDown && ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x))))
+                            if (isEndPos)
+                            {
+                                isShort = true;
+                                isStart = true;
+                                CheckClipAndDrawPolygon(vh, stPos1, upPos1, upPos2, stPos2, lineColor, serie.clip);
+                                CheckClipAndDrawTriangle(vh, stPos2, upPos2, dnPos, lineColor, serie.clip);
+                                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, stPos1, isEndPos);
+                                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, upPos1, isEndPos);
+                                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, dnPos, isEndPos);
+                            }
+                            else if (isSecond || isTurnBack ||
+                                (lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp2)) ||
+                                (!lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
                             {
                                 isStart = true;
                                 CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
@@ -738,18 +748,21 @@ namespace XCharts
                         }
                         else
                         {
-                            if (i == segment - 1)
+                            if (isEndPos)
                             {
                                 if (np != nnp)
                                 {
                                     CheckClipAndDrawPolygon(vh, ltp1, upPos1, dnPos, ltp2, lineColor, serie.clip);
                                     CheckClipAndDrawTriangle(vh, upPos1, upPos2, dnPos, lineColor, serie.clip);
                                 }
-                                else CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip);
+                                else
+                                {
+                                    CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip);
+                                }
                             }
                             else
                             {
-                                if ((isYAxis && tp2.y < dnPos.y) || (!isYAxis && tp2.x < dnPos.x) || IsValue())
+                                if (IsInRightOrUp(isYAxis, tp2, dnPos) || isTurnBack)
                                 {
                                     CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.width, lineColor, serie.clip);
                                 }
@@ -760,12 +773,14 @@ namespace XCharts
                                     i = segment;
                                 }
                             }
+
                         }
                     }
-                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
-                        smoothPoints.Add(tp1);
-                    if (IsValue() || (IsInRightOrUp(isYAxis, tp2, dnPos) && IsInRightOrUp(isYAxis, stPos2, tp2)))
-                        smoothDownPoints.Add(tp2);
+                    if (!isShort)
+                    {
+                        TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, tp1, isEndPos);
+                        TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, tp2, isEndPos);
+                    }
                 }
                 else
                 {
@@ -773,9 +788,24 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if (isSecond || IsValue() ||
-                                (lastIsDown && ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x))) ||
-                                (!lastIsDown && ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x))))
+                            if (isEndPos)
+                            {
+                                isStart = true;
+                                isShort = true;
+                                if (np == nnp)
+                                    CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos2, stPos2, lineColor, serie.clip);
+                                else
+                                {
+                                    CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos1, stPos2, lineColor, serie.clip);
+                                    CheckClipAndDrawTriangle(vh, dnPos, upPos1, upPos2, lineColor, serie.clip);
+                                }
+                                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, dnPos, isEndPos);
+                                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, stPos2, isEndPos);
+                                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, upPos2, isEndPos);
+                            }
+                            else if (isSecond || isTurnBack ||
+                                (lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp2)) ||
+                                (!lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
                             {
                                 isStart = true;
                                 if (stPos2 != Vector3.zero)
@@ -786,7 +816,7 @@ namespace XCharts
                         }
                         else
                         {
-                            if (i == segment - 1)
+                            if (isEndPos)
                             {
                                 if (np != nnp)
                                 {
@@ -797,7 +827,7 @@ namespace XCharts
                             }
                             else
                             {
-                                if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x) || IsValue())
+                                if (IsInRightOrUp(isYAxis, tp1, dnPos) || isTurnBack)
                                 {
                                     CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.width, lineColor, serie.clip);
                                 }
@@ -810,43 +840,43 @@ namespace XCharts
                             }
                         }
                     }
-                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
-                        smoothPoints.Add(tp1);
-                    if (IsValue() || IsInRightOrUp(isYAxis, lastDnPos, tp2))
-                        smoothDownPoints.Add(tp2);
+                    if (!isShort)
+                    {
+                        TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, tp1, isEndPos);
+                        TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, tp2, isEndPos);
+                    }
                 }
                 start = cp;
                 ltp1 = tp1;
                 ltp2 = tp2;
             }
-            if (!isBreak)
+            if (!isBreak && !isShort)
             {
                 if (isDown)
                 {
-                    smoothPoints.Add(upPos1);
-                    smoothPoints.Add(upPos2);
-                    smoothDownPoints.Add(dnPos);
+                    TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, upPos1, true);
+                    TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, upPos2, true);
+                    TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, dnPos, true);
                 }
                 else
                 {
-                    smoothPoints.Add(dnPos);
+                    TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, dnPos, true);
                     if (isYAxis)
                     {
-                        smoothDownPoints.Add(isTheLastPos ? upPos1 : upPos2);
-                        smoothDownPoints.Add(isTheLastPos ? upPos2 : upPos1);
+                        TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, isTheLastPos ? upPos1 : upPos2, true);
+                        TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, isTheLastPos ? upPos2 : upPos1, true);
                     }
                     else
                     {
                         if (isTheLastPos)
                         {
-                            smoothDownPoints.Add(upPos2);
-                            if (IsInRightOrUp(isYAxis, upPos2, upPos1))
-                                smoothDownPoints.Add(upPos1);
+                            TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, upPos2, true);
+                            TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, upPos1, true);
                         }
                         else
                         {
-                            smoothDownPoints.Add(upPos1);
-                            smoothDownPoints.Add(upPos2);
+                            TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, upPos1, true);
+                            TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, upPos2, true);
                         }
                     }
                 }
@@ -993,6 +1023,35 @@ namespace XCharts
             return !isBreak;
         }
 
+        private bool TryAddToList(bool isTurnBack, bool isYAxis, List<Vector3> list, Vector3 lastPos, Vector3 pos, bool ignoreClose = false)
+        {
+            if (pos == Vector3.zero) return false;
+            if (isTurnBack)
+            {
+                list.Add(pos);
+                return true;
+            }
+            else if (lastPos != Vector3.zero && IsInRightOrUp(isYAxis, pos, lastPos))
+            {
+                return false;
+            }
+            else if (list.Count <= 0)
+            {
+                list.Add(pos);
+                return true;
+            }
+            else
+            {
+                var end = list[list.Count - 1];
+                if (IsInRightOrUp(isYAxis, end, pos) && (!ignoreClose || !WasTooClose(isYAxis, end, pos, ignoreClose)))
+                {
+                    list.Add(pos);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color defaultLineColor, ref Color lineColor)
         {
             if (VisualMapHelper.IsNeedGradient(m_VisualMap))
@@ -1001,22 +1060,17 @@ namespace XCharts
                 lineColor = VisualMapHelper.GetItemStyleGradientColor(itemStyle, cp, this, axis, defaultLineColor);
         }
 
-        private bool IsInRightOrUp(bool isYAxis, bool isLastDown, Vector3 dnPos, Vector3 checkPos)
-        {
-            if ((isLastDown && ((isYAxis && checkPos.y <= dnPos.y) || (!isYAxis && checkPos.x <= dnPos.x))) ||
-                (!isLastDown && ((isYAxis && checkPos.y <= dnPos.y) || (!isYAxis && checkPos.x <= dnPos.x))))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private bool IsInRightOrUp(bool isYAxis, Vector3 lp, Vector3 rp)
         {
             return lp == Vector3.zero || ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
+        }
+
+        private bool WasTooClose(bool isYAxis, Vector3 lp, Vector3 rp, bool ignore)
+        {
+            if (ignore) return false;
+            if (lp == Vector3.zero || rp == Vector3.zero) return false;
+            if (isYAxis) return Mathf.Abs(rp.y - lp.y) < 1f;
+            else return Mathf.Abs(rp.x - lp.x) < 1f;
         }
 
         private void DrawPolygonToZero(VertexHelper vh, Vector3 sp, Vector3 ep, Axis axis, Vector3 zeroPos,
@@ -1100,9 +1154,19 @@ namespace XCharts
         {
             var defaultLineColor = lineColor;
             bool isYAxis = xAxis is YAxis;
+            var isTurnBack = IsInRightOrUp(isYAxis, np, lp);
             var lineWidth = serie.lineStyle.width;
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
             var smoothDownPoints = serie.GetDownSmoothList(dataIndex);
+            var lastSmoothPoint = Vector3.zero;
+            var lastSmoothDownPoint = Vector3.zero;
+            if (dataIndex > startIndex)
+            {
+                lastSmoothPoint = ChartHelper.GetLastPoint(serie.GetUpSmoothList(dataIndex - 1));
+                lastSmoothDownPoint = ChartHelper.GetLastPoint(serie.GetDownSmoothList(dataIndex - 1));
+                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, lastSmoothPoint, true);
+                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, lastSmoothDownPoint, true);
+            }
             if (isYAxis) ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, m_Settings.lineSmoothness, m_Settings.lineSmoothStyle);
             else ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, m_Settings.lineSmoothness, m_Settings.lineSmoothStyle);
 
@@ -1139,21 +1203,21 @@ namespace XCharts
                         CheckLineGradientColor(lp, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                         CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
                         CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
+                        TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, smoothStartPosUp, false);
+                        TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, smoothStartPosDn, false);
                     }
-                    smoothPoints.Add(smoothStartPosUp);
-                    smoothDownPoints.Add(smoothStartPosDn);
                 }
             }
             else
             {
-                smoothPoints.Add(startUp);
-                smoothDownPoints.Add(startDn);
+                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, startUp, false);
+                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, startDn, false);
             }
             var sourAreaColor = areaColor;
-            var lastAreaDownEndPos = GetLastSmoothPos(serie.GetDownSmoothList(dataIndex - 1), isYAxis);
-            var lastAreaUpEndPos = GetLastSmoothPos(serie.GetUpSmoothList(dataIndex - 1), isYAxis);
-            for (int k = 1; k < bezierPoints.Count; k++)
+            var bezierPointsCount = bezierPoints.Count;
+            for (int k = 1; k < bezierPointsCount; k++)
             {
+                var isEndPos = k == bezierPointsCount - 1;
                 to = bezierPoints[k];
                 if (serie.animation.CheckDetailBreak(to, isYAxis))
                 {
@@ -1168,59 +1232,45 @@ namespace XCharts
                 CheckLineGradientColor(to, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                 if (isYAxis) CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip);
                 else CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip);
-                smoothPoints.Add(toUp);
-                smoothDownPoints.Add(toDn);
-                if (k == bezierPoints.Count - 1)
+                TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, toUp, true);
+                TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, toDn, true);
+                if (isEndPos)
                 {
                     smoothStartPosUp = toUp;
                     smoothStartPosDn = toDn;
                 }
-                if (serie.areaStyle.show && (serie.index == 0 || !isStack))
-                {
-                    var isAllLessthen0 = IsAllLessthen0(isYAxis, zeroPos, start, to);
-                    areaColor = isYAxis ? GetYLerpColor(sourAreaColor, areaToColor, start) : GetXLerpColor(sourAreaColor, areaToColor, start);
-                    if (startAreaDn == Vector3.zero)
-                    {
-                        if (IsInRightOrUp(isYAxis, lastAreaDownEndPos, startDn) && IsInRightOrUp(isYAxis, lastAreaDownEndPos, toDn))
-                        {
-                            startAreaDn = startDn;
-                            if (lastAreaDownEndPos != Vector3.zero && !isAllLessthen0)
-                            {
-                                DrawPolygonToZero(vh, lastAreaDownEndPos, startAreaDn, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                            }
-                        }
-                    }
-                    if (startAreaUp == Vector3.zero)
-                    {
-                        if (IsInRightOrUp(isYAxis, lastAreaUpEndPos, startUp) && IsInRightOrUp(isYAxis, lastAreaUpEndPos, toUp))
-                        {
-                            startAreaUp = startUp;
-                            if (lastAreaUpEndPos != Vector3.zero && isAllLessthen0)
-                            {
-                                DrawPolygonToZero(vh, lastAreaUpEndPos, startAreaUp, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                            }
-                        }
-                    }
-                    if (startAreaDn != Vector3.zero)
-                    {
-                        if (!isAllLessthen0 && IsInRightOrUp(isYAxis, startAreaDn, toDn))
-                        {
-                            DrawPolygonToZero(vh, startAreaDn, toDn, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                        }
-                        startAreaDn = toDn;
-                    }
-                    if (startAreaUp != Vector3.zero)
-                    {
-                        if (isAllLessthen0 && IsInRightOrUp(isYAxis, startAreaUp, toUp))
-                        {
-                            DrawPolygonToZero(vh, startAreaUp, toUp, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                        }
-                        startAreaUp = toUp;
-                    }
-                }
                 start = to;
                 startUp = toUp;
                 startDn = toDn;
+            }
+            if (serie.areaStyle.show && (serie.index == 0 || !isStack))
+            {
+                if (smoothDownPoints.Count > 0)
+                {
+                    start = smoothDownPoints[0];
+                    for (int i = 1; i < smoothDownPoints.Count; i++)
+                    {
+                        to = smoothDownPoints[i];
+                        if (IsInRightOrUp(!isYAxis, zeroPos, to))
+                        {
+                            DrawPolygonToZero(vh, start, to, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                        }
+                        start = to;
+                    }
+                }
+                if (smoothPoints.Count > 0)
+                {
+                    start = smoothPoints[smoothPoints.Count - 1];
+                    for (int i = smoothPoints.Count - 1; i >= 0; i--)
+                    {
+                        to = smoothPoints[i];
+                        if (!IsInRightOrUp(!isYAxis, zeroPos, to))
+                        {
+                            DrawPolygonToZero(vh, to, start, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                        }
+                        start = to;
+                    }
+                }
             }
 
             if (serie.areaStyle.show)

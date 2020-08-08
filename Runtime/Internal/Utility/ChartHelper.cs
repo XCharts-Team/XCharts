@@ -808,5 +808,11 @@ namespace XCharts
                 return check;
             }
         }
+
+        public static Vector3 GetLastPoint(List<Vector3> list)
+        {
+            if (list.Count <= 0) return Vector3.zero;
+            else return list[list.Count - 1];
+        }
     }
 }

@@ -109,6 +109,7 @@ namespace XCharts
         /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).
         /// {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).
         /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).
+        /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##  (used for percentages, reserved 2 valid digits while eliminating the redundant value 0, compared to f2 100.00% will not happen).
         /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"
         /// 提示框总内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}。
@@ -122,6 +123,7 @@ namespace XCharts
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。
         /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
+        /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效书同时又能剔除冗余的 0 ，相比于f2不会出现100.00%的情况 ）。
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }

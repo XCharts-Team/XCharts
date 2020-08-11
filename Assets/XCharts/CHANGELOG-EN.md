@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.08.11) Added `LiquidChart` data change animation#83
 * (2020.08.11) Optimize `PieChart` text stack and lead line effects#85
 * (2020.08.08) Optimize `LineChart` the rendering performance of dense data
 * (2020.07.30) Added `LineChart` to configure gradient through `VisualMap` or `ItemStyle`#78

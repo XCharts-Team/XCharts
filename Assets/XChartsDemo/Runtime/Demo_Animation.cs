@@ -102,9 +102,17 @@ namespace XChartsDemo
             var charts = transform.GetComponentsInChildren<BaseChart>();
             foreach (var chart in charts)
             {
-                var dataCount = chart.series.list[0].dataCount;
-                var index = UnityEngine.Random.Range(0, dataCount);
-                chart.UpdateData(0, index, UnityEngine.Random.Range(1, 100));
+                if (chart is RingChart)
+                {
+                    var serieData = chart.series.GetSerie(0).GetSerieData(0);
+                    chart.UpdateData(0, 0, 0, Random.Range(0, serieData.GetData(1)));
+                }
+                else
+                {
+                    var dataCount = chart.series.list[0].dataCount;
+                    var index = UnityEngine.Random.Range(0, dataCount);
+                    chart.UpdateData(0, index, UnityEngine.Random.Range(1, 100));
+                }
             }
         }
 

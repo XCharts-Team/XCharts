@@ -149,8 +149,8 @@ namespace XCharts
             var radius = vessel.runtimeInnerRadius;
             var serieData = serie.GetSerieData(0);
             if (serieData == null) return;
-
-            var value = serieData.GetData(1);
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var value = serieData.GetCurrData(1, dataChangeDuration);
             if (serie.runtimeCheckValue != value)
             {
                 serie.runtimeCheckValue = value;

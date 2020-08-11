@@ -49,6 +49,38 @@ namespace XCharts
             vh.AddUIVertexQuad(vertex);
         }
 
+        public static void DrawLine(VertexHelper vh, Vector3 start, Vector3 middle, Vector3 end, float size, Color32 color)
+        {
+            var dir1 = (middle - start).normalized;
+            var dir2 = (end - middle).normalized;
+            var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized;
+            var dir2v = Vector3.Cross(dir2, Vector3.forward).normalized;
+            var dir3 = (dir1 + dir2).normalized;
+            var isDown = Vector3.Cross(dir1, dir2).z <= 0;
+            var angle = (180 - Vector3.Angle(dir1, dir2)) * Mathf.Deg2Rad / 2;
+            var diff = size / Mathf.Sin(angle);
+            var dirDp = Vector3.Cross(dir3, Vector3.forward).normalized;
+            var dnPos = middle + (isDown ? dirDp : -dirDp) * diff;
+            var upPos1 = middle + (isDown ? -dir1v : dir1v) * size;
+            var upPos2 = middle + (isDown ? -dir2v : dir2v) * size;
+            var startUp = start - dir1v * size;
+            var startDn = start + dir1v * size;
+            var endUp = end - dir2v * size;
+            var endDn = end + dir2v * size;
+            if (isDown)
+            {
+                DrawPolygon(vh, startDn, startUp, upPos1, dnPos, color);
+                DrawPolygon(vh, dnPos, upPos2, endUp, endDn, color);
+                DrawTriangle(vh, dnPos, upPos1, upPos2, color);
+            }
+            else
+            {
+                DrawPolygon(vh, startDn, startUp, dnPos, upPos1, color);
+                DrawPolygon(vh, upPos2, dnPos, endUp, endDn, color);
+                DrawTriangle(vh, dnPos, upPos1, upPos2, color);
+            }
+        }
+
         public static void DrawDashLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
          float dashLen = 15f, float blankLen = 7f, List<Vector3> posList = null)
         {

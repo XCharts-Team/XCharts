@@ -258,7 +258,6 @@ namespace XCharts
                     break;
                 }
             }
-            if (splitCount <= 0) return;
             for (int n = 0; n < splitCount; n++)
             {
                 var serieData = data[n];

@@ -52,6 +52,8 @@ namespace XCharts
             int serieNameCount = -1;
             bool isClickOffset = false;
             bool isDataHighlight = false;
+
+            DrawLabelLine(vh);
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
@@ -185,7 +187,6 @@ namespace XCharts
                     RefreshChart();
                 }
             }
-            DrawLabelLine(vh);
             DrawLabelBackground(vh);
             raycastTarget = isClickOffset && isDataHighlight;
         }
@@ -222,6 +223,7 @@ namespace XCharts
             foreach (var serie in m_Series.list)
             {
                 if (serie.type != SerieType.Pie) continue;
+                if (serie.avoidLabelOverlap) continue;
                 foreach (var serieData in serie.data)
                 {
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
@@ -263,14 +265,13 @@ namespace XCharts
                     pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
                 }
                 float tx, ty;
-                Vector3 pos3, pos4, pos6;
+                Vector3 pos4, pos6;
                 var horizontalLineCircleRadius = serieLabel.lineWidth * 4f;
                 var lineCircleDiff = horizontalLineCircleRadius - 0.3f;
                 if (currAngle < 90)
                 {
                     ty = serieLabel.lineWidth * Mathf.Cos((90 - currAngle) * Mathf.Deg2Rad);
                     tx = serieLabel.lineWidth * Mathf.Sin((90 - currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector3(pos2.x - tx, pos2.y + ty - serieLabel.lineWidth);
                     var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
                     r4 += serieLabel.lineLength1 - lineCircleDiff;
                     pos6 = pos0 + Vector3.right * lineCircleDiff;
@@ -280,7 +281,6 @@ namespace XCharts
                 {
                     ty = serieLabel.lineWidth * Mathf.Sin((180 - currAngle) * Mathf.Deg2Rad);
                     tx = serieLabel.lineWidth * Mathf.Cos((180 - currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector3(pos2.x - tx, pos2.y - ty + serieLabel.lineWidth);
                     var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
                     r4 += serieLabel.lineLength1 - lineCircleDiff;
                     pos6 = pos0 + Vector3.right * lineCircleDiff;
@@ -292,7 +292,6 @@ namespace XCharts
                     tx = serieLabel.lineWidth * Mathf.Cos((180 + currAngle) * Mathf.Deg2Rad);
                     var currSin1 = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
                     var currCos1 = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector3(pos2.x + tx, pos2.y - ty + serieLabel.lineWidth);
                     var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos1 * radius3, 2)) - currSin1 * radius3;
                     r4 += serieLabel.lineLength1 - lineCircleDiff;
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
@@ -302,7 +301,6 @@ namespace XCharts
                 {
                     ty = serieLabel.lineWidth * Mathf.Cos((90 + currAngle) * Mathf.Deg2Rad);
                     tx = serieLabel.lineWidth * Mathf.Sin((90 + currAngle) * Mathf.Deg2Rad);
-                    pos3 = new Vector3(pos2.x + tx, pos2.y + ty - serieLabel.lineWidth);
                     var currSin1 = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
                     var currCos1 = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
                     var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos1 * radius3, 2)) - currSin1 * radius3;
@@ -310,12 +308,11 @@ namespace XCharts
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
                     pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos5 = new Vector3(currAngle > 180 ? pos3.x - serieLabel.lineLength2 : pos3.x + serieLabel.lineLength2, pos3.y);
+                var pos5 = new Vector3(currAngle > 180 ? pos2.x - serieLabel.lineLength2 : pos2.x + serieLabel.lineLength2, pos2.y);
                 switch (serieLabel.lineType)
                 {
                     case SerieLabel.LineType.BrokenLine:
-                        ChartDrawer.DrawLine(vh, pos1, pos2, serieLabel.lineWidth, color);
-                        ChartDrawer.DrawLine(vh, pos3, pos5, serieLabel.lineWidth, color);
+                        ChartDrawer.DrawLine(vh, pos1, pos2, pos5, serieLabel.lineWidth, color);
                         break;
                     case SerieLabel.LineType.Curves:
                         ChartDrawer.DrawCurves(vh, pos1, pos5, pos1, pos2, serieLabel.lineWidth, color, m_Settings.lineSmoothness);

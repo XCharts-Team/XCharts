@@ -744,7 +744,11 @@ namespace XCharts
                 && serie.type == SerieType.Line
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
-            var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
+            var centerPos = Vector3.zero;
+            if (serie.type == SerieType.Pie)
+                centerPos = SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel);
+            else
+                centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
             var labelHalfWid = serieData.labelObject.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
@@ -767,6 +771,7 @@ namespace XCharts
                 ChartDrawer.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
                     serieLabel.borderWidth, serieLabel.borderColor, serieLabel.rotate);
             }
+            ChartDrawer.DrawPolygon(vh, serieData.labelPosition, 0.3f, Color.red);
         }
     }
 }

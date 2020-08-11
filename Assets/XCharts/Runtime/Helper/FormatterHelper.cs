@@ -15,11 +15,11 @@ namespace XCharts
     public static class FormatterHelper
     {
         public const string PH_NN = "\n";
-        private static Regex s_Regex = new Regex(@"{([a-d|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSub = new Regex(@"(\w?-?\d+)|(\w)|(\.)", RegexOptions.IgnoreCase);
+        private static Regex s_Regex = new Regex(@"{([a-d|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSub = new Regex(@"(0\.#*)|(\d+-\d+)|(\w+)|(\.)", RegexOptions.IgnoreCase);
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
-        private static Regex s_RegexFn = new Regex(@"[c-g|x|p|r]\d*", RegexOptions.IgnoreCase);
+        private static Regex s_RegexFn = new Regex(@"[c-g|x|p|r]\d*|0\.#*", RegexOptions.IgnoreCase);
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);

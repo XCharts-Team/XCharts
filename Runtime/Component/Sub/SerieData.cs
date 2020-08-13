@@ -229,14 +229,43 @@ namespace XCharts
 
         public float GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
         {
+            return GetCurrData(index, animationDuration, inverse, 0, 0);
+        }
+
+        public float GetCurrData(int index, float animationDuration, bool inverse, float min, float max)
+        {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
                 var time = Time.time - m_DataUpdateTime[index];
                 var total = animationDuration / 1000;
-                if (time <= total)
+
+                var rate = time / total;
+                if (rate > 1) rate = 1;
+                if (rate < 1)
                 {
                     CheckLastData();
-                    var curr = Mathf.Lerp(GetPreviousData(index, inverse), GetData(index, inverse), time / total);
+                    var curr = Mathf.Lerp(GetPreviousData(index), GetData(index), rate);
+                    if (min != 0 || max != 0)
+                    {
+                        if (inverse)
+                        {
+                            var temp = min;
+                            min = -max;
+                            max = -temp;
+                        }
+                        var pre = m_PreviousData[index];
+                        if (pre < min)
+                        {
+                            m_PreviousData[index] = min;
+                            curr = min;
+                        }
+                        else if (pre > max)
+                        {
+                            m_PreviousData[index] = max;
+                            curr = max;
+                        }
+                    }
+                    curr = inverse ? -curr : curr;
                     return curr;
                 }
                 else
@@ -251,12 +280,13 @@ namespace XCharts
             }
         }
 
-        public bool UpdateData(int dimension, float value)
+        public bool UpdateData(int dimension, float value, float animationDuration = 500f)
         {
             if (dimension >= 0 && dimension < data.Count)
             {
                 CheckLastData();
-                m_PreviousData[dimension] = data[dimension];
+                m_PreviousData[dimension] = GetCurrData(dimension, animationDuration);
+                //m_PreviousData[dimension] = data[dimension];;
                 m_DataUpdateTime[dimension] = Time.time;
                 m_DataUpdateFlag[dimension] = true;
                 data[dimension] = value;

@@ -97,7 +97,7 @@ namespace XCharts
             {
                 serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             }
-            var numericFormatter = GetLabelNumericFormatter(serie, serieData);
+            var numericFormatter = serieLabel == null ? serie.label.numericFormatter : serieLabel.numericFormatter;
             var serieName = serie.name;
             var dataName = serieData != null ? serieData.name : null;
             if (string.IsNullOrEmpty(serieLabel.formatter))
@@ -110,14 +110,6 @@ namespace XCharts
                 return content;
             }
         }
-
-        private static string GetLabelNumericFormatter(Serie serie, SerieData serieData)
-        {
-            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
-            else return serie.label.numericFormatter;
-        }
-
 
         private static void SetGaugeLabelText(Serie serie)
         {
@@ -280,6 +272,7 @@ namespace XCharts
             }
             if (!serieData.show) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (!serieLabel.show) return;
             if (serieLabel.position != SerieLabel.Position.Outside) return;
             if (lastCheckPos == Vector3.zero)
             {

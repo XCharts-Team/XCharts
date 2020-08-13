@@ -1095,6 +1095,7 @@ namespace XCharts
                 {
                     if (sdata.show)
                         total += sdata.GetCurrData(1, animation.GetUpdateAnimationDuration());
+                        //total += sdata.GetData(1);
                 }
                 return total;
             }
@@ -1503,7 +1504,7 @@ namespace XCharts
         {
             if (index >= 0 && index < m_Data.Count)
             {
-                var flag = m_Data[index].UpdateData(dimension, value);
+                var flag = m_Data[index].UpdateData(dimension, value, animation.GetUpdateAnimationDuration());
                 if (flag) SetVerticesDirty();
                 return flag;
             }
@@ -1524,7 +1525,7 @@ namespace XCharts
             {
                 var serieData = m_Data[index];
                 for (int i = 0; i < values.Count; i++)
-                    serieData.UpdateData(i, values[i]);
+                    serieData.UpdateData(i, values[i], animation.GetUpdateAnimationDuration());
                 SetVerticesDirty();
                 return true;
             }

@@ -143,7 +143,7 @@ namespace XCharts
                 else
                 {
                     float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
-                        i, dataChangeDuration, ref dataChanging, yAxis.inverse);
+                        i, dataChangeDuration, ref dataChanging, yAxis);
                     seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
                         dataChangeDuration);
                     serie.dataPoints.Add(np);
@@ -163,7 +163,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
                         dataChangeDuration);
                     serie.dataPoints.Add(np);
@@ -195,7 +195,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, dataChangeDuration);
                 }
             }
@@ -212,7 +212,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, dataChangeDuration);
                 }
             }
@@ -357,12 +357,15 @@ namespace XCharts
 
         private float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
             int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration,
-            ref bool dataChanging, bool inverse)
+            ref bool dataChanging, Axis axis)
         {
+            var inverse = axis.inverse;
+            var minValue = axis.runtimeMinValue;
+            var MaxValue = axis.runtimeMaxValue;
             if (rate <= 1 || index == minCount)
             {
                 if (showData[index].IsDataChanged()) dataChanging = true;
-                return showData[index].GetCurrData(1, dataChangeDuration, inverse);
+                return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
             }
             switch (sampleType)
             {
@@ -371,7 +374,7 @@ namespace XCharts
                     float total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse);
+                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
                     if (sampleType == SampleType.Average) return total / rate;
@@ -380,7 +383,7 @@ namespace XCharts
                     float max = float.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
                         if (value > max) max = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -389,7 +392,7 @@ namespace XCharts
                     float min = float.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
                         if (value < min) min = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -400,7 +403,7 @@ namespace XCharts
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
                         total += value;
                         if (value < min) min = value;
                         if (value > max) max = value;
@@ -411,7 +414,7 @@ namespace XCharts
                     else return min;
             }
             if (showData[index].IsDataChanged()) dataChanging = true;
-            return showData[index].GetCurrData(1, dataChangeDuration, inverse);
+            return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
         }
 
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
@@ -523,7 +526,7 @@ namespace XCharts
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + m_CoordinateX + yAxis.axisLine.width;
                 float dataHig = 0;
@@ -550,7 +553,7 @@ namespace XCharts
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
                 float pY = startY + i * scaleWid;
                 float pX = seriesHig[i] + m_CoordinateX + yAxis.axisLine.width;
                 float dataHig = 0;

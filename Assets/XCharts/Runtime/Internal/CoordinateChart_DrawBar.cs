@@ -67,7 +67,7 @@ namespace XCharts
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
 
                 serieData.canShowLabel = true;
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float axisLineWidth = (value < 0 ? -1 : 1) * yAxis.axisLine.width;
@@ -205,7 +205,7 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = m_CoordinateX + i * categoryWidth;

@@ -1173,7 +1173,7 @@ namespace XCharts
                 for (int i = 0; i < maxCount; i += rate)
                 {
                     float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis.inverse);
+                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pX = m_CoordinateX + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * hig;

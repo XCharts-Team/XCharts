@@ -151,7 +151,7 @@ namespace XCharts
                         serie.dataPoints.Add(Vector3.zero);
                         continue;
                     }
-                    var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse);
+                    var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);
                     serie.dataPoints.Add(pos);

@@ -1028,13 +1028,13 @@ namespace XCharts
 
         private bool TryAddToList(bool isTurnBack, bool isYAxis, List<Vector3> list, Vector3 lastPos, Vector3 pos, bool ignoreClose = false)
         {
-            if (pos == Vector3.zero) return false;
+            if (ChartHelper.IsZeroVector(pos)) return false;
             if (isTurnBack)
             {
                 list.Add(pos);
                 return true;
             }
-            else if (lastPos != Vector3.zero && IsInRightOrUp(isYAxis, pos, lastPos))
+            else if (!ChartHelper.IsZeroVector(lastPos) && IsInRightOrUpNotCheckZero(isYAxis, pos, lastPos))
             {
                 return false;
             }
@@ -1046,7 +1046,7 @@ namespace XCharts
             else
             {
                 var end = list[list.Count - 1];
-                if (IsInRightOrUp(isYAxis, end, pos) && (!ignoreClose || !WasTooClose(isYAxis, end, pos, ignoreClose)))
+                if (IsInRightOrUpNotCheckZero(isYAxis, end, pos) && (!ignoreClose || !WasTooClose(isYAxis, end, pos, ignoreClose)))
                 {
                     list.Add(pos);
                     return true;
@@ -1065,7 +1065,12 @@ namespace XCharts
 
         private bool IsInRightOrUp(bool isYAxis, Vector3 lp, Vector3 rp)
         {
-            return lp == Vector3.zero || ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
+            return ChartHelper.IsZeroVector(lp) || ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
+        }
+
+        private bool IsInRightOrUpNotCheckZero(bool isYAxis, Vector3 lp, Vector3 rp)
+        {
+            return (isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x);
         }
 
         private bool WasTooClose(bool isYAxis, Vector3 lp, Vector3 rp, bool ignore)

@@ -48,7 +48,7 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
             float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
-
+            var isAllBarEnd = true;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -92,8 +92,9 @@ namespace XCharts
                     seriesHig[i] += barHig;
                 }
 
-
-                float currHig = CheckAnimation(serie, i, barHig);
+                var isBarEnd = false;
+                float currHig = CheckAnimation(serie, i, barHig, out isBarEnd);
+                if (!isBarEnd) isAllBarEnd = false;
                 Vector3 plt, prt, prb, plb, top;
                 if (value < 0)
                 {
@@ -135,6 +136,7 @@ namespace XCharts
                     }
                 }
             }
+            if (isAllBarEnd) serie.animation.AllBarEnd();
             if (!SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
@@ -145,9 +147,9 @@ namespace XCharts
             }
         }
 
-        private float CheckAnimation(Serie serie, int dataIndex, float barHig)
+        private float CheckAnimation(Serie serie, int dataIndex, float barHig, out bool isBarEnd)
         {
-            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig, serie.dataCount);
+            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig, serie.dataCount, out isBarEnd);
             if (!serie.animation.IsFinish())
             {
                 RefreshChart();
@@ -189,6 +191,7 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
             float yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
+            var isAllBarEnd = true;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 if (i >= seriesHig.Count)
@@ -230,7 +233,9 @@ namespace XCharts
                             / valueTotal * m_CoordinateHeight;
                     seriesHig[i] += barHig;
                 }
-                float currHig = CheckAnimation(serie, i, barHig);
+                var isBarEnd = false;
+                float currHig = CheckAnimation(serie, i, barHig, out isBarEnd);
+                if (!isBarEnd) isAllBarEnd = false;
                 Vector3 plb, plt, prt, prb, top;
                 if (value < 0)
                 {
@@ -274,6 +279,10 @@ namespace XCharts
                             break;
                     }
                 }
+            }
+            if (isAllBarEnd)
+            {
+                serie.animation.AllBarEnd();
             }
             if (dataChanging)
             {

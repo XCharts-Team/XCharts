@@ -455,6 +455,11 @@ namespace XCharts
             return color.a == 0 && color.b == 0 && color.g == 0 && color.r == 0;
         }
 
+        public static bool IsZeroVector(Vector3 pos)
+        {
+            return pos.x == 0 && pos.y == 0 && pos.z == 0;
+        }
+
         public static bool CopyList<T>(List<T> toList, List<T> fromList)
         {
             if (toList == null || fromList == null) return false;

@@ -259,23 +259,31 @@ namespace XCharts
             m_DataCurrProgress[index] = state;
         }
 
-        private float GetDataCurrProgress(int index, float initValue, float destValue)
+        private float GetDataCurrProgress(int index, float initValue, float destValue, out bool isBarEnd)
         {
-            if (IsInDelay()) return initValue;
+            if (IsInDelay())
+            {
+                isBarEnd = false;
+                return initValue;
+            }
             if (!m_DataCurrProgress.ContainsKey(index))
             {
                 m_DataCurrProgress.Add(index, initValue);
                 m_DataDestProgress.Add(index, destValue);
+                isBarEnd = false;
+            }
+            else
+            {
+                isBarEnd = m_DataCurrProgress[index] == m_DataDestProgress[index];
             }
             return m_DataCurrProgress[index];
         }
 
-        public bool IsFinish(int dataCount = -1)
+        public bool IsFinish()
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying) return true;
 #endif
-            if (dataCount > 0 && (!IsAllOutDelay(dataCount) || !IsAllDataFinishProgress(dataCount))) return false;
             return !m_Enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
@@ -387,45 +395,50 @@ namespace XCharts
             else return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
         }
 
-        internal float CheckBarProgress(int dataIndex, float barHig, int dataCount)
+        internal float CheckBarProgress(int dataIndex, float barHig, int dataCount, out bool isBarEnd)
         {
+            isBarEnd = false;
             var initHig = m_FadeOut ? barHig : 0;
             var destHig = m_FadeOut ? 0 : barHig;
-            if (IsFinish() || m_IsEnd)
-            {
-                return m_FadeOuted ? 0 : barHig;
-            }
-            else if (IsInDelay() || IsInDataDelay(dataIndex))
+            if (IsInDelay() || IsInDataDelay(dataIndex))
             {
                 return m_FadeOut ? barHig : 0;
             }
+            var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, out isBarEnd);
+            if (isBarEnd || m_IsEnd)
+            {
+                return m_FadeOuted ? 0 : barHig;
+            }
             else if (m_IsPause)
             {
-                return GetDataCurrProgress(dataIndex, initHig, destHig);
+                return currHig;
             }
             else
             {
                 var duration = GetCurrAnimationDuration(dataIndex);
                 var delta = barHig / duration * Time.deltaTime;
-                var currHig = GetDataCurrProgress(dataIndex, initHig, destHig) + (m_FadeOut ? -delta : delta);
+                currHig = currHig + (m_FadeOut ? -delta : delta);
                 if (m_FadeOut)
                 {
                     if ((initHig > 0 && currHig <= 0) || (initHig < 0 && currHig >= 0))
                     {
                         currHig = 0;
+                        isBarEnd = true;
                     }
                 }
                 else if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
                 {
                     currHig = barHig;
+                    isBarEnd = true;
                 }
                 SetDataCurrProgress(dataIndex, currHig);
-                if (IsAllOutDelay(dataCount) && IsAllDataFinishProgress(dataCount))
-                {
-                    End();
-                }
                 return currHig;
             }
+        }
+
+        internal void AllBarEnd()
+        {
+            End();
         }
 
         internal void CheckSymbol(float dest)

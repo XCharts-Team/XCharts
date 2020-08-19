@@ -266,10 +266,12 @@ namespace XCharts
                 isBarEnd = false;
                 return initValue;
             }
-            if (!m_DataCurrProgress.ContainsKey(index))
+            var c1 = !m_DataCurrProgress.ContainsKey(index);
+            var c2 = !m_DataDestProgress.ContainsKey(index);
+            if (c1 || c2)
             {
-                m_DataCurrProgress.Add(index, initValue);
-                m_DataDestProgress.Add(index, destValue);
+                if (c1) m_DataCurrProgress.Add(index, initValue);
+                if (c2) m_DataDestProgress.Add(index, destValue);
                 isBarEnd = false;
             }
             else
@@ -400,14 +402,14 @@ namespace XCharts
             isBarEnd = false;
             var initHig = m_FadeOut ? barHig : 0;
             var destHig = m_FadeOut ? 0 : barHig;
-            if (IsInDelay() || IsInDataDelay(dataIndex))
-            {
-                return m_FadeOut ? barHig : 0;
-            }
             var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, out isBarEnd);
-            if (isBarEnd || m_IsEnd)
+            if (isBarEnd || IsFinish())
             {
                 return m_FadeOuted ? 0 : barHig;
+            }
+            else if (IsInDelay() || IsInDataDelay(dataIndex))
+            {
+                return m_FadeOut ? barHig : 0;
             }
             else if (m_IsPause)
             {

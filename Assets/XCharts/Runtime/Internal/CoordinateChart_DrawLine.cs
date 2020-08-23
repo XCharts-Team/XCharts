@@ -57,7 +57,7 @@ namespace XCharts
                 if (serie.type != SerieType.Line) continue;
                 if (!serie.show || !serie.lineArrow.show) continue;
                 if (serie.dataPoints.Count < 2) return;
-                Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, n, false);
+                Color32 lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, n, false);
                 Vector3 startPos, arrowPos;
                 switch (serie.lineArrow.position)
                 {
@@ -95,12 +95,12 @@ namespace XCharts
             if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             if (showData.Count <= 0) return;
-            Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
-            Color srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
-            Color srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
-            Color highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
-            Color highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
-            Color areaColor, areaToColor;
+            Color32 lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
+            Color32 srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
+            Color32 srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
+            Color32 highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
+            Color32 highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
+            Color32 areaColor, areaToColor;
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
@@ -488,12 +488,12 @@ namespace XCharts
             Vector3 np = Vector3.zero;
             Vector3 llp = Vector3.zero;
             Vector3 nnp = Vector3.zero;
-            Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
-            Color srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
-            Color srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
-            Color highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
-            Color highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
-            Color areaColor, areaToColor;
+            var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, colorIndex, serie.highlighted);
+            var srcAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, false);
+            var srcAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, false);
+            var highlightAreaColor = SerieHelper.GetAreaColor(serie, m_ThemeInfo, colorIndex, true);
+            var highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_ThemeInfo, colorIndex, true);
+            Color32 areaColor, areaToColor;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
             var zeroPos = new Vector3(m_CoordinateX + xAxis.runtimeZeroXOffset, m_CoordinateY);
@@ -646,7 +646,7 @@ namespace XCharts
         private Vector3 stPos1, stPos2, lastDir, lastDnPos;
         private bool lastIsDown;
         private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 nnp,
-            int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
+            int dataIndex, Color32 lineColor, Color32 areaColor, Color32 areaToColor,
             Vector3 zeroPos, int startIndex = 0)
         {
             var defaultLineColor = lineColor;
@@ -1055,7 +1055,7 @@ namespace XCharts
             return false;
         }
 
-        private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color defaultLineColor, ref Color lineColor)
+        private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color32 defaultLineColor, ref Color32 lineColor)
         {
             if (VisualMapHelper.IsNeedGradient(m_VisualMap))
                 lineColor = VisualMapHelper.GetLineGradientColor(m_VisualMap, cp, this, axis, defaultLineColor);
@@ -1082,7 +1082,7 @@ namespace XCharts
         }
 
         private void DrawPolygonToZero(VertexHelper vh, Vector3 sp, Vector3 ep, Axis axis, Vector3 zeroPos,
-            Color areaColor, Color areaToColor, Vector3 areaDiff, bool clip = false)
+            Color32 areaColor, Color32 areaToColor, Vector3 areaDiff, bool clip = false)
         {
             float diff = 0;
             if (axis is YAxis)
@@ -1115,8 +1115,8 @@ namespace XCharts
 
         private List<Vector3> posList = new List<Vector3>();
         private bool DrawOtherLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp,
-            Vector3 np, int dataIndex, Color lineColor, Color areaColor,
-            Color areaToColor, Vector3 zeroPos)
+            Vector3 np, int dataIndex, Color32 lineColor, Color32 areaColor,
+            Color32 areaToColor, Vector3 zeroPos)
         {
             //lp = ClampInChart(lp);
             //np = ClampInChart(np);
@@ -1157,8 +1157,8 @@ namespace XCharts
         private List<Vector3> bezierPoints = new List<Vector3>();
         private Vector3 smoothStartPosUp, smoothStartPosDn;
         private bool DrawSmoothLine(VertexHelper vh, Serie serie, Axis xAxis, Vector3 lp,
-            Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor,
-            Color areaToColor, bool isStack, Vector3 zeroPos, int startIndex = 0)
+            Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color32 lineColor, Color32 areaColor,
+            Color32 areaToColor, bool isStack, Vector3 zeroPos, int startIndex = 0)
         {
             var defaultLineColor = lineColor;
             bool isYAxis = xAxis is YAxis;
@@ -1319,7 +1319,7 @@ namespace XCharts
         }
 
         private void DrawStackArea(VertexHelper vh, Serie serie, Axis axis, List<Vector3> smoothPoints,
-            List<Vector3> lastSmoothPoints, Color areaColor, Color areaToColor)
+            List<Vector3> lastSmoothPoints, Color32 areaColor, Color32 areaToColor)
         {
             if (!serie.areaStyle.show || lastSmoothPoints.Count <= 0) return;
             Vector3 start, to;
@@ -1409,7 +1409,7 @@ namespace XCharts
 
         private List<Vector3> linePointList = new List<Vector3>();
         private bool DrawStepLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np,
-            Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor, Vector3 zeroPos)
+            Vector3 nnp, int dataIndex, Color32 lineColor, Color32 areaColor, Color32 areaToColor, Vector3 zeroPos)
         {
             bool isYAxis = axis is YAxis;
             float lineWidth = serie.lineStyle.width;

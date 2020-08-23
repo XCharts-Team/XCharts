@@ -77,18 +77,16 @@ namespace XCharts
             lineStyle.Copy(splitLine.lineStyle);
         }
 
-        internal Color GetColor(ThemeInfo theme)
+        internal Color32 GetColor(ThemeInfo theme)
         {
             if (!ChartHelper.IsClearColor(lineStyle.color))
             {
-                var color = lineStyle.color;
-                color.a *= lineStyle.opacity;
-                return color;
+                return lineStyle.GetColor();
             }
             else
             {
-                var color = (Color)theme.axisSplitLineColor;
-                color.a *= lineStyle.opacity;
+                var color = theme.axisSplitLineColor;
+                color.a *= (byte)(color.a * lineStyle.opacity);
                 return color;
             }
         }

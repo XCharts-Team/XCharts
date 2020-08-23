@@ -406,6 +406,14 @@ namespace XCharts
                 color1.r == color2.r;
         }
 
+        public static bool IsValueEqualsColor(Color color1, Color color2)
+        {
+            return color1.a == color2.a &&
+                color1.b == color2.b &&
+                color1.g == color2.g &&
+                color1.r == color2.r;
+        }
+
         public static bool IsValueEqualsString(string str1, string str2)
         {
             if (str1 == null && str2 == null) return true;
@@ -818,6 +826,24 @@ namespace XCharts
         {
             if (list.Count <= 0) return Vector3.zero;
             else return list[list.Count - 1];
+        }
+
+        public static void SetColorOpacity(ref Color32 color, float opacity)
+        {
+            if (color.a != 0 && opacity != 1)
+            {
+                color.a = (byte)(color.a * opacity);
+            }
+        }
+
+        public static Color32 GetHighlightColor(Color32 color)
+        {
+            var newColor = color;
+            var rate = 0.8f;
+            newColor.r = (byte)(color.r * rate);
+            newColor.g = (byte)(color.g * rate);
+            newColor.b = (byte)(color.b * rate);
+            return newColor;
         }
     }
 }

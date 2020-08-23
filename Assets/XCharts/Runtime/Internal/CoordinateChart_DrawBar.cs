@@ -298,8 +298,8 @@ namespace XCharts
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis)
         {
-            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-            Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            var areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            var areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             if (isYAxis)
@@ -360,7 +360,7 @@ namespace XCharts
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis)
         {
-            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            var areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
             if (isYAxis)
             {
@@ -382,8 +382,8 @@ namespace XCharts
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis)
         {
-            Color areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-            Color areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            var areaColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
+            var areaToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             var radius = barWidth / 2 - borderWidth;
@@ -400,8 +400,8 @@ namespace XCharts
                         if (isGradient)
                         {
                             var barLen = prt.x - plt.x;
-                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
                             CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, rectStartColor, rectEndColor, serie.clip);
                             ChartDrawer.DrawSector(vh, pcl, radius, areaColor, rectStartColor, 180, 360, 1, isYAxis);
                             ChartDrawer.DrawSector(vh, pcr, radius, rectEndColor, areaToColor, 0, 180, 1, isYAxis);
@@ -423,8 +423,8 @@ namespace XCharts
                         if (isGradient)
                         {
                             var barLen = plt.x - prt.x;
-                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
                             CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, rectStartColor, rectEndColor, serie.clip);
                             ChartDrawer.DrawSector(vh, pcl, radius, rectStartColor, areaColor, 0, 180, 1, isYAxis);
                             ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, rectEndColor, 180, 360, 1, isYAxis);
@@ -450,8 +450,8 @@ namespace XCharts
                         if (isGradient)
                         {
                             var barLen = plt.y - plb.y;
-                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
                             CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, rectStartColor, rectEndColor, serie.clip);
                             ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 270, 450, 1, isYAxis);
                             ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 90, 270, 1, isYAxis);
@@ -473,8 +473,8 @@ namespace XCharts
                         if (isGradient)
                         {
                             var barLen = plb.y - plt.y;
-                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
                             CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, rectStartColor, rectEndColor, serie.clip);
                             ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 90, 270, 1, isYAxis);
                             ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 270, 450, 1, isYAxis);
@@ -493,7 +493,7 @@ namespace XCharts
         private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
              bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis)
         {
-            Color color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
+            var color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
             if (ChartHelper.IsClearColor(color)) return;
             if (isYAxis)
             {
@@ -525,8 +525,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.up * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, 180, 360, smoothness);
-                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, 0, 180, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, ChartConst.clearColor32, 180, 360, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, ChartConst.clearColor32, 0, 180, smoothness);
                     }
                 }
                 else
@@ -564,8 +564,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.right * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, 270, 450, smoothness);
-                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, 90, 270, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, ChartConst.clearColor32, 270, 450, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, ChartConst.clearColor32, 90, 270, smoothness);
                     }
                 }
                 else

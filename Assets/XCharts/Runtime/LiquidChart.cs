@@ -232,8 +232,8 @@ namespace XCharts
                     {
                         var colorMin = cenPos.y - radius;
                         var colorMax = startY + serie.waveHeight;
-                        var tcolor1 = Color.Lerp(color, toColor, 1 - (lup.y - colorMin) / (colorMax - colorMin));
-                        var tcolor2 = Color.Lerp(color, toColor, 1 - (ldp.y - colorMin) / (colorMax - colorMin));
+                        var tcolor1 = Color32.Lerp(color, toColor, 1 - (lup.y - colorMin) / (colorMax - colorMin));
+                        var tcolor2 = Color32.Lerp(color, toColor, 1 - (ldp.y - colorMin) / (colorMax - colorMin));
                         ChartDrawer.DrawPolygon(vh, lup, nup, ndp, ldp, tcolor1, tcolor2);
                     }
                     else

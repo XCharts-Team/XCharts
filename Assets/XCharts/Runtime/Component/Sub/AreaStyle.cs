@@ -41,12 +41,12 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show;
         [SerializeField] private AreaOrigin m_Origin;
-        [SerializeField] private Color m_Color;
-        [SerializeField] private Color m_ToColor;
+        [SerializeField] private Color32 m_Color;
+        [SerializeField] private Color32 m_ToColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity;
         [SerializeField] private bool m_TooltipHighlight;
-        [SerializeField] private Color m_HighlightColor;
-        [SerializeField] private Color m_HighlightToColor;
+        [SerializeField] private Color32 m_HighlightColor;
+        [SerializeField] private Color32 m_HighlightToColor;
 
         /// <summary>
         /// Set this to false to prevent the areafrom showing.
@@ -70,7 +70,7 @@ namespace XCharts
         /// the color of area,default use serie color.
         /// 区域填充的颜色，如果toColor不是默认值，则表示渐变色的起点颜色。
         /// </summary>
-        public Color color
+        public Color32 color
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
@@ -79,7 +79,7 @@ namespace XCharts
         /// Gradient color, start color to toColor.
         /// 渐变色的终点颜色。
         /// </summary>
-        public Color toColor
+        public Color32 toColor
         {
             get { return m_ToColor; }
             set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
@@ -105,7 +105,7 @@ namespace XCharts
         /// the color of area,default use serie color.
         /// 高亮时区域填充的颜色，如果highlightToColor不是默认值，则表示渐变色的起点颜色。
         /// </summary>
-        public Color highlightColor
+        public Color32 highlightColor
         {
             get { return m_HighlightColor; }
             set { if (PropertyUtility.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
@@ -114,7 +114,7 @@ namespace XCharts
         /// Gradient color, start highlightColor to highlightToColor.
         /// 高亮时渐变色的终点颜色。
         /// </summary>
-        public Color highlightToColor
+        public Color32 highlightToColor
         {
             get { return m_HighlightToColor; }
             set { if (PropertyUtility.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }

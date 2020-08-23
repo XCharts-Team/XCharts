@@ -131,7 +131,7 @@ namespace XCharts
             {
                 if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
                 {
-                    if (serie.areaStyle.color != serie.areaStyle.toColor
+                    if (!ChartHelper.IsValueEqualsColor(serie.areaStyle.color, serie.areaStyle.toColor)
                     && !ChartHelper.IsClearColor(serie.areaStyle.toColor))
                         return true;
                 }

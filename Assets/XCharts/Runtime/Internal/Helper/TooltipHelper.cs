@@ -457,19 +457,17 @@ namespace XCharts
             else return tooltip.numericFormatter;
         }
 
-        public static Color GetLineColor(Tooltip tooltip, ThemeInfo theme)
+        public static Color32 GetLineColor(Tooltip tooltip, ThemeInfo theme)
         {
             var lineStyle = tooltip.lineStyle;
             if (!ChartHelper.IsClearColor(lineStyle.color))
             {
-                var color = lineStyle.color;
-                color.a *= lineStyle.opacity;
-                return color;
+                return lineStyle.GetColor();
             }
             else
             {
-                var color = (Color)theme.tooltipLineColor;
-                color.a *= lineStyle.opacity;
+                var color = theme.tooltipLineColor;
+                ChartHelper.SetColorOpacity(ref color, lineStyle.opacity);
                 return color;
             }
         }

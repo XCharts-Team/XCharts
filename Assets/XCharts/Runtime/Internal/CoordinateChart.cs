@@ -1180,11 +1180,13 @@ namespace XCharts
                     np = new Vector3(pX, m_ChartY + m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {
-                        Color color = m_ThemeInfo.dataZoomLineColor;
+                        var color = m_ThemeInfo.dataZoomLineColor;
                         ChartDrawer.DrawLine(vh, lp, np, xAxis.axisLine.width, color);
                         Vector3 alp = new Vector3(lp.x, lp.y - xAxis.axisLine.width);
                         Vector3 anp = new Vector3(np.x, np.y - xAxis.axisLine.width);
-                        Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+
+                        var areaColor = color;
+                        areaColor.a = (byte)(areaColor.a * 0.75f);
                         Vector3 tnp = new Vector3(np.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
                         Vector3 tlp = new Vector3(lp.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
                         ChartDrawer.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
@@ -1830,7 +1832,7 @@ namespace XCharts
         }
 
         protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip, float[] cornerRadius)
+            float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, bool clip, float[] cornerRadius)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInCooridate(pos))))
@@ -1845,16 +1847,16 @@ namespace XCharts
             ChartDrawer.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color);
         }
 
-        protected Color GetXLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        protected Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos)
         {
-            if (areaColor == areaToColor) return areaColor;
-            return Color.Lerp(areaToColor, areaColor, (pos.y - m_CoordinateY) / m_CoordinateHeight);
+            if (ChartHelper.IsValueEqualsColor(areaColor, areaToColor)) return areaColor;
+            return Color32.Lerp(areaToColor, areaColor, (pos.y - m_CoordinateY) / m_CoordinateHeight);
         }
 
-        protected Color GetYLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        protected Color32 GetYLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos)
         {
-            if (areaColor == areaToColor) return areaColor;
-            return Color.Lerp(areaToColor, areaColor, (pos.x - m_CoordinateX) / m_CoordinateWidth);
+            if (ChartHelper.IsValueEqualsColor(areaColor, areaToColor)) return areaColor;
+            return Color32.Lerp(areaToColor, areaColor, (pos.x - m_CoordinateX) / m_CoordinateWidth);
         }
     }
 }

@@ -36,16 +36,16 @@ namespace XCharts
             Dotted
         }
         [SerializeField] private bool m_Show = false;
-        [SerializeField] private Color m_Color;
-        [SerializeField] private Color m_ToColor;
-        [SerializeField] private Color m_ToColor2;
-        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private Color32 m_Color;
+        [SerializeField] private Color32 m_ToColor;
+        [SerializeField] private Color32 m_ToColor2;
+        [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
-        [SerializeField] private Color m_CenterColor;
+        [SerializeField] private Color32 m_CenterColor;
         [SerializeField] private float m_CenterGap;
         [SerializeField] private Type m_BorderType = Type.Solid;
         [SerializeField] private float m_BorderWidth = 0;
-        [SerializeField] private Color m_BorderColor;
+        [SerializeField] private Color32 m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
         [SerializeField] private string m_NumericFormatter = "";
@@ -89,7 +89,7 @@ namespace XCharts
         /// <summary>
         /// 数据项颜色。
         /// </summary>
-        public Color color
+        public Color32 color
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
@@ -98,7 +98,7 @@ namespace XCharts
         /// Gradient color1.
         /// 渐变色的颜色1。
         /// </summary>
-        public Color toColor
+        public Color32 toColor
         {
             get { return m_ToColor; }
             set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
@@ -107,7 +107,7 @@ namespace XCharts
         /// Gradient color2.Only valid in line diagrams.
         /// 渐变色的颜色2。只在折线图中有效。
         /// </summary>
-        public Color toColor2
+        public Color32 toColor2
         {
             get { return m_ToColor2; }
             set { if (PropertyUtility.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
@@ -115,7 +115,7 @@ namespace XCharts
         /// <summary>
         /// 数据项背景颜色。
         /// </summary>
-        public Color backgroundColor
+        public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
             set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
@@ -123,7 +123,7 @@ namespace XCharts
         /// <summary>
         /// 中心区域颜色。
         /// </summary>
-        public Color centerColor
+        public Color32 centerColor
         {
             get { return m_CenterColor; }
             set { if (PropertyUtility.SetColor(ref m_CenterColor, value)) SetVerticesDirty(); }
@@ -155,7 +155,7 @@ namespace XCharts
         /// <summary>
         /// 边框的颜色。
         /// </summary>
-        public Color borderColor
+        public Color32 borderColor
         {
             get { return m_BorderColor; }
             set { if (PropertyUtility.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
@@ -218,11 +218,11 @@ namespace XCharts
             return borderWidth != 0 && !ChartHelper.IsClearColor(borderColor);
         }
 
-        public Color GetColor()
+        public Color32 GetColor()
         {
-            if (m_Opacity == 1) return m_Color;
+            if (m_Opacity == 1 || m_Color.a == 0) return m_Color;
             var color = m_Color;
-            color.a *= m_Opacity;
+            color.a = (byte)(color.a * m_Opacity);
             return color;
         }
 
@@ -231,19 +231,19 @@ namespace XCharts
             return !ChartHelper.IsClearColor(m_ToColor) || !ChartHelper.IsClearColor(m_ToColor2);
         }
 
-        public Color GetGradientColor(float value, Color defaultColor)
+        public Color32 GetGradientColor(float value, Color32 defaultColor)
         {
-            if (!IsNeedGradient()) return Color.clear;
+            if (!IsNeedGradient()) return ChartConst.clearColor32;
             value = Mathf.Clamp01(value);
-            var startColor = m_Color == Color.clear ? defaultColor : m_Color;
-            if (m_ToColor2 != Color.clear)
+            var startColor = ChartHelper.IsClearColor(m_Color) ? defaultColor : m_Color;
+            if (!ChartHelper.IsClearColor(m_ToColor2))
             {
-                if (value <= 0.5f) return Color.Lerp(startColor, m_ToColor, 2 * value);
-                else return Color.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
+                if (value <= 0.5f) return Color32.Lerp(startColor, m_ToColor, 2 * value);
+                else return Color32.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
             }
             else
             {
-                return Color.Lerp(startColor, m_ToColor, value);
+                return Color32.Lerp(startColor, m_ToColor, value);
             }
         }
     }

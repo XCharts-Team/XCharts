@@ -62,7 +62,7 @@ namespace XCharts
                     for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
                         var nowSize = symbol.animationSize[count];
-                        color.a = (symbolSize - nowSize) / symbolSize;
+                        color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
                         DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
                     }
                     RefreshChart();

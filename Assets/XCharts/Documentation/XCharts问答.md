@@ -32,6 +32,7 @@
 [QA 26：如何使用背景组件？有什么条件限制？](#如何使用背景组件？有什么条件限制)  
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
 [QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
+[QA 29：为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级？](#为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -148,6 +149,16 @@
 ## 为什么serie里设置的参数运行后又被重置了
 
 答：检测下代码里是否调用了`RemoveData()`并重新添加`Serie`了。如果想保留`Serie`的配置可以只`ClearData()`，然后重新添加数据。
+
+## 为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级
+
+答：1.6.0版本为了减少隐式转换，将所有的绘制相关的`Color`都改为了`Color32`，所以会导致一些自定义的颜色的丢失。影响到的主要组件有：`ItemStyle`，`LineStyle`，`AreaStyle`，`Vessel`，`VisualMap`，`AxisSplitArea`，`AxisSplitLine`，`GaugeAxis`，`SerieLabel`等。可以用脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)进行升级。
+升级步骤如下：
+1. 备份项目。
+2. 下载或拷贝脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)放到旧项目的`Editor`下，将里面编译报错的`color`字段改为`Color.clear`（因为旧版本可能有些字段还不存在）。
+3. 编译通过后，通过`菜单栏->XCharts->ExportColorConfig`导出旧版本的颜色配置文件（配置文件默认保存到`Assets`下的`color.config`）。
+4. 升级`XCharts`到最新版本。
+5. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

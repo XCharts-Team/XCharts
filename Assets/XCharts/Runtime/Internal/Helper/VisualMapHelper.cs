@@ -53,10 +53,10 @@ namespace XCharts
         }
 
         public static void GetLineGradientColor(VisualMap visualMap, float xValue, float yValue,
-            out Color startColor, out Color toColor)
+            out Color32 startColor, out Color32 toColor)
         {
-            startColor = Color.clear;
-            toColor = Color.clear;
+            startColor = ChartConst.clearColor32;
+            toColor = ChartConst.clearColor32;
             switch (visualMap.direction)
             {
                 case VisualMap.Direction.Default:
@@ -71,7 +71,7 @@ namespace XCharts
             }
         }
 
-        internal static Color GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis, Color defaultColor)
+        internal static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
         {
             float value = 0;
             switch (visualMap.direction)
@@ -103,7 +103,7 @@ namespace XCharts
             else return color;
         }
 
-        internal static Color GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color defaultColor)
+        internal static Color32 GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;

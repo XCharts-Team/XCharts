@@ -32,7 +32,7 @@
 [QA 26：如何使用背景组件？有什么条件限制？](#如何使用背景组件？有什么条件限制)  
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
 [QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
-[QA 29：为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级？](#为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级)  
+[QA 29：为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级？](#为什么升级到1_6_0版本后很多自定义颜色丢失了?应该如何升级)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -150,7 +150,7 @@
 
 答：检测下代码里是否调用了`RemoveData()`并重新添加`Serie`了。如果想保留`Serie`的配置可以只`ClearData()`，然后重新添加数据。
 
-## 为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级
+## 为什么升级到1_6_0版本后很多自定义颜色丢失了?应该如何升级
 
 答：1.6.0版本为了减少隐式转换，将所有的绘制相关的`Color`都改为了`Color32`，所以会导致一些自定义的颜色的丢失。影响到的主要组件有：`ItemStyle`，`LineStyle`，`AreaStyle`，`Vessel`，`VisualMap`，`AxisSplitArea`，`AxisSplitLine`，`GaugeAxis`，`SerieLabel`等。可以用脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)进行升级。
 升级步骤如下：

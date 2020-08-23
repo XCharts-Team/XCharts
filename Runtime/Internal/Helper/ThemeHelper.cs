@@ -11,9 +11,9 @@ namespace XCharts
 {
     internal static class ThemeHelper
     {
-        public static Color GetBackgroundColor(ThemeInfo themeInfo, Background background)
+        public static Color32 GetBackgroundColor(ThemeInfo themeInfo, Background background)
         {
-            if (background.show && background.runtimeActive && background.hideThemeBackgroundColor) return Color.clear;
+            if (background.show && background.runtimeActive && background.hideThemeBackgroundColor) return ChartConst.clearColor32;
             else return themeInfo.backgroundColor;
         }
     }

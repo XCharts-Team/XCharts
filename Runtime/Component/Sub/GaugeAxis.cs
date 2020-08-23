@@ -24,7 +24,7 @@ namespace XCharts
             public class StageColor
             {
                 [SerializeField] private float m_Percent;
-                [SerializeField] private Color m_Color;
+                [SerializeField] private Color32 m_Color;
                 /// <summary>
                 /// 结束位置百分比。
                 /// </summary>
@@ -32,9 +32,9 @@ namespace XCharts
                 /// <summary>
                 /// 颜色。
                 /// </summary>
-                public Color color { get { return m_Color; } set { m_Color = value; } }
+                public Color32 color { get { return m_Color; } set { m_Color = value; } }
 
-                public StageColor(float percent, Color color)
+                public StageColor(float percent, Color32 color)
                 {
                     m_Percent = percent;
                     m_Color = color;
@@ -43,8 +43,8 @@ namespace XCharts
             [SerializeField] private bool m_Show = true;
             [SerializeField] private float m_Width = 15f;
             [SerializeField] private float m_Opacity = 1f;
-            [SerializeField] private Color m_BarColor;
-            [SerializeField] private Color m_BarBackgroundColor = new Color32(200, 200, 200, 255);
+            [SerializeField] private Color32 m_BarColor;
+            [SerializeField] private Color32 m_BarBackgroundColor = new Color32(200, 200, 200, 255);
             [SerializeField]
             private List<StageColor> m_StageColor = new List<StageColor>()
             {
@@ -71,11 +71,11 @@ namespace XCharts
             /// <summary>
             /// 进度条颜色。
             /// </summary>
-            public Color barColor { get { return m_BarColor; } set { m_BarColor = value; } }
+            public Color32 barColor { get { return m_BarColor; } set { m_BarColor = value; } }
             /// <summary>
             /// 进度条背景颜色。
             /// </summary>
-            public Color barBackgroundColor { get { return m_BarBackgroundColor; } set { m_BarBackgroundColor = value; } }
+            public Color32 barBackgroundColor { get { return m_BarBackgroundColor; } set { m_BarBackgroundColor = value; } }
             /// <summary>
             /// 阶段颜色。
             /// </summary>
@@ -183,27 +183,27 @@ namespace XCharts
         public List<Vector3> runtimeLabelPosition = new List<Vector3>();
         private List<LabelObject> m_RuntimeLabelList = new List<LabelObject>();
 
-        internal Color GetAxisLineColor(ThemeInfo theme, int index)
+        internal Color32 GetAxisLineColor(ThemeInfo theme, int index)
         {
-            var color = !ChartHelper.IsClearColor(axisLine.barColor) ? axisLine.barColor : (Color)theme.GetColor(index);
-            color.a *= axisLine.opacity;
+            var color = !ChartHelper.IsClearColor(axisLine.barColor) ? axisLine.barColor : theme.GetColor(index);
+            ChartHelper.SetColorOpacity(ref color, axisLine.opacity);
             return color;
         }
 
-        internal Color GetAxisLineBackgroundColor(ThemeInfo theme, int index)
+        internal Color32 GetAxisLineBackgroundColor(ThemeInfo theme, int index)
         {
-            var color = !ChartHelper.IsClearColor(axisLine.barBackgroundColor) ? axisLine.barBackgroundColor : Color.grey;
-            color.a *= axisLine.opacity;
+            var color = !ChartHelper.IsClearColor(axisLine.barBackgroundColor) ? axisLine.barBackgroundColor : ChartConst.greyColor32;
+            ChartHelper.SetColorOpacity(ref color, axisLine.opacity);
             return color;
         }
 
-        internal Color GetSplitLineColor(ThemeInfo theme, int serieIndex, float angle)
+        internal Color32 GetSplitLineColor(ThemeInfo theme, int serieIndex, float angle)
         {
-            Color color;
+            Color32 color;
             if (!ChartHelper.IsClearColor(splitLine.lineStyle.color))
             {
                 color = splitLine.lineStyle.color;
-                color.a *= splitLine.lineStyle.opacity;
+                ChartHelper.SetColorOpacity(ref color, splitLine.lineStyle.opacity);
                 return color;
             }
             for (int i = 0; i < runtimeStageAngle.Count; i++)
@@ -211,22 +211,22 @@ namespace XCharts
                 if (angle < runtimeStageAngle[i])
                 {
                     color = axisLine.stageColor[i].color;
-                    color.a *= splitLine.lineStyle.opacity;
+                    ChartHelper.SetColorOpacity(ref color, splitLine.lineStyle.opacity);
                     return color;
                 }
             }
             color = theme.GetColor(serieIndex);
-            color.a *= splitLine.lineStyle.opacity;
+            ChartHelper.SetColorOpacity(ref color, splitLine.lineStyle.opacity);
             return color;
         }
 
-        internal Color GetAxisTickColor(ThemeInfo theme, int serieIndex, float angle)
+        internal Color32 GetAxisTickColor(ThemeInfo theme, int serieIndex, float angle)
         {
-            Color color;
+            Color32 color;
             if (!ChartHelper.IsClearColor(axisTick.lineStyle.color))
             {
                 color = axisTick.lineStyle.color;
-                color.a *= axisTick.lineStyle.opacity;
+                ChartHelper.SetColorOpacity(ref color, axisTick.lineStyle.opacity);
                 return color;
             }
             for (int i = 0; i < runtimeStageAngle.Count; i++)
@@ -234,35 +234,33 @@ namespace XCharts
                 if (angle < runtimeStageAngle[i])
                 {
                     color = axisLine.stageColor[i].color;
-                    color.a *= axisTick.lineStyle.opacity;
+                    ChartHelper.SetColorOpacity(ref color, axisTick.lineStyle.opacity);
                     return color;
                 }
             }
             color = theme.GetColor(serieIndex);
-            color.a *= axisTick.lineStyle.opacity;
+            ChartHelper.SetColorOpacity(ref color, axisTick.lineStyle.opacity);
             return color;
         }
 
-        internal Color GetPointerColor(ThemeInfo theme, int serieIndex, float angle, ItemStyle itemStyle)
+        internal Color32 GetPointerColor(ThemeInfo theme, int serieIndex, float angle, ItemStyle itemStyle)
         {
-            Color color;
+            Color32 color;
             if (!ChartHelper.IsClearColor(itemStyle.color))
             {
-                color = itemStyle.color;
-                color.a *= itemStyle.opacity;
-                return color;
+                return itemStyle.GetColor();
             }
             for (int i = 0; i < runtimeStageAngle.Count; i++)
             {
                 if (angle < runtimeStageAngle[i])
                 {
                     color = axisLine.stageColor[i].color;
-                    color.a *= itemStyle.opacity;
+                    ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
                     return color;
                 }
             }
             color = theme.GetColor(serieIndex);
-            color.a *= itemStyle.opacity;
+            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
             return color;
         }
 

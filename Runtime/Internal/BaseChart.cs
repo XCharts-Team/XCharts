@@ -727,7 +727,7 @@ namespace XCharts
         }
 
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
+          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius)
         {
             var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
             var smoothness = m_Settings.cicleSmoothness;
@@ -771,7 +771,6 @@ namespace XCharts
                 ChartDrawer.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
                     serieLabel.borderWidth, serieLabel.borderColor, serieLabel.rotate);
             }
-            ChartDrawer.DrawPolygon(vh, serieData.labelPosition, 0.3f, Color.red);
         }
     }
 }

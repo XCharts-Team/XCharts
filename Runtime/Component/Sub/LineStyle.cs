@@ -46,7 +46,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Solid;
-        [SerializeField] private Color m_Color;
+        [SerializeField] private Color32 m_Color;
         [SerializeField] private float m_Width = 0.8f;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
 
@@ -72,7 +72,7 @@ namespace XCharts
         /// the color of line, default use serie color.
         /// 线的颜色。
         /// </summary>
-        public Color color
+        public Color32 color
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
@@ -131,10 +131,11 @@ namespace XCharts
             opacity = lineStyle.opacity;
         }
 
-        public Color GetColor()
+        public Color32 GetColor()
         {
+            if (m_Opacity == 1) return m_Color;
             var color = m_Color;
-            color.a *= m_Opacity;
+            color.a *= (byte)(color.a * m_Opacity);
             return color;
         }
     }

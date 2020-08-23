@@ -19,7 +19,7 @@ namespace XCharts
     public class AxisSplitArea : SubComponent
     {
         [SerializeField] private bool m_Show;
-        [SerializeField] private List<Color> m_Color;
+        [SerializeField] private List<Color32> m_Color;
 
         /// <summary>
         /// Set this to true to show the splitArea.
@@ -36,7 +36,7 @@ namespace XCharts
         /// Dark and light colors in turns are used by default.
         /// 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
         /// </summary>
-        public List<Color> color
+        public List<Color32> color
         {
             get { return m_Color; }
             set { if (value != null) { m_Color = value; SetVerticesDirty(); } }
@@ -49,7 +49,7 @@ namespace XCharts
                 return new AxisSplitArea()
                 {
                     m_Show = false,
-                    m_Color = new List<Color>(){
+                    m_Color = new List<Color32>(){
                             new Color32(250,250,250,77),
                             new Color32(200,200,200,77)
                         }
@@ -61,7 +61,7 @@ namespace XCharts
         {
             var axisSplitArea = new AxisSplitArea();
             axisSplitArea.show = show;
-            axisSplitArea.color = new List<Color>();
+            axisSplitArea.color = new List<Color32>();
             ChartHelper.CopyList(axisSplitArea.color, color);
             return axisSplitArea;
         }
@@ -73,7 +73,7 @@ namespace XCharts
             ChartHelper.CopyList(color, splitArea.color);
         }
 
-        public Color getColor(int index)
+        public Color32 getColor(int index)
         {
             var i = index % color.Count;
             return color[i];

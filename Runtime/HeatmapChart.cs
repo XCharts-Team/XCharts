@@ -106,7 +106,7 @@ namespace XCharts
                         var serieData = serie.data[(int)xData * yCount + (int)yData];
                         var value = serieData.data[2];
                         var color = m_VisualMap.enable ? m_VisualMap.GetColor(value) :
-                            (Color)m_ThemeInfo.GetColor(serie.index);
+                            m_ThemeInfo.GetColor(serie.index);
                         sb.Append("\n")
                             .Append(key).Append(!string.IsNullOrEmpty(key) ? "\n" : "")
                             .Append("<color=#").Append(ChartCached.ColorToStr(color)).Append(">● </color>")

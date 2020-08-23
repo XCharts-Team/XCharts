@@ -87,20 +87,20 @@ namespace XCharts
         [SerializeField] private float m_PaddingLeftRight = 2f;
         [SerializeField] private float m_PaddingTopBottom = 2f;
         [SerializeField] private Color m_Color;
-        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth = 0;
         [SerializeField] private float m_BackgroundHeight = 0;
         [SerializeField] private int m_FontSize = 18;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_Line = true;
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
-        [SerializeField] private Color m_LineColor = Color.clear;
+        [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
         [SerializeField] private bool m_Border = false;
         [SerializeField] private float m_BorderWidth = 0.5f;
-        [SerializeField] private Color m_BorderColor = Color.grey;
+        [SerializeField] private Color32 m_BorderColor = ChartConst.greyColor32;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
 
@@ -197,7 +197,7 @@ namespace XCharts
         /// the background color. If set as default, it means than don't show background.
         /// 标签的背景色，默认无颜色。
         /// </summary>
-        public Color backgroundColor
+        public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
             set { if (PropertyUtility.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
@@ -289,7 +289,7 @@ namespace XCharts
         /// the color of visual guild line.
         /// 视觉引导线颜色。默认和serie一致取自调色板。
         /// </summary>
-        public Color lineColor
+        public Color32 lineColor
         {
             get { return m_LineColor; }
             set { if (PropertyUtility.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
@@ -343,7 +343,7 @@ namespace XCharts
         /// the color of border.
         /// 边框颜色。
         /// </summary>
-        public Color borderColor
+        public Color32 borderColor
         {
             get { return m_BorderColor; }
             set { if (PropertyUtility.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }

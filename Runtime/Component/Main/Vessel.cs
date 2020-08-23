@@ -47,8 +47,8 @@ namespace XCharts
         [SerializeField] private Shape m_Shape = Shape.Circle;
         [SerializeField] private float m_ShapeWidth = 5f;
         [SerializeField] private float m_Gap = 10f;
-        [SerializeField] private Color m_Color;
-        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private Color32 m_Color;
+        [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private bool m_AutoColor = true;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
         [SerializeField] private float m_Radius = 0.5f;
@@ -132,7 +132,7 @@ namespace XCharts
         /// 背景色，默认透明。
         /// [default: `Color.clear`]
         /// </summary>
-        public Color backgroundColor
+        public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
             set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
@@ -141,7 +141,7 @@ namespace XCharts
         /// Vessel color. The default is consistent with Serie.
         /// 容器颜色。默认和serie一致。
         /// </summary>
-        public Color color
+        public Color32 color
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }

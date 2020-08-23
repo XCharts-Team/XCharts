@@ -12,7 +12,7 @@ namespace XCharts
 {
     public static class VesselHelper
     {
-        internal static Color GetColor(Vessel vessel, Serie serie, ThemeInfo themeInfo, List<string> legendRealShowName)
+        internal static Color32 GetColor(Vessel vessel, Serie serie, ThemeInfo themeInfo, List<string> legendRealShowName)
         {
             if (serie != null && vessel.autoColor)
             {

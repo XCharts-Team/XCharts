@@ -88,8 +88,8 @@ namespace XCharts
         [SerializeField] private bool m_AutoMinMax = true;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultLeft;
-        [SerializeField] private List<Color> m_InRange = new List<Color>();
-        [SerializeField] private List<Color> m_OutOfRange = new List<Color>();
+        [SerializeField] private List<Color32> m_InRange = new List<Color32>();
+        [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>();
 
         /// <summary>
         /// Whether enable visualMap component.
@@ -297,7 +297,7 @@ namespace XCharts
         /// Defines the visual color in the selected range.
         /// 定义 在选中范围中 的视觉颜色。
         /// </summary>
-        public List<Color> inRange
+        public List<Color32> inRange
         {
             get { return m_InRange; }
             set { if (value != null) { m_InRange = value; SetVerticesDirty(); } }
@@ -306,7 +306,7 @@ namespace XCharts
         /// Defines a visual color outside of the selected range.
         /// 定义 在选中范围外 的视觉颜色。
         /// </summary>
-        public List<Color> outOfRange
+        public List<Color32> outOfRange
         {
             get { return m_OutOfRange; }
             set { if (value != null) { m_OutOfRange = value; SetVerticesDirty(); } }
@@ -375,8 +375,8 @@ namespace XCharts
         public float runtimeRangeMinHeight { get { return (rangeMin - min) / (max - min) * itemHeight; } }
         public float runtimeRangeMaxHeight { get { return (rangeMax - min) / (max - min) * itemHeight; } }
 
-        private List<Color> m_RtInRange = new List<Color>();
-        public List<Color> runtimeInRange
+        private List<Color32> m_RtInRange = new List<Color32>();
+        public List<Color32> runtimeInRange
         {
             get
             {
@@ -413,7 +413,7 @@ namespace XCharts
                             else
                             {
                                 var rate = (rtValue - inValue) / diff1;
-                                m_RtInRange.Add(Color.Lerp(m_InRange[inCount], m_InRange[inCount + 1], rate));
+                                m_RtInRange.Add(Color32.Lerp(m_InRange[inCount], m_InRange[inCount + 1], rate));
                             }
                         }
                     }
@@ -422,21 +422,21 @@ namespace XCharts
             }
         }
 
-        public Color GetColor(float value)
+        public Color32 GetColor(float value)
         {
             if (value < m_Min || value > m_Max)
             {
                 if (m_OutOfRange.Count > 0) return m_OutOfRange[0];
-                else return Color.clear;
+                else return ChartConst.clearColor32;
             }
             int splitNumber = runtimeInRange.Count;
-            if (splitNumber <= 0) return Color.clear;
+            if (splitNumber <= 0) return ChartConst.clearColor32;
             var index = GetIndex(value);
             if (m_Type == VisualMap.Type.Piecewise)
             {
                 if (index >= 0 && index < runtimeInRange.Count)
                     return runtimeInRange[index];
-                else return Color.clear;
+                else return ChartConst.clearColor32;
             }
             else
             {
@@ -444,7 +444,7 @@ namespace XCharts
                 var nowMin = m_Min + index * diff;
                 var rate = (value - nowMin) / diff;
                 if (index == splitNumber - 1) return runtimeInRange[index];
-                else return Color.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
+                else return Color32.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
             }
         }
 

@@ -131,8 +131,8 @@ namespace XCharts
             var rangeMax = m_VisualMap.rangeMax;
             var color = m_ThemeInfo.GetColor(serie.index);
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
-            var borderColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderColor : Color.clear;
-            borderColor.a *= serie.itemStyle.opacity;
+            var borderColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderColor : ChartConst.clearColor32;
+            borderColor.a = (byte)(borderColor.a * serie.itemStyle.opacity);
             serie.dataPoints.Clear();
             serie.animation.InitProgress(1, 0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -181,7 +181,7 @@ namespace XCharts
                     if (m_VisualMap.hoverLink && emphasis && serie.emphasis.show && serie.emphasis.itemStyle.borderWidth > 0)
                     {
                         var emphasisBorderWidth = serie.emphasis.itemStyle.borderWidth;
-                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0 ? serie.emphasis.itemStyle.borderColor : Color.clear;
+                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0 ? serie.emphasis.itemStyle.borderColor : ChartConst.clearColor32;
                         ChartDrawer.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor);
                     }
                 }

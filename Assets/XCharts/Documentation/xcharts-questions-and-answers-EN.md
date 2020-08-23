@@ -32,7 +32,7 @@
 [QA 26: How do I use the background component? What are the conditions?](#How-do-I-use-the-background-component-What-are-the-conditions)  
 [QA 27: Mesh can not have more than 65000 vertices?](#Mesh-cannot-have-more-than-65000-vertices)  
 [QA 28: Why are the parameters set in Serie reset after they run?](#Why-are-the-parameters-set-in-Serie-reset-after-they-run)  
-[QA 29: Why are many custom colors lost after upgrading to 1.6.0? How should I upgrade?](#Why_are_many_custom_colors_lost_after_upgrading_to_1.6.0_How_should_I_upgrade)  
+[QA 29: Why are many custom colors lost after upgrading to 1.6.0? How should I upgrade?](#Why_are_many_custom_colors_lost_after_upgrading_to_1_6_0_How_should_I_upgrade)  
 
 ## How-to-adjust-the-margin-between-the-axis-and-the=-background
 
@@ -146,7 +146,7 @@ A: This is the limit of `UGUI` on the number of vertices for a single `Graphic`.
 
 A: Check whether `RemoveData()` and add new `Serie` in the code. If you want to keep the configuration of `Serie`, you can only `ClearData()` which just clear data and then readd the data to the old serie.
 
-## Why_are_many_custom_colors_lost_after_upgrading_to_1.6.0_How_should_I_upgrade
+## Why_are_many_custom_colors_lost_after_upgrading_to_1_6_0_How_should_I_upgrade
 
 A: In version `1.6.0`, in order to reduce implicit conversion, all drawing related `Color` was changed to `Color32`, so some custom colors were lost. The main components affected are: `ItemStyle`, `LineStyle`, `AreaStyle`, `Vessel`, `VisualMap`, `AxisSplitArea`, `AxisSplitLine`, `GaugeAxis`,`SerieLabel`, etc. Can use the script [UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) to upgrade.
 The upgrade steps are as follows:

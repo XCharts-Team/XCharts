@@ -155,10 +155,12 @@
 答：1.6.0版本为了减少隐式转换，将所有的绘制相关的`Color`都改为了`Color32`，所以会导致一些自定义的颜色的丢失。影响到的主要组件有：`ItemStyle`，`LineStyle`，`AreaStyle`，`Vessel`，`VisualMap`，`AxisSplitArea`，`AxisSplitLine`，`GaugeAxis`，`SerieLabel`等。可以用脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)进行升级。
 升级步骤如下：
 1. 备份项目。
-2. 下载或拷贝脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)放到旧项目的`Editor`下，将里面编译报错的`color`字段改为`Color.clear`（因为旧版本可能有些字段还不存在）。
-3. 编译通过后，通过`菜单栏->XCharts->ExportColorConfig`导出旧版本的颜色配置文件（配置文件默认保存到`Assets`下的`color.config`）。
-4. 升级`XCharts`到最新版本。
-5. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
+2. 下载或拷贝脚本[UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)放到旧项目的`Editor`下，由于旧版本可也能不存在某些图表或者某些属性配置，可能会编译错误，所要处理一下。
+3. 若是由`itemStyle.toColor2`引起的编译报错，可将导出地方的`itemStyle.toColor2`改为`Color.clear`；导入的地方注释掉即可。
+4. 若是由`LiquidChart`引起的编译报错，将所有涉及`LiquidChart`的地方都注释掉即可。
+5. 编译通过后，通过`菜单栏->XCharts->ExportColorConfig`导出旧版本的颜色配置文件（配置文件默认保存到`Assets`下的`color.config`）。
+6. 升级`XCharts`到最新版本。
+7. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

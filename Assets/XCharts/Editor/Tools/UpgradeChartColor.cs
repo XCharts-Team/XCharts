@@ -91,9 +91,9 @@ namespace XCharts
                 else if (allType.Equals("xAxis1_splitLine")) (chart as CoordinateChart).xAxis1.splitLine.lineStyle.color = colorList[0];
                 else if (allType.Equals("yAxis0_splitLine")) (chart as CoordinateChart).yAxis0.splitLine.lineStyle.color = colorList[0];
                 else if (allType.Equals("yAxis1_splitLine")) (chart as CoordinateChart).yAxis1.splitLine.lineStyle.color = colorList[0];
-                else if (allType.Equals("vessel")) ImportVesselColor(chart, int.Parse(temp2[1]), colorList); //没有LiquidChart的版本该行可以注释掉。
-                else if (allType.Equals("radarSplitLine")) ImportRadarSplitLineColor(chart, int.Parse(temp2[1]), colorList);
-                else if (allType.Equals("radarSplitArea")) ImportRadarSplitAreaColor(chart, int.Parse(temp2[1]), colorList);
+                else if (strType.Equals("vessel")) ImportVesselColor(chart, int.Parse(temp2[1]), colorList); //没有LiquidChart的版本该行可以注释掉。
+                else if (strType.Equals("radarSplitLine")) ImportRadarSplitLineColor(chart, int.Parse(temp2[1]), colorList);
+                else if (strType.Equals("radarSplitArea")) ImportRadarSplitAreaColor(chart, int.Parse(temp2[1]), colorList);
                 else if (strType.Equals("serie"))
                 {
                     var index = int.Parse(temp2[1]);

@@ -36,7 +36,7 @@ namespace XCharts
             foreach (var chart in charts)
             {
                 if (chart is CoordinateChart) ExportCoordinateChart(sb, chart as CoordinateChart);
-                else if (chart is LiquidChart) ExportLiquidChart(sb, chart as LiquidChart); //如果这里编译失败，说明改版本不存在LiquidChart，可以整行注释掉。
+                else if (chart is LiquidChart) ExportLiquidChart(sb, chart as LiquidChart); //如果这里编译失败，说明该版本不存在LiquidChart，可以整行注释掉。
                 else if (chart is RadarChart) ExportRadarChart(sb, chart as RadarChart);
                 else ExportSeries(sb, chart as BaseChart);
                 sb.Append("\n");
@@ -100,7 +100,7 @@ namespace XCharts
                     var strSubType = temp2[2];
                     var serie = chart.series.GetSerie(index);
                     if (strSubType.Equals("lineStyle")) serie.lineStyle.color = colorList[0];
-                    else if (strSubType.Equals("areaStyle")) serie.areaStyle.color = colorList[1];
+                    else if (strSubType.Equals("areaStyle")) ImportSerieAreaColor(serie.areaStyle, colorList);
                     else if (strSubType.Equals("label")) ImportLabelColor(serie.label, colorList);
                     else if (strSubType.Equals("labelEmphasis")) ImportLabelColor(serie.emphasis.label, colorList);
                     else if (strSubType.Equals("itemStyle")) ImportItemStyleColor(serie.itemStyle, colorList);
@@ -168,8 +168,6 @@ namespace XCharts
         /// <summary>
         /// LiquidChart不在该版本时整个函数可以注释掉
         /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="chart"></param>
         private static void ExportLiquidChart(StringBuilder sb, LiquidChart chart)
         {
             var instanceId = chart.GetInstanceID();
@@ -202,10 +200,8 @@ namespace XCharts
                 var serie = chart.series.GetSerie(i);
                 var key = "serie_" + i;
                 AppendColor(sb, instanceId, key + "_itemStyle", serie.itemStyle.color, serie.itemStyle.toColor, serie.itemStyle.toColor2, serie.itemStyle.backgroundColor, serie.itemStyle.borderColor);
-                //AppendColor(sb, instanceId, key + "_itemStyle", serie.itemStyle.color, serie.itemStyle.toColor, Color.clear, serie.itemStyle.backgroundColor, serie.itemStyle.borderColor);
                 AppendColor(sb, instanceId, key + "_label", serie.label.backgroundColor, serie.label.borderColor);
                 AppendColor(sb, instanceId, key + "_itemStyleEmphasis", serie.emphasis.itemStyle.color, serie.emphasis.itemStyle.toColor, serie.emphasis.itemStyle.toColor2, serie.emphasis.itemStyle.backgroundColor, serie.emphasis.itemStyle.borderColor);
-                //AppendColor(sb, instanceId, key + "_itemStyleEmphasis", serie.emphasis.itemStyle.color, serie.emphasis.itemStyle.toColor, Color.clear, serie.emphasis.itemStyle.backgroundColor, serie.emphasis.itemStyle.borderColor);
                 AppendColor(sb, instanceId, key + "_labelEmphasis", serie.emphasis.label.backgroundColor, serie.emphasis.label.borderColor);
                 if (serie.type == SerieType.Line)
                 {
@@ -231,12 +227,10 @@ namespace XCharts
                     var serieData = serie.GetSerieData(j);
                     if (serieData.enableItemStyle)
                         AppendColor(sb, instanceId, key + "_itemStyle", serieData.itemStyle.color, serieData.itemStyle.toColor, serieData.itemStyle.toColor2, serieData.itemStyle.backgroundColor, serieData.itemStyle.borderColor);
-                    //AppendColor(sb, instanceId, key + "_itemStyle", serieData.itemStyle.color, serieData.itemStyle.toColor, Color.clear, serieData.itemStyle.backgroundColor, serieData.itemStyle.borderColor);
                     if (serieData.enableLabel)
                         AppendColor(sb, instanceId, key + "_label", serieData.label.backgroundColor, serieData.label.borderColor);
                     if (serieData.enableEmphasis)
                         AppendColor(sb, instanceId, key + "_itemStyleEmphasis", serieData.emphasis.itemStyle.color, serieData.emphasis.itemStyle.toColor, serieData.emphasis.itemStyle.toColor2, serieData.emphasis.itemStyle.backgroundColor, serieData.emphasis.itemStyle.borderColor);
-                    //AppendColor(sb, instanceId, key + "_itemStyleEmphasis", serieData.emphasis.itemStyle.color, serieData.emphasis.itemStyle.toColor, Color.clear, serieData.emphasis.itemStyle.backgroundColor, serieData.emphasis.itemStyle.borderColor);
                     if (serieData.enableEmphasis)
                         AppendColor(sb, instanceId, key + "_labelEmphasis", serieData.emphasis.label.backgroundColor, serieData.emphasis.label.borderColor);
                 }
@@ -321,6 +315,14 @@ namespace XCharts
             {
                 target.Add(colorList[i]);
             }
+        }
+
+        private static void ImportSerieAreaColor(AreaStyle areaStyle, List<Color32> colorList)
+        {
+            areaStyle.color = colorList[0];
+            areaStyle.toColor = colorList[1];
+            areaStyle.highlightColor = colorList[2];
+            areaStyle.highlightToColor = colorList[3];
         }
 
         private static void ImportLabelColor(SerieLabel label, List<Color32> colorList)

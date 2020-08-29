@@ -114,6 +114,17 @@ namespace XCharts
             else return color;
         }
 
+        internal static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        {
+            var min = axis.runtimeMinValue;
+            var max = axis.runtimeMaxValue;
+            var value = min + (pos.x - chart.coordinateX) / chart.coordinateWidth * (max - min);
+            var rate = (value - min) / (max - min);
+            var color = lineStyle.GetGradientColor(rate, defaultColor);
+            if (ChartHelper.IsClearColor(color)) return defaultColor;
+            else return color;
+        }
+
         public static bool IsNeedGradient(VisualMap visualMap)
         {
             if (!visualMap.enable || visualMap.inRange.Count <= 0) return false;

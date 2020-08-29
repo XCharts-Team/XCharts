@@ -23,6 +23,8 @@ namespace XCharts
             SerializedProperty show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
+            SerializedProperty m_ToColor = prop.FindPropertyRelative("m_ToColor");
+            SerializedProperty m_ToColor2 = prop.FindPropertyRelative("m_ToColor2");
             SerializedProperty m_Width = prop.FindPropertyRelative("m_Width");
             SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_LineStyleToggle, prop, "Line Style", show, false);
@@ -33,6 +35,10 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Color);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ToColor);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ToColor2);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Width);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -47,7 +53,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_LineStyleToggle, prop))
             {
-                height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
+                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

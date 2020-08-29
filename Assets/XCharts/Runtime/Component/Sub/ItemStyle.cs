@@ -236,15 +236,21 @@ namespace XCharts
             if (!IsNeedGradient()) return ChartConst.clearColor32;
             value = Mathf.Clamp01(value);
             var startColor = ChartHelper.IsClearColor(m_Color) ? defaultColor : m_Color;
+            Color32 color;
             if (!ChartHelper.IsClearColor(m_ToColor2))
             {
-                if (value <= 0.5f) return Color32.Lerp(startColor, m_ToColor, 2 * value);
-                else return Color32.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
+                if (value <= 0.5f) color = Color32.Lerp(startColor, m_ToColor, 2 * value);
+                else color = Color32.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
             }
             else
             {
-                return Color32.Lerp(startColor, m_ToColor, value);
+                color = Color32.Lerp(startColor, m_ToColor, value);
             }
+            if (m_Opacity != 1)
+            {
+                color.a = (byte)(color.a * m_Opacity);
+            }
+            return color;
         }
     }
 }

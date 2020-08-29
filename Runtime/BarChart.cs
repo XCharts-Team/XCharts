@@ -5,7 +5,9 @@
 /*                                        */
 /******************************************/
 
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -13,9 +15,15 @@ namespace XCharts
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class BarChart : CoordinateChart
+    public partial class BarChart : CoordinateChart
     {
+        protected Action<PointerEventData, int> m_OnPointerClickBar;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            raycastTarget = false;
+        }
 #if UNITY_EDITOR
         protected override void Reset()
         {
@@ -27,9 +35,22 @@ namespace XCharts
             for (int i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));
-                AddData(0, Random.Range(10, 90));
+                AddData(0, UnityEngine.Random.Range(10, 90));
             }
         }
 #endif
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            base.OnPointerDown(eventData);
+            if (m_OnPointerClickBar == null) return;
+            if (pointerPos == Vector2.zero) return;
+            UpdateTooltipValue(pointerPos);
+            var dataIndex = m_Tooltip.runtimeDataIndex[0];
+            if (dataIndex >= 0)
+            {
+                m_OnPointerClickBar(eventData, dataIndex);
+            }
+        }
     }
 }

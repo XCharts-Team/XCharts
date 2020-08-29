@@ -103,9 +103,13 @@
 * 继承自 `BaseChart`。
 * 继承自 `CoordinateChart`。
 
+* `BarChart.onPointerClickBar`：点击柱条回调。参数：`eventData`, `dataIndex`
+
 ## `PieChart`
 
 * 继承自 `BaseChart`。
+
+* `PieChart.onPointerClickPie`：点击柱条回调。参数：`eventData`, `serieIndex`, `dataIndex`
 
 ## `RadarChart`
 

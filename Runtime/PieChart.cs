@@ -5,6 +5,7 @@
 /*                                        */
 /******************************************/
 
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,10 +16,12 @@ namespace XCharts
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class PieChart : BaseChart
+    public partial class PieChart : BaseChart
     {
         private bool isDrawPie;
         private bool m_IsEnterLegendButtom;
+
+        protected Action<PointerEventData, int, int> m_OnPointerClickPie;
 
         protected override void Awake()
         {
@@ -529,28 +532,28 @@ namespace XCharts
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
-
-            Vector2 local;
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                eventData.position, canvas.worldCamera, out local))
-            {
-                return;
-            }
+            if (pointerPos == Vector2.zero) return;
+            var refresh = false;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
                 if (serie.type != SerieType.Pie) continue;
-                var index = GetPosPieIndex(serie, local);
+                var index = GetPosPieIndex(serie, pointerPos);
                 if (index >= 0)
                 {
+                    refresh = true;
                     for (int j = 0; j < serie.data.Count; j++)
                     {
                         if (j == index) serie.data[j].selected = !serie.data[j].selected;
                         else serie.data[j].selected = false;
                     }
+                    if (m_OnPointerClickPie != null)
+                    {
+                        m_OnPointerClickPie(eventData, i, index);
+                    }
                 }
             }
-            RefreshChart();
+            if (refresh) RefreshChart();
         }
     }
 }

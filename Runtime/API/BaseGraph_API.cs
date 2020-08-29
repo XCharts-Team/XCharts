@@ -65,39 +65,39 @@ namespace XCharts
         /// <summary>
         /// 鼠标点击回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onPointerClick { set { m_OnPointerClick = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onPointerClick { set { m_OnPointerClick = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标按下回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onPointerDown { set { m_OnPointerDown = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onPointerDown { set { m_OnPointerDown = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标弹起回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onPointerUp { set { m_OnPointerUp = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onPointerUp { set { m_OnPointerUp = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标进入回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onPointerEnter { set { m_OnPointerEnter = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onPointerEnter { set { m_OnPointerEnter = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标退出回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onPointerExit { set { m_OnPointerExit = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onPointerExit { set { m_OnPointerExit = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标开始拖拽回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onBeginDrag { set { m_OnBeginDrag = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onBeginDrag { set { m_OnBeginDrag = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标拖拽回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onDrag { set { m_OnDrag = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onDrag { set { m_OnDrag = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标结束拖拽回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onEndDrag { set { m_OnEndDrag = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onEndDrag { set { m_OnEndDrag = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
         /// 鼠标滚动回调。
         /// </summary>
-        public Action<BaseGraph, PointerEventData> onScroll { set { m_OnScroll = value; m_ForceOpenRaycastTarget = true; } }
+        public Action<PointerEventData, BaseGraph> onScroll { set { m_OnScroll = value; m_ForceOpenRaycastTarget = true; } }
 
         /// <summary>
         /// 设置图形的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）

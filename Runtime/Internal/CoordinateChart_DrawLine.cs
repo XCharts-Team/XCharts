@@ -724,7 +724,7 @@ namespace XCharts
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
                 var tp2 = cp + dir1v * serie.lineStyle.width;
-                CheckLineGradientColor(cp, serie.itemStyle, axis, defaultLineColor, ref lineColor);
+                CheckLineGradientColor(cp, serie.lineStyle, axis, defaultLineColor, ref lineColor);
                 if (isDown)
                 {
                     if (!isBreak)
@@ -1055,12 +1055,12 @@ namespace XCharts
             return false;
         }
 
-        private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color32 defaultLineColor, ref Color32 lineColor)
+        private void CheckLineGradientColor(Vector3 cp, LineStyle lineStyle, Axis axis, Color32 defaultLineColor, ref Color32 lineColor)
         {
             if (VisualMapHelper.IsNeedGradient(m_VisualMap))
                 lineColor = VisualMapHelper.GetLineGradientColor(m_VisualMap, cp, this, axis, defaultLineColor);
-            else if (itemStyle.IsNeedGradient())
-                lineColor = VisualMapHelper.GetItemStyleGradientColor(itemStyle, cp, this, axis, defaultLineColor);
+            else if (lineStyle.IsNeedGradient())
+                lineColor = VisualMapHelper.GetLineStyleGradientColor(lineStyle, cp, this, axis, defaultLineColor);
         }
 
         private bool IsInRightOrUp(bool isYAxis, Vector3 lp, Vector3 rp)
@@ -1185,7 +1185,7 @@ namespace XCharts
                 {
                     start = bezierPoints[i];
                     to = bezierPoints[i + 1];
-                    CheckLineGradientColor(start, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
+                    CheckLineGradientColor(start, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
                     CheckClipAndDrawLine(vh, start, to, lineWidth, lineColor, serie.clip);
                 }
                 return true;
@@ -1208,7 +1208,7 @@ namespace XCharts
                 {
                     if (!serie.animation.IsInFadeOut())
                     {
-                        CheckLineGradientColor(lp, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
+                        CheckLineGradientColor(lp, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
                         CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
                         CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
                         TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, smoothStartPosUp, false);
@@ -1237,7 +1237,7 @@ namespace XCharts
                 diff = dir1v * lineWidth;
                 toUp = to - diff;
                 toDn = to + diff;
-                CheckLineGradientColor(to, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
+                CheckLineGradientColor(to, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
                 if (isYAxis) CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip);
                 else CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip);
                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, toUp, true);

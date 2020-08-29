@@ -33,15 +33,15 @@ namespace XCharts
         protected bool m_IsControlledByLayout = false;
         protected Vector3 m_LastLocalPosition;
 
-        protected Action<BaseGraph, PointerEventData> m_OnPointerClick;
-        protected Action<BaseGraph, PointerEventData> m_OnPointerDown;
-        protected Action<BaseGraph, PointerEventData> m_OnPointerUp;
-        protected Action<BaseGraph, PointerEventData> m_OnPointerEnter;
-        protected Action<BaseGraph, PointerEventData> m_OnPointerExit;
-        protected Action<BaseGraph, PointerEventData> m_OnBeginDrag;
-        protected Action<BaseGraph, PointerEventData> m_OnDrag;
-        protected Action<BaseGraph, PointerEventData> m_OnEndDrag;
-        protected Action<BaseGraph, PointerEventData> m_OnScroll;
+        protected Action<PointerEventData, BaseGraph> m_OnPointerClick;
+        protected Action<PointerEventData, BaseGraph> m_OnPointerDown;
+        protected Action<PointerEventData, BaseGraph> m_OnPointerUp;
+        protected Action<PointerEventData, BaseGraph> m_OnPointerEnter;
+        protected Action<PointerEventData, BaseGraph> m_OnPointerExit;
+        protected Action<PointerEventData, BaseGraph> m_OnBeginDrag;
+        protected Action<PointerEventData, BaseGraph> m_OnDrag;
+        protected Action<PointerEventData, BaseGraph> m_OnEndDrag;
+        protected Action<PointerEventData, BaseGraph> m_OnScroll;
 
         protected Vector2 chartAnchorMax { get { return m_GraphMinAnchor; } }
         protected Vector2 chartAnchorMin { get { return m_GraphMaxAnchor; } }
@@ -228,53 +228,53 @@ namespace XCharts
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            if (m_OnPointerClick != null) m_OnPointerClick(this, eventData);
+            if (m_OnPointerClick != null) m_OnPointerClick(eventData, this);
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (m_OnPointerDown != null) m_OnPointerDown(this, eventData);
+            if (m_OnPointerDown != null) m_OnPointerDown(eventData, this);
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-            if (m_OnPointerUp != null) m_OnPointerUp(this, eventData);
+            if (m_OnPointerUp != null) m_OnPointerUp(eventData, this);
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             isPointerInChart = true;
-            if (m_OnPointerEnter != null) m_OnPointerEnter(this, eventData);
+            if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
             isPointerInChart = false;
-            if (m_OnPointerExit != null) m_OnPointerExit(this, eventData);
+            if (m_OnPointerExit != null) m_OnPointerExit(eventData, this);
         }
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
             if (m_ScrollRect != null) m_ScrollRect.OnBeginDrag(eventData);
-            if (m_OnBeginDrag != null) m_OnBeginDrag(this, eventData);
+            if (m_OnBeginDrag != null) m_OnBeginDrag(eventData, this);
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
         {
             if (m_ScrollRect != null) m_ScrollRect.OnEndDrag(eventData);
-            if (m_OnEndDrag != null) m_OnEndDrag(this, eventData);
+            if (m_OnEndDrag != null) m_OnEndDrag(eventData, this);
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
             if (m_ScrollRect != null) m_ScrollRect.OnDrag(eventData);
-            if (m_OnDrag != null) m_OnDrag(this, eventData);
+            if (m_OnDrag != null) m_OnDrag(eventData, this);
         }
 
         public virtual void OnScroll(PointerEventData eventData)
         {
             if (m_ScrollRect != null) m_ScrollRect.OnScroll(eventData);
-            if (m_OnScroll != null) m_OnScroll(this, eventData);
+            if (m_OnScroll != null) m_OnScroll(eventData, this);
         }
     }
 }

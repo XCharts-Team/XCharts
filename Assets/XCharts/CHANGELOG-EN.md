@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.
+* (2020.08.29) Added the `onPointerClickBar` of `BarChart`, a callback function of click bar.
 * (2020.08.24) Release `V1.6.0` version
 * (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md) to upgrade)
 * (2020.08.15) Optimize `PieChart` drawing performance effect #85

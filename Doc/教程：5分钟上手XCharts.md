@@ -9,9 +9,9 @@
 
 你可以通过以下几种方式获取 `XCharts`。
 
-如果你只是想运行 `Demo` 查看效果，可以在 [Github](https://github.com/monitor1394/unity-ugui-XCharts)上的 [Clone or download](https://github.com/monitor1394/unity-ugui-XCharts/archive/master.zip)下载整个项目或去 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)下载稳定版本，将源码工程解压后用`unity`打开即可。
+如果你只是想运行 `Demo` 查看效果，可以在 [Github](https://github.com/monitor1394/unity-ugui-XCharts)上的 [Code](https://github.com/monitor1394/unity-ugui-XCharts)下载整个项目或去 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)下载稳定版本，将源码工程解压后用`unity`打开即可。如果访问Github不稳定的话，可以从[国内镜像](https://gitee.com/monitor1394/unity-ugui-XCharts)下载。
 
-如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，这里一般会包含`XCharts`和`XChartsDemo`两个`unitypackage`，将 `XCharts` 通过 Unity 导入到你的项目中，`XChartsDemo` 是示例Demo，可视情况导入。或下载 Source code 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
+如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，这里一般会包含`XCharts`和`XChartsDemo`两个`unitypackage`，将 `XCharts` 通过 `Unity` 导入到你的项目中，`XChartsDemo` 是示例`Demo`，可视情况导入。或下载 `Source Code` 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
 
 如果你是`Unity 2018.3`及以上版本，可通过Package Manager来安装XCharts包，通过此方式导入的包只包含`XCharts`核心部分，不包含`XChartsDemo`示例`Demo`部分。具体操作步骤如下：
 

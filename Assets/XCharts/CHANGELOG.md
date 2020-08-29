@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.08.29) 增加`PieChart`的`onPointerClickPie`点击扇形图扇区回调
+* (2020.08.29) 增加`BarChart`的`onPointerClickBar`点击柱形图柱条回调
 * (2020.08.24) 发布`v1.6.0`版本
 * (2020.08.23) 重构代码，将与绘制相关的`Color`改为`Color32`，减少隐式转换（更新后会导致自定义的颜色丢失，可参考[问答29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)进行升级）
 * (2020.08.15) 优化`PieChart`绘制表现效果#85

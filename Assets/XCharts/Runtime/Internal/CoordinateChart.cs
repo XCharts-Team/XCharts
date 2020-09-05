@@ -1120,7 +1120,7 @@ namespace XCharts
                 var inverse = xAxis.IsValue() && xAxis.inverse;
                 var offset = AxisHelper.GetAxisLineSymbolOffset(xAxis);
                 var lineY = m_CoordinateY + (xAxis.axisLine.onZero ? m_YAxises[xAxisIndex].runtimeZeroYOffset : 0);
-                if (xAxis.IsValue() && xAxisIndex > 0) lineY += m_CoordinateHeight;
+                if (xAxisIndex > 0) lineY += m_CoordinateHeight;
                 var left = new Vector3(m_CoordinateX - xAxis.axisLine.width - (inverse ? offset : 0), lineY);
                 var right = new Vector3(m_CoordinateX + m_CoordinateWidth + xAxis.axisLine.width + (!inverse ? offset : 0), lineY);
                 ChartDrawer.DrawLine(vh, left, right, xAxis.axisLine.width, m_ThemeInfo.axisLineColor);
@@ -1134,7 +1134,7 @@ namespace XCharts
                 var offset = AxisHelper.GetAxisLineSymbolOffset(yAxis);
                 var inverse = yAxis.IsValue() && yAxis.inverse;
                 var lineX = m_CoordinateX + (yAxis.axisLine.onZero ? m_XAxises[yAxisIndex].runtimeZeroXOffset : 0);
-                if (yAxis.IsValue() && yAxisIndex > 0) lineX += m_CoordinateWidth;
+                if (yAxisIndex > 0) lineX += m_CoordinateWidth;
                 var bottom = new Vector3(lineX, m_CoordinateY - yAxis.axisLine.width - (inverse ? offset : 0));
                 var top = new Vector3(lineX, m_CoordinateY + m_CoordinateHeight + yAxis.axisLine.width + (!inverse ? offset : 0));
                 ChartDrawer.DrawLine(vh, bottom, top, yAxis.axisLine.width, m_ThemeInfo.axisLineColor);
@@ -1229,6 +1229,7 @@ namespace XCharts
                 var xAxis = m_XAxises[i];
                 var yAxis = m_YAxises[i];
                 if (!xAxis.show) continue;
+                if(m_Tooltip.runtimeXValues[i] < 0) continue;
                 float splitWidth = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
                 switch (m_Tooltip.type)
                 {
@@ -1274,6 +1275,7 @@ namespace XCharts
                 var yAxis = m_YAxises[i];
                 var xAxis = m_XAxises[i];
                 if (!yAxis.show) continue;
+                if(m_Tooltip.runtimeYValues[i] < 0) continue;
                 float splitWidth = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
                 switch (m_Tooltip.type)
                 {

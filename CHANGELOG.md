@@ -1,7 +1,8 @@
 
 # 更新日志
 
-* (2020.08.29) 增加`LineStyle`的`toColor`和`toColor2`设置`LineChart`的水平渐变，取消通过`ItemStyle`设置`LineChart`的水平渐变。
+* (2020.09.05) 优化`LineChart`在不使用`XAxis1`时也能显示`XAxis1`
+* (2020.08.29) 增加`LineStyle`的`toColor`和`toColor2`设置`LineChart`的水平渐变，取消通过`ItemStyle`设置`LineChart`的水平渐变
 * (2020.08.29) 增加`PieChart`的`onPointerClickPie`点击扇形图扇区回调
 * (2020.08.29) 增加`BarChart`的`onPointerClickBar`点击柱形图柱条回调
 * (2020.08.24) 发布`v1.6.0`版本

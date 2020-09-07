@@ -137,7 +137,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_CenterGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 数据项背景颜色。
+        /// 数据项背景宽度。
         /// </summary>
         public float backgroundWidth
         {

@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.09.08) 优化`Legend`的颜色可自动匹配`ItemStyle`的自定义颜色#89
 * (2020.09.05) 优化`LineChart`在不使用`XAxis1`时也能显示`XAxis1`
 * (2020.08.29) 增加`LineStyle`的`toColor`和`toColor2`设置`LineChart`的水平渐变，取消通过`ItemStyle`设置`LineChart`的水平渐变
 * (2020.08.29) 增加`PieChart`的`onPointerClickPie`点击扇形图扇区回调

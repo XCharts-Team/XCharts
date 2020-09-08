@@ -18,12 +18,14 @@ namespace XCharts
             else return (Color)themeInfo.legendUnableColor;
         }
 
-        public static Color GetIconColor(Legend legend, int readIndex, ThemeInfo themeInfo, bool active)
+        public static Color GetIconColor(Legend legend, int readIndex, ThemeInfo themeInfo, Series series, string legendName, bool active)
         {
             if (active)
             {
                 if (legend.itemAutoColor || legend.GetIcon(readIndex) == null)
-                    return (Color)themeInfo.GetColor(readIndex);
+                {
+                    return SeriesHelper.GetNameColor(series, readIndex, legendName, themeInfo);
+                }
                 else
                     return Color.white;
             }

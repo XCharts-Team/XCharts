@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.09.08) Optimize the color of `Legend` to automatically match the custom color of `ItemStyle`
 * (2020.09.05) Optimize `LineChart` to display `XAxis1` without using `XAxis1`.
 * (2020.08.29) Added `toColor` and `toColor2` of `LineStyle` to set the horizontal gradient of `LineChart`. Cancel `ItemStyle` to set the horizontal gradient of `LineChart`.
 * (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.

@@ -119,6 +119,42 @@ namespace XCharts
             }
         }
 
+        internal static Color GetNameColor(Series series, int index, string name, ThemeInfo theme)
+        {
+            Serie destSerie = null;
+            SerieData destSerieData = null;
+
+            for (int n = 0; n < series.list.Count; n++)
+            {
+                var serie = series.GetSerie(n);
+                if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
+                {
+                    bool found = false;
+                    for (int i = 0; i < serie.data.Count; i++)
+                    {
+                        if (name.Equals(serie.data[i].name))
+                        {
+                            destSerie = serie;
+                            destSerieData = serie.data[i];
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) break;
+                }
+                else
+                {
+                    if (name.Equals(serie.name))
+                    {
+                        destSerie = serie;
+                        destSerieData = null;
+                        break;
+                    }
+                }
+            }
+            return SerieHelper.GetItemColor(destSerie, destSerieData, theme, index, false);
+        }
+
         /// <summary>
         /// 同堆叠的serie是否有渐变色的。
         /// </summary>

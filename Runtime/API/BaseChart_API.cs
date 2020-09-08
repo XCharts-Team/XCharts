@@ -464,7 +464,7 @@ namespace XCharts
             var legendIndex = m_LegendRealShowName.IndexOf(legendName);
             if (legendIndex >= 0)
             {
-                var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_ThemeInfo, active);
+                var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_ThemeInfo, m_Series, legendName, active);
                 var contentColor = LegendHelper.GetContentColor(legend, m_ThemeInfo, active);
                 m_Legend.UpdateButtonColor(legendName, iconColor);
                 m_Legend.UpdateContentColor(legendName, contentColor);

@@ -86,7 +86,7 @@ namespace XCharts
             else
             {
                 var color = theme.axisSplitLineColor;
-                color.a *= (byte)(color.a * lineStyle.opacity);
+                color.a = (byte)(color.a * lineStyle.opacity);
                 return color;
             }
         }

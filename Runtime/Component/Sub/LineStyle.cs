@@ -160,7 +160,7 @@ namespace XCharts
         {
             if (m_Opacity == 1) return m_Color;
             var color = m_Color;
-            color.a *= (byte)(color.a * m_Opacity);
+            color.a = (byte)(color.a * m_Opacity);
             return color;
         }
 
@@ -186,7 +186,7 @@ namespace XCharts
             }
             if (m_Opacity != 1)
             {
-                color.a *= (byte)(color.a * m_Opacity);
+                color.a = (byte)(color.a * m_Opacity);
             }
             return color;
         }

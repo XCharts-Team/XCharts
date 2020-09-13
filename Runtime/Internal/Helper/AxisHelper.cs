@@ -58,12 +58,22 @@ namespace XCharts
             {
                 return axis.splitNumber;
             }
-            int dataCount = axis.GetDataList(dataZoom).Count;
-            if (axis.splitNumber <= 0) return dataCount;
-            if (dataCount > 2 * axis.splitNumber || dataCount <= 0)
-                return axis.splitNumber;
-            else
-                return dataCount;
+            else if (axis.type == Axis.AxisType.Category)
+            {
+                int dataCount = axis.GetDataList(dataZoom).Count;
+                if (dataCount <= 0) return 0;
+                if (axis.splitNumber <= 0) return dataCount;
+                if (dataCount >= 2 * axis.splitNumber)
+                {
+                    int tick = dataCount / axis.splitNumber;
+                    return (int)dataCount / tick;
+                }
+                else
+                {
+                    return dataCount;
+                }
+            }
+            return 0;
         }
 
         /// <summary>
@@ -146,20 +156,12 @@ namespace XCharts
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
-
-            if (index == split - 1 && !axis.boundaryGap)
-            {
-                return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
-            }
-            else
-            {
-                float rate = dataCount / split;
-                if (rate < 1) rate = 1;
-                int offset = axis.boundaryGap ? (int)(rate / 2) : 0;
-                int newIndex = (int)(index * rate >= dataCount - 1 ?
-                    dataCount - 1 : offset + index * rate);
-                return axis.axisLabel.GetFormatterContent(showData[newIndex]);
-            }
+            if (split == 1) return axis.axisLabel.GetFormatterContent(showData[0]);
+            int rate = dataCount / (split - (axis.boundaryGap ? 0 : 1));
+            if (rate < 1) rate = 1;
+            int newIndex = index * rate;
+            if (newIndex > dataCount - 1) return string.Empty;
+            else return axis.axisLabel.GetFormatterContent(showData[newIndex]);
         }
 
         /// <summary>
@@ -169,21 +171,8 @@ namespace XCharts
         /// <returns></returns>
         internal static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
-            if (axis.type == Axis.AxisType.Value || axis.type == Axis.AxisType.Log)
-            {
-                int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
-                return axis.boundaryGap ? splitNum + 1 : splitNum;
-            }
-            else
-            {
-                var showData = axis.GetDataList(dataZoom);
-                int dataCount = showData.Count;
-                if (axis.splitNumber <= 0) return axis.boundaryGap ? dataCount + 1 : dataCount;
-                if (dataCount > 2 * axis.splitNumber || dataCount <= 0)
-                    return axis.boundaryGap ? axis.splitNumber + 1 : axis.splitNumber;
-                else
-                    return axis.boundaryGap ? dataCount + 1 : dataCount;
-            }
+            int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
+            return axis.boundaryGap ? splitNum + 1 : splitNum;
         }
 
         /// <summary>
@@ -198,12 +187,32 @@ namespace XCharts
             if (num <= 0) num = 1;
             if (axis.type == Axis.AxisType.Value && axis.interval > 0)
             {
-                if (index == num - 1) return coordinateWidth - (num - 1) * axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
-                else return axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
+                return axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
             }
             else
             {
-                return coordinateWidth / num;
+                if (axis.data.Count > 0)
+                {
+                    int tick = axis.data.Count / num;
+                    var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
+                    var each = coordinateWidth / count;
+                    return each * tick;
+                }
+                else return coordinateWidth / num;
+            }
+        }
+
+        internal static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
+        {
+            if (axis.data.Count > 0)
+            {
+                var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
+                return count > 0 ? coordinateWidth / count : coordinateWidth;
+            }
+            else
+            {
+                int num = GetScaleNumber(axis, coordinateWidth, dataZoom) - 1;
+                return num > 0 ? coordinateWidth / num : coordinateWidth;
             }
         }
 

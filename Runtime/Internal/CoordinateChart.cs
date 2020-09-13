@@ -527,8 +527,10 @@ namespace XCharts
             var labelColor = ChartHelper.IsClearColor(yAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
                 yAxis.axisLabel.color;
-            int splitNumber = AxisHelper.GetSplitNumber(yAxis, m_CoordinateHeight, m_DataZoom);
+            int splitNumber = AxisHelper.GetScaleNumber(yAxis, m_CoordinateHeight, m_DataZoom);
             float totalWidth = 0;
+            float eachWidth = AxisHelper.GetEachWidth(yAxis, m_CoordinateHeight, m_DataZoom);
+            float gapWidth = yAxis.boundaryGap ? eachWidth / 2 : 0;
             for (int i = 0; i < splitNumber; i++)
             {
                 Text txt;
@@ -550,7 +552,7 @@ namespace XCharts
 
                 float labelWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i, m_DataZoom);
                 if (i == 0) yAxis.axisLabel.SetRelatedText(txt, labelWidth);
-                txt.transform.localPosition = GetLabelYPosition(totalWidth + (yAxis.boundaryGap ? labelWidth / 2 : 0), i, yAxisIndex, yAxis);
+                txt.transform.localPosition = GetLabelYPosition(totalWidth + gapWidth, i, yAxisIndex, yAxis);
 
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
                 txt.text = AxisHelper.GetLabelName(yAxis, m_CoordinateHeight, i, yAxis.runtimeMinValue, yAxis.runtimeMaxValue, m_DataZoom, isPercentStack);
@@ -633,8 +635,10 @@ namespace XCharts
             var labelColor = ChartHelper.IsClearColor(xAxis.axisLabel.color) ?
                 (Color)m_ThemeInfo.axisTextColor :
                 xAxis.axisLabel.color;
-            int splitNumber = AxisHelper.GetSplitNumber(xAxis, m_CoordinateWidth, m_DataZoom);
+            int splitNumber = AxisHelper.GetScaleNumber(xAxis, m_CoordinateWidth, m_DataZoom);
             float totalWidth = 0;
+            float eachWidth = AxisHelper.GetEachWidth(xAxis, m_CoordinateWidth, m_DataZoom);
+            float gapWidth = xAxis.boundaryGap ? eachWidth / 2 : 0;
             for (int i = 0; i < splitNumber; i++)
             {
                 float labelWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i, m_DataZoom);
@@ -644,7 +648,7 @@ namespace XCharts
                     new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(labelWidth, 20),
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
                 if (i == 0) xAxis.axisLabel.SetRelatedText(txt, labelWidth);
-                txt.transform.localPosition = GetLabelXPosition(totalWidth + (xAxis.boundaryGap ? labelWidth : labelWidth / 2),
+                txt.transform.localPosition = GetLabelXPosition(totalWidth + labelWidth / 2 + gapWidth,
                     i, xAxisIndex, xAxis);
                 totalWidth += labelWidth;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
@@ -1083,8 +1087,11 @@ namespace XCharts
                         {
                             pY += startY - xAxis.axisTick.length;
                         }
-                        ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
-                            AxisHelper.GetTickWidth(xAxis), m_ThemeInfo.axisLineColor);
+                        if (pX <= m_CoordinateX + m_CoordinateWidth + yAxis.axisLine.width)
+                        {
+                            ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
+                                AxisHelper.GetTickWidth(xAxis), m_ThemeInfo.axisLineColor);
+                        }
                     }
                     totalWidth += scaleWidth;
                 }
@@ -1229,7 +1236,7 @@ namespace XCharts
                 var xAxis = m_XAxises[i];
                 var yAxis = m_YAxises[i];
                 if (!xAxis.show) continue;
-                if(m_Tooltip.runtimeXValues[i] < 0) continue;
+                if (m_Tooltip.runtimeXValues[i] < 0) continue;
                 float splitWidth = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
                 switch (m_Tooltip.type)
                 {
@@ -1275,7 +1282,7 @@ namespace XCharts
                 var yAxis = m_YAxises[i];
                 var xAxis = m_XAxises[i];
                 if (!yAxis.show) continue;
-                if(m_Tooltip.runtimeYValues[i] < 0) continue;
+                if (m_Tooltip.runtimeYValues[i] < 0) continue;
                 float splitWidth = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
                 switch (m_Tooltip.type)
                 {

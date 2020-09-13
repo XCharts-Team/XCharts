@@ -96,10 +96,16 @@ namespace XCharts
                 }
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Interval);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_BoundaryGap);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (type == Axis.AxisType.Category)
+                {
+                    EditorGUI.PropertyField(drawRect, m_BoundaryGap);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
+                else
+                {
+                    EditorGUI.PropertyField(drawRect, m_Interval);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
                 DrawExtended(ref drawRect, prop);
                 EditorGUI.PropertyField(drawRect, m_AxisLine);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -170,7 +176,7 @@ namespace XCharts
                     }
                     else
                     {
-                        height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 0 * EditorGUIUtility.singleLineHeight + 0 * EditorGUIUtility.standardVerticalSpacing;
                     }
                     if (m_ShowJsonDataArea)
                     {
@@ -179,7 +185,7 @@ namespace XCharts
                 }
                 else if (type == Axis.AxisType.Value)
                 {
-                    height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                     SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
                     if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
                     {
@@ -188,7 +194,7 @@ namespace XCharts
                 }
                 else if (type == Axis.AxisType.Log)
                 {
-                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                    height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                     SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
                     if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
                     {

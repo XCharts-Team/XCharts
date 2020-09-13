@@ -154,12 +154,12 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The boundary gap on both sides of a coordinate axis. 
-        /// 坐标轴两边是否留白。
+        /// The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'. 
+        /// 坐标轴两边是否留白。只对类目轴有效。
         /// </summary>
         public bool boundaryGap
         {
-            get { return m_BoundaryGap; }
+            get { return IsCategory() ? m_BoundaryGap : false; }
             set { if (PropertyUtility.SetStruct(ref m_BoundaryGap, value)) SetAllDirty(); }
         }
         /// <summary>

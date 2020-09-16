@@ -14,20 +14,6 @@
 /Assets/Package.meta
 /Doc/*.meta
 
-/Assets/XCharts/*.meta
-/Assets/XCharts/Runtime/Internal/*.meta
-/Assets/XCharts/Runtime/Internal/Helper/*.meta
-/Assets/XCharts/Runtime/Internal/Interface/*.meta
-/Assets/XCharts/Runtime/Internal/Object/*.meta
-/Assets/XCharts/Runtime/Internal/Pools/*.meta
-/Assets/XCharts/Runtime/Internal/Utility/*.meta
-/Assets/XCharts/Runtime/Helper/*.meta
-/Assets/XCharts/Runtime/Component/*.meta
-/Assets/XCharts/Runtime/Component/Sub/*.meta
-/Assets/XCharts/Runtime/Component/Main/*.meta
-/Assets/XCharts/Editor/PropertyDrawers/*.meta
-/Assets/XCharts/Editor/Utility/*.meta
-/Assets/XCharts/Editor/*.meta
 /Assets/XCharts/Documentation/*.meta
 /Assets/XCharts/Documentation/*.meta
 

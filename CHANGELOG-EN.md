@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.09.18) Fixed `SerieLabel` also displayed after hided `Serie` by clicked the legend #94
 * (2020.09.18) Optimize coordinate axis calibration and text display #93
 * (2020.09.17) fixed `Package` import missing `meta` file causing failure #92
 * (2020.09.08) Optimize the color of `Legend` to automatically match the custom color of `ItemStyle`

@@ -531,6 +531,7 @@ namespace XCharts
             float totalWidth = 0;
             float eachWidth = AxisHelper.GetEachWidth(yAxis, m_CoordinateHeight, m_DataZoom);
             float gapWidth = yAxis.boundaryGap ? eachWidth / 2 : 0;
+            float textWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateWidth, 0, m_DataZoom);
             for (int i = 0; i < splitNumber; i++)
             {
                 Text txt;
@@ -550,7 +551,7 @@ namespace XCharts
                         yAxis.axisLabel.fontSize, yAxis.axisLabel.rotate, yAxis.axisLabel.fontStyle);
                 }
 
-                float labelWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i, m_DataZoom);
+                float labelWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i + 1, m_DataZoom);
                 if (i == 0) yAxis.axisLabel.SetRelatedText(txt, labelWidth);
                 txt.transform.localPosition = GetLabelYPosition(totalWidth + gapWidth, i, yAxisIndex, yAxis);
 
@@ -639,16 +640,17 @@ namespace XCharts
             float totalWidth = 0;
             float eachWidth = AxisHelper.GetEachWidth(xAxis, m_CoordinateWidth, m_DataZoom);
             float gapWidth = xAxis.boundaryGap ? eachWidth / 2 : 0;
+            float textWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, 0, m_DataZoom);
             for (int i = 0; i < splitNumber; i++)
             {
-                float labelWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i, m_DataZoom);
+                float labelWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i + 1, m_DataZoom);
                 bool inside = xAxis.axisLabel.inside;
                 Text txt = ChartHelper.AddTextObject(ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform,
                     m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0, 1),
-                    new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(labelWidth, 20),
+                    new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, 20),
                     xAxis.axisLabel.fontSize, xAxis.axisLabel.rotate, xAxis.axisLabel.fontStyle);
                 if (i == 0) xAxis.axisLabel.SetRelatedText(txt, labelWidth);
-                txt.transform.localPosition = GetLabelXPosition(totalWidth + labelWidth / 2 + gapWidth,
+                txt.transform.localPosition = GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth,
                     i, xAxisIndex, xAxis);
                 totalWidth += labelWidth;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
@@ -927,7 +929,7 @@ namespace XCharts
                 var zeroPos = new Vector3(m_CoordinateX + xAxis.runtimeZeroXOffset, m_CoordinateY + yAxis.runtimeZeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
-                    var scaleWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i, m_DataZoom);
+                    var scaleWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i + 1, m_DataZoom);
                     float pY = totalWidth;
                     if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel)
                     {
@@ -966,7 +968,7 @@ namespace XCharts
                 var xAxis = m_XAxises[yAxisIndex];
                 for (int i = 0; i < size; i++)
                 {
-                    var scaleWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i, m_DataZoom);
+                    var scaleWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateHeight, i + 1, m_DataZoom);
                     float pX = 0;
                     float pY = totalWidth;
                     if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel)
@@ -1027,7 +1029,7 @@ namespace XCharts
                 var zeroPos = new Vector3(m_CoordinateX, m_CoordinateY + yAxis.runtimeZeroYOffset);
                 for (int i = 0; i < size; i++)
                 {
-                    var scaleWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i, m_DataZoom);
+                    var scaleWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i + 1, m_DataZoom);
                     float pX = totalWidth;
                     if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel)
                     {
@@ -1052,7 +1054,7 @@ namespace XCharts
                             }
                         }
                     }
-                    totalWidth += scaleWidth;
+                    totalWidth += AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i + 1, m_DataZoom);
                 }
             }
         }
@@ -1066,7 +1068,7 @@ namespace XCharts
                 var yAxis = m_YAxises[xAxisIndex];
                 for (int i = 0; i < size; i++)
                 {
-                    var scaleWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i, m_DataZoom);
+                    var scaleWidth = AxisHelper.GetScaleWidth(xAxis, m_CoordinateWidth, i + 1, m_DataZoom);
                     float pX = totalWidth;
                     float pY = 0;
                     if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel)
@@ -1087,11 +1089,8 @@ namespace XCharts
                         {
                             pY += startY - xAxis.axisTick.length;
                         }
-                        if (pX <= m_CoordinateX + m_CoordinateWidth + yAxis.axisLine.width)
-                        {
-                            ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
-                                AxisHelper.GetTickWidth(xAxis), m_ThemeInfo.axisLineColor);
-                        }
+                        ChartDrawer.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
+                            AxisHelper.GetTickWidth(xAxis), m_ThemeInfo.axisLineColor);
                     }
                     totalWidth += scaleWidth;
                 }

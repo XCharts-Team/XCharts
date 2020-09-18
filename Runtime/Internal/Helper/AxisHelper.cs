@@ -43,35 +43,30 @@ namespace XCharts
                 if (axis.interval > 0)
                 {
                     if (coordinateWid <= 0) return 0;
-                    int num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval) + 1;
+                    int num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
                     int maxNum = Mathf.CeilToInt(coordinateWid / 15);
                     if (num > maxNum)
                     {
                         axis.interval *= 2;
-                        num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval) + 1;
+                        num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
                     }
                     return num;
                 }
-                else return axis.splitNumber;
+                else
+                {
+                    return axis.splitNumber > 0 ? axis.splitNumber : 4;
+                }
             }
             else if (axis.type == Axis.AxisType.Log)
             {
-                return axis.splitNumber;
+                return axis.splitNumber > 0 ? axis.splitNumber : 4;
             }
             else if (axis.type == Axis.AxisType.Category)
             {
                 int dataCount = axis.GetDataList(dataZoom).Count;
-                if (dataCount <= 0) return 0;
-                if (axis.splitNumber <= 0) return dataCount;
-                if (dataCount >= 2 * axis.splitNumber)
-                {
-                    int tick = dataCount / axis.splitNumber;
-                    return (int)dataCount / tick;
-                }
-                else
-                {
-                    return dataCount;
-                }
+                if (axis.splitNumber <= 0 || axis.splitNumber > dataCount) return dataCount;
+                if (dataCount >= axis.splitNumber * 2) return axis.splitNumber;
+                else return dataCount;
             }
             return 0;
         }
@@ -124,12 +119,12 @@ namespace XCharts
                 if (forcePercent) maxValue = 100;
                 if (axis.interval > 0)
                 {
-                    if (index == split - 1) value = maxValue;
+                    if (index == split) value = maxValue;
                     else value = minValue + index * axis.interval;
                 }
                 else
                 {
-                    value = (minValue + (maxValue - minValue) * index / (split - 1));
+                    value = (minValue + (maxValue - minValue) * index / split);
                     if (!axis.clockwise && value != minValue) value = maxValue - value;
                 }
                 if (axis.inverse)
@@ -156,12 +151,22 @@ namespace XCharts
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
-            if (split == 1) return axis.axisLabel.GetFormatterContent(showData[0]);
-            int rate = dataCount / (split - (axis.boundaryGap ? 0 : 1));
-            if (rate < 1) rate = 1;
+            int rate = Mathf.RoundToInt(dataCount * 1f / split);
             int newIndex = index * rate;
-            if (newIndex > dataCount - 1) return string.Empty;
-            else return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+            if (newIndex <= dataCount - 1)
+            {
+                return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+            }
+            else
+            {
+                if (rate == 1) return string.Empty;
+                else if (axis.boundaryGap && coordinateWidth / dataCount > 10) return string.Empty;
+                else
+                {
+                    if ((index - 1) * rate > dataCount - 1) return string.Empty;
+                    else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
+                }
+            }
         }
 
         /// <summary>
@@ -172,7 +177,15 @@ namespace XCharts
         internal static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
             int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
-            return axis.boundaryGap ? splitNum + 1 : splitNum;
+            if (axis.IsCategory())
+            {
+                int tick = Mathf.RoundToInt(axis.data.Count * 1f / splitNum);
+                return Mathf.CeilToInt(axis.data.Count * 1.0f / tick) + 1;
+            }
+            else
+            {
+                return splitNum + 1;
+            }
         }
 
         /// <summary>
@@ -183,22 +196,32 @@ namespace XCharts
         /// <returns></returns>
         internal static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)
         {
-            int num = GetScaleNumber(axis, coordinateWidth, dataZoom) - 1;
+            if (index < 0) return 0;
+            int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
+            int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (num <= 0) num = 1;
             if (axis.type == Axis.AxisType.Value && axis.interval > 0)
             {
-                return axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
+                if (axis.runtimeMinMaxRange <= 0) return 0;
+                if (index >= splitNum) return coordinateWidth - (index - 1) * axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
+                else return axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
             }
             else
             {
-                if (axis.data.Count > 0)
+                if (axis.IsCategory() && axis.data.Count > 0)
                 {
-                    int tick = axis.data.Count / num;
+                    int tick = Mathf.RoundToInt(axis.data.Count * 1f / splitNum);
                     var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
+                    if (count <= 0) return 0;
                     var each = coordinateWidth / count;
-                    return each * tick;
+                    if (index >= num - 1) return coordinateWidth - each * tick * (index - 1);
+                    else return each * tick;
                 }
-                else return coordinateWidth / num;
+                else
+                {
+                    if (splitNum <= 0) return 0;
+                    else return coordinateWidth / splitNum;
+                }
             }
         }
 

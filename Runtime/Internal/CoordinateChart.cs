@@ -1543,7 +1543,6 @@ namespace XCharts
                     }
                     else
                     {
-                        Debug.LogError("lable not show:" + i + "," + j);
                         serieData.SetLabelActive(false);
                     }
                 }

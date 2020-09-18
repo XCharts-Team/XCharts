@@ -116,6 +116,10 @@ namespace XCharts
 
         private void CheckWarning()
         {
+            if (GUILayout.Button("Remove All Chart Object"))
+            {
+                m_Target.RemoveChartObject();
+            }
             if (GUILayout.Button("Check XCharts Update "))
             {
                 CheckVersionEditor.ShowWindow();

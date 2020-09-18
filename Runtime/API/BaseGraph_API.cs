@@ -134,5 +134,13 @@ namespace XCharts
             warningInfo = CheckHelper.CheckChart(this);
             return warningInfo;
         }
+
+        /// <summary>
+        /// 移除所有图表子节点，会自动重现初始化。
+        /// </summary>
+        public void RemoveChartObject()
+        {
+            ChartHelper.DestroyAllChildren(transform);
+        }
     }
 }

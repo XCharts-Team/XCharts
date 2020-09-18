@@ -1498,9 +1498,13 @@ namespace XCharts
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
                 for (int j = 0; j < serie.data.Count; j++)
                 {
-                    if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     if (serieData.labelObject == null) continue;
+                    if (j >= serie.dataPoints.Count)
+                    {
+                        serieData.SetLabelActive(false);
+                        continue;
+                    }
                     var pos = serie.dataPoints[j];
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var dimension = 1;
@@ -1539,6 +1543,7 @@ namespace XCharts
                     }
                     else
                     {
+                        Debug.LogError("lable not show:" + i + "," + j);
                         serieData.SetLabelActive(false);
                     }
                 }

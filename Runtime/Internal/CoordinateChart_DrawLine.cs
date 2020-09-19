@@ -1221,7 +1221,6 @@ namespace XCharts
                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, startUp, false);
                 TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, startDn, false);
             }
-            var sourAreaColor = areaColor;
             var bezierPointsCount = bezierPoints.Count;
             for (int k = 1; k < bezierPointsCount; k++)
             {

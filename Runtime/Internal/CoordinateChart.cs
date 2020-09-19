@@ -531,7 +531,6 @@ namespace XCharts
             float totalWidth = 0;
             float eachWidth = AxisHelper.GetEachWidth(yAxis, m_CoordinateHeight, m_DataZoom);
             float gapWidth = yAxis.boundaryGap ? eachWidth / 2 : 0;
-            float textWidth = AxisHelper.GetScaleWidth(yAxis, m_CoordinateWidth, 0, m_DataZoom);
             for (int i = 0; i < splitNumber; i++)
             {
                 Text txt;

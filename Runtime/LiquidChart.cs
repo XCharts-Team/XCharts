@@ -102,7 +102,6 @@ namespace XCharts
                 {
                     var cenPos = vessel.runtimeCenterPos;
                     var radius = vessel.runtimeRadius;
-                    var serie = SeriesHelper.GetSerieByVesselIndex(m_Series, vessel.index);
                     ChartDrawer.DrawCricle(vh, cenPos, vessel.runtimeInnerRadius, vessel.backgroundColor, m_Settings.cicleSmoothness);
                 }
             }

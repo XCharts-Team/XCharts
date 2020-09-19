@@ -1315,7 +1315,7 @@ namespace XCharts
                 case SerieSymbolType.Circle:
                     if (gap > 0)
                     {
-                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, toColor, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, backgroundColor, color, smoothness);
                     }
                     else
                     {
@@ -1326,11 +1326,11 @@ namespace XCharts
                     if (gap > 0)
                     {
                         ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
                     }
                     else
                     {
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.Rect:

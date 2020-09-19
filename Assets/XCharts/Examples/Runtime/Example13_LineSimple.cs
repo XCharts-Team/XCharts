@@ -19,6 +19,7 @@ namespace XCharts.Examples
             if (chart == null)
             {
                 chart = gameObject.AddComponent<LineChart>();
+                chart.SetSize(580, 300);//代码动态添加图表需要设置尺寸，或直接操作chart.rectTransform
             }
             chart.title.show = true;
             chart.title.text = "Line Simple";

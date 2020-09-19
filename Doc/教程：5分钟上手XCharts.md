@@ -49,13 +49,14 @@
 
 ## 用代码添加折线图
 
-给`gameObject`挂上`LineChart`脚本：
+给`gameObject`挂上`LineChart`脚本，需要调用`SetSize()`接口设置图表尺寸，或者直接操作`chart.rectTransfrom`：
 
 ```C#
 var chart = gameObject.GetComponent<LineChart>();
 if (chart == null)
 {
     chart = gameObject.AddComponent<LineChart>();
+    chart.SetSize(580, 300);//代码动态添加图表需要设置尺寸，或直接操作chart.rectTransform
 }
 ```
 

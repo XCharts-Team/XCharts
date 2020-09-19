@@ -734,7 +734,6 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
             var dataIndex = tooltip.runtimeDataIndex[1];
-            StringBuilder sb = new StringBuilder();
             var content = TooltipHelper.GetFormatterContent(m_Tooltip, dataIndex, m_Series, m_ThemeInfo, null, null, false, radar);
             TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
         }

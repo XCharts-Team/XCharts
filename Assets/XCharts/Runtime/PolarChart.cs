@@ -20,12 +20,9 @@ namespace XCharts
         [SerializeField] private RadiusAxis m_RadiusAxis = RadiusAxis.defaultRadiusAxis;
         [SerializeField] private AngleAxis m_AngleAxis = AngleAxis.defaultAngleAxis;
 
-        private bool m_CheckMinMaxValue = false;
-
         protected override void Awake()
         {
             base.Awake();
-            m_CheckMinMaxValue = false;
             CheckMinMaxValue();
             UpdateRuntimeValue();
             InitRadiusAxis(m_RadiusAxis);
@@ -233,10 +230,8 @@ namespace XCharts
 
         private void CheckMinMaxValue()
         {
-
             if (m_RadiusAxis.IsCategory() && m_AngleAxis.IsCategory())
             {
-                m_CheckMinMaxValue = true;
                 return;
             }
             UpdateAxisMinMaxValue(0, m_RadiusAxis);
@@ -259,7 +254,6 @@ namespace XCharts
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
-                m_CheckMinMaxValue = true;
                 m_IsPlayingAnimation = true;
                 var needCheck = !m_IsPlayingAnimation && axis.runtimeLastCheckInverse == axis.inverse;
                 axis.UpdateMinValue(tempMinValue, needCheck);

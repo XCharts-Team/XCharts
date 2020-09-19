@@ -1,8 +1,8 @@
 {
   "name": "com.monitor1394.xcharts",
   "displayName": "XCharts",
-  "version": "1.6.0",
-  "date": "20200824",
+  "version": "1.6.1",
+  "date": "20200919",
   "checkdate": "20200824",
   "desc": "如果 XCharts 对您有帮助，希望您能在 Github 上点 Star 支持，非常感谢！",
   "unity": "2018.3",

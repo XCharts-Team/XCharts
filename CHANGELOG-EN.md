@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.09.22) Fixed `PieChart` inconsistent border size
 * (2020.09.18) Added `Remove All Chart Object` to Remove All child nodes under the Chart (automatically reinitialized)
 * (2020.09.18) Fixed `SerieLabel` also displayed after hided `Serie` by clicked the legend #94
 * (2020.09.18) Optimize coordinate axis calibration and text display #93

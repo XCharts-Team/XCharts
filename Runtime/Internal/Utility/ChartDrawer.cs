@@ -865,6 +865,7 @@ namespace XCharts
             var lastColor = color;
             var needBorder = borderWidth != 0;
             var needSpace = space != 0;
+            var borderLineWidth = needSpace ? borderWidth : borderWidth / 2;
             var lastPos = Vector3.zero;
             var middleDire = ChartHelper.GetDire(startAngle + halfAngle);
             if (needBorder || needSpace)
@@ -884,9 +885,9 @@ namespace XCharts
                 }
                 if (needBorder)
                 {
-                    borderDiff = borderWidth / Mathf.Sin(halfAngle);
+                    borderDiff = borderLineWidth / Mathf.Sin(halfAngle);
                     realCenter += borderDiff * middleDire;
-                    borderAngle = 2 * Mathf.Asin(borderWidth / (2 * radius));
+                    borderAngle = 2 * Mathf.Asin(borderLineWidth / (2 * radius));
                     realStartAngle = realStartAngle + borderAngle;
                     realToAngle = realToAngle - borderAngle;
                     if (realToAngle < realStartAngle)
@@ -962,8 +963,6 @@ namespace XCharts
                 }
             }
         }
-
-
 
         public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
             bool clockwise, Color32 color, bool end)

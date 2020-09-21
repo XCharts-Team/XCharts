@@ -14,9 +14,6 @@
 /Assets/Package.meta
 /Doc/*.meta
 
-/Assets/XCharts/Documentation/*.meta
-/Assets/XCharts/Documentation/*.meta
-
 /Assets/XChartsDemo/demo_test.unity
 /Assets/XChartsDemo/demo_test.unity.meta
 /Assets/XChartsDemo/empty.unity

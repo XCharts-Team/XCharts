@@ -66,7 +66,13 @@ namespace XCharts
                 {
                     EditorGUI.PropertyField(drawRect, m_LogBaseE);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.BeginChangeCheck();
                     EditorGUI.PropertyField(drawRect, m_LogBase);
+                    if (m_LogBase.floatValue <= 0 || m_LogBase.floatValue == 1)
+                    {
+                        m_LogBase.floatValue = 10;
+                    }
+                    EditorGUI.EndChangeCheck();
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (type == Axis.AxisType.Value)

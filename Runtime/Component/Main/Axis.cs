@@ -169,7 +169,11 @@ namespace XCharts
         public float logBase
         {
             get { return m_LogBase; }
-            set { if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty(); }
+            set
+            {
+                if (value <= 0 || value == 1) value = 10;
+                if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty();
+            }
         }
         /// <summary>
         /// On the log axis, if base e is the natural number, and is true, logBase fails.
@@ -745,7 +749,7 @@ namespace XCharts
 
         public float GetLogValue(float value)
         {
-            if (value <= 0) return 0;
+            if (value <= 0 || value == 1) return 0;
             return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
         }
 

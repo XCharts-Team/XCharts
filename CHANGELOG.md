@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.10.22) 完善`HeatmapChart`中`VisualMap`对`Piecewise`的支持
 * (2020.09.22) 修复`PieChart`边框大小不一致的问题
 * (2020.09.19) 发布`v1.6.1`版本
 * (2020.09.19) 增加`Remove All Chart Object`移除图表下的所有子节点（会自动重新初始化）

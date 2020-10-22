@@ -454,7 +454,7 @@ namespace XCharts
             if (splitNumber <= 0) return -1;
             value = Mathf.Clamp(value, m_Min, m_Max);
 
-            var diff = (m_Max - m_Min) / (splitNumber - (IsPiecewise() ? 0 : 1));
+            var diff = (m_Max - m_Min) / (splitNumber - 1);
             var index = -1;
             for (int i = 0; i < splitNumber; i++)
             {

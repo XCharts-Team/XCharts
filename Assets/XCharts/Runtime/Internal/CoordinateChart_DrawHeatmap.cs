@@ -282,7 +282,7 @@ namespace XCharts
                     {
                         var splitPos = pos1 + dir * (i - 1 + 0.5f) * splitWid;
                         var startColor = colors[i - 1];
-                        var toColor = colors[i];
+                        var toColor = m_VisualMap.IsPiecewise() ? startColor : colors[i];
                         ChartDrawer.DrawPolygon(vh, splitPos, xRadius, yRadius, startColor, toColor, isVertical);
                     }
                     else if (rangeMin > splitMin && rangeMax >= splitMax)
@@ -291,7 +291,7 @@ namespace XCharts
                         var splitMaxPos = pos1 + dir * i * splitWid;
                         var splitPos = p0 + (splitMaxPos - p0) / 2;
                         var startColor = m_VisualMap.GetColor(m_VisualMap.rangeMin);
-                        var toColor = colors[i];
+                        var toColor = m_VisualMap.IsPiecewise() ? startColor : colors[i];
                         var yRadius1 = Vector3.Distance(p0, splitMaxPos) / 2;
                         if (m_VisualMap.orient == Orient.Vertical)
                             ChartDrawer.DrawPolygon(vh, splitPos, xRadius, yRadius1, startColor, toColor, isVertical);
@@ -304,7 +304,7 @@ namespace XCharts
                         var splitMinPos = pos1 + dir * (i - 1) * splitWid;
                         var splitPos = splitMinPos + (p0 - splitMinPos) / 2;
                         var startColor = colors[i - 1];
-                        var toColor = m_VisualMap.GetColor(m_VisualMap.rangeMax);
+                        var toColor = m_VisualMap.IsPiecewise() ? startColor : m_VisualMap.GetColor(m_VisualMap.rangeMax);
                         var yRadius1 = Vector3.Distance(p0, splitMinPos) / 2;
                         if (m_VisualMap.orient == Orient.Vertical)
                             ChartDrawer.DrawPolygon(vh, splitPos, xRadius, yRadius1, startColor, toColor, isVertical);
@@ -332,7 +332,7 @@ namespace XCharts
                 {
                     var splitPos = pos1 + dir * (i - 1 + 0.5f) * splitWid;
                     var startColor = colors[i - 1];
-                    var toColor = colors[i];
+                    var toColor = m_VisualMap.IsPiecewise() ? startColor : colors[i];
                     ChartDrawer.DrawPolygon(vh, splitPos, xRadius, yRadius, startColor, toColor, isVertical);
                 }
             }

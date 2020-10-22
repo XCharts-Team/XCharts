@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.10.22) Improve the support of `VisualMap` for `Piecewise` in `HeatmapChart`
 * (2020.09.22) Fixed `PieChart` inconsistent border size
 * (2020.09.18) Added `Remove All Chart Object` to Remove All child nodes under the Chart (automatically reinitialized)
 * (2020.09.18) Fixed `SerieLabel` also displayed after hided `Serie` by clicked the legend #94

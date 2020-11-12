@@ -341,9 +341,16 @@ namespace XCharts
             if (segment < 1) segment = (int)(dist / 0.5f);
             if (segment < 4) segment = 4;
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
+            if (posList.Count < 2)
+            {
+                posList.Clear();
+                posList.Add(sp);
+                posList.Add(ep);
+            }
         }
 
-        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float smoothness = 2f, float k = 2.0f)
+        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
+            float smoothness = 2f, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
@@ -353,6 +360,12 @@ namespace XCharts
             cp2.x = ep.x;
             int segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
+            if (posList.Count < 2)
+            {
+                posList.Clear();
+                posList.Add(sp);
+                posList.Add(ep);
+            }
         }
 
         public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)

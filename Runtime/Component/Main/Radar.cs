@@ -62,7 +62,7 @@ namespace XCharts
             /// The name of indicator.
             /// 指示器名称。
             /// </summary>
-            public string name { get { return m_Name; } set { m_Name = value; } }
+            public string name { get { return FormatterHelper.TrimAndReplaceLine(m_Name); } set { m_Name = value; } }
             /// <summary>
             /// The maximum value of indicator, with default value of 0, but we recommend to set it manually.
             /// 指示器的最大值，默认为 0 无限制。

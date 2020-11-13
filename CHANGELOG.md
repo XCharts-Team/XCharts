@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.11.13) 完善`RadarChart`的`Indicator`对`\n`换行的支持
 * (2020.11.12) 修复`LineChart`当类型为`Smooth`时数据过密情况下报错的问题 #100
 * (2020.10.22) 完善`HeatmapChart`中`VisualMap`对`Piecewise`的支持
 * (2020.09.22) 修复`PieChart`边框大小不一致的问题

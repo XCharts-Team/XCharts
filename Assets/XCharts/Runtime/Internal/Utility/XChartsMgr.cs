@@ -107,25 +107,41 @@ namespace XCharts
             networkError = "";
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/package.json";
             var web = UnityWebRequest.Get(url);
+#if UNITY_5
+            yield return web.Send();
+#else
             yield return web.SendWebRequest();
+#endif
             CheckVersionWebRequest(web);
             if (isNetworkError)
             {
                 url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/package.json";
                 web = UnityWebRequest.Get(url);
+#if UNITY_5
+                yield return web.Send();
+#else
                 yield return web.SendWebRequest();
+#endif
                 CheckVersionWebRequest(web);
             }
             if (needUpdate)
             {
                 url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
                 web = UnityWebRequest.Get(url);
+#if UNITY_5
+                yield return web.Send();
+#else
                 yield return web.SendWebRequest();
+#endif
                 if (!CheckLogWebRequest(web))
                 {
                     url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/CHANGELOG.md";
                     web = UnityWebRequest.Get(url);
+#if UNITY_5
+                    yield return web.Send();
+#else
                     yield return web.SendWebRequest();
+#endif
                     CheckLogWebRequest(web);
                 }
             }

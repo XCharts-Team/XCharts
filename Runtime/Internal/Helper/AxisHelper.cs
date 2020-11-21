@@ -214,7 +214,11 @@ namespace XCharts
                     var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
                     if (count <= 0) return 0;
                     var each = coordinateWidth / count;
-                    if (index >= num - 1) return coordinateWidth - each * tick * (index - 1);
+                    if (index >= num - 1)
+                    {
+                        if (axis.axisTick.alignWithLabel) return each * tick;
+                        else return coordinateWidth - each * tick * (index - 1);
+                    }
                     else return each * tick;
                 }
                 else

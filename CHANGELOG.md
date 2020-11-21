@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.11.21) 修复`LineChart`的刻度位置在`alignWithLabel`为`true`时可能异常的问题
+* (2020.11.21) 修复`Unity5`兼容报错的问题
 * (2020.11.13) 完善`RadarChart`的`Indicator`对`\n`换行的支持
 * (2020.11.12) 修复`LineChart`当类型为`Smooth`时数据过密情况下报错的问题 #100
 * (2020.10.22) 完善`HeatmapChart`中`VisualMap`对`Piecewise`的支持

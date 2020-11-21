@@ -1,6 +1,8 @@
 
 # 更新日志
 
+* (2020.11.21) Fixed an issue where the scale position of `LineChart` could be abnormal if `alignWithLabel` was `true`
+* (2020.11.21) Fixed `Unity5` compatibility error reporting problem
 * (2020.11.13) Improved `RadarChart` `Indicator` support for `\n` line feed
 * (2020.11.12) Fixed `LineChart` reporting errors when the type was `Smooth` when the data was too secure #100
 * (2020.10.22) Improve the support of `VisualMap` for `Piecewise` in `HeatmapChart`

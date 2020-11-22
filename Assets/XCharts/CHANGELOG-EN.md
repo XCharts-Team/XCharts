@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.11.22) Release `v1.6.2` version
 * (2020.11.22) Fixed an issue where `LineChart` draws an exception when the data is too dense #99
 * (2020.11.21) Fixed an issue where the scale position of `LineChart` could be abnormal if `alignWithLabel` was `true`
 * (2020.11.21) Fixed `Unity5` compatibility error reporting problem
@@ -17,7 +18,7 @@
 * (2020.08.29) Added `toColor` and `toColor2` of `LineStyle` to set the horizontal gradient of `LineChart`. Cancel `ItemStyle` to set the horizontal gradient of `LineChart`.
 * (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.
 * (2020.08.29) Added the `onPointerClickBar` of `BarChart`, a callback function of click bar.
-* (2020.08.24) Release `V1.6.0` version
+* (2020.08.24) Release `v1.6.0` version
 * (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md) to upgrade)
 * (2020.08.15) Optimize `PieChart` drawing performance effect #85
 * (2020.08.11) Added `LiquidChart` data change animation#83

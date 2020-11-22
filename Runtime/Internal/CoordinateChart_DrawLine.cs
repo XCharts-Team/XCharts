@@ -674,6 +674,16 @@ namespace XCharts
                 upPos1 = np + (isDown ? -dir1v : dir1v) * serie.lineStyle.width;
                 upPos2 = np + (isDown ? -dir2v : dir2v) * serie.lineStyle.width;
                 lastDir = dir1;
+                if (isDown)
+                {
+                    if (isYAxis && dnPos.x < lp.x && dnPos.x < nnp.x) dnPos.x = lp.x;
+                    if (!isYAxis && dnPos.y < lp.y && dnPos.y < nnp.y) dnPos.y = lp.y;
+                }
+                else
+                {
+                    if (isYAxis && dnPos.x > lp.x && dnPos.x > nnp.x) dnPos.x = lp.x;
+                    if (!isYAxis && dnPos.y > lp.y && dnPos.y > nnp.y) dnPos.y = lp.y;
+                }
             }
             else
             {
@@ -683,6 +693,7 @@ namespace XCharts
                 upPos1 = np - dir1v * serie.lineStyle.width;
                 upPos2 = np + dir1v * serie.lineStyle.width;
                 dnPos = isDown ? upPos2 : upPos1;
+
             }
             if (isSecond)
             {

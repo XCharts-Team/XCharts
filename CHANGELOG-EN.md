@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.11.22) Fixed an issue where `LineChart` draws an exception when the data is too dense #99
 * (2020.11.21) Fixed an issue where the scale position of `LineChart` could be abnormal if `alignWithLabel` was `true`
 * (2020.11.21) Fixed `Unity5` compatibility error reporting problem
 * (2020.11.13) Improved `RadarChart` `Indicator` support for `\n` line feed

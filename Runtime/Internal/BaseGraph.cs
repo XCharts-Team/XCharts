@@ -214,7 +214,6 @@ namespace XCharts
 
         protected override void OnPopulateMesh(VertexHelper vh)
         {
-            Debug.LogError("baseGraph:OnPopulateMesh");
             vh.Clear();
             DrawBackground(vh);
             DrawGraphic(vh);

@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 
 namespace XCharts
 {
+    [RequireComponent(typeof(CanvasRenderer))]
     public partial class BaseGraph : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
@@ -213,6 +214,7 @@ namespace XCharts
 
         protected override void OnPopulateMesh(VertexHelper vh)
         {
+            Debug.LogError("baseGraph:OnPopulateMesh");
             vh.Clear();
             DrawBackground(vh);
             DrawGraphic(vh);

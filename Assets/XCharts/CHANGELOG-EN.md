@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2020.12.01) fixed an issue where a newly created chart on `Unity2020` could not be drawn properly
 * (2020.11.22) Release `v1.6.2` version
 * (2020.11.22) Fixed an issue where `LineChart` draws an exception when the data is too dense #99
 * (2020.11.21) Fixed an issue where the scale position of `LineChart` could be abnormal if `alignWithLabel` was `true`

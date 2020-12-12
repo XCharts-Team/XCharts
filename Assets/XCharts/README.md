@@ -5,6 +5,18 @@
 [![downloads per month](http://img.shields.io/npm/dm/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![qq](https://img.shields.io/badge/QQ群-202030963-green)
 
+---
+
+__XCharts 2.0 is comming soon!__
+
+* Framework reconstruction, layered rendering, support more data
+* Support TextMeshPro
+* Support multi-chart, multi-component mode
+* A friendlier editing interface
+* More …
+
+---
+
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, gauge, ring, polar, liquid and other common chart.
 
 [XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  

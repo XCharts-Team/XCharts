@@ -280,7 +280,7 @@ namespace XCharts
             }
         }
 
-        public bool UpdateData(int dimension, float value, float animationDuration = 500f)
+        public bool UpdateData(int dimension, float value, bool updateAnimation, float animationDuration = 500f)
         {
             if (dimension >= 0 && dimension < data.Count)
             {
@@ -288,7 +288,7 @@ namespace XCharts
                 m_PreviousData[dimension] = GetCurrData(dimension, animationDuration);
                 //m_PreviousData[dimension] = data[dimension];;
                 m_DataUpdateTime[dimension] = Time.time;
-                m_DataUpdateFlag[dimension] = true;
+                m_DataUpdateFlag[dimension] = updateAnimation;
                 data[dimension] = value;
                 return true;
             }

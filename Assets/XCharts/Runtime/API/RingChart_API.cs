@@ -24,11 +24,7 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.GetSerieData(dataIndex);
-                if (serieData != null)
-                {
-                    return serieData.UpdateData(1, value, serie.animation.GetUpdateAnimationDuration());
-                }
+                return serie.UpdateData(dataIndex, 1, value);
             }
             return false;
         }
@@ -45,10 +41,9 @@ namespace XCharts
             if (serie != null)
             {
                 var flag = true;
-                foreach (var serieData in serie.data)
+                for (int i = 0; i < serie.dataCount; i++)
                 {
-                    if (!serieData.UpdateData(1, value, serie.animation.GetUpdateAnimationDuration()))
-                        flag = false;
+                    if (serie.UpdateData(i, 1, value)) flag = false;
                 }
                 return flag;
             }

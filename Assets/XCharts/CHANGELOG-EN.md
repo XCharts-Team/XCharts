@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.02) Release `v1.6.3` version
 * (2020.12.18) fixed an issue where updating data when `Animation` was not enabled caused the chart to keep refreshing
 * (2020.12.01) fixed an issue where a newly created chart on `Unity2020` could not be drawn properly
 * (2020.11.22) Release `v1.6.2` version

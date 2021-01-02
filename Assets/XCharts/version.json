@@ -1,7 +1,7 @@
 {
-    "version": "1.6.2",
-    "date": "20201122",
-    "checkdate": "20201122",
+    "version": "1.6.3",
+    "date": "20210102",
+    "checkdate": "20210102",
     "desc": "如果 XCharts 对您有帮助，希望您能在 Github 上点 Star 支持，非常感谢！",
     "homepage": "https://github.com/monitor1394/unity-ugui-XCharts"
 }

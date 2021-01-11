@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 
 using UnityEngine;
@@ -41,7 +41,7 @@ namespace XCharts
         public SerieLabel label
         {
             get { return m_Label; }
-            set { if (PropertyUtility.SetClass(ref m_Label, value, true)) SetAllDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Label, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// 图形样式。
@@ -49,7 +49,7 @@ namespace XCharts
         public ItemStyle itemStyle
         {
             get { return m_ItemStyle; }
-            set { if (PropertyUtility.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || label.vertsDirty || itemStyle.vertsDirty; } }

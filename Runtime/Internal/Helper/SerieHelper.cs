@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace XCharts
 {
     public static partial class SerieHelper
     {
-        internal static Color32 GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index,
+        internal static Color32 GetItemBackgroundColor(Serie serie, SerieData serieData, ChartTheme theme, int index,
             bool highlight, bool useDefault = true)
         {
             var color = ChartConst.clearColor32;
@@ -43,7 +43,7 @@ namespace XCharts
             return color;
         }
 
-        internal static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
+        internal static Color32 GetItemColor(Serie serie, SerieData serieData, ChartTheme theme, int index, bool highlight)
         {
             if (serie == null) return ChartConst.clearColor32;
             if (highlight)
@@ -70,7 +70,7 @@ namespace XCharts
             }
         }
 
-        internal static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
+        internal static Color32 GetItemToColor(Serie serie, SerieData serieData, ChartTheme theme, int index, bool highlight)
         {
             if (highlight)
             {
@@ -174,7 +174,7 @@ namespace XCharts
             else return serie.symbol;
         }
 
-        internal static Color32 GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color32 GetAreaColor(Serie serie, ChartTheme theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             var color = !ChartHelper.IsClearColor(areaStyle.color) ? areaStyle.color : theme.GetColor(index);
@@ -187,7 +187,7 @@ namespace XCharts
             return color;
         }
 
-        internal static Color32 GetAreaToColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color32 GetAreaToColor(Serie serie, ChartTheme theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             if (!ChartHelper.IsClearColor(areaStyle.toColor))
@@ -207,7 +207,7 @@ namespace XCharts
             }
         }
 
-        internal static Color32 GetLineColor(Serie serie, ThemeInfo theme, int index, bool highlight)
+        internal static Color32 GetLineColor(Serie serie, ChartTheme theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;
             if (highlight)
@@ -231,12 +231,11 @@ namespace XCharts
             return color;
         }
 
-        internal static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight, bool useLineWidth = true)
+        internal static float GetSymbolBorder(Serie serie, SerieData serieData, ChartTheme theme, bool highlight, bool useLineWidth = true)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else if (serie.lineStyle.width != 0 && useLineWidth) return serie.lineStyle.width;
-            else return 0;
+            else return serie.lineStyle.GetWidth(theme.serie.lineWidth);
         }
 
         internal static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)

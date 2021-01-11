@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -84,7 +84,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项颜色。
@@ -92,7 +92,7 @@ namespace XCharts
         public Color32 color
         {
             get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Gradient color1.
@@ -101,7 +101,7 @@ namespace XCharts
         public Color32 toColor
         {
             get { return m_ToColor; }
-            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Gradient color2.Only valid in line diagrams.
@@ -110,7 +110,7 @@ namespace XCharts
         public Color32 toColor2
         {
             get { return m_ToColor2; }
-            set { if (PropertyUtility.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景颜色。
@@ -118,7 +118,7 @@ namespace XCharts
         public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 中心区域颜色。
@@ -126,7 +126,7 @@ namespace XCharts
         public Color32 centerColor
         {
             get { return m_CenterColor; }
-            set { if (PropertyUtility.SetColor(ref m_CenterColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_CenterColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 中心区域间隙。
@@ -134,7 +134,7 @@ namespace XCharts
         public float centerGap
         {
             get { return m_CenterGap; }
-            set { if (PropertyUtility.SetStruct(ref m_CenterGap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_CenterGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景宽度。
@@ -142,7 +142,7 @@ namespace XCharts
         public float backgroundWidth
         {
             get { return m_BackgroundWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框的类型。
@@ -150,7 +150,7 @@ namespace XCharts
         public Type borderType
         {
             get { return m_BorderType; }
-            set { if (PropertyUtility.SetStruct(ref m_BorderType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BorderType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框的颜色。
@@ -158,7 +158,7 @@ namespace XCharts
         public Color32 borderColor
         {
             get { return m_BorderColor; }
-            set { if (PropertyUtility.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框宽。
@@ -166,7 +166,7 @@ namespace XCharts
         public float borderWidth
         {
             get { return m_BorderWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
@@ -174,7 +174,7 @@ namespace XCharts
         public float opacity
         {
             get { return m_Opacity; }
-            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
@@ -182,7 +182,7 @@ namespace XCharts
         public string tooltipFormatter
         {
             get { return m_TooltipFormatter; }
-            set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Standard numeric format strings.
@@ -194,7 +194,7 @@ namespace XCharts
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
-            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
@@ -203,7 +203,7 @@ namespace XCharts
         public float[] cornerRadius
         {
             get { return m_CornerRadius; }
-            set { if (PropertyUtility.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 实际边框宽。边框不显示时为0。

@@ -6,7 +6,7 @@
 
 ## `BaseChart`
 
-* `BaseChart.themeInfo`：主题组件`ThemeInfo`。
+* `BaseChart.theme`：主题组件`ThemeInfo`。
 * `BaseChart.title`：标题组件`Title`。
 * `BaseChart.legend`：图例组件`Legend`。
 * `BaseChart.tooltip`：提示框组件`Tooltip`。
@@ -25,6 +25,7 @@
 * `BaseChart.onDrag`：鼠标拖拽回调。
 * `BaseChart.onEndDrag`：鼠标结束拖拽回调。
 * `BaseChart.onScroll`：鼠标滚动回调。
+* `BaseChart.onPointerClickPie`：点击柱条回调。参数：`eventData`, `serieIndex`, `dataIndex`
 * `BaseChart.SetSize(float width, float height)`： 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。
@@ -67,17 +68,13 @@
 ## `CoordinateChart`
 
 * `CoordinateChart.grid`：网格组件 `Grid`。
-* `CoordinateChart.xAxises`：左右两个 `X` 轴组件 `XAxis`。
-* `CoordinateChart.yAxises`：左右两个 `Y` 轴组件 `YAxis`。
+* `CoordinateChart.xAxes`：左右两个 `X` 轴组件 `XAxis`。
+* `CoordinateChart.yAxes`：左右两个 `Y` 轴组件 `YAxis`。
 * `CoordianteChart.xAxis0`：X轴（下）。
 * `CoordianteChart.xAxis1`：X轴（上）。
 * `CoordianteChart.xAxis0`：Y轴（左）。
 * `CoordianteChart.yAxis1`：Y轴（右）。
 * `CoordinateChart.dataZoom`：区域缩放组件 `DataZoom`。
-* `CoordinateChart.coordinateX`：坐标系的左下角坐标 `X`。
-* `CoordinateChart.coordinateY`：坐标系的左下角坐标 `Y`。
-* `CoordinateChart.coordinateWidth`：坐标系的宽。
-* `CoordinateChart.coordinateHeight`：坐标系的高。
 * `CoordinateChart.ClearAxisData()`：清除所有x轴和y轴的类目数据。
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
@@ -88,7 +85,7 @@
 * `CoordinateChart.IsInCooridate(Vector3 local)`：坐标是否在坐标轴内。
 * `CoordinateChart.IsInCooridate(float x, float y)`：坐标是否在坐标轴内。
 * `CoordinateChart.IsInCooridate(Vector2 local)`：坐标是否在坐标轴内。
-* `CoordinateChart.ClampInCoordinate(Vector3 pos)`：将坐标限制在坐标系内。
+* `CoordinateChart.ClampInGrid(grid, Vector3 pos)`：将坐标限制在坐标系内。
 * `CoordinateChart.CovertXYAxis(int index)`：转换X轴和Y轴的配置。
 * `CoordinateChart.UpdateCoordinate()`：更新坐标系原点和宽高。一般内部会自动更新，也可强制更新。
 * `CoordinateChart.SetMaxCache(int maxCache)`：设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。
@@ -105,11 +102,6 @@
 
 * `BarChart.onPointerClickBar`：点击柱条回调。参数：`eventData`, `dataIndex`
 
-## `PieChart`
-
-* 继承自 `BaseChart`。
-
-* `PieChart.onPointerClickPie`：点击柱条回调。参数：`eventData`, `serieIndex`, `dataIndex`
 
 ## `RadarChart`
 

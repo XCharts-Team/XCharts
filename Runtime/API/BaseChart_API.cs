@@ -1,14 +1,15 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -37,24 +38,26 @@ namespace XCharts
             }
         }
         /// <summary>
-        /// The theme info.
+        /// The theme.
         /// </summary>
-        public ThemeInfo themeInfo { get { return m_ThemeInfo; } set { m_ThemeInfo = value; } }
+        public ChartTheme theme { get { return m_Theme; } set { m_Theme = value; } }
         /// <summary>
         /// The title setting of chart.
         /// 标题组件
         /// </summary>
-        public Title title { get { return m_Title; } }
+        public Title title { get { return m_Titles.Count > 0 ? m_Titles[0] : null; } }
+        public List<Title> titles { get { return m_Titles; } }
         /// <summary>
         /// The legend setting of chart.
         /// 图例组件
         /// </summary>
-        public Legend legend { get { return m_Legend; } }
+        public Legend legend { get { return m_Legends.Count > 0 ? m_Legends[0] : null; } }
+        public List<Legend> legends { get { return m_Legends; } }
         /// <summary>
         /// The tooltip setting of chart.
         /// 提示框组件
         /// </summary>
-        public Tooltip tooltip { get { return m_Tooltip; } }
+        public Tooltip tooltip { get { return m_Tooltips.Count > 0 ? m_Tooltips[0] : null; } }
         /// <summary>
         /// The series setting of chart.
         /// 系列列表
@@ -85,6 +88,10 @@ namespace XCharts
         /// 图表的高
         /// </summary>
         public float chartHeight { get { return m_ChartHeight; } }
+        public Vector2 chartMinAnchor { get { return m_ChartMinAnchor; } }
+        public Vector2 chartMaxAnchor { get { return m_ChartMaxAnchor; } }
+        public Vector2 chartPivot { get { return m_ChartPivot; } }
+        public Vector2 chartSizeDelta { get { return m_ChartSizeDelta; } }
         /// <summary>
         /// The position of chart.
         /// 图表的左下角起始坐标。
@@ -96,6 +103,11 @@ namespace XCharts
         /// 自定义绘制回调。
         /// </summary>
         public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawCallback = value; } }
+        /// <summary>
+        /// the callback function of click pie area.
+        /// 点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
+        /// </summary>
+        public Action<PointerEventData, int, int> onPointerClickPie { set { m_OnPointerClickPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickPie; } }
 
         /// <summary>
         /// Redraw chart in next frame.
@@ -104,6 +116,7 @@ namespace XCharts
         public void RefreshChart()
         {
             m_RefreshChart = true;
+            if (m_Painter) m_Painter.Refresh();
         }
 
         /// <summary>
@@ -114,8 +127,8 @@ namespace XCharts
         public virtual void ClearData()
         {
             m_Series.ClearData();
-            m_Legend.ClearData();
-            m_Tooltip.ClearValue();
+            foreach (var legend in m_Legends) legend.ClearData();
+            tooltip.ClearValue();
             m_CheckAnimation = false;
             m_ReinitLabel = true;
             RefreshChart();
@@ -128,9 +141,10 @@ namespace XCharts
         /// </summary>
         public virtual void RemoveData()
         {
-            m_Legend.ClearData();
+            foreach (var legend in m_Legends) legend.ClearData();
+            foreach (var radar in m_Radars) radar.indicatorList.Clear();
             m_Series.RemoveAll();
-            m_Tooltip.ClearValue();
+            tooltip.ClearValue();
             m_CheckAnimation = false;
             m_ReinitLabel = true;
             m_SerieLabelRoot = null;
@@ -145,7 +159,7 @@ namespace XCharts
         public virtual void RemoveData(string serieName)
         {
             m_Series.Remove(serieName);
-            m_Legend.RemoveData(serieName);
+            foreach (var legend in m_Legends) legend.RemoveData(serieName);
             m_SerieLabelRoot = null;
             RefreshChart();
         }
@@ -182,7 +196,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -205,7 +219,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -228,7 +242,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -251,7 +265,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -275,7 +289,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -299,7 +313,7 @@ namespace XCharts
                 {
                     RefreshLabel();
                 }
-                RefreshChart();
+                RefreshPainter(serie);
             }
             return serieData;
         }
@@ -315,7 +329,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieName, dataIndex, value))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieName));
                 return true;
             }
             return false;
@@ -332,7 +346,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, value))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieIndex));
                 return true;
             }
             return false;
@@ -348,7 +362,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieName, dataIndex, multidimensionalData))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieName));
                 return true;
             }
             return false;
@@ -364,7 +378,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, multidimensionalData))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieIndex));
                 return true;
             }
             return false;
@@ -381,7 +395,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieName, dataIndex, dimension, value))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieName));
                 return true;
             }
             return false;
@@ -398,7 +412,7 @@ namespace XCharts
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, dimension, value))
             {
-                RefreshChart();
+                RefreshPainter(m_Series.GetSerie(serieIndex));
                 return true;
             }
             return false;
@@ -459,15 +473,18 @@ namespace XCharts
             }
         }
 
-        protected virtual void UpdateLegendColor(string legendName, bool active)
+        internal virtual void UpdateLegendColor(string legendName, bool active)
         {
             var legendIndex = m_LegendRealShowName.IndexOf(legendName);
             if (legendIndex >= 0)
             {
-                var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_ThemeInfo, m_Series, legendName, active);
-                var contentColor = LegendHelper.GetContentColor(legend, m_ThemeInfo, active);
-                m_Legend.UpdateButtonColor(legendName, iconColor);
-                m_Legend.UpdateContentColor(legendName, contentColor);
+                foreach (var legend in m_Legends)
+                {
+                    var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_Theme, m_Series, legendName, active);
+                    var contentColor = LegendHelper.GetContentColor(legend, m_Theme, active);
+                    legend.UpdateButtonColor(legendName, iconColor);
+                    legend.UpdateContentColor(legendName, contentColor);
+                }
             }
         }
 
@@ -541,25 +558,28 @@ namespace XCharts
 
         /// <summary>
         /// Update chart theme.
-        /// 切换图表主题。
+        /// 切换内置主题。
         /// </summary>
         /// <param name="theme">theme</param>
-        public void UpdateTheme(Theme theme)
+        public bool UpdateTheme(Theme theme)
         {
-            m_ThemeInfo.theme = theme;
-            OnThemeChanged();
-            RefreshChart();
+            if (theme == Theme.Custom)
+            {
+                Debug.LogError("UpdateTheme: not support switch to Custom theme.");
+                return false;
+            }
+            m_Theme.theme = theme;
+            return true;
         }
 
         /// <summary>
         /// Update chart theme info.
         /// 切换图表主题。
         /// </summary>
-        /// <param name="themeInfo">themeInfo</param>
-        public void UpdateThemeInfo(ThemeInfo themeInfo)
+        /// <param name="theme">theme</param>
+        public void UpdateTheme(ChartTheme theme)
         {
-            m_ThemeInfo = themeInfo;
-            UpdateTheme(m_ThemeInfo.theme);
+            m_Theme.CopyTheme(theme);
         }
 
         /// <summary>
@@ -571,8 +591,6 @@ namespace XCharts
         {
             m_Series.AnimationEnable(flag);
         }
-
-
 
         /// <summary>
         /// fadeIn animation.
@@ -667,46 +685,14 @@ namespace XCharts
             }
         }
 
-        /// <summary>
-        /// 是否可以开启背景组件。背景组件在chart受上层布局控制时无法开启。
-        /// </summary>
-        /// <returns></returns>
-        public bool CanShowBackgroundComponent()
+        public Vector3 GetTitlePosition(Title title)
         {
-            return !m_IsControlledByLayout && m_Background.runtimeActive;
+            return chartPosition + title.location.GetPosition(chartWidth, chartHeight);
         }
 
-        /// <summary>
-        /// 开启背景组件。背景组件在chart受上层布局控制时不适用。
-        /// </summary>
-        /// <param name="flag"></param>
-        public void EnableBackground(bool flag)
+        public bool ContainsSerie(SerieType serieType)
         {
-            if (flag && !CanShowBackgroundComponent())
-            {
-                var msg = "The background component cannot be activated because chart is controlled by LayoutGroup,"
-                + " or its parent have more than one child.";
-                Debug.LogError(msg);
-                return;
-            }
-            m_Background.show = flag;
+            return SeriesHelper.ContainsSerie(m_Series, serieType);
         }
-
-        public Vector3 GetTitlePosition()
-        {
-            return chartPosition + m_Title.location.GetPosition(chartWidth, chartHeight);
-        }
-
-        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
-        public void ReinitChartLabel() { }
-
-        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
-        public void AnimationStart() { }
-
-        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
-        public void MissAnimationStart() { }
-
-        [Obsolete("Use onCustomDraw instead.", false)]
-        public Action<VertexHelper> customDrawCallback { set { m_OnCustomDrawCallback = value; } }
     }
 }

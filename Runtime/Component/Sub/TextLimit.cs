@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace XCharts
         public bool enable
         {
             get { return m_Enable; }
-            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Enable, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Set the maximum width. A default of 0 indicates automatic fetch; otherwise, custom. 
@@ -43,7 +43,7 @@ namespace XCharts
         public float maxWidth
         {
             get { return m_MaxWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_MaxWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_MaxWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// White pixel distance at both ends. 
@@ -53,7 +53,7 @@ namespace XCharts
         public float gap
         {
             get { return m_Gap; }
-            set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Gap, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Suffixes when the length exceeds.
@@ -63,11 +63,10 @@ namespace XCharts
         public string suffix
         {
             get { return m_Suffix; }
-            set { if (PropertyUtility.SetClass(ref m_Suffix, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Suffix, value)) SetComponentDirty(); }
         }
 
-        private Text m_RelatedText;
-        private TextGenerationSettings m_RelatedTextSettings;
+        private ChartText m_RelatedText;
         private float m_RelatedTextWidth = 0;
 
         public TextLimit Clone()
@@ -88,10 +87,9 @@ namespace XCharts
             suffix = textLimit.suffix;
         }
 
-        public void SetRelatedText(Text txt, float labelWidth)
+        public void SetRelatedText(ChartText txt, float labelWidth)
         {
             m_RelatedText = txt;
-            m_RelatedTextSettings = txt.GetGenerationSettings(Vector2.zero);
             m_RelatedTextWidth = labelWidth;
         }
 
@@ -104,8 +102,8 @@ namespace XCharts
             {
                 if (m_Enable)
                 {
-                    float len = m_RelatedText.cachedTextGenerator.GetPreferredWidth(content, m_RelatedTextSettings);
-                    float suffixLen = m_RelatedText.cachedTextGenerator.GetPreferredWidth(suffix, m_RelatedTextSettings);
+                    float len = m_RelatedText.GetPreferredWidth(content);
+                    float suffixLen = m_RelatedText.GetPreferredWidth(suffix);
                     if (len >= checkWidth - m_Gap * 2)
                     {
                         return content.Substring(0, GetAdaptLength(content, suffixLen)) + suffix;
@@ -133,7 +131,7 @@ namespace XCharts
             float len = 0;
             while (len != limit && middle != start)
             {
-                len = m_RelatedText.cachedTextGenerator.GetPreferredWidth(content.Substring(0, middle), m_RelatedTextSettings);
+                len = m_RelatedText.GetPreferredWidth(content.Substring(0, middle));
                 if (len < limit)
                 {
                     start = middle;

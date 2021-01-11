@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,54 +12,23 @@ using UnityEngine;
 namespace XCharts
 {
     [CustomPropertyDrawer(typeof(LineStyle), true)]
-    public class LineStyleDrawer : PropertyDrawer
+    public class LineStyleDrawer : BasePropertyDrawer
     {
-        private Dictionary<string, bool> m_LineStyleToggle = new Dictionary<string, bool>();
-
+        public override string ClassName { get { return "LineStyle"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
-            Rect drawRect = pos;
-            drawRect.height = EditorGUIUtility.singleLineHeight;
-            SerializedProperty show = prop.FindPropertyRelative("m_Show");
-            SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
-            SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
-            SerializedProperty m_ToColor = prop.FindPropertyRelative("m_ToColor");
-            SerializedProperty m_ToColor2 = prop.FindPropertyRelative("m_ToColor2");
-            SerializedProperty m_Width = prop.FindPropertyRelative("m_Width");
-            SerializedProperty m_Opacity = prop.FindPropertyRelative("m_Opacity");
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_LineStyleToggle, prop, "Line Style", show, false);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_LineStyleToggle, prop))
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, "m_Show"))
             {
                 ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_Type);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Color);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_ToColor);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_ToColor2);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Width);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Opacity);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                PropertyField(prop, "m_Type");
+                PropertyField(prop, "m_Color");
+                PropertyField(prop, "m_ToColor");
+                PropertyField(prop, "m_ToColor2");
+                PropertyField(prop, "m_Width");
+                PropertyField(prop, "m_Opacity");
                 --EditorGUI.indentLevel;
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
-        {
-            float height = 0;
-            if (ChartEditorHelper.IsToggle(m_LineStyleToggle, prop))
-            {
-                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
-            }
-            else
-            {
-                height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
-            }
-            return height;
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Net.Mime;
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -41,7 +41,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            internal set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+            internal set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the image of background.
@@ -50,7 +50,7 @@ namespace XCharts
         public Sprite image
         {
             get { return m_Image; }
-            set { if (PropertyUtility.SetClass(ref m_Image, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Image, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace XCharts
         public Image.Type imageType
         {
             get { return m_ImageType; }
-            set { if (PropertyUtility.SetStruct(ref m_ImageType, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ImageType, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace XCharts
         public Color imageColor
         {
             get { return m_ImageColor; }
-            set { if (PropertyUtility.SetColor(ref m_ImageColor, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ImageColor, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -79,13 +79,8 @@ namespace XCharts
         public bool hideThemeBackgroundColor
         {
             get { return m_HideThemeBackgroundColor; }
-            set { if (PropertyUtility.SetStruct(ref m_HideThemeBackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_HideThemeBackgroundColor, value)) SetVerticesDirty(); }
         }
-
-        /// <summary>
-        /// 是否已激活
-        /// </summary>
-        public bool runtimeActive { get; internal set; }
 
         public static Background defaultBackground
         {

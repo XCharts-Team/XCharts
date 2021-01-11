@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,41 +16,38 @@ namespace XCharts
         private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
         private static Dictionary<int, bool> m_ReleaseDic = new Dictionary<int, bool>(1000);
 
-        public static GameObject Get(string name, Transform parent, SerieLabel label, Font font, Color color,
-            float iconWidth, float iconHeight)
+        public static GameObject Get(string name, Transform parent, SerieLabel label, Color color,
+            float iconWidth, float iconHeight, ChartTheme theme)
         {
             GameObject element;
             if (m_Stack.Count == 0 || !Application.isPlaying)
             {
-                element = CreateSerieLabel(name, parent, label, font, color, iconWidth, iconHeight);
+                element = CreateSerieLabel(name, parent, label, color, iconWidth, iconHeight, theme);
             }
             else
             {
                 element = m_Stack.Pop();
                 if (element == null)
                 {
-                    element = CreateSerieLabel(name, parent, label, font, color, iconWidth, iconHeight);
+                    element = CreateSerieLabel(name, parent, label, color, iconWidth, iconHeight, theme);
                 }
                 m_ReleaseDic.Remove(element.GetInstanceID());
                 element.name = name;
                 element.transform.SetParent(parent);
-                element.transform.localEulerAngles = new Vector3(0, 0, label.rotate);
-                var text = element.GetComponentInChildren<Text>();
-                text.color = color;
-                text.font = font;
-                text.fontSize = label.fontSize;
-                text.fontStyle = label.fontStyle;
+                element.transform.localEulerAngles = new Vector3(0, 0, label.textStyle.rotate);
+                var text = new ChartText(element);
+                text.SetColor(color);
+                text.SetFontAndSizeAndStyle(label.textStyle, theme.common);
                 ChartHelper.SetActive(element, true);
             }
             return element;
         }
 
-        private static GameObject CreateSerieLabel(string name, Transform parent, SerieLabel label, Font font, Color color,
-            float iconWidth, float iconHeight)
+        private static GameObject CreateSerieLabel(string name, Transform parent, SerieLabel label, Color color,
+            float iconWidth, float iconHeight, ChartTheme theme)
         {
-            var element = ChartHelper.AddSerieLabel(name, parent, font,
-                         color, label.backgroundColor, label.fontSize, label.fontStyle, label.rotate,
-                         label.backgroundWidth, label.backgroundHeight, 1);
+            var element = ChartHelper.AddSerieLabel(name, parent, label.backgroundWidth, label.backgroundHeight,
+                color, label.textStyle, theme);
             ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
             return element;
         }

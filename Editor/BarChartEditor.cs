@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 
@@ -19,13 +19,13 @@ namespace XCharts
         protected override void OnEnable()
         {
             base.OnEnable();
-            m_Target = (BarChart)target;
+            m_Chart = (BarChart)target;
         }
 
         protected override void OnEndInspectorGUI()
         {
             base.OnEndInspectorGUI();
-            if (m_Target == null && target == null)
+            if (m_Chart == null && target == null)
             {
                 return;
             }

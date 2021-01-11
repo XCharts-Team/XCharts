@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 
 using UnityEngine;
@@ -44,13 +44,15 @@ namespace XCharts
             /// 双点划线
             /// </summary>
             DashDotDot,
+            None,
         }
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Solid;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField] private Color32 m_ToColor2;
-        [SerializeField] private float m_Width = 0.8f;
+        [SerializeField] private float m_Width = 0;
+        [SerializeField] private float m_Length = 0;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of line.
@@ -69,7 +71,7 @@ namespace XCharts
         public Type type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of line, default use serie color.
@@ -78,7 +80,7 @@ namespace XCharts
         public Color32 color
         {
             get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the middle color of line, default use serie color.
@@ -87,7 +89,7 @@ namespace XCharts
         public Color32 toColor
         {
             get { return m_ToColor; }
-            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the end color of line, default use serie color.
@@ -96,7 +98,7 @@ namespace XCharts
         public Color32 toColor2
         {
             get { return m_ToColor2; }
-            set { if (PropertyUtility.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of line.
@@ -105,7 +107,16 @@ namespace XCharts
         public float width
         {
             get { return m_Width; }
-            set { if (PropertyUtility.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the length of line.
+        /// 线长。
+        /// /// </summary>
+        public float length
+        {
+            get { return m_Length; }
+            set { if (PropertyUtil.SetStruct(ref m_Length, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
@@ -114,7 +125,7 @@ namespace XCharts
         public float opacity
         {
             get { return m_Opacity; }
-            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
 
         public LineStyle()
@@ -124,6 +135,11 @@ namespace XCharts
         public LineStyle(float width)
         {
             this.width = width;
+        }
+
+        public LineStyle(LineStyle.Type type)
+        {
+            this.type = type;
         }
 
         public LineStyle(LineStyle.Type type, float width)
@@ -189,6 +205,35 @@ namespace XCharts
                 color.a = (byte)(color.a * m_Opacity);
             }
             return color;
+        }
+
+        public Type GetType(Type themeType)
+        {
+            return type == Type.None ? themeType : type;
+        }
+        
+        public float GetWidth(float themeWidth)
+        {
+            return width == 0 ? themeWidth : width;
+        }
+
+        public float GetLength(float themeLength)
+        {
+            return length == 0 ? themeLength : length;
+        }
+
+        public Color32 GetColor(Color32 themeColor)
+        {
+            if (!ChartHelper.IsClearColor(color))
+            {
+                return GetColor();
+            }
+            else
+            {
+                var color = themeColor;
+                color.a = (byte)(color.a * opacity);
+                return color;
+            }
         }
     }
 }

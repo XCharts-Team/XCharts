@@ -1,81 +1,69 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace XCharts
 {
     [CustomPropertyDrawer(typeof(GaugeAxis), true)]
-    public class GaugeAxisDrawer : PropertyDrawer
+    public class GaugeAxisDrawer : BasePropertyDrawer
     {
-        private bool m_DataFoldout = false;
-        private int m_DataSize = 0;
-        private Dictionary<string, bool> m_AxisLineToggle = new Dictionary<string, bool>();
+        public override string ClassName { get { return "Gauge Axis"; } }
+        public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+        {
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, "m_Show"))
+            {
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_AxisLine");
+                PropertyField(prop, "m_SplitLine");
+                PropertyField(prop, "m_AxisTick");
+                PropertyField(prop, "m_AxisLabel");
+                PropertyField(prop, "m_AxisLabelText");
+                --EditorGUI.indentLevel;
+            }
+        }
+    }
 
+
+    [CustomPropertyDrawer(typeof(StageColor), true)]
+    public class GaugeAxisLineStageColorDrawer : BasePropertyDrawer
+    {
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
-            SerializedProperty show = prop.FindPropertyRelative("m_Show");
-            SerializedProperty m_AxisLine = prop.FindPropertyRelative("m_AxisLine");
-            SerializedProperty m_SplitLine = prop.FindPropertyRelative("m_SplitLine");
-            SerializedProperty m_AxisTick = prop.FindPropertyRelative("m_AxisTick");
-            SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
-            SerializedProperty m_AxisLabelText = prop.FindPropertyRelative("m_AxisLabelText");
+            SerializedProperty m_Percent = prop.FindPropertyRelative("m_Percent");
+            SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
 
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLineToggle, prop, "Gauge Axis", show, false);
+            ChartEditorHelper.MakeTwoField(ref drawRect, drawRect.width, m_Percent, m_Color, "Stage");
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_AxisLineToggle, prop))
-            {
-                ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_AxisLine);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_AxisLine);
-                EditorGUI.PropertyField(drawRect, m_SplitLine);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_SplitLine);
-                EditorGUI.PropertyField(drawRect, m_AxisTick);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_AxisTick);
-                EditorGUI.PropertyField(drawRect, m_AxisLabel);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_AxisLabel);
-                drawRect.width = EditorGUIUtility.labelWidth + 10;
-                m_DataFoldout = EditorGUI.Foldout(drawRect, m_DataFoldout, "Axis Label Text");
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                drawRect.width = pos.width;
-                if (m_DataFoldout)
-                {
-                    ChartEditorHelper.MakeList(ref drawRect, ref m_DataSize, m_AxisLabelText);
-                }
-                --EditorGUI.indentLevel;
-            }
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            float height = 0;
-            if (ChartEditorHelper.IsToggle(m_AxisLineToggle, prop))
+            return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(GaugePointer), true)]
+    public class GaugePointerDrawer : BasePropertyDrawer
+    {
+        public override string ClassName { get { return "Gauge Pointer"; } }
+        public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+        {
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, "m_Show"))
             {
-                height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AxisLine"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitLine"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AxisTick"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AxisLabel"));
-                if (m_DataFoldout)
-                {
-                    SerializedProperty m_Data = prop.FindPropertyRelative("m_AxisLabelText");
-                    int num = m_Data.arraySize + 1;
-                    height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
-                    height += EditorGUIUtility.standardVerticalSpacing;
-                }
-                return height;
-            }
-            else
-            {
-                return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Width");
+                PropertyField(prop, "m_Length");
+                --EditorGUI.indentLevel;
             }
         }
     }

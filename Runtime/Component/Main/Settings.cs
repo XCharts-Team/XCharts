@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using System;
@@ -17,14 +17,21 @@ namespace XCharts
     [Serializable]
     public class Settings : MainComponent
     {
+        [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
         [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
-        [SerializeField] [Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
-        [SerializeField] [Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
-        [SerializeField] [Range(1, 20)] protected float m_PieSelectedOffset = 8f;
 
+        /// <summary>
+        /// max painter.
+        /// 设定的painter数量。
+        /// </summary>
+        public int maxPainter
+        {
+            get { return m_MaxPainter; }
+            set { if (PropertyUtil.SetStruct(ref m_MaxPainter, value < 0 ? 1 : value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, 
         /// and different curves with slightly different appearance can be obtained.
@@ -33,7 +40,7 @@ namespace XCharts
         public float lineSmoothStyle
         {
             get { return m_LineSmoothStyle; }
-            set { if (PropertyUtility.SetStruct(ref m_LineSmoothStyle, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineSmoothStyle, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Smoothness of curve. The smaller the value, the smoother the curve, but the number of vertices will increase. 
@@ -44,7 +51,7 @@ namespace XCharts
         public float lineSmoothness
         {
             get { return m_LineSmoothness; }
-            set { if (PropertyUtility.SetStruct(ref m_LineSmoothStyle, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineSmoothStyle, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The partition distance of a line segment. A line in a normal line chart is made up of many segments, 
@@ -56,7 +63,7 @@ namespace XCharts
         public float lineSegmentDistance
         {
             get { return m_LineSegmentDistance; }
-            set { if (PropertyUtility.SetStruct(ref m_LineSegmentDistance, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineSegmentDistance, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the smoothess of cricle.
@@ -65,32 +72,36 @@ namespace XCharts
         public float cicleSmoothness
         {
             get { return m_CicleSmoothness; }
-            set { if (PropertyUtility.SetStruct(ref m_CicleSmoothness, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_CicleSmoothness, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
-        /// <summary>
-        /// 可视化组件的调节三角形边长。
-        /// </summary>
-        /// <value></value>
-        public float visualMapTriangeLen
+
+        public void Copy(Settings settings)
         {
-            get { return m_VisualMapTriangeLen; }
-            set { if (PropertyUtility.SetStruct(ref m_VisualMapTriangeLen, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            m_MaxPainter = settings.maxPainter;
+            m_LineSmoothStyle = settings.lineSmoothStyle;
+            m_LineSmoothness = settings.lineSmoothness;
+            m_LineSegmentDistance = settings.lineSegmentDistance;
+            m_CicleSmoothness = settings.cicleSmoothness;
         }
-        /// <summary>
-        /// 饼图鼠标移到高亮时的额外半径
-        /// </summary>
-        public float pieTooltipExtraRadius
+
+        public void Reset()
         {
-            get { return m_PieTooltipExtraRadius; }
-            set { if (PropertyUtility.SetStruct(ref m_PieTooltipExtraRadius, value < 0 ? 0f : value)) SetVerticesDirty(); }
+            Copy(DefaultSettings);
         }
-        /// <summary>
-        /// 饼图选中时的中心点偏移
-        /// </summary>
-        public float pieSelectedOffset
+
+        public static Settings DefaultSettings
         {
-            get { return m_PieSelectedOffset; }
-            set { if (PropertyUtility.SetStruct(ref m_PieSelectedOffset, value < 0 ? 0f : value)) SetVerticesDirty(); }
+            get
+            {
+                return new Settings()
+                {
+                    m_MaxPainter = XChartsSettings.maxPainter,
+                    m_LineSmoothStyle = XChartsSettings.lineSmoothStyle,
+                    m_LineSmoothness = XChartsSettings.lineSmoothness,
+                    m_LineSegmentDistance = XChartsSettings.lineSegmentDistance,
+                    m_CicleSmoothness = XChartsSettings.cicleSmoothness,
+                };
+            }
         }
     }
 }

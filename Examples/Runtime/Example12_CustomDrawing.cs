@@ -1,12 +1,13 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using UnityEngine.UI;
+using XUGL;
 
 
 namespace XCharts.Examples
@@ -27,11 +28,11 @@ namespace XCharts.Examples
                 if (dataPoints.Count > 0)
                 {
                     var pos = dataPoints[3];
-                    var zeroPos = new Vector3(chart.coordinateX, chart.coordinateY);
+                    var zeroPos = new Vector3(chart.grid.runtimeX, chart.grid.runtimeY);
                     var startPos = new Vector3(pos.x, zeroPos.y);
-                    var endPos = new Vector3(pos.x, zeroPos.y + chart.coordinateHeight);
-                    ChartDrawer.DrawLine(vh, startPos, endPos, 1, Color.blue);
-                    ChartDrawer.DrawCricle(vh, pos, 5, Color.blue);
+                    var endPos = new Vector3(pos.x, zeroPos.y + chart.grid.runtimeWidth);
+                    UGL.DrawLine(vh, startPos, endPos, 1, Color.blue);
+                    UGL.DrawCricle(vh, pos, 5, Color.blue);
                 }
             };
         }

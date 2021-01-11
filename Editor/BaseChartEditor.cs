@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 using UnityEngine;
@@ -14,22 +14,24 @@ namespace XCharts
     /// <summary>
     /// Editor class used to edit UI BaseChart.
     /// </summary>
-
     [CustomEditor(typeof(BaseChart), false)]
     public class BaseChartEditor : Editor
     {
-        protected BaseChart m_Target;
+        protected BaseChart m_Chart;
         protected SerializedProperty m_Script;
+        protected SerializedProperty m_MultiComponentMode;
+        protected SerializedProperty m_EnableTextMeshPro;
         protected SerializedProperty m_ChartWidth;
         protected SerializedProperty m_ChartHeight;
-        protected SerializedProperty m_Theme;
-        protected SerializedProperty m_ThemeInfo;
-        protected SerializedProperty m_Background;
-        protected SerializedProperty m_Title;
-        protected SerializedProperty m_Legend;
-        protected SerializedProperty m_Tooltip;
-        protected SerializedProperty m_Series;
         protected SerializedProperty m_Settings;
+        protected SerializedProperty m_Theme;
+        protected SerializedProperty m_Background;
+        protected SerializedProperty m_Titles;
+        protected SerializedProperty m_Legends;
+        protected SerializedProperty m_Tooltips;
+        protected SerializedProperty m_Vessels;
+        protected SerializedProperty m_Radars;
+        protected SerializedProperty m_Series;
         protected SerializedProperty m_Large;
         protected SerializedProperty m_ChartName;
         protected SerializedProperty m_DebugMode;
@@ -41,29 +43,36 @@ namespace XCharts
         private bool m_CheckWarning = false;
         private StringBuilder sb = new StringBuilder();
 
+        private bool m_BaseFoldout;
+        protected bool m_ShowAllComponent;
+
         protected virtual void OnEnable()
         {
-            m_Target = (BaseChart)target;
+            if (target == null) return;
+            m_Chart = (BaseChart)target;
             m_Script = serializedObject.FindProperty("m_Script");
+            m_MultiComponentMode = serializedObject.FindProperty("m_MultiComponentMode");
+            m_EnableTextMeshPro = serializedObject.FindProperty("m_EnableTextMeshPro");
             m_ChartName = serializedObject.FindProperty("m_ChartName");
             m_ChartWidth = serializedObject.FindProperty("m_ChartWidth");
             m_ChartHeight = serializedObject.FindProperty("m_ChartHeight");
             m_Theme = serializedObject.FindProperty("m_Theme");
-            m_ThemeInfo = serializedObject.FindProperty("m_ThemeInfo");
+            m_Settings = serializedObject.FindProperty("m_Settings");
             m_Background = serializedObject.FindProperty("m_Background");
-            m_Title = serializedObject.FindProperty("m_Title");
-            m_Legend = serializedObject.FindProperty("m_Legend");
-            m_Tooltip = serializedObject.FindProperty("m_Tooltip");
+            m_Titles = serializedObject.FindProperty("m_Titles");
+            m_Legends = serializedObject.FindProperty("m_Legends");
+            m_Tooltips = serializedObject.FindProperty("m_Tooltips");
+            m_Vessels = serializedObject.FindProperty("m_Vessels");
             m_Series = serializedObject.FindProperty("m_Series");
+            m_Radars = serializedObject.FindProperty("m_Radars");
 
             m_Large = serializedObject.FindProperty("m_Large");
-            m_Settings = serializedObject.FindProperty("m_Settings");
             m_DebugMode = serializedObject.FindProperty("m_DebugMode");
         }
 
         public override void OnInspectorGUI()
         {
-            if (m_Target == null && target == null)
+            if (m_Chart == null && target == null)
             {
                 base.OnInspectorGUI();
                 return;
@@ -75,50 +84,120 @@ namespace XCharts
             OnStartInspectorGUI();
             OnMiddleInspectorGUI();
             OnEndInspectorGUI();
+            OnDebugInspectorGUI();
 
-            CheckWarning();
+            EditorGUILayout.Space();
             serializedObject.ApplyModifiedProperties();
         }
 
         protected virtual void OnStartInspectorGUI()
         {
-            EditorGUILayout.PropertyField(m_Script);
-
-            EditorGUILayout.PropertyField(m_ChartName);
-            EditorGUILayout.PropertyField(m_ThemeInfo, true);
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(m_Background, true);
-
-            var m_Show = m_Background.FindPropertyRelative("m_Show");
-            if (m_Show.boolValue && !m_Target.CanShowBackgroundComponent())
+            BlockStart();
+            EditorGUILayout.BeginHorizontal();
+            var version = string.Format("V{0}_{1}", XChartsMgr.version, XChartsMgr.versionDate);
+            if (m_EnableTextMeshPro.boolValue)
             {
-                var msg = "The background component cannot be activated because chart is controlled by LayoutGroup,"
-                + " or its parent have more than one child.";
-                EditorGUILayout.HelpBox(msg, MessageType.Error);
+                version += " TMP";
             }
-            EditorGUILayout.PropertyField(m_Title, true);
-            EditorGUILayout.PropertyField(m_Legend, true);
-            EditorGUILayout.PropertyField(m_Tooltip, true);
+            EditorGUILayout.LabelField(version);
+
+            if (GUILayout.Button("Github"))
+            {
+                Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts");
+            }
+            EditorGUILayout.EndHorizontal();
+            BlockEnd();
+
+            BlockStart();
+            m_BaseFoldout = EditorGUILayout.Foldout(m_BaseFoldout, "Base");
+            if (m_BaseFoldout)
+            {
+                EditorGUILayout.PropertyField(m_Script);
+                EditorGUILayout.PropertyField(m_ChartName);
+            }
+            BlockEnd();
+
+            BlockField(m_Theme);
+            BlockField(m_Settings);
+            BlockField(m_Background);
+
+            m_ShowAllComponent = m_MultiComponentMode.boolValue;
+            BlockListField(m_ShowAllComponent, m_Titles);
+            BlockListField(m_ShowAllComponent, m_Legends);
+            BlockListField(m_ShowAllComponent, m_Tooltips);
+            BlockListField(m_ShowAllComponent, SerieType.Liquid, m_Vessels);
+            BlockListField(m_ShowAllComponent, SerieType.Radar, m_Radars);
         }
 
         protected virtual void OnMiddleInspectorGUI()
         {
-            EditorGUILayout.PropertyField(m_Series, true);
-            EditorGUILayout.PropertyField(m_Settings, true);
+            BlockField(m_Series);
         }
 
         protected virtual void OnEndInspectorGUI()
         {
+        }
+
+        protected virtual void OnDebugInspectorGUI()
+        {
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+            BlockStart();
             EditorGUILayout.PropertyField(m_DebugMode);
+            EditorGUILayout.PropertyField(m_MultiComponentMode);
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+            MoreDebugInspector();
+            CheckWarning();
+            BlockEnd();
+        }
+
+        protected virtual void MoreDebugInspector()
+        {
+        }
+
+        protected void BlockStart()
+        {
+            if (XChartsSettings.editorBlockEnable) EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        }
+
+        protected void BlockEnd()
+        {
+            if (XChartsSettings.editorBlockEnable) EditorGUILayout.EndVertical();
+        }
+
+        protected void BlockField(params SerializedProperty[] props)
+        {
+            if (props.Length == 0) return;
+            BlockStart();
+            foreach (var prop in props)
+                EditorGUILayout.PropertyField(prop, true);
+            BlockEnd();
+        }
+
+        protected void BlockListField(bool all, params SerializedProperty[] props)
+        {
+            if (props.Length == 0) return;
+            BlockStart();
+            foreach (var prop in props)
+            {
+                if (all) EditorGUILayout.PropertyField(prop, true);
+                else if (prop.arraySize > 0) EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(0), true);
+            }
+            BlockEnd();
+        }
+
+        protected void BlockListField(bool all, SerieType serieType, params SerializedProperty[] props)
+        {
+            if (!m_Chart.ContainsSerie(serieType)) return;
+            BlockListField(all, props);
         }
 
         private void CheckWarning()
         {
             if (GUILayout.Button("Remove All Chart Object"))
             {
-                m_Target.RemoveChartObject();
+                m_Chart.RemoveChartObject();
             }
             if (GUILayout.Button("Check XCharts Update "))
             {
@@ -130,7 +209,7 @@ namespace XCharts
                 if (GUILayout.Button("Check Warning"))
                 {
                     m_CheckWarning = true;
-                    m_Target.CheckWarning();
+                    m_Chart.CheckWarning();
                 }
                 if (GUILayout.Button("Hide Warning"))
                 {
@@ -138,11 +217,11 @@ namespace XCharts
                 }
                 EditorGUILayout.EndHorizontal();
                 sb.Length = 0;
-                sb.AppendFormat("version:{0}", XChartsMgr.Instance.nowVersion);
-                if (!string.IsNullOrEmpty(m_Target.warningInfo))
+                sb.AppendFormat("v{0}", XChartsMgr.fullVersion);
+                if (!string.IsNullOrEmpty(m_Chart.warningInfo))
                 {
                     sb.AppendLine();
-                    sb.Append(m_Target.warningInfo);
+                    sb.Append(m_Chart.warningInfo);
                 }
                 else
                 {
@@ -156,10 +235,9 @@ namespace XCharts
                 if (GUILayout.Button("Check warning"))
                 {
                     m_CheckWarning = true;
-                    m_Target.CheckWarning();
+                    m_Chart.CheckWarning();
                 }
             }
-            EditorGUILayout.Space();
             EditorGUILayout.Space();
         }
     }

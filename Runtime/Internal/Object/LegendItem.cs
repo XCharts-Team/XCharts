@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +18,7 @@ namespace XCharts
         private GameObject m_GameObject;
         private Button m_Button;
         private Image m_Icon;
-        private Text m_Text;
+        private ChartText m_Text;
         private Image m_TextBackground;
         private RectTransform m_Rect;
         private RectTransform m_IconRect;
@@ -71,7 +71,7 @@ namespace XCharts
             m_Rect = obj.GetComponent<RectTransform>();
             m_Icon = obj.transform.Find("icon").gameObject.GetComponent<Image>();
             m_TextBackground = obj.transform.Find("content").gameObject.GetComponent<Image>();
-            m_Text = obj.transform.Find("content/Text").gameObject.GetComponent<Text>();
+            m_Text = new ChartText(obj);
             m_IconRect = m_Icon.gameObject.GetComponent<RectTransform>();
             m_TextRect = m_Text.gameObject.GetComponent<RectTransform>();
             m_TextBackgroundRect = m_TextBackground.gameObject.GetComponent<RectTransform>();
@@ -87,7 +87,7 @@ namespace XCharts
             m_Icon = icon;
         }
 
-        public void SetText(Text text)
+        public void SetText(ChartText text)
         {
             m_Text = text;
         }
@@ -123,9 +123,9 @@ namespace XCharts
 
         public void SetContentColor(Color color)
         {
-            if (m_Text)
+            if (m_Text != null)
             {
-                m_Text.color = color;
+                m_Text.SetColor(color);
             }
         }
 
@@ -149,20 +149,20 @@ namespace XCharts
 
         public bool SetContent(string content)
         {
-            if (m_Text && !m_Text.text.Equals(content))
+            if (m_Text != null && !m_Text.GetText().Equals(content))
             {
-                m_Text.text = content;
+                m_Text.SetText(content);
                 if (m_LabelAutoSize)
                 {
                     var newSize = string.IsNullOrEmpty(content) ? Vector2.zero :
-                        new Vector2(m_Text.preferredWidth, m_Text.preferredHeight);
+                        new Vector2(m_Text.GetPreferredWidth(), m_Text.GetPreferredHeight());
                     var sizeChange = newSize.x != m_TextRect.sizeDelta.x || newSize.y != m_TextRect.sizeDelta.y;
                     if (sizeChange)
                     {
                         m_TextRect.sizeDelta = newSize;
                         m_TextRect.anchoredPosition3D = new Vector3(m_LabelPaddingLeftRight, 0);
-                        m_TextBackgroundRect.sizeDelta = new Vector2(m_Text.preferredWidth + m_LabelPaddingLeftRight * 2,
-                            m_Text.preferredHeight + m_LabelPaddingTopBottom * 2 - 4);
+                        m_TextBackgroundRect.sizeDelta = new Vector2(m_Text.GetPreferredWidth() + m_LabelPaddingLeftRight * 2,
+                            m_Text.GetPreferredHeight() + m_LabelPaddingTopBottom * 2 - 4);
                         m_Rect.sizeDelta = new Vector3(width, height);
                     }
                     return sizeChange;

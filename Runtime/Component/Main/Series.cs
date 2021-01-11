@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -20,10 +20,6 @@ namespace XCharts
     {
         [SerializeField] protected List<Serie> m_Series;
         [NonSerialized] private bool m_LabelDirty;
-
-        [Obsolete("Use Series.list instead.", true)]
-        public List<Serie> series { get { return m_Series; } }
-
 
         /// <summary>
         /// the list of serie
@@ -261,15 +257,11 @@ namespace XCharts
             {
                 serie.symbol.show = true;
                 serie.symbol.type = SerieSymbolType.Circle;
-                serie.symbol.size = 20f;
-                serie.symbol.selectedSize = 30f;
             }
             else if (type == SerieType.Line)
             {
                 serie.symbol.show = true;
                 serie.symbol.type = SerieSymbolType.EmptyCircle;
-                serie.symbol.size = 2.5f;
-                serie.symbol.selectedSize = 5f;
             }
             else
             {
@@ -697,15 +689,6 @@ namespace XCharts
             {
                 if (serie.animation.enable) serie.animation.Reset();
             }
-        }
-
-        /// <summary>
-        /// 从json中解析数据
-        /// </summary>
-        /// <param name="jsonData"></param>
-        public override void ParseJsonData(string jsonData)
-        {
-            //TODO:
         }
     }
 }

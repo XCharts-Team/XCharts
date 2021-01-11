@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,8 +16,9 @@ namespace XCharts
         {
             if (serie.animation.HasFadeOut()) return;
             if (!serie.show) return;
-            var yAxis = m_YAxises[serie.axisIndex];
-            var xAxis = m_XAxises[serie.axisIndex];
+            var yAxis = m_YAxes[serie.yAxisIndex];
+            var xAxis = m_XAxes[serie.xAxisIndex];
+            var grid = GetSerieGridOrDefault(serie);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                 : serie.dataCount;
@@ -27,21 +28,21 @@ namespace XCharts
             var dataChanging = false;
             for (int n = serie.minShow; n < maxCount; n++)
             {
-                var serieData = serie.GetDataList(m_DataZoom)[n];
+                var serieData = serie.GetDataList(dataZoom)[n];
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 if (!symbol.ShowSymbol(n, maxCount)) continue;
                 var highlight = serie.highlighted || serieData.highlighted;
-                var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, colorIndex, highlight);
-                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
+                var color = SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
+                var toColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, colorIndex, highlight);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 float xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
                 float yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = m_CoordinateX + xAxis.axisLine.width;
-                float pY = m_CoordinateY + yAxis.axisLine.width;
-                float xDataHig = GetDataHig(xAxis, xValue, m_CoordinateWidth);
-                float yDataHig = GetDataHig(yAxis, yValue, m_CoordinateHeight);
+                float pX = grid.runtimeX + xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
+                float pY = grid.runtimeY + yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
+                float xDataHig = GetDataHig(xAxis, xValue, grid.runtimeWidth);
+                float yDataHig = GetDataHig(yAxis, yValue, grid.runtimeHeight);
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
                 serie.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
@@ -49,11 +50,11 @@ namespace XCharts
                 float symbolSize = 0;
                 if (serie.highlighted || serieData.highlighted)
                 {
-                    symbolSize = symbol.GetSelectedSize(datas);
+                    symbolSize = symbol.GetSelectedSize(datas, m_Theme.serie.scatterSymbolSelectedSize);
                 }
                 else
                 {
-                    symbolSize = symbol.GetSize(datas);
+                    symbolSize = symbol.GetSize(datas, m_Theme.serie.scatterSymbolSize);
                 }
                 symbolSize *= rate;
                 if (symbolSize > 100) symbolSize = 100;
@@ -65,7 +66,7 @@ namespace XCharts
                         color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
                         DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
                     }
-                    RefreshChart();
+                    RefreshPainter(serie);
                 }
                 else
                 {
@@ -76,11 +77,11 @@ namespace XCharts
             {
                 serie.animation.CheckProgress(1);
                 m_IsPlayingAnimation = true;
-                RefreshChart();
+                RefreshPainter(serie);
             }
             if (dataChanging)
             {
-                RefreshChart();
+                RefreshPainter(serie);
             }
         }
 

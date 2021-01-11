@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// [default:[0.5f,0.45f]]The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate.
@@ -53,7 +53,7 @@ namespace XCharts
         public float radius
         {
             get { return m_Radius; }
-            set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Radius, value)) SetAllDirty(); }
         }
         /// <summary>
         /// [default:Color.clear]Background color of polar, which is transparent by default.
@@ -62,9 +62,9 @@ namespace XCharts
         public Color backgroundColor
         {
             get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
-
+        public int index { get; internal set; }
         /// <summary>
         /// the center position of polar in container.
         /// 极坐标在容器中的具体中心点。

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -62,7 +62,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The shape of vessel.
@@ -72,7 +72,7 @@ namespace XCharts
         public Shape shape
         {
             get { return m_Shape; }
-            set { if (PropertyUtility.SetStruct(ref m_Shape, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Shape, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Thickness of vessel.
@@ -82,7 +82,7 @@ namespace XCharts
         public float shapeWidth
         {
             get { return m_ShapeWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_ShapeWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ShapeWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The gap between the vessel and the liquid.
@@ -92,7 +92,7 @@ namespace XCharts
         public float gap
         {
             get { return m_Gap; }
-            set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The center of vesselß. The center[0] is the x-coordinate, and the center[1] is the y-coordinate.
@@ -115,7 +115,7 @@ namespace XCharts
         public float radius
         {
             get { return m_Radius; }
-            set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Radius, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The smoothness of wave.
@@ -125,7 +125,7 @@ namespace XCharts
         public float smoothness
         {
             get { return m_Smoothness; }
-            set { if (PropertyUtility.SetStruct(ref m_Smoothness, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Smoothness, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Background color of polar, which is transparent by default.
@@ -135,7 +135,7 @@ namespace XCharts
         public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Vessel color. The default is consistent with Serie.
@@ -144,7 +144,7 @@ namespace XCharts
         public Color32 color
         {
             get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether automatic color. If true, the color matches serie.
@@ -154,7 +154,7 @@ namespace XCharts
         public bool autoColor
         {
             get { return m_AutoColor; }
-            set { if (PropertyUtility.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
         }
         public int index { get; internal set; }
         /// <summary>

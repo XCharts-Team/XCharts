@@ -1,12 +1,15 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
+#if dUI_TextMeshPro
+using TMPro;
+#endif
 
 namespace XCharts
 {
@@ -39,7 +42,10 @@ namespace XCharts
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
 
-        private TextAnchor m_TextAnchor;
+        private TextAnchor m_TextAlignment;
+#if dUI_TextMeshPro
+        private TextAlignmentOptions m_TMPTextAlignment;
+#endif
         private Vector2 m_AnchorMin;
         private Vector2 m_AnchorMax;
         private Vector2 m_Pivot;
@@ -50,7 +56,7 @@ namespace XCharts
         public Align align
         {
             get { return m_Align; }
-            set { if (PropertyUtility.SetStruct(ref m_Align, value)) { SetComponentDirty(); UpdateAlign(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Align, value)) { SetComponentDirty(); UpdateAlign(); } }
         }
         /// <summary>
         /// Distance between component and the left side of the container.
@@ -59,7 +65,7 @@ namespace XCharts
         public float left
         {
             get { return m_Left; }
-            set { if (PropertyUtility.SetStruct(ref m_Left, value)) { SetComponentDirty(); UpdateAlign(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Left, value)) { SetComponentDirty(); UpdateAlign(); } }
         }
         /// <summary>
         /// Distance between component and the left side of the container.
@@ -68,7 +74,7 @@ namespace XCharts
         public float right
         {
             get { return m_Right; }
-            set { if (PropertyUtility.SetStruct(ref m_Right, value)) { SetComponentDirty(); UpdateAlign(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Right, value)) { SetComponentDirty(); UpdateAlign(); } }
         }
         /// <summary>
         /// Distance between component and the left side of the container.
@@ -77,7 +83,7 @@ namespace XCharts
         public float top
         {
             get { return m_Top; }
-            set { if (PropertyUtility.SetStruct(ref m_Top, value)) { SetComponentDirty(); UpdateAlign(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Top, value)) { SetComponentDirty(); UpdateAlign(); } }
         }
         /// <summary>
         /// Distance between component and the left side of the container.
@@ -86,7 +92,7 @@ namespace XCharts
         public float bottom
         {
             get { return m_Bottom; }
-            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) { SetComponentDirty(); UpdateAlign(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) { SetComponentDirty(); UpdateAlign(); } }
         }
 
         /// <summary>
@@ -94,7 +100,11 @@ namespace XCharts
         /// Location对应的Anchor锚点
         /// </summary>
         /// <value></value>
-        public TextAnchor runtimeTextAnchor { get { return m_TextAnchor; } }
+        public TextAnchor runtimeTextAlignment { get { return m_TextAlignment; } }
+
+#if dUI_TextMeshPro
+        public TextAlignmentOptions runtimeTMPTextAlignment { get { return m_TMPTextAlignment; } }
+#endif
         /// <summary>
         /// the minimum achor.
         /// Location对应的anchorMin。
@@ -179,55 +189,82 @@ namespace XCharts
             switch (m_Align)
             {
                 case Align.BottomCenter:
-                    m_TextAnchor = TextAnchor.LowerCenter;
+                    m_TextAlignment = TextAnchor.LowerCenter;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.Bottom;
+#endif
                     m_AnchorMin = new Vector2(0.5f, 0);
                     m_AnchorMax = new Vector2(0.5f, 0);
                     m_Pivot = new Vector2(0.5f, 0);
                     break;
                 case Align.BottomLeft:
-                    m_TextAnchor = TextAnchor.LowerLeft;
+                    m_TextAlignment = TextAnchor.LowerLeft;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.BottomLeft;
+#endif
                     m_AnchorMin = new Vector2(0, 0);
                     m_AnchorMax = new Vector2(0, 0);
                     m_Pivot = new Vector2(0, 0);
                     break;
                 case Align.BottomRight:
-                    m_TextAnchor = TextAnchor.LowerRight;
+                    m_TextAlignment = TextAnchor.LowerRight;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.BottomRight;
+#endif
                     m_AnchorMin = new Vector2(1, 0);
                     m_AnchorMax = new Vector2(1, 0);
                     m_Pivot = new Vector2(1, 0);
                     break;
                 case Align.Center:
-                    m_TextAnchor = TextAnchor.MiddleCenter;
+                    m_TextAlignment = TextAnchor.MiddleCenter;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.Center;
+#endif
                     m_AnchorMin = new Vector2(0.5f, 0.5f);
                     m_AnchorMax = new Vector2(0.5f, 0.5f);
                     m_Pivot = new Vector2(0.5f, 0.5f);
                     break;
                 case Align.CenterLeft:
-                    m_TextAnchor = TextAnchor.MiddleLeft;
+                    m_TextAlignment = TextAnchor.MiddleLeft;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.Left;
+#endif
                     m_AnchorMin = new Vector2(0, 0.5f);
                     m_AnchorMax = new Vector2(0, 0.5f);
                     m_Pivot = new Vector2(0, 0.5f);
                     break;
                 case Align.CenterRight:
-                    m_TextAnchor = TextAnchor.MiddleRight;
+                    m_TextAlignment = TextAnchor.MiddleRight;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.Right;
+#endif
                     m_AnchorMin = new Vector2(1, 0.5f);
                     m_AnchorMax = new Vector2(1, 0.5f);
                     m_Pivot = new Vector2(1, 0.5f);
                     break;
                 case Align.TopCenter:
-                    m_TextAnchor = TextAnchor.UpperCenter;
+                    m_TextAlignment = TextAnchor.UpperCenter;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.Top;
+#endif
                     m_AnchorMin = new Vector2(0.5f, 1);
                     m_AnchorMax = new Vector2(0.5f, 1);
                     m_Pivot = new Vector2(0.5f, 1);
                     break;
                 case Align.TopLeft:
-                    m_TextAnchor = TextAnchor.UpperLeft;
+                    m_TextAlignment = TextAnchor.UpperLeft;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.TopLeft;
+#endif
                     m_AnchorMin = new Vector2(0, 1);
                     m_AnchorMax = new Vector2(0, 1);
                     m_Pivot = new Vector2(0, 1);
                     break;
                 case Align.TopRight:
-                    m_TextAnchor = TextAnchor.UpperRight;
+                    m_TextAlignment = TextAnchor.UpperRight;
+#if dUI_TextMeshPro
+                    m_TMPTextAlignment = TextAlignmentOptions.TopRight;
+#endif
                     m_AnchorMin = new Vector2(1, 1);
                     m_AnchorMax = new Vector2(1, 1);
                     m_Pivot = new Vector2(1, 1);

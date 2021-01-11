@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,10 +14,10 @@ namespace XCharts.Examples
     [ExecuteInEditMode]
     public class Example_Test : MonoBehaviour
     {
-        BaseChart chart;
+        LineChart chart;
         void Awake()
         {
-            chart = gameObject.GetComponent<BaseChart>();
+            chart = gameObject.GetComponent<LineChart>();
             var btnTrans = transform.parent.Find("Button");
             if (btnTrans)
             {
@@ -29,14 +29,16 @@ namespace XCharts.Examples
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                AddData();
+                //AddData();
+                OnTestBtn();
             }
         }
 
         void OnTestBtn()
         {
-            //chart.ClearData();
-            chart.SetSize(800,400);
+            int index = Random.Range(0, chart.series.Count);
+            var serie = chart.series.GetSerie(index);
+            chart.UpdateData(index, Random.Range(0, serie.dataCount), Random.Range(50, 100));
         }
 
         void AddData()

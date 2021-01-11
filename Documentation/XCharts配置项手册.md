@@ -276,16 +276,19 @@
 * `showDetail`：是否显示 `detail`，即拖拽时候显示详细数值信息。
 * `zoomLock`：是否锁定选择区域（或叫做数据窗口）的大小。如果设置为 `true` 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
 * ~~`realtime`：拖动时，是否实时更新系列的视图。如果设置为 `false`，则只在拖拽结束的时候更新。~~
-* ~~`backgroundColor`：组件的背景颜色。~~
+* `backgroundColor`：组件的背景颜色。
+* `selectedAreaColor`：框选区域颜色。
 * `bottom`：组件离容器下侧的距离。
+* `top`：组件离容器上侧的距离。
+* `left`：组件离容器左侧的距离。
+* `right`：组件离容器右侧的距离。
 * `height`：组件高度。
 * `rangeMode`：取值类型是取绝对值还是百分比。
   * `Percent`：百分比。
 * `start`：数据窗口范围的起始百分比。范围是：0 ~ 100。
 * `end`：数据窗口范围的结束百分比。范围是：0 ~ 100。
 * `scrollSensitivity`：缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
-* `fontSize`：字体大小。
-* `fontStyle`：字体样式。
+* `textStyle`：字体风格。
 * `minShowNum`：最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
 
 ## `VisualMap`
@@ -351,15 +354,22 @@
 
 ## `XAxis`
 
-直角坐标系 `grid` 中的 `X` 轴。单个 `grid` 组件最多只能放上下两个 `X` 轴。两个 `X` 轴存储在 `xAxises` 中。
+直角坐标系 `grid` 中的 `X` 轴。单个 `grid` 组件最多只能放上下两个 `X` 轴。两个 `X` 轴存储在 `xAxes` 中。
 
 相关参数：
 
-* `show`：是否显示 `X` 轴。默认 `xAxises[0]` 为 `true`，`xAxises[1]` 为 `false`。
+* `show`：是否显示 `X` 轴。默认 `xAxes[0]` 为 `true`，`xAxes[1]` 为 `false`。
+* `gridIndex`：坐标轴所在的 grid 的索引，默认位于第一个 grid。
 * `type`：坐标轴类型。默认为 `Category`。支持以下类型：
   * `Value`：数值轴，用于连续数据。
   * `Category`：类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
   * `Log`：对数轴，适用于对数数据。
+* `position`：坐标轴在Grid中的位置`AxisPosition`。支持以下类型：
+  * `Left`：左边。
+  * `Right`：右边。
+  * `Bottom`：底部。
+  * `Top`：顶部。
+* `offset`：坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
 * `logBaseE`：对数轴是否以自然数 `e` 为底数，为 `true` 时 `logBase` 失效，只在对数轴（`type:'Log'`）中有效。
 * `logBase`：对数轴的底数，只在对数轴（`type:'Log'`）中有效。
 * `minMaxType`：坐标轴刻度最大最小值显示类型。默认为 `Default`。有以下三种类型：
@@ -407,11 +417,11 @@
 
 ## `YAxis`
 
-直角坐标系 `grid` 中的 `Y` 轴。单个 `grid` 组件最多只能放左右两个 `Y` 轴。两个 `Y` 轴存储在 `yAxises` 中。
+直角坐标系 `grid` 中的 `Y` 轴。单个 `grid` 组件最多只能放左右两个 `Y` 轴。两个 `Y` 轴存储在 `yAxes` 中。
 
 相关参数：
 
-* `show`：是否显示 `Y` 轴。默认 `yAxises[0]` 为 `true`，`yAxises[1]` 为 `false`。
+* `show`：是否显示 `Y` 轴。默认 `yAxes[0]` 为 `true`，`yAxes[1]` 为 `false`。
 * `type`：坐标轴类型。默认为 `Value`。有以下两种类型：
   * `Value`：数值轴，用于连续数据。
   * `Category`：类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
@@ -518,7 +528,8 @@
 * `type`：`Line`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `stack`：数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
-* `axisIndex`：使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
+* `xAxisIndex`：使用的坐标轴X轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
+* `yAxisIndex`：使用的坐标轴Y轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
 * `minShow`：系列显示数据的最小索引。
 * `maxShow`：系列显示数据的最大索引。
 * `maxCache`：系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
@@ -564,7 +575,8 @@
 * `type`：`Bar`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `stack`：数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
-* `axisIndex`：使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
+* `xAxisIndex`：使用的坐标轴X轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
+* `yAxisIndex`：使用的坐标轴Y轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
 * `minShow`：系列显示数据的最小索引。
 * `maxShow`：系列显示数据的最大索引。
 * `maxCache`：系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
@@ -767,16 +779,13 @@
 * `show`：是否显示刻度标签。
 * `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `inside`：刻度标签是否朝内，默认朝外。
-* `rotate`：刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
 * `margin`：刻度标签与轴线之间的距离。
-* `color`：刻度标签文字的颜色，默认取主题`Theme`的`axisTextColor`。
-* `fontSize`：文字的字体大小。
-* `fontStyle`：文字字体的风格。
 * `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{value}`，数值格式化通过`numericFormatter`。
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `onZero`：刻度标签显示在`0`刻度上。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
+* `textStyle`：文本样式 [TextStyle](#TextStyle)。
 
 ## `AxisLine`
 
@@ -797,11 +806,7 @@
   * `Start`：坐标轴起始处。
   * `Middle`：坐标轴中间。
   * `End`：坐标轴末端。
-* `offset`：坐标轴名称与轴线之间的偏移。
-* `rotate`：坐标轴名字旋转，角度值。
-* `color`：坐标轴名称的文字颜色。
-* `fontSize`：坐标轴名称的文字大小。
-* `fontStyle`：坐标轴名称的文字风格。
+* `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
 ## `AxisSplitLine`
 
@@ -919,15 +924,10 @@
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `offset`：距离图形元素的偏移。
 * `autoOffset`：是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
-* `color`：自定义文字颜色，默认和系列的颜色一致。
-* `backgroundColor`：标签的背景色，默认无颜色。
 * `backgroundWidth`：标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
 * `backgroundHeight`：标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
-* `rotate`：标签的旋转。
 * `paddingLeftRight`：标签文字和边框的左右边距。
 * `paddingTopBottom`：标签文字和边框的上下边距。
-* `fontSize`：标签文字的字体大小。
-* `fontStyle`：标签文字的字体风格。
 * `line`：是否显示视觉引导线。在 `label` 位置 设置为 `'Outside'` 的时候会显示视觉引导线。
 * `lineType`：视觉引导线类型。支持以下几种类型：
   * `BrokenLine`：折线。
@@ -940,6 +940,7 @@
 * `border`：是否显示边框。
 * `borderWidth`：边框宽度。
 * `borderColor`：边框颜色。
+* `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
 ## `SerieSymbol`
 

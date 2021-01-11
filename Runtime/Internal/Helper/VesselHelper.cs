@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +12,12 @@ namespace XCharts
 {
     public static class VesselHelper
     {
-        internal static Color32 GetColor(Vessel vessel, Serie serie, ThemeInfo themeInfo, List<string> legendRealShowName)
+        internal static Color32 GetColor(Vessel vessel, Serie serie, ChartTheme theme, List<string> legendRealShowName)
         {
             if (serie != null && vessel.autoColor)
             {
                 var colorIndex = legendRealShowName.IndexOf(serie.name);
-                return SerieHelper.GetItemColor(serie, null, themeInfo, colorIndex, false);
+                return SerieHelper.GetItemColor(serie, null, theme, colorIndex, false);
             }
             else
             {

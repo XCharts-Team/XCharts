@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,12 +34,12 @@ namespace XCharts
         /// <param name="numericFormatter">默认的数字格式化</param>
         /// <param name="serie">选中的serie</param>
         /// <param name="series">所有serie</param>
-        /// <param name="themeInfo">用来获取指定index的颜色</param>
+        /// <param name="theme">用来获取指定index的颜色</param>
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
         /// <param name="dataZoom">dataZoom</param>
         /// <returns></returns>
         public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie, Series series,
-           ThemeInfo themeInfo, string category = null, DataZoom dataZoom = null)
+           ChartTheme theme, string category = null, DataZoom dataZoom = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -74,7 +74,7 @@ namespace XCharts
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    content = content.Replace(old, ChartCached.ColorToDotStr(themeInfo.GetColor(bIndex)));
+                    content = content.Replace(old, ChartCached.ColorToDotStr(theme.GetColor(bIndex)));
                     foundDot = true;
                 }
                 else if (p == 'a' || p == 'A')

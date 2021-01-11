@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Color of split area. SplitArea color could also be set in color array,
@@ -49,10 +49,7 @@ namespace XCharts
                 return new AxisSplitArea()
                 {
                     m_Show = false,
-                    m_Color = new List<Color32>(){
-                            new Color32(250,250,250,77),
-                            new Color32(200,200,200,77)
-                        }
+                    m_Color = new List<Color32>() { }
                 };
             }
         }
@@ -73,10 +70,18 @@ namespace XCharts
             ChartHelper.CopyList(color, splitArea.color);
         }
 
-        public Color32 getColor(int index)
+        public Color32 GetColor(int index, BaseAxisTheme theme)
         {
-            var i = index % color.Count;
-            return color[i];
+            if (color.Count > 0)
+            {
+                var i = index % color.Count;
+                return color[i];
+            }
+            else
+            {
+                var i = index % theme.splitAreaColors.Count;
+                return theme.splitAreaColors[i];
+            }
         }
     }
 }

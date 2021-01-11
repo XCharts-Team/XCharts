@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 using UnityEngine;
@@ -43,7 +43,7 @@ namespace XCharts
                 height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
                 for (int i = 0; i < m_Data.arraySize; i++)
                 {
-                    height += EditorGUI.GetPropertyHeight(m_Data.GetArrayElementAtIndex(i));
+                    height += EditorGUI.GetPropertyHeight(m_Data.GetArrayElementAtIndex(i)) + EditorGUIUtility.standardVerticalSpacing;
                 }
             }
             if (m_ShowJsonDataArea)

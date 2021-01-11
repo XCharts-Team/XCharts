@@ -6,7 +6,7 @@
 
 The translation work is still in progress.
 
-Main component:
+__Main component:__
 
 * [Axis](#XAxis)  
 * [Background](#Background)  
@@ -32,7 +32,7 @@ Main component:
 * [Vessel](#Vessel)  
 * [VisualMap](#VisualMap)  
 
-Sub component:
+__Sub component:__
 
 * [AreaStyle](#AreaStyle)  
 * [AxisLabel](#AxisLabel)  
@@ -128,7 +128,7 @@ Parameters:
 * `formatter`: Legend content string template formatter. Support for wrapping lines with `\n`. Template:`{name}`.
 * `data`: Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. If data is not specified, it will be auto collected from series.
 * `icons`: The list of cunstomize icons.
-* `textStyle`: The text style of legend content [TextStyle](#TextStyle).
+* `textStyle`: The style of text [TextStyle](#TextStyle).
 
 API:
 
@@ -275,16 +275,19 @@ Currently only the control 'X' axis is supported.
 * `showDetail`: Whether to show detail, that is, show the detailed data information when dragging. [default: `false`]
 * `zoomLock`: Specify whether to lock the size of window (selected area). [default: `false`]
 * ~~`realtime`: Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief. [default: `true`]~~
-* ~~`backgroundColor`: The background color of the component.~~
-* `bottom`: Distance between dataZoom component and the bottom side of the container. bottom value is a instant pixel value like 10. [default: `10f`]
+* `backgroundColor`: The background color of the component.
+* `selectedAreaColor`: The color of the selected area.
+* `bottom`: Distance between dataZoom component and the bottom side of the container. [default: `10f`]
+* `top`: Distance between dataZoom component and the top side of the container.  [default: `0`]
+* `left`: Distance between dataZoom component and the left side of the container. [default: `0`]
+* `right`: Distance between dataZoom component and the right side of the container. [default: `0`]
 * `height`: The height of dataZoom component. height value is a instant pixel value like 10. [default: `50f`]
 * `rangeMode`: Use absolute value or percent value in `DataZoom.start` and `DataZoom.end`. [default: `RangeMode.Percent`].
   * `Percent`: percent.
 * `start`: The start percentage of the window out of the data extent, in the range of `0 ~ 100`. [default: `30f`]
 * `end`: The end percentage of the window out of the data extent, in the range of 0 ~ 100. [default: `70f`]
 * `scrollSensitivity`: The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is. [default: `10f`]
-* `fontSize`: font size of datazoom label.
-* `fontStyle`: font style of datazoom label.
+* `textStyle`: style of datazoom label.
 * `minShowNum`: Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum. [default: `1`]
 
 ## `VisualMap`
@@ -352,11 +355,18 @@ GaugePointer sub component. Settings related to gauge pointer.
 
 The x axis in cartesian(rectangular) coordinate. a grid component can place at most 2 x axis, one on the bottom and another on the top.
 
-* `show`: Whether to show axis. By default `xAxises[0]` is `true` and `xAxises[1]` is `false`.
+* `show`: Whether to show axis. By default `xAxes[0]` is `true` and `xAxes[1]` is `false`.
+* `gridIndex`: The index of the grid on which the axis are located, by default, is in the first grid.
 * `type`: the type of axis. The default is `Category`.
   * `Value`: Numerical axis for continuous data.
   * `Category`: Category axis, applicable to discrete category data, category data must be set through `data` for this type.
   * `Log`: Log axis, it applies to logarithmic data.
+* `position`: the position of axis in grid.
+  * `Left`: left of grid.
+  * `Right`: right of grid.
+  * `Bottom`: bottom of grid.
+  * `Top`: top of grid.
+* `offset`: the offset of axis from the default position. Useful when the same position has multiple axes.
 * `logBaseE`: On the log axis, if base e is the natural number, and is true, logBase fails.
 * `logBase`: Base of logarithm, which is valid only for numeric axes with type: `Log`.
 * `minMaxType`: the type of axis minmax.The default is `Default`.
@@ -411,7 +421,8 @@ Line chart serie.
 * `type`: `Line`.
 * `name`: Series name used for displaying in tooltip and filtering with legend.
 * `stack`: If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
-* `axisIndex`: Index of axis to combine with, which is useful for multiple x axes in one chart.
+* `xAxisIndex`: Index of x axis to combine with, which is useful for multiple axes in one chart.
+* `yAxisIndex`: Index of y axis to combine with, which is useful for multiple axes in one chart.
 * `minShow`: The min number of data to show in chart.
 * `maxShow`: The max number of data to show in chart.
 * `maxCache`: The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache.
@@ -431,7 +442,7 @@ Line chart serie.
 * `largeThreshold`: 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
 * `areaStyle`: 区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`: 标记的图形 [SerieSymbol](#SerieSymbol)。
-* `lineType`: 折线图样式类型。支持以下十种类型: 
+* `lineType`: 折线图样式类型。支持以下十种类型:
   * `Normal`: 普通折线图。
   * `Smooth`: 平滑曲线。
   * `SmoothDash`: 平滑虚线。
@@ -457,7 +468,8 @@ Line chart serie.
 * `type`: `Bar`。
 * `name`: 系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `stack`: 数据堆叠。同个类目轴上系列配置相同的 `stack` 值后，后一个系列的值会在前一个系列的值上相加。
-* `axisIndex`: 使用的坐标轴轴的 `index`，在单个图表实例中存在多个坐标轴轴的时候有用。
+* `xAxisIndex`: Index of x axis to combine with, which is useful for multiple axes in one chart.
+* `yAxisIndex`: Index of y axis to combine with, which is useful for multiple axes in one chart.
 * `minShow`: 系列显示数据的最小索引。
 * `maxShow`: 系列显示数据的最大索引。
 * `maxCache`: 系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
@@ -492,7 +504,7 @@ Line chart serie.
 * `show`: 系列是否显示在图表上。
 * `type`: `Pie`。
 * `name`: 系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `pieRoseType`: 南丁格尔玫瑰图类型，支持以下类型: 
+* `pieRoseType`: 南丁格尔玫瑰图类型，支持以下类型:
   * `None`: 不展示成南丁格尔玫瑰图。
   * `Radius`: 扇区圆心角展现数据的百分比，半径展现数据的大小。
   * `Area`: 所有扇区圆心角相同，仅通过半径展现数据大小。
@@ -562,7 +574,7 @@ Line chart serie.
 * `show`: 系列是否显示在图表上。
 * `type`: `Gauge`。
 * `name`: 系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `gaugeType`: 仪表盘类型，支持以下类型: 
+* `gaugeType`: 仪表盘类型，支持以下类型:
   * `Pointer`: 指针类型。
   * `ProgressBar`: 进度条类型。
 * `center`: 中心点坐标。当值为0-1的浮点数时表示百分比。
@@ -644,7 +656,7 @@ Line chart serie.
 ## `AreaStyle`
 
 * `show`: 是否显示区域填充。
-* `origin`: 区域填充的起始位置 `AreaOrigin`。有以下三种填充方式: 
+* `origin`: 区域填充的起始位置 `AreaOrigin`。有以下三种填充方式:
   * `Auto`: 填充坐标轴轴线到数据间的区域。
   * `Start`: 填充坐标轴底部到数据间的区域。
   * `End`: 填充坐标轴顶部到数据间的区域。
@@ -660,16 +672,13 @@ Line chart serie.
 * `show`: 是否显示刻度标签。
 * `interval`: 坐标轴刻度标签的显示间隔，在类目轴中有效。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `inside`: 刻度标签是否朝内，默认朝外。
-* `rotate`: 刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
 * `margin`: 刻度标签与轴线之间的距离。
-* `color`: 刻度标签文字的颜色，默认取主题`Theme`的`axisTextColor`。
-* `fontSize`: 文字的字体大小。
-* `fontStyle`: 文字字体的风格。
 * `formatter`: 图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{value}`，数值格式化通过`numericFormatter`。
 * `numericFormatter`: 标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式: `A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`: 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `onZero`: 刻度标签显示在`0`刻度上。
 * `textLimit`: 文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
+* `textStyle`: The style of text [TextStyle](#TextStyle).
 
 ## `AxisLine`
 
@@ -686,15 +695,11 @@ Line chart serie.
 
 * `show`: 是否显示坐标名称。
 * `name`: 坐标轴名称。
-* `location`: 坐标轴名称的位置。支持以下类型: 
+* `location`: 坐标轴名称的位置。支持以下类型:
   * `Start`: 坐标轴起始处。
   * `Middle`: 坐标轴中间。
   * `End`: 坐标轴末端。
-* `offset`: 坐标轴名称与轴线之间的偏移。
-* `rotate`: 坐标轴名字旋转，角度值。
-* `color`: 坐标轴名称的文字颜色。
-* `fontSize`: 坐标轴名称的文字大小。
-* `fontStyle`: 坐标轴名称的文字风格。
+* `textStyle`: The style of text [TextStyle](#TextStyle).
 
 ## `AxisSplitLine`
 
@@ -742,7 +747,7 @@ Line chart serie.
 ## `LineArrow`
 
 * `show`: 是否显示箭头。
-* `position`: 箭头显示位置。支持以下两种位置: 
+* `position`: 箭头显示位置。支持以下两种位置:
   * `End`: 末端显示。最后一个数据上显示箭头。
   * `Start`: 起始端显示。第一个数据上显示箭头。
 * `width`: 箭头宽。
@@ -802,7 +807,7 @@ Line chart serie.
 ## `SerieLabel`
 
 * `show`: 是否显示文本标签。
-* `position`: 标签的位置。折线图时强制默认为 `Center`，支持以下 `5` 种位置: 
+* `position`: 标签的位置。折线图时强制默认为 `Center`，支持以下 `5` 种位置:
   * `Outside`: 饼图扇区外侧，通过视觉引导线连到相应的扇区。只在饼图种可用。
   * `Inside`: 饼图扇区内部。只在饼图可用。
   * `Center`: 在中心位置（折线图，柱状图，饼图）。
@@ -812,17 +817,12 @@ Line chart serie.
 * `numericFormatter`: 标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式: `A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `offset`: 距离图形元素的偏移。
 * `autoOffset`: 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
-* `color`: 自定义文字颜色，默认和系列的颜色一致。
-* `backgroundColor`: 标签的背景色，默认无颜色。
 * `backgroundWidth`: 标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
 * `backgroundHeight`: 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
-* `rotate`: 标签的旋转。
 * `paddingLeftRight`: 标签文字和边框的左右边距。
 * `paddingTopBottom`: 标签文字和边框的上下边距。
-* `fontSize`: 标签文字的字体大小。
-* `fontStyle`: 标签文字的字体风格。
 * `line`: 是否显示视觉引导线。在 `label` 位置 设置为 `'Outside'` 的时候会显示视觉引导线。
-* `lineType`: 视觉引导线类型。支持以下几种类型: 
+* `lineType`: 视觉引导线类型。支持以下几种类型:
   * `BrokenLine`: 折线。
   * `Curves`: 曲线。
   * `HorizontalLine`: 水平线。
@@ -833,6 +833,7 @@ Line chart serie.
 * `border`: 是否显示边框。
 * `borderWidth`: 边框宽度。
 * `borderColor`: 边框颜色。
+* `textStyle`: The style of text [TextStyle](#TextStyle).
 
 ## `SerieSymbol`
 

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -84,10 +84,12 @@ namespace XCharts
             /// </summary>
             public Text text { get; set; }
         }
+        [SerializeField] private bool m_Show;
         [SerializeField] private Shape m_Shape;
         [SerializeField] private float m_Radius = 100;
         [SerializeField] private int m_SplitNumber = 5;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
+        [SerializeField] private AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] private AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] private AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField] private bool m_Indicator = true;
@@ -97,6 +99,12 @@ namespace XCharts
         [SerializeField] private bool m_IsAxisTooltip;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
+        /// [default:true]
+        /// Set this to false to prevent the radar from showing.
+        /// 是否显示雷达坐标系组件。
+        /// </summary>
+        public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
+        /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
         /// 雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
@@ -104,7 +112,7 @@ namespace XCharts
         public Shape shape
         {
             get { return m_Shape; }
-            set { if (PropertyUtility.SetStruct(ref m_Shape, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Shape, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the radius of radar.
@@ -113,7 +121,7 @@ namespace XCharts
         public float radius
         {
             get { return m_Radius; }
-            set { if (PropertyUtility.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Radius, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Segments of indicator axis.
@@ -122,7 +130,7 @@ namespace XCharts
         public int splitNumber
         {
             get { return m_SplitNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the center of radar chart.
@@ -135,13 +143,22 @@ namespace XCharts
             set { if (value != null) { m_Center = value; SetAllDirty(); } }
         }
         /// <summary>
+        /// axis line.
+        /// 轴线。
+        /// </summary>
+        public AxisLine axisLine
+        {
+            get { return m_AxisLine; }
+            set { if (PropertyUtil.SetClass(ref m_AxisLine, value, true)) SetAllDirty(); }
+        }
+        /// <summary>
         /// split line.
         /// 分割线。
         /// </summary>
         public AxisSplitLine splitLine
         {
             get { return m_SplitLine; }
-            set { if (PropertyUtility.SetClass(ref m_SplitLine, value, true)) SetAllDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_SplitLine, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// Split area of axis in grid area.
@@ -150,7 +167,7 @@ namespace XCharts
         public AxisSplitArea splitArea
         {
             get { return m_SplitArea; }
-            set { if (PropertyUtility.SetClass(ref m_SplitArea, value, true)) SetAllDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_SplitArea, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// Whether to show indicator.
@@ -159,7 +176,7 @@ namespace XCharts
         public bool indicator
         {
             get { return m_Indicator; }
-            set { if (PropertyUtility.SetStruct(ref m_Indicator, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Indicator, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The gap of indicator and radar.
@@ -168,7 +185,7 @@ namespace XCharts
         public float indicatorGap
         {
             get { return m_IndicatorGap; }
-            set { if (PropertyUtility.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
@@ -177,7 +194,7 @@ namespace XCharts
         public int ceilRate
         {
             get { return m_CeilRate; }
-            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
         /// 是否Tooltip显示轴线上的所有数据。
@@ -185,7 +202,7 @@ namespace XCharts
         public bool isAxisTooltip
         {
             get { return m_IsAxisTooltip; }
-            set { if (PropertyUtility.SetStruct(ref m_IsAxisTooltip, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_IsAxisTooltip, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The position type of indicator.
@@ -194,7 +211,7 @@ namespace XCharts
         public PositionType positionType
         {
             get { return m_PositionType; }
-            set { if (PropertyUtility.SetStruct(ref m_PositionType, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_PositionType, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the indicator list.
@@ -226,6 +243,7 @@ namespace XCharts
             {
                 var radar = new Radar
                 {
+                    m_Show = true,
                     m_Shape = Shape.Polygon,
                     m_Radius = 0.35f,
                     m_SplitNumber = 5,
@@ -242,7 +260,6 @@ namespace XCharts
                 radar.center[1] = 0.4f;
                 radar.splitLine.show = true;
                 radar.splitArea.show = true;
-                radar.splitLine.lineStyle.width = 0.6f;
                 return radar;
             }
         }
@@ -257,38 +274,6 @@ namespace XCharts
                 if (!indicator1.Equals(indicator2)) return false;
             }
             return true;
-        }
-
-        public override void ParseJsonData(string jsonData)
-        {
-            if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
-            string pattern = "[\"|'](.*?)[\"|']";
-            if (Regex.IsMatch(jsonData, pattern))
-            {
-                m_IndicatorList.Clear();
-                MatchCollection m = Regex.Matches(jsonData, pattern);
-                foreach (Match match in m)
-                {
-                    m_IndicatorList.Add(new Indicator()
-                    {
-                        name = match.Groups[1].Value
-                    });
-                }
-            }
-            pattern = "(\\d+)";
-            if (Regex.IsMatch(jsonData, pattern))
-            {
-                MatchCollection m = Regex.Matches(jsonData, pattern);
-                int index = 0;
-                foreach (Match match in m)
-                {
-                    if (m_IndicatorList[index] != null)
-                    {
-                        m_IndicatorList[index].max = int.Parse(match.Groups[1].Value);
-                    }
-                    index++;
-                }
-            }
         }
 
         public float GetIndicatorMin(int index)

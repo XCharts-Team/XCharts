@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,6 +18,7 @@ namespace XCharts
         private List<bool> m_DataFoldout = new List<bool>();
         private bool m_ShowJsonDataArea = false;
         private string m_JsonDataAreaText;
+        private bool m_IsPolar = false;
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
@@ -28,9 +29,12 @@ namespace XCharts
             SerializedProperty name = prop.FindPropertyRelative("m_Name");
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
+            SerializedProperty m_XAxisIndex = prop.FindPropertyRelative("m_XAxisIndex");
+            SerializedProperty m_YAxisIndex = prop.FindPropertyRelative("m_YAxisIndex");
             SerializedProperty m_RadarType = prop.FindPropertyRelative("m_RadarType");
             SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
             SerializedProperty m_VesselIndex = prop.FindPropertyRelative("m_VesselIndex");
+            SerializedProperty m_PolarIndex = prop.FindPropertyRelative("m_PolarIndex");
             SerializedProperty m_MinShow = prop.FindPropertyRelative("m_MinShow");
             SerializedProperty m_MaxShow = prop.FindPropertyRelative("m_MaxShow");
             SerializedProperty m_MaxCache = prop.FindPropertyRelative("m_MaxCache");
@@ -90,7 +94,7 @@ namespace XCharts
             var toggle = ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SerieModuleToggle, prop, moduleName, show);
             if (!toggle)
             {
-                var orderButton = 46;
+                var orderButton = 48;
                 var gap = 4;
                 drawRect.x += EditorGUIUtility.labelWidth + gap;
                 drawRect.width = pos.width - drawRect.x + ChartEditorHelper.BOOL_WIDTH - orderButton;
@@ -99,8 +103,9 @@ namespace XCharts
             }
             else
             {
+                var chart = prop.serializedObject.targetObject as BaseChart;
+                m_IsPolar = chart is PolarChart;
                 var serieType = (SerieType)type.enumValueIndex;
-
                 ++EditorGUI.indentLevel;
                 drawRect.x = pos.x;
                 drawRect.width = pos.width;
@@ -115,8 +120,18 @@ namespace XCharts
                     case SerieType.Line:
                         EditorGUI.PropertyField(drawRect, stack);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                        EditorGUI.PropertyField(drawRect, m_AxisIndex);
-                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        if (m_IsPolar)
+                        {
+                            EditorGUI.PropertyField(drawRect, m_PolarIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        }
+                        else
+                        {
+                            EditorGUI.PropertyField(drawRect, m_XAxisIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                            EditorGUI.PropertyField(drawRect, m_YAxisIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        }
                         EditorGUI.PropertyField(drawRect, m_MinShow);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_MaxShow);
@@ -164,8 +179,18 @@ namespace XCharts
                     case SerieType.Bar:
                         EditorGUI.PropertyField(drawRect, stack);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                        EditorGUI.PropertyField(drawRect, m_AxisIndex);
-                        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        if (m_IsPolar)
+                        {
+                            EditorGUI.PropertyField(drawRect, m_PolarIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        }
+                        else
+                        {
+                            EditorGUI.PropertyField(drawRect, m_XAxisIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                            EditorGUI.PropertyField(drawRect, m_YAxisIndex);
+                            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                        }
                         EditorGUI.PropertyField(drawRect, m_MinShow);
                         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                         EditorGUI.PropertyField(drawRect, m_MaxShow);
@@ -352,27 +377,35 @@ namespace XCharts
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Animation);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
-                ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
                 drawRect.width = pos.width;
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_DataFoldout[index])
                 {
                     EditorGUI.indentLevel++;
 
                     float nameWid = 45;
 #if UNITY_2019_3_OR_NEWER
-                var gap = 2;
-                var namegap = 3;
+                    var gap = 2;
+                    var namegap = 3;
 #else
                     var gap = 0;
                     var namegap = 0;
 #endif
                     EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height), m_DataDimension);
                     var nameRect = new Rect(pos.width - 2 * nameWid + 14 + gap, drawRect.y, nameWid - gap, pos.height);
+                    if (XChartsSettings.editorBlockEnable)
+                    {
+                        nameRect.x += ChartEditorHelper.BLOCK_WIDTH;
+                    }
                     if (GUI.Button(nameRect, new GUIContent("Name")))
                     {
                         m_ShowDataName.boolValue = !m_ShowDataName.boolValue;
                     }
                     var iconRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid + namegap, pos.height);
+                    if (XChartsSettings.editorBlockEnable)
+                    {
+                        iconRect.x += ChartEditorHelper.BLOCK_WIDTH;
+                    }
                     if (GUI.Button(iconRect, new GUIContent("More...")))
                     {
                         m_ShowDataIcon.boolValue = !m_ShowDataIcon.boolValue;
@@ -546,7 +579,7 @@ namespace XCharts
                 switch (serieType)
                 {
                     case SerieType.Line:
-                        height += 19 * EditorGUIUtility.singleLineHeight + 18 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 20 * EditorGUIUtility.singleLineHeight + 19 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Symbol"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
@@ -557,7 +590,7 @@ namespace XCharts
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                         break;
                     case SerieType.Bar:
-                        height += 21 * EditorGUIUtility.singleLineHeight + 20 * EditorGUIUtility.standardVerticalSpacing;
+                        height += 22 * EditorGUIUtility.singleLineHeight + 21 * EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_ItemStyle"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                         height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Emphasis"));

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 
@@ -20,27 +20,26 @@ namespace XCharts.Examples
         void Awake()
         {
             chart = gameObject.GetComponent<LineChart>();
-            if (chart != null)
+            if (chart == null)
             {
-                GameObject.DestroyImmediate(chart);
+                chart = gameObject.AddComponent<LineChart>();
             }
-            chart = gameObject.AddComponent<LineChart>();
             chart.title.show = true;
             chart.title.text = "Sin Curve";
 
             chart.tooltip.show = true;
             chart.legend.show = false;
 
-            chart.xAxises[0].show = true;
-            chart.xAxises[1].show = false;
-            chart.yAxises[0].show = true;
-            chart.yAxises[1].show = false;
+            chart.xAxes[0].show = true;
+            chart.xAxes[1].show = false;
+            chart.yAxes[0].show = true;
+            chart.yAxes[1].show = false;
 
-            chart.xAxises[0].type = Axis.AxisType.Value;
-            chart.yAxises[0].type = Axis.AxisType.Value;
+            chart.xAxes[0].type = Axis.AxisType.Value;
+            chart.yAxes[0].type = Axis.AxisType.Value;
 
-            chart.xAxises[0].boundaryGap = false;
-            chart.xAxises[0].maxCache = 0;
+            chart.xAxes[0].boundaryGap = false;
+            chart.xAxes[0].maxCache = 0;
             chart.series.list[0].maxCache = 0;
 
             chart.RemoveData();

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -38,7 +38,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
@@ -47,7 +47,7 @@ namespace XCharts
         public float left
         {
             get { return m_Left; }
-            set { if (PropertyUtility.SetStruct(ref m_Left, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Left, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the right side of the container.
@@ -56,7 +56,7 @@ namespace XCharts
         public float right
         {
             get { return m_Right; }
-            set { if (PropertyUtility.SetStruct(ref m_Right, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Right, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the top side of the container.
@@ -65,7 +65,7 @@ namespace XCharts
         public float top
         {
             get { return m_Top; }
-            set { if (PropertyUtility.SetStruct(ref m_Top, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Top, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the bottom side of the container.
@@ -74,7 +74,7 @@ namespace XCharts
         public float bottom
         {
             get { return m_Bottom; }
-            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Background color of grid, which is transparent by default.
@@ -83,7 +83,24 @@ namespace XCharts
         public Color backgroundColor
         {
             get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
+        public int index { get; internal set; }
+        public float runtimeX { get; private set; }
+        public float runtimeY { get; private set; }
+        public float runtimeWidth { get; private set; }
+        public float runtimeHeight { get; private set; }
+
+        internal void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
+        {
+            var runtimeLeft = left <= 1 ? left * chartWidth : left;
+            var runtimeBottom = bottom <= 1 ? bottom * chartHeight : bottom;
+            var runtimeTop = top <= 1 ? top * chartHeight : top;
+            var runtimeRight = right <= 1 ? right * chartWidth : right;
+            runtimeX = chartX + runtimeLeft;
+            runtimeY = chartY + runtimeBottom;
+            runtimeWidth = chartWidth - runtimeLeft - runtimeRight;
+            runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
         }
 
         public static Grid defaultGrid

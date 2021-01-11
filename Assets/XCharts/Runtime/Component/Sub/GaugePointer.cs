@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +29,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Pointer length. It can be an absolute value, or it can be a percentage relative to the radius (0-1). 
@@ -38,7 +38,7 @@ namespace XCharts
         public float length
         {
             get { return m_Length; }
-            set { if (PropertyUtility.SetStruct(ref m_Length, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Length, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Pointer width.
@@ -47,7 +47,7 @@ namespace XCharts
         public float width
         {
             get { return m_Width; }
-            set { if (PropertyUtility.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetVerticesDirty(); }
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 
@@ -23,22 +23,14 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Title.text = "ScatterChart";
-            m_Tooltip.type = Tooltip.Type.None;
-            m_XAxises[0].type = Axis.AxisType.Value;
-            m_XAxises[0].boundaryGap = false;
-            m_YAxises[1].type = Axis.AxisType.Value;
-            m_XAxises[1].boundaryGap = false;
+            title.text = "ScatterChart";
+            tooltip.type = Tooltip.Type.None;
+            m_XAxes[0].type = Axis.AxisType.Value;
+            m_XAxes[0].boundaryGap = false;
+            m_YAxes[1].type = Axis.AxisType.Value;
+            m_XAxes[1].boundaryGap = false;
             RemoveData();
-            var serie = AddSerie(SerieType.Scatter, "serie1");
-            serie.symbol.show = true;
-            serie.symbol.type = SerieSymbolType.Circle;
-            serie.itemStyle.opacity = 0.8f;
-            serie.clip = false;
-            for (int i = 0; i < 10; i++)
-            {
-                AddData(0, Random.Range(10, 100), Random.Range(10, 100));
-            }
+            SerieTemplate.AddDefaultScatterSerie(this, "serie1");
         }
 #endif
 
@@ -51,10 +43,11 @@ namespace XCharts
                 if (serie.type == SerieType.EffectScatter)
                 {
                     hasEffectScatter = true;
+                    var symbolSize = serie.symbol.GetSize(null, m_Theme.serie.scatterSymbolSize);
                     for (int i = 0; i < serie.symbol.animationSize.Count; ++i)
                     {
                         serie.symbol.animationSize[i] += m_EffectScatterSpeed * Time.deltaTime;
-                        if (serie.symbol.animationSize[i] > serie.symbol.size)
+                        if (serie.symbol.animationSize[i] > symbolSize)
                         {
                             serie.symbol.animationSize[i] = i * 5;
                         }
@@ -67,10 +60,11 @@ namespace XCharts
             }
         }
 
-        protected override void CheckTootipArea(Vector2 local)
+        protected override void CheckTootipArea(Vector2 local, bool isActivedOther)
         {
-            base.CheckTootipArea(local);
-            m_Tooltip.ClearSerieDataIndex();
+            base.CheckTootipArea(local, isActivedOther);
+            if (isActivedOther) return;
+            tooltip.ClearSerieDataIndex();
             bool selected = false;
             foreach (var serie in m_Series.list)
             {
@@ -84,10 +78,10 @@ namespace XCharts
                     var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                     if (!symbol.ShowSymbol(j, dataCount)) continue;
                     var dist = Vector3.Distance(local, serieData.runtimePosition);
-                    if (dist <= symbol.size)
+                    if (dist <= symbol.GetSize(serieData.data, m_Theme.serie.scatterSymbolSize))
                     {
                         serieData.selected = true;
-                        m_Tooltip.AddSerieDataIndex(serie.index, j);
+                        tooltip.AddSerieDataIndex(serie.index, j);
                         selected = true;
                     }
                     else
@@ -99,12 +93,12 @@ namespace XCharts
             }
             if (selected)
             {
-                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
+                tooltip.UpdateContentPos(local + tooltip.offset);
                 UpdateTooltip();
             }
-            else if (m_Tooltip.IsActive())
+            else if (tooltip.IsActive())
             {
-                m_Tooltip.SetActive(false);
+                tooltip.SetActive(false);
                 RefreshChart();
             }
         }
@@ -112,15 +106,15 @@ namespace XCharts
         protected override void UpdateTooltip()
         {
             base.UpdateTooltip();
-            if (m_Tooltip.isAnySerieDataIndex())
+            if (tooltip.isAnySerieDataIndex())
             {
-                var content = TooltipHelper.GetFormatterContent(m_Tooltip, 0, m_Series, m_ThemeInfo);
+                var content = TooltipHelper.GetFormatterContent(tooltip, 0, m_Series, m_Theme);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
-                m_Tooltip.SetActive(true);
+                tooltip.SetActive(true);
             }
             else
             {
-                m_Tooltip.SetActive(false);
+                tooltip.SetActive(false);
             }
         }
     }

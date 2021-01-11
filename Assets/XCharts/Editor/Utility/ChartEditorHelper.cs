@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using XCharts;
 
 public class ChartEditorHelper
 {
@@ -8,7 +9,8 @@ public class ChartEditorHelper
     public const float INDENT_WIDTH = 15;
     public const float BOOL_WIDTH = 15;
     public const float ARROW_WIDTH = 20;
-    public const float GAP_WIDTH =2;
+    public const float BLOCK_WIDTH = 4;
+    public const float GAP_WIDTH = 2;
 #else
     public const float INDENT_WIDTH = 15;
     public const float BOOL_WIDTH = 15;
@@ -119,7 +121,7 @@ public class ChartEditorHelper
     }
 
     public static bool MakeFoldout(ref Rect drawRect, ref bool moduleToggle, string content,
-        SerializedProperty prop = null, bool bold = true)
+        SerializedProperty prop = null, bool bold = false)
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
@@ -131,12 +133,49 @@ public class ChartEditorHelper
         return moduleToggle;
     }
 
+    public static bool MakeFoldout(ref Rect drawRect, Dictionary<string, float> heights, Dictionary<string, bool> moduleToggle,
+        string key, string content, SerializedProperty prop, bool bold = false)
+    {
+        float defaultWidth = drawRect.width;
+        float defaultX = drawRect.x;
+        drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
+        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, bold ? foldoutStyle : EditorStyles.foldout);
+        if (prop != null)
+        {
+            if (prop.propertyType == SerializedPropertyType.Boolean)
+            {
+                MakeBool(drawRect, prop);
+            }
+            else
+            {
+                drawRect.x = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + ARROW_WIDTH;
+                drawRect.width = defaultWidth - drawRect.x + ARROW_WIDTH - 2;
+                if (XChartsSettings.editorBlockEnable)
+                {
+                    drawRect.x += BLOCK_WIDTH;
+                }
+
+                EditorGUI.PropertyField(drawRect, prop, GUIContent.none);
+            }
+        }
+
+        drawRect.width = defaultWidth;
+        drawRect.x = defaultX;
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        heights[key] += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        return moduleToggle[key];
+    }
+
     public static void MakeBool(Rect drawRect, SerializedProperty boolProp, int index = 0, string name = null)
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
         float boolWidth = index * (BOOL_WIDTH + GAP_WIDTH);
         drawRect.x = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + ARROW_WIDTH + boolWidth;
+        if (XChartsSettings.editorBlockEnable)
+        {
+            drawRect.x += BLOCK_WIDTH;
+        }
         drawRect.width = (EditorGUI.indentLevel + 1) * BOOL_WIDTH + index * 110;
         if (boolProp != null)
         {
@@ -152,8 +191,17 @@ public class ChartEditorHelper
         drawRect.x = defaultX;
     }
 
+    public static bool MakeFoldout(ref Rect drawRect, ref float height, ref Dictionary<string, bool> moduleToggle, SerializedProperty prop,
+        string moduleName, string showPropName, bool bold = false)
+    {
+        var flag = MakeFoldout(ref drawRect, ref moduleToggle, prop, moduleName, prop.FindPropertyRelative(showPropName), bold);
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        return flag;
+    }
+
     public static bool MakeFoldout(ref Rect drawRect, ref Dictionary<string, bool> moduleToggle, SerializedProperty prop,
-        string moduleName, SerializedProperty showProp = null, bool bold = true)
+        string moduleName, SerializedProperty showProp = null, bool bold = false)
     {
         var key = prop.propertyPath;
         if (!moduleToggle.ContainsKey(key))
@@ -187,6 +235,10 @@ public class ChartEditorHelper
             {
                 drawRect.width = defaultWidth - drawRect.x + ARROW_WIDTH - GAP_WIDTH;
             }
+            if (XChartsSettings.editorBlockEnable)
+            {
+                drawRect.x += BLOCK_WIDTH;
+            }
             EditorGUI.PropertyField(drawRect, showProp, GUIContent.none);
         }
         drawRect.width = defaultWidth;
@@ -196,19 +248,37 @@ public class ChartEditorHelper
 
     public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
     {
+        var height = 0f;
+        MakeList(ref drawRect, ref height, ref listSize, listProp, showOrder, showSize);
+    }
+
+    public static void MakeList(ref Rect drawRect, ref float height, ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    {
         EditorGUI.indentLevel++;
         listSize = listProp.arraySize;
         if (showSize)
         {
             if (showOrder)
             {
-                var nameWid = 15;
+                var nameWid = 18;
                 var temp = INDENT_WIDTH + GAP_WIDTH;
                 var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid - 1, drawRect.height);
                 var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                if (XChartsSettings.editorBlockEnable)
+                {
+                    iconRect.x += BLOCK_WIDTH;
+                }
                 if (GUI.Button(iconRect, new GUIContent("+", "add")))
                 {
-                    listProp.arraySize++;
+                    if (listProp.displayName.Equals("Series"))
+                    {
+                        AddSerieEditor.chart = listProp.serializedObject.targetObject as BaseChart;
+                        AddSerieEditor.ShowWindow();
+                    }
+                    else
+                    {
+                        listProp.arraySize++;
+                    }
                 }
                 listSize = listProp.arraySize;
                 listSize = EditorGUI.IntField(elementRect, "Size", listSize);
@@ -219,6 +289,7 @@ public class ChartEditorHelper
             }
             if (listSize < 0) listSize = 0;
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
             if (listSize != listProp.arraySize)
             {
@@ -235,14 +306,17 @@ public class ChartEditorHelper
                 element = listProp.GetArrayElementAtIndex(i);
                 EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
             if (num >= 10)
             {
                 EditorGUI.LabelField(drawRect, "...");
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 element = listProp.GetArrayElementAtIndex(listSize - 1);
                 EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + (listSize - 1)));
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
         }
         else
@@ -252,22 +326,34 @@ public class ChartEditorHelper
                 SerializedProperty element = listProp.GetArrayElementAtIndex(i);
                 if (showOrder)
                 {
-                    var nameWid = 15;
+                    var nameWid = 18;
                     var temp = INDENT_WIDTH + GAP_WIDTH;
                     var isSerie = "Serie".Equals(element.type);
                     var elementRect = isSerie ? drawRect : new Rect(drawRect.x, drawRect.y, drawRect.width - 2 * nameWid, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
                     var iconRect = new Rect(drawRect.width - 3 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    if (XChartsSettings.editorBlockEnable)
+                    {
+                        iconRect.x += BLOCK_WIDTH;
+                    }
                     if (GUI.Button(iconRect, new GUIContent("↑", "up")))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
                     iconRect = new Rect(drawRect.width - 2 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    if (XChartsSettings.editorBlockEnable)
+                    {
+                        iconRect.x += BLOCK_WIDTH;
+                    }
                     if (GUI.Button(iconRect, new GUIContent("↓", "down")))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
                     iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    if (XChartsSettings.editorBlockEnable)
+                    {
+                        iconRect.x += BLOCK_WIDTH;
+                    }
                     if (GUI.Button(iconRect, new GUIContent("-", "delete")))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
@@ -275,52 +361,113 @@ public class ChartEditorHelper
                     else
                     {
                         drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                        height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
                     }
                 }
                 else
                 {
                     EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
                     drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
+                    height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
                 }
             }
         }
         EditorGUI.indentLevel--;
     }
 
-    public static int InitModuleToggle(ref List<bool> moduleToggle, SerializedProperty prop)
+    public static void MakeList(ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
     {
-        int index = 0;
-        var temp = prop.displayName.Split(' ');
-        if (temp == null || temp.Length < 2)
+        EditorGUI.indentLevel++;
+        listSize = listProp.arraySize;
+        if (showSize)
         {
-            index = 0;
+            if (showOrder)
+            {
+                EditorGUILayout.BeginHorizontal();
+                listSize = EditorGUILayout.IntField("Size", listSize);
+                if (GUILayout.Button(new GUIContent("+", "add"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                {
+                    listProp.arraySize++;
+                }
+                listSize = listProp.arraySize;
+                EditorGUILayout.EndHorizontal();
+            }
+            else
+            {
+                listSize = EditorGUILayout.IntField("Size", listSize);
+            }
+            if (listSize < 0) listSize = 0;
+            if (listSize != listProp.arraySize)
+            {
+                while (listSize > listProp.arraySize) listProp.arraySize++;
+                while (listSize < listProp.arraySize) listProp.arraySize--;
+            }
+        }
+        if (listSize > 30)
+        {
+            SerializedProperty element;
+            int num = listSize > 10 ? 10 : listSize;
+            for (int i = 0; i < num; i++)
+            {
+                element = listProp.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(element, true);
+            }
+            if (num >= 10)
+            {
+                EditorGUILayout.LabelField("...");
+                element = listProp.GetArrayElementAtIndex(listSize - 1);
+                EditorGUILayout.PropertyField(element, true);
+            }
         }
         else
         {
-            int.TryParse(temp[1], out index);
+            for (int i = 0; i < listProp.arraySize; i++)
+            {
+                SerializedProperty element = listProp.GetArrayElementAtIndex(i);
+                if (showOrder)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.PropertyField(element, true);
+                    if (GUILayout.Button(new GUIContent("↑", "up"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    {
+                        if (i > 0) listProp.MoveArrayElement(i, i - 1);
+                    }
+                    if (GUILayout.Button(new GUIContent("↓", "down"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    {
+                        if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
+                    }
+                    if (GUILayout.Button(new GUIContent("-", "delete"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    {
+                        if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(element, true);
+                }
+            }
         }
-        if (index >= moduleToggle.Count)
-        {
-            moduleToggle.Add(false);
-        }
-        return index;
+        EditorGUI.indentLevel--;
     }
 
-    public static int GetIndexFromPath(SerializedProperty prop)
+    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key, SerializedProperty prop)
     {
-        int index = 0;
-        var sindex = prop.propertyPath.LastIndexOf('[');
-        var eindex = prop.propertyPath.LastIndexOf(']');
-        if (sindex >= 0 && eindex >= 0)
+        if (prop == null)
         {
-            var str = prop.propertyPath.Substring(sindex + 1, eindex - sindex - 1);
-            int.TryParse(str, out index);
+            return false;
         }
-        return index;
+        EditorGUI.PropertyField(drawRect, prop, true);
+        var hig = EditorGUI.GetPropertyHeight(prop);
+        // var hig = prop.hasVisibleChildren
+        //     ? EditorGUI.GetPropertyHeight(prop)
+        //     : EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        drawRect.y += hig;
+        heights[key] += hig;
+        return true;
     }
-
-    public static bool IsToggle(Dictionary<string, bool> toggle, SerializedProperty prop)
+    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key, SerializedProperty parentProp, string relativeName)
     {
-        return toggle.ContainsKey(prop.propertyPath) && toggle[prop.propertyPath] == true;
+        return PropertyField(ref drawRect, heights, key, parentProp.FindPropertyRelative(relativeName));
     }
 }

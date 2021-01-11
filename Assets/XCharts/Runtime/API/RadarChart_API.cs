@@ -1,33 +1,22 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
 {
-    public partial class RadarChart
+    public partial class BaseChart
     {
+        public Radar radar { get { return m_Radars.Count > 0 ? m_Radars[0] : null; } }
         /// <summary>
         /// 雷达坐标系组件列表。
         /// </summary>
         public List<Radar> radars { get { return m_Radars; } }
-
-        /// <summary>
-        /// 移除所有数据，包含雷达坐标系指示器数据。
-        /// </summary>
-        public override void RemoveData()
-        {
-            base.RemoveData();
-            foreach (var radar in m_Radars)
-            {
-                radar.indicatorList.Clear();
-            }
-        }
 
         /// <summary>
         /// 移除所有雷达坐标系组件。
@@ -57,7 +46,7 @@ namespace XCharts
         /// <param name="showSplitArea">是否显示分割区域</param>
         /// <returns></returns>
         public Radar AddRadar(Radar.Shape shape, Vector2 center, float radius, int splitNumber = 5,
-            float lineWidth = 0.6f, bool showIndicator = true, bool showSplitArea = true)
+            float lineWidth = 0f, bool showIndicator = true, bool showSplitArea = true)
         {
             var radar = new Radar();
             radar.shape = shape;

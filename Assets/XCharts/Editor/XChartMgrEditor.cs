@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 using UnityEngine;
@@ -40,19 +40,19 @@ namespace XCharts
             serializedObject.Update();
             EditorGUILayout.PropertyField(m_NowVersion);
             EditorGUILayout.PropertyField(m_NewVersion);
-            if (GUILayout.Button("检测更新"))
+            if (GUILayout.Button("Check Update"))
             {
                 CheckVersionEditor.ShowWindow();
             }
-            if (GUILayout.Button("去Github主页"))
+            if (GUILayout.Button("Github Homepage"))
             {
                 Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts");
             }
-            if (GUILayout.Button("点Star支持"))
+            if (GUILayout.Button("Star Support"))
             {
                 Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/stargazers");
             }
-            if (GUILayout.Button("问题反馈"))
+            if (GUILayout.Button("Issues"))
             {
                 Application.OpenURL("https://github.com/monitor1394/unity-ugui-XCharts/issues");
             }

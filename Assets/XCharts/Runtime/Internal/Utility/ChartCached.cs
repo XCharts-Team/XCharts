@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using System.Globalization;
@@ -126,7 +126,6 @@ namespace XCharts
 
         internal static string GetXAxisName(int axisIndex, int index = -1)
         {
-            if (axisIndex > 0) axisIndex = 2;
             if (index >= 0)
             {
                 int key = (axisIndex + 1) * 10000 + index;
@@ -145,7 +144,6 @@ namespace XCharts
 
         internal static string GetYAxisName(int axisIndex, int index = -1)
         {
-            if (axisIndex > 0) axisIndex = 2;
             if (index >= 0)
             {
                 int key = (axisIndex + 1) * 10000 + index;

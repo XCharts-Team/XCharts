@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,11 +47,12 @@ namespace XCharts
         [SerializeField] private float m_ItemGap = 10f;
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private string m_Formatter;
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18);
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
 
         private Dictionary<string, LegendItem> m_DataBtnList = new Dictionary<string, LegendItem>();
+        private Dictionary<int, float> m_RuntimeEachWidth = new Dictionary<int, float>();
 
         /// <summary>
         /// Whether to show legend component. 
@@ -60,7 +61,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
@@ -71,7 +72,7 @@ namespace XCharts
         public SelectedMode selectedMode
         {
             get { return m_SelectedMode; }
-            set { if (PropertyUtility.SetStruct(ref m_SelectedMode, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SelectedMode, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Specify whether the layout of legend component is horizontal or vertical. 
@@ -81,7 +82,7 @@ namespace XCharts
         public Orient orient
         {
             get { return m_Orient; }
-            set { if (PropertyUtility.SetStruct(ref m_Orient, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The location of legend.
@@ -91,7 +92,7 @@ namespace XCharts
         public Location location
         {
             get { return m_Location; }
-            set { if (PropertyUtility.SetClass(ref m_Location, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Location, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Image width of legend symbol.
@@ -101,7 +102,7 @@ namespace XCharts
         public float itemWidth
         {
             get { return m_ItemWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Image height of legend symbol.
@@ -111,7 +112,7 @@ namespace XCharts
         public float itemHeight
         {
             get { return m_ItemHeight; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
@@ -121,7 +122,7 @@ namespace XCharts
         public float itemGap
         {
             get { return m_ItemGap; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemGap, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Whether the legend symbol matches the color automatically.
@@ -131,7 +132,7 @@ namespace XCharts
         public bool itemAutoColor
         {
             get { return m_ItemAutoColor; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Legend content string template formatter. Support for wrapping lines with \n. Template:{name}.
@@ -142,7 +143,7 @@ namespace XCharts
         public string formatter
         {
             get { return m_Formatter; }
-            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the style of text.
@@ -151,7 +152,7 @@ namespace XCharts
         public TextStyle textStyle
         {
             get { return m_TextStyle; }
-            set { if (PropertyUtility.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
@@ -173,6 +174,7 @@ namespace XCharts
             get { return m_Icons; }
             set { if (value != null) { m_Icons = value; SetComponentDirty(); } }
         }
+        public int index { get; internal set; }
         /// <summary>
         /// 图表是否需要刷新（图例组件不需要刷新图表）
         /// </summary>
@@ -209,7 +211,7 @@ namespace XCharts
         /// <summary>
         /// 多列时每列的宽度
         /// </summary>
-        public Dictionary<int, float> runtimeEachWidth { get; internal set; }
+        public Dictionary<int, float> runtimeEachWidth { get { return m_RuntimeEachWidth; }}
         /// <summary>
         /// 单列高度
         /// </summary>
@@ -231,11 +233,10 @@ namespace XCharts
                     m_ItemWidth = 24.0f,
                     m_ItemHeight = 12.0f,
                     m_ItemGap = 10f,
-                    runtimeEachWidth = new Dictionary<int, float>()
                 };
-                legend.location.top = 30;
+                legend.location.top = 35;
                 legend.textStyle.offset = new Vector2(2, 0);
-                legend.textStyle.fontSize = 18;
+                legend.textStyle.fontSize = 0;
                 return legend;
             }
         }
@@ -391,18 +392,6 @@ namespace XCharts
         public void OnChanged()
         {
             m_Location.OnChanged();
-        }
-
-        /// <summary>
-        /// Parsing the data from the JSON string.
-        /// 从json字符串解析数据，json格式如：['legend1','legend2','legend3','legend4','legend5']
-        /// </summary>
-        /// <param name="jsonData"></param>
-        public override void ParseJsonData(string jsonData)
-        {
-            if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
-            m_Data = ChartHelper.ParseStringFromString(jsonData);
-            SetComponentDirty();
         }
 
         /// <summary>

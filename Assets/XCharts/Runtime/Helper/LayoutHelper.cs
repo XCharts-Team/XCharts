@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 
@@ -21,8 +21,8 @@ namespace XCharts
         private static Vector2 s_Vector1And0Dot5 = new Vector2(1f, 0.5f);
         private static Vector2 s_Vector1And0 = new Vector2(1f, 0);
 
-        internal static Vector2 ResetChartPositionAndPivot(Vector2 minAnchor, Vector2 maxAnchor, float width, float height, ref float chartX,
-            ref float chartY)
+        internal static Vector2 ResetChartPositionAndPivot(Vector2 minAnchor, Vector2 maxAnchor, float width,
+            float height, ref float chartX, ref float chartY)
         {
             if (IsLeftTop(minAnchor, maxAnchor))
             {

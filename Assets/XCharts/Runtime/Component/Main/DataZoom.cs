@@ -1,10 +1,11 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,8 +69,8 @@ namespace XCharts
         }
         [SerializeField] private bool m_Enable;
         [SerializeField] private FilterMode m_FilterMode;
-        [SerializeField] private int m_XAxisIndex;
-        [SerializeField] private int m_YAxisIndex;
+        [SerializeField] private List<int> m_XAxisIndexs = new List<int>() { 0 };
+        [SerializeField] private List<int> m_YAxisIndexs = new List<int>() { };
         [SerializeField] private bool m_SupportInside;
         [SerializeField] private bool m_SupportSlider;
         [SerializeField] private bool m_SupportSelect;
@@ -77,8 +78,13 @@ namespace XCharts
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
         [SerializeField] private bool m_Realtime;
-        [SerializeField] private Color m_BackgroundColor;
-        [SerializeField] private float m_Height;
+        [SerializeField] protected Color32 m_FillerColor;
+        [SerializeField] protected Color32 m_BorderColor;
+        [SerializeField] protected float m_BorderWidth;
+        [SerializeField] protected Color32 m_BackgroundColor;
+        [SerializeField] private float m_Left;
+        [SerializeField] private float m_Right;
+        [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
         [SerializeField] private RangeMode m_RangeMode;
         [SerializeField] private float m_Start;
@@ -88,8 +94,9 @@ namespace XCharts
         [SerializeField] private int m_MinShowNum = 1;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
-        [SerializeField] private int m_FontSize = 18;
-        [SerializeField] private FontStyle m_FontStyle;
+        [SerializeField] private TextStyle m_TextStyle;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
+        [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
 
         /// <summary>
         /// Whether to show dataZoom. 
@@ -98,7 +105,7 @@ namespace XCharts
         public bool enable
         {
             get { return m_Enable; }
-            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The mode of data filter. 
@@ -107,25 +114,25 @@ namespace XCharts
         public FilterMode filterMode
         {
             get { return m_FilterMode; }
-            set { if (PropertyUtility.SetStruct(ref m_FilterMode, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_FilterMode, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Specify which xAxis is controlled by the dataZoom. 
-        /// 控制哪一个 x 轴。
+        /// 控制的 x 轴索引列表。
         /// </summary>
-        public int xAxisIndex
+        public List<int> xAxisIndexs
         {
-            get { return m_XAxisIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_XAxisIndex, value)) SetVerticesDirty(); }
+            get { return m_XAxisIndexs; }
+            set { if (PropertyUtil.SetClass(ref m_XAxisIndexs, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Specify which yAxis is controlled by the dataZoom. 
-        /// 控制哪一个 y 轴。
+        /// 控制的 y 轴索引列表。
         /// </summary>
-        public int yAxisIndex
+        public List<int> yAxisIndexs
         {
-            get { return m_YAxisIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_YAxisIndex, value)) SetVerticesDirty(); }
+            get { return m_YAxisIndexs; }
+            set { if (PropertyUtil.SetClass(ref m_YAxisIndexs, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether built-in support is supported. 
@@ -137,7 +144,7 @@ namespace XCharts
         public bool supportInside
         {
             get { return m_SupportInside; }
-            set { if (PropertyUtility.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether a slider is supported. There are separate sliders on which the user zooms or roams.
@@ -146,7 +153,7 @@ namespace XCharts
         public bool supportSlider
         {
             get { return m_SupportSlider; }
-            set { if (PropertyUtility.SetStruct(ref m_SupportSlider, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SupportSlider, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否支持框选。提供一个选框进行数据区域缩放。
@@ -154,7 +161,7 @@ namespace XCharts
         private bool supportSelect
         {
             get { return m_SupportSelect; }
-            set { if (PropertyUtility.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
@@ -164,7 +171,7 @@ namespace XCharts
         public bool showDataShadow
         {
             get { return m_ShowDataShadow; }
-            set { if (PropertyUtility.SetStruct(ref m_ShowDataShadow, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ShowDataShadow, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show detail, that is, show the detailed data information when dragging.
@@ -174,7 +181,7 @@ namespace XCharts
         public bool showDetail
         {
             get { return m_ShowDetail; }
-            set { if (PropertyUtility.SetStruct(ref m_ShowDetail, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ShowDetail, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Specify whether to lock the size of window (selected area).
@@ -185,7 +192,7 @@ namespace XCharts
         public bool zoomLock
         {
             get { return m_ZoomLock; }
-            set { if (PropertyUtility.SetStruct(ref m_ZoomLock, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ZoomLock, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief.
@@ -197,32 +204,81 @@ namespace XCharts
         /// The background color of the component.
         /// 组件的背景颜色。
         /// </summary>
-        private Color backgroundColor
+        public Color backgroundColor
         {
             get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the color of dataZoom data area.
+        /// 数据区域颜色。
+        /// </summary>
+        public Color32 fillerColor
+        {
+            get { return m_FillerColor; }
+            set { if (PropertyUtil.SetColor(ref m_FillerColor, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// the color of dataZoom border.
+        /// 边框颜色。
+        /// </summary>
+        public Color32 borderColor
+        {
+            get { return m_BorderColor; }
+            set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 边框宽。
+        /// </summary>
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Distance between dataZoom component and the bottom side of the container.
-        /// bottom value is a instant pixel value like 10.
+        /// bottom value is a instant pixel value like 10 or float value [0-1].
         /// default:10
         /// 组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {
             get { return m_Bottom; }
-            set { if (PropertyUtility.SetStruct(ref m_Bottom, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// The height of dataZoom component.
-        /// height value is a instant pixel value like 10.
-        /// default:50
-        /// 组件高度。
+        /// Distance between dataZoom component and the top side of the container.
+        /// top value is a instant pixel value like 10 or float value [0-1].
+        /// default:10
+        /// 组件离容器上侧的距离。
         /// </summary>
-        public float height
+        public float top
         {
-            get { return m_Height; }
-            set { if (PropertyUtility.SetStruct(ref m_Height, value)) SetVerticesDirty(); }
+            get { return m_Top; }
+            set { if (PropertyUtil.SetStruct(ref m_Top, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Distance between dataZoom component and the left side of the container.
+        /// left value is a instant pixel value like 10 or float value [0-1].
+        /// default:10
+        /// 组件离容器左侧的距离。
+        /// </summary>
+        public float left
+        {
+            get { return m_Left; }
+            set { if (PropertyUtil.SetStruct(ref m_Left, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Distance between dataZoom component and the right side of the container.
+        /// right value is a instant pixel value like 10 or float value [0-1].
+        /// default:10
+        /// 组件离容器右侧的距离。
+        /// </summary>
+        public float right
+        {
+            get { return m_Right; }
+            set { if (PropertyUtil.SetStruct(ref m_Right, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Use absolute value or percent value in DataZoom.start and DataZoom.end.
@@ -232,7 +288,7 @@ namespace XCharts
         public RangeMode rangeMode
         {
             get { return m_RangeMode; }
-            set { if (PropertyUtility.SetStruct(ref m_RangeMode, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RangeMode, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The start percentage of the window out of the data extent, in the range of 0 ~ 100.
@@ -261,7 +317,7 @@ namespace XCharts
         public int minShowNum
         {
             get { return m_MinShowNum; }
-            set { if (PropertyUtility.SetStruct(ref m_MinShowNum, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_MinShowNum, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The sensitivity of dataZoom scroll.
@@ -272,37 +328,49 @@ namespace XCharts
         public float scrollSensitivity
         {
             get { return m_ScrollSensitivity; }
-            set { if (PropertyUtility.SetStruct(ref m_ScrollSensitivity, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// font size.
-        /// 文字的字体大小。
-        /// </summary>
-        public int fontSize
-        {
-            get { return m_FontSize; }
-            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ScrollSensitivity, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// font style.
-        /// 文字字体的风格。
+        /// 文字格式。
         /// </summary>
-        public FontStyle fontStyle
+        public TextStyle textStyle
         {
-            get { return m_FontStyle; }
-            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetComponentDirty(); }
+            get { return m_TextStyle; }
+            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// 阴影线条样式。
+        /// </summary>
+        public LineStyle lineStyle
+        {
+            get { return m_LineStyle; }
+            set { if (PropertyUtil.SetClass(ref m_LineStyle, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 阴影填充样式。
+        /// </summary>
+        public AreaStyle areaStyle
+        {
+            get { return m_AreaStyle; }
+            set { if (PropertyUtil.SetClass(ref m_AreaStyle, value)) SetComponentDirty(); }
+        }
+        public int index { get; internal set; }
+        public float runtimeX { get; private set; }
+        public float runtimeY { get; private set; }
+        public float runtimeWidth { get; private set; }
+        public float runtimeHeight { get; private set; }
 
         /// <summary>
         /// The start label.
         /// 组件的开始信息文本。
         /// </summary>
-        private Text m_StartLabel { get; set; }
+        private ChartText m_StartLabel { get; set; }
         /// <summary>
         /// The end label.
         /// 组件的结束信息文本。
         /// </summary>
-        private Text m_EndLabel { get; set; }
+        private ChartText m_EndLabel { get; set; }
 
         public static DataZoom defaultDataZoom
         {
@@ -310,18 +378,31 @@ namespace XCharts
             {
                 return new DataZoom()
                 {
+                    supportInside = true,
+                    supportSlider = true,
                     filterMode = FilterMode.None,
-                    xAxisIndex = 0,
-                    yAxisIndex = 0,
+                    xAxisIndexs = new List<int>() { 0 },
+                    yAxisIndexs = new List<int>() { },
                     showDataShadow = true,
                     showDetail = false,
                     zoomLock = false,
-                    m_Height = 0,
                     m_Bottom = 10,
+                    m_Left = 10,
+                    m_Right = 10,
+                    m_Top = 0.9f,
                     rangeMode = RangeMode.Percent,
                     start = 30,
                     end = 70,
                     m_ScrollSensitivity = 10,
+                    m_TextStyle = new TextStyle(),
+                    m_LineStyle = new LineStyle(LineStyle.Type.Solid){
+                        opacity = 0.3f
+                    },
+                    m_AreaStyle = new AreaStyle()
+                    {
+                        show = true,
+                        opacity = 0.3f,
+                    },
                 };
             }
         }
@@ -333,10 +414,14 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInZoom(Vector2 pos, float startX, float startY, float width)
+        public bool IsInZoom(Vector2 pos)
         {
-            Rect rect = Rect.MinMaxRect(startX, startY + m_Bottom, startX + width, startY + m_Bottom + m_Height);
-            return rect.Contains(pos);
+            if (pos.x < runtimeX - 1 || pos.x > runtimeX + runtimeWidth + 1 ||
+                pos.y < runtimeY - 1 || pos.y > runtimeY + runtimeHeight + 1)
+            {
+                return false;
+            }
+            return false;
         }
 
         /// <summary>
@@ -346,11 +431,11 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInSelectedZoom(Vector2 pos, float startX, float startY, float width)
+        public bool IsInSelectedZoom(Vector2 pos)
         {
-            var start = startX + width * m_Start / 100;
-            var end = startX + width * m_End / 100;
-            Rect rect = Rect.MinMaxRect(start, startY + m_Bottom, end, startY + m_Bottom + m_Height);
+            var start = runtimeX + runtimeWidth * m_Start / 100;
+            var end = runtimeX + runtimeWidth * m_End / 100;
+            Rect rect = Rect.MinMaxRect(start, runtimeY, end, runtimeY + runtimeHeight);
             return rect.Contains(pos);
         }
 
@@ -361,10 +446,10 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInStartZoom(Vector2 pos, float startX, float startY, float width)
+        public bool IsInStartZoom(Vector2 pos)
         {
-            var start = startX + width * m_Start / 100;
-            Rect rect = Rect.MinMaxRect(start - 10, startY + m_Bottom, start + 10, startY + m_Bottom + m_Height);
+            var start = runtimeX + runtimeWidth * m_Start / 100;
+            Rect rect = Rect.MinMaxRect(start - 10, runtimeY, start + 10, runtimeY + runtimeHeight);
             return rect.Contains(pos);
         }
 
@@ -375,11 +460,16 @@ namespace XCharts
         /// <param name="startX"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public bool IsInEndZoom(Vector2 pos, float startX, float startY, float width)
+        public bool IsInEndZoom(Vector2 pos)
         {
-            var end = startX + width * m_End / 100;
-            Rect rect = Rect.MinMaxRect(end - 10, startY + m_Bottom, end + 10, startY + m_Bottom + m_Height);
+            var end = runtimeX + runtimeWidth * m_End / 100;
+            Rect rect = Rect.MinMaxRect(end - 10, runtimeY, end + 10, runtimeY + runtimeHeight);
             return rect.Contains(pos);
+        }
+
+        public bool IsContainsAxisIndex(int index)
+        {
+            return xAxisIndexs.Contains(index);// || yAxisIndexs.Contains(index);
         }
 
         /// <summary>
@@ -388,11 +478,11 @@ namespace XCharts
         /// <param name="flag"></param>
         internal void SetLabelActive(bool flag)
         {
-            if (m_StartLabel && m_StartLabel.gameObject.activeInHierarchy != flag)
+            if (m_StartLabel != null && m_StartLabel.gameObject.activeInHierarchy != flag)
             {
                 m_StartLabel.gameObject.SetActive(flag);
             }
-            if (m_EndLabel && m_EndLabel.gameObject.activeInHierarchy != flag)
+            if (m_EndLabel != null && m_EndLabel.gameObject.activeInHierarchy != flag)
             {
                 m_EndLabel.gameObject.SetActive(flag);
             }
@@ -404,7 +494,7 @@ namespace XCharts
         /// <param name="text"></param>
         internal void SetStartLabelText(string text)
         {
-            if (m_StartLabel) m_StartLabel.text = text;
+            if (m_StartLabel != null) m_StartLabel.SetText(text);
         }
 
         /// <summary>
@@ -413,43 +503,56 @@ namespace XCharts
         /// <param name="text"></param>
         internal void SetEndLabelText(string text)
         {
-            if (m_EndLabel) m_EndLabel.text = text;
+            if (m_EndLabel != null) m_EndLabel.SetText(text);
         }
 
-        /// <summary>
-        /// 获取DataZoom的高，当height设置为0时，自动计算合适的偏移。
-        /// </summary>
-        /// <param name="gridBottom"></param>
-        /// <returns></returns>
-        internal float GetHeight(float gridBottom)
-        {
-            if (height <= 0)
-            {
-                height = gridBottom - bottom - 30;
-                if (height < 10) height = 10;
-                return height;
-            }
-            else return height;
-        }
-
-        internal void SetStartLabel(Text startLabel)
+        internal void SetStartLabel(ChartText startLabel)
         {
             m_StartLabel = startLabel;
         }
 
-        internal void SetEndLabel(Text endLabel)
+        internal void SetEndLabel(ChartText endLabel)
         {
             m_EndLabel = endLabel;
         }
 
         internal void UpdateStartLabelPosition(Vector3 pos)
         {
-            m_StartLabel.transform.localPosition = pos;
+            m_StartLabel.SetLocalPosition(pos);
         }
 
         internal void UpdateEndLabelPosition(Vector3 pos)
         {
-            m_EndLabel.transform.localPosition = pos;
+            m_EndLabel.SetLocalPosition(pos);
+        }
+
+        internal void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
+        {
+            var runtimeLeft = left <= 1 ? left * chartWidth : left;
+            var runtimeBottom = bottom <= 1 ? bottom * chartHeight : bottom;
+            var runtimeTop = top <= 1 ? top * chartHeight : top;
+            var runtimeRight = right <= 1 ? right * chartWidth : right;
+            runtimeX = chartX + runtimeLeft;
+            runtimeY = chartY + runtimeBottom;
+            runtimeWidth = chartWidth - runtimeLeft - runtimeRight;
+            runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
+        }
+
+        public Color32 GetFillerColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(fillerColor)) return themeColor;
+            else return fillerColor;
+        }
+
+        public Color32 GetBackgroundColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(backgroundColor)) return themeColor;
+            else return backgroundColor;
+        }
+        public Color32 GetBorderColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(borderColor)) return themeColor;
+            else return borderColor;
         }
     }
 }

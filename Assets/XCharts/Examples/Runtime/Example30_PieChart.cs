@@ -1,12 +1,13 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace XCharts.Examples
 {
@@ -76,6 +77,10 @@ namespace XCharts.Examples
             chart.AddData(0, 135, "视频广告");
             chart.AddData(0, 1548, "搜索引擎");
             chart.RefreshLabel();
+
+            chart.onPointerClickPie = delegate(PointerEventData e, int serieIndex, int dataIndex){
+
+            };
             yield return new WaitForSeconds(1);
         }
 
@@ -148,8 +153,8 @@ namespace XCharts.Examples
 
             serie1.label.show = true;
             serie1.label.position = SerieLabel.Position.Inside;
-            serie1.label.color = Color.white;
-            serie1.label.fontSize = 14;
+            serie1.label.textStyle.color = Color.white;
+            serie1.label.textStyle.fontSize = 14;
             serie1.label.border = false;
 
             chart.RefreshLabel();
@@ -166,7 +171,7 @@ namespace XCharts.Examples
             serie1.radius = serie.radius = new float[2] { 0, 80 };
             serie1.label.position = SerieLabel.Position.Outside;
             serie1.label.lineType = SerieLabel.LineType.Curves;
-            serie1.label.color = Color.clear;
+            serie1.label.textStyle.color = Color.clear;
             for (int i = 0; i < 2; i++)
             {
                 chart.AddData(i, 10, "rose1");

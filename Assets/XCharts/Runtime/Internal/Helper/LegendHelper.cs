@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,29 +11,29 @@ namespace XCharts
 {
     internal static class LegendHelper
     {
-        public static Color GetContentColor(Legend legend, ThemeInfo themeInfo, bool active)
+        public static Color GetContentColor(Legend legend, ChartTheme theme, bool active)
         {
             var textStyle = legend.textStyle;
-            if (active) return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : (Color)themeInfo.legendTextColor;
-            else return (Color)themeInfo.legendUnableColor;
+            if (active) return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
+            else return theme.legend.unableColor;
         }
 
-        public static Color GetIconColor(Legend legend, int readIndex, ThemeInfo themeInfo, Series series, string legendName, bool active)
+        public static Color GetIconColor(Legend legend, int readIndex, ChartTheme theme, Series series, string legendName, bool active)
         {
             if (active)
             {
                 if (legend.itemAutoColor || legend.GetIcon(readIndex) == null)
                 {
-                    return SeriesHelper.GetNameColor(series, readIndex, legendName, themeInfo);
+                    return SeriesHelper.GetNameColor(series, readIndex, legendName, theme);
                 }
                 else
                     return Color.white;
             }
-            else return (Color)themeInfo.legendUnableColor;
+            else return theme.legend.unableColor;
         }
 
-        public static LegendItem AddLegendItem(Legend legend, int i, string legendName, Transform parent, ThemeInfo themeInfo,
-            string content, Color itemColor, bool active)
+        public static LegendItem AddLegendItem(Legend legend, int i, string legendName, Transform parent,
+            ChartTheme theme, string content, Color itemColor, bool active)
         {
             var objName = i + "_" + legendName;
             var anchorMin = new Vector2(0, 0.5f);
@@ -42,8 +42,7 @@ namespace XCharts
             var sizeDelta = new Vector2(100, 30);
             var iconSizeDelta = new Vector2(legend.itemWidth, legend.itemHeight);
             var textStyle = legend.textStyle;
-            var font = textStyle.font ? textStyle.font : themeInfo.font;
-            var contentColor = GetContentColor(legend, themeInfo, active);
+            var contentColor = GetContentColor(legend, theme, active);
 
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);
@@ -56,9 +55,10 @@ namespace XCharts
             ChartHelper.GetOrAddComponent<Button>(btnObj);
             ChartHelper.GetOrAddComponent<Image>(iconObj);
             ChartHelper.GetOrAddComponent<Image>(contentObj);
-            ChartHelper.AddTextObject("Text", contentObj.transform, font, contentColor,
-                    TextAnchor.MiddleLeft, anchorMin, anchorMax, pivot, sizeDelta, textStyle.fontSize,
-                    textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
+            var txt = ChartHelper.AddTextObject("Text", contentObj.transform, anchorMin, anchorMax, pivot, sizeDelta,
+                textStyle, theme.legend);
+            txt.SetAlignment(TextAnchor.MiddleLeft);
+            txt.SetColor(contentColor);
             var item = new LegendItem();
             item.index = i;
             item.name = objName;
@@ -277,6 +277,31 @@ namespace XCharts
                 }
             }
             return show;
+        }
+
+        public static bool IsSerieLegend(Series series, string legendName, SerieType type)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.type == type)
+                {
+                    switch (serie.type)
+                    {
+                        case SerieType.Pie:
+                        case SerieType.Radar:
+                        case SerieType.Ring:
+                            foreach (var serieData in serie.data)
+                            {
+                                if (legendName.Equals(serieData.name)) return true;
+                            }
+                            break;
+                        default:
+                            if (legendName.Equals(serie.name)) return true;
+                            break;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

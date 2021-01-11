@@ -1,71 +1,48 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+#if dUI_TextMeshPro
+using TMPro;
+#endif
 
 namespace XCharts
 {
     [CustomPropertyDrawer(typeof(TextStyle), true)]
-    public class TextStyleDrawer : PropertyDrawer
+    public class TextStyleDrawer : BasePropertyDrawer
     {
-        private Dictionary<string, bool> m_TextStyleToggle = new Dictionary<string, bool>();
-
+        public override string ClassName { get { return "TextStyle"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
-            Rect drawRect = pos;
-            drawRect.height = EditorGUIUtility.singleLineHeight;
-            SerializedProperty m_Font = prop.FindPropertyRelative("m_Font");
-            SerializedProperty m_Rotate = prop.FindPropertyRelative("m_Rotate");
-            SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
-            SerializedProperty m_BackgroundColor = prop.FindPropertyRelative("m_BackgroundColor");
-            SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
-            SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
-            SerializedProperty m_Offset = prop.FindPropertyRelative("m_Offset");
-            SerializedProperty m_LineSpacing = prop.FindPropertyRelative("m_LineSpacing");
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TextStyleToggle, prop, null,null,false);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_TextStyleToggle, prop))
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, ""))
             {
                 ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_Font);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Rotate);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Offset);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_Offset);
-                EditorGUI.PropertyField(drawRect, m_Color);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_BackgroundColor);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_FontSize);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_FontStyle);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_LineSpacing);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+#if dUI_TextMeshPro
+                PropertyField(prop, "m_TMPFont");
+#else
+                PropertyField(prop, "m_Font");
+#endif
+                PropertyField(prop, "m_Rotate");
+                PropertyField(prop, "m_Offset");
+                PropertyField(prop, "m_Color");
+                PropertyField(prop, "m_BackgroundColor");
+                PropertyField(prop, "m_FontSize");
+                PropertyField(prop, "m_LineSpacing");
+#if dUI_TextMeshPro
+                PropertyField(prop, "m_TMPFontStyle");
+                PropertyField(prop, "m_TMPAlignment");
+#else
+                PropertyField(prop, "m_FontStyle");
+                PropertyField(prop, "m_Alignment");
+#endif
                 --EditorGUI.indentLevel;
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
-        {
-            float height = 0;
-            if (ChartEditorHelper.IsToggle(m_TextStyleToggle, prop))
-            {
-                height += 8 * EditorGUIUtility.singleLineHeight + 7 * EditorGUIUtility.standardVerticalSpacing;
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Offset"));
-            }
-            else
-            {
-                height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
-            }
-            return height;
         }
     }
 }

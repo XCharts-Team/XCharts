@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +17,13 @@ namespace XCharts
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
+        protected static readonly string s_BackgroundObjectName = "background";
+        [SerializeField] protected bool m_MultiComponentMode = false;
         [SerializeField] protected bool m_DebugMode = false;
+        [SerializeField] protected bool m_EnableTextMeshPro = false;
+        [SerializeField] protected Background m_Background = Background.defaultBackground;
+        protected Painter m_Painter;
+        protected int m_SiblingIndex;
 
         protected float m_GraphWidth;
         protected float m_GraphHeight;
@@ -32,6 +38,8 @@ namespace XCharts
         protected bool m_RefreshChart = false;
         protected bool m_ForceOpenRaycastTarget;
         protected bool m_IsControlledByLayout = false;
+        protected bool m_PainerDirty = false;
+        protected bool m_IsOnValidate = false;
         protected Vector3 m_LastLocalPosition;
 
         protected Action<PointerEventData, BaseGraph> m_OnPointerClick;
@@ -44,20 +52,24 @@ namespace XCharts
         protected Action<PointerEventData, BaseGraph> m_OnEndDrag;
         protected Action<PointerEventData, BaseGraph> m_OnScroll;
 
-        protected Vector2 chartAnchorMax { get { return m_GraphMinAnchor; } }
-        protected Vector2 chartAnchorMin { get { return m_GraphMaxAnchor; } }
-        protected Vector2 chartPivot { get { return m_GraphPivot; } }
-        protected HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
+        protected Vector2 graphAnchorMax { get { return m_GraphMinAnchor; } }
+        protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
+        protected Vector2 graphPivot { get { return m_GraphPivot; } }
+        internal HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
 
         private ScrollRect m_ScrollRect;
 
 
         protected virtual void InitComponent()
         {
+            InitPainter();
+            InitBackground();
         }
 
         protected override void Awake()
         {
+            CheckTextMeshPro();
+            m_SiblingIndex = 0;
             if (transform.parent != null)
             {
                 m_IsControlledByLayout = transform.parent.GetComponent<LayoutGroup>() != null;
@@ -77,13 +89,76 @@ namespace XCharts
         protected virtual void Update()
         {
             CheckSize();
-            CheckComponent();
+            if (m_IsOnValidate)
+            {
+                m_IsOnValidate = false;
+                m_RefreshChart = true;
+                CheckTextMeshPro();
+                InitComponent();
+            }
+            else
+            {
+                CheckComponent();
+            }
             CheckPointerPos();
             CheckRefreshChart();
+            CheckRefreshPainter();
+        }
+
+        protected virtual void SetAllComponentDirty()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                m_IsOnValidate = true;
+                Update();
+            }
+#endif
+            m_PainerDirty = true;
+            m_Background.SetAllDirty();
         }
 
         protected virtual void CheckComponent()
         {
+            CheckComponentDirty(m_Background);
+            if (m_PainerDirty)
+            {
+                InitPainter();
+                m_PainerDirty = false;
+            }
+        }
+
+        private void CheckTextMeshPro()
+        {
+#if dUI_TextMeshPro
+            var enableTextMeshPro = true;
+#else
+            var enableTextMeshPro = false;
+#endif
+            if (m_EnableTextMeshPro != enableTextMeshPro)
+            {
+                m_EnableTextMeshPro = enableTextMeshPro;
+                RemoveChartObject();
+            }
+        }
+
+        protected void CheckComponentDirty(ChartComponent component)
+        {
+            if (component.anyDirty)
+            {
+                if (component.componentDirty)
+                {
+                    component.refreshComponent?.Invoke();
+                }
+                if (component.vertsDirty)
+                {
+                    if (component.painter != null)
+                    {
+                        RefreshPainter(component.painter);
+                    }
+                }
+                component.ClearDirty();
+            }
         }
 
         protected override void OnEnable()
@@ -103,6 +178,7 @@ namespace XCharts
 
         protected override void OnValidate()
         {
+            m_IsOnValidate = true;
         }
 #endif
 
@@ -112,6 +188,39 @@ namespace XCharts
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
+        }
+
+        private void InitBackground()
+        {
+            var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, transform, m_GraphMinAnchor,
+                m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
+            m_Background.gameObject = backgroundObj;
+            m_Background.painter = m_Painter;
+            m_Background.refreshComponent = delegate ()
+            {
+                if (backgroundObj == null) return;
+                backgroundObj.hideFlags = chartHideFlags;
+                var backgroundImage = ChartHelper.GetOrAddComponent<Image>(backgroundObj);
+                ChartHelper.UpdateRectTransform(backgroundObj, m_GraphMinAnchor,
+                    m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
+                backgroundImage.sprite = m_Background.image;
+                backgroundImage.type = m_Background.imageType;
+                backgroundImage.color = m_Background.imageColor;
+                backgroundObj.transform.SetSiblingIndex(0);
+                backgroundObj.SetActive(m_Background.show);
+            };
+            m_Background.refreshComponent();
+        }
+
+        protected virtual void InitPainter()
+        {
+            var painterObj = ChartHelper.AddObject("painter_b", transform, m_GraphMinAnchor, m_GraphMaxAnchor,
+            m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight));
+            painterObj.transform.SetSiblingIndex(1);
+            painterObj.hideFlags = chartHideFlags;
+            m_Painter = ChartHelper.GetOrAddComponent<Painter>(painterObj);
+            m_Painter.type = Painter.Type.Base;
+            m_Painter.onPopulateMesh = OnDrawPainterBase;
         }
 
         private void CheckSize()
@@ -198,9 +307,20 @@ namespace XCharts
         {
             if (m_RefreshChart)
             {
-                SetVerticesDirty();
+                m_Painter.Refresh();
                 m_RefreshChart = false;
             }
+        }
+
+        protected virtual void CheckRefreshPainter()
+        {
+            m_Painter.CheckRefresh();
+        }
+
+        internal virtual void RefreshPainter(Painter painter)
+        {
+            if (painter == null) return;
+            painter.Refresh();
         }
 
         protected virtual void OnSizeChanged()
@@ -212,14 +332,14 @@ namespace XCharts
         {
         }
 
-        protected override void OnPopulateMesh(VertexHelper vh)
+        protected virtual void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {
-            vh.Clear();
+            Debug.LogError("OnDrawPainterBase:" + Time.frameCount + "," + painter.name);
             DrawBackground(vh);
-            DrawGraphic(vh);
+            DrawPainterBase(vh);
         }
 
-        protected virtual void DrawGraphic(VertexHelper vh)
+        protected virtual void DrawPainterBase(VertexHelper vh)
         {
         }
 

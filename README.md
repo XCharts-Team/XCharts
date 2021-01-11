@@ -10,14 +10,17 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 [English Documents](Assets/XCharts/README.md)  
 
 ---
-__号外：__
-XCharts 2.0 is comming soon!
 
-* 底层重构，分层绘制，支持更多数据
-* 支持TextMeshPro
-* 支持一图多表，多组件模式
-* 更友好的编辑界面
-* ...
+## XCharts 2.0
+
+* 底层重构，分层绘制，优化可扩展性，支持更多数据。
+* 支持TextMeshPro。
+* 支持多组件模式。
+* 支持大部分图表的任意组合。
+* 支持主题定制、导入和导出，更多的主题配置参数。
+* 支持全局配置参数调整。
+* 更友好的编辑界面。
+* 其他细节优化。
 
 ---
 
@@ -36,12 +39,13 @@ XCharts 2.0 is comming soon!
 * 支持直线图、曲线图、面积图、阶梯线图等折线图。
 * 支持并列柱图、堆叠柱图、堆积百分比柱图、斑马柱图等柱状图。
 * 支持环形图、玫瑰图等饼图。
-* 支持折线图—柱状图、散点图-折线图等组合图。
+* 支持大部分图表的任意组合，同一图表中可同时显示多个相同或不同类型的图表。
 * 支持实线、曲线、阶梯线、虚线、点线、点划线、双点划线等线条。
-* 支持自定义主题，内置主题切换。
+* 支持主题定制、导入和导出，内置三种默认主题。
 * 支持自定义图表内容绘制，提供绘制点、直线、曲线、三角形、四边形、圆形、环形、扇形、边框、箭头等绘图API。
 * 支持PC端和手机端上的数据筛选、视图缩放、细节展示等交互操作。
 * 支持万级大数据绘制。
+* 支持`TexMeshPro`。
 
 ## 截图
 
@@ -124,10 +128,10 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 ## 使用
 
 * 本项目在`Unity 2017.4.27f1`和`.Net 3.5`下开发，在 `Unity 5`、`Unity 2018`、`Unity 2019`上测试正常。理论上可运行于任何支持`UGUI`的`Unity`版本。
-* 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，建议通过`Package Manager`的`Git`来导入包：
+* 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，可通过`Package Manager`的`Git`来导入包：
   1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：  
   ``` json
-  "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+  "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
   ```
   2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
   3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。

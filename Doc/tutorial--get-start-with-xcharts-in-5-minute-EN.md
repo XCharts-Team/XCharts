@@ -75,19 +75,19 @@ chart.legend.show = false;
 Sets whether to use double axes and the type of axes:
 
 ```C#
-chart.xAxises[0].show = true;
-chart.xAxises[1].show = false;
-chart.yAxises[0].show = true;
-chart.yAxises[1].show = false;
-chart.xAxises[0].type = Axis.AxisType.Category;
-chart.yAxises[0].type = Axis.AxisType.Value;
+chart.xAxes[0].show = true;
+chart.xAxes[1].show = false;
+chart.yAxes[0].show = true;
+chart.yAxes[1].show = false;
+chart.xAxes[0].type = Axis.AxisType.Category;
+chart.yAxes[0].type = Axis.AxisType.Value;
 ```
 
 Set the dividing line of coordinate axis:
 
 ```C#
-chart.xAxises[0].splitNumber = 10;
-chart.xAxises[0].boundaryGap = true;
+chart.xAxes[0].splitNumber = 10;
+chart.xAxes[0].boundaryGap = true;
 ```
 
 Clear data, add 'Serie' of type 'Line' to receive the data:

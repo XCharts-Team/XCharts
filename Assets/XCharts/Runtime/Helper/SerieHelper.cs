@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Text;
 using UnityEngine;
@@ -21,7 +21,8 @@ namespace XCharts
         /// <param name="min">最小值</param>
         /// <param name="max">最大值</param>
         /// <param name="dataZoom">缩放组件，默认null</param>
-        public static void GetMinMaxData(Serie serie, int dimension, out float min, out float max, DataZoom dataZoom = null)
+        public static void GetMinMaxData(Serie serie, int dimension, out float min, out float max,
+            DataZoom dataZoom = null)
         {
             max = float.MinValue;
             min = float.MaxValue;
@@ -56,7 +57,9 @@ namespace XCharts
                 var serieData = dataList[i];
                 if (serieData.show)
                 {
-                    var count = serie.showDataDimension > serieData.data.Count ? serieData.data.Count : serie.showDataDimension;
+                    var count = serie.showDataDimension > serieData.data.Count
+                        ? serieData.data.Count
+                        : serie.showDataDimension;
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];

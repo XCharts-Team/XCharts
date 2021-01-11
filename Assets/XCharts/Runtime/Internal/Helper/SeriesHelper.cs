@@ -1,16 +1,16 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
 {
-    internal static class SeriesHelper
+    public static class SeriesHelper
     {
         public static bool IsNeedLabelUpdate(Series series)
         {
@@ -119,7 +119,7 @@ namespace XCharts
             }
         }
 
-        internal static Color GetNameColor(Series series, int index, string name, ThemeInfo theme)
+        internal static Color GetNameColor(Series series, int index, string name, ChartTheme theme)
         {
             Serie destSerie = null;
             SerieData destSerieData = null;
@@ -188,6 +188,15 @@ namespace XCharts
             return false;
         }
 
+        internal static bool ContainsSerie(Series series, SerieType type)
+        {
+            foreach (var serie in series.list)
+            {
+                if (serie.type == type) return true;
+            }
+            return false;
+        }
+
         internal static bool IsAnyUpdateAnimationSerie(Series series)
         {
             foreach (var serie in series.list)
@@ -234,20 +243,6 @@ namespace XCharts
                 if (serie.vesselIndex == vesselIndex) return serie;
             }
             return null;
-        }
-
-        /// <summary>
-        /// 是否由系列在用指定索引的axis
-        /// </summary>
-        /// <param name="axisIndex"></param>
-        /// <returns></returns>
-        internal static bool IsUsedAxisIndex(Series series, int axisIndex)
-        {
-            foreach (var serie in series.list)
-            {
-                if (serie.axisIndex == axisIndex) return true;
-            }
-            return false;
         }
 
         private static HashSet<string> _setForStack = new HashSet<string>();
@@ -393,6 +388,19 @@ namespace XCharts
             }
         }
 
+        internal static void UpdateStackDataList(Series series, Serie currSerie, DataZoom dataZoom, List<List<SerieData>> dataList)
+        {
+            dataList.Clear();
+            for (int i = 0; i <= currSerie.index; i++)
+            {
+                var serie = series.list[i];
+                if (serie.type == currSerie.type && ChartHelper.IsValueEqualsString(serie.stack, currSerie.stack))
+                {
+                    dataList.Add(serie.GetDataList(dataZoom));
+                }
+            }
+        }
+
         /// <summary>
         /// 获得维度X的最大最小值
         /// </summary>
@@ -401,9 +409,9 @@ namespace XCharts
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
         internal static void GetXMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, out float minVaule, out float maxValue)
+            bool inverse, out float minVaule, out float maxValue, bool isPolar = false)
         {
-            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue);
+            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue, isPolar);
         }
 
         /// <summary>
@@ -414,15 +422,15 @@ namespace XCharts
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
         internal static void GetYMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, out float minVaule, out float maxValue)
+            bool inverse, out float minVaule, out float maxValue, bool isPolar = false)
         {
-            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue);
+            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue, isPolar);
         }
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
         internal static void GetMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, bool yValue, out float minVaule, out float maxValue)
+            bool inverse, bool yValue, out float minVaule, out float maxValue, bool isPolar = false)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
@@ -432,8 +440,8 @@ namespace XCharts
                 for (int i = 0; i < series.list.Count; i++)
                 {
                     var serie = series.GetSerie(i);
-                    if (serie.axisIndex != axisIndex) continue;
-
+                    if ((isPolar && serie.polarIndex != axisIndex)
+                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
                     if (series.IsActive(i))
                     {
                         if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
@@ -463,7 +471,9 @@ namespace XCharts
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
-                        if (serie.axisIndex != axisIndex || !series.IsActive(i)) continue;
+                        if ((isPolar && serie.polarIndex != axisIndex)
+                        || (!isPolar && serie.yAxisIndex != axisIndex)
+                        || !series.IsActive(i)) continue;
                         var showData = serie.GetDataList(dataZoom);
                         if (SeriesHelper.IsPercentStack(series, serie.stack, SerieType.Bar))
                         {

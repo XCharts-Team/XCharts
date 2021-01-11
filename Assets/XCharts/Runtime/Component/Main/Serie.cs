@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -226,9 +226,11 @@ namespace XCharts
         [SerializeField] private SerieType m_Type;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
-        [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
+        [SerializeField] private int m_XAxisIndex = 0;
+        [SerializeField] private int m_YAxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
         [SerializeField] private int m_VesselIndex = 0;
+        [SerializeField] private int m_PolarIndex = 0;
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
@@ -267,7 +269,7 @@ namespace XCharts
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Space;
-        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private SerieAnimation m_Animation = new SerieAnimation();
@@ -310,7 +312,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) { SetVerticesDirty(); SetNameDirty(); } }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) { SetVerticesDirty(); SetNameDirty(); } }
         }
         /// <summary>
         /// the chart type of serie.
@@ -319,7 +321,7 @@ namespace XCharts
         public SerieType type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Series name used for displaying in tooltip and filtering with legend.
@@ -328,7 +330,7 @@ namespace XCharts
         public string name
         {
             get { return m_Name; }
-            set { if (PropertyUtility.SetClass(ref m_Name, value)) { SetVerticesDirty(); SetNameDirty(); } }
+            set { if (PropertyUtil.SetClass(ref m_Name, value)) { SetVerticesDirty(); SetNameDirty(); } }
         }
         /// <summary>
         /// Legend name. When the serie name is not empty, the legend name is the series name; Otherwise, it is index.
@@ -342,16 +344,25 @@ namespace XCharts
         public string stack
         {
             get { return m_Stack; }
-            set { if (PropertyUtility.SetClass(ref m_Stack, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Stack, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Index of axis to combine with, which is useful for multiple x axes in one chart.
-        /// 使用的坐标轴轴的 index，在单个图表实例中存在多个坐标轴轴的时候有用。
+        /// the index of XAxis.
+        /// 使用X轴的index。
         /// </summary>
-        public int axisIndex
+        public int xAxisIndex
         {
-            get { return m_AxisIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_AxisIndex, value)) SetVerticesDirty(); }
+            get { return m_XAxisIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_XAxisIndex, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the index of YAxis.
+        /// 使用Y轴的index。
+        /// </summary>
+        public int yAxisIndex
+        {
+            get { return m_YAxisIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_YAxisIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Index of radar component that radar chart uses.
@@ -360,7 +371,7 @@ namespace XCharts
         public int radarIndex
         {
             get { return m_RadarIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_RadarIndex, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RadarIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Index of vesel component that liquid chart uses.
@@ -369,7 +380,16 @@ namespace XCharts
         public int vesselIndex
         {
             get { return m_VesselIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_VesselIndex, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_VesselIndex, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Index of polar component that serie uses.
+        /// 所使用的 polar 组件的 index。
+        /// </summary>
+        public int polarIndex
+        {
+            get { return m_PolarIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_PolarIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The min number of data to show in chart.
@@ -378,7 +398,7 @@ namespace XCharts
         public int minShow
         {
             get { return m_MinShow; }
-            set { if (PropertyUtility.SetStruct(ref m_MinShow, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
+            set { if (PropertyUtil.SetStruct(ref m_MinShow, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// The max number of data to show in chart.
@@ -387,7 +407,7 @@ namespace XCharts
         public int maxShow
         {
             get { return m_MaxShow; }
-            set { if (PropertyUtility.SetStruct(ref m_MaxShow, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
+            set { if (PropertyUtil.SetStruct(ref m_MaxShow, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// The max number of serie data cache.
@@ -398,7 +418,7 @@ namespace XCharts
         public int maxCache
         {
             get { return m_MaxCache; }
-            set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
+            set { if (PropertyUtil.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// The style of area.
@@ -407,7 +427,7 @@ namespace XCharts
         public AreaStyle areaStyle
         {
             get { return m_AreaStyle; }
-            set { if (PropertyUtility.SetClass(ref m_AreaStyle, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_AreaStyle, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the symbol of serie data item.
@@ -416,7 +436,7 @@ namespace XCharts
         public SerieSymbol symbol
         {
             get { return m_Symbol; }
-            set { if (PropertyUtility.SetClass(ref m_Symbol, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Symbol, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The type of line chart.
@@ -425,7 +445,7 @@ namespace XCharts
         public LineType lineType
         {
             get { return m_LineType; }
-            set { if (PropertyUtility.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the min pixel dist of sample.
@@ -434,7 +454,7 @@ namespace XCharts
         public float sampleDist
         {
             get { return m_SampleDist; }
-            set { if (PropertyUtility.SetStruct(ref m_SampleDist, value < 0 ? 0 : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SampleDist, value < 0 ? 0 : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of sample.
@@ -443,7 +463,7 @@ namespace XCharts
         public SampleType sampleType
         {
             get { return m_SampleType; }
-            set { if (PropertyUtility.SetStruct(ref m_SampleType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SampleType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
@@ -451,7 +471,7 @@ namespace XCharts
         public float sampleAverage
         {
             get { return m_SampleAverage; }
-            set { if (PropertyUtility.SetStruct(ref m_SampleAverage, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SampleAverage, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The style of line.
@@ -460,7 +480,7 @@ namespace XCharts
         public LineStyle lineStyle
         {
             get { return m_LineStyle; }
-            set { if (PropertyUtility.SetClass(ref m_LineStyle, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_LineStyle, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 柱形图类型。
@@ -468,7 +488,7 @@ namespace XCharts
         public BarType barType
         {
             get { return m_BarType; }
-            set { if (PropertyUtility.SetStruct(ref m_BarType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
@@ -476,7 +496,7 @@ namespace XCharts
         public bool barPercentStack
         {
             get { return m_BarPercentStack; }
-            set { if (PropertyUtility.SetStruct(ref m_BarPercentStack, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarPercentStack, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The width of the bar. Adaptive when default 0.
@@ -485,7 +505,7 @@ namespace XCharts
         public float barWidth
         {
             get { return m_BarWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BarWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
@@ -500,7 +520,7 @@ namespace XCharts
         public float barGap
         {
             get { return m_BarGap; }
-            set { if (PropertyUtility.SetStruct(ref m_BarGap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The bar gap of a single series, defaults to be 20% of the category gap, can be set as a fixed value.
@@ -513,7 +533,7 @@ namespace XCharts
         public float barCategoryGap
         {
             get { return m_BarCategoryGap; }
-            set { if (PropertyUtility.SetStruct(ref m_BarCategoryGap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarCategoryGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 斑马线的粗细。
@@ -521,7 +541,7 @@ namespace XCharts
         public float barZebraWidth
         {
             get { return m_BarZebraWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BarZebraWidth, value < 0 ? 0 : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarZebraWidth, value < 0 ? 0 : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 斑马线的间距。
@@ -529,7 +549,7 @@ namespace XCharts
         public float barZebraGap
         {
             get { return m_BarZebraGap; }
-            set { if (PropertyUtility.SetStruct(ref m_BarZebraGap, value < 0 ? 0 : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BarZebraGap, value < 0 ? 0 : value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -539,7 +559,7 @@ namespace XCharts
         public bool pieClickOffset
         {
             get { return m_ClickOffset; }
-            set { if (PropertyUtility.SetStruct(ref m_ClickOffset, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ClickOffset, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show as Nightingale chart.
@@ -548,7 +568,7 @@ namespace XCharts
         public RoseType pieRoseType
         {
             get { return m_RoseType; }
-            set { if (PropertyUtility.SetStruct(ref m_RoseType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RoseType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the space of pie chart item.
@@ -557,7 +577,7 @@ namespace XCharts
         public float pieSpace
         {
             get { return m_Space; }
-            set { if (PropertyUtility.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the center of chart.
@@ -577,25 +597,13 @@ namespace XCharts
             get { return m_Radius; }
             set { if (value != null && value.Length == 2) { m_Radius = value; SetVerticesDirty(); } }
         }
-        [Obsolete("Use Serie.center instead.", true)]
-        public float[] pieCenter
-        {
-            get { return center; }
-            set { center = value; }
-        }
-        [Obsolete("Use Serie.radius instead.", true)]
-        public float[] pieRadius
-        {
-            get { return radius; }
-            set { radius = value; }
-        }
         /// <summary>
         /// 最小值，映射到 startAngle。
         /// </summary>
         public float min
         {
             get { return m_Min; }
-            set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 最大值，映射到 endAngle。
@@ -603,7 +611,7 @@ namespace XCharts
         public float max
         {
             get { return m_Max; }
-            set { if (PropertyUtility.SetStruct(ref m_Max, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Max, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
@@ -611,7 +619,7 @@ namespace XCharts
         public float startAngle
         {
             get { return m_StartAngle; }
-            set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_StartAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
@@ -619,7 +627,7 @@ namespace XCharts
         public float endAngle
         {
             get { return m_EndAngle; }
-            set { if (PropertyUtility.SetStruct(ref m_EndAngle, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_EndAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否顺时针。
@@ -627,7 +635,7 @@ namespace XCharts
         public bool clockwise
         {
             get { return m_Clockwise; }
-            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Clockwise, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -636,7 +644,7 @@ namespace XCharts
         public float ringGap
         {
             get { return m_RingGap; }
-            set { if (PropertyUtility.SetStruct(ref m_RingGap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RingGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 刻度分割段数。最大可设置36。
@@ -644,7 +652,7 @@ namespace XCharts
         public int splitNumber
         {
             get { return m_SplitNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value > 36 ? 36 : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SplitNumber, value > 36 ? 36 : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否开启圆弧效果。
@@ -652,7 +660,7 @@ namespace XCharts
         public bool roundCap
         {
             get { return m_RoundCap; }
-            set { if (PropertyUtility.SetStruct(ref m_RoundCap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RoundCap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否开启忽略数据。当为 true 时，数据值为 ignoreValue 时不进行绘制。
@@ -660,7 +668,7 @@ namespace XCharts
         public bool ignore
         {
             get { return m_Ignore; }
-            set { if (PropertyUtility.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 忽略数据的默认值。当ignore为true才有效。
@@ -668,7 +676,7 @@ namespace XCharts
         public float ignoreValue
         {
             get { return m_IgnoreValue; }
-            set { if (PropertyUtility.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 雷达图类型。
@@ -676,7 +684,7 @@ namespace XCharts
         public RadarType radarType
         {
             get { return m_RadarType; }
-            set { if (PropertyUtility.SetStruct(ref m_RadarType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_RadarType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘轴线。
@@ -684,7 +692,7 @@ namespace XCharts
         public GaugeAxis gaugeAxis
         {
             get { return m_GaugeAxis; }
-            set { if (PropertyUtility.SetClass(ref m_GaugeAxis, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_GaugeAxis, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘指针。
@@ -692,7 +700,7 @@ namespace XCharts
         public GaugePointer gaugePointer
         {
             get { return m_GaugePointer; }
-            set { if (PropertyUtility.SetClass(ref m_GaugePointer, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_GaugePointer, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘类型。
@@ -700,7 +708,7 @@ namespace XCharts
         public GaugeType gaugeType
         {
             get { return m_GaugeType; }
-            set { if (PropertyUtility.SetStruct(ref m_GaugeType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_GaugeType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
@@ -709,7 +717,7 @@ namespace XCharts
         public SerieLabel label
         {
             get { return m_Label; }
-            set { if (PropertyUtility.SetClass(ref m_Label, value, true)) SetAllDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Label, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// The start animation.
@@ -718,7 +726,7 @@ namespace XCharts
         public SerieAnimation animation
         {
             get { return m_Animation; }
-            set { if (PropertyUtility.SetClass(ref m_Animation, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Animation, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The arrow of line.
@@ -727,7 +735,7 @@ namespace XCharts
         public LineArrow lineArrow
         {
             get { return m_LineArrow; }
-            set { if (PropertyUtility.SetClass(ref m_LineArrow, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_LineArrow, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The style of data item.
@@ -736,7 +744,7 @@ namespace XCharts
         public ItemStyle itemStyle
         {
             get { return m_ItemStyle; }
-            set { if (PropertyUtility.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 高亮的图形样式和文本标签样式。
@@ -744,7 +752,7 @@ namespace XCharts
         public Emphasis emphasis
         {
             get { return m_Emphasis; }
-            set { if (PropertyUtility.SetClass(ref m_Emphasis, value, true)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Emphasis, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 标题样式。
@@ -752,7 +760,7 @@ namespace XCharts
         public TitleStyle titleStyle
         {
             get { return m_TitleStyle; }
-            set { if (PropertyUtility.SetClass(ref m_TitleStyle, value, true)) SetAllDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_TitleStyle, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// 数据项里的数据维数。
@@ -769,7 +777,7 @@ namespace XCharts
         public bool clip
         {
             get { return m_Clip; }
-            set { if (PropertyUtility.SetStruct(ref m_Clip, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Clip, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Show negative number as positive number.
@@ -778,7 +786,7 @@ namespace XCharts
         public bool showAsPositiveNumber
         {
             get { return m_ShowAsPositiveNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。
@@ -790,7 +798,7 @@ namespace XCharts
             get { return m_Large; }
             set
             {
-                if (PropertyUtility.SetStruct(ref m_Large, value))
+                if (PropertyUtil.SetStruct(ref m_Large, value))
                 {
                     SetAllDirty();
                     label.SetComponentDirty();
@@ -805,7 +813,7 @@ namespace XCharts
             get { return m_LargeThreshold; }
             set
             {
-                if (PropertyUtility.SetStruct(ref m_LargeThreshold, value))
+                if (PropertyUtil.SetStruct(ref m_LargeThreshold, value))
                 {
                     SetAllDirty();
                     label.SetComponentDirty();
@@ -818,7 +826,7 @@ namespace XCharts
         public bool avoidLabelOverlap
         {
             get { return m_AvoidLabelOverlap; }
-            set { if (PropertyUtility.SetStruct(ref m_AvoidLabelOverlap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_AvoidLabelOverlap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Wave length of the wave, which is relative to the diameter.
@@ -827,7 +835,7 @@ namespace XCharts
         public float waveLength
         {
             get { return m_WaveLength; }
-            set { if (PropertyUtility.SetStruct(ref m_WaveLength, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_WaveLength, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 波高。
@@ -835,7 +843,7 @@ namespace XCharts
         public float waveHeight
         {
             get { return m_WaveHeight; }
-            set { if (PropertyUtility.SetStruct(ref m_WaveHeight, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_WaveHeight, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 波偏移。
@@ -843,7 +851,7 @@ namespace XCharts
         public float waveOffset
         {
             get { return m_WaveOffset; }
-            set { if (PropertyUtility.SetStruct(ref m_WaveOffset, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_WaveOffset, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 波速。正数时左移，负数时右移。
@@ -851,7 +859,7 @@ namespace XCharts
         public float waveSpeed
         {
             get { return m_WaveSpeed; }
-            set { if (PropertyUtility.SetStruct(ref m_WaveSpeed, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_WaveSpeed, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
@@ -950,7 +958,9 @@ namespace XCharts
         /// </summary>
         public float runtimePieDataTotal { get; internal set; }
         public float runtimeWaveSpeed { get; internal set; }
+        public Painter runtimeCanvas { get; internal set; }
         internal float runtimeCheckValue { get; set; }
+        public int runtimeGridIndex { get; internal set; }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()
@@ -1413,7 +1423,8 @@ namespace XCharts
         /// <returns></returns>
         public List<SerieData> GetDataList(DataZoom dataZoom = null)
         {
-            if (dataZoom != null && dataZoom.enable)
+            if (dataZoom != null && dataZoom.enable
+                && (dataZoom.xAxisIndexs.Contains(xAxisIndex) || dataZoom.yAxisIndexs.Contains(yAxisIndex)))
             {
                 UpdateFilterData(dataZoom);
                 return m_FilterData;
@@ -1431,7 +1442,8 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         internal void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable)
+            if (dataZoom != null && dataZoom.enable
+                && (dataZoom.xAxisIndexs.Contains(xAxisIndex) || dataZoom.yAxisIndexs.Contains(yAxisIndex)))
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
@@ -1674,6 +1686,14 @@ namespace XCharts
                 return false;
         }
 
+        public bool IsCoordinateSerie()
+        {
+            return type == SerieType.Line
+                || type == SerieType.Bar
+                || type == SerieType.Scatter
+                || type == SerieType.Heatmap;
+        }
+
         /// <summary>
         /// 设置指定index的数据图标的尺寸
         /// </summary>
@@ -1708,9 +1728,9 @@ namespace XCharts
         /// 从json中导入数据
         /// </summary>
         /// <param name="jsonData"></param>
-        public override void ParseJsonData(string jsonData)
+        public void ParseJsonData(string jsonData)
         {
-            if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
+            if (string.IsNullOrEmpty(jsonData)) return;
             jsonData = jsonData.Replace("\r\n", "");
             jsonData = jsonData.Replace(" ", "");
             jsonData = jsonData.Replace("\n", "");

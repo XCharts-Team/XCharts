@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -83,15 +83,10 @@ namespace XCharts
         [SerializeField] private Vector3 m_Offset;
         [SerializeField] private float m_Margin;
         [SerializeField] private string m_Formatter;
-        [SerializeField] private float m_Rotate = 0;
         [SerializeField] private float m_PaddingLeftRight = 2f;
         [SerializeField] private float m_PaddingTopBottom = 2f;
-        [SerializeField] private Color m_Color;
-        [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth = 0;
         [SerializeField] private float m_BackgroundHeight = 0;
-        [SerializeField] private int m_FontSize = 18;
-        [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_Line = true;
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
         [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
@@ -103,6 +98,7 @@ namespace XCharts
         [SerializeField] private Color32 m_BorderColor = ChartConst.greyColor32;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         public void Reset()
         {
@@ -112,12 +108,8 @@ namespace XCharts
             m_Margin = 0;
             m_PaddingLeftRight = 2f;
             m_PaddingTopBottom = 2f;
-            m_Color = Color.clear;
-            m_BackgroundColor = Color.clear;
             m_BackgroundWidth = 0;
             m_BackgroundHeight = 0;
-            m_FontSize = 18;
-            m_FontStyle = FontStyle.Normal;
             m_Line = true;
             m_LineType = LineType.BrokenLine;
             m_LineColor = Color.clear;
@@ -138,7 +130,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The position of label.
@@ -147,7 +139,7 @@ namespace XCharts
         public Position position
         {
             get { return m_Position; }
-            set { if (PropertyUtility.SetStruct(ref m_Position, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 标签内容字符串模版格式器。支持用 \n 换行。
@@ -165,7 +157,7 @@ namespace XCharts
         public string formatter
         {
             get { return m_Formatter; }
-            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// offset to the host graphic element. 
@@ -174,7 +166,7 @@ namespace XCharts
         public Vector3 offset
         {
             get { return m_Offset; }
-            set { if (PropertyUtility.SetStruct(ref m_Offset, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 距离轴线的距离。
@@ -182,25 +174,7 @@ namespace XCharts
         public float margin
         {
             get { return m_Margin; }
-            set { if (PropertyUtility.SetStruct(ref m_Margin, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// Text color,If set as default ,the color will assigned as series color.
-        /// 自定义文字颜色，默认和系列的颜色一致。
-        /// </summary>
-        public Color color
-        {
-            get { return m_Color; }
-            set { if (PropertyUtility.SetStruct(ref m_Color, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// the background color. If set as default, it means than don't show background.
-        /// 标签的背景色，默认无颜色。
-        /// </summary>
-        public Color32 backgroundColor
-        {
-            get { return m_BackgroundColor; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Margin, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
@@ -210,7 +184,7 @@ namespace XCharts
         public float backgroundWidth
         {
             get { return m_BackgroundWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the height of background. If set as default value 0, it means than the background height auto set as the text height.
@@ -220,16 +194,7 @@ namespace XCharts
         public float backgroundHeight
         {
             get { return m_BackgroundHeight; }
-            set { if (PropertyUtility.SetStruct(ref m_BackgroundHeight, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Rotate label.
-        /// 标签旋转。
-        /// </summary>
-        public float rotate
-        {
-            get { return m_Rotate; }
-            set { if (PropertyUtility.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundHeight, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the text padding of left and right. defaut:2.
@@ -238,7 +203,7 @@ namespace XCharts
         public float paddingLeftRight
         {
             get { return m_PaddingLeftRight; }
-            set { if (PropertyUtility.SetStruct(ref m_PaddingLeftRight, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_PaddingLeftRight, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the text padding of top and bottom. defaut:2.
@@ -247,25 +212,7 @@ namespace XCharts
         public float paddingTopBottom
         {
             get { return m_PaddingTopBottom; }
-            set { if (PropertyUtility.SetStruct(ref m_PaddingTopBottom, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// font size.
-        /// 文字的字体大小。
-        /// </summary>
-        public int fontSize
-        {
-            get { return m_FontSize; }
-            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetAllDirty(); }
-        }
-        /// <summary>
-        /// font style.
-        /// 文字的字体风格。
-        /// </summary>
-        public FontStyle fontStyle
-        {
-            get { return m_FontStyle; }
-            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_PaddingTopBottom, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Whether to show visual guide line.Will show when label position is set as 'outside'.
@@ -274,7 +221,7 @@ namespace XCharts
         public bool line
         {
             get { return m_Line; }
-            set { if (PropertyUtility.SetStruct(ref m_Line, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Line, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the type of visual guide line.
@@ -283,7 +230,7 @@ namespace XCharts
         public LineType lineType
         {
             get { return m_LineType; }
-            set { if (PropertyUtility.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of visual guild line.
@@ -292,7 +239,7 @@ namespace XCharts
         public Color32 lineColor
         {
             get { return m_LineColor; }
-            set { if (PropertyUtility.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of visual guild line.
@@ -301,7 +248,7 @@ namespace XCharts
         public float lineWidth
         {
             get { return m_LineWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The length of the first segment of visual guide line.
@@ -310,7 +257,7 @@ namespace XCharts
         public float lineLength1
         {
             get { return m_LineLength1; }
-            set { if (PropertyUtility.SetStruct(ref m_LineLength1, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineLength1, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The length of the second segment of visual guide line.
@@ -319,7 +266,7 @@ namespace XCharts
         public float lineLength2
         {
             get { return m_LineLength2; }
-            set { if (PropertyUtility.SetStruct(ref m_LineLength2, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineLength2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show border.
@@ -328,7 +275,7 @@ namespace XCharts
         public bool border
         {
             get { return m_Border; }
-            set { if (PropertyUtility.SetStruct(ref m_Border, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Border, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of border.
@@ -337,7 +284,7 @@ namespace XCharts
         public float borderWidth
         {
             get { return m_BorderWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of border.
@@ -346,7 +293,7 @@ namespace XCharts
         public Color32 borderColor
         {
             get { return m_BorderColor; }
-            set { if (PropertyUtility.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Standard numeric format strings.
@@ -358,7 +305,7 @@ namespace XCharts
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
-            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
@@ -366,7 +313,17 @@ namespace XCharts
         public bool autoOffset
         {
             get { return m_AutoOffset; }
-            set { if (PropertyUtility.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
+        }
+
+        /// <summary>
+        /// the sytle of text.
+        /// 文本样式。
+        /// </summary>
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,67 +18,47 @@ namespace XCharts
     public partial class CoordinateChart
     {
         /// <summary>
-        /// The lower left position x of coordinate system.
-        /// 坐标系的左下角坐标X。
-        /// </summary>
-        public float coordinateX { get { return m_CoordinateX; } }
-        /// <summary>
-        /// The lower left position y of coordinate system.
-        /// 坐标系的左下角坐标Y。
-        /// </summary>
-        public float coordinateY { get { return m_CoordinateY; } }
-
-        /// <summary>
-        /// the width of coordinate system。
-        /// 坐标系的宽。
-        /// </summary>
-        public float coordinateWidth { get { return m_CoordinateWidth; } }
-        /// <summary>
-        /// the height of coordinate system。
-        /// 坐标系的高。
-        /// </summary>
-        public float coordinateHeight { get { return m_CoordinateHeight; } }
-        /// <summary>
         /// grid component.
         /// 网格组件。
         /// </summary>
-        public Grid grid { get { return m_Grid; } }
+        public Grid grid { get { return m_Grids.Count > 0 ? m_Grids[0] : null; } }
+        public List<Grid> grids { get { return m_Grids; } }
         /// <summary>
-        /// the x axises，xAxises[0] is the first x axis, xAxises[1] is the second x axis.
+        /// the x Axes，xAxes[0] is the first x axis, xAxes[1] is the second x axis.
         /// 两个x轴。
         /// </summary>
-        public List<XAxis> xAxises { get { return m_XAxises; } }
+        public List<XAxis> xAxes { get { return m_XAxes; } }
         /// <summary>
-        /// the y axises, yAxises[0] is the first y axis, yAxises[1] is the second y axis.
+        /// the y Axes, yAxes[0] is the first y axis, yAxes[1] is the second y axis.
         /// 两个y轴。
         /// </summary>
-        public List<YAxis> yAxises { get { return m_YAxises; } }
+        public List<YAxis> yAxes { get { return m_YAxes; } }
         /// <summary>
         /// dataZoom component.
         /// 区域缩放组件。
         /// </summary>
-        public DataZoom dataZoom { get { return m_DataZoom; } }
+        public DataZoom dataZoom { get { return m_DataZooms.Count > 0 ? m_DataZooms[0] : null; } }
         /// <summary>
         /// visualMap component.
         /// 视觉映射组件。
         /// </summary>
-        public VisualMap visualMap { get { return m_VisualMap; } }
+        public VisualMap visualMap { get { return m_VisualMaps.Count > 0 ? m_VisualMaps[0] : null; } }
         /// <summary>
         /// X轴（下）
         /// </summary>
-        public XAxis xAxis0 { get { return m_XAxises[0]; } }
+        public XAxis xAxis0 { get { return m_XAxes.Count > 0 ? m_XAxes[0] : null; } }
         /// <summary>
         /// X轴（上）
         /// </summary>
-        public XAxis xAxis1 { get { return m_XAxises[1]; } }
+        public XAxis xAxis1 { get { return m_XAxes.Count > 1 ? m_XAxes[1] : null; } }
         /// <summary>
         /// Y轴（左）
         /// </summary>
-        public YAxis yAxis0 { get { return m_YAxises[0]; } }
+        public YAxis yAxis0 { get { return m_YAxes.Count > 0 ? m_YAxes[0] : null; } }
         /// <summary>
         /// Y轴（右）
         /// </summary>
-        public YAxis yAxis1 { get { return m_YAxises[1]; } }
+        public YAxis yAxis1 { get { return m_YAxes.Count > 1 ? m_YAxes[1] : null; } }
 
 
         /// <summary>
@@ -105,13 +84,13 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Remove all data of axises.
+        /// Remove all data of Axes.
         /// 清除所有x轴和y轴的类目数据。
         /// </summary>
         public void ClearAxisData()
         {
-            foreach (var item in m_XAxises) item.data.Clear();
-            foreach (var item in m_YAxises) item.data.Clear();
+            foreach (var item in m_XAxes) item.data.Clear();
+            foreach (var item in m_YAxes) item.data.Clear();
         }
 
         /// <summary>
@@ -122,7 +101,7 @@ namespace XCharts
         /// <param name="xAxisIndex">which xAxis should category add to</param>
         public void AddXAxisData(string category, int xAxisIndex = 0)
         {
-            m_XAxises[xAxisIndex].AddData(category);
+            m_XAxes[xAxisIndex].AddData(category);
         }
 
         /// <summary>
@@ -133,7 +112,7 @@ namespace XCharts
         /// <param name="yAxisIndex">which yAxis should category add to</param>
         public void AddYAxisData(string category, int yAxisIndex = 0)
         {
-            m_YAxises[yAxisIndex].AddData(category);
+            m_YAxes[yAxisIndex].AddData(category);
         }
 
         /// <summary>
@@ -142,11 +121,11 @@ namespace XCharts
         /// </summary>
         public bool IsValue()
         {
-            foreach (var axis in m_XAxises)
+            foreach (var axis in m_XAxes)
             {
                 if (axis.show && !axis.IsValue() && !axis.IsLog()) return false;
             }
-            foreach (var axis in m_YAxises)
+            foreach (var axis in m_YAxes)
             {
                 if (axis.show && !axis.IsValue() && !axis.IsLog()) return false;
             }
@@ -158,11 +137,11 @@ namespace XCharts
         /// </summary>
         public bool IsCategory()
         {
-            foreach (var axis in m_XAxises)
+            foreach (var axis in m_XAxes)
             {
                 if (axis.show && !axis.IsCategory()) return false;
             }
-            foreach (var axis in m_YAxises)
+            foreach (var axis in m_YAxes)
             {
                 if (axis.show && !axis.IsCategory()) return false;
             }
@@ -172,24 +151,44 @@ namespace XCharts
         /// <summary>
         /// 坐标是否在坐标轴内。
         /// </summary>
-        public bool IsInCooridate(Vector2 local)
+        public bool IsInGrid(Grid grid, Vector2 local)
         {
-            return IsInCooridate(local.x, local.y);
+            return IsInGrid(grid, local.x, local.y);
         }
 
-        public bool IsInCooridate(Vector3 local)
+        public bool IsInGrid(Grid grid, Vector3 local)
         {
-            return IsInCooridate(local.x, local.y);
+            return IsInGrid(grid, local.x, local.y);
         }
 
-        public bool IsInCooridate(float x, float y)
+        public bool IsInGrid(Grid grid, float x, float y)
         {
-            if (x < m_CoordinateX - 1 || x > m_CoordinateX + m_CoordinateWidth + 1 ||
-                y < m_CoordinateY - 1 || y > m_CoordinateY + m_CoordinateHeight + 1)
+            if (x < grid.runtimeX - 1 || x > grid.runtimeX + grid.runtimeWidth + 1 ||
+                y < grid.runtimeY - 1 || y > grid.runtimeY + grid.runtimeHeight + 1)
             {
                 return false;
             }
             return true;
+        }
+
+        public bool IsInAnyGrid(Vector2 local)
+        {
+            foreach (var grid in m_Grids)
+            {
+                if (IsInGrid(grid, local)) return true;
+            }
+            return false;
+        }
+
+        public Grid GetGrid(Vector2 local)
+        {
+            for (int i = 0; i < m_Grids.Count; i++)
+            {
+                var grid = m_Grids[i];
+                grid.index = i;
+                if (IsInGrid(grid, local)) return grid;
+            }
+            return null;
         }
 
         /// <summary>
@@ -208,16 +207,16 @@ namespace XCharts
             CheckMinMaxValue();
         }
 
-        public Vector3 ClampInCoordinate(Vector3 pos)
+        public Vector3 ClampInGrid(Grid grid, Vector3 pos)
         {
-            if (IsInCooridate(pos)) return pos;
+            if (IsInGrid(grid, pos)) return pos;
             else
             {
                 // var pos = new Vector3(pos.x, pos.y);
-                if (pos.x < m_CoordinateX) pos.x = m_CoordinateX;
-                if (pos.x > m_CoordinateX + m_CoordinateWidth) pos.x = m_CoordinateX + m_CoordinateWidth;
-                if (pos.y < m_CoordinateY) pos.y = m_CoordinateY;
-                if (pos.y > m_CoordinateY + m_CoordinateHeight) pos.y = m_CoordinateY + m_CoordinateHeight;
+                if (pos.x < grid.runtimeX) pos.x = grid.runtimeX;
+                if (pos.x > grid.runtimeX + grid.runtimeWidth) pos.x = grid.runtimeX + grid.runtimeWidth;
+                if (pos.y < grid.runtimeY) pos.y = grid.runtimeY;
+                if (pos.y > grid.runtimeY + grid.runtimeHeight) pos.y = grid.runtimeY + grid.runtimeHeight;
                 return pos;
             }
         }
@@ -230,10 +229,10 @@ namespace XCharts
         {
             if (index >= 0 && index <= 1)
             {
-                var xAxis = m_XAxises[index];
-                var yAxis = m_YAxises[index];
-                var tempX = m_XAxises[index].Clone();
-                xAxis.Copy(m_YAxises[index]);
+                var xAxis = m_XAxes[index];
+                var yAxis = m_YAxes[index];
+                var tempX = m_XAxes[index].Clone();
+                xAxis.Copy(m_YAxes[index]);
                 yAxis.Copy(tempX);
                 xAxis.runtimeZeroXOffset = 0;
                 xAxis.runtimeZeroYOffset = 0;
@@ -252,10 +251,14 @@ namespace XCharts
         /// </summary>
         public void UpdateCoordinate()
         {
-            m_CoordinateX = m_ChartX + m_Grid.left;
-            m_CoordinateY = m_ChartY + m_Grid.bottom;
-            m_CoordinateWidth = m_ChartWidth - m_Grid.left - m_Grid.right;
-            m_CoordinateHeight = m_ChartHeight - m_Grid.top - m_Grid.bottom;
+            foreach (var grid in m_Grids)
+            {
+                grid.UpdateRuntimeData(m_ChartX, m_ChartY, m_ChartWidth, m_ChartHeight);
+            }
+            foreach (var dataZoom in m_DataZooms)
+            {
+                dataZoom.UpdateRuntimeData(m_ChartX, m_ChartY, m_ChartWidth, m_ChartHeight);
+            }
         }
 
         /// <summary>
@@ -264,8 +267,26 @@ namespace XCharts
         public void SetMaxCache(int maxCache)
         {
             foreach (var serie in m_Series.list) serie.maxCache = maxCache;
-            foreach (var axis in m_XAxises) axis.maxCache = maxCache;
-            foreach (var axis in m_YAxises) axis.maxCache = maxCache;
+            foreach (var axis in m_XAxes) axis.maxCache = maxCache;
+            foreach (var axis in m_YAxes) axis.maxCache = maxCache;
+        }
+
+        public Grid GetGrid(int index)
+        {
+            if (index >= 0 && index < m_Grids.Count) return m_Grids[index];
+            else return null;
+        }
+
+        public XAxis GetXAxis(int index)
+        {
+            if (index >= 0 && index < m_XAxes.Count) return m_XAxes[index];
+            else return null;
+        }
+
+        public YAxis GetYAxis(int index)
+        {
+            if (index >= 0 && index < m_YAxes.Count) return m_YAxes[index];
+            else return null;
         }
     }
 }

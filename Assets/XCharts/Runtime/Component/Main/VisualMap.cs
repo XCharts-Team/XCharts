@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -101,7 +101,7 @@ namespace XCharts
         public bool enable
         {
             get { return m_Enable; }
-            set { if (PropertyUtility.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
@@ -113,7 +113,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of visualmap component.
@@ -122,7 +122,7 @@ namespace XCharts
         public Type type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 映射方向。
@@ -130,7 +130,7 @@ namespace XCharts
         public Direction direction
         {
             get { return m_Direction; }
-            set { if (PropertyUtility.SetStruct(ref m_Direction, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Direction, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the selected mode for Piecewise visualMap.
@@ -139,7 +139,7 @@ namespace XCharts
         public SelectedMode selectedMode
         {
             get { return m_SelectedMode; }
-            set { if (PropertyUtility.SetStruct(ref m_SelectedMode, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SelectedMode, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The minimum allowed. 'min' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
@@ -149,7 +149,7 @@ namespace XCharts
         public float min
         {
             get { return m_Min; }
-            set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The maximum allowed. 'max' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
@@ -187,7 +187,7 @@ namespace XCharts
         public int splitNumber
         {
             get { return m_SplitNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SplitNumber, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
@@ -197,7 +197,7 @@ namespace XCharts
         public bool calculable
         {
             get { return m_Calculable; }
-            set { if (PropertyUtility.SetStruct(ref m_Calculable, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Calculable, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to update in real time while dragging.
@@ -207,7 +207,7 @@ namespace XCharts
         public bool realtime
         {
             get { return m_Realtime; }
-            set { if (PropertyUtility.SetStruct(ref m_Realtime, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Realtime, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The width of the figure, that is, the width of the color bar.
@@ -217,7 +217,7 @@ namespace XCharts
         public float itemWidth
         {
             get { return m_ItemWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The height of the figure, that is, the height of the color bar.
@@ -227,7 +227,7 @@ namespace XCharts
         public float itemHeight
         {
             get { return m_ItemHeight; }
-            set { if (PropertyUtility.SetStruct(ref m_ItemHeight, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ItemHeight, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Border line width.
@@ -237,7 +237,7 @@ namespace XCharts
         public float borderWidth
         {
             get { return m_BorderWidth; }
-            set { if (PropertyUtility.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Specifies "which dimension" of the data to map to the visual element. "Data" is series.data. 
@@ -248,7 +248,7 @@ namespace XCharts
         public int dimension
         {
             get { return m_Dimension; }
-            set { if (PropertyUtility.SetStruct(ref m_Dimension, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Dimension, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// When the hoverLink function is turned on, when the mouse hovers over the visualMap component, 
@@ -263,7 +263,7 @@ namespace XCharts
         public bool hoverLink
         {
             get { return m_HoverLink; }
-            set { if (PropertyUtility.SetStruct(ref m_HoverLink, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_HoverLink, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Automatically set min, Max value
@@ -272,7 +272,7 @@ namespace XCharts
         public bool autoMinMax
         {
             get { return m_AutoMinMax; }
-            set { if (PropertyUtility.SetStruct(ref m_AutoMinMax, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_AutoMinMax, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Specify whether the layout of component is horizontal or vertical. 
@@ -282,7 +282,7 @@ namespace XCharts
         public Orient orient
         {
             get { return m_Orient; }
-            set { if (PropertyUtility.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The location of component.
@@ -291,7 +291,7 @@ namespace XCharts
         public Location location
         {
             get { return m_Location; }
-            set { if (PropertyUtility.SetClass(ref m_Location, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Location, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Defines the visual color in the selected range.

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEngine;
 using System;
@@ -17,6 +17,12 @@ namespace XCharts
     /// </summary>
     public partial class BaseGraph
     {
+        /// <summary>
+        /// The background component.
+        /// 背景组件。
+        /// </summary>
+        /// <value></value>
+        public Background background { get { return m_Background; } }
         /// <summary>
         /// The x of graph. 
         /// 图形的X
@@ -125,6 +131,11 @@ namespace XCharts
             m_RefreshChart = true;
         }
 
+        public void RefreshAllComponent()
+        {
+            SetAllComponentDirty();
+        }
+
         /// <summary>
         /// 检测警告信息。
         /// </summary>
@@ -141,6 +152,7 @@ namespace XCharts
         public void RemoveChartObject()
         {
             ChartHelper.DestroyAllChildren(transform);
+            //SetAllComponentDirty();
         }
     }
 }

@@ -1,17 +1,15 @@
 ﻿using System.Linq;
 using System.Collections.ObjectModel;
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -66,12 +64,12 @@ namespace XCharts
         [SerializeField] private bool m_AlwayShow = false;
         [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
         [SerializeField] private Sprite m_BackgroundImage;
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
 
         private GameObject m_GameObject;
         private GameObject m_Content;
-        private Text m_ContentText;
+        private ChartText m_ContentText;
         private Image m_ContentImage;
         private RectTransform m_ContentRect;
         private RectTransform m_ContentTextRect;
@@ -84,7 +82,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) { SetAllDirty(); SetActive(value); } }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) { SetAllDirty(); SetActive(value); } }
         }
         /// <summary>
         /// Indicator type.
@@ -93,7 +91,7 @@ namespace XCharts
         public Type type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetAllDirty(); }
         }
         /// <summary>
         /// A string template formatter for the total content of the prompt box. Support for wrapping lines with \n. 
@@ -161,10 +159,6 @@ namespace XCharts
         /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
-        [Obsolete("Use Tooltip.textStyle.fontSize instead.", true)]
-        public int fontSize { get; set; }
-        [Obsolete("Use Tooltip.textStyle.fontStyle instead.", true)]
-        public FontStyle fontStyle { get; set; }
         /// <summary>
         /// Standard numeric format string. Used to format numeric values to display as strings. 
         /// Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
@@ -178,7 +172,7 @@ namespace XCharts
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
-            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the text padding of left and right. defaut:5.
@@ -291,6 +285,11 @@ namespace XCharts
         /// 当前指示的角度。
         /// </summary>
         public float runtimeAngle { get; internal set; }
+        /// <summary>
+        /// 当前指示的Grid索引。
+        /// </summary>
+        public int runtimeGridIndex { get; internal set; }
+        public int runtimePolarIndex { get; internal set; }
 
         public static Tooltip defaultTooltip
         {
@@ -329,7 +328,7 @@ namespace XCharts
             m_ContentRect = m_Content.GetComponent<RectTransform>();
             m_ContentImage = m_Content.GetComponent<Image>();
             m_ContentImage.raycastTarget = false;
-            m_ContentText = m_Content.GetComponentInChildren<Text>();
+            m_ContentText = new ChartText(m_Content);
             if (m_ContentText != null)
             {
                 m_ContentTextRect = m_ContentText.gameObject.GetComponentInChildren<RectTransform>();
@@ -343,6 +342,7 @@ namespace XCharts
         /// </summary>
         public void UpdateToTop()
         {
+            if (m_GameObject == null) return;
             int count = m_GameObject.transform.parent.childCount;
             m_GameObject.GetComponent<RectTransform>().SetSiblingIndex(count - 1);
         }
@@ -376,9 +376,9 @@ namespace XCharts
         /// <param name="color"></param>
         public void SetContentTextColor(Color color)
         {
-            if (m_ContentText)
+            if (m_ContentText != null)
             {
-                m_ContentText.color = color;
+                m_ContentText.SetColor(color);
             }
         }
 
@@ -388,16 +388,16 @@ namespace XCharts
         /// <param name="txt"></param>
         public void UpdateContentText(string txt)
         {
-            if (m_ContentText)
+            if (m_ContentText != null)
             {
-                m_ContentText.text = txt;
+                m_ContentText.SetText(txt);
                 float wid, hig;
                 if (m_FixedWidth > 0) wid = m_FixedWidth;
-                else if (m_MinWidth > 0 && m_ContentText.preferredWidth < m_MinWidth) wid = m_MinWidth;
-                else wid = m_ContentText.preferredWidth + m_PaddingLeftRight * 2;
+                else if (m_MinWidth > 0 && m_ContentText.GetPreferredWidth() < m_MinWidth) wid = m_MinWidth;
+                else wid = m_ContentText.GetPreferredWidth() + m_PaddingLeftRight * 2;
                 if (m_FixedHeight > 0) hig = m_FixedHeight;
-                else if (m_MinHeight > 0 && m_ContentText.preferredHeight < m_MinHeight) hig = m_MinHeight;
-                else hig = m_ContentText.preferredHeight + m_PaddingTopBottom * 2;
+                else if (m_MinHeight > 0 && m_ContentText.GetPreferredHeight() < m_MinHeight) hig = m_MinHeight;
+                else hig = m_ContentText.GetPreferredHeight() + m_PaddingTopBottom * 2;
                 if (m_ContentRect != null) m_ContentRect.sizeDelta = new Vector2(wid, hig);
                 if (m_ContentTextRect != null)
                 {
@@ -476,7 +476,8 @@ namespace XCharts
         internal void UpdateLastDataIndex()
         {
             lastDataIndex[0] = runtimeDataIndex[0];
-            lastDataIndex[1] = runtimeDataIndex[1];
+            if (runtimeDataIndex.Count > 1)
+                lastDataIndex[1] = runtimeDataIndex[1];
         }
 
         /// <summary>
@@ -485,7 +486,9 @@ namespace XCharts
         /// <returns></returns>
         public bool IsSelected()
         {
-            return runtimeDataIndex[0] >= 0 || runtimeDataIndex[1] >= 0;
+            foreach (var index in runtimeDataIndex)
+                if (index >= 0) return true;
+            return false;
         }
 
         /// <summary>
@@ -495,7 +498,9 @@ namespace XCharts
         /// <returns></returns>
         public bool IsSelected(int index)
         {
-            return runtimeDataIndex[0] == index || runtimeDataIndex[1] == index;
+            foreach (var temp in runtimeDataIndex)
+                if (temp == index) return true;
+            return false;
         }
 
         public void ClearSerieDataIndex()

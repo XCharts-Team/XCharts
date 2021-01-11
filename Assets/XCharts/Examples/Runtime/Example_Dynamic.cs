@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace XCharts.Examples
             var serie = chart.AddSerie(SerieType.Line);
             serie.symbol.show = false;
             serie.maxCache = maxCacheDataNumber;
-            chart.xAxises[0].maxCache = maxCacheDataNumber;
+            chart.xAxes[0].maxCache = maxCacheDataNumber;
             timeNow = DateTime.Now;
             timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
         }

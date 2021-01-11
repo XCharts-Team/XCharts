@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,42 +12,20 @@ using UnityEngine;
 namespace XCharts
 {
     [CustomPropertyDrawer(typeof(TextLimit), true)]
-    public class TextLimitDrawer : PropertyDrawer
+    public class TextLimitDrawer : BasePropertyDrawer
     {
-        private Dictionary<string, bool> m_TextLimitToggle = new Dictionary<string, bool>();
-
+        public override string ClassName { get { return "TextLimit"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
-            Rect drawRect = pos;
-            drawRect.height = EditorGUIUtility.singleLineHeight;
-            SerializedProperty m_Enable = prop.FindPropertyRelative("m_Enable");
-            SerializedProperty m_MaxWidth = prop.FindPropertyRelative("m_MaxWidth");
-            SerializedProperty m_Gap = prop.FindPropertyRelative("m_Gap");
-            SerializedProperty m_LimitSuffix = prop.FindPropertyRelative("m_Suffix");
-
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TextLimitToggle, prop, "Text Limit", m_Enable, false);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (ChartEditorHelper.IsToggle(m_TextLimitToggle, prop))
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, "m_Enable"))
             {
                 ++EditorGUI.indentLevel;
-                EditorGUI.PropertyField(drawRect, m_MaxWidth);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Gap);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_LimitSuffix);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                PropertyField(prop, "m_MaxWidth");
+                PropertyField(prop, "m_Gap");
+                PropertyField(prop, "m_LimitSuffix");
                 --EditorGUI.indentLevel;
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
-        {
-            float height = 0;
-            if (ChartEditorHelper.IsToggle(m_TextLimitToggle, prop))
-            {
-                height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
-            }
-            return height;
         }
     }
 }

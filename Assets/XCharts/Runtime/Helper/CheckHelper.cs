@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 using System.Text;
 using UnityEngine;
 
@@ -56,33 +56,41 @@ namespace XCharts
 
         private static void CheckTheme(BaseChart chart, StringBuilder sb)
         {
-            var themeInfo = chart.themeInfo;
-            themeInfo.CheckWarning(sb);
+            var theme = chart.theme;
+            theme.CheckWarning(sb);
         }
 
         private static void CheckTitle(BaseChart chart, StringBuilder sb)
         {
-            var title = chart.title;
-            if (!title.show) return;
-            if (string.IsNullOrEmpty(title.text)) sb.Append("warning:title->text is null\n");
-            if (IsColorAlphaZero(title.textStyle.color))
-                sb.Append("warning:title->textStyle->color alpha is 0\n");
-            if (IsColorAlphaZero(title.subTextStyle.color))
-                sb.Append("warning:title->subTextStyle->color alpha is 0\n");
+            foreach (var title in chart.titles)
+            {
+                if (!title.show) return;
+                if (string.IsNullOrEmpty(title.text)) sb.AppendFormat("warning:title{0}->text is null\n", title.index);
+                if (IsColorAlphaZero(title.textStyle.color))
+                    sb.AppendFormat("warning:title{0}->textStyle->color alpha is 0\n", title.index);
+                if (IsColorAlphaZero(title.subTextStyle.color))
+                    sb.AppendFormat("warning:title{0}->subTextStyle->color alpha is 0\n", title.index);
+            }
         }
 
         private static void CheckLegend(BaseChart chart, StringBuilder sb)
         {
-            var legend = chart.legend;
-            if (!legend.show) return;
-            if (IsColorAlphaZero(legend.textStyle.color))
-                sb.Append("warning:legend->textStyle->color alpha is 0\n");
-            var serieNameList = SeriesHelper.GetLegalSerieNameList(chart.series);
-            if (serieNameList.Count == 0) sb.Append("warning:legend need serie.name or serieData.name not empty\n");
-            foreach (var category in legend.data)
+            foreach (var legend in chart.legends)
             {
-                if (!serieNameList.Contains(category))
-                    sb.AppendFormat("warning:legend [{0}] is invalid, must be one of serie.name or serieData.name\n", category);
+                if (!legend.show) return;
+                if (IsColorAlphaZero(legend.textStyle.color))
+                    sb.AppendFormat("warning:legend{0}->textStyle->color alpha is 0\n", legend.index);
+                var serieNameList = SeriesHelper.GetLegalSerieNameList(chart.series);
+                if (serieNameList.Count == 0)
+                    sb.AppendFormat("warning:legend{0} need serie.name or serieData.name not empty\n", legend.index);
+                foreach (var category in legend.data)
+                {
+                    if (!serieNameList.Contains(category))
+                    {
+                        sb.AppendFormat("warning:legend{0} [{1}] is invalid, must be one of serie.name or serieData.name\n",
+                            legend.index, category);
+                    }
+                }
             }
         }
 
@@ -90,19 +98,21 @@ namespace XCharts
         {
             if (chart is CoordinateChart)
             {
-                var grid = (chart as CoordinateChart).grid;
-                if (grid.left >= chart.chartWidth)
-                    sb.Append("warning:grid->left > chartWidth\n");
-                if (grid.right >= chart.chartWidth)
-                    sb.Append("warning:grid->right > chartWidth\n");
-                if (grid.top >= chart.chartHeight)
-                    sb.Append("warning:grid->top > chartHeight\n");
-                if (grid.bottom >= chart.chartHeight)
-                    sb.Append("warning:grid->bottom > chartHeight\n");
-                if (grid.left + grid.right >= chart.chartWidth)
-                    sb.Append("warning:grid.left + grid.right > chartWidth\n");
-                if (grid.top + grid.bottom >= chart.chartHeight)
-                    sb.Append("warning:grid.top + grid.bottom > chartHeight\n");
+                foreach (var grid in (chart as CoordinateChart).grids)
+                {
+                    if (grid.left >= chart.chartWidth)
+                        sb.Append("warning:grid->left > chartWidth\n");
+                    if (grid.right >= chart.chartWidth)
+                        sb.Append("warning:grid->right > chartWidth\n");
+                    if (grid.top >= chart.chartHeight)
+                        sb.Append("warning:grid->top > chartHeight\n");
+                    if (grid.bottom >= chart.chartHeight)
+                        sb.Append("warning:grid->bottom > chartHeight\n");
+                    if (grid.left + grid.right >= chart.chartWidth)
+                        sb.Append("warning:grid.left + grid.right > chartWidth\n");
+                    if (grid.top + grid.bottom >= chart.chartHeight)
+                        sb.Append("warning:grid.top + grid.bottom > chartHeight\n");
+                }
             }
         }
 
@@ -148,8 +158,6 @@ namespace XCharts
                 switch (serie.type)
                 {
                     case SerieType.Line:
-                        if (serie.lineStyle.width == 0)
-                            sb.AppendFormat("warning:serie {0} lineStyle->width is 0\n", serie.index);
                         if (serie.lineStyle.opacity == 0)
                             sb.AppendFormat("warning:serie {0} lineStyle->opacity is 0\n", serie.index);
                         if (IsColorAlphaZero(serie.lineStyle.color))

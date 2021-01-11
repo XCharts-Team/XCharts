@@ -1,12 +1,14 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XUGL;
 
 namespace XCharts
 {
@@ -16,28 +18,33 @@ namespace XCharts
     [DisallowMultipleComponent]
     public partial class PolarChart : BaseChart
     {
-        [SerializeField] Polar m_Polar = Polar.defaultPolar;
-        [SerializeField] private RadiusAxis m_RadiusAxis = RadiusAxis.defaultRadiusAxis;
-        [SerializeField] private AngleAxis m_AngleAxis = AngleAxis.defaultAngleAxis;
-
-        protected override void Awake()
+        public Polar GetPolar(int index)
         {
-            base.Awake();
-            CheckMinMaxValue();
-            UpdateRuntimeValue();
-            InitRadiusAxis(m_RadiusAxis);
-            InitAngleAxis(m_AngleAxis);
-            m_Tooltip.UpdateToTop();
-            m_Tooltip.runtimeAngle = -1;
+            if (index >= 0 && index < m_Polars.Count) return m_Polars[index];
+            else return null;
         }
 
+        protected override void InitComponent()
+        {
+            base.InitComponent();
+            CheckMinMaxValue();
+            UpdateRuntimeValue();
+            InitPolars();
+            InitRadiusAxes();
+            InitAngleAxes();
+            tooltip.UpdateToTop();
+            tooltip.runtimeAngle = -1;
+        }
 
 #if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
-            m_Title.text = "PolarChart";
-            m_Tooltip.type = Tooltip.Type.Corss;
+            m_Polars = new List<Polar>() { Polar.defaultPolar };
+            m_RadiusAxes = new List<RadiusAxis>() { RadiusAxis.defaultRadiusAxis };
+            m_AngleAxes = new List<AngleAxis>() { AngleAxis.defaultAngleAxis };
+            title.text = "PolarChart";
+            tooltip.type = Tooltip.Type.Corss;
             RemoveData();
             ResetValuePolar();
             Awake();
@@ -45,10 +52,10 @@ namespace XCharts
 
         private void ResetValuePolar()
         {
-            m_AngleAxis.type = Axis.AxisType.Value;
-            m_AngleAxis.minMaxType = Axis.AxisMinMaxType.Custom;
-            m_AngleAxis.min = 0;
-            m_AngleAxis.max = 360;
+            m_AngleAxes[0].type = Axis.AxisType.Value;
+            m_AngleAxes[0].minMaxType = Axis.AxisMinMaxType.Custom;
+            m_AngleAxes[0].min = 0;
+            m_AngleAxes[0].max = 360;
             AddSerie(SerieType.Line, "line1");
             for (int i = 0; i <= 360; i++)
             {
@@ -60,165 +67,188 @@ namespace XCharts
 
         private void ResetCategoryPolar()
         {
-            m_AngleAxis.type = Axis.AxisType.Category;
+            m_AngleAxes[0].type = Axis.AxisType.Category;
             AddSerie(SerieType.Bar, "line1");
             for (int i = 0; i <= 13; i++)
             {
-                m_AngleAxis.AddData("bar" + i);
+                m_AngleAxes[0].AddData("bar" + i);
                 AddData(0, Random.Range(0, 10));
             }
         }
-
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            m_RadiusAxis.SetAllDirty();
-            m_AngleAxis.SetAllDirty();
-            CheckMinMaxValue();
-        }
 #endif
 
-        protected override void CheckComponent()
+        protected override void SetAllComponentDirty()
         {
-            if (m_Polar.anyDirty)
-            {
-                if (m_Polar.componentDirty)
-                {
-                    m_AngleAxis.SetComponentDirty();
-                    m_RadiusAxis.SetComponentDirty();
-                }
-                if (m_Polar.vertsDirty) RefreshChart();
-                m_Polar.ClearDirty();
-            }
-            if (m_AngleAxis.anyDirty || m_RadiusAxis.anyDirty)
-            {
-                if (m_AngleAxis.componentDirty || m_RadiusAxis.componentDirty)
-                {
-                    UpdateRuntimeValue();
-                    InitAngleAxis(m_AngleAxis);
-                    InitRadiusAxis(m_RadiusAxis);
-                }
-                if (m_AngleAxis.vertsDirty || m_RadiusAxis.vertsDirty) RefreshChart();
-                m_AngleAxis.ClearDirty();
-                m_RadiusAxis.ClearDirty();
-            }
-            base.CheckComponent();
+            base.SetAllComponentDirty();
+            foreach (var axis in m_RadiusAxes) axis.SetAllDirty();
+            foreach (var axis in m_AngleAxes) axis.SetAllDirty();
+            CheckMinMaxValue();
         }
 
         protected override void OnSizeChanged()
         {
             base.OnSizeChanged();
-            m_RadiusAxis.SetAllDirty();
-            m_AngleAxis.SetAllDirty();
+            foreach (var axis in m_RadiusAxes) axis.SetAllDirty();
+            foreach (var axis in m_AngleAxes) axis.SetAllDirty();
             UpdateRuntimeValue();
+        }
+
+        private void InitPolars()
+        {
+            for (int i = 0; i < m_Polars.Count; i++)
+            {
+                m_Polars[i].index = i;
+            }
+        }
+
+        private void InitRadiusAxes()
+        {
+            for (int i = 0; i < m_RadiusAxes.Count; i++)
+            {
+                var radiusAxis = m_RadiusAxes[i];
+                radiusAxis.index = i;
+                InitRadiusAxis(radiusAxis);
+            }
         }
 
         private void InitRadiusAxis(RadiusAxis axis)
         {
+            var m_Polar = GetPolar(axis.index);
+            if (m_Polars == null) return;
+            var m_AngleAxis = GetAngleAxis(m_Polar.index);
+            if (m_AngleAxis == null) return;
             PolarHelper.UpdatePolarCenter(m_Polar, m_ChartPosition, m_ChartWidth, m_ChartHeight);
-            var radius = m_Polar.runtimeRadius;
             axis.axisLabelTextList.Clear();
-            string objName = "axis_radius";
-            var axisObj = ChartHelper.AddObject(objName, transform, chartAnchorMin,
-                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            var radius = m_Polar.runtimeRadius;
+            var objName = "axis_radius" + axis.index;
+            var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
+                graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(axis.show && axis.axisLabel.show);
             axisObj.hideFlags = chartHideFlags;
             ChartHelper.HideAllObject(axisObj);
-            var labelColor = ChartHelper.IsClearColor(axis.axisLabel.color) ?
-                (Color)m_ThemeInfo.axisTextColor :
-                axis.axisLabel.color;
-            int splitNumber = AxisHelper.GetSplitNumber(axis, radius, null);
-            float totalWidth = 0;
+            var textStyle = axis.axisLabel.textStyle;
+            var splitNumber = AxisHelper.GetSplitNumber(axis, radius, null);
+            var totalWidth = 0f;
             var startAngle = m_AngleAxis.runtimeStartAngle;
             var cenPos = m_Polar.runtimeCenterPos;
-            var txtHig = axis.axisLabel.fontSize + 2;
+            var txtHig = textStyle.GetFontSize(m_Theme.axis) + 2;
             var dire = ChartHelper.GetDire(startAngle, true).normalized;
-            var tickVetor = ChartHelper.GetVertialDire(dire) * (m_RadiusAxis.axisTick.length + m_RadiusAxis.axisLabel.margin);
+            var tickWidth = axis.axisTick.GetLength(m_Theme.radiusAxis.tickWidth);
+            var tickVetor = ChartHelper.GetVertialDire(dire)
+                * (tickWidth + axis.axisLabel.margin);
             for (int i = 0; i < splitNumber; i++)
             {
                 float labelWidth = AxisHelper.GetScaleWidth(axis, radius, i, null);
                 bool inside = axis.axisLabel.inside;
-                Text txt = ChartHelper.AddTextObject(objName + i, axisObj.transform,
-                    m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
-                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig),
-                    axis.axisLabel.fontSize, axis.axisLabel.rotate, axis.axisLabel.fontStyle);
+                var txt = ChartHelper.AddTextObject(objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
+                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig), textStyle,
+                    m_Theme.axis);
                 if (i == 0) axis.axisLabel.SetRelatedText(txt, labelWidth);
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
-                txt.text = AxisHelper.GetLabelName(axis, radius, i, axis.runtimeMinValue, axis.runtimeMaxValue, null,
-                    isPercentStack);
-                txt.gameObject.SetActive(axis.show &&
+                var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.runtimeMinValue, axis.runtimeMaxValue,
+                    null, isPercentStack);
+                txt.SetAlignment(TextAnchor.MiddleCenter);
+                txt.SetText(labelName);
+                txt.SetActive(axis.show &&
                     (axis.axisLabel.interval == 0 || i % (axis.axisLabel.interval + 1) == 0));
                 var pos = ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVetor;
-                txt.transform.localPosition = pos;
+                txt.SetLocalPosition(pos);
                 AxisHelper.AdjustRadiusAxisLabelPos(txt, pos, cenPos, txtHig, Vector3.zero);
                 axis.axisLabelTextList.Add(txt);
 
                 totalWidth += labelWidth;
             }
-            if (m_Tooltip.runtimeGameObject)
+            if (tooltip.runtimeGameObject)
             {
                 Vector2 privot = new Vector2(0.5f, 1);
-                var labelParent = m_Tooltip.runtimeGameObject.transform;
-                GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent, m_ThemeInfo.font, privot);
+                var labelParent = tooltip.runtimeGameObject.transform;
+                var labelName = ChartCached.GetAxisTooltipLabel(objName);
+                GameObject labelObj = ChartHelper.AddTooltipLabel(labelName, labelParent, m_Theme, privot);
                 axis.SetTooltipLabel(labelObj);
-                axis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
-                axis.SetTooltipLabelActive(axis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);
+                axis.SetTooltipLabelColor(m_Theme.tooltip.labelBackgroundColor, m_Theme.tooltip.labelTextColor);
+                axis.SetTooltipLabelActive(axis.show && tooltip.show && tooltip.type == Tooltip.Type.Corss);
+            }
+        }
+
+        private AngleAxis GetAngleAxis(int polarIndex)
+        {
+            foreach (var axis in m_AngleAxes)
+            {
+                if (axis.polarIndex == polarIndex) return axis;
+            }
+            return null;
+        }
+        private RadiusAxis GetRadiusAxis(int polarIndex)
+        {
+            foreach (var axis in m_RadiusAxes)
+            {
+                if (axis.polarIndex == polarIndex) return axis;
+            }
+            return null;
+        }
+
+        private void InitAngleAxes()
+        {
+            for (int i = 0; i < m_AngleAxes.Count; i++)
+            {
+                var angleAxis = m_AngleAxes[i];
+                angleAxis.index = i;
+                InitAngleAxis(angleAxis);
             }
         }
 
         private void InitAngleAxis(AngleAxis axis)
         {
+            var m_Polar = GetPolar(axis.polarIndex);
+            if (m_Polars == null) return;
             PolarHelper.UpdatePolarCenter(m_Polar, m_ChartPosition, m_ChartWidth, m_ChartHeight);
             var radius = m_Polar.runtimeRadius;
             axis.axisLabelTextList.Clear();
 
-            string objName = "axis_angle";
-            var axisObj = ChartHelper.AddObject(objName, transform, chartAnchorMin,
-                chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+            string objName = "axis_angle" + axis.index;
+            var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
+                graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(axis.show && axis.axisLabel.show);
             axisObj.hideFlags = chartHideFlags;
             ChartHelper.HideAllObject(axisObj);
-            var labelColor = ChartHelper.IsClearColor(axis.axisLabel.color) ?
-                (Color)m_ThemeInfo.axisTextColor :
-                axis.axisLabel.color;
-            int splitNumber = AxisHelper.GetSplitNumber(axis, radius, null);
-            float totalAngle = m_AngleAxis.runtimeStartAngle;
+            var splitNumber = AxisHelper.GetSplitNumber(axis, radius, null);
+            var totalAngle = axis.runtimeStartAngle;
             var total = 360;
             var cenPos = m_Polar.runtimeCenterPos;
-            var txtHig = m_AngleAxis.axisLabel.fontSize + 2;
-            var margin = m_AngleAxis.axisLabel.margin;
-            var isCategory = m_AngleAxis.IsCategory();
-            for (int i = 0; i < splitNumber - 1; i++)
+            var txtHig = axis.axisLabel.textStyle.GetFontSize(m_Theme.axis) + 2;
+            var margin = axis.axisLabel.margin;
+            var isCategory = axis.IsCategory();
+            var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
+            for (int i = 0; i < splitNumber; i++)
             {
                 float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i, null);
                 bool inside = axis.axisLabel.inside;
-                Text txt = ChartHelper.AddTextObject(objName + i, axisObj.transform,
-                    m_ThemeInfo.font, labelColor, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f),
+                var txt = ChartHelper.AddTextObject(objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
                     new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig),
-                    axis.axisLabel.fontSize, axis.axisLabel.rotate, axis.axisLabel.fontStyle);
-                if (i == 0) axis.axisLabel.SetRelatedText(txt, scaleAngle);
-                var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
-                txt.text = AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue, null,
-                    isPercentStack);
-                txt.gameObject.SetActive(axis.show &&
-                    (axis.axisLabel.interval == 0 || i % (axis.axisLabel.interval + 1) == 0));
-                var pos = ChartHelper.GetPos(cenPos, radius + margin, isCategory ? (totalAngle + scaleAngle / 2) : totalAngle, true);
+                    axis.axisLabel.textStyle, m_Theme.axis);
+                txt.SetAlignment(TextAnchor.MiddleCenter);
+                txt.SetText(AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue,
+                    null, isPercentStack));
+                txt.SetActive(axis.show && (axis.axisLabel.interval == 0 || i % (axis.axisLabel.interval + 1) == 0));
+                var pos = ChartHelper.GetPos(cenPos, radius + margin,
+                    isCategory ? (totalAngle + scaleAngle / 2) : totalAngle, true);
                 AxisHelper.AdjustCircleLabelPos(txt, pos, cenPos, txtHig, Vector3.zero);
+                if (i == 0) axis.axisLabel.SetRelatedText(txt, scaleAngle);
                 axis.axisLabelTextList.Add(txt);
 
                 totalAngle += scaleAngle;
             }
-            if (m_Tooltip.runtimeGameObject)
+            if (tooltip.runtimeGameObject)
             {
                 Vector2 privot = new Vector2(0.5f, 0.5f);
-                var labelParent = m_Tooltip.runtimeGameObject.transform;
+                var labelParent = tooltip.runtimeGameObject.transform;
                 GameObject labelObj = ChartHelper.AddTooltipLabel(ChartCached.GetAxisTooltipLabel(objName), labelParent,
-                    m_ThemeInfo.font, privot, privot, privot, new Vector2(10, txtHig));
+                    m_Theme, privot, privot, privot, new Vector2(10, txtHig));
                 axis.SetTooltipLabel(labelObj);
-                axis.SetTooltipLabelColor(m_ThemeInfo.tooltipBackgroundColor, m_ThemeInfo.tooltipTextColor);
-                axis.SetTooltipLabelActive(axis.show && m_Tooltip.show && m_Tooltip.type == Tooltip.Type.Corss);
+                axis.SetTooltipLabelColor(m_Theme.tooltip.labelBackgroundColor, m_Theme.tooltip.labelTextColor);
+                axis.SetTooltipLabelActive(axis.show && tooltip.show && tooltip.type == Tooltip.Type.Corss);
             }
         }
 
@@ -230,26 +260,22 @@ namespace XCharts
 
         private void CheckMinMaxValue()
         {
-            if (m_RadiusAxis.IsCategory() && m_AngleAxis.IsCategory())
-            {
-                return;
-            }
-            UpdateAxisMinMaxValue(0, m_RadiusAxis);
-            UpdateAxisMinMaxValue(0, m_AngleAxis);
+            foreach (var axis in m_RadiusAxes) UpdateAxisMinMaxValue(axis);
+            foreach (var axis in m_AngleAxes) UpdateAxisMinMaxValue(axis);
         }
 
-        private void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
+        private void UpdateAxisMinMaxValue(Axis axis, bool updateChart = true)
         {
             if (axis.IsCategory() || !axis.show) return;
             float tempMinValue = 0;
             float tempMaxValue = 0;
             if (axis is RadiusAxis)
             {
-                SeriesHelper.GetXMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                SeriesHelper.GetXMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, true);
             }
             else
             {
-                SeriesHelper.GetYMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                SeriesHelper.GetYMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, true);
             }
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
@@ -276,14 +302,15 @@ namespace XCharts
 
         protected void UpdateAxisLabelText(Axis axis)
         {
-            float m_CoordinateWidth = axis is RadiusAxis ? m_Polar.runtimeRadius : 360;
+            var polar = GetPolar(axis.polarIndex);
+            var runtimeWidth = axis is RadiusAxis ? polar.runtimeRadius : 360;
             var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
-            axis.UpdateLabelText(m_CoordinateWidth, null, isPercentStack, 500);
+            axis.UpdateLabelText(runtimeWidth, null, isPercentStack, 500);
         }
 
-        protected override void DrawChart(VertexHelper vh)
+        protected override void DrawPainterBase(VertexHelper vh)
         {
-            base.DrawChart(vh);
+            base.DrawPainterBase(vh);
             DrawPolar(vh);
             DrawAngleAxis(vh);
             DrawRadiusAxis(vh);
@@ -292,81 +319,103 @@ namespace XCharts
 
         private void UpdateRuntimeValue()
         {
-            PolarHelper.UpdatePolarCenter(m_Polar, m_ChartPosition, m_ChartWidth, m_ChartHeight);
-            m_AngleAxis.runtimeStartAngle = 90 - m_AngleAxis.startAngle;
+            foreach (var polar in m_Polars)
+                PolarHelper.UpdatePolarCenter(polar, m_ChartPosition, m_ChartWidth, m_ChartHeight);
+            foreach (var axis in m_AngleAxes)
+                axis.runtimeStartAngle = 90 - axis.startAngle;
         }
 
         private void DrawPolar(VertexHelper vh)
         {
             UpdateRuntimeValue();
-            if (!ChartHelper.IsClearColor(m_Polar.backgroundColor))
+            foreach (var polar in m_Polars)
             {
-                ChartDrawer.DrawCricle(vh, m_Polar.runtimeCenterPos, m_Polar.runtimeRadius, m_Polar.backgroundColor);
+                if (!ChartHelper.IsClearColor(polar.backgroundColor))
+                {
+                    UGL.DrawCricle(vh, polar.runtimeCenterPos, polar.runtimeRadius, polar.backgroundColor);
+                }
             }
         }
 
         private void DrawRadiusAxis(VertexHelper vh)
         {
-            var startAngle = m_AngleAxis.runtimeStartAngle;
-            var radius = m_Polar.runtimeRadius;
-            var cenPos = m_Polar.runtimeCenterPos;
-            var size = AxisHelper.GetScaleNumber(m_RadiusAxis, radius, null);
-            var totalWidth = 0f;
-            var dire = ChartHelper.GetDire(startAngle, true).normalized;
-            var tickVetor = ChartHelper.GetVertialDire(dire) * m_RadiusAxis.axisTick.length;
-            var tickWidth = AxisHelper.GetTickWidth(m_RadiusAxis);
-            for (int i = 0; i < size; i++)
+            foreach (var radiusAxis in m_RadiusAxes)
             {
-                var scaleWidth = AxisHelper.GetScaleWidth(m_RadiusAxis, radius, i);
-                var pos = ChartHelper.GetPos(cenPos, totalWidth, startAngle, true);
-                if (m_RadiusAxis.show && m_RadiusAxis.splitLine.show)
+                var polar = GetPolar(radiusAxis.polarIndex);
+                if (polar == null) continue;
+                var angleAxis = GetAngleAxis(polar.index);
+                if (angleAxis == null) continue;
+                var startAngle = angleAxis.runtimeStartAngle;
+                var radius = polar.runtimeRadius;
+                var cenPos = polar.runtimeCenterPos;
+                var size = AxisHelper.GetScaleNumber(radiusAxis, radius, null);
+                var totalWidth = 0f;
+                var dire = ChartHelper.GetDire(startAngle, true).normalized;
+                var tickWidth = radiusAxis.axisTick.GetLength(m_Theme.radiusAxis.tickWidth);
+                var tickLength = radiusAxis.axisTick.GetLength(m_Theme.radiusAxis.tickLength);
+                var tickVetor = ChartHelper.GetVertialDire(dire) * tickLength;
+                for (int i = 0; i < size - 1; i++)
                 {
-                    var outsideRaidus = totalWidth + m_RadiusAxis.splitLine.lineStyle.width * 2;
-                    var splitLineColor = m_RadiusAxis.splitLine.GetColor(m_ThemeInfo);
-                    ChartDrawer.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, Color.clear);
+                    var scaleWidth = AxisHelper.GetScaleWidth(radiusAxis, radius, i);
+                    var pos = ChartHelper.GetPos(cenPos, totalWidth, startAngle, true);
+                    if (radiusAxis.show && radiusAxis.splitLine.show)
+                    {
+                        var outsideRaidus = totalWidth + radiusAxis.splitLine.GetWidth(m_Theme.radiusAxis.splitLineWidth) * 2;
+                        var splitLineColor = radiusAxis.splitLine.GetColor(m_Theme.radiusAxis.splitLineColor);
+                        UGL.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, Color.clear);
+                    }
+                    if (radiusAxis.show && radiusAxis.axisTick.show)
+                    {
+                        UGL.DrawLine(vh, pos, pos + tickVetor, tickWidth, m_Theme.axis.lineColor);
+                    }
+                    totalWidth += scaleWidth;
                 }
-                if (m_RadiusAxis.show && m_RadiusAxis.axisTick.show)
+                if (radiusAxis.show && radiusAxis.axisLine.show)
                 {
-                    ChartDrawer.DrawLine(vh, pos, pos + tickVetor, tickWidth, m_ThemeInfo.axisLineColor);
+                    var lineStartPos = polar.runtimeCenterPos - dire * tickWidth;
+                    var lineEndPos = polar.runtimeCenterPos + dire * (radius + tickWidth);
+                    var lineWidth = radiusAxis.axisLine.GetWidth(m_Theme.polar.lineWidth);
+                    UGL.DrawLine(vh, lineStartPos, lineEndPos, lineWidth, m_Theme.axis.lineColor);
                 }
-                totalWidth += scaleWidth;
-            }
-            if (m_RadiusAxis.show && m_RadiusAxis.axisLine.show)
-            {
-                var lineStartPos = m_Polar.runtimeCenterPos - dire * m_RadiusAxis.axisTick.width;
-                var lineEndPos = m_Polar.runtimeCenterPos + dire * (radius + m_RadiusAxis.axisTick.width);
-                ChartDrawer.DrawLine(vh, lineStartPos, lineEndPos, m_RadiusAxis.axisLine.width, m_ThemeInfo.axisLineColor);
             }
         }
 
         private void DrawAngleAxis(VertexHelper vh)
         {
-            var radius = m_Polar.runtimeRadius;
-            var cenPos = m_Polar.runtimeCenterPos;
-            var total = 360;
-            var size = AxisHelper.GetScaleNumber(m_AngleAxis, total, null);
-            var currAngle = m_AngleAxis.runtimeStartAngle;
-            var tickWidth = AxisHelper.GetTickWidth(m_AngleAxis);
-            for (int i = 0; i < size; i++)
+            foreach (var m_AngleAxis in m_AngleAxes)
             {
-                var scaleWidth = AxisHelper.GetScaleWidth(m_AngleAxis, total, i);
-                var pos = ChartHelper.GetPos(cenPos, radius, currAngle, true);
-                if (m_AngleAxis.show && m_AngleAxis.splitLine.show)
+                var m_Polar = GetPolar(m_AngleAxis.polarIndex);
+                var radius = m_Polar.runtimeRadius;
+                var cenPos = m_Polar.runtimeCenterPos;
+                var total = 360;
+                var size = AxisHelper.GetScaleNumber(m_AngleAxis, total, null);
+                var currAngle = m_AngleAxis.runtimeStartAngle;
+                var tickWidth = m_AngleAxis.axisTick.GetWidth(m_Theme.angleAxis.tickWidth);
+                var tickLength = m_AngleAxis.axisTick.GetLength(m_Theme.angleAxis.tickLength);
+                for (int i = 0; i < size; i++)
                 {
-                    var splitLineColor = m_AngleAxis.splitLine.GetColor(m_ThemeInfo);
-                    ChartDrawer.DrawLine(vh, cenPos, pos, m_AngleAxis.splitLine.lineStyle.width, splitLineColor);
+                    var scaleWidth = AxisHelper.GetScaleWidth(m_AngleAxis, total, i);
+                    var pos = ChartHelper.GetPos(cenPos, radius, currAngle, true);
+                    if (m_AngleAxis.show && m_AngleAxis.splitLine.show)
+                    {
+                        var splitLineColor = m_AngleAxis.splitLine.GetColor(m_Theme.angleAxis.splitLineColor);
+                        var lineWidth = m_AngleAxis.splitLine.GetWidth(m_Theme.angleAxis.splitLineWidth);
+                        UGL.DrawLine(vh, cenPos, pos, lineWidth, splitLineColor);
+                    }
+                    if (m_AngleAxis.show && m_AngleAxis.axisTick.show)
+                    {
+                        var tickY = radius + tickLength;
+                        var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);
+                        UGL.DrawLine(vh, pos, tickPos, tickWidth, m_Theme.axis.lineColor);
+                    }
+                    currAngle += scaleWidth;
                 }
-                if (m_AngleAxis.show && m_AngleAxis.axisTick.show)
+                if (m_AngleAxis.show && m_AngleAxis.axisLine.show)
                 {
-                    var tickPos = ChartHelper.GetPos(cenPos, radius + m_AngleAxis.axisTick.length, currAngle, true);
-                    ChartDrawer.DrawLine(vh, pos, tickPos, tickWidth, m_ThemeInfo.axisLineColor);
+                    var lineWidth = m_AngleAxis.axisLine.GetWidth(m_Theme.angleAxis.lineWidth);
+                    var outsideRaidus = radius + lineWidth * 2;
+                    UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, m_Theme.axis.lineColor, Color.clear);
                 }
-                currAngle += scaleWidth;
-            }
-            if (m_AngleAxis.show && m_AngleAxis.axisLine.show)
-            {
-                var outsideRaidus = radius + m_AngleAxis.axisLine.width * 2;
-                ChartDrawer.DrawDoughnut(vh, cenPos, radius, outsideRaidus, m_ThemeInfo.axisLineColor, Color.clear);
             }
         }
 
@@ -391,11 +440,15 @@ namespace XCharts
 
             }
             DrawPolarLineSymbol(vh);
-
         }
 
         private void DrawPolarLine(VertexHelper vh, Serie serie)
         {
+            var m_Polar = GetPolar(serie.polarIndex);
+            if (m_Polar == null) return;
+            var m_AngleAxis = GetAngleAxis(m_Polar.index);
+            var m_RadiusAxis = GetRadiusAxis(m_Polar.index);
+            if (m_AngleAxis == null || m_RadiusAxis == null) return;
             var startAngle = m_AngleAxis.runtimeStartAngle;
             var radius = m_Polar.runtimeRadius;
             var datas = serie.data;
@@ -403,12 +456,11 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float min = m_RadiusAxis.GetCurrMinValue(dataChangeDuration);
             float max = m_RadiusAxis.GetCurrMaxValue(dataChangeDuration);
-
             var firstSerieData = datas[0];
-            var startPos = GetPolarPos(firstSerieData, min, max, radius);
+            var startPos = GetPolarPos(m_Polar, m_AngleAxis, firstSerieData, min, max, radius);
             var nextPos = Vector3.zero;
-            var lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, serie.index, serie.highlighted);
-            var lineWidth = serie.lineStyle.width;
+            var lineColor = SerieHelper.GetLineColor(serie, m_Theme, serie.index, serie.highlighted);
+            var lineWidth = serie.lineStyle.GetWidth(m_Theme.serie.lineWidth);
             float currDetailProgress = 0;
             float totalDetailProgress = datas.Count;
             serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);
@@ -417,14 +469,14 @@ namespace XCharts
             {
                 if (serie.animation.CheckDetailBreak(i)) break;
                 var serieData = datas[i];
-                nextPos = GetPolarPos(datas[i], min, max, radius);
-                ChartDrawer.DrawLine(vh, startPos, nextPos, lineWidth, lineColor);
+                nextPos = GetPolarPos(m_Polar, m_AngleAxis, datas[i], min, max, radius);
+                UGL.DrawLine(vh, startPos, nextPos, lineWidth, lineColor);
                 startPos = nextPos;
             }
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(totalDetailProgress);
-                serie.animation.CheckSymbol(serie.symbol.size);
+                serie.animation.CheckSymbol(serie.symbol.GetSize(null, m_Theme.serie.lineSymbolSize));
                 m_IsPlayingAnimation = true;
                 RefreshChart();
             }
@@ -432,7 +484,6 @@ namespace XCharts
 
         private void DrawPolarBar(VertexHelper vh, Serie serie)
         {
-
         }
 
         private void DrawPolarLineSymbol(VertexHelper vh)
@@ -450,10 +501,12 @@ namespace XCharts
                     if (ChartHelper.IsIngore(serieData.runtimePosition)) continue;
                     bool highlight = serieData.highlighted || serie.highlighted;
                     if ((!symbol.show || !symbol.ShowSymbol(i, count) || serie.IsPerformanceMode()) && !serieData.highlighted) continue;
-                    float symbolSize = highlight ? symbol.selectedSize : symbol.size;
-                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, n, highlight);
-                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, n, highlight);
-                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
+                    float symbolSize = highlight
+                        ? symbol.GetSelectedSize(serieData.data, m_Theme.serie.lineSymbolSize)
+                        : symbol.GetSize(serieData.data, m_Theme.serie.lineSymbolSize);
+                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_Theme, n, highlight);
+                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, n, highlight);
+                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.runtimePosition, symbolColor,
@@ -464,33 +517,37 @@ namespace XCharts
 
         protected override void DrawTooltip(VertexHelper vh)
         {
-            if (m_Tooltip.runtimeAngle < 0) return;
-            var lineColor = TooltipHelper.GetLineColor(tooltip, m_ThemeInfo);
+            if (tooltip.runtimeAngle < 0) return;
+            var m_Polar = GetPolar(tooltip.runtimePolarIndex);
+            var m_AngleAxis = GetAngleAxis(m_Polar.index);
+            var lineColor = TooltipHelper.GetLineColor(tooltip, m_Theme);
+            var lineType = tooltip.lineStyle.GetType(m_Theme.tooltip.lineType);
+            var lineWidth = tooltip.lineStyle.GetWidth(m_Theme.tooltip.lineWidth);
             var cenPos = m_Polar.runtimeCenterPos;
             var radius = m_Polar.runtimeRadius;
             var sp = m_Polar.runtimeCenterPos;
-            var tooltipAngle = m_Tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
+            var tooltipAngle = tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
             var ep = ChartHelper.GetPos(sp, radius, tooltipAngle, true);
 
-            switch (m_Tooltip.type)
+            switch (tooltip.type)
             {
                 case Tooltip.Type.Corss:
-                    ChartDrawer.DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                     var dist = Vector2.Distance(pointerPos, cenPos);
                     if (dist > radius) dist = radius;
-                    var outsideRaidus = dist + m_Tooltip.lineStyle.width * 2;
-                    ChartDrawer.DrawDoughnut(vh, cenPos, dist, outsideRaidus, lineColor, Color.clear);
+                    var outsideRaidus = dist + tooltip.lineStyle.GetWidth(m_Theme.tooltip.lineWidth) * 2;
+                    UGL.DrawDoughnut(vh, cenPos, dist, outsideRaidus, lineColor, Color.clear);
                     break;
                 case Tooltip.Type.Line:
-                    ChartDrawer.DrawLineStyle(vh, m_Tooltip.lineStyle, sp, ep, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                     break;
                 case Tooltip.Type.Shadow:
-                    ChartDrawer.DrawSector(vh, cenPos, radius, lineColor, tooltipAngle - 2, tooltipAngle + 2, m_Settings.cicleSmoothness);
+                    UGL.DrawSector(vh, cenPos, radius, lineColor, tooltipAngle - 2, tooltipAngle + 2, settings.cicleSmoothness);
                     break;
             }
         }
 
-        private Vector3 GetPolarPos(SerieData serieData, float min, float max, float polarRadius)
+        private Vector3 GetPolarPos(Polar m_Polar, AngleAxis m_AngleAxis, SerieData serieData, float min, float max, float polarRadius)
         {
             var angle = 0f;
             if (!m_AngleAxis.clockwise)
@@ -509,15 +566,16 @@ namespace XCharts
             return serieData.runtimePosition;
         }
 
-        protected override void CheckTootipArea(Vector2 local)
+        protected override void CheckTootipArea(Vector2 local, bool isActivedOther)
         {
-            var dist = Vector2.Distance(local, m_Polar.runtimeCenterPos);
-            if (dist > m_Polar.runtimeRadius)
+            if (isActivedOther) return;
+            tooltip.runtimePolarIndex = GetPointerInPoloar(local);
+            if (tooltip.runtimePolarIndex < 0)
             {
-                m_Tooltip.runtimeAngle = -1;
-                if (m_Tooltip.IsActive())
+                tooltip.runtimeAngle = -1;
+                if (tooltip.IsActive())
                 {
-                    foreach (var kv in m_Tooltip.runtimeSerieIndex)
+                    foreach (var kv in tooltip.runtimeSerieIndex)
                     {
                         var serie = m_Series.GetSerie(kv.Key);
                         foreach (var dataIndex in kv.Value)
@@ -525,15 +583,17 @@ namespace XCharts
                             serie.GetSerieData(dataIndex).highlighted = false;
                         }
                     }
-                    m_Tooltip.ClearSerieDataIndex();
-                    m_Tooltip.SetActive(false);
-                    m_AngleAxis.SetTooltipLabelActive(false);
-                    m_RadiusAxis.SetTooltipLabelActive(false);
+                    tooltip.ClearSerieDataIndex();
+                    tooltip.SetActive(false);
+                    foreach (var axis in m_AngleAxes) axis.SetTooltipLabelActive(false);
+                    foreach (var axis in m_RadiusAxes) axis.SetTooltipLabelActive(false);
                     RefreshChart();
                 }
                 return;
             }
-            m_Tooltip.ClearSerieDataIndex();
+            var m_Polar = GetPolar(tooltip.runtimePolarIndex);
+            var m_AngleAxis = GetAngleAxis(m_Polar.index);
+            tooltip.ClearSerieDataIndex();
             Vector2 dir = local - new Vector2(m_Polar.runtimeCenterPos.x, m_Polar.runtimeCenterPos.y);
             float angle = ChartHelper.GetAngle360(Vector2.up, dir);
 
@@ -557,8 +617,8 @@ namespace XCharts
                             serieData.highlighted = flag;
                             if (flag)
                             {
-                                m_Tooltip.runtimeAngle = (serieData.runtimeAngle - m_AngleAxis.runtimeStartAngle + 360) % 360;
-                                m_Tooltip.AddSerieDataIndex(serie.index, j);
+                                tooltip.runtimeAngle = (serieData.runtimeAngle - m_AngleAxis.runtimeStartAngle + 360) % 360;
+                                tooltip.AddSerieDataIndex(serie.index, j);
                             }
                         }
                         if (refresh) RefreshChart();
@@ -570,12 +630,27 @@ namespace XCharts
                         break;
                 }
             }
-            m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
+            tooltip.UpdateContentPos(local + tooltip.offset);
             UpdateTooltip();
-            if (m_Tooltip.type == Tooltip.Type.Corss)
+            if (tooltip.type == Tooltip.Type.Corss)
             {
                 RefreshChart();
             }
+        }
+
+        private int GetPointerInPoloar(Vector2 local)
+        {
+            for (int i = 0; i < m_Polars.Count; i++)
+            {
+                var polar = m_Polars[i];
+                polar.index = i;
+                var dist = Vector2.Distance(local, polar.runtimeCenterPos);
+                if (dist <= polar.runtimeRadius)
+                {
+                    return polar.index;
+                }
+            }
+            return -1;
         }
 
         private float GetAngleDiff(SerieData nextData, SerieData serieData, float angle)
@@ -597,25 +672,30 @@ namespace XCharts
         protected override void UpdateTooltip()
         {
             base.UpdateTooltip();
-            var showTooltip = m_Tooltip.isAnySerieDataIndex();
+            var showTooltip = tooltip.isAnySerieDataIndex();
             if (showTooltip)
             {
-                var content = TooltipHelper.GetPolarFormatterContent(m_Tooltip, m_Series, m_ThemeInfo, m_AngleAxis);
+                var m_AngleAxis = GetAngleAxis(tooltip.runtimePolarIndex);
+                var content = TooltipHelper.GetPolarFormatterContent(tooltip, m_Series, m_Theme, m_AngleAxis);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
                 UdpateTooltipLabel();
             }
-            m_Tooltip.SetActive(showTooltip);
+            tooltip.SetActive(showTooltip);
         }
 
         private void UdpateTooltipLabel()
         {
-            if (m_Tooltip.type != Tooltip.Type.Corss) return;
+            if (tooltip.type != Tooltip.Type.Corss) return;
+            var m_Polar = GetPolar(tooltip.runtimePolarIndex);
+            if (m_Polar == null) return;
+            var m_AngleAxis = GetAngleAxis(m_Polar.index);
+            var m_RadiusAxis = GetRadiusAxis(m_Polar.index);
             var cenPos = m_Polar.runtimeCenterPos;
             var radius = m_Polar.runtimeRadius;
             m_AngleAxis.SetTooltipLabelActive(true);
             m_RadiusAxis.SetTooltipLabelActive(true);
-            m_AngleAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(m_Tooltip.runtimeAngle));
-            var tooltipAngle = m_Tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
+            m_AngleAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(tooltip.runtimeAngle));
+            var tooltipAngle = tooltip.runtimeAngle + m_AngleAxis.runtimeStartAngle;
             var ep = ChartHelper.GetPos(cenPos, radius + 5, tooltipAngle, true);
             m_AngleAxis.UpdateTooltipLabelPos(ep);
 

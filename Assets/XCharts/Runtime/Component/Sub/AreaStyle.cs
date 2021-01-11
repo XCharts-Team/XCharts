@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 
 using UnityEngine;
@@ -55,7 +55,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the origin of area.
@@ -64,7 +64,7 @@ namespace XCharts
         public AreaOrigin origin
         {
             get { return m_Origin; }
-            set { if (PropertyUtility.SetStruct(ref m_Origin, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Origin, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of area,default use serie color.
@@ -73,7 +73,7 @@ namespace XCharts
         public Color32 color
         {
             get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Gradient color, start color to toColor.
@@ -82,7 +82,7 @@ namespace XCharts
         public Color32 toColor
         {
             get { return m_ToColor; }
-            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
@@ -91,7 +91,7 @@ namespace XCharts
         public float opacity
         {
             get { return m_Opacity; }
-            set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 鼠标悬浮时是否高亮之前的区域
@@ -99,7 +99,7 @@ namespace XCharts
         public bool tooltipHighlight
         {
             get { return m_TooltipHighlight; }
-            set { if (PropertyUtility.SetStruct(ref m_TooltipHighlight, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_TooltipHighlight, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of area,default use serie color.
@@ -108,7 +108,7 @@ namespace XCharts
         public Color32 highlightColor
         {
             get { return m_HighlightColor; }
-            set { if (PropertyUtility.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Gradient color, start highlightColor to highlightToColor.
@@ -117,7 +117,7 @@ namespace XCharts
         public Color32 highlightToColor
         {
             get { return m_HighlightToColor; }
-            set { if (PropertyUtility.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
         }
 
         public static AreaStyle defaultAreaStyle
@@ -129,9 +129,31 @@ namespace XCharts
                     m_Show = false,
                     m_Color = Color.clear,
                     m_ToColor = Color.clear,
-                    m_Opacity = 1
+                    m_Opacity = 0.6f
                 };
                 return area;
+            }
+        }
+
+        public Color32 GetColor()
+        {
+            if (m_Opacity == 1) return m_Color;
+            var color = m_Color;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+
+        public Color32 GetColor(Color32 themeColor)
+        {
+            if (!ChartHelper.IsClearColor(color))
+            {
+                return GetColor();
+            }
+            else
+            {
+                var color = themeColor;
+                color.a = (byte)(color.a * opacity);
+                return color;
             }
         }
     }

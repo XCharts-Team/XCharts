@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 using UnityEngine;
@@ -19,22 +19,30 @@ namespace XChartsDemo
             drawRect.height = EditorGUIUtility.singleLineHeight;
             var lastX = drawRect.x;
             var lastWid = drawRect.width;
+            SerializedProperty m_Column = prop.FindPropertyRelative("m_Column");
             SerializedProperty m_Name = prop.FindPropertyRelative("m_Name");
+            SerializedProperty m_SubName = prop.FindPropertyRelative("m_SubName");
             SerializedProperty m_Title = prop.FindPropertyRelative("m_Title");
             SerializedProperty m_Selected = prop.FindPropertyRelative("m_Selected");
             SerializedProperty m_Panel = prop.FindPropertyRelative("m_Panel");
-            var fieldWid = EditorGUIUtility.currentViewWidth - 30 - 5 - 50 - 90;
+            var fieldWid = EditorGUIUtility.currentViewWidth - 30 - 5 - 40 - 80 - 50 - 100 - 6 * 2;
             drawRect.width = 15;
-            EditorGUI.PropertyField(drawRect,m_Selected,GUIContent.none);
-            drawRect.x += 15;
+            EditorGUI.PropertyField(drawRect, m_Selected, GUIContent.none);
+            drawRect.x += 17;
+            drawRect.width = 80;
+            EditorGUI.PropertyField(drawRect, m_Name, GUIContent.none);
+            drawRect.x += 82;
             drawRect.width = 50;
-            EditorGUI.PropertyField(drawRect,m_Name,GUIContent.none);
+            EditorGUI.PropertyField(drawRect, m_SubName, GUIContent.none);
             drawRect.x += 52;
             drawRect.width = fieldWid;
-            EditorGUI.PropertyField(drawRect,m_Title,GUIContent.none);
+            EditorGUI.PropertyField(drawRect, m_Title, GUIContent.none);
             drawRect.x += fieldWid + 2;
-            drawRect.width = 90;
-            EditorGUI.PropertyField(drawRect,m_Panel,GUIContent.none);
+            drawRect.width = 100;
+            EditorGUI.PropertyField(drawRect, m_Panel, GUIContent.none);
+            drawRect.x += 102;
+            drawRect.width = 40;
+            EditorGUI.PropertyField(drawRect, m_Column, GUIContent.none);
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)

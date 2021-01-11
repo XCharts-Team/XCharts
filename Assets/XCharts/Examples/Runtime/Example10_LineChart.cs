@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections;
 using UnityEngine;
@@ -225,8 +225,8 @@ namespace XCharts.Examples
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            serie.label.color = Color.white;
-            serie.label.backgroundColor = Color.grey;
+            serie.label.textStyle.color = Color.white;
+            serie.label.textStyle.backgroundColor = Color.grey;
             chart.RefreshLabel();
             chart.RefreshChart();
             yield return new WaitForSeconds(1);

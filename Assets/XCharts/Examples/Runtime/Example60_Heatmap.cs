@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,14 +29,14 @@ namespace XCharts.Examples
             chart.grid.right = 60;
             chart.grid.bottom = 60;
             //目前只支持Category
-            chart.xAxises[0].type = Axis.AxisType.Category;
-            chart.yAxises[0].type = Axis.AxisType.Category;
+            chart.xAxes[0].type = Axis.AxisType.Category;
+            chart.yAxes[0].type = Axis.AxisType.Category;
 
-            chart.xAxises[0].boundaryGap = true;
-            chart.xAxises[0].boundaryGap = true;
+            chart.xAxes[0].boundaryGap = true;
+            chart.xAxes[0].boundaryGap = true;
 
-            chart.xAxises[0].splitNumber = 10;
-            chart.yAxises[0].splitNumber = 10;
+            chart.xAxes[0].splitNumber = 10;
+            chart.yAxes[0].splitNumber = 10;
 
             //清空数据重新添加
             chart.RemoveData();
@@ -68,13 +68,13 @@ namespace XCharts.Examples
             chart.visualMap.inRange.Clear();
 
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(chart.coordinateWidth / heatmapGridWid);
-            int ySplitNumber = (int)(chart.coordinateHeight / heatmapGridWid);
+            int xSplitNumber = (int)(chart.grid.runtimeWidth / heatmapGridWid);
+            int ySplitNumber = (int)(chart.grid.runtimeHeight / heatmapGridWid);
             var colors = new List<string>{"#313695", "#4575b4", "#74add1", "#abd9e9", "#e0f3f8", "#ffffbf",
                 "#fee090", "#fdae61", "#f46d43", "#d73027", "#a50026"};
             foreach (var str in colors)
             {
-                chart.visualMap.inRange.Add(ThemeInfo.GetColor(str));
+                chart.visualMap.inRange.Add(ChartTheme.GetColor(str));
             }
             //添加xAxis的数据
             for (int i = 0; i < xSplitNumber; i++)

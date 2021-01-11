@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,11 +17,16 @@ namespace XChartsDemo
     public class ChartModule
     {
         [SerializeField] private string m_Name;
+        [SerializeField] private string m_SubName;
+        [SerializeField] private int m_Column = 3;
+
         [SerializeField] private string m_Title;
         [SerializeField] private bool m_Selected;
         [SerializeField] private GameObject m_Panel;
 
+        public int column { get { return m_Column; } set { m_Column = value; } }
         public string name { get { return m_Name; } set { m_Name = value; } }
+        public string subName { get { return m_SubName; } set { m_SubName = value; } }
         public string title { get { return m_Title; } set { m_Title = value; } }
         public bool select { get { return m_Selected; } set { m_Selected = value; } }
         public GameObject panel { get { return m_Panel; } set { m_Panel = value; } }
@@ -32,6 +37,10 @@ namespace XChartsDemo
     [ExecuteInEditMode]
     public class Demo : MonoBehaviour
     {
+        [SerializeField] private float m_LeftWidth = 150;
+        [SerializeField] private float m_LeftButtonHeight = 60;
+        [SerializeField] private Vector2 m_ChartSpacing = new Vector2(5, 5);
+        [SerializeField] private Vector2 m_ChartSizeRatio = new Vector2(5, 3);
         [SerializeField] private Color m_ButtonNormalColor;
         [SerializeField] private Color m_ButtonSelectedColor;
         [SerializeField] private Color m_ButtonHighlightColor;
@@ -40,6 +49,7 @@ namespace XChartsDemo
         private GameObject m_BtnClone;
         private Theme m_SelectedTheme;
         private int m_LastSelectedModuleIndex;
+        private float m_LastCheckLeftWidth;
 
         private Button m_DefaultThemeButton;
         private Button m_LightThemeButton;
@@ -57,14 +67,61 @@ namespace XChartsDemo
             m_ButtonNormalColor = ChartHelper.GetColor("#293C55FF");
             m_ButtonSelectedColor = ChartHelper.GetColor("#e43c59ff");
             m_ButtonHighlightColor = ChartHelper.GetColor("#0E151FFF");
+            Init();
+        }
 
+
+        void Init()
+        {
             m_ScrollRect = transform.Find("chart_detail").GetComponent<ScrollRect>();
             m_Mark = transform.Find("chart_detail/Viewport").GetComponent<Mask>();
             m_Mark.enabled = true;
             m_Title = transform.Find("chart_title/Text").GetComponent<Text>();
-
             InitThemeButton();
             InitModuleButton();
+
+            InitSize();
+        }
+
+        void InitSize()
+        {
+            UIUtil.SetRectTransformWidth(transform, m_LeftWidth, "chart_list");
+            UIUtil.SetRectTransformLeft(transform, m_LeftWidth, "chart_detail");
+            UIUtil.SetRectTransformLeft(transform, m_LeftWidth, "chart_title");
+            UIUtil.SetGridLayoutGroup(transform, new Vector2(m_LeftWidth, m_LeftButtonHeight), new Vector2(0, 2), "chart_list");
+            foreach (var module in m_ChartModule)
+            {
+                SetChartRootInfo(module);
+            }
+        }
+
+        private void SetChartGridLayoutGroup(GridLayoutGroup grid, int column)
+        {
+            if (grid == null) return;
+            var screenWidth = Screen.width;
+            var screenHeight = Screen.height;
+#if UNITY_EDITOR
+            screenWidth = Camera.main.pixelWidth;
+#endif
+            var chartWidth = (screenWidth - m_LeftWidth - m_ChartSpacing.x * (column + 1)) / column;
+
+            var rect = grid.gameObject.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0, 1);
+            rect.anchorMax = new Vector2(1, 1);
+            rect.pivot = new Vector2(0, 1);
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = new Vector2(0, rect.sizeDelta.y);
+            grid.spacing = m_ChartSpacing;
+            grid.cellSize = new Vector2(chartWidth, chartWidth * m_ChartSizeRatio.y / m_ChartSizeRatio.x);
+        }
+
+        private void SetChartRootInfo(ChartModule module)
+        {
+            var chartRoot = module.panel;
+            var grid = chartRoot.GetComponent<GridLayoutGroup>();
+            var hig = Mathf.CeilToInt(chartRoot.transform.childCount * 1f / module.column) * (grid.cellSize.y + grid.spacing.y);
+            SetChartGridLayoutGroup(grid, module.column);
+            UIUtil.SetRectTransformHeight(chartRoot.transform, hig);
         }
 
         void ResetParam()
@@ -72,9 +129,7 @@ namespace XChartsDemo
             var charts = transform.GetComponentsInChildren<BaseChart>();
             foreach (var chart in charts)
             {
-                chart.legend.itemWidth = 20f;
-                chart.legend.itemHeight = 10f;
-                chart.legend.textStyle.fontSize = 16;
+                chart.RemoveChartObject();
             }
         }
 
@@ -100,6 +155,12 @@ namespace XChartsDemo
                 InitModuleButton();
             }
             if (!Application.isPlaying) m_Mark.enabled = false;
+
+            if (m_LastCheckLeftWidth != m_LeftWidth)
+            {
+                m_LastCheckLeftWidth = m_LeftWidth;
+                InitSize();
+            }
 #endif
         }
 
@@ -129,7 +190,8 @@ namespace XChartsDemo
                 }
                 btn.transform.localScale = Vector3.one;
                 module.button = btn.GetComponent<Button>();
-                module.button.GetComponentInChildren<Text>().text = module.name;
+                module.button.transform.Find("Text").GetComponent<Text>().text = module.name.Replace("\\n", "\n");
+                module.button.transform.Find("SubText").GetComponent<Text>().text = module.subName.Replace("\\n", "\n");
 
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
@@ -173,6 +235,7 @@ namespace XChartsDemo
                 }
             }
             m_ScrollRect.content = selectedModule.panel.GetComponent<RectTransform>();
+            SetChartRootInfo(selectedModule);
             m_Title.text = string.IsNullOrEmpty(selectedModule.title) ?
                 selectedModule.name : selectedModule.title;
         }

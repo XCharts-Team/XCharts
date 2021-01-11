@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -22,15 +22,12 @@ namespace XCharts
         [SerializeField] private string m_Formatter;
         [SerializeField] private int m_Interval = 0;
         [SerializeField] private bool m_Inside = false;
-        [SerializeField] private float m_Rotate;
         [SerializeField] private float m_Margin;
-        [SerializeField] private Color m_Color;
-        [SerializeField] private int m_FontSize;
-        [SerializeField] private FontStyle m_FontStyle;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_OnZero = false;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -39,7 +36,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The display interval of the axis label.
@@ -48,7 +45,7 @@ namespace XCharts
         public int interval
         {
             get { return m_Interval; }
-            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Set this to true so the axis labels face the inside direction.
@@ -57,16 +54,7 @@ namespace XCharts
         public bool inside
         {
             get { return m_Inside; }
-            set { if (PropertyUtility.SetStruct(ref m_Inside, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Rotation degree of axis label, which is especially useful when there is no enough space for category axis.
-        /// 刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
-        /// </summary>
-        public float rotate
-        {
-            get { return m_Rotate; }
-            set { if (PropertyUtility.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Inside, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The margin between the axis label and the axis line.
@@ -75,34 +63,7 @@ namespace XCharts
         public float margin
         {
             get { return m_Margin; }
-            set { if (PropertyUtility.SetStruct(ref m_Margin, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// the color of axis label text. 
-        /// 刻度标签文字的颜色，默认取Theme的axisTextColor。
-        /// </summary>
-        public Color color
-        {
-            get { return m_Color; }
-            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// font size.
-        /// 文字的字体大小。
-        /// </summary>
-        public int fontSize
-        {
-            get { return m_FontSize; }
-            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// font style.
-        /// 文字字体的风格。
-        /// </summary>
-        public FontStyle fontStyle
-        {
-            get { return m_FontStyle; }
-            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Margin, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
@@ -111,7 +72,7 @@ namespace XCharts
         public string formatter
         {
             get { return m_Formatter; }
-            set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -124,7 +85,7 @@ namespace XCharts
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
-            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -134,7 +95,7 @@ namespace XCharts
         public bool showAsPositiveNumber
         {
             get { return m_ShowAsPositiveNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -143,7 +104,7 @@ namespace XCharts
         public bool onZero
         {
             get { return m_OnZero; }
-            set { if (PropertyUtility.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -153,6 +114,16 @@ namespace XCharts
         {
             get { return m_TextLimit; }
             set { if (value != null) { m_TextLimit = value; SetComponentDirty(); } }
+        }
+
+        /// <summary>
+        /// The text style of axis name.
+        /// 文本样式。
+        /// </summary>
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
         }
 
         public override bool componentDirty { get { return m_ComponentDirty || m_TextLimit.componentDirty; } }
@@ -171,11 +142,8 @@ namespace XCharts
                     m_Show = true,
                     m_Interval = 0,
                     m_Inside = false,
-                    m_Rotate = 0,
                     m_Margin = 8,
-                    m_Color = Color.clear,
-                    m_FontSize = 18,
-                    m_FontStyle = FontStyle.Normal
+                    m_TextStyle = new TextStyle(),
                 };
             }
         }
@@ -187,12 +155,10 @@ namespace XCharts
             axisLable.formatter = formatter;
             axisLable.interval = interval;
             axisLable.inside = inside;
-            axisLable.rotate = rotate;
             axisLable.margin = margin;
-            axisLable.color = color;
-            axisLable.fontSize = fontSize;
             axisLable.numericFormatter = numericFormatter;
             axisLable.textLimit = textLimit.Clone();
+            axisLable.textStyle.Copy(textStyle);
             return axisLable;
         }
 
@@ -202,15 +168,13 @@ namespace XCharts
             formatter = axisLable.formatter;
             interval = axisLable.interval;
             inside = axisLable.inside;
-            rotate = axisLable.rotate;
             margin = axisLable.margin;
-            color = axisLable.color;
-            fontSize = axisLable.fontSize;
             numericFormatter = axisLable.numericFormatter;
             textLimit.Copy(axisLable.textLimit);
+            textStyle.Copy(axisLable.textStyle);
         }
 
-        public void SetRelatedText(Text txt, float labelWidth)
+        public void SetRelatedText(ChartText txt, float labelWidth)
         {
             m_TextLimit.SetRelatedText(txt, labelWidth);
         }

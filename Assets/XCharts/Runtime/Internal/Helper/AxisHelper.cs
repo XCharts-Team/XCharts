@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +12,6 @@ namespace XCharts
 {
     public static class AxisHelper
     {
-        public static float GetTickWidth(Axis axis)
-        {
-            return axis.axisTick.width != 0 ? axis.axisTick.width : axis.axisLine.width;
-        }
 
         /// <summary>
         /// 包含箭头偏移的轴线长度
@@ -24,9 +20,9 @@ namespace XCharts
         /// <returns></returns>
         public static float GetAxisLineSymbolOffset(Axis axis)
         {
-            if (axis.axisLine.show && axis.axisLine.symbol && axis.axisLine.symbolOffset > 0)
+            if (axis.axisLine.show && axis.axisLine.showArrow && axis.axisLine.arrow.offset > 0)
             {
-                return axis.axisLine.symbolOffset;
+                return axis.axisLine.arrow.offset;
             }
             return 0;
         }
@@ -115,7 +111,7 @@ namespace XCharts
             if (axis.type == Axis.AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
-                float value = 0;
+                var value = 0f;
                 if (forcePercent) maxValue = 100;
                 if (axis.interval > 0)
                 {
@@ -124,7 +120,7 @@ namespace XCharts
                 }
                 else
                 {
-                    value = (minValue + (maxValue - minValue) * index / split);
+                    value = minValue + (maxValue - minValue) * index / split;
                     if (!axis.clockwise && value != minValue) value = maxValue - value;
                 }
                 if (axis.inverse)
@@ -133,6 +129,7 @@ namespace XCharts
                     minValue = -minValue;
                     maxValue = -maxValue;
                 }
+
                 if (forcePercent) return string.Format("{0}%", (int)value);
                 else return axis.axisLabel.GetFormatterContent(value, minValue, maxValue);
             }
@@ -324,11 +321,11 @@ namespace XCharts
             else return true;
         }
 
-        internal static void AdjustCircleLabelPos(Text txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        internal static void AdjustCircleLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
         {
-            var txtWidth = txt.preferredWidth;
-            var sizeDelta = new Vector2(txtWidth, txt.preferredHeight);
-            txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+            var txtWidth = txt.GetPreferredWidth();
+            var sizeDelta = new Vector2(txtWidth, txt.GetPreferredHeight());
+            txt.SetSizeDelta(sizeDelta);
             var diff = pos.x - cenPos.x;
             if (diff < -1f) //left
             {
@@ -343,14 +340,14 @@ namespace XCharts
                 float y = pos.y > cenPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
                 pos = new Vector3(pos.x, y);
             }
-            txt.transform.localPosition = pos + offset;
+            txt.SetLocalPosition(pos + offset);
         }
 
-        internal static void AdjustRadiusAxisLabelPos(Text txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        internal static void AdjustRadiusAxisLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
         {
-            var txtWidth = txt.preferredWidth;
-            var sizeDelta = new Vector2(txtWidth, txt.preferredHeight);
-            txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+            var txtWidth = txt.GetPreferredWidth();
+            var sizeDelta = new Vector2(txtWidth, txt.GetPreferredHeight());
+            txt.SetSizeDelta(sizeDelta);
             var diff = pos.y - cenPos.y;
             if (diff > 20f) //left
             {
@@ -365,7 +362,7 @@ namespace XCharts
                 float y = pos.y > cenPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
                 pos = new Vector3(pos.x, y);
             }
-            txt.transform.localPosition = pos;
+            txt.SetLocalPosition(pos);
         }
     }
 }

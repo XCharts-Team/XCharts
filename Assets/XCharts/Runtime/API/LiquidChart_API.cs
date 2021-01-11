@@ -1,17 +1,18 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
 {
-    public partial class LiquidChart
+    public partial class BaseChart
     {
+        public Vessel vessel { get { return m_Vessels.Count > 0 ? m_Vessels[0] : null; } }
         /// <summary>
         /// 容器组件列表。
         /// </summary>

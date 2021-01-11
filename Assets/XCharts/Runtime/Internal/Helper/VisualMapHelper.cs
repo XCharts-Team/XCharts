@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -80,22 +80,24 @@ namespace XCharts
                 case VisualMap.Direction.X:
                     var min = axis.runtimeMinValue;
                     var max = axis.runtimeMaxValue;
-                    value = min + (pos.x - chart.coordinateX) / chart.coordinateWidth * (max - min);
+                    var grid = chart.GetAxisGridOrDefault(axis);
+                    value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
                     break;
                 case VisualMap.Direction.Y:
                     if (axis is YAxis)
                     {
-                        var yAxis = chart.xAxises[axis.index];
+                        var yAxis = chart.xAxes[axis.index];
                         min = yAxis.runtimeMinValue;
                         max = yAxis.runtimeMaxValue;
                     }
                     else
                     {
-                        var yAxis = chart.yAxises[axis.index];
+                        var yAxis = chart.yAxes[axis.index];
                         min = yAxis.runtimeMinValue;
                         max = yAxis.runtimeMaxValue;
                     }
-                    value = min + (pos.y - chart.coordinateY) / chart.coordinateHeight * (max - min);
+                    grid = chart.GetAxisGridOrDefault(axis);
+                    value = min + (pos.y - grid.runtimeY) / grid.runtimeHeight * (max - min);
                     break;
             }
             var color = visualMap.GetColor(value);
@@ -107,7 +109,8 @@ namespace XCharts
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;
-            var value = min + (pos.x - chart.coordinateX) / chart.coordinateWidth * (max - min);
+            var grid = chart.GetAxisGridOrDefault(axis);
+            var value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
             var rate = (value - min) / (max - min);
             var color = itemStyle.GetGradientColor(rate, defaultColor);
             if (ChartHelper.IsClearColor(color)) return defaultColor;
@@ -118,7 +121,8 @@ namespace XCharts
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;
-            var value = min + (pos.x - chart.coordinateX) / chart.coordinateWidth * (max - min);
+            var grid = chart.GetAxisGridOrDefault(axis);
+            var value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
             var rate = (value - min) / (max - min);
             var color = lineStyle.GetGradientColor(rate, defaultColor);
             if (ChartHelper.IsClearColor(color)) return defaultColor;

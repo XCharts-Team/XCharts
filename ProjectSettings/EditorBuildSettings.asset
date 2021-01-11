@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/XChartsDemo/demo_xchart.unity
+    path: Assets/XChartsDemo/xcharts_demo.unity
     guid: 5adbd6df9174d6943b7eb8d23651ffd1
   m_configObjects: {}

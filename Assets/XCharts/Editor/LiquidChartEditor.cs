@@ -16,19 +16,5 @@ namespace XCharts
     [CustomEditor(typeof(LiquidChart), false)]
     public class LiquidChartEditor : BaseChartEditor
     {
-        protected SerializedProperty m_Vessels;
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            m_Target = (LiquidChart)target;
-            m_Vessels = serializedObject.FindProperty("m_Vessels");
-        }
-
-        protected override void OnStartInspectorGUI()
-        {
-            base.OnStartInspectorGUI();
-            EditorGUILayout.PropertyField(m_Vessels, true);
-        }
     }
 }

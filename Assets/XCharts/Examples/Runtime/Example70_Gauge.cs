@@ -1,10 +1,10 @@
 ﻿using System.Runtime.InteropServices;
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 
 using UnityEngine;
@@ -47,7 +47,7 @@ namespace XCharts.Examples
             serie.label.offset = new Vector3(0, -20);
 
             serie.gaugeAxis.show = true;
-            serie.gaugeAxis.axisLine.width = 15;
+            serie.gaugeAxis.axisLine.lineStyle.width = 15;
 
             serie.gaugePointer.show = true;
             serie.gaugePointer.width = 15;

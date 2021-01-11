@@ -1,10 +1,10 @@
 /*
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace XCharts
     {
         [SerializeField] private bool m_Show;
         [FormerlySerializedAs("m_textStyle")]
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18);
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         /// <summary>
         /// Whether to show title.
@@ -31,7 +31,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace XCharts
         public TextStyle textStyle
         {
             get { return m_TextStyle; }
-            set { if (PropertyUtility.SetClass(ref m_TextStyle, value, true)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_TextStyle, value, true)) SetComponentDirty(); }
         }
 
         public override bool componentDirty { get { return m_ComponentDirty || textStyle.componentDirty; } }
@@ -52,7 +52,7 @@ namespace XCharts
             textStyle.ClearComponentDirty();
         }
 
-        public Text runtimeText { get; set; }
+        public ChartText runtimeText { get; set; }
 
         public bool IsInited()
         {
@@ -61,26 +61,28 @@ namespace XCharts
 
         public void SetActive(bool active)
         {
-            if (runtimeText)
+            if (runtimeText != null)
             {
-                ChartHelper.SetActive(runtimeText, active);
+                runtimeText.SetActive(active);
             }
         }
 
         public void UpdatePosition(Vector3 pos)
         {
-            if (runtimeText)
+            if (runtimeText != null)
             {
-                runtimeText.transform.localPosition = pos + new Vector3(m_TextStyle.offset.x, m_TextStyle.offset.y);
+                runtimeText.SetLocalPosition(pos + new Vector3(m_TextStyle.offset.x, m_TextStyle.offset.y));
             }
         }
 
         public void SetText(string text)
         {
-            if (runtimeText && !runtimeText.text.Equals(text))
+            if (runtimeText == null) return;
+            var oldText = runtimeText.GetText();
+            if (oldText != null && !oldText.Equals(text))
             {
-                if (!ChartHelper.IsClearColor(textStyle.color)) runtimeText.color = textStyle.color;
-                runtimeText.text = text;
+                if (!ChartHelper.IsClearColor(textStyle.color)) runtimeText.SetColor(textStyle.color);
+                runtimeText.SetText(text);
             }
         }
     }

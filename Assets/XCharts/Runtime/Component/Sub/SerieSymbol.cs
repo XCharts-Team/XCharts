@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,8 +81,8 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] private SerieSymbolType m_Type = SerieSymbolType.EmptyCircle;
         [SerializeField] private SerieSymbolSizeType m_SizeType = SerieSymbolSizeType.Custom;
-        [SerializeField] private float m_Size = 6f;
-        [SerializeField] private float m_SelectedSize = 10f;
+        [SerializeField] private float m_Size = 0f;
+        [SerializeField] private float m_SelectedSize = 0f;
         [SerializeField] private int m_DataIndex = 1;
         [SerializeField] private float m_DataScale = 1;
         [SerializeField] private float m_SelectedDataScale = 1.5f;
@@ -98,8 +98,8 @@ namespace XCharts
             m_Show = false;
             m_Type = SerieSymbolType.EmptyCircle;
             m_SizeType = SerieSymbolSizeType.Custom;
-            m_Size = 6f;
-            m_SelectedDataScale = 10f;
+            m_Size = 0f;
+            m_SelectedSize = 0f;
             m_DataIndex = 1;
             m_DataScale = 1;
             m_SelectedDataScale = 1.5f;
@@ -118,7 +118,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the type of symbol.
@@ -127,7 +127,7 @@ namespace XCharts
         public SerieSymbolType type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of symbol size.
@@ -136,7 +136,7 @@ namespace XCharts
         public SerieSymbolSizeType sizeType
         {
             get { return m_SizeType; }
-            set { if (PropertyUtility.SetStruct(ref m_SizeType, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SizeType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the size of symbol.
@@ -145,7 +145,7 @@ namespace XCharts
         public float size
         {
             get { return m_Size; }
-            set { if (PropertyUtility.SetStruct(ref m_Size, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Size, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the size of selected symbol.
@@ -154,7 +154,7 @@ namespace XCharts
         public float selectedSize
         {
             get { return m_SelectedSize; }
-            set { if (PropertyUtility.SetStruct(ref m_SelectedSize, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SelectedSize, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// whitch data index is when the sizeType assined as FromData.
@@ -163,7 +163,7 @@ namespace XCharts
         public int dataIndex
         {
             get { return m_DataIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_DataIndex, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_DataIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the scale of data when sizeType assined as FromData.
@@ -172,7 +172,7 @@ namespace XCharts
         public float dataScale
         {
             get { return m_DataScale; }
-            set { if (PropertyUtility.SetStruct(ref m_DataScale, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_DataScale, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the scale of selected data when sizeType assined as FromData.
@@ -181,7 +181,7 @@ namespace XCharts
         public float selectedDataScale
         {
             get { return m_SelectedDataScale; }
-            set { if (PropertyUtility.SetStruct(ref m_SelectedDataScale, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SelectedDataScale, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the callback of size when sizeType assined as Callback.
@@ -190,7 +190,7 @@ namespace XCharts
         public SymbolSizeCallback sizeCallback
         {
             get { return m_SizeCallback; }
-            set { if (PropertyUtility.SetClass(ref m_SizeCallback, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_SizeCallback, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the callback of size when sizeType assined as Callback.
@@ -199,7 +199,7 @@ namespace XCharts
         public SymbolSizeCallback selectedSizeCallback
         {
             get { return m_SelectedSizeCallback; }
-            set { if (PropertyUtility.SetClass(ref m_SelectedSizeCallback, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_SelectedSizeCallback, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the index start to show symbol.
@@ -208,7 +208,7 @@ namespace XCharts
         public int startIndex
         {
             get { return m_StartIndex; }
-            set { if (PropertyUtility.SetStruct(ref m_StartIndex, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_StartIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the interval of show symbol.
@@ -217,7 +217,7 @@ namespace XCharts
         public int interval
         {
             get { return m_Interval; }
-            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// whether to show the last symbol.
@@ -226,7 +226,7 @@ namespace XCharts
         public bool forceShowLast
         {
             get { return m_ForceShowLast; }
-            set { if (PropertyUtility.SetStruct(ref m_ForceShowLast, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_ForceShowLast, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the gap of symbol and line segment.
@@ -235,7 +235,7 @@ namespace XCharts
         public float gap
         {
             get { return m_Gap; }
-            set { if (PropertyUtility.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
         }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
@@ -249,26 +249,25 @@ namespace XCharts
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public float GetSize(List<float> data)
+        public float GetSize(List<float> data, float themeSize)
         {
-            if (data == null) return size;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
-                    return size;
+                    return size == 0 ? themeSize : size;
                 case SerieSymbolSizeType.FromData:
-                    if (dataIndex >= 0 && dataIndex < data.Count)
+                    if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
                         return data[dataIndex] * m_DataScale;
                     }
                     else
                     {
-                        return size;
+                        return size == 0 ? themeSize : size;
                     }
                 case SerieSymbolSizeType.Callback:
-                    if (sizeCallback != null) return sizeCallback(data);
-                    else return size;
-                default: return size;
+                    if (data != null && sizeCallback != null) return sizeCallback(data);
+                    else return size == 0 ? themeSize : size;
+                default: return size == 0 ? themeSize : size;
             }
         }
 
@@ -277,26 +276,25 @@ namespace XCharts
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public float GetSelectedSize(List<float> data)
+        public float GetSelectedSize(List<float> data, float themeSelectedSize)
         {
-            if (data == null) return selectedSize;
             switch (m_SizeType)
             {
                 case SerieSymbolSizeType.Custom:
-                    return selectedSize;
+                    return selectedSize == 0 ? themeSelectedSize : selectedSize;
                 case SerieSymbolSizeType.FromData:
-                    if (dataIndex >= 0 && dataIndex < data.Count)
+                    if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
                         return data[dataIndex] * m_SelectedDataScale;
                     }
                     else
                     {
-                        return selectedSize;
+                        return selectedSize == 0 ? themeSelectedSize : selectedSize;
                     }
                 case SerieSymbolSizeType.Callback:
-                    if (selectedSizeCallback != null) return selectedSizeCallback(data);
-                    else return selectedSize;
-                default: return selectedSize;
+                    if (data != null && selectedSizeCallback != null) return selectedSizeCallback(data);
+                    else return selectedSize == 0 ? themeSelectedSize : selectedSize;
+                default: return selectedSize == 0 ? themeSelectedSize : selectedSize;
             }
         }
 

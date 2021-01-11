@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -64,10 +64,25 @@ namespace XCharts
             /// </summary>
             Custom
         }
+        /// <summary>
+        /// the position of axis in grid.
+        /// 坐标轴在Grid中的位置
+        /// </summary>
+        public enum AxisPosition
+        {
+            Left,
+            Right,
+            Bottom,
+            Top
+        }
 
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
+        [SerializeField] protected int m_GridIndex;
+        [SerializeField] protected int m_PolarIndex;
+        [SerializeField] protected AxisPosition m_Position;
+        [SerializeField] protected float m_Offset;
         [SerializeField] protected float m_Min;
         [SerializeField] protected float m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
@@ -97,7 +112,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the type of axis. 
@@ -106,7 +121,7 @@ namespace XCharts
         public AxisType type
         {
             get { return m_Type; }
-            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the type of axis minmax.
@@ -115,7 +130,43 @@ namespace XCharts
         public AxisMinMaxType minMaxType
         {
             get { return m_MinMaxType; }
-            set { if (PropertyUtility.SetStruct(ref m_MinMaxType, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_MinMaxType, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The index of the grid on which the axis are located, by default, is in the first grid.
+        /// 坐标轴所在的 grid 的索引，默认位于第一个 grid。
+        /// </summary>
+        public int gridIndex
+        {
+            get { return m_GridIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_GridIndex, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The index of the polar on which the axis are located, by default, is in the first polar.
+        /// 坐标轴所在的 ploar 的索引，默认位于第一个 polar。
+        /// </summary>
+        public int polarIndex
+        {
+            get { return m_PolarIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_PolarIndex, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the position of axis in grid.
+        /// 坐标轴在Grid中的位置。
+        /// </summary>
+        public AxisPosition position
+        {
+            get { return m_Position; }
+            set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the offset of axis from the default position. Useful when the same position has multiple axes.
+        /// 坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
+        /// </summary>
+        public float offset
+        {
+            get { return m_Offset; }
+            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The minimun value of axis.Valid when `minMaxType` is `Custom`
@@ -124,7 +175,7 @@ namespace XCharts
         public float min
         {
             get { return m_Min; }
-            set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The maximum value of axis.Valid when `minMaxType` is `Custom`
@@ -133,7 +184,7 @@ namespace XCharts
         public float max
         {
             get { return m_Max; }
-            set { if (PropertyUtility.SetStruct(ref m_Max, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Max, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Number of segments that the axis is split into.
@@ -142,7 +193,7 @@ namespace XCharts
         public int splitNumber
         {
             get { return m_SplitNumber; }
-            set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
@@ -151,7 +202,7 @@ namespace XCharts
         public float interval
         {
             get { return m_Interval; }
-            set { if (PropertyUtility.SetStruct(ref m_Interval, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'. 
@@ -160,7 +211,7 @@ namespace XCharts
         public bool boundaryGap
         {
             get { return IsCategory() ? m_BoundaryGap : false; }
-            set { if (PropertyUtility.SetStruct(ref m_BoundaryGap, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_BoundaryGap, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
@@ -172,7 +223,7 @@ namespace XCharts
             set
             {
                 if (value <= 0 || value == 1) value = 10;
-                if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty();
+                if (PropertyUtil.SetStruct(ref m_LogBase, value)) SetAllDirty();
             }
         }
         /// <summary>
@@ -182,7 +233,7 @@ namespace XCharts
         public bool logBaseE
         {
             get { return m_LogBaseE; }
-            set { if (PropertyUtility.SetStruct(ref m_LogBaseE, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LogBaseE, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The max number of axis data cache.
@@ -192,7 +243,7 @@ namespace XCharts
         public int maxCache
         {
             get { return m_MaxCache; }
-            set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
@@ -201,7 +252,7 @@ namespace XCharts
         public int ceilRate
         {
             get { return m_CeilRate; }
-            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
         }
         /// <summary>
         /// Whether the axis are reversed or not. Invalid in `Category` axis.
@@ -210,7 +261,7 @@ namespace XCharts
         public bool inverse
         {
             get { return m_Inverse; }
-            set { if (m_Type == AxisType.Value && PropertyUtility.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
+            set { if (m_Type == AxisType.Value && PropertyUtil.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Whether the positive position of axis is in clockwise. True for clockwise by default.
@@ -219,7 +270,7 @@ namespace XCharts
         public bool clockwise
         {
             get { return m_Clockwise; }
-            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -312,7 +363,7 @@ namespace XCharts
         /// the axis label text list. 
         /// 坐标轴刻度标签的Text列表。
         /// </summary>
-        public List<Text> axisLabelTextList { get { return m_AxisLabelTextList; } set { m_AxisLabelTextList = value; } }
+        public List<ChartText> axisLabelTextList { get { return m_AxisLabelTextList; } set { m_AxisLabelTextList = value; } }
         /// <summary>
         /// the current minimun value.
         /// 当前最小值。
@@ -361,9 +412,9 @@ namespace XCharts
         private int filterEnd;
         private int filterMinShow;
         private List<string> filterData;
-        private List<Text> m_AxisLabelTextList = new List<Text>();
+        private List<ChartText> m_AxisLabelTextList = new List<ChartText>();
         private GameObject m_TooltipLabel;
-        private Text m_TooltipLabelText;
+        private ChartText m_TooltipLabelText;
         private RectTransform m_TooltipLabelRect;
         private float m_RuntimeMinValue;
         private float m_RuntimeLastMinValue;
@@ -381,6 +432,7 @@ namespace XCharts
             var axis = new Axis();
             axis.show = show;
             axis.type = type;
+            axis.gridIndex = 0;
             axis.minMaxType = minMaxType;
             axis.min = min;
             axis.max = max;
@@ -407,6 +459,7 @@ namespace XCharts
             show = axis.show;
             type = axis.type;
             minMaxType = axis.minMaxType;
+            gridIndex = axis.gridIndex;
             min = axis.min;
             max = axis.max;
             splitNumber = axis.splitNumber;
@@ -514,7 +567,7 @@ namespace XCharts
         /// <returns></returns>
         internal List<string> GetDataList(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable)
+            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxisIndex(index))
             {
                 UpdateFilterData(dataZoom);
                 return filterData;
@@ -532,7 +585,7 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         internal void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable)
+            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxisIndex(index))
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
@@ -593,7 +646,7 @@ namespace XCharts
                 if (axisLabelTextList[i] != null)
                 {
                     var text = AxisHelper.GetLabelName(this, coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
-                    axisLabelTextList[i].text = text;
+                    axisLabelTextList[i].SetText(text);
                 }
             }
         }
@@ -602,31 +655,28 @@ namespace XCharts
         {
             m_TooltipLabel = label;
             m_TooltipLabelRect = label.GetComponent<RectTransform>();
-            m_TooltipLabelText = label.GetComponentInChildren<Text>();
+            m_TooltipLabelText = new ChartText(label);
             ChartHelper.SetActive(m_TooltipLabel, true);
         }
 
         internal void SetTooltipLabelColor(Color bgColor, Color textColor)
         {
             m_TooltipLabel.GetComponent<Image>().color = bgColor;
-            m_TooltipLabelText.color = textColor;
+            m_TooltipLabelText.SetColor(textColor);
         }
 
         internal void SetTooltipLabelActive(bool flag)
         {
-            if (m_TooltipLabel && m_TooltipLabel.activeInHierarchy != flag)
-            {
-                ChartHelper.SetActive(m_TooltipLabel, flag);
-            }
+            ChartHelper.SetActive(m_TooltipLabel, flag);
         }
 
         internal void UpdateTooptipLabelText(string text)
         {
-            if (m_TooltipLabelText)
+            if (m_TooltipLabelText != null)
             {
-                m_TooltipLabelText.text = text;
-                m_TooltipLabelRect.sizeDelta = new Vector2(m_TooltipLabelText.preferredWidth + 8,
-                    m_TooltipLabelText.preferredHeight + 8);
+                m_TooltipLabelText.SetText(text);
+                m_TooltipLabelRect.sizeDelta = new Vector2(m_TooltipLabelText.GetPreferredWidth() + 8,
+                    m_TooltipLabelText.GetPreferredHeight() + 8);
             }
         }
 
@@ -753,10 +803,24 @@ namespace XCharts
             return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
         }
 
-        public override void ParseJsonData(string jsonData)
+        public bool IsLeft()
         {
-            if (string.IsNullOrEmpty(jsonData) || !m_DataFromJson) return;
-            m_Data = ChartHelper.ParseStringFromString(jsonData);
+            return position == AxisPosition.Left;
+        }
+
+        public bool IsRight()
+        {
+            return position == AxisPosition.Right;
+        }
+
+        public bool IsTop()
+        {
+            return position == AxisPosition.Top;
+        }
+
+        public bool IsBottom()
+        {
+            return position == AxisPosition.Bottom;
         }
     }
 
@@ -780,13 +844,15 @@ namespace XCharts
                     m_Max = 0,
                     m_SplitNumber = 5,
                     m_BoundaryGap = true,
+                    m_Position = AxisPosition.Bottom,
+                    m_Offset = 0,
                     m_Data = new List<string>()
                     {
                         "x1","x2","x3","x4","x5"
                     }
                 };
                 axis.splitLine.show = false;
-                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
+                axis.splitLine.lineStyle.type = LineStyle.Type.None;
                 axis.axisLabel.textLimit.enable = true;
                 return axis;
             }
@@ -813,10 +879,11 @@ namespace XCharts
                     m_Max = 0,
                     m_SplitNumber = 5,
                     m_BoundaryGap = false,
+                    m_Position = AxisPosition.Left,
                     m_Data = new List<string>(5),
                 };
                 axis.splitLine.show = true;
-                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
+                axis.splitLine.lineStyle.type = LineStyle.Type.None;
                 axis.axisLabel.textLimit.enable = false;
                 return axis;
             }
@@ -868,7 +935,7 @@ namespace XCharts
         public float startAngle
         {
             get { return m_StartAngle; }
-            set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
         }
 
         public float runtimeStartAngle { get; set; }
@@ -881,9 +948,9 @@ namespace XCharts
                 {
                     m_Show = true,
                     m_Type = AxisType.Value,
-                    m_SplitNumber = 13,
+                    m_SplitNumber = 12,
                     m_BoundaryGap = false,
-                    m_Data = new List<string>(13),
+                    m_Data = new List<string>(12),
                 };
                 axis.splitLine.show = true;
                 axis.splitLine.lineStyle.type = LineStyle.Type.Solid;

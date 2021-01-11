@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -207,7 +207,6 @@ namespace XCharts.Examples
             chart.dataZoom.enable = true;
             chart.dataZoom.supportInside = true;
             chart.dataZoom.supportSlider = true;
-            chart.dataZoom.height = 30;
             chart.dataZoom.start = 0;
             chart.dataZoom.end = 100;
 
@@ -279,7 +278,7 @@ namespace XCharts.Examples
             chart.visualMap.inRange.Clear();
             foreach (var str in colors)
             {
-                chart.visualMap.inRange.Add(ThemeInfo.GetColor(str));
+                chart.visualMap.inRange.Add(ChartTheme.GetColor(str));
             }
             chart.grid.left = 80;
             chart.grid.bottom = 100;

@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using System.Linq;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace XCharts
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private List<float> m_Data = new List<float>();
 
-        public LabelObject labelObject { get; set; }
+        public ChartLabel labelObject { get; set; }
 
         private bool m_Show = true;
         private float m_RtPieOutsideRadius;
@@ -169,6 +169,7 @@ namespace XCharts
         public Vector3 runtimePosition { get; internal set; }
         public float runtimeAngle { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
+        public float runtimeStackHig { get; internal set; }
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();

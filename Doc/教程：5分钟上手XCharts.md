@@ -13,12 +13,12 @@
 
 如果你要将 `XCharts` 加入你的项目中，可以在[Github](https://github.com/monitor1394/unity-ugui-XCharts)上下载最新的 [release](https://github.com/monitor1394/unity-ugui-XCharts/releases)稳定版本，这里一般会包含`XCharts`和`XChartsDemo`两个`unitypackage`，将 `XCharts` 通过 `Unity` 导入到你的项目中，`XChartsDemo` 是示例`Demo`，可视情况导入。或下载 `Source Code` 解压后将内部的 `XCharts` 文件夹拷贝到你项目的 `Assets` 目录下。
 
-如果你是`Unity 2018.3`及以上版本，可通过Package Manager来安装XCharts包，通过此方式导入的包只包含`XCharts`核心部分，不包含`XChartsDemo`示例`Demo`部分。具体操作步骤如下：
+如果你是`Unity 2018.3`及以上版本，可通过`Package Manager`来安装`XCharts`包，通过此方式导入的包只包含`XCharts`核心部分，不包含`XChartsDemo`示例`Demo`部分。具体操作步骤如下：
 
  1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
 
 ``` json
-     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
 ```
 
  2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
@@ -77,19 +77,19 @@ chart.legend.show = false;
 设置是否使用双坐标轴和坐标轴类型：
 
 ```C#
-chart.xAxises[0].show = true;
-chart.xAxises[1].show = false;
-chart.yAxises[0].show = true;
-chart.yAxises[1].show = false;
-chart.xAxises[0].type = Axis.AxisType.Category;
-chart.yAxises[0].type = Axis.AxisType.Value;
+chart.xAxes[0].show = true;
+chart.xAxes[1].show = false;
+chart.yAxes[0].show = true;
+chart.yAxes[1].show = false;
+chart.xAxes[0].type = Axis.AxisType.Category;
+chart.yAxes[0].type = Axis.AxisType.Value;
 ```
 
 设置坐标轴分割线：
 
 ```C#
-chart.xAxises[0].splitNumber = 10;
-chart.xAxises[0].boundaryGap = true;
+chart.xAxes[0].splitNumber = 10;
+chart.xAxes[0].boundaryGap = true;
 ```
 
 清空数据，添加`Line`类型的`Serie`用于接收数据：

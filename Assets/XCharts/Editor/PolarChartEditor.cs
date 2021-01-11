@@ -1,9 +1,9 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+﻿/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 
@@ -12,29 +12,29 @@ namespace XCharts
     /// <summary>
     /// Editor class used to edit UI PolarChart.
     /// </summary>
-
     [CustomEditor(typeof(PolarChart), false)]
     public class PolarChartEditor : BaseChartEditor
     {
-        protected SerializedProperty m_Polar;
-        protected SerializedProperty m_RadiusAxis;
-        protected SerializedProperty m_AngleAxis;
+        protected SerializedProperty m_Polars;
+        protected SerializedProperty m_RadiusAxes;
+        protected SerializedProperty m_AngleAxes;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            m_Target = (PolarChart)target;
-            m_Polar = serializedObject.FindProperty("m_Polar");
-            m_RadiusAxis = serializedObject.FindProperty("m_RadiusAxis");
-            m_AngleAxis = serializedObject.FindProperty("m_AngleAxis");
+            m_Chart = (PolarChart)target;
+            m_Polars = serializedObject.FindProperty("m_Polars");
+            m_RadiusAxes = serializedObject.FindProperty("m_RadiusAxes");
+            m_AngleAxes = serializedObject.FindProperty("m_AngleAxes");
         }
 
         protected override void OnStartInspectorGUI()
         {
             base.OnStartInspectorGUI();
-            EditorGUILayout.PropertyField(m_Polar, true);
-            EditorGUILayout.PropertyField(m_RadiusAxis, true);
-            EditorGUILayout.PropertyField(m_AngleAxis, true);
+            var showAll = m_MultiComponentMode.boolValue;
+            BlockListField(showAll, m_Polars);
+            BlockListField(showAll, m_RadiusAxes);
+            BlockListField(showAll, m_AngleAxes);
         }
     }
 }

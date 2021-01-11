@@ -1,9 +1,9 @@
-/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
 
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 
 namespace XCharts
 {
-    public class XChartEditor : EditorWindow
+    public class XChartEditor : Editor
     {
         private static Transform GetParent()
         {
@@ -140,6 +140,24 @@ namespace XCharts
         public static void AddLiquidChart()
         {
             AddChart<LiquidChart>("LiquidChart");
+        }
+
+        [MenuItem("XCharts/Themes Reload")]
+        public static void ReloadTheme()
+        {
+            XChartsMgr.Instance.LoadThemesFromResources();
+        }
+
+        [MenuItem("XCharts/TextMeshPro Enable")]
+        public static void EnableTextMeshPro()
+        {
+            XChartsMgr.EnableTextMeshPro();
+        }
+
+        [MenuItem("XCharts/TextMeshPro Disable")]
+        public static void DisableTextMeshPro()
+        {
+            XChartsMgr.DisableTextMeshPro();
         }
     }
 }

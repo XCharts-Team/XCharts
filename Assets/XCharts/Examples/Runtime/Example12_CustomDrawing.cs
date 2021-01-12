@@ -30,8 +30,8 @@ namespace XCharts.Examples
                     var pos = dataPoints[3];
                     var zeroPos = new Vector3(chart.grid.runtimeX, chart.grid.runtimeY);
                     var startPos = new Vector3(pos.x, zeroPos.y);
-                    var endPos = new Vector3(pos.x, zeroPos.y + chart.grid.runtimeWidth);
-                    UGL.DrawLine(vh, startPos, endPos, 1, Color.blue);
+                    var endPos = new Vector3(pos.x, zeroPos.y + chart.grid.runtimeHeight);
+                    UGL.DrawLine(vh, startPos, endPos, chart.theme.serie.lineWidth, Color.blue);
                     UGL.DrawCricle(vh, pos, 5, Color.blue);
                 }
             };

@@ -9,8 +9,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 [English Documents](Assets/XCharts/README.md)  
 
----
-
 ## XCharts 2.0
 
 * 底层重构，分层绘制，优化可扩展性，支持更多数据。
@@ -21,8 +19,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 * 支持全局配置参数调整。
 * 更友好的编辑界面。
 * 其他细节优化。
-
----
 
 一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
 

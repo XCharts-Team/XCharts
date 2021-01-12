@@ -5,17 +5,16 @@
 [![downloads per month](http://img.shields.io/npm/dm/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![qq](https://img.shields.io/badge/QQ群-202030963-green)
 
----
+## XCharts 2.0
 
-__XCharts 2.0 is comming soon!__
-
-* Framework reconstruction, layered rendering, support more data
-* Support TextMeshPro
-* Support multi-chart, multi-component mode
-* A friendlier editing interface
-* More …
-
----
+* Framework reconstruction, layered rendering, optimized scalability, support more data.
+* Support for TextMeshPro.
+* Support for multi-component patterns.
+* Support for any combination of most charts.
+* Support theme customization, import and export, and more theme configuration parameters.
+* Support global adjustment of configuration parameters.
+* Better editing interface.
+* Other details optimized.
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, gauge, ring, polar, liquid and other common chart.
 
@@ -127,7 +126,7 @@ The following is the relationship structure of LineChart:
 * Download the source code or `unitypackage` to import into your project. If `Unity` version are `2018.3` or above, it is recommended to import packages through `Package Manager`:
   1. Open the `manifest.json` file under `Packages` directory and add under `dependencies`:
   ``` json
-     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
   ```
   2. Going back to `Unity`, it may take 3 to 5 minutes to download.
   3. If you want to delete `XCharts`, just delete the content added in step 1.

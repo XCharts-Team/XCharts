@@ -17,12 +17,21 @@ public class ChartEditorHelper
     public const float ARROW_WIDTH = 13;
     public const float GAP_WIDTH = 0;
 #endif
-    public static GUIStyle headerStyle = EditorStyles.boldLabel;
-    public static GUIStyle foldoutStyle = new GUIStyle(EditorStyles.foldout)
+
+    private class Styles
     {
-        font = headerStyle.font,
-        fontStyle = headerStyle.fontStyle,
-    };
+        public static readonly GUIStyle headerStyle = EditorStyles.boldLabel;
+        public static readonly GUIStyle foldoutStyle = new GUIStyle(EditorStyles.foldout)
+        {
+            font = headerStyle.font,
+            fontStyle = headerStyle.fontStyle,
+        };
+        public static readonly GUIContent iconAdd = EditorGUIUtility.TrIconContent("Toolbar Plus", "Add");
+        public static readonly GUIContent iconRemove = EditorGUIUtility.TrIconContent("Toolbar Minus", "Remove");
+        public static readonly GUIContent iconUp = new GUIContent("↑", "Up");
+        public static readonly GUIContent iconDown = new GUIContent("↓", "Down");
+        public static readonly GUIStyle invisibleButton = "InvisibleButton";
+    }
 
     public static void SecondField(Rect drawRect, SerializedProperty prop)
     {
@@ -126,7 +135,7 @@ public class ChartEditorHelper
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
         drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
-        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? foldoutStyle : EditorStyles.foldout);
+        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? Styles.foldoutStyle : EditorStyles.foldout);
         MakeBool(drawRect, prop);
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
@@ -139,7 +148,7 @@ public class ChartEditorHelper
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
         drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
-        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, bold ? foldoutStyle : EditorStyles.foldout);
+        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, bold ? Styles.foldoutStyle : EditorStyles.foldout);
         if (prop != null)
         {
             if (prop.propertyType == SerializedPropertyType.Boolean)
@@ -218,7 +227,7 @@ public class ChartEditorHelper
         drawRect.width = EditorGUIUtility.labelWidth;
 #endif
         var displayName = string.IsNullOrEmpty(moduleName) ? prop.displayName : moduleName;
-        toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? foldoutStyle : EditorStyles.foldout);
+        toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? Styles.foldoutStyle : EditorStyles.foldout);
 
         if (moduleToggle[key] != toggle)
         {
@@ -268,7 +277,7 @@ public class ChartEditorHelper
                 {
                     iconRect.x += BLOCK_WIDTH;
                 }
-                if (GUI.Button(iconRect, new GUIContent("+", "add")))
+                if (GUI.Button(iconRect, Styles.iconAdd, Styles.invisibleButton))
                 {
                     if (listProp.displayName.Equals("Series"))
                     {
@@ -336,7 +345,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, new GUIContent("↑", "up")))
+                    if (GUI.Button(iconRect, Styles.iconUp, Styles.invisibleButton))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
@@ -345,7 +354,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, new GUIContent("↓", "down")))
+                    if (GUI.Button(iconRect, Styles.iconDown, Styles.invisibleButton))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
@@ -354,7 +363,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, new GUIContent("-", "delete")))
+                    if (GUI.Button(iconRect, Styles.iconRemove, Styles.invisibleButton))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
                     }
@@ -385,7 +394,7 @@ public class ChartEditorHelper
             {
                 EditorGUILayout.BeginHorizontal();
                 listSize = EditorGUILayout.IntField("Size", listSize);
-                if (GUILayout.Button(new GUIContent("+", "add"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                if (GUILayout.Button(Styles.iconAdd, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
                 {
                     listProp.arraySize++;
                 }
@@ -428,15 +437,15 @@ public class ChartEditorHelper
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.PropertyField(element, true);
-                    if (GUILayout.Button(new GUIContent("↑", "up"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    if (GUILayout.Button(Styles.iconUp, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
-                    if (GUILayout.Button(new GUIContent("↓", "down"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    if (GUILayout.Button(Styles.iconDown, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
-                    if (GUILayout.Button(new GUIContent("-", "delete"), GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
+                    if (GUILayout.Button(Styles.iconRemove, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
                     }

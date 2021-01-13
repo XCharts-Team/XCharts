@@ -190,6 +190,11 @@ namespace XCharts
             }
         }
 
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();
+        }
+
         private void InitBackground()
         {
             var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, transform, m_GraphMinAnchor,

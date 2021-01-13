@@ -136,7 +136,7 @@ A: See `Example_Dynamic.cs`.
 
 ## How-do-I-use-the-background-component-What-are-the-conditions
 
-A: Setting `show` to `true` for the `background` component does not necessarily activate the background component. Due to the limitations of the XCharts's framework, there are two prerequisites for the background component: first, the parent node of the chart cannot be controlled by layout, because the node relationship between the background component and the chart is parallel, and the location of the background component cannot be controlled by layout. Second, the parent node of the chart can only have one child node of the chart itself, which is convenient to manage the background component node needs, otherwise the reason of parallel relationship, easy to confuse. In addition, it is best to hide the `background` component when adjusting the chart hierarchy, which automatically removes the associated background component nodes.
+A: Setting `show` to `true` for the `background` component.
 
 ## Mesh-cannot-have-more-than-65000-vertices
 

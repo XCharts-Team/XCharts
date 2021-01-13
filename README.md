@@ -45,16 +45,16 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## 截图
 
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png" width="550" height="auto"/>
+![xcharts-line](Doc/screenshot/xcharts-line.png)
+![xcharts-bar](Doc/screenshot/xcharts-bar.png)
+![xcharts-pie](Doc/screenshot/xcharts-pie.png)
+![xcharts-radar](Doc/screenshot/xcharts-radar.png)
+![xcharts-scatter](Doc/screenshot/xcharts-scatter.png)
+![xcharts-heatmap](Doc/screenshot/xcharts-heatmap.png)
 
 ## 术语
 
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-cheatsheet.gif" />
+![xcharts-cheatsheet](Doc/screenshot/xcharts-cheatsheet.gif)
 
 XCharts的图表由组件和数据组成。不同的组件和数据可以组合成不同类型的图表。组件分为主组件和子组件，主组件包含子组件。  
 
@@ -168,6 +168,6 @@ VIP群：XCharts技术支持VIP群（`867291970`）
 
 企业赞助请备注公司名称。
 
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/alipay.png?raw=true" width="200"  height="auto"/>  
+![xcharts-alipay](Doc/alipay.png)
 
 如需商业技术支持，捐助280¥可加VIP群（`867291970`，验证信息请输入捐助的支付宝账号）。

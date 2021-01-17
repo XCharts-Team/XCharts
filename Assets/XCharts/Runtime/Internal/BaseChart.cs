@@ -308,24 +308,19 @@ namespace XCharts
             base.InitPainter();
             m_PainterList.Clear();
             if (settings == null) return;
+            var sizeDelta = new Vector2(m_GraphWidth, m_GraphHeight);
             for (int i = 0; i < settings.maxPainter; i++)
             {
-                var painterObj = ChartHelper.AddObject("painter_" + i, transform, m_GraphMinAnchor, m_GraphMaxAnchor,
-                    m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight));
-                painterObj.hideFlags = chartHideFlags;
-                painterObj.transform.SetSiblingIndex(2 + i);
-                var painter = ChartHelper.GetOrAddComponent<Painter>(painterObj);
+                var painter = ChartHelper.AddPainterObject("painter_" + i, transform, m_GraphMinAnchor,
+                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + i);
                 painter.index = m_PainterList.Count;
                 painter.type = Painter.Type.Serie;
                 painter.onPopulateMesh = OnDrawPainterSerie;
                 painter.SetActive(false, m_DebugMode);
                 m_PainterList.Add(painter);
             }
-            var painterTopObj = ChartHelper.AddObject("painter_t", transform, m_GraphMinAnchor, m_GraphMaxAnchor,
-                    m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight));
-            painterTopObj.hideFlags = chartHideFlags;
-            painterTopObj.transform.SetSiblingIndex(2 + settings.maxPainter);
-            m_PainterTop = ChartHelper.GetOrAddComponent<Painter>(painterTopObj);
+            m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
+                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
             m_PainterTop.type = Painter.Type.Top;
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugMode);
@@ -684,8 +679,6 @@ namespace XCharts
                 m_Painter.Refresh();
                 foreach (var painter in m_PainterList) painter.Refresh();
                 m_PainterTop.Refresh();
-                //SetAllDirty();
-                //SetVerticesDirty();
                 m_RefreshChart = false;
             }
         }
@@ -826,7 +819,6 @@ namespace XCharts
 
         protected override void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {
-            //Debug.LogError("OnDrawPainterBase:" + Time.frameCount + "," + painter.name);
             vh.Clear();
             DrawBackground(vh);
             DrawPainterBase(vh);
@@ -835,7 +827,6 @@ namespace XCharts
 
         protected virtual void OnDrawPainterSerie(VertexHelper vh, Painter painter)
         {
-            //Debug.LogError("OnDrawPainterSerie:" + Time.frameCount + "," + painter.name);
             vh.Clear();
             var maxPainter = settings.maxPainter;
             var maxSeries = m_Series.Count;
@@ -851,7 +842,6 @@ namespace XCharts
 
         protected virtual void OnDrawPainterTop(VertexHelper vh, Painter painter)
         {
-            //Debug.LogError("OnDrawPainterTop:" + Time.frameCount + "," + painter.name);
             vh.Clear();
             if (m_OnCustomDrawCallback != null)
             {

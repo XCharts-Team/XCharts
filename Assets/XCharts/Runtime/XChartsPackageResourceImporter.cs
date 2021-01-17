@@ -39,7 +39,6 @@ namespace XCharts
                         AssetDatabase.importPackageCompleted += ImportCallback;
 
                         string packageFullPath = GetPackageFullPath();
-                        Debug.LogError("packageFullPath:" + packageFullPath);
                         AssetDatabase.ImportPackage(packageFullPath + "/Package Resources/XCharts Essential Resources.unitypackage", false);
                     }
                     GUILayout.Space(5f);
@@ -110,7 +109,6 @@ namespace XCharts
             }
 
             packagePath = Path.GetFullPath("Assets/..");
-            Debug.LogError("packagePath:" + packagePath + ":" + Directory.Exists(packagePath));
             if (Directory.Exists(packagePath))
             {
                 // Search default location for development package

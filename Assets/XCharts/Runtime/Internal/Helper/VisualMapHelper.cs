@@ -6,7 +6,6 @@
 /************************************************/
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -38,12 +37,10 @@ namespace XCharts
         {
             if (visualMap.enable && (visualMap.min != min || visualMap.max != max))
             {
-                //Debug.LogError("minmax:"+min+","+max);
                 if (max >= min)
                 {
                     visualMap.min = min;
                     visualMap.max = max;
-                    //Debug.LogError("minmax2222:"+visualMap.min+","+visualMap.max);
                 }
                 else
                 {

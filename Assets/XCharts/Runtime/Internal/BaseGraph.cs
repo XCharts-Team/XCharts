@@ -219,11 +219,8 @@ namespace XCharts
 
         protected virtual void InitPainter()
         {
-            var painterObj = ChartHelper.AddObject("painter_b", transform, m_GraphMinAnchor, m_GraphMaxAnchor,
-            m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight));
-            painterObj.transform.SetSiblingIndex(1);
-            painterObj.hideFlags = chartHideFlags;
-            m_Painter = ChartHelper.GetOrAddComponent<Painter>(painterObj);
+            m_Painter = ChartHelper.AddPainterObject("painter_b", transform, m_GraphMinAnchor,
+                    m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1);
             m_Painter.type = Painter.Type.Base;
             m_Painter.onPopulateMesh = OnDrawPainterBase;
         }
@@ -339,7 +336,6 @@ namespace XCharts
 
         protected virtual void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {
-            Debug.LogError("OnDrawPainterBase:" + Time.frameCount + "," + painter.name);
             DrawBackground(vh);
             DrawPainterBase(vh);
         }

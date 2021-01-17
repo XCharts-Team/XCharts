@@ -365,6 +365,15 @@ namespace XCharts
             return tooltipObj;
         }
 
+        internal static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
+        {
+            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            painterObj.hideFlags = hideFlags;
+            painterObj.transform.SetSiblingIndex(siblingIndex);
+            return ChartHelper.GetOrAddComponent<Painter>(painterObj);
+        }
+
         public static GameObject AddIcon(string name, Transform parent, float width, float height)
         {
             var anchorMax = new Vector2(0.5f, 0.5f);

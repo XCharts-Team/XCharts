@@ -41,16 +41,16 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## Screenshot
 
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png" width="550" height="auto"/>
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png" width="550" height="auto"/>
+![linechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png)
+![barchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png)
+![piechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png)
+![radarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png)
+![scatterchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png)
+![heatmapchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png)
 
 ## Cheat Sheet
 
-<img src="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-cheatsheet.gif" />
+![cheatsheet](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-cheatsheet.gif)
 
 `XCharts` consist of components and data. Different components and data can be combined into different types of charts. The component is divided into main component and sub component. The main component contains the sub components.
 

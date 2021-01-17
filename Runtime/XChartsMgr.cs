@@ -163,7 +163,7 @@ namespace XCharts
 
         private void CheckVersionWebRequest(UnityWebRequest web)
         {
-            if (IsNetworkError(web))
+            if (IsWebRequestError(web))
             {
                 isNetworkError = true;
                 networkError = web.error;
@@ -240,29 +240,18 @@ namespace XCharts
             changeLog = sb.ToString();
         }
 
-#if UNITY_5 || UNITY_2017_1
-        public bool IsNetworkError(UnityWebRequest request)
+        public bool IsWebRequestError(UnityWebRequest request)
         {
-            return request.isError && !IsHttpError(request);
-        }
-#else
-        public bool IsNetworkError(UnityWebRequest request)
-        {
-            return request.isNetworkError;
-        }
-#endif
-
 #if UNITY_5
-        public bool IsHttpError(UnityWebRequest request)
-        {
-            return request.responseCode >= 400;
-        }
+            return request.isError && ! request.responseCode >= 400;
+#elif UNITY_2017_1
+             return request.isError && ! request.isHttpError;
+#elif UNITY_2020_2
+            return (int)request.result > 1;
 #else
-        public bool IsHttpError(UnityWebRequest request)
-        {
-            return request.isHttpError;
-        }
+            return request.isNetworkError;
 #endif
+        }
 
         void OnEnable()
         {

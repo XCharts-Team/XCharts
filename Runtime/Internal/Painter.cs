@@ -11,7 +11,8 @@ using System;
 
 namespace XCharts
 {
-    public partial class Painter : MaskableGraphic
+    [RequireComponent(typeof(CanvasRenderer))]
+    public class Painter : MaskableGraphic
     {
         public enum Type
         {
@@ -32,7 +33,6 @@ namespace XCharts
             if (gameObject == null) return;
             if (!gameObject.activeSelf) return;
             m_Refresh = true;
-            //Debug.LogError("refresh painter:"+name);
         }
 
         public void Init()

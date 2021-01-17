@@ -211,7 +211,7 @@ namespace XCharts
         /// <summary>
         /// 多列时每列的宽度
         /// </summary>
-        public Dictionary<int, float> runtimeEachWidth { get { return m_RuntimeEachWidth; }}
+        public Dictionary<int, float> runtimeEachWidth { get { return m_RuntimeEachWidth; } }
         /// <summary>
         /// 单列高度
         /// </summary>

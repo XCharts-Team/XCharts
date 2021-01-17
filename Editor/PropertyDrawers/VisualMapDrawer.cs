@@ -27,8 +27,8 @@ namespace XCharts
                 PropertyField(prop, "m_Max");
                 PropertyField(prop, "m_SplitNumber");
                 PropertyField(prop, "m_Dimension");
-                PropertyField(prop, "m_InRange");
-                PropertyField(prop, "m_OutOfRange");
+                PropertyListField(prop, "m_InRange");
+                PropertyListField(prop, "m_OutOfRange");
                 PropertyField(prop, "m_Show");
                 if (prop.FindPropertyRelative("m_Show").boolValue)
                 {

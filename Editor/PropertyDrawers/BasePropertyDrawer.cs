@@ -86,10 +86,9 @@ namespace XCharts
             m_DrawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
 
-        protected void PropertyListField(SerializedProperty prop, string relativePropName, bool showOrder = false)
+        protected void PropertyListField(SerializedProperty prop, string relativePropName, bool showOrder = true)
         {
             if (IngorePropertys.Contains(relativePropName)) return;
-
             var height = m_Heights[m_KeyName];
             var toggleKeyName = m_KeyName + relativePropName;
             m_DataToggles[toggleKeyName] = ChartEditorHelper.MakeListWithFoldout(ref m_DrawRect, ref height,
@@ -101,6 +100,11 @@ namespace XCharts
         protected void PropertyField(SerializedProperty prop, string relativePropName)
         {
             if (IngorePropertys.Contains(relativePropName)) return;
+            if (prop.FindPropertyRelative(relativePropName).isArray)
+            {
+                PropertyListField(prop, relativePropName);
+                return;
+            }
             if (!ChartEditorHelper.PropertyField(ref m_DrawRect, m_Heights, m_KeyName, prop, relativePropName))
             {
                 Debug.LogError("PropertyField ERROR:" + prop.displayName + ", " + relativePropName);

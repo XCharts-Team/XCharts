@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.Text;
@@ -45,6 +46,7 @@ namespace XCharts
 
         private bool m_BaseFoldout;
         protected bool m_ShowAllComponent;
+        protected Dictionary<string, bool> m_Flodouts = new Dictionary<string, bool>();
 
         protected virtual void OnEnable()
         {
@@ -140,8 +142,6 @@ namespace XCharts
 
         protected virtual void OnDebugInspectorGUI()
         {
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
             BlockStart();
             EditorGUILayout.PropertyField(m_DebugMode);
             EditorGUILayout.PropertyField(m_MultiComponentMode);
@@ -181,7 +181,46 @@ namespace XCharts
             BlockStart();
             foreach (var prop in props)
             {
-                if (all) EditorGUILayout.PropertyField(prop, true);
+                if (all)
+                {
+                    var flag = m_Flodouts.ContainsKey(prop.displayName) && m_Flodouts[prop.displayName];
+                    m_Flodouts[prop.displayName] = EditorGUILayout.Foldout(flag, prop.displayName);
+                    if (m_Flodouts[prop.displayName])
+                    {
+                        EditorGUI.indentLevel++;
+                        prop.arraySize = EditorGUILayout.IntField("Size", prop.arraySize);
+                        for (int i = 0; i < prop.arraySize; i++)
+                        {
+                            SerializedProperty element = prop.GetArrayElementAtIndex(i);
+                            var currRect = EditorGUILayout.GetControlRect();
+                            var iconWidth = 14;
+                            var iconGap = 0f;
+                            var xDiff = 10f;
+                            var yDiff = 3f;
+                            var rect1 = new Rect(currRect.width + xDiff, currRect.y + yDiff,
+                                iconWidth, EditorGUIUtility.singleLineHeight);
+                            if (GUI.Button(rect1, ChartEditorHelper.Styles.iconRemove, ChartEditorHelper.Styles.invisibleButton))
+                            {
+                                if (i < prop.arraySize && i >= 0) prop.DeleteArrayElementAtIndex(i);
+                            }
+                            var rect2 = new Rect(currRect.width + xDiff - iconWidth - iconGap, currRect.y + yDiff,
+                                iconWidth, EditorGUIUtility.singleLineHeight);
+                            if (GUI.Button(rect2, ChartEditorHelper.Styles.iconDown, ChartEditorHelper.Styles.invisibleButton))
+                            {
+                                if (i < prop.arraySize - 1) prop.MoveArrayElement(i, i + 1);
+                            }
+                            var rect3 = new Rect(currRect.width + xDiff - 2 * (iconWidth + iconGap), currRect.y + yDiff,
+                                iconWidth, EditorGUIUtility.singleLineHeight);
+                            if (GUI.Button(rect3, ChartEditorHelper.Styles.iconUp, ChartEditorHelper.Styles.invisibleButton))
+                            {
+                                if (i > 0) prop.MoveArrayElement(i, i - 1);
+                            }
+                            EditorGUILayout.Space(-EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing);
+                            EditorGUILayout.PropertyField(element, true);
+                        }
+                        EditorGUI.indentLevel--;
+                    }
+                }
                 else if (prop.arraySize > 0) EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(0), true);
             }
             BlockEnd();
@@ -199,7 +238,7 @@ namespace XCharts
             {
                 m_Chart.RemoveChartObject();
             }
-            if (GUILayout.Button("Check XCharts Update "))
+            if (GUILayout.Button("Check XCharts Update"))
             {
                 CheckVersionEditor.ShowWindow();
             }

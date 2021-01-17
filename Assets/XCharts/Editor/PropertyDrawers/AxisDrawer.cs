@@ -13,8 +13,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Axis), true)]
     public class AxisDrawer : BasePropertyDrawer
     {
-        private string m_JsonDataAreaText;
-
         public override string ClassName { get { return "Axis"; } }
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
@@ -84,16 +82,7 @@ namespace XCharts
 
                 if (type == Axis.AxisType.Category)
                 {
-                    m_DrawRect.width = EditorGUIUtility.labelWidth + 10;
-                    m_DataToggles[m_KeyName] = EditorGUI.Foldout(m_DrawRect, m_DataToggles[m_KeyName], "Data");
-                    AddSingleLineHeight();
-                    m_DrawRect.width = pos.width;
-                    if (m_DataToggles[m_KeyName])
-                    {
-                        var height = m_Heights[m_KeyName];
-                        ChartEditorHelper.MakeList(ref m_DrawRect, ref height, ref m_DataSize, m_Data);
-                        m_Heights[m_KeyName] = height;
-                    }
+                    PropertyListField(prop, "m_Data", true);
                 }
                 EditorGUI.indentLevel--;
             }

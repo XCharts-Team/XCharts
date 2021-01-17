@@ -49,14 +49,14 @@ namespace XCharts
                     PropertyField(prop, "m_Bottom");
                     PropertyField(prop, "m_LineStyle");
                     PropertyField(prop, "m_AreaStyle");
-                    PropertyField(prop, "m_XAxisIndexs");
-                    PropertyField(prop, "m_YAxisIndexs");
+                    PropertyListField(prop, "m_XAxisIndexs", true);
+                    PropertyListField(prop, "m_YAxisIndexs", true);
                     PropertyField(prop, "m_TextStyle");
                 }
                 else
                 {
-                    PropertyField(prop, "m_XAxisIndexs");
-                    PropertyField(prop, "m_YAxisIndexs");
+                    PropertyListField(prop, "m_XAxisIndexs", true);
+                    PropertyListField(prop, "m_YAxisIndexs", true);
                 }
                 --EditorGUI.indentLevel;
             }

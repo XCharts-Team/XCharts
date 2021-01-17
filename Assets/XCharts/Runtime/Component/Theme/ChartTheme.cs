@@ -55,6 +55,9 @@ namespace XCharts
         [SerializeField] private Color32 m_ContrastColor;
         [SerializeField] private Color32 m_BackgroundColor;
 
+#if UNITY_2020_2
+        [NonReorderable]
+#endif
         [SerializeField] private List<Color32> m_ColorPalette = new List<Color32>(13);
 
         [SerializeField] private ComponentTheme m_Common;

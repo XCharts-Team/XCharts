@@ -255,24 +255,46 @@ public class ChartEditorHelper
         return toggle;
     }
 
-    public static void MakeList(ref Rect drawRect, ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    public static bool MakeListWithFoldout(ref Rect drawRect, SerializedProperty listProp, bool foldout, bool showOrder = false, bool showSize = true)
     {
         var height = 0f;
-        MakeList(ref drawRect, ref height, ref listSize, listProp, showOrder, showSize);
+        return MakeListWithFoldout(ref drawRect, ref height, listProp, foldout, showOrder, showSize);
     }
 
-    public static void MakeList(ref Rect drawRect, ref float height, ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    public static bool MakeListWithFoldout(ref Rect drawRect, ref float height, SerializedProperty listProp, bool foldout, bool showOrder = false, bool showSize = true)
+    {
+        var rawWidth = drawRect.width;
+        drawRect.width = EditorGUIUtility.labelWidth + 10;
+        bool flag = EditorGUI.Foldout(drawRect, foldout, listProp.displayName);
+        height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        drawRect.width = rawWidth;
+        if (flag)
+        {
+            MakeList(ref drawRect, ref height, listProp, showOrder, showSize);
+        }
+        return flag;
+    }
+
+    public static void MakeList(ref Rect drawRect, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    {
+        var height = 0f;
+        MakeList(ref drawRect, ref height, listProp, showOrder, showSize);
+    }
+
+    public static void MakeList(ref Rect drawRect, ref float height, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
     {
         EditorGUI.indentLevel++;
-        listSize = listProp.arraySize;
+        var listSize = listProp.arraySize;
+        var iconWidth = 14;
+        var iconGap = 3f;
         if (showSize)
         {
             if (showOrder)
             {
-                var nameWid = 18;
-                var temp = INDENT_WIDTH + GAP_WIDTH;
-                var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - nameWid - 1, drawRect.height);
-                var iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
+                var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - iconWidth - 1, drawRect.height);
+                var iconRect = new Rect(drawRect.width - iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                 if (XChartsSettings.editorBlockEnable)
                 {
                     iconRect.x += BLOCK_WIDTH;
@@ -335,12 +357,14 @@ public class ChartEditorHelper
                 SerializedProperty element = listProp.GetArrayElementAtIndex(i);
                 if (showOrder)
                 {
-                    var nameWid = 18;
-                    var temp = INDENT_WIDTH + GAP_WIDTH;
+
+                    var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                     var isSerie = "Serie".Equals(element.type);
-                    var elementRect = isSerie ? drawRect : new Rect(drawRect.x, drawRect.y, drawRect.width - 2 * nameWid, drawRect.height);
+                    var elementRect = isSerie 
+                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH, drawRect.height) 
+                        : new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
-                    var iconRect = new Rect(drawRect.width - 3 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                     if (XChartsSettings.editorBlockEnable)
                     {
                         iconRect.x += BLOCK_WIDTH;
@@ -349,7 +373,7 @@ public class ChartEditorHelper
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
-                    iconRect = new Rect(drawRect.width - 2 * nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    iconRect = new Rect(drawRect.width - 2 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                     if (XChartsSettings.editorBlockEnable)
                     {
                         iconRect.x += BLOCK_WIDTH;
@@ -358,7 +382,7 @@ public class ChartEditorHelper
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
-                    iconRect = new Rect(drawRect.width - nameWid + temp, drawRect.y, nameWid, drawRect.height);
+                    iconRect = new Rect(drawRect.width - iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                     if (XChartsSettings.editorBlockEnable)
                     {
                         iconRect.x += BLOCK_WIDTH;
@@ -378,82 +402,6 @@ public class ChartEditorHelper
                     EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
                     drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
                     height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
-                }
-            }
-        }
-        EditorGUI.indentLevel--;
-    }
-
-    public static void MakeList(ref int listSize, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
-    {
-        EditorGUI.indentLevel++;
-        listSize = listProp.arraySize;
-        if (showSize)
-        {
-            if (showOrder)
-            {
-                EditorGUILayout.BeginHorizontal();
-                listSize = EditorGUILayout.IntField("Size", listSize);
-                if (GUILayout.Button(Styles.iconAdd, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
-                {
-                    listProp.arraySize++;
-                }
-                listSize = listProp.arraySize;
-                EditorGUILayout.EndHorizontal();
-            }
-            else
-            {
-                listSize = EditorGUILayout.IntField("Size", listSize);
-            }
-            if (listSize < 0) listSize = 0;
-            if (listSize != listProp.arraySize)
-            {
-                while (listSize > listProp.arraySize) listProp.arraySize++;
-                while (listSize < listProp.arraySize) listProp.arraySize--;
-            }
-        }
-        if (listSize > 30)
-        {
-            SerializedProperty element;
-            int num = listSize > 10 ? 10 : listSize;
-            for (int i = 0; i < num; i++)
-            {
-                element = listProp.GetArrayElementAtIndex(i);
-                EditorGUILayout.PropertyField(element, true);
-            }
-            if (num >= 10)
-            {
-                EditorGUILayout.LabelField("...");
-                element = listProp.GetArrayElementAtIndex(listSize - 1);
-                EditorGUILayout.PropertyField(element, true);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < listProp.arraySize; i++)
-            {
-                SerializedProperty element = listProp.GetArrayElementAtIndex(i);
-                if (showOrder)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.PropertyField(element, true);
-                    if (GUILayout.Button(Styles.iconUp, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
-                    {
-                        if (i > 0) listProp.MoveArrayElement(i, i - 1);
-                    }
-                    if (GUILayout.Button(Styles.iconDown, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
-                    {
-                        if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
-                    }
-                    if (GUILayout.Button(Styles.iconRemove, Styles.invisibleButton, GUILayout.MinWidth(15), GUILayout.MaxWidth(15)))
-                    {
-                        if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
-                    }
-                    EditorGUILayout.EndHorizontal();
-                }
-                else
-                {
-                    EditorGUILayout.PropertyField(element, true);
                 }
             }
         }

@@ -86,6 +86,18 @@ namespace XCharts
             m_DrawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
 
+        protected void PropertyListField(SerializedProperty prop, string relativePropName, bool showOrder = false)
+        {
+            if (IngorePropertys.Contains(relativePropName)) return;
+
+            var height = m_Heights[m_KeyName];
+            var toggleKeyName = m_KeyName + relativePropName;
+            m_DataToggles[toggleKeyName] = ChartEditorHelper.MakeListWithFoldout(ref m_DrawRect, ref height,
+                prop.FindPropertyRelative(relativePropName),
+                m_DataToggles.ContainsKey(toggleKeyName) && m_DataToggles[toggleKeyName], showOrder);
+            m_Heights[m_KeyName] = height;
+        }
+
         protected void PropertyField(SerializedProperty prop, string relativePropName)
         {
             if (IngorePropertys.Contains(relativePropName)) return;

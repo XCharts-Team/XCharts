@@ -78,7 +78,9 @@ namespace XCharts
                         if (newProp.name == "m_Script") continue;
                         if (newProp.name == "m_ThemeName") continue;
                         if (newProp.name == "m_Theme") continue;
+
                         AddPropertyField(pos, newProp, ref y);
+
                     } while (newProp.NextVisible(false));
                 }
                 if (GUI.changed)

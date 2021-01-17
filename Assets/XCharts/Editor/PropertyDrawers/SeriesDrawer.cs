@@ -13,9 +13,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Series), true)]
     public class SeriesDrawer : PropertyDrawer
     {
-        private int m_DataSize = 0;
-        private bool m_ShowJsonDataArea = false;
-        private string m_JsonDataAreaText;
         private bool m_SeriesModuleToggle = false;
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
@@ -23,15 +20,8 @@ namespace XCharts
             Rect drawRect = pos;
             drawRect.height = EditorGUIUtility.singleLineHeight;
             SerializedProperty m_Series = prop.FindPropertyRelative("m_Series");
-
-            drawRect.width = EditorGUIUtility.labelWidth + 10;
-            ChartEditorHelper.MakeFoldout(ref drawRect, ref m_SeriesModuleToggle, "Series");
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            drawRect.width = pos.width;
-            if (m_SeriesModuleToggle)
-            {
-                ChartEditorHelper.MakeList(ref drawRect, ref m_DataSize, m_Series, true);
-            }
+            m_SeriesModuleToggle = ChartEditorHelper.MakeListWithFoldout(ref drawRect,
+                m_Series, m_SeriesModuleToggle, true, true);
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
@@ -45,10 +35,6 @@ namespace XCharts
                 {
                     height += EditorGUI.GetPropertyHeight(m_Data.GetArrayElementAtIndex(i)) + EditorGUIUtility.standardVerticalSpacing;
                 }
-            }
-            if (m_ShowJsonDataArea)
-            {
-                height += EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing;
             }
             height += 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
             return height;

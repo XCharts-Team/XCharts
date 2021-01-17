@@ -29,7 +29,8 @@ namespace XCharts
                 PropertyField(prop, "m_Location");
                 PropertyField(prop, "m_Formatter");
                 PropertyField(prop, "m_TextStyle");
-                PropertyField(prop, "m_Icons");
+                PropertyListField(prop, "m_Icons");
+                PropertyListField(prop, "m_Data");
                 --EditorGUI.indentLevel;
             }
         }

@@ -18,7 +18,7 @@ public class ChartEditorHelper
     public const float GAP_WIDTH = 0;
 #endif
 
-    private class Styles
+    public class Styles
     {
         public static readonly GUIStyle headerStyle = EditorStyles.boldLabel;
         public static readonly GUIStyle foldoutStyle = new GUIStyle(EditorStyles.foldout)

@@ -427,7 +427,7 @@ namespace XCharts
                         while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
                         while (listSize < m_Datas.arraySize) m_Datas.arraySize--;
                     }
-                    if (listSize > 30)
+                    if (listSize > 30 && !XChartsSettings.editorShowAllListData)
                     {
                         int num = listSize > 10 ? 10 : listSize;
                         for (int i = 0; i < num; i++)

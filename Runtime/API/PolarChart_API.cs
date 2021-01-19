@@ -7,7 +7,7 @@
 
 namespace XCharts
 {
-    public partial class PolarChart
+    public partial class BaseChart
     {
         /// <summary>
         /// 极坐标。

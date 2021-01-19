@@ -18,6 +18,11 @@ namespace XCharts
     [CustomEditor(typeof(BaseChart), false)]
     public class BaseChartEditor : Editor
     {
+        private const float k_IconWidth = 14;
+        private const float k_IconGap = 0f;
+        private const float k_IconXOffset = 10f;
+        private const float k_IconYOffset = -5f;
+
         protected BaseChart m_Chart;
         protected SerializedProperty m_Script;
         protected SerializedProperty m_MultiComponentMode;
@@ -191,32 +196,32 @@ namespace XCharts
                         prop.arraySize = EditorGUILayout.IntField("Size", prop.arraySize);
                         for (int i = 0; i < prop.arraySize; i++)
                         {
-                            SerializedProperty element = prop.GetArrayElementAtIndex(i);
+                            EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(i), true);
+                            EditorGUILayout.Space(-EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing);
                             var currRect = EditorGUILayout.GetControlRect();
-                            var iconWidth = 14;
-                            var iconGap = 0f;
-                            var xDiff = 10f;
-                            var yDiff = 3f;
-                            var rect1 = new Rect(currRect.width + xDiff, currRect.y + yDiff,
-                                iconWidth, EditorGUIUtility.singleLineHeight);
+
+                            var rect1 = new Rect(currRect.width + k_IconXOffset,
+                                currRect.y + k_IconYOffset,
+                                k_IconWidth, EditorGUIUtility.singleLineHeight);
                             if (GUI.Button(rect1, ChartEditorHelper.Styles.iconRemove, ChartEditorHelper.Styles.invisibleButton))
                             {
                                 if (i < prop.arraySize && i >= 0) prop.DeleteArrayElementAtIndex(i);
                             }
-                            var rect2 = new Rect(currRect.width + xDiff - iconWidth - iconGap, currRect.y + yDiff,
-                                iconWidth, EditorGUIUtility.singleLineHeight);
+                            var rect2 = new Rect(currRect.width + k_IconXOffset - k_IconWidth - k_IconGap,
+                                 currRect.y + k_IconYOffset,
+                                k_IconWidth, EditorGUIUtility.singleLineHeight);
                             if (GUI.Button(rect2, ChartEditorHelper.Styles.iconDown, ChartEditorHelper.Styles.invisibleButton))
                             {
                                 if (i < prop.arraySize - 1) prop.MoveArrayElement(i, i + 1);
                             }
-                            var rect3 = new Rect(currRect.width + xDiff - 2 * (iconWidth + iconGap), currRect.y + yDiff,
-                                iconWidth, EditorGUIUtility.singleLineHeight);
+                            var rect3 = new Rect(currRect.width + k_IconXOffset - 2 * (k_IconWidth + k_IconGap),
+                                currRect.y + k_IconYOffset,
+                                k_IconWidth, EditorGUIUtility.singleLineHeight);
                             if (GUI.Button(rect3, ChartEditorHelper.Styles.iconUp, ChartEditorHelper.Styles.invisibleButton))
                             {
                                 if (i > 0) prop.MoveArrayElement(i, i - 1);
                             }
-                            EditorGUILayout.Space(-EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing);
-                            EditorGUILayout.PropertyField(element, true);
+
                         }
                         EditorGUI.indentLevel--;
                     }

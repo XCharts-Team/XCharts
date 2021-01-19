@@ -35,11 +35,11 @@ namespace XCharts
     [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
-        internal static string _version = "2.0.0";
-        internal static int _versionDate = 20210117;
+        internal static string _version = "2.0.0-preview.1";
+        internal static int _versionDate = 20210119;
         public static string version { get { return _version; } }
         public static int versionDate { get { return _versionDate; } }
-        public static string fullVersion { get { return version + "_" + versionDate; } }
+        public static string fullVersion { get { return version + "-" + versionDate; } }
 
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
@@ -173,7 +173,7 @@ namespace XCharts
             {
                 isNetworkError = false;
                 var cv = JsonUtility.FromJson<XChartsVersion>(web.downloadHandler.text);
-                m_NewVersion = cv.version + "_" + cv.date;
+                m_NewVersion = cv.version + "-" + cv.date;
                 newDate = cv.date;
                 newCheckDate = cv.checkdate;
                 desc = cv.desc;

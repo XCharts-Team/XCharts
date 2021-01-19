@@ -120,6 +120,15 @@ for (int i = 0; i < 10; i++)
 
 另外，除非定制，建议调用[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  里面的接口，这些接口内部会做一些关联处理，比如刷新图表等。如果自己调用了内部组件的接口，需要自己处理刷新等其他问题。
 
+## 使用TextMeshPro
+
+XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换。可通过一下两种方式开启和关闭：
+![textmeshpro1](screenshot/op_textmeshpro.png)
+![textmeshpro2](screenshot/op_textmeshpro2.png)
+开启后需要设置好TextMeshPro要用的全局字体，也可以在主题Theme里单独设置：
+![textmeshpro-font](screenshot/op_textmeshpro3.png)
+建议在项目初就规划好是否使用TextMeshPro，在有很多图表的情况下再切换，可能导致某些图表无法正常初始化，这时可能需要每个图表单独的使用`Remove All Chart Object`来清理让图表重新初始化。
+
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  

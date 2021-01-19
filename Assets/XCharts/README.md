@@ -141,6 +141,11 @@ The following is the relationship structure of LineChart:
 
 * See more examples of code dynamic control: [Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md).
 
+* Enable TextMeshPro:
+  1. `XCharts -> TextMeshPro Enable` or `Project Setting -> XCharts -> Enable TextMeshPro`
+  2. `Project Setting -> XCharts -> Settings -> TMP Font` set the TextMeshPro font.
+  3. If the chart does not initialize properly, you can use the `Remove All Chart Object` button to clean up the chart and reinitialize it.
+
 ## Documents
 
 * [XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  

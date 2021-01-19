@@ -17,7 +17,7 @@ namespace XCharts
     [ExcludeFromPresetAttribute]
     public class XChartsSettings : ScriptableObject
     {
-       
+
         [SerializeField] private Font m_Font;
 #if dUI_TextMeshPro
         [SerializeField] private TMP_FontAsset m_TMPFont;
@@ -49,6 +49,7 @@ namespace XCharts
         [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSelectedSize = 30f;
 
         [SerializeField] private bool m_EditorBlockEnable = true;
+        [SerializeField] private bool m_EditorShowAllListData = false;
 
         [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
         [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
@@ -97,6 +98,7 @@ namespace XCharts
 
         #region editor
         public static bool editorBlockEnable { get { return Instance.m_EditorBlockEnable; } }
+        public static bool editorShowAllListData { get { return Instance.m_EditorShowAllListData; } }
         #endregion
 
         #region graphic

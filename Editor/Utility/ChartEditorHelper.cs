@@ -328,7 +328,7 @@ public class ChartEditorHelper
                 while (listSize < listProp.arraySize) listProp.arraySize--;
             }
         }
-        if (listSize > 30)
+        if (listSize > 30 && !XChartsSettings.editorShowAllListData)
         {
             SerializedProperty element;
             int num = listSize > 10 ? 10 : listSize;
@@ -360,8 +360,8 @@ public class ChartEditorHelper
 
                     var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                     var isSerie = "Serie".Equals(element.type);
-                    var elementRect = isSerie 
-                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH, drawRect.height) 
+                    var elementRect = isSerie
+                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH, drawRect.height)
                         : new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
                     var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);

@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.19) 增加`XChartsSettings`的`editorShowAllListData`参数配置是否在`Inspector`中显示列表的所有数据
 * (2021.01.19) 发布`v2.0.0-preview.1`版本
 * (2021.01.02) 发布`v1.6.3`版本
 * (2020.12.18) 修复`Animation`不启用时更新数据会导致图表一直刷新的问题

@@ -1,11 +1,16 @@
 # XCharts
 
-![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)
-![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)
-![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20download)
+[![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE)
+[![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
+![date](https://img.shields.io/github/release-date-pre/monitor1394/unity-ugui-xcharts?label=%20)
+[![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20download)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
 [![npm downloads](https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 [![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
-![qq](https://img.shields.io/badge/QQ群-202030963-green)
+![repo size](https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts)
+![code size](https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts)
+![unity version](https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green)
+![textmeshpro](https://img.shields.io/badge/TextMeshPro-YES-green)
+![qq group](https://img.shields.io/badge/QQ群-202030963-green)
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 

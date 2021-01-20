@@ -1,20 +1,38 @@
-# XCharts
+<p align="center">
+  <a href="">
+    <img src="" alt="" width="" height="">
+  </a>
+</p>
+<h2 align="center">XCharts</h3>
+<p align="center">
+  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
+  <br>
+  一款基于UGUI的数据可视化图表插件
+  <br>
+  <a href="Assets/XCharts/README.md">English Doc</a>
+</p>
 
 [![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE)
 [![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
 ![date](https://img.shields.io/github/release-date-pre/monitor1394/unity-ugui-xcharts?label=%20)
-[![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20download)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
-[![npm downloads](https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
-[![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![repo size](https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts)
 ![code size](https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts)
+[![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
+[![npm downloads](https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
+[![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![unity version](https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green)
 ![textmeshpro](https://img.shields.io/badge/TextMeshPro-YES-green)
 ![qq group](https://img.shields.io/badge/QQ群-202030963-green)
 
-A powerful, easy-to-use, configurable charting and data visualization library for Unity.  
 
-[English Documents](Assets/XCharts/README.md)  
+
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
+
+[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
+[XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)  
+[XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
+[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
 
 ## XCharts 2.0
 
@@ -26,14 +44,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 * 支持全局配置参数调整。
 * 更友好的编辑界面。
 * 其他细节优化。
-
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
-
-[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
-[XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)  
-[XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
-[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
 
 ## 特性
 
@@ -163,18 +173,9 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 
 [MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/LICENSE.md)
 
-## 开发交流
+## 其他
 
 邮箱：monitor1394@gmail.com  
 QQ群：XCharts交流群（`202030963`）  
 VIP群：XCharts技术支持VIP群（`867291970`）  
-
-## 捐助
-
-如果这个项目对您有帮助，请右上方点 `Star` 予以支持！也欢迎各方任何形式的捐助，任何金额的赞助都将非常感谢。
-
-企业赞助请备注公司名称。
-
-![alipay](Doc/alipay.png)
-
-如需商业技术支持，捐助280¥可加VIP群（`867291970`，验证信息请输入捐助的支付宝账号）。
+捐助和技术支持：[☞ 看这里](SUPPORT.md)

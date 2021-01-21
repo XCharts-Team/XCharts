@@ -412,8 +412,10 @@ namespace XCharts
             }
         }
 
+#if UNITY_EDITOR
         public static void EnableTextMeshPro()
         {
+
             DefineSymbolsUtil.AddGlobalDefine("dUI_TextMeshPro");
             RemoveAllChartObject();
         }
@@ -423,5 +425,6 @@ namespace XCharts
             DefineSymbolsUtil.RemoveGlobalDefine("dUI_TextMeshPro");
             RemoveAllChartObject();
         }
+#endif
     }
 }

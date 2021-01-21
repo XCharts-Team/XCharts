@@ -18,9 +18,9 @@ namespace XCharts
     public class XChartsSettings : ScriptableObject
     {
 
-        [SerializeField] private Font m_Font;
+        [SerializeField] private Font m_Font = null;
 #if dUI_TextMeshPro
-        [SerializeField] private TMP_FontAsset m_TMPFont;
+        [SerializeField] private TMP_FontAsset m_TMPFont = null;
 #endif
         [SerializeField] [Range(1, 200)] private int m_FontSizeLv1 = 28;
         [SerializeField] [Range(1, 200)] private int m_FontSizeLv2 = 24;

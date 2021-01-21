@@ -57,7 +57,7 @@ namespace XCharts
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
-            PropertyField(prop, "m_Interval");
+            PropertyField(prop, "m_AlignWithLabel");
             PropertyField(prop, "m_Inside");
         }
     }

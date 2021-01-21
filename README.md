@@ -1,15 +1,34 @@
-# XCharts
+<p align="center">
+  <a href="">
+    <img src="" alt="" width="" height="">
+  </a>
+</p>
+<h2 align="center">XCharts</h3>
+<p align="center">
+  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
+  <br>
+  一款基于UGUI的数据可视化图表插件。
+  <br>
+</p>
 
 ![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)
 [![npm Package](https://img.shields.io/npm/v/unity-ugui-xcharts.svg)](https://www.npmjs.org/package/unity-ugui-xcharts)
-[![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
+[![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases&label=github)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
 ![code size](https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts)
 [![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
 [![npm downloads](https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 [![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![unity version](https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green)
 ![textmeshpro](https://img.shields.io/badge/TextMeshPro-YES-green)
-![qq group](https://img.shields.io/badge/QQ群-202030963-green)
+
+A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, gauge, ring, polar, liquid and other common chart.
+
+[XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
+[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
+[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
+[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)  
+[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG-EN.md)  
+[Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
 
 ## XCharts 2.0
 
@@ -21,15 +40,6 @@
 * Support global adjustment of configuration parameters.
 * Better editing interface.
 * Other details optimized.
-
-A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, gauge, ring, polar, liquid and other common chart.
-
-[XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
-[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
-[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)  
-[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG-EN.md)  
-[Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
 
 ## Features
 

@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.21) 修复`Inpsector`上展开`AxisTick`时报错问题
 * (2021.01.21) 修复打包兼容报错问题
 * (2021.01.19) 增加`XChartsSettings`的`editorShowAllListData`参数配置是否在`Inspector`中显示列表的所有数据
 * (2021.01.19) 发布`v2.0.0-preview.1`版本

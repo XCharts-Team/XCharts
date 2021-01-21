@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.21) Fixed an error about `AxisTick` in `Inpsector`
 * (2021.01.21) Fixed a build compatibility error
 * (2021.01.19) Add `XChartsSettings` `editorShowAllListData` parameter to configure whether to display all the list's data in Inspector
 * (2021.01.19) Release `v2.0.0-preview.1` version

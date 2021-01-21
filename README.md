@@ -7,14 +7,13 @@
 <p align="center">
   A powerful, easy-to-use, configurable charting and data visualization library for Unity.
   <br>
-  一款基于UGUI的数据可视化图表插件
+  一款基于UGUI的数据可视化图表插件。
   <br>
   <a href="Assets/XCharts/README.md">English Doc</a>
 </p>
 
 [![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE)
 [![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
-![date](https://img.shields.io/github/release-date-pre/monitor1394/unity-ugui-xcharts?label=%20)
 ![repo size](https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts)
 ![code size](https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts)
 [![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
@@ -22,7 +21,6 @@
 [![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
 ![unity version](https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green)
 ![textmeshpro](https://img.shields.io/badge/TextMeshPro-YES-green)
-![qq group](https://img.shields.io/badge/QQ群-202030963-green)
 
 
 

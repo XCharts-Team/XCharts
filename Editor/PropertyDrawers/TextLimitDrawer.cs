@@ -5,7 +5,6 @@
 /*                                              */
 /************************************************/
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,7 +22,7 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_MaxWidth");
                 PropertyField(prop, "m_Gap");
-                PropertyField(prop, "m_LimitSuffix");
+                PropertyField(prop, "m_Suffix");
                 --EditorGUI.indentLevel;
             }
         }

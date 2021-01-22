@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.22) Fixed a `Inpsector` displayed error
 * (2021.01.21) Release `v2.0.0-preview.2` version
 * (2021.01.21) Fixed an error about `AxisTick` in `Inpsector`
 * (2021.01.21) Fixed a build compatibility error

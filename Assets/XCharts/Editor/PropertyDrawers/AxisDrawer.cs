@@ -138,8 +138,6 @@ namespace XCharts
                 PropertyField(prop, "m_OnZero");
                 PropertyField(prop, "m_TextLimit");
                 PropertyField(prop, "m_TextStyle");
-                PropertyField(prop, "m_OnZero");
-                PropertyField(prop, "m_OnZero");
                 --EditorGUI.indentLevel;
             }
         }

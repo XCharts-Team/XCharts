@@ -100,11 +100,6 @@ namespace XCharts
         protected void PropertyField(SerializedProperty prop, string relativePropName)
         {
             if (IngorePropertys.Contains(relativePropName)) return;
-            if (prop.FindPropertyRelative(relativePropName).isArray)
-            {
-                PropertyListField(prop, relativePropName);
-                return;
-            }
             if (!ChartEditorHelper.PropertyField(ref m_DrawRect, m_Heights, m_KeyName, prop, relativePropName))
             {
                 Debug.LogError("PropertyField ERROR:" + prop.displayName + ", " + relativePropName);

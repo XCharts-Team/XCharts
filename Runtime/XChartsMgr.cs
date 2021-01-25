@@ -104,7 +104,7 @@ namespace XCharts
         {
             get
             {
-                return !isNetworkError && !m_NowVersion.Equals(m_NewVersion);
+                return !isNetworkError && newDate > versionDate;
             }
         }
 

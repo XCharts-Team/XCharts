@@ -101,7 +101,7 @@ namespace XCharts
         {
             BlockStart();
             EditorGUILayout.BeginHorizontal();
-            var version = string.Format("V{0}_{1}", XChartsMgr.version, XChartsMgr.versionDate);
+            var version = string.Format("v{0}_{1}", XChartsMgr.version, XChartsMgr.versionDate);
             if (m_EnableTextMeshPro.boolValue)
             {
                 version += " TMP";
@@ -243,10 +243,10 @@ namespace XCharts
             {
                 m_Chart.RemoveChartObject();
             }
-            if (GUILayout.Button("Check XCharts Update"))
-            {
-                CheckVersionEditor.ShowWindow();
-            }
+            // if (GUILayout.Button("Check XCharts Update"))
+            // {
+            //     CheckVersionEditor.ShowWindow();
+            // }
             if (m_CheckWarning)
             {
                 EditorGUILayout.BeginHorizontal();

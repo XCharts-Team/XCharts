@@ -1021,7 +1021,8 @@ namespace XCharts
                             pX += startX - yAxis.axisTick.GetLength(m_Theme.axis.tickLength);
                         }
                         UGL.DrawLine(vh, new Vector3(startX, pY), new Vector3(pX, pY),
-                            yAxis.axisTick.GetWidth(m_Theme.axis.tickWidth), m_Theme.axis.tickColor);
+                            yAxis.axisTick.GetWidth(m_Theme.axis.tickWidth),
+                            yAxis.axisTick.GetColor(m_Theme.axis.tickColor));
                     }
                     totalWidth += scaleWidth;
                 }
@@ -1038,7 +1039,8 @@ namespace XCharts
                     var startPos = new Vector3(lineX, grid.runtimeY + grid.runtimeHeight);
                     var arrowPos = new Vector3(lineX, grid.runtimeY);
                     UGL.DrawArrow(vh, startPos, arrowPos, axisArrow.width, axisArrow.height,
-                        axisArrow.offset, axisArrow.dent, axisArrow.GetColor(m_Theme.axis.lineColor));
+                        axisArrow.offset, axisArrow.dent,
+                        axisArrow.GetColor(yAxis.axisLine.GetColor(m_Theme.axis.lineColor)));
                 }
                 else
                 {
@@ -1046,7 +1048,8 @@ namespace XCharts
                     var startPos = new Vector3(lineX, grid.runtimeX);
                     var arrowPos = new Vector3(lineX, grid.runtimeY + grid.runtimeHeight + lineWidth);
                     UGL.DrawArrow(vh, startPos, arrowPos, axisArrow.width, axisArrow.height,
-                        axisArrow.offset, axisArrow.dent, axisArrow.GetColor(m_Theme.axis.lineColor));
+                        axisArrow.offset, axisArrow.dent,
+                        axisArrow.GetColor(yAxis.axisLine.GetColor(m_Theme.axis.lineColor)));
                 }
             }
         }
@@ -1127,7 +1130,8 @@ namespace XCharts
                             pY += startY - xAxis.axisTick.GetLength(m_Theme.axis.tickLength);
                         }
                         UGL.DrawLine(vh, new Vector3(pX, startY), new Vector3(pX, pY),
-                            xAxis.axisTick.GetWidth(m_Theme.axis.tickWidth), m_Theme.axis.tickColor);
+                            xAxis.axisTick.GetWidth(m_Theme.axis.tickWidth),
+                            xAxis.axisTick.GetColor(m_Theme.axis.tickColor));
                     }
                     totalWidth += scaleWidth;
                 }
@@ -1144,14 +1148,16 @@ namespace XCharts
                     var startPos = new Vector3(grid.runtimeX + grid.runtimeWidth, lineY);
                     var arrowPos = new Vector3(grid.runtimeX, lineY);
                     UGL.DrawArrow(vh, startPos, arrowPos, axisArrow.width, axisArrow.height,
-                        axisArrow.offset, axisArrow.dent, axisArrow.GetColor(m_Theme.axis.lineColor));
+                        axisArrow.offset, axisArrow.dent,
+                        axisArrow.GetColor(xAxis.axisLine.GetColor(m_Theme.axis.lineColor)));
                 }
                 else
                 {
                     var startPos = new Vector3(grid.runtimeX, lineY);
                     var arrowPos = new Vector3(grid.runtimeX + grid.runtimeWidth + xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth), lineY);
                     UGL.DrawArrow(vh, startPos, arrowPos, axisArrow.width, axisArrow.height,
-                        axisArrow.offset, axisArrow.dent, axisArrow.GetColor(m_Theme.axis.lineColor));
+                        axisArrow.offset, axisArrow.dent,
+                        axisArrow.GetColor(xAxis.axisLine.GetColor(m_Theme.axis.lineColor)));
                 }
             }
         }

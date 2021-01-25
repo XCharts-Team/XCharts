@@ -37,7 +37,7 @@ namespace XCharts
             GUILayout.Label("The current version: " + mgr.nowVersion);
             if (mgr.needUpdate && !mgr.isCheck)
             {
-                GUILayout.Label("The latest version: " + mgr.newVersion);
+                GUILayout.Label("The remote version: " + mgr.newVersion);
                 GUILayout.Label("");
                 if (mgr.isCheck) GUILayout.Label("check ...");
                 else if (mgr.isNetworkError) GUILayout.Label("check failed: " + mgr.networkError);
@@ -72,9 +72,9 @@ namespace XCharts
             }
             else
             {
-                if (mgr.isCheck) GUILayout.Label("The latest version: checking ...");
+                if (mgr.isCheck) GUILayout.Label("The remote version: checking ...");
                 else if (mgr.isNetworkError) GUILayout.Label("check failed: " + mgr.networkError);
-                else GUILayout.Label("The latest version: " + mgr.newVersion);
+                else GUILayout.Label("The remote version: " + mgr.newVersion);
 
                 GUILayout.Label("");
                 if (!mgr.isNetworkError && !mgr.needUpdate && !mgr.isCheck)

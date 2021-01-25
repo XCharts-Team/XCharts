@@ -11,18 +11,35 @@
   <br>
   <a href="Assets/XCharts/README.md">English Doc</a>
 </p>
-
-[![license](https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts)](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE)
-[![github release](https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
-![repo size](https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts)
-![code size](https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts)
-[![github download](https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads)](https://github.com/monitor1394/unity-ugui-XCharts/releases)
-[![npm downloads](https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
-[![npm downloads](https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20)](https://www.npmjs.org/package/unity-ugui-xcharts)
-![unity version](https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green)
-![textmeshpro](https://img.shields.io/badge/TextMeshPro-YES-green)
-
-
+<p align="center">
+  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts">
+  </a>
+  <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
+    <img src="https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
+  </a>
+  <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
+    <img src="https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads">
+  </a>
+  <a href="https://www.npmjs.org/package/unity-ugui-xcharts">
+    <img src="https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20">
+  </a>
+  <a href="https://www.npmjs.org/package/unity-ugui-xcharts">
+    <img src="https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
+  </a>
+</p>
 
 一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
 

@@ -34,24 +34,24 @@
 * (2021.01.25) Optimize some details
 * (2021.01.22) Fixed a `Inpsector` displayed error
 
-## `v2.0.0-preview.2`
+## v2.0.0-preview.2
 
 * (2021.01.21) Release `v2.0.0-preview.2` version
 * (2021.01.21) Fixed an error about `AxisTick` in `Inpsector`
 * (2021.01.21) Fixed a build compatibility error
 * (2021.01.19) Add `XChartsSettings` `editorShowAllListData` parameter to configure whether to display all the list's data in Inspector
 
-## `v2.0.0-preview.1`
+## v2.0.0-preview.1
 
 * (2021.01.19) Release `v2.0.0-preview.1` version
 
-## `v1.6.3`
+## v1.6.3
 
 * (2021.01.02) Release `v1.6.3` version
 * (2020.12.18) fixed an issue where updating data when `Animation` was not enabled caused the chart to keep refreshing
 * (2020.12.01) fixed an issue where a newly created chart on `Unity2020` could not be drawn properly
 
-## `v1.6.2`
+## v1.6.2
 
 * (2020.11.22) Release `v1.6.2` version
 * (2020.11.22) Fixed an issue where `LineChart` draws an exception when the data is too dense #99
@@ -71,7 +71,7 @@
 * (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.
 * (2020.08.29) Added the `onPointerClickBar` of `BarChart`, a callback function of click bar.
 
-## `v1.6.0`
+## v1.6.0
 
 * (2020.08.24) Release `v1.6.0` version
 * (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md) to upgrade)
@@ -94,7 +94,7 @@
 * (2020.07.06) 增加`LiquidChart`水位图
 * (2020.07.01) 增加`PolarChart`极坐标图表
 
-## `v1.5.2`
+## v1.5.2
 
 * (2020.06.25) 发布`v1.5.2`版本
 * (2020.06.25) 修复`BarChart`在数值为`0`时还会绘制一小部分柱条的问题
@@ -115,7 +115,7 @@
 * (2020.06.04) 优化`Tooltip`的`formatter`支持`{.1}`通配符
 * (2020.06.04) 优化`Legend`数量过多时自动换行显示#53
 
-## `v1.5.1`
+## v1.5.1
 
 * (2020.06.03) 发布`v1.5.1`版本
 * (2020.06.02) 增加`Radar`的`ceilRate`，设置最大最小值的取整倍率
@@ -130,7 +130,7 @@
 * (2020.05.24) 修复`Axis`同时设置`boundaryGap`和`alignWithLabel`时`Tick`绘制异常的问题
 * (2020.05.24) 优化版本更新检测
 
-## `v1.5.0`
+## v1.5.0
 
 * (2020.05.22) 发布`v1.5.0`版本
 * (2020.05.21) 增加`圆角柱图`支持渐变
@@ -154,7 +154,7 @@
 * (2020.04.16) 修复`Check warning`在`Unity2019.3`上的显示问题
 * (2020.04.16) 修复`PieChart`在设置`Space`参数后动画绘制异常的问题
 
-## `v1.4.0`
+## v1.4.0
 
 * (2020.04.11) 发布`v1.4.0`版本
 * (2020.04.11) 增加`Check warning`检测功能
@@ -177,13 +177,13 @@
 * (2020.03.15) 重构`EmptyCricle`类型的`Symbol`边宽取自`ItemStyle`的`borderWidth`参数
 * (2020.03.15) 重构`SerieSymbol`，去掉`color`和`opacity`参数，取自`ItemStyle`
 
-## `v1.3.1`
+## v1.3.1
 
 * (2020.03.14) 发布`v1.3.1`版本
 * (2020.03.14) 修复`LineChart`开启`ingore`时部分数据可能绘制异常的问题
 * (2020.03.13) 修复`LineChart`的`label`偏移显示异常的问题
 
-## `v1.3.0`
+## v1.3.0
 
 * (2020.03.11) 发布`v1.3.0`版本
 * (2020.03.11) 优化`LineChart`的`label`偏移显示
@@ -209,7 +209,7 @@
 * (2020.01.20) 优化`Tooltip`设置`itemFormatter`时显示系列颜色
 * (2020.01.20) 增加`Radar`雷达图在`inspector`配置`areaStyle`的支持
 
-## `v1.2.0`
+## v1.2.0
 
 * (2020.01.15) 发布`v1.2.0`版本
 * (2020.01.15) 增加`AxisLabel`格式化为整数的支持（`{value:f0}`）
@@ -222,7 +222,7 @@
 * (2019.12.20) 增加`Demo40_Radar.cs`雷达图代码操作`Demo`
 * (2019.12.20) 添加`RadarChart`相关API接口
 
-## `v1.1.0`
+## v1.1.0
 
 * (2019.12.17) 发布`v1.1.0`版本
 * (2019.12.16) 修复`Overlay`模式下不显示`Tooltip`的问题
@@ -237,7 +237,7 @@
 * (2019.11.22) 修复`BarChart`清空数据重新赋值后`SerieLabel`显示异常的问题
 * (2019.11.16) 修复`SerieLabel`设置`color`等参数不生效的问题
 
-## `v1.0.5`
+## v1.0.5
 
 * (2019.11.12) 发布`v1.0.5`版本
 * (2019.11.12) 修复`2018.3`以下版本打开项目报错的问题
@@ -247,26 +247,26 @@
 * (2019.11.09) 修复饼图添加数据时`Label`异常的问题
 * (2019.11.09) 优化结构，分离为`XCharts`和`XChartsDemo`两部分
 
-## `v1.0.4`
+## v1.0.4
 
 * (2019.11.05) 发布`v1.0.4`版本
 * (2019.11.05) 增加`Radar`雷达组件文本样式参数配置支持
 * (2019.11.04) 修复`Unity2018.3`以下版本代码不兼容的问题
 * (2019.11.04) 优化`SerieLabel`过多时引起的性能问题
 
-## `v1.0.3`
+## v1.0.3
 
 * (2019.11.03) 发布`v1.0.3`版本
 * (2019.11.03) 增加`Editor`快捷添加图表：`Hierarchy`试图下右键`XCharts->LineChart`
 * (2019.11.02) 优化非配置参数变量命名和访问权限，简化`API`
 
-## `v1.0.2`
+## v1.0.2
 
 * (2019.10.31) 发布`v1.0.2`版本
 * (2019.10.31) 修复`prefab`预设制作报错的问题
 * (2019.10.31) 增加访问主题组件API：`BaseChart.theme`
 
-## `v1.0.1`
+## v1.0.1
 
 * (2019.10.26) 发布`v1.0.1`版本
 * (2019.10.26) 修复版本检查功能在非运行时异常的问题
@@ -274,7 +274,7 @@
 * (2019.10.26) 增加`Axis`类目轴数据为空时的默认显示支持
 * (2019.10.26) 增加`Axis`数值轴的最大最小值可设置为小数的支持，优化极小数图表的表现效果
 
-## `v1.0.0`
+## v1.0.0
 
 * (2019.10.25) 发布`v1.0.0`版本
 * (2019.10.23) 增加版本检测功能：`Component -> XCharts -> Check For Update`
@@ -340,26 +340,26 @@
 * (2019.08.15) 重构`BarChart`，移除`Bar`组件，相关参数统一放到`Serie`中配置
 * (2019.08.15) 重构`LineChart`，移除`Line`组件，相关参数统一放到`Serie`中配置
 
-## `v0.8.3`
+## v0.8.3
 
 * (2019.08.15) 发布`v0.8.3`版本
 * (2019.08.14) 修复`PieChart`的`Label`无法自动更新的问题
 * (2019.08.13) 修复`UpdateData`接口无法更新数据的问题
 * (2019.08.07) 增加`SerieSymbol`的`Color`、`Opacity`配置
 
-## `v0.8.2`
+## v0.8.2
 
 * (2019.08.07) 发布`v0.8.2`版本
 * (2019.08.07) 修复区域平滑折线图显示异常的问题
 * (2019.08.06) 修复`serie`系列数超过调色盘颜色数时获取的颜色异常的问题
 * (2019.08.06) 修复当`Axis`的`minMaxType`为`Custom`时`max`设置为`100`不生效的问题
 
-## `v0.8.1`
+## v0.8.1
 
 * (2019.08.04) 发布`v0.8.1`版本
 * (2019.08.04) 修复`Inspector`中修改数据不生效的问题
 
-## `v0.8.0`
+## v0.8.0
 
 * (2019.08.04) 发布`v0.8.0`版本
 * (2019.08.04) 优化`RadarChart`雷达图，增加多雷达图支持
@@ -380,7 +380,7 @@
 * (2019.07.14) 增加`二维数据`支持，XY轴都可以设置为数值轴
 * (2019.07.13) 增加`双坐标轴`支持，代码改动较大
 
-## `v0.5.0`
+## v0.5.0
 
 * (2019.07.10) 发布`v0.5.0`版本
 * (2019.07.09) 增加`AxisLine`配置坐标轴轴线和箭头
@@ -402,6 +402,6 @@
 * (2019.03.21) 增加`Tooltip`
 * (2018.11.01) 增加`Default`、`Light`、`Dark`三种默认主题
 
-## `v0.1.0`
+## v0.1.0
 
 * (2018.09.05) 发布`v0.1.0`版本

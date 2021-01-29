@@ -1,6 +1,7 @@
 
 # 更新日志
 
+* (2021.01.29) Fixed incorrect display of `Tick` on `Category` axis when `BoundaryGap` and `alignWithLabel` are `True` #115
 * (2021.01.25) Optimize some details
 * (2021.01.22) Fixed a `Inpsector` displayed error
 * (2021.01.21) Release `v2.0.0-preview.2` version

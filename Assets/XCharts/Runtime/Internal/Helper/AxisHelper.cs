@@ -177,7 +177,10 @@ namespace XCharts
             if (axis.IsCategory())
             {
                 int tick = Mathf.RoundToInt(axis.data.Count * 1f / splitNum);
-                return Mathf.CeilToInt(axis.data.Count * 1.0f / tick) + 1;
+                if (axis.boundaryGap)
+                    return Mathf.CeilToInt(axis.data.Count * 1.0f / tick) + 1;
+                else
+                    return Mathf.CeilToInt(axis.data.Count * 1.0f / tick);
             }
             else
             {

@@ -30,6 +30,7 @@
 
 ## Latest
 
+* (2021.02.03) Fixed an issue where `Axisline` `OnZero` did not work on `YAxis` #116
 * (2021.01.29) Fixed incorrect display of `Tick` on `Category` axis when `BoundaryGap` and `alignWithLabel` are `True` #115
 * (2021.01.25) Optimize some details
 * (2021.01.22) Fixed a `Inpsector` displayed error

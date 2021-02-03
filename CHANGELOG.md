@@ -30,6 +30,7 @@
 
 ## Latest
 
+* (2021.02.03) 修复`AxisLine`的`OnZero`对`YAxis`不生效的问题 #116
 * (2021.01.29) 修复`Category`轴在`BoundaryGap`和`AlignWithLabel`为`True`时`Tick`显示效果不对的问题 #115
 * (2021.01.25) 优化一些细节
 * (2021.01.22) 修复`Inpsector`上部分属性显示异常的问题

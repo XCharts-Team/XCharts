@@ -2049,7 +2049,7 @@ namespace XCharts
             if (!axis.axisLine.onZero) return 0;
             foreach (var xAxis in m_XAxes)
             {
-                if (xAxis.IsValue() && xAxis.gridIndex == axis.gridIndex) return xAxis.runtimeZeroYOffset;
+                if (xAxis.IsValue() && xAxis.gridIndex == axis.gridIndex) return xAxis.runtimeZeroXOffset;
             }
             return 0;
         }

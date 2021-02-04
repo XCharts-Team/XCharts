@@ -18,7 +18,7 @@
  1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
 
 ``` json
-     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#2.0-upm",
 ```
 
  2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。

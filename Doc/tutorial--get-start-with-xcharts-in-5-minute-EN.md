@@ -17,7 +17,7 @@ If your project use `Unity 2018.3` or above, your can import `XCharts` by `Packa
 
 1. Open the `mamnifest.json` file in `Packages` directory, and add:
 ``` json
-    "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
+    "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#2.0-upm",
 ```
 2. Switch to `Unity`, It may take 3 to 5 minutes to download and compile, and once successful you can start using `XCharts`.
 3. If you want to delete `XCharts`, undo step 1.

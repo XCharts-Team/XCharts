@@ -127,7 +127,7 @@ The following is the relationship structure of LineChart:
 * Download the source code or `unitypackage` to import into your project. If `Unity` version are `2018.3` or above, it is recommended to import packages through `Package Manager`:
   1. Open the `manifest.json` file under `Packages` directory and add under `dependencies`:
   ``` json
-     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#package",
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#1.0-upm",
   ```
   2. Going back to `Unity`, it may take 3 to 5 minutes to download.
   3. If you want to delete `XCharts`, just delete the content added in step 1.

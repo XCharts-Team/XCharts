@@ -83,6 +83,11 @@
 ![radarchart](Doc/screenshot/xcharts-radar.png)
 ![scatterchart](Doc/screenshot/xcharts-scatter.png)
 ![heatmapchart](Doc/screenshot/xcharts-heatmap.png)
+![gaugechart](Doc/screenshot/xcharts-gauge.png)
+![ringchart](Doc/screenshot/xcharts-ring.png)
+![polarchart](Doc/screenshot/xcharts-polar.png)
+![liquidchart](Doc/screenshot/xcharts-liquid.png)
+![combinations](Doc/screenshot/xcharts-combinations.png)
 
 ## 术语
 

@@ -2,6 +2,7 @@
 # 更新日志
 
 [Latest](#Latest)  
+[v2.0.0](#v2.0.0)  
 [v2.0.0-preview.2](#v2.0.0-preview.2)  
 [v2.0.0-preview.1](#v2.0.0-preview.1)  
 [v1.6.3](#v1.6.3)  
@@ -30,6 +31,9 @@
 
 ## Latest
 
+## v2.0.0
+
+* (2021.02.05) Release `v2.0.0` version
 * (2021.02.03) Fixed an issue where `Axisline` `OnZero` did not work on `YAxis` #116
 * (2021.01.29) Fixed incorrect display of `Tick` on `Category` axis when `BoundaryGap` and `alignWithLabel` are `True` #115
 * (2021.01.25) Optimize some details

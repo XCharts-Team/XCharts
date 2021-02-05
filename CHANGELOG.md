@@ -30,6 +30,9 @@
 
 ## Latest
 
+## 2.0.0
+
+* (2021.02.05) 发布`v2.0.0`版本
 * (2021.02.03) 修复`AxisLine`的`OnZero`对`YAxis`不生效的问题 #116
 * (2021.01.29) 修复`Category`轴在`BoundaryGap`和`AlignWithLabel`为`True`时`Tick`显示效果不对的问题 #115
 * (2021.01.25) 优化一些细节

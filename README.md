@@ -82,6 +82,11 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 ![radarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png)
 ![scatterchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png)
 ![heatmapchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png)
+![gaugechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-gauge.png)
+![ringchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-ring.png)
+![polarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-polar.png)
+![liquidchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-liquid.png)
+![combinations](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-combinations.png)
 
 ## Cheat Sheet
 

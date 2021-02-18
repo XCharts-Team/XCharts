@@ -249,16 +249,19 @@ namespace XCharts
                 m_Theme.ClearDirty();
             }
             CheckComponentDirty(tooltip);
-            foreach (var title in m_Titles) CheckComponentDirty(title);
-            foreach (var legend in m_Legends) CheckComponentDirty(legend);
-            foreach (var dataZoom in m_DataZooms) CheckComponentDirty(dataZoom);
-            foreach (var visualMap in m_VisualMaps) CheckComponentDirty(visualMap);
-            foreach (var grid in m_Grids) CheckComponentDirty(grid);
-            foreach (var axis in m_XAxes) CheckComponentDirty(axis);
-            foreach (var axis in m_YAxes) CheckComponentDirty(axis);
-            foreach (var polar in m_Polars) CheckComponentDirty(polar);
-            foreach (var axis in m_AngleAxes) CheckComponentDirty(axis);
-            foreach (var axis in m_RadiusAxes) CheckComponentDirty(axis);
+            foreach (var component in m_Titles) CheckComponentDirty(component);
+            foreach (var component in m_Legends) CheckComponentDirty(component);
+            foreach (var component in m_Tooltips) CheckComponentDirty(component);
+            foreach (var component in m_DataZooms) CheckComponentDirty(component);
+            foreach (var component in m_VisualMaps) CheckComponentDirty(component);
+            foreach (var component in m_Grids) CheckComponentDirty(component);
+            foreach (var component in m_XAxes) CheckComponentDirty(component);
+            foreach (var component in m_YAxes) CheckComponentDirty(component);
+            foreach (var component in m_Vessels) CheckComponentDirty(component);
+            foreach (var component in m_Polars) CheckComponentDirty(component);
+            foreach (var component in m_AngleAxes) CheckComponentDirty(component);
+            foreach (var component in m_RadiusAxes) CheckComponentDirty(component);
+            foreach (var component in m_Radars) CheckComponentDirty(component);
             foreach (var drawSerie in m_DrawSeries) drawSerie.CheckComponent();
         }
 
@@ -278,9 +281,19 @@ namespace XCharts
         {
             base.SetAllComponentDirty();
             m_Theme.SetAllDirty();
-            foreach (var title in m_Titles) title.SetAllDirty();
-            foreach (var legend in m_Legends) legend.SetAllDirty();
-            tooltip.SetAllDirty();
+            foreach (var component in m_Titles) component.SetAllDirty();
+            foreach (var component in m_Legends) component.SetAllDirty();
+            foreach (var component in m_Tooltips) component.SetAllDirty();
+            foreach (var component in m_Grids) component.SetAllDirty();
+            foreach (var component in m_XAxes) component.SetAllDirty();
+            foreach (var component in m_YAxes) component.SetAllDirty();
+            foreach (var component in m_DataZooms) component.SetAllDirty();
+            foreach (var component in m_VisualMaps) component.SetAllDirty();
+            foreach (var component in m_Vessels) component.SetAllDirty();
+            foreach (var component in m_Polars) component.SetAllDirty();
+            foreach (var component in m_RadiusAxes) component.SetAllDirty();
+            foreach (var component in m_AngleAxes) component.SetAllDirty();
+            foreach (var component in m_Radars) component.SetAllDirty();
             m_ReinitLabel = true;
             m_ReinitTitle = true;
         }

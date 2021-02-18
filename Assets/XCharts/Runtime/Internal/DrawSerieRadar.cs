@@ -263,6 +263,7 @@ namespace XCharts
                     var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);
                     AxisHelper.AdjustCircleLabelPos(txt, pos, radar.runtimeCenterPos, txtHig, offset);
                 }
+                chart.RefreshBasePainter();
             };
             radar.refreshComponent?.Invoke();
         }

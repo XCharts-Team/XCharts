@@ -18,7 +18,6 @@ namespace XCharts
         public BaseChart chart;
         private const string INDICATOR_TEXT = "indicator";
         private bool m_IsEnterLegendButtom;
-        private bool m_RadarsDirty;
         Dictionary<string, int> serieNameSet = new Dictionary<string, int>();
 
         public DrawSerieRadar(BaseChart chart)
@@ -28,26 +27,11 @@ namespace XCharts
 
         public void InitComponent()
         {
-            InitIndicator();
+            InitRadars();
         }
 
         public void CheckComponent()
         {
-            var anyDirty = IsAnyRadarDirty();
-            if (m_RadarsDirty || anyDirty)
-            {
-                InitIndicator();
-                chart.RefreshBasePainter();
-                chart.tooltip.UpdateToTop();
-                if (anyDirty)
-                {
-                    foreach (var radar in chart.radars)
-                    {
-                        radar.ClearDirty();
-                    }
-                }
-                m_RadarsDirty = false;
-            }
         }
 
         public void Update()
@@ -244,22 +228,31 @@ namespace XCharts
         {
         }
 
-        private void InitIndicator()
+        private void InitRadars()
         {
-            ChartHelper.HideAllObject(chart.transform, INDICATOR_TEXT);
             for (int n = 0; n < chart.radars.Count; n++)
             {
                 Radar radar = chart.radars[n];
+                radar.index = n;
+                InitRadar(radar);
+            }
+        }
+
+        private void InitRadar(Radar radar)
+        {
+            float txtWid = 100;
+            float txtHig = 20;
+            radar.painter = chart.GetPainter(radar.index);
+            radar.refreshComponent = delegate ()
+            {
+                ChartHelper.HideAllObject(chart.transform, INDICATOR_TEXT + "_" + radar.index);
                 radar.UpdateRadarCenter(chart.chartPosition, chart.chartWidth, chart.chartHeight);
-                int indicatorNum = radar.indicatorList.Count;
-                float txtWid = 100;
-                float txtHig = 20;
-                for (int i = 0; i < indicatorNum; i++)
+                for (int i = 0; i < radar.indicatorList.Count; i++)
                 {
                     var indicator = radar.indicatorList[i];
                     var pos = radar.GetIndicatorPosition(i);
                     var textStyle = indicator.textStyle;
-                    var objName = INDICATOR_TEXT + "_" + n + "_" + i;
+                    var objName = INDICATOR_TEXT + "_" + radar.index + "_" + i;
                     var txt = ChartHelper.AddTextObject(objName, chart.transform, new Vector2(0.5f, 0.5f),
                         new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(txtWid, txtHig),
                         textStyle, chart.theme.radar);
@@ -270,7 +263,8 @@ namespace XCharts
                     var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);
                     AxisHelper.AdjustCircleLabelPos(txt, pos, radar.runtimeCenterPos, txtHig, offset);
                 }
-            }
+            };
+            radar.refreshComponent?.Invoke();
         }
 
         private void DrawMutipleRadar(VertexHelper vh, Serie serie, int i)

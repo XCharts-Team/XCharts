@@ -27,6 +27,17 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 移除指定Radar的所有Indicator。
+        /// </summary>
+        /// <param name="radarIndex"></param>
+        public void RemoveIndicator(int radarIndex)
+        {
+            var radar = GetRadar(radarIndex);
+            if (radar == null) return;
+            radar.indicatorList.Clear();
+        }
+
+        /// <summary>
         /// 添加雷达坐标系组件。
         /// </summary>
         public void AddRadar(Radar radar)
@@ -59,6 +70,14 @@ namespace XCharts
             radar.splitLine.lineStyle.width = lineWidth;
             m_Radars.Add(radar);
             return radar;
+        }
+
+        public bool AddIndicator(int radarIndex, Radar.Indicator indicator)
+        {
+            var radar = GetRadar(radarIndex);
+            if (radar == null) return false;
+            radar.AddIndicator(indicator);
+            return true;
         }
 
         /// <summary>

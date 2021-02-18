@@ -340,6 +340,12 @@ namespace XCharts
             return new Vector3(x, y);
         }
 
+        public void AddIndicator(Radar.Indicator indicator)
+        {
+            indicatorList.Add(indicator);
+            SetAllDirty();
+        }
+
         public Radar.Indicator AddIndicator(string name, float min, float max)
         {
             var indicator = new Radar.Indicator();

@@ -31,6 +31,8 @@
 
 ## Latest
 
+* (2021.02.18) Fixed an issue where the `Radar` could not refresh itself after parameter changing #122
+
 ## v2.0.0
 
 * (2021.02.05) Release `v2.0.0` version

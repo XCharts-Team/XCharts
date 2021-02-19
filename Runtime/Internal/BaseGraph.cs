@@ -34,6 +34,7 @@ namespace XCharts
         protected Vector2 m_GraphMaxAnchor;
         protected Vector2 m_GraphPivot;
         protected Vector2 m_GraphSizeDelta;
+        protected Vector2 m_GraphAnchoredPosition;
         protected Rect m_GraphRect = new Rect(0, 0, 0, 0);
         protected bool m_RefreshChart = false;
         protected bool m_ForceOpenRaycastTarget;
@@ -197,13 +198,12 @@ namespace XCharts
 
         private void InitBackground()
         {
-            var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
-            m_Background.gameObject = backgroundObj;
             m_Background.painter = m_Painter;
             m_Background.refreshComponent = delegate ()
             {
-                if (backgroundObj == null) return;
+                var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, transform, m_GraphMinAnchor,
+                m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
+                m_Background.gameObject = backgroundObj;
                 backgroundObj.hideFlags = chartHideFlags;
                 var backgroundImage = ChartHelper.GetOrAddComponent<Image>(backgroundObj);
                 ChartHelper.UpdateRectTransform(backgroundObj, m_GraphMinAnchor,
@@ -235,8 +235,11 @@ namespace XCharts
                 Awake();
             }
 
-            if (m_GraphWidth != currWidth || m_GraphHeight != currHeight ||
-                m_GraphMinAnchor != rectTransform.anchorMin || m_GraphMaxAnchor != rectTransform.anchorMax)
+            if (m_GraphWidth != currWidth
+                || m_GraphHeight != currHeight
+                || m_GraphMinAnchor != rectTransform.anchorMin
+                || m_GraphMaxAnchor != rectTransform.anchorMax
+                || m_GraphAnchoredPosition != rectTransform.anchoredPosition)
             {
                 UpdateSize();
             }
@@ -255,6 +258,7 @@ namespace XCharts
             m_GraphMaxAnchor = rectTransform.anchorMax;
             m_GraphMinAnchor = rectTransform.anchorMin;
             m_GraphSizeDelta = rectTransform.sizeDelta;
+            m_GraphAnchoredPosition = rectTransform.anchoredPosition;
 
             rectTransform.pivot = LayerHelper.ResetChartPositionAndPivot(m_GraphMinAnchor, m_GraphMaxAnchor,
                m_GraphWidth, m_GraphHeight, ref m_GraphX, ref m_GraphY);

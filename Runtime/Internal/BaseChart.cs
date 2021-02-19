@@ -350,18 +350,16 @@ namespace XCharts
         }
         private void InitTitle(Title title)
         {
-            title.OnChanged();
-            var anchorMin = title.location.runtimeAnchorMin;
-            var anchorMax = title.location.runtimeAnchorMax;
-            var pivot = title.location.runtimePivot;
-            var titleObject = ChartHelper.AddObject(s_TitleObjectName + title.index, transform, anchorMin, anchorMax,
-                pivot, m_ChartSizeDelta);
-            title.gameObject = titleObject;
             title.painter = null;
             title.refreshComponent = delegate ()
             {
-                if (titleObject == null) return;
                 title.OnChanged();
+                var anchorMin = title.location.runtimeAnchorMin;
+                var anchorMax = title.location.runtimeAnchorMax;
+                var pivot = title.location.runtimePivot;
+                var titleObject = ChartHelper.AddObject(s_TitleObjectName + title.index, transform, anchorMin, anchorMax,
+                    pivot, m_ChartSizeDelta);
+                title.gameObject = titleObject;
                 anchorMin = title.location.runtimeAnchorMin;
                 anchorMax = title.location.runtimeAnchorMax;
                 pivot = title.location.runtimePivot;
@@ -405,15 +403,13 @@ namespace XCharts
 
         private void InitLegend(Legend legend)
         {
-            legend.OnChanged();
-            var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, transform, m_ChartMinAnchor,
-                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-            legend.gameObject = legendObject;
             legend.painter = null; // legend component does not need to paint
             legend.refreshComponent = delegate ()
             {
-                if (legendObject == null) return;
                 legend.OnChanged();
+                var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, transform, m_ChartMinAnchor,
+                     m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
+                legend.gameObject = legendObject;
                 legendObject.hideFlags = chartHideFlags;
                 SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
                 List<string> datas;
@@ -596,12 +592,11 @@ namespace XCharts
 
         private void InitTooltip()
         {
-            tooltip.gameObject = ChartHelper.AddObject("tooltip", transform, m_ChartMinAnchor,
-                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             tooltip.painter = m_PainterTop;
             tooltip.refreshComponent = delegate ()
             {
-                if (tooltip.gameObject == null) return;
+                tooltip.gameObject = ChartHelper.AddObject("tooltip", transform, m_ChartMinAnchor,
+                    m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
                 var tooltipObject = tooltip.gameObject;
                 tooltipObject.transform.localPosition = Vector3.zero;
                 tooltipObject.hideFlags = chartHideFlags;
@@ -752,10 +747,7 @@ namespace XCharts
             m_ChartSizeDelta = m_GraphSizeDelta;
             m_ChartRect = m_GraphRect;
 
-            m_Background.SetAllDirty();
-            foreach (var title in m_Titles) title.SetAllDirty();
-            foreach (var legend in m_Legends) legend.SetAllDirty();
-            tooltip.SetAllDirty();
+            SetAllComponentDirty();
             m_Series.SetLabelDirty();
             m_ReinitLabel = true;
             RefreshChart();

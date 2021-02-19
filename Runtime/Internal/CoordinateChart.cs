@@ -61,15 +61,6 @@ namespace XCharts
             Awake();
         }
 #endif
-        protected override void SetAllComponentDirty()
-        {
-            base.SetAllComponentDirty();
-            foreach (var dataZoom in m_DataZooms) dataZoom.SetAllDirty();
-            foreach (var visualMap in m_VisualMaps) visualMap.SetAllDirty();
-            foreach (var grid in m_Grids) grid.SetAllDirty();
-            foreach (var axis in m_XAxes) axis.SetAllDirty();
-            foreach (var axis in m_YAxes) axis.SetAllDirty();
-        }
 
         private void RefreshSeriePainterByGridIndex(int gridIndex)
         {
@@ -499,14 +490,13 @@ namespace XCharts
 
         private void InitYAxis(int yAxisIndex, YAxis yAxis)
         {
-            string objName = ChartCached.GetYAxisName(yAxisIndex);
-            var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
-                graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            yAxis.gameObject = axisObj;
             yAxis.painter = m_Painter;
             yAxis.refreshComponent = delegate ()
             {
-                if (axisObj == null) return;
+                string objName = ChartCached.GetYAxisName(yAxisIndex);
+                var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
+                    graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+                yAxis.gameObject = axisObj;
                 yAxis.axisLabelTextList.Clear();
                 axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
                 axisObj.hideFlags = chartHideFlags;
@@ -610,14 +600,13 @@ namespace XCharts
 
         private void InitXAxis(int xAxisIndex, XAxis xAxis)
         {
-            string objName = ChartCached.GetXAxisName(xAxisIndex);
-            var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
-                graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            xAxis.gameObject = axisObj;
             xAxis.painter = m_Painter;
             xAxis.refreshComponent = delegate ()
             {
-                if (axisObj == null) return;
+                string objName = ChartCached.GetXAxisName(xAxisIndex);
+                var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
+                    graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+                xAxis.gameObject = axisObj;
                 xAxis.axisLabelTextList.Clear();
                 axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
                 axisObj.hideFlags = chartHideFlags;
@@ -716,13 +705,12 @@ namespace XCharts
             {
                 var dataZoom = m_DataZooms[i];
                 dataZoom.index = i;
-                var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + i, transform, graphAnchorMin,
-                    graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-                dataZoom.gameObject = dataZoomObject;
                 dataZoom.painter = m_PainterTop;
                 dataZoom.refreshComponent = delegate ()
                 {
-                    if (dataZoomObject == null) return;
+                    var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + i, transform, graphAnchorMin,
+                    graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
+                    dataZoom.gameObject = dataZoomObject;
                     dataZoomObject.hideFlags = chartHideFlags;
                     ChartHelper.HideAllObject(dataZoomObject);
                     var startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start", dataZoomObject.transform,

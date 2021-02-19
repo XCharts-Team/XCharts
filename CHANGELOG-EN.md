@@ -31,6 +31,7 @@
 
 ## Latest
 
+* (2021.02.19) Fixed an issue where charts could appear abnormal when under `LayoutGroup` control #121
 * (2021.02.18) Fixed an issue where the `Radar` could not refresh itself after parameter changing #122
 
 ## v2.0.0

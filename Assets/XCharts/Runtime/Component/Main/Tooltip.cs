@@ -60,6 +60,7 @@ namespace XCharts
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private bool m_IgnoreDataShow = false;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
         [SerializeField] private bool m_AlwayShow = false;
         [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
@@ -184,6 +185,11 @@ namespace XCharts
         /// 上下边距。
         /// </summary>
         public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
+        /// <summary>
+        /// Whether to show ignored data on tooltip.
+        /// 是否显示忽略数据在tooltip上。
+        /// </summary>
+        public bool ignoreDataShow { get { return m_IgnoreDataShow; } set { m_IgnoreDataShow = value; } }
         /// <summary>
         /// The default display character information for ignored data.
         /// 被忽略数据的默认显示字符信息。

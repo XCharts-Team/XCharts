@@ -231,7 +231,8 @@
 * `paddingLeftRight`：文字和边框的左右边距。
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
-* `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
+* `ignoreDataShow`：`(since v2.0.1)`是否显示忽略数据在`tooltip`上。 [defaut: `false`]。
+* `ignoreDataDefaultContent`：忽略数据的默认显示字符信息。
 * `alwayShow`：是否触发后一直显示。
 * `offset`：`(since v1.5.3)`提示框相对于鼠标位置的偏移。
 

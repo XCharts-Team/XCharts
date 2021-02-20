@@ -235,6 +235,7 @@ Tooltip component.
 * `paddingLeftRight`: the text padding of left and right. [defaut: `5f`].
 * `paddingTopBottom`: the text padding of top and bottom. [defaut: `5f`].
 * `backgroundImage`: The image of icon.
+* `ignoreDataShow`: Whether to show ignored data on tooltip. [defaut: `false`].
 * `ignoreDataDefaultContent`: The default display character information for ignored data.
 * `alwayShow`: Whether to trigger after always display.
 * `offset`: `(since v1.5.3)`The position offset of tooltip relative to the mouse position.

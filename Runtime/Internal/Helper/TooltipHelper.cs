@@ -106,7 +106,7 @@ namespace XCharts
         public static void InitRadarTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, Radar radar,
             ChartTheme theme)
         {
-            if(radar == null) return;
+            if (radar == null) return;
             if (!serie.show) return;
             if (tooltip.runtimeGridIndex >= 0) return;
             if (serie.radarIndex != radar.index) return;
@@ -206,7 +206,7 @@ namespace XCharts
                         .Append(ChartCached.FloatToStr(yValue, numericFormatter)).Append("]");
                 }
             }
-            else
+            else if (!isIngore || (isIngore && tooltip.ignoreDataShow))
             {
                 var valueTxt = isIngore ? tooltip.ignoreDataDefaultContent :
                     ChartCached.FloatToStr(yValue, numericFormatter);

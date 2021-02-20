@@ -31,6 +31,7 @@
 
 ## Latest
 
+* (2021.02.21) Added `Tooltip` parameter `ignoreDataShow`
 * (2021.02.19) Fixed an issue where charts could appear abnormal when under `LayoutGroup` control #121
 * (2021.02.18) Fixed an issue where the `Radar` could not refresh itself after parameter changing #122
 
@@ -47,7 +48,7 @@
 * (2021.01.21) Release `v2.0.0-preview.2` version
 * (2021.01.21) Fixed an error about `AxisTick` in `Inpsector`
 * (2021.01.21) Fixed a build compatibility error
-* (2021.01.19) Add `XChartsSettings` `editorShowAllListData` parameter to configure whether to display all the list's data in Inspector
+* (2021.01.19) Added `XChartsSettings` `editorShowAllListData` parameter to configure whether to display all the list's data in Inspector
 
 ## v2.0.0-preview.1
 

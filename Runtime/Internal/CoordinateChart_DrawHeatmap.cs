@@ -18,7 +18,7 @@ namespace XCharts
 
         protected void CheckVisualMap()
         {
-            if (!visualMap.enable || !visualMap.show) return;
+            if (visualMap == null || !visualMap.enable || !visualMap.show) return;
             Vector2 local;
             if (canvas == null) return;
 

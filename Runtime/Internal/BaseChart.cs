@@ -686,7 +686,7 @@ namespace XCharts
             {
                 m_Painter.Refresh();
                 foreach (var painter in m_PainterList) painter.Refresh();
-                m_PainterTop.Refresh();
+                if (m_PainterTop != null) m_PainterTop.Refresh();
                 m_RefreshChart = false;
             }
         }
@@ -696,7 +696,7 @@ namespace XCharts
             if (m_Painter == null) return;
             m_Painter.CheckRefresh();
             foreach (var painter in m_PainterList) painter.CheckRefresh();
-            m_PainterTop.CheckRefresh();
+            if (m_PainterTop != null) m_PainterTop.CheckRefresh();
         }
 
         protected void CheckRefreshLabel()

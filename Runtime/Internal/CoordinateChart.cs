@@ -1369,7 +1369,8 @@ namespace XCharts
 
         private void CheckRaycastTarget()
         {
-            var ray = dataZoom.enable || (visualMap.enable && visualMap.show && visualMap.calculable);
+            var ray = (dataZoom != null && dataZoom.enable)
+                || (visualMap != null && visualMap.enable && visualMap.show && visualMap.calculable);
             if (raycastTarget != ray)
             {
                 raycastTarget = ray;
@@ -1378,7 +1379,7 @@ namespace XCharts
 
         private void CheckDataZoom()
         {
-            if (!dataZoom.enable) return;
+            if (dataZoom == null || !dataZoom.enable) return;
             CheckDataZoomScale();
             CheckDataZoomLabel();
         }

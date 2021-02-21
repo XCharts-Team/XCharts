@@ -1,7 +1,6 @@
 {
     "name": "XCharts.Runtime",
     "references": [
-        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

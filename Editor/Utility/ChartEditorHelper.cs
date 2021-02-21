@@ -15,6 +15,7 @@ public class ChartEditorHelper
     public const float INDENT_WIDTH = 15;
     public const float BOOL_WIDTH = 15;
     public const float ARROW_WIDTH = 13;
+    public const float BLOCK_WIDTH = 0;
     public const float GAP_WIDTH = 0;
 #endif
 
@@ -26,8 +27,8 @@ public class ChartEditorHelper
             font = headerStyle.font,
             fontStyle = headerStyle.fontStyle,
         };
-        public static readonly GUIContent iconAdd = EditorGUIUtility.TrIconContent("Toolbar Plus", "Add");
-        public static readonly GUIContent iconRemove = EditorGUIUtility.TrIconContent("Toolbar Minus", "Remove");
+        public static readonly GUIContent iconAdd = new GUIContent("+", "Add");
+        public static readonly GUIContent iconRemove = new GUIContent("-", "Remove");
         public static readonly GUIContent iconUp = new GUIContent("↑", "Up");
         public static readonly GUIContent iconDown = new GUIContent("↓", "Down");
         public static readonly GUIStyle invisibleButton = "InvisibleButton";
@@ -286,20 +287,20 @@ public class ChartEditorHelper
     {
         EditorGUI.indentLevel++;
         var listSize = listProp.arraySize;
-        var iconWidth = 14;
+        var iconWidth = 15;
         var iconGap = 3f;
         if (showSize)
         {
             if (showOrder)
             {
                 var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
-                var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - iconWidth - 1, drawRect.height);
+                var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - iconWidth + 2, drawRect.height);
                 var iconRect = new Rect(drawRect.width - iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                 if (XChartsSettings.editorBlockEnable)
                 {
                     iconRect.x += BLOCK_WIDTH;
                 }
-                if (GUI.Button(iconRect, Styles.iconAdd, Styles.invisibleButton))
+                if (GUI.Button(iconRect, Styles.iconAdd))
                 {
                     if (listProp.displayName.Equals("Series"))
                     {
@@ -361,7 +362,7 @@ public class ChartEditorHelper
                     var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                     var isSerie = "Serie".Equals(element.type);
                     var elementRect = isSerie
-                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH, drawRect.height)
+                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - iconGap, drawRect.height)
                         : new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
                     var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
@@ -369,7 +370,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconUp, Styles.invisibleButton))
+                    if (GUI.Button(iconRect, Styles.iconUp))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
@@ -378,7 +379,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconDown, Styles.invisibleButton))
+                    if (GUI.Button(iconRect, Styles.iconDown))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
@@ -387,7 +388,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconRemove, Styles.invisibleButton))
+                    if (GUI.Button(iconRect, Styles.iconRemove))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
                     }

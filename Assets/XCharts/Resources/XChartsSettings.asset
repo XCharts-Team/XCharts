@@ -38,6 +38,7 @@ MonoBehaviour:
   m_SerieScatterSymbolSize: 20
   m_SerieScatterSymbolSelectedSize: 30
   m_EditorBlockEnable: 1
+  m_EditorShowAllListData: 0
   m_MaxPainter: 10
   m_LineSmoothStyle: 3
   m_LineSmoothness: 2

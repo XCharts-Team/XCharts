@@ -165,13 +165,13 @@ namespace XCharts
                 else if (IsAssetsExist(XChartsMgr.GetThemeAssetPath(m_ChartName)))
                 {
                     ShowNotification(new GUIContent("ERROR:The asset is exist! \npath="
-                        + XChartsMgr.GetThemeAssetPath(m_ChartName)), 5);
+                        + XChartsMgr.GetThemeAssetPath(m_ChartName)));
                 }
                 else
                 {
                     XChartsMgr.ExportTheme(target.theme, m_ChartName);
                     ShowNotification(new GUIContent("SUCCESS:The theme is exported. \npath="
-                        + XChartsMgr.GetThemeAssetPath(m_ChartName)), 5);
+                        + XChartsMgr.GetThemeAssetPath(m_ChartName)));
                 }
             }
         }

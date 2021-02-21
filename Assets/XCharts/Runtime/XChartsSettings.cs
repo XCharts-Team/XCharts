@@ -14,7 +14,10 @@ using TMPro;
 namespace XCharts
 {
     [Serializable]
+#if UNITY_2018_3
+
     [ExcludeFromPresetAttribute]
+#endif
     public class XChartsSettings : ScriptableObject
     {
 

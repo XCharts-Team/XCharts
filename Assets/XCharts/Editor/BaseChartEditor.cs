@@ -197,7 +197,7 @@ namespace XCharts
                         for (int i = 0; i < prop.arraySize; i++)
                         {
                             EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(i), true);
-                            EditorGUILayout.Space(-EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing);
+                            EditorGUILayout.Space();
                             var currRect = EditorGUILayout.GetControlRect();
 
                             var rect1 = new Rect(currRect.width + k_IconXOffset,

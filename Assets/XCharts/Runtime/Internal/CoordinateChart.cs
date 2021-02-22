@@ -26,7 +26,6 @@ namespace XCharts
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
         private bool m_CheckDataZoomLabel;
-        private Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
 
         protected override void InitComponent()
         {

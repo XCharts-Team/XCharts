@@ -12,7 +12,6 @@ namespace XCharts
     public class XChartsPackageResourceImporter
     {
         bool m_EssentialResourcesImported;
-        bool m_ExamplesAndExtrasResourcesImported;
 
         public XChartsPackageResourceImporter() { }
 
@@ -23,7 +22,6 @@ namespace XCharts
         public void OnGUI()
         {
             m_EssentialResourcesImported = File.Exists("Assets/XCharts/Resources/XChartsSettings.asset");
-            m_ExamplesAndExtrasResourcesImported = Directory.Exists("Assets/XCharts/Examples & Extras");
 
             GUILayout.BeginVertical();
             {

@@ -86,6 +86,12 @@ namespace XCharts
             m_DrawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
 
+        protected void AddHeight(float height)
+        {
+            m_Heights[m_KeyName] += height;
+            m_DrawRect.y += height;
+        }
+
         protected void PropertyListField(SerializedProperty prop, string relativePropName, bool showOrder = true)
         {
             if (IngorePropertys.Contains(relativePropName)) return;
@@ -106,6 +112,25 @@ namespace XCharts
             }
         }
 
+        protected void PropertyFieldLimitMin(SerializedProperty prop, string relativePropName, float minValue)
+        {
+            if (IngorePropertys.Contains(relativePropName)) return;
+            if (!ChartEditorHelper.PropertyFieldWithMinValue(ref m_DrawRect, m_Heights, m_KeyName, prop,
+                relativePropName, minValue))
+            {
+                Debug.LogError("PropertyField ERROR:" + prop.displayName + ", " + relativePropName);
+            }
+        }
+        protected void PropertyFieldLimitMax(SerializedProperty prop, string relativePropName, float maxValue)
+        {
+            if (IngorePropertys.Contains(relativePropName)) return;
+            if (!ChartEditorHelper.PropertyFieldWithMaxValue(ref m_DrawRect, m_Heights, m_KeyName, prop,
+                relativePropName, maxValue))
+            {
+                Debug.LogError("PropertyField ERROR:" + prop.displayName + ", " + relativePropName);
+            }
+        }
+
         protected void PropertyField(SerializedProperty prop, SerializedProperty relativeProp)
         {
             if (!ChartEditorHelper.PropertyField(ref m_DrawRect, m_Heights, m_KeyName, relativeProp))
@@ -118,7 +143,8 @@ namespace XCharts
         {
             PropertyTwoFiled(prop, prop.FindPropertyRelative(relativeListProp), labelName);
         }
-        protected void PropertyTwoFiled(SerializedProperty prop, SerializedProperty relativeListProp, string labelName = null)
+        protected void PropertyTwoFiled(SerializedProperty prop, SerializedProperty relativeListProp,
+            string labelName = null)
         {
             if (string.IsNullOrEmpty(labelName))
             {
@@ -132,12 +158,14 @@ namespace XCharts
         {
             if (string.IsNullOrEmpty(relativePropName))
             {
-                return ChartEditorHelper.MakeFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName, m_DisplayName, null);
+                return ChartEditorHelper.MakeFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName,
+                    m_DisplayName, null);
             }
             else
             {
                 var relativeProp = prop.FindPropertyRelative(relativePropName);
-                return ChartEditorHelper.MakeFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName, m_DisplayName, relativeProp);
+                return ChartEditorHelper.MakeFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName,
+                    m_DisplayName, relativeProp);
             }
         }
 

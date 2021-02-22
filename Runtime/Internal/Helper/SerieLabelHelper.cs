@@ -228,7 +228,6 @@ namespace XCharts
                         labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
                         labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
                             serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                        float labelWidth = serieData.labelObject.label.GetPreferredWidth();
                         serieData.labelPosition = labelCenter;
                     }
                     break;

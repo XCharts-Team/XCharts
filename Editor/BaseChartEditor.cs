@@ -18,10 +18,17 @@ namespace XCharts
     [CustomEditor(typeof(BaseChart), false)]
     public class BaseChartEditor : Editor
     {
+#if UNITY_2019_3_OR_NEWER
         private const float k_IconWidth = 14;
         private const float k_IconGap = 0f;
-        private const float k_IconXOffset = 10f;
-        private const float k_IconYOffset = -5f;
+        private const float k_IconXOffset = 7f;
+        private const float k_IconYOffset = -1f;
+#else
+        private const float k_IconWidth = 14;
+        private const float k_IconGap = 0f;
+        private const float k_IconXOffset = 4f;
+        private const float k_IconYOffset = -3f;
+#endif
 
         protected BaseChart m_Chart;
         protected SerializedProperty m_Script;
@@ -197,12 +204,13 @@ namespace XCharts
                         for (int i = 0; i < prop.arraySize; i++)
                         {
                             EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(i), true);
-                            EditorGUILayout.Space();
-                            var currRect = EditorGUILayout.GetControlRect();
-
+                            var currRect = EditorGUILayout.GetControlRect(GUILayout.Height(0));
+                            currRect.y -= EditorGUI.GetPropertyHeight(prop.GetArrayElementAtIndex(i));
                             var rect1 = new Rect(currRect.width + k_IconXOffset,
                                 currRect.y + k_IconYOffset,
                                 k_IconWidth, EditorGUIUtility.singleLineHeight);
+                            var oldColor = GUI.contentColor;
+                            GUI.contentColor = Color.black;
                             if (GUI.Button(rect1, ChartEditorHelper.Styles.iconRemove, ChartEditorHelper.Styles.invisibleButton))
                             {
                                 if (i < prop.arraySize && i >= 0) prop.DeleteArrayElementAtIndex(i);
@@ -221,7 +229,7 @@ namespace XCharts
                             {
                                 if (i > 0) prop.MoveArrayElement(i, i - 1);
                             }
-
+                            GUI.contentColor = oldColor;
                         }
                         EditorGUI.indentLevel--;
                     }

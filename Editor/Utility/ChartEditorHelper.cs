@@ -14,7 +14,7 @@ public class ChartEditorHelper
 #else
     public const float INDENT_WIDTH = 15;
     public const float BOOL_WIDTH = 15;
-    public const float ARROW_WIDTH = 13;
+    public const float ARROW_WIDTH = 17.2f;
     public const float BLOCK_WIDTH = 0;
     public const float GAP_WIDTH = 0;
 #endif
@@ -42,13 +42,17 @@ public class ChartEditorHelper
         drawRect = offset.Remove(drawRect);
     }
 
-    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name)
+    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp,
+        string name)
     {
         while (arrayProp.arraySize < 2) arrayProp.arraySize++;
-        MakeTwoField(ref drawRect, rectWidth, arrayProp.GetArrayElementAtIndex(0), arrayProp.GetArrayElementAtIndex(1), name);
+        var prop1 = arrayProp.GetArrayElementAtIndex(0);
+        var prop2 = arrayProp.GetArrayElementAtIndex(1);
+        MakeTwoField(ref drawRect, rectWidth, prop1, prop2, name);
     }
 
-    public static void MakeDivideList(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp, string name, int showNum)
+    public static void MakeDivideList(ref Rect drawRect, float rectWidth, SerializedProperty arrayProp,
+        string name, int showNum)
     {
         while (arrayProp.arraySize < showNum) arrayProp.arraySize++;
         EditorGUI.LabelField(drawRect, name);
@@ -71,7 +75,8 @@ public class ChartEditorHelper
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
     }
 
-    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty prop1, SerializedProperty prop2, string name)
+    public static void MakeTwoField(ref Rect drawRect, float rectWidth, SerializedProperty prop1,
+        SerializedProperty prop2, string name)
     {
         EditorGUI.LabelField(drawRect, name);
         var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
@@ -135,21 +140,23 @@ public class ChartEditorHelper
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
+        var style = bold ? Styles.foldoutStyle : EditorStyles.foldout;
         drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
-        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, bold ? Styles.foldoutStyle : EditorStyles.foldout);
+        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, style);
         MakeBool(drawRect, prop);
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
         return moduleToggle;
     }
 
-    public static bool MakeFoldout(ref Rect drawRect, Dictionary<string, float> heights, Dictionary<string, bool> moduleToggle,
-        string key, string content, SerializedProperty prop, bool bold = false)
+    public static bool MakeFoldout(ref Rect drawRect, Dictionary<string, float> heights,
+        Dictionary<string, bool> moduleToggle, string key, string content, SerializedProperty prop, bool bold = false)
     {
         float defaultWidth = drawRect.width;
         float defaultX = drawRect.x;
-        drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
-        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, bold ? Styles.foldoutStyle : EditorStyles.foldout);
+        var style = bold ? Styles.foldoutStyle : EditorStyles.foldout;
+        drawRect.width = EditorGUIUtility.labelWidth;
+        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, style);
         if (prop != null)
         {
             if (prop.propertyType == SerializedPropertyType.Boolean)
@@ -201,10 +208,11 @@ public class ChartEditorHelper
         drawRect.x = defaultX;
     }
 
-    public static bool MakeFoldout(ref Rect drawRect, ref float height, ref Dictionary<string, bool> moduleToggle, SerializedProperty prop,
-        string moduleName, string showPropName, bool bold = false)
+    public static bool MakeFoldout(ref Rect drawRect, ref float height, ref Dictionary<string, bool> moduleToggle,
+        SerializedProperty prop, string moduleName, string showPropName, bool bold = false)
     {
-        var flag = MakeFoldout(ref drawRect, ref moduleToggle, prop, moduleName, prop.FindPropertyRelative(showPropName), bold);
+        var relativeProp = prop.FindPropertyRelative(showPropName);
+        var flag = MakeFoldout(ref drawRect, ref moduleToggle, prop, moduleName, relativeProp, bold);
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         return flag;
@@ -256,13 +264,15 @@ public class ChartEditorHelper
         return toggle;
     }
 
-    public static bool MakeListWithFoldout(ref Rect drawRect, SerializedProperty listProp, bool foldout, bool showOrder = false, bool showSize = true)
+    public static bool MakeListWithFoldout(ref Rect drawRect, SerializedProperty listProp, bool foldout,
+        bool showOrder = false, bool showSize = true)
     {
         var height = 0f;
         return MakeListWithFoldout(ref drawRect, ref height, listProp, foldout, showOrder, showSize);
     }
 
-    public static bool MakeListWithFoldout(ref Rect drawRect, ref float height, SerializedProperty listProp, bool foldout, bool showOrder = false, bool showSize = true)
+    public static bool MakeListWithFoldout(ref Rect drawRect, ref float height, SerializedProperty listProp,
+        bool foldout, bool showOrder = false, bool showSize = true)
     {
         var rawWidth = drawRect.width;
         drawRect.width = EditorGUIUtility.labelWidth + 10;
@@ -277,17 +287,19 @@ public class ChartEditorHelper
         return flag;
     }
 
-    public static void MakeList(ref Rect drawRect, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    public static void MakeList(ref Rect drawRect, SerializedProperty listProp, bool showOrder = false,
+        bool showSize = true)
     {
         var height = 0f;
         MakeList(ref drawRect, ref height, listProp, showOrder, showSize);
     }
 
-    public static void MakeList(ref Rect drawRect, ref float height, SerializedProperty listProp, bool showOrder = false, bool showSize = true)
+    public static void MakeList(ref Rect drawRect, ref float height, SerializedProperty listProp,
+        bool showOrder = false, bool showSize = true)
     {
         EditorGUI.indentLevel++;
         var listSize = listProp.arraySize;
-        var iconWidth = 15;
+        var iconWidth = 14;
         var iconGap = 3f;
         if (showSize)
         {
@@ -300,7 +312,9 @@ public class ChartEditorHelper
                 {
                     iconRect.x += BLOCK_WIDTH;
                 }
-                if (GUI.Button(iconRect, Styles.iconAdd))
+                var oldColor = GUI.contentColor;
+                GUI.contentColor = Color.black;
+                if (GUI.Button(iconRect, Styles.iconAdd, Styles.invisibleButton))
                 {
                     if (listProp.displayName.Equals("Series"))
                     {
@@ -312,6 +326,7 @@ public class ChartEditorHelper
                         listProp.arraySize++;
                     }
                 }
+                GUI.contentColor = oldColor;
                 listSize = listProp.arraySize;
                 listSize = EditorGUI.IntField(elementRect, "Size", listSize);
             }
@@ -358,11 +373,10 @@ public class ChartEditorHelper
                 SerializedProperty element = listProp.GetArrayElementAtIndex(i);
                 if (showOrder)
                 {
-
                     var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                     var isSerie = "Serie".Equals(element.type);
                     var elementRect = isSerie
-                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - iconGap, drawRect.height)
+                        ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * iconGap, drawRect.height)
                         : new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
                     EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
                     var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
@@ -370,7 +384,9 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconUp))
+                    var oldColor = GUI.contentColor;
+                    GUI.contentColor = Color.black;
+                    if (GUI.Button(iconRect, Styles.iconUp, Styles.invisibleButton))
                     {
                         if (i > 0) listProp.MoveArrayElement(i, i - 1);
                     }
@@ -379,7 +395,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconDown))
+                    if (GUI.Button(iconRect, Styles.iconDown, Styles.invisibleButton))
                     {
                         if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
                     }
@@ -388,7 +404,7 @@ public class ChartEditorHelper
                     {
                         iconRect.x += BLOCK_WIDTH;
                     }
-                    if (GUI.Button(iconRect, Styles.iconRemove))
+                    if (GUI.Button(iconRect, Styles.iconRemove, Styles.invisibleButton))
                     {
                         if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
                     }
@@ -397,6 +413,7 @@ public class ChartEditorHelper
                         drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
                         height += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
                     }
+                    GUI.contentColor = oldColor;
                 }
                 else
                 {
@@ -409,23 +426,62 @@ public class ChartEditorHelper
         EditorGUI.indentLevel--;
     }
 
-    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key, SerializedProperty prop)
+    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty prop)
     {
-        if (prop == null)
-        {
-            return false;
-        }
+        if (prop == null) return false;
         EditorGUI.PropertyField(drawRect, prop, true);
         var hig = EditorGUI.GetPropertyHeight(prop);
-        // var hig = prop.hasVisibleChildren
-        //     ? EditorGUI.GetPropertyHeight(prop)
-        //     : EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         drawRect.y += hig;
         heights[key] += hig;
         return true;
     }
-    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key, SerializedProperty parentProp, string relativeName)
+
+    public static bool PropertyFieldWithMinValue(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty prop, float minValue)
+    {
+        if (prop == null) return false;
+        EditorGUI.PropertyField(drawRect, prop, true);
+        if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue < minValue)
+            prop.floatValue = minValue;
+        if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue < minValue)
+            prop.intValue = (int)minValue;
+        var hig = EditorGUI.GetPropertyHeight(prop);
+        drawRect.y += hig;
+        heights[key] += hig;
+        return true;
+    }
+
+    public static bool PropertyFieldWithMaxValue(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty prop, float maxValue)
+    {
+        if (prop == null) return false;
+        EditorGUI.PropertyField(drawRect, prop, true);
+        if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue > maxValue)
+            prop.floatValue = maxValue;
+        if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue > maxValue)
+            prop.intValue = (int)maxValue;
+        var hig = EditorGUI.GetPropertyHeight(prop);
+        drawRect.y += hig;
+        heights[key] += hig;
+        return true;
+    }
+
+    public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty parentProp, string relativeName)
     {
         return PropertyField(ref drawRect, heights, key, parentProp.FindPropertyRelative(relativeName));
+    }
+    public static bool PropertyFieldWithMinValue(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty parentProp, string relativeName, float minValue)
+    {
+        var relativeProp = parentProp.FindPropertyRelative(relativeName);
+        return PropertyFieldWithMinValue(ref drawRect, heights, key, relativeProp, minValue);
+    }
+    public static bool PropertyFieldWithMaxValue(ref Rect drawRect, Dictionary<string, float> heights, string key,
+        SerializedProperty parentProp, string relativeName, float maxValue)
+    {
+        var relativeProp = parentProp.FindPropertyRelative(relativeName);
+        return PropertyFieldWithMaxValue(ref drawRect, heights, key, relativeProp, maxValue);
     }
 }

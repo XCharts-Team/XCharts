@@ -22,7 +22,6 @@ namespace XCharts
             {
                 SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
                 SerializedProperty m_LogBase = prop.FindPropertyRelative("m_LogBase");
-                SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                 SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 var chart = prop.serializedObject.targetObject as BaseChart;

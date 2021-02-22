@@ -100,7 +100,6 @@ namespace XCharts
         public static void DrawLineStyle(VertexHelper vh, LineStyle.Type lineType, float lineWidth,
             Vector3 startPos, Vector3 endPos, Color32 color)
         {
-            var type = lineType;
             switch (lineType)
             {
                 case LineStyle.Type.Dashed:

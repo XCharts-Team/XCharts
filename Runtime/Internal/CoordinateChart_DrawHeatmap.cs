@@ -120,6 +120,8 @@ namespace XCharts
             if (serie.animation.HasFadeOut()) return;
             var yAxis = m_YAxes[serie.yAxisIndex];
             var xAxis = m_XAxes[serie.xAxisIndex];
+            xAxis.boundaryGap = true;
+            yAxis.boundaryGap = true;
             var grid = GetSerieGridOrDefault(serie);
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
@@ -153,9 +155,11 @@ namespace XCharts
                         serie.dataPoints.Add(Vector3.zero);
                         continue;
                     }
-                    var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
+                    var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
+                        yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     if (serieData.IsDataChanged()) dataChanging = true;
-                    var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);
+                    var pos = new Vector3(zeroX + (i + (xAxis.boundaryGap ? 0.5f : 0)) * xWidth,
+                        zeroY + (j + (yAxis.boundaryGap ? 0.5f : 0)) * yWidth);
                     serie.dataPoints.Add(pos);
                     serieData.canShowLabel = false;
                     if (value == 0) continue;
@@ -171,7 +175,9 @@ namespace XCharts
                     }
                     if (animationIndex >= 0 && i > animationIndex) continue;
                     serieData.canShowLabel = true;
-                    var emphasis = (tooltip.show && i == (int)tooltip.runtimeXValues[0] && j == (int)tooltip.runtimeYValues[0])
+                    var emphasis = (tooltip.show 
+                        && i == (int)tooltip.runtimeXValues[0] 
+                        && j == (int)tooltip.runtimeYValues[0])
                         || visualMap.runtimeSelectedIndex > 0;
                     var rectWid = xWidth - 2 * borderWidth;
                     var rectHig = yWidth - 2 * borderWidth;
@@ -180,10 +186,12 @@ namespace XCharts
                     {
                         UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor);
                     }
-                    if (visualMap.hoverLink && emphasis && serie.emphasis.show && serie.emphasis.itemStyle.borderWidth > 0)
+                    if (visualMap.hoverLink && emphasis && serie.emphasis.show 
+                        && serie.emphasis.itemStyle.borderWidth > 0)
                     {
                         var emphasisBorderWidth = serie.emphasis.itemStyle.borderWidth;
-                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0 ? serie.emphasis.itemStyle.borderColor : ChartConst.clearColor32;
+                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0 
+                            ? serie.emphasis.itemStyle.borderColor : ChartConst.clearColor32;
                         UGL.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor);
                     }
                 }

@@ -31,6 +31,8 @@
 
 ## Latest
 
+* (2021.02.26) Fixed incorrect position of `Tooltip` in `HeatmapChart` #123
+* (2021.02.22) Fixed compatibility issues with `Unity` version
 * (2021.02.21) Added `Tooltip` parameter `ignoreDataShow`
 * (2021.02.19) Fixed an issue where charts could appear abnormal when under `LayoutGroup` control #121
 * (2021.02.18) Fixed an issue where the `Radar` could not refresh itself after parameter changing #122

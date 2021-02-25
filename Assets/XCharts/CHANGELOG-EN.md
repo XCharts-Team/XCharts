@@ -2,6 +2,7 @@
 # 更新日志
 
 [Latest](#Latest)  
+[v2.0.1](#v2.0.1)  
 [v2.0.0](#v2.0.0)  
 [v2.0.0-preview.2](#v2.0.0-preview.2)  
 [v2.0.0-preview.1](#v2.0.0-preview.1)  
@@ -30,6 +31,8 @@
 [v0.1.0](#v0.1.0)  
 
 ## Latest
+
+## v2.0.1
 
 * (2021.02.26) Fixed incorrect position of `Tooltip` in `HeatmapChart` #123
 * (2021.02.22) Fixed compatibility issues with `Unity` version

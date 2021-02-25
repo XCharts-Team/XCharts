@@ -28,9 +28,9 @@ namespace XCharts
             grid.bottom = 60;
 
             m_XAxes[0].type = Axis.AxisType.Category;
-            m_XAxes[0].boundaryGap = false;
+            m_XAxes[0].boundaryGap = true;
             m_YAxes[0].type = Axis.AxisType.Category;
-            m_YAxes[0].boundaryGap = false;
+            m_YAxes[0].boundaryGap = true;
             m_XAxes[0].splitNumber = 10;
             m_YAxes[0].splitNumber = 10;
             RemoveData();

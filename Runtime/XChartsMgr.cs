@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -412,10 +413,55 @@ namespace XCharts
             }
         }
 
+        public static string GetPackageFullPath()
+        {
+            string packagePath = Path.GetFullPath("Packages/com.monitor1394.xcharts");
+            if (Directory.Exists(packagePath))
+            {
+                return packagePath;
+            }
+            packagePath = Path.GetFullPath("Assets/..");
+            if (Directory.Exists(packagePath))
+            {
+                // Search default location for development package
+                if (File.Exists(packagePath + "/Assets/Packages/com.monitor1394.xcharts/package.json"))
+                {
+                    return packagePath + "/Assets/Packages/com.monitor1394.xcharts";
+                }
+
+                // Search for default location of normal XCharts AssetStore package
+                if (File.Exists(packagePath + "/Assets/XCharts/package.json"))
+                {
+                    return packagePath + "/Assets/XCharts";
+                }
+
+                // Search for potential alternative locations in the user project
+                string[] matchingPaths = Directory.GetDirectories(packagePath, "XCharts", SearchOption.AllDirectories);
+                string path = ValidateLocation(matchingPaths, packagePath);
+                if (path != null) return packagePath + path;
+            }
+
+            return null;
+        }
+
+        private static string ValidateLocation(string[] paths, string projectPath)
+        {
+            for (int i = 0; i < paths.Length; i++)
+            {
+                if (File.Exists(paths[i] + "/package.json"))
+                {
+                    string folderPath = paths[i].Replace(projectPath, "");
+                    folderPath = folderPath.TrimStart('\\', '/');
+                    return folderPath;
+                }
+            }
+
+            return null;
+        }
+
 #if UNITY_EDITOR
         public static void EnableTextMeshPro()
         {
-
             DefineSymbolsUtil.AddGlobalDefine("dUI_TextMeshPro");
             RemoveAllChartObject();
         }

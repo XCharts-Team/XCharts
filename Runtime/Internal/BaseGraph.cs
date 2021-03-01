@@ -162,16 +162,6 @@ namespace XCharts
             }
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-        }
-
 #if UNITY_EDITOR
         protected override void Reset()
         {

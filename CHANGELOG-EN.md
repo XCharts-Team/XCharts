@@ -32,6 +32,8 @@
 
 ## Latest
 
+* (2021.03.01) Fixed display exception of hidden gameObjects when enabling and disabling a chart #125
+
 ## v2.0.1
 
 * (2021.02.26) Fixed incorrect position of `Tooltip` in `HeatmapChart` #123

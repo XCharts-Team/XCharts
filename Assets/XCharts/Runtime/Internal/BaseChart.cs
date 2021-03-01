@@ -265,18 +265,6 @@ namespace XCharts
             foreach (var drawSerie in m_DrawSeries) drawSerie.CheckComponent();
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            ChartHelper.ActiveAllObject(transform, true);
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            ChartHelper.ActiveAllObject(transform, false);
-        }
-
         protected override void SetAllComponentDirty()
         {
             base.SetAllComponentDirty();

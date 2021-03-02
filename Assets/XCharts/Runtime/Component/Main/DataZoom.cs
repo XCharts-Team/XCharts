@@ -361,6 +361,14 @@ namespace XCharts
         public float runtimeWidth { get; private set; }
         public float runtimeHeight { get; private set; }
 
+        class AxisIndexValueInfo
+        {
+            public float min;
+            public float max;
+        }
+        private Dictionary<int, AxisIndexValueInfo> m_XAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
+        private Dictionary<int, AxisIndexValueInfo> m_YAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
+
         /// <summary>
         /// The start label.
         /// 组件的开始信息文本。
@@ -395,7 +403,8 @@ namespace XCharts
                     end = 70,
                     m_ScrollSensitivity = 10,
                     m_TextStyle = new TextStyle(),
-                    m_LineStyle = new LineStyle(LineStyle.Type.Solid){
+                    m_LineStyle = new LineStyle(LineStyle.Type.Solid)
+                    {
                         opacity = 0.3f
                     },
                     m_AreaStyle = new AreaStyle()
@@ -472,6 +481,23 @@ namespace XCharts
             return xAxisIndexs.Contains(index);// || yAxisIndexs.Contains(index);
         }
 
+        public Color32 GetFillerColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(fillerColor)) return themeColor;
+            else return fillerColor;
+        }
+
+        public Color32 GetBackgroundColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(backgroundColor)) return themeColor;
+            else return backgroundColor;
+        }
+        public Color32 GetBorderColor(Color32 themeColor)
+        {
+            if (ChartHelper.IsClearColor(borderColor)) return themeColor;
+            else return borderColor;
+        }
+
         /// <summary>
         /// 是否显示文本
         /// </summary>
@@ -538,21 +564,71 @@ namespace XCharts
             runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
         }
 
-        public Color32 GetFillerColor(Color32 themeColor)
+        internal void SetXAxisIndexValueInfo(int xAxisIndex, float min, float max)
         {
-            if (ChartHelper.IsClearColor(fillerColor)) return themeColor;
-            else return fillerColor;
+            if (!m_XAxisIndexInfos.ContainsKey(xAxisIndex))
+            {
+                m_XAxisIndexInfos[xAxisIndex] = new AxisIndexValueInfo()
+                {
+                    min = min,
+                    max = max
+                };
+            }
+            else
+            {
+                m_XAxisIndexInfos[xAxisIndex].min = min;
+                m_XAxisIndexInfos[xAxisIndex].max = max;
+            }
         }
 
-        public Color32 GetBackgroundColor(Color32 themeColor)
+        internal void SetYAxisIndexValueInfo(int yAxisIndex, float min, float max)
         {
-            if (ChartHelper.IsClearColor(backgroundColor)) return themeColor;
-            else return backgroundColor;
+            if (!m_YAxisIndexInfos.ContainsKey(yAxisIndex))
+            {
+                m_YAxisIndexInfos[yAxisIndex] = new AxisIndexValueInfo()
+                {
+                    min = min,
+                    max = max
+                };
+            }
+            else
+            {
+                m_YAxisIndexInfos[yAxisIndex].min = min;
+                m_YAxisIndexInfos[yAxisIndex].max = max;
+            }
         }
-        public Color32 GetBorderColor(Color32 themeColor)
+
+        internal bool IsXAxisIndexValue(int axisIndex)
         {
-            if (ChartHelper.IsClearColor(borderColor)) return themeColor;
-            else return borderColor;
+            return m_XAxisIndexInfos.ContainsKey(axisIndex);
+        }
+
+        internal bool IsYAxisIndexValue(int axisIndex)
+        {
+            return m_YAxisIndexInfos.ContainsKey(axisIndex);
+        }
+
+        internal void GetXAxisIndexValue(int axisIndex, out float min, out float max)
+        {
+            min = 0;
+            max = 0;
+            if (m_XAxisIndexInfos.ContainsKey(axisIndex))
+            {
+                var info = m_XAxisIndexInfos[axisIndex];
+                min = info.min;
+                max = info.max;
+            }
+        }
+        internal void GetYAxisIndexValue(int axisIndex, out float min, out float max)
+        {
+            min = 0;
+            max = 0;
+            if (m_YAxisIndexInfos.ContainsKey(axisIndex))
+            {
+                var info = m_YAxisIndexInfos[axisIndex];
+                min = info.min;
+                max = info.max;
+            }
         }
     }
 }

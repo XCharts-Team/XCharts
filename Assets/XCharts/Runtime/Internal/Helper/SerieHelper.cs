@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -303,6 +304,106 @@ namespace XCharts
             {
                 serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
                 serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+            }
+        }
+
+        private static List<SerieData> emptyFilter = new List<SerieData>();
+        /// <summary>
+        /// 根据dataZoom更新数据列表缓存
+        /// </summary>
+        /// <param name="dataZoom"></param>
+        internal static void UpdateFilterData(Serie serie, DataZoom dataZoom)
+        {
+            if (dataZoom != null && dataZoom.enable
+                && (dataZoom.xAxisIndexs.Contains(serie.xAxisIndex) || dataZoom.yAxisIndexs.Contains(serie.yAxisIndex)))
+            {
+                if (dataZoom.IsXAxisIndexValue(serie.xAxisIndex))
+                {
+                    float min = 0, max = 0;
+                    dataZoom.GetXAxisIndexValue(serie.xAxisIndex, out min, out max);
+                    UpdateFilterData_XAxisValue(serie, dataZoom, 0, min, max);
+                }
+                else if (dataZoom.IsYAxisIndexValue(serie.yAxisIndex))
+                {
+                    float min = 0, max = 0;
+                    dataZoom.GetYAxisIndexValue(serie.yAxisIndex, out min, out max);
+                    UpdateFilterData_XAxisValue(serie, dataZoom, 0, min, max);
+                }
+                else
+                {
+                    UpdateFilterData_Category(serie, dataZoom);
+                }
+            }
+        }
+
+        private static void UpdateFilterData_XAxisValue(Serie serie, DataZoom dataZoom, int dimension, float min, float max)
+        {
+            var data = serie.data;
+            var startValue = min + (max - min) * dataZoom.start / 100;
+            var endValue = min + (max - min) * dataZoom.end / 100;
+            if (endValue < startValue) endValue = startValue;
+
+            if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue
+                || dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+            {
+                serie.m_FilterStartValue = startValue;
+                serie.m_FilterEndValue = endValue;
+                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_NeedUpdateFilterData = false;
+
+                serie.m_FilterData.Clear();
+                foreach (var serieData in data)
+                {
+                    var value = serieData.GetData(dimension);
+                    if (value >= startValue && value <= endValue)
+                    {
+                        serie.m_FilterData.Add(serieData);
+                    }
+                }
+            }
+            else if (endValue == 0)
+            {
+                serie.m_FilterData = emptyFilter;
+            }
+        }
+
+        private static void UpdateFilterData_Category(Serie serie, DataZoom dataZoom)
+        {
+            var data = serie.data;
+            var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
+            var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
+            if (endIndex < startIndex) endIndex = startIndex;
+
+            if (startIndex != serie.m_FilterStart || endIndex != serie.m_FilterEnd
+                || dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+            {
+                serie.m_FilterStart = startIndex;
+                serie.m_FilterEnd = endIndex;
+                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_NeedUpdateFilterData = false;
+                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                if (count < dataZoom.minShowNum)
+                {
+                    if (dataZoom.minShowNum > data.Count) count = data.Count;
+                    else count = dataZoom.minShowNum;
+                }
+                if (data.Count > 0)
+                {
+                    if (startIndex + count > data.Count)
+                    {
+                        int start = endIndex - count;
+                        data = data.GetRange(start < 0 ? 0 : start, count);
+                    }
+                    else serie.m_FilterData = data.GetRange(startIndex, count);
+                }
+                else
+                {
+                    serie.m_FilterData = data;
+                }
+            }
+            else if (endIndex == 0)
+            {
+                serie.m_FilterData = emptyFilter;
             }
         }
     }

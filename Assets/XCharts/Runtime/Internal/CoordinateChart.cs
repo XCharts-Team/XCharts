@@ -843,6 +843,11 @@ namespace XCharts
                             Mathf.Abs(axis.runtimeMinValue) * (grid.runtimeHeight / (Mathf.Abs(axis.runtimeMinValue) + Mathf.Abs(axis.runtimeMaxValue)));
                     }
                 }
+                if (dataZoom != null && dataZoom.enable)
+                {
+                    if (axis is XAxis) dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
+                    else dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
+                }
                 if (updateChart)
                 {
                     UpdateAxisLabelText(axis);

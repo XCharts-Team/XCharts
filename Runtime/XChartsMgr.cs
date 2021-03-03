@@ -17,6 +17,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Compilation;
 #endif
 
 namespace XCharts
@@ -470,6 +471,106 @@ namespace XCharts
         {
             DefineSymbolsUtil.RemoveGlobalDefine("dUI_TextMeshPro");
             RemoveAllChartObject();
+        }
+
+        public static bool IsExistTMPAssembly()
+        {
+
+#if UNITY_2018_1_OR_NEWER
+            foreach (var assembly in CompilationPipeline.GetAssemblies(AssembliesType.Player))
+            {
+                if (assembly.name.Equals("Unity.TextMeshPro")) return true;
+            }
+#else
+            foreach (var assembly in CompilationPipeline.GetAssemblies())
+            {
+                if (assembly.name.Equals("Unity.TextMeshPro")) return true;
+            }
+#endif
+            return false;
+        }
+
+        public static bool ModifyTMPRefence(bool removeTMP = false)
+        {
+            var packagePath = XChartsMgr.GetPackageFullPath();
+            if (!ModifyTMPRefence(packagePath + "/Runtime/XCharts.Runtime.asmdef", removeTMP)) return false;
+            if (!ModifyTMPRefence(packagePath + "/Editor/XCharts.Editor.asmdef", removeTMP)) return false;
+            return true;
+        }
+
+        private static bool ModifyTMPRefence(string asmdefPath, bool removeTMP = false)
+        {
+            if (!File.Exists(asmdefPath))
+            {
+                Debug.LogError("AddTMPRefence ERROR: can't find: " + asmdefPath);
+                return false;
+            }
+            var oldText = File.ReadAllText(asmdefPath);
+            try
+            {
+                var dest = new List<string>();
+                var refs = new List<string>();
+                var lines = File.ReadAllLines(asmdefPath);
+                var referencesStart = false;
+                var addedTMP = false;
+                var removedTMP = false;
+                var tmpName = "\"Unity.TextMeshPro\"";
+                foreach (var line in lines)
+                {
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+                    if (line.Contains("\"references\": ["))
+                    {
+                        dest.Add(line);
+                        referencesStart = true;
+                    }
+                    else if (referencesStart)
+                    {
+                        if (line.Contains("],"))
+                        {
+                            referencesStart = false;
+                            if (!removeTMP && !refs.Contains(tmpName))
+                            {
+                                if (refs.Count > 0)
+                                    dest[dest.Count - 1] = dest[dest.Count - 1] + ",";
+                                dest.Add("        " + tmpName);
+                                dest.Add(line);
+                                addedTMP = true;
+                            }
+                            else
+                            {
+                                dest.Add(line);
+                            }
+                        }
+                        else
+                        {
+                            if (removeTMP)
+                            {
+                                if (!line.Contains(tmpName))
+                                {
+                                    removedTMP = true;
+                                    dest.Add(line);
+                                }
+                            }
+                            else
+                            {
+                                dest.Add(line);
+                                refs.Add(line.Trim());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        dest.Add(line);
+                    }
+                }
+                if (addedTMP || removedTMP) File.WriteAllText(asmdefPath, string.Join("\n", dest));
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("AddTMPRefence ERROR:" + e.Message);
+                return false;
+            }
         }
 #endif
     }

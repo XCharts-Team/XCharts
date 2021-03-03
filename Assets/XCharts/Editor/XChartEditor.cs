@@ -155,12 +155,12 @@ namespace XCharts
         [MenuItem("XCharts/TextMeshPro Enable")]
         public static void EnableTextMeshPro()
         {
-            if (!IsExistTMPAssembly())
+            if (!XChartsMgr.IsExistTMPAssembly())
             {
                 Debug.LogError("TextMeshPro is not in the project, please import TextMeshPro package first.");
                 return;
             }
-            AddTMPRefence();
+            XChartsMgr.ModifyTMPRefence();
             XChartsMgr.EnableTextMeshPro();
         }
 
@@ -168,85 +168,6 @@ namespace XCharts
         public static void DisableTextMeshPro()
         {
             XChartsMgr.DisableTextMeshPro();
-        }
-
-        private static bool IsExistTMPAssembly()
-        {
-            foreach (var assembly in CompilationPipeline.GetAssemblies(AssembliesType.Player))
-            {
-                if (assembly.name.Equals("Unity.TextMeshPro")) return true;
-            }
-            return false;
-        }
-
-        private static bool AddTMPRefence()
-        {
-            var packagePath = XChartsMgr.GetPackageFullPath();
-            if (!AddTMPRefence(packagePath + "/Runtime/XCharts.Runtime.asmdef")) return false;
-            if (!AddTMPRefence(packagePath + "/Editor/XCharts.Editor.asmdef")) return false;
-            return true;
-        }
-
-        private static bool AddTMPRefence(string asmdefPath)
-        {
-            if (!File.Exists(asmdefPath))
-            {
-                Debug.LogError("AddTMPRefence ERROR: can't find: " + asmdefPath);
-                return false;
-            }
-            var oldText = File.ReadAllText(asmdefPath);
-            try
-            {
-                var dest = new List<string>();
-                var refs = new List<string>();
-                var lines = File.ReadAllLines(asmdefPath);
-                var referencesStart = false;
-                var addTMP = false;
-                foreach (var line in lines)
-                {
-                    if (string.IsNullOrWhiteSpace(line)) continue;
-                    if (line.Contains("\"references\": ["))
-                    {
-                        dest.Add(line);
-                        referencesStart = true;
-                    }
-                    else if (referencesStart)
-                    {
-                        if (line.Contains("],"))
-                        {
-                            referencesStart = false;
-                            if (!refs.Contains("\"Unity.TextMeshPro\":"))
-                            {
-                                if (refs.Count > 0)
-                                    dest[dest.Count - 1] = dest[dest.Count - 1] + ",";
-                                dest.Add("        \"Unity.TextMeshPro\"");
-                                dest.Add(line);
-                                addTMP = true;
-                            }
-                            else
-                            {
-                                dest.Add(line);
-                            }
-                        }
-                        else
-                        {
-                            dest.Add(line);
-                            refs.Add(line.Trim());
-                        }
-                    }
-                    else
-                    {
-                        dest.Add(line);
-                    }
-                }
-                if (addTMP) File.WriteAllText(asmdefPath, string.Join("\n", dest));
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("AddTMPRefence ERROR:" + e.Message);
-                return false;
-            }
         }
     }
 }

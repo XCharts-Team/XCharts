@@ -105,6 +105,28 @@ namespace XCharts
             }
         }
 
+        public Rect GetIconRect()
+        {
+            if (m_GameObject && m_IconRect)
+            {
+                var pos = m_GameObject.transform.localPosition;
+                var sizeDelta = m_IconRect.sizeDelta;
+                var y = pos.y - (m_Rect.sizeDelta.y - sizeDelta.y) / 2 - sizeDelta.y;
+                return new Rect(pos.x, y, m_IconRect.sizeDelta.x, m_IconRect.sizeDelta.y);
+            }
+            else
+            {
+                return Rect.zero;
+            }
+        }
+
+        public Color GetIconColor()
+        {
+            if (m_Icon) return m_Icon.color;
+            else return Color.clear;
+        }
+
+
         public void SetIconColor(Color color)
         {
             if (m_Icon)
@@ -118,6 +140,14 @@ namespace XCharts
             if (m_Icon)
             {
                 m_Icon.sprite = image;
+            }
+        }
+
+        public void SetIconActive(bool active)
+        {
+            if (m_Icon)
+            {
+                m_Icon.gameObject.SetActive(active);
             }
         }
 

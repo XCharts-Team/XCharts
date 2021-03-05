@@ -621,6 +621,16 @@ namespace XCharts
             foreach (var item in fromList) toList.Add(item);
             return true;
         }
+        public static bool CopyArray<T>(T[] toList, T[] fromList)
+        {
+            if (toList == null || fromList == null) return false;
+            if (toList.Length != fromList.Length)
+            {
+                toList = new T[fromList.Length];
+            }
+            for (int i = 0; i < fromList.Length; i++) toList[i] = fromList[i];
+            return true;
+        }
 
         public static List<float> ParseFloatFromString(string jsonData)
         {

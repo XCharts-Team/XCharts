@@ -19,6 +19,37 @@ namespace XCharts
     [System.Serializable]
     public class Legend : MainComponent, IPropertyChanged
     {
+        public enum Type
+        {
+            /// <summary>
+            /// 自动匹配。
+            /// </summary>
+            Auto,
+            /// <summary>
+            /// 自定义图标。
+            /// </summary>
+            Custom,
+            /// <summary>
+            /// 空心圆。
+            /// </summary>
+            EmptyCircle,
+            /// <summary>
+            /// 圆形。
+            /// </summary>
+            Circle,
+            /// <summary>
+            /// 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。
+            /// </summary>
+            Rect,
+            /// <summary>
+            /// 三角形。
+            /// </summary>
+            Triangle,
+            /// <summary>
+            /// 菱形。
+            /// </summary>
+            Diamond,
+        }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
         /// 图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
@@ -39,10 +70,11 @@ namespace XCharts
             None
         }
         [SerializeField] private bool m_Show = true;
+        [SerializeField] private Type m_IconType;
         [SerializeField] private SelectedMode m_SelectedMode;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultRight;
-        [SerializeField] private float m_ItemWidth = 24.0f;
+        [SerializeField] private float m_ItemWidth = 25.0f;
         [SerializeField] private float m_ItemHeight = 12.0f;
         [SerializeField] private float m_ItemGap = 10f;
         [SerializeField] private bool m_ItemAutoColor = true;
@@ -64,11 +96,20 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// Type of legend. 
+        /// 图例类型。
+        /// [default:Type.Auto] 
+        /// </summary>
+        public Type iconType
+        {
+            get { return m_IconType; }
+            set { if (PropertyUtil.SetStruct(ref m_IconType, value)) SetAllDirty(); }
+        }
+        /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. 
         /// 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
         /// [default:SelectedMode.Multiple] 
         /// </summary>
-        /// <value></value>
         public SelectedMode selectedMode
         {
             get { return m_SelectedMode; }
@@ -226,11 +267,12 @@ namespace XCharts
             {
                 var legend = new Legend
                 {
+                    m_IconType = Type.Auto,
                     m_Show = false,
                     m_SelectedMode = SelectedMode.Multiple,
                     m_Orient = Orient.Horizonal,
                     m_Location = Location.defaultTop,
-                    m_ItemWidth = 24.0f,
+                    m_ItemWidth = 25.0f,
                     m_ItemHeight = 12.0f,
                     m_ItemGap = 10f,
                 };
@@ -336,6 +378,7 @@ namespace XCharts
         {
             m_DataBtnList[name] = item;
             int index = m_DataBtnList.Values.Count;
+            item.SetIconActive(iconType == Type.Custom);
             item.SetActive(show);
         }
 

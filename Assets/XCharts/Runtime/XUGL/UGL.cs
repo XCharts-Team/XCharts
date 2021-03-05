@@ -566,7 +566,8 @@ namespace XUGL
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
         public static void DrawRoundRectangle(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false)
+            Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
+            float smoothness = 2)
         {
             var isGradient = !UGLHelper.IsValueEqualsColor(color, toColor);
             var halfWid = rectWidth / 2;
@@ -645,10 +646,10 @@ namespace XUGL
                     if (roundRbLeft.x < roundLb.x) roundRbLeft.x = roundLb.x;
                     if (!isGradient)
                     {
-                        DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, isYAxis);
-                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis);
-                        DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, isYAxis);
-                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
+                        DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis, smoothness);
 
                         DrawQuadrilateral(vh, ltIn, ltInRight, lbInRight, lbIn, color, color);
                         DrawQuadrilateral(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, color, color);
@@ -677,10 +678,10 @@ namespace XUGL
                         var upRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRt) / maxRight);
                         var downRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRb) / maxRight);
 
-                        DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, isYAxis);
-                        DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, isYAxis);
-                        DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, isYAxis);
-                        DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, isYAxis);
+                        DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, isYAxis, smoothness);
 
                         DrawQuadrilateral(vh, lbIn, ltIn, ltInRight, lbInRight, color, tempLeftColor);
                         DrawQuadrilateral(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, downLeftColor,
@@ -739,10 +740,10 @@ namespace XUGL
 
                     if (!isGradient)
                     {
-                        DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, isYAxis);
-                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis);
-                        DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, isYAxis);
-                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis);
+                        DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis, smoothness);
 
                         DrawQuadrilateral(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, toColor);
                         DrawQuadrilateral(vh, ltIn, roundLt, roundLtDown, ltInDown, toColor, toColor);
@@ -765,10 +766,10 @@ namespace XUGL
                         var leftDownColor = Color32.Lerp(color, tempDownColor, brLb / maxdown);
                         var rightDownColor = Color32.Lerp(color, tempDownColor, brRb / maxdown);
 
-                        DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, isYAxis);
-                        DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, isYAxis);
-                        DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, isYAxis);
-                        DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, isYAxis);
+                        DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, isYAxis, smoothness);
 
                         DrawQuadrilateral(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, tempUpColor);
                         DrawQuadrilateral(vh, ltIn, roundLt, roundLtDown, ltInDown, leftUpColor,

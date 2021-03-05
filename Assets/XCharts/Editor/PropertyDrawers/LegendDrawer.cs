@@ -20,6 +20,7 @@ namespace XCharts
             if (MakeFoldout(prop, "m_Show"))
             {
                 ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_IconType");
                 PropertyField(prop, "m_ItemWidth");
                 PropertyField(prop, "m_ItemHeight");
                 PropertyField(prop, "m_ItemGap");

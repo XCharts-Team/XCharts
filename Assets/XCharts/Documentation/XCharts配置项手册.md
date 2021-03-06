@@ -115,6 +115,14 @@
 相关参数：
 
 * `show`：是否显示图例组件。
+* `iconType`：图例图标类型。有以下几种类型：
+  * `Auto`：自动匹配。
+  * `Custom`：自定义图标。
+  * `EmptyCircle`：空心圆。
+  * `Circle`：实心圆。
+  * `Rect`：正方形。可通过`Setting`的`legendIconCornerRadius`参数调整圆角。
+  * `Triangle`：三角形。
+  * `Diamond`：菱形。
 * `selectedMode`：选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 `None` 关闭。有以下三种选择方式：
   * `Multiple`：多选。
   * `Single`：单选。
@@ -619,6 +627,7 @@
 * `space`：扇区间隙。
 * `center`：中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
+* `minAngle`：最小的扇区角度（0-360）。用于防止某个值过小导致扇区太小影响交互。
 * `roundCap`：是否启用圆弧效果。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。

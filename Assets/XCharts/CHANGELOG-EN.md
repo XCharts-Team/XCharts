@@ -32,6 +32,10 @@
 
 ## Latest
 
+* (2021.03.06) Added `PieChart`'s `minAngle` parameter to support setting minimum sector angle #117
+* (2021.03.05) Added support for `Legend` for several built-in ICONS #90
+* (2021.03.02) Added `DataRoom` support for value axes #71
+* (2021.03.02) Optimized `TextMeshPro` compatibility issue #125
 * (2021.03.01) Fixed display exception of hidden gameObjects when enabling and disabling a chart #125
 
 ## v2.0.1

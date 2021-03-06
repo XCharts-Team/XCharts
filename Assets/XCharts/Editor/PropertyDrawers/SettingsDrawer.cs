@@ -20,7 +20,7 @@ namespace XCharts
             if (MakeFoldout(prop, ""))
             {
                 var btnWidth = 50;
-                var btnRect = new Rect(pos.x +  pos.width - btnWidth, pos.y, btnWidth, EditorGUIUtility.singleLineHeight);
+                var btnRect = new Rect(pos.x + pos.width - btnWidth, pos.y, btnWidth, EditorGUIUtility.singleLineHeight);
                 if (GUI.Button(btnRect, new GUIContent("Reset", "Reset to default settings")))
                 {
                     var chart = prop.serializedObject.targetObject as BaseChart;
@@ -32,7 +32,8 @@ namespace XCharts
                 PropertyField(prop, "m_LineSmoothness");
                 PropertyField(prop, "m_LineSegmentDistance");
                 PropertyField(prop, "m_CicleSmoothness");
-                
+                PropertyField(prop, "m_LegendIconLineWidth");
+                PropertyListField(prop, "m_LegendIconCornerRadius", true);
                 --EditorGUI.indentLevel;
             }
         }

@@ -26,11 +26,11 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
-            for (int n = serie.minShow; n < maxCount; n++)
+            var dataList = serie.GetDataList(dataZoom);
+            foreach (var serieData in dataList)
             {
-                var serieData = serie.GetDataList(dataZoom)[n];
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                if (!symbol.ShowSymbol(n, maxCount)) continue;
+                if (!symbol.ShowSymbol(serieData.index, maxCount)) continue;
                 var highlight = serie.highlighted || serieData.highlighted;
                 var color = SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, colorIndex, highlight);
@@ -46,7 +46,7 @@ namespace XCharts
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
                 serie.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
-                var datas = serie.data[n].data;
+                var datas = serieData.data;
                 float symbolSize = 0;
                 if (serie.highlighted || serieData.highlighted)
                 {

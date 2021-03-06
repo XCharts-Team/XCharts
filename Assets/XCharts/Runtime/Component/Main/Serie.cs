@@ -256,6 +256,7 @@ namespace XCharts
         [SerializeField] private float m_Max;
         [SerializeField] private float m_StartAngle;
         [SerializeField] private float m_EndAngle;
+        [SerializeField] private float m_MinAngle;
         [SerializeField] private bool m_Clockwise = true;
         [FormerlySerializedAs("m_ArcShaped")]
         [SerializeField] private bool m_RoundCap;
@@ -295,14 +296,16 @@ namespace XCharts
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
-        [NonSerialized] private int m_FilterStart;
-        [NonSerialized] private int m_FilterEnd;
-        [NonSerialized] private int m_FilterMinShow;
-        [NonSerialized] private List<SerieData> m_FilterData;
+        [NonSerialized] internal int m_FilterStart;
+        [NonSerialized] internal int m_FilterEnd;
+        [NonSerialized] internal float m_FilterStartValue;
+        [NonSerialized] internal float m_FilterEndValue;
+        [NonSerialized] internal int m_FilterMinShow;
+        [NonSerialized] internal bool m_NeedUpdateFilterData;
+        [NonSerialized] internal List<SerieData> m_FilterData = new List<SerieData>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
-        [NonSerialized] private bool m_NeedUpdateFilterData;
         [NonSerialized] private bool m_NameDirty;
 
         /// <summary>
@@ -628,6 +631,15 @@ namespace XCharts
         {
             get { return m_EndAngle; }
             set { if (PropertyUtil.SetStruct(ref m_EndAngle, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The minimum angle of sector(0-360). It prevents some sector from being too small when value is small.
+        /// 最小的扇区角度（0-360）。用于防止某个值过小导致扇区太小影响交互。
+        /// </summary>
+        public float minAngle
+        {
+            get { return m_MinAngle; }
+            set { if (PropertyUtil.SetStruct(ref m_MinAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否顺时针。
@@ -1426,59 +1438,12 @@ namespace XCharts
             if (dataZoom != null && dataZoom.enable
                 && (dataZoom.xAxisIndexs.Contains(xAxisIndex) || dataZoom.yAxisIndexs.Contains(yAxisIndex)))
             {
-                UpdateFilterData(dataZoom);
+                SerieHelper.UpdateFilterData(this, dataZoom);
                 return m_FilterData;
             }
             else
             {
                 return m_Data;
-            }
-        }
-
-        private List<SerieData> emptyFilter = new List<SerieData>();
-        /// <summary>
-        /// 根据dataZoom更新数据列表缓存
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        internal void UpdateFilterData(DataZoom dataZoom)
-        {
-            if (dataZoom != null && dataZoom.enable
-                && (dataZoom.xAxisIndexs.Contains(xAxisIndex) || dataZoom.yAxisIndexs.Contains(yAxisIndex)))
-            {
-                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (endIndex < startIndex) endIndex = startIndex;
-
-                if (startIndex != m_FilterStart || endIndex != m_FilterEnd || dataZoom.minShowNum != m_FilterMinShow || m_NeedUpdateFilterData)
-                {
-                    m_FilterStart = startIndex;
-                    m_FilterEnd = endIndex;
-                    m_FilterMinShow = dataZoom.minShowNum;
-                    m_NeedUpdateFilterData = false;
-                    var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                    if (count < dataZoom.minShowNum)
-                    {
-                        if (dataZoom.minShowNum > m_Data.Count) count = m_Data.Count;
-                        else count = dataZoom.minShowNum;
-                    }
-                    if (m_Data.Count > 0)
-                    {
-                        if (startIndex + count > m_Data.Count)
-                        {
-                            int start = endIndex - count;
-                            m_FilterData = m_Data.GetRange(start < 0 ? 0 : start, count);
-                        }
-                        else m_FilterData = m_Data.GetRange(startIndex, count);
-                    }
-                    else
-                    {
-                        m_FilterData = m_Data;
-                    }
-                }
-                else if (endIndex == 0)
-                {
-                    m_FilterData = emptyFilter;
-                }
             }
         }
 

@@ -108,6 +108,7 @@ namespace XCharts
                         PropertyField(prop, "m_Space");
                         PropertyTwoFiled(prop, "m_Center");
                         PropertyTwoFiled(prop, "m_Radius");
+                        PropertyField(prop, "m_MinAngle");
                         PropertyField(prop, "m_RoundCap");
                         PropertyField(prop, "m_Ignore");
                         PropertyField(prop, "m_IgnoreValue");

@@ -52,7 +52,6 @@ namespace XCharts
                     }
                     else
                     {
-                        //UGL.DrawPolygon(vh, pos, symbolSize, color, toColor);
                         UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
                     }
                     break;

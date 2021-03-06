@@ -539,7 +539,7 @@ namespace XCharts
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
-                    m_Series[i].UpdateFilterData(dataZoom);
+                    SerieHelper.UpdateFilterData(m_Series[i], dataZoom);
                 }
             }
         }

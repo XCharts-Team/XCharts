@@ -22,6 +22,8 @@ namespace XCharts
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
+        [SerializeField] protected float m_LegendIconLineWidth = 2;
+        [SerializeField] private float[] m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f };
 
         /// <summary>
         /// max painter.
@@ -75,6 +77,26 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_CicleSmoothness, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
 
+        /// <summary>
+        /// the width of line serie legend.
+        /// Line类型图例图标的线条宽度。
+        /// </summary>
+        public float legendIconLineWidth
+        {
+            get { return m_LegendIconLineWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_LegendIconLineWidth, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
+        /// 图例圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+        /// </summary>
+        public float[] legendIconCornerRadius
+        {
+            get { return m_LegendIconCornerRadius; }
+            set { if (PropertyUtil.SetClass(ref m_LegendIconCornerRadius, value, true)) SetVerticesDirty(); }
+        }
+
         public void Copy(Settings settings)
         {
             m_MaxPainter = settings.maxPainter;
@@ -82,6 +104,8 @@ namespace XCharts
             m_LineSmoothness = settings.lineSmoothness;
             m_LineSegmentDistance = settings.lineSegmentDistance;
             m_CicleSmoothness = settings.cicleSmoothness;
+            m_LegendIconLineWidth = settings.legendIconLineWidth;
+            ChartHelper.CopyArray(m_LegendIconCornerRadius, settings.legendIconCornerRadius);
         }
 
         public void Reset()
@@ -100,6 +124,8 @@ namespace XCharts
                     m_LineSmoothness = XChartsSettings.lineSmoothness,
                     m_LineSegmentDistance = XChartsSettings.lineSegmentDistance,
                     m_CicleSmoothness = XChartsSettings.cicleSmoothness,
+                    m_LegendIconLineWidth = 2,
+                    m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f }
                 };
             }
         }

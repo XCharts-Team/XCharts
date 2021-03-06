@@ -815,6 +815,7 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawPainterBase(vh);
+            DrawLegend(vh);
             foreach (var drawSerie in m_DrawSeries) drawSerie.DrawBase(vh);
         }
 
@@ -866,6 +867,81 @@ namespace XCharts
             Vector3 p4 = new Vector3(chartX, chartY);
             var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
             UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
+        }
+
+        protected virtual void DrawLegend(VertexHelper vh)
+        {
+            if (m_Series.Count == 0) return;
+            foreach (var legend in m_Legends)
+            {
+                if (!legend.show) continue;
+                if (legend.iconType == Legend.Type.Custom) continue;
+                foreach (var kv in legend.buttonList)
+                {
+                    var item = kv.Value;
+                    var rect = item.GetIconRect();
+                    var radius = Mathf.Min(rect.width, rect.height) / 2;
+                    var color = item.GetIconColor();
+                    var iconType = legend.iconType;
+                    if (legend.iconType == Legend.Type.Auto)
+                    {
+                        var serie = m_Series.GetSerie(item.legendName);
+                        if (serie != null && serie.type == SerieType.Line)
+                        {
+                            var sp = new Vector3(rect.center.x - rect.width / 2, rect.center.y);
+                            var ep = new Vector3(rect.center.x + rect.width / 2, rect.center.y);
+                            UGL.DrawLine(vh, sp, ep, m_Settings.legendIconLineWidth, color);
+                            if (!serie.symbol.show) continue;
+                            switch (serie.symbol.type)
+                            {
+                                case SerieSymbolType.None:
+                                    continue;
+                                case SerieSymbolType.Circle:
+                                    iconType = Legend.Type.Circle;
+                                    break;
+                                case SerieSymbolType.Diamond:
+                                    iconType = Legend.Type.Diamond;
+                                    break;
+                                case SerieSymbolType.EmptyCircle:
+                                    iconType = Legend.Type.EmptyCircle;
+                                    break;
+                                case SerieSymbolType.Rect:
+                                    iconType = Legend.Type.Rect;
+                                    break;
+                                case SerieSymbolType.Triangle:
+                                    iconType = Legend.Type.Triangle;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            iconType = Legend.Type.Rect;
+                        }
+                    }
+                    switch (iconType)
+                    {
+                        case Legend.Type.Rect:
+                            var cornerRadius = m_Settings.legendIconCornerRadius;
+                            UGL.DrawRoundRectangle(vh, rect.center, rect.width, rect.height, color, color,
+                                0, cornerRadius, false, 0.5f);
+                            break;
+                        case Legend.Type.Circle:
+                            UGL.DrawCricle(vh, rect.center, radius, color);
+                            break;
+                        case Legend.Type.Diamond:
+                            UGL.DrawDiamond(vh, rect.center, radius, color);
+                            break;
+                        case Legend.Type.EmptyCircle:
+                            var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
+                            UGL.DrawEmptyCricle(vh, rect.center, radius, 2 * m_Settings.legendIconLineWidth,
+                                color, color, backgroundColor, 1f);
+                            break;
+                        case Legend.Type.Triangle:
+                            UGL.DrawTriangle(vh, rect.center, 1.2f * radius, color);
+                            break;
+                    }
+                }
+            }
         }
 
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,

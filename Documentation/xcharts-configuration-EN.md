@@ -113,6 +113,14 @@ Legend component.The legend component shows different sets of symbol, colors, an
 Parameters:
 
 * `show`: Whether show legend component.
+* `iconType`: the legend icon symbol type:
+  * `Auto` : Auto match.
+  * `Custom` : Custom icon.
+  * `EmptyCircle` : hollow circle.
+  * `Circle` : solid Circle.
+  * `Rect` : square.
+  * `Triangle` :
+  * `Diamond` :
 * `selectedMode`: Selected mode of legend, which controls whether series can be toggled displaying by clicking legends:
   * `Multiple`: multi-select.
   * `Single`: single select.
@@ -227,7 +235,7 @@ Tooltip component.
   * Example: `"{a}, {c}"`, `"{a1}, {c1: f1}"`, `"{a1}, {c1:0: f1}"`, `"{a1} : {c1:1-1: f1}"`
 * `titleFormatter`: The string template formatter for the tooltip title content. Support for wrapping lines with `\n`. This is only valid if the `itemFormatter` is in effect. The placeholder `{I}` can be set separately to indicate that the title is ignored and not displayed.
 * `itemFormatter`: a string template formatter for a single Serie or data item content. Support for wrapping lines with `\n`. When `formatter` is not null, use `formatter` first, otherwise use `itemFormatter`.
-* `numericFormatter`: Standard numeric format string. Used to format numeric values to display as strings. Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'. see: <https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings>
+* `numericFormatter`: Standard numeric format string. Used to format numeric values to display as strings. Using `Axx` form: `A` is the single character of the format specifier, supporting `C` currency, `D` decimal, `E` exponent, `F` number of vertices, `G` regular, `N` digits, `P` percentage, `R` round tripping, `X` hex etc. `XX` is the precision specification, from `0` - `99`. see: <https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings>
 * `fixedWidth`: Fixed width. Higher priority than `minWidth`.
 * `fixedHeight`: Fixed height. Higher priority than `minHeight`.
 * `minWidth`: Minimum width. If `fixedWidth` has a value, get `fixedWidth` first.
@@ -260,7 +268,7 @@ Vessel component for liquid chart. There can be multiple vessels in a Chart, whi
 ## `DataZoom`
 
 DataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.  
-Currently only the control 'X' axis is supported.
+Currently only the control `X` axis is supported.
 
 * `enable`: Whether to show dataZoom.
 * `supportInside`: Whether built-in support is supported. Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, mouse wheel, finger swiping (on the touch screen).
@@ -308,7 +316,7 @@ VisualMap component. mapping data to visual elements such as colors.
 * `min`: The minimum allowed. `min` must be user specified. `[min, max]` forms the domain of the visualMap.
 * `max`: The maximum allowed. `max` must be user specified. `[min, max]` forms the domain of the visualMap.
 * `range`: Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
-* ~~`text`: Text on both ends. such as ['High', 'Low'].~~
+* ~~`text`: Text on both ends. such as [`High`, `Low`].~~
 * ~~`textGap`: The distance between the two text bodies.~~
 * `splitNumber`: For continuous data, it is automatically evenly divided into several segments and automatically matches the size of inRange color list when the default is 0.
 * `calculable`: Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
@@ -512,6 +520,7 @@ Line chart serie.
 * `space`: 扇区间隙。
 * `center`: 中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`: 半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
+* `minAngle`: The minimum angle of sector(0-360). It prevents some sector from being too small when value is small.
 * `roundCap`: 是否启用圆弧效果。
 * `ignore`: 是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
 * `ignoreValue`: 忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。

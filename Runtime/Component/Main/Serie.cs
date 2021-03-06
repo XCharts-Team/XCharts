@@ -256,6 +256,7 @@ namespace XCharts
         [SerializeField] private float m_Max;
         [SerializeField] private float m_StartAngle;
         [SerializeField] private float m_EndAngle;
+        [SerializeField] private float m_MinAngle;
         [SerializeField] private bool m_Clockwise = true;
         [FormerlySerializedAs("m_ArcShaped")]
         [SerializeField] private bool m_RoundCap;
@@ -630,6 +631,15 @@ namespace XCharts
         {
             get { return m_EndAngle; }
             set { if (PropertyUtil.SetStruct(ref m_EndAngle, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The minimum angle of sector(0-360). It prevents some sector from being too small when value is small.
+        /// 最小的扇区角度（0-360）。用于防止某个值过小导致扇区太小影响交互。
+        /// </summary>
+        public float minAngle
+        {
+            get { return m_MinAngle; }
+            set { if (PropertyUtil.SetStruct(ref m_MinAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 是否顺时针。

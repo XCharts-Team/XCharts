@@ -314,8 +314,8 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         internal static void UpdateFilterData(Serie serie, DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable
-                && (dataZoom.xAxisIndexs.Contains(serie.xAxisIndex) || dataZoom.yAxisIndexs.Contains(serie.yAxisIndex)))
+            if (dataZoom == null || !dataZoom.enable) return;
+            if (dataZoom.xAxisIndexs.Contains(serie.xAxisIndex))
             {
                 if (dataZoom.IsXAxisIndexValue(serie.xAxisIndex))
                 {
@@ -323,7 +323,14 @@ namespace XCharts
                     dataZoom.GetXAxisIndexValue(serie.xAxisIndex, out min, out max);
                     UpdateFilterData_XAxisValue(serie, dataZoom, 0, min, max);
                 }
-                else if (dataZoom.IsYAxisIndexValue(serie.yAxisIndex))
+                else
+                {
+                    UpdateFilterData_Category(serie, dataZoom);
+                }
+            }
+            else if (dataZoom.yAxisIndexs.Contains(serie.yAxisIndex))
+            {
+                if (dataZoom.IsYAxisIndexValue(serie.yAxisIndex))
                 {
                     float min = 0, max = 0;
                     dataZoom.GetYAxisIndexValue(serie.yAxisIndex, out min, out max);

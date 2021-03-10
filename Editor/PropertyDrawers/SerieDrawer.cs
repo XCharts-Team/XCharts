@@ -182,9 +182,23 @@ namespace XCharts
                         PropertyField(prop, "m_ItemStyle");
                         PropertyField(prop, "m_Label");
                         break;
+                    case SerieType.Candlestick:
+                        PropertyField(prop, "m_XAxisIndex");
+                        PropertyField(prop, "m_YAxisIndex");
+                        PropertyFieldLimitMin(prop, "m_MinShow", 0);
+                        PropertyFieldLimitMin(prop, "m_MaxShow", 0);
+                        PropertyFieldLimitMin(prop, "m_MaxCache", 0);
+                        PropertyField(prop, "m_BarWidth");
+                        PropertyField(prop, "m_Clip");
+                        PropertyField(prop, "m_ShowAsPositiveNumber");
+                        PropertyField(prop, "m_Large");
+                        PropertyField(prop, "m_LargeThreshold");
+                        PropertyField(prop, "m_ItemStyle");
+                        PropertyField(prop, "m_Label");
+                        PropertyField(prop, "m_Emphasis");
+                        break;
                 }
                 PropertyField(prop, "m_Animation");
-                //PropertyListField(prop, "m_Data");
                 DrawData(pos, prop, serieType, ref m_DrawRect);
                 --EditorGUI.indentLevel;
             }

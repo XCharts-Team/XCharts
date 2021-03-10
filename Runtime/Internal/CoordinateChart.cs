@@ -175,6 +175,9 @@ namespace XCharts
                 case SerieType.Heatmap:
                     DrawHeatmapSerie(vh, colorIndex, serie);
                     break;
+                case SerieType.Candlestick:
+                    DrawCandlestickSerie(vh, colorIndex, serie);
+                    break;
             }
         }
 
@@ -846,7 +849,7 @@ namespace XCharts
                 if (dataZoom != null && dataZoom.enable)
                 {
                     if (axis is XAxis) dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
-                    else dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
+                    else dataZoom.SetYAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
                 }
                 if (updateChart)
                 {

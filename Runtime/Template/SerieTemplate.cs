@@ -27,6 +27,7 @@ namespace XCharts
                 case SerieType.Liquid: AddDefaultLiquidSerie(chart, serieName); break;
                 case SerieType.Gauge: AddDefaultGaugeSerie(chart, serieName); break;
                 case SerieType.Ring: AddDefaultRingSerie(chart, serieName); break;
+                case SerieType.Candlestick: AddDefaultCandlestickSerie(chart, serieName); break;
                 default: Debug.LogError("AddDefaultSerie: not support serieType yet:" + serieType); break;
             }
         }
@@ -167,6 +168,20 @@ namespace XCharts
             var value = Random.Range(30, 90);
             var max = 100;
             chart.AddData(serie.index, value, max, "data1");
+        }
+        public static int AddDefaultCandlestickSerie(BaseChart chart, string serieName)
+        {
+            var serie = chart.AddSerie(SerieType.Candlestick, serieName);
+            var defaultDataCount = 5;
+            for (int i = 0; i < defaultDataCount; i++)
+            {
+                var open = Random.Range(20, 60);
+                var close = Random.Range(40, 90);
+                var lowest = Random.Range(0, 50);
+                var heighest = Random.Range(50, 100);
+                chart.AddData(serie.index, open, close, lowest, heighest);
+            }
+            return defaultDataCount;
         }
     }
 }

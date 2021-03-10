@@ -50,6 +50,7 @@ namespace XCharts
         [SerializeField] [Range(0, 200)] private float m_SerieLineSymbolSelectedSize = 8f;
         [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSize = 20f;
         [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSelectedSize = 30f;
+        [SerializeField] [Range(0, 10)] private float m_SerieCandlestickBorderWidth = 1f;
 
         [SerializeField] private bool m_EditorBlockEnable = true;
         [SerializeField] private bool m_EditorShowAllListData = false;
@@ -97,6 +98,7 @@ namespace XCharts
         public static float serieLineSymbolSelectedSize { get { return Instance.m_SerieLineSymbolSelectedSize; } }
         public static float serieScatterSymbolSize { get { return Instance.m_SerieScatterSymbolSize; } }
         public static float serieScatterSymbolSelectedSize { get { return Instance.m_SerieScatterSymbolSelectedSize; } }
+        public static float serieCandlestickBorderWidth { get { return Instance.m_SerieCandlestickBorderWidth; } }
         #endregion
 
         #region editor

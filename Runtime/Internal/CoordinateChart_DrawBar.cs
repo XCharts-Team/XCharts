@@ -587,7 +587,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if (serie.type == SerieType.Bar)
+                if (serie.type == SerieType.Bar || serie.type == SerieType.Candlestick)
                 {
                     if (serie.barGap != 0)
                     {
@@ -625,7 +625,8 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if (serie.type == SerieType.Bar && serie.show)
+                if (!serie.show) continue;
+                if (serie.type == SerieType.Bar || serie.type == SerieType.Candlestick)
                 {
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
@@ -656,7 +657,8 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if (serie.type == SerieType.Bar && serie.show && now.stack.Equals(serie.stack))
+                if ((serie.type == SerieType.Bar && serie.type == SerieType.Candlestick)
+                    && serie.show && now.stack.Equals(serie.stack))
                 {
                     if (serie.barWidth > barWidth) barWidth = serie.barWidth;
                 }

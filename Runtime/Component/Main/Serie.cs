@@ -60,6 +60,10 @@ namespace XCharts
         /// 水位图。
         /// </summary>
         Liquid,
+        /// <summary>
+        /// K线图。K线图的data至少包含四个数据：[open, close, lowest, highest]
+        /// </summary>
+        Candlestick,
     }
 
     /// <summary>
@@ -1241,6 +1245,23 @@ namespace XCharts
             return serieData;
         }
 
+        public SerieData AddData(float open, float close, float lowest, float heighest, string dataName = null)
+        {
+            CheckMaxCache();
+            var serieData = SerieDataPool.Get();
+            serieData.data.Add(open);
+            serieData.data.Add(close);
+            serieData.data.Add(lowest);
+            serieData.data.Add(heighest);
+            serieData.name = dataName;
+            serieData.index = m_Data.Count;
+            m_Data.Add(serieData);
+            m_ShowDataDimension = 4;
+            SetVerticesDirty();
+            CheckDataName(dataName);
+            return serieData;
+        }
+
         /// <summary>
         /// 将一组数据添加到系列中。
         /// 如果数据只有一个，默认添加到维度Y中。
@@ -1276,6 +1297,7 @@ namespace XCharts
                 return serieData;
             }
         }
+
 
         private void CheckMaxCache()
         {

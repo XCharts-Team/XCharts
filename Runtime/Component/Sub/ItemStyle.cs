@@ -37,6 +37,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color32 m_Color;
+        [SerializeField] private Color32 m_Color0;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField] private Color32 m_ToColor2;
         [SerializeField] private Color32 m_BackgroundColor;
@@ -46,6 +47,7 @@ namespace XCharts
         [SerializeField] private Type m_BorderType = Type.Solid;
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color32 m_BorderColor;
+        [SerializeField] private Color32 m_BorderColor0;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
         [SerializeField] private string m_NumericFormatter = "";
@@ -55,6 +57,7 @@ namespace XCharts
         {
             m_Show = false;
             m_Color = Color.clear;
+            m_Color0 = Color.clear;
             m_ToColor = Color.clear;
             m_ToColor2 = Color.clear;
             m_BackgroundColor = Color.clear;
@@ -64,6 +67,7 @@ namespace XCharts
             m_BorderType = Type.Solid;
             m_BorderWidth = 0;
             m_BorderColor = Color.clear;
+            m_BorderColor0 = Color.clear;
             m_Opacity = 1;
             m_TooltipFormatter = null;
             m_NumericFormatter = "";
@@ -93,6 +97,14 @@ namespace XCharts
         {
             get { return m_Color; }
             set { if (PropertyUtil.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 数据项颜色。
+        /// </summary>
+        public Color32 color0
+        {
+            get { return m_Color0; }
+            set { if (PropertyUtil.SetColor(ref m_Color0, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Gradient color1.
@@ -161,6 +173,14 @@ namespace XCharts
             set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// 边框的颜色。
+        /// </summary>
+        public Color32 borderColor0
+        {
+            get { return m_BorderColor0; }
+            set { if (PropertyUtil.SetColor(ref m_BorderColor0, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 边框宽。
         /// </summary>
         public float borderWidth
@@ -222,6 +242,41 @@ namespace XCharts
         {
             if (m_Opacity == 1 || m_Color.a == 0) return m_Color;
             var color = m_Color;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+        public Color32 GetColor0()
+        {
+            if (m_Opacity == 1 || m_Color0.a == 0) return m_Color0;
+            var color = m_Color0;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+        public Color32 GetColor(Color32 defaultColor)
+        {
+            var color = ChartHelper.IsClearColor(m_Color) ? defaultColor : m_Color;
+            if (m_Opacity == 1 || color.a == 0) return color;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+        public Color32 GetColor0(Color32 defaultColor)
+        {
+            var color = ChartHelper.IsClearColor(m_Color0) ? defaultColor : m_Color0;
+            if (m_Opacity == 1 || color.a == 0) return color;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+        public Color32 GetBorderColor(Color32 defaultColor)
+        {
+            var color = ChartHelper.IsClearColor(m_BorderColor) ? defaultColor : m_BorderColor;
+            if (m_Opacity == 1 || color.a == 0) return color;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+        public Color32 GetBorderColor0(Color32 defaultColor)
+        {
+            var color = ChartHelper.IsClearColor(m_BorderColor0) ? defaultColor : m_BorderColor0;
+            if (m_Opacity == 1 || color.a == 0) return color;
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }

@@ -308,6 +308,36 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 添加[open, close, lowest, highest]数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="open"></param>
+        /// <param name="close"></param>
+        /// <param name="lowest"></param>
+        /// <param name="heighest"></param>
+        /// <param name="dataName"></param>
+        /// <returns></returns>
+        public SerieData AddData(int index, float open, float close, float lowest, float heighest, string dataName = null)
+        {
+            var serie = GetSerie(index);
+            if (serie != null)
+            {
+                return serie.AddData(open, close, lowest, heighest, dataName);
+            }
+            return null;
+        }
+
+         public SerieData AddData(string serieName, float open, float close, float lowest, float heighest, string dataName = null)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                return serie.AddData(open, close, lowest, heighest, dataName);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 添加一组数据到指定的系列中
         /// </summary>
         /// <param name="serieName"></param>

@@ -317,6 +317,20 @@ namespace XCharts
             }
             return serieData;
         }
+        public virtual SerieData AddData(int serieIndex, float open, float close, float lowest, float heighest, string dataName = null)
+        {
+            var serieData = m_Series.AddData(serieIndex, open, close, lowest,heighest, dataName);
+            if (serieData != null)
+            {
+                var serie = m_Series.GetSerie(serieIndex);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
+                RefreshPainter(serie);
+            }
+            return serieData;
+        }
 
         /// <summary>
         /// Update serie data by serie name.

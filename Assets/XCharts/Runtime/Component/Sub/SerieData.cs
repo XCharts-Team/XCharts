@@ -121,12 +121,36 @@ namespace XCharts
         /// the maxinum value.
         /// 最大值。
         /// </summary>
-        public float max { get { return m_Data.Max(); } }
+        public float max
+        {
+            get
+            {
+                if (m_Data.Count == 0) return 0;
+                float temp = float.MinValue;
+                for (int i = 0; i < m_Data.Count; i++)
+                {
+                    if (m_Data[i] > temp) temp = m_Data[i];
+                }
+                return temp;
+            }
+        }
         /// <summary>
         /// the mininum value.
         /// 最小值。
         /// </summary>
-        public float min { get { return m_Data.Min(); } }
+        public float min
+        {
+            get
+            {
+                if (m_Data.Count == 0) return 0;
+                float temp = float.MaxValue;
+                for (int i = 0; i < m_Data.Count; i++)
+                {
+                    if (m_Data[i] < temp) temp = m_Data[i];
+                }
+                return temp;
+            }
+        }
         /// <summary>
         /// 饼图数据项的开始角度（运行时自动计算）
         /// </summary>

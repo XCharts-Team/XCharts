@@ -454,9 +454,19 @@ namespace XCharts
                             var showData = serie.GetDataList(dataZoom);
                             foreach (var data in showData)
                             {
-                                var currData = data.GetData(yValue ? 1 : 0, inverse);
-                                if (currData > max) max = currData;
-                                if (currData < min) min = currData;
+                                if (serie.type == SerieType.Candlestick)
+                                {
+                                    var dataMin = data.min;
+                                    var dataMax = data.max;
+                                    if (dataMax > max) max = dataMax;
+                                    if (dataMin < min) min = dataMin;
+                                }
+                                else
+                                {
+                                    var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                    if (currData > max) max = currData;
+                                    if (currData < min) min = currData;
+                                }
                             }
                         }
                     }
@@ -488,7 +498,15 @@ namespace XCharts
                             {
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
                                     _serieTotalValueForMinMax[j] = 0;
-                                var currData = (yValue ? showData[j].GetData(1) : showData[j].GetData(0));
+                                var currData = 0f;
+                                if (serie.type == SerieType.Candlestick)
+                                {
+                                    currData = showData[j].max;
+                                }
+                                else
+                                {
+                                    currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
+                                }
                                 if (inverse) currData = -currData;
                                 _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }

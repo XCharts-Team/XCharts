@@ -210,9 +210,25 @@ namespace XCharts
             {
                 var valueTxt = isIngore ? tooltip.ignoreDataDefaultContent :
                     ChartCached.FloatToStr(yValue, numericFormatter);
-                sb.Append("<color=#").Append(theme.GetColorStr(serie.index)).Append(">● </color>")
-                .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                .Append(valueTxt);
+                sb.Append("<color=#").Append(theme.GetColorStr(serie.index)).Append(">● </color>");
+                if (serie.type == SerieType.Candlestick)
+                {
+                    sb.Append(key).Append(FormatterHelper.PH_NN);
+                    var data = serieData.data;
+                    var open = ChartCached.FloatToStr(data[0], numericFormatter);
+                    var close = ChartCached.FloatToStr(data[1], numericFormatter);
+                    var lowest = ChartCached.FloatToStr(data[2], numericFormatter);
+                    var heighest = ChartCached.FloatToStr(data[3], numericFormatter);
+                    sb.Append("   open: ").Append(open).Append(FormatterHelper.PH_NN);
+                    sb.Append("   close: ").Append(close).Append(FormatterHelper.PH_NN);
+                    sb.Append("   lowest: ").Append(lowest).Append(FormatterHelper.PH_NN);
+                    sb.Append("   heighest: ").Append(heighest).Append(FormatterHelper.PH_NN);
+                }
+                else
+                {
+                    sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
+                    sb.Append(valueTxt);
+                }
             }
         }
 
@@ -224,6 +240,7 @@ namespace XCharts
             {
                 case SerieType.Line:
                 case SerieType.Bar:
+                case SerieType.Candlestick:
                     InitCoordinateTooltip(ref sb, tooltip, serie, index, theme, isCartesian, dataZoom);
                     break;
                 case SerieType.Scatter:

@@ -20,6 +20,11 @@ namespace XCharts
         [SerializeField] protected float m_ScatterSymbolSelectedSize;
         [SerializeField] protected float m_PieTooltipExtraRadius;
         [SerializeField] protected float m_PieSelectedOffset;
+        [SerializeField] protected Color32 m_CandlestickColor = new Color32(194, 53, 49, 255);
+        [SerializeField] protected Color32 m_CandlestickColor0 = new Color32(49, 70, 86, 255);
+        [SerializeField] protected float m_CandlestickBorderWidth = 1;
+        [SerializeField] protected Color32 m_CandlestickBorderColor = new Color32(194, 53, 49, 255);
+        [SerializeField] protected Color32 m_CandlestickBorderColor0 = new Color32(49, 70, 86, 255);
 
         /// <summary>
         /// the color of text.
@@ -67,6 +72,47 @@ namespace XCharts
             get { return m_PieSelectedOffset; }
             set { if (PropertyUtil.SetStruct(ref m_PieSelectedOffset, value < 0 ? 0f : value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// K线图阳线（涨）填充色
+        /// </summary>
+        public Color32 candlestickColor
+        {
+            get { return m_CandlestickColor; }
+            set { if (PropertyUtil.SetColor(ref m_CandlestickColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// K线图阴线（跌）填充色
+        /// </summary>
+        public Color32 candlestickColor0
+        {
+            get { return m_CandlestickColor0; }
+            set { if (PropertyUtil.SetColor(ref m_CandlestickColor0, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// K线图阳线（跌）边框色
+        /// </summary>
+        public Color32 candlestickBorderColor
+        {
+            get { return m_CandlestickBorderColor; }
+            set { if (PropertyUtil.SetColor(ref m_CandlestickBorderColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// K线图阴线（跌）边框色
+        /// </summary>
+        public Color32 candlestickBorderColor0
+        {
+            get { return m_CandlestickBorderColor0; }
+            set { if (PropertyUtil.SetColor(ref m_CandlestickBorderColor0, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// K线图边框宽度
+        /// </summary>
+        public float candlestickBorderWidth
+        {
+            get { return m_CandlestickBorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_CandlestickBorderWidth, value < 0 ? 0f : value)) SetVerticesDirty(); }
+        }
 
         public void Copy(SerieTheme theme)
         {
@@ -77,6 +123,11 @@ namespace XCharts
             m_ScatterSymbolSelectedSize = theme.scatterSymbolSelectedSize;
             m_PieTooltipExtraRadius = theme.pieTooltipExtraRadius;
             m_PieSelectedOffset = theme.pieSelectedOffset;
+            m_CandlestickColor = theme.candlestickColor;
+            m_CandlestickColor0 = theme.candlestickColor0;
+            m_CandlestickBorderColor = theme.candlestickBorderColor;
+            m_CandlestickBorderColor0 = theme.candlestickBorderColor0;
+            m_CandlestickBorderWidth = theme.candlestickBorderWidth;
         }
 
         public SerieTheme(Theme theme)
@@ -88,6 +139,28 @@ namespace XCharts
             m_ScatterSymbolSelectedSize = XChartsSettings.serieScatterSymbolSelectedSize;
             m_PieTooltipExtraRadius = XChartsSettings.pieTooltipExtraRadius;
             m_PieSelectedOffset = XChartsSettings.pieSelectedOffset;
+            m_CandlestickBorderWidth = XChartsSettings.serieCandlestickBorderWidth;
+            switch (theme)
+            {
+                case Theme.Default:
+                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    break;
+                case Theme.Light:
+                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    break;
+                case Theme.Dark:
+                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    break;
+            }
         }
     }
 }

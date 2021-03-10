@@ -179,6 +179,11 @@ namespace XCharts
                 PropertyField(prop, "m_ScatterSymbolSelectedSize");
                 PropertyField(prop, "m_PieTooltipExtraRadius");
                 PropertyField(prop, "m_PieSelectedOffset");
+                PropertyField(prop, "m_CandlestickColor");
+                PropertyField(prop, "m_CandlestickColor0");
+                PropertyField(prop, "m_CandlestickBorderColor");
+                PropertyField(prop, "m_CandlestickBorderColor0");
+                PropertyField(prop, "m_CandlestickBorderWidth");
                 --EditorGUI.indentLevel;
             }
         }

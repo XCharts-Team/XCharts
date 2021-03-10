@@ -22,6 +22,7 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Color");
+                PropertyField(prop, "m_Color0");
                 PropertyField(prop, "m_ToColor");
                 PropertyField(prop, "m_ToColor2");
                 PropertyField(prop, "m_BackgroundColor");
@@ -31,6 +32,7 @@ namespace XCharts
                 PropertyField(prop, "m_BorderType");
                 PropertyField(prop, "m_BorderWidth");
                 PropertyField(prop, "m_BorderColor");
+                PropertyField(prop, "m_BorderColor0");
                 PropertyField(prop, "m_Opacity");
                 PropertyField(prop, "m_TooltipFormatter");
                 PropertyField(prop, "m_NumericFormatter");

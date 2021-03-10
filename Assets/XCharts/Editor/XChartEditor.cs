@@ -146,6 +146,13 @@ namespace XCharts
             AddChart<LiquidChart>("LiquidChart");
         }
 
+        [MenuItem("XCharts/CandlestickChart", priority = 54)]
+        [MenuItem("GameObject/XCharts/CandlestickChart", priority = 54)]
+        public static void AddCandlestickChart()
+        {
+            AddChart<CandlestickChart>("CandlestickChart");
+        }
+
         [MenuItem("XCharts/Themes Reload")]
         public static void ReloadTheme()
         {

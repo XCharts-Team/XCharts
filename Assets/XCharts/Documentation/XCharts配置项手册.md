@@ -23,6 +23,7 @@
 * [Serie-Gauge 仪表盘](#Serie-Gauge)  
 * [Serie-Ring 环形图](#Serie-Ring)  
 * [Serie-Liquid 水位图](#Serie-Liquid)  
+* [Serie-Candlestick K线图](#Serie-Candlestick)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
@@ -750,6 +751,29 @@
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。水位图的数据一般只有一个，表示当前水位值，用`max`设置最大水位值。
 
+## `Serie-Candlestick`
+
+K线图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Candlestick`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `xAxisIndex`：使用的坐标轴X轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
+* `yAxisIndex`：使用的坐标轴Y轴的 `index`，在单个图表实例中存在多个坐标轴的时候有用。
+* `minShow`：系列显示数据的最小索引。
+* `maxShow`：系列显示数据的最大索引。
+* `maxCache`：系列中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `clip`：是否裁剪超出坐标系部分的图形。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+* `large`：是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。缺点：优化后不能自定义设置单个数据项的样式，不能显示Label，折线图不绘制Symbol。
+* `largeThreshold`：开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
+* `itemStyle`：环形图的圆环样式，包括设置背景颜色和边框等 [ItemStyle](#ItemStyle)。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，K线图至少需要4个维度的数组`[open, close, lowest, highest]`。
+
 ## `Settings`
 
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
@@ -846,7 +870,8 @@
 ## `ItemStyle`
 
 * `show`：是否启用。
-* `color`：颜色。
+* `color`：颜色。对于K线图，对应阳线的颜色。
+* `color0`：颜色。对于K线图，对应阴线的颜色。
 * `toColor`：渐变颜色1。
 * `toColor2`：渐变颜色2。只在折线图中有效。
 * `backgroundColor`：背景颜色。
@@ -854,7 +879,8 @@
 * `centerColor`：中心区域的颜色。如环形图的中心区域。
 * `centerGap`：中心区域的间隙。如环形图的中心区域于最内环的间隙。
 * `borderType`：边框的类型。
-* `borderColor`：边框的颜色。
+* `borderColor`：边框的颜色。对于K线图，对应阳线的边框颜色。
+* `borderColor0`：边框的颜色。对于K线图，对应阴线的边框颜色。
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
 * `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。

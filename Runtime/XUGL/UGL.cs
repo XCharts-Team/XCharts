@@ -807,7 +807,8 @@ namespace XUGL
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false)
+            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
+            float smoothness = 1f)
         {
             if (borderWidth == 0 || UGLHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
@@ -838,7 +839,7 @@ namespace XUGL
                 if (brLt > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, s_ClearColor32, 270, 360);
+                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, s_ClearColor32, 270, 360, smoothness);
                     ltIn = tempCenter + brLt * Vector3.left;
                     ltOt = tempCenter + (brLt + borderWidth) * Vector3.left;
                     ltIn2 = tempCenter + brLt * Vector3.up;
@@ -847,7 +848,7 @@ namespace XUGL
                 if (brRt > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, s_ClearColor32, 0, 90);
+                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, s_ClearColor32, 0, 90, smoothness);
                     rtIn = tempCenter + brRt * Vector3.up;
                     rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
                     rtIn2 = tempCenter + brRt * Vector3.right;
@@ -856,7 +857,7 @@ namespace XUGL
                 if (brRb > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, s_ClearColor32, 90, 180);
+                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, s_ClearColor32, 90, 180, smoothness);
                     rbIn = tempCenter + brRb * Vector3.right;
                     rbOt = tempCenter + (brRb + borderWidth) * Vector3.right;
                     rbIn2 = tempCenter + brRb * Vector3.down;
@@ -865,7 +866,7 @@ namespace XUGL
                 if (brLb > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
-                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, s_ClearColor32, 180, 270);
+                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, s_ClearColor32, 180, 270, smoothness);
                     lbIn = tempCenter + brLb * Vector3.left;
                     lbOt = tempCenter + (brLb + borderWidth) * Vector3.left;
                     lbIn2 = tempCenter + brLb * Vector3.down;
@@ -1192,7 +1193,7 @@ namespace XUGL
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 center, float insideRadius, float outsideRadius,
             Color32 color, Color32 emptyColor, float startDegree,
-            float toDegree, float smoothness = 2f)
+            float toDegree, float smoothness = 1f)
         {
             DrawDoughnut(vh, center, insideRadius, outsideRadius, color, color, emptyColor, startDegree, toDegree,
                 0, s_ClearColor32, 0, smoothness);

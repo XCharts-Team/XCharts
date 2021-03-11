@@ -23,11 +23,9 @@ namespace XCharts
             var grid = GetSerieGridOrDefault(serie);
             float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
             float barGap = GetBarGap();
-            float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
-            float offset = (categoryWidth - totalBarWidth) / 2;
+            float space = (categoryWidth - barWidth) / 2;
             float barGapWidth = barWidth + barWidth * barGap;
-            float space = serie.barGap == -1 ? offset : offset + GetBarIndex(serie) * barGapWidth;
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;

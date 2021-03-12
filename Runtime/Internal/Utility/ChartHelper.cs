@@ -124,6 +124,19 @@ namespace XCharts
                 GameObject.DestroyImmediate(go.gameObject);
             }
         }
+        public static void DestoryGameObjectByMatch(Transform parent, string match)
+        {
+            if (parent == null) return;
+            var childCount = parent.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var go = parent.GetChild(i);
+                if (go != null && go.name.StartsWith(match))
+                {
+                    GameObject.DestroyImmediate(go.gameObject);
+                }
+            }
+        }
 
         public static void DestoryGameObject(GameObject go)
         {

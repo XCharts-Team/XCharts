@@ -21,8 +21,8 @@ namespace XCharts
 #if UNITY_2019_3_OR_NEWER
         private const float k_IconWidth = 14;
         private const float k_IconGap = 0f;
-        private const float k_IconXOffset = 7f;
-        private const float k_IconYOffset = -1f;
+        private const float k_IconXOffset = 10f;
+        private const float k_IconYOffset = -1.5f;
 #else
         private const float k_IconWidth = 14;
         private const float k_IconGap = 0f;
@@ -200,20 +200,47 @@ namespace XCharts
                     if (m_Flodouts[prop.displayName])
                     {
                         EditorGUI.indentLevel++;
-                        prop.arraySize = EditorGUILayout.IntField("Size", prop.arraySize);
+                        //prop.arraySize = EditorGUILayout.IntField("Size", prop.arraySize);
+                        var currRect = EditorGUILayout.GetControlRect(GUILayout.Height(0));
+                        currRect.y -= EditorGUIUtility.singleLineHeight;
+                        var rect1 = new Rect(currRect.width + k_IconXOffset,
+                            currRect.y + k_IconYOffset,
+                            k_IconWidth, EditorGUIUtility.singleLineHeight);
+                        if (GUI.Button(rect1, ChartEditorHelper.Styles.iconAdd, ChartEditorHelper.Styles.invisibleButton))
+                        {
+                            prop.InsertArrayElementAtIndex(prop.arraySize > 0 ? prop.arraySize - 1 : 0);
+                        }
                         for (int i = 0; i < prop.arraySize; i++)
                         {
                             EditorGUILayout.PropertyField(prop.GetArrayElementAtIndex(i), true);
-                            var currRect = EditorGUILayout.GetControlRect(GUILayout.Height(0));
+                            currRect = EditorGUILayout.GetControlRect(GUILayout.Height(0));
                             currRect.y -= EditorGUI.GetPropertyHeight(prop.GetArrayElementAtIndex(i));
-                            var rect1 = new Rect(currRect.width + k_IconXOffset,
+                            rect1 = new Rect(currRect.width + k_IconXOffset,
                                 currRect.y + k_IconYOffset,
                                 k_IconWidth, EditorGUIUtility.singleLineHeight);
                             var oldColor = GUI.contentColor;
                             GUI.contentColor = Color.black;
                             if (GUI.Button(rect1, ChartEditorHelper.Styles.iconRemove, ChartEditorHelper.Styles.invisibleButton))
                             {
-                                if (i < prop.arraySize && i >= 0) prop.DeleteArrayElementAtIndex(i);
+                                if (prop.arraySize == 1)
+                                {
+                                    if (EditorUtility.DisplayDialog("Delete component", "Confirm to delete last component?", "Sure", "Cancel"))
+                                    {
+                                        var chart = prop.GetArrayElementAtIndex(0).serializedObject.targetObject as BaseChart;
+                                        prop.DeleteArrayElementAtIndex(i);
+                                        serializedObject.ApplyModifiedProperties();
+                                        chart.RemoveChartObject();
+                                        chart.RefreshAllComponent();
+                                    }
+                                }
+                                else if (i < prop.arraySize && i >= 0)
+                                {
+                                    var chart = prop.GetArrayElementAtIndex(0).serializedObject.targetObject as BaseChart;
+                                    prop.DeleteArrayElementAtIndex(i);
+                                    serializedObject.ApplyModifiedProperties();
+                                    chart.RemoveChartObject();
+                                    chart.RefreshAllComponent();
+                                }
                             }
                             var rect2 = new Rect(currRect.width + k_IconXOffset - k_IconWidth - k_IconGap,
                                  currRect.y + k_IconYOffset,

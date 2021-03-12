@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.13) Optimize the editing experience and component refresh after `MulticomponentMode` is enabled #128
 * (2021.03.10) Added `CandlestickChart` #124
 * (2021.03.06) Added `PieChart`'s `minAngle` parameter to support setting minimum sector angle #117
 * (2021.03.05) Added support for `Legend` for several built-in ICONS #90

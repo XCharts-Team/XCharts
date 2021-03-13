@@ -209,6 +209,10 @@ namespace XCharts
                         if (GUI.Button(rect1, ChartEditorHelper.Styles.iconAdd, ChartEditorHelper.Styles.invisibleButton))
                         {
                             prop.InsertArrayElementAtIndex(prop.arraySize > 0 ? prop.arraySize - 1 : 0);
+                            var chart = prop.GetArrayElementAtIndex(0).serializedObject.targetObject as BaseChart;
+                            serializedObject.ApplyModifiedProperties();
+                            chart.RemoveChartObject();
+                            chart.RefreshAllComponent();
                         }
                         for (int i = 0; i < prop.arraySize; i++)
                         {

@@ -222,7 +222,7 @@ namespace XCharts
                     sb.Append("   open: ").Append(open).Append(FormatterHelper.PH_NN);
                     sb.Append("   close: ").Append(close).Append(FormatterHelper.PH_NN);
                     sb.Append("   lowest: ").Append(lowest).Append(FormatterHelper.PH_NN);
-                    sb.Append("   heighest: ").Append(heighest).Append(FormatterHelper.PH_NN);
+                    sb.Append("   heighest: ").Append(heighest);
                 }
                 else
                 {

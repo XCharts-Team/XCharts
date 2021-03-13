@@ -710,7 +710,7 @@ namespace XCharts
                 dataZoom.painter = m_PainterTop;
                 dataZoom.refreshComponent = delegate ()
                 {
-                    var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + i, transform, graphAnchorMin,
+                    var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + dataZoom.index, transform, graphAnchorMin,
                     graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
                     dataZoom.gameObject = dataZoomObject;
                     dataZoomObject.hideFlags = chartHideFlags;

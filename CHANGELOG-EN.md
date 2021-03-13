@@ -32,7 +32,8 @@
 
 ## Latest
 
-* (2021.03.13) Optimize the editing experience and component refresh after `MulticomponentMode` is enabled #128
+* (2021.03.14) Fixed `Tooltip` indicator was not indicating the correct location in some cases
+* (2021.03.13) Optimized the editing experience and component refresh after `MulticomponentMode` is enabled #128
 * (2021.03.10) Added `CandlestickChart` #124
 * (2021.03.06) Added `PieChart`'s `minAngle` parameter to support setting minimum sector angle #117
 * (2021.03.05) Added support for `Legend` for several built-in ICONS #90
@@ -53,7 +54,7 @@
 * (2021.02.05) Release `v2.0.0` version
 * (2021.02.03) Fixed an issue where `Axisline` `OnZero` did not work on `YAxis` #116
 * (2021.01.29) Fixed incorrect display of `Tick` on `Category` axis when `BoundaryGap` and `alignWithLabel` are `True` #115
-* (2021.01.25) Optimize some details
+* (2021.01.25) Optimized some details
 * (2021.01.22) Fixed a `Inpsector` displayed error
 
 ## v2.0.0-preview.2
@@ -81,14 +82,14 @@
 * (2020.11.21) Fixed `Unity5` compatibility error reporting problem
 * (2020.11.13) Improved `RadarChart` `Indicator` support for `\n` line feed
 * (2020.11.12) Fixed `LineChart` reporting errors when the type was `Smooth` when the data was too secure #100
-* (2020.10.22) Improve the support of `VisualMap` for `Piecewise` in `HeatmapChart`
+* (2020.10.22) Optimized the support of `VisualMap` for `Piecewise` in `HeatmapChart`
 * (2020.09.22) Fixed `PieChart` inconsistent border size
 * (2020.09.18) Added `Remove All Chart Object` to Remove All child nodes under the Chart (automatically reinitialized)
 * (2020.09.18) Fixed `SerieLabel` also displayed after hided `Serie` by clicked the legend #94
-* (2020.09.18) Optimize coordinate axis calibration and text display #93
-* (2020.09.17) fixed `Package` import missing `meta` file causing failure #92
-* (2020.09.08) Optimize the color of `Legend` to automatically match the custom color of `ItemStyle`
-* (2020.09.05) Optimize `LineChart` to display `XAxis1` without using `XAxis1`.
+* (2020.09.18) Optimized coordinate axis calibration and text display #93
+* (2020.09.17) Fixed `Package` import missing `meta` file causing failure #92
+* (2020.09.08) Optimized the color of `Legend` to automatically match the custom color of `ItemStyle`
+* (2020.09.05) Optimized `LineChart` to display `XAxis1` without using `XAxis1`.
 * (2020.08.29) Added `toColor` and `toColor2` of `LineStyle` to set the horizontal gradient of `LineChart`. Cancel `ItemStyle` to set the horizontal gradient of `LineChart`.
 * (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.
 * (2020.08.29) Added the `onPointerClickBar` of `BarChart`, a callback function of click bar.
@@ -97,10 +98,10 @@
 
 * (2020.08.24) Release `v1.6.0` version
 * (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md) to upgrade)
-* (2020.08.15) Optimize `PieChart` drawing performance effect #85
+* (2020.08.15) Optimized `PieChart` drawing performance effect #85
 * (2020.08.11) Added `LiquidChart` data change animation#83
-* (2020.08.11) Optimize `PieChart` text stack and lead line effects#85
-* (2020.08.08) Optimize `LineChart` the rendering performance of dense data
+* (2020.08.11) Optimized `PieChart` text stack and lead line effects#85
+* (2020.08.08) Optimized `LineChart` the rendering performance of dense data
 * (2020.07.30) Added `LineChart` to configure gradient through `VisualMap` or `ItemStyle`#78
 * (2020.07.25) Fixed a problem with `LineChart` emerging abnormal in animation drawing#79
 * (2020.07.25) Fixed a problem with gradual discoloration on `LiquidChart` at `100%`#80
@@ -108,34 +109,32 @@
 * (2020.07.23) Added `RingChart` ring gradient support#75
 * (2020.07.21) Added `formatter` of `AxisLabel` and `SerieLabel` to configure numeric formatting separately.
 * (2020.07.17) Added animation completion callback interface for `SerieAnimation`.
-* (2020.07.17) Optimize `Chart` under `ScrollView` without affecting the scrolling and dragging of `ScrollView`.
+* (2020.07.17) Optimized `Chart` under `ScrollView` without affecting the scrolling and dragging of `ScrollView`.
 * (2020.07.16) Fixed a problem with `Tooltip` that would also show up if it was blocked on top. #74
-* (2020.07.08) 优化`Scatter`类型`Serie`支持`Log`轴#70
-* (2020.07.07) 修复`SerieLabel`位置错乱的问题
-* (2020.07.07) 增加`Tooltip`的`offset`参数配置偏移
-* (2020.07.06) 增加`LiquidChart`水位图
-* (2020.07.01) 增加`PolarChart`极坐标图表
+* (2020.07.07) Fixed issue where  `SerieLabel` position was out of order
+* (2020.07.07) Added `Tooltip` to the `offset` parameter
+* (2020.07.06) Added `Liquidchart`
+* (2020.07.01) Added `PolarChart`
 
 ## v1.5.2
 
-* (2020.06.25) 发布`v1.5.2`版本
-* (2020.06.25) 修复`BarChart`在数值为`0`时还会绘制一小部分柱条的问题
-* (2020.06.24) 修复`PieChart`在设置`clockwise`后绘制异常的问题#65
-* (2020.06.23) 优化`LineChart`在峰谷差异过大时的绘制效果#64
-* (2020.06.18) 修复`SerieLabel`在重新添加数据时可能不显示的问题
-* (2020.06.17) 增加`SerieData`可单独设置`SerieSymbol`#66
-* (2020.06.17) 修复`Check For Update`在`Unity 2018`部分版本报错的问题#63
-* (2020.06.16) 增加`Serie`的`avoidLabelOverlap`参数避免饼图标签堆叠的情况#56
-* (2020.06.15) 修复`SerieLabel`单独控制显示时可能错乱的问题
-* (2020.06.11) 修复`Check warning`不生效的问题
-* (2020.06.11) 修复`PieChart`和`RingChart`在数据占比很小时不显示的问题
-* (2020.06.11) 增加`Tooltip`的`titleFormatter`支持配置占位符`{i}`表示忽略不显示标题
-* (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数#58
-* (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果#59
-* (2020.06.04) 增加`SerieLabel`的`autoOffset`参数设置是否自动判断上下偏移
-* (2020.06.04) 增加`Tooltip`的`alwayShow`参数设置触发后一直显示
-* (2020.06.04) 优化`Tooltip`的`formatter`支持`{.1}`通配符
-* (2020.06.04) 优化`Legend`数量过多时自动换行显示#53
+* (2020.06.25) Fixed an issue where `BarChart` would draw a small number of bars when the value was  `0`
+* (2020.06.24) Fixed an issue where `PieChart` was drawing abnormally after setting `Clockwise` #65
+* (2020.06.23) Optimized the drawing effect of `LineChart` when the difference between peak and valley is too large #64
+* (2020.06.18) Fixed an issue where `SerieLabel` might not be displayed when adding data again
+* (2020.06.17) Added `SerieData` to `serieSymbol` #66
+* (2020.06.17) Fixed `Check For Update` bug in `Unity 2018` version #63
+* (2020.06.16) Added `Serie` `avoidLabelOverlap` parameter to avoid pie chart TAB stacking #56
+* (2020.06.15) Fixed an issue where the `SerieLabel` control display could be deranged
+* (2020.06.11) Fixed `Check warning` not working
+* (2020.06.11) Fixed issue where `Piechart` and `Ringchart` were not displayed when data fraction was very small
+* (2020.06.11) Added `Tooltip` to `titleFormatter` to support configuration placeholder `{i}` to ignore not showing titles
+* (2020.06.07) Added `customFadeInDelay` and other custom data item delay and duration callback function #58
+* (2020.06.07) Optimized `Piechart` to display equal parts when all the data are `0` #59
+* (2020.06.04) Added `autoOffset` parameter setting for `SerieLabel` to determine whether the up and down offset is automatically determined
+* (2020.06.04) Added `Tooltip` to `AlwayShow` parameter setting to always show after triggering
+* (2020.06.04) Tooltip's `formatter` supports `{.1}` wildcards
+* (2020.06.04) Optimizes the number of `Legend` to automatically wrap to display #53
 
 ## v1.5.1
 
@@ -151,6 +150,8 @@
 * (2020.05.27) 优化`柱状图`的渐变色效果
 * (2020.05.24) 修复`Axis`同时设置`boundaryGap`和`alignWithLabel`时`Tick`绘制异常的问题
 * (2020.05.24) 优化版本更新检测
+* (2020.06.25) release `v1.5.2`
+
 
 ## v1.5.0
 

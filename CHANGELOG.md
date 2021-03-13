@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.14) 修复`Tooltip`的指示器在某些情况下指示位置不准的问题
 * (2021.03.13) 优化`MultiComponentMode`开启后的编辑体验和组件刷新 #128
 * (2021.03.10) 增加`CandlestickChart`K线图 #124
 * (2021.03.06) 增加`PieChart`的`minAngle`参数支持设置最小扇区角度 #117

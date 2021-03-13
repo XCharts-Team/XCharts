@@ -93,6 +93,7 @@ namespace XCharts
             var categoryCount = axis.GetDataNumber(dataZoom);
             int segment = (axis.boundaryGap ? categoryCount : categoryCount - 1);
             segment = segment <= 0 ? dataCount : segment;
+            if (segment <= 0) segment = 1;
             return coordinateWidth / segment;
         }
 

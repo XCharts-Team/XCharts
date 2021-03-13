@@ -424,9 +424,9 @@ namespace XCharts
                 else
                 {
                     labelText = axis.GetData((int)tooltip.runtimeXValues[axisIndex], dataZoom);
-                    float splitWidth = AxisHelper.GetSplitWidth(axis, grid.runtimeWidth, dataZoom);
-                    int index = (int)tooltip.runtimeXValues[axisIndex];
-                    float px = grid.runtimeX + index * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0) + 0.5f;
+                    var splitWidth = AxisHelper.GetDataWidth(axis, grid.runtimeWidth, 0, dataZoom);
+                    var index = (int)tooltip.runtimeXValues[axisIndex];
+                    var px = grid.runtimeX + index * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0);
                     labelPos = new Vector2(px, posY - diff);
                 }
             }
@@ -442,9 +442,9 @@ namespace XCharts
                 else
                 {
                     labelText = axis.GetData((int)tooltip.runtimeYValues[axisIndex], dataZoom);
-                    float splitWidth = AxisHelper.GetSplitWidth(axis, grid.runtimeHeight, dataZoom);
-                    int index = (int)tooltip.runtimeYValues[axisIndex];
-                    float py = grid.runtimeY + index * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0);
+                    var splitWidth = AxisHelper.GetDataWidth(axis, grid.runtimeHeight, 0, dataZoom);
+                    var index = (int)tooltip.runtimeYValues[axisIndex];
+                    var py = grid.runtimeY + index * splitWidth + (axis.boundaryGap ? splitWidth / 2 : 0);
                     labelPos = new Vector2(posX - diff, py);
                 }
             }

@@ -16,6 +16,7 @@ namespace XCharts.Examples
     {
         private CandlestickChart chart;
         private float updateTime;
+        public int dataCount = 100;
 
         void Awake()
         {
@@ -24,7 +25,7 @@ namespace XCharts.Examples
             {
                 chart = gameObject.AddComponent<CandlestickChart>();
             }
-            GenerateOHLC(1000);
+            GenerateOHLC(dataCount);
         }
 
         void Update()

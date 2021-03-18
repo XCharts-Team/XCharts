@@ -63,7 +63,8 @@ namespace XCharts
                 float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
-                float axisLineWidth = (value < 0 ? -1 : 1) * yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
+                float axisLineWidth = value == 0 ? 0
+                    : ((value < 0 ? -1 : 1) * yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth));
 
                 float pY = grid.runtimeY + i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
@@ -98,15 +99,15 @@ namespace XCharts
                 if (value < 0)
                 {
                     plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig + borderWidth - axisLineWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig + borderWidth - axisLineWidth, pY + space + borderWidth);
+                    prt = new Vector3(pX + currHig + borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig + borderWidth, pY + space + borderWidth);
                     plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
                 }
                 else
                 {
                     plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig - borderWidth - axisLineWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig - borderWidth - axisLineWidth, pY + space + borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth , pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth , pY + space + borderWidth);
                     plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
                 }
                 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
@@ -199,7 +200,8 @@ namespace XCharts
                 float pX = grid.runtimeX + i * categoryWidth;
                 float zeroY = grid.runtimeY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
-                float axisLineWidth = (value < 0 ? -1 : 1) * xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
+                float axisLineWidth = value == 0 ? 0 :
+                     ((value < 0 ? -1 : 1) * xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth));
                 float pY = zeroY + axisLineWidth;
                 if (isStack)
                 {
@@ -232,15 +234,15 @@ namespace XCharts
                 if (value < 0)
                 {
                     plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth - axisLineWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth - axisLineWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
                     prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
                 }
                 else
                 {
                     plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth - axisLineWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth - axisLineWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
                     prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
                 }
                 top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);

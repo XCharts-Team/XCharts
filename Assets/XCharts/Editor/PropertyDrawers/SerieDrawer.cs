@@ -212,7 +212,7 @@ namespace XCharts
             SerializedProperty m_ShowDataIcon = prop.FindPropertyRelative("m_ShowDataIcon");
             int index = InitToggle(prop);
             drawRect.width = EditorGUIUtility.labelWidth + 10;
-            m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
+            m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data", true);
             drawRect.width = pos.width;
 
             AddSingleLineHeight();
@@ -222,8 +222,8 @@ namespace XCharts
 
                 float nameWid = 45;
 #if UNITY_2019_3_OR_NEWER
-                    var gap = 2;
-                    var namegap = 3;
+                var gap = 2;
+                var namegap = 3;
 #else
                 var gap = 0;
                 var namegap = 0;

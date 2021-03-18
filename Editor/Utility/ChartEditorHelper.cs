@@ -142,7 +142,7 @@ public class ChartEditorHelper
         float defaultX = drawRect.x;
         var style = bold ? Styles.foldoutStyle : EditorStyles.foldout;
         drawRect.width = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH;
-        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, style);
+        moduleToggle = EditorGUI.Foldout(drawRect, moduleToggle, content, true, style);
         MakeBool(drawRect, prop);
         drawRect.width = defaultWidth;
         drawRect.x = defaultX;
@@ -156,7 +156,7 @@ public class ChartEditorHelper
         float defaultX = drawRect.x;
         var style = bold ? Styles.foldoutStyle : EditorStyles.foldout;
         drawRect.width = EditorGUIUtility.labelWidth;
-        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, style);
+        moduleToggle[key] = EditorGUI.Foldout(drawRect, moduleToggle[key], content, true, style);
         if (prop != null)
         {
             if (prop.propertyType == SerializedPropertyType.Boolean)
@@ -236,7 +236,8 @@ public class ChartEditorHelper
         drawRect.width = EditorGUIUtility.labelWidth;
 #endif
         var displayName = string.IsNullOrEmpty(moduleName) ? prop.displayName : moduleName;
-        toggle = EditorGUI.Foldout(drawRect, toggle, displayName, bold ? Styles.foldoutStyle : EditorStyles.foldout);
+        var foldoutStyle = bold ? Styles.foldoutStyle : EditorStyles.foldout;
+        toggle = EditorGUI.Foldout(drawRect, toggle, displayName, true, foldoutStyle);
 
         if (moduleToggle[key] != toggle)
         {
@@ -276,7 +277,7 @@ public class ChartEditorHelper
     {
         var rawWidth = drawRect.width;
         drawRect.width = EditorGUIUtility.labelWidth + 10;
-        bool flag = EditorGUI.Foldout(drawRect, foldout, listProp.displayName);
+        bool flag = EditorGUI.Foldout(drawRect, foldout, listProp.displayName, true);
         height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         drawRect.width = rawWidth;

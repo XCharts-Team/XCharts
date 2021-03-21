@@ -319,7 +319,7 @@ namespace XCharts
         }
         public virtual SerieData AddData(int serieIndex, float open, float close, float lowest, float heighest, string dataName = null)
         {
-            var serieData = m_Series.AddData(serieIndex, open, close, lowest,heighest, dataName);
+            var serieData = m_Series.AddData(serieIndex, open, close, lowest, heighest, dataName);
             if (serieData != null)
             {
                 var serie = m_Series.GetSerie(serieIndex);
@@ -707,6 +707,13 @@ namespace XCharts
         public bool ContainsSerie(SerieType serieType)
         {
             return SeriesHelper.ContainsSerie(m_Series, serieType);
+        }
+
+        public void UnbindTheme()
+        {
+            var theme = m_Theme.CloneTheme();
+            m_Theme = theme;
+            RefreshChart();
         }
     }
 }

@@ -304,6 +304,17 @@ namespace XCharts
             }
         }
 
+        /// <summary>
+        /// 克隆主题。
+        /// </summary>
+        /// <returns></returns>
+        public ChartTheme CloneTheme()
+        {
+            var theme = ScriptableObject.CreateInstance<ChartTheme>();
+            InitChartComponentTheme(theme);
+            theme.CopyTheme(this);
+            return theme;
+        }
 
 
         /// <summary>

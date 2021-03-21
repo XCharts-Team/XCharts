@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.22) Added `Theme` `Unbind` button to unbind theme when copying chart #118
 * (2021.03.18) Fixed an issue where the check box after `Foldout` in `Inspector` could not be checked
 * (2021.03.18) Fixed an issue with `BarChart` displaying an exception in the `0` value
 * (2021.03.14) Fixed `Tooltip` indicator was not indicating the correct location in some cases

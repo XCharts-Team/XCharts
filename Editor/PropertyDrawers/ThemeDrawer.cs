@@ -29,12 +29,12 @@ namespace XCharts
             base.OnGUI(pos, prop, label);
             var defaultWidth = pos.width;
             var defaultX = pos.x;
-            var btnWidth = 45;
+            var btnWidth = 50;
             ChartEditorHelper.MakeFoldout(ref m_DrawRect, ref m_ThemeModuleToggle, "Theme");
             m_Heights[m_KeyName] += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_ThemeModuleToggle)
             {
-                m_DrawRect.x = defaultX + defaultWidth - 2 * btnWidth - 2;
+                m_DrawRect.x = defaultX + defaultWidth - 3 * btnWidth - 2;
                 m_DrawRect.width = btnWidth;
                 var chart = prop.serializedObject.targetObject as BaseChart;
                 var lastFont = chart.theme.font;
@@ -45,6 +45,12 @@ namespace XCharts
                 {
                     chart.theme.ResetTheme();
                     chart.RefreshAllComponent();
+                }
+                m_DrawRect.x = defaultX + defaultWidth - 2 * btnWidth - 2;
+                m_DrawRect.width = btnWidth;
+                if (GUI.Button(m_DrawRect, new GUIContent("Unbind", "Unbind the Theme from another chart")))
+                {
+                    chart.UnbindTheme();
                 }
                 m_DrawRect.x = defaultX + defaultWidth - btnWidth;
                 m_DrawRect.width = btnWidth;

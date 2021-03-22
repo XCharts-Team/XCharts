@@ -100,8 +100,8 @@ namespace XCharts
             Color32 highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_Theme, colorIndex, true);
             Color32 areaColor, areaToColor;
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
-            var yAxis = m_YAxes[serie.yAxisIndex];
-            var xAxis = m_XAxes[serie.xAxisIndex];
+            var yAxis = GetSerieYAxisOrDefault(serie);
+            var xAxis = GetSerieXAxisOrDefault(serie);
             var grid = GetSerieGridOrDefault(serie);
             var zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + yAxis.runtimeZeroYOffset);
             var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);

@@ -152,7 +152,7 @@ namespace XCharts
             base.DrawPainterSerie(vh, serie);
             serie.dataPoints.Clear();
             var colorIndex = m_LegendRealShowName.IndexOf(serie.legendName);
-            bool yCategory = m_YAxes[0].IsCategory() || m_YAxes[1].IsCategory();
+            bool yCategory = IsAnyYAxisIsCategory();
             switch (serie.type)
             {
                 case SerieType.Line:
@@ -194,7 +194,7 @@ namespace XCharts
                     DrawLineArrow(vh, serie);
                 }
             }
-            bool yCategory = m_YAxes[0].IsCategory() || m_YAxes[1].IsCategory();
+            bool yCategory = IsAnyYAxisIsCategory();
             if (yCategory) DrawYTooltipIndicator(vh);
             else DrawXTooltipIndicator(vh);
         }
@@ -544,7 +544,8 @@ namespace XCharts
                     var axisNameTextStyle = yAxis.axisName.textStyle;
                     var offset = axisNameTextStyle.offset;
                     ChartText axisName = null;
-                    var zeroPos = new Vector3(grid.runtimeX + m_XAxes[yAxisIndex].runtimeZeroXOffset, grid.runtimeY);
+                    var xAxis = GetXAxis(yAxisIndex);
+                    var zeroPos = new Vector3(grid.runtimeX + (xAxis == null ? 0 : xAxis.runtimeZeroXOffset), grid.runtimeY);
                     switch (yAxis.axisName.location)
                     {
                         case AxisName.Location.Start:
@@ -642,7 +643,8 @@ namespace XCharts
                     var axisNameTextStyle = xAxis.axisName.textStyle;
                     var offset = axisNameTextStyle.offset;
                     ChartText axisName = null;
-                    var zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + m_YAxes[xAxisIndex].runtimeZeroYOffset);
+                    var yAxis = GetYAxis(xAxisIndex);
+                    var zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + (yAxis == null ? 0 : yAxis.runtimeZeroYOffset));
                     switch (xAxis.axisName.location)
                     {
                         case AxisName.Location.Start:
@@ -1473,10 +1475,21 @@ namespace XCharts
             }
         }
 
+        private bool IsAnyYAxisIsCategory()
+        {
+            foreach (var yAxis in m_YAxes)
+            {
+                if (yAxis.type == Axis.AxisType.Category)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         protected void DrawLabelBackground(VertexHelper vh)
         {
-            var isYAxis = m_YAxes[0].type == Axis.AxisType.Category
-                || m_YAxes[1].type == Axis.AxisType.Category;
+            var isYAxis = IsAnyYAxisIsCategory();
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);

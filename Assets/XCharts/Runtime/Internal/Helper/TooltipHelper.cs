@@ -232,6 +232,14 @@ namespace XCharts
             }
         }
 
+        private static void InitGanttTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
+           ChartTheme theme, string category)
+        {
+            //if (tooltip.runtimeGridIndex >= 0) return;
+            //if (serie.index != index || serie.type != SerieType.Gantt) return;
+            sb.Append(serie.name);
+        }
+
         private static void InitDefaultContent(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             string category, ChartTheme theme = null, DataZoom dataZoom = null, bool isCartesian = false,
             Radar radar = null)
@@ -260,6 +268,9 @@ namespace XCharts
                     break;
                 case SerieType.Gauge:
                     InitGaugeTooltip(ref sb, tooltip, serie, index, theme);
+                    break;
+                case SerieType.Gantt:
+                    InitGanttTooltip(ref sb, tooltip, serie, index, theme, category);
                     break;
             }
         }

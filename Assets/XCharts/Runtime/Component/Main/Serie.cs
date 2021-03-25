@@ -64,6 +64,10 @@ namespace XCharts
         /// K线图。K线图的data至少包含四个数据：[open, close, lowest, highest]
         /// </summary>
         Candlestick,
+        /// <summary>
+        /// 甘特图。甘特图的data至少包含两个数据：[start, end]
+        /// </summary>
+        Gantt,
     }
 
     /// <summary>
@@ -781,7 +785,7 @@ namespace XCharts
         /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
-        public int showDataDimension { get { return m_ShowDataDimension; } }
+        public int showDataDimension { get { return m_ShowDataDimension; } internal set { m_ShowDataDimension = value; } }
         /// <summary>
         /// 在Editor的inpsector上是否显示name参数
         /// </summary>
@@ -1234,6 +1238,7 @@ namespace XCharts
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
+            serieData.data.Clear();
             serieData.data.Add(xValue);
             serieData.data.Add(yValue);
             serieData.name = dataName;
@@ -1245,10 +1250,20 @@ namespace XCharts
             return serieData;
         }
 
+        /// <summary>
+        /// 添加 (open, close, lowest, heighest) 数据
+        /// </summary>
+        /// <param name="open"></param>
+        /// <param name="close"></param>
+        /// <param name="lowest"></param>
+        /// <param name="heighest"></param>
+        /// <param name="dataName"></param>
+        /// <returns></returns>
         public SerieData AddData(float open, float close, float lowest, float heighest, string dataName = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
+            serieData.data.Clear();
             serieData.data.Add(open);
             serieData.data.Add(close);
             serieData.data.Add(lowest);
@@ -1678,7 +1693,9 @@ namespace XCharts
             return type == SerieType.Line
                 || type == SerieType.Bar
                 || type == SerieType.Scatter
-                || type == SerieType.Heatmap;
+                || type == SerieType.Heatmap
+                || type == SerieType.Gantt
+                || type == SerieType.Candlestick;
         }
 
         /// <summary>

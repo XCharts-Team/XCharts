@@ -198,6 +198,20 @@ namespace XCharts
             content = TrimAndReplaceLine(content);
         }
 
+        public static void ReplaceAxisLabelContent(ref string content, string value)
+        {
+            var mc = s_RegexForAxisLabel.Matches(content);
+            foreach (var m in mc)
+            {
+                var old = m.ToString();
+                var args = s_RegexSubForAxisLabel.Matches(m.ToString());
+                var argsCount = args.Count;
+                if (argsCount <= 0) continue;
+                content = content.Replace(old, value);
+            }
+            content = TrimAndReplaceLine(content);
+        }
+
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, float value, float total,
             string serieName, string dataName)
         {

@@ -14,7 +14,7 @@ namespace XChartsDemo
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    public class Demo_Performance : MonoBehaviour
+    internal class Demo_Performance : MonoBehaviour
     {
         [SerializeField] private float fps = 0;
         [SerializeField] private int m_MaxCacheDataNumber = 3000;

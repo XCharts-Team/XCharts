@@ -85,5 +85,13 @@ namespace XCharts
                 runtimeText.SetText(text);
             }
         }
+
+        public void SetColor(Color color)
+        {
+            if (runtimeText != null)
+            {
+                runtimeText.SetColor(color);
+            }
+        }
     }
 }

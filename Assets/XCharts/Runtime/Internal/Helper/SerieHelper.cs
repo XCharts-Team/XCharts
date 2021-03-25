@@ -70,6 +70,32 @@ namespace XCharts
                 return color;
             }
         }
+        internal static Color32 GetItemColor0(Serie serie, SerieData serieData, ChartTheme theme, bool highlight, Color32 defaultColor)
+        {
+            if (serie == null) return ChartConst.clearColor32;
+            if (highlight)
+            {
+                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
+                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
+                {
+                    var color = itemStyleEmphasis.color0;
+                    ChartHelper.SetColorOpacity(ref color, itemStyleEmphasis.opacity);
+                    return color;
+                }
+            }
+            var itemStyle = GetItemStyle(serie, serieData);
+            if (!ChartHelper.IsClearColor(itemStyle.color0))
+            {
+                return itemStyle.GetColor0();
+            }
+            else
+            {
+                var color = defaultColor;
+                if (highlight) color = ChartHelper.GetHighlightColor(color);
+                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+                return color;
+            }
+        }
 
         internal static Color32 GetItemToColor(Serie serie, SerieData serieData, ChartTheme theme, int index, bool highlight)
         {

@@ -89,8 +89,16 @@ namespace XCharts
         /// </summary>
         public void ClearAxisData()
         {
-            foreach (var item in m_XAxes) item.data.Clear();
-            foreach (var item in m_YAxes) item.data.Clear();
+            foreach (var axis in m_XAxes)
+            {
+                axis.data.Clear();
+                axis.SetAllDirty();
+            }
+            foreach (var axis in m_YAxes)
+            {
+                axis.data.Clear();
+                axis.SetAllDirty();
+            }
         }
 
         /// <summary>

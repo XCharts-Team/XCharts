@@ -123,7 +123,7 @@ namespace XCharts
             BlockEnd();
 
             BlockStart();
-            m_BaseFoldout = EditorGUILayout.Foldout(m_BaseFoldout, "Base");
+            m_BaseFoldout = EditorGUILayout.Foldout(m_BaseFoldout, "Base", true);
             if (m_BaseFoldout)
             {
                 EditorGUILayout.PropertyField(m_Script);
@@ -196,7 +196,7 @@ namespace XCharts
                 if (all)
                 {
                     var flag = m_Flodouts.ContainsKey(prop.displayName) && m_Flodouts[prop.displayName];
-                    m_Flodouts[prop.displayName] = EditorGUILayout.Foldout(flag, prop.displayName);
+                    m_Flodouts[prop.displayName] = EditorGUILayout.Foldout(flag, prop.displayName, true);
                     if (m_Flodouts[prop.displayName])
                     {
                         EditorGUI.indentLevel++;

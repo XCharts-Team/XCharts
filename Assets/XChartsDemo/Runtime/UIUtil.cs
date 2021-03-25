@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace XChartsDemo
 {
-    public static class UIUtil
+    internal static class UIUtil
     {
 
         public static RectTransform GetRectTransform(Transform transform, string path)

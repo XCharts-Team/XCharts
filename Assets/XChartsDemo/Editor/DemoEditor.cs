@@ -15,7 +15,7 @@ namespace XChartsDemo
     /// </summary>
 
     [CustomEditor(typeof(Demo), false)]
-    public class DemoEditor : Editor
+    internal class DemoEditor : Editor
     {
         protected Demo m_Target;
         protected SerializedProperty m_Script;

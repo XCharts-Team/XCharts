@@ -14,7 +14,7 @@ namespace XChartsDemo
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    public class Demo_Animation : MonoBehaviour
+    internal class Demo_Animation : MonoBehaviour
     {
         [SerializeField] private int m_FadeInDuration = 1000;
         [SerializeField] private int m_FadeOutDuration = 1000;

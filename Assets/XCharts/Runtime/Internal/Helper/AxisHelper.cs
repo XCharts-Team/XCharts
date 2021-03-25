@@ -53,6 +53,25 @@ namespace XCharts
                     return axis.splitNumber > 0 ? axis.splitNumber : 4;
                 }
             }
+            else if (axis.type == Axis.AxisType.Time)
+            {
+                if (axis.interval > 0)
+                {
+                    if (coordinateWid <= 0) return 0;
+                    int num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                    int maxNum = Mathf.CeilToInt(coordinateWid / 15);
+                    if (num > maxNum)
+                    {
+                        axis.interval *= 2;
+                        num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                    }
+                    return num;
+                }
+                else
+                {
+                    return axis.splitNumber > 0 ? axis.splitNumber : 4;
+                }
+            }
             else if (axis.type == Axis.AxisType.Log)
             {
                 return axis.splitNumber > 0 ? axis.splitNumber : 4;
@@ -146,6 +165,23 @@ namespace XCharts
                 }
                 return axis.axisLabel.GetFormatterContent(value, minValue, maxValue, true);
             }
+            else if (axis.type == Axis.AxisType.Time)
+            {
+                if (minValue == 0 && maxValue == 0) return string.Empty;
+                var value = 0f;
+                if (axis.interval > 0)
+                {
+                    if (index == split) value = maxValue;
+                    else value = minValue + index * axis.interval;
+                }
+                else
+                {
+                    value = minValue + (maxValue - minValue) * index / split;
+                }
+                var timestamp = (int)value;
+                var dateTime = DateTimeUtil.GetDateTime(timestamp);
+                return axis.axisLabel.GetFormatterDateTime(dateTime);
+            }
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
@@ -177,11 +213,12 @@ namespace XCharts
             int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (axis.IsCategory())
             {
-                int tick = Mathf.RoundToInt(axis.data.Count * 1f / splitNum);
+                var data = axis.GetDataList();
+                int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
                 if (axis.boundaryGap)
-                    return Mathf.CeilToInt(axis.data.Count * 1.0f / tick) + 1;
+                    return Mathf.CeilToInt(data.Count * 1.0f / tick) + 1;
                 else
-                    return Mathf.CeilToInt(axis.data.Count * 1.0f / tick);
+                    return Mathf.CeilToInt(data.Count * 1.0f / tick);
             }
             else
             {
@@ -209,10 +246,11 @@ namespace XCharts
             }
             else
             {
-                if (axis.IsCategory() && axis.data.Count > 0)
+                var data = axis.GetDataList();
+                if (axis.IsCategory() && data.Count > 0)
                 {
-                    int tick = Mathf.RoundToInt(axis.data.Count * 1f / splitNum);
-                    var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
+                    int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
+                    var count = axis.boundaryGap ? data.Count : data.Count - 1;
                     if (count <= 0) return 0;
                     var each = coordinateWidth / count;
                     if (index >= num - 1)
@@ -232,9 +270,10 @@ namespace XCharts
 
         internal static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
-            if (axis.data.Count > 0)
+            var data = axis.GetDataList();
+            if (data.Count > 0)
             {
-                var count = axis.boundaryGap ? axis.data.Count : axis.data.Count - 1;
+                var count = axis.boundaryGap ? data.Count : data.Count - 1;
                 return count > 0 ? coordinateWidth / count : coordinateWidth;
             }
             else
@@ -249,7 +288,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        internal static void AdjustMinMaxValue(Axis axis, ref float minValue, ref float maxValue, bool needFormat)
+        internal static void AdjustMinMaxValue(Axis axis, ref float minValue, ref float maxValue, bool needFormat, int ceilRate = 0)
         {
             if (axis.type == Axis.AxisType.Log)
             {
@@ -278,6 +317,7 @@ namespace XCharts
             }
             else
             {
+                if (ceilRate == 0) ceilRate = axis.ceilRate;
                 switch (axis.minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
@@ -287,22 +327,22 @@ namespace XCharts
                         else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, axis.ceilRate) : maxValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, ceilRate) : maxValue;
                         }
                         else if (minValue < 0 && maxValue < 0)
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, axis.ceilRate) : minValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, ceilRate) : minValue;
                             maxValue = 0;
                         }
                         else
                         {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, axis.ceilRate) : minValue;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, axis.ceilRate) : maxValue;
+                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, ceilRate) : minValue;
+                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, ceilRate) : maxValue;
                         }
                         break;
                     case Axis.AxisMinMaxType.MinMax:
-                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, axis.ceilRate) : minValue;
-                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, axis.ceilRate) : maxValue;
+                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, ceilRate) : minValue;
+                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, ceilRate) : maxValue;
                         break;
                 }
             }
@@ -320,7 +360,7 @@ namespace XCharts
         internal static bool NeedShowSplit(Axis axis)
         {
             if (!axis.show) return false;
-            if (axis.IsCategory() && axis.data.Count <= 0) return false;
+            if (axis.IsCategory() && axis.GetDataList().Count <= 0) return false;
             else if (axis.IsValue() && axis.runtimeMinValue == 0 && axis.runtimeMaxValue == 0) return false;
             else return true;
         }

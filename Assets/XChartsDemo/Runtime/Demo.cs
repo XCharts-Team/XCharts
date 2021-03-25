@@ -16,11 +16,11 @@ namespace XChartsDemo
     [System.Serializable]
     public class ChartModule
     {
-        [SerializeField] private string m_Name;
-        [SerializeField] private string m_SubName;
+        [SerializeField] private string m_Name = "Name";
+        [SerializeField] private string m_SubName = "SubName";
         [SerializeField] private int m_Column = 3;
 
-        [SerializeField] private string m_Title;
+        [SerializeField] private string m_Title = "Title";
         [SerializeField] private bool m_Selected;
         [SerializeField] private GameObject m_Panel;
 
@@ -31,6 +31,7 @@ namespace XChartsDemo
         public bool select { get { return m_Selected; } set { m_Selected = value; } }
         public GameObject panel { get { return m_Panel; } set { m_Panel = value; } }
         public Button button { get; set; }
+        public int index { get; internal set; }
     }
 
     [DisallowMultipleComponent]
@@ -44,6 +45,7 @@ namespace XChartsDemo
         [SerializeField] private Color m_ButtonNormalColor;
         [SerializeField] private Color m_ButtonSelectedColor;
         [SerializeField] private Color m_ButtonHighlightColor;
+        [SerializeField] public int lastSelectedModuleIndex = -1;
         [SerializeField] private List<ChartModule> m_ChartModule = new List<ChartModule>();
 
         private GameObject m_BtnClone;
@@ -59,6 +61,8 @@ namespace XChartsDemo
 
         private ScrollRect m_ScrollRect;
         private Mask m_Mark;
+
+        public List<ChartModule> chartModules { get { return m_ChartModule; } }
 
         void Awake()
         {
@@ -118,6 +122,7 @@ namespace XChartsDemo
         private void SetChartRootInfo(ChartModule module)
         {
             var chartRoot = module.panel;
+            if (chartRoot == null) return;
             var grid = chartRoot.GetComponent<GridLayoutGroup>();
             var hig = Mathf.CeilToInt(chartRoot.transform.childCount * 1f / module.column) * (grid.cellSize.y + grid.spacing.y);
             SetChartGridLayoutGroup(grid, module.column);
@@ -137,23 +142,6 @@ namespace XChartsDemo
         {
 #if UNITY_EDITOR
             if (m_ChartModule.Count <= 0) return;
-            int selectedModuleIndex = -1;
-            for (int i = 0; i < m_ChartModule.Count; i++)
-            {
-                if (selectedModuleIndex >= 0 && i > selectedModuleIndex)
-                {
-                    m_ChartModule[i].select = false;
-                }
-                else if (m_ChartModule[i].select)
-                {
-                    selectedModuleIndex = i;
-                }
-            }
-            if (selectedModuleIndex < 0) selectedModuleIndex = 0;
-            if (selectedModuleIndex != m_LastSelectedModuleIndex)
-            {
-                InitModuleButton();
-            }
             if (!Application.isPlaying) m_Mark.enabled = false;
 
             if (m_LastCheckLeftWidth != m_LeftWidth)
@@ -164,14 +152,25 @@ namespace XChartsDemo
 #endif
         }
 
-        void InitModuleButton()
+        public int GetSelectedModule()
+        {
+            for (int i = 0; i < m_ChartModule.Count; i++)
+            {
+                if (m_ChartModule[i].select) return i;
+            }
+            return -1;
+        }
+
+        public void InitModuleButton()
         {
             var btnPanel = transform.Find("chart_list");
             m_BtnClone = transform.Find("btn_clone").gameObject;
             m_BtnClone.SetActive(false);
-            ChartHelper.HideAllObject(btnPanel);
-            foreach (var module in m_ChartModule)
+            ChartHelper.DestroyAllChildren(btnPanel.transform);
+            for (int i = 0; i < m_ChartModule.Count; i++)
             {
+                var module = m_ChartModule[i];
+                module.index = i;
                 var btnName = "btn_" + module.name;
                 GameObject btn;
                 if (btnPanel.Find(btnName))
@@ -193,19 +192,19 @@ namespace XChartsDemo
                 module.button.transform.Find("Text").GetComponent<Text>().text = module.name.Replace("\\n", "\n");
                 module.button.transform.Find("SubText").GetComponent<Text>().text = module.subName.Replace("\\n", "\n");
 
+                ChartHelper.ClearEventListener(btn.gameObject);
                 ChartHelper.AddEventListener(btn.gameObject, EventTriggerType.PointerDown, (data) =>
                 {
                     ClickModule(module);
                 });
             }
-
             for (int i = 0; i < m_ChartModule.Count; i++)
             {
                 var module = m_ChartModule[i];
+                module.index = i;
                 if (module.select)
                 {
                     ClickModule(module);
-                    m_LastSelectedModuleIndex = i;
                     break;
                 }
             }
@@ -213,28 +212,38 @@ namespace XChartsDemo
 
         void ClickModule(ChartModule selectedModule)
         {
+            if (lastSelectedModuleIndex >= 0)
+            {
+                m_ChartModule[lastSelectedModuleIndex].select = false;
+            }
+            lastSelectedModuleIndex = selectedModule.index;
             foreach (var module in m_ChartModule)
             {
-                if (selectedModule != module)
+                if (module.index != lastSelectedModuleIndex)
                 {
                     var block = module.button.colors;
                     block.highlightedColor = m_ButtonHighlightColor;
+                    block.selectedColor = m_ButtonNormalColor;
                     block.normalColor = m_ButtonNormalColor;
                     module.button.colors = block;
-                    module.panel.SetActive(false);
-                    module.select = false;
+                    if (module.panel != null)
+                        module.panel.SetActive(false);
+                    //module.select = false;
                 }
                 else
                 {
                     var block = module.button.colors;
                     block.highlightedColor = m_ButtonSelectedColor;
+                    block.selectedColor = m_ButtonSelectedColor;
                     block.normalColor = m_ButtonSelectedColor;
                     module.button.colors = block;
-                    module.panel.SetActive(true);
-                    module.select = true;
+                    if (module.panel != null)
+                        module.panel.SetActive(true);
+                   // module.select = true;
                 }
             }
-            m_ScrollRect.content = selectedModule.panel.GetComponent<RectTransform>();
+            if (selectedModule.panel != null)
+                m_ScrollRect.content = selectedModule.panel.GetComponent<RectTransform>();
             SetChartRootInfo(selectedModule);
             m_Title.text = string.IsNullOrEmpty(selectedModule.title) ?
                 selectedModule.name : selectedModule.title;

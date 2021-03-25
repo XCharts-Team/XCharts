@@ -42,7 +42,7 @@ namespace XCharts
                     }
                     EditorGUI.EndChangeCheck();
                 }
-                if (type == Axis.AxisType.Value)
+                if (type == Axis.AxisType.Value || type == Axis.AxisType.Time)
                 {
                     PropertyField(prop, "m_MinMaxType");
                     Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType)m_MinMaxType.enumValueIndex;
@@ -60,7 +60,10 @@ namespace XCharts
                             break;
                     }
                     PropertyField(prop, "m_CeilRate");
-                    PropertyField(prop, "m_Inverse");
+                    if (type == Axis.AxisType.Value)
+                    {
+                        PropertyField(prop, "m_Inverse");
+                    }
                 }
                 PropertyField(prop, "m_SplitNumber");
                 if (type == Axis.AxisType.Category)

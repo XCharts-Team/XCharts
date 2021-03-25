@@ -22,6 +22,7 @@ namespace XCharts
         protected override void OnEnable()
         {
             base.OnEnable();
+            if(target == null) return;
             m_Chart = (PolarChart)target;
             m_Polars = serializedObject.FindProperty("m_Polars");
             m_RadiusAxes = serializedObject.FindProperty("m_RadiusAxes");

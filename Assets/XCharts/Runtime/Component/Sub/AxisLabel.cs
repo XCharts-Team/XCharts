@@ -188,9 +188,8 @@ namespace XCharts
             }
             else
             {
-                var content = m_Formatter.Replace("{value}", category);
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, category);
                 return m_TextLimit.GetLimitContent(content);
             }
         }
@@ -222,6 +221,22 @@ namespace XCharts
                 var content = m_Formatter;
                 FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
                 return content;
+            }
+        }
+
+        public string GetFormatterDateTime(DateTime dateTime)
+        {
+            var format = string.IsNullOrEmpty(numericFormatter) ? "yyyy/M/d" : numericFormatter;
+            if (!string.IsNullOrEmpty(m_Formatter))
+            {
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, dateTime.ToString(format));
+                return m_TextLimit.GetLimitContent(content);
+            }
+            else
+            {
+                var content = dateTime.ToString(format);
+                return m_TextLimit.GetLimitContent(content);
             }
         }
     }

@@ -75,14 +75,13 @@ namespace XCharts
             }
         }
 
-        public static void ResetLabel(SerieData serieData, SerieLabel label, ChartTheme theme, int colorIndex)
+        public static void ResetLabel(ChartText labelObject, SerieLabel label, ChartTheme theme, int colorIndex)
         {
-            if (serieData.labelObject == null) return;
-            if (serieData.labelObject.label == null) return;
-            serieData.labelObject.label.SetColor(!ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color :
+            if (labelObject == null) return;
+            labelObject.SetColor(!ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color :
                 (Color)theme.GetColor(colorIndex));
-            serieData.labelObject.label.SetFontSize(label.textStyle.GetFontSize(theme.common));
-            serieData.labelObject.label.SetFontStyle(label.textStyle.fontStyle);
+            labelObject.SetFontSize(label.textStyle.GetFontSize(theme.common));
+            labelObject.SetFontStyle(label.textStyle.fontStyle);
         }
 
         public static bool CanShowLabel(Serie serie, SerieData serieData, SerieLabel label, int dimesion)

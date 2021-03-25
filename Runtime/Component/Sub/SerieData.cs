@@ -5,11 +5,8 @@
 /*                                              */
 /************************************************/
 
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 
 namespace XCharts
 {
@@ -191,6 +188,10 @@ namespace XCharts
         /// </summary>
         public float runtimePieOffsetRadius { get; internal set; }
         public Vector3 runtimePosition { get; internal set; }
+        /// <summary>
+        /// 绘制区域。
+        /// </summary>
+        public Rect runtimeRect { get; internal set; }
         public float runtimeAngle { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
         public float runtimeStackHig { get; internal set; }

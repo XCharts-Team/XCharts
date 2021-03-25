@@ -27,6 +27,7 @@ namespace XCharts
         protected override void OnEnable()
         {
             base.OnEnable();
+            if(target == null) return;
             m_Chart = (CoordinateChart)target;
             m_Grids = serializedObject.FindProperty("m_Grids");
             m_XAxes = serializedObject.FindProperty("m_XAxes");

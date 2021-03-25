@@ -18,6 +18,7 @@ namespace XCharts
         protected override void OnEnable()
         {
             base.OnEnable();
+            if(target == null) return;
             m_Chart = (LineChart)target;
         }
     }

@@ -28,6 +28,7 @@ namespace XCharts
                 case SerieType.Gauge: AddDefaultGaugeSerie(chart, serieName); break;
                 case SerieType.Ring: AddDefaultRingSerie(chart, serieName); break;
                 case SerieType.Candlestick: AddDefaultCandlestickSerie(chart, serieName); break;
+                case SerieType.Gantt: AddDefaultCategoryGanttSerie(chart, serieName); break;
                 default: Debug.LogError("AddDefaultSerie: not support serieType yet:" + serieType); break;
             }
         }
@@ -182,6 +183,36 @@ namespace XCharts
                 chart.AddData(serie.index, open, close, lowest, heighest);
             }
             return defaultDataCount;
+        }
+
+        public static Serie AddDefaultCategoryGanttSerie(BaseChart chart, string serieName, int dataCount = 0, int min = 0, int max = 0)
+        {
+            var serie = chart.AddSerie(SerieType.Gantt, serieName);
+            serie.showDataName = true;
+            serie.showDataDimension = 2;
+            for (int i = 0; i < dataCount; i++)
+            {
+                var start = Random.Range(min, max);
+                var end = Random.Range(start + 1, max);
+                serie.AddXYData(start, end, "task-" + (i + 1));
+            }
+            return serie;
+        }
+
+        public static Serie AddDefaultTimeGanttSerie(BaseChart chart, string serieName, int dataCount = 0)
+        {
+            var serie = chart.AddSerie(SerieType.Gantt, serieName);
+            serie.showDataName = true;
+            serie.showDataDimension = 2;
+            var timestamp = DateTimeUtil.GetTimestamp();
+            var now = DateTimeUtil.GetDateTime(timestamp);
+            for (int i = 0; i < dataCount; i++)
+            {
+                var start = timestamp + Random.Range(1, 6) * 3600 * 24;
+                var end = start + Random.Range(1, 10) * 3600 * 24;
+                serie.AddXYData(start, end, "task-" + (i + 1));
+            }
+            return serie;
         }
     }
 }

@@ -178,6 +178,9 @@ namespace XCharts
                 case SerieType.Candlestick:
                     DrawCandlestickSerie(vh, colorIndex, serie);
                     break;
+                case SerieType.Gantt:
+                    DrawGanttSerie(vh, colorIndex, serie);
+                    break;
             }
         }
 
@@ -240,7 +243,7 @@ namespace XCharts
             }
         }
 
-        protected void UpdateTooltipValue(Vector2 local)
+        protected virtual void UpdateTooltipValue(Vector2 local)
         {
             var isCartesian = IsValue();
             var dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
@@ -495,6 +498,7 @@ namespace XCharts
             yAxis.painter = m_Painter;
             yAxis.refreshComponent = delegate ()
             {
+                InitAxisRuntimeData(yAxis);
                 string objName = ChartCached.GetYAxisName(yAxisIndex);
                 var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
                     graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
@@ -591,6 +595,26 @@ namespace XCharts
                 }
             };
             yAxis.refreshComponent();
+        }
+
+        private void InitAxisRuntimeData(Axis axis)
+        {
+            if (axis.type != Axis.AxisType.Category) return;
+            if (axis.data.Count > 0) return;
+            var isYAxis = axis is YAxis;
+            if (this is GanttChart)
+            {
+                axis.runtimeData.Clear();
+                for (int i = 0; i < m_Series.Count; i++)
+                {
+                    var serie = m_Series.GetSerie(i);
+                    if(serie.yAxisIndex != axis.index) continue;
+                    for (int j = serie.data.Count - 1; j >= 0; j--)
+                    {
+                        axis.runtimeData.Add(serie.data[j].name);
+                    }
+                }
+            }
         }
 
         private void InitAxisX()
@@ -782,7 +806,7 @@ namespace XCharts
             return new Vector3(grid.runtimeX + scaleWid, posY);
         }
 
-        private void CheckMinMaxValue()
+        protected virtual void CheckMinMaxValue()
         {
             if (m_XAxes == null || m_YAxes == null) return;
             for (int i = 0; i < m_XAxes.Count; i++)
@@ -806,23 +830,7 @@ namespace XCharts
             }
             float tempMinValue = 0;
             float tempMaxValue = 0;
-
-            if (IsValue())
-            {
-                if (axis is XAxis)
-                {
-                    SeriesHelper.GetXMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
-                }
-                else
-                {
-                    SeriesHelper.GetYMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
-                }
-            }
-            else
-            {
-                SeriesHelper.GetYMinMaxValue(m_Series, null, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
-            }
-            AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
+            GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
                 m_IsPlayingAnimation = true;
@@ -864,6 +872,26 @@ namespace XCharts
                 UpdateAxisLabelText(axis);
                 RefreshChart();
             }
+        }
+
+        protected virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out float tempMinValue, out float tempMaxValue)
+        {
+            if (IsValue())
+            {
+                if (axis is XAxis)
+                {
+                    SeriesHelper.GetXMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                }
+                else
+                {
+                    SeriesHelper.GetYMinMaxValue(m_Series, null, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                }
+            }
+            else
+            {
+                SeriesHelper.GetYMinMaxValue(m_Series, null, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
+            }
+            AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
         }
 
         protected void UpdateAxisLabelText(Axis axis)
@@ -1571,6 +1599,7 @@ namespace XCharts
         {
             base.OnRefreshLabel();
             var anyPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
+
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
@@ -1578,6 +1607,7 @@ namespace XCharts
                 if (!serie.IsCoordinateSerie()) continue;
                 var total = serie.yTotal;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
+
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -1602,7 +1632,7 @@ namespace XCharts
                             dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
                         }
 
-                        SerieLabelHelper.ResetLabel(serieData, serieLabel, theme, i);
+                        SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, theme, i);
 
                         value = serieData.data[dimension];
                         var content = "";

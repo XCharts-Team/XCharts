@@ -10,16 +10,16 @@ using UnityEditor;
 namespace XCharts
 {
     /// <summary>
-    /// Editor class used to edit UI GaugeChart.
+    /// Editor class used to edit UI GanttChart.
     /// </summary>
-    [CustomEditor(typeof(GaugeChart), false)]
-    public class GaugeChartEditor : BaseChartEditor
+    [CustomEditor(typeof(GanttChart), false)]
+    public class GanttChartEditor : CoordinateChartEditor
     {
         protected override void OnEnable()
         {
             base.OnEnable();
             if(target == null) return;
-            m_Chart = (GaugeChart)target;
+            m_Chart = (GanttChart)target;
         }
     }
 }

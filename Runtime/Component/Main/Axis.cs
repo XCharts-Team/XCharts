@@ -39,7 +39,12 @@ namespace XCharts
             /// Log axis, suitable for log data.
             /// 对数轴。适用于对数数据。
             /// </summary>
-            Log
+            Log,
+            /// <summary>
+            /// Time axis, suitable for continuous time series data.
+            /// 时间轴。适用于连续的时序数据。
+            /// </summary>
+            Time
         }
 
         /// <summary>
@@ -408,6 +413,7 @@ namespace XCharts
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
         internal bool runtimeLastCheckInverse { get; set; }
         internal float runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
+        internal List<string> runtimeData { get { return m_RuntimeData; } }
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;
@@ -426,6 +432,7 @@ namespace XCharts
         private float m_RuntimeMaxValueUpdateTime;
         private bool m_RuntimeMinValueFirstChanged = true;
         private bool m_RuntimeMaxValueFirstChanged = true;
+        protected List<string> m_RuntimeData = new List<string>();
 
         public Axis Clone()
         {
@@ -484,6 +491,7 @@ namespace XCharts
         public void ClearData()
         {
             m_Data.Clear();
+            m_RuntimeData.Clear();
             SetAllDirty();
         }
 
@@ -574,8 +582,12 @@ namespace XCharts
             }
             else
             {
-                return m_Data;
+                return m_Data.Count > 0 ? m_Data : m_RuntimeData;
             }
+        }
+
+        internal List<string> GetDataList(){
+            return m_Data.Count > 0 ? m_Data : m_RuntimeData;
         }
 
         private List<string> emptyFliter = new List<string>();
@@ -596,24 +608,25 @@ namespace XCharts
                     filterEnd = endIndex;
                     filterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
-                    if (m_Data.Count > 0)
+                    var data = GetDataList();
+                    if (data.Count > 0)
                     {
                         var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
                         if (count < dataZoom.minShowNum)
                         {
-                            if (dataZoom.minShowNum > m_Data.Count) count = m_Data.Count;
+                            if (dataZoom.minShowNum > data.Count) count = data.Count;
                             else count = dataZoom.minShowNum;
                         }
-                        if (startIndex + count > m_Data.Count)
+                        if (startIndex + count > data.Count)
                         {
                             int start = endIndex - count;
-                            filterData = m_Data.GetRange(start < 0 ? 0 : start, count);
+                            filterData = data.GetRange(start < 0 ? 0 : start, count);
                         }
-                        else filterData = m_Data.GetRange(startIndex, count);
+                        else filterData = data.GetRange(startIndex, count);
                     }
                     else
                     {
-                        filterData = m_Data;
+                        filterData = data;
                     }
                 }
                 else if (endIndex == 0)

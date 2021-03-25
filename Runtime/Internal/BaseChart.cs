@@ -284,6 +284,7 @@ namespace XCharts
             foreach (var component in m_Radars) component.SetAllDirty();
             m_ReinitLabel = true;
             m_ReinitTitle = true;
+            m_RefreshChart = true;
         }
 
         protected override void OnDestroy()

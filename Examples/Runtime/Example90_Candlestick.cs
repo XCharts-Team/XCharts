@@ -45,7 +45,6 @@ namespace XCharts.Examples
             chart.ClearData();
 
             var xValue = System.DateTime.Now;
-            var minute = 60 * 1000;
             var baseValue = Random.Range(0f, 1f) * 12000;
             var boxVals = new float[4];
             var dayRange = 12;

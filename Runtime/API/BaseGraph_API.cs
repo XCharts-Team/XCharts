@@ -134,6 +134,7 @@ namespace XCharts
         public void RefreshAllComponent()
         {
             SetAllComponentDirty();
+            RefreshGraph();
         }
 
         /// <summary>

@@ -197,6 +197,17 @@ namespace XCharts
                         PropertyField(prop, "m_Label");
                         PropertyField(prop, "m_Emphasis");
                         break;
+                    case SerieType.Gantt:
+                        PropertyField(prop, "m_XAxisIndex");
+                        PropertyField(prop, "m_YAxisIndex");
+                        PropertyField(prop, "m_BarWidth");
+                        PropertyField(prop, "m_Clip");
+                        PropertyField(prop, "m_Large");
+                        PropertyField(prop, "m_LargeThreshold");
+                        PropertyField(prop, "m_ItemStyle");
+                        PropertyField(prop, "m_Label");
+                        PropertyField(prop, "m_Emphasis");
+                        break;
                 }
                 PropertyField(prop, "m_Animation");
                 DrawData(pos, prop, serieType, ref m_DrawRect);
@@ -340,7 +351,7 @@ namespace XCharts
                 var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
                 var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                 var dataWid = dataWidTotal / fieldCount;
-                var xWid = dataWid - 4;
+                var xWid = dataWid - 2;
                 for (int i = 0; i < dimension; i++)
                 {
                     var dataCount = i < 1 ? 2 : i + 1;
@@ -407,7 +418,7 @@ namespace XCharts
                 var str = prop.propertyPath.Substring(sindex + 1, eindex - sindex - 1);
                 int.TryParse(str, out index);
             }
-            if (index >= m_DataFoldout.Count)
+            while (index >= m_DataFoldout.Count)
             {
                 m_DataFoldout.Add(false);
             }

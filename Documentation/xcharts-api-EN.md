@@ -15,7 +15,10 @@
 * `BaseChart.chartWidth`：图表的宽。
 * `BaseChart.chartHeight`：图表的高。
 * `BaseChart.forceOpenRaycastTarget`：强制开启鼠标事件检测。一般不用手动设置，内部会自动判断是否需要检测。
-* `BaseChart.onCustomDraw`：自定义绘制回调。
+* `BaseChart.onCustomDraw`：自定义底部绘制回调。在绘制Serie前调用。
+* `BaseChart.onCustomDrawBeforeSerie`：自定义Serie绘制回调。在每个Serie绘制完前调用。
+* `BaseChart.onCustomDrawAfterSerie`：自定义Serie绘制回调。在每个Serie绘制完后调用。
+* `BaseChart.onCustomDrawTop`：自定义顶部绘制回调。在绘制Tooltip前调用。
 * `BaseChart.onPointerClick`：鼠标点击回调。
 * `BaseChart.onPointerDown`：鼠标按下回调。
 * `BaseChart.onPointerUp`：鼠标弹起回调。

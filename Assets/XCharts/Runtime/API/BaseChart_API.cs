@@ -98,11 +98,22 @@ namespace XCharts
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
-
         /// <summary>
-        /// 自定义绘制回调。
+        /// 自定义绘制回调。在绘制Serie前调用。
         /// </summary>
-        public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawCallback = value; } }
+        public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawBaseCallback = value; } }
+        /// <summary>
+        /// 自定义Serie绘制回调。在每个Serie绘制完前调用。
+        /// </summary>
+        public Action<VertexHelper, Serie> onCustomDrawBeforeSerie { set { m_OnCustomDrawSerieBeforeCallback = value; } }
+        /// <summary>
+        /// 自定义Serie绘制回调。在每个Serie绘制完后调用。
+        /// </summary>
+        public Action<VertexHelper, Serie> onCustomDrawAfterSerie { set { m_OnCustomDrawSerieAfterCallback = value; } }
+        /// <summary>
+        /// 自定义Top绘制回调。在绘制Tooltip前调用。
+        /// </summary>
+        public Action<VertexHelper> onCustomDrawTop { set { m_OnCustomDrawTopCallback = value; } }
         /// <summary>
         /// the callback function of click pie area.
         /// 点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex

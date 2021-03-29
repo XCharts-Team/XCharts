@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.29) 优化自定义绘制回调接口，增加`onCustomDrawBeforeSerie`、`onCustomDrawAfterSerie`和`onCustomDrawTop`
 * (2021.03.25) 增加`GanttChart`甘特图
 * (2021.03.22) 增加`Theme`的`Unbind`按钮用于解绑复制图表时的主题 #118
 * (2021.03.18) 修复`Inspector`下`Foldout`后的勾选框无法选中的问题

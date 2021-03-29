@@ -69,7 +69,10 @@ namespace XCharts
         protected Vector2 m_ChartPivot;
         protected Vector2 m_ChartSizeDelta;
         protected Rect m_ChartRect = new Rect(0, 0, 0, 0);
-        protected Action<VertexHelper> m_OnCustomDrawCallback;
+        protected Action<VertexHelper> m_OnCustomDrawBaseCallback;
+        protected Action<VertexHelper> m_OnCustomDrawTopCallback;
+        protected Action<VertexHelper, Serie> m_OnCustomDrawSerieBeforeCallback;
+        protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
 
         internal bool m_RefreshLabel = false;
@@ -818,6 +821,10 @@ namespace XCharts
             DrawPainterBase(vh);
             DrawLegend(vh);
             foreach (var drawSerie in m_DrawSeries) drawSerie.DrawBase(vh);
+            if (m_OnCustomDrawBaseCallback != null)
+            {
+                m_OnCustomDrawBaseCallback(vh);
+            }
         }
 
         protected virtual void OnDrawPainterSerie(VertexHelper vh, Painter painter)
@@ -830,7 +837,15 @@ namespace XCharts
             for (int i = painter.index * rate; i < (painter.index + 1) * rate && i < maxSeries; i++)
             {
                 var serie = m_Series.GetSerie(i);
+                if (m_OnCustomDrawSerieBeforeCallback != null)
+                {
+                    m_OnCustomDrawSerieBeforeCallback.Invoke(vh, serie);
+                }
                 DrawPainterSerie(vh, serie);
+                if (m_OnCustomDrawSerieAfterCallback != null)
+                {
+                    m_OnCustomDrawSerieAfterCallback(vh, serie);
+                }
             }
             m_RefreshLabel = true;
         }
@@ -838,11 +853,11 @@ namespace XCharts
         protected virtual void OnDrawPainterTop(VertexHelper vh, Painter painter)
         {
             vh.Clear();
-            if (m_OnCustomDrawCallback != null)
-            {
-                m_OnCustomDrawCallback(vh);
-            }
             DrawPainterTop(vh);
+            if (m_OnCustomDrawTopCallback != null)
+            {
+                m_OnCustomDrawTopCallback(vh);
+            }
             DrawTooltip(vh);
         }
 

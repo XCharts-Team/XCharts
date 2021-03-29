@@ -25,9 +25,12 @@ namespace XCharts.Examples
             chart.onCustomDraw = delegate (VertexHelper vh)
             {
             };
-
             // or
-            chart.onCustomDrawSerie = delegate (VertexHelper vh, Serie serie)
+            chart.onCustomDrawBeforeSerie = delegate (VertexHelper vh, Serie serie)
+            {
+            };
+            // or
+            chart.onCustomDrawAfterSerie = delegate (VertexHelper vh, Serie serie)
             {
                 if (serie.index != 0) return;
                 var dataPoints = serie.dataPoints;
@@ -41,7 +44,6 @@ namespace XCharts.Examples
                     UGL.DrawCricle(vh, pos, 5, Color.blue);
                 }
             };
-
             // or
             chart.onCustomDrawTop = delegate (VertexHelper vh)
             {

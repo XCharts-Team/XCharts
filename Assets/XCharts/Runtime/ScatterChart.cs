@@ -108,7 +108,7 @@ namespace XCharts
             base.UpdateTooltip();
             if (tooltip.isAnySerieDataIndex())
             {
-                var content = TooltipHelper.GetFormatterContent(tooltip, 0, m_Series, m_Theme);
+                var content = TooltipHelper.GetFormatterContent(tooltip, 0, this);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
                 tooltip.SetActive(true);
             }

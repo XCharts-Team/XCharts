@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.30) 优化`Tooltip`支持设置不同的类目轴数据 #129
 * (2021.03.29) 优化自定义绘制回调接口，增加`onCustomDrawBeforeSerie`、`onCustomDrawAfterSerie`和`onCustomDrawTop`
 * (2021.03.25) 增加`GanttChart`甘特图
 * (2021.03.22) 增加`Theme`的`Unbind`按钮用于解绑复制图表时的主题 #118

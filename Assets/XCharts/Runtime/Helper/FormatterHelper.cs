@@ -38,8 +38,8 @@ namespace XCharts
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
         /// <param name="dataZoom">dataZoom</param>
         /// <returns></returns>
-        public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie, Series series,
-           ChartTheme theme, string category = null, DataZoom dataZoom = null)
+        public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie,
+            BaseChart chart, DataZoom dataZoom = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -53,7 +53,7 @@ namespace XCharts
                 char p = GetSerieIndex(args[0].ToString(), ref targetIndex);
                 if (targetIndex >= 0)
                 {
-                    serie = series.GetSerie(targetIndex);
+                    serie = chart.series.GetSerie(targetIndex);
                     if (serie == null) continue;
                 }
                 else if (serie != null)
@@ -62,7 +62,7 @@ namespace XCharts
                 }
                 else
                 {
-                    serie = series.GetSerie(0);
+                    serie = chart.series.GetSerie(0);
                     targetIndex = 0;
                 }
                 if (serie == null) continue;
@@ -74,7 +74,7 @@ namespace XCharts
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    content = content.Replace(old, ChartCached.ColorToDotStr(theme.GetColor(bIndex)));
+                    content = content.Replace(old, ChartCached.ColorToDotStr(chart.theme.GetColor(bIndex)));
                     foundDot = true;
                 }
                 else if (p == 'a' || p == 'A')
@@ -95,6 +95,7 @@ namespace XCharts
                     var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
                     if (needCategory)
                     {
+                        var category = (chart as CoordinateChart).GetTooltipCategory(dataIndex, serie, dataZoom);
                         content = content.Replace(old, category);
                     }
                     else

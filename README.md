@@ -41,7 +41,7 @@
   </a>
 </p>
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图等常见图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图、K线图、甘特图等常见图表。
 
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
@@ -52,13 +52,14 @@
 ## XCharts 2.0
 
 * 底层重构，分层绘制，优化可扩展性，支持更多数据。
-* 支持TextMeshPro。
 * 支持多组件模式。
 * 支持大部分图表的任意组合。
 * 支持主题定制、导入和导出，更多的主题配置参数。
 * 支持全局配置参数调整。
-* 更友好的编辑界面。
-* 其他细节优化。
+* 新增 `TextMeshPro` 的支持。
+* 新增 `CandlestickChart` K线图。
+* 新增 `GanttChart` 甘特图。
+* __注意：__ `2.0` 版本进行了大量的重构和调整，并不完全兼容 `1.0` 版本，所以`1.0` 版本不宜直接升级 `2.0` 版本，升级后部分参数设置可以被重置为默认值。
 
 ## 特性
 
@@ -168,7 +169,7 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
   ```
   2. 回到`Unity`，可能会花3到5分钟进行下载和编译，成功后就可以开始使用`XCharts`了。
   3. 如果要删除`XCharts`，删除掉1步骤所加的内容即可。
-  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`com.monitor1394.xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Check For Update`可以检测是否有新版本可更新。
+  4. 如果要更新`XCharts`，删除`manifest.json`文件的`lock`下的`com.monitor1394.xcharts`相关内容即会从新下载编译。在 `Component -> XCharts -> Upgrade Check`可以检测是否有新版本可更新。
 
 * 在Editor上快速创建一个图表：
 

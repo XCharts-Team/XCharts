@@ -233,7 +233,7 @@ namespace XCharts
         }
 
         private static void InitGanttTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
-           ChartTheme theme, string category)
+           ChartTheme theme)
         {
             //if (tooltip.runtimeGridIndex >= 0) return;
             //if (serie.index != index || serie.type != SerieType.Gantt) return;
@@ -241,7 +241,7 @@ namespace XCharts
         }
 
         private static void InitDefaultContent(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
-            string category, ChartTheme theme = null, DataZoom dataZoom = null, bool isCartesian = false,
+            ChartTheme theme = null, DataZoom dataZoom = null, bool isCartesian = false,
             Radar radar = null)
         {
             switch (serie.type)
@@ -270,7 +270,7 @@ namespace XCharts
                     InitGaugeTooltip(ref sb, tooltip, serie, index, theme);
                     break;
                 case SerieType.Gantt:
-                    InitGanttTooltip(ref sb, tooltip, serie, index, theme, category);
+                    InitGanttTooltip(ref sb, tooltip, serie, index, theme);
                     break;
             }
         }
@@ -290,7 +290,7 @@ namespace XCharts
             tooltip.UpdateContentPos(pos);
         }
 
-        public static string GetPolarFormatterContent(Tooltip tooltip, Series series, ChartTheme theme, AngleAxis angleAxis)
+        public static string GetPolarFormatterContent(Tooltip tooltip, BaseChart chart, AngleAxis angleAxis)
         {
             if (string.IsNullOrEmpty(tooltip.formatter))
             {
@@ -308,13 +308,13 @@ namespace XCharts
                     var angle = angleAxis.clockwise ? tooltip.runtimeAngle : 360 - tooltip.runtimeAngle;
                     title = ChartCached.FloatToStr(angle);
                 }
-                foreach (var serie in series.list)
+                foreach (var serie in chart.series.list)
                 {
                     if (serie.show && IsSelectedSerie(tooltip, serie.index))
                     {
                         if (formatTitle)
                         {
-                            FormatterHelper.ReplaceContent(ref title, 0, tooltip.numericFormatter, serie, series, theme, null, null);
+                            FormatterHelper.ReplaceContent(ref title, 0, tooltip.numericFormatter, serie, chart, null);
                         }
                         var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
 
@@ -328,7 +328,7 @@ namespace XCharts
                             serie.GetXYData(dataIndex, null, out xValue, out yValue);
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
-                                sb.Append("<color=#").Append(theme.GetColorStr(serie.index)).Append(">● </color>");
+                                sb.Append("<color=#").Append(chart.theme.GetColorStr(serie.index)).Append(">● </color>");
                                 if (!string.IsNullOrEmpty(serie.name))
                                     sb.Append(serie.name).Append(": ");
                                 sb.AppendFormat("{0}", ChartCached.FloatToStr(xValue, numericFormatter));
@@ -340,9 +340,10 @@ namespace XCharts
                             else
                             {
                                 string content = itemFormatter;
-                                FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, series, theme, null, null);
-                                var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring ? dataIndex : serie.index;
-                                sb.Append(ChartCached.ColorToDotStr(theme.GetColor(dotColorIndex)));
+                                FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, chart, null);
+                                var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar
+                                    || serie.type == SerieType.Ring ? dataIndex : serie.index;
+                                sb.Append(ChartCached.ColorToDotStr(chart.theme.GetColor(dotColorIndex)));
                                 sb.Append(content);
                             }
                         }
@@ -362,13 +363,13 @@ namespace XCharts
             else
             {
                 string content = tooltip.formatter;
-                FormatterHelper.ReplaceContent(ref content, 0, tooltip.numericFormatter, null, series, theme, null, null);
+                FormatterHelper.ReplaceContent(ref content, 0, tooltip.numericFormatter, null, chart, null);
                 return content;
             }
         }
 
-        public static string GetFormatterContent(Tooltip tooltip, int dataIndex, Series series, ChartTheme theme,
-            string category = null, DataZoom dataZoom = null, bool isCartesian = false, Radar radar = null)
+        public static string GetFormatterContent(Tooltip tooltip, int dataIndex, BaseChart chart, DataZoom dataZoom = null,
+            bool isCartesian = false, Radar radar = null)
         {
             if (string.IsNullOrEmpty(tooltip.formatter))
             {
@@ -386,9 +387,9 @@ namespace XCharts
                     formatTitle = false;
                     titleIsIgnroe = true;
                 }
-                for (int i = 0; i < series.Count; i++)
+                for (int i = 0; i < chart.series.Count; i++)
                 {
-                    var serie = series.GetSerie(i);
+                    var serie = chart.series.GetSerie(i);
                     if (tooltip.runtimeGridIndex >= 0 && serie.runtimeGridIndex != tooltip.runtimeGridIndex) continue;
                     if (serie.type == SerieType.Scatter || serie.type == SerieType.EffectScatter)
                     {
@@ -399,24 +400,24 @@ namespace XCharts
                             if (string.IsNullOrEmpty(itemFormatter))
                             {
                                 if (!first) sb.Append(FormatterHelper.PH_NN);
-                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, theme, dataZoom, isCartesian, radar);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, chart.theme, dataZoom, isCartesian, radar);
                                 first = false;
                                 continue;
                             }
                             var itemTitle = title;
                             if (!string.IsNullOrEmpty(itemTitle))
                             {
-                                FormatterHelper.ReplaceContent(ref itemTitle, dataIndex, tooltip.numericFormatter, serie, series, theme, category, dataZoom);
+                                FormatterHelper.ReplaceContent(ref itemTitle, dataIndex, tooltip.numericFormatter, serie, chart, dataZoom);
                                 sb.Append(itemTitle).Append(FormatterHelper.PH_NN);
                             }
                             var dataIndexList = tooltip.runtimeSerieIndex[serie.index];
                             foreach (var tempIndex in dataIndexList)
                             {
                                 string content = itemFormatter;
-                                var foundDot = FormatterHelper.ReplaceContent(ref content, tempIndex, tooltip.numericFormatter, serie, series, theme, category, dataZoom);
+                                var foundDot = FormatterHelper.ReplaceContent(ref content, tempIndex, tooltip.numericFormatter, serie, chart, dataZoom);
                                 if (!foundDot)
                                 {
-                                    sb.Append(ChartCached.ColorToDotStr(theme.GetColor(serie.index)));
+                                    sb.Append(ChartCached.ColorToDotStr(chart.theme.GetColor(serie.index)));
                                 }
                                 sb.Append(content).Append(FormatterHelper.PH_NN);
                             }
@@ -440,22 +441,23 @@ namespace XCharts
                         needCategory = needCategory || (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                         if (formatTitle)
                         {
-                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, serie, series, theme, category, dataZoom);
+                            FormatterHelper.ReplaceContent(ref title, dataIndex, tooltip.numericFormatter, serie, chart, dataZoom);
                         }
                         if (serie.show)
                         {
                             if (string.IsNullOrEmpty(itemFormatter) || serie.type == SerieType.Radar)
                             {
                                 if (!first) sb.Append(FormatterHelper.PH_NN);
-                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, category, theme, dataZoom, isCartesian, radar);
+                                InitDefaultContent(ref sb, tooltip, serie, dataIndex, chart.theme, dataZoom, isCartesian, radar);
                                 first = false;
                                 continue;
                             }
                             string content = itemFormatter;
-                            FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, series, theme, category, dataZoom);
+                            FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, serie, chart, dataZoom);
                             if (!first) sb.Append(FormatterHelper.PH_NN);
-                            var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring ? dataIndex : i;
-                            sb.Append(ChartCached.ColorToDotStr(theme.GetColor(dotColorIndex)));
+                            var dotColorIndex = serie.type == SerieType.Pie || serie.type == SerieType.Radar
+                                || serie.type == SerieType.Ring ? dataIndex : i;
+                            sb.Append(ChartCached.ColorToDotStr(chart.theme.GetColor(dotColorIndex)));
                             sb.Append(content);
                             first = false;
                         }
@@ -468,7 +470,10 @@ namespace XCharts
                 else if (string.IsNullOrEmpty(title))
                 {
                     if (needCategory && !titleIsIgnroe)
+                    {
+                        var category = (chart as CoordinateChart).GetTooltipCategory(dataIndex, dataZoom);
                         return category + FormatterHelper.PH_NN + FormatterHelper.TrimAndReplaceLine(sb);
+                    }
                     else
                         return FormatterHelper.TrimAndReplaceLine(sb);
                 }
@@ -481,7 +486,7 @@ namespace XCharts
             else
             {
                 string content = tooltip.formatter;
-                FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, null, series, theme, category, dataZoom);
+                FormatterHelper.ReplaceContent(ref content, dataIndex, tooltip.numericFormatter, null, chart, dataZoom);
                 return content;
             }
         }

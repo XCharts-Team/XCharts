@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.30) Optimized `Tooltip` to support setting different category axis data #129
 * (2021.03.29) Optimized the custom draw callback API
 * (2021.03.25) Added `Ganttchart`
 * (2021.03.22) Added `Theme` `Unbind` button to unbind theme when copying chart #118

@@ -352,7 +352,7 @@ namespace XCharts
                 int index = chart.tooltip.runtimeDataIndex[serie.index];
                 if (index < 0) continue;
                 showTooltip = true;
-                var content = TooltipHelper.GetFormatterContent(chart.tooltip, index, chart.series, chart.theme);
+                var content = TooltipHelper.GetFormatterContent(chart.tooltip, index, chart);
                 TooltipHelper.SetContentAndPosition(chart.tooltip, content.TrimStart(), chart.chartRect);
             }
             chart.tooltip.SetActive(showTooltip);

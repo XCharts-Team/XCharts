@@ -676,7 +676,7 @@ namespace XCharts
             if (showTooltip)
             {
                 var m_AngleAxis = GetAngleAxis(tooltip.runtimePolarIndex);
-                var content = TooltipHelper.GetPolarFormatterContent(tooltip, m_Series, m_Theme, m_AngleAxis);
+                var content = TooltipHelper.GetPolarFormatterContent(tooltip, this, m_AngleAxis);
                 TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
                 UdpateTooltipLabel();
             }

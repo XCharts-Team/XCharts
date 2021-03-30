@@ -390,8 +390,7 @@ namespace XCharts
             UpdateSerieGridIndex();
             RefreshSeriePainterByGridIndex(grid.index);
             var category = tempAxis.GetData(index, dataZoom);
-            var content = TooltipHelper.GetFormatterContent(tooltip, index, m_Series, m_Theme, category,
-                dataZoom, isCartesian);
+            var content = TooltipHelper.GetFormatterContent(tooltip, index, this, dataZoom, isCartesian);
             TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             tooltip.SetActive(true);
 
@@ -403,6 +402,51 @@ namespace XCharts
             {
                 UpdateAxisTooltipLabel(i, m_YAxes[i]);
             }
+        }
+
+        internal string GetTooltipCategory(int dataIndex, DataZoom dataZoom = null)
+        {
+            bool isCartesian = IsValue();
+            var index = -1;
+            Axis tempAxis;
+            if (isCartesian)
+            {
+                index = tooltip.runtimeDataIndex[0];
+                tempAxis = m_XAxes[0];
+            }
+            else if (m_XAxes[0].type == Axis.AxisType.Value)
+            {
+                index = (int)tooltip.runtimeYValues[0];
+                tempAxis = m_YAxes[0];
+            }
+            else
+            {
+                index = (int)tooltip.runtimeXValues[0];
+                tempAxis = m_XAxes[0];
+            }
+            return tempAxis.GetData(index, dataZoom);
+        }
+        internal string GetTooltipCategory(int dataIndex, Serie serie, DataZoom dataZoom = null)
+        {
+            bool isCartesian = IsValue();
+            var index = -1;
+            Axis tempAxis;
+            if (isCartesian)
+            {
+                index = tooltip.runtimeDataIndex[0];
+                tempAxis = GetXAxis(serie.xAxisIndex);
+            }
+            else if (m_XAxes[0].type == Axis.AxisType.Value)
+            {
+                index = (int)tooltip.runtimeYValues[0];
+                tempAxis = GetYAxis(serie.yAxisIndex);
+            }
+            else
+            {
+                index = (int)tooltip.runtimeXValues[0];
+                tempAxis = GetXAxis(serie.xAxisIndex);
+            }
+            return tempAxis == null ? "" : tempAxis.GetData(index, dataZoom);
         }
 
         protected void UpdateAxisTooltipLabel(int axisIndex, Axis axis)
@@ -608,7 +652,7 @@ namespace XCharts
                 for (int i = 0; i < m_Series.Count; i++)
                 {
                     var serie = m_Series.GetSerie(i);
-                    if(serie.yAxisIndex != axis.index) continue;
+                    if (serie.yAxisIndex != axis.index) continue;
                     for (int j = serie.data.Count - 1; j >= 0; j--)
                     {
                         axis.runtimeData.Add(serie.data[j].name);

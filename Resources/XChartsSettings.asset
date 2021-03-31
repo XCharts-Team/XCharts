@@ -37,6 +37,7 @@ MonoBehaviour:
   m_SerieLineSymbolSelectedSize: 8
   m_SerieScatterSymbolSize: 20
   m_SerieScatterSymbolSelectedSize: 30
+  m_SerieCandlestickBorderWidth: 1
   m_EditorBlockEnable: 1
   m_EditorShowAllListData: 0
   m_MaxPainter: 10
@@ -47,3 +48,5 @@ MonoBehaviour:
   m_VisualMapTriangeLen: 20
   m_PieTooltipExtraRadius: 8
   m_PieSelectedOffset: 8
+  m_CustomTheme:
+  - {fileID: 4900000, guid: b3fe66aee71324452a87542f8be66943, type: 3}

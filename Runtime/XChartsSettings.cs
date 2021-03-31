@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
@@ -63,6 +64,7 @@ namespace XCharts
         [SerializeField] [Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
         [SerializeField] [Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
         [SerializeField] [Range(1, 20)] protected float m_PieSelectedOffset = 8f;
+        [SerializeField] protected List<TextAsset> m_CustomThemes = new List<TextAsset>();
 
         public static Font font { get { return Instance.m_Font; } }
 #if dUI_TextMeshPro
@@ -117,6 +119,7 @@ namespace XCharts
         public static float pieSelectedOffset { get { return Instance.m_PieSelectedOffset; } }
         #endregion
 
+        public static List<TextAsset> customThemes { get { return Instance.m_CustomThemes; } }
 
         private static XChartsSettings s_Instance;
         public static XChartsSettings Instance
@@ -145,6 +148,17 @@ namespace XCharts
 
                 return s_Instance;
             }
+        }
+
+        public static bool AddJsonTheme(TextAsset theme)
+        {
+            if (theme == null) return false;
+            if (!Instance.m_CustomThemes.Contains(theme))
+            {
+                Instance.m_CustomThemes.Add(theme);
+                return true;
+            }
+            return false;
         }
     }
 }

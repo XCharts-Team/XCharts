@@ -32,6 +32,7 @@
 
 ## Latest
 
+* (2021.03.31) Optimized and refactor `Theme` to solve problems with the same or missing references #118
 * (2021.03.30) Optimized `Tooltip` to support setting different category axis data #129
 * (2021.03.29) Optimized the custom draw callback API
 * (2021.03.25) Added `Ganttchart`

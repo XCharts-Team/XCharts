@@ -719,12 +719,5 @@ namespace XCharts
         {
             return SeriesHelper.ContainsSerie(m_Series, serieType);
         }
-
-        public void UnbindTheme()
-        {
-            var theme = m_Theme.CloneTheme();
-            m_Theme = theme;
-            RefreshChart();
-        }
     }
 }

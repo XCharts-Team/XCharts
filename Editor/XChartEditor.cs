@@ -156,7 +156,7 @@ namespace XCharts
         [MenuItem("XCharts/Themes Reload")]
         public static void ReloadTheme()
         {
-            XChartsMgr.Instance.LoadThemesFromResources();
+            XThemeMgr.ReloadThemeList();
         }
 
         [MenuItem("XCharts/TextMeshPro Enable")]

@@ -43,7 +43,7 @@ namespace XCharts
     /// Theme.
     /// 主题相关配置。
     /// </summary>
-    public class ChartTheme : ScriptableObject
+    public class ChartTheme : MainComponent
     {
         [SerializeField] private Theme m_Theme = Theme.Default;
         [SerializeField] private string m_ThemeName = Theme.Default.ToString();
@@ -163,12 +163,6 @@ namespace XCharts
                 }
             }
         }
-
-        [NonSerialized] protected bool m_VertsDirty;
-        [NonSerialized] protected bool m_ComponentDirty;
-        public virtual bool vertsDirty { get { return m_VertsDirty; } }
-        public virtual bool componentDirty { get { return m_ComponentDirty; } }
-        public bool anyDirty { get { return vertsDirty || componentDirty; } }
 
         public void SetDefaultFont()
         {
@@ -301,6 +295,13 @@ namespace XCharts
                 case Theme.Default: CopyTheme(Default); break;
                 case Theme.Light: CopyTheme(Light); break;
                 case Theme.Dark: CopyTheme(Dark); break;
+                case Theme.Custom:
+                    var sour = XThemeMgr.GetTheme(themeName);
+                    if (sour != null)
+                    {
+                        CopyTheme(sour);
+                    }
+                    break;
             }
         }
 
@@ -310,7 +311,7 @@ namespace XCharts
         /// <returns></returns>
         public ChartTheme CloneTheme()
         {
-            var theme = ScriptableObject.CreateInstance<ChartTheme>();
+            var theme = new ChartTheme();
             InitChartComponentTheme(theme);
             theme.CopyTheme(this);
             return theme;
@@ -326,7 +327,7 @@ namespace XCharts
         {
             get
             {
-                var theme = ScriptableObject.CreateInstance<ChartTheme>();
+                var theme = new ChartTheme();
                 theme.theme = Theme.Default;
                 theme.themeName = Theme.Default.ToString();
                 theme.contrastColor = ColorUtil.GetColor("#514D4D");
@@ -359,7 +360,7 @@ namespace XCharts
         {
             get
             {
-                var theme = ScriptableObject.CreateInstance<ChartTheme>();
+                var theme = new ChartTheme();
                 theme.theme = Theme.Light;
                 theme.themeName = Theme.Light.ToString();
                 theme.contrastColor = ColorUtil.GetColor("#514D4D");
@@ -394,8 +395,7 @@ namespace XCharts
         {
             get
             {
-                var theme = ScriptableObject.CreateInstance<ChartTheme>();
-                theme.name = Theme.Dark.ToString();
+                var theme = new ChartTheme();
                 theme.theme = Theme.Dark;
                 theme.themeName = Theme.Dark.ToString();
                 theme.contrastColor = ColorUtil.GetColor("#B9B8CE");
@@ -421,8 +421,7 @@ namespace XCharts
         {
             get
             {
-                var theme = ScriptableObject.CreateInstance<ChartTheme>();
-                theme.name = Theme.Custom.ToString();
+                var theme = new ChartTheme();
                 theme.theme = Theme.Custom;
                 theme.themeName = Theme.Custom.ToString();
                 theme.contrastColor = Color.clear;

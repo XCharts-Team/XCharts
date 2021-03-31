@@ -21,89 +21,62 @@ namespace XCharts
         public override string ClassName { get { return "Theme"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
-            if (prop.objectReferenceValue == null)
-            {
-                EditorGUI.ObjectField(pos, prop, new GUIContent("Theme"));
-                return;
-            }
             base.OnGUI(pos, prop, label);
             var defaultWidth = pos.width;
             var defaultX = pos.x;
             var btnWidth = 50;
-            ChartEditorHelper.MakeFoldout(ref m_DrawRect, ref m_ThemeModuleToggle, "Theme");
-            m_Heights[m_KeyName] += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (m_ThemeModuleToggle)
+            if (MakeFoldout(prop, ""))
             {
-                m_DrawRect.x = defaultX + defaultWidth - 3 * btnWidth - 2;
-                m_DrawRect.width = btnWidth;
+                var btnRect = new Rect(m_DrawRect);
+                btnRect.x = defaultX + defaultWidth - 2 * btnWidth - 2;
+                btnRect.y = m_DrawRect.y - EditorGUIUtility.singleLineHeight - 3;
+                btnRect.width = btnWidth;
                 var chart = prop.serializedObject.targetObject as BaseChart;
                 var lastFont = chart.theme.font;
 #if dUI_TextMeshPro
                 var lastTMPFont = chart.theme.tmpFont;
 #endif
-                if (GUI.Button(m_DrawRect, new GUIContent("Reset", "Reset to theme default color")))
+                if (GUI.Button(btnRect, new GUIContent("Reset", "Reset to theme default color")))
                 {
                     chart.theme.ResetTheme();
                     chart.RefreshAllComponent();
                 }
-                m_DrawRect.x = defaultX + defaultWidth - 2 * btnWidth - 2;
-                m_DrawRect.width = btnWidth;
-                if (GUI.Button(m_DrawRect, new GUIContent("Unbind", "Unbind the Theme from another chart")))
-                {
-                    chart.UnbindTheme();
-                }
-                m_DrawRect.x = defaultX + defaultWidth - btnWidth;
-                m_DrawRect.width = btnWidth;
-                if (GUI.Button(m_DrawRect, new GUIContent("Export", "Export theme to asset for a new theme")))
+                btnRect.x = defaultX + defaultWidth - btnWidth;
+                btnRect.width = btnWidth;
+                if (GUI.Button(btnRect, new GUIContent("Export", "Export theme to asset for a new theme")))
                 {
                     ExportThemeWindow.target = chart;
                     EditorWindow.GetWindow(typeof(ExportThemeWindow));
                 }
-
-                var data = (ScriptableObject)prop.objectReferenceValue;
-                SerializedObject serializedObject = new SerializedObject(data);
-                SerializedProperty newProp = serializedObject.GetIterator();
-                float y = pos.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 ++EditorGUI.indentLevel;
-
-                var chartNameList = XChartsMgr.GetAllThemeNames();
+                var chartNameList = XThemeMgr.GetAllThemeNames();
                 var lastIndex = chartNameList.IndexOf(chart.theme.themeName);
+                var y = pos.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 var selectedIndex = EditorGUI.Popup(new Rect(pos.x, y, pos.width, EditorGUIUtility.singleLineHeight),
                     "Theme", lastIndex, chartNameList.ToArray());
-                m_Heights[m_KeyName] += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                AddSingleLineHeight();
                 if (lastIndex != selectedIndex)
                 {
-                    GUI.changed = true;
-                    XChartsMgr.SwitchTheme(chart, chartNameList[selectedIndex]);
+                    XThemeMgr.SwitchTheme(chart, chartNameList[selectedIndex]);
                 }
-                if (newProp.NextVisible(true))
-                {
-                    do
-                    {
-                        if (newProp.name == "m_Script") continue;
-                        if (newProp.name == "m_ThemeName") continue;
-                        if (newProp.name == "m_Theme") continue;
-
-                        AddPropertyField(pos, newProp, ref y);
-
-                    } while (newProp.NextVisible(false));
-                }
-                if (GUI.changed)
-                {
-                    chart.RefreshAllComponent();
-                    serializedObject.ApplyModifiedProperties();
-                }
-                if (chart.theme.font != lastFont)
-                {
-                    chart.theme.SyncFontToSubComponent();
-                }
-#if dUI_TextMeshPro
-                if (chart.theme.tmpFont != lastTMPFont)
-                {
-                    chart.theme.SyncTMPFontToSubComponent();
-                }
-#endif
+                PropertyField(prop, "m_Font");
+                PropertyField(prop, "m_ContrastColor");
+                PropertyField(prop, "m_BackgroundColor");
+                PropertyField(prop, "m_ColorPalette");
+                PropertyField(prop, "m_Common");
+                PropertyField(prop, "m_Title");
+                PropertyField(prop, "m_SubTitle");
+                PropertyField(prop, "m_Legend");
+                PropertyField(prop, "m_Axis");
+                PropertyField(prop, "m_RadiusAxis");
+                PropertyField(prop, "m_AngleAxis");
+                PropertyField(prop, "m_Polar");
+                PropertyField(prop, "m_Gauge");
+                PropertyField(prop, "m_Radar");
+                PropertyField(prop, "m_Tooltip");
+                PropertyField(prop, "m_DataZoom");
+                PropertyField(prop, "m_VisualMap");
+                PropertyField(prop, "m_Serie");
                 --EditorGUI.indentLevel;
             }
         }
@@ -154,7 +127,7 @@ namespace XCharts
             }
             else
             {
-                GUILayout.Label(XChartsMgr.GetThemeAssetPath(m_ChartName));
+                GUILayout.Label(XThemeMgr.GetThemeAssetPath(m_ChartName));
             }
 
             GUILayout.Space(20);
@@ -164,20 +137,20 @@ namespace XCharts
                 {
                     ShowNotification(new GUIContent("ERROR:Need input a new name!"));
                 }
-                else if (XChartsMgr.ContainsTheme(m_ChartName))
+                else if (XThemeMgr.ContainsTheme(m_ChartName))
                 {
                     ShowNotification(new GUIContent("ERROR:The name you entered is already in use!"));
                 }
-                else if (IsAssetsExist(XChartsMgr.GetThemeAssetPath(m_ChartName)))
+                else if (IsAssetsExist(XThemeMgr.GetThemeAssetPath(m_ChartName)))
                 {
                     ShowNotification(new GUIContent("ERROR:The asset is exist! \npath="
-                        + XChartsMgr.GetThemeAssetPath(m_ChartName)));
+                        + XThemeMgr.GetThemeAssetPath(m_ChartName)));
                 }
                 else
                 {
-                    XChartsMgr.ExportTheme(target.theme, m_ChartName);
+                    XThemeMgr.ExportTheme(target.theme, m_ChartName);
                     ShowNotification(new GUIContent("SUCCESS:The theme is exported. \npath="
-                        + XChartsMgr.GetThemeAssetPath(m_ChartName)));
+                        + XThemeMgr.GetThemeAssetPath(m_ChartName)));
                 }
             }
         }

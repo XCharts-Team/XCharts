@@ -46,9 +46,8 @@ namespace XCharts
         [SerializeField] private string m_NowVersion;
         [SerializeField] private string m_NewVersion;
         [SerializeField] private List<BaseChart> m_ChartList = new List<BaseChart>();
-        [SerializeField] private Dictionary<string, ChartTheme> m_ThemeDict = new Dictionary<string, ChartTheme>();
-
-        private List<string> m_ThemeNames = new List<string>();
+        [SerializeField] internal Dictionary<string, ChartTheme> m_ThemeDict = new Dictionary<string, ChartTheme>();
+        [SerializeField] internal List<string> m_ThemeNames = new List<string>();
         private static XChartsMgr m_XCharts;
 
         public static XChartsMgr Instance
@@ -87,8 +86,7 @@ namespace XCharts
         {
             SerieLabelPool.ClearAll();
             m_ChartList.Clear();
-            m_ThemeDict.Clear();
-            LoadThemesFromResources();
+            XThemeMgr.ReloadThemeList();
         }
 
         public string changeLog { get; private set; }
@@ -270,34 +268,6 @@ namespace XCharts
             SerieLabelPool.ClearAll();
         }
 
-        public void LoadThemesFromResources()
-        {
-            //Debug.Log("LoadThemesFromResources");
-            m_ThemeDict.Clear();
-            AddTheme(ChartTheme.Default);
-            AddTheme(ChartTheme.Light);
-            AddTheme(ChartTheme.Dark);
-            var list = Resources.LoadAll<ChartTheme>("");
-            foreach (var theme in list)
-            {
-                AddTheme(theme);
-            }
-            //Debug.Log("LoadThemesFromResources DONE: theme count=" + m_ThemeDict.Keys.Count);
-        }
-
-        private void AddTheme(ChartTheme theme)
-        {
-            if (!m_ThemeDict.ContainsKey(theme.themeName))
-            {
-                m_ThemeDict.Add(theme.themeName, theme);
-                m_ThemeNames.Add(theme.themeName);
-            }
-            else
-            {
-                Debug.LogError("Theme name is exist:" + theme.themeName);
-            }
-        }
-
         public void AddChart(BaseChart chart)
         {
             var sameNameChart = GetChart(chart.chartName);
@@ -339,66 +309,6 @@ namespace XCharts
         public bool ContainsChart(BaseChart chart)
         {
             return m_ChartList.Contains(chart);
-        }
-
-        public static List<string> GetAllThemeNames()
-        {
-            return Instance.m_ThemeNames;
-        }
-
-        public static bool ContainsTheme(string themeName)
-        {
-            return Instance.m_ThemeNames.Contains(themeName);
-        }
-
-        public static void SwitchTheme(BaseChart chart, string themeName)
-        {
-            Debug.Log("SwitchTheme:" + themeName);
-            if (chart.theme.themeName.Equals(themeName))
-            {
-                return;
-            }
-#if UNITY_EDITOR
-            if (Instance.m_ThemeDict.Count == 0)
-            {
-                Instance.LoadThemesFromResources();
-            }
-#endif
-            if (!Instance.m_ThemeDict.ContainsKey(themeName))
-            {
-                Debug.LogError("SwitchTheme ERROR: not exist theme:" + themeName);
-                return;
-            }
-            var target = Instance.m_ThemeDict[themeName];
-            chart.theme.CopyTheme(target);
-            chart.RefreshAllComponent();
-        }
-
-        public static string GetThemeAssetPath(string themeName)
-        {
-            return string.Format("Assets/XCharts/Resources/XChartsTheme-{0}.asset", themeName);
-        }
-
-        public static bool ExportTheme(ChartTheme theme, string themeNewName)
-        {
-#if UNITY_EDITOR
-            var newtheme = ChartTheme.EmptyTheme;
-            newtheme.CopyTheme(theme);
-            newtheme.name = themeNewName;
-            newtheme.themeName = themeNewName;
-
-            var themeFileName = "XChartsTheme-" + newtheme.themeName;
-            var assetPath = string.Format("Assets/XCharts/Resources/{0}.asset", themeFileName);
-            if (Resources.Load<XChartsSettings>(themeFileName))
-            {
-                AssetDatabase.DeleteAsset(assetPath);
-            }
-            AssetDatabase.CreateAsset(newtheme, assetPath);
-            Instance.AddTheme(newtheme);
-            return true;
-#else
-            return false;
-#endif
         }
 
         public static void RemoveAllChartObject()

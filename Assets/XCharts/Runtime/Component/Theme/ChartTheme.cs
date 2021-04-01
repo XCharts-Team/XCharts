@@ -296,10 +296,15 @@ namespace XCharts
                 case Theme.Light: CopyTheme(Light); break;
                 case Theme.Dark: CopyTheme(Dark); break;
                 case Theme.Custom:
-                    var sour = XThemeMgr.GetTheme(themeName);
-                    if (sour != null)
+                    var sourTheme = XThemeMgr.GetTheme(themeName);
+                    if (sourTheme != null)
                     {
-                        CopyTheme(sour);
+                        CopyTheme(sourTheme);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("ResetTheme:can't find theme:" + themeName + ", reset to Default theme");
+                        CopyTheme(Default);
                     }
                     break;
             }

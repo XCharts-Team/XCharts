@@ -25,7 +25,7 @@ namespace XCharts
             AddTheme(ChartTheme.Dark);
             foreach (var json in XChartsSettings.customThemes)
             {
-                if (json != null)
+                if (json != null && !string.IsNullOrEmpty(json.text))
                 {
                     var theme = JsonUtility.FromJson<ChartTheme>(json.text);
                     AddTheme(theme);
@@ -36,6 +36,7 @@ namespace XCharts
 
         public static void AddTheme(ChartTheme theme)
         {
+            if (theme == null) return;
             if (!XChartsMgr.Instance.m_ThemeDict.ContainsKey(theme.themeName))
             {
                 XChartsMgr.Instance.m_ThemeDict.Add(theme.themeName, theme);

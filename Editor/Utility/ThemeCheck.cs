@@ -25,6 +25,8 @@ namespace XCharts
         {
             if (!IsThemeAsset(assetPath)) return;
             var obj = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
+            if (obj == null || obj.text == null) return;
+            if (!obj.text.Contains("m_Theme")) return;
             if (XChartsSettings.AddJsonTheme(obj))
             {
                 XThemeMgr.ReloadThemeList();
@@ -54,6 +56,7 @@ namespace XCharts
         private static bool IsThemeAsset(string assetPath)
         {
             if (!assetPath.EndsWith(".json")) return false;
+            if (!assetPath.StartsWith("XTheme")) return false;
             return true;
         }
     }

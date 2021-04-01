@@ -152,7 +152,7 @@ namespace XCharts
 
         public static bool AddJsonTheme(TextAsset theme)
         {
-            if (theme == null) return false;
+            if (theme == null || string.IsNullOrEmpty(theme.text)) return false;
             if (!Instance.m_CustomThemes.Contains(theme))
             {
                 Instance.m_CustomThemes.Add(theme);

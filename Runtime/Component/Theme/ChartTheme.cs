@@ -276,6 +276,7 @@ namespace XCharts
             m_AngleAxis.Copy(theme.angleAxis);
             m_Polar.Copy(theme.polar);
             m_Gauge.Copy(theme.gauge);
+            m_Radar.Copy(theme.radar);
             m_Tooltip.Copy(theme.tooltip);
             m_DataZoom.Copy(theme.dataZoom);
             m_VisualMap.Copy(theme.visualMap);

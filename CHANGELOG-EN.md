@@ -2,6 +2,7 @@
 # 更新日志
 
 [Latest](#Latest)  
+[v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
 [v2.0.0](#v2.0.0)  
 [v2.0.0-preview.2](#v2.0.0-preview.2)  
@@ -32,6 +33,9 @@
 
 ## Latest
 
+## v2.1.0
+
+* (2021.04.07) Release `v2.1.0` version
 * (2021.03.31) Optimized and refactor `Theme` to solve problems with the same or missing references #118
 * (2021.03.30) Optimized `Tooltip` to support setting different category axis data #129
 * (2021.03.29) Optimized the custom draw callback API

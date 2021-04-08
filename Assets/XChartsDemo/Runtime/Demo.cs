@@ -223,23 +223,27 @@ namespace XChartsDemo
                 {
                     var block = module.button.colors;
                     block.highlightedColor = m_ButtonHighlightColor;
+#if UNITY_2019
                     block.selectedColor = m_ButtonNormalColor;
+#endif
+                    block.pressedColor = m_ButtonNormalColor;
                     block.normalColor = m_ButtonNormalColor;
                     module.button.colors = block;
                     if (module.panel != null)
                         module.panel.SetActive(false);
-                    //module.select = false;
                 }
                 else
                 {
                     var block = module.button.colors;
                     block.highlightedColor = m_ButtonSelectedColor;
+#if UNITY_2019
                     block.selectedColor = m_ButtonSelectedColor;
+#endif
+                    block.pressedColor = m_ButtonSelectedColor;
                     block.normalColor = m_ButtonSelectedColor;
                     module.button.colors = block;
                     if (module.panel != null)
                         module.panel.SetActive(true);
-                   // module.select = true;
                 }
             }
             if (selectedModule.panel != null)

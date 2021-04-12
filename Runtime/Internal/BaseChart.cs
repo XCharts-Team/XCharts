@@ -107,21 +107,7 @@ namespace XCharts
 
         protected override void Awake()
         {
-            if (m_Theme == null)
-            {
-                m_Theme = ChartTheme.Default;
-            }
-            else
-            {
-                if (m_Theme.font == null)
-                {
-                    m_Theme.font = XChartsSettings.font;
-                }
-                if (m_Theme.colorPalette.Count == 0)
-                {
-                    m_Theme.ResetTheme();
-                }
-            }
+            CheckTheme();
             base.Awake();
             m_Series.AnimationReset();
             m_Series.AnimationFadeIn();
@@ -213,12 +199,27 @@ namespace XCharts
 
         protected virtual void CheckTheme()
         {
-            if (m_Theme != null && m_CheckTheme != m_Theme.theme)
+            if (m_Theme == null)
             {
-                m_CheckTheme = m_Theme.theme;
-                m_Theme.CopyTheme(m_CheckTheme);
-                SetAllComponentDirty();
-                OnThemeChanged();
+                m_Theme = ChartTheme.Default;
+            }
+            else
+            {
+                if (m_Theme.font == null)
+                {
+                    m_Theme.font = XChartsSettings.font;
+                }
+                if (m_Theme.colorPalette.Count == 0)
+                {
+                    m_Theme.ResetTheme();
+                }
+                if (m_CheckTheme != m_Theme.theme)
+                {
+                    m_CheckTheme = m_Theme.theme;
+                    m_Theme.CopyTheme(m_CheckTheme);
+                    SetAllComponentDirty();
+                    OnThemeChanged();
+                }
             }
         }
         protected override void CheckComponent()

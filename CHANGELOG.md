@@ -33,6 +33,8 @@
 
 ## Latest
 
+* (2021.04.12) 修复`Theme`重构后引起的`missing class attribute 'ExtensionOfNativeClass'`的问题 #131
+
 ## v2.1.0
 
 * (2021.04.07) 发布`v2.1.0`版本

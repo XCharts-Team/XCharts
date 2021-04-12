@@ -33,6 +33,8 @@
 
 ## Latest
 
+* (2021.04.12) Fixed problem `missing class attribute 'ExtensionOfNativeClass'` after Theme refactoring #131
+
 ## v2.1.0
 
 * (2021.04.07) Release `v2.1.0` version

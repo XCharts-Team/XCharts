@@ -17,7 +17,6 @@ using UnityEngine.SceneManagement;
 using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Compilation;
 #endif
 
 namespace XCharts
@@ -120,20 +119,20 @@ namespace XCharts
             networkError = "";
             var url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/package.json";
             var web = UnityWebRequest.Get(url);
-#if UNITY_5
-            yield return web.Send();
-#else
+#if UNITY_2017_3_OR_NEWER
             yield return web.SendWebRequest();
+#else
+            yield return web.Send();
 #endif
             CheckVersionWebRequest(web);
             if (isNetworkError)
             {
                 url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/package.json";
                 web = UnityWebRequest.Get(url);
-#if UNITY_5
-                yield return web.Send();
+#if UNITY_2017_3_OR_NEWER
+            yield return web.SendWebRequest();
 #else
-                yield return web.SendWebRequest();
+            yield return web.Send();
 #endif
                 CheckVersionWebRequest(web);
             }
@@ -141,19 +140,19 @@ namespace XCharts
             {
                 url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
                 web = UnityWebRequest.Get(url);
-#if UNITY_5
-                yield return web.Send();
+#if UNITY_2017_3_OR_NEWER
+            yield return web.SendWebRequest();
 #else
-                yield return web.SendWebRequest();
+            yield return web.Send();
 #endif
                 if (!CheckLogWebRequest(web))
                 {
                     url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/CHANGELOG.md";
                     web = UnityWebRequest.Get(url);
-#if UNITY_5
-                    yield return web.Send();
+#if UNITY_2017_3_OR_NEWER
+            yield return web.SendWebRequest();
 #else
-                    yield return web.SendWebRequest();
+            yield return web.Send();
 #endif
                     CheckLogWebRequest(web);
                 }
@@ -391,8 +390,8 @@ namespace XCharts
             {
                 if (assembly.name.Equals("Unity.TextMeshPro")) return true;
             }
-#else
-            foreach (var assembly in CompilationPipeline.GetAssemblies())
+#elif UNITY_2017_3_OR_NEWER
+            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies())
             {
                 if (assembly.name.Equals("Unity.TextMeshPro")) return true;
             }

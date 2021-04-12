@@ -9,10 +9,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor.Compilation;
-using System.IO;
-using System;
-using System.Collections.Generic;
 
 namespace XCharts
 {

@@ -130,7 +130,7 @@ namespace XCharts
                 url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/package.json";
                 web = UnityWebRequest.Get(url);
 #if UNITY_2017_3_OR_NEWER
-            yield return web.SendWebRequest();
+                yield return web.SendWebRequest();
 #else
             yield return web.Send();
 #endif
@@ -141,7 +141,7 @@ namespace XCharts
                 url = "https://raw.githubusercontent.com/monitor1394/unity-ugui-XCharts/master/Assets/XCharts/CHANGELOG.md";
                 web = UnityWebRequest.Get(url);
 #if UNITY_2017_3_OR_NEWER
-            yield return web.SendWebRequest();
+                yield return web.SendWebRequest();
 #else
             yield return web.Send();
 #endif
@@ -150,7 +150,7 @@ namespace XCharts
                     url = "https://gitee.com/monitor1394/unity-ugui-XCharts/raw/master/Assets/XCharts/CHANGELOG.md";
                     web = UnityWebRequest.Get(url);
 #if UNITY_2017_3_OR_NEWER
-            yield return web.SendWebRequest();
+                    yield return web.SendWebRequest();
 #else
             yield return web.Send();
 #endif
@@ -242,9 +242,9 @@ namespace XCharts
         public bool IsWebRequestError(UnityWebRequest request)
         {
 #if UNITY_5
-            return request.isError && ! request.responseCode >= 400;
+            return request.isError && request.responseCode < 400;
 #elif UNITY_2017_1
-             return request.isError && ! request.isHttpError;
+             return request.isError && !request.isHttpError;
 #elif UNITY_2020_2
             return (int)request.result > 1;
 #else
@@ -426,7 +426,7 @@ namespace XCharts
                 var tmpName = "\"Unity.TextMeshPro\"";
                 foreach (var line in lines)
                 {
-                    if (string.IsNullOrWhiteSpace(line)) continue;
+                    if (string.IsNullOrEmpty(line)) continue;
                     if (line.Contains("\"references\": ["))
                     {
                         dest.Add(line);
@@ -472,7 +472,7 @@ namespace XCharts
                         dest.Add(line);
                     }
                 }
-                if (addedTMP || removedTMP) File.WriteAllText(asmdefPath, string.Join("\n", dest));
+                if (addedTMP || removedTMP) File.WriteAllText(asmdefPath, string.Join("\n", dest.ToArray()));
                 return true;
             }
             catch (System.Exception e)

@@ -265,7 +265,7 @@ namespace XCharts
                 }
                 chart.RefreshBasePainter();
             };
-            radar.refreshComponent?.Invoke();
+            radar.refreshComponent.Invoke();
         }
 
         private void DrawMutipleRadar(VertexHelper vh, Serie serie, int i)

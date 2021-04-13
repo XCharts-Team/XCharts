@@ -147,9 +147,9 @@ namespace XCharts
         {
             if (component.anyDirty)
             {
-                if (component.componentDirty)
+                if (component.componentDirty && component.refreshComponent != null)
                 {
-                    component.refreshComponent?.Invoke();
+                    component.refreshComponent.Invoke();
                 }
                 if (component.vertsDirty)
                 {

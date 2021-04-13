@@ -2,6 +2,7 @@
 # 更新日志
 
 [Latest](#Latest)  
+[v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
 [v2.0.0](#v2.0.0)  
@@ -33,6 +34,10 @@
 
 ## Latest
 
+## v2.1.1
+
+* (2021.04.13) 整理代码，清除`Warning`
+* (2021.04.13) 修复`Unity`版本兼容问题
 * (2021.04.12) 修复`Theme`重构后引起的`missing class attribute 'ExtensionOfNativeClass'`的问题 #131
 
 ## v2.1.0

@@ -2,6 +2,7 @@
 # 更新日志
 
 [Latest](#Latest)  
+[v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
 [v2.0.0](#v2.0.0)  
@@ -33,6 +34,10 @@
 
 ## Latest
 
+## v2.1.1
+
+* (2021.04.13) Define the code and clear `Warning`
+* (2021.04.13) Fixed compatibility issues with `Unity` version
 * (2021.04.12) Fixed problem `missing class attribute 'ExtensionOfNativeClass'` after Theme refactoring #131
 
 ## v2.1.0

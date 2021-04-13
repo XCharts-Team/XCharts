@@ -51,14 +51,15 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## XCharts 2.0
 
-* Framework reconstruction, layered rendering, optimized scalability, support more data.
-* Support for TextMeshPro.
+* Underlevel reconstruction, layered rendering, optimized scalability, support more data.
 * Support for multi-component patterns.
 * Support for any combination of most charts.
 * Support theme customization, import and export, and more theme configuration parameters.
 * Support global adjustment of configuration parameters.
-* Better editing interface.
-* Other details optimized.
+* Added support for `TextMeshPro`.
+* Added `CandlestickChart`.
+* Added `GanttChart`.
+* __ Note:__ `2.0` has undergone a lot of refactoring and adjustments and is not fully compatible with version `1.0`, so `1.0` should not be directly upgraded to `2.0`. Some parameter Settings may be reset to default values after upgrading.
 
 ## Features
 
@@ -166,7 +167,7 @@ The following is the relationship structure of LineChart:
 * Download the source code or `unitypackage` to import into your project. If `Unity` version are `2018.3` or above, it is recommended to import packages through `Package Manager`:
   1. Open the `manifest.json` file under `Packages` directory and add under `dependencies`:
   ``` json
-     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#upm",
+     "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#2.0-upm",
   ```
   2. Going back to `Unity`, it may take 3 to 5 minutes to download.
   3. If you want to delete `XCharts`, just delete the content added in step 1.

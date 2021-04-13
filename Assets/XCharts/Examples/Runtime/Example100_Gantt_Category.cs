@@ -41,7 +41,6 @@ namespace XCharts.Examples
         {
             for (int i = 0; i < taskCount; i++)
             {
-                var taskName = "task-" + (i + 1);
                 var startIndex = Random.Range(0, (int)(dayCount * 2.0f / 3));
                 var endIndex = Random.Range(startIndex, dayCount);
                 chart.UpdateData(0, i, 0, startIndex);
@@ -67,7 +66,7 @@ namespace XCharts.Examples
                 chart.AddXAxisData("day" + (i + 1));
             }
 
-            var serie = chart.AddSerie(SerieType.Gantt, "任务进度表");
+            chart.AddSerie(SerieType.Gantt, "任务进度表");
             for (int i = 0; i < taskCount; i++)
             {
                 var taskName = "task-" + (i + 1);

@@ -386,7 +386,7 @@ namespace XCharts
         {
 
 #if UNITY_2018_1_OR_NEWER
-            foreach (var assembly in CompilationPipeline.GetAssemblies(AssembliesType.Player))
+            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies(UnityEditor.Compilation.AssembliesType.Player))
             {
                 if (assembly.name.Equals("Unity.TextMeshPro")) return true;
             }
@@ -414,7 +414,6 @@ namespace XCharts
                 Debug.LogError("AddTMPRefence ERROR: can't find: " + asmdefPath);
                 return false;
             }
-            var oldText = File.ReadAllText(asmdefPath);
             try
             {
                 var dest = new List<string>();

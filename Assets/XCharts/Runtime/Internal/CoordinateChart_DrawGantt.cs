@@ -23,7 +23,6 @@ namespace XCharts
             var grid = GetSerieGridOrDefault(serie);
             var xCategoryWidth = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
             var yCategoryWidth = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, showData.Count, dataZoom);
-            var barGap = GetBarGap();
             var barWidth = serie.GetBarWidth(yCategoryWidth);
             var space = (yCategoryWidth - barWidth) / 2;
             var dataChanging = false;

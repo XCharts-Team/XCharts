@@ -389,7 +389,6 @@ namespace XCharts
             }
             UpdateSerieGridIndex();
             RefreshSeriePainterByGridIndex(grid.index);
-            var category = tempAxis.GetData(index, dataZoom);
             var content = TooltipHelper.GetFormatterContent(tooltip, index, this, dataZoom, isCartesian);
             TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             tooltip.SetActive(true);
@@ -645,7 +644,6 @@ namespace XCharts
         {
             if (axis.type != Axis.AxisType.Category) return;
             if (axis.data.Count > 0) return;
-            var isYAxis = axis is YAxis;
             if (this is GanttChart)
             {
                 axis.runtimeData.Clear();

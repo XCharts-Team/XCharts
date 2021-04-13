@@ -25,7 +25,6 @@ namespace XCharts
             float barGap = GetBarGap();
             float barWidth = serie.GetBarWidth(categoryWidth);
             float space = (categoryWidth - barWidth) / 2;
-            float barGapWidth = barWidth + barWidth * barGap;
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;

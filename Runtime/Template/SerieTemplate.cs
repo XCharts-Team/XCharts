@@ -205,7 +205,6 @@ namespace XCharts
             serie.showDataName = true;
             serie.showDataDimension = 2;
             var timestamp = DateTimeUtil.GetTimestamp();
-            var now = DateTimeUtil.GetDateTime(timestamp);
             for (int i = 0; i < dataCount; i++)
             {
                 var start = timestamp + Random.Range(1, 6) * 3600 * 24;

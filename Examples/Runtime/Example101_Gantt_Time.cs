@@ -47,7 +47,7 @@ namespace XCharts.Examples
                 var endTimestamp = startTimestamp + Random.Range(1, 10) * 3600 * 24;
                 chart.AddData(0, startTimestamp, endTimestamp, taskName);
             }
-            var serie2 = chart.AddSerie(SerieType.Gantt, "李四");
+            chart.AddSerie(SerieType.Gantt, "李四");
             for (int i = 0; i < taskCount; i++)
             {
                 var taskName = "李四-任务-" + (i + 1);
@@ -85,7 +85,7 @@ namespace XCharts.Examples
                 var endTimestamp = startTimestamp + Random.Range(1, 10) * 3600 * 24;
                 chart.AddData(0, startTimestamp, endTimestamp, taskName);
             }
-            var serie2 = chart.AddSerie(SerieType.Gantt, "李四");
+            chart.AddSerie(SerieType.Gantt, "李四");
             for (int i = 0; i < taskCount; i++)
             {
                 var taskName = "李四-任务-" + (i + 1);

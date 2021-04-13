@@ -61,7 +61,7 @@ namespace XCharts.Examples
                 if(openIdx == closeIdx){
                     closeIdx ++;
                 }
-                var volumn = boxVals[3]*(1000+Random.Range(0f,1f) * 500);
+                //var volumn = boxVals[3]*(1000+Random.Range(0f,1f) * 500);
                 var open = boxVals[openIdx];
                 var close = boxVals[closeIdx];
                 var lowest = boxVals[0];

@@ -17,7 +17,6 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(ChartTheme), true)]
     public class ThemeDrawer : BasePropertyDrawer
     {
-        private bool m_ThemeModuleToggle = false;
         public override string ClassName { get { return "Theme"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {

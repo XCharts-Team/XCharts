@@ -510,37 +510,5 @@ namespace XCharts
         {
             return base.GetHashCode();
         }
-
-        internal virtual void SetVerticesDirty()
-        {
-            m_VertsDirty = true;
-        }
-
-        internal virtual void ClearVerticesDirty()
-        {
-            m_VertsDirty = false;
-        }
-
-        internal virtual void SetComponentDirty()
-        {
-            m_ComponentDirty = true;
-        }
-
-        internal virtual void ClearComponentDirty()
-        {
-            m_ComponentDirty = false;
-        }
-
-        public virtual void ClearDirty()
-        {
-            ClearVerticesDirty();
-            ClearComponentDirty();
-        }
-
-        public virtual void SetAllDirty()
-        {
-            SetVerticesDirty();
-            SetComponentDirty();
-        }
     }
 }

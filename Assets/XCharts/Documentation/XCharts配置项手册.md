@@ -879,6 +879,8 @@ K线图系列。
 * `inside`：坐标轴刻度是否朝内，默认朝外。
 * `length`：坐标轴刻度的长度。
 * `width`：坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
+* `showStartTick`：是否显示第一个刻度。
+* `showEndTick`：是否显示最后一个刻度。
 
 ## `Emphasis`
 

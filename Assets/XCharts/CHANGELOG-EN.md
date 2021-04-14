@@ -34,6 +34,9 @@
 
 ## Latest
 
+* (2021.04.13) Add the `ShowStarttick` and '`ShowEndTick` parameters of 'AxisTick' to control whether the first and last ticks are displayed
+* (2021.04.13) Improved multi-axis support #132
+
 ## v2.1.1
 
 * (2021.04.13) Define the code and clear `Warning`

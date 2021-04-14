@@ -59,6 +59,8 @@ namespace XCharts
             base.DrawExtendeds(prop);
             PropertyField(prop, "m_AlignWithLabel");
             PropertyField(prop, "m_Inside");
+            PropertyField(prop, "m_ShowStartTick");
+            PropertyField(prop, "m_ShowEndTick");
         }
     }
 

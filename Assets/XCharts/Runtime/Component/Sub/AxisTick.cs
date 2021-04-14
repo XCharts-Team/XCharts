@@ -19,6 +19,8 @@ namespace XCharts
     {
         [SerializeField] private bool m_AlignWithLabel;
         [SerializeField] private bool m_Inside;
+        [SerializeField] private bool m_ShowStartTick;
+        [SerializeField] private bool m_ShowEndTick;
 
         /// <summary>
         /// Align axis tick with label, which is available only when boundaryGap is set to be true in category axis.
@@ -38,6 +40,24 @@ namespace XCharts
             get { return m_Inside; }
             set { if (PropertyUtil.SetStruct(ref m_Inside, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// Whether to display the first tick.
+        /// 是否显示第一个刻度。
+        /// </summary>
+        public bool showStartTick
+        {
+            get { return m_ShowStartTick; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowStartTick, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to display the last tick.
+        /// 是否显示最后一个刻度。
+        /// </summary>
+        public bool showEndTick
+        {
+            get { return m_ShowEndTick; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowEndTick, value)) SetVerticesDirty(); }
+        }
 
         public static AxisTick defaultTick
         {
@@ -48,6 +68,8 @@ namespace XCharts
                     m_Show = true,
                     m_AlignWithLabel = false,
                     m_Inside = false,
+                    m_ShowStartTick = false,
+                    m_ShowEndTick = true
                 };
                 return tick;
             }
@@ -59,6 +81,8 @@ namespace XCharts
             axisTick.show = show;
             axisTick.alignWithLabel = alignWithLabel;
             axisTick.inside = inside;
+            axisTick.showStartTick = showStartTick;
+            axisTick.showEndTick = showEndTick;
             axisTick.lineStyle = lineStyle.Clone();
             return axisTick;
         }
@@ -68,6 +92,8 @@ namespace XCharts
             show = axisTick.show;
             alignWithLabel = axisTick.alignWithLabel;
             inside = axisTick.inside;
+            showStartTick = axisTick.showStartTick;
+            showEndTick = axisTick.showEndTick;
         }
     }
 }

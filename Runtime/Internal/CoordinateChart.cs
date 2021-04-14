@@ -826,13 +826,14 @@ namespace XCharts
             {
                 posX = startX - yAxis.axisLabel.margin;
             }
+            posX += yAxis.offset;
             return new Vector3(posX, grid.runtimeY + scaleWid, 0);
         }
 
         private Vector3 GetLabelXPosition(float scaleWid, int i, int xAxisIndex, XAxis xAxis)
         {
             var grid = GetAxisGridOrDefault(xAxis);
-            var startY = grid.runtimeY + xAxis.offset + (xAxis.axisLabel.onZero ? m_YAxes[xAxisIndex].runtimeZeroYOffset : 0);
+            var startY = grid.runtimeY + (xAxis.axisLabel.onZero ? m_YAxes[xAxisIndex].runtimeZeroYOffset : 0);
             if (xAxis.IsTop()) startY += grid.runtimeHeight;
             var posY = 0f;
             var inside = xAxis.axisLabel.inside;
@@ -845,6 +846,7 @@ namespace XCharts
             {
                 posY = startY - xAxis.axisLabel.margin - fontSize / 2;
             }
+            posY += xAxis.offset;
             return new Vector3(grid.runtimeX + scaleWid, posY);
         }
 
@@ -1067,15 +1069,22 @@ namespace XCharts
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
-                    float pX = 0;
-                    float pY = totalWidth;
-                    if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel)
+                    if (i == 0 && !yAxis.axisTick.showStartTick)
                     {
-                        pY -= scaleWidth / 2;
+                        totalWidth += scaleWidth;
+                        continue;
                     }
-                    if (yAxis.axisTick.show && i > 0)
+                    if (i == size - 1 && !yAxis.axisTick.showEndTick)
                     {
-                        var startX = grid.runtimeX + GetYAxisOnZeroOffset(yAxis);
+                        totalWidth += scaleWidth;
+                        continue;
+                    }
+                    if (yAxis.axisTick.show)
+                    {
+                        float pX = 0;
+                        float pY = totalWidth;
+                        if (yAxis.boundaryGap && yAxis.axisTick.alignWithLabel) pY -= scaleWidth / 2;
+                        var startX = grid.runtimeX + GetYAxisOnZeroOffset(yAxis) + yAxis.offset;
                         startX -= yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
                         if (yAxis.IsValue() && yAxis.IsRight()) startX += grid.runtimeWidth;
                         bool inside = yAxis.axisTick.inside;
@@ -1176,14 +1185,21 @@ namespace XCharts
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
-                    float pX = totalWidth;
-                    float pY = 0;
-                    if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel)
+                    if (i == 0 && !xAxis.axisTick.showStartTick)
                     {
-                        pX -= scaleWidth / 2;
+                        totalWidth += scaleWidth;
+                        continue;
                     }
-                    if (xAxis.axisTick.show && i > 0)
+                    if (i == size - 1 && !xAxis.axisTick.showEndTick)
                     {
+                        totalWidth += scaleWidth;
+                        continue;
+                    }
+                    if (xAxis.axisTick.show)
+                    {
+                        float pX = totalWidth;
+                        float pY = 0;
+                        if (xAxis.boundaryGap && xAxis.axisTick.alignWithLabel) pX -= scaleWidth / 2;
                         var startY = grid.runtimeY + xAxis.offset - xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
                         if (xAxis.IsTop()) startY += grid.runtimeHeight;
                         else startY += GetXAxisOnZeroOffset(xAxis);

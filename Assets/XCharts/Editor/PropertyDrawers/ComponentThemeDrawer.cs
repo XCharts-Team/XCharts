@@ -92,7 +92,6 @@ namespace XCharts
                 return new List<string> {
                     "m_TextBackgroundColor" ,
                     "m_LineLength",
-                    "m_SplitLineLength",
                 };
             }
         }

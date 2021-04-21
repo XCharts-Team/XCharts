@@ -125,16 +125,17 @@ namespace XCharts
             for (int i = 0; i < chart.series.Count; i++)
             {
                 var serie = chart.series.list[i];
+                if (serie.type != SerieType.Gauge) continue;
                 var serieLabel = serie.gaugeAxis.axisLabel;
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
                 var startAngle = serie.startAngle;
+                var textColor = serieLabel.textStyle.GetColor(chart.theme.gauge.textColor);
                 serie.gaugeAxis.ClearLabelObject();
                 SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
                 for (int j = 0; j < count; j++)
                 {
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
-                    var color = Color.grey;
-                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serieLabel, color, 100, 100, chart.theme);
+                    var labelObj = SerieLabelPool.Get(textName, labelObject.transform, serieLabel, textColor, 100, 100, chart.theme);
                     var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
                     var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
                     var item = new ChartLabel();
@@ -181,9 +182,10 @@ namespace XCharts
                 var value = serie.min + j * diffValue;
                 var pos = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, radius);
                 var text = customLabelText != null && j < customLabelText.Count ? customLabelText[j] :
-                    SerieLabelHelper.GetFormatterContent(serie, serieData, value, totalValue, serie.gaugeAxis.axisLabel);
+                    SerieLabelHelper.GetFormatterContent(serie, serieData, value, totalValue,
+                    serie.gaugeAxis.axisLabel, Color.clear);
                 serie.gaugeAxis.SetLabelObjectText(j, text);
-                serie.gaugeAxis.SetLabelObjectPosition(j, pos);
+                serie.gaugeAxis.SetLabelObjectPosition(j, pos + serie.gaugeAxis.axisLabel.offset);
             }
         }
 

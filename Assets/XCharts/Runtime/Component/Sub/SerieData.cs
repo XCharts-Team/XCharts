@@ -187,7 +187,7 @@ namespace XCharts
         /// 饼图数据项的偏移半径
         /// </summary>
         public float runtimePieOffsetRadius { get; internal set; }
-        public Vector3 runtimePosition { get; internal set; }
+        public Vector3 runtimePosition { get; set; }
         /// <summary>
         /// 绘制区域。
         /// </summary>

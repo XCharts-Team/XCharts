@@ -12,7 +12,7 @@ namespace XCharts
 {
     public static class DateTimeUtil
     {
-        private static readonly DateTime k_DateTime1970 = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+        private static readonly DateTime k_DateTime1970 = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
 
         public static int GetTimestamp()
         {

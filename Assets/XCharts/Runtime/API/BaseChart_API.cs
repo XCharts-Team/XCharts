@@ -719,5 +719,24 @@ namespace XCharts
         {
             return SeriesHelper.ContainsSerie(m_Series, serieType);
         }
+
+        public virtual bool AddDefaultCustomSerie(string serieName)
+        {
+            return false;
+        }
+
+        public virtual string[] GetCustomSerieInspectorShowFileds()
+        {
+            return null;
+        }
+        public virtual string[] GetCustomChartInspectorShowFileds()
+        {
+            return null;
+        }
+
+        public int GetLegendRealShowNameIndex(string name)
+        {
+            return m_LegendRealShowName.IndexOf(name);
+        }
     }
 }

@@ -544,7 +544,8 @@ namespace XCharts
                 {
                     var value = serieData.data[1];
                     var total = serie.yTotal;
-                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
+                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
+                        serieLabel, serieColor);
                     if (serieData.labelObject.SetText(content)) chart.RefreshPainter(serie);
                 }
                 else

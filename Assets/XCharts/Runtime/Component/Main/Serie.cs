@@ -68,6 +68,10 @@ namespace XCharts
         /// 甘特图。甘特图的data至少包含两个数据：[start, end]
         /// </summary>
         Gantt,
+        /// <summary>
+        /// 自定义。
+        /// </summary>
+        Custom,
     }
 
     /// <summary>
@@ -277,6 +281,7 @@ namespace XCharts
 
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
+        [FormerlySerializedAs("m_Gap")]
         [SerializeField] private float m_Space;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
@@ -301,6 +306,10 @@ namespace XCharts
         [SerializeField] private float m_WaveSpeed = 5f;
         [SerializeField] private float m_WaveOffset = 0f;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
+        [SerializeField] private float m_Left;
+        [SerializeField] private float m_Right;
+        [SerializeField] private float m_Top;
+        [SerializeField] private float m_Bottom;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -586,6 +595,11 @@ namespace XCharts
         /// 饼图项间的空隙留白。
         /// </summary>
         public float pieSpace
+        {
+            get { return m_Space; }
+            set { if (PropertyUtil.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
+        }
+        public float gap
         {
             get { return m_Space; }
             set { if (PropertyUtil.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
@@ -882,6 +896,42 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_WaveSpeed, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Distance between component and the left side of the container.
+        /// 组件离容器左侧的距离。
+        /// </summary>
+        public float left
+        {
+            get { return m_Left; }
+            set { if (PropertyUtil.SetStruct(ref m_Left, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Distance between component and the right side of the container.
+        /// 组件离容器右侧的距离。
+        /// </summary>
+        public float right
+        {
+            get { return m_Right; }
+            set { if (PropertyUtil.SetStruct(ref m_Right, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Distance between component and the top side of the container.
+        /// 组件离容器上侧的距离。
+        /// </summary>
+        public float top
+        {
+            get { return m_Top; }
+            set { if (PropertyUtil.SetStruct(ref m_Top, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Distance between component and the bottom side of the container.
+        /// 组件离容器下侧的距离。
+        /// </summary>
+        public float bottom
+        {
+            get { return m_Bottom; }
+            set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -981,6 +1031,10 @@ namespace XCharts
         public Painter runtimeCanvas { get; internal set; }
         internal float runtimeCheckValue { get; set; }
         public int runtimeGridIndex { get; internal set; }
+        public float runtimeX { get; internal set; }
+        public float runtimeY { get; internal set; }
+        public float runtimeWidth { get; internal set; }
+        public float runtimeHeight { get; internal set; }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()

@@ -85,5 +85,47 @@ namespace XCharts
             }
             return true;
         }
+
+        /// <summary>
+        /// 更新运行时中心点和半径
+        /// </summary>
+        /// <param name="chartWidth"></param>
+        /// <param name="chartHeight"></param>
+        public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
+        {
+            if (serie.center.Length < 2) return;
+            var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
+            var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
+            serie.runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
+            var minWidth = Mathf.Min(chartWidth, chartHeight);
+            serie.runtimeInsideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
+            serie.runtimeOutsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
+        }
+
+        public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
+        {
+            if (serie.left != 0 || serie.right != 0 || serie.top != 0 || serie.bottom != 0)
+            {
+                var runtimeLeft = serie.left <= 1 ? serie.left * chartWidth : serie.left;
+                var runtimeBottom = serie.bottom <= 1 ? serie.bottom * chartHeight : serie.bottom;
+                var runtimeTop = serie.top <= 1 ? serie.top * chartHeight : serie.top;
+                var runtimeRight = serie.right <= 1 ? serie.right * chartWidth : serie.right;
+
+                serie.runtimeX = chartPosition.x + runtimeLeft;
+                serie.runtimeY = chartPosition.y + runtimeBottom;
+                serie.runtimeWidth = chartWidth - runtimeLeft - runtimeRight;
+                serie.runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
+                serie.runtimeCenterPos = new Vector3(serie.runtimeX + serie.runtimeWidth / 2,
+                    serie.runtimeY + serie.runtimeHeight / 2);
+            }
+            else
+            {
+                serie.runtimeX = chartPosition.x;
+                serie.runtimeY = chartPosition.y;
+                serie.runtimeWidth = chartWidth;
+                serie.runtimeHeight = chartHeight;
+                serie.runtimeCenterPos = chartPosition + new Vector3(chartWidth / 2, chartHeight / 2);
+            }
+        }
     }
 }

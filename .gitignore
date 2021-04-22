@@ -5,6 +5,7 @@
 /Library
 /Temp
 /Logs
+/obj
 /UnityPackageManager
 /Packages
 /ProjectSettings/XRSettings.asset

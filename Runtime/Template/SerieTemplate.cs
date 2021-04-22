@@ -29,6 +29,7 @@ namespace XCharts
                 case SerieType.Ring: AddDefaultRingSerie(chart, serieName); break;
                 case SerieType.Candlestick: AddDefaultCandlestickSerie(chart, serieName); break;
                 case SerieType.Gantt: AddDefaultCategoryGanttSerie(chart, serieName); break;
+                case SerieType.Custom: chart.AddDefaultCustomSerie(serieName); break;
                 default: Debug.LogError("AddDefaultSerie: not support serieType yet:" + serieType); break;
             }
         }

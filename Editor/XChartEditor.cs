@@ -56,7 +56,7 @@ namespace XCharts
             return name;
         }
 
-        private static void AddChart<T>(string chartName) where T : BaseChart
+        public static void AddChart<T>(string chartName) where T : BaseChart
         {
             var parent = GetParent();
             if (parent == null) return;

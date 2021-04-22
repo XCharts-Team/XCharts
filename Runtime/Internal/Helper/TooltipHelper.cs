@@ -146,7 +146,8 @@ namespace XCharts
                             else
                             {
                                 string content = itemFormatter;
-                                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value, total, serie.name, sd.name);
+                                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value, total, serie.name,
+                                    sd.name, theme.GetColor(i));
                                 sb.Append(content);
                             }
                         }
@@ -180,10 +181,10 @@ namespace XCharts
                     else
                     {
                         string content = itemFormatter2;
-                        FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value2, total2, serie.name, serieData.name);
+                        FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, value2, total2, serie.name,
+                            serieData.name, theme.GetColor(serie.index));
                         sb.Append(content);
                     }
-
                     break;
             }
         }

@@ -208,6 +208,18 @@ namespace XCharts
                         PropertyField(prop, "m_Label");
                         PropertyField(prop, "m_Emphasis");
                         break;
+                    case SerieType.Custom:
+                        var fileds = chart.GetCustomSerieInspectorShowFileds();
+                        if (fileds != null && fileds.Length > 0)
+                        {
+                            foreach (var filed in fileds)
+                            {
+                                PropertyField(prop, filed);
+                            }
+                        }
+                        PropertyField(prop, "m_ItemStyle");
+                        PropertyField(prop, "m_Label");
+                        break;
                 }
                 PropertyField(prop, "m_Animation");
                 DrawData(pos, prop, serieType, ref m_DrawRect);

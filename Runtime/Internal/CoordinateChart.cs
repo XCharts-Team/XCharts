@@ -1697,11 +1697,13 @@ namespace XCharts
                         if (anyPercentStack && isPercentStack)
                         {
                             var tempTotal = GetSameStackTotalValue(serie.stack, j);
-                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, tempTotal, serieLabel);
+                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, tempTotal,
+                                serieLabel, theme.GetColor(i));
                         }
                         else
                         {
-                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
+                            content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
+                                serieLabel, theme.GetColor(i));
                         }
                         serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
                         var invert = serieLabel.autoOffset

@@ -57,6 +57,7 @@ namespace XCharts
         private StringBuilder sb = new StringBuilder();
 
         private bool m_BaseFoldout;
+        private bool m_CustomFoldout;
         protected bool m_ShowAllComponent;
         protected Dictionary<string, bool> m_Flodouts = new Dictionary<string, bool>();
 
@@ -130,7 +131,20 @@ namespace XCharts
                 EditorGUILayout.PropertyField(m_ChartName);
             }
             BlockEnd();
-
+            var fileds = m_Chart.GetCustomChartInspectorShowFileds();
+            if (fileds != null && fileds.Length > 0)
+            {
+                BlockStart();
+                m_CustomFoldout = EditorGUILayout.Foldout(m_CustomFoldout, "Custom", true);
+                if (m_CustomFoldout)
+                {
+                    foreach (var filed in fileds)
+                    {
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty(filed));
+                    }
+                }
+                BlockEnd();
+            }
             BlockField(m_Theme);
             BlockField(m_Settings);
             BlockField(m_Background);

@@ -6,11 +6,10 @@
 /************************************************/
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class SerieLabelHelper
+    public static class SerieLabelHelper
     {
         public static void CheckLabel(Serie serie, ref bool m_ReinitLabel, ref bool m_UpdateLabelText)
         {
@@ -90,7 +89,7 @@ namespace XCharts
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,
-            float dataValue, float dataTotal, SerieLabel serieLabel = null)
+            float dataValue, float dataTotal, SerieLabel serieLabel, Color color)
         {
             if (serieLabel == null)
             {
@@ -105,7 +104,7 @@ namespace XCharts
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, dataValue,
-                    dataTotal, serieName, dataName);
+                    dataTotal, serieName, dataName, color);
                 return content;
             }
         }
@@ -117,7 +116,7 @@ namespace XCharts
             if (serieData.labelObject == null) return;
             var value = serieData.GetData(1);
             var total = serie.max;
-            var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
+            var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
             serieData.labelObject.SetText(content);
             serieData.labelObject.SetLabelPosition(serie.runtimeCenterPos + serie.label.offset);
             if (!ChartHelper.IsClearColor(serie.label.textStyle.color))
@@ -141,7 +140,7 @@ namespace XCharts
                     }
                     var value = serieData.GetData(0);
                     var total = serieData.GetData(1);
-                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
+                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
                     serieData.SetLabelActive(true);
                     serieData.labelObject.SetText(content);
                     serieData.labelObject.SetLabelColor(GetLabelColor(serie, theme, i));
@@ -176,7 +175,7 @@ namespace XCharts
                 }
                 var value = serieData.GetData(1);
                 var total = serie.max - serie.min;
-                var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total);
+                var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
                 serieData.SetLabelActive(true);
                 serieData.labelObject.SetText(content);
                 serieData.labelObject.SetLabelColor(GetLabelColor(serie, theme, colorIndex));
@@ -295,7 +294,7 @@ namespace XCharts
             }
         }
 
-        internal static Vector3 GetRealLabelPosition(SerieData serieData, SerieLabel label)
+        public static Vector3 GetRealLabelPosition(SerieData serieData, SerieLabel label)
         {
             if (label.position == SerieLabel.Position.Outside && label.lineType != SerieLabel.LineType.HorizontalLine)
             {

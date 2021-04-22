@@ -23,8 +23,8 @@ namespace XCharts
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-d](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"([a-d])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-d|\.](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-d])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}。
@@ -214,7 +214,7 @@ namespace XCharts
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, float value, float total,
-            string serieName, string dataName)
+            string serieName, string dataName, Color color)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -228,7 +228,11 @@ namespace XCharts
                 {
                     numericFormatter = args[1].ToString();
                 }
-                if (p == 'a' || p == 'A')
+                if (p == '.')
+                {
+                    content = content.Replace(old, ChartCached.ColorToDotStr(color));
+                }
+                else if (p == 'a' || p == 'A')
                 {
                     content = content.Replace(old, serieName);
                 }

@@ -86,7 +86,7 @@ namespace XCharts
         protected GameObject m_SerieLabelRoot;
         private Theme m_CheckTheme = 0;
 
-        private List<IDrawSerie> m_DrawSeries = new List<IDrawSerie>();
+        protected List<IDrawSerie> m_DrawSeries = new List<IDrawSerie>();
 
         protected override void InitComponent()
         {
@@ -170,13 +170,13 @@ namespace XCharts
             m_Painter.Refresh();
         }
 
-        internal void RefreshPainter(int index)
+        public void RefreshPainter(int index)
         {
             var painter = GetPainter(index);
             RefreshPainter(painter);
         }
 
-        internal void RefreshPainter(Serie serie)
+        public void RefreshPainter(Serie serie)
         {
             RefreshPainter(GetPainterIndexBySerie(serie));
         }

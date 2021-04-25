@@ -34,6 +34,9 @@
 
 ## Latest
 
+* (2021.04.26) Added support for `Barchart` to draw gradient borders
+* (2021.04.23) Added support for custom charts
+* (2021.04.22) Fixed bug where `Gauge` `axisLabel`'s text color could not be adjusted
 * (2021.04.13) Add the `ShowStarttick` and '`ShowEndTick` parameters of 'AxisTick' to control whether the first and last ticks are displayed
 * (2021.04.13) Improved multi-axis support #132
 

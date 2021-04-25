@@ -5,7 +5,6 @@
 /*                                              */
 /************************************************/
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,6 +32,7 @@ namespace XCharts
                 PropertyField(prop, "m_BorderWidth");
                 PropertyField(prop, "m_BorderColor");
                 PropertyField(prop, "m_BorderColor0");
+                PropertyField(prop, "m_BorderToColor");
                 PropertyField(prop, "m_Opacity");
                 PropertyField(prop, "m_TooltipFormatter");
                 PropertyField(prop, "m_NumericFormatter");

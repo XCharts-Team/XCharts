@@ -1,9 +1,9 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
+/******************************************/
+/*                                        */
+/*     Copyright (c) 2020 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -477,7 +477,7 @@ namespace XUGL
             vh.AddUIVertexQuad(s_Vertex);
         }
 
-        private static void InitCornerRadius(float[] cornerRadius, float width, float height, bool isYAxis,
+        private static void InitCornerRadius(float[] cornerRadius, float width, float height, bool horizontal,
             ref float brLt, ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
         {
             if (cornerRadius == null) return;
@@ -498,7 +498,7 @@ namespace XUGL
                 if (brRt > 0 && brRt <= 1) brRt = brRt * min;
                 if (brRb > 0 && brRb <= 1) brRb = brRb * min;
                 if (brLb > 0 && brLb <= 1) brLb = brLb * min;
-                if (isYAxis)
+                if (horizontal)
                 {
                     if (brLb + brLt >= height)
                     {
@@ -807,8 +807,28 @@ namespace XUGL
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
-            float smoothness = 1f)
+            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null,
+            bool horizontal = false, float smoothness = 1f)
+        {
+            DrawBorder(vh, center, rectWidth, rectHeight, borderWidth, color, s_ClearColor32, rotate,
+                cornerRadius, horizontal, smoothness);
+        }
+
+        /// <summary>
+        /// 绘制（圆角）边框
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="rectWidth"></param>
+        /// <param name="rectHeight"></param>
+        /// <param name="borderWidth"></param>
+        /// <param name="color"></param>
+        /// <param name="toColor"></param>
+        /// <param name="rotate"></param>
+        /// <param name="cornerRadius"></param>
+        public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
+            float borderWidth, Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null,
+            bool horizontal = false, float smoothness = 1f)
         {
             if (borderWidth == 0 || UGLHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
@@ -823,9 +843,13 @@ namespace XUGL
             var rbOt = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, ref brLt, ref brRt, ref brRb,
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, horizontal, ref brLt, ref brRt, ref brRb,
                 ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
+            if (UGLHelper.IsClearColor(toColor))
+            {
+                toColor = color;
+            }
             if (needRound)
             {
                 var lbIn2 = lbIn;
@@ -839,7 +863,8 @@ namespace XUGL
                 if (brLt > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, s_ClearColor32, 270, 360, smoothness);
+                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, horizontal ? color : toColor, s_ClearColor32,
+                        270, 360, smoothness);
                     ltIn = tempCenter + brLt * Vector3.left;
                     ltOt = tempCenter + (brLt + borderWidth) * Vector3.left;
                     ltIn2 = tempCenter + brLt * Vector3.up;
@@ -848,7 +873,7 @@ namespace XUGL
                 if (brRt > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, s_ClearColor32, 0, 90, smoothness);
+                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, toColor, s_ClearColor32, 0, 90, smoothness);
                     rtIn = tempCenter + brRt * Vector3.up;
                     rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
                     rtIn2 = tempCenter + brRt * Vector3.right;
@@ -857,7 +882,8 @@ namespace XUGL
                 if (brRb > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, s_ClearColor32, 90, 180, smoothness);
+                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, horizontal ? toColor : color, s_ClearColor32,
+                        90, 180, smoothness);
                     rbIn = tempCenter + brRb * Vector3.right;
                     rbOt = tempCenter + (brRb + borderWidth) * Vector3.right;
                     rbIn2 = tempCenter + brRb * Vector3.down;
@@ -872,10 +898,20 @@ namespace XUGL
                     lbIn2 = tempCenter + brLb * Vector3.down;
                     lbOt2 = tempCenter + (brLb + borderWidth) * Vector3.down;
                 }
-                DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color);
-                DrawQuadrilateral(vh, ltIn2, ltOt2, rtOt, rtIn, color);
-                DrawQuadrilateral(vh, rtIn2, rtOt2, rbOt, rbIn, color);
-                DrawQuadrilateral(vh, rbIn2, rbOt2, lbOt2, lbIn2, color);
+                if (horizontal)
+                {
+                    DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color, color);
+                    DrawQuadrilateral(vh, ltIn2, ltOt2, rtOt, rtIn, color, toColor);
+                    DrawQuadrilateral(vh, rtIn2, rtOt2, rbOt, rbIn, toColor, toColor);
+                    DrawQuadrilateral(vh, rbIn2, rbOt2, lbOt2, lbIn2, toColor, color);
+                }
+                else
+                {
+                    DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color, toColor);
+                    DrawQuadrilateral(vh, ltIn2, ltOt2, rtOt, rtIn, toColor, toColor);
+                    DrawQuadrilateral(vh, rtIn2, rtOt2, rbOt, rbIn, toColor, color);
+                    DrawQuadrilateral(vh, rbIn2, rbOt2, lbOt2, lbIn2, color, color);
+                }
             }
             else
             {
@@ -890,10 +926,20 @@ namespace XUGL
                     rbIn = UGLHelper.RotateRound(rbIn, center, Vector3.forward, rotate);
                     rbOt = UGLHelper.RotateRound(rbOt, center, Vector3.forward, rotate);
                 }
-                DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color);
-                DrawQuadrilateral(vh, ltIn, ltOt, rtOt, rtIn, color);
-                DrawQuadrilateral(vh, rtIn, rtOt, rbOt, rbIn, color);
-                DrawQuadrilateral(vh, rbIn, rbOt, lbOt, lbIn, color);
+                if (horizontal)
+                {
+                    DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color, color);
+                    DrawQuadrilateral(vh, ltIn, ltOt, rtOt, rtIn, color, toColor);
+                    DrawQuadrilateral(vh, rtIn, rtOt, rbOt, rbIn, toColor, toColor);
+                    DrawQuadrilateral(vh, rbIn, rbOt, lbOt, lbIn, toColor, color);
+                }
+                else
+                {
+                    DrawQuadrilateral(vh, lbIn, lbOt, ltOt, ltIn, color, toColor);
+                    DrawQuadrilateral(vh, ltIn, ltOt, rtOt, rtIn, toColor, toColor);
+                    DrawQuadrilateral(vh, rtIn, rtOt, rbOt, rbIn, toColor, color);
+                    DrawQuadrilateral(vh, rbIn, rbOt, lbOt, lbIn, color, color);
+                }
             }
         }
 

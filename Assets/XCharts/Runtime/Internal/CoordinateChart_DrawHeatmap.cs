@@ -137,6 +137,8 @@ namespace XCharts
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
             var borderColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderColor : ChartConst.clearColor32;
             borderColor.a = (byte)(borderColor.a * serie.itemStyle.opacity);
+            var borderToColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderToColor : ChartConst.clearColor32;
+            borderToColor.a = (byte)(borderToColor.a * serie.itemStyle.opacity);
             serie.dataPoints.Clear();
             serie.animation.InitProgress(1, 0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -175,8 +177,8 @@ namespace XCharts
                     }
                     if (animationIndex >= 0 && i > animationIndex) continue;
                     serieData.canShowLabel = true;
-                    var emphasis = (tooltip.show 
-                        && i == (int)tooltip.runtimeXValues[0] 
+                    var emphasis = (tooltip.show
+                        && i == (int)tooltip.runtimeXValues[0]
                         && j == (int)tooltip.runtimeYValues[0])
                         || visualMap.runtimeSelectedIndex > 0;
                     var rectWid = xWidth - 2 * borderWidth;
@@ -184,15 +186,18 @@ namespace XCharts
                     UGL.DrawRectangle(vh, pos, rectWid / 2, rectHig / 2, color);
                     if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
                     {
-                        UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor);
+                        UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
                     }
-                    if (visualMap.hoverLink && emphasis && serie.emphasis.show 
+                    if (visualMap.hoverLink && emphasis && serie.emphasis.show
                         && serie.emphasis.itemStyle.borderWidth > 0)
                     {
                         var emphasisBorderWidth = serie.emphasis.itemStyle.borderWidth;
-                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0 
+                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0
                             ? serie.emphasis.itemStyle.borderColor : ChartConst.clearColor32;
-                        UGL.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor);
+                        var emphasisBorderToColor = serie.emphasis.itemStyle.opacity > 0
+                            ? serie.emphasis.itemStyle.borderToColor : ChartConst.clearColor32;
+                        UGL.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor,
+                            emphasisBorderToColor);
                     }
                 }
             }

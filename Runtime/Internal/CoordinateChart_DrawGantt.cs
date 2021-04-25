@@ -146,8 +146,8 @@ namespace XCharts
             }
             if (borderWidth != 0)
             {
-                UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor, 0,
-                              itemStyle.cornerRadius, true, 0.5f);
+                UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
+                    itemStyle.borderToColor, 0, itemStyle.cornerRadius, true, 0.5f);
             }
             return new Rect(plb.x, plb.y, xEnd - xStart, barWidth);
         }

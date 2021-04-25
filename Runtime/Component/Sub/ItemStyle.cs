@@ -48,6 +48,7 @@ namespace XCharts
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color32 m_BorderColor;
         [SerializeField] private Color32 m_BorderColor0;
+        [SerializeField] private Color32 m_BorderToColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
         [SerializeField] private string m_NumericFormatter = "";
@@ -68,6 +69,7 @@ namespace XCharts
             m_BorderWidth = 0;
             m_BorderColor = Color.clear;
             m_BorderColor0 = Color.clear;
+            m_BorderToColor = Color.clear;
             m_Opacity = 1;
             m_TooltipFormatter = null;
             m_NumericFormatter = "";
@@ -179,6 +181,14 @@ namespace XCharts
         {
             get { return m_BorderColor0; }
             set { if (PropertyUtil.SetColor(ref m_BorderColor0, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 边框的渐变色。
+        /// </summary>
+        public Color32 borderToColor
+        {
+            get { return m_BorderToColor; }
+            set { if (PropertyUtil.SetColor(ref m_BorderToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框宽。

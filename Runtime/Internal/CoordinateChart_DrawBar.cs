@@ -106,8 +106,8 @@ namespace XCharts
                 else
                 {
                     plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig - borderWidth , pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig - borderWidth , pY + space + borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
                     plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
                 }
                 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
@@ -301,7 +301,6 @@ namespace XCharts
                     plt = ClampInGrid(grid, plt);
                     prt = ClampInGrid(grid, prt);
                 }
-                var borderColor = itemStyle.borderColor;
                 var itemWidth = Mathf.Abs(prb.x - plt.x);
                 var itemHeight = Mathf.Abs(prt.y - plb.y);
                 var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
@@ -316,8 +315,8 @@ namespace XCharts
                     {
                         CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip, grid);
                     }
-                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0,
-                        itemStyle.cornerRadius, isYAxis);
+                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
+                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
             else
@@ -329,7 +328,6 @@ namespace XCharts
                     plt = ClampInGrid(grid, plt);
                     prt = ClampInGrid(grid, prt);
                 }
-                var borderColor = itemStyle.borderColor;
                 var itemWidth = Mathf.Abs(prt.x - plb.x);
                 var itemHeight = Mathf.Abs(plt.y - prb.y);
                 var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
@@ -345,8 +343,8 @@ namespace XCharts
                         CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor,
                             serie.clip, grid);
                     }
-                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0,
-                        itemStyle.cornerRadius, isYAxis);
+                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
+                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
         }

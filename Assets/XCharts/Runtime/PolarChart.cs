@@ -27,6 +27,9 @@ namespace XCharts
         protected override void InitComponent()
         {
             base.InitComponent();
+            if (m_Polars.Count == 0) m_Polars = new List<Polar>() { Polar.defaultPolar };
+            if (m_RadiusAxes.Count == 0) m_RadiusAxes = new List<RadiusAxis>() { RadiusAxis.defaultRadiusAxis };
+            if (m_AngleAxes.Count == 0) m_AngleAxes = new List<AngleAxis>() { AngleAxis.defaultAngleAxis };
             CheckMinMaxValue();
             UpdateRuntimeValue();
             InitPolars();
@@ -40,9 +43,9 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Polars = new List<Polar>() { Polar.defaultPolar };
-            m_RadiusAxes = new List<RadiusAxis>() { RadiusAxis.defaultRadiusAxis };
-            m_AngleAxes = new List<AngleAxis>() { AngleAxis.defaultAngleAxis };
+            m_Polars.Clear();
+            m_RadiusAxes.Clear();
+            m_AngleAxes.Clear();
             title.text = "PolarChart";
             tooltip.type = Tooltip.Type.Corss;
             RemoveData();

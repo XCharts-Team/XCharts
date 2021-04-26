@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.04.26) Fixed dynamically creating chart at runtime would be abnormal #137
 * (2021.04.26) Added support for `Barchart` to draw gradient borders
 * (2021.04.23) Added support for custom charts
 * (2021.04.22) Fixed bug where `Gauge` `axisLabel`'s text color could not be adjusted

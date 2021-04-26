@@ -107,6 +107,11 @@ namespace XCharts
 
         protected override void Awake()
         {
+            if (m_Settings == null) m_Settings = Settings.DefaultSettings;
+            if (m_Series == null) m_Series = Series.defaultSeries; ;
+            if (m_Titles.Count == 0) m_Titles = new List<Title>() { Title.defaultTitle };
+            if (m_Legends.Count == 0) m_Legends = new List<Legend>() { Legend.defaultLegend };
+            if (m_Tooltips.Count == 0) m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
             CheckTheme();
             base.Awake();
             m_Series.AnimationReset();
@@ -118,23 +123,18 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Theme = ChartTheme.Default;
-            m_Settings = Settings.DefaultSettings;
-            m_Titles = new List<Title>() { Title.defaultTitle };
-            m_Legends = new List<Legend>() { Legend.defaultLegend };
-            m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
-
+            m_Theme = null;
+            m_Settings = null;
+            m_Series = null;
+            m_Titles.Clear();
+            m_Legends.Clear();
+            m_Tooltips.Clear();
             var sizeDelta = rectTransform.sizeDelta;
             if (sizeDelta.x < 580 && sizeDelta.y < 300)
             {
                 rectTransform.sizeDelta = new Vector2(580, 300);
             }
             ChartHelper.HideAllObject(transform);
-            m_Theme = ChartTheme.Default;
-            m_Titles = new List<Title>() { Title.defaultTitle };
-            m_Legends = new List<Legend>() { Legend.defaultLegend };
-            m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
-            m_Series = Series.defaultSeries;
             Awake();
         }
 #endif

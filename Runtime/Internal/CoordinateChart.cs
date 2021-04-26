@@ -30,6 +30,9 @@ namespace XCharts
         protected override void InitComponent()
         {
             base.InitComponent();
+            if (m_Grids.Count == 0) m_Grids = new List<Grid>() { Grid.defaultGrid };
+            if (m_DataZooms.Count == 0) m_DataZooms = new List<DataZoom>() { DataZoom.defaultDataZoom };
+            if (m_VisualMaps.Count == 0) m_VisualMaps = new List<VisualMap> { new VisualMap() };
             InitDefaultAxes();
             CheckMinMaxValue();
             InitGrid();
@@ -52,9 +55,9 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            m_Grids = new List<Grid>() { Grid.defaultGrid };
-            m_DataZooms = new List<DataZoom>() { DataZoom.defaultDataZoom };
-            m_VisualMaps = new List<VisualMap> { new VisualMap() };
+            m_Grids.Clear();
+            m_DataZooms.Clear();
+            m_VisualMaps.Clear();
             m_XAxes.Clear();
             m_YAxes.Clear();
             Awake();
@@ -887,13 +890,13 @@ namespace XCharts
                 if (tempMinValue != 0 || tempMaxValue != 0)
                 {
                     var grid = GetAxisGridOrDefault(axis);
-                    if (axis is XAxis && axis.IsValue())
+                    if (grid != null && axis is XAxis && axis.IsValue())
                     {
                         axis.runtimeZeroXOffset = axis.runtimeMinValue > 0 ? 0 :
                             axis.runtimeMaxValue < 0 ? grid.runtimeWidth :
                             Mathf.Abs(axis.runtimeMinValue) * (grid.runtimeWidth / (Mathf.Abs(axis.runtimeMinValue) + Mathf.Abs(axis.runtimeMaxValue)));
                     }
-                    if (axis is YAxis && axis.IsValue())
+                    if (grid != null && axis is YAxis && axis.IsValue())
                     {
                         axis.runtimeZeroYOffset = axis.runtimeMinValue > 0 ? 0 :
                             axis.runtimeMaxValue < 0 ? grid.runtimeHeight :
@@ -941,6 +944,7 @@ namespace XCharts
         protected void UpdateAxisLabelText(Axis axis)
         {
             var grid = GetAxisGridOrDefault(axis);
+            if (grid == null || axis == null) return;
             float runtimeWidth = axis is XAxis ? grid.runtimeWidth : grid.runtimeHeight;
             var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
             axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack, 500);
@@ -1020,6 +1024,7 @@ namespace XCharts
             if (AxisHelper.NeedShowSplit(yAxis))
             {
                 var grid = GetAxisGridOrDefault(yAxis);
+                if (grid == null) return;
                 var size = AxisHelper.GetScaleNumber(yAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeY;
                 var xAxis = GetRelatedXAxis(yAxis);
@@ -1135,6 +1140,7 @@ namespace XCharts
             if (AxisHelper.NeedShowSplit(xAxis))
             {
                 var grid = GetAxisGridOrDefault(xAxis);
+                if (grid == null) return;
                 var size = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeX;
                 var yAxis = m_YAxes[xAxisIndex];
@@ -2078,7 +2084,7 @@ namespace XCharts
             else return grid;
         }
 
-        protected Grid GetSerieGridOrDefault(Serie serie)
+        public Grid GetSerieGridOrDefault(Serie serie)
         {
             var xAxis = GetSerieXAxisOrDefault(serie);
             var yAxis = GetSerieYAxisOrDefault(serie);

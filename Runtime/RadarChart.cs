@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -15,12 +16,18 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class RadarChart : BaseChart
     {
+        protected override void InitComponent()
+        {
+            base.InitComponent();
+            if (m_Radars.Count == 0) m_Radars = new List<Radar>() { Radar.defaultRadar };
+        }
+
 #if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
             RemoveData();
-            m_Radars.Add(Radar.defaultRadar);
+            m_Radars.Clear();
             title.text = "RadarChart";
             SerieTemplate.AddDefaultRadarSerie(this, "serie1");
         }

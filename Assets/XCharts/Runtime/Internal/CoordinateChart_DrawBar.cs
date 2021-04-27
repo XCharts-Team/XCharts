@@ -583,7 +583,7 @@ namespace XCharts
 
         public float Internal_GetBarGap()
         {
-            float gap = 0.3f;
+            float gap = 0f;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
@@ -675,7 +675,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
-                if (serie.type != SerieType.Bar || serie.type == SerieType.Custom) continue;
+                if (serie.type != SerieType.Bar && serie.type != SerieType.Custom) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
                     if (serie.index == currSerie.index) return index;

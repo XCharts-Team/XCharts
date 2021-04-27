@@ -1005,10 +1005,9 @@ namespace XCharts
             }
         }
 
-        public static Color32 GetHighlightColor(Color32 color)
+        public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
-            var rate = 0.8f;
             newColor.r = (byte)(color.r * rate);
             newColor.g = (byte)(color.g * rate);
             newColor.b = (byte)(color.b * rate);

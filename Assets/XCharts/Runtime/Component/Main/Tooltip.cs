@@ -471,6 +471,7 @@ namespace XCharts
         /// <returns></returns>
         public bool IsDataIndexChanged()
         {
+            if (runtimeDataIndex.Count < 2 || lastDataIndex.Count < 2) return false;
             return runtimeDataIndex[0] != lastDataIndex[0] ||
                 runtimeDataIndex[1] != lastDataIndex[1];
         }

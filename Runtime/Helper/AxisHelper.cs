@@ -213,7 +213,7 @@ namespace XCharts
             int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (axis.IsCategory())
             {
-                var data = axis.GetDataList();
+                var data = axis.GetDataList(dataZoom);
                 int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
                 if (axis.boundaryGap)
                     return Mathf.CeilToInt(data.Count * 1.0f / tick) + 1;
@@ -246,7 +246,7 @@ namespace XCharts
             }
             else
             {
-                var data = axis.GetDataList();
+                var data = axis.GetDataList(dataZoom);
                 if (axis.IsCategory() && data.Count > 0)
                 {
                     int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
@@ -270,7 +270,7 @@ namespace XCharts
 
         public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
-            var data = axis.GetDataList();
+            var data = axis.GetDataList(dataZoom);
             if (data.Count > 0)
             {
                 var count = axis.boundaryGap ? data.Count : data.Count - 1;

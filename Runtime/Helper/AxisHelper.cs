@@ -124,7 +124,7 @@ namespace XCharts
         /// <param name="maxValue"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        internal static string GetLabelName(Axis axis, float coordinateWidth, int index, float minValue, float maxValue,
+        public static string GetLabelName(Axis axis, float coordinateWidth, int index, float minValue, float maxValue,
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
@@ -208,7 +208,7 @@ namespace XCharts
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        internal static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
+        public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
             int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (axis.IsCategory())
@@ -232,7 +232,7 @@ namespace XCharts
         /// <param name="coordinateWidth"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        internal static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)
+        public static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)
         {
             if (index < 0) return 0;
             int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
@@ -268,7 +268,7 @@ namespace XCharts
             }
         }
 
-        internal static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
+        public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
             var data = axis.GetDataList();
             if (data.Count > 0)
@@ -288,7 +288,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        internal static void AdjustMinMaxValue(Axis axis, ref float minValue, ref float maxValue, bool needFormat, int ceilRate = 0)
+        public static void AdjustMinMaxValue(Axis axis, ref float minValue, ref float maxValue, bool needFormat, int ceilRate = 0)
         {
             if (axis.type == Axis.AxisType.Log)
             {
@@ -357,7 +357,7 @@ namespace XCharts
             }
         }
 
-        internal static bool NeedShowSplit(Axis axis)
+        public static bool NeedShowSplit(Axis axis)
         {
             if (!axis.show) return false;
             if (axis.IsCategory() && axis.GetDataList().Count <= 0) return false;
@@ -365,7 +365,7 @@ namespace XCharts
             else return true;
         }
 
-        internal static void AdjustCircleLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        public static void AdjustCircleLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
         {
             var txtWidth = txt.GetPreferredWidth();
             var sizeDelta = new Vector2(txtWidth, txt.GetPreferredHeight());
@@ -387,7 +387,7 @@ namespace XCharts
             txt.SetLocalPosition(pos + offset);
         }
 
-        internal static void AdjustRadiusAxisLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        public static void AdjustRadiusAxisLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
         {
             var txtWidth = txt.GetPreferredWidth();
             var sizeDelta = new Vector2(txtWidth, txt.GetPreferredHeight());

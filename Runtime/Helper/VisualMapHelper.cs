@@ -68,7 +68,7 @@ namespace XCharts
             }
         }
 
-        internal static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
         {
             float value = 0;
             switch (visualMap.direction)
@@ -102,7 +102,7 @@ namespace XCharts
             else return color;
         }
 
-        internal static Color32 GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;
@@ -114,7 +114,7 @@ namespace XCharts
             else return color;
         }
 
-        internal static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;

@@ -1702,7 +1702,7 @@ namespace XCharts
                         var content = "";
                         if (anyPercentStack && isPercentStack)
                         {
-                            var tempTotal = GetSameStackTotalValue(serie.stack, j);
+                            var tempTotal = Internal_GetBarSameStackTotalValue(serie.stack, j);
                             content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, tempTotal,
                                 serieLabel, theme.GetColor(i));
                         }
@@ -1958,13 +1958,13 @@ namespace XCharts
             RefreshChart();
         }
 
-        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+        public void Internal_CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 color, bool clip, Grid grid)
         {
-            CheckClipAndDrawPolygon(vh, p1, p2, p3, p4, color, color, clip, grid);
+            Internal_CheckClipAndDrawPolygon(vh, p1, p2, p3, p4, color, color, clip, grid);
         }
 
-        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
+        public void Internal_CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p, float radius, Color32 color,
             bool clip, bool vertical, Grid grid)
         {
             if (!IsInChart(p)) return;
@@ -1972,7 +1972,7 @@ namespace XCharts
                 UGL.DrawSquare(vh, p, radius, color);
         }
 
-        protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+        public void Internal_CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 startColor, Color32 toColor, bool clip, Grid grid)
         {
             ClampInChart(ref p1);
@@ -1990,7 +1990,7 @@ namespace XCharts
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, toColor);
         }
 
-        protected void CheckClipAndDrawPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
+        public void Internal_CheckClipAndDrawPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
            Color32 startColor, Color32 toColor, bool clip, Grid grid)
         {
             ClampInChart(ref p1);
@@ -2009,13 +2009,13 @@ namespace XCharts
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, toColor);
         }
 
-        protected void CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color32 color,
+        public void Internal_CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color32 color,
             bool clip, Grid grid)
         {
-            CheckClipAndDrawTriangle(vh, p1, p2, p3, color, color, color, clip, grid);
+            Internal_CheckClipAndDrawTriangle(vh, p1, p2, p3, color, color, color, clip, grid);
         }
 
-        protected void CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color32 color,
+        public void Internal_CheckClipAndDrawTriangle(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Color32 color,
             Color32 color2, Color32 color3, bool clip, Grid grid)
         {
             if (!IsInChart(p1) || !IsInChart(p2) || !IsInChart(p3)) return;
@@ -2023,7 +2023,7 @@ namespace XCharts
                 UGL.DrawTriangle(vh, p1, p2, p3, color, color2, color3);
         }
 
-        protected void CheckClipAndDrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
+        public void Internal_CheckClipAndDrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
             bool clip, Grid grid)
         {
             if (!IsInChart(p1) || !IsInChart(p2)) return;
@@ -2031,7 +2031,7 @@ namespace XCharts
                 UGL.DrawLine(vh, p1, p2, size, color);
         }
 
-        protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize, float tickness,
+        public void Internal_CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize, float tickness,
             Vector3 pos, Color32 color, Color32 toColor, float gap, bool clip, float[] cornerRadius, Grid grid)
         {
             if (!IsInChart(pos)) return;
@@ -2039,7 +2039,7 @@ namespace XCharts
                 DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius);
         }
 
-        protected void CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
+        public void Internal_CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
             float zebraGap, Color32 color, bool clip, Grid grid)
         {
             ClampInChart(ref p1);
@@ -2059,7 +2059,7 @@ namespace XCharts
             return Color32.Lerp(areaToColor, areaColor, (pos.x - grid.runtimeX) / grid.runtimeWidth);
         }
 
-        internal Grid GetAxisGridOrDefault(Axis axis)
+        public Grid GetAxisGridOrDefault(Axis axis)
         {
             var index = axis.gridIndex;
             if (index >= 0 && index < m_Grids.Count)
@@ -2076,7 +2076,7 @@ namespace XCharts
             }
         }
 
-        protected Grid GetDataZoomGridOrDefault(DataZoom dataZoom)
+        public Grid GetDataZoomGridOrDefault(DataZoom dataZoom)
         {
             var xAxis = GetXAxis(dataZoom.xAxisIndexs[0]);
             Grid grid = GetGrid(xAxis.gridIndex);
@@ -2106,7 +2106,7 @@ namespace XCharts
             return grid;
         }
 
-        protected XAxis GetSerieXAxisOrDefault(Serie serie)
+        public XAxis GetSerieXAxisOrDefault(Serie serie)
         {
             var axis = GetXAxis(serie.xAxisIndex);
             if (axis == null)
@@ -2117,7 +2117,7 @@ namespace XCharts
             return axis;
         }
 
-        protected YAxis GetSerieYAxisOrDefault(Serie serie)
+        public YAxis GetSerieYAxisOrDefault(Serie serie)
         {
             var axis = GetYAxis(serie.yAxisIndex);
             if (axis == null)
@@ -2139,7 +2139,7 @@ namespace XCharts
             }
         }
 
-        private float GetXAxisOnZeroOffset(XAxis axis)
+        public float GetXAxisOnZeroOffset(XAxis axis)
         {
             if (!axis.axisLine.onZero) return 0;
             foreach (var yAxis in m_YAxes)
@@ -2149,7 +2149,7 @@ namespace XCharts
             return 0;
         }
 
-        private float GetYAxisOnZeroOffset(YAxis axis)
+        public float GetYAxisOnZeroOffset(YAxis axis)
         {
             if (!axis.axisLine.onZero) return 0;
             foreach (var xAxis in m_XAxes)
@@ -2159,7 +2159,7 @@ namespace XCharts
             return 0;
         }
 
-        private YAxis GetRelatedYAxis(XAxis axis)
+        public YAxis GetRelatedYAxis(XAxis axis)
         {
             foreach (var yAxis in m_YAxes)
             {
@@ -2168,7 +2168,7 @@ namespace XCharts
             return m_YAxes[0];
         }
 
-        private XAxis GetRelatedXAxis(YAxis axis)
+        public XAxis GetRelatedXAxis(YAxis axis)
         {
             foreach (var xAxis in m_XAxes)
             {

@@ -74,7 +74,7 @@ namespace XCharts
         private Image m_ContentImage;
         private RectTransform m_ContentRect;
         private RectTransform m_ContentTextRect;
-        private List<int> lastDataIndex { get; set; }
+        private List<int> lastDataIndex = new List<int>();
 
         /// <summary>
         /// Whether to show the tooltip component.
@@ -246,22 +246,25 @@ namespace XCharts
         /// <summary>
         /// 当前提示框所指示的Serie索引（目前只对散点图有效）。
         /// </summary>
-        public Dictionary<int, List<int>> runtimeSerieIndex { get; internal set; }
+        public Dictionary<int, List<int>> runtimeSerieIndex = new Dictionary<int, List<int>>();
         /// <summary>
         /// The data index currently indicated by Tooltip.
         /// 当前提示框所指示的数据项索引。
         /// </summary>
-        public List<int> runtimeDataIndex { get; internal set; }
+        public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
+        private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
         /// <summary>
         /// the value for x indicator label.
         /// 指示器X轴上要显示的值。
         /// </summary>
-        public float[] runtimeXValues { get; internal set; }
+        public float[] runtimeXValues { get { return m_RuntimeXValue; } internal set { m_RuntimeXValue = value; } }
+        private float[] m_RuntimeXValue = new float[2] { -1, -1 };
         /// <summary>
         /// the value for y indicator label. 
         /// 指示器Y轴上要显示的值。
         /// </summary>
-        public float[] runtimeYValues { get; internal set; }
+        public float[] runtimeYValues { get { return m_RuntimeYValue; } internal set { m_RuntimeYValue = value; } }
+        private float[] m_RuntimeYValue = new float[2] { -1, -1 };
         /// <summary>
         /// the current pointer position.
         /// 当前鼠标位置。
@@ -303,12 +306,7 @@ namespace XCharts
             {
                 var tooltip = new Tooltip
                 {
-                    m_Show = true,
-                    runtimeXValues = new float[2] { -1, -1 },
-                    runtimeYValues = new float[2] { -1, -1 },
-                    runtimeDataIndex = new List<int>() { -1, -1 },
-                    lastDataIndex = new List<int>() { -1, -1 },
-                    runtimeSerieIndex = new Dictionary<int, List<int>>()
+                    m_Show = true
                 };
                 return tooltip;
             }
@@ -438,7 +436,8 @@ namespace XCharts
         public void SetActive(bool flag)
         {
             if (!flag && m_AlwayShow) return;
-            lastDataIndex[0] = lastDataIndex[1] = -1;
+            if (lastDataIndex.Count >= 2)
+                lastDataIndex[0] = lastDataIndex[1] = -1;
             if (m_GameObject && m_GameObject.activeInHierarchy != flag)
                 m_GameObject.SetActive(flag);
         }

@@ -438,7 +438,7 @@ namespace XCharts
             }
         }
 
-        internal void AllBarEnd()
+        public void AllBarEnd()
         {
             End();
         }

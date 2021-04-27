@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    internal static class ThemeHelper
+    public static class ThemeHelper
     {
         public static Color32 GetBackgroundColor(ChartTheme theme, Background background)
         {

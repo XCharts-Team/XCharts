@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace XCharts
 {
-    internal static class PolarHelper
+    public static class PolarHelper
     {
-        internal static void UpdatePolarCenter(Polar polar, Vector3 chartPosition, float chartWidth, float chartHeight)
+        public static void UpdatePolarCenter(Polar polar, Vector3 chartPosition, float chartWidth, float chartHeight)
         {
             if (polar.center.Length < 2) return;
             var centerX = polar.center[0] <= 1 ? chartWidth * polar.center[0] : polar.center[0];

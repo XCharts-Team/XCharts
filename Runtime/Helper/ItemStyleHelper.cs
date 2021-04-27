@@ -4,12 +4,10 @@
 /*     https://github.com/monitor1394           */
 /*                                              */
 /************************************************/
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class ItemStyleHelper
+    public static class ItemStyleHelper
     {
         public static bool IsNeedCorner(ItemStyle itemStyle)
         {

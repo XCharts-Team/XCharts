@@ -191,10 +191,10 @@ namespace XCharts
         /// <summary>
         /// 绘制区域。
         /// </summary>
-        public Rect runtimeRect { get; internal set; }
-        public float runtimeAngle { get; internal set; }
-        public Vector3 runtiemPieOffsetCenter { get; internal set; }
-        public float runtimeStackHig { get; internal set; }
+        public Rect runtimeRect { get; set; }
+        public float runtimeAngle { get; set; }
+        public Vector3 runtiemPieOffsetCenter { get; set; }
+        public float runtimeStackHig { get; set; }
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();

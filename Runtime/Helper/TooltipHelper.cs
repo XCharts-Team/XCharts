@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    internal static class TooltipHelper
+    public static class TooltipHelper
     {
         private static void InitScatterTooltip(ref StringBuilder sb, Tooltip tooltip, Serie serie, int index,
             ChartTheme theme)

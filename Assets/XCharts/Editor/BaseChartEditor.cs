@@ -129,22 +129,17 @@ namespace XCharts
             {
                 EditorGUILayout.PropertyField(m_Script);
                 EditorGUILayout.PropertyField(m_ChartName);
-            }
-            BlockEnd();
-            var fileds = m_Chart.GetCustomChartInspectorShowFileds();
-            if (fileds != null && fileds.Length > 0)
-            {
-                BlockStart();
-                m_CustomFoldout = EditorGUILayout.Foldout(m_CustomFoldout, "Custom", true);
-                if (m_CustomFoldout)
+                var fileds = m_Chart.GetCustomChartInspectorShowFileds();
+                if (fileds != null && fileds.Length > 0)
                 {
                     foreach (var filed in fileds)
                     {
                         EditorGUILayout.PropertyField(serializedObject.FindProperty(filed));
                     }
                 }
-                BlockEnd();
             }
+            BlockEnd();
+
             BlockField(m_Theme);
             BlockField(m_Settings);
             BlockField(m_Background);
@@ -220,7 +215,8 @@ namespace XCharts
                         var rect1 = new Rect(currRect.width + k_IconXOffset,
                             currRect.y + k_IconYOffset,
                             k_IconWidth, EditorGUIUtility.singleLineHeight);
-                        if (GUI.Button(rect1, ChartEditorHelper.Styles.iconAdd, ChartEditorHelper.Styles.invisibleButton))
+                        EditorGUI.DrawRect(rect1, Color.blue);
+                        if (GUI.Button(rect1, ChartEditorHelper.Styles.iconAdd))// ChartEditorHelper.Styles.invisibleButton))
                         {
                             prop.InsertArrayElementAtIndex(prop.arraySize > 0 ? prop.arraySize - 1 : 0);
                             var chart = prop.GetArrayElementAtIndex(0).serializedObject.targetObject as BaseChart;

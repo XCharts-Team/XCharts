@@ -141,7 +141,7 @@ namespace XCharts
             }
             else
             {
-                CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, color, color,
+                Internal_CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, color, color,
                     serie.clip, grid);
             }
             if (borderWidth != 0)

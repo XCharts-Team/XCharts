@@ -1029,7 +1029,7 @@ namespace XCharts
         public float runtimePieDataTotal { get; internal set; }
         public float runtimeWaveSpeed { get; internal set; }
         public Painter runtimeCanvas { get; internal set; }
-        internal float runtimeCheckValue { get; set; }
+        public float runtimeCheckValue { get; set; }
         public int runtimeGridIndex { get; internal set; }
         public float runtimeX { get; internal set; }
         public float runtimeY { get; internal set; }
@@ -1644,7 +1644,7 @@ namespace XCharts
             }
         }
 
-        internal float GetBarWidth(float categoryWidth)
+        public float GetBarWidth(float categoryWidth)
         {
             if (m_BarWidth > 1) return m_BarWidth;
             else return m_BarWidth * categoryWidth;

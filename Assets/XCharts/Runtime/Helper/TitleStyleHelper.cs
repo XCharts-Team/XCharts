@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class TitleStyleHelper
+    public static class TitleStyleHelper
     {
         public static void CheckTitle(Serie serie, ref bool m_ReinitTitle, ref bool m_UpdateTitleText)
         {

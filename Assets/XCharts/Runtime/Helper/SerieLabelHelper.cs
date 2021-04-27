@@ -232,7 +232,7 @@ namespace XCharts
             }
         }
 
-        internal static void AvoidLabelOverlap(Serie serie)
+        public static void AvoidLabelOverlap(Serie serie)
         {
             if (!serie.avoidLabelOverlap) return;
             var lastCheckPos = Vector3.zero;

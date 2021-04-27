@@ -152,7 +152,7 @@ namespace XCharts
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
-            CheckAnimation();
+            Internal_CheckAnimation();
             foreach (var draw in m_DrawSeries) draw.Update();
         }
 
@@ -716,7 +716,7 @@ namespace XCharts
             }
         }
 
-        protected void CheckAnimation()
+        public void Internal_CheckAnimation()
         {
             if (!m_CheckAnimation)
             {

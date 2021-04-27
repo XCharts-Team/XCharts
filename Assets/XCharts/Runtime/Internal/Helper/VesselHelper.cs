@@ -12,7 +12,7 @@ namespace XCharts
 {
     public static class VesselHelper
     {
-        internal static Color32 GetColor(Vessel vessel, Serie serie, ChartTheme theme, List<string> legendRealShowName)
+        public static Color32 GetColor(Vessel vessel, Serie serie, ChartTheme theme, List<string> legendRealShowName)
         {
             if (serie != null && vessel.autoColor)
             {
@@ -25,7 +25,7 @@ namespace XCharts
             }
         }
 
-        internal static void UpdateVesselCenter(Vessel vessel, Vector3 chartPosition, float chartWidth, float chartHeight)
+        public static void UpdateVesselCenter(Vessel vessel, Vector3 chartPosition, float chartWidth, float chartHeight)
         {
             if (vessel.center.Length < 2) return;
             var centerX = vessel.center[0] <= 1 ? chartWidth * vessel.center[0] : vessel.center[0];

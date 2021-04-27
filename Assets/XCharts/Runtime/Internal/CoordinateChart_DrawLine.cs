@@ -45,7 +45,7 @@ namespace XCharts
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
+                Internal_CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
                     symbolToColor, symbol.gap, clip, cornerRadius, grid);
             }
         }
@@ -773,8 +773,8 @@ namespace XCharts
                             {
                                 isShort = true;
                                 isStart = true;
-                                CheckClipAndDrawPolygon(vh, stPos1, upPos1, upPos2, stPos2, lineColor, serie.clip, grid);
-                                CheckClipAndDrawTriangle(vh, stPos2, upPos2, dnPos, lineColor, serie.clip, grid);
+                                Internal_CheckClipAndDrawPolygon(vh, stPos1, upPos1, upPos2, stPos2, lineColor, serie.clip, grid);
+                                Internal_CheckClipAndDrawTriangle(vh, stPos2, upPos2, dnPos, lineColor, serie.clip, grid);
                                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, stPos1, isEndPos);
                                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, upPos1, isEndPos);
                                 TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, dnPos, isEndPos);
@@ -784,7 +784,7 @@ namespace XCharts
                                 (!lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
                             {
                                 isStart = true;
-                                CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
+                                Internal_CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
                             }
                         }
                         else
@@ -793,24 +793,24 @@ namespace XCharts
                             {
                                 if (np != nnp)
                                 {
-                                    CheckClipAndDrawPolygon(vh, ltp1, upPos1, dnPos, ltp2, lineColor, serie.clip, grid);
-                                    CheckClipAndDrawTriangle(vh, upPos1, upPos2, dnPos, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, ltp1, upPos1, dnPos, ltp2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, upPos1, upPos2, dnPos, lineColor, serie.clip, grid);
                                 }
                                 else
                                 {
-                                    CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip, grid);
                                 }
                             }
                             else
                             {
                                 if (IsInRightOrUp(isYAxis, tp2, dnPos) || isTurnBack)
                                 {
-                                    CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, serie.clip, grid);
                                 }
                                 else
                                 {
-                                    CheckClipAndDrawPolygon(vh, ltp1, upPos1, dnPos, ltp2, lineColor, serie.clip, grid);
-                                    CheckClipAndDrawTriangle(vh, upPos1, upPos2, dnPos, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, ltp1, upPos1, dnPos, ltp2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, upPos1, upPos2, dnPos, lineColor, serie.clip, grid);
                                     i = segment;
                                 }
                             }
@@ -834,11 +834,11 @@ namespace XCharts
                                 isStart = true;
                                 isShort = true;
                                 if (np == nnp)
-                                    CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos2, stPos2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos2, stPos2, lineColor, serie.clip, grid);
                                 else
                                 {
-                                    CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos1, stPos2, lineColor, serie.clip, grid);
-                                    CheckClipAndDrawTriangle(vh, dnPos, upPos1, upPos2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, stPos1, dnPos, upPos1, stPos2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, dnPos, upPos1, upPos2, lineColor, serie.clip, grid);
                                 }
                                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, dnPos, isEndPos);
                                 TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, stPos2, isEndPos);
@@ -851,7 +851,7 @@ namespace XCharts
                                 isStart = true;
                                 if (stPos2 != Vector3.zero)
                                 {
-                                    CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
                                 }
                             }
                         }
@@ -861,21 +861,21 @@ namespace XCharts
                             {
                                 if (np != nnp)
                                 {
-                                    CheckClipAndDrawPolygon(vh, ltp1, dnPos, upPos1, ltp2, lineColor, serie.clip, grid);
-                                    CheckClipAndDrawTriangle(vh, dnPos, upPos2, upPos1, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, ltp1, dnPos, upPos1, ltp2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, dnPos, upPos2, upPos1, lineColor, serie.clip, grid);
                                 }
-                                else CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip, grid);
+                                else Internal_CheckClipAndDrawPolygon(vh, ltp1, upPos1, upPos2, ltp2, lineColor, serie.clip, grid);
                             }
                             else
                             {
                                 if (IsInRightOrUp(isYAxis, tp1, dnPos) || isTurnBack)
                                 {
-                                    CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, serie.clip, grid);
                                 }
                                 else
                                 {
-                                    CheckClipAndDrawPolygon(vh, ltp1, dnPos, upPos1, ltp2, lineColor, serie.clip, grid);
-                                    CheckClipAndDrawTriangle(vh, dnPos, upPos2, upPos1, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawPolygon(vh, ltp1, dnPos, upPos1, ltp2, lineColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, dnPos, upPos2, upPos1, lineColor, serie.clip, grid);
                                     i = segment;
                                 }
                             }
@@ -979,7 +979,7 @@ namespace XCharts
                                 if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
                                 {
                                     var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
-                                    CheckClipAndDrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
                                     break;
                                 }
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
@@ -1001,7 +1001,7 @@ namespace XCharts
                                 {
                                     first = true;
                                     var tp = isYAxis ? new Vector3(rdPos.x, ep.y) : new Vector3(ep.x, rdPos.y);
-                                    CheckClipAndDrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor, serie.clip, grid);
                                     sp = ep;
                                     continue;
                                 }
@@ -1025,7 +1025,7 @@ namespace XCharts
                                 if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
                                 {
                                     var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
-                                    CheckClipAndDrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
                                     break;
                                 }
                                 if (rdPos != Vector3.zero) DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
@@ -1047,7 +1047,7 @@ namespace XCharts
                                 {
                                     first = true;
                                     var tp = isYAxis ? new Vector3(luPos.x, ep.y) : new Vector3(ep.x, luPos.y);
-                                    CheckClipAndDrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
+                                    Internal_CheckClipAndDrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip, grid);
                                     sp = ep;
                                     continue;
                                 }
@@ -1132,7 +1132,7 @@ namespace XCharts
                 diff = isLessthan0 ? -lineWidth : lineWidth;
                 areaColor = GetYLerpColor(areaColor, areaToColor, sp, grid);
                 if (isLessthan0) areaDiff = -areaDiff;
-                CheckClipAndDrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y),
+                Internal_CheckClipAndDrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y),
                     ep + areaDiff, sp + areaDiff, areaToColor, areaColor, clip, grid);
             }
             else
@@ -1143,12 +1143,12 @@ namespace XCharts
                 if (isLessthan0) areaDiff = -areaDiff;
                 if (isLessthan0)
                 {
-                    CheckClipAndDrawPolygon(vh, ep + areaDiff, sp + areaDiff, new Vector3(sp.x, zeroPos.y + diff),
+                    Internal_CheckClipAndDrawPolygon(vh, ep + areaDiff, sp + areaDiff, new Vector3(sp.x, zeroPos.y + diff),
                         new Vector3(ep.x, zeroPos.y + diff), areaColor, areaToColor, clip, grid);
                 }
                 else
                 {
-                    CheckClipAndDrawPolygon(vh, sp + areaDiff, ep + areaDiff, new Vector3(ep.x, zeroPos.y + diff),
+                    Internal_CheckClipAndDrawPolygon(vh, sp + areaDiff, ep + areaDiff, new Vector3(ep.x, zeroPos.y + diff),
                          new Vector3(sp.x, zeroPos.y + diff), areaColor, areaToColor, clip, grid);
                 }
             }
@@ -1228,7 +1228,7 @@ namespace XCharts
                     start = bezierPoints[i];
                     to = bezierPoints[i + 1];
                     CheckLineGradientColor(start, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
-                    CheckClipAndDrawLine(vh, start, to, lineWidth, lineColor, serie.clip, grid);
+                    Internal_CheckClipAndDrawLine(vh, start, to, lineWidth, lineColor, serie.clip, grid);
                 }
                 return true;
             }
@@ -1251,8 +1251,8 @@ namespace XCharts
                     if (!serie.animation.IsInFadeOut())
                     {
                         CheckLineGradientColor(lp, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
-                        CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip, grid);
-                        CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip, grid);
                         TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, smoothStartPosUp, false);
                         TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, smoothStartPosDn, false);
                     }
@@ -1279,8 +1279,8 @@ namespace XCharts
                 toUp = to - diff;
                 toDn = to + diff;
                 CheckLineGradientColor(to, serie.lineStyle, xAxis, defaultLineColor, ref lineColor);
-                if (isYAxis) CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip, grid);
-                else CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip, grid);
+                if (isYAxis) Internal_CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip, grid);
+                else Internal_CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip, grid);
                 TryAddToList(isTurnBack, isYAxis, smoothPoints, lastSmoothPoint, toUp, true);
                 TryAddToList(isTurnBack, isYAxis, smoothDownPoints, lastSmoothDownPoint, toDn, true);
                 if (isEndPos)
@@ -1383,12 +1383,12 @@ namespace XCharts
                     if (k < lastSmoothPoints.Count - 1)
                     {
                         tnp = lastSmoothPoints[lastCount - 1];
-                        CheckClipAndDrawTriangle(vh, start, to, tnp, areaColor, areaColor, areaToColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawTriangle(vh, start, to, tnp, areaColor, areaColor, areaToColor, serie.clip, grid);
                         while (lastCount < lastSmoothPoints.Count)
                         {
                             tlp = lastSmoothPoints[lastCount];
                             if (serie.animation.CheckDetailBreak(tlp, isYAxis)) break;
-                            CheckClipAndDrawTriangle(vh, tnp, to, tlp, areaToColor, areaColor, areaToColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawTriangle(vh, tnp, to, tlp, areaToColor, areaColor, areaToColor, serie.clip, grid);
                             lastCount++;
                             tnp = tlp;
                         }
@@ -1400,7 +1400,7 @@ namespace XCharts
                 {
                     tlp = lastSmoothPoints[lastSmoothPoints.Count - 1];
                     if (serie.animation.CheckDetailBreak(tlp, isYAxis)) break;
-                    CheckClipAndDrawTriangle(vh, to, start, tlp, areaColor, areaColor, areaToColor, serie.clip, grid);
+                    Internal_CheckClipAndDrawTriangle(vh, to, start, tlp, areaColor, areaColor, areaToColor, serie.clip, grid);
                     start = to;
                     continue;
                 }
@@ -1410,7 +1410,7 @@ namespace XCharts
                 {
                     tlp = lastSmoothPoints[lastCount - 1];
                     if (serie.animation.CheckDetailBreak(tlp, isYAxis)) break;
-                    CheckClipAndDrawPolygon(vh, start, to, tnp, tlp, areaColor, areaToColor, serie.clip, grid);
+                    Internal_CheckClipAndDrawPolygon(vh, start, to, tnp, tlp, areaColor, areaToColor, serie.clip, grid);
                     lastCount++;
                 }
                 else
@@ -1418,12 +1418,12 @@ namespace XCharts
                     if (diff < 0)
                     {
                         tnp = lastSmoothPoints[lastCount - 1];
-                        CheckClipAndDrawTriangle(vh, start, to, tnp, areaColor, areaColor, areaToColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawTriangle(vh, start, to, tnp, areaColor, areaColor, areaToColor, serie.clip, grid);
                         while (diff < 0 && lastCount < lastSmoothPoints.Count)
                         {
                             tlp = lastSmoothPoints[lastCount];
                             if (serie.animation.CheckDetailBreak(tlp, isYAxis)) break;
-                            CheckClipAndDrawTriangle(vh, tnp, to, tlp, areaToColor, areaColor, areaToColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawTriangle(vh, tnp, to, tlp, areaToColor, areaColor, areaToColor, serie.clip, grid);
                             lastCount++;
                             diff = isYAxis ? tlp.y - to.y : tlp.x - to.x;
                             tnp = tlp;
@@ -1433,7 +1433,7 @@ namespace XCharts
                     {
                         tlp = lastSmoothPoints[lastCount - 1];
                         if (serie.animation.CheckDetailBreak(tlp, isYAxis)) break;
-                        CheckClipAndDrawTriangle(vh, start, to, tlp, areaColor, areaColor, areaToColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawTriangle(vh, start, to, tlp, areaColor, areaColor, areaToColor, serie.clip, grid);
                     }
                 }
                 start = to;
@@ -1444,7 +1444,7 @@ namespace XCharts
                 var p2 = lastSmoothPoints[lastSmoothPoints.Count - 1];
                 if (!serie.animation.CheckDetailBreak(p1, isYAxis) && !serie.animation.CheckDetailBreak(p2, isYAxis))
                 {
-                    CheckClipAndDrawTriangle(vh, p1, start, p2, areaToColor, areaColor, areaToColor, serie.clip, grid);
+                    Internal_CheckClipAndDrawTriangle(vh, p1, start, p2, areaToColor, areaColor, areaToColor, serie.clip, grid);
                 }
             }
         }
@@ -1477,15 +1477,15 @@ namespace XCharts
                         {
                             ep = linePointList[i];
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             sp = ep;
                         }
-                        CheckClipAndDrawPolygon(vh, middle, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, middle, lineWidth, lineColor, serie.clip, true, grid);
                     }
                     else
                     {
-                        if (dataIndex == 1) CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
-                        CheckClipAndDrawLine(vh, lp + diff1, middle + diff1, lineWidth, lineColor, serie.clip, grid);
+                        if (dataIndex == 1) Internal_CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawLine(vh, lp + diff1, middle + diff1, lineWidth, lineColor, serie.clip, grid);
                     }
                     if (serie.areaStyle.show)
                     {
@@ -1505,7 +1505,7 @@ namespace XCharts
                     {
                         ep = linePointList[i];
                         if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
-                        CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                         if (serie.areaStyle.show)
                         {
                             DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1516,7 +1516,7 @@ namespace XCharts
                     if (nnp != np)
                     {
                         if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
-                        CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
                         bool flag = ((isYAxis && nnp.x > np.x && np.x > zeroPos.x) || (!isYAxis && nnp.y > np.y && np.y > zeroPos.y));
                         if (serie.areaStyle.show && flag)
                         {
@@ -1542,7 +1542,7 @@ namespace XCharts
                         {
                             ep = linePointList[i];
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             if (serie.areaStyle.show)
                             {
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1550,7 +1550,7 @@ namespace XCharts
                             sp = ep;
                         }
                         if (serie.animation.CheckDetailBreak(middle1, isYAxis)) return false;
-                        CheckClipAndDrawPolygon(vh, middle1, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, middle1, lineWidth, lineColor, serie.clip, true, grid);
                         if (serie.areaStyle.show && Vector3.Dot(middleZero - middle1, middle2 - middle1) <= 0)
                         {
                             DrawPolygonToZero(vh, middle1 - diff1, middle1 + diff1, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1558,8 +1558,8 @@ namespace XCharts
                     }
                     else
                     {
-                        if (dataIndex == 1) CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
-                        CheckClipAndDrawLine(vh, lp + diff1, middle1 + diff1, lineWidth, lineColor, serie.clip, grid);
+                        if (dataIndex == 1) Internal_CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawLine(vh, lp + diff1, middle1 + diff1, lineWidth, lineColor, serie.clip, grid);
                     }
 
                     //draw middle1 to middle2
@@ -1570,10 +1570,10 @@ namespace XCharts
                         for (int i = 1; i < linePointList.Count; i++)
                         {
                             ep = linePointList[i];
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             sp = ep;
                         }
-                        CheckClipAndDrawPolygon(vh, middle2, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, middle2, lineWidth, lineColor, serie.clip, true, grid);
                         if (serie.areaStyle.show && Vector3.Dot(middleZero - middle2, middle2 - middle1) >= 0)
                         {
                             DrawPolygonToZero(vh, middle2 - diff1, middle2 + diff1, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1581,7 +1581,7 @@ namespace XCharts
                     }
                     else
                     {
-                        CheckClipAndDrawLine(vh, middle1 + diff2, middle2 + diff2, lineWidth, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawLine(vh, middle1 + diff2, middle2 + diff2, lineWidth, lineColor, serie.clip, grid);
                     }
                     //draw middle2 to np
                     if (Vector3.Distance(middle2, np) > 2 * lineWidth)
@@ -1592,7 +1592,7 @@ namespace XCharts
                         {
                             ep = linePointList[i];
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             if (serie.areaStyle.show)
                             {
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1600,7 +1600,7 @@ namespace XCharts
                             sp = ep;
                         }
                         if (serie.animation.CheckDetailBreak(np, isYAxis)) return false;
-                        CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
                         if (serie.areaStyle.show)
                         {
                             DrawPolygonToZero(vh, np - diff1, np + diff1, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1608,7 +1608,7 @@ namespace XCharts
                     }
                     else
                     {
-                        CheckClipAndDrawLine(vh, middle1 + diff1, middle1 + diff1, lineWidth, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawLine(vh, middle1 + diff1, middle1 + diff1, lineWidth, lineColor, serie.clip, grid);
                     }
                     break;
                 case LineType.StepEnd:
@@ -1627,7 +1627,7 @@ namespace XCharts
                         {
                             ep = linePointList[i];
                             if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             if (serie.areaStyle.show)
                             {
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1635,7 +1635,7 @@ namespace XCharts
                             sp = ep;
                         }
                         if (serie.animation.CheckDetailBreak(middle, isYAxis)) return false;
-                        CheckClipAndDrawPolygon(vh, middle, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawPolygon(vh, middle, lineWidth, lineColor, serie.clip, true, grid);
                         if (serie.areaStyle.show && Vector3.Dot(np - middle, middleZero - middle) <= 0)
                         {
                             DrawPolygonToZero(vh, middle - diff1, middle + diff1, axis, zeroPos, areaColor, areaToColor, areaDiff);
@@ -1643,8 +1643,8 @@ namespace XCharts
                     }
                     else
                     {
-                        if (dataIndex == 1) CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
-                        CheckClipAndDrawLine(vh, lp + diff1, middle + diff1, lineWidth, lineColor, serie.clip, grid);
+                        if (dataIndex == 1) Internal_CheckClipAndDrawPolygon(vh, lp, lineWidth, lineColor, serie.clip, true, grid);
+                        Internal_CheckClipAndDrawLine(vh, lp + diff1, middle + diff1, lineWidth, lineColor, serie.clip, grid);
                     }
 
                     if (Vector3.Distance(middle, np) > 2 * lineWidth)
@@ -1654,14 +1654,14 @@ namespace XCharts
                         for (int i = 1; i < linePointList.Count; i++)
                         {
                             ep = linePointList[i];
-                            CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
+                            Internal_CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip, grid);
                             sp = ep;
                         }
-                        if (nnp != np) CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
+                        if (nnp != np) Internal_CheckClipAndDrawPolygon(vh, np, lineWidth, lineColor, serie.clip, true, grid);
                     }
                     else
                     {
-                        CheckClipAndDrawLine(vh, middle + diff2, np + diff2, lineWidth, lineColor, serie.clip, grid);
+                        Internal_CheckClipAndDrawLine(vh, middle + diff2, np + diff2, lineWidth, lineColor, serie.clip, grid);
                     }
                     bool flag2 = ((isYAxis && middle.x > np.x && np.x > zeroPos.x) || (!isYAxis && middle.y > np.y && np.y > zeroPos.y));
                     if (serie.areaStyle.show && flag2)

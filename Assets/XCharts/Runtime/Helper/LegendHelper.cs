@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class LegendHelper
+    public static class LegendHelper
     {
         public static Color GetContentColor(Legend legend, ChartTheme theme, bool active)
         {

@@ -757,7 +757,7 @@ namespace XCharts
             }
         }
 
-        internal float GetCurrMinValue(float duration)
+        public float GetCurrMinValue(float duration)
         {
             if (!Application.isPlaying) return m_RuntimeMinValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
@@ -777,7 +777,7 @@ namespace XCharts
             }
         }
 
-        internal float GetCurrMaxValue(float duration)
+        public float GetCurrMaxValue(float duration)
         {
             if (!Application.isPlaying) return m_RuntimeMaxValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;

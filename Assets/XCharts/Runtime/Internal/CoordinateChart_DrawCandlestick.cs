@@ -69,7 +69,7 @@ namespace XCharts
                 }
                 serieData.runtimeStackHig = barHig;
                 var isBarEnd = false;
-                float currHig = CheckAnimation(serie, i, barHig, out isBarEnd);
+                float currHig = Internal_CheckBarAnimation(serie, i, barHig, out isBarEnd);
                 if (!isBarEnd) isAllBarEnd = false;
                 Vector3 plb, plt, prt, prb, top;
 
@@ -111,7 +111,7 @@ namespace XCharts
                         }
                         else
                         {
-                            CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaColor,
+                            Internal_CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaColor,
                                 serie.clip, grid);
                         }
                         UGL.DrawBorder(vh, center, itemWidth, itemHeight, 2 * borderWidth, borderColor, 0,

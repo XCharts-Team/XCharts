@@ -393,6 +393,7 @@ namespace XCharts
             if (showDetail)
             {
                 EditorGUI.indentLevel += 2;
+                var m_Ignore = serieData.FindPropertyRelative("m_Ignore");
                 var m_Icon = serieData.FindPropertyRelative("m_IconStyle");
                 var m_EnableLabel = serieData.FindPropertyRelative("m_EnableLabel");
                 var m_Label = serieData.FindPropertyRelative("m_Label");
@@ -402,6 +403,8 @@ namespace XCharts
                 var m_Emphasis = serieData.FindPropertyRelative("m_Emphasis");
                 var m_EnableSymbol = serieData.FindPropertyRelative("m_EnableSymbol");
                 var m_Symbol = serieData.FindPropertyRelative("m_Symbol");
+                EditorGUI.PropertyField(drawRect, m_Ignore);
+                AddHeight(EditorGUI.GetPropertyHeight(m_Ignore));
                 EditorGUI.PropertyField(drawRect, m_Icon);
                 AddHeight(EditorGUI.GetPropertyHeight(m_Icon));
                 EditorGUI.PropertyField(drawRect, m_Symbol);

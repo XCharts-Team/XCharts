@@ -19,6 +19,7 @@ namespace XCharts
     {
         [SerializeField] private string m_Name;
         [SerializeField] private bool m_Selected;
+        [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_Radius;
         [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private bool m_EnableLabel = false;
@@ -93,6 +94,14 @@ namespace XCharts
         /// 单个数据项的标记设置。
         /// </summary>
         public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
+        /// <summary>
+        /// 是否忽略数据。当为 true 时，数据不进行绘制。
+        /// </summary>
+        public bool ignore
+        {
+            get { return m_Ignore; }
+            set { if (PropertyUtil.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。

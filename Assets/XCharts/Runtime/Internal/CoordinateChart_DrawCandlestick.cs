@@ -37,7 +37,7 @@ namespace XCharts
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
-                if (serie.IsIgnoreValue(serieData.GetData(1)))
+                if (serie.IsIgnoreValue(serieData))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     continue;

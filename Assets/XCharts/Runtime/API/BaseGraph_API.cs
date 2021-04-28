@@ -123,6 +123,14 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 重新初始化Painter
+        /// </summary>
+        public void SetPainterDirty()
+        {
+            m_PainerDirty = true;
+        }
+
+        /// <summary>
         /// Redraw graph in next frame.
         /// 在下一帧刷新图形。
         /// </summary>

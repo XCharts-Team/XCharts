@@ -46,11 +46,11 @@ namespace XCharts
             {
                 gameObject.SetActive(flag);
             }
-            // var higFlags = !flag || !isDebugMode ? HideFlags.HideInHierarchy : HideFlags.None;
-            // if (gameObject.hideFlags != higFlags)
-            // {
-            //     gameObject.hideFlags = hideFlags;
-            // }
+            var hideFlags = flag ? HideFlags.None : HideFlags.HideInHierarchy;
+            if (gameObject.hideFlags != hideFlags)
+            {
+                gameObject.hideFlags = hideFlags;
+            }
         }
 
         protected override void Awake()

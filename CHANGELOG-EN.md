@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.04.29) Added `Settings`'s `reversePainter` to set whether or not `Serie` is drawn in reverse order
 * (2021.04.28) Fixed bug where `AxisLabel` displayed incorrectly with `DataRoom` (#138)
 * (2021.04.26) Fixed dynamically creating chart at runtime would be abnormal #137
 * (2021.04.26) Added support for `Barchart` to draw gradient borders

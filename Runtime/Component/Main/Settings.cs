@@ -18,6 +18,7 @@ namespace XCharts
     public class Settings : MainComponent
     {
         [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
+        [SerializeField] protected bool m_ReversePainter = false;
         [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
@@ -33,6 +34,14 @@ namespace XCharts
         {
             get { return m_MaxPainter; }
             set { if (PropertyUtil.SetStruct(ref m_MaxPainter, value < 0 ? 1 : value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Painter是否逆序。逆序时index大的serie最先绘制。
+        /// </summary>
+        public bool reversePainter
+        {
+            get { return m_ReversePainter; }
+            set { if (PropertyUtil.SetStruct(ref m_ReversePainter, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, 
@@ -99,6 +108,7 @@ namespace XCharts
 
         public void Copy(Settings settings)
         {
+            m_ReversePainter = settings.reversePainter;
             m_MaxPainter = settings.maxPainter;
             m_LineSmoothStyle = settings.lineSmoothStyle;
             m_LineSmoothness = settings.lineSmoothness;
@@ -119,6 +129,7 @@ namespace XCharts
             {
                 return new Settings()
                 {
+                    m_ReversePainter = false,
                     m_MaxPainter = XChartsSettings.maxPainter,
                     m_LineSmoothStyle = XChartsSettings.lineSmoothStyle,
                     m_LineSmoothness = XChartsSettings.lineSmoothness,

@@ -321,8 +321,9 @@ namespace XCharts
             var sizeDelta = new Vector2(m_GraphWidth, m_GraphHeight);
             for (int i = 0; i < settings.maxPainter; i++)
             {
-                var painter = ChartHelper.AddPainterObject("painter_" + i, transform, m_GraphMinAnchor,
-                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + i);
+                var index = settings.reversePainter ? settings.maxPainter - 1 - i : i;
+                var painter = ChartHelper.AddPainterObject("painter_" + index, transform, m_GraphMinAnchor,
+                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + index);
                 painter.index = m_PainterList.Count;
                 painter.type = Painter.Type.Serie;
                 painter.onPopulateMesh = OnDrawPainterSerie;

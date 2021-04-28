@@ -85,7 +85,7 @@ namespace XCharts
 
         public static bool CanShowLabel(Serie serie, SerieData serieData, SerieLabel label, int dimesion)
         {
-            return serie.show && serieData.canShowLabel && !serie.IsIgnoreValue(serieData.GetData(dimesion));
+            return serie.show && serieData.canShowLabel && !serie.IsIgnoreValue(serieData, dimesion);
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,

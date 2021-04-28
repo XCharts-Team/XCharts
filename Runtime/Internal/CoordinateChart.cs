@@ -1684,7 +1684,7 @@ namespace XCharts
                     var pos = serie.dataPoints[j];
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var dimension = 1;
-                    var isIgnore = serie.IsIgnoreIndex(j, 1);
+                    var isIgnore = serie.IsIgnoreIndex(j);
                     serieData.labelObject.SetPosition(serieData.labelPosition);
                     serieData.labelObject.UpdateIcon(serieData.iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel && !isIgnore)

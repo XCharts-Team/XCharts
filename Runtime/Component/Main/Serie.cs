@@ -1704,17 +1704,20 @@ namespace XCharts
             }
         }
 
-        public bool IsIgnoreIndex(int index, int dimension)
+        public bool IsIgnoreIndex(int index, int dimension = 1)
         {
-            if (m_Ignore)
+            var serieData = GetSerieData(index);
+            if (serieData != null)
             {
-                var serieData = GetSerieData(index);
-                if (serieData != null)
-                {
-                    return IsIgnoreValue(serieData.GetData(dimension));
-                }
+                return IsIgnoreValue(serieData, dimension);
             }
             return false;
+        }
+
+        public bool IsIgnoreValue(SerieData serieData, int dimension = 1)
+        {
+            if (serieData.ignore) return true;
+            return IsIgnoreValue(serieData.GetData(dimension));
         }
 
         public bool IsIgnoreValue(float value)

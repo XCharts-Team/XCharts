@@ -59,7 +59,7 @@ namespace XCharts
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
-                    if (!serieData.canShowLabel || serie.IsIgnoreValue(serieData.GetData(1)))
+                    if (!serieData.canShowLabel || serie.IsIgnoreValue(serieData))
                     {
                         serieData.SetLabelActive(false);
                         continue;

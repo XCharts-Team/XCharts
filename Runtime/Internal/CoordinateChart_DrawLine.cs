@@ -125,7 +125,7 @@ namespace XCharts
             for (i = serie.minShow; i < maxCount; i += rate)
             {
                 if (i == maxCount - 1) includeLastData = true;
-                if (serie.IsIgnoreValue(showData[i].GetData(1)))
+                if (serie.IsIgnoreValue(showData[i]))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     showData[i].runtimeStackHig = 0;
@@ -146,7 +146,7 @@ namespace XCharts
             if (!includeLastData)
             {
                 i = maxCount - 1;
-                if (serie.IsIgnoreValue(showData[i].GetData(1)))
+                if (serie.IsIgnoreValue(showData[i]))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     showData[i].runtimeStackHig = 0;
@@ -179,7 +179,7 @@ namespace XCharts
             if (serie.minShow > 0 && serie.minShow < showData.Count)
             {
                 i = serie.minShow - 1;
-                if (serie.IsIgnoreValue(showData[i].GetData(1)))
+                if (serie.IsIgnoreValue(showData[i]))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     showData[i].runtimeStackHig = 0;
@@ -197,7 +197,7 @@ namespace XCharts
             if (serie.maxShow > 0 && serie.maxShow < showData.Count)
             {
                 i = serie.maxShow;
-                if (serie.IsIgnoreValue(showData[i].GetData(1)))
+                if (serie.IsIgnoreValue(showData[i]))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     showData[i].runtimeStackHig = 0;

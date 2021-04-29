@@ -86,10 +86,19 @@ namespace XCharts
                 }
                 else
                 {
-                    valueTotal = xMaxValue - xMinValue;
-                    if (valueTotal != 0)
-                        barHig = (xMinValue > 0 ? value - xMinValue : value)
-                            / valueTotal * grid.runtimeWidth;
+                    if (yAxis.IsLog())
+                    {
+                        int minIndex = xAxis.runtimeMinLogIndex;
+                        float nowIndex = xAxis.GetLogValue(value);
+                        barHig = (nowIndex - minIndex) / xAxis.splitNumber * grid.runtimeWidth;
+                    }
+                    else
+                    {
+                        valueTotal = xMaxValue - xMinValue;
+                        if (valueTotal != 0)
+                            barHig = (xMinValue > 0 ? value - xMinValue : value)
+                                / valueTotal * grid.runtimeWidth;
+                    }
                 }
                 serieData.runtimeStackHig = barHig;
                 var isBarEnd = false;
@@ -223,7 +232,16 @@ namespace XCharts
                     valueTotal = yMaxValue - yMinValue;
                     if (valueTotal != 0)
                     {
-                        barHig = (yMinValue > 0 ? value - yMinValue : value) / valueTotal * grid.runtimeHeight;
+                        if (yAxis.IsLog())
+                        {
+                            int minIndex = yAxis.runtimeMinLogIndex;
+                            float nowIndex = yAxis.GetLogValue(value);
+                            barHig = (nowIndex - minIndex) / yAxis.splitNumber * grid.runtimeHeight;
+                        }
+                        else
+                        {
+                            barHig = (yMinValue > 0 ? value - yMinValue : value) / valueTotal * grid.runtimeHeight;
+                        }
                     }
                 }
                 serieData.runtimeStackHig = barHig;

@@ -440,7 +440,7 @@ namespace XCharts
                 {
                     int minIndex = xAxis.runtimeMinLogIndex;
                     float nowIndex = xAxis.GetLogValue(xValue);
-                    xDataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * grid.runtimeWidth;
+                    xDataHig = (nowIndex - minIndex) / xAxis.splitNumber * grid.runtimeWidth;
                 }
                 else
                 {
@@ -451,7 +451,7 @@ namespace XCharts
                 {
                     int minIndex = yAxis.runtimeMinLogIndex;
                     float nowIndex = yAxis.GetLogValue(yValue);
-                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * grid.runtimeHeight;
+                    yDataHig = (nowIndex - minIndex) / yAxis.splitNumber * grid.runtimeHeight;
                 }
                 else
                 {
@@ -477,7 +477,7 @@ namespace XCharts
                 {
                     int minIndex = yAxis.runtimeMinLogIndex;
                     float nowIndex = yAxis.GetLogValue(yValue);
-                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * grid.runtimeHeight;
+                    yDataHig = (nowIndex - minIndex) / yAxis.splitNumber * grid.runtimeHeight;
                 }
                 else
                 {
@@ -577,7 +577,7 @@ namespace XCharts
                 {
                     int minIndex = xAxis.runtimeMinLogIndex;
                     float nowIndex = xAxis.GetLogValue(value);
-                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * grid.runtimeWidth;
+                    dataHig = (nowIndex - minIndex) / xAxis.splitNumber * grid.runtimeWidth;
                 }
                 else
                 {

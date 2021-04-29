@@ -91,7 +91,7 @@ namespace XCharts
             {
                 int minIndex = axis.runtimeMinLogIndex;
                 float nowIndex = axis.GetLogValue(value);
-                return (nowIndex - minIndex) / (axis.splitNumber - 1) * totalWidth;
+                return (nowIndex - minIndex) / axis.splitNumber * totalWidth;
             }
             else
             {

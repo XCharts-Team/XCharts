@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.04.29) 修复`Radar`切换到`Circle`异常的问题 #139
 * (2021.04.29) 增加`Settings`的`reversePainter`可设置`Serie`的绘制是否逆序
 * (2021.04.28) 增加`SerieData`的`ignore`可忽略当前数据项
 * (2021.04.28) 修复`DataZoom`下`AxisLabel`显示不准确的问题 #138

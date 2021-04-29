@@ -102,7 +102,7 @@ namespace XCharts
                         SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme, i);
                         serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
                         serieData.labelObject.SetLabelPosition(serieLabel.offset);
-                        var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max, 
+                        var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max,
                             serieLabel, Color.clear);
                         if (serieData.labelObject.SetText(content))
                         {
@@ -686,7 +686,7 @@ namespace XCharts
             var lineWidth = radar.splitLine.GetWidth(chart.theme.radar.splitLineWidth);
             for (int i = 0; i < radar.splitNumber; i++)
             {
-                Color color = radar.splitArea.color[i % radar.splitArea.color.Count];
+                var color = radar.splitArea.GetColor(i, chart.theme.radiusAxis);
                 outsideRadius = insideRadius + block;
                 if (radar.splitArea.show)
                 {

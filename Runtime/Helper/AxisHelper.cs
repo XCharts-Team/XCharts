@@ -4,9 +4,7 @@
 /*     https://github.com/monitor1394           */
 /*                                              */
 /************************************************/
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -149,7 +147,6 @@ namespace XCharts
                     minValue = -minValue;
                     maxValue = -maxValue;
                 }
-
                 if (forcePercent) return string.Format("{0}%", (int)value);
                 else return axis.axisLabel.GetFormatterContent(value, minValue, maxValue);
             }

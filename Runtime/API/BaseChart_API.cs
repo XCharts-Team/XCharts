@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Text;
 
 namespace XCharts
 {
@@ -737,6 +738,10 @@ namespace XCharts
         public int GetLegendRealShowNameIndex(string name)
         {
             return m_LegendRealShowName.IndexOf(name);
+        }
+
+        public virtual void InitCustomSerieTooltip(ref StringBuilder stringBuilder, Serie serie, int index)
+        {
         }
     }
 }

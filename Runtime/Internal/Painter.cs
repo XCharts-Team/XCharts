@@ -46,7 +46,7 @@ namespace XCharts
             {
                 gameObject.SetActive(flag);
             }
-            var hideFlags = flag ? HideFlags.None : HideFlags.HideInHierarchy;
+            var hideFlags = flag && isDebugMode ? HideFlags.None : HideFlags.HideInHierarchy;
             if (gameObject.hideFlags != hideFlags)
             {
                 gameObject.hideFlags = hideFlags;

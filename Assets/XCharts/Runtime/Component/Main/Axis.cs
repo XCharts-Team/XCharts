@@ -586,7 +586,8 @@ namespace XCharts
             }
         }
 
-        internal List<string> GetDataList(){
+        internal List<string> GetDataList()
+        {
             return m_Data.Count > 0 ? m_Data : m_RuntimeData;
         }
 

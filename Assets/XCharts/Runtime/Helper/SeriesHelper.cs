@@ -277,7 +277,7 @@ namespace XCharts
             int count = 0;
             foreach (var serie in series.list)
             {
-                if (serie.show && (serie.type == type || serie.type == SerieType.Custom))
+                if (serie.show && (serie.type == type))
                 {
                     if (stackName.Equals(serie.stack)) count++;
                     if (count >= 2) return true;

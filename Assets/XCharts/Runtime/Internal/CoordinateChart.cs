@@ -153,12 +153,12 @@ namespace XCharts
         protected override void DrawPainterSerie(VertexHelper vh, Serie serie)
         {
             base.DrawPainterSerie(vh, serie);
-            serie.dataPoints.Clear();
             var colorIndex = m_LegendRealShowName.IndexOf(serie.legendName);
             bool yCategory = IsAnyYAxisIsCategory();
             switch (serie.type)
             {
                 case SerieType.Line:
+                    serie.dataPoints.Clear();
                     if (yCategory) DrawYLineSerie(vh, serie, colorIndex);
                     else DrawXLineSerie(vh, serie, colorIndex);
                     if (!SeriesHelper.IsStack(m_Series))
@@ -168,20 +168,25 @@ namespace XCharts
                     }
                     break;
                 case SerieType.Bar:
+                    serie.dataPoints.Clear();
                     if (yCategory) DrawYBarSerie(vh, serie, colorIndex);
                     else DrawXBarSerie(vh, serie, colorIndex);
                     break;
                 case SerieType.Scatter:
                 case SerieType.EffectScatter:
+                    serie.dataPoints.Clear();
                     DrawScatterSerie(vh, colorIndex, serie);
                     break;
                 case SerieType.Heatmap:
+                    serie.dataPoints.Clear();
                     DrawHeatmapSerie(vh, colorIndex, serie);
                     break;
                 case SerieType.Candlestick:
+                    serie.dataPoints.Clear();
                     DrawCandlestickSerie(vh, colorIndex, serie);
                     break;
                 case SerieType.Gantt:
+                    serie.dataPoints.Clear();
                     DrawGanttSerie(vh, colorIndex, serie);
                     break;
             }
@@ -1567,7 +1572,7 @@ namespace XCharts
             }
         }
 
-        private bool IsAnyYAxisIsCategory()
+        public bool IsAnyYAxisIsCategory()
         {
             foreach (var yAxis in m_YAxes)
             {
@@ -1579,7 +1584,7 @@ namespace XCharts
             return false;
         }
 
-        protected void DrawLabelBackground(VertexHelper vh)
+        protected virtual void DrawLabelBackground(VertexHelper vh)
         {
             var isYAxis = IsAnyYAxisIsCategory();
             for (int n = 0; n < m_Series.Count; n++)
@@ -1663,7 +1668,6 @@ namespace XCharts
         {
             base.OnRefreshLabel();
             var anyPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
-
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
@@ -1702,7 +1706,7 @@ namespace XCharts
                         var content = "";
                         if (anyPercentStack && isPercentStack)
                         {
-                            var tempTotal = Internal_GetBarSameStackTotalValue(serie.stack, j);
+                            var tempTotal = Internal_GetBarSameStackTotalValue(serie.stack, j, SerieType.Custom);
                             content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, tempTotal,
                                 serieLabel, theme.GetColor(i));
                         }

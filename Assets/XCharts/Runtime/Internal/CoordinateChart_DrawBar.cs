@@ -27,12 +27,12 @@ namespace XCharts
             var grid = GetSerieGridOrDefault(serie);
             var showData = serie.GetDataList(dataZoom);
             float categoryWidth = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, showData.Count, dataZoom);
-            float barGap = Internal_GetBarGap();
-            float totalBarWidth = Internal_GetBarTotalWidth(categoryWidth, barGap);
+            float barGap = Internal_GetBarGap(SerieType.Bar);
+            float totalBarWidth = Internal_GetBarTotalWidth(categoryWidth, barGap, SerieType.Bar);
             float barWidth = serie.GetBarWidth(categoryWidth);
             float offset = (categoryWidth - totalBarWidth) / 2;
             float barGapWidth = barWidth + barWidth * barGap;
-            float space = serie.barGap == -1 ? offset : offset + Internal_GetBarIndex(serie) * barGapWidth;
+            float space = serie.barGap == -1 ? offset : offset + Internal_GetBarIndex(serie, SerieType.Bar) * barGapWidth;
             var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar);
             m_StackSerieData.Clear();
             if (isStack) SeriesHelper.UpdateStackDataList(m_Series, serie, dataZoom, m_StackSerieData);
@@ -81,7 +81,7 @@ namespace XCharts
                 var valueTotal = 0f;
                 if (isPercentStack)
                 {
-                    valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i);
+                    valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i, SerieType.Bar);
                     barHig = valueTotal != 0 ? (value / valueTotal * grid.runtimeWidth) : 0;
                 }
                 else
@@ -175,12 +175,12 @@ namespace XCharts
             m_StackSerieData.Clear();
             if (isStack) SeriesHelper.UpdateStackDataList(m_Series, serie, dataZoom, m_StackSerieData);
             float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
-            float barGap = Internal_GetBarGap();
-            float totalBarWidth = Internal_GetBarTotalWidth(categoryWidth, barGap);
+            float barGap = Internal_GetBarGap(SerieType.Bar);
+            float totalBarWidth = Internal_GetBarTotalWidth(categoryWidth, barGap, SerieType.Bar);
             float barWidth = serie.GetBarWidth(categoryWidth);
             float offset = (categoryWidth - totalBarWidth) / 2;
             float barGapWidth = barWidth + barWidth * barGap;
-            float space = serie.barGap == -1 ? offset : offset + Internal_GetBarIndex(serie) * barGapWidth;
+            float space = serie.barGap == -1 ? offset : offset + Internal_GetBarIndex(serie, SerieType.Bar) * barGapWidth;
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -224,7 +224,7 @@ namespace XCharts
                 var valueTotal = 0f;
                 if (isPercentStack)
                 {
-                    valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i);
+                    valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i, SerieType.Bar);
                     barHig = valueTotal != 0 ? (value / valueTotal * grid.runtimeHeight) : 0;
                 }
                 else
@@ -599,13 +599,13 @@ namespace XCharts
             }
         }
 
-        public float Internal_GetBarGap()
+        public float Internal_GetBarGap(SerieType type)
         {
             float gap = 0f;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if (serie.type == SerieType.Bar || serie.type == SerieType.Candlestick || serie.type == SerieType.Custom)
+                if (serie.type == type)
                 {
                     if (serie.barGap != 0)
                     {
@@ -616,13 +616,13 @@ namespace XCharts
             return gap;
         }
 
-        public float Internal_GetBarSameStackTotalValue(string stack, int dataIndex)
+        public float Internal_GetBarSameStackTotalValue(string stack, int dataIndex, SerieType type)
         {
             if (string.IsNullOrEmpty(stack)) return 0;
             float total = 0;
             foreach (var serie in m_Series.list)
             {
-                if (serie.type == SerieType.Bar || serie.type == SerieType.Custom)
+                if (serie.type == type)
                 {
                     if (stack.Equals(serie.stack))
                     {
@@ -635,7 +635,7 @@ namespace XCharts
 
 
         private HashSet<string> barStackSet = new HashSet<string>();
-        public float Internal_GetBarTotalWidth(float categoryWidth, float gap)
+        public float Internal_GetBarTotalWidth(float categoryWidth, float gap, SerieType type)
         {
             float total = 0;
             float lastGap = 0;
@@ -644,14 +644,14 @@ namespace XCharts
             {
                 var serie = m_Series.list[i];
                 if (!serie.show) continue;
-                if (serie.type == SerieType.Bar || serie.type == SerieType.Candlestick || serie.type == SerieType.Custom)
+                if (serie.type == type)
                 {
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
                         if (barStackSet.Contains(serie.stack)) continue;
                         barStackSet.Add(serie.stack);
                     }
-                    var width = GetStackBarWidth(categoryWidth, serie);
+                    var width = GetStackBarWidth(categoryWidth, serie, type);
                     if (gap == -1)
                     {
                         if (width > total) total = width;
@@ -668,14 +668,14 @@ namespace XCharts
             return total;
         }
 
-        private float GetStackBarWidth(float categoryWidth, Serie now)
+        private float GetStackBarWidth(float categoryWidth, Serie now, SerieType type)
         {
             if (string.IsNullOrEmpty(now.stack)) return now.GetBarWidth(categoryWidth);
             float barWidth = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-                if ((serie.type == SerieType.Bar || serie.type == SerieType.Candlestick || serie.type == SerieType.Custom)
+                if ((serie.type == type)
                     && serie.show && now.stack.Equals(serie.stack))
                 {
                     if (serie.barWidth > barWidth) barWidth = serie.barWidth;
@@ -686,14 +686,14 @@ namespace XCharts
         }
 
         private List<string> tempList = new List<string>();
-        public int Internal_GetBarIndex(Serie currSerie)
+        public int Internal_GetBarIndex(Serie currSerie, SerieType type)
         {
             tempList.Clear();
             int index = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
-                if (serie.type != SerieType.Bar && serie.type != SerieType.Custom) continue;
+                if (serie.type != type) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
                     if (serie.index == currSerie.index) return index;

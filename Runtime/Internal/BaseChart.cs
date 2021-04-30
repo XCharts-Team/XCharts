@@ -75,7 +75,7 @@ namespace XCharts
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
 
-        internal bool m_RefreshLabel = false;
+        protected bool m_RefreshLabel = false;
         internal bool m_ReinitLabel = false;
         internal bool m_ReinitTitle = false;
         internal bool m_CheckAnimation = false;
@@ -870,7 +870,9 @@ namespace XCharts
         protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie)
         {
             foreach (var drawSerie in m_DrawSeries)
+            {
                 drawSerie.DrawSerie(vh, serie);
+            }
         }
 
         protected virtual void DrawPainterTop(VertexHelper vh)
@@ -975,7 +977,7 @@ namespace XCharts
                 cornerRadius, backgroundColor, smoothness);
         }
 
-        internal void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
+        public void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
         {
             if (serieData == null || serieData.labelObject == null) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);

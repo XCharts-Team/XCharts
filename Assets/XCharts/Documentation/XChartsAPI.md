@@ -67,6 +67,9 @@
 * `BaseChart.IsInChart(Vector2 local)`：坐标是否在图表范围内。
 * `BaseChart.IsInChart(float x, float y)`：坐标是否在图表范围内。
 * `BaseChart.EnableBackground(bool flag)`：开启背景组件。背景组件在`chart`受上层布局控制时无法开启。
+* `BaseChart.SetBasePainterMaterial(Material material)`：设置Base Painter的材质球。
+* `BaseChart.SetSeriePainterMaterial(Material material)`：设置Serie Painter的材质球。
+* `BaseChart.SetTopPainterMaterial(Material material)`：设置Top Painter的材质球。
 
 ## `CoordinateChart`
 

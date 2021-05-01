@@ -316,6 +316,7 @@ namespace XCharts
         protected override void InitPainter()
         {
             base.InitPainter();
+            m_Painter.material = settings.basePainterMaterial;
             m_PainterList.Clear();
             if (settings == null) return;
             var sizeDelta = new Vector2(m_GraphWidth, m_GraphHeight);
@@ -328,6 +329,7 @@ namespace XCharts
                 painter.type = Painter.Type.Serie;
                 painter.onPopulateMesh = OnDrawPainterSerie;
                 painter.SetActive(false, m_DebugMode);
+                painter.material = settings.seriePainterMaterial;
                 m_PainterList.Add(painter);
             }
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
@@ -335,6 +337,7 @@ namespace XCharts
             m_PainterTop.type = Painter.Type.Top;
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugMode);
+            m_PainterTop.material = settings.topPainterMaterial;
         }
 
         private void InitTitles()

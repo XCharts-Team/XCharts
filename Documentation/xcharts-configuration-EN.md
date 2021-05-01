@@ -692,6 +692,9 @@ K线图系列。
 
 * `reversePainter`：Painter是否逆序。逆序时index大的serie最先绘制。
 * `maxPainter`：默认最大Painter数据，当Serie数量大于maxPainter时会平均分配Painter。
+* `basePainterMaterial`：Base Pointer 材质球，设置后会影响Axis等。
+* `seriePainterMaterial`：Serie Pointer 材质球，设置后会影响所有Serie。
+* `topPainterMaterial`：Top Pointer 材质球，设置后会影响Tooltip等。
 * `lineSmoothStyle`: 曲线平滑系数。通过调整平滑系数可以改变曲线的曲率，得到外观稍微有变化的不同曲线。
 * `lineSmoothness`: 曲线平滑度。值越小曲线越平滑，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
 * `lineSegmentDistance`:  线段的分割距离。普通折线图的线是由很多线段组成，段数由该数值决定。值越小段数越多，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。

@@ -743,5 +743,45 @@ namespace XCharts
         public virtual void InitCustomSerieTooltip(ref StringBuilder stringBuilder, Serie serie, int index)
         {
         }
+
+        /// <summary>
+        /// 设置Base Painter的材质球
+        /// </summary>
+        /// <param name="material"></param>
+        public void SetBasePainterMaterial(Material material)
+        {
+            settings.basePainterMaterial = material;
+            if (m_Painter != null)
+            {
+                m_Painter.material = material;
+            }
+        }
+
+        /// <summary>
+        /// 设置Serie Painter的材质球
+        /// </summary>
+        /// <param name="material"></param>
+        public void SetSeriePainterMaterial(Material material)
+        {
+            settings.basePainterMaterial = material;
+            if (m_PainterList != null)
+            {
+                foreach (var painter in m_PainterList)
+                    painter.material = material;
+            }
+        }
+
+        /// <summary>
+        /// 设置Top Painter的材质球
+        /// </summary>
+        /// <param name="material"></param>
+        public void SetTopPainterMaterial(Material material)
+        {
+            settings.topPainterMaterial = material;
+            if (m_PainterTop != null)
+            {
+                m_PainterTop.material = material;
+            }
+        }
     }
 }

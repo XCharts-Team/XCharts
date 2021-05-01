@@ -1098,7 +1098,7 @@ namespace XCharts
         {
             get
             {
-                float max = int.MinValue;
+                float max = float.MinValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[1] > max)
@@ -1117,7 +1117,7 @@ namespace XCharts
         {
             get
             {
-                float max = int.MinValue;
+                float max = float.MinValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[0] > max)
@@ -1136,7 +1136,7 @@ namespace XCharts
         {
             get
             {
-                float min = int.MaxValue;
+                float min = float.MaxValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[1] < min)
@@ -1155,7 +1155,7 @@ namespace XCharts
         {
             get
             {
-                float min = int.MaxValue;
+                float min = float.MaxValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[0] < min)

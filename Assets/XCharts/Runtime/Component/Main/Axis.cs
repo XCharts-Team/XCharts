@@ -107,7 +107,7 @@ namespace XCharts
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
-        [NonSerialized] private float m_MinMaxValueRange;
+        [NonSerialized] private double m_MinMaxValueRange;
         [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace XCharts
         public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
         internal bool runtimeLastCheckInverse { get; set; }
-        internal float runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
+        internal double runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
         internal List<string> runtimeData { get { return m_RuntimeData; } }
         private int filterStart;
         private int filterEnd;

@@ -221,15 +221,15 @@ namespace XCharts
                 }
 
                 var barHig = 0f;
-                var valueTotal = 0f;
+                double valueTotal = 0f;
                 if (isPercentStack)
                 {
                     valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i, SerieType.Bar);
-                    barHig = valueTotal != 0 ? (value / valueTotal * grid.runtimeHeight) : 0;
+                    barHig = valueTotal != 0 ? (float)(value / valueTotal * grid.runtimeHeight) : 0;
                 }
                 else
                 {
-                    valueTotal = yMaxValue - yMinValue;
+                    valueTotal = (double)(yMaxValue - yMinValue);
                     if (valueTotal != 0)
                     {
                         if (yAxis.IsLog())
@@ -240,7 +240,7 @@ namespace XCharts
                         }
                         else
                         {
-                            barHig = (yMinValue > 0 ? value - yMinValue : value) / valueTotal * grid.runtimeHeight;
+                            barHig = (float)((yMinValue > 0 ? value - yMinValue : value) / valueTotal * grid.runtimeHeight);
                         }
                     }
                 }

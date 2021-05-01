@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.05.01) Fixed an issue where some super large or super small values could not be properly represented
 * (2021.04.29) Fixed an issue with `Radar` switching to `Circle` anomaly #139
 * (2021.04.29) Added `Settings`'s `reversePainter` to set whether or not `Serie` is drawn in reverse order
 * (2021.04.28) Fixed bug where `AxisLabel` displayed incorrectly with `DataRoom` (#138)

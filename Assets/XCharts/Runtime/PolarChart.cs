@@ -706,7 +706,7 @@ namespace XCharts
             if (dist > radius) dist = radius;
             float min = m_RadiusAxis.runtimeMinValue;
             float max = m_RadiusAxis.runtimeMaxValue;
-            var value = min + dist / radius * m_RadiusAxis.runtimeMinMaxRange;
+            var value = (float)(min + dist / radius * m_RadiusAxis.runtimeMinMaxRange);
             m_RadiusAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(value));
             m_RadiusAxis.UpdateTooltipLabelPos(ChartHelper.GetPos(cenPos, dist, m_AngleAxis.runtimeStartAngle, true));
         }

@@ -432,8 +432,8 @@ namespace XCharts
         public static void GetMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
             bool inverse, bool yValue, out float minVaule, out float maxValue, bool isPolar = false)
         {
-            float min = int.MaxValue;
-            float max = int.MinValue;
+            float min = float.MaxValue;
+            float max = float.MinValue;
             var isPercentStack = SeriesHelper.IsPercentStack(series, SerieType.Bar);
             if (!SeriesHelper.IsStack(series) || (isValueAxis && !yValue))
             {
@@ -512,8 +512,8 @@ namespace XCharts
                             }
                         }
                     }
-                    float tmax = int.MinValue;
-                    float tmin = int.MaxValue;
+                    float tmax = float.MinValue;
+                    float tmin = float.MaxValue;
                     foreach (var tt in _serieTotalValueForMinMax)
                     {
                         if (tt.Value > tmax) tmax = tt.Value;
@@ -523,15 +523,15 @@ namespace XCharts
                     if (tmin < min) min = tmin;
                 }
             }
-            if (max == int.MinValue && min == int.MaxValue)
+            if (max == float.MinValue && min == float.MaxValue)
             {
                 minVaule = 0;
                 maxValue = 0;
             }
             else
             {
-                minVaule = min > 1 ? Mathf.FloorToInt(min) : min;
-                maxValue = max > 1 ? Mathf.CeilToInt(max) : max;
+                minVaule = min > 1 ? Mathf.Floor(min) : min;
+                maxValue = max > 1 ? Mathf.Ceil(max) : max;
             }
         }
 

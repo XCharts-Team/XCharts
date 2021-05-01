@@ -40,8 +40,8 @@ namespace XCharts
 #endif
         protected override void GetSeriesMinMaxValue(Axis axis, int axisIndex, out float tempMinValue, out float tempMaxValue)
         {
-            tempMinValue = int.MaxValue;
-            tempMaxValue = int.MinValue;
+            tempMinValue = float.MaxValue;
+            tempMaxValue = float.MinValue;
             foreach (var serie in m_Series.list)
             {
                 if (serie.type != SerieType.Gantt) continue;
@@ -57,9 +57,8 @@ namespace XCharts
                     }
                 }
             }
-            if (tempMinValue == int.MaxValue) tempMinValue = 0;
-            if (tempMaxValue == int.MinValue) tempMaxValue = 0;
-            //AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true, 60);
+            if (tempMinValue == float.MaxValue) tempMinValue = 0;
+            if (tempMaxValue == float.MinValue) tempMaxValue = 0;
         }
 
         protected override void OnRefreshLabel()

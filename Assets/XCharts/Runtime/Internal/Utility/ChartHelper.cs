@@ -712,20 +712,20 @@ namespace XCharts
             }
             if (ceilRate == 0)
             {
-                int bigger = Mathf.CeilToInt(Mathf.Abs(max));
+                var bigger = Mathf.Ceil(Mathf.Abs(max));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {
                     n++;
                 }
                 float mm = bigger;
-                if (mm > 10)
+                if (mm > 10 && n < 38)
                 {
                     mm = bigger - bigger % (Mathf.Pow(10, n));
                     mm += max > 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
                 }
-                if (max < 0) return -Mathf.CeilToInt(mm);
-                else return Mathf.CeilToInt(mm);
+                if (max < 0) return -Mathf.Ceil(mm);
+                else return Mathf.Ceil(mm);
             }
             else
             {
@@ -752,20 +752,20 @@ namespace XCharts
             }
             if (ceilRate == 0)
             {
-                int bigger = Mathf.FloorToInt(Mathf.Abs(min));
+                var bigger = Mathf.Floor(Mathf.Abs(min));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {
                     n++;
                 }
                 float mm = bigger;
-                if (mm > 10)
+                if (mm > 10 && n < 38)
                 {
                     mm = bigger - bigger % (Mathf.Pow(10, n));
                     mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
                 }
-                if (min < 0) return -Mathf.FloorToInt(mm);
-                else return Mathf.FloorToInt(mm);
+                if (min < 0) return -Mathf.Floor(mm);
+                else return Mathf.Floor(mm);
             }
             else
             {

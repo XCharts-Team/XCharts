@@ -37,12 +37,12 @@ namespace XCharts
                 if (axis.interval > 0)
                 {
                     if (coordinateWid <= 0) return 0;
-                    int num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                    int num = (int)(axis.runtimeMinMaxRange / axis.interval);
                     int maxNum = Mathf.CeilToInt(coordinateWid / 15);
                     if (num > maxNum)
                     {
                         axis.interval *= 2;
-                        num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                        num = (int)(axis.runtimeMinMaxRange / axis.interval);
                     }
                     return num;
                 }
@@ -56,12 +56,12 @@ namespace XCharts
                 if (axis.interval > 0)
                 {
                     if (coordinateWid <= 0) return 0;
-                    int num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                    int num = (int)(axis.runtimeMinMaxRange / axis.interval);
                     int maxNum = Mathf.CeilToInt(coordinateWid / 15);
                     if (num > maxNum)
                     {
                         axis.interval *= 2;
-                        num = Mathf.CeilToInt(axis.runtimeMinMaxRange / axis.interval);
+                        num = (int)(axis.runtimeMinMaxRange / axis.interval);
                     }
                     return num;
                 }
@@ -238,8 +238,14 @@ namespace XCharts
             if (axis.type == Axis.AxisType.Value && axis.interval > 0)
             {
                 if (axis.runtimeMinMaxRange <= 0) return 0;
-                if (index >= splitNum) return coordinateWidth - (index - 1) * axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
-                else return axis.interval * coordinateWidth / axis.runtimeMinMaxRange;
+                if (index >= splitNum)
+                {
+                    return (float)(coordinateWidth - (index - 1) * axis.interval * coordinateWidth / axis.runtimeMinMaxRange);
+                }
+                else
+                {
+                    return (float)(axis.interval * coordinateWidth / axis.runtimeMinMaxRange);
+                }
             }
             else
             {
@@ -343,7 +349,7 @@ namespace XCharts
                         break;
                 }
             }
-            var tempRange = maxValue - minValue;
+            double tempRange = maxValue - minValue;
             if (axis.runtimeMinMaxRange != tempRange)
             {
                 axis.runtimeMinMaxRange = tempRange;

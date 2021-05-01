@@ -455,8 +455,9 @@ namespace XCharts
                 }
                 else
                 {
-                    if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * grid.runtimeHeight;
+                    double valueTotal = yMaxValue - yMinValue;
+                    if (valueTotal <= 0) yDataHig = 0;
+                    else yDataHig = (float)((yValue - yMinValue) / valueTotal * grid.runtimeHeight);
                 }
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
@@ -481,8 +482,9 @@ namespace XCharts
                 }
                 else
                 {
-                    if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * grid.runtimeHeight;
+                    double valueTotal = yMaxValue - yMinValue;
+                    if (valueTotal <= 0) yDataHig = 0;
+                    else yDataHig = (float)((yValue - yMinValue) / valueTotal * grid.runtimeHeight);
                 }
                 np = new Vector3(pX, pY + yDataHig);
             }

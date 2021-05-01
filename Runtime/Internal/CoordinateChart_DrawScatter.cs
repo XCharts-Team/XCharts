@@ -95,7 +95,7 @@ namespace XCharts
             }
             else
             {
-                return (value - axis.runtimeMinValue) / (axis.runtimeMaxValue - axis.runtimeMinValue) * totalWidth;
+                return (float)((value - axis.runtimeMinValue) / axis.runtimeMinMaxRange * totalWidth);
             }
         }
     }

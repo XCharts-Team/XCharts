@@ -60,12 +60,12 @@ namespace XCharts
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = zeroY;
                 var barHig = 0f;
-                var valueTotal = yMaxValue - yMinValue;
+                double valueTotal = yMaxValue - yMinValue;
                 var minCut = (yMinValue > 0 ? yMinValue : 0);
                 if (valueTotal != 0)
                 {
-                    barHig = (close - open) / valueTotal * grid.runtimeHeight;
-                    pY += (open - minCut) / valueTotal * grid.runtimeHeight;
+                    barHig = (float)((close - open) / valueTotal * grid.runtimeHeight);
+                    pY += (float)((open - minCut) / valueTotal * grid.runtimeHeight);
                 }
                 serieData.runtimeStackHig = barHig;
                 var isBarEnd = false;
@@ -96,8 +96,8 @@ namespace XCharts
                 var itemWidth = Mathf.Abs(prt.x - plb.x);
                 var itemHeight = Mathf.Abs(plt.y - prb.y);
                 var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                var lowPos = new Vector3(center.x, zeroY + (lowest - minCut) / valueTotal * grid.runtimeHeight);
-                var heighPos = new Vector3(center.x, zeroY + (heighest - minCut) / valueTotal * grid.runtimeHeight);
+                var lowPos = new Vector3(center.x, zeroY + (float)((lowest - minCut) / valueTotal * grid.runtimeHeight));
+                var heighPos = new Vector3(center.x, zeroY + (float)((heighest - minCut) / valueTotal * grid.runtimeHeight));
                 var openCenterPos = new Vector3(center.x, prb.y);
                 var closeCenterPos = new Vector3(center.x, prt.y);
                 if (barWidth > 2f * borderWidth)

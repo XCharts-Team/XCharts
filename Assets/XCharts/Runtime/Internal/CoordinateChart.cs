@@ -690,6 +690,7 @@ namespace XCharts
                 ChartHelper.HideAllObject(axisObj);
                 var grid = GetAxisGridOrDefault(xAxis);
                 if (grid == null) return;
+                if (!xAxis.show) return;
                 var axisLabelTextStyle = xAxis.axisLabel.textStyle;
                 int splitNumber = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 float totalWidth = 0;
@@ -1193,15 +1194,16 @@ namespace XCharts
                 var size = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeX;
                 var yAxis = m_YAxes[xAxisIndex];
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i <= size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
+
                     if (i == 0 && !xAxis.axisTick.showStartTick)
                     {
                         totalWidth += scaleWidth;
                         continue;
                     }
-                    if (i == size - 1 && !xAxis.axisTick.showEndTick)
+                    if (i == size && !xAxis.axisTick.showEndTick)
                     {
                         totalWidth += scaleWidth;
                         continue;

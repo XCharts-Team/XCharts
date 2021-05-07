@@ -85,20 +85,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得分割段的宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public static float GetSplitWidth(Axis axis, float coordinateWidth, DataZoom dataZoom)
-        {
-            int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
-            int segment = (axis.boundaryGap ? split : split - 1);
-            segment = segment <= 0 ? 1 : segment;
-            return coordinateWidth / segment;
-        }
-
-        /// <summary>
         /// 获得一个类目数据在坐标系中代表的宽度
         /// </summary>
         /// <param name="coordinateWidth"></param>
@@ -182,7 +168,8 @@ namespace XCharts
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
             if (dataCount <= 0) return "";
-            int rate = Mathf.RoundToInt(dataCount * 1f / split);
+            int rate = axis.boundaryGap ? (dataCount / split) : (dataCount - 1) / split;
+            if (rate == 0) rate = 1;
             int newIndex = index * rate;
             if (newIndex <= dataCount - 1)
             {
@@ -190,13 +177,8 @@ namespace XCharts
             }
             else
             {
-                if (rate == 1) return string.Empty;
-                else if (axis.boundaryGap && coordinateWidth / dataCount > 10) return string.Empty;
-                else
-                {
-                    if ((index - 1) * rate > dataCount - 1) return string.Empty;
-                    else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
-                }
+                if (axis.boundaryGap && coordinateWidth / dataCount > 10) return string.Empty;
+                else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
             }
         }
 
@@ -208,14 +190,21 @@ namespace XCharts
         public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)
         {
             int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
+            if (splitNum == 0) return 0;
             if (axis.IsCategory())
             {
                 var data = axis.GetDataList(dataZoom);
-                int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
+                var scaleNum = 0;
                 if (axis.boundaryGap)
-                    return Mathf.CeilToInt(data.Count * 1.0f / tick) + 1;
+                {
+                    scaleNum = data.Count % splitNum == 0 ? splitNum : splitNum + 1;
+                }
                 else
-                    return Mathf.CeilToInt(data.Count * 1.0f / tick);
+                {
+                    if (data.Count - 1 < splitNum) scaleNum = splitNum;
+                    else scaleNum = (data.Count - 1) % splitNum == 0 ? splitNum + 1 : splitNum + 1;
+                }
+                return scaleNum;
             }
             else
             {
@@ -252,16 +241,20 @@ namespace XCharts
                 var data = axis.GetDataList(dataZoom);
                 if (axis.IsCategory() && data.Count > 0)
                 {
-                    int tick = Mathf.RoundToInt(data.Count * 1f / splitNum);
                     var count = axis.boundaryGap ? data.Count : data.Count - 1;
+                    int tick = count / splitNum;
                     if (count <= 0) return 0;
                     var each = coordinateWidth / count;
-                    if (index >= num - 1)
+                    if (index >= num)
                     {
                         if (axis.axisTick.alignWithLabel) return each * tick;
                         else return coordinateWidth - each * tick * (index - 1);
                     }
-                    else return each * tick;
+                    else
+                    {
+                        if (count < splitNum) return each;
+                        else return each * (count / splitNum);
+                    }
                 }
                 else
                 {

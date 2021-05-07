@@ -681,6 +681,7 @@ namespace XCharts
 
         internal void SetTooltipLabelActive(bool flag)
         {
+            if(m_TooltipLabel == null) return;
             ChartHelper.SetActive(m_TooltipLabel, flag);
         }
 

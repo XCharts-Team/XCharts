@@ -780,7 +780,7 @@ namespace XCharts
             splitNumber = 0;
             if (value <= 0) return 0;
             float max = 0;
-            while (splitNumber < 12 && max < value)
+            while (max < value)
             {
                 if (isLogBaseE)
                 {
@@ -800,7 +800,7 @@ namespace XCharts
             splitNumber = 0;
             if (value > 1) return 1;
             float min = 1;
-            while (splitNumber < 12 && min > value)
+            while (min > value)
             {
                 if (isLogBaseE)
                 {
@@ -820,12 +820,12 @@ namespace XCharts
             if (value > 1 || value < -1) return 0;
             int count = 1;
             int intvalue = (int)(value * Mathf.Pow(10, count));
-            while (intvalue == 0 && count < 12)
+            while (intvalue == 0 && count < 38)
             {
                 count++;
                 intvalue = (int)(value * Mathf.Pow(10, count));
             }
-            if (count == 12 && (value == 0 || value == 1)) return 1;
+            if (count == 38 && (value == 0 || value == 1)) return 1;
             else return count;
         }
 

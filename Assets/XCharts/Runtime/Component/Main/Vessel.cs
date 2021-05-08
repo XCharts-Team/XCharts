@@ -46,13 +46,16 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Shape m_Shape = Shape.Circle;
         [SerializeField] private float m_ShapeWidth = 5f;
-        [SerializeField] private float m_Gap = 10f;
+        [SerializeField] private float m_Gap = 5f;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private bool m_AutoColor = true;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
-        [SerializeField] private float m_Radius = 0.5f;
+        [SerializeField] private float m_Radius = 0.35f;
         [SerializeField] [Range(0.5f, 10f)] private float m_Smoothness = 1f;
+        [SerializeField] private float m_Width = 0.5f;
+        [SerializeField] private float m_Height = 0.7f;
+        [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
 
         /// <summary>
         /// Whether to show the vessel.
@@ -108,7 +111,7 @@ namespace XCharts
         }
         /// <summary>
         /// The radius of vessel.
-        /// When value between 0 and 1 represents a percentage  relative to the chart.
+        /// When value between 0 and 1 represents a percentage relative to the chart.
         /// 半径。
         /// [default: 0.35f]
         /// </summary>
@@ -116,6 +119,28 @@ namespace XCharts
         {
             get { return m_Radius; }
             set { if (PropertyUtil.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The width of vessel.
+        /// When value between 0 and 1 represents a percentage relative to the chart.
+        /// 容器的宽。shape为Rect时有效。
+        /// [default: 0.35f]
+        /// </summary>
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The height of vessel.
+        /// When value between 0 and 1 represents a percentage relative to the chart.
+        /// 容器的高。shape为Rect时有效。
+        /// [default: 0.35f]
+        /// </summary>
+        public float height
+        {
+            get { return m_Height; }
+            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The smoothness of wave.
@@ -156,6 +181,15 @@ namespace XCharts
             get { return m_AutoColor; }
             set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
+        /// 容器的圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。shape为Rect时有效。
+        /// </summary>
+        public float[] cornerRadius
+        {
+            get { return m_CornerRadius; }
+            set { if (PropertyUtil.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
+        }
         public int index { get; internal set; }
         /// <summary>
         /// the runtime center position of vessel.
@@ -172,6 +206,8 @@ namespace XCharts
         /// 运行时内半径。扣除厚度和间隙后的实际半径。
         /// </summary>
         public float runtimeInnerRadius { get; internal set; }
+        public float runtimeWidth { get; set; }
+        public float runtimeHeight { get; set; }
         public static Vessel defaultVessel
         {
             get
@@ -181,8 +217,10 @@ namespace XCharts
                     m_Show = true,
                     m_Shape = Shape.Circle,
                     m_ShapeWidth = 5,
-                    m_Gap = 10,
+                    m_Gap = 5,
                     m_Radius = 0.35f,
+                    m_Width = 0.5f,
+                    m_Height = 0.7f,
                     m_AutoColor = true,
                     m_Color = new Color32(70, 70, 240, 255),
                     m_Smoothness = 1

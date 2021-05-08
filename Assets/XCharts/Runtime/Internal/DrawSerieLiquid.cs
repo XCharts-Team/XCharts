@@ -113,9 +113,24 @@ namespace XCharts
             {
                 if (vessel.backgroundColor.a != 0)
                 {
-                    var cenPos = vessel.runtimeCenterPos;
-                    var radius = vessel.runtimeRadius;
-                    UGL.DrawCricle(vh, cenPos, vessel.runtimeInnerRadius, vessel.backgroundColor, chart.settings.cicleSmoothness);
+                    switch (vessel.shape)
+                    {
+                        case Vessel.Shape.Circle:
+                            var cenPos = vessel.runtimeCenterPos;
+                            var radius = vessel.runtimeRadius;
+                            UGL.DrawCricle(vh, cenPos, vessel.runtimeInnerRadius + vessel.gap, vessel.backgroundColor,
+                                chart.settings.cicleSmoothness);
+                            UGL.DrawDoughnut(vh, cenPos, vessel.runtimeInnerRadius, vessel.runtimeInnerRadius + vessel.gap,
+                                vessel.backgroundColor, Color.clear, chart.settings.cicleSmoothness);
+                            break;
+                        case Vessel.Shape.Rect:
+                            UGL.DrawRectangle(vh, vessel.runtimeCenterPos, vessel.runtimeWidth / 2, vessel.runtimeHeight / 2,
+                                vessel.backgroundColor);
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
             }
         }
@@ -125,7 +140,18 @@ namespace XCharts
             var vessel = chart.GetVessel(serie.vesselIndex);
             if (vessel != null)
             {
-                DrawCirleVessel(vh, vessel);
+                switch (vessel.shape)
+                {
+                    case Vessel.Shape.Circle:
+                        DrawCirleVessel(vh, vessel);
+                        break;
+                    case Vessel.Shape.Rect:
+                        DrawRectVessel(vh, vessel);
+                        break;
+                    default:
+                        DrawCirleVessel(vh, vessel);
+                        break;
+                }
             }
         }
 
@@ -135,7 +161,26 @@ namespace XCharts
             var radius = vessel.runtimeRadius;
             var serie = SeriesHelper.GetSerieByVesselIndex(chart.series, vessel.index);
             var vesselColor = VesselHelper.GetColor(vessel, serie, chart.theme, chart.m_LegendRealShowName);
-            UGL.DrawDoughnut(vh, cenPos, radius - vessel.shapeWidth, radius, vesselColor, Color.clear, chart.settings.cicleSmoothness);
+            if (vessel.gap != 0)
+            {
+                UGL.DrawDoughnut(vh, cenPos, vessel.runtimeInnerRadius, vessel.runtimeInnerRadius + vessel.gap,
+                        vessel.backgroundColor, Color.clear, chart.settings.cicleSmoothness);
+            }
+            UGL.DrawDoughnut(vh, cenPos, radius - vessel.shapeWidth, radius, vesselColor, Color.clear,
+                chart.settings.cicleSmoothness);
+        }
+
+        private void DrawRectVessel(VertexHelper vh, Vessel vessel)
+        {
+            var serie = SeriesHelper.GetSerieByVesselIndex(chart.series, vessel.index);
+            var vesselColor = VesselHelper.GetColor(vessel, serie, chart.theme, chart.m_LegendRealShowName);
+            if (vessel.gap != 0)
+            {
+                UGL.DrawBorder(vh, vessel.runtimeCenterPos, vessel.runtimeWidth,
+                    vessel.runtimeHeight, vessel.gap, vessel.backgroundColor, 0, vessel.cornerRadius);
+            }
+            UGL.DrawBorder(vh, vessel.runtimeCenterPos, vessel.runtimeWidth + 2 * vessel.gap,
+                vessel.runtimeHeight + 2 * vessel.gap, vessel.shapeWidth, vesselColor, 0, vessel.cornerRadius);
         }
 
         private void DrawLiquid(VertexHelper vh, Serie serie)
@@ -144,6 +189,22 @@ namespace XCharts
             if (serie.animation.HasFadeOut()) return;
             var vessel = chart.GetVessel(serie.vesselIndex);
             if (vessel == null) return;
+            switch (vessel.shape)
+            {
+                case Vessel.Shape.Circle:
+                    DrawCirleLiquid(vh, serie, vessel);
+                    break;
+                case Vessel.Shape.Rect:
+                    DrawRectLiquid(vh, serie, vessel);
+                    break;
+                default:
+                    DrawCirleLiquid(vh, serie, vessel);
+                    break;
+            }
+        }
+
+        private void DrawCirleLiquid(VertexHelper vh, Serie serie, Vessel vessel)
+        {
             var cenPos = vessel.runtimeCenterPos;
             var radius = vessel.runtimeInnerRadius;
             var serieData = serie.GetSerieData(0);
@@ -160,7 +221,7 @@ namespace XCharts
                 serieData.labelPosition = cenPos;
                 m_UpdateLabelText = true;
             }
-            if (value == 0) return;
+            if (value <= 0) return;
             var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.name);
 
             var realHig = (value - serie.min) / (serie.max - serie.min) * radius * 2;
@@ -244,6 +305,121 @@ namespace XCharts
                 }
             }
 
+            if (serie.waveSpeed != 0 && Application.isPlaying && !isFull)
+            {
+                chart.RefreshPainter(serie);
+            }
+            if (!serie.animation.IsFinish())
+            {
+                serie.animation.CheckProgress(realHig);
+                chart.m_IsPlayingAnimation = true;
+                chart.RefreshPainter(serie);
+            }
+        }
+
+        private void DrawRectLiquid(VertexHelper vh, Serie serie, Vessel vessel)
+        {
+            var cenPos = vessel.runtimeCenterPos;
+            var serieData = serie.GetSerieData(0);
+            if (serieData == null) return;
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var value = serieData.GetCurrData(1, dataChangeDuration);
+            if (serie.runtimeCheckValue != value)
+            {
+                serie.runtimeCheckValue = value;
+                m_UpdateLabelText = true;
+            }
+            if (serieData.labelPosition != cenPos)
+            {
+                serieData.labelPosition = cenPos;
+                m_UpdateLabelText = true;
+            }
+            if (value <= 0) return;
+            var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.name);
+
+            var realHig = (value - serie.min) / (serie.max - serie.min) * vessel.runtimeHeight;
+            serie.animation.InitProgress(1, 0, realHig);
+            var hig = serie.animation.IsFinish() ? realHig : serie.animation.GetCurrDetail();
+            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, false);
+            var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, false);
+            var isNeedGradient = !ChartHelper.IsValueEqualsColor(color, toColor);
+            var isFull = hig >= vessel.runtimeHeight;
+            if (hig >= vessel.runtimeHeight) hig = vessel.runtimeHeight;
+            if (isFull && !isNeedGradient)
+            {
+                UGL.DrawRectangle(vh, cenPos, vessel.runtimeWidth / 2, vessel.runtimeHeight / 2, toColor);
+            }
+            else
+            {
+                var startY = cenPos.y - vessel.runtimeHeight / 2 + hig;
+                var waveStartPos = new Vector3(cenPos.x - vessel.runtimeWidth / 2, startY);
+                var waveEndPos = new Vector3(cenPos.x + vessel.runtimeWidth / 2, startY);
+                var startX = waveStartPos.x;
+                var endX = waveEndPos.x;
+
+                var step = vessel.smoothness;
+                if (step < 0.5f) step = 0.5f;
+                var lup = waveStartPos;
+                var ldp = new Vector3(startX, vessel.runtimeCenterPos.y - vessel.runtimeHeight / 2);
+                var nup = Vector3.zero;
+                var ndp = Vector3.zero;
+                var angle = 0f;
+                var isStarted = false;
+                var isEnded = false;
+                var waveHeight = isFull ? 0 : serie.waveHeight;
+                serie.runtimeWaveSpeed += serie.waveSpeed * Time.deltaTime;
+                while (startX < endX)
+                {
+                    startX += step;
+                    if (startX > endX) startX = endX;
+                    if (startX > waveStartPos.x && !isStarted)
+                    {
+                        startX = waveStartPos.x;
+                        isStarted = true;
+                    }
+                    if (startX > waveEndPos.x && !isEnded)
+                    {
+                        startX = waveEndPos.x;
+                        isEnded = true;
+                    }
+                    var py = Mathf.Sqrt(Mathf.Pow(vessel.runtimeHeight, 2) - Mathf.Pow(Mathf.Abs(cenPos.x - startX), 2));
+                    if (startX < waveStartPos.x || startX > waveEndPos.x)
+                    {
+                        nup = new Vector3(startX, cenPos.y + py);
+                    }
+                    else
+                    {
+                        var py2 = waveHeight * Mathf.Sin(1 / serie.waveLength * angle + serie.runtimeWaveSpeed + serie.waveOffset);
+                        var nupY = waveStartPos.y + py2;
+                        nup = new Vector3(startX, nupY);
+                        angle += step;
+                    }
+
+                    ndp = new Vector3(startX, cenPos.y - vessel.runtimeHeight / 2);
+                    if (nup.y > cenPos.y + vessel.runtimeHeight / 2)
+                    {
+                        nup.y = cenPos.y + vessel.runtimeHeight / 2;
+                    }
+                    if (nup.y < cenPos.y - vessel.runtimeHeight / 2)
+                    {
+                        nup.y = cenPos.y - vessel.runtimeHeight / 2;
+                    }
+                    if (!ChartHelper.IsValueEqualsColor(color, toColor))
+                    {
+                        var colorMin = cenPos.y - vessel.runtimeHeight;
+                        var colorMax = startY + serie.waveHeight;
+                        var tcolor1 = Color32.Lerp(color, toColor, 1 - (lup.y - colorMin) / (colorMax - colorMin));
+                        var tcolor2 = Color32.Lerp(color, toColor, 1 - (ldp.y - colorMin) / (colorMax - colorMin));
+                        UGL.DrawQuadrilateral(vh, lup, nup, ndp, ldp, tcolor1, tcolor2);
+                    }
+                    else
+                    {
+                        UGL.DrawQuadrilateral(vh, lup, nup, ndp, ldp, color);
+                    }
+                    lup = nup;
+                    ldp = ndp;
+                }
+            }
             if (serie.waveSpeed != 0 && Application.isPlaying && !isFull)
             {
                 chart.RefreshPainter(serie);

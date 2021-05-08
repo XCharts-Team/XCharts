@@ -34,6 +34,8 @@ namespace XCharts
             vessel.runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
             vessel.runtimeRadius = ChartHelper.GetRuntimeRelativeOrAbsoluteValue(vessel.radius, checkWidth);
             vessel.runtimeInnerRadius = vessel.runtimeRadius - vessel.shapeWidth - vessel.gap;
+            vessel.runtimeWidth = ChartHelper.GetRuntimeRelativeOrAbsoluteValue(vessel.width, checkWidth) - 2 * vessel.gap;
+            vessel.runtimeHeight = ChartHelper.GetRuntimeRelativeOrAbsoluteValue(vessel.height, chartHeight) - 2 * vessel.gap;
         }
     }
 }

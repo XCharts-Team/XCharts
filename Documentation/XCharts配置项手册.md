@@ -260,11 +260,14 @@
 * `shapeWidth`：容器的厚度。
 * `gap`：间隙。容器和液体的间隙。
 * `center`：中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
-* `radius`：半径。
-* `smoothness`：开启或关闭缩放区域功能。
 * `backgroundColor`：背景色，默认透明。
 * `color`：容器颜色。当`autoColor`为`false`时生效。
 * `autoColor`：是否自动颜色。默认`true`。为`true`时颜色会和`serie`一致。
+* `radius`：半径。
+* `smoothness`：开启或关闭缩放区域功能。
+* `width`：容器的宽。shape为Rect时有效。
+* `height`：容器的高。shape为Rect时有效。
+* `cornerRadius`： 容器的圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。shape为Rect时有效。
 
 ## `DataZoom`
 

@@ -20,15 +20,26 @@ namespace XCharts
             if (MakeFoldout(prop, "m_Show"))
             {
                 ++EditorGUI.indentLevel;
+                var shape = (Vessel.Shape)prop.FindPropertyRelative("m_Shape").intValue;
                 PropertyField(prop, "m_Shape");
                 PropertyField(prop, "m_ShapeWidth");
                 PropertyField(prop, "m_Gap");
                 PropertyTwoFiled(prop, "m_Center");
-                PropertyField(prop, "m_Radius");
                 PropertyField(prop, "m_BackgroundColor");
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_AutoColor");
-                PropertyField(prop, "m_Smoothness");
+                switch (shape)
+                {
+                    case Vessel.Shape.Circle:
+                        PropertyField(prop, "m_Radius");
+                        PropertyField(prop, "m_Smoothness");
+                        break;
+                    case Vessel.Shape.Rect:
+                        PropertyField(prop, "m_Width");
+                        PropertyField(prop, "m_Height");
+                        PropertyField(prop, "m_CornerRadius");
+                        break;
+                }
                 --EditorGUI.indentLevel;
             }
         }

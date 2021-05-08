@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.05.08) Added `Liquidchart` support for `Rect` shape
 * (2021.05.07) Improved the `Axis` scale performance #135
 * (2021.05.01) Added `Settings` parameters for painter's material #140
 * (2021.05.01) Fixed an issue where some super large or super small values could not be properly represented

@@ -266,6 +266,9 @@ Vessel component for liquid chart. There can be multiple vessels in a Chart, whi
 * `backgroundColor`: Background color of polar, which is transparent by default. [default: `Color.clear`]
 * `color`: Vessel color. The default is consistent with Serie. [default: `Color32(70, 70, 240, 255)`]
 * `autoColor`: Whether automatic color. If true, the color matches serie. [default: `true`]
+* `width`：The width of vessel. This value is valid when `shape` is `Rect`.
+* `height`：The height of vessel. This value is valid when `shape` is `Rect`.
+* `cornerRadius`： The radius of rounded corner. This value is valid when `shape` is `Rect`.
 
 ## `DataZoom`
 

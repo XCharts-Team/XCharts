@@ -108,6 +108,7 @@ namespace XCharts
             m_StackSerieData.Clear();
             if (isStack) SeriesHelper.UpdateStackDataList(m_Series, serie, dataZoom, m_StackSerieData);
             float scaleWid = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
+            xAxis.runtimeScaleWidth = scaleWid;
             float startX = grid.runtimeX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)

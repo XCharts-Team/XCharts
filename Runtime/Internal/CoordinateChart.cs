@@ -878,7 +878,7 @@ namespace XCharts
             if (axis.IsCategory())
             {
                 axis.runtimeMinValue = 0;
-                axis.runtimeMaxValue = SeriesHelper.GetMaxSerieDataCount(m_Series);
+                axis.runtimeMaxValue = SeriesHelper.GetMaxSerieDataCount(m_Series) - 1;
                 return;
             }
             float tempMinValue = 0;

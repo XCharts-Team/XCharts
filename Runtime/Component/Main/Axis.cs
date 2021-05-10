@@ -414,6 +414,7 @@ namespace XCharts
         internal bool runtimeLastCheckInverse { get; set; }
         internal double runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
         internal List<string> runtimeData { get { return m_RuntimeData; } }
+        public float runtimeScaleWidth { get; internal set; }
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;

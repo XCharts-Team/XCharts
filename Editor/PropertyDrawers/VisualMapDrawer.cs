@@ -21,14 +21,22 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Type");
-                PropertyField(prop, "m_Direction");
                 PropertyField(prop, "m_AutoMinMax");
                 PropertyField(prop, "m_Min");
                 PropertyField(prop, "m_Max");
                 PropertyField(prop, "m_SplitNumber");
                 PropertyField(prop, "m_Dimension");
-                PropertyListField(prop, "m_InRange");
                 PropertyListField(prop, "m_OutOfRange");
+                var type = (VisualMap.Type)prop.FindPropertyRelative("m_Type").enumValueIndex;
+                switch (type)
+                {
+                    case VisualMap.Type.Continuous:
+                        PropertyListField(prop, "m_InRange");
+                        break;
+                    case VisualMap.Type.Piecewise:
+                        PropertyListField(prop, "m_Pieces");
+                        break;
+                }
                 PropertyField(prop, "m_Show");
                 if (prop.FindPropertyRelative("m_Show").boolValue)
                 {
@@ -44,6 +52,25 @@ namespace XCharts
                     PropertyField(prop, "m_Orient");
                     PropertyField(prop, "m_Location");
                 }
+                --EditorGUI.indentLevel;
+            }
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(VisualMap.Pieces), true)]
+    public class PiecesDrawer : BasePropertyDrawer
+    {
+        public override string ClassName { get { return "Pieces"; } }
+        public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+        {
+            base.OnGUI(pos, prop, label);
+            if (MakeFoldout(prop, ""))
+            {
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Min");
+                PropertyField(prop, "m_Max");
+                PropertyField(prop, "m_Label");
+                PropertyField(prop, "m_Color");
                 --EditorGUI.indentLevel;
             }
         }

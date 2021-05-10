@@ -33,25 +33,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 方向。X轴还是Y轴。
-        /// </summary>
-        public enum Direction
-        {
-            /// <summary>
-            /// 默认方向。
-            /// </summary>
-            Default,
-            /// <summary>
-            /// X轴方向。
-            /// </summary>
-            X,
-            /// <summary>
-            /// Y轴方向。
-            /// </summary>
-            Y
-        }
-
-        /// <summary>
         /// 选择模式
         /// </summary>
         public enum SelectedMode
@@ -66,10 +47,42 @@ namespace XCharts
             Single
         }
 
+        [System.Serializable]
+        public class Pieces
+        {
+            [SerializeField] private float m_Min;
+            [SerializeField] private float m_Max;
+            [SerializeField] private string m_Label;
+            [SerializeField] private Color32 m_Color;
+
+            /// <summary>
+            /// 范围最小值
+            /// </summary>
+            public float min { get { return m_Min; } set { m_Min = value; } }
+            /// <summary>
+            /// 范围最大值
+            /// </summary>
+            public float max { get { return m_Max; } set { m_Max = value; } }
+            /// <summary>
+            /// 文字描述
+            /// </summary>
+            public string label { get { return m_Label; } set { m_Label = value; } }
+            /// <summary>
+            /// 颜色
+            /// </summary>
+            public Color32 color { get { return m_Color; } set { m_Color = value; } }
+
+            public bool Contains(float value, float minMaxRange)
+            {
+                var cmin = Mathf.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
+                var cmax = Mathf.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
+                return value >= cmin && value < cmax;
+            }
+        }
+
         [SerializeField] private bool m_Enable = false;
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Continuous;
-        [SerializeField] private Direction m_Direction = Direction.Default;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
         [SerializeField] private float m_Min = 0;
         [SerializeField] private float m_Max = 100f;
@@ -89,7 +102,8 @@ namespace XCharts
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultLeft;
         [SerializeField] private List<Color32> m_InRange = new List<Color32>();
-        [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>();
+        [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>() { Color.gray };
+        [SerializeField] private List<Pieces> m_Pieces = new List<Pieces>();
 
         /// <summary>
         /// Whether enable visualMap component.
@@ -123,14 +137,6 @@ namespace XCharts
         {
             get { return m_Type; }
             set { if (PropertyUtil.SetStruct(ref m_Type, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// 映射方向。
-        /// </summary>
-        public Direction direction
-        {
-            get { return m_Direction; }
-            set { if (PropertyUtil.SetStruct(ref m_Direction, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the selected mode for Piecewise visualMap.
@@ -311,6 +317,14 @@ namespace XCharts
             get { return m_OutOfRange; }
             set { if (value != null) { m_OutOfRange = value; SetVerticesDirty(); } }
         }
+        /// <summary>
+        /// 分段式每一段的相关配置。
+        /// </summary>
+        public List<Pieces> pieces
+        {
+            get { return m_Pieces; }
+            set { if (value != null) { m_Pieces = value; SetVerticesDirty(); } }
+        }
 
         public override bool vertsDirty { get { return m_VertsDirty || location.anyDirty; } }
         internal override void ClearVerticesDirty()
@@ -423,6 +437,32 @@ namespace XCharts
         }
 
         public Color32 GetColor(float value)
+        {
+            switch (type)
+            {
+                case Type.Continuous:
+                    return GetContinuousColor(value);
+                case Type.Piecewise:
+                    return GetPiecesColor(value);
+                default:
+                    return ColorUtil.clearColor32;
+            }
+        }
+
+        private Color32 GetPiecesColor(float value)
+        {
+            foreach (var piece in m_Pieces)
+            {
+                if (piece.Contains(value, max - min))
+                {
+                    return piece.color;
+                }
+            }
+            if (m_OutOfRange.Count > 0) return m_OutOfRange[0];
+            else return ChartConst.clearColor32;
+        }
+
+        private Color32 GetContinuousColor(float value)
         {
             if (value < m_Min || value > m_Max)
             {

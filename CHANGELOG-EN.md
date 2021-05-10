@@ -34,6 +34,7 @@
 
 ## Latest
 
+* (2021.05.09) Fixed an issue where `RingChart` could not set the background color of the ring  #141
 * (2021.05.08) Added `Liquidchart` support for `Rect` shape
 * (2021.05.07) Improved the `Axis` scale performance #135
 * (2021.05.01) Added `Settings` parameters for painter's material #140

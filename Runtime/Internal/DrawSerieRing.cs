@@ -31,7 +31,7 @@ namespace XCharts
         public void CheckComponent()
         {
         }
-        
+
         public void Update()
         {
             if (m_UpdateTitleText)
@@ -98,6 +98,12 @@ namespace XCharts
                 serieData.runtimePieToAngle = serie.clockwise ? toDegree : startDegree;
                 serieData.runtimePieInsideRadius = insideRadius;
                 serieData.runtimePieOutsideRadius = outsideRadius;
+                if (itemStyle.backgroundColor.a != 0)
+                {
+                    UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemStyle.backgroundColor,
+                        itemStyle.backgroundColor, Color.clear, 0, 360, borderWidth, borderColor, 0,
+                        chart.settings.cicleSmoothness, false, serie.clockwise);
+                }
                 UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemToColor,
                     Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, chart.settings.cicleSmoothness,
                     roundCap, serie.clockwise);

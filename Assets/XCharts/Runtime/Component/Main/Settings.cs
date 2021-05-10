@@ -24,7 +24,7 @@ namespace XCharts
         [SerializeField] protected Material m_TopPainterMaterial;
         [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
         [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
-        [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
+        [SerializeField] [Range(0.5f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
         [SerializeField] protected float m_LegendIconLineWidth = 2;
         [SerializeField] private float[] m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f };

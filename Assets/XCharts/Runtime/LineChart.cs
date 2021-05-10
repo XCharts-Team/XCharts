@@ -27,7 +27,6 @@ namespace XCharts
             visualMap.enable = false;
             visualMap.show = false;
             visualMap.autoMinMax = true;
-            visualMap.direction = VisualMap.Direction.Y;
             visualMap.inRange.Clear();
             visualMap.inRange.Add(Color.blue);
             visualMap.inRange.Add(Color.red);

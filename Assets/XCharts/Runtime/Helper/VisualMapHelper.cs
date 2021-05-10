@@ -17,19 +17,17 @@ namespace XCharts
             if (!IsNeedGradient(visualMap) || !visualMap.autoMinMax) return;
             float min = 0;
             float max = 0;
-            switch (visualMap.direction)
+            if (visualMap.dimension == 0)
             {
-                case VisualMap.Direction.Default:
-                case VisualMap.Direction.X:
-                    min = xAxis.IsCategory() ? 0 : xAxis.runtimeMinValue;
-                    max = xAxis.IsCategory() ? serie.dataCount : xAxis.runtimeMaxValue;
-                    SetMinMax(visualMap, min, max);
-                    break;
-                case VisualMap.Direction.Y:
-                    min = yAxis.IsCategory() ? 0 : yAxis.runtimeMinValue;
-                    max = yAxis.IsCategory() ? serie.dataCount : yAxis.runtimeMaxValue;
-                    SetMinMax(visualMap, min, max);
-                    break;
+                min = xAxis.IsCategory() ? 0 : xAxis.runtimeMinValue;
+                max = xAxis.IsCategory() ? serie.dataCount - 1 : xAxis.runtimeMaxValue;
+                SetMinMax(visualMap, min, max);
+            }
+            else
+            {
+                min = yAxis.IsCategory() ? 0 : yAxis.runtimeMinValue;
+                max = yAxis.IsCategory() ? serie.dataCount - 1 : yAxis.runtimeMaxValue;
+                SetMinMax(visualMap, min, max);
             }
         }
 
@@ -54,55 +52,72 @@ namespace XCharts
         {
             startColor = ChartConst.clearColor32;
             toColor = ChartConst.clearColor32;
-            switch (visualMap.direction)
+            if (visualMap.dimension == 0)
             {
-                case VisualMap.Direction.Default:
-                case VisualMap.Direction.X:
-                    startColor = visualMap.IsPiecewise() ? visualMap.GetColor(xValue) : visualMap.GetColor(xValue - 1);
-                    toColor = visualMap.IsPiecewise() ? startColor : visualMap.GetColor(xValue);
-                    break;
-                case VisualMap.Direction.Y:
-                    startColor = visualMap.IsPiecewise() ? visualMap.GetColor(yValue) : visualMap.GetColor(yValue - 1);
-                    toColor = visualMap.IsPiecewise() ? startColor : visualMap.GetColor(yValue);
-                    break;
+                startColor = visualMap.IsPiecewise() ? visualMap.GetColor(xValue) : visualMap.GetColor(xValue - 1);
+                toColor = visualMap.IsPiecewise() ? startColor : visualMap.GetColor(xValue);
+            }
+            else
+            {
+                startColor = visualMap.IsPiecewise() ? visualMap.GetColor(yValue) : visualMap.GetColor(yValue - 1);
+                toColor = visualMap.IsPiecewise() ? startColor : visualMap.GetColor(yValue);
             }
         }
 
-        public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis,
+            Color32 defaultColor)
         {
             float value = 0;
-            switch (visualMap.direction)
+            var min = 0f;
+            var max = 0f;
+            if (visualMap.dimension == 0)
             {
-                case VisualMap.Direction.Default:
-                case VisualMap.Direction.X:
-                    var min = axis.runtimeMinValue;
-                    var max = axis.runtimeMaxValue;
-                    var grid = chart.GetAxisGridOrDefault(axis);
+                min = axis.runtimeMinValue;
+                max = axis.runtimeMaxValue;
+                var grid = chart.GetAxisGridOrDefault(axis);
+                if (axis.IsCategory() && axis.boundaryGap)
+                {
+                    float startX = grid.runtimeX + axis.runtimeScaleWidth / 2;
+                    value = (int)(min + (pos.x - startX) / (grid.runtimeWidth - axis.runtimeScaleWidth) * (max - min));
+                }
+                else
+                {
                     value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
-                    break;
-                case VisualMap.Direction.Y:
-                    if (axis is YAxis)
-                    {
-                        var yAxis = chart.xAxes[axis.index];
-                        min = yAxis.runtimeMinValue;
-                        max = yAxis.runtimeMaxValue;
-                    }
-                    else
-                    {
-                        var yAxis = chart.yAxes[axis.index];
-                        min = yAxis.runtimeMinValue;
-                        max = yAxis.runtimeMaxValue;
-                    }
-                    grid = chart.GetAxisGridOrDefault(axis);
+                }
+            }
+            else
+            {
+                Axis yAxis;
+                if (axis is YAxis)
+                {
+                    yAxis = chart.xAxes[axis.index];
+                    min = yAxis.runtimeMinValue;
+                    max = yAxis.runtimeMaxValue;
+                }
+                else
+                {
+                    yAxis = chart.yAxes[axis.index];
+                    min = yAxis.runtimeMinValue;
+                    max = yAxis.runtimeMaxValue;
+                }
+                var grid = chart.GetAxisGridOrDefault(axis);
+                if (yAxis.IsCategory() && yAxis.boundaryGap)
+                {
+                    float startY = grid.runtimeY + yAxis.runtimeScaleWidth / 2;
+                    value = (int)(min + (pos.y - startY) / (grid.runtimeHeight - yAxis.runtimeScaleWidth) * (max - min));
+                }
+                else
+                {
                     value = min + (pos.y - grid.runtimeY) / grid.runtimeHeight * (max - min);
-                    break;
+                }
             }
             var color = visualMap.GetColor(value);
             if (ChartHelper.IsClearColor(color)) return defaultColor;
             else return color;
         }
 
-        public static Color32 GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetItemStyleGradientColor(ItemStyle itemStyle, Vector3 pos, CoordinateChart chart,
+            Axis axis, Color32 defaultColor)
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;
@@ -114,7 +129,8 @@ namespace XCharts
             else return color;
         }
 
-        public static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, CoordinateChart chart, Axis axis, Color32 defaultColor)
+        public static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, CoordinateChart chart,
+            Axis axis, Color32 defaultColor)
         {
             var min = axis.runtimeMinValue;
             var max = axis.runtimeMaxValue;

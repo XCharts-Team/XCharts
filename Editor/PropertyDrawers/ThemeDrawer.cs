@@ -58,7 +58,11 @@ namespace XCharts
                 {
                     XThemeMgr.SwitchTheme(chart, chartNameList[selectedIndex]);
                 }
+#if dUI_TextMeshPro
+                PropertyField(prop, "m_TMPFont");
+#else
                 PropertyField(prop, "m_Font");
+#endif
                 PropertyField(prop, "m_ContrastColor");
                 PropertyField(prop, "m_BackgroundColor");
                 PropertyField(prop, "m_ColorPalette");

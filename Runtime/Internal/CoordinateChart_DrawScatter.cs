@@ -44,6 +44,7 @@ namespace XCharts
                 float xDataHig = GetDataHig(xAxis, xValue, grid.runtimeWidth);
                 float yDataHig = GetDataHig(yAxis, yValue, grid.runtimeHeight);
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
+                if (!IsInGrid(grid, pos)) continue;
                 serie.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
                 var datas = serieData.data;

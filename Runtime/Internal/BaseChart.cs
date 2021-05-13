@@ -87,6 +87,7 @@ namespace XCharts
         private Theme m_CheckTheme = 0;
 
         protected List<IDrawSerie> m_DrawSeries = new List<IDrawSerie>();
+        protected List<IComponentHandler> m_ComponentHandlers = new List<IComponentHandler>();
 
         protected override void InitComponent()
         {
@@ -102,7 +103,12 @@ namespace XCharts
             m_DrawSeries.Add(new DrawSerieGauge(this));
             m_DrawSeries.Add(new DrawSerieLiquid(this));
             m_DrawSeries.Add(new DrawSerieRadar(this));
-            foreach (var drawSerie in m_DrawSeries) drawSerie.InitComponent();
+            foreach (var draw in m_DrawSeries) draw.InitComponent();
+
+            m_ComponentHandlers.Clear();
+            m_ComponentHandlers.Add(new VisualMapHandler(this));
+            m_ComponentHandlers.Add(new DataZoomHandler(this));
+            foreach (var draw in m_ComponentHandlers) draw.Init();
         }
 
         protected override void Awake()
@@ -154,6 +160,7 @@ namespace XCharts
             CheckRefreshLabel();
             Internal_CheckAnimation();
             foreach (var draw in m_DrawSeries) draw.Update();
+            foreach (var draw in m_ComponentHandlers) draw.Update();
         }
 
         internal Painter GetPainter(int index)
@@ -771,6 +778,31 @@ namespace XCharts
         {
             base.OnPointerDown(eventData);
             foreach (var drawSerie in m_DrawSeries) drawSerie.OnPointerDown(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnPointerDown(eventData);
+        }
+
+        public override void OnBeginDrag(PointerEventData eventData)
+        {
+            base.OnBeginDrag(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnBeginDrag(eventData);
+        }
+
+        public override void OnDrag(PointerEventData eventData)
+        {
+            base.OnDrag(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnDrag(eventData);
+        }
+
+        public override void OnEndDrag(PointerEventData eventData)
+        {
+            base.OnEndDrag(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnEndDrag(eventData);
+        }
+
+        public override void OnScroll(PointerEventData eventData)
+        {
+            base.OnScroll(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnScroll(eventData);
         }
 
         protected virtual void OnLegendButtonClick(int index, string legendName, bool show)
@@ -829,7 +861,8 @@ namespace XCharts
             DrawBackground(vh);
             DrawPainterBase(vh);
             DrawLegend(vh);
-            foreach (var drawSerie in m_DrawSeries) drawSerie.DrawBase(vh);
+            foreach (var draw in m_ComponentHandlers) draw.Draw(vh);
+            foreach (var draw in m_DrawSeries) draw.DrawBase(vh);
             if (m_OnCustomDrawBaseCallback != null)
             {
                 m_OnCustomDrawBaseCallback(vh);

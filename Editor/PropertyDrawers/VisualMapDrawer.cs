@@ -20,6 +20,8 @@ namespace XCharts
             if (MakeFoldout(prop, "m_Enable"))
             {
                 ++EditorGUI.indentLevel;
+                var type = (VisualMap.Type)prop.FindPropertyRelative("m_Type").enumValueIndex;
+                var isPiece = type == VisualMap.Type.Piecewise;
                 PropertyField(prop, "m_Type");
                 PropertyField(prop, "m_AutoMinMax");
                 PropertyField(prop, "m_Min");
@@ -27,16 +29,7 @@ namespace XCharts
                 PropertyField(prop, "m_SplitNumber");
                 PropertyField(prop, "m_Dimension");
                 PropertyListField(prop, "m_OutOfRange");
-                var type = (VisualMap.Type)prop.FindPropertyRelative("m_Type").enumValueIndex;
-                switch (type)
-                {
-                    case VisualMap.Type.Continuous:
-                        PropertyListField(prop, "m_InRange");
-                        break;
-                    case VisualMap.Type.Piecewise:
-                        PropertyListField(prop, "m_Pieces");
-                        break;
-                }
+                PropertyListField(prop, isPiece ? "m_Pieces" : "m_InRange");
                 PropertyField(prop, "m_Show");
                 if (prop.FindPropertyRelative("m_Show").boolValue)
                 {
@@ -48,6 +41,7 @@ namespace XCharts
                     PropertyField(prop, "m_Calculable");
                     PropertyField(prop, "m_ItemWidth");
                     PropertyField(prop, "m_ItemHeight");
+                    if (isPiece) PropertyField(prop, "m_ItemGap");
                     PropertyField(prop, "m_BorderWidth");
                     PropertyField(prop, "m_Orient");
                     PropertyField(prop, "m_Location");

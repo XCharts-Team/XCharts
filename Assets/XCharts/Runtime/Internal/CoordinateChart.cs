@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine.EventSystems;
 using XUGL;
 
 namespace XCharts
@@ -18,14 +17,6 @@ namespace XCharts
     {
         private static readonly string s_DefaultDataZoom = "datazoom";
         private static readonly string s_DefaultAxisName = "name";
-
-        private bool m_DataZoomDrag;
-        private bool m_DataZoomCoordinateDrag;
-        private bool m_DataZoomStartDrag;
-        private bool m_DataZoomEndDrag;
-        private float m_DataZoomLastStartIndex;
-        private float m_DataZoomLastEndIndex;
-        private bool m_CheckDataZoomLabel;
 
         protected override void InitComponent()
         {
@@ -46,8 +37,6 @@ namespace XCharts
         {
             CheckMinMaxValue();
             CheckRaycastTarget();
-            CheckDataZoom();
-            CheckVisualMap();
             base.Update();
         }
 
@@ -91,7 +80,6 @@ namespace XCharts
             base.DrawPainterBase(vh);
             DrawCoordinate(vh);
             DrawDataZoomSlider(vh);
-            DrawVisualMap(vh);
         }
 
         protected override void DrawBackground(VertexHelper vh)
@@ -667,7 +655,7 @@ namespace XCharts
             }
         }
 
-        private void InitAxisX()
+        internal void InitAxisX()
         {
             for (int i = 0; i < m_XAxes.Count; i++)
             {
@@ -1485,95 +1473,6 @@ namespace XCharts
             }
         }
 
-        private void CheckDataZoom()
-        {
-            if (dataZoom == null || !dataZoom.enable) return;
-            CheckDataZoomScale();
-            CheckDataZoomLabel();
-        }
-
-        private bool m_IsSingleTouch;
-        private Vector2 m_LastSingleTouchPos;
-        private Vector2 m_LastTouchPos0;
-        private Vector2 m_LastTouchPos1;
-        private void CheckDataZoomScale()
-        {
-            if (!dataZoom.enable || dataZoom.zoomLock || !dataZoom.supportInside) return;
-
-            if (Input.touchCount == 2)
-            {
-                var touch0 = Input.GetTouch(0);
-                var touch1 = Input.GetTouch(1);
-                if (touch1.phase == TouchPhase.Began)
-                {
-                    m_LastTouchPos0 = touch0.position;
-                    m_LastTouchPos1 = touch1.position;
-                }
-                else if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
-                {
-                    var tempPos0 = touch0.position;
-                    var tempPos1 = touch1.position;
-                    var currDist = Vector2.Distance(tempPos0, tempPos1);
-                    var lastDist = Vector2.Distance(m_LastTouchPos0, m_LastTouchPos1);
-                    var delta = (currDist - lastDist);
-                    ScaleDataZoom(delta / dataZoom.scrollSensitivity);
-                    m_LastTouchPos0 = tempPos0;
-                    m_LastTouchPos1 = tempPos1;
-                }
-            }
-        }
-
-        private void CheckDataZoomLabel()
-        {
-            if (dataZoom.supportSlider && dataZoom.showDetail)
-            {
-                Vector2 local;
-                if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                    Input.mousePosition, canvas.worldCamera, out local))
-                {
-                    foreach (var datazoom in m_DataZooms) datazoom.SetLabelActive(false);
-                    return;
-                }
-                foreach (var dataZoom in m_DataZooms)
-                {
-                    if (dataZoom.IsInSelectedZoom(local)
-                        || dataZoom.IsInStartZoom(local)
-                        || dataZoom.IsInEndZoom(local))
-                    {
-                        dataZoom.SetLabelActive(true);
-                        RefreshDataZoomLabel();
-                    }
-                    else
-                    {
-                        dataZoom.SetLabelActive(false);
-                    }
-                }
-            }
-            if (m_CheckDataZoomLabel)
-            {
-                m_CheckDataZoomLabel = false;
-                var xAxis = m_XAxes[dataZoom.xAxisIndexs[0]];
-                var startIndex = (int)((xAxis.data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((xAxis.data.Count - 1) * dataZoom.end / 100);
-                if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
-                {
-                    m_DataZoomLastStartIndex = startIndex;
-                    m_DataZoomLastEndIndex = endIndex;
-                    if (xAxis.data.Count > 0)
-                    {
-                        dataZoom.SetStartLabelText(xAxis.data[startIndex]);
-                        dataZoom.SetEndLabelText(xAxis.data[endIndex]);
-                    }
-                    InitAxisX();
-                }
-                var start = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.start / 100;
-                var end = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.end / 100;
-                var hig = dataZoom.runtimeHeight;
-                dataZoom.UpdateStartLabelPosition(new Vector3(start - 10, chartY + dataZoom.bottom + hig / 2));
-                dataZoom.UpdateEndLabelPosition(new Vector3(end + 10, chartY + dataZoom.bottom + hig / 2));
-            }
-        }
-
         public bool IsAnyYAxisIsCategory()
         {
             foreach (var yAxis in m_YAxes)
@@ -1733,236 +1632,8 @@ namespace XCharts
             }
         }
 
-        public override void OnBeginDrag(PointerEventData eventData)
-        {
-            base.OnBeginDrag(eventData);
-            if (Input.touchCount > 1) return;
-            Vector2 pos;
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                eventData.position, canvas.worldCamera, out pos))
-            {
-                return;
-            }
-            var grid = GetDataZoomGridOrDefault(dataZoom);
-            if (dataZoom.supportInside)
-            {
-                if (IsInGrid(grid, pos))
-                {
-                    m_DataZoomCoordinateDrag = true;
-                }
-            }
-            if (dataZoom.supportSlider)
-            {
-                if (dataZoom.IsInStartZoom(pos))
-                {
-                    m_DataZoomStartDrag = true;
-                }
-                else if (dataZoom.IsInEndZoom(pos))
-                {
-                    m_DataZoomEndDrag = true;
-                }
-                else if (dataZoom.IsInSelectedZoom(pos))
-                {
-                    m_DataZoomDrag = true;
-                }
-            }
-            OnDragVisualMapStart();
-        }
 
-        public override void OnDrag(PointerEventData eventData)
-        {
-            base.OnDrag(eventData);
-            if (Input.touchCount > 1) return;
-            var grid = GetDataZoomGridOrDefault(dataZoom);
-            float deltaX = eventData.delta.x;
-            float deltaPercent = deltaX / grid.runtimeWidth * 100;
-            OnDragInside(deltaPercent);
-            OnDragSlider(deltaPercent);
-            OnDragVisualMap();
-        }
 
-        private void OnDragInside(float deltaPercent)
-        {
-            if (Input.touchCount > 1) return;
-            if (!dataZoom.supportInside) return;
-            if (!m_DataZoomCoordinateDrag) return;
-            var diff = dataZoom.end - dataZoom.start;
-            if (deltaPercent > 0)
-            {
-                dataZoom.start -= deltaPercent;
-                dataZoom.end = dataZoom.start + diff;
-            }
-            else
-            {
-                dataZoom.end += -deltaPercent;
-                dataZoom.start = dataZoom.end - diff;
-            }
-            RefreshDataZoomLabel();
-            RefreshChart();
-        }
-
-        private void OnDragSlider(float deltaPercent)
-        {
-            if (Input.touchCount > 1) return;
-            if (!dataZoom.supportSlider) return;
-            if (m_DataZoomStartDrag)
-            {
-                dataZoom.start += deltaPercent;
-                if (dataZoom.start > dataZoom.end)
-                {
-                    dataZoom.start = dataZoom.end;
-                    m_DataZoomEndDrag = true;
-                    m_DataZoomStartDrag = false;
-                }
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    RefreshChart();
-                }
-            }
-            else if (m_DataZoomEndDrag)
-            {
-                dataZoom.end += deltaPercent;
-                if (dataZoom.end < dataZoom.start)
-                {
-                    dataZoom.end = dataZoom.start;
-                    m_DataZoomStartDrag = true;
-                    m_DataZoomEndDrag = false;
-                }
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    RefreshChart();
-                }
-            }
-            else if (m_DataZoomDrag)
-            {
-                if (deltaPercent > 0)
-                {
-                    if (dataZoom.end + deltaPercent > 100)
-                    {
-                        deltaPercent = 100 - dataZoom.end;
-                    }
-                }
-                else
-                {
-                    if (dataZoom.start + deltaPercent < 0)
-                    {
-                        deltaPercent = -dataZoom.start;
-                    }
-                }
-                dataZoom.start += deltaPercent;
-                dataZoom.end += deltaPercent;
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    RefreshChart();
-                }
-            }
-        }
-
-        private void RefreshDataZoomLabel()
-        {
-            m_CheckDataZoomLabel = true;
-        }
-
-        public override void OnEndDrag(PointerEventData eventData)
-        {
-            base.OnEndDrag(eventData);
-            if (m_DataZoomDrag || m_DataZoomStartDrag || m_DataZoomEndDrag || m_DataZoomCoordinateDrag)
-            {
-                RefreshChart();
-            }
-            m_DataZoomDrag = false;
-            m_DataZoomCoordinateDrag = false;
-            m_DataZoomStartDrag = false;
-            m_DataZoomEndDrag = false;
-            OnDragVisualMapEnd();
-        }
-
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            base.OnPointerDown(eventData);
-            if (Input.touchCount > 1) return;
-            Vector2 localPos;
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                eventData.position, canvas.worldCamera, out localPos))
-            {
-                return;
-            }
-            var grid = GetDataZoomGridOrDefault(dataZoom);
-            if (dataZoom.IsInStartZoom(localPos) ||
-                dataZoom.IsInEndZoom(localPos))
-            {
-                return;
-            }
-            if (dataZoom.IsInZoom(localPos)
-                && !dataZoom.IsInSelectedZoom(localPos))
-            {
-                var pointerX = localPos.x;
-                var selectWidth = grid.runtimeWidth * (dataZoom.end - dataZoom.start) / 100;
-                var startX = pointerX - selectWidth / 2;
-                var endX = pointerX + selectWidth / 2;
-                if (startX < grid.runtimeX)
-                {
-                    startX = grid.runtimeX;
-                    endX = grid.runtimeX + selectWidth;
-                }
-                else if (endX > grid.runtimeX + grid.runtimeWidth)
-                {
-                    endX = grid.runtimeX + grid.runtimeWidth;
-                    startX = grid.runtimeX + grid.runtimeWidth - selectWidth;
-                }
-                dataZoom.start = (startX - grid.runtimeX) / grid.runtimeWidth * 100;
-                dataZoom.end = (endX - grid.runtimeX) / grid.runtimeWidth * 100;
-                RefreshDataZoomLabel();
-                RefreshChart();
-            }
-        }
-
-        public override void OnScroll(PointerEventData eventData)
-        {
-            base.OnScroll(eventData);
-            if (Input.touchCount > 1) return;
-            if (!dataZoom.enable || dataZoom.zoomLock) return;
-            Vector2 pos;
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                eventData.position, canvas.worldCamera, out pos))
-            {
-                return;
-            }
-            var grid = GetDataZoomGridOrDefault(dataZoom);
-            if (!IsInGrid(grid, pos) && !dataZoom.IsInSelectedZoom(pos))
-            {
-                return;
-            }
-            ScaleDataZoom(eventData.scrollDelta.y * dataZoom.scrollSensitivity);
-        }
-
-        private void ScaleDataZoom(float delta)
-        {
-            var grid = GetDataZoomGridOrDefault(dataZoom);
-            float deltaPercent = Mathf.Abs(delta / grid.runtimeWidth * 100);
-            if (delta > 0)
-            {
-                if (dataZoom.end <= dataZoom.start) return;
-                dataZoom.end -= deltaPercent;
-                dataZoom.start += deltaPercent;
-                if (dataZoom.end <= dataZoom.start)
-                {
-                    dataZoom.end = dataZoom.start;
-                }
-            }
-            else
-            {
-                dataZoom.end += deltaPercent;
-                dataZoom.start -= deltaPercent;
-                if (dataZoom.end > 100) dataZoom.end = 100;
-                if (dataZoom.start < 0) dataZoom.start = 0;
-            }
-            RefreshDataZoomLabel();
-            RefreshChart();
-        }
 
         public void Internal_CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 color, bool clip, Grid grid)

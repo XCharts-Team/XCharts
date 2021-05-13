@@ -33,16 +33,7 @@ namespace XCharts
         /// 两个y轴。
         /// </summary>
         public List<YAxis> yAxes { get { return m_YAxes; } }
-        /// <summary>
-        /// dataZoom component.
-        /// 区域缩放组件。
-        /// </summary>
-        public DataZoom dataZoom { get { return m_DataZooms.Count > 0 ? m_DataZooms[0] : null; } }
-        /// <summary>
-        /// visualMap component.
-        /// 视觉映射组件。
-        /// </summary>
-        public VisualMap visualMap { get { return m_VisualMaps.Count > 0 ? m_VisualMaps[0] : null; } }
+
         /// <summary>
         /// X轴（下）
         /// </summary>
@@ -204,7 +195,13 @@ namespace XCharts
         /// </summary>
         public void RefreshDataZoom()
         {
-            RefreshDataZoomLabel();
+            foreach (var handler in m_ComponentHandlers)
+            {
+                if (handler is DataZoomHandler)
+                {
+                    (handler as DataZoomHandler).RefreshDataZoomLabel();
+                }
+            }
         }
 
         /// <summary>

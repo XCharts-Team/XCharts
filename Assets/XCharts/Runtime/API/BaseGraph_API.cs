@@ -163,5 +163,16 @@ namespace XCharts
             ChartHelper.DestroyAllChildren(transform);
             //SetAllComponentDirty();
         }
+
+        public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)
+        {
+            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
+                screenPoint, cam, out chartPoint))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

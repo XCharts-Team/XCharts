@@ -70,6 +70,18 @@ namespace XCharts
         /// </summary>
         public Settings settings { get { return m_Settings; } }
         /// <summary>
+        /// dataZoom component.
+        /// 区域缩放组件。
+        /// </summary>
+        public DataZoom dataZoom { get { return m_DataZooms.Count > 0 ? m_DataZooms[0] : null; } }
+        public List<DataZoom> dataZooms { get { return m_DataZooms; } }
+        /// <summary>
+        /// visualMap component.
+        /// 视觉映射组件。
+        /// </summary>
+        public VisualMap visualMap { get { return m_VisualMaps.Count > 0 ? m_VisualMaps[0] : null; } }
+        public List<VisualMap> visualMaps { get { return m_VisualMaps; } }
+        /// <summary>
         /// The x of chart. 
         /// 图表的X
         /// </summary>

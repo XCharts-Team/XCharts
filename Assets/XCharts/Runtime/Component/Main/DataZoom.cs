@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace XCharts
@@ -360,6 +361,10 @@ namespace XCharts
         public float runtimeY { get; private set; }
         public float runtimeWidth { get; private set; }
         public float runtimeHeight { get; private set; }
+        public bool runtimeDrag { get; internal set; }
+        public bool runtimeCoordinateDrag { get; internal set; }
+        public bool runtimeStartDrag { get; internal set; }
+        public bool runtimeEndDrag { get; internal set; }
 
         class AxisIndexValueInfo
         {
@@ -628,6 +633,346 @@ namespace XCharts
                 var info = m_YAxisIndexInfos[axisIndex];
                 min = info.min;
                 max = info.max;
+            }
+        }
+    }
+
+
+    internal class DataZoomHandler : IComponentHandler
+    {
+        public CoordinateChart chart;
+        private Vector2 m_LastTouchPos0;
+        private Vector2 m_LastTouchPos1;
+        private bool m_CheckDataZoomLabel;
+        private float m_DataZoomLastStartIndex;
+        private float m_DataZoomLastEndIndex;
+
+        public DataZoomHandler(BaseChart chart)
+        {
+            this.chart = chart as CoordinateChart;
+        }
+
+        public void Init() { }
+
+        public void Update()
+        {
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                CheckDataZoomScale(dataZoom);
+                CheckDataZoomLabel(dataZoom);
+            }
+        }
+
+        public void Draw(VertexHelper vh)
+        {
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (Input.touchCount > 1) return;
+            Vector2 pos;
+            if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
+            {
+                return;
+            }
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                if (!dataZoom.enable) continue;
+                var grid = chart.GetDataZoomGridOrDefault(dataZoom);
+                if (dataZoom.supportInside)
+                {
+                    if (chart.IsInGrid(grid, pos))
+                    {
+                        dataZoom.runtimeCoordinateDrag = true;
+                    }
+                }
+                if (dataZoom.supportSlider)
+                {
+                    if (dataZoom.IsInStartZoom(pos))
+                    {
+                        dataZoom.runtimeStartDrag = true;
+                    }
+                    else if (dataZoom.IsInEndZoom(pos))
+                    {
+                        dataZoom.runtimeEndDrag = true;
+                    }
+                    else if (dataZoom.IsInSelectedZoom(pos))
+                    {
+                        dataZoom.runtimeDrag = true;
+                    }
+                }
+            }
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (Input.touchCount > 1) return;
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                var grid = chart.GetDataZoomGridOrDefault(dataZoom);
+                float deltaX = eventData.delta.x;
+                float deltaPercent = deltaX / grid.runtimeWidth * 100;
+                OnDragInside(dataZoom, deltaPercent);
+                OnDragSlider(dataZoom, deltaPercent);
+            }
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                if (dataZoom.runtimeDrag || dataZoom.runtimeStartDrag || dataZoom.runtimeEndDrag
+                    || dataZoom.runtimeCoordinateDrag)
+                {
+                    chart.RefreshChart();
+                }
+                dataZoom.runtimeDrag = false;
+                dataZoom.runtimeCoordinateDrag = false;
+                dataZoom.runtimeStartDrag = false;
+                dataZoom.runtimeEndDrag = false;
+            }
+        }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (Input.touchCount > 1) return;
+            Vector2 localPos;
+            if (!chart.ScreenPointToChartPoint(eventData.position, out localPos))
+            {
+                return;
+            }
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                var grid = chart.GetDataZoomGridOrDefault(dataZoom);
+                if (dataZoom.IsInStartZoom(localPos) ||
+                    dataZoom.IsInEndZoom(localPos))
+                {
+                    return;
+                }
+                if (dataZoom.IsInZoom(localPos)
+                    && !dataZoom.IsInSelectedZoom(localPos))
+                {
+                    var pointerX = localPos.x;
+                    var selectWidth = grid.runtimeWidth * (dataZoom.end - dataZoom.start) / 100;
+                    var startX = pointerX - selectWidth / 2;
+                    var endX = pointerX + selectWidth / 2;
+                    if (startX < grid.runtimeX)
+                    {
+                        startX = grid.runtimeX;
+                        endX = grid.runtimeX + selectWidth;
+                    }
+                    else if (endX > grid.runtimeX + grid.runtimeWidth)
+                    {
+                        endX = grid.runtimeX + grid.runtimeWidth;
+                        startX = grid.runtimeX + grid.runtimeWidth - selectWidth;
+                    }
+                    dataZoom.start = (startX - grid.runtimeX) / grid.runtimeWidth * 100;
+                    dataZoom.end = (endX - grid.runtimeX) / grid.runtimeWidth * 100;
+                    RefreshDataZoomLabel();
+                    chart.RefreshChart();
+                }
+            }
+        }
+        public void OnScroll(PointerEventData eventData)
+        {
+            if (Input.touchCount > 1) return;
+            foreach (var dataZoom in chart.dataZooms)
+            {
+                if (!dataZoom.enable || dataZoom.zoomLock) return;
+                Vector2 pos;
+                if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
+                {
+                    return;
+                }
+                var grid = chart.GetDataZoomGridOrDefault(dataZoom);
+                if (!chart.IsInGrid(grid, pos) && !dataZoom.IsInSelectedZoom(pos))
+                {
+                    return;
+                }
+                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity);
+            }
+        }
+
+        private void OnDragInside(DataZoom dataZoom, float deltaPercent)
+        {
+            if (Input.touchCount > 1) return;
+            if (!dataZoom.supportInside) return;
+            if (!dataZoom.runtimeCoordinateDrag) return;
+            var diff = dataZoom.end - dataZoom.start;
+            if (deltaPercent > 0)
+            {
+                dataZoom.start -= deltaPercent;
+                dataZoom.end = dataZoom.start + diff;
+            }
+            else
+            {
+                dataZoom.end += -deltaPercent;
+                dataZoom.start = dataZoom.end - diff;
+            }
+            RefreshDataZoomLabel();
+            chart.RefreshChart();
+        }
+
+        private void OnDragSlider(DataZoom dataZoom, float deltaPercent)
+        {
+            if (Input.touchCount > 1) return;
+            if (!dataZoom.supportSlider) return;
+            if (dataZoom.runtimeStartDrag)
+            {
+                dataZoom.start += deltaPercent;
+                if (dataZoom.start > dataZoom.end)
+                {
+                    dataZoom.start = dataZoom.end;
+                    dataZoom.runtimeEndDrag = true;
+                    dataZoom.runtimeStartDrag = false;
+                }
+                if (dataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    chart.RefreshChart();
+                }
+            }
+            else if (dataZoom.runtimeEndDrag)
+            {
+                dataZoom.end += deltaPercent;
+                if (dataZoom.end < dataZoom.start)
+                {
+                    dataZoom.end = dataZoom.start;
+                    dataZoom.runtimeStartDrag = true;
+                    dataZoom.runtimeEndDrag = false;
+                }
+                if (dataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    chart.RefreshChart();
+                }
+            }
+            else if (dataZoom.runtimeDrag)
+            {
+                if (deltaPercent > 0)
+                {
+                    if (dataZoom.end + deltaPercent > 100)
+                    {
+                        deltaPercent = 100 - dataZoom.end;
+                    }
+                }
+                else
+                {
+                    if (dataZoom.start + deltaPercent < 0)
+                    {
+                        deltaPercent = -dataZoom.start;
+                    }
+                }
+                dataZoom.start += deltaPercent;
+                dataZoom.end += deltaPercent;
+                if (dataZoom.realtime)
+                {
+                    RefreshDataZoomLabel();
+                    chart.RefreshChart();
+                }
+            }
+        }
+
+        private void ScaleDataZoom(DataZoom dataZoom, float delta)
+        {
+            var grid = chart.GetDataZoomGridOrDefault(dataZoom);
+            float deltaPercent = Mathf.Abs(delta / grid.runtimeWidth * 100);
+            if (delta > 0)
+            {
+                if (dataZoom.end <= dataZoom.start) return;
+                dataZoom.end -= deltaPercent;
+                dataZoom.start += deltaPercent;
+                if (dataZoom.end <= dataZoom.start)
+                {
+                    dataZoom.end = dataZoom.start;
+                }
+            }
+            else
+            {
+                dataZoom.end += deltaPercent;
+                dataZoom.start -= deltaPercent;
+                if (dataZoom.end > 100) dataZoom.end = 100;
+                if (dataZoom.start < 0) dataZoom.start = 0;
+            }
+            RefreshDataZoomLabel();
+            chart.RefreshChart();
+        }
+
+        public void RefreshDataZoomLabel()
+        {
+            m_CheckDataZoomLabel = true;
+        }
+
+        private void CheckDataZoomScale(DataZoom dataZoom)
+        {
+            if (!dataZoom.enable || dataZoom.zoomLock || !dataZoom.supportInside) return;
+
+            if (Input.touchCount == 2)
+            {
+                var touch0 = Input.GetTouch(0);
+                var touch1 = Input.GetTouch(1);
+                if (touch1.phase == TouchPhase.Began)
+                {
+                    m_LastTouchPos0 = touch0.position;
+                    m_LastTouchPos1 = touch1.position;
+                }
+                else if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
+                {
+                    var tempPos0 = touch0.position;
+                    var tempPos1 = touch1.position;
+                    var currDist = Vector2.Distance(tempPos0, tempPos1);
+                    var lastDist = Vector2.Distance(m_LastTouchPos0, m_LastTouchPos1);
+                    var delta = (currDist - lastDist);
+                    ScaleDataZoom(dataZoom, delta / dataZoom.scrollSensitivity);
+                    m_LastTouchPos0 = tempPos0;
+                    m_LastTouchPos1 = tempPos1;
+                }
+            }
+        }
+
+        private void CheckDataZoomLabel(DataZoom dataZoom)
+        {
+            if (dataZoom.enable && dataZoom.supportSlider && dataZoom.showDetail)
+            {
+                Vector2 local;
+                if (!chart.ScreenPointToChartPoint(Input.mousePosition, out local))
+                {
+                    dataZoom.SetLabelActive(false);
+                    return;
+                }
+                if (dataZoom.IsInSelectedZoom(local)
+                    || dataZoom.IsInStartZoom(local)
+                    || dataZoom.IsInEndZoom(local))
+                {
+                    dataZoom.SetLabelActive(true);
+                    RefreshDataZoomLabel();
+                }
+                else
+                {
+                    dataZoom.SetLabelActive(false);
+                }
+            }
+            if (m_CheckDataZoomLabel)
+            {
+                m_CheckDataZoomLabel = false;
+                var xAxis = chart.GetXAxis(dataZoom.xAxisIndexs[0]);
+                var startIndex = (int)((xAxis.data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((xAxis.data.Count - 1) * dataZoom.end / 100);
+                if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
+                {
+                    m_DataZoomLastStartIndex = startIndex;
+                    m_DataZoomLastEndIndex = endIndex;
+                    if (xAxis.data.Count > 0)
+                    {
+                        dataZoom.SetStartLabelText(xAxis.data[startIndex]);
+                        dataZoom.SetEndLabelText(xAxis.data[endIndex]);
+                    }
+                    chart.InitAxisX();
+                }
+                var start = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.start / 100;
+                var end = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.end / 100;
+                var hig = dataZoom.runtimeHeight;
+                dataZoom.UpdateStartLabelPosition(new Vector3(start - 10, chart.chartY + dataZoom.bottom + hig / 2));
+                dataZoom.UpdateEndLabelPosition(new Vector3(end + 10, chart.chartY + dataZoom.bottom + hig / 2));
             }
         }
     }

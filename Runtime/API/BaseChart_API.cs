@@ -202,6 +202,25 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Add a serie to serie list.
+        /// 通过字符串类型的serieType添加一个系列到系列列表中。如果serieType不是已定义的SerieType类型，则设置为Custom类型。
+        /// </summary>
+        /// <param name="serieType"></param>
+        /// <param name="serieName"></param>
+        /// <param name="show"></param>
+        /// <returns></returns>
+        public virtual Serie AddSerie(string serieType, string serieName = null, bool show = true)
+        {
+            var type = SerieType.Custom;
+            var list = Enum.GetNames(typeof(SerieType));
+            foreach (var t in list)
+            {
+                if (t.Equals(serieType)) type = (SerieType)Enum.Parse(typeof(SerieType), t);
+            }
+            return AddSerie(type, serieName, show);
+        }
+
+        /// <summary>
         /// Add a data to serie.
         /// If serieName doesn't exist in legend,will be add to legend.
         /// 添加一个数据到指定的系列中。
@@ -733,7 +752,7 @@ namespace XCharts
             return SeriesHelper.ContainsSerie(m_Series, serieType);
         }
 
-        public virtual bool AddDefaultCustomSerie(string serieName)
+        public virtual bool AddDefaultCustomSerie(string serieName, int dataCount = 5)
         {
             return false;
         }
@@ -743,6 +762,11 @@ namespace XCharts
             return null;
         }
         public virtual string[] GetCustomChartInspectorShowFileds()
+        {
+            return null;
+        }
+
+        public virtual string GetCustomSerieTypeName()
         {
             return null;
         }

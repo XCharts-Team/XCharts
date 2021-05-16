@@ -339,13 +339,13 @@ namespace XCharts
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || location.anyDirty; } }
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             location.ClearVerticesDirty();
         }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             location.ClearComponentDirty();
@@ -676,16 +676,18 @@ namespace XCharts
 
         public void Draw(VertexHelper vh)
         {
-            var visualMap = chart.visualMap;
-            if (!visualMap.enable || !visualMap.show) return;
-            switch (visualMap.type)
+            foreach (var visualMap in chart.visualMaps)
             {
-                case VisualMap.Type.Continuous:
-                    DrawContinuousVisualMap(vh, visualMap);
-                    break;
-                case VisualMap.Type.Piecewise:
-                    //DrawPiecewiseVisualMap(vh, visualMap);
-                    break;
+                if (!visualMap.enable || !visualMap.show) continue;
+                switch (visualMap.type)
+                {
+                    case VisualMap.Type.Continuous:
+                        DrawContinuousVisualMap(vh, visualMap);
+                        break;
+                    case VisualMap.Type.Piecewise:
+                        //DrawPiecewiseVisualMap(vh, visualMap);
+                        break;
+                }
             }
         }
 

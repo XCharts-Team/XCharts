@@ -31,22 +31,22 @@ namespace XCharts
         public Action refreshComponent { get; set; }
         public GameObject gameObject { get; set; }
 
-        internal virtual void SetVerticesDirty()
+        public virtual void SetVerticesDirty()
         {
             m_VertsDirty = true;
         }
 
-        internal virtual void ClearVerticesDirty()
+        public virtual void ClearVerticesDirty()
         {
             m_VertsDirty = false;
         }
 
-        internal virtual void SetComponentDirty()
+        public virtual void SetComponentDirty()
         {
             m_ComponentDirty = true;
         }
 
-        internal virtual void ClearComponentDirty()
+        public virtual void ClearComponentDirty()
         {
             m_ComponentDirty = false;
         }

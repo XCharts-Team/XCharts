@@ -173,10 +173,6 @@ namespace XCharts
                     serie.dataPoints.Clear();
                     DrawCandlestickSerie(vh, colorIndex, serie);
                     break;
-                case SerieType.Gantt:
-                    serie.dataPoints.Clear();
-                    DrawGanttSerie(vh, colorIndex, serie);
-                    break;
             }
         }
 
@@ -636,23 +632,8 @@ namespace XCharts
             yAxis.refreshComponent();
         }
 
-        private void InitAxisRuntimeData(Axis axis)
+        protected virtual void InitAxisRuntimeData(Axis axis)
         {
-            if (axis.type != Axis.AxisType.Category) return;
-            if (axis.data.Count > 0) return;
-            if (this is GanttChart)
-            {
-                axis.runtimeData.Clear();
-                for (int i = 0; i < m_Series.Count; i++)
-                {
-                    var serie = m_Series.GetSerie(i);
-                    if (serie.yAxisIndex != axis.index) continue;
-                    for (int j = serie.data.Count - 1; j >= 0; j--)
-                    {
-                        axis.runtimeData.Add(serie.data[j].name);
-                    }
-                }
-            }
         }
 
         internal void InitAxisX()

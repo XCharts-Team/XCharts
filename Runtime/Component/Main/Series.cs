@@ -67,7 +67,7 @@ namespace XCharts
             m_LabelDirty = true;
         }
 
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             foreach (var serie in m_Series)

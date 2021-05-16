@@ -237,7 +237,7 @@ namespace XCharts
             get { return m_ComponentDirty || lineStyle.componentDirty || textStyle.componentDirty; }
         }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             lineStyle.ClearComponentDirty();

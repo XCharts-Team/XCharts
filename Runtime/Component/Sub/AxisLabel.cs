@@ -127,7 +127,7 @@ namespace XCharts
         }
 
         public override bool componentDirty { get { return m_ComponentDirty || m_TextLimit.componentDirty; } }
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             textLimit.ClearComponentDirty();

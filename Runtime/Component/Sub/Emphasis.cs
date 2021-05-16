@@ -56,14 +56,14 @@ namespace XCharts
 
         public override bool componentDirty { get { return m_ComponentDirty || label.componentDirty; } }
 
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             label.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
         }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             label.ClearComponentDirty();

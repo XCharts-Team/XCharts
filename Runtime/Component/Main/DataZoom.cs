@@ -656,6 +656,7 @@ namespace XCharts
 
         public void Update()
         {
+            if (chart == null) return;
             foreach (var dataZoom in chart.dataZooms)
             {
                 CheckDataZoomScale(dataZoom);

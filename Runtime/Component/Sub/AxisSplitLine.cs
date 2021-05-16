@@ -26,7 +26,7 @@ namespace XCharts
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || m_LineStyle.anyDirty; } }
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             m_LineStyle.ClearVerticesDirty();

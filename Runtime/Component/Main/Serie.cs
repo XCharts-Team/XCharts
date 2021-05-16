@@ -65,10 +65,6 @@ namespace XCharts
         /// </summary>
         Candlestick,
         /// <summary>
-        /// 甘特图。甘特图的data至少包含两个数据：[start, end]
-        /// </summary>
-        Gantt,
-        /// <summary>
         /// 自定义。
         /// </summary>
         Custom,
@@ -195,6 +191,7 @@ namespace XCharts
         /// </summary>
         Single
     }
+
     /// <summary>
     /// 采样类型
     /// </summary>
@@ -799,7 +796,7 @@ namespace XCharts
         /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
-        public int showDataDimension { get { return m_ShowDataDimension; } internal set { m_ShowDataDimension = value; } }
+        public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = value; } }
         /// <summary>
         /// 在Editor的inpsector上是否显示name参数
         /// </summary>
@@ -954,7 +951,7 @@ namespace XCharts
         }
 
         public override bool componentDirty { get { return m_ComponentDirty || titleStyle.componentDirty; } }
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             symbol.ClearVerticesDirty();
@@ -969,7 +966,7 @@ namespace XCharts
             titleStyle.ClearVerticesDirty();
         }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             symbol.ClearComponentDirty();
@@ -1751,7 +1748,6 @@ namespace XCharts
                 || type == SerieType.Bar
                 || type == SerieType.Scatter
                 || type == SerieType.Heatmap
-                || type == SerieType.Gantt
                 || type == SerieType.Candlestick;
         }
 

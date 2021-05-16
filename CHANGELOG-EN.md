@@ -1,7 +1,7 @@
 
 # 更新日志
 
-[Latest](#Latest)  
+[Latest](#master)  
 [v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
@@ -32,8 +32,10 @@
 [v0.5.0](#v0.5.0)  
 [v0.1.0](#v0.1.0)  
 
-## Latest
+## master
 
+* (2021.05.16) Pull out the `Ganttchart` chart and provide it as an extension module
+* (2021.05.11) Added support for `VisualMap` to set color by `Piecewise`
 * (2021.05.09) Fixed an issue where `RingChart` could not set the background color of the ring  #141
 * (2021.05.08) Added `Liquidchart` support for `Rect` shape
 * (2021.05.07) Improved the `Axis` scale performance #135

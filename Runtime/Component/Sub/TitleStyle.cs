@@ -46,7 +46,7 @@ namespace XCharts
 
         public override bool componentDirty { get { return m_ComponentDirty || textStyle.componentDirty; } }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             textStyle.ClearComponentDirty();

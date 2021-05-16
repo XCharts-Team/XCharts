@@ -348,14 +348,14 @@ namespace XCharts
         {
             get { return m_ComponentDirty || axisName.anyDirty || axisLabel.anyDirty; }
         }
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             axisName.ClearComponentDirty();
             axisLabel.ClearComponentDirty();
         }
 
-        internal override void ClearVerticesDirty()
+        public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             axisLine.ClearVerticesDirty();
@@ -411,9 +411,9 @@ namespace XCharts
         public float runtimeZeroYOffset { get; internal set; }
         public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
-        internal bool runtimeLastCheckInverse { get; set; }
-        internal double runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
-        internal List<string> runtimeData { get { return m_RuntimeData; } }
+        public bool runtimeLastCheckInverse { get; set; }
+        public double runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
+        public List<string> runtimeData { get { return m_RuntimeData; } }
         public float runtimeScaleWidth { get; internal set; }
         private int filterStart;
         private int filterEnd;

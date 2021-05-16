@@ -80,19 +80,12 @@ namespace XCharts
             }
         }
 
-        // public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
-        //     Vector3 startPos, Vector3 endPos, Color32 color, float themeWidth)
-        // {
-        //     var type = lineStyle.type;
-        //     var width = lineStyle.GetWidth(themeWidth);
-        //     DrawLineStyle(vh, type, width, startPos, endPos, color);
-        // }
-
         public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
-        Vector3 startPos, Vector3 endPos, Color32 color, float themeWidth, LineStyle.Type themeType)
+        Vector3 startPos, Vector3 endPos, Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
         {
             var type = lineStyle.GetType(themeType);
             var width = lineStyle.GetWidth(themeWidth);
+            var color = lineStyle.GetColor(defaultColor);
             DrawLineStyle(vh, type, width, startPos, endPos, color);
         }
 

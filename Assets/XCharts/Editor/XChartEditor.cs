@@ -142,12 +142,7 @@ namespace XCharts
             AddChart<LiquidChart>("LiquidChart");
         }
 
-        [MenuItem("XCharts/GanttChart", priority = 54)]
-        [MenuItem("GameObject/XCharts/GanttChart", priority = 54)]
-        public static void AddGanttChart()
-        {
-            AddChart<GanttChart>("GanttChart");
-        }
+        
 
         [MenuItem("XCharts/Themes Reload")]
         public static void ReloadTheme()

@@ -228,7 +228,7 @@ namespace XCharts
             get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty; }
         }
 
-        internal override void ClearComponentDirty()
+        public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             location.ClearComponentDirty();

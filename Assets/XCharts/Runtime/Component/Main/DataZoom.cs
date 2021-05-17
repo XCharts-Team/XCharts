@@ -670,6 +670,7 @@ namespace XCharts
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (chart == null) return;
             if (Input.touchCount > 1) return;
             Vector2 pos;
             if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
@@ -707,6 +708,7 @@ namespace XCharts
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (chart == null) return;
             if (Input.touchCount > 1) return;
             foreach (var dataZoom in chart.dataZooms)
             {
@@ -720,6 +722,7 @@ namespace XCharts
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (chart == null) return;
             foreach (var dataZoom in chart.dataZooms)
             {
                 if (dataZoom.runtimeDrag || dataZoom.runtimeStartDrag || dataZoom.runtimeEndDrag
@@ -735,6 +738,7 @@ namespace XCharts
         }
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (chart == null) return;
             if (Input.touchCount > 1) return;
             Vector2 localPos;
             if (!chart.ScreenPointToChartPoint(eventData.position, out localPos))
@@ -775,6 +779,7 @@ namespace XCharts
         }
         public void OnScroll(PointerEventData eventData)
         {
+            if (chart == null) return;
             if (Input.touchCount > 1) return;
             foreach (var dataZoom in chart.dataZooms)
             {

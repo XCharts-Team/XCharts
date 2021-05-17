@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [AddComponentMenu("XCharts/CandlestickChart", 21)]
+    [AddComponentMenu("XCharts/CandlestickChart", 23)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]

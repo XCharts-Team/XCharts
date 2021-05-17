@@ -41,7 +41,7 @@
   </a>
 </p>
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图、K线图、甘特图等常见图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图、K线图等常见图表。
 
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
@@ -58,8 +58,7 @@
 * 支持全局配置参数调整。
 * 新增 `TextMeshPro` 的支持。
 * 新增 `CandlestickChart` K线图。
-* 新增 `GanttChart` 甘特图。
-* __注意：__ `2.0` 版本进行了大量的重构和调整，并不完全兼容 `1.0` 版本，所以`1.0` 版本不宜直接升级 `2.0` 版本，升级后部分参数设置可能被重置为默认值。
+* __注意：__ `2.0` 版本进行了大量的重构和调整，并不完全兼容 `1.0` 版本，升级后部分参数设置可能被重置为默认值，请谨慎升级。
 
 ## 特性
 
@@ -127,7 +126,6 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 | LiquidChart | 水位图 |
 | PolarChart | 极坐标图 |
 | CandlestickChart | K线图 |
-| GanttChart | 甘特图 |
 
 ## 关系
 

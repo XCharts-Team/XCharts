@@ -58,7 +58,6 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 * Support global adjustment of configuration parameters.
 * Added support for `TextMeshPro`.
 * Added `CandlestickChart`.
-* Added `GanttChart`.
 * __ Note:__ `2.0` has undergone a lot of refactoring and adjustments and is not fully compatible with version `1.0`, so `1.0` should not be directly upgraded to `2.0`. Some parameter Settings may be reset to default values after upgrading.
 
 ## Features

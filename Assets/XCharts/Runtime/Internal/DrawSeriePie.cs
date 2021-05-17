@@ -75,7 +75,6 @@ namespace XCharts
 
         public bool CheckTootipArea(Vector2 local)
         {
-            if (!PointerIsInPieSerie(chart.series, local)) return false;
             bool selected = false;
             chart.tooltip.runtimeDataIndex.Clear();
             foreach (var serie in chart.series.list)
@@ -492,8 +491,6 @@ namespace XCharts
                 }
             }
         }
-
-
 
         private void DrawPieLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {

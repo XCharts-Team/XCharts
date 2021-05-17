@@ -120,11 +120,14 @@ namespace XCharts
                     plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
                 }
                 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
-                plt = ClampInGrid(grid, plt);
-                prt = ClampInGrid(grid, prt);
-                prb = ClampInGrid(grid, prb);
-                plb = ClampInGrid(grid, plb);
-                top = ClampInGrid(grid, top);
+                if (serie.clip)
+                {
+                    plt = ClampInGrid(grid, plt);
+                    prt = ClampInGrid(grid, prt);
+                    prb = ClampInGrid(grid, prb);
+                    plb = ClampInGrid(grid, plb);
+                    top = ClampInGrid(grid, top);
+                }
                 serie.dataPoints.Add(top);
                 if (serie.show)
                 {

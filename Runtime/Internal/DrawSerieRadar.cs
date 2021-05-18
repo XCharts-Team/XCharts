@@ -119,6 +119,7 @@ namespace XCharts
 
         public bool CheckTootipArea(Vector2 local)
         {
+            if (chart.series.Contains(SerieType.Radar)) return false;
             if (m_IsEnterLegendButtom) return false;
             if (!IsInRadar(local)) return false;
             bool highlight = false;

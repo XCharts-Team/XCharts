@@ -214,6 +214,15 @@ namespace XCharts
             return false;
         }
 
+        public bool Contains(SerieType type)
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.type == type) return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Remove serie from series.
         /// 移除指定名字的系列。
@@ -327,7 +336,7 @@ namespace XCharts
             return null;
         }
 
-         public SerieData AddData(string serieName, float open, float close, float lowest, float heighest, string dataName = null)
+        public SerieData AddData(string serieName, float open, float close, float lowest, float heighest, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)

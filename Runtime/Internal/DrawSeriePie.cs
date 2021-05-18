@@ -75,6 +75,7 @@ namespace XCharts
 
         public bool CheckTootipArea(Vector2 local)
         {
+            if (chart.series.Contains(SerieType.Pie)) return false;
             bool selected = false;
             chart.tooltip.runtimeDataIndex.Clear();
             foreach (var serie in chart.series.list)
@@ -102,7 +103,7 @@ namespace XCharts
                 chart.tooltip.SetActive(false);
                 chart.RefreshChart();
             }
-            return true;
+            return selected;
         }
 
         public bool OnLegendButtonClick(int index, string legendName, bool show)

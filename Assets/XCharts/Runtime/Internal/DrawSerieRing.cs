@@ -127,7 +127,7 @@ namespace XCharts
 
         public bool CheckTootipArea(Vector2 local)
         {
-            if (chart.series.Contains(SerieType.Ring)) return false;
+            if (!chart.series.Contains(SerieType.Ring)) return false;
             if (!PointerIsInRingSerie(chart.series, local)) return false;
             if (m_IsEnterLegendButtom) return false;
             bool selected = false;

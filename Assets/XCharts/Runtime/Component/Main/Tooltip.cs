@@ -481,9 +481,8 @@ namespace XCharts
         /// </summary>
         internal void UpdateLastDataIndex()
         {
-            lastDataIndex[0] = runtimeDataIndex[0];
-            if (runtimeDataIndex.Count > 1)
-                lastDataIndex[1] = runtimeDataIndex[1];
+            if (lastDataIndex.Count > 0 && runtimeDataIndex.Count > 0) lastDataIndex[0] = runtimeDataIndex[0];
+            if (lastDataIndex.Count > 0 && runtimeDataIndex.Count > 1) lastDataIndex[1] = runtimeDataIndex[1];
         }
 
         /// <summary>

@@ -70,6 +70,9 @@ namespace XCharts
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
+            GameObjectUtility.EnsureUniqueNameForSibling(chart);
+            Selection.activeGameObject = chart;
+            EditorUtility.SetDirty(chart);
         }
 
         [MenuItem("XCharts/LineChart", priority = 44)]

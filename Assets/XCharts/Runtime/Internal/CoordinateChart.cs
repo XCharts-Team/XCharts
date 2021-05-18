@@ -1046,15 +1046,15 @@ namespace XCharts
                 var grid = GetAxisGridOrDefault(yAxis);
                 var size = AxisHelper.GetScaleNumber(yAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeY;
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i <= size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
-                    if (i == 0 && !yAxis.axisTick.showStartTick)
+                    if (i == 0 && (!yAxis.axisTick.showStartTick || yAxis.axisTick.alignWithLabel))
                     {
                         totalWidth += scaleWidth;
                         continue;
                     }
-                    if (i == size - 1 && !yAxis.axisTick.showEndTick)
+                    if (i == size && !yAxis.axisTick.showEndTick)
                     {
                         totalWidth += scaleWidth;
                         continue;
@@ -1166,8 +1166,7 @@ namespace XCharts
                 for (int i = 0; i <= size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
-
-                    if (i == 0 && !xAxis.axisTick.showStartTick)
+                    if (i == 0 && (!xAxis.axisTick.showStartTick || xAxis.axisTick.alignWithLabel))
                     {
                         totalWidth += scaleWidth;
                         continue;

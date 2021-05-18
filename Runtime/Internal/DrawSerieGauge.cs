@@ -79,7 +79,7 @@ namespace XCharts
 
         public bool CheckTootipArea(Vector2 local)
         {
-            if (chart.series.Contains(SerieType.Gauge)) return false;
+            if (!chart.series.Contains(SerieType.Gauge)) return false;
             var serie = GetPointerInSerieIndex(chart.series, local);
             if (serie != null)
             {

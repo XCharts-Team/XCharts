@@ -322,7 +322,7 @@ namespace XCharts
                 {
                     drawRect.width = drawRect.width - 18;
                     EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + index));
-                    drawRect.x = currentWidth - 45;
+                    drawRect.x = currentWidth - 40;
                     EditorGUI.PropertyField(drawRect, selected, GUIContent.none);
                     drawRect.x = lastX;
                     drawRect.width = lastWid;

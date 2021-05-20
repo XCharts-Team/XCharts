@@ -182,6 +182,18 @@ namespace XCharts
                                 PropertyField(prop, filed);
                             }
                         }
+                        var customs = chart.GetCustomSerieInspectorCustomFileds();
+                        if (customs != null && customs.Length > 0)
+                        {
+                            foreach (var custom in customs)
+                            {
+                                var customProp = prop.FindPropertyRelative(custom[0]);
+                                var anatherName = custom[1] + " (" + customProp.displayName + ")";
+                                EditorGUI.PropertyField(m_DrawRect, customProp, new GUIContent(anatherName));
+                                m_DrawRect.y += EditorGUI.GetPropertyHeight(prop);
+                                m_Heights[m_KeyName] += hig;
+                            }
+                        }
                         break;
                 }
                 PropertyField(prop, "m_ItemStyle");

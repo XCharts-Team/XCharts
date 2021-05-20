@@ -1,9 +1,9 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
+﻿/******************************************/
+/*                                        */
+/*     Copyright (c) 2021 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
 
 using System;
 using System.Collections.Generic;
@@ -99,6 +99,7 @@ namespace XCharts
         [SerializeField] protected int m_CeilRate = 0;
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
+        [SerializeField] private bool m_InsertDataToHead;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -340,6 +341,15 @@ namespace XCharts
             get { return m_SplitArea; }
             set { if (value != null) { m_SplitArea = value; SetVerticesDirty(); } }
         }
+        /// <summary>
+        /// Whether to add new data at the head or at the end of the list.
+        /// 添加新数据时是在列表的头部还是尾部加入。
+        /// </summary>
+        public bool insertDataToHead
+        {
+            get { return m_InsertDataToHead; }
+            set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
+        }
         public override bool vertsDirty
         {
             get { return m_VertsDirty || axisLine.anyDirty || axisTick.anyDirty || splitLine.anyDirty || splitArea.anyDirty; }
@@ -534,10 +544,11 @@ namespace XCharts
                 while (m_Data.Count > maxCache)
                 {
                     m_NeedUpdateFilterData = true;
-                    m_Data.RemoveAt(0);
+                    m_Data.RemoveAt(m_InsertDataToHead ? m_Data.Count - 1 : 0);
                 }
             }
-            m_Data.Add(category);
+            if (m_InsertDataToHead) m_Data.Insert(0, category);
+            else m_Data.Add(category);
             SetAllDirty();
         }
 
@@ -682,7 +693,7 @@ namespace XCharts
 
         internal void SetTooltipLabelActive(bool flag)
         {
-            if(m_TooltipLabel == null) return;
+            if (m_TooltipLabel == null) return;
             ChartHelper.SetActive(m_TooltipLabel, flag);
         }
 

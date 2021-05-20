@@ -1,9 +1,9 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
+﻿/******************************************/
+/*                                        */
+/*     Copyright (c) 2021 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -549,6 +549,7 @@ namespace XCharts
                 float totalWidth = 0;
                 float eachWidth = AxisHelper.GetEachWidth(yAxis, grid.runtimeHeight, dataZoom);
                 float gapWidth = yAxis.boundaryGap ? eachWidth / 2 : 0;
+                if (yAxis.IsCategory()) splitNumber += 1;
                 for (int i = 0; i < splitNumber; i++)
                 {
                     ChartText txt;
@@ -666,6 +667,7 @@ namespace XCharts
                 float eachWidth = AxisHelper.GetEachWidth(xAxis, grid.runtimeWidth, dataZoom);
                 float gapWidth = xAxis.boundaryGap ? eachWidth / 2 : 0;
                 float textWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, 0, dataZoom);
+                //if (xAxis.IsCategory() && xAxis.boundaryGap) splitNumber += 1;
                 for (int i = 0; i < splitNumber; i++)
                 {
                     var labelWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
@@ -1046,7 +1048,7 @@ namespace XCharts
                 var grid = GetAxisGridOrDefault(yAxis);
                 var size = AxisHelper.GetScaleNumber(yAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeY;
-                for (int i = 0; i <= size; i++)
+                for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
                     if (i == 0 && (!yAxis.axisTick.showStartTick || yAxis.axisTick.alignWithLabel))
@@ -1054,7 +1056,7 @@ namespace XCharts
                         totalWidth += scaleWidth;
                         continue;
                     }
-                    if (i == size && !yAxis.axisTick.showEndTick)
+                    if (i == size - 1 && !yAxis.axisTick.showEndTick)
                     {
                         totalWidth += scaleWidth;
                         continue;
@@ -1163,7 +1165,7 @@ namespace XCharts
                 var size = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeX;
                 var yAxis = m_YAxes[xAxisIndex];
-                for (int i = 0; i <= size; i++)
+                for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
                     if (i == 0 && (!xAxis.axisTick.showStartTick || xAxis.axisTick.alignWithLabel))
@@ -1171,7 +1173,7 @@ namespace XCharts
                         totalWidth += scaleWidth;
                         continue;
                     }
-                    if (i == size && !xAxis.axisTick.showEndTick)
+                    if (i == size - 1 && !xAxis.axisTick.showEndTick)
                     {
                         totalWidth += scaleWidth;
                         continue;

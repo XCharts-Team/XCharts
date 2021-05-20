@@ -1,9 +1,9 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
+/******************************************/
+/*                                        */
+/*     Copyright (c) 2021 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
 using UnityEngine;
 
 namespace XCharts
@@ -77,6 +77,10 @@ namespace XCharts
             else if (axis.type == Axis.AxisType.Category)
             {
                 int dataCount = axis.GetDataList(dataZoom).Count;
+                if (!axis.boundaryGap)
+                {
+                    dataCount -= 1;
+                }
                 if (axis.splitNumber <= 0 || axis.splitNumber > dataCount) return dataCount;
                 if (dataCount >= axis.splitNumber * 2) return axis.splitNumber;
                 else return dataCount;
@@ -170,15 +174,33 @@ namespace XCharts
             if (dataCount <= 0) return "";
             int rate = axis.boundaryGap ? (dataCount / split) : (dataCount - 1) / split;
             if (rate == 0) rate = 1;
-            int newIndex = index * rate;
-            if (newIndex <= dataCount - 1)
+            if (axis.insertDataToHead)
             {
-                return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+                if (index > 0)
+                {
+                    var residue = (dataCount - 1) - split * rate;
+                    var newIndex = residue + (index - 1) * rate;
+                    if (newIndex < 0) newIndex = 0;
+                    return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+                }
+                else
+                {
+                    if (axis.boundaryGap && coordinateWidth / dataCount > 5) return string.Empty;
+                    else return axis.axisLabel.GetFormatterContent(showData[0]);
+                }
             }
             else
             {
-                if (axis.boundaryGap && coordinateWidth / dataCount > 10) return string.Empty;
-                else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
+                int newIndex = index * rate;
+                if (newIndex < dataCount)
+                {
+                    return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+                }
+                else
+                {
+                    if (axis.boundaryGap && coordinateWidth / dataCount > 5) return string.Empty;
+                    else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
+                }
             }
         }
 
@@ -195,14 +217,15 @@ namespace XCharts
             {
                 var data = axis.GetDataList(dataZoom);
                 var scaleNum = 0;
+
                 if (axis.boundaryGap)
                 {
-                    scaleNum = data.Count % splitNum == 0 ? splitNum : splitNum + 1;
+                    scaleNum = data.Count % splitNum == 0 ? splitNum + 1 : splitNum + 2;
                 }
                 else
                 {
-                    if (data.Count - 1 < splitNum) scaleNum = splitNum;
-                    else scaleNum = (data.Count - 1) % splitNum == 0 ? splitNum + 1 : splitNum + 1;
+                    if (data.Count < splitNum) scaleNum = splitNum;
+                    else scaleNum = data.Count % splitNum == 0 ? splitNum : splitNum + 1;
                 }
                 return scaleNum;
             }
@@ -245,15 +268,33 @@ namespace XCharts
                     int tick = count / splitNum;
                     if (count <= 0) return 0;
                     var each = coordinateWidth / count;
-                    if (index >= num)
+                    if (axis.insertDataToHead)
                     {
-                        if (axis.axisTick.alignWithLabel) return each * tick;
-                        else return coordinateWidth - each * tick * (index - 1);
+                        var max = axis.boundaryGap ? splitNum : splitNum - 1;
+                        if (index == 1)
+                        {
+                            if (axis.axisTick.alignWithLabel) return each * tick;
+                            else return coordinateWidth - each * tick * max;
+                        }
+                        else
+                        {
+                            if (count < splitNum) return each;
+                            else return each * (count / splitNum);
+                        }
                     }
                     else
                     {
-                        if (count < splitNum) return each;
-                        else return each * (count / splitNum);
+                        var max = axis.boundaryGap ? num - 1 : num;
+                        if (index >= max)
+                        {
+                            if (axis.axisTick.alignWithLabel) return each * tick;
+                            else return coordinateWidth - each * tick * (index - 1);
+                        }
+                        else
+                        {
+                            if (count < splitNum) return each;
+                            else return each * (count / splitNum);
+                        }
                     }
                 }
                 else

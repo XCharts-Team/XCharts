@@ -34,7 +34,7 @@
     <img src="https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20">
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/Unity-5.6%20%7C%202017%20%7C%202018%20%7C%202019%20%7C%202020%20%7C%202021-green">
+    <img src="https://img.shields.io/badge/Unity-5.6+-green">
   </a>
   <a href="">
     <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
@@ -56,6 +56,7 @@
 * 支持大部分图表的任意组合。
 * 支持主题定制、导入和导出，更多的主题配置参数。
 * 支持全局配置参数调整。
+* 支持自定义图表的快速定制。
 * 新增 `TextMeshPro` 的支持。
 * 新增 `CandlestickChart` K线图。
 * __注意：__ `2.0` 版本进行了大量的重构和调整，并不完全兼容 `1.0` 版本，升级后部分参数设置可能被重置为默认值，请谨慎升级。
@@ -170,7 +171,8 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 ## 使用
 
 * 本项目在`Unity 2017.4.27f1`和`.Net 3.5`下开发，在 `Unity 5`、`Unity 2018`、`Unity 2019`上测试正常。理论上可运行于任何支持`UGUI`的`Unity`版本。
-* 通过下载源码或`unitypackage`包导入到你的项目中。如果你是`2018.3`及以上版本，可通过`Package Manager`的`Git`来导入包：
+* 通过下载源码或`unitypackage`包导入到你的项目中。
+* 如果你是`2018.3`及以上版本，可通过`Package Manager`的`Git`来导入包（`2.0-upm`分支对应的`Release`版本，更新速度较慢，但相对更稳定）：
   1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入以下内容（或者通过`Package Manager`的`Add package from git URL...`）：  
   ``` json
   "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#2.0-upm",

@@ -397,6 +397,7 @@
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
 * `maxCache`：类目数据中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `inverse`：是否反向坐标轴。只在数值轴`Value`中有效。
+* `insertDataToHead`：添加新数据时是在列表的头部还是尾部加入。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
 * `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
@@ -531,6 +532,7 @@
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `lineArrow`：折线图的箭头 [LineArrow](#LineArrow)。
+* `insertDataToHead`：添加新数据时是在列表的头部还是尾部加入。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
 ## `Serie-Line`

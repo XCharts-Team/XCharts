@@ -395,6 +395,7 @@ The x axis in cartesian(rectangular) coordinate. a grid component can place at m
 * `boundaryGap`: The boundary gap on both sides of a coordinate axis.
 * `maxCache`: The max number of axis data cache. The first data will be remove when the size of axis data is larger then `maxCache`.
 * `inverse`: Whether the axis are reversed or not. Invalid in `Category` axis.
+* `insertDataToHead`: Whether to add new data at the head or at the end of the list.
 * `data`: Category data, valid in the `Category` axis.
 * `axisLine`: the style of axis line [AxisLine](#AxisLine).
 * `axisName`: the style of axis name [AxisName](#AxisName).
@@ -472,6 +473,7 @@ Line chart serie.
 * `emphasis`: 高亮样式 [Emphasis](#Emphasis)。
 * `animation`: 起始动画 [SerieAnimation](#SerieAnimation)。
 * `lineArrow`: 折线图的箭头 [LineArrow](#LineArrow)。
+* `insertDataToHead`: Whether to add new data at the head or at the end of the list.
 * `data`: 系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
 ## `Serie-Bar`

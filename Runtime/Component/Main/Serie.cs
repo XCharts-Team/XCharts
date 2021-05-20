@@ -307,6 +307,12 @@ namespace XCharts
         [SerializeField] private float m_Right;
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
+        [SerializeField] private bool m_CustomBool1;
+        [SerializeField] private bool m_CustomBool2;
+        [SerializeField] private int m_CustomInt1;
+        [SerializeField] private int m_CustomInt2;
+        [SerializeField] private float m_CustomFloat1;
+        [SerializeField] private float m_CustomFloat2;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -927,6 +933,36 @@ namespace XCharts
         {
             get { return m_Bottom; }
             set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
+        }
+        public bool customBool1
+        {
+            get { return m_CustomBool1; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomBool1, value)) SetAllDirty(); }
+        }
+        public bool customBool2
+        {
+            get { return m_CustomBool2; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomBool2, value)) SetAllDirty(); }
+        }
+        public int customInt1
+        {
+            get { return m_CustomInt1; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomInt1, value)) SetAllDirty(); }
+        }
+        public int customInt2
+        {
+            get { return m_CustomInt2; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomInt2, value)) SetAllDirty(); }
+        }
+        public float customFloat1
+        {
+            get { return m_CustomFloat1; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomFloat1, value)) SetAllDirty(); }
+        }
+        public float customFloat2
+        {
+            get { return m_CustomFloat2; }
+            set { if (PropertyUtil.SetStruct(ref m_CustomFloat2, value)) SetAllDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。

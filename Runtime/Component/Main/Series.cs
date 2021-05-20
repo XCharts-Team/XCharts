@@ -254,7 +254,7 @@ namespace XCharts
         /// <param name="type"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public Serie AddSerie(SerieType type, string serieName, bool show = true)
+        public Serie AddSerie(SerieType type, string serieName, bool show = true, bool addToHead = false)
         {
             var serie = new Serie();
             serie.type = type;
@@ -277,7 +277,8 @@ namespace XCharts
                 serie.symbol.show = false;
             }
             serie.animation.Restart();
-            m_Series.Add(serie);
+            if (addToHead) m_Series.Insert(0, serie);
+            else m_Series.Add(serie);
             SetVerticesDirty();
             return serie;
         }

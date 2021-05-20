@@ -196,9 +196,9 @@ namespace XCharts
         /// <param name="type">the type of serie</param>
         /// <param name="show">whether to show this serie</param>
         /// <returns>the added serie</returns>
-        public virtual Serie AddSerie(SerieType type, string serieName = null, bool show = true)
+        public virtual Serie AddSerie(SerieType type, string serieName = null, bool show = true, bool addToHead = false)
         {
-            return m_Series.AddSerie(type, serieName);
+            return m_Series.AddSerie(type, serieName, addToHead);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public virtual Serie AddSerie(string serieType, string serieName = null, bool show = true)
+        public virtual Serie AddSerie(string serieType, string serieName = null, bool show = true, bool addToHead = false)
         {
             var type = SerieType.Custom;
             var list = Enum.GetNames(typeof(SerieType));
@@ -217,7 +217,7 @@ namespace XCharts
             {
                 if (t.Equals(serieType)) type = (SerieType)Enum.Parse(typeof(SerieType), t);
             }
-            return AddSerie(type, serieName, show);
+            return AddSerie(type, serieName, show, addToHead);
         }
 
         /// <summary>
@@ -758,6 +758,10 @@ namespace XCharts
         }
 
         public virtual string[] GetCustomSerieInspectorShowFileds()
+        {
+            return null;
+        }
+        public virtual string[][] GetCustomSerieInspectorCustomFileds()
         {
             return null;
         }

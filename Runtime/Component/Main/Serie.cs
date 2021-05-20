@@ -307,6 +307,7 @@ namespace XCharts
         [SerializeField] private float m_Right;
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
+        [SerializeField] private bool m_InsertDataToHead;
         [SerializeField] private bool m_CustomBool1;
         [SerializeField] private bool m_CustomBool2;
         [SerializeField] private int m_CustomInt1;
@@ -965,6 +966,15 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_CustomFloat2, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// Whether to add new data at the head or at the end of the list.
+        /// 添加新数据时是在列表的头部还是尾部加入。
+        /// </summary>
+        public bool insertDataToHead
+        {
+            get { return m_InsertDataToHead; }
+            set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -1295,11 +1305,17 @@ namespace XCharts
             serieData.data.Add(value);
             serieData.name = dataName;
             serieData.index = xValue;
-            m_Data.Add(serieData);
+            AddSerieDataHeadOrTail(serieData);
             m_ShowDataDimension = 1;
             SetVerticesDirty();
             CheckDataName(dataName);
             return serieData;
+        }
+
+        private void AddSerieDataHeadOrTail(SerieData serieData)
+        {
+            if (m_InsertDataToHead) m_Data.Insert(0, serieData);
+            else m_Data.Add(serieData);
         }
 
         private void CheckDataName(string dataName)
@@ -1330,7 +1346,7 @@ namespace XCharts
             serieData.data.Add(yValue);
             serieData.name = dataName;
             serieData.index = m_Data.Count;
-            m_Data.Add(serieData);
+            AddSerieDataHeadOrTail(serieData);
             m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1357,7 +1373,7 @@ namespace XCharts
             serieData.data.Add(heighest);
             serieData.name = dataName;
             serieData.index = m_Data.Count;
-            m_Data.Add(serieData);
+            AddSerieDataHeadOrTail(serieData);
             m_ShowDataDimension = 4;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1393,7 +1409,7 @@ namespace XCharts
                 {
                     serieData.data.Add(valueList[i]);
                 }
-                m_Data.Add(serieData);
+                AddSerieDataHeadOrTail(serieData);
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 return serieData;
@@ -1407,7 +1423,8 @@ namespace XCharts
             while (m_Data.Count > m_MaxCache)
             {
                 m_NeedUpdateFilterData = true;
-                RemoveData(0);
+                if (m_InsertDataToHead) RemoveData(m_Data.Count - 1);
+                else RemoveData(0);
             }
         }
 
@@ -1854,7 +1871,7 @@ namespace XCharts
                         }
                         else serieData.name = txt.Replace("\"", "").Trim();
                     }
-                    m_Data.Add(serieData);
+                    AddSerieDataHeadOrTail(serieData);
                 }
             }
             else if (temp.IndexOf("value") > -1 && temp.IndexOf("name") > -1)
@@ -1882,7 +1899,7 @@ namespace XCharts
                             serieData.selected = bool.Parse(selected);
                         }
                     }
-                    m_Data.Add(serieData);
+                    AddSerieDataHeadOrTail(serieData);
                 }
             }
             else
@@ -1896,7 +1913,7 @@ namespace XCharts
                     {
                         var serieData = new SerieData();
                         serieData.data = new List<float>() { i, value };
-                        m_Data.Add(serieData);
+                        AddSerieDataHeadOrTail(serieData);
                     }
                 }
             }

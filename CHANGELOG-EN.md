@@ -1,7 +1,7 @@
 
 # 更新日志
 
-[Latest](#master)  
+[master](#master)  
 [v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
@@ -34,6 +34,8 @@
 
 ## master
 
+* (2021.05.20) Add the `insertDataHead` parameter to `Serie` and `Axis` to control whether data is inserted into the head or tail
+* (2021.05.18) Optimize chart creation under 'Editor' #147
 * (2021.05.16) Pull out the `Ganttchart` chart and provide it as an extension module
 * (2021.05.11) Added support for `VisualMap` to set color by `Piecewise`
 * (2021.05.09) Fixed an issue where `RingChart` could not set the background color of the ring  #141

@@ -68,6 +68,8 @@ namespace XCharts
                 PropertyField(prop, "m_SplitNumber");
                 if (type == Axis.AxisType.Category)
                 {
+                    PropertyField(prop, "m_InsertDataToHead");
+                    PropertyField(prop, "m_MaxCache");
                     PropertyField(prop, "m_BoundaryGap");
                 }
                 else

@@ -198,7 +198,7 @@ namespace XCharts
         /// <returns>the added serie</returns>
         public virtual Serie AddSerie(SerieType type, string serieName = null, bool show = true, bool addToHead = false)
         {
-            return m_Series.AddSerie(type, serieName, addToHead);
+            return m_Series.AddSerie(type, serieName, show, addToHead);
         }
 
         /// <summary>

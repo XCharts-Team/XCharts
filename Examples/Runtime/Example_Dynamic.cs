@@ -17,6 +17,7 @@ namespace XCharts.Examples
     {
         public int maxCacheDataNumber = 100;
         public float initDataTime = 2;
+        public bool insertDataToHead = false;
 
         private CoordinateChart chart;
         private float updateTime;
@@ -36,6 +37,9 @@ namespace XCharts.Examples
             chart.xAxes[0].maxCache = maxCacheDataNumber;
             timeNow = DateTime.Now;
             timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
+
+            serie.insertDataToHead = insertDataToHead;
+            chart.xAxes[0].insertDataToHead = insertDataToHead;
         }
 
         void Update()

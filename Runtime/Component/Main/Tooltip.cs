@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Collections.ObjectModel;
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
+/******************************************/
+/*                                        */
+/*     Copyright (c) 2021 monitor1394     */
+/*     https://github.com/monitor1394     */
+/*                                        */
+/******************************************/
 
 using System.Collections.Generic;
 using UnityEngine;

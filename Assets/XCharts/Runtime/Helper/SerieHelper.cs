@@ -442,7 +442,7 @@ namespace XCharts
         public static void UpdateFilterData(Serie serie, DataZoom dataZoom)
         {
             if (dataZoom == null || !dataZoom.enable) return;
-            if (dataZoom.xAxisIndexs.Contains(serie.xAxisIndex))
+            if (dataZoom.IsContainsXAxis(serie.xAxisIndex))
             {
                 if (dataZoom.IsXAxisIndexValue(serie.xAxisIndex))
                 {
@@ -455,7 +455,7 @@ namespace XCharts
                     UpdateFilterData_Category(serie, dataZoom);
                 }
             }
-            else if (dataZoom.yAxisIndexs.Contains(serie.yAxisIndex))
+            else if (dataZoom.IsContainsYAxis(serie.yAxisIndex))
             {
                 if (dataZoom.IsYAxisIndexValue(serie.yAxisIndex))
                 {

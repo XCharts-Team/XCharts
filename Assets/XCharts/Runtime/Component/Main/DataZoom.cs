@@ -365,6 +365,14 @@ namespace XCharts
         public bool runtimeCoordinateDrag { get; internal set; }
         public bool runtimeStartDrag { get; internal set; }
         public bool runtimeEndDrag { get; internal set; }
+        /// <summary>
+        /// 运行时实际范围的开始值
+        /// </summary>
+        public float runtimeStartValue { get; internal set; }
+        /// <summary>
+        /// 运行时实际范围的结束值
+        /// </summary>
+        public float runtimeEndValue { get; internal set; }
 
         class AxisIndexValueInfo
         {
@@ -481,9 +489,20 @@ namespace XCharts
             return rect.Contains(pos);
         }
 
-        public bool IsContainsAxisIndex(int index)
+        public bool IsContainsAxis(Axis axis)
         {
-            return xAxisIndexs.Contains(index);// || yAxisIndexs.Contains(index);
+            if (axis is XAxis) return xAxisIndexs.Contains(axis.index);
+            else if (axis is YAxis) return yAxisIndexs.Contains(axis.index);
+            else return false;
+        }
+        public bool IsContainsXAxis(int index)
+        {
+            return xAxisIndexs != null && xAxisIndexs.Contains(index);
+        }
+
+        public bool IsContainsYAxis(int index)
+        {
+            return yAxisIndexs != null && yAxisIndexs.Contains(index);
         }
 
         public Color32 GetFillerColor(Color32 themeColor)
@@ -957,7 +976,7 @@ namespace XCharts
                     dataZoom.SetLabelActive(false);
                 }
             }
-            if (m_CheckDataZoomLabel)
+            if (m_CheckDataZoomLabel && dataZoom.xAxisIndexs.Count > 0)
             {
                 m_CheckDataZoomLabel = false;
                 var xAxis = chart.GetXAxis(dataZoom.xAxisIndexs[0]);

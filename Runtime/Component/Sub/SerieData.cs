@@ -241,6 +241,18 @@ namespace XCharts
             else return 0;
         }
 
+        public float GetData(int index, float min, float max)
+        {
+            if (index >= 0 && index < m_Data.Count)
+            {
+                var value = m_Data[index];
+                if (value < min) return min;
+                else if (value > max) return max;
+                else return value;
+            }
+            else return 0;
+        }
+
         public float GetPreviousData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_PreviousData.Count)

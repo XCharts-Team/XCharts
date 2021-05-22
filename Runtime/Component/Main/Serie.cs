@@ -1577,7 +1577,7 @@ namespace XCharts
         public List<SerieData> GetDataList(DataZoom dataZoom = null)
         {
             if (dataZoom != null && dataZoom.enable
-                && (dataZoom.xAxisIndexs.Contains(xAxisIndex) || dataZoom.yAxisIndexs.Contains(yAxisIndex)))
+                && (dataZoom.IsContainsXAxis(xAxisIndex) || dataZoom.IsContainsYAxis(yAxisIndex)))
             {
                 SerieHelper.UpdateFilterData(this, dataZoom);
                 return m_FilterData;

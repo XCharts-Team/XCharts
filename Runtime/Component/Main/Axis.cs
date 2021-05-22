@@ -587,7 +587,7 @@ namespace XCharts
         /// <returns></returns>
         internal List<string> GetDataList(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxisIndex(index))
+            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxis(this))
             {
                 UpdateFilterData(dataZoom);
                 return filterData;
@@ -610,7 +610,7 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         internal void UpdateFilterData(DataZoom dataZoom)
         {
-            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxisIndex(index))
+            if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxis(this))
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);

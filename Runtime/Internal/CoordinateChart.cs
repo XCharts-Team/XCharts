@@ -1737,8 +1737,17 @@ namespace XCharts
 
         public Grid GetDataZoomGridOrDefault(DataZoom dataZoom)
         {
-            var xAxis = GetXAxis(dataZoom.xAxisIndexs[0]);
-            Grid grid = GetGrid(xAxis.gridIndex);
+            Grid grid = null;
+            if (dataZoom.xAxisIndexs != null && dataZoom.xAxisIndexs.Count > 0)
+            {
+                var xAxis = GetXAxis(dataZoom.xAxisIndexs[0]);
+                grid = GetGrid(xAxis.gridIndex);
+            }
+            else if (dataZoom.yAxisIndexs != null && dataZoom.yAxisIndexs.Count > 0)
+            {
+                var yAxis = GetYAxis(dataZoom.yAxisIndexs[0]);
+                grid = GetGrid(yAxis.gridIndex);
+            }
             if (grid == null) return m_Grids[0];
             else return grid;
         }

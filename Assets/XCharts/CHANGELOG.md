@@ -34,6 +34,7 @@
 
 ## master
 
+* (2021.05.24) 修复`Add Serie`面板上`Serie Name`不生效的问题 (#149)
 * (2021.05.23) 增加`TextStyle`的`wrap`设置是否自动换行
 * (2021.05.23) 增加`AxisLabel`的`autoAlign`设置是否让系统自动设置对齐方式
 * (2021.05.23) 增加`AxisLabel`的`width`和`height`支持自定义文本的长宽

@@ -26,6 +26,9 @@ namespace XCharts
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_OnZero = false;
+        [SerializeField] private float m_Width = 0f;
+        [SerializeField] private float m_Height = 0f;
+        [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
@@ -106,6 +109,30 @@ namespace XCharts
             get { return m_OnZero; }
             set { if (PropertyUtil.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// 文本的宽。为0时会自动匹配。
+        /// </summary>
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 文本的高。为0时会自动匹配。
+        /// </summary>
+        public float height
+        {
+            get { return m_Height; }
+            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 文本是否自动选对齐方式。为false时会用TextStyle下的alignment。
+        /// </summary>
+        public bool autoAlign
+        {
+            get { return m_AutoAlign; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoAlign, value)) SetComponentDirty(); }
+        }
 
         /// <summary>
         /// 文本限制。
@@ -150,28 +177,34 @@ namespace XCharts
 
         public AxisLabel Clone()
         {
-            var axisLable = new AxisLabel();
-            axisLable.show = show;
-            axisLable.formatter = formatter;
-            axisLable.interval = interval;
-            axisLable.inside = inside;
-            axisLable.margin = margin;
-            axisLable.numericFormatter = numericFormatter;
-            axisLable.textLimit = textLimit.Clone();
-            axisLable.textStyle.Copy(textStyle);
-            return axisLable;
+            var axisLabel = new AxisLabel();
+            axisLabel.show = show;
+            axisLabel.formatter = formatter;
+            axisLabel.interval = interval;
+            axisLabel.inside = inside;
+            axisLabel.margin = margin;
+            axisLabel.numericFormatter = numericFormatter;
+            axisLabel.width = width;
+            axisLabel.height = height;
+            axisLabel.autoAlign = autoAlign;
+            axisLabel.textLimit = textLimit.Clone();
+            axisLabel.textStyle.Copy(textStyle);
+            return axisLabel;
         }
 
-        public void Copy(AxisLabel axisLable)
+        public void Copy(AxisLabel axisLabel)
         {
-            show = axisLable.show;
-            formatter = axisLable.formatter;
-            interval = axisLable.interval;
-            inside = axisLable.inside;
-            margin = axisLable.margin;
-            numericFormatter = axisLable.numericFormatter;
-            textLimit.Copy(axisLable.textLimit);
-            textStyle.Copy(axisLable.textStyle);
+            show = axisLabel.show;
+            formatter = axisLabel.formatter;
+            interval = axisLabel.interval;
+            inside = axisLabel.inside;
+            margin = axisLabel.margin;
+            numericFormatter = axisLabel.numericFormatter;
+            width = axisLabel.width;
+            height = axisLabel.height;
+            autoAlign = axisLabel.autoAlign;
+            textLimit.Copy(axisLabel.textLimit);
+            textStyle.Copy(axisLabel.textStyle);
         }
 
         public void SetRelatedText(ChartText txt, float labelWidth)

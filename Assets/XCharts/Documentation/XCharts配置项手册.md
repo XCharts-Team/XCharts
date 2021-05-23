@@ -51,6 +51,7 @@
 * [SerieSymbol 图形标记](#SerieSymbol)  
 * [TextLimit 文本自适应](#TextLimit)  
 * [TextStyle 文本样式](#TextStyle)  
+* [IconStyle 图标样式](#IconStyle)  
 
 ## `Theme`
 
@@ -204,6 +205,7 @@
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
 * `lineSpacing`：行间距。
+* `wrap`：是否自动换行。
 
 ## `Tooltip`
 
@@ -399,12 +401,14 @@
 * `inverse`：是否反向坐标轴。只在数值轴`Value`中有效。
 * `insertDataToHead`：添加新数据时是在列表的头部还是尾部加入。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
+* `icons`：刻度的图标，在类目轴（`type: 'Category'`）中有效。
 * `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
 * `axisTick`：坐标轴刻度相关配置 [AxisTick](#AxisTick)。
 * `axisLabel`：坐标轴刻度标签 [AxisLabel](#AxisLabel)。
 * `splitLine`：坐标轴轴线坐标轴分割线 [AxisSplitLine](#SplitLine)。
 * `splitArea`：坐标轴轴线坐标轴分割区域 [AxisSplitArea](#AxisSplitArea)。
+* `iconStyle`：坐标轴刻度图标的样式 [IconStyle](#IconStyle)。
 
 相关接口：
 
@@ -828,6 +832,9 @@ K线图系列。
 * `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `onZero`：刻度标签显示在`0`刻度上。
+* `width`：刻度标签的宽。当为0时系统自动设置。
+* `height`：刻度标签的高。当为0时系统自动设置。
+* `autoAlign`：是否让系统自动设置对齐方式。为true时系统自动选择对齐方式，为false时用textStyle的对齐方式。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
 
@@ -1017,6 +1024,16 @@ K线图系列。
 * `startIndex`：开始显示图形标记的索引。
 * `interval`：显示图形标记的间隔。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
+
+## `IconStyle`
+
+* `show`：是否显示图标。
+* `layer`：显示在上层还是在下层。
+* `sprite`：图标。
+* `color`：颜色。
+* `width`：图标的宽。
+* `height`：图标的高。
+* `offset`：位置偏移。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

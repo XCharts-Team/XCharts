@@ -10,9 +10,6 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    /// <summary>
-    /// 系列数据项的图标
-    /// </summary>
     [System.Serializable]
     public class IconStyle : SubComponent
     {
@@ -25,8 +22,8 @@ namespace XCharts
         [SerializeField] private Layer m_Layer;
         [SerializeField] private Sprite m_Sprite;
         [SerializeField] private Color m_Color = Color.white;
-        [SerializeField] private float m_Width = 40;
-        [SerializeField] private float m_Height = 40;
+        [SerializeField] private float m_Width = 20;
+        [SerializeField] private float m_Height = 20;
         [SerializeField] private Vector3 m_Offset;
 
         public void Reset()
@@ -35,8 +32,8 @@ namespace XCharts
             m_Layer = Layer.UnderLabel;
             m_Sprite = null;
             m_Color = Color.white;
-            m_Width = 40;
-            m_Height = 40;
+            m_Width = 20;
+            m_Height = 20;
             m_Offset = Vector3.zero;
         }
         /// <summary>
@@ -70,6 +67,28 @@ namespace XCharts
         /// </summary>
         public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
 
+        public IconStyle Clone()
+        {
+            var iconStyle = new IconStyle();
+            iconStyle.show = show;
+            iconStyle.layer = layer;
+            iconStyle.sprite = sprite;
+            iconStyle.color = color;
+            iconStyle.width = width;
+            iconStyle.height = height;
+            iconStyle.offset = offset;
+            return iconStyle;
+        }
 
+        public void Copy(IconStyle iconStyle)
+        {
+            show = iconStyle.show;
+            layer = iconStyle.layer;
+            sprite = iconStyle.sprite;
+            color = iconStyle.color;
+            width = iconStyle.width;
+            height = iconStyle.height;
+            offset = iconStyle.offset;
+        }
     }
 }

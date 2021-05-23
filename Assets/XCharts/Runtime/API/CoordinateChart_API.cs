@@ -100,7 +100,26 @@ namespace XCharts
         /// <param name="xAxisIndex">which xAxis should category add to</param>
         public void AddXAxisData(string category, int xAxisIndex = 0)
         {
-            m_XAxes[xAxisIndex].AddData(category);
+            var xAxis = GetXAxis(xAxisIndex);
+            if (xAxis != null)
+            {
+                xAxis.AddData(category);
+            }
+        }
+
+        /// <summary>
+        /// Add an icon to xAxis.
+        /// 添加一个图标到指定的x轴。
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="xAxisIndex"></param>
+        public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)
+        {
+            var xAxis = GetXAxis(xAxisIndex);
+            if (xAxis != null)
+            {
+                xAxis.AddIcon(icon);
+            }
         }
 
         /// <summary>
@@ -111,7 +130,26 @@ namespace XCharts
         /// <param name="yAxisIndex">which yAxis should category add to</param>
         public void AddYAxisData(string category, int yAxisIndex = 0)
         {
-            m_YAxes[yAxisIndex].AddData(category);
+            var yAxis = GetYAxis(yAxisIndex);
+            if (yAxis != null)
+            {
+                yAxis.AddData(category);
+            }
+        }
+
+        /// <summary>
+        /// Add an icon to yAxis.
+        /// 添加一个图标到指定的y轴。
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="yAxisIndex"></param>
+        public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)
+        {
+            var yAxis = GetYAxis(yAxisIndex);
+            if (yAxis != null)
+            {
+                yAxis.AddIcon(icon);
+            }
         }
 
         /// <summary>

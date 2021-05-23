@@ -22,6 +22,7 @@ namespace XCharts
     {
         [SerializeField] private Font m_Font;
 
+        [SerializeField] private bool m_Wrap = true;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private Color m_Color = Color.clear;
@@ -119,6 +120,14 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_LineSpacing, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// 是否自动换行。
+        /// </summary>
+        public bool wrap
+        {
+            get { return m_Wrap; }
+            set { if (PropertyUtil.SetStruct(ref m_Wrap, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// 对齐方式。
         /// </summary>
         public TextAnchor alignment
@@ -186,6 +195,7 @@ namespace XCharts
             fontStyle = textStyle.fontStyle;
             lineSpacing = textStyle.lineSpacing;
             alignment = textStyle.alignment;
+            wrap = textStyle.wrap;
 #if dUI_TextMeshPro
             m_TMPFont = textStyle.tmpFont;
             m_TMPAlignment = textStyle.tmpAlignment;
@@ -210,7 +220,7 @@ namespace XCharts
 
         public int GetFontSize(ComponentTheme defaultTheme)
         {
-            if(fontSize == 0) return defaultTheme.fontSize;
+            if (fontSize == 0) return defaultTheme.fontSize;
             else return fontSize;
         }
     }

@@ -84,6 +84,9 @@
 * `CoordinateChart.ClearAxisData()`：清除所有x轴和y轴的类目数据。
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
+* `CoordinateChart.AddXAxisIcon(Sprite icon, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
+* `CoordinateChart.AddYAxisIcon(Sprite icon, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。。
+
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
 * `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。
 * `CoordinateChart.RefreshAxisMinMaxValue()`：立即刷新数值坐标轴的最大最小值（更新坐标轴标签并触发重绘）。

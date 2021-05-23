@@ -34,8 +34,13 @@
 
 ## master
 
-* (2021.05.20) Add the `insertDataHead` parameter to `Serie` and `Axis` to control whether data is inserted into the head or tail
-* (2021.05.18) Optimize chart creation under 'Editor' #147
+* (2021.05.24) Fixed an issue where `Serie Name` was not working on the `Add Serie` panel (#149)
+* (2021.05.23) Added `TextStyle` `wrap` to set whether to wrap lines
+* (2021.05.23) Added` axisLabel `to` autoAlign `whether to set alignment automatically
+* (2021.05.23) Added `width` and `height` of `axisLabel` to support custom text length and width
+* (2021.05.23) Added `Axis` `iconStyle` and `icons` to support setting coordinate Axis labels to display icons
+* (2021.05.20) Added the `insertDataHead` parameter to `Serie` and `Axis` to control whether data is inserted into the head or tail
+* (2021.05.18) Optimize chart creation under `Editor` #147
 * (2021.05.16) Pull out the `Ganttchart` chart and provide it as an extension module
 * (2021.05.11) Added support for `VisualMap` to set color by `Piecewise`
 * (2021.05.09) Fixed an issue where `RingChart` could not set the background color of the ring  #141

@@ -54,6 +54,7 @@ __Sub component:__
 * [SerieSymbol](#SerieSymbol)  
 * [TextLimit](#TextLimit)  
 * [TextStyle](#TextStyle)  
+* [IconStyle](#IconStyle)  
 
 ## `Theme`
 
@@ -211,6 +212,7 @@ The component of settings related to text.
 * `fontSize`: the size of text. [default: `18`].
 * `fontStyle`: the font style of text. [default: `FontStyle.Normal`].
 * `lineSpacing`: the space of text line.  [default: `1f`].
+* `wrap`: Whether to wrap lines.
 
 ## `Tooltip`
 
@@ -397,12 +399,14 @@ The x axis in cartesian(rectangular) coordinate. a grid component can place at m
 * `inverse`: Whether the axis are reversed or not. Invalid in `Category` axis.
 * `insertDataToHead`: Whether to add new data at the head or at the end of the list.
 * `data`: Category data, valid in the `Category` axis.
+* `icons`: icon list.
 * `axisLine`: the style of axis line [AxisLine](#AxisLine).
 * `axisName`: the style of axis name [AxisName](#AxisName).
 * `axisTick`: the style of axis tick [AxisTick](#AxisTick).
 * `axisLabel`: the style of axis label [AxisLabel](#AxisLabel).
 * `splitLine`: the style of axis split line [AxisSplitLine](#SplitLine).
 * `splitArea`: the style of axis split area [AxisSplitArea](#AxisSplitArea).
+* `iconStyle`: the style of the axis scale icon [IconStyle](#IconStyle).
 
 ## `Background`
 
@@ -722,6 +726,9 @@ K线图系列。
 * `numericFormatter`: 标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式: `A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `showAsPositiveNumber`: 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
 * `onZero`: 刻度标签显示在`0`刻度上。
+* `width`：刻度标签的宽。当为0时系统自动设置。
+* `height`：刻度标签的高。当为0时系统自动设置。
+* `autoAlign`：是否让系统自动设置对齐方式。为true时系统自动选择对齐方式，为false时用textStyle的对齐方式。
 * `textLimit`: 文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 * `textStyle`: The style of text [TextStyle](#TextStyle).
 
@@ -911,6 +918,16 @@ K线图系列。
 * `startIndex`: 开始显示图形标记的索引。
 * `interval`: 显示图形标记的间隔。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `forceShowLast`: 是否强制显示最后一个图形标记。默认为 `false`。
+
+## `IconStyle`
+
+* `show` : whether to show the icon.
+* `Layer` : Shows on top or bottom.
+* `Sprite` : Icon.
+* `color` : color.
+* `width` : The width of the icon.
+* `height` : the height of the icon.
+* `Offset` : Offset.
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  

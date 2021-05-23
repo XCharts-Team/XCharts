@@ -247,13 +247,13 @@ namespace XCharts
             chartText.tmpText.alignment = textStyle.tmpAlignment;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
-            chartText.tmpText.enableWordWrapping = false;
+            chartText.tmpText.enableWordWrapping = textStyle.wrap;
 #else
             chartText.text = GetOrAddComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
             chartText.text.fontStyle = textStyle.fontStyle;
             chartText.text.alignment = textStyle.alignment;
-            chartText.text.horizontalOverflow = HorizontalWrapMode.Overflow;
+            chartText.text.horizontalOverflow = textStyle.wrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
             chartText.text.verticalOverflow = VerticalWrapMode.Overflow;
             chartText.text.supportRichText = true;
             chartText.text.raycastTarget = false;
@@ -387,7 +387,7 @@ namespace XCharts
             return ChartHelper.GetOrAddComponent<Painter>(painterObj);
         }
 
-        public static GameObject AddIcon(string name, Transform parent, float width, float height)
+        public static Image AddIcon(string name, Transform parent, float width, float height)
         {
             var anchorMax = new Vector2(0.5f, 0.5f);
             var anchorMin = new Vector2(0.5f, 0.5f);
@@ -396,7 +396,29 @@ namespace XCharts
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var img = GetOrAddComponent<Image>(iconObj);
             img.raycastTarget = false;
-            return iconObj;
+            return img;
+        }
+
+        public static ChartLabel AddAxisLabelObject(int index, string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+            Vector2 pivot, Vector2 sizeDelta, Axis axis, ComponentTheme theme)
+        {
+            var textStyle = axis.axisLabel.textStyle;
+            var iconStyle = axis.iconStyle;
+            var label = new ChartLabel();
+            label.gameObject = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+
+            // TODO: 为了兼容旧版本，这里后面版本可以去掉
+            var oldText = label.gameObject.GetComponent<Text>();
+            if (oldText != null)
+            {
+                GameObject.DestroyImmediate(oldText);
+            }
+            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme);
+            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, iconStyle.width, iconStyle.height);
+            label.SetAutoSize(false);
+            label.UpdateIcon(iconStyle, axis.GetIcon(index));
+            label.label.SetActive(axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0));
+            return label;
         }
 
         internal static GameObject AddSerieLabel(string name, Transform parent, float width, float height,

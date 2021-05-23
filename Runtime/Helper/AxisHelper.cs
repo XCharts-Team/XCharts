@@ -424,6 +424,28 @@ namespace XCharts
             txt.SetLocalPosition(pos + offset);
         }
 
+        public static void AdjustCircleLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
+        {
+            var txtWidth = txt.label.GetPreferredWidth();
+            var sizeDelta = new Vector2(txtWidth, txt.label.GetPreferredHeight());
+            txt.label.SetSizeDelta(sizeDelta);
+            var diff = pos.x - cenPos.x;
+            if (diff < -1f) //left
+            {
+                pos = new Vector3(pos.x - txtWidth / 2, pos.y);
+            }
+            else if (diff > 1f) //right
+            {
+                pos = new Vector3(pos.x + txtWidth / 2, pos.y);
+            }
+            else
+            {
+                float y = pos.y > cenPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
+                pos = new Vector3(pos.x, y);
+            }
+            txt.SetPosition(pos + offset);
+        }
+
         public static void AdjustRadiusAxisLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)
         {
             var txtWidth = txt.GetPreferredWidth();

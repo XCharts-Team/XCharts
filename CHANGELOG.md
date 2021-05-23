@@ -34,6 +34,10 @@
 
 ## master
 
+* (2021.05.23) 增加`TextStyle`的`wrap`设置是否自动换行
+* (2021.05.23) 增加`AxisLabel`的`autoAlign`设置是否让系统自动设置对齐方式
+* (2021.05.23) 增加`AxisLabel`的`width`和`height`支持自定义文本的长宽
+* (2021.05.23) 增加`Axis`的`iconStyle`和`icons`支持设置坐标轴标签显示图标
 * (2021.05.20) 增加`Serie`和`Axis`的`insertDataToHead`参数控制数据插入头部还是尾部
 * (2021.05.18) 优化`Editor`下的图表创建 #147
 * (2021.05.16) 抽离`GanttChart`甘特图，通过扩展模块的方式来提供

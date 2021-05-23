@@ -538,8 +538,8 @@ namespace XCharts
                 var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
                     graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
                 yAxis.gameObject = axisObj;
-                yAxis.axisLabelTextList.Clear();
-                axisObj.SetActive(yAxis.show && yAxis.axisLabel.show);
+                yAxis.runtimeAxisLabelList.Clear();
+                axisObj.SetActive(yAxis.show);
                 axisObj.hideFlags = chartHideFlags;
                 ChartHelper.HideAllObject(axisObj);
                 var grid = GetAxisGridOrDefault(yAxis);
@@ -549,34 +549,46 @@ namespace XCharts
                 float totalWidth = 0;
                 float eachWidth = AxisHelper.GetEachWidth(yAxis, grid.runtimeHeight, dataZoom);
                 float gapWidth = yAxis.boundaryGap ? eachWidth / 2 : 0;
-                if (yAxis.IsCategory()) splitNumber += 1;
+                float textWidth = yAxis.axisLabel.width > 0
+                    ? yAxis.axisLabel.width
+                    : grid.left;
+                float textHeight = yAxis.axisLabel.height > 0
+                    ? yAxis.axisLabel.height
+                    : 20f;
+                if (yAxis.IsCategory() && yAxis.boundaryGap)
+                {
+                    splitNumber -= 1;
+                }
                 for (int i = 0; i < splitNumber; i++)
                 {
-                    ChartText txt;
+                    ChartLabel txt;
                     var inside = yAxis.axisLabel.inside;
                     var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
                     var labelName = AxisHelper.GetLabelName(yAxis, grid.runtimeHeight, i, yAxis.runtimeMinValue,
                         yAxis.runtimeMaxValue, dataZoom, isPercentStack);
                     if ((inside && yAxis.IsLeft()) || (!inside && yAxis.IsRight()))
                     {
-                        txt = ChartHelper.AddTextObject(objName + i, axisObj.transform, Vector2.zero,
-                            Vector2.zero, new Vector2(0, 0.5f), new Vector2(grid.left, 20), axisLabelTextStyle,
-                            m_Theme.axis);
-                        txt.SetAlignment(TextAnchor.MiddleLeft);
+                        txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
+                            Vector2.zero, new Vector2(0, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
+                        if (yAxis.axisLabel.autoAlign)
+                        {
+                            txt.label.SetAlignment(TextAnchor.MiddleLeft);
+                        }
                     }
                     else
                     {
-                        txt = ChartHelper.AddTextObject(objName + i, axisObj.transform, Vector2.zero,
-                            Vector2.zero, new Vector2(1, 0.5f), new Vector2(grid.left, 20), axisLabelTextStyle,
-                            m_Theme.axis);
-                        txt.SetAlignment(TextAnchor.MiddleRight);
+                        txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
+                            Vector2.zero, new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
+                        if (yAxis.axisLabel.autoAlign)
+                        {
+                            txt.label.SetAlignment(TextAnchor.MiddleRight);
+                        }
                     }
                     var labelWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
-                    if (i == 0) yAxis.axisLabel.SetRelatedText(txt, labelWidth);
-                    txt.SetLocalPosition(GetLabelYPosition(totalWidth + gapWidth, i, yAxisIndex, yAxis));
+                    if (i == 0) yAxis.axisLabel.SetRelatedText(txt.label, labelWidth);
+                    txt.SetPosition(GetLabelYPosition(totalWidth + gapWidth, i, yAxisIndex, yAxis));
                     txt.SetText(labelName);
-                    txt.SetActive(yAxis.show && (yAxis.axisLabel.interval == 0 || i % (yAxis.axisLabel.interval + 1) == 0));
-                    yAxis.axisLabelTextList.Add(txt);
+                    yAxis.runtimeAxisLabelList.Add(txt);
                     totalWidth += labelWidth;
                 }
                 if (yAxis.axisName.show)
@@ -654,8 +666,8 @@ namespace XCharts
                 var axisObj = ChartHelper.AddObject(objName, transform, graphAnchorMin,
                     graphAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
                 xAxis.gameObject = axisObj;
-                xAxis.axisLabelTextList.Clear();
-                axisObj.SetActive(xAxis.show && xAxis.axisLabel.show);
+                xAxis.runtimeAxisLabelList.Clear();
+                axisObj.SetActive(xAxis.show);
                 axisObj.hideFlags = chartHideFlags;
                 ChartHelper.HideAllObject(axisObj);
                 var grid = GetAxisGridOrDefault(xAxis);
@@ -666,22 +678,33 @@ namespace XCharts
                 float totalWidth = 0;
                 float eachWidth = AxisHelper.GetEachWidth(xAxis, grid.runtimeWidth, dataZoom);
                 float gapWidth = xAxis.boundaryGap ? eachWidth / 2 : 0;
-                float textWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, 0, dataZoom);
-                //if (xAxis.IsCategory() && xAxis.boundaryGap) splitNumber += 1;
+                float textWidth = xAxis.axisLabel.width > 0
+                    ? xAxis.axisLabel.width
+                    : AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, 0, dataZoom);
+                float textHeight = xAxis.axisLabel.height > 0
+                    ? xAxis.axisLabel.height
+                    : 20f;
+                if (xAxis.IsCategory() && xAxis.boundaryGap)
+                {
+                    splitNumber -= 1;
+                }
                 for (int i = 0; i < splitNumber; i++)
                 {
                     var labelWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
                     var inside = xAxis.axisLabel.inside;
                     var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
-                    var txt = ChartHelper.AddTextObject(ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform, new Vector2(0, 1),
-                        new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, 20), axisLabelTextStyle, theme.axis);
-                    if (i == 0) xAxis.axisLabel.SetRelatedText(txt, labelWidth);
-                    txt.SetAlignment(TextAnchor.MiddleCenter);
-                    txt.SetLocalPosition(GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth, i, xAxisIndex, xAxis));
-                    txt.SetText(AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, dataZoom,
+                    var label = ChartHelper.AddAxisLabelObject(i, ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform,
+                         new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), xAxis, theme.axis);
+
+                    if (i == 0) xAxis.axisLabel.SetRelatedText(label.label, labelWidth);
+                    if (xAxis.axisLabel.autoAlign)
+                    {
+                        label.label.SetAlignment(TextAnchor.MiddleCenter);
+                    }
+                    label.SetPosition(GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth, i, xAxisIndex, xAxis));
+                    label.SetText(AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, dataZoom,
                         isPercentStack));
-                    txt.SetActive(xAxis.show && (xAxis.axisLabel.interval == 0 || i % (xAxis.axisLabel.interval + 1) == 0));
-                    xAxis.axisLabelTextList.Add(txt);
+                    xAxis.runtimeAxisLabelList.Add(label);
                     totalWidth += labelWidth;
                 }
                 if (xAxis.axisName.show)
@@ -807,7 +830,7 @@ namespace XCharts
                 posX = startX - yAxis.axisLabel.margin;
             }
             posX += yAxis.offset;
-            return new Vector3(posX, grid.runtimeY + scaleWid, 0);
+            return new Vector3(posX, grid.runtimeY + scaleWid, 0) + yAxis.axisLabel.textStyle.offsetv3;
         }
 
         private Vector3 GetLabelXPosition(float scaleWid, int i, int xAxisIndex, XAxis xAxis)
@@ -827,7 +850,7 @@ namespace XCharts
                 posY = startY - xAxis.axisLabel.margin - fontSize / 2;
             }
             posY += xAxis.offset;
-            return new Vector3(grid.runtimeX + scaleWid, posY);
+            return new Vector3(grid.runtimeX + scaleWid, posY) + xAxis.axisLabel.textStyle.offsetv3;
         }
 
         protected virtual void CheckMinMaxValue()

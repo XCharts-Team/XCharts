@@ -19,12 +19,33 @@ namespace XCharts
         private RectTransform m_LabelRect;
         private RectTransform m_IconRect;
         private RectTransform m_ObjectRect;
+        private Vector3 m_IconOffest;
 
         private Image m_IconImage;
 
-        public GameObject gameObject { get { return m_GameObject; } }
-        public Image icon { get { return m_IconImage; } }
-        public ChartText label { get { return m_LabelText; } }
+        public GameObject gameObject
+        {
+            get { return m_GameObject; }
+            set
+            {
+                m_GameObject = value;
+                m_ObjectRect = value.GetComponent<RectTransform>();
+            }
+        }
+        public Image icon
+        {
+            get { return m_IconImage; }
+            set { SetIcon(value); }
+        }
+        public ChartText label
+        {
+            get { return m_LabelText; }
+            set
+            {
+                m_LabelText = value;
+                if (value != null) m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
+            }
+        }
 
         public ChartLabel()
         {
@@ -39,6 +60,11 @@ namespace XCharts
             m_LabelText = new ChartText(labelObj);
             m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
             m_ObjectRect = labelObj.GetComponent<RectTransform>();
+        }
+
+        public void SetAutoSize(bool flag)
+        {
+            m_LabelAutoSize = flag;
         }
 
         public void SetIcon(Image image)
@@ -60,16 +86,17 @@ namespace XCharts
             if (m_IconRect != null) m_IconRect.sizeDelta = new Vector3(width, height);
         }
 
-        public void UpdateIcon(IconStyle iconStyle)
+        public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)
         {
             if (m_IconImage == null) return;
             if (iconStyle.show)
             {
                 ChartHelper.SetActive(m_IconImage.gameObject, true);
-                m_IconImage.sprite = iconStyle.sprite;
+                m_IconImage.sprite = sprite == null ? iconStyle.sprite : sprite;
                 m_IconImage.color = iconStyle.color;
                 m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
-                m_IconImage.transform.localPosition = iconStyle.offset;
+                m_IconOffest = iconStyle.offset;
+                AdjustIconPos();
                 if (iconStyle.layer == IconStyle.Layer.UnderLabel)
                     m_IconRect.SetSiblingIndex(0);
                 else
@@ -144,12 +171,40 @@ namespace XCharts
                     if (sizeChange)
                     {
                         m_LabelRect.sizeDelta = newSize;
-                        m_ObjectRect.sizeDelta = newSize;
+                        AdjustIconPos();
                     }
                     return sizeChange;
                 }
+                AdjustIconPos();
             }
             return false;
+        }
+
+        private void AdjustIconPos()
+        {
+            if (m_IconImage && m_IconImage.sprite != null && m_IconRect)
+            {
+                var iconX = 0f;
+                switch (m_LabelText.text.alignment)
+                {
+                    case TextAnchor.LowerLeft:
+                    case TextAnchor.UpperLeft:
+                    case TextAnchor.MiddleLeft:
+                        iconX = -m_ObjectRect.sizeDelta.x / 2 - m_IconRect.sizeDelta.x / 2;
+                        break;
+                    case TextAnchor.LowerRight:
+                    case TextAnchor.UpperRight:
+                    case TextAnchor.MiddleRight:
+                        iconX = m_ObjectRect.sizeDelta.x / 2 - m_LabelText.GetPreferredWidth() - m_IconRect.sizeDelta.x / 2;
+                        break;
+                    case TextAnchor.LowerCenter:
+                    case TextAnchor.UpperCenter:
+                    case TextAnchor.MiddleCenter:
+                        iconX = -m_LabelText.GetPreferredWidth() / 2 - m_IconRect.sizeDelta.x / 2;
+                        break;
+                }
+                m_IconRect.anchoredPosition = m_IconOffest + new Vector3(iconX, 0);
+            }
         }
     }
 }

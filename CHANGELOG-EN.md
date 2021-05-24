@@ -34,6 +34,7 @@
 
 ## master
 
+* (2021.05.24) Fixed the problem that `Label` could not display properly when `PieChart` data were all `0`
 * (2021.05.24) Fixed an issue where `Serie Name` was not working on the `Add Serie` panel (#149)
 * (2021.05.23) Added `TextStyle` `wrap` to set whether to wrap lines
 * (2021.05.23) Added` axisLabel `to` autoAlign `whether to set alignment automatically

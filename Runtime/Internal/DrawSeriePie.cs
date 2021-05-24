@@ -188,6 +188,7 @@ namespace XCharts
                 zeroReplaceValue = totalDegree / data.Count;
                 serie.runtimeDataMax = zeroReplaceValue;
                 serie.runtimePieDataTotal = 360;
+                dataTotalFilterMinAngle = 360;
             }
             else
             {

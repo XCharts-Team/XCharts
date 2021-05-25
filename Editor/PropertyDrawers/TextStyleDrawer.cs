@@ -28,7 +28,6 @@ namespace XCharts
 #else
                 PropertyField(prop, "m_Font");
 #endif
-                PropertyField(prop, "m_Wrap");
                 PropertyField(prop, "m_Rotate");
                 PropertyField(prop, "m_Offset");
                 PropertyField(prop, "m_Color");
@@ -41,6 +40,8 @@ namespace XCharts
 #else
                 PropertyField(prop, "m_FontStyle");
                 PropertyField(prop, "m_Alignment");
+                PropertyField(prop, "m_AutoWrap");
+                PropertyField(prop, "m_AutoAlign");
 #endif
                 --EditorGUI.indentLevel;
             }

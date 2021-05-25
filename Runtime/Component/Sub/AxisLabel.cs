@@ -28,7 +28,6 @@ namespace XCharts
         [SerializeField] private bool m_OnZero = false;
         [SerializeField] private float m_Width = 0f;
         [SerializeField] private float m_Height = 0f;
-        [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
@@ -125,14 +124,6 @@ namespace XCharts
             get { return m_Height; }
             set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
         }
-        /// <summary>
-        /// 文本是否自动选对齐方式。为false时会用TextStyle下的alignment。
-        /// </summary>
-        public bool autoAlign
-        {
-            get { return m_AutoAlign; }
-            set { if (PropertyUtil.SetStruct(ref m_AutoAlign, value)) SetComponentDirty(); }
-        }
 
         /// <summary>
         /// 文本限制。
@@ -186,7 +177,6 @@ namespace XCharts
             axisLabel.numericFormatter = numericFormatter;
             axisLabel.width = width;
             axisLabel.height = height;
-            axisLabel.autoAlign = autoAlign;
             axisLabel.textLimit = textLimit.Clone();
             axisLabel.textStyle.Copy(textStyle);
             return axisLabel;
@@ -202,7 +192,6 @@ namespace XCharts
             numericFormatter = axisLabel.numericFormatter;
             width = axisLabel.width;
             height = axisLabel.height;
-            autoAlign = axisLabel.autoAlign;
             textLimit.Copy(axisLabel.textLimit);
             textStyle.Copy(axisLabel.textStyle);
         }

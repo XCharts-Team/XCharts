@@ -253,7 +253,7 @@ namespace XCharts
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
             chartText.text.fontStyle = textStyle.fontStyle;
             chartText.text.alignment = textStyle.alignment;
-            chartText.text.horizontalOverflow = textStyle.wrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
+            chartText.text.horizontalOverflow = textStyle.autoWrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
             chartText.text.verticalOverflow = VerticalWrapMode.Overflow;
             chartText.text.supportRichText = true;
             chartText.text.raycastTarget = false;
@@ -371,7 +371,7 @@ namespace XCharts
             img.color = Color.black;
             var txt = AddTextObject("Text", tooltipObj.transform, anchorMin, anchorMax, pivot, sizeDelta,
                 textStyle, theme.tooltip);
-            txt.SetAlignment(TextAnchor.UpperLeft);
+            txt.SetAlignment(textStyle.GetAlignment(TextAnchor.UpperLeft));
             txt.SetText("Text");
             txt.SetLocalPosition(new Vector2(3, -3));
             tooltipObj.transform.localPosition = Vector3.zero;
@@ -434,7 +434,7 @@ namespace XCharts
             var txt = AddTextObject("Text", labelObj.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle,
                 theme.common);
             txt.SetColor(color);
-            txt.SetAlignment(TextAnchor.MiddleCenter);
+            txt.SetAlignment(textStyle.alignment);
             txt.SetText("Text");
             txt.SetLocalPosition(new Vector2(0, 0));
             txt.SetLocalEulerAngles(Vector3.zero);

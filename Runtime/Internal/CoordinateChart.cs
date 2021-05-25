@@ -570,19 +570,13 @@ namespace XCharts
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
                             Vector2.zero, new Vector2(0, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
-                        if (yAxis.axisLabel.autoAlign)
-                        {
-                            txt.label.SetAlignment(TextAnchor.MiddleLeft);
-                        }
+                        txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleLeft));
                     }
                     else
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
                             Vector2.zero, new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
-                        if (yAxis.axisLabel.autoAlign)
-                        {
-                            txt.label.SetAlignment(TextAnchor.MiddleRight);
-                        }
+                        txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleRight));
                     }
                     var labelWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
                     if (i == 0) yAxis.axisLabel.SetRelatedText(txt.label, labelWidth);
@@ -604,7 +598,7 @@ namespace XCharts
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(0.5f, 0.5f),
                                  new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), axisNameTextStyle,
                                  m_Theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleCenter);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleCenter));
                             axisName.SetLocalPosition(yAxis.position == Axis.AxisPosition.Right ?
                                 new Vector2(grid.runtimeX + grid.runtimeWidth + offset.x + yAxis.offset, grid.runtimeY - offset.y) :
                                 new Vector2(zeroPos.x + offset.x + yAxis.offset, grid.runtimeY - offset.y));
@@ -613,7 +607,7 @@ namespace XCharts
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(1, 0.5f),
                                 new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), axisNameTextStyle,
                                 m_Theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleRight);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleRight));
                             axisName.SetLocalPosition(yAxis.position == Axis.AxisPosition.Right ?
                             new Vector2(grid.runtimeX + grid.runtimeWidth - offset.x + yAxis.offset, grid.runtimeY + grid.runtimeHeight / 2 + offset.y) :
                             new Vector2(grid.runtimeX - offset.x + yAxis.offset, grid.runtimeY + grid.runtimeHeight / 2 + offset.y));
@@ -622,7 +616,7 @@ namespace XCharts
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(0.5f, 0.5f),
                                  new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), axisNameTextStyle,
                                  m_Theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleCenter);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleCenter));
                             axisName.SetLocalPosition(yAxis.position == Axis.AxisPosition.Right ?
                                 new Vector2(grid.runtimeX + grid.runtimeWidth + offset.x + yAxis.offset, grid.runtimeY + grid.runtimeHeight + offset.y) :
                                 new Vector2(zeroPos.x + offset.x + yAxis.offset, grid.runtimeY + grid.runtimeHeight + offset.y));
@@ -697,10 +691,7 @@ namespace XCharts
                          new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), xAxis, theme.axis);
 
                     if (i == 0) xAxis.axisLabel.SetRelatedText(label.label, labelWidth);
-                    if (xAxis.axisLabel.autoAlign)
-                    {
-                        label.label.SetAlignment(TextAnchor.MiddleCenter);
-                    }
+                    label.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleCenter));
                     label.SetPosition(GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth, i, xAxisIndex, xAxis));
                     label.SetText(AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, dataZoom,
                         isPercentStack));
@@ -719,7 +710,7 @@ namespace XCharts
                         case AxisName.Location.Start:
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(1, 0.5f),
                                 new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(100, 20), axisNameTextStyle, theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleRight);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleRight));
                             axisName.SetLocalPosition(xAxis.position == Axis.AxisPosition.Top ?
                                 new Vector2(zeroPos.x - offset.x, grid.runtimeY + grid.runtimeHeight + offset.y + xAxis.offset) :
                                 new Vector2(zeroPos.x - offset.x, zeroPos.y + offset.y + xAxis.offset));
@@ -727,7 +718,7 @@ namespace XCharts
                         case AxisName.Location.Middle:
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(0.5f, 0.5f),
                                  new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(100, 20), axisNameTextStyle, theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleCenter);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleCenter));
                             axisName.SetLocalPosition(xAxis.position == Axis.AxisPosition.Top ?
                                 new Vector2(grid.runtimeX + grid.runtimeWidth / 2 + offset.x, grid.runtimeY + grid.runtimeHeight - offset.y + xAxis.offset) :
                                 new Vector2(grid.runtimeX + grid.runtimeWidth / 2 + offset.x, grid.runtimeY - offset.y + xAxis.offset));
@@ -735,7 +726,7 @@ namespace XCharts
                         case AxisName.Location.End:
                             axisName = ChartHelper.AddTextObject(s_DefaultAxisName, axisObj.transform, new Vector2(0, 0.5f),
                                  new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(100, 20), axisNameTextStyle, theme.axis);
-                            axisName.SetAlignment(TextAnchor.MiddleLeft);
+                            axisName.SetAlignment(axisNameTextStyle.GetAlignment(TextAnchor.MiddleLeft));
                             axisName.SetLocalPosition(xAxis.position == Axis.AxisPosition.Top ?
                                 new Vector2(grid.runtimeX + grid.runtimeWidth + offset.x, grid.runtimeY + grid.runtimeHeight + offset.y + xAxis.offset) :
                                 new Vector2(grid.runtimeX + grid.runtimeWidth + offset.x, zeroPos.y + offset.y + xAxis.offset));

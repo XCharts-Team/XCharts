@@ -151,7 +151,7 @@ namespace XCharts
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
                 var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.runtimeMinValue, axis.runtimeMaxValue,
                     null, isPercentStack);
-                label.label.SetAlignment(TextAnchor.MiddleCenter);
+                label.label.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 label.SetText(labelName);
                 var pos = ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVetor;
                 label.SetPosition(pos);
@@ -230,7 +230,7 @@ namespace XCharts
                 var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
                     new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig), axis, theme.axis);
 
-                label.label.SetAlignment(TextAnchor.MiddleCenter);
+                label.label.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 label.SetText(AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue,
                     null, isPercentStack));
                 var pos = ChartHelper.GetPos(cenPos, radius + margin,

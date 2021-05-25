@@ -205,7 +205,9 @@
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
 * `lineSpacing`：行间距。
-* `wrap`：是否自动换行。
+* `alignment`：对齐方式。
+* `autoWrap`：是否自动换行。
+* `autoAlign`：是否让系统自动设置对齐方式。为true时系统自动选择对齐方式，为false时用alignment。
 
 ## `Tooltip`
 
@@ -834,7 +836,6 @@ K线图系列。
 * `onZero`：刻度标签显示在`0`刻度上。
 * `width`：刻度标签的宽。当为0时系统自动设置。
 * `height`：刻度标签的高。当为0时系统自动设置。
-* `autoAlign`：是否让系统自动设置对齐方式。为true时系统自动选择对齐方式，为false时用textStyle的对齐方式。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
 

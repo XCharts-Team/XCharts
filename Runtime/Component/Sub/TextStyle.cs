@@ -21,8 +21,8 @@ namespace XCharts
     public class TextStyle : SubComponent
     {
         [SerializeField] private Font m_Font;
-
-        [SerializeField] private bool m_Wrap = true;
+        [SerializeField] private bool m_AutoWrap = true;
+        [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private Color m_Color = Color.clear;
@@ -122,10 +122,18 @@ namespace XCharts
         /// <summary>
         /// 是否自动换行。
         /// </summary>
-        public bool wrap
+        public bool autoWrap
         {
-            get { return m_Wrap; }
-            set { if (PropertyUtil.SetStruct(ref m_Wrap, value)) SetComponentDirty(); }
+            get { return m_AutoWrap; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoWrap, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 文本是否让系统自动选对齐方式。为false时才会用alignment。
+        /// </summary>
+        public bool autoAlign
+        {
+            get { return m_AutoAlign; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoAlign, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 对齐方式。
@@ -195,7 +203,8 @@ namespace XCharts
             fontStyle = textStyle.fontStyle;
             lineSpacing = textStyle.lineSpacing;
             alignment = textStyle.alignment;
-            wrap = textStyle.wrap;
+            autoWrap = textStyle.autoWrap;
+            autoAlign = textStyle.autoAlign;
 #if dUI_TextMeshPro
             m_TMPFont = textStyle.tmpFont;
             m_TMPAlignment = textStyle.tmpAlignment;
@@ -222,6 +231,11 @@ namespace XCharts
         {
             if (fontSize == 0) return defaultTheme.fontSize;
             else return fontSize;
+        }
+
+        public TextAnchor GetAlignment(TextAnchor systemAlignment)
+        {
+            return m_AutoAlign ? systemAlignment : alignment;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace XCharts
     {
         void Init();
         void Update();
-        void Draw(VertexHelper vh);
+        void DrawBase(VertexHelper vh);
+        void DrawTop(VertexHelper vh);
         void OnDrag(PointerEventData eventData);
         void OnBeginDrag(PointerEventData eventData);
         void OnEndDrag(PointerEventData eventData);

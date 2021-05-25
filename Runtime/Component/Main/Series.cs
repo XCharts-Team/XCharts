@@ -279,6 +279,10 @@ namespace XCharts
             serie.animation.Restart();
             if (addToHead) m_Series.Insert(0, serie);
             else m_Series.Add(serie);
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                m_Series[i].index = i;
+            }
             SetVerticesDirty();
             return serie;
         }

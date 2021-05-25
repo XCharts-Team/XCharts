@@ -34,10 +34,11 @@
 
 ## master
 
+* (2021.05.25) 完善`TextStyle`的`alignment`的支持 (#150)
 * (2021.05.24) 修复`PieChart`数据全为`0`时`Label`无法正常显示的问题
 * (2021.05.24) 修复`Add Serie`面板上`Serie Name`不生效的问题 (#149)
-* (2021.05.23) 增加`TextStyle`的`wrap`设置是否自动换行
-* (2021.05.23) 增加`AxisLabel`的`autoAlign`设置是否让系统自动设置对齐方式
+* (2021.05.23) 增加`TextStyle`的`autoWrap`设置是否自动换行
+* (2021.05.23) 增加`TextStyle`的`autoAlign`设置是否让系统自动设置对齐方式
 * (2021.05.23) 增加`AxisLabel`的`width`和`height`支持自定义文本的长宽
 * (2021.05.23) 增加`Axis`的`iconStyle`和`icons`支持设置坐标轴标签显示图标
 * (2021.05.20) 增加`Serie`和`Axis`的`insertDataToHead`参数控制数据插入头部还是尾部

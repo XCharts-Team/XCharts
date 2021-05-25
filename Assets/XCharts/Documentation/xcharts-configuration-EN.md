@@ -212,7 +212,8 @@ The component of settings related to text.
 * `fontSize`: the size of text. [default: `18`].
 * `fontStyle`: the font style of text. [default: `FontStyle.Normal`].
 * `lineSpacing`: the space of text line.  [default: `1f`].
-* `wrap`: Whether to wrap lines.
+* `autoWrap`: Whether to wrap lines.
+* `autoAlign`: Whether to let the system automatically set alignment. If true, the system automatically selects alignment, and if false, use alignment.
 
 ## `Tooltip`
 
@@ -728,7 +729,7 @@ K线图系列。
 * `onZero`: 刻度标签显示在`0`刻度上。
 * `width`：刻度标签的宽。当为0时系统自动设置。
 * `height`：刻度标签的高。当为0时系统自动设置。
-* `autoAlign`：是否让系统自动设置对齐方式。为true时系统自动选择对齐方式，为false时用textStyle的对齐方式。
+
 * `textLimit`: 文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 * `textStyle`: The style of text [TextStyle](#TextStyle).
 

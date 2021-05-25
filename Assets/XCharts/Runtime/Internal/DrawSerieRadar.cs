@@ -259,7 +259,7 @@ namespace XCharts
                         new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(txtWid, txtHig),
                         textStyle, chart.theme.radar);
                     txt.gameObject.hideFlags = chart.chartHideFlags;
-                    txt.SetAlignment(TextAnchor.MiddleCenter);
+                    txt.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
                     txt.SetText(radar.indicatorList[i].name);
                     txt.SetActive(radar.indicator);
                     var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);

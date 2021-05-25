@@ -34,10 +34,11 @@
 
 ## master
 
+* (2021.05.25) Improved `TextStyle` support for `alignment`
 * (2021.05.24) Fixed the problem that `Label` could not display properly when `PieChart` data were all `0`
 * (2021.05.24) Fixed an issue where `Serie Name` was not working on the `Add Serie` panel (#149)
-* (2021.05.23) Added `TextStyle` `wrap` to set whether to wrap lines
-* (2021.05.23) Added` axisLabel `to` autoAlign `whether to set alignment automatically
+* (2021.05.23) Added `TextStyle` `autoWrap` to set whether to wrap lines
+* (2021.05.23) Added `TextStyle` `autoAlign` whether to set alignment automatically
 * (2021.05.23) Added `width` and `height` of `axisLabel` to support custom text length and width
 * (2021.05.23) Added `Axis` `iconStyle` and `icons` to support setting coordinate Axis labels to display icons
 * (2021.05.20) Added the `insertDataHead` parameter to `Serie` and `Axis` to control whether data is inserted into the head or tail

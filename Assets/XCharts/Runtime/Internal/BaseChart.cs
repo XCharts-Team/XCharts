@@ -176,6 +176,10 @@ namespace XCharts
         {
             m_Painter.Refresh();
         }
+        internal void RefreshTopPainter()
+        {
+            m_PainterTop.Refresh();
+        }
 
         public void RefreshPainter(int index)
         {
@@ -861,7 +865,7 @@ namespace XCharts
             DrawBackground(vh);
             DrawPainterBase(vh);
             DrawLegend(vh);
-            foreach (var draw in m_ComponentHandlers) draw.Draw(vh);
+            foreach (var draw in m_ComponentHandlers) draw.DrawBase(vh);
             foreach (var draw in m_DrawSeries) draw.DrawBase(vh);
             if (m_OnCustomDrawBaseCallback != null)
             {
@@ -896,6 +900,7 @@ namespace XCharts
         {
             vh.Clear();
             DrawPainterTop(vh);
+            foreach (var draw in m_ComponentHandlers) draw.DrawTop(vh);
             if (m_OnCustomDrawTopCallback != null)
             {
                 m_OnCustomDrawTopCallback(vh);

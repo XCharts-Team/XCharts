@@ -247,7 +247,7 @@ namespace XCharts
             chartText.tmpText.alignment = textStyle.tmpAlignment;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
-            chartText.tmpText.enableWordWrapping = textStyle.wrap;
+            chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
 #else
             chartText.text = GetOrAddComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;

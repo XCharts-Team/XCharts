@@ -333,7 +333,7 @@ namespace XCharts
             return lp;
         }
 
-        private float DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
+        internal float DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
         {
             var totalAverage = 0f;
             if (rate > 1 && sampleType == SampleType.Peak)
@@ -348,7 +348,7 @@ namespace XCharts
             return totalAverage;
         }
 
-        private float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
+        internal float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
             int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration,
             ref bool dataChanging, Axis axis)
         {

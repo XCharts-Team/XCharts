@@ -674,7 +674,7 @@ namespace XCharts
             }
         }
 
-        public void Draw(VertexHelper vh)
+        public void DrawBase(VertexHelper vh)
         {
             foreach (var visualMap in chart.visualMaps)
             {
@@ -689,6 +689,10 @@ namespace XCharts
                         break;
                 }
             }
+        }
+
+        public void DrawTop(VertexHelper vh)
+        {
         }
 
         private void CheckVisualMap(VisualMap visualMap)

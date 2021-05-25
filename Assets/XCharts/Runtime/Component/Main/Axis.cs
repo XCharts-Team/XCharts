@@ -555,6 +555,14 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 是否为时间轴。
+        /// </summary>
+        public bool IsTime()
+        {
+            return type == AxisType.Time;
+        }
+
+        /// <summary>
         /// 添加一个类目到类目数据列表
         /// </summary>
         /// <param name="category"></param>

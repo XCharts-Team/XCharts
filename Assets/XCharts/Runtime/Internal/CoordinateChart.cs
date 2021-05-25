@@ -78,8 +78,10 @@ namespace XCharts
         protected override void DrawPainterBase(VertexHelper vh)
         {
             base.DrawPainterBase(vh);
-            DrawCoordinate(vh);
-            DrawDataZoomSlider(vh);
+            if (!SeriesHelper.IsAnyClipSerie(m_Series))
+            {
+                DrawCoordinate(vh);
+            }
         }
 
         protected override void DrawBackground(VertexHelper vh)
@@ -178,8 +180,12 @@ namespace XCharts
 
         protected override void DrawPainterTop(VertexHelper vh)
         {
-            DrawAxisTick(vh);
             DrawClip(vh);
+            if (SeriesHelper.IsAnyClipSerie(m_Series))
+            {
+                DrawCoordinate(vh);
+            }
+            DrawAxisTick(vh);
             DrawLabelBackground(vh);
             if (SeriesHelper.IsStack(m_Series))
             {
@@ -1280,87 +1286,7 @@ namespace XCharts
             }
         }
 
-        private void DrawDataZoomSlider(VertexHelper vh)
-        {
-            if (!dataZoom.enable || !dataZoom.supportSlider) return;
-            var p1 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY);
-            var p2 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY + dataZoom.runtimeHeight);
-            var p3 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY + dataZoom.runtimeHeight);
-            var p4 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY);
-            var xAxis = xAxes[0];
-            var lineColor = dataZoom.lineStyle.GetColor(m_Theme.dataZoom.dataLineColor);
-            var lineWidth = dataZoom.lineStyle.GetWidth(m_Theme.dataZoom.dataLineWidth);
-            var borderWidth = dataZoom.borderWidth == 0 ? m_Theme.dataZoom.borderWidth : dataZoom.borderWidth;
-            var borderColor = dataZoom.GetBorderColor(m_Theme.dataZoom.borderColor);
-            var backgroundColor = dataZoom.GetBackgroundColor(m_Theme.dataZoom.backgroundColor);
-            var areaColor = dataZoom.areaStyle.GetColor(m_Theme.dataZoom.dataAreaColor);
-            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
-            var centerPos = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth / 2,
-                dataZoom.runtimeY + dataZoom.runtimeHeight / 2);
-            UGL.DrawBorder(vh, centerPos, dataZoom.runtimeWidth, dataZoom.runtimeHeight, borderWidth, borderColor);
-            if (dataZoom.showDataShadow && m_Series.Count > 0)
-            {
-                Serie serie = m_Series.list[0];
-                Axis axis = yAxes[0];
-                var showData = serie.GetDataList(null);
-                float scaleWid = dataZoom.runtimeWidth / (showData.Count - 1);
-                Vector3 lp = Vector3.zero;
-                Vector3 np = Vector3.zero;
-                float minValue = 0;
-                float maxValue = 0;
-                SeriesHelper.GetYMinMaxValue(m_Series, null, 0, IsValue(), axis.inverse, out minValue, out maxValue);
-                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
-
-                int rate = 1;
-                var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
-                var maxCount = showData.Count;
-                if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (dataZoom.runtimeWidth / sampleDist));
-                if (rate < 1) rate = 1;
-                var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
-                    DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
-                var dataChanging = false;
-                for (int i = 0; i < maxCount; i += rate)
-                {
-                    float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
-                    float pX = dataZoom.runtimeX + i * scaleWid;
-                    float dataHig = (maxValue - minValue) == 0 ? 0 :
-                        (value - minValue) / (maxValue - minValue) * dataZoom.runtimeHeight;
-                    np = new Vector3(pX, m_ChartY + dataZoom.bottom + dataHig);
-                    if (i > 0)
-                    {
-                        UGL.DrawLine(vh, lp, np, lineWidth, lineColor);
-                        Vector3 alp = new Vector3(lp.x, lp.y - lineWidth);
-                        Vector3 anp = new Vector3(np.x, np.y - lineWidth);
-
-                        Vector3 tnp = new Vector3(np.x, m_ChartY + dataZoom.bottom + lineWidth);
-                        Vector3 tlp = new Vector3(lp.x, m_ChartY + dataZoom.bottom + lineWidth);
-                        UGL.DrawQuadrilateral(vh, alp, anp, tnp, tlp, areaColor);
-                    }
-                    lp = np;
-                }
-                if (dataChanging)
-                {
-                    RefreshChart();
-                }
-            }
-            switch (dataZoom.rangeMode)
-            {
-                case DataZoom.RangeMode.Percent:
-                    var start = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.start / 100;
-                    var end = dataZoom.runtimeX + dataZoom.runtimeWidth * dataZoom.end / 100;
-                    var fillerColor = dataZoom.GetFillerColor(m_Theme.dataZoom.fillerColor);
-
-                    p1 = new Vector2(start, dataZoom.runtimeY);
-                    p2 = new Vector2(start, dataZoom.runtimeY + dataZoom.runtimeHeight);
-                    p3 = new Vector2(end, dataZoom.runtimeY + dataZoom.runtimeHeight);
-                    p4 = new Vector2(end, dataZoom.runtimeY);
-                    UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, fillerColor);
-                    UGL.DrawLine(vh, p1, p2, lineWidth, fillerColor);
-                    UGL.DrawLine(vh, p3, p4, lineWidth, fillerColor);
-                    break;
-            }
-        }
+        
 
         protected void DrawXTooltipIndicator(VertexHelper vh)
         {

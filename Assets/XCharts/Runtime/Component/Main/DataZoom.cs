@@ -690,6 +690,7 @@ namespace XCharts
 
         public void DrawTop(VertexHelper vh)
         {
+            if (chart == null) return;
             foreach (var dataZoom in chart.dataZooms)
             {
                 DrawDataZoomSlider(vh, dataZoom);

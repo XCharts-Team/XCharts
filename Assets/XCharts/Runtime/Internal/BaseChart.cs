@@ -423,7 +423,7 @@ namespace XCharts
                      m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
                 legend.gameObject = legendObject;
                 legendObject.hideFlags = chartHideFlags;
-                SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
+                SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
                 List<string> datas;
                 if (legend.show && legend.data.Count > 0)
                 {
@@ -452,7 +452,7 @@ namespace XCharts
                     string legendName = legend.GetFormatterContent(datas[i]);
                     var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
                     var active = IsActiveByLegend(datas[i]);
-                    var bgColor = LegendHelper.GetIconColor(legend, readIndex, theme, m_Series, datas[i], active);
+                    var bgColor = LegendHelper.GetIconColor(this, readIndex , datas[i], active);
                     var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, m_Theme,
                         legendName, bgColor, active);
                     legend.SetButton(legendName, item, totalLegend);
@@ -716,7 +716,7 @@ namespace XCharts
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;
-                SeriesHelper.UpdateSerieNameList(m_Series, ref m_LegendRealShowName);
+                SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
                 InitSerieLabel();
             }
             if (m_ReinitTitle)
@@ -864,7 +864,6 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawPainterBase(vh);
-            DrawLegend(vh);
             foreach (var draw in m_ComponentHandlers) draw.DrawBase(vh);
             foreach (var draw in m_DrawSeries) draw.DrawBase(vh);
             if (m_OnCustomDrawBaseCallback != null)
@@ -899,6 +898,7 @@ namespace XCharts
         protected virtual void OnDrawPainterTop(VertexHelper vh, Painter painter)
         {
             vh.Clear();
+            DrawLegend(vh);
             DrawPainterTop(vh);
             foreach (var draw in m_ComponentHandlers) draw.DrawTop(vh);
             if (m_OnCustomDrawTopCallback != null)

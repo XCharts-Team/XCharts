@@ -44,20 +44,20 @@ namespace XCharts
             /// </summary>
             Top,
             /// <summary>
-            /// the left of symbol.
-            /// 图形标志的左边。
-            /// </summary>
-            //Left,
-            /// <summary>
-            /// the right of symbol.
-            /// 图形标志的右边。
-            /// </summary>
-            //Right,
-            /// <summary>
             /// the bottom of symbol.
             /// 图形标志的底部。
             /// </summary>
             Bottom,
+            /// <summary>
+            /// the left of symbol.
+            /// 图形标志的左边。
+            /// </summary>
+            Left,
+            /// <summary>
+            /// the right of symbol.
+            /// 图形标志的右边。
+            /// </summary>
+            Right,
         }
 
         /// <summary>
@@ -91,6 +91,7 @@ namespace XCharts
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
         [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
         [SerializeField] private float m_LineWidth = 1.0f;
+        [SerializeField] private float m_LineGap = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
         [SerializeField] private bool m_Border = false;
@@ -114,6 +115,7 @@ namespace XCharts
             m_LineType = LineType.BrokenLine;
             m_LineColor = Color.clear;
             m_LineWidth = 1.0f;
+            m_LineGap = 1.0f;
             m_LineLength1 = 25f;
             m_LineLength2 = 15f;
             m_Border = false;
@@ -251,6 +253,15 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// the gap of container and guild line.
+        /// 视觉引导线和容器的间距。
+        /// </summary>
+        public float lineGap
+        {
+            get { return m_LineGap; }
+            set { if (PropertyUtil.SetStruct(ref m_LineGap, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// The length of the first segment of visual guide line.
         /// 视觉引导线第一段的长度。
         /// </summary>
@@ -324,6 +335,46 @@ namespace XCharts
         {
             get { return m_TextStyle; }
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
+        }
+
+        public bool IsInside()
+        {
+            return position == Position.Inside || position == Position.Center;
+        }
+
+        public Color GetColor(Color defaultColor)
+        {
+            if (ChartHelper.IsClearColor(textStyle.color))
+            {
+                return IsInside() ? Color.black : defaultColor;
+            }
+            else
+            {
+                return textStyle.color;
+            }
+        }
+
+        public TextAnchor GetAutoAlignment()
+        {
+            if (textStyle.autoAlign) return textStyle.alignment;
+            else
+            {
+                switch (position)
+                {
+                    case SerieLabel.Position.Inside:
+                    case SerieLabel.Position.Center:
+                    case SerieLabel.Position.Top:
+                    case SerieLabel.Position.Bottom:
+                        return TextAnchor.MiddleCenter;
+                    case SerieLabel.Position.Outside:
+                    case SerieLabel.Position.Right:
+                        return TextAnchor.MiddleLeft;
+                    case SerieLabel.Position.Left:
+                        return TextAnchor.MiddleRight;
+                    default:
+                        return TextAnchor.MiddleCenter;
+                }
+            }
         }
     }
 }

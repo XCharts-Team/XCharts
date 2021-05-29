@@ -109,7 +109,7 @@ namespace XCharts
         public bool OnLegendButtonClick(int index, string legendName, bool show)
         {
             if (!SeriesHelper.ContainsSerie(chart.series, SerieType.Pie)) return false;
-            if (!LegendHelper.IsSerieLegend(chart.series, legendName, SerieType.Pie)) return false;
+            if (!LegendHelper.IsSerieLegend(chart, legendName, SerieType.Pie)) return false;
             LegendHelper.CheckDataShow(chart.series, legendName, show);
             chart.UpdateLegendColor(legendName, show);
             chart.RefreshChart();
@@ -119,7 +119,7 @@ namespace XCharts
         public bool OnLegendButtonEnter(int index, string legendName)
         {
             if (!SeriesHelper.ContainsSerie(chart.series, SerieType.Pie)) return false;
-            if (!LegendHelper.IsSerieLegend(chart.series, legendName, SerieType.Pie)) return false;
+            if (!LegendHelper.IsSerieLegend(chart, legendName, SerieType.Pie)) return false;
             m_IsEnterPieLegendButtom = true;
             LegendHelper.CheckDataHighlighted(chart.series, legendName, true);
             chart.RefreshChart();
@@ -129,7 +129,7 @@ namespace XCharts
         public bool OnLegendButtonExit(int index, string legendName)
         {
             if (!SeriesHelper.ContainsSerie(chart.series, SerieType.Pie)) return false;
-            if (!LegendHelper.IsSerieLegend(chart.series, legendName, SerieType.Pie)) return false;
+            if (!LegendHelper.IsSerieLegend(chart, legendName, SerieType.Pie)) return false;
             m_IsEnterPieLegendButtom = false;
             LegendHelper.CheckDataHighlighted(chart.series, legendName, false);
             chart.RefreshChart();

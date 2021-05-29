@@ -247,13 +247,14 @@ namespace XCharts
                 var gap = 0;
                 var namegap = 0;
 #endif
-                EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height), m_DataDimension);
+                EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height),
+                    m_DataDimension);
                 var nameRect = new Rect(pos.width - 2 * nameWid + 14 + gap, drawRect.y, nameWid - gap, pos.height);
                 if (XChartsSettings.editorBlockEnable)
                 {
                     nameRect.x += ChartEditorHelper.BLOCK_WIDTH;
                 }
-                if (GUI.Button(nameRect, new GUIContent("Name")))
+                if (GUI.Button(nameRect, new GUIContent("name")))
                 {
                     m_ShowDataName.boolValue = !m_ShowDataName.boolValue;
                 }
@@ -262,9 +263,16 @@ namespace XCharts
                 {
                     iconRect.x += ChartEditorHelper.BLOCK_WIDTH;
                 }
-                if (GUI.Button(iconRect, new GUIContent("More...")))
+                if (GUI.Button(iconRect, new GUIContent("more")))
                 {
                     m_ShowDataIcon.boolValue = !m_ShowDataIcon.boolValue;
+                }
+                var jsonRect = new Rect(pos.width - 70, drawRect.y - pos.height - 2, 90, pos.height);
+                if (GUI.Button(jsonRect, new GUIContent("data from json")))
+                {
+                    PraseJsonDataEditor.chart = prop.serializedObject.targetObject as BaseChart;
+                    PraseJsonDataEditor.serieIndex = index;
+                    PraseJsonDataEditor.ShowWindow();
                 }
                 AddSingleLineHeight();
                 var listSize = m_Datas.arraySize;

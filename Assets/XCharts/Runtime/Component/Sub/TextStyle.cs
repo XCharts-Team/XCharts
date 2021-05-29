@@ -21,7 +21,7 @@ namespace XCharts
     public class TextStyle : SubComponent
     {
         [SerializeField] private Font m_Font;
-        [SerializeField] private bool m_AutoWrap = true;
+        [SerializeField] private bool m_AutoWrap = false;
         [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;

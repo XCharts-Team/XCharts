@@ -226,6 +226,35 @@ namespace XCharts
     }
 
     /// <summary>
+    /// 数据排序方式
+    /// </summary>
+    public enum SerieDataSortType
+    {
+        /// <summary>
+        /// 按 data 的顺序
+        /// </summary>
+        None,
+        /// <summary>
+        /// 升序
+        /// </summary>
+        Ascending,
+        /// <summary>
+        /// 降序
+        /// </summary>
+        Descending,
+    }
+
+    /// <summary>
+    /// 对齐方式
+    /// </summary>
+    public enum SerieAlign
+    {
+        Center,
+        Left,
+        Right
+    }
+
+    /// <summary>
     /// 系列。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
@@ -263,6 +292,8 @@ namespace XCharts
 
         [SerializeField] private float m_Min;
         [SerializeField] private float m_Max;
+        [SerializeField] private float m_MinSize = 0f;
+        [SerializeField] private float m_MaxSize = 1f;
         [SerializeField] private float m_StartAngle;
         [SerializeField] private float m_EndAngle;
         [SerializeField] private float m_MinAngle;
@@ -303,6 +334,10 @@ namespace XCharts
         [SerializeField] private float m_WaveSpeed = 5f;
         [SerializeField] private float m_WaveOffset = 0f;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
+
+        [SerializeField] private SerieDataSortType m_DataSortType = SerieDataSortType.Descending;
+        [SerializeField] private Orient m_Orient = Orient.Vertical;
+        [SerializeField] private SerieAlign m_Align = SerieAlign.Center;
         [SerializeField] private float m_Left;
         [SerializeField] private float m_Right;
         [SerializeField] private float m_Top;
@@ -627,7 +662,7 @@ namespace XCharts
             set { if (value != null && value.Length == 2) { m_Radius = value; SetVerticesDirty(); } }
         }
         /// <summary>
-        /// 最小值，映射到 startAngle。
+        /// 最小值。
         /// </summary>
         public float min
         {
@@ -635,12 +670,28 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 最大值，映射到 endAngle。
+        /// 最大值。
         /// </summary>
         public float max
         {
             get { return m_Max; }
             set { if (PropertyUtil.SetStruct(ref m_Max, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 数据最小值 min 映射的宽度。
+        /// </summary>
+        public float minSize
+        {
+            get { return m_MinSize; }
+            set { if (PropertyUtil.SetStruct(ref m_MinSize, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 数据最大值 max 映射的宽度。
+        /// </summary>
+        public float maxSize
+        {
+            get { return m_MaxSize; }
+            set { if (PropertyUtil.SetStruct(ref m_MaxSize, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
@@ -975,6 +1026,30 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// 组件的数据排序。
+        /// </summary>
+        public SerieDataSortType dataSortType
+        {
+            get { return m_DataSortType; }
+            set { if (PropertyUtil.SetStruct(ref m_DataSortType, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 组件的朝向。
+        /// </summary>
+        public Orient orient
+        {
+            get { return m_Orient; }
+            set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 组件水平方向对齐方式。
+        /// </summary>
+        public SerieAlign align
+        {
+            get { return m_Align; }
+            set { if (PropertyUtil.SetStruct(ref m_Align, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -1078,6 +1153,7 @@ namespace XCharts
         public float runtimeY { get; internal set; }
         public float runtimeWidth { get; internal set; }
         public float runtimeHeight { get; internal set; }
+        public List<SerieData> runtimeFilterData { get { return m_FilterData; } }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()
@@ -1584,7 +1660,7 @@ namespace XCharts
             }
             else
             {
-                return m_Data;
+                return runtimeFilterData.Count > 0 ? runtimeFilterData : m_Data;
             }
         }
 

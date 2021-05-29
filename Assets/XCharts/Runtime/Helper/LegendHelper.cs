@@ -18,18 +18,19 @@ namespace XCharts
             else return theme.legend.unableColor;
         }
 
-        public static Color GetIconColor(Legend legend, int readIndex, ChartTheme theme, Series series, string legendName, bool active)
+        public static Color GetIconColor(BaseChart chart, int readIndex, string legendName, bool active)
         {
             if (active)
             {
+                var legend = chart.legend;
                 if (legend.itemAutoColor || legend.GetIcon(readIndex) == null)
                 {
-                    return SeriesHelper.GetNameColor(series, readIndex, legendName, theme);
+                    return SeriesHelper.GetNameColor(chart, readIndex, legendName);
                 }
                 else
                     return Color.white;
             }
-            else return theme.legend.unableColor;
+            else return chart.theme.legend.unableColor;
         }
 
         public static LegendItem AddLegendItem(Legend legend, int i, string legendName, Transform parent,
@@ -279,9 +280,9 @@ namespace XCharts
             return show;
         }
 
-        public static bool IsSerieLegend(Series series, string legendName, SerieType type)
+        public static bool IsSerieLegend(BaseChart chart, string legendName, SerieType type)
         {
-            foreach (var serie in series.list)
+            foreach (var serie in chart.series.list)
             {
                 if (serie.type == type)
                 {
@@ -293,6 +294,19 @@ namespace XCharts
                             foreach (var serieData in serie.data)
                             {
                                 if (legendName.Equals(serieData.name)) return true;
+                            }
+                            break;
+                        case SerieType.Custom:
+                            if (chart.GetCustomSerieDataNameForColor())
+                            {
+                                foreach (var serieData in serie.data)
+                                {
+                                    if (legendName.Equals(serieData.name)) return true;
+                                }
+                            }
+                            else
+                            {
+                                if (legendName.Equals(serie.name)) return true;
                             }
                             break;
                         default:

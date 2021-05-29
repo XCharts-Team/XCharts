@@ -530,14 +530,14 @@ namespace XCharts
             }
         }
 
-        internal virtual void UpdateLegendColor(string legendName, bool active)
+        public virtual void UpdateLegendColor(string legendName, bool active)
         {
             var legendIndex = m_LegendRealShowName.IndexOf(legendName);
             if (legendIndex >= 0)
             {
                 foreach (var legend in m_Legends)
                 {
-                    var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_Theme, m_Series, legendName, active);
+                    var iconColor = LegendHelper.GetIconColor(this, legendIndex, legendName, active);
                     var contentColor = LegendHelper.GetContentColor(legend, m_Theme, active);
                     legend.UpdateButtonColor(legendName, iconColor);
                     legend.UpdateContentColor(legendName, contentColor);
@@ -773,6 +773,11 @@ namespace XCharts
         public virtual string GetCustomSerieTypeName()
         {
             return null;
+        }
+
+        public virtual bool GetCustomSerieDataNameForColor()
+        {
+            return false;
         }
 
         public int GetLegendRealShowNameIndex(string name)

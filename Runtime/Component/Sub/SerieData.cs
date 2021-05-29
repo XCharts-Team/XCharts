@@ -207,6 +207,7 @@ namespace XCharts
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
+        private List<Vector2> m_PolygonPoints = new List<Vector2>();
 
         public void Reset()
         {
@@ -380,6 +381,31 @@ namespace XCharts
         public void SetLabelActive(bool flag)
         {
             if (labelObject != null) labelObject.SetLabelActive(flag);
+        }
+
+        public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
+        {
+            m_PolygonPoints.Clear();
+            m_PolygonPoints.Add(p1);
+            m_PolygonPoints.Add(p2);
+            m_PolygonPoints.Add(p3);
+            m_PolygonPoints.Add(p4);
+        }
+
+        public bool IsInPolygon(Vector2 p)
+        {
+            if (m_PolygonPoints.Count == 0) return false;
+            var inside = false;
+            var j = m_PolygonPoints.Count - 1;
+            for (int i = 0; i < m_PolygonPoints.Count; j = i++)
+            {
+                var pi = m_PolygonPoints[i];
+                var pj = m_PolygonPoints[j];
+                if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+                    (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+                    inside = !inside;
+            }
+            return inside;
         }
     }
 }

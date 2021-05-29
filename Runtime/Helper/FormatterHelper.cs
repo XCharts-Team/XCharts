@@ -20,7 +20,7 @@ namespace XCharts
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexFn = new Regex(@"[c-g|x|p|r]\d*|0\.#*", RegexOptions.IgnoreCase);
-        private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n", RegexOptions.IgnoreCase);
+        private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
         private static Regex s_RegexForSerieLabel = new Regex(@"{[a-d|\.](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);

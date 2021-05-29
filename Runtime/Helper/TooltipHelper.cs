@@ -485,7 +485,7 @@ namespace XCharts
             }
         }
 
-        private static bool IsNeedTooltipSerie(Serie serie, Tooltip tooltip)
+        public static bool IsNeedTooltipSerie(Serie serie, Tooltip tooltip)
         {
             //if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
             if (serie.type == SerieType.Pie || serie.type == SerieType.Ring)
@@ -505,7 +505,7 @@ namespace XCharts
             }
         }
 
-        private static bool IsSelectedSerie(Tooltip tooltip, int serieIndex)
+        public static bool IsSelectedSerie(Tooltip tooltip, int serieIndex)
         {
             if (tooltip.runtimeSerieIndex.ContainsKey(serieIndex))
             {
@@ -514,14 +514,14 @@ namespace XCharts
             return false;
         }
 
-        private static string GetItemFormatter(Tooltip tooltip, Serie serie, SerieData serieData)
+        public static string GetItemFormatter(Tooltip tooltip, Serie serie, SerieData serieData)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
             if (!string.IsNullOrEmpty(itemStyle.tooltipFormatter)) return itemStyle.tooltipFormatter;
             else return tooltip.itemFormatter;
         }
 
-        private static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)
+        public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
             if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;

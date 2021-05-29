@@ -89,45 +89,46 @@ namespace XCharts
         /// 获得所有系列名，不包含空名字。
         /// </summary>
         /// <returns></returns>
-        public static void UpdateSerieNameList(Series series, ref List<string> serieNameList)
+        public static void UpdateSerieNameList(BaseChart chart, ref List<string> serieNameList)
         {
             serieNameList.Clear();
-            for (int n = 0; n < series.list.Count; n++)
+            for (int n = 0; n < chart.series.list.Count; n++)
             {
-                var serie = series.GetSerie(n);
-                switch (serie.type)
+                var serie = chart.series.GetSerie(n);
+                if (serie.type == SerieType.Pie
+                    || serie.type == SerieType.Radar
+                    || serie.type == SerieType.Ring
+                    || (serie.type == SerieType.Custom && chart.GetCustomSerieDataNameForColor()))
                 {
-                    case SerieType.Pie:
-                    case SerieType.Radar:
-                    case SerieType.Ring:
-                        for (int i = 0; i < serie.data.Count; i++)
-                        {
-                            if (serie.type == SerieType.Pie && serie.IsIgnoreValue(serie.data[i])) continue;
-                            if (string.IsNullOrEmpty(serie.data[i].name))
-                                serieNameList.Add(ChartCached.IntToStr(i));
-                            else if (!serieNameList.Contains(serie.data[i].name))
-                                serieNameList.Add(serie.data[i].name);
-                        }
-                        break;
-                    default:
-                        if (string.IsNullOrEmpty(serie.name))
-                            serieNameList.Add(ChartCached.IntToStr(n));
-                        else if (!serieNameList.Contains(serie.name))
-                            serieNameList.Add(serie.name);
-                        break;
+                    for (int i = 0; i < serie.data.Count; i++)
+                    {
+                        if (serie.type == SerieType.Pie && serie.IsIgnoreValue(serie.data[i])) continue;
+                        if (string.IsNullOrEmpty(serie.data[i].name))
+                            serieNameList.Add(ChartCached.IntToStr(i));
+                        else if (!serieNameList.Contains(serie.data[i].name))
+                            serieNameList.Add(serie.data[i].name);
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(serie.name))
+                        serieNameList.Add(ChartCached.IntToStr(n));
+                    else if (!serieNameList.Contains(serie.name))
+                        serieNameList.Add(serie.name);
                 }
             }
         }
 
-        public static Color GetNameColor(Series series, int index, string name, ChartTheme theme)
+        public static Color GetNameColor(BaseChart chart, int index, string name)
         {
             Serie destSerie = null;
             SerieData destSerieData = null;
-
+            var series = chart.series;
             for (int n = 0; n < series.list.Count; n++)
             {
                 var serie = series.GetSerie(n);
-                if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring)
+                if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring
+                    || (serie.type == SerieType.Custom && chart.GetCustomSerieDataNameForColor()))
                 {
                     bool found = false;
                     for (int i = 0; i < serie.data.Count; i++)
@@ -152,7 +153,7 @@ namespace XCharts
                     }
                 }
             }
-            return SerieHelper.GetItemColor(destSerie, destSerieData, theme, index, false);
+            return SerieHelper.GetItemColor(destSerie, destSerieData, chart.theme, index, false);
         }
 
         /// <summary>

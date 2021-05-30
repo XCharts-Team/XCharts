@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.2.0](#v2.2.0)  
 [v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
 [v2.0.1](#v2.0.1)  
@@ -34,6 +35,9 @@
 
 ## master
 
+## v2.2.0
+
+* (2021.05.30) Release `v2.2.0` version
 * (2021.05.25) Improved `TextStyle` support for `alignment`
 * (2021.05.24) Fixed the problem that `Label` could not display properly when `PieChart` data were all `0`
 * (2021.05.24) Fixed an issue where `Serie Name` was not working on the `Add Serie` panel (#149)

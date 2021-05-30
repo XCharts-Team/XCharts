@@ -36,8 +36,8 @@ namespace XCharts
     [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
-        internal static string _version = "2.1.1";
-        internal static int _versionDate = 20210413;
+        internal static string _version = "2.2.0";
+        internal static int _versionDate = 20210530;
         public static string version { get { return _version; } }
         public static int versionDate { get { return _versionDate; } }
         public static string fullVersion { get { return version + "-" + versionDate; } }

@@ -24,14 +24,8 @@
   <a href="">
     <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
   </a>
-  <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
-    <img src="https://img.shields.io/github/downloads/monitor1394/unity-ugui-XCharts/total?label=github%20downloads">
-  </a>
   <a href="https://www.npmjs.org/package/unity-ugui-xcharts">
-    <img src="https://img.shields.io/npm/dt/unity-ugui-xcharts?label=npm%20downloads%20">
-  </a>
-  <a href="https://www.npmjs.org/package/unity-ugui-xcharts">
-    <img src="https://img.shields.io/npm/dm/unity-ugui-xcharts?label=%20">
+    <img src="https://img.shields.io/npm/dm/unity-ugui-xcharts?label=npm%20downloads%20">
   </a>
   <a href="">
     <img src="https://img.shields.io/badge/Unity-5.6+-green">
@@ -162,11 +156,6 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
     │   └── SerieData
     └── Settings
 ```
-
-## 环境
-
-* Unity2017.4.27f1, .Net 3.5
-* macOS 10.15.4
 
 ## 使用
 

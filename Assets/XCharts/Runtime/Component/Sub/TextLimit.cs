@@ -20,7 +20,7 @@ namespace XCharts
     [Serializable]
     public class TextLimit : SubComponent
     {
-        [SerializeField] private bool m_Enable = true;
+        [SerializeField] private bool m_Enable = false;
         [SerializeField] private float m_MaxWidth = 0;
         [SerializeField] private float m_Gap = 1;
         [SerializeField] private string m_Suffix = "...";

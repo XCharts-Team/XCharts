@@ -341,7 +341,7 @@ namespace XCharts
             }
             if (rangeValue > 0)
             {
-                angle += rangeAngle * value / rangeValue;
+                angle += rangeAngle * (value - serie.min) / rangeValue;
             }
             return angle;
         }

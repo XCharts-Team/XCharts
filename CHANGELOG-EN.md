@@ -35,6 +35,8 @@
 
 ## master
 
+* (2021.06.04) Fixed `Gauge` having an abnormal pointer position when the minimum value is negative
+
 ## v2.2.0
 
 * (2021.05.30) Release `v2.2.0` version

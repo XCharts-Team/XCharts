@@ -94,6 +94,14 @@ namespace XCharts
             newtheme.theme = Theme.Custom;
             newtheme.themeName = themeNewName;
 
+            if (!Directory.Exists(Application.dataPath + "/XCharts"))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/XCharts");
+            }
+            if (!Directory.Exists(Application.dataPath + "/XCharts/Resources"))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/XCharts/Resources");
+            }
             var themeFileName = "XTheme-" + newtheme.themeName;
             var assetPath = string.Format("Assets/XCharts/Resources/{0}", themeFileName);
             var filePath = string.Format("{0}/../{1}.json", Application.dataPath, assetPath);

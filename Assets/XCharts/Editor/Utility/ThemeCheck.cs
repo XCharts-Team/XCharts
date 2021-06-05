@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,6 +24,12 @@ namespace XCharts
 
         public static void CheckAddedAsset(string assetPath)
         {
+            var fileName = Path.GetFileName(assetPath);
+            if (fileName.Equals("XChartsSettings.asset"))
+            {
+                XThemeMgr.ReloadThemeList();
+                return;
+            }
             if (!IsThemeAsset(assetPath)) return;
             var obj = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
             if (obj == null || obj.text == null) return;

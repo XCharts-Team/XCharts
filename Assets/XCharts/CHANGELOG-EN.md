@@ -35,6 +35,7 @@
 
 ## master
 
+* (2021.06.04) Optimized auto-refresh of custom `Theme` (#148)
 * (2021.06.04) Fixed `Gauge` having an abnormal pointer position when the minimum value is negative
 
 ## v2.2.0

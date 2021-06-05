@@ -457,8 +457,8 @@ namespace XCharts
                             {
                                 if (serie.type == SerieType.Candlestick)
                                 {
-                                    var dataMin = data.min;
-                                    var dataMax = data.max;
+                                    var dataMin = data.GetMinData(inverse);
+                                    var dataMax = data.GetMaxData(inverse);
                                     if (dataMax > max) max = dataMax;
                                     if (dataMin < min) min = dataMin;
                                 }
@@ -502,7 +502,7 @@ namespace XCharts
                                 var currData = 0f;
                                 if (serie.type == SerieType.Candlestick)
                                 {
-                                    currData = showData[j].max;
+                                    currData = showData[j].GetMaxData(false);
                                 }
                                 else
                                 {

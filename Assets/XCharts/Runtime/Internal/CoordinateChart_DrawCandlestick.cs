@@ -50,7 +50,7 @@ namespace XCharts
                 var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var lowest = serieData.GetCurrData(2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var heighest = serieData.GetCurrData(3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var isRise = close > open;
+                var isRise = yAxis.inverse ? close < open : close > open;
                 var borderWidth = open == 0 ? 0f
                     : (itemStyle.runtimeBorderWidth == 0 ? m_Theme.serie.candlestickBorderWidth
                     : itemStyle.runtimeBorderWidth);

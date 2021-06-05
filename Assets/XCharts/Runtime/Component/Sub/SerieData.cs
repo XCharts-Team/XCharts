@@ -123,40 +123,7 @@ namespace XCharts
         /// 是否可以显示Label
         /// </summary>
         public bool canShowLabel { get { return m_CanShowLabel; } set { m_CanShowLabel = value; } }
-        /// <summary>
-        /// the maxinum value.
-        /// 最大值。
-        /// </summary>
-        public float max
-        {
-            get
-            {
-                if (m_Data.Count == 0) return 0;
-                float temp = float.MinValue;
-                for (int i = 0; i < m_Data.Count; i++)
-                {
-                    if (m_Data[i] > temp) temp = m_Data[i];
-                }
-                return temp;
-            }
-        }
-        /// <summary>
-        /// the mininum value.
-        /// 最小值。
-        /// </summary>
-        public float min
-        {
-            get
-            {
-                if (m_Data.Count == 0) return 0;
-                float temp = float.MaxValue;
-                for (int i = 0; i < m_Data.Count; i++)
-                {
-                    if (m_Data[i] < temp) temp = m_Data[i];
-                }
-                return temp;
-            }
-        }
+
         /// <summary>
         /// 饼图数据项的开始角度（运行时自动计算）
         /// </summary>
@@ -326,6 +293,38 @@ namespace XCharts
             {
                 return GetData(index, inverse);
             }
+        }
+
+        /// <summary>
+        /// the maxinum value.
+        /// 最大值。
+        /// </summary>
+        public float GetMaxData(bool inverse = false)
+        {
+            if (m_Data.Count == 0) return 0;
+            float temp = float.MinValue;
+            for (int i = 0; i < m_Data.Count; i++)
+            {
+                var value = GetData(i, inverse);
+                if (value > temp) temp = value;
+            }
+            return temp;
+        }
+        
+        /// <summary>
+        /// the mininum value.
+        /// 最小值。
+        /// </summary>
+        public float GetMinData(bool inverse = false)
+        {
+            if (m_Data.Count == 0) return 0;
+            float temp = float.MaxValue;
+            for (int i = 0; i < m_Data.Count; i++)
+            {
+                var value = GetData(i, inverse);
+                if (value < temp) temp = value;
+            }
+            return temp;
         }
 
         public bool UpdateData(int dimension, float value, bool updateAnimation, float animationDuration = 500f)

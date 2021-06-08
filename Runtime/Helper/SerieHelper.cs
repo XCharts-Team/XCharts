@@ -543,16 +543,16 @@ namespace XCharts
 
         public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)
         {
-            serie.runtimeFilterData.Clear();
+            serie.runtimeSortedData.Clear();
             foreach (var serieData in serie.data)
             {
                 if (!filterInvisible || (filterInvisible && serieData.show))
-                    serie.runtimeFilterData.Add(serieData);
+                    serie.runtimeSortedData.Add(serieData);
             }
             switch (serie.dataSortType)
             {
                 case SerieDataSortType.Ascending:
-                    serie.runtimeFilterData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.runtimeSortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);
@@ -562,7 +562,7 @@ namespace XCharts
                     });
                     break;
                 case SerieDataSortType.Descending:
-                    serie.runtimeFilterData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.runtimeSortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);

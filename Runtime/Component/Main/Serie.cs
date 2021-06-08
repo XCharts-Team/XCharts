@@ -359,6 +359,7 @@ namespace XCharts
         [NonSerialized] internal int m_FilterMinShow;
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] internal List<SerieData> m_FilterData = new List<SerieData>();
+        [NonSerialized] internal List<SerieData> m_SortedData = new List<SerieData>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
@@ -1153,7 +1154,7 @@ namespace XCharts
         public float runtimeY { get; internal set; }
         public float runtimeWidth { get; internal set; }
         public float runtimeHeight { get; internal set; }
-        public List<SerieData> runtimeFilterData { get { return m_FilterData; } }
+        public List<SerieData> runtimeSortedData { get { return m_SortedData; } }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()
@@ -1660,7 +1661,7 @@ namespace XCharts
             }
             else
             {
-                return runtimeFilterData.Count > 0 ? runtimeFilterData : m_Data;
+                return runtimeSortedData.Count > 0 ? runtimeSortedData : m_Data;
             }
         }
 

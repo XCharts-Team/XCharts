@@ -22,6 +22,7 @@ namespace XCharts
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Layer");
+                PropertyField(prop, "m_Align");
                 PropertyField(prop, "m_Sprite");
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_Width");

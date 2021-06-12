@@ -20,6 +20,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show;
         [SerializeField] private Layer m_Layer;
+        [SerializeField] private Align m_Align = Align.Left;
         [SerializeField] private Sprite m_Sprite;
         [SerializeField] private Color m_Color = Color.white;
         [SerializeField] private float m_Width = 20;
@@ -66,7 +67,10 @@ namespace XCharts
         /// 图标偏移。
         /// </summary>
         public Vector3 offset { get { return m_Offset; } set { m_Offset = value; } }
-
+        /// <summary>
+        /// 水平方向对齐方式。
+        /// </summary>
+        public Align align { get { return m_Align; } set { m_Align = value; } }
         public IconStyle Clone()
         {
             var iconStyle = new IconStyle();
@@ -77,6 +81,7 @@ namespace XCharts
             iconStyle.width = width;
             iconStyle.height = height;
             iconStyle.offset = offset;
+            iconStyle.align = align;
             return iconStyle;
         }
 
@@ -89,6 +94,7 @@ namespace XCharts
             width = iconStyle.width;
             height = iconStyle.height;
             offset = iconStyle.offset;
+            align = iconStyle.align;
         }
     }
 }

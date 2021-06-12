@@ -247,7 +247,7 @@ namespace XCharts
     /// <summary>
     /// 对齐方式
     /// </summary>
-    public enum SerieAlign
+    public enum Align
     {
         Center,
         Left,
@@ -337,7 +337,7 @@ namespace XCharts
 
         [SerializeField] private SerieDataSortType m_DataSortType = SerieDataSortType.Descending;
         [SerializeField] private Orient m_Orient = Orient.Vertical;
-        [SerializeField] private SerieAlign m_Align = SerieAlign.Center;
+        [SerializeField] private Align m_Align = Align.Center;
         [SerializeField] private float m_Left;
         [SerializeField] private float m_Right;
         [SerializeField] private float m_Top;
@@ -1045,7 +1045,7 @@ namespace XCharts
         /// <summary>
         /// 组件水平方向对齐方式。
         /// </summary>
-        public SerieAlign align
+        public Align align
         {
             get { return m_Align; }
             set { if (PropertyUtil.SetStruct(ref m_Align, value)) SetVerticesDirty(); }

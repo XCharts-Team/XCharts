@@ -20,6 +20,7 @@ namespace XCharts
         private RectTransform m_IconRect;
         private RectTransform m_ObjectRect;
         private Vector3 m_IconOffest;
+        private Align m_Align = Align.Left;
 
         private Image m_IconImage;
 
@@ -60,6 +61,7 @@ namespace XCharts
             m_LabelText = new ChartText(labelObj);
             m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
             m_ObjectRect = labelObj.GetComponent<RectTransform>();
+            m_Align = Align.Left;
         }
 
         public void SetAutoSize(bool flag)
@@ -96,6 +98,7 @@ namespace XCharts
                 m_IconImage.color = iconStyle.color;
                 m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
                 m_IconOffest = iconStyle.offset;
+                m_Align = iconStyle.align;
                 AdjustIconPos();
                 if (iconStyle.layer == IconStyle.Layer.UnderLabel)
                     m_IconRect.SetSiblingIndex(0);
@@ -185,22 +188,47 @@ namespace XCharts
             if (m_IconImage && m_IconImage.sprite != null && m_IconRect)
             {
                 var iconX = 0f;
-                switch (m_LabelText.text.alignment)
+                switch (m_Align)
                 {
-                    case TextAnchor.LowerLeft:
-                    case TextAnchor.UpperLeft:
-                    case TextAnchor.MiddleLeft:
-                        iconX = -m_ObjectRect.sizeDelta.x / 2 - m_IconRect.sizeDelta.x / 2;
+                    case Align.Left:
+                        switch (m_LabelText.text.alignment)
+                        {
+                            case TextAnchor.LowerLeft:
+                            case TextAnchor.UpperLeft:
+                            case TextAnchor.MiddleLeft:
+                                iconX = -m_ObjectRect.sizeDelta.x / 2 - m_IconRect.sizeDelta.x / 2;
+                                break;
+                            case TextAnchor.LowerRight:
+                            case TextAnchor.UpperRight:
+                            case TextAnchor.MiddleRight:
+                                iconX = m_ObjectRect.sizeDelta.x / 2 - m_LabelText.GetPreferredWidth() - m_IconRect.sizeDelta.x / 2;
+                                break;
+                            case TextAnchor.LowerCenter:
+                            case TextAnchor.UpperCenter:
+                            case TextAnchor.MiddleCenter:
+                                iconX = -m_LabelText.GetPreferredWidth() / 2 - m_IconRect.sizeDelta.x / 2;
+                                break;
+                        }
                         break;
-                    case TextAnchor.LowerRight:
-                    case TextAnchor.UpperRight:
-                    case TextAnchor.MiddleRight:
-                        iconX = m_ObjectRect.sizeDelta.x / 2 - m_LabelText.GetPreferredWidth() - m_IconRect.sizeDelta.x / 2;
-                        break;
-                    case TextAnchor.LowerCenter:
-                    case TextAnchor.UpperCenter:
-                    case TextAnchor.MiddleCenter:
-                        iconX = -m_LabelText.GetPreferredWidth() / 2 - m_IconRect.sizeDelta.x / 2;
+                    case Align.Right:
+                        switch (m_LabelText.text.alignment)
+                        {
+                            case TextAnchor.LowerLeft:
+                            case TextAnchor.UpperLeft:
+                            case TextAnchor.MiddleLeft:
+                                iconX = m_ObjectRect.sizeDelta.x / 2 + m_IconRect.sizeDelta.x / 2;
+                                break;
+                            case TextAnchor.LowerRight:
+                            case TextAnchor.UpperRight:
+                            case TextAnchor.MiddleRight:
+                                iconX = m_IconRect.sizeDelta.x / 2;
+                                break;
+                            case TextAnchor.LowerCenter:
+                            case TextAnchor.UpperCenter:
+                            case TextAnchor.MiddleCenter:
+                                iconX = m_LabelText.GetPreferredWidth() / 2 + m_IconRect.sizeDelta.x / 2;
+                                break;
+                        }
                         break;
                 }
                 m_IconRect.anchoredPosition = m_IconOffest + new Vector3(iconX, 0);

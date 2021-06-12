@@ -25,13 +25,13 @@ namespace XCharts
 #endif
 
         /// <summary>
-        /// the font of text。
+        /// the font of text.
         /// 字体。
         /// </summary>
         public Font font
         {
             get { return m_Font; }
-            set { if (PropertyUtil.SetClass(ref m_Font, value)) SetComponentDirty(); }
+            set { m_Font = value; SetComponentDirty(); }
         }
         /// <summary>
         /// the color of text.
@@ -69,7 +69,7 @@ namespace XCharts
         public TMP_FontAsset tmpFont
         {
             get { return m_TMPFont; }
-            set { if (PropertyUtil.SetClass(ref m_TMPFont, value)) SetComponentDirty(); }
+            set { m_TMPFont = value; SetComponentDirty(); }
         }
 #endif
 

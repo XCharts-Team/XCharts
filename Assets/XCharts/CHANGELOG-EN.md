@@ -35,10 +35,11 @@
 
 ## master
 
+* (2021.06.12) Optimized import of `Theme` and automatic font refresh (#148)
 * (2021.06.10) Fixed compatibility issues with `Unity` version (#154)
 * (2021.06.05) Improved Candlestickchart support for inverse (#152)
 * (2021.06.04) Optimized auto-refresh of custom `Theme` (#148)
-* (2021.06.04) Fixed `Gauge` having an abnormal pointer position when the minimum value is negative
+* (2021.06.04) Fixed `Gauge` having an abnormal pointer position when the minimum value is negative (#153)
 
 ## v2.2.0
 

@@ -216,10 +216,6 @@ namespace XCharts
             }
             else
             {
-                if (m_Theme.font == null)
-                {
-                    m_Theme.font = XChartsSettings.font;
-                }
                 if (m_Theme.colorPalette.Count == 0)
                 {
                     m_Theme.ResetTheme();

@@ -241,10 +241,6 @@ namespace XCharts
         }
 
 #if dUI_TextMeshPro
-        public void SetAlignment(TextAlignmentOptions alignment)
-        {
-            if (m_TMPText != null) m_TMPText.alignment = alignment;
-        }
 
         public void SetFont(TMP_FontAsset font)
         {

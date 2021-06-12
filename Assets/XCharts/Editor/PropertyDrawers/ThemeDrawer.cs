@@ -31,10 +31,6 @@ namespace XCharts
                 btnRect.y = m_DrawRect.y - EditorGUIUtility.singleLineHeight - 3;
                 btnRect.width = btnWidth;
                 var chart = prop.serializedObject.targetObject as BaseChart;
-                var lastFont = chart.theme.font;
-#if dUI_TextMeshPro
-                var lastTMPFont = chart.theme.tmpFont;
-#endif
                 if (GUI.Button(btnRect, new GUIContent("Reset", "Reset to theme default color")))
                 {
                     chart.theme.ResetTheme();
@@ -60,8 +56,18 @@ namespace XCharts
                 }
 #if dUI_TextMeshPro
                 PropertyField(prop, "m_TMPFont");
+                if(chart.theme.tmpFont == null && !string.IsNullOrEmpty(chart.theme.tmpFontName))
+                {
+                    var msg = string.Format("Can't find theme font asset:{0} in project.", chart.theme.tmpFontName);
+                    EditorGUILayout.HelpBox(msg, MessageType.Error);
+                }
 #else
                 PropertyField(prop, "m_Font");
+                if (chart.theme.font == null && !string.IsNullOrEmpty(chart.theme.fontName))
+                {
+                    var msg = string.Format("Can't find theme font asset:{0} in project.", chart.theme.fontName);
+                    EditorGUILayout.HelpBox(msg, MessageType.Error);
+                }
 #endif
                 PropertyField(prop, "m_ContrastColor");
                 PropertyField(prop, "m_BackgroundColor");

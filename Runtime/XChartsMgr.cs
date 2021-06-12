@@ -30,9 +30,6 @@ namespace XCharts
         public string homepage = "";
     }
 
-#if UNITY_EDITOR
-    [InitializeOnLoad]
-#endif
     [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
@@ -67,19 +64,13 @@ namespace XCharts
             }
         }
 
-        private XChartsMgr()
-        {
-        }
-
-        static XChartsMgr()
-        {
 #if UNITY_EDITOR
-            EditorApplication.delayCall += () =>
-            {
-                var mgr = XChartsMgr.Instance;
-            };
-#endif
+        [InitializeOnLoadMethod]
+        private static void OnInitializeOnLoadMethod()
+        {
+            XThemeMgr.ReloadThemeList();
         }
+#endif
 
         private void Awake()
         {

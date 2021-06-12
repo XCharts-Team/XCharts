@@ -1,3 +1,10 @@
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
+
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -63,7 +70,8 @@ namespace XCharts
         private static bool IsThemeAsset(string assetPath)
         {
             if (!assetPath.EndsWith(".json")) return false;
-            if (!assetPath.StartsWith("XTheme")) return false;
+            var assetName = Path.GetFileNameWithoutExtension(assetPath);
+            if (!assetName.StartsWith(XChartsSettings.THEME_ASSET_NAME_PREFIX)) return false;
             return true;
         }
     }

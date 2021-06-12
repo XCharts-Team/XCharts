@@ -11,6 +11,9 @@ using System.Collections.Generic;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace XCharts
 {
@@ -21,6 +24,8 @@ namespace XCharts
 #endif
     public class XChartsSettings : ScriptableObject
     {
+        public readonly static string THEME_ASSET_NAME_PREFIX = "XTheme-";
+        public readonly static string THEME_ASSET_FOLDER = "Assets/XCharts/Resources";
 
         [SerializeField] private Font m_Font = null;
 #if dUI_TextMeshPro
@@ -145,7 +150,6 @@ namespace XCharts
                     }
 #endif
                 }
-
                 return s_Instance;
             }
         }
@@ -156,6 +160,11 @@ namespace XCharts
             if (!Instance.m_CustomThemes.Contains(theme))
             {
                 Instance.m_CustomThemes.Add(theme);
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(Instance);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+#endif
                 return true;
             }
             return false;

@@ -47,6 +47,10 @@ namespace XCharts
     {
         [SerializeField] private Theme m_Theme = Theme.Default;
         [SerializeField] private string m_ThemeName = Theme.Default.ToString();
+        [SerializeField] private string m_FontName;
+        [SerializeField] private string m_TMPFontName;
+        [SerializeField] private int m_FontInstacneId;
+        [SerializeField] private int m_TMPFontInstanceId;
         [SerializeField] private Font m_Font;
 #if dUI_TextMeshPro
         [SerializeField] private TMP_FontAsset m_TMPFont;
@@ -74,6 +78,12 @@ namespace XCharts
         [SerializeField] private DataZoomTheme m_DataZoom;
         [SerializeField] private VisualMapTheme m_VisualMap;
         [SerializeField] private SerieTheme m_Serie;
+
+        private ChartTheme()
+        {
+            m_FontName = "Arial";
+            m_TMPFontName = "LiberationSans SDF";
+        }
 
         /// <summary>
         /// the theme of chart.
@@ -110,6 +120,27 @@ namespace XCharts
             set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
 
+        public string fontName
+        {
+            get { return m_FontName; }
+            set { if (PropertyUtil.SetClass(ref m_FontName, value)) SetComponentDirty(); }
+        }
+        public int fontInstanceId
+        {
+            get { return m_FontInstacneId; }
+            set { if (PropertyUtil.SetStruct(ref m_FontInstacneId, value)) SetComponentDirty(); }
+        }
+        public string tmpFontName
+        {
+            get { return m_TMPFontName; }
+            set { if (PropertyUtil.SetClass(ref m_TMPFontName, value)) SetComponentDirty(); }
+        }
+        public int tmpFontInstanceId
+        {
+            get { return m_TMPFontInstanceId; }
+            set { if (PropertyUtil.SetStruct(ref m_TMPFontInstanceId, value)) SetComponentDirty(); }
+        }
+
         /// <summary>
         /// The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
         /// 调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
@@ -139,11 +170,14 @@ namespace XCharts
             get { return m_TMPFont; }
             set
             {
-                if (PropertyUtil.SetClass(ref m_TMPFont, value))
+                m_TMPFont = value;
+                if(value)
                 {
-                    SetComponentDirty();
-                    SyncTMPFontToSubComponent();
+                    m_TMPFontName = value.name;
+                    m_TMPFontInstanceId = value.GetInstanceID();
                 }
+                SetComponentDirty();
+                SyncTMPFontToSubComponent();
             }
         }
 #endif
@@ -156,11 +190,14 @@ namespace XCharts
             get { return m_Font; }
             set
             {
-                if (PropertyUtil.SetClass(ref m_Font, value))
+                m_Font = value;
+                if (value)
                 {
-                    SetComponentDirty();
-                    SyncFontToSubComponent();
+                    m_FontName = value.name;
+                    m_FontInstacneId = value.GetInstanceID();
                 }
+                SetComponentDirty();
+                SyncFontToSubComponent();
             }
         }
 
@@ -262,9 +299,13 @@ namespace XCharts
             m_Theme = theme.theme;
             m_ThemeName = theme.themeName;
 #if dUI_TextMeshPro
-            m_TMPFont = theme.tmpFont;
+            tmpFont = theme.tmpFont;
 #endif
-            m_Font = theme.m_Font;
+            font = theme.font;
+            m_FontName = theme.fontName;
+            m_FontInstacneId = theme.fontInstanceId;
+            m_TMPFontName = theme.tmpFontName;
+            m_TMPFontInstanceId = theme.tmpFontInstanceId;
             m_ContrastColor = theme.contrastColor;
             m_BackgroundColor = theme.m_BackgroundColor;
             m_Common.Copy(theme.common);
@@ -436,6 +477,22 @@ namespace XCharts
                 InitChartComponentTheme(theme);
                 return theme;
             }
+        }
+
+        public void SyncFontName()
+        {
+            if (font)
+            {
+                m_FontName = font.name;
+                m_FontInstacneId = font.GetInstanceID();
+            }
+#if dUI_TextMeshPro
+            if (tmpFont)
+            {
+                m_TMPFontName = tmpFont.name;
+                m_TMPFontInstanceId = tmpFont.GetInstanceID();
+            }
+#endif
         }
 
         public void SyncFontToSubComponent()

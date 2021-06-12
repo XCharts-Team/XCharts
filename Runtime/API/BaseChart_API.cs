@@ -637,6 +637,7 @@ namespace XCharts
         public void UpdateTheme(ChartTheme theme)
         {
             m_Theme.CopyTheme(theme);
+            SetAllComponentDirty();
         }
 
         /// <summary>

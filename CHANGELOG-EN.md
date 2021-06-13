@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.2.1](#v2.2.1)  
 [v2.2.0](#v2.2.0)  
 [v2.1.1](#v2.1.1)  
 [v2.1.0](#v2.1.0)  
@@ -35,12 +36,14 @@
 
 ## master
 
+## v2.2.1
+
+* (2021.06.13) Release `v2.2.1` version
 * (2021.06.13) Improved support for multiple screens
 * (2021.06.12) Add `iconStyle` `align` parameter to set the horizontal alignment of the icon
-* (2021.06.12) Optimized import of `Theme` and automatic font refresh (#148)
+* (2021.06.12) Improve `Theme` import (#148)
 * (2021.06.10) Fixed compatibility issues with `Unity` version (#154)
 * (2021.06.05) Improved Candlestickchart support for inverse (#152)
-* (2021.06.04) Optimized auto-refresh of custom `Theme` (#148)
 * (2021.06.04) Fixed `Gauge` having an abnormal pointer position when the minimum value is negative (#153)
 
 ## v2.2.0

@@ -928,7 +928,6 @@ namespace XCharts
             var halfWid = visualMap.itemWidth / 2;
             var halfHig = visualMap.itemHeight / 2;
             var splitNum = visualMap.runtimeInRange.Count;
-            var splitWid = visualMap.itemHeight / (splitNum - 1);
             var colors = visualMap.runtimeInRange;
             switch (visualMap.orient)
             {

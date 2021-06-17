@@ -1497,7 +1497,7 @@ namespace XCharts
         private void CheckMaxCache()
         {
             if (m_MaxCache <= 0) return;
-            while (m_Data.Count > m_MaxCache)
+            while (m_Data.Count >= m_MaxCache)
             {
                 m_NeedUpdateFilterData = true;
                 if (m_InsertDataToHead) RemoveData(m_Data.Count - 1);

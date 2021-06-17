@@ -405,6 +405,7 @@ namespace XCharts
             var textStyle = axis.axisLabel.textStyle;
             var iconStyle = axis.iconStyle;
             var label = new ChartLabel();
+            label.emptyStringHideIcon = true;
             label.gameObject = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
 
             // TODO: 为了兼容旧版本，这里后面版本可以去掉

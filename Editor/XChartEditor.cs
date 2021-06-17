@@ -165,13 +165,14 @@ namespace XCharts
                 Debug.LogError("TextMeshPro is not in the project, please import TextMeshPro package first.");
                 return;
             }
-            XChartsMgr.ModifyTMPRefence();
             XChartsMgr.EnableTextMeshPro();
+            XChartsMgr.ModifyTMPRefence();
         }
 
         [MenuItem("XCharts/TextMeshPro Disable")]
         public static void DisableTextMeshPro()
         {
+            XChartsMgr.ModifyTMPRefence(true);
             XChartsMgr.DisableTextMeshPro();
         }
     }

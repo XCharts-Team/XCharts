@@ -570,7 +570,7 @@ namespace XCharts
         {
             if (maxCache > 0)
             {
-                while (m_Data.Count > maxCache)
+                while (m_Data.Count >= maxCache)
                 {
                     m_NeedUpdateFilterData = true;
                     m_Data.RemoveAt(m_InsertDataToHead ? m_Data.Count - 1 : 0);

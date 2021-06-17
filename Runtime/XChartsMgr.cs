@@ -33,8 +33,8 @@ namespace XCharts
     [ExecuteInEditMode]
     public class XChartsMgr : MonoBehaviour
     {
-        internal static string _version = "2.2.1";
-        internal static int _versionDate = 20210613;
+        internal static string _version = "2.2.2";
+        internal static int _versionDate = 20210618;
         public static string version { get { return _version; } }
         public static int versionDate { get { return _versionDate; } }
         public static string fullVersion { get { return version + "-" + versionDate; } }
@@ -63,14 +63,6 @@ namespace XCharts
                 return m_XCharts;
             }
         }
-
-#if UNITY_EDITOR
-        [InitializeOnLoadMethod]
-        private static void OnInitializeOnLoadMethod()
-        {
-            XThemeMgr.ReloadThemeList();
-        }
-#endif
 
         private void Awake()
         {
@@ -414,6 +406,7 @@ namespace XCharts
                 var addedTMP = false;
                 var removedTMP = false;
                 var tmpName = "\"Unity.TextMeshPro\"";
+                var refCount = 0;
                 foreach (var line in lines)
                 {
                     if (string.IsNullOrEmpty(line)) continue;
@@ -427,6 +420,12 @@ namespace XCharts
                         if (line.Contains("],"))
                         {
                             referencesStart = false;
+                            if (refCount > 0)
+                            {
+                                var old = dest[dest.Count - 1];
+                                if (old.EndsWith(","))
+                                    dest[dest.Count - 1] = old.Substring(0, old.Length - 1);
+                            }
                             if (!removeTMP && !refs.Contains(tmpName))
                             {
                                 if (refs.Count > 0)
@@ -446,8 +445,12 @@ namespace XCharts
                             {
                                 if (!line.Contains(tmpName))
                                 {
-                                    removedTMP = true;
                                     dest.Add(line);
+                                    refCount++;
+                                }
+                                else
+                                {
+                                    removedTMP = true;
                                 }
                             }
                             else
@@ -462,7 +465,12 @@ namespace XCharts
                         dest.Add(line);
                     }
                 }
-                if (addedTMP || removedTMP) File.WriteAllText(asmdefPath, string.Join("\n", dest.ToArray()));
+                if (addedTMP || removedTMP)
+                {
+                    File.WriteAllText(asmdefPath, string.Join("\n", dest.ToArray()));
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                }
                 return true;
             }
             catch (System.Exception e)

@@ -180,7 +180,6 @@ namespace XCharts
             {
                 Directory.CreateDirectory(themeAssetPath);
             }
-            var assetPath = string.Format("{0}/{1}", XChartsSettings.THEME_ASSET_FOLDER, themeAssetName);
             var themeAssetFilePath = string.Format("{0}/{1}.json", themeAssetPath, themeAssetName);
             var json = JsonUtility.ToJson(theme, true);
             File.WriteAllText(themeAssetFilePath, json);

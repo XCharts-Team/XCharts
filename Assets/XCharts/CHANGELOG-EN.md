@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.2.2](#v2.2.2)  
 [v2.2.1](#v2.2.1)  
 [v2.2.0](#v2.2.0)  
 [v2.1.1](#v2.1.1)  
@@ -35,6 +36,14 @@
 [v0.1.0](#v0.1.0)  
 
 ## master
+
+## v2.2.2
+
+* (2021.06.18) Release `v2.2.2` version
+* (2021.06.18) Optimize `Axis` to automatically hide `Icon` when `Label` is empty
+* (2021.06.17) Fixed an issue where `maxCache` was set to one more number of actual data
+* (2021.06.17) Fixed an issue where `TextMeshPro` could not be opened and closed in time to refresh
+* (2021.06.17) Fixed an issue where `XCharts` always pops up when importing `XCharts`
 
 ## v2.2.1
 

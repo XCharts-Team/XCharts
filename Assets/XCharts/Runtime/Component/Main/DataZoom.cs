@@ -1024,7 +1024,6 @@ namespace XCharts
             var p2 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY + dataZoom.runtimeHeight);
             var p3 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY + dataZoom.runtimeHeight);
             var p4 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY);
-            var xAxis = chart.GetXAxis(0);
             var lineColor = dataZoom.lineStyle.GetColor(chart.theme.dataZoom.dataLineColor);
             var lineWidth = dataZoom.lineStyle.GetWidth(chart.theme.dataZoom.dataLineWidth);
             var borderWidth = dataZoom.borderWidth == 0 ? chart.theme.dataZoom.borderWidth : dataZoom.borderWidth;

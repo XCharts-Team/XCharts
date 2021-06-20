@@ -12,7 +12,6 @@ namespace XCharts
 {
     public class ChartLabel : ChartObject
     {
-        private bool m_EmptyStringHideIcon = false;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
         private float m_LabelPaddingTopBottom = 3f;
@@ -48,8 +47,6 @@ namespace XCharts
                 if (value != null) m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
             }
         }
-
-        public bool emptyStringHideIcon { set { m_EmptyStringHideIcon = value; } }
 
         public ChartLabel()
         {
@@ -182,10 +179,6 @@ namespace XCharts
                     return sizeChange;
                 }
                 AdjustIconPos();
-                if (m_EmptyStringHideIcon)
-                {
-                    ChartHelper.SetActive(m_IconImage.gameObject, !string.IsNullOrEmpty(text));
-                }
             }
             return false;
         }

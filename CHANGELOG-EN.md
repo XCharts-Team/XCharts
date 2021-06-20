@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
 [v2.2.1](#v2.2.1)  
 [v2.2.0](#v2.2.0)  
@@ -36,6 +37,11 @@
 [v0.1.0](#v0.1.0)  
 
 ## master
+
+# # v2.2.3
+
+* (2021.06.20) Release `v2.2.3` version
+* (2021.06.20) Fixed the default display of `Icon` in `Axis`
 
 ## v2.2.2
 

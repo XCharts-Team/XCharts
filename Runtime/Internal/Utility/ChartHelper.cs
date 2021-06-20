@@ -400,12 +400,11 @@ namespace XCharts
         }
 
         public static ChartLabel AddAxisLabelObject(int index, string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, Axis axis, ComponentTheme theme)
+            Vector2 pivot, Vector2 sizeDelta, Axis axis, ComponentTheme theme, string content, bool autoHideWhenContentEmpty = false)
         {
             var textStyle = axis.axisLabel.textStyle;
             var iconStyle = axis.iconStyle;
             var label = new ChartLabel();
-            label.emptyStringHideIcon = true;
             label.gameObject = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
 
             // TODO: 为了兼容旧版本，这里后面版本可以去掉
@@ -414,11 +413,17 @@ namespace XCharts
             {
                 GameObject.DestroyImmediate(oldText);
             }
+            var labelShow = axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0);
+            if (autoHideWhenContentEmpty && string.IsNullOrEmpty(content))
+            {
+                labelShow &= false;
+            }
             label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, iconStyle.width, iconStyle.height);
             label.SetAutoSize(false);
             label.UpdateIcon(iconStyle, axis.GetIcon(index));
-            label.label.SetActive(axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0));
+            label.label.SetActive(labelShow);
+            label.SetText(content);
             return label;
         }
 

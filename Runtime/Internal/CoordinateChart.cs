@@ -575,19 +575,20 @@ namespace XCharts
                     if ((inside && yAxis.IsLeft()) || (!inside && yAxis.IsRight()))
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
-                            Vector2.zero, new Vector2(0, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
+                            Vector2.zero, new Vector2(0, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis,
+                            labelName, true);
                         txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleLeft));
                     }
                     else
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
-                            Vector2.zero, new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis);
+                            Vector2.zero, new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis,
+                            labelName, true);
                         txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleRight));
                     }
                     var labelWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
                     if (i == 0) yAxis.axisLabel.SetRelatedText(txt.label, labelWidth);
                     txt.SetPosition(GetLabelYPosition(totalWidth + gapWidth, i, yAxisIndex, yAxis));
-                    txt.SetText(labelName);
                     yAxis.runtimeAxisLabelList.Add(txt);
                     totalWidth += labelWidth;
                 }
@@ -693,14 +694,15 @@ namespace XCharts
                     var labelWidth = AxisHelper.GetScaleWidth(xAxis, grid.runtimeWidth, i + 1, dataZoom);
                     var inside = xAxis.axisLabel.inside;
                     var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
+                    var labelName = AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue,
+                        xAxis.runtimeMaxValue, dataZoom, isPercentStack);
                     var label = ChartHelper.AddAxisLabelObject(i, ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform,
-                         new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), xAxis, theme.axis);
+                         new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, textHeight),
+                         xAxis, theme.axis,labelName, true);
 
                     if (i == 0) xAxis.axisLabel.SetRelatedText(label.label, labelWidth);
                     label.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleCenter));
                     label.SetPosition(GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth, i, xAxisIndex, xAxis));
-                    label.SetText(AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue, xAxis.runtimeMaxValue, dataZoom,
-                        isPercentStack));
                     xAxis.runtimeAxisLabelList.Add(label);
                     totalWidth += labelWidth;
                 }
@@ -1286,7 +1288,7 @@ namespace XCharts
             }
         }
 
-        
+
 
         protected void DrawXTooltipIndicator(VertexHelper vh)
         {

@@ -586,6 +586,24 @@ namespace XCharts
             SetAllDirty();
         }
 
+        /// <summary>
+        /// 更新类目数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="category"></param>
+        public void UpdateData(int index, string category)
+        {
+            if (index >= 0 && index < m_Data.Count)
+            {
+                m_Data[index] = category;
+                SetComponentDirty();
+            }
+        }
+
+        /// <summary>
+        /// 添加图标
+        /// </summary>
+        /// <param name="icon"></param>
         public void AddIcon(Sprite icon)
         {
             if (maxCache > 0)
@@ -598,6 +616,20 @@ namespace XCharts
             if (m_InsertDataToHead) m_Icons.Insert(0, icon);
             else m_Icons.Add(icon);
             SetAllDirty();
+        }
+
+        /// <summary>
+        /// 更新图标
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="icon"></param>
+        public void UpdateIcon(int index, Sprite icon)
+        {
+            if (index >= 0 && index < m_Icons.Count)
+            {
+                m_Icons[index] = icon;
+                SetComponentDirty();
+            }
         }
 
         /// <summary>

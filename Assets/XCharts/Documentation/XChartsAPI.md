@@ -84,8 +84,12 @@
 * `CoordinateChart.ClearAxisData()`：清除所有x轴和y轴的类目数据。
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
-* `CoordinateChart.AddXAxisIcon(Sprite icon, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
-* `CoordinateChart.AddYAxisIcon(Sprite icon, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。。
+* `CoordinateChart.AddXAxisIcon(Sprite icon, int xAxisIndex = 0)`：添加一个图标到指定的 `X` 轴。
+* `CoordinateChart.AddYAxisIcon(Sprite icon, int yAxisIndex = 0)`：添加一个图标到指定的 `Y` 轴。
+* `CoordinateChart.UpdateXAxisData(int index, string category, int xAxisIndex = 0)`：更新 `X` 轴的类目数据。
+* `CoordinateChart.UpdateYAxisData(int index, string category, int yAxisIndex = 0)`：更新 `Y` 轴的类目数据。
+* `CoordinateChart.UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)`：更新 `X` 轴的图标。
+* `CoordinateChart.UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)`：更新 `Y` 轴的图标。
 
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
 * `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。

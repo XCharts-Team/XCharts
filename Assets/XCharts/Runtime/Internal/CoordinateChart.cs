@@ -576,14 +576,14 @@ namespace XCharts
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
                             Vector2.zero, new Vector2(0, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis,
-                            labelName, true);
+                            labelName);
                         txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleLeft));
                     }
                     else
                     {
                         txt = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, Vector2.zero,
                             Vector2.zero, new Vector2(1, 0.5f), new Vector2(textWidth, textHeight), yAxis, theme.axis,
-                            labelName, true);
+                            labelName);
                         txt.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleRight));
                     }
                     var labelWidth = AxisHelper.GetScaleWidth(yAxis, grid.runtimeHeight, i + 1, dataZoom);
@@ -698,7 +698,7 @@ namespace XCharts
                         xAxis.runtimeMaxValue, dataZoom, isPercentStack);
                     var label = ChartHelper.AddAxisLabelObject(i, ChartCached.GetXAxisName(xAxisIndex, i), axisObj.transform,
                          new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f), new Vector2(textWidth, textHeight),
-                         xAxis, theme.axis,labelName, true);
+                         xAxis, theme.axis, labelName);
 
                     if (i == 0) xAxis.axisLabel.SetRelatedText(label.label, labelWidth);
                     label.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleCenter));

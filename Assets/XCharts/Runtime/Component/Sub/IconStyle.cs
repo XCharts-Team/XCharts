@@ -26,6 +26,7 @@ namespace XCharts
         [SerializeField] private float m_Width = 20;
         [SerializeField] private float m_Height = 20;
         [SerializeField] private Vector3 m_Offset;
+        [SerializeField] private bool m_AutoHideWhenLabelEmpty = false;
 
         public void Reset()
         {
@@ -36,6 +37,7 @@ namespace XCharts
             m_Width = 20;
             m_Height = 20;
             m_Offset = Vector3.zero;
+            m_AutoHideWhenLabelEmpty = false;
         }
         /// <summary>
         /// Whether the data icon is show.
@@ -71,6 +73,10 @@ namespace XCharts
         /// 水平方向对齐方式。
         /// </summary>
         public Align align { get { return m_Align; } set { m_Align = value; } }
+        /// <summary>
+        /// 当label内容为空时是否自动隐藏图标
+        /// </summary>
+        public bool autoHideWhenLabelEmpty { get { return m_AutoHideWhenLabelEmpty; } set { m_AutoHideWhenLabelEmpty = value; } }
         public IconStyle Clone()
         {
             var iconStyle = new IconStyle();
@@ -82,6 +88,7 @@ namespace XCharts
             iconStyle.height = height;
             iconStyle.offset = offset;
             iconStyle.align = align;
+            iconStyle.autoHideWhenLabelEmpty = autoHideWhenLabelEmpty;
             return iconStyle;
         }
 
@@ -95,6 +102,7 @@ namespace XCharts
             height = iconStyle.height;
             offset = iconStyle.offset;
             align = iconStyle.align;
+            autoHideWhenLabelEmpty = iconStyle.autoHideWhenLabelEmpty;
         }
     }
 }

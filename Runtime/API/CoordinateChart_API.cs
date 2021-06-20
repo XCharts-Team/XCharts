@@ -108,6 +108,22 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Update category data.
+        /// 更新X轴类目数据。
+        /// </summary>
+        /// <param name="index">the index of category data</param>
+        /// <param name="category"></param>
+        /// <param name="xAxisIndex">which xAxis index to update to</param>
+        public void UpdateXAxisData(int index, string category, int xAxisIndex = 0)
+        {
+            var xAxis = GetXAxis(xAxisIndex);
+            if (xAxis != null)
+            {
+                xAxis.UpdateData(index, category);
+            }
+        }
+
+        /// <summary>
         /// Add an icon to xAxis.
         /// 添加一个图标到指定的x轴。
         /// </summary>
@@ -119,6 +135,22 @@ namespace XCharts
             if (xAxis != null)
             {
                 xAxis.AddIcon(icon);
+            }
+        }
+
+        /// <summary>
+        /// Update xAxis icon.
+        /// 更新X轴图标。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="icon"></param>
+        /// <param name="xAxisIndex"></param>
+        public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)
+        {
+            var xAxis = GetXAxis(xAxisIndex);
+            if (xAxis != null)
+            {
+                xAxis.UpdateIcon(index, icon);
             }
         }
 
@@ -138,6 +170,22 @@ namespace XCharts
         }
 
         /// <summary>
+        /// Update category data.
+        /// 更新Y轴类目数据。
+        /// </summary>
+        /// <param name="index">the index of category data</param>
+        /// <param name="category"></param>
+        /// <param name="yAxisIndex">which yAxis index to update to</param>
+        public void UpdateYAxisData(int index, string category, int yAxisIndex = 0)
+        {
+            var yAxis = GetYAxis(yAxisIndex);
+            if (yAxis != null)
+            {
+                yAxis.UpdateData(index, category);
+            }
+        }
+
+        /// <summary>
         /// Add an icon to yAxis.
         /// 添加一个图标到指定的y轴。
         /// </summary>
@@ -149,6 +197,21 @@ namespace XCharts
             if (yAxis != null)
             {
                 yAxis.AddIcon(icon);
+            }
+        }
+
+        /// <summary>
+        /// 更新Y轴图标。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="icon"></param>
+        /// <param name="yAxisIndex"></param>
+        public void UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)
+        {
+            var yAxis = GetYAxis(yAxisIndex);
+            if (yAxis != null)
+            {
+                yAxis.UpdateIcon(index, icon);
             }
         }
 

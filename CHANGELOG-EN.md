@@ -38,6 +38,8 @@
 
 ## master
 
+* (2021.06.21) Add `iconStyle`'s `AutoHideWhenLabelEmpty` to set whether the icon is automatically hidden when `label` is empty
+
 # # v2.2.3
 
 * (2021.06.20) Release `v2.2.3` version

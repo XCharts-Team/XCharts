@@ -12,6 +12,7 @@ namespace XCharts
 {
     public class ChartLabel : ChartObject
     {
+        private bool m_AutoHideIconWhenLabelEmpty = false;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
         private float m_LabelPaddingTopBottom = 3f;
@@ -47,6 +48,9 @@ namespace XCharts
                 if (value != null) m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
             }
         }
+
+        public bool autoHideIconWhenLabelEmpty { set { m_AutoHideIconWhenLabelEmpty = value; } }
+        public bool isIconActive { get; private set; }
 
         public ChartLabel()
         {
@@ -91,23 +95,20 @@ namespace XCharts
         public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)
         {
             if (m_IconImage == null) return;
+            SetIconActive(iconStyle.show);
             if (iconStyle.show)
             {
-                ChartHelper.SetActive(m_IconImage.gameObject, true);
                 m_IconImage.sprite = sprite == null ? iconStyle.sprite : sprite;
                 m_IconImage.color = iconStyle.color;
                 m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
                 m_IconOffest = iconStyle.offset;
                 m_Align = iconStyle.align;
+                m_AutoHideIconWhenLabelEmpty = iconStyle.autoHideWhenLabelEmpty;
                 AdjustIconPos();
                 if (iconStyle.layer == IconStyle.Layer.UnderLabel)
                     m_IconRect.SetSiblingIndex(0);
                 else
                     m_IconRect.SetSiblingIndex(m_GameObject.transform.childCount - 1);
-            }
-            else
-            {
-                ChartHelper.SetActive(m_IconImage.gameObject, false);
             }
         }
 
@@ -156,6 +157,7 @@ namespace XCharts
         }
         public void SetIconActive(bool flag)
         {
+            isIconActive = flag;
             if (m_IconImage) ChartHelper.SetActive(m_IconImage, flag);
         }
 
@@ -179,13 +181,17 @@ namespace XCharts
                     return sizeChange;
                 }
                 AdjustIconPos();
+                if (m_AutoHideIconWhenLabelEmpty && isIconActive)
+                {
+                    ChartHelper.SetActive(m_IconImage.gameObject, !string.IsNullOrEmpty(text));
+                }
             }
             return false;
         }
 
         private void AdjustIconPos()
         {
-            if (m_IconImage && m_IconImage.sprite != null && m_IconRect)
+            if (m_IconImage && m_IconRect)
             {
                 var iconX = 0f;
                 switch (m_Align)

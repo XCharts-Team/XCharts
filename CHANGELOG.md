@@ -38,6 +38,8 @@
 
 ## master
 
+* (2021.06.21) 增加`IconStyle`的`autoHideWhenLabelEmpty`参数设置当`label`为空时是否自动隐藏图标
+
 ## v2.2.3
 
 * (2021.06.20) 发布`v2.2.3`版本

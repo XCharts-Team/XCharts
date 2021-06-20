@@ -28,6 +28,7 @@ namespace XCharts
                 PropertyField(prop, "m_Width");
                 PropertyField(prop, "m_Height");
                 PropertyField(prop, "m_Offset");
+                PropertyField(prop, "m_AutoHideWhenLabelEmpty");
                 --EditorGUI.indentLevel;
             }
         }

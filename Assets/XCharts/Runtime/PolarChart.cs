@@ -143,14 +143,15 @@ namespace XCharts
                 * (tickWidth + axis.axisLabel.margin);
             for (int i = 0; i < splitNumber; i++)
             {
-                float labelWidth = AxisHelper.GetScaleWidth(axis, radius, i, null);
-                bool inside = axis.axisLabel.inside;
-                var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
-                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig), axis, theme.axis);
-                if (i == 0) axis.axisLabel.SetRelatedText(label.label, labelWidth);
+                var labelWidth = AxisHelper.GetScaleWidth(axis, radius, i, null);
+                var inside = axis.axisLabel.inside;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
                 var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.runtimeMinValue, axis.runtimeMaxValue,
                     null, isPercentStack);
+                var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
+                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig), axis, theme.axis,
+                    labelName);
+                if (i == 0) axis.axisLabel.SetRelatedText(label.label, labelWidth);
                 label.label.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 label.SetText(labelName);
                 var pos = ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVetor;
@@ -226,13 +227,12 @@ namespace XCharts
             {
                 float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i, null);
                 bool inside = axis.axisLabel.inside;
-
+                var labelName = AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue,
+                    null, isPercentStack);
                 var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
-                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig), axis, theme.axis);
-
+                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig), axis,
+                    theme.axis, labelName);
                 label.label.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
-                label.SetText(AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue,
-                    null, isPercentStack));
                 var pos = ChartHelper.GetPos(cenPos, radius + margin,
                     isCategory ? (totalAngle + scaleAngle / 2) : totalAngle, true);
                 AxisHelper.AdjustCircleLabelPos(label, pos, cenPos, txtHig, Vector3.zero);

@@ -228,12 +228,28 @@ namespace XCharts
         /// 移除指定名字的系列。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
-        public void Remove(string serieName)
+        public bool RemoveSerie(string serieName)
         {
             var serie = GetSerie(serieName);
-            if (serie != null)
+            return RemoveSerie(serie);
+        }
+
+        public bool RemoveSerie(int serieIndex)
+        {
+            var serie = GetSerie(serieIndex);
+            return RemoveSerie(serie);
+        }
+
+        public bool RemoveSerie(Serie serie)
+        {
+            if (serie != null && m_Series.Remove(serie))
             {
-                m_Series.Remove(serie);
+                SetVerticesDirty();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -255,6 +271,16 @@ namespace XCharts
         /// <param name="show"></param>
         /// <returns></returns>
         public Serie AddSerie(SerieType type, string serieName, bool show = true, bool addToHead = false)
+        {
+            return InsertSerie(-1, type, serieName, show, addToHead);
+        }
+
+        public Serie InsertSerie(int index, SerieType type, string serieName, bool show = true)
+        {
+            return InsertSerie(index, type, serieName, show, false);
+        }
+
+        private Serie InsertSerie(int index, SerieType type, string serieName, bool show = true, bool addToHead = false)
         {
             var serie = new Serie();
             serie.type = type;
@@ -278,6 +304,7 @@ namespace XCharts
             }
             serie.animation.Restart();
             if (addToHead) m_Series.Insert(0, serie);
+            else if (index >= 0) m_Series.Insert(index, serie);
             else m_Series.Add(serie);
             for (int i = 0; i < m_Series.Count; i++)
             {

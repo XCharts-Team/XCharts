@@ -562,6 +562,11 @@ namespace XCharts
             return type == AxisType.Time;
         }
 
+        public void SetNeedUpdateFilterData()
+        {
+            m_NeedUpdateFilterData = true;
+        }
+
         /// <summary>
         /// 添加一个类目到类目数据列表
         /// </summary>
@@ -663,37 +668,43 @@ namespace XCharts
         {
             if (dataZoom != null && dataZoom.enable && dataZoom.IsContainsAxis(this))
             {
-                var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (endIndex < startIndex) endIndex = startIndex;
-                if (startIndex != filterStart || endIndex != filterEnd || dataZoom.minShowNum != filterMinShow || m_NeedUpdateFilterData)
+                var data = GetDataList();
+                var range = Mathf.RoundToInt(data.Count * (dataZoom.end - dataZoom.start) / 100);
+                if (range <= 0) range = 1;
+                int start = 0, end = 0;
+                if (dataZoom.runtimeInvert)
                 {
-                    filterStart = startIndex;
-                    filterEnd = endIndex;
+                    end = Mathf.CeilToInt(data.Count * dataZoom.end / 100);
+                    start = end - range;
+                    if (start < 0) start = 0;
+                }
+                else
+                {
+                    start = Mathf.FloorToInt(data.Count * dataZoom.start / 100);
+                    end = start + range;
+                    if (end > data.Count) end = data.Count;
+                }
+                if (start != filterStart || end != filterEnd || dataZoom.minShowNum != filterMinShow || m_NeedUpdateFilterData)
+                {
+                    filterStart = start;
+                    filterEnd = end;
                     filterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
-                    var data = GetDataList();
                     if (data.Count > 0)
                     {
-                        var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                        if (count < dataZoom.minShowNum)
+                        if (range < dataZoom.minShowNum)
                         {
-                            if (dataZoom.minShowNum > data.Count) count = data.Count;
-                            else count = dataZoom.minShowNum;
+                            if (dataZoom.minShowNum > data.Count) range = data.Count;
+                            else range = dataZoom.minShowNum;
                         }
-                        if (startIndex + count > data.Count)
-                        {
-                            int start = endIndex - count;
-                            filterData = data.GetRange(start < 0 ? 0 : start, count);
-                        }
-                        else filterData = data.GetRange(startIndex, count);
+                        filterData = data.GetRange(start, range);
                     }
                     else
                     {
                         filterData = data;
                     }
                 }
-                else if (endIndex == 0)
+                else if (end == 0)
                 {
                     filterData = emptyFliter;
                 }

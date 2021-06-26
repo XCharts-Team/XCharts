@@ -506,38 +506,43 @@ namespace XCharts
         private static void UpdateFilterData_Category(Serie serie, DataZoom dataZoom)
         {
             var data = serie.data;
-            var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
-            var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-            if (endIndex < startIndex) endIndex = startIndex;
-
-            if (startIndex != serie.m_FilterStart || endIndex != serie.m_FilterEnd
+            var range = Mathf.RoundToInt(data.Count * (dataZoom.end - dataZoom.start) / 100);
+            if (range <= 0) range = 1;
+            int start = 0, end = 0;
+            if (dataZoom.runtimeInvert)
+            {
+                end = Mathf.CeilToInt(data.Count * dataZoom.end / 100);
+                start = end - range;
+                if (start < 0) start = 0;
+            }
+            else
+            {
+                start = Mathf.FloorToInt(data.Count * dataZoom.start / 100);
+                end = start + range;
+                if (end > data.Count) end = data.Count;
+            }
+            if (start != serie.m_FilterStart || end != serie.m_FilterEnd
                 || dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
-                serie.m_FilterStart = startIndex;
-                serie.m_FilterEnd = endIndex;
+                serie.m_FilterStart = start;
+                serie.m_FilterEnd = end;
                 serie.m_FilterMinShow = dataZoom.minShowNum;
                 serie.m_NeedUpdateFilterData = false;
-                var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
-                if (count < dataZoom.minShowNum)
-                {
-                    if (dataZoom.minShowNum > data.Count) count = data.Count;
-                    else count = dataZoom.minShowNum;
-                }
                 if (data.Count > 0)
                 {
-                    if (startIndex + count > data.Count)
+                    if (range < dataZoom.minShowNum)
                     {
-                        int start = endIndex - count;
-                        data = data.GetRange(start < 0 ? 0 : start, count);
+                        if (dataZoom.minShowNum > data.Count) range = data.Count;
+                        else range = dataZoom.minShowNum;
                     }
-                    else serie.m_FilterData = data.GetRange(startIndex, count);
+                    serie.m_FilterData = data.GetRange(start, range);
                 }
                 else
                 {
                     serie.m_FilterData = data;
                 }
             }
-            else if (endIndex == 0)
+            else if (end == 0)
             {
                 serie.m_FilterData = emptyFilter;
             }

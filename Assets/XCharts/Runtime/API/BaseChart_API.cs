@@ -182,7 +182,7 @@ namespace XCharts
         /// <param name="serieName">the name of serie</param>
         public virtual void RemoveData(string serieName)
         {
-            m_Series.Remove(serieName);
+            m_Series.RemoveSerie(serieName);
             foreach (var legend in m_Legends) legend.RemoveData(serieName);
             m_SerieLabelRoot = null;
             RefreshChart();
@@ -218,6 +218,11 @@ namespace XCharts
                 if (t.Equals(serieType)) type = (SerieType)Enum.Parse(typeof(SerieType), t);
             }
             return AddSerie(type, serieName, show, addToHead);
+        }
+
+        public virtual Serie InsertSerie(int index, SerieType serieType, string serieName = null, bool show = true)
+        {
+            return m_Series.InsertSerie(index, serieType, serieName, show);
         }
 
         /// <summary>

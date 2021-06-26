@@ -1053,5 +1053,10 @@ namespace XCharts
                 return true;
             }
         }
+
+        public static bool IsInRect(Vector3 pos, float xMin, float xMax, float yMin, float yMax)
+        {
+            return pos.x >= xMin && pos.x <= xMax && pos.y <= yMax && pos.y >= yMin;
+        }
     }
 }

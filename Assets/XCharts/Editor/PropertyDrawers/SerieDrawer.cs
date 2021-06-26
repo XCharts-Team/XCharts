@@ -43,8 +43,8 @@ namespace XCharts
                 m_DrawRect.y += hig;
                 m_Heights[m_KeyName] += hig;
 
-                PropertyField(prop, "m_Name");
                 PropertyField(prop, "m_InsertDataToHead");
+                PropertyField(prop, "m_Name");
                 switch (serieType)
                 {
                     case SerieType.Line:

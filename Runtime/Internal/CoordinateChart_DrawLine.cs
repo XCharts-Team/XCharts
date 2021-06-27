@@ -91,6 +91,10 @@ namespace XCharts
         {
             if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
+            var yAxis = GetSerieYAxisOrDefault(serie);
+            var xAxis = GetSerieXAxisOrDefault(serie);
+            var grid = GetSerieGridOrDefault(serie);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
             var showData = serie.GetDataList(dataZoom);
             if (showData.Count <= 0) return;
             Color32 lineColor = SerieHelper.GetLineColor(serie, m_Theme, colorIndex, serie.highlighted);
@@ -100,9 +104,6 @@ namespace XCharts
             Color32 highlightAreaToColor = SerieHelper.GetAreaToColor(serie, m_Theme, colorIndex, true);
             Color32 areaColor, areaToColor;
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
-            var yAxis = GetSerieYAxisOrDefault(serie);
-            var xAxis = GetSerieXAxisOrDefault(serie);
-            var grid = GetSerieGridOrDefault(serie);
             var zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + yAxis.runtimeZeroYOffset);
             var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             m_StackSerieData.Clear();
@@ -497,7 +498,6 @@ namespace XCharts
         {
             if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
-            var showData = serie.GetDataList(dataZoom);
             Vector3 lp = Vector3.zero;
             Vector3 np = Vector3.zero;
             Vector3 llp = Vector3.zero;
@@ -511,6 +511,8 @@ namespace XCharts
             var xAxis = m_XAxes[serie.xAxisIndex];
             var yAxis = m_YAxes[serie.yAxisIndex];
             var grid = GetSerieGridOrDefault(serie);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
+            var showData = serie.GetDataList(dataZoom);
             var zeroPos = new Vector3(grid.runtimeX + xAxis.runtimeZeroXOffset, grid.runtimeY);
             var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             m_StackSerieData.Clear();

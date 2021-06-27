@@ -96,6 +96,7 @@ namespace XCharts
         [SerializeField] private int m_MinShowNum = 1;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
+        [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private TextStyle m_TextStyle;
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
@@ -332,6 +333,18 @@ namespace XCharts
             get { return m_ScrollSensitivity; }
             set { if (PropertyUtil.SetStruct(ref m_ScrollSensitivity, value)) SetVerticesDirty(); }
         }
+
+        /// <summary>
+        /// Specify whether the layout of dataZoom component is horizontal or vertical. What's more, 
+        /// it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.
+        /// 布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。
+        /// </summary>
+        /// <value></value>
+        public Orient orient
+        {
+            get { return m_Orient; }
+            set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// font style.
         /// 文字格式。
@@ -374,6 +387,7 @@ namespace XCharts
         /// 运行时实际范围的结束值
         /// </summary>
         public float runtimeEndValue { get; internal set; }
+        public bool runtimeInvert { get; set; }
 
         class AxisIndexValueInfo
         {
@@ -415,6 +429,7 @@ namespace XCharts
                     rangeMode = RangeMode.Percent,
                     start = 30,
                     end = 70,
+                    m_Orient = Orient.Horizonal,
                     m_ScrollSensitivity = 10,
                     m_TextStyle = new TextStyle(),
                     m_LineStyle = new LineStyle(LineStyle.Type.Solid)
@@ -444,22 +459,44 @@ namespace XCharts
             {
                 return false;
             }
-            return false;
+            return true;
         }
 
         /// <summary>
         /// 给定的坐标是否在选中区域内
         /// </summary>
         /// <param name="pos"></param>
-        /// <param name="startX"></param>
-        /// <param name="width"></param>
         /// <returns></returns>
         public bool IsInSelectedZoom(Vector2 pos)
         {
-            var start = runtimeX + runtimeWidth * m_Start / 100;
-            var end = runtimeX + runtimeWidth * m_End / 100;
-            Rect rect = Rect.MinMaxRect(start, runtimeY, end, runtimeY + runtimeHeight);
-            return rect.Contains(pos);
+            switch (m_Orient)
+            {
+                case Orient.Horizonal:
+                    var start = runtimeX + runtimeWidth * m_Start / 100;
+                    var end = runtimeX + runtimeWidth * m_End / 100;
+                    return ChartHelper.IsInRect(pos, start, end, runtimeY, runtimeY + runtimeHeight);
+                case Orient.Vertical:
+                    start = runtimeY + runtimeHeight * m_Start / 100;
+                    end = runtimeY + runtimeHeight * m_End / 100;
+                    return ChartHelper.IsInRect(pos, runtimeX, runtimeX + runtimeWidth, start, end);
+                default: return false;
+            }
+        }
+
+
+        public bool IsInSelectedZoom(int totalIndex, int index, bool invert)
+        {
+            if (totalIndex <= 0) return false;
+            var tstart = invert ? 100 - end : start;
+            var tend = invert ? 100 - start : end;
+            var range = Mathf.RoundToInt(totalIndex * (tend - tstart) / 100);
+            var min = Mathf.FloorToInt(totalIndex * tstart / 100);
+            var max = Mathf.CeilToInt(totalIndex * tend / 100);
+            if (min == 0) max = min + range;
+            if (max == totalIndex) min = max - range;
+            var flag = index >= min && index < min + range;
+            //Debug.LogError("check:" + index + "," + totalIndex + "," + range + "," + min + "," + max + "," + flag);
+            return flag;
         }
 
         /// <summary>
@@ -471,9 +508,16 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInStartZoom(Vector2 pos)
         {
-            var start = runtimeX + runtimeWidth * m_Start / 100;
-            Rect rect = Rect.MinMaxRect(start - 10, runtimeY, start + 10, runtimeY + runtimeHeight);
-            return rect.Contains(pos);
+            switch (m_Orient)
+            {
+                case Orient.Horizonal:
+                    var start = runtimeX + runtimeWidth * m_Start / 100;
+                    return ChartHelper.IsInRect(pos, start - 10, start + 10, runtimeY, runtimeY + runtimeHeight);
+                case Orient.Vertical:
+                    start = runtimeY + runtimeHeight * m_Start / 100;
+                    return ChartHelper.IsInRect(pos, runtimeX, runtimeX + runtimeWidth, start - 10, start + 10);
+                default: return false;
+            }
         }
 
         /// <summary>
@@ -485,14 +529,23 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInEndZoom(Vector2 pos)
         {
-            var end = runtimeX + runtimeWidth * m_End / 100;
-            Rect rect = Rect.MinMaxRect(end - 10, runtimeY, end + 10, runtimeY + runtimeHeight);
-            return rect.Contains(pos);
+            switch (m_Orient)
+            {
+                case Orient.Horizonal:
+                    var end = runtimeX + runtimeWidth * m_End / 100;
+                    return ChartHelper.IsInRect(pos, end - 10, end + 10, runtimeY, runtimeY + runtimeHeight);
+                case Orient.Vertical:
+                    end = runtimeY + runtimeHeight * m_End / 100;
+                    return ChartHelper.IsInRect(pos, runtimeX, runtimeX + runtimeWidth, end - 10, end + 10);
+                default: return false;
+            }
         }
+
 
         public bool IsContainsAxis(Axis axis)
         {
-            if (axis is XAxis) return xAxisIndexs.Contains(axis.index);
+            if (axis == null) return false;
+            else if (axis is XAxis) return xAxisIndexs.Contains(axis.index);
             else if (axis is YAxis) return yAxisIndexs.Contains(axis.index);
             else return false;
         }
@@ -693,7 +746,15 @@ namespace XCharts
             if (chart == null) return;
             foreach (var dataZoom in chart.dataZooms)
             {
-                DrawDataZoomSlider(vh, dataZoom);
+                switch (dataZoom.orient)
+                {
+                    case Orient.Horizonal:
+                        DrawHorizonalDataZoomSlider(vh, dataZoom);
+                        break;
+                    case Orient.Vertical:
+                        DrawVerticalDataZoomSlider(vh, dataZoom);
+                        break;
+                }
             }
         }
 
@@ -719,13 +780,20 @@ namespace XCharts
                 }
                 if (dataZoom.supportSlider)
                 {
-                    if (dataZoom.IsInStartZoom(pos))
+                    if (!dataZoom.zoomLock)
                     {
-                        dataZoom.runtimeStartDrag = true;
-                    }
-                    else if (dataZoom.IsInEndZoom(pos))
-                    {
-                        dataZoom.runtimeEndDrag = true;
+                        if (dataZoom.IsInStartZoom(pos))
+                        {
+                            dataZoom.runtimeStartDrag = true;
+                        }
+                        else if (dataZoom.IsInEndZoom(pos))
+                        {
+                            dataZoom.runtimeEndDrag = true;
+                        }
+                        else if (dataZoom.IsInSelectedZoom(pos))
+                        {
+                            dataZoom.runtimeDrag = true;
+                        }
                     }
                     else if (dataZoom.IsInSelectedZoom(pos))
                     {
@@ -742,10 +810,19 @@ namespace XCharts
             foreach (var dataZoom in chart.dataZooms)
             {
                 var grid = chart.GetDataZoomGridOrDefault(dataZoom);
-                float deltaX = eventData.delta.x;
-                float deltaPercent = deltaX / grid.runtimeWidth * 100;
-                OnDragInside(dataZoom, deltaPercent);
-                OnDragSlider(dataZoom, deltaPercent);
+                switch (dataZoom.orient)
+                {
+                    case Orient.Horizonal:
+                        var deltaPercent = eventData.delta.x / grid.runtimeWidth * 100;
+                        OnDragInside(dataZoom, deltaPercent);
+                        OnDragSlider(dataZoom, deltaPercent);
+                        break;
+                    case Orient.Vertical:
+                        deltaPercent = eventData.delta.y / grid.runtimeHeight * 100;
+                        OnDragInside(dataZoom, deltaPercent);
+                        OnDragSlider(dataZoom, deltaPercent);
+                        break;
+                }
             }
         }
 
@@ -799,10 +876,9 @@ namespace XCharts
                         endX = grid.runtimeX + grid.runtimeWidth;
                         startX = grid.runtimeX + grid.runtimeWidth - selectWidth;
                     }
-                    dataZoom.start = (startX - grid.runtimeX) / grid.runtimeWidth * 100;
-                    dataZoom.end = (endX - grid.runtimeX) / grid.runtimeWidth * 100;
-                    RefreshDataZoomLabel();
-                    chart.RefreshChart();
+                    var start = (startX - grid.runtimeX) / grid.runtimeWidth * 100;
+                    var end = (endX - grid.runtimeX) / grid.runtimeWidth * 100;
+                    UpdateDataZoomRange(dataZoom, start, end);
                 }
             }
         }
@@ -810,41 +886,47 @@ namespace XCharts
         {
             if (chart == null) return;
             if (Input.touchCount > 1) return;
+            Vector2 pos;
+            if (!chart.ScreenPointToChartPoint(eventData.position, out pos)) return;
             foreach (var dataZoom in chart.dataZooms)
             {
-                if (!dataZoom.enable || dataZoom.zoomLock) return;
-                Vector2 pos;
-                if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
-                {
-                    return;
-                }
+                if (!dataZoom.enable || dataZoom.zoomLock) continue;
                 var grid = chart.GetDataZoomGridOrDefault(dataZoom);
-                if (!chart.IsInGrid(grid, pos) && !dataZoom.IsInSelectedZoom(pos))
+                if ((dataZoom.supportInside && chart.IsInGrid(grid, pos)) ||
+                    dataZoom.IsInZoom(pos))
                 {
-                    return;
+                    ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity);
                 }
-                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity);
             }
         }
 
         private void OnDragInside(DataZoom dataZoom, float deltaPercent)
         {
+            if (deltaPercent == 0) return;
             if (Input.touchCount > 1) return;
             if (!dataZoom.supportInside) return;
             if (!dataZoom.runtimeCoordinateDrag) return;
             var diff = dataZoom.end - dataZoom.start;
             if (deltaPercent > 0)
             {
-                dataZoom.start -= deltaPercent;
-                dataZoom.end = dataZoom.start + diff;
+                if (dataZoom.start > 0)
+                {
+                    var start = dataZoom.start - deltaPercent;
+                    if (start < 0) start = 0;
+                    var end = start + diff;
+                    UpdateDataZoomRange(dataZoom, start, end);
+                }
             }
             else
             {
-                dataZoom.end += -deltaPercent;
-                dataZoom.start = dataZoom.end - diff;
+                if (dataZoom.end < 100)
+                {
+                    var end = dataZoom.end - deltaPercent;
+                    if (end > 100) end = 100;
+                    var start = end - diff;
+                    UpdateDataZoomRange(dataZoom, start, end);
+                }
             }
-            RefreshDataZoomLabel();
-            chart.RefreshChart();
         }
 
         private void OnDragSlider(DataZoom dataZoom, float deltaPercent)
@@ -853,83 +935,69 @@ namespace XCharts
             if (!dataZoom.supportSlider) return;
             if (dataZoom.runtimeStartDrag)
             {
-                dataZoom.start += deltaPercent;
-                if (dataZoom.start > dataZoom.end)
+                var start = dataZoom.start + deltaPercent;
+                if (start > dataZoom.end)
                 {
-                    dataZoom.start = dataZoom.end;
+                    start = dataZoom.end;
                     dataZoom.runtimeEndDrag = true;
                     dataZoom.runtimeStartDrag = false;
                 }
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    chart.RefreshChart();
-                }
+                UpdateDataZoomRange(dataZoom, start, dataZoom.end);
             }
             else if (dataZoom.runtimeEndDrag)
             {
-                dataZoom.end += deltaPercent;
-                if (dataZoom.end < dataZoom.start)
+                var end = dataZoom.end + deltaPercent;
+                if (end < dataZoom.start)
                 {
-                    dataZoom.end = dataZoom.start;
+                    end = dataZoom.start;
                     dataZoom.runtimeStartDrag = true;
                     dataZoom.runtimeEndDrag = false;
                 }
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    chart.RefreshChart();
-                }
+                UpdateDataZoomRange(dataZoom, dataZoom.start, end);
             }
             else if (dataZoom.runtimeDrag)
             {
                 if (deltaPercent > 0)
                 {
-                    if (dataZoom.end + deltaPercent > 100)
-                    {
-                        deltaPercent = 100 - dataZoom.end;
-                    }
+                    if (dataZoom.end + deltaPercent > 100) deltaPercent = 100 - dataZoom.end;
                 }
                 else
                 {
-                    if (dataZoom.start + deltaPercent < 0)
-                    {
-                        deltaPercent = -dataZoom.start;
-                    }
+                    if (dataZoom.start + deltaPercent < 0) deltaPercent = -dataZoom.start;
                 }
-                dataZoom.start += deltaPercent;
-                dataZoom.end += deltaPercent;
-                if (dataZoom.realtime)
-                {
-                    RefreshDataZoomLabel();
-                    chart.RefreshChart();
-                }
+                UpdateDataZoomRange(dataZoom, dataZoom.start + deltaPercent, dataZoom.end + deltaPercent);
             }
         }
 
         private void ScaleDataZoom(DataZoom dataZoom, float delta)
         {
             var grid = chart.GetDataZoomGridOrDefault(dataZoom);
-            float deltaPercent = Mathf.Abs(delta / grid.runtimeWidth * 100);
+            var deltaPercent = dataZoom.orient == Orient.Horizonal ?
+                     Mathf.Abs(delta / grid.runtimeWidth * 100) :
+                      Mathf.Abs(delta / grid.runtimeHeight * 100);
             if (delta > 0)
             {
                 if (dataZoom.end <= dataZoom.start) return;
-                dataZoom.end -= deltaPercent;
-                dataZoom.start += deltaPercent;
-                if (dataZoom.end <= dataZoom.start)
-                {
-                    dataZoom.end = dataZoom.start;
-                }
+                UpdateDataZoomRange(dataZoom, dataZoom.start + deltaPercent, dataZoom.end - deltaPercent);
             }
             else
             {
-                dataZoom.end += deltaPercent;
-                dataZoom.start -= deltaPercent;
-                if (dataZoom.end > 100) dataZoom.end = 100;
-                if (dataZoom.start < 0) dataZoom.start = 0;
+                UpdateDataZoomRange(dataZoom, dataZoom.start - deltaPercent, dataZoom.end + deltaPercent);
             }
-            RefreshDataZoomLabel();
-            chart.RefreshChart();
+        }
+
+        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end)
+        {
+            if (end > 100) end = 100;
+            if (start < 0) start = 0;
+            if (end < start) end = start;
+            dataZoom.start = start;
+            dataZoom.end = end;
+            if (dataZoom.realtime)
+            {
+                chart.OnDataZoomRangeChanged(dataZoom);
+                chart.RefreshChart();
+            }
         }
 
         public void RefreshDataZoomLabel()
@@ -1017,7 +1085,7 @@ namespace XCharts
             }
         }
 
-        private void DrawDataZoomSlider(VertexHelper vh, DataZoom dataZoom)
+        private void DrawHorizonalDataZoomSlider(VertexHelper vh, DataZoom dataZoom)
         {
             if (!dataZoom.enable || !dataZoom.supportSlider) return;
             var p1 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY);
@@ -1091,6 +1159,87 @@ namespace XCharts
                     p2 = new Vector2(start, dataZoom.runtimeY + dataZoom.runtimeHeight);
                     p3 = new Vector2(end, dataZoom.runtimeY + dataZoom.runtimeHeight);
                     p4 = new Vector2(end, dataZoom.runtimeY);
+                    UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, fillerColor);
+                    UGL.DrawLine(vh, p1, p2, lineWidth, fillerColor);
+                    UGL.DrawLine(vh, p3, p4, lineWidth, fillerColor);
+                    break;
+            }
+        }
+
+        private void DrawVerticalDataZoomSlider(VertexHelper vh, DataZoom dataZoom)
+        {
+            if (!dataZoom.enable || !dataZoom.supportSlider) return;
+            var p1 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY);
+            var p2 = new Vector3(dataZoom.runtimeX, dataZoom.runtimeY + dataZoom.runtimeHeight);
+            var p3 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY + dataZoom.runtimeHeight);
+            var p4 = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth, dataZoom.runtimeY);
+            var lineColor = dataZoom.lineStyle.GetColor(chart.theme.dataZoom.dataLineColor);
+            var lineWidth = dataZoom.lineStyle.GetWidth(chart.theme.dataZoom.dataLineWidth);
+            var borderWidth = dataZoom.borderWidth == 0 ? chart.theme.dataZoom.borderWidth : dataZoom.borderWidth;
+            var borderColor = dataZoom.GetBorderColor(chart.theme.dataZoom.borderColor);
+            var backgroundColor = dataZoom.GetBackgroundColor(chart.theme.dataZoom.backgroundColor);
+            var areaColor = dataZoom.areaStyle.GetColor(chart.theme.dataZoom.dataAreaColor);
+            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
+            var centerPos = new Vector3(dataZoom.runtimeX + dataZoom.runtimeWidth / 2,
+                dataZoom.runtimeY + dataZoom.runtimeHeight / 2);
+            UGL.DrawBorder(vh, centerPos, dataZoom.runtimeWidth, dataZoom.runtimeHeight, borderWidth, borderColor);
+            if (dataZoom.showDataShadow && chart.series.Count > 0)
+            {
+                Serie serie = chart.series.list[0];
+                Axis axis = chart.GetYAxis(0);
+                var showData = serie.GetDataList(null);
+                float scaleWid = dataZoom.runtimeHeight / (showData.Count - 1);
+                Vector3 lp = Vector3.zero;
+                Vector3 np = Vector3.zero;
+                float minValue = 0;
+                float maxValue = 0;
+                SeriesHelper.GetYMinMaxValue(chart.series, null, 0, chart.IsValue(), axis.inverse, out minValue, out maxValue);
+                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
+
+                int rate = 1;
+                var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
+                var maxCount = showData.Count;
+                if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (dataZoom.runtimeHeight / sampleDist));
+                if (rate < 1) rate = 1;
+                var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
+                    chart.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
+                var dataChanging = false;
+                for (int i = 0; i < maxCount; i += rate)
+                {
+                    float value = chart.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
+                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
+                    float pY = dataZoom.runtimeY + i * scaleWid;
+                    float dataHig = (maxValue - minValue) == 0 ? 0 :
+                        (value - minValue) / (maxValue - minValue) * dataZoom.runtimeWidth;
+                    np = new Vector3(chart.chartX + chart.chartWidth - dataZoom.right - dataHig, pY);
+                    if (i > 0)
+                    {
+                        UGL.DrawLine(vh, lp, np, lineWidth, lineColor);
+                        Vector3 alp = new Vector3(lp.x, lp.y - lineWidth);
+                        Vector3 anp = new Vector3(np.x, np.y - lineWidth);
+
+                        Vector3 tnp = new Vector3(np.x, chart.chartY + dataZoom.bottom + lineWidth);
+                        Vector3 tlp = new Vector3(lp.x, chart.chartY + dataZoom.bottom + lineWidth);
+                        UGL.DrawQuadrilateral(vh, alp, anp, tnp, tlp, areaColor);
+                    }
+                    lp = np;
+                }
+                if (dataChanging)
+                {
+                    chart.RefreshTopPainter();
+                }
+            }
+            switch (dataZoom.rangeMode)
+            {
+                case DataZoom.RangeMode.Percent:
+                    var start = dataZoom.runtimeY + dataZoom.runtimeHeight * dataZoom.start / 100;
+                    var end = dataZoom.runtimeY + dataZoom.runtimeHeight * dataZoom.end / 100;
+                    var fillerColor = dataZoom.GetFillerColor(chart.theme.dataZoom.fillerColor);
+
+                    p1 = new Vector2(dataZoom.runtimeX, start);
+                    p2 = new Vector2(dataZoom.runtimeX + dataZoom.runtimeWidth, start);
+                    p3 = new Vector2(dataZoom.runtimeX + dataZoom.runtimeWidth, end);
+                    p4 = new Vector2(dataZoom.runtimeX, end);
                     UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, fillerColor);
                     UGL.DrawLine(vh, p1, p2, lineWidth, fillerColor);
                     UGL.DrawLine(vh, p3, p4, lineWidth, fillerColor);

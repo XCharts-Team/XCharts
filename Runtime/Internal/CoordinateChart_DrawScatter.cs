@@ -16,6 +16,8 @@ namespace XCharts
         {
             if (serie.animation.HasFadeOut()) return;
             if (!serie.show) return;
+            DataZoom xDataZoom, yDataZoom;
+            DataZoomHelper.GetSerieRelatedDataZoom(serie, dataZooms, out xDataZoom, out yDataZoom);
             var yAxis = m_YAxes[serie.yAxisIndex];
             var xAxis = m_XAxes[serie.xAxisIndex];
             var grid = GetSerieGridOrDefault(serie);
@@ -26,7 +28,7 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
-            var dataList = serie.GetDataList(dataZoom);
+            var dataList = serie.GetDataList(xDataZoom);
             foreach (var serieData in dataList)
             {
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);

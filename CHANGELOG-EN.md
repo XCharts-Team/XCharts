@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.06.27) Add `DataZoom`'s `orient` parameter to set horizontal or vertical styles
 * (2021.06.21) Add `iconStyle`'s `AutoHideWhenLabelEmpty` to set whether the icon is automatically hidden when `label` is empty
 
 # # v2.2.3

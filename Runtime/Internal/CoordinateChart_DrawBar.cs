@@ -25,6 +25,7 @@ namespace XCharts
             var xAxis = m_XAxes[serie.xAxisIndex];
             var yAxis = m_YAxes[serie.yAxisIndex];
             var grid = GetSerieGridOrDefault(serie);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
             var showData = serie.GetDataList(dataZoom);
             float categoryWidth = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, showData.Count, dataZoom);
             float barGap = Internal_GetBarGap(SerieType.Bar);
@@ -170,10 +171,11 @@ namespace XCharts
         {
             if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
-            var showData = serie.GetDataList(dataZoom);
             var yAxis = m_YAxes[serie.yAxisIndex];
             var xAxis = m_XAxes[serie.xAxisIndex];
             var grid = GetSerieGridOrDefault(serie);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
+            var showData = serie.GetDataList(dataZoom);
             var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar);
             m_StackSerieData.Clear();
             if (isStack) SeriesHelper.UpdateStackDataList(m_Series, serie, dataZoom, m_StackSerieData);

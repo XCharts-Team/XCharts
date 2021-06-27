@@ -30,6 +30,7 @@ namespace XCharts
         [SerializeField] private float m_Height = 0f;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+        private DelegateAxisLabelFormatter m_FormatterFunction;
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -144,6 +145,11 @@ namespace XCharts
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
         }
 
+        public DelegateAxisLabelFormatter formatterFunction
+        {
+            set { m_FormatterFunction = value; }
+        }
+
         public override bool componentDirty { get { return m_ComponentDirty || m_TextLimit.componentDirty; } }
         public override void ClearComponentDirty()
         {
@@ -201,8 +207,12 @@ namespace XCharts
             m_TextLimit.SetRelatedText(txt, labelWidth);
         }
 
-        public string GetFormatterContent(string category)
+        public string GetFormatterContent(int labelIndex, string category)
         {
+            if (m_FormatterFunction != null)
+            {
+                return m_FormatterFunction(labelIndex, 0, category);
+            }
             if (string.IsNullOrEmpty(category)) return category;
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -216,11 +226,15 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterContent(float value, float minValue, float maxValue, bool isLog = false)
+        public string GetFormatterContent(int labelIndex, float value, float minValue, float maxValue, bool isLog = false)
         {
             if (showAsPositiveNumber && value < 0)
             {
                 value = Mathf.Abs(value);
+            }
+            if (m_FormatterFunction != null)
+            {
+                return m_FormatterFunction(labelIndex, value, null);
             }
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -246,8 +260,14 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterDateTime(DateTime dateTime)
+        public string GetFormatterDateTime(int labelIndex, float value)
         {
+            if (m_FormatterFunction != null)
+            {
+                return m_FormatterFunction(labelIndex, value, null);
+            }
+            var timestamp = (int)value;
+            var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var format = string.IsNullOrEmpty(numericFormatter) ? "yyyy/M/d" : numericFormatter;
             if (!string.IsNullOrEmpty(m_Formatter))
             {

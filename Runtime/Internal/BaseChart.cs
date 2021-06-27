@@ -448,7 +448,7 @@ namespace XCharts
                     string legendName = legend.GetFormatterContent(datas[i]);
                     var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
                     var active = IsActiveByLegend(datas[i]);
-                    var bgColor = LegendHelper.GetIconColor(this, readIndex , datas[i], active);
+                    var bgColor = LegendHelper.GetIconColor(this, readIndex, datas[i], active);
                     var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, m_Theme,
                         legendName, bgColor, active);
                     legend.SetButton(legendName, item, totalLegend);

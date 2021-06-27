@@ -28,6 +28,8 @@ namespace XCharts
         [SerializeField] private bool m_OnZero = false;
         [SerializeField] private float m_Width = 0f;
         [SerializeField] private float m_Height = 0f;
+        [SerializeField] private bool m_ShowStartLabel = true;
+        [SerializeField] private bool m_ShowEndLabel = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         private DelegateAxisLabelFormatter m_FormatterFunction;
@@ -125,7 +127,24 @@ namespace XCharts
             get { return m_Height; }
             set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
         }
-
+        /// <summary>
+        /// Whether to display the first label.
+        /// 是否显示第一个文本。
+        /// </summary>
+        public bool showStartLabel
+        {
+            get { return m_ShowStartLabel; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowStartLabel, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Whether to display the last label.
+        /// 是否显示最后一个文本。
+        /// </summary>
+        public bool showEndLabel
+        {
+            get { return m_ShowEndLabel; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowEndLabel, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// 文本限制。
         /// </summary>
@@ -183,6 +202,8 @@ namespace XCharts
             axisLabel.numericFormatter = numericFormatter;
             axisLabel.width = width;
             axisLabel.height = height;
+            axisLabel.showStartLabel = showStartLabel;
+            axisLabel.showEndLabel = showEndLabel;
             axisLabel.textLimit = textLimit.Clone();
             axisLabel.textStyle.Copy(textStyle);
             return axisLabel;
@@ -198,6 +219,8 @@ namespace XCharts
             numericFormatter = axisLabel.numericFormatter;
             width = axisLabel.width;
             height = axisLabel.height;
+            showStartLabel = axisLabel.showStartLabel;
+            showEndLabel = axisLabel.showEndLabel;
             textLimit.Copy(axisLabel.textLimit);
             textStyle.Copy(axisLabel.textStyle);
         }

@@ -148,7 +148,7 @@ namespace XCharts
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
                 var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.runtimeMinValue, axis.runtimeMaxValue,
                     null, isPercentStack);
-                var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
                     new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig), axis, theme.axis,
                     labelName);
                 if (i == 0) axis.axisLabel.SetRelatedText(label.label, labelWidth);
@@ -229,7 +229,7 @@ namespace XCharts
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.runtimeMinValue, axis.runtimeMaxValue,
                     null, isPercentStack);
-                var label = ChartHelper.AddAxisLabelObject(i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
                     new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig), axis,
                     theme.axis, labelName);
                 label.label.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
@@ -272,11 +272,13 @@ namespace XCharts
             float tempMaxValue = 0;
             if (axis is RadiusAxis)
             {
-                SeriesHelper.GetXMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, true);
+                SeriesHelper.GetXMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
+                    out tempMaxValue, true);
             }
             else
             {
-                SeriesHelper.GetYMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, true);
+                SeriesHelper.GetYMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
+                    out tempMaxValue, true);
             }
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)

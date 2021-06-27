@@ -774,6 +774,10 @@ namespace XCharts
         {
         }
 
+        public virtual void OnDataZoomRangeChanged(DataZoom dataZoom)
+        {
+        }
+
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);

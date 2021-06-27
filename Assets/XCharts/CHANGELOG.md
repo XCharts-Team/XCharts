@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.06.27) 增加`DataZoom`的`orient`参数设置水平或垂直样式
 * (2021.06.21) 增加`IconStyle`的`autoHideWhenLabelEmpty`参数设置当`label`为空时是否自动隐藏图标
 
 ## v2.2.3

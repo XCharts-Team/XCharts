@@ -24,6 +24,7 @@ namespace XCharts
                 var m_End = prop.FindPropertyRelative("m_End");
                 var m_MinShowNum = prop.FindPropertyRelative("m_MinShowNum");
                 ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Orient");
                 PropertyField(prop, "m_SupportInside");
                 PropertyField(prop, m_SupportSlider);
                 PropertyField(prop, "m_ZoomLock");

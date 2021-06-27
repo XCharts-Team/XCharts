@@ -17,10 +17,11 @@ namespace XCharts
         {
             if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
-            var showData = serie.GetDataList(dataZoom);
             var yAxis = m_YAxes[serie.yAxisIndex];
             var xAxis = m_XAxes[serie.xAxisIndex];
             var grid = GetSerieGridOrDefault(serie);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
+            var showData = serie.GetDataList(dataZoom);
             float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
             float barWidth = serie.GetBarWidth(categoryWidth);
             float space = (categoryWidth - barWidth) / 2;

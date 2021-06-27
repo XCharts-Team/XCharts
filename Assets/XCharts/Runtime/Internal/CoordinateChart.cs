@@ -75,6 +75,20 @@ namespace XCharts
             RefreshSeriePainterByGridIndex(grid.index);
         }
 
+        public override void OnDataZoomRangeChanged(DataZoom dataZoom)
+        {
+            foreach (var index in dataZoom.xAxisIndexs)
+            {
+                var axis = GetXAxis(index);
+                if (axis != null && axis.show) axis.SetAllDirty();
+            }
+            foreach (var index in dataZoom.yAxisIndexs)
+            {
+                var axis = GetYAxis(index);
+                if (axis != null && axis.show) axis.SetAllDirty();
+            }
+        }
+
         protected override void DrawPainterBase(VertexHelper vh)
         {
             base.DrawPainterBase(vh);
@@ -122,8 +136,8 @@ namespace XCharts
             var lp3 = new Vector3(grid.runtimeX - yLineDiff, m_ChartY + chartHeight);
             var lp4 = new Vector3(grid.runtimeX - yLineDiff, m_ChartY);
             UGL.DrawQuadrilateral(vh, lp1, lp2, lp3, lp4, backgroundColor);
-            var rp1 = new Vector3(grid.runtimeX + grid.runtimeWidth + xSplitDiff, m_ChartY);
-            var rp2 = new Vector3(grid.runtimeX + grid.runtimeWidth + xSplitDiff, m_ChartY + chartHeight);
+            var rp1 = new Vector3(grid.runtimeX + grid.runtimeWidth, m_ChartY);
+            var rp2 = new Vector3(grid.runtimeX + grid.runtimeWidth, m_ChartY + chartHeight);
             var rp3 = new Vector3(m_ChartX + chartWidth, m_ChartY + chartHeight);
             var rp4 = new Vector3(m_ChartX + chartWidth, m_ChartY);
             UGL.DrawQuadrilateral(vh, rp1, rp2, rp3, rp4, backgroundColor);
@@ -244,7 +258,6 @@ namespace XCharts
         protected virtual void UpdateTooltipValue(Vector2 local)
         {
             var isCartesian = IsValue();
-            var dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
             var grid = GetGrid(tooltip.runtimeGridIndex);
             for (int i = 0; i < m_XAxes.Count; i++)
             {
@@ -289,9 +302,11 @@ namespace XCharts
                 }
                 else if (IsCategory())
                 {
-                    for (int j = 0; j < xAxis.GetDataNumber(dataZoom); j++)
+                    var dataZoomX = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
+                    var dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoomX).Count : 0;
+                    for (int j = 0; j < xAxis.GetDataNumber(dataZoomX); j++)
                     {
-                        float splitWid = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, dataCount, dataZoom);
+                        float splitWid = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, dataCount, dataZoomX);
                         float pX = grid.runtimeX + j * splitWid;
                         if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
                             (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
@@ -301,9 +316,11 @@ namespace XCharts
                             break;
                         }
                     }
-                    for (int j = 0; j < yAxis.GetDataNumber(dataZoom); j++)
+                    var dataZoomY = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
+                    dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoomY).Count : 0;
+                    for (int j = 0; j < yAxis.GetDataNumber(dataZoomY); j++)
                     {
-                        float splitWid = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, dataCount, dataZoom);
+                        float splitWid = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, dataCount, dataZoomY);
                         float pY = grid.runtimeY + j * splitWid;
                         if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
                             (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
@@ -315,6 +332,8 @@ namespace XCharts
                 }
                 else if (xAxis.IsCategory())
                 {
+                    var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
+                    var dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
                     var value = (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * (local.y - grid.runtimeY - yAxis.runtimeZeroYOffset) / grid.runtimeHeight;
                     if (yAxis.runtimeMinValue > 0) value += yAxis.runtimeMinValue;
                     tooltip.runtimeYValues[i] = value;
@@ -334,6 +353,8 @@ namespace XCharts
                 }
                 else if (yAxis.IsCategory())
                 {
+                    var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
+                    var dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
                     var value = (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * (local.x - grid.runtimeX - xAxis.runtimeZeroXOffset) / grid.runtimeWidth;
                     if (xAxis.runtimeMinValue > 0) value += xAxis.runtimeMinValue;
                     tooltip.runtimeXValues[i] = value;
@@ -387,6 +408,7 @@ namespace XCharts
             }
             UpdateSerieGridIndex();
             RefreshSeriePainterByGridIndex(grid.index);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(tempAxis, dataZooms);
             var content = TooltipHelper.GetFormatterContent(tooltip, index, this, dataZoom, isCartesian);
             TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             tooltip.SetActive(true);
@@ -454,6 +476,7 @@ namespace XCharts
             var labelText = "";
             var labelPos = Vector2.zero;
             var grid = GetAxisGridOrDefault(axis);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(axis, dataZooms);
             if (axis is XAxis)
             {
                 var posY = axisIndex > 0 ? grid.runtimeY + grid.runtimeHeight : grid.runtimeY;
@@ -550,6 +573,8 @@ namespace XCharts
                 ChartHelper.HideAllObject(axisObj);
                 var grid = GetAxisGridOrDefault(yAxis);
                 if (grid == null) return;
+                if (!yAxis.show) return;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
                 var axisLabelTextStyle = yAxis.axisLabel.textStyle;
                 int splitNumber = AxisHelper.GetScaleNumber(yAxis, grid.runtimeHeight, dataZoom);
                 float totalWidth = 0;
@@ -675,6 +700,7 @@ namespace XCharts
                 if (grid == null) return;
                 if (!xAxis.show) return;
                 var axisLabelTextStyle = xAxis.axisLabel.textStyle;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
                 int splitNumber = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 float totalWidth = 0;
                 float eachWidth = AxisHelper.GetEachWidth(xAxis, grid.runtimeWidth, dataZoom);
@@ -902,6 +928,7 @@ namespace XCharts
                             Mathf.Abs(axis.runtimeMinValue) * (grid.runtimeHeight / (Mathf.Abs(axis.runtimeMinValue) + Mathf.Abs(axis.runtimeMaxValue)));
                     }
                 }
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(axis, dataZooms);
                 if (dataZoom != null && dataZoom.enable)
                 {
                     if (axis is XAxis) dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
@@ -946,6 +973,7 @@ namespace XCharts
             if (grid == null || axis == null) return;
             float runtimeWidth = axis is XAxis ? grid.runtimeWidth : grid.runtimeHeight;
             var isPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
+            var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(axis, dataZooms);
             axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack, 500);
         }
 
@@ -1024,6 +1052,7 @@ namespace XCharts
             {
                 var grid = GetAxisGridOrDefault(yAxis);
                 if (grid == null) return;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
                 var size = AxisHelper.GetScaleNumber(yAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeY;
                 var xAxis = GetRelatedXAxis(yAxis);
@@ -1068,6 +1097,7 @@ namespace XCharts
             if (AxisHelper.NeedShowSplit(yAxis))
             {
                 var grid = GetAxisGridOrDefault(yAxis);
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
                 var size = AxisHelper.GetScaleNumber(yAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeY;
                 for (int i = 0; i < size; i++)
@@ -1140,6 +1170,7 @@ namespace XCharts
             {
                 var grid = GetAxisGridOrDefault(xAxis);
                 if (grid == null) return;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
                 var size = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeX;
                 var yAxis = m_YAxes[xAxisIndex];
@@ -1184,6 +1215,7 @@ namespace XCharts
             var grid = GetAxisGridOrDefault(xAxis);
             if (AxisHelper.NeedShowSplit(xAxis))
             {
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
                 var size = AxisHelper.GetScaleNumber(xAxis, grid.runtimeWidth, dataZoom);
                 var totalWidth = grid.runtimeX;
                 var yAxis = m_YAxes[xAxisIndex];
@@ -1295,7 +1327,7 @@ namespace XCharts
             if (!tooltip.show || !tooltip.IsSelected()) return;
             if (tooltip.type == Tooltip.Type.None) return;
             if (tooltip.runtimeGridIndex < 0) return;
-            int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
+
             var grid = GetGrid(tooltip.runtimeGridIndex);
             if (grid == null) return;
             var lineType = tooltip.lineStyle.GetType(m_Theme.tooltip.lineType);
@@ -1305,6 +1337,8 @@ namespace XCharts
                 var xAxis = m_XAxes[i];
                 if (!xAxis.show) continue;
                 if (tooltip.runtimeXValues[i] < 0) continue;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(xAxis, dataZooms);
+                int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
                 float splitWidth = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, dataCount, dataZoom);
                 switch (tooltip.type)
                 {
@@ -1345,7 +1379,7 @@ namespace XCharts
             if (!tooltip.show || !tooltip.IsSelected()) return;
             if (tooltip.type == Tooltip.Type.None) return;
             if (tooltip.runtimeGridIndex < 0) return;
-            int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
+
             var grid = GetGrid(tooltip.runtimeGridIndex);
             if (grid == null) return;
             var lineType = tooltip.lineStyle.GetType(m_Theme.tooltip.lineType);
@@ -1355,6 +1389,8 @@ namespace XCharts
                 var yAxis = m_YAxes[i];
                 if (!yAxis.show) continue;
                 if (tooltip.runtimeYValues[i] < 0) continue;
+                var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(yAxis, dataZooms);
+                int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
                 float splitWidth = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, dataCount, dataZoom);
                 switch (tooltip.type)
                 {
@@ -1389,7 +1425,12 @@ namespace XCharts
 
         private void CheckRaycastTarget()
         {
-            var ray = (dataZoom != null && dataZoom.enable)
+            var anyDataZoom = false;
+            foreach (var dataZoom in dataZooms)
+            {
+                if (dataZoom.enable) anyDataZoom = true;
+            }
+            var ray = anyDataZoom
                 || (visualMap != null && visualMap.enable && visualMap.show && visualMap.calculable);
             if (raycastTarget != ray)
             {

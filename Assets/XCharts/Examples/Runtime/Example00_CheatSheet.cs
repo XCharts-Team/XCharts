@@ -67,7 +67,7 @@ namespace XCharts.Examples
             chart.grid.left = 50;
             chart.grid.top = 80;
 
-            chart.dataZoom.enable = false;
+            chart.dataZooms[0].enable = false;
             chart.visualMap.enable = false;
 
             chart.RemoveData();
@@ -204,56 +204,56 @@ namespace XCharts.Examples
             chart.title.subText = "DataZoom 区域缩放：可通过拖、拽、缩小、放大来观察细节数据";
             chart.grid.bottom = 70;
 
-            chart.dataZoom.enable = true;
-            chart.dataZoom.supportInside = true;
-            chart.dataZoom.supportSlider = true;
-            chart.dataZoom.start = 0;
-            chart.dataZoom.end = 100;
+            chart.dataZooms[0].enable = true;
+            chart.dataZooms[0].supportInside = true;
+            chart.dataZooms[0].supportSlider = true;
+            chart.dataZooms[0].start = 0;
+            chart.dataZooms[0].end = 100;
 
             chart.RefreshChart();
             for (int i = 0; i < 4; i++)
             {
-                chart.dataZoom.supportSlider = !chart.dataZoom.supportSlider;
+                chart.dataZooms[0].supportSlider = !chart.dataZooms[0].supportSlider;
                 chart.RefreshChart();
                 yield return new WaitForSeconds(0.2f);
             }
-            chart.dataZoom.supportSlider = true;
+            chart.dataZooms[0].supportSlider = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
-            while (chart.dataZoom.start < 40)
+            while (chart.dataZooms[0].start < 40)
             {
-                chart.dataZoom.start += speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].start += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
-            while (chart.dataZoom.end > 60)
+            while (chart.dataZooms[0].end > 60)
             {
-                chart.dataZoom.end -= speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].end -= speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
-            while (chart.dataZoom.start > 0)
+            while (chart.dataZooms[0].start > 0)
             {
-                chart.dataZoom.start -= speed * Time.deltaTime * 0.8f;
-                chart.dataZoom.end -= speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].start -= speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].end -= speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
-            while (chart.dataZoom.end < 100)
+            while (chart.dataZooms[0].end < 100)
             {
-                chart.dataZoom.start += speed * Time.deltaTime * 0.8f;
-                chart.dataZoom.end += speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].start += speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].end += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;
             }
-            while (chart.dataZoom.start > 0 || chart.dataZoom.end < 100)
+            while (chart.dataZooms[0].start > 0 || chart.dataZooms[0].end < 100)
             {
-                chart.dataZoom.start -= speed * Time.deltaTime * 0.8f;
-                chart.dataZoom.end += speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].start -= speed * Time.deltaTime * 0.8f;
+                chart.dataZooms[0].end += speed * Time.deltaTime * 0.8f;
                 chart.RefreshDataZoom();
                 chart.RefreshChart();
                 yield return null;

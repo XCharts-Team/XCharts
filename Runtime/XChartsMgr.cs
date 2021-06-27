@@ -55,7 +55,8 @@ namespace XCharts
                     m_XCharts = FindObjectOfType<XChartsMgr>();
                     if (m_XCharts == null)
                     {
-                        GameObject obj = new GameObject("_xcharts_");
+                        var obj = GameObject.Find("_xcharts_");
+                        if (obj == null) obj = new GameObject("_xcharts_");
                         m_XCharts = obj.AddComponent<XChartsMgr>();
                     }
                     m_XCharts.m_NowVersion = fullVersion;
@@ -66,6 +67,11 @@ namespace XCharts
 
         private void Awake()
         {
+            if (m_XCharts != null)
+            {
+                GameObject.DestroyImmediate(this);
+                return;
+            }
             SerieLabelPool.ClearAll();
             m_ChartList.Clear();
             XThemeMgr.ReloadThemeList();
@@ -115,7 +121,7 @@ namespace XCharts
 #if UNITY_2017_3_OR_NEWER
                 yield return web.SendWebRequest();
 #else
-            yield return web.Send();
+                yield return web.Send();
 #endif
                 CheckVersionWebRequest(web);
             }
@@ -126,7 +132,7 @@ namespace XCharts
 #if UNITY_2017_3_OR_NEWER
                 yield return web.SendWebRequest();
 #else
-            yield return web.Send();
+                yield return web.Send();
 #endif
                 if (!CheckLogWebRequest(web))
                 {
@@ -135,7 +141,7 @@ namespace XCharts
 #if UNITY_2017_3_OR_NEWER
                     yield return web.SendWebRequest();
 #else
-            yield return web.Send();
+                    yield return web.Send();
 #endif
                     CheckLogWebRequest(web);
                 }

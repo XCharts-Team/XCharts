@@ -143,6 +143,8 @@ namespace XCharts
                 PropertyField(prop, "m_NumericFormatter");
                 PropertyField(prop, "m_ShowAsPositiveNumber");
                 PropertyField(prop, "m_OnZero");
+                PropertyField(prop, "m_ShowStartLabel");
+                PropertyField(prop, "m_ShowEndLabel");
                 PropertyField(prop, "m_TextLimit");
                 PropertyField(prop, "m_TextStyle");
                 --EditorGUI.indentLevel;

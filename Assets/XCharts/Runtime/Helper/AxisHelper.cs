@@ -138,7 +138,7 @@ namespace XCharts
                     maxValue = -maxValue;
                 }
                 if (forcePercent) return string.Format("{0}%", (int)value);
-                else return axis.axisLabel.GetFormatterContent(value, minValue, maxValue);
+                else return axis.axisLabel.GetFormatterContent(index, value, minValue, maxValue);
             }
             else if (axis.type == Axis.AxisType.Log)
             {
@@ -150,7 +150,7 @@ namespace XCharts
                     minValue = -minValue;
                     maxValue = -maxValue;
                 }
-                return axis.axisLabel.GetFormatterContent(value, minValue, maxValue, true);
+                return axis.axisLabel.GetFormatterContent(index, value, minValue, maxValue, true);
             }
             else if (axis.type == Axis.AxisType.Time)
             {
@@ -165,9 +165,7 @@ namespace XCharts
                 {
                     value = minValue + (maxValue - minValue) * index / split;
                 }
-                var timestamp = (int)value;
-                var dateTime = DateTimeUtil.GetDateTime(timestamp);
-                return axis.axisLabel.GetFormatterDateTime(dateTime);
+                return axis.axisLabel.GetFormatterDateTime(index, value);
             }
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -181,12 +179,12 @@ namespace XCharts
                     var residue = (dataCount - 1) - split * rate;
                     var newIndex = residue + (index - 1) * rate;
                     if (newIndex < 0) newIndex = 0;
-                    return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+                    return axis.axisLabel.GetFormatterContent(newIndex, showData[newIndex]);
                 }
                 else
                 {
                     if (axis.boundaryGap && coordinateWidth / dataCount > 5) return string.Empty;
-                    else return axis.axisLabel.GetFormatterContent(showData[0]);
+                    else return axis.axisLabel.GetFormatterContent(0, showData[0]);
                 }
             }
             else
@@ -194,12 +192,12 @@ namespace XCharts
                 int newIndex = index * rate;
                 if (newIndex < dataCount)
                 {
-                    return axis.axisLabel.GetFormatterContent(showData[newIndex]);
+                    return axis.axisLabel.GetFormatterContent(newIndex, showData[newIndex]);
                 }
                 else
                 {
                     if (axis.boundaryGap && coordinateWidth / dataCount > 5) return string.Empty;
-                    else return axis.axisLabel.GetFormatterContent(showData[dataCount - 1]);
+                    else return axis.axisLabel.GetFormatterContent(dataCount - 1, showData[dataCount - 1]);
                 }
             }
         }

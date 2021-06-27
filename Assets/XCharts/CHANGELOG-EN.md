@@ -38,8 +38,9 @@
 
 ## master
 
-* (2021.06.27) Add `DataZoom`'s `orient` parameter to set horizontal or vertical styles
-* (2021.06.21) Add `iconStyle`'s `AutoHideWhenLabelEmpty` to set whether the icon is automatically hidden when `label` is empty
+* (2021.06.27) Added `formatter` delegate method to `AxisLabel` and `SerieLabel` (#145)
+* (2021.06.27) Added `DataZoom`'s `orient` parameter to set horizontal or vertical styles
+* (2021.06.21) Added `iconStyle`'s `AutoHideWhenLabelEmpty` to set whether the icon is automatically hidden when `label` is empty
 
 # # v2.2.3
 
@@ -58,7 +59,7 @@
 
 * (2021.06.13) Release `v2.2.1` version
 * (2021.06.13) Improved support for multiple screens
-* (2021.06.12) Add `iconStyle` `align` parameter to set the horizontal alignment of the icon
+* (2021.06.12) Added `iconStyle` `align` parameter to set the horizontal alignment of the icon
 * (2021.06.12) Improve `Theme` import (#148)
 * (2021.06.10) Fixed compatibility issues with `Unity` version (#154)
 * (2021.06.05) Improved Candlestickchart support for inverse (#152)

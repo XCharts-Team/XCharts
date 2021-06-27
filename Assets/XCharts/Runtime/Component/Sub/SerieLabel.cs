@@ -100,6 +100,7 @@ namespace XCharts
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+        private DelegateSerieLabelFormatter m_FormatterFunction;
 
         public void Reset()
         {
@@ -335,6 +336,12 @@ namespace XCharts
         {
             get { return m_TextStyle; }
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
+        }
+
+        public DelegateSerieLabelFormatter formatterFunction
+        {
+            get { return m_FormatterFunction; }
+            set { m_FormatterFunction = value; }
         }
 
         public bool IsInside()

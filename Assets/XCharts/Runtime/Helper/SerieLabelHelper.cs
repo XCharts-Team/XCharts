@@ -98,6 +98,10 @@ namespace XCharts
             var numericFormatter = serieLabel == null ? serie.label.numericFormatter : serieLabel.numericFormatter;
             var serieName = serie.name;
             var dataName = serieData != null ? serieData.name : null;
+            if (serieLabel.formatterFunction != null)
+            {
+                return serieLabel.formatterFunction(serieData.index, dataValue);
+            }
             if (string.IsNullOrEmpty(serieLabel.formatter))
                 return ChartCached.NumberToStr(dataValue, numericFormatter);
             else

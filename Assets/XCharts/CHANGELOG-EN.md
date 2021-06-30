@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.01) Added `DataZoom` arguments to `supportInsideScroll` and `supportInsideDrag` to set whether scrolling and dragging are supported in the coordinate system
 * (2021.06.27) Add `showStartLabel` and `showEndLabel` arguments to `AxisLabel` to set whether the `Label` should be displayed at the beginning and end of the `AxisLabel`
 * (2021.06.27) Added `formatter` delegate method to `AxisLabel` and `SerieLabel` (#145)
 * (2021.06.27) Added `DataZoom`'s `orient` parameter to set horizontal or vertical styles

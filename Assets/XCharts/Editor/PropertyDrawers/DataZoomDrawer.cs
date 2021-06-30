@@ -19,6 +19,7 @@ namespace XCharts
             base.OnGUI(pos, prop, label);
             if (MakeFoldout(prop, "m_Enable"))
             {
+                var m_SupportInside = prop.FindPropertyRelative("m_SupportInside");
                 var m_SupportSlider = prop.FindPropertyRelative("m_SupportSlider");
                 var m_Start = prop.FindPropertyRelative("m_Start");
                 var m_End = prop.FindPropertyRelative("m_End");
@@ -26,6 +27,11 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Orient");
                 PropertyField(prop, "m_SupportInside");
+                if (m_SupportInside.boolValue)
+                {
+                    PropertyField(prop, "m_SupportInsideScroll");
+                    PropertyField(prop, "m_SupportInsideDrag");
+                }
                 PropertyField(prop, m_SupportSlider);
                 PropertyField(prop, "m_ZoomLock");
                 PropertyField(prop, "m_ScrollSensitivity");

@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.01) 增加`DataZoom`的`supportInsideScroll`和`supportInsideDrag`参数设置坐标系内是否支持滚动和拖拽
 * (2021.06.27) 增加`AxisLabel`的`showStartLabel`和`showEndLabel`参数设置首尾的`Label`是否显示
 * (2021.06.27) 增加`AxisLabel`和`SerieLabel`的`formatter`委托方法 (#145)
 * (2021.06.27) 增加`DataZoom`的`orient`参数设置水平或垂直样式

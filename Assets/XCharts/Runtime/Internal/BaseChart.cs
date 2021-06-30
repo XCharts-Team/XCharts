@@ -172,11 +172,11 @@ namespace XCharts
             return null;
         }
 
-        internal void RefreshBasePainter()
+        public void RefreshBasePainter()
         {
             m_Painter.Refresh();
         }
-        internal void RefreshTopPainter()
+        public void RefreshTopPainter()
         {
             m_PainterTop.Refresh();
         }
@@ -201,7 +201,7 @@ namespace XCharts
             }
         }
 
-        internal void SetPainterActive(int index, bool flag)
+        public void SetPainterActive(int index, bool flag)
         {
             var painter = GetPainter(index);
             if (painter == null) return;

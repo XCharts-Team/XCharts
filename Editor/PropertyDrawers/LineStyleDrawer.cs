@@ -5,7 +5,6 @@
 /*                                              */
 /************************************************/
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +25,7 @@ namespace XCharts
                 PropertyField(prop, "m_ToColor");
                 PropertyField(prop, "m_ToColor2");
                 PropertyField(prop, "m_Width");
+                PropertyField(prop, "m_Length");
                 PropertyField(prop, "m_Opacity");
                 --EditorGUI.indentLevel;
             }

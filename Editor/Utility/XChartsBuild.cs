@@ -13,7 +13,7 @@ namespace XCharts
     [System.Obsolete]
     public class XChartsBuild : IPreprocessBuild, IPostprocessBuild
     {
-        public int callbackOrder => 1;
+        public int callbackOrder { get { return 1; } }
 
         public void OnPostprocessBuild(BuildTarget target, string path)
         {

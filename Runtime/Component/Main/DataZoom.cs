@@ -74,6 +74,8 @@ namespace XCharts
         [SerializeField] private List<int> m_XAxisIndexs = new List<int>() { 0 };
         [SerializeField] private List<int> m_YAxisIndexs = new List<int>() { };
         [SerializeField] private bool m_SupportInside;
+        [SerializeField] private bool m_SupportInsideScroll = true;
+        [SerializeField] private bool m_SupportInsideDrag = true;
         [SerializeField] private bool m_SupportSlider;
         [SerializeField] private bool m_SupportSelect;
         [SerializeField] private bool m_ShowDataShadow;
@@ -148,6 +150,22 @@ namespace XCharts
         {
             get { return m_SupportInside; }
             set { if (PropertyUtil.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 是否支持坐标系内滚动
+        /// </summary>
+        public bool supportInsideScroll
+        {
+            get { return m_SupportInsideScroll; }
+            set { if (PropertyUtil.SetStruct(ref m_SupportInsideScroll, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 是否支持坐标系内拖拽
+        /// </summary>
+        public bool supportInsideDrag
+        {
+            get { return m_SupportInsideDrag; }
+            set { if (PropertyUtil.SetStruct(ref m_SupportInsideDrag, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether a slider is supported. There are separate sliders on which the user zooms or roams.
@@ -771,7 +789,7 @@ namespace XCharts
             {
                 if (!dataZoom.enable) continue;
                 var grid = chart.GetDataZoomGridOrDefault(dataZoom);
-                if (dataZoom.supportInside)
+                if (dataZoom.supportInside && dataZoom.supportInsideDrag)
                 {
                     if (chart.IsInGrid(grid, pos))
                     {
@@ -892,7 +910,7 @@ namespace XCharts
             {
                 if (!dataZoom.enable || dataZoom.zoomLock) continue;
                 var grid = chart.GetDataZoomGridOrDefault(dataZoom);
-                if ((dataZoom.supportInside && chart.IsInGrid(grid, pos)) ||
+                if ((dataZoom.supportInside && dataZoom.supportInsideScroll && chart.IsInGrid(grid, pos)) ||
                     dataZoom.IsInZoom(pos))
                 {
                     ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity);
@@ -904,7 +922,7 @@ namespace XCharts
         {
             if (deltaPercent == 0) return;
             if (Input.touchCount > 1) return;
-            if (!dataZoom.supportInside) return;
+            if (!dataZoom.supportInside || !dataZoom.supportInsideDrag) return;
             if (!dataZoom.runtimeCoordinateDrag) return;
             var diff = dataZoom.end - dataZoom.start;
             if (deltaPercent > 0)
@@ -1007,7 +1025,7 @@ namespace XCharts
 
         private void CheckDataZoomScale(DataZoom dataZoom)
         {
-            if (!dataZoom.enable || dataZoom.zoomLock || !dataZoom.supportInside) return;
+            if (!dataZoom.enable || dataZoom.zoomLock || !dataZoom.supportInside || !dataZoom.supportInsideDrag) return;
 
             if (Input.touchCount == 2)
             {

@@ -236,7 +236,7 @@ namespace XCharts
             }
         }
 
-        public static void AvoidLabelOverlap(Serie serie)
+        public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)
         {
             if (!serie.avoidLabelOverlap) return;
             var lastCheckPos = Vector3.zero;
@@ -253,18 +253,17 @@ namespace XCharts
             }
             for (int n = 0; n < splitCount; n++)
             {
-                var serieData = data[n];
-                CheckSerieDataLabel(serie, serieData, false, ref lastCheckPos);
+                CheckSerieDataLabel(serie, data[n], false, theme, ref lastCheckPos);
             }
             lastCheckPos = Vector3.zero;
             for (int n = data.Count - 1; n >= splitCount; n--)
             {
-                var serieData = data[n];
-                CheckSerieDataLabel(serie, serieData, true, ref lastCheckPos);
+                CheckSerieDataLabel(serie, data[n], true, theme, ref lastCheckPos);
             }
         }
 
-        private static void CheckSerieDataLabel(Serie serie, SerieData serieData, bool isLeft, ref Vector3 lastCheckPos)
+        private static void CheckSerieDataLabel(Serie serie, SerieData serieData, bool isLeft, ComponentTheme theme,
+            ref Vector3 lastCheckPos)
         {
             if (!serieData.canShowLabel)
             {
@@ -273,6 +272,7 @@ namespace XCharts
             }
             if (!serieData.show) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var fontSize = serieLabel.textStyle.GetFontSize(theme);
             if (!serieLabel.show) return;
             if (serieLabel.position != SerieLabel.Position.Outside) return;
             if (lastCheckPos == Vector3.zero)
@@ -281,11 +281,10 @@ namespace XCharts
             }
             else if (serieData.labelPosition.x != 0)
             {
-                float hig = serieLabel.textStyle.fontSize;
-                if (lastCheckPos.y - serieData.labelPosition.y < hig)
+                if (lastCheckPos.y - serieData.labelPosition.y < fontSize)
                 {
                     var labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
-                    var y1 = lastCheckPos.y - hig;
+                    var y1 = lastCheckPos.y - fontSize;
                     var cy = serie.runtimeCenterPos.y;
                     var diff = Mathf.Abs(y1 - cy);
                     var diffX = labelRadius * labelRadius - diff * diff;

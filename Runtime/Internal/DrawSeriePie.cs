@@ -566,7 +566,6 @@ namespace XCharts
         {
             if (serie.type != SerieType.Pie) return -1;
             var dist = Vector2.Distance(local, serie.runtimeCenterPos);
-            if (dist < serie.runtimeInsideRadius || dist > serie.runtimeOutsideRadius) return -1;
             Vector2 dir = local - new Vector2(serie.runtimeCenterPos.x, serie.runtimeCenterPos.y);
             float angle = ChartHelper.GetAngle360(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
@@ -574,7 +573,12 @@ namespace XCharts
                 var serieData = serie.data[i];
                 if (angle >= serieData.runtimePieStartAngle && angle <= serieData.runtimePieToAngle)
                 {
-                    return i;
+                    var ndist = !serieData.selected ? dist :
+                         Vector2.Distance(local, serieData.runtiemPieOffsetCenter);
+                    if (ndist >= serieData.runtimePieInsideRadius && ndist <= serieData.runtimePieOutsideRadius)
+                    {
+                        return i;
+                    }
                 }
             }
             return -1;

@@ -38,6 +38,8 @@
 
 ## master
 
+* (2021.07.04) Fixed incorrect mouse area indication after `PieChart` selected sector
+* (2021.07.04) Optimize when the `Label` of `PieChart` is `Inside`, the offset can be adjusted by the parameter `Margin`
 * (2021.07.01) Added `DataZoom` arguments to `supportInsideScroll` and `supportInsideDrag` to set whether scrolling and dragging are supported in the coordinate system
 * (2021.06.27) Add `showStartLabel` and `showEndLabel` arguments to `AxisLabel` to set whether the `Label` should be displayed at the beginning and end of the `AxisLabel`
 * (2021.06.27) Added `formatter` delegate method to `AxisLabel` and `SerieLabel` (#145)

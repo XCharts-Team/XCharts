@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.05) Fixed `Piechart` `avoidLabelOverlap` parameter not working
 * (2021.07.04) Fixed incorrect mouse area indication after `PieChart` selected sector
 * (2021.07.04) Optimize when the `Label` of `PieChart` is `Inside`, the offset can be adjusted by the parameter `Margin`
 * (2021.07.01) Added `DataZoom` arguments to `supportInsideScroll` and `supportInsideDrag` to set whether scrolling and dragging are supported in the coordinate system

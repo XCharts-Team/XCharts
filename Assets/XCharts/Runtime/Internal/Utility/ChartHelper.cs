@@ -259,7 +259,7 @@ namespace XCharts
             chartText.text.raycastTarget = false;
 #endif
             chartText.SetColor(textStyle.GetColor(theme.textColor));
-            chartText.SetFontSize(textStyle.fontSize > 0 ? textStyle.fontSize : theme.fontSize);
+            chartText.SetFontSize(textStyle.GetFontSize(theme));
             chartText.SetText("Text");
             chartText.SetLineSpacing(textStyle.lineSpacing);
 

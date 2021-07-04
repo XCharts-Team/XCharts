@@ -1581,7 +1581,7 @@ namespace XCharts
                             content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                 serieLabel, theme.GetColor(i));
                         }
-                        serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
+                        serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
                         var invert = serieLabel.autoOffset
                             && serie.type == SerieType.Line
                             && SerieHelper.IsDownPoint(serie, j)

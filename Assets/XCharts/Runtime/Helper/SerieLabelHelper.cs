@@ -202,7 +202,7 @@ namespace XCharts
                     serieData.labelPosition = serie.runtimeCenterPos;
                     break;
                 case SerieLabel.Position.Inside:
-                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
+                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.margin;
                     var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
                         serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
                     serieData.labelPosition = labelCenter;

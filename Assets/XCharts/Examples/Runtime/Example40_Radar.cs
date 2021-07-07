@@ -70,15 +70,15 @@ namespace XCharts.Examples
 
             serie = chart.AddSerie(SerieType.Radar, "test");
             serie.radarIndex = 0;
-            chart.AddData(0, new List<float> { 10, 20, 60, 40, 20 }, "data1");
-            chart.AddData(0, new List<float> { 40, 60, 90, 80, 70 }, "data2");
+            chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
+            chart.AddData(0, new List<double> { 40, 60, 90, 80, 70 }, "data2");
             yield return new WaitForSeconds(1);
         }
 
         IEnumerator RadarUpdate()
         {
             chart.UpdateIndicator(0, 0, "new1", 0, 100);
-            chart.UpdateData(0, 0, new List<float> { 15, 30, 50, 60, 50 });
+            chart.UpdateData(0, 0, new List<double> { 15, 30, 50, 60, 50 });
             chart.UpdateDataName(0, 0, "new1");
             yield return new WaitForSeconds(1);
         }
@@ -113,11 +113,11 @@ namespace XCharts.Examples
 
             serie = chart.AddSerie(SerieType.Radar, "test1");
             serie.radarIndex = 0;
-            chart.AddData(0, new List<float> { 10, 20, 60, 40, 20 }, "data1");
+            chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
 
             serie1 = chart.AddSerie(SerieType.Radar, "test2");
             serie1.radarIndex = 1;
-            chart.AddData(1, new List<float> { 10, 20, 60, 40, 20 }, "data2");
+            chart.AddData(1, new List<double> { 10, 20, 60, 40, 20 }, "data2");
             yield return new WaitForSeconds(1);
         }
     }

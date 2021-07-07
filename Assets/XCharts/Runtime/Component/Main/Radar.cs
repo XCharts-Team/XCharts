@@ -54,8 +54,8 @@ namespace XCharts
         public class Indicator
         {
             [SerializeField] private string m_Name;
-            [SerializeField] private float m_Max;
-            [SerializeField] private float m_Min;
+            [SerializeField] private double m_Max;
+            [SerializeField] private double m_Min;
             [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
             /// <summary>
@@ -67,12 +67,12 @@ namespace XCharts
             /// The maximum value of indicator, with default value of 0, but we recommend to set it manually.
             /// 指示器的最大值，默认为 0 无限制。
             /// </summary>
-            public float max { get { return m_Max; } set { m_Max = value; } }
+            public double max { get { return m_Max; } set { m_Max = value; } }
             /// <summary>
             /// The minimum value of indicator, with default value of 0.
             /// 指示器的最小值，默认为 0 无限制。
             /// </summary>
-            public float min { get { return m_Min; } set { m_Min = value; } }
+            public double min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
             /// the style of text.
             /// 文本样式。
@@ -276,7 +276,7 @@ namespace XCharts
             return true;
         }
 
-        public float GetIndicatorMin(int index)
+        public double GetIndicatorMin(int index)
         {
             if (index >= 0 && index < m_IndicatorList.Count)
             {
@@ -284,7 +284,7 @@ namespace XCharts
             }
             return 0;
         }
-        public float GetIndicatorMax(int index)
+        public double GetIndicatorMax(int index)
         {
             if (index >= 0 && index < m_IndicatorList.Count)
             {

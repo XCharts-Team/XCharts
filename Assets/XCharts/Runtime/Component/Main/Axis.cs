@@ -397,7 +397,7 @@ namespace XCharts
         /// the current minimun value.
         /// 当前最小值。
         /// </summary>
-        public float runtimeMinValue
+        public double runtimeMinValue
         {
             get { return m_RuntimeMinValue; }
             internal set
@@ -412,7 +412,7 @@ namespace XCharts
         /// the current maximum value.
         /// 当前最大值。
         /// </summary>
-        public float runtimeMaxValue
+        public double runtimeMaxValue
         {
             get { return m_RuntimeMaxValue; }
             internal set
@@ -433,8 +433,8 @@ namespace XCharts
         /// 坐标轴原点在Y轴的偏移。
         /// </summary>
         public float runtimeZeroYOffset { get; internal set; }
-        public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
-        public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
+        public int runtimeMinLogIndex { get { return logBaseE ? (int)Math.Log(runtimeMinValue) : (int)Math.Log(runtimeMinValue, logBase); } }
+        public int runtimeMaxLogIndex { get { return logBaseE ? (int)Math.Log(runtimeMaxValue) : (int)Math.Log(runtimeMaxValue, logBase); } }
         public bool runtimeLastCheckInverse { get; set; }
         public double runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
         public List<string> runtimeData { get { return m_RuntimeData; } }
@@ -447,12 +447,12 @@ namespace XCharts
         private GameObject m_TooltipLabel;
         private ChartText m_TooltipLabelText;
         private RectTransform m_TooltipLabelRect;
-        private float m_RuntimeMinValue;
-        private float m_RuntimeLastMinValue;
+        private double m_RuntimeMinValue;
+        private double m_RuntimeLastMinValue;
         private bool m_RuntimeMinValueChanged;
         private float m_RuntimeMinValueUpdateTime;
-        private float m_RuntimeMaxValue;
-        private float m_RuntimeLastMaxValue;
+        private double m_RuntimeMaxValue;
+        private double m_RuntimeLastMaxValue;
         private bool m_RuntimeMaxValueChanged;
         private float m_RuntimeMaxValueUpdateTime;
         private bool m_RuntimeMinValueFirstChanged = true;
@@ -809,7 +809,7 @@ namespace XCharts
             }
         }
 
-        internal void UpdateMinValue(float value, bool check)
+        internal void UpdateMinValue(double value, bool check)
         {
             if (value != m_RuntimeMaxValue)
             {
@@ -837,7 +837,7 @@ namespace XCharts
             }
         }
 
-        internal void UpdateMaxValue(float value, bool check)
+        internal void UpdateMaxValue(double value, bool check)
         {
             if (value != m_RuntimeMaxValue)
             {
@@ -865,7 +865,7 @@ namespace XCharts
             }
         }
 
-        public float GetCurrMinValue(float duration)
+        public double GetCurrMinValue(float duration)
         {
             if (!Application.isPlaying) return m_RuntimeMinValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
@@ -875,7 +875,7 @@ namespace XCharts
             var total = duration / 1000;
             if (duration > 0 && time <= total)
             {
-                var curr = Mathf.Lerp(m_RuntimeLastMinValue, m_RuntimeMinValue, time / total);
+                var curr = MathUtil.Lerp(m_RuntimeLastMinValue, m_RuntimeMinValue, time / total);
                 return curr;
             }
             else
@@ -885,7 +885,7 @@ namespace XCharts
             }
         }
 
-        public float GetCurrMaxValue(float duration)
+        public double GetCurrMaxValue(float duration)
         {
             if (!Application.isPlaying) return m_RuntimeMaxValue;
             if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
@@ -895,7 +895,7 @@ namespace XCharts
             var total = duration / 1000;
             if (duration > 0 && time < total)
             {
-                var curr = Mathf.Lerp(m_RuntimeLastMaxValue, m_RuntimeMaxValue, time / total);
+                var curr = MathUtil.Lerp(m_RuntimeLastMaxValue, m_RuntimeMaxValue, time / total);
                 return curr;
             }
             else
@@ -918,10 +918,10 @@ namespace XCharts
             }
         }
 
-        public float GetLogValue(float value)
+        public float GetLogValue(double value)
         {
             if (value <= 0 || value == 1) return 0;
-            return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
+            return logBaseE ? (float)Math.Log(value) : (float)Math.Log(value, logBase);
         }
 
         public bool IsLeft()

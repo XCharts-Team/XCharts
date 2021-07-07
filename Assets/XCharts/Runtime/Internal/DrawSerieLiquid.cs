@@ -224,7 +224,7 @@ namespace XCharts
             if (value <= 0) return;
             var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.name);
 
-            var realHig = (value - serie.min) / (serie.max - serie.min) * radius * 2;
+            var realHig = (float)((value - serie.min) / (serie.max - serie.min) * radius * 2);
             serie.animation.InitProgress(1, 0, realHig);
 
             var hig = serie.animation.IsFinish() ? realHig : serie.animation.GetCurrDetail();
@@ -338,7 +338,7 @@ namespace XCharts
             var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.name);
 
             var realHig = (value - serie.min) / (serie.max - serie.min) * vessel.runtimeHeight;
-            serie.animation.InitProgress(1, 0, realHig);
+            serie.animation.InitProgress(1, 0, (float)realHig);
             var hig = serie.animation.IsFinish() ? realHig : serie.animation.GetCurrDetail();
             var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, false);
             var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, false);
@@ -351,7 +351,7 @@ namespace XCharts
             }
             else
             {
-                var startY = cenPos.y - vessel.runtimeHeight / 2 + hig;
+                var startY = (float)(cenPos.y - vessel.runtimeHeight / 2 + hig);
                 var waveStartPos = new Vector3(cenPos.x - vessel.runtimeWidth / 2, startY);
                 var waveEndPos = new Vector3(cenPos.x + vessel.runtimeWidth / 2, startY);
                 var startX = waveStartPos.x;

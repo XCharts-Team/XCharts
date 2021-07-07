@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,16 +24,14 @@ namespace XCharts.Examples
             chart.series.SetSerieSymbolSizeCallback(SymbolSize, SymbolSelectedSize);
         }
 
-        float SymbolSize(List<float> data)
+        float SymbolSize(List<double> data)
         {
-            //return Mathf.Clamp(data[1] * 10,1,100);
-            return (float)(Mathf.Sqrt(data[2]) / 6e2);
+            return (float)(Math.Sqrt(data[2]) / 6e2);
         }
 
-        float SymbolSelectedSize(List<float> data)
+        float SymbolSelectedSize(List<double> data)
         {
-            //return Mathf.Clamp(data[1] * 10,1,100);
-            return (float)(Mathf.Sqrt(data[2]) / 5e2);
+            return (float)(Math.Sqrt(data[2]) / 5e2);
         }
     }
 }

@@ -400,17 +400,17 @@ namespace XCharts
         /// <summary>
         /// 运行时实际范围的开始值
         /// </summary>
-        public float runtimeStartValue { get; internal set; }
+        public double runtimeStartValue { get; internal set; }
         /// <summary>
         /// 运行时实际范围的结束值
         /// </summary>
-        public float runtimeEndValue { get; internal set; }
+        public double runtimeEndValue { get; internal set; }
         public bool runtimeInvert { get; set; }
 
         class AxisIndexValueInfo
         {
-            public float min;
-            public float max;
+            public double min;
+            public double max;
         }
         private Dictionary<int, AxisIndexValueInfo> m_XAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
         private Dictionary<int, AxisIndexValueInfo> m_YAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
@@ -660,7 +660,7 @@ namespace XCharts
             runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
         }
 
-        internal void SetXAxisIndexValueInfo(int xAxisIndex, float min, float max)
+        internal void SetXAxisIndexValueInfo(int xAxisIndex, double min, double max)
         {
             if (!m_XAxisIndexInfos.ContainsKey(xAxisIndex))
             {
@@ -677,7 +677,7 @@ namespace XCharts
             }
         }
 
-        internal void SetYAxisIndexValueInfo(int yAxisIndex, float min, float max)
+        internal void SetYAxisIndexValueInfo(int yAxisIndex, double min, double max)
         {
             if (!m_YAxisIndexInfos.ContainsKey(yAxisIndex))
             {
@@ -704,7 +704,7 @@ namespace XCharts
             return m_YAxisIndexInfos.ContainsKey(axisIndex);
         }
 
-        internal void GetXAxisIndexValue(int axisIndex, out float min, out float max)
+        internal void GetXAxisIndexValue(int axisIndex, out double min, out double max)
         {
             min = 0;
             max = 0;
@@ -715,7 +715,7 @@ namespace XCharts
                 max = info.max;
             }
         }
-        internal void GetYAxisIndexValue(int axisIndex, out float min, out float max)
+        internal void GetYAxisIndexValue(int axisIndex, out double min, out double max)
         {
             min = 0;
             max = 0;
@@ -1128,8 +1128,8 @@ namespace XCharts
                 float scaleWid = dataZoom.runtimeWidth / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                float minValue = 0;
-                float maxValue = 0;
+                double minValue = 0;
+                double maxValue = 0;
                 SeriesHelper.GetYMinMaxValue(chart.series, null, 0, chart.IsValue(), axis.inverse, out minValue, out maxValue);
                 AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
 
@@ -1143,11 +1143,11 @@ namespace XCharts
                 var dataChanging = false;
                 for (int i = 0; i < maxCount; i += rate)
                 {
-                    float value = chart.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
+                    double value = chart.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                     serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pX = dataZoom.runtimeX + i * scaleWid;
-                    float dataHig = (maxValue - minValue) == 0 ? 0 :
-                        (value - minValue) / (maxValue - minValue) * dataZoom.runtimeHeight;
+                    float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
+                        (value - minValue) / (maxValue - minValue) * dataZoom.runtimeHeight);
                     np = new Vector3(pX, chart.chartY + dataZoom.bottom + dataHig);
                     if (i > 0)
                     {
@@ -1209,8 +1209,8 @@ namespace XCharts
                 float scaleWid = dataZoom.runtimeHeight / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                float minValue = 0;
-                float maxValue = 0;
+                double minValue = 0;
+                double maxValue = 0;
                 SeriesHelper.GetYMinMaxValue(chart.series, null, 0, chart.IsValue(), axis.inverse, out minValue, out maxValue);
                 AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
 
@@ -1224,11 +1224,11 @@ namespace XCharts
                 var dataChanging = false;
                 for (int i = 0; i < maxCount; i += rate)
                 {
-                    float value = chart.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
+                    double value = chart.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                     serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pY = dataZoom.runtimeY + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
-                        (value - minValue) / (maxValue - minValue) * dataZoom.runtimeWidth;
+                        (float)((value - minValue) / (maxValue - minValue) * dataZoom.runtimeWidth);
                     np = new Vector3(chart.chartX + chart.chartWidth - dataZoom.right - dataHig, pY);
                     if (i > 0)
                     {

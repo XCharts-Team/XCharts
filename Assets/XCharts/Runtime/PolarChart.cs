@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,7 +77,7 @@ namespace XCharts
             for (int i = 0; i <= 13; i++)
             {
                 m_AngleAxes[0].AddData("bar" + i);
-                AddData(0, Random.Range(0, 10));
+                AddData(0, UnityEngine.Random.Range(0, 10));
             }
         }
 #endif
@@ -268,8 +269,8 @@ namespace XCharts
         private void UpdateAxisMinMaxValue(Axis axis, bool updateChart = true)
         {
             if (axis.IsCategory() || !axis.show) return;
-            float tempMinValue = 0;
-            float tempMaxValue = 0;
+            double tempMinValue = 0;
+            double tempMaxValue = 0;
             if (axis is RadiusAxis)
             {
                 SeriesHelper.GetXMinMaxValue(m_Series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
@@ -457,8 +458,8 @@ namespace XCharts
             var datas = serie.data;
             if (datas.Count <= 0) return;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            float min = m_RadiusAxis.GetCurrMinValue(dataChangeDuration);
-            float max = m_RadiusAxis.GetCurrMaxValue(dataChangeDuration);
+            double min = m_RadiusAxis.GetCurrMinValue(dataChangeDuration);
+            double max = m_RadiusAxis.GetCurrMaxValue(dataChangeDuration);
             var firstSerieData = datas[0];
             var startPos = GetPolarPos(m_Polar, m_AngleAxis, firstSerieData, min, max, radius);
             var nextPos = Vector3.zero;
@@ -550,20 +551,20 @@ namespace XCharts
             }
         }
 
-        private Vector3 GetPolarPos(Polar m_Polar, AngleAxis m_AngleAxis, SerieData serieData, float min, float max, float polarRadius)
+        private Vector3 GetPolarPos(Polar m_Polar, AngleAxis m_AngleAxis, SerieData serieData, double min, double max, float polarRadius)
         {
             var angle = 0f;
             if (!m_AngleAxis.clockwise)
             {
-                angle = m_AngleAxis.runtimeStartAngle - serieData.GetData(1);
+                angle = m_AngleAxis.runtimeStartAngle - (float)serieData.GetData(1);
             }
             else
             {
-                angle = m_AngleAxis.runtimeStartAngle + serieData.GetData(1);
+                angle = m_AngleAxis.runtimeStartAngle + (float)serieData.GetData(1);
             }
             angle = (angle + 360) % 360;
             var value = serieData.GetData(0);
-            var radius = (value - min) / (max - min) * polarRadius;
+            var radius = (float)((value - min) / (max - min) * polarRadius);
             serieData.runtimeAngle = angle;
             serieData.runtimePosition = ChartHelper.GetPos(m_Polar.runtimeCenterPos, radius, angle, true);
             return serieData.runtimePosition;
@@ -612,7 +613,7 @@ namespace XCharts
                         for (int j = 0; j < count; j++)
                         {
                             var serieData = serie.data[j];
-                            var flag = Mathf.Abs(serieData.runtimeAngle - angle) < Mathf.Abs(diff / 2);
+                            var flag = Math.Abs(serieData.runtimeAngle - angle) < Math.Abs(diff / 2);
                             if (serieData.highlighted != flag)
                             {
                                 refresh = true;
@@ -704,9 +705,9 @@ namespace XCharts
 
             var dist = Vector2.Distance(pointerPos, cenPos);
             if (dist > radius) dist = radius;
-            float min = m_RadiusAxis.runtimeMinValue;
-            float max = m_RadiusAxis.runtimeMaxValue;
-            var value = (float)(min + dist / radius * m_RadiusAxis.runtimeMinMaxRange);
+            double min = m_RadiusAxis.runtimeMinValue;
+            double max = m_RadiusAxis.runtimeMaxValue;
+            var value = min + dist / radius * m_RadiusAxis.runtimeMinMaxRange;
             m_RadiusAxis.UpdateTooptipLabelText(ChartCached.FloatToStr(value));
             m_RadiusAxis.UpdateTooltipLabelPos(ChartHelper.GetPos(cenPos, dist, m_AngleAxis.runtimeStartAngle, true));
         }

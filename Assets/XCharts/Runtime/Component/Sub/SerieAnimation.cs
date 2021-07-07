@@ -358,14 +358,14 @@ namespace XCharts
             else return dataIndex <= m_CurrDataProgress;
         }
 
-        internal void CheckProgress(float total)
+        internal void CheckProgress(double total)
         {
             if (IsFinish()) return;
             if (!m_IsInit || m_IsPause || m_IsEnd) return;
             if (IsInDelay()) return;
             m_ActualDuration = (int)((Time.time - startTime) * 1000) - fadeInDelay;
             var duration = GetCurrAnimationDuration();
-            var delta = total / duration * Time.deltaTime;
+            var delta = (float)(total / duration * Time.deltaTime);
             if (m_FadeOut)
             {
                 m_CurrDetailProgress -= delta;

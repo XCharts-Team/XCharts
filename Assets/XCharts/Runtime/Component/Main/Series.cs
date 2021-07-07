@@ -116,7 +116,7 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="dataIndex"></param>
         /// <returns></returns>
-        public float GetData(int serieIndex, int dataIndex)
+        public double GetData(int serieIndex, int dataIndex)
         {
             if (serieIndex >= 0 && serieIndex < Count)
             {
@@ -128,7 +128,7 @@ namespace XCharts
             }
         }
 
-        public float GetCurrData(int serieIndex, int dataIndex)
+        public double GetCurrData(int serieIndex, int dataIndex)
         {
             if (serieIndex >= 0 && serieIndex < Count)
             {
@@ -321,7 +321,7 @@ namespace XCharts
         /// <param name="value"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddData(string serieName, float value, string dataName = null)
+        public SerieData AddData(string serieName, double value, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -338,7 +338,7 @@ namespace XCharts
         /// <param name="value"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddData(int index, float value, string dataName = null)
+        public SerieData AddData(int index, double value, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
@@ -358,7 +358,7 @@ namespace XCharts
         /// <param name="heighest"></param>
         /// <param name="dataName"></param>
         /// <returns></returns>
-        public SerieData AddData(int index, float open, float close, float lowest, float heighest, string dataName = null)
+        public SerieData AddData(int index, double open, double close, double lowest, double heighest, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
@@ -368,7 +368,7 @@ namespace XCharts
             return null;
         }
 
-        public SerieData AddData(string serieName, float open, float close, float lowest, float heighest, string dataName = null)
+        public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -385,7 +385,7 @@ namespace XCharts
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddData(string serieName, List<float> multidimensionalData, string dataName = null)
+        public SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -402,7 +402,7 @@ namespace XCharts
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
+        public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
@@ -420,7 +420,7 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddXYData(string serieName, float xValue, float yValue, string dataName = null)
+        public SerieData AddXYData(string serieName, double xValue, double yValue, string dataName = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -438,7 +438,7 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <returns>添加成功返回SerieData，否则返回null</returns>
-        public SerieData AddXYData(int index, float xValue, float yValue, string dataName = null)
+        public SerieData AddXYData(int index, double xValue, double yValue, string dataName = null)
         {
             var serie = GetSerie(index);
             if (serie != null)
@@ -454,7 +454,7 @@ namespace XCharts
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="dataIndex"></param>
-        public bool UpdateData(string serieName, int dataIndex, float value)
+        public bool UpdateData(string serieName, int dataIndex, double value)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -502,7 +502,7 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="dataIndex"></param>
         /// <param name="value"></param>
-        public bool UpdateData(int serieIndex, int dataIndex, float value)
+        public bool UpdateData(int serieIndex, int dataIndex, double value)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
@@ -512,7 +512,7 @@ namespace XCharts
             return false;
         }
 
-        public bool UpdateData(string serieName, int dataIndex, List<float> values)
+        public bool UpdateData(string serieName, int dataIndex, List<double> values)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
@@ -521,7 +521,7 @@ namespace XCharts
             }
             return false;
         }
-        public bool UpdateData(int serieIndex, int dataIndex, List<float> values)
+        public bool UpdateData(int serieIndex, int dataIndex, List<double> values)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
@@ -538,7 +538,7 @@ namespace XCharts
         /// <param name="dataIndex">数据项</param>
         /// <param name="dimension">数据维数，从0开始</param>
         /// <param name="value">值</param>
-        public bool UpdateData(int serieIndex, int dataIndex, int dimension, float value)
+        public bool UpdateData(int serieIndex, int dataIndex, int dimension, double value)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
@@ -555,7 +555,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="dimension">数据维数，从0开始</param>
         /// <param name="value"></param>
-        public bool UpdateData(string serieName, int dataIndex, int dimension, float value)
+        public bool UpdateData(string serieName, int dataIndex, int dimension, double value)
         {
             var serie = GetSerie(serieName);
             if (serie != null)

@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.08) 优化数据存储类型由`float`全部转为`double`
 * (2021.07.05) 修复`PieChart`的`avoidLabelOverlap`参数不生效的问题
 * (2021.07.04) 修复`PieChart`选中扇区后鼠标区域指示不准确的问题
 * (2021.07.04) 优化`PieChart`的`Label`为`Inside`时可通过参数`Margin`调节偏移

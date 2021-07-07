@@ -334,15 +334,15 @@ namespace XCharts
                 for (int n = 0; n < dataCount; n++)
                 {
                     if (n >= serieData.data.Count) break;
-                    float max = radar.GetIndicatorMax(n);
-                    float value = serieData.GetCurrData(n, dataChangeDuration);
+                    var max = radar.GetIndicatorMax(n);
+                    var value = serieData.GetCurrData(n, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
                         max = serie.runtimeDataMax;
                     }
-                    var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
-                    : radar.runtimeDataRadius * value / max;
+                    var radius = (float)(max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
+                    : radar.runtimeDataRadius * value / max);
                     var currAngle = (n + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
@@ -505,8 +505,8 @@ namespace XCharts
                 {
                     max = serie.runtimeDataMax;
                 }
-                var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
-                : radar.runtimeDataRadius * value / max;
+                var radius = (float)(max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
+                : radar.runtimeDataRadius * value / max);
                 var currAngle = (index + (radar.positionType == Radar.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;
                 if (index == startIndex)

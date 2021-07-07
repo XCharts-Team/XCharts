@@ -125,7 +125,7 @@ namespace XCharts
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
             serie.showDataName = true;
-            List<float> data = new List<float>();
+            List<double> data = new List<double>();
             for (int i = 0; i < 5; i++)
             {
                 data.Add(Random.Range(20, 90));

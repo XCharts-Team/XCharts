@@ -196,11 +196,11 @@ namespace XCharts
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
-            DrawProgressBar(vh, serie, currAngle);
+            DrawProgressBar(vh, serie, (float)currAngle);
             DrawStageColor(vh, serie);
             DrawLineStyle(vh, serie);
             DrawAxisTick(vh, serie);
-            DrawPointer(vh, serie, currAngle);
+            DrawPointer(vh, serie, (float)currAngle);
             TitleStyleHelper.CheckTitle(serie, ref chart.m_ReinitTitle, ref m_UpdateTitleText);
             SerieLabelHelper.CheckLabel(serie, ref chart.m_ReinitLabel, ref m_UpdateLabelText);
             CheckAnimation(serie);
@@ -325,11 +325,11 @@ namespace XCharts
         {
             if (serie.animation.HasFadeOut())
             {
-                return serie.animation.GetCurrDetail();
+                return (float)serie.animation.GetCurrDetail();
             }
             float rangeValue = serie.max - serie.min;
             float rangeAngle = serie.endAngle - serie.startAngle;
-            float value = 0;
+            double value = 0;
             float angle = serie.startAngle;
             if (serie.dataCount > 0)
             {
@@ -337,11 +337,11 @@ namespace XCharts
                 serieData.labelPosition = serie.runtimeCenterPos + serie.label.offset;
                 value = dest ? serieData.GetData(1)
                     : serieData.GetCurrData(1, serie.animation.GetUpdateAnimationDuration());
-                value = Mathf.Clamp(value, serie.min, serie.max);
+                value = MathUtil.Clamp(value, serie.min, serie.max);
             }
             if (rangeValue > 0)
             {
-                angle += rangeAngle * (value - serie.min) / rangeValue;
+                angle += rangeAngle * (float)(value - serie.min) / rangeValue;
             }
             return angle;
         }
@@ -382,7 +382,7 @@ namespace XCharts
                     ? serie.runtimeInsideRadius * serie.gaugePointer.length
                     : serie.gaugePointer.length;
                 if (Vector3.Distance(local, serie.runtimeCenterPos) > len) continue;
-                var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
+                var currAngle = (float)(serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail());
                 var p1 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle, len);
                 var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 180, serie.gaugePointer.width);
                 var p3 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle - 90, serie.gaugePointer.width / 2);

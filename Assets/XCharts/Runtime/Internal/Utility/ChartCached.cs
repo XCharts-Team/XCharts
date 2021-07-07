@@ -28,10 +28,10 @@ namespace XCharts
         private static Dictionary<string, string> s_AxisLabel = new Dictionary<string, string>();
 
 
-        private static Dictionary<float, Dictionary<string, string>> s_NumberToStr = new Dictionary<float, Dictionary<string, string>>();
+        private static Dictionary<double, Dictionary<string, string>> s_NumberToStr = new Dictionary<double, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
 
-        public static string FloatToStr(float value, string numericFormatter = "F", int precision = 0)
+        public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)
         {
             if (precision > 0 && numericFormatter.Length == 1)
             {
@@ -51,7 +51,7 @@ namespace XCharts
             }
         }
 
-        public static string NumberToStr(float value, string formatter)
+        public static string NumberToStr(double value, string formatter)
         {
             if (!s_NumberToStr.ContainsKey(value))
             {

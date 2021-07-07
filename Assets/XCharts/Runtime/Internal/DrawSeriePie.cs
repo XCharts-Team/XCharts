@@ -199,7 +199,7 @@ namespace XCharts
             {
                 var serieData = data[n];
                 serieData.index = n;
-                float value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
+                var value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
                 serieData.runtimePieStartAngle = startDegree;
                 serieData.runtimePieToAngle = startDegree;
                 serieData.runtimePieHalfAngle = startDegree;
@@ -210,12 +210,11 @@ namespace XCharts
                 }
                 float degree = serie.pieRoseType == RoseType.Area
                     ? (totalDegree / showdataCount)
-                    : (totalDegree * value / dataTotalFilterMinAngle);
+                    : (float)(totalDegree * value / dataTotalFilterMinAngle);
                 if (serie.minAngle > 0 && degree < serie.minAngle) degree = serie.minAngle;
                 serieData.runtimePieToAngle = startDegree + degree;
                 serieData.runtimePieOutsideRadius = serie.pieRoseType > 0 ?
-                    serie.runtimeInsideRadius +
-                        (serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimeDataMax :
+                    serie.runtimeInsideRadius + (float)((serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimeDataMax) :
                     serie.runtimeOutsideRadius;
                 if (serieData.highlighted)
                 {
@@ -266,7 +265,7 @@ namespace XCharts
             SerieLabelHelper.AvoidLabelOverlap(serie, chart.theme.common);
         }
 
-        private float GetTotalAngle(Serie serie, float dataTotal, ref float totalAngle)
+        private double GetTotalAngle(Serie serie, double dataTotal, ref float totalAngle)
         {
             totalAngle = 360f;
             if (serie.minAngle > 0)

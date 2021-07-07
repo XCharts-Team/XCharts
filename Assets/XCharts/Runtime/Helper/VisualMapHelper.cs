@@ -15,8 +15,8 @@ namespace XCharts
         public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, XAxis xAxis, YAxis yAxis)
         {
             if (!IsNeedGradient(visualMap) || !visualMap.autoMinMax) return;
-            float min = 0;
-            float max = 0;
+            double min = 0;
+            double max = 0;
             if (visualMap.dimension == 0)
             {
                 min = xAxis.IsCategory() ? 0 : xAxis.runtimeMinValue;
@@ -31,7 +31,7 @@ namespace XCharts
             }
         }
 
-        public static void SetMinMax(VisualMap visualMap, float min, float max)
+        public static void SetMinMax(VisualMap visualMap, double min, double max)
         {
             if (visualMap.enable && (visualMap.min != min || visualMap.max != max))
             {
@@ -67,9 +67,9 @@ namespace XCharts
         public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, CoordinateChart chart, Axis axis,
             Color32 defaultColor)
         {
-            float value = 0;
-            var min = 0f;
-            var max = 0f;
+            double value = 0;
+            double min = 0;
+            double max = 0;
             if (visualMap.dimension == 0)
             {
                 min = axis.runtimeMinValue;
@@ -124,7 +124,7 @@ namespace XCharts
             var grid = chart.GetAxisGridOrDefault(axis);
             var value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
             var rate = (value - min) / (max - min);
-            var color = itemStyle.GetGradientColor(rate, defaultColor);
+            var color = itemStyle.GetGradientColor((float)rate, defaultColor);
             if (ChartHelper.IsClearColor(color)) return defaultColor;
             else return color;
         }
@@ -137,7 +137,7 @@ namespace XCharts
             var grid = chart.GetAxisGridOrDefault(axis);
             var value = min + (pos.x - grid.runtimeX) / grid.runtimeWidth * (max - min);
             var rate = (value - min) / (max - min);
-            var color = lineStyle.GetGradientColor(rate, defaultColor);
+            var color = lineStyle.GetGradientColor((float)rate, defaultColor);
             if (ChartHelper.IsClearColor(color)) return defaultColor;
             else return color;
         }

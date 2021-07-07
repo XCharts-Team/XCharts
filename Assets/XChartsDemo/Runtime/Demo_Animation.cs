@@ -105,7 +105,7 @@ namespace XChartsDemo
                 if (chart is RingChart)
                 {
                     var serieData = chart.series.GetSerie(0).GetSerieData(0);
-                    chart.UpdateData(0, 0, 0, Random.Range(0, serieData.GetData(1)));
+                    chart.UpdateData(0, 0, 0, Random.Range(0, (float)serieData.GetData(1)));
                 }
                 else
                 {

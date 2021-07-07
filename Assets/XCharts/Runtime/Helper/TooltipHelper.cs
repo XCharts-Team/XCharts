@@ -26,7 +26,7 @@ namespace XCharts
                 var dataIndex = dataIndexList[i];
                 var serieData = serie.GetSerieData(dataIndex);
                 var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
-                float xValue, yValue;
+                double xValue, yValue;
                 serie.GetXYData(dataIndex, null, out xValue, out yValue);
 
                 sb.Append("<color=#").Append(theme.GetColorStr(serie.index)).Append(">● </color>");
@@ -50,7 +50,7 @@ namespace XCharts
             var serieData = serie.GetSerieData(index);
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
 
-            float value = serieData.GetData(1);
+            var value = serieData.GetData(1);
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serie.name))
             {
@@ -67,7 +67,7 @@ namespace XCharts
         {
             var serieData = serie.GetSerieData(index);
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
-            float value = serieData.GetFirstData();
+            var value = serieData.GetFirstData();
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serieData.name))
             {
@@ -86,7 +86,7 @@ namespace XCharts
             if (serie.index != index || serie.type != SerieType.Gauge) return;
             var serieData = serie.GetSerieData(0);
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
-            float value = serieData.data[1];
+            var value = serieData.data[1];
             sb.Length = 0;
             if (!string.IsNullOrEmpty(serie.name))
             {
@@ -158,8 +158,8 @@ namespace XCharts
                         sb.Append(serieData.name);
                         for (int i = 0; i < radar.indicatorList.Count; i++)
                         {
-                            string key = radar.indicatorList[i].name;
-                            float value = serieData.GetData(i);
+                            var key = radar.indicatorList[i].name;
+                            var value = serieData.GetData(i);
                             if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append(FormatterHelper.PH_NN);
                             sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, numericFormatter));
                         }
@@ -193,7 +193,7 @@ namespace XCharts
             ChartTheme theme, bool isCartesian, DataZoom dataZoom = null)
         {
             string key = serie.name;
-            float xValue, yValue;
+            double xValue, yValue;
             serie.GetXYData(index, dataZoom, out xValue, out yValue);
             var isIngore = serie.IsIgnorePoint(index);
             if(isIngore) return;
@@ -318,7 +318,7 @@ namespace XCharts
                             var serieData = serie.GetSerieData(dataIndex);
                             var itemFormatter = GetItemFormatter(tooltip, serie, serieData);
                             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
-                            float xValue, yValue;
+                            double xValue, yValue;
                             serie.GetXYData(dataIndex, null, out xValue, out yValue);
                             if (string.IsNullOrEmpty(itemFormatter))
                             {

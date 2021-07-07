@@ -234,7 +234,7 @@ namespace XCharts
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(string serieName, float data, string dataName = null)
+        public virtual SerieData AddData(string serieName, double data, string dataName = null)
         {
             var serieData = m_Series.AddData(serieName, data, dataName);
             if (serieData != null)
@@ -257,7 +257,7 @@ namespace XCharts
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(int serieIndex, float data, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, double data, string dataName = null)
         {
             var serieData = m_Series.AddData(serieIndex, data, dataName);
             if (serieData != null)
@@ -280,7 +280,7 @@ namespace XCharts
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(string serieName, List<float> multidimensionalData, string dataName = null)
+        public virtual SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null)
         {
             var serieData = m_Series.AddData(serieName, multidimensionalData, dataName);
             if (serieData != null)
@@ -303,7 +303,7 @@ namespace XCharts
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null)
         {
             var serieData = m_Series.AddData(serieIndex, multidimensionalData, dataName);
             if (serieData != null)
@@ -327,7 +327,7 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName = null)
+        public virtual SerieData AddData(string serieName, double xValue, double yValue, string dataName = null)
         {
             var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (serieData != null)
@@ -351,7 +351,7 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(int serieIndex, float xValue, float yValue, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null)
         {
             var serieData = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
             if (serieData != null)
@@ -365,7 +365,7 @@ namespace XCharts
             }
             return serieData;
         }
-        public virtual SerieData AddData(int serieIndex, float open, float close, float lowest, float heighest, string dataName = null)
+        public virtual SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null)
         {
             var serieData = m_Series.AddData(serieIndex, open, close, lowest, heighest, dataName);
             if (serieData != null)
@@ -387,7 +387,7 @@ namespace XCharts
         /// <param name="serieName">the name of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual bool UpdateData(string serieName, int dataIndex, float value)
+        public virtual bool UpdateData(string serieName, int dataIndex, double value)
         {
             if (m_Series.UpdateData(serieName, dataIndex, value))
             {
@@ -404,7 +404,7 @@ namespace XCharts
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual bool UpdateData(int serieIndex, int dataIndex, float value)
+        public virtual bool UpdateData(int serieIndex, int dataIndex, double value)
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, value))
             {
@@ -420,7 +420,7 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="dataIndex"></param>
         /// <param name="multidimensionalData">一个数据项的多维数据列表，而不是多个数据项的数据</param>
-        public virtual bool UpdateData(string serieName, int dataIndex, List<float> multidimensionalData)
+        public virtual bool UpdateData(string serieName, int dataIndex, List<double> multidimensionalData)
         {
             if (m_Series.UpdateData(serieName, dataIndex, multidimensionalData))
             {
@@ -436,7 +436,7 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="dataIndex"></param>
         /// <param name="multidimensionalData">一个数据项的多维数据列表，而不是多个数据项的数据</param>
-        public virtual bool UpdateData(int serieIndex, int dataIndex, List<float> multidimensionalData)
+        public virtual bool UpdateData(int serieIndex, int dataIndex, List<double> multidimensionalData)
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, multidimensionalData))
             {
@@ -453,7 +453,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="dimension">指定维数，从0开始</param>
         /// <param name="value"></param>
-        public virtual bool UpdateData(string serieName, int dataIndex, int dimension, float value)
+        public virtual bool UpdateData(string serieName, int dataIndex, int dimension, double value)
         {
             if (m_Series.UpdateData(serieName, dataIndex, dimension, value))
             {
@@ -470,7 +470,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="dimension">指定维数，从0开始</param>
         /// <param name="value"></param>
-        public virtual bool UpdateData(int serieIndex, int dataIndex, int dimension, float value)
+        public virtual bool UpdateData(int serieIndex, int dataIndex, int dimension, double value)
         {
             if (m_Series.UpdateData(serieIndex, dataIndex, dimension, value))
             {

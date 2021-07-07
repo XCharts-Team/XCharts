@@ -197,7 +197,7 @@ namespace XCharts
                 switch (m_Align)
                 {
                     case Align.Left:
-                        switch (m_LabelText.text.alignment)
+                        switch (m_LabelText.alignment)
                         {
                             case TextAnchor.LowerLeft:
                             case TextAnchor.UpperLeft:
@@ -217,7 +217,7 @@ namespace XCharts
                         }
                         break;
                     case Align.Right:
-                        switch (m_LabelText.text.alignment)
+                        switch (m_LabelText.alignment)
                         {
                             case TextAnchor.LowerLeft:
                             case TextAnchor.UpperLeft:

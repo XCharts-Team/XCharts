@@ -46,6 +46,36 @@ namespace XCharts
             }
         }
 
+        public TextAnchor alignment
+        {
+            get
+            {
+#if dUI_TextMeshPro
+            if (m_TMPText == null) return TextAnchor.MiddleCenter;
+            switch (m_TMPText.alignment)
+            {
+                case TextAlignmentOptions.Bottom: return TextAnchor.LowerCenter; 
+                case TextAlignmentOptions.BottomLeft: return TextAnchor.LowerLeft; 
+                case TextAlignmentOptions.BottomRight: return TextAnchor.LowerRight;
+                case TextAlignmentOptions.Center: return TextAnchor.MiddleCenter;
+                case TextAlignmentOptions.Left: return TextAnchor.MiddleLeft;
+                case TextAlignmentOptions.Right: return TextAnchor.MiddleRight;
+                case TextAlignmentOptions.Top: return TextAnchor.UpperCenter;
+                case TextAlignmentOptions.TopLeft: return TextAnchor.UpperLeft;
+                case TextAlignmentOptions.TopRight: return TextAnchor.UpperRight;
+                default: return TextAnchor.MiddleCenter;
+            }
+#else
+                if (m_Text != null) return m_Text.alignment;
+                else return TextAnchor.MiddleCenter;
+#endif
+            }
+            set
+            {
+                SetAlignment(alignment);
+            }
+        }
+
         public ChartText()
         {
         }

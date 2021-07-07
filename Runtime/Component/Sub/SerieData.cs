@@ -30,7 +30,7 @@ namespace XCharts
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private bool m_EnableSymbol = false;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
-        [SerializeField] private List<float> m_Data = new List<float>();
+        [SerializeField] private List<double> m_Data = new List<double>();
 
         public ChartLabel labelObject { get; set; }
 
@@ -106,7 +106,7 @@ namespace XCharts
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
         /// </summary>
-        public List<float> data { get { return m_Data; } set { m_Data = value; } }
+        public List<double> data { get { return m_Data; } set { m_Data = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
         /// 该数据项是否要显示。
@@ -171,7 +171,7 @@ namespace XCharts
         public float runtimeAngle { get; set; }
         public Vector3 runtiemPieOffsetCenter { get; set; }
         public float runtimeStackHig { get; set; }
-        private List<float> m_PreviousData = new List<float>();
+        private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
         private List<Vector2> m_PolygonPoints = new List<Vector2>();
@@ -200,7 +200,7 @@ namespace XCharts
             m_Emphasis.Reset();
         }
 
-        public float GetData(int index, bool inverse = false)
+        public double GetData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_Data.Count)
             {
@@ -209,7 +209,7 @@ namespace XCharts
             else return 0;
         }
 
-        public float GetData(int index, float min, float max)
+        public double GetData(int index, double min, double max)
         {
             if (index >= 0 && index < m_Data.Count)
             {
@@ -221,7 +221,7 @@ namespace XCharts
             else return 0;
         }
 
-        public float GetPreviousData(int index, bool inverse = false)
+        public double GetPreviousData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_PreviousData.Count)
             {
@@ -230,24 +230,24 @@ namespace XCharts
             else return 0;
         }
 
-        public float GetFirstData(float animationDuration = 500f)
+        public double GetFirstData(float animationDuration = 500f)
         {
             if (m_Data.Count > 0) return GetCurrData(0, animationDuration);
             return 0;
         }
 
-        public float GetLastData()
+        public double GetLastData()
         {
             if (m_Data.Count > 0) return m_Data[m_Data.Count - 1];
             return 0;
         }
 
-        public float GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
+        public double GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
         {
             return GetCurrData(index, animationDuration, inverse, 0, 0);
         }
 
-        public float GetCurrData(int index, float animationDuration, bool inverse, float min, float max)
+        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
@@ -259,7 +259,7 @@ namespace XCharts
                 if (rate < 1)
                 {
                     CheckLastData();
-                    var curr = Mathf.Lerp(GetPreviousData(index), GetData(index), rate);
+                    var curr = MathUtil.Lerp(GetPreviousData(index), GetData(index), rate);
                     if (min != 0 || max != 0)
                     {
                         if (inverse)
@@ -299,10 +299,10 @@ namespace XCharts
         /// the maxinum value.
         /// 最大值。
         /// </summary>
-        public float GetMaxData(bool inverse = false)
+        public double GetMaxData(bool inverse = false)
         {
             if (m_Data.Count == 0) return 0;
-            float temp = float.MinValue;
+            var temp = double.MinValue;
             for (int i = 0; i < m_Data.Count; i++)
             {
                 var value = GetData(i, inverse);
@@ -310,15 +310,15 @@ namespace XCharts
             }
             return temp;
         }
-        
+
         /// <summary>
         /// the mininum value.
         /// 最小值。
         /// </summary>
-        public float GetMinData(bool inverse = false)
+        public double GetMinData(bool inverse = false)
         {
             if (m_Data.Count == 0) return 0;
-            float temp = float.MaxValue;
+            var temp = double.MaxValue;
             for (int i = 0; i < m_Data.Count; i++)
             {
                 var value = GetData(i, inverse);
@@ -327,7 +327,7 @@ namespace XCharts
             return temp;
         }
 
-        public bool UpdateData(int dimension, float value, bool updateAnimation, float animationDuration = 500f)
+        public bool UpdateData(int dimension, double value, bool updateAnimation, float animationDuration = 500f)
         {
             if (dimension >= 0 && dimension < data.Count)
             {

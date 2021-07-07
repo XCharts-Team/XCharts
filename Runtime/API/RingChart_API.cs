@@ -16,7 +16,7 @@ namespace XCharts
         /// <param name="dataIndex"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool UpdateMax(int serieIndex, int dataIndex, float value)
+        public bool UpdateMax(int serieIndex, int dataIndex, double value)
         {
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null)
@@ -32,7 +32,7 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool UpdateMax(int serieIndex, float value)
+        public bool UpdateMax(int serieIndex, double value)
         {
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null)
@@ -52,7 +52,7 @@ namespace XCharts
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool UpdateMax(float value)
+        public bool UpdateMax(double value)
         {
             return UpdateMax(0, 0, value);
         }
@@ -66,7 +66,7 @@ namespace XCharts
         /// <param name="max">the max data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public override SerieData AddData(string serieName, float value, float max, string dataName = null)
+        public override SerieData AddData(string serieName, double value, double max, string dataName = null)
         {
             return base.AddData(serieName, value, max, dataName);
         }
@@ -80,7 +80,7 @@ namespace XCharts
         /// <param name="max">the max data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public override SerieData AddData(int serieIndex, float value, float max, string dataName = null)
+        public override SerieData AddData(int serieIndex, double value, double max, string dataName = null)
         {
             return base.AddData(serieIndex, value, max, dataName);
         }

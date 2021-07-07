@@ -181,7 +181,7 @@ namespace XCharts
             return s_RegexNewLine.Replace(content.Trim(), PH_NN);
         }
 
-        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, float value)
+        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)
         {
             var mc = s_RegexForAxisLabel.Matches(content);
             foreach (var m in mc)
@@ -213,7 +213,7 @@ namespace XCharts
             content = TrimAndReplaceLine(content);
         }
 
-        public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, float value, float total,
+        public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, double value, double total,
             string serieName, string dataName, Color color)
         {
             var mc = s_RegexForSerieLabel.Matches(content);

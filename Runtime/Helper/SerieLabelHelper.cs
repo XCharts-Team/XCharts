@@ -89,7 +89,7 @@ namespace XCharts
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,
-            float dataValue, float dataTotal, SerieLabel serieLabel, Color color)
+            double dataValue, double dataTotal, SerieLabel serieLabel, Color color)
         {
             if (serieLabel == null)
             {

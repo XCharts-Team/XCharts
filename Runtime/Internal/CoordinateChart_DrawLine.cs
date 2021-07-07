@@ -134,7 +134,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
+                    double yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
                         i, dataChangeDuration, ref dataChanging, yAxis);
                     showData[i].runtimeStackHig = GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, isStack,
                         ref np, dataChangeDuration);
@@ -155,7 +155,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
+                    double yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     showData[i].runtimeStackHig = GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, isStack, ref np,
                         dataChangeDuration);
                     serie.dataPoints.Add(np);
@@ -188,7 +188,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
+                    double yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     showData[i].runtimeStackHig = GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, isStack, ref firstLastPos, dataChangeDuration);
                 }
             }
@@ -206,7 +206,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
+                    double yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse, yAxis.runtimeMinValue, yAxis.runtimeMaxValue);
                     showData[i].runtimeStackHig = GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, isStack, ref lastNextPos, dataChangeDuration);
                 }
             }
@@ -334,12 +334,12 @@ namespace XCharts
             return lp;
         }
 
-        internal float DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
+        internal double DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
         {
-            var totalAverage = 0f;
+            double totalAverage = 0;
             if (rate > 1 && sampleType == SampleType.Peak)
             {
-                var total = 0f;
+                double total = 0;
                 for (int i = minCount; i < maxCount; i++)
                 {
                     total += showData[i].data[1];
@@ -349,13 +349,13 @@ namespace XCharts
             return totalAverage;
         }
 
-        internal float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
-            int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration,
+        internal double SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
+            int minCount, int maxCount, double totalAverage, int index, float dataChangeDuration,
             ref bool dataChanging, Axis axis)
         {
             var inverse = axis.inverse;
-            var minValue = axis.runtimeMinValue;
-            var MaxValue = axis.runtimeMaxValue;
+            double minValue = axis.runtimeMinValue;
+            double MaxValue = axis.runtimeMaxValue;
             if (rate <= 1 || index == minCount)
             {
                 if (showData[index].IsDataChanged()) dataChanging = true;
@@ -365,7 +365,7 @@ namespace XCharts
             {
                 case SampleType.Sum:
                 case SampleType.Average:
-                    float total = 0;
+                    double total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
                         total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
@@ -374,7 +374,7 @@ namespace XCharts
                     if (sampleType == SampleType.Average) return total / rate;
                     else return total;
                 case SampleType.Max:
-                    float max = float.MinValue;
+                    double max = double.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
                         var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
@@ -383,7 +383,7 @@ namespace XCharts
                     }
                     return max;
                 case SampleType.Min:
-                    float min = float.MaxValue;
+                    double min = double.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
                         var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
@@ -392,8 +392,8 @@ namespace XCharts
                     }
                     return min;
                 case SampleType.Peak:
-                    max = float.MinValue;
-                    min = float.MaxValue;
+                    max = double.MinValue;
+                    min = double.MaxValue;
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
@@ -411,7 +411,7 @@ namespace XCharts
             return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
         }
 
-        private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
+        private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, double yValue, float startX, int i,
             float scaleWid, bool isStack, ref Vector3 np, float duration, bool isIngoreValue = false)
         {
             if (isIngoreValue)
@@ -420,15 +420,15 @@ namespace XCharts
                 return 0;
             }
             float xDataHig, yDataHig;
-            float xMinValue = xAxis.GetCurrMinValue(duration);
-            float xMaxValue = xAxis.GetCurrMaxValue(duration);
-            float yMinValue = yAxis.GetCurrMinValue(duration);
-            float yMaxValue = yAxis.GetCurrMaxValue(duration);
+            double xMinValue = xAxis.GetCurrMinValue(duration);
+            double xMaxValue = xAxis.GetCurrMaxValue(duration);
+            double yMinValue = yAxis.GetCurrMinValue(duration);
+            double yMaxValue = yAxis.GetCurrMaxValue(duration);
             if (xAxis.IsValue() || xAxis.IsLog())
             {
                 var grid = GetAxisGridOrDefault(xAxis);
                 var axisLineWidth = xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
-                float xValue = i > showData.Count - 1 ? 0 : showData[i].GetData(0, xAxis.inverse);
+                double xValue = i > showData.Count - 1 ? 0 : showData[i].GetData(0, xAxis.inverse);
                 float pX = grid.runtimeX + axisLineWidth;
                 float pY = grid.runtimeY + axisLineWidth;
                 if (isStack)
@@ -447,7 +447,7 @@ namespace XCharts
                 else
                 {
                     if ((xMaxValue - xMinValue) <= 0) xDataHig = 0;
-                    else xDataHig = (xValue - xMinValue) / (xMaxValue - xMinValue) * grid.runtimeWidth;
+                    else xDataHig = (float)((xValue - xMinValue) / (xMaxValue - xMinValue)) * grid.runtimeWidth;
                 }
                 if (yAxis.IsLog())
                 {
@@ -459,7 +459,7 @@ namespace XCharts
                 {
                     double valueTotal = yMaxValue - yMinValue;
                     if (valueTotal <= 0) yDataHig = 0;
-                    else yDataHig = (float)((yValue - yMinValue) / valueTotal * grid.runtimeHeight);
+                    else yDataHig = (float)((yValue - yMinValue) / valueTotal) * grid.runtimeHeight;
                 }
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
@@ -530,11 +530,11 @@ namespace XCharts
             if (rate < 1) rate = 1;
             var dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
-            float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
+            double xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
+            double xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
             for (i = serie.minShow; i < maxCount; i += rate)
             {
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
+                double value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
                 float pY = startY + i * scaleWid;
                 float pX = grid.runtimeX + yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
                 if (isStack)
@@ -553,7 +553,7 @@ namespace XCharts
                 }
                 else
                 {
-                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * grid.runtimeWidth;
+                    dataHig = (float)((value - xMinValue) / (xMaxValue - xMinValue) * grid.runtimeWidth);
                 }
                 showData[i].runtimeStackHig = dataHig;
                 np = new Vector3(pX + dataHig, pY);
@@ -567,7 +567,7 @@ namespace XCharts
             if (maxCount % rate != 0)
             {
                 i = maxCount - 1;
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
+                double value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);
                 float pY = startY + i * scaleWid;
                 float pX = grid.runtimeX + yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
                 if (isStack)
@@ -586,7 +586,7 @@ namespace XCharts
                 }
                 else
                 {
-                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * grid.runtimeWidth;
+                    dataHig = (float)((value - xMinValue) / (xMaxValue - xMinValue)) * grid.runtimeWidth;
                 }
                 showData[i].runtimeStackHig = dataHig;
                 np = new Vector3(pX + dataHig, pY);
@@ -664,9 +664,9 @@ namespace XCharts
             }
         }
 
-        private float GetStackValue(List<List<SerieData>> stackDataList, int dataIndex, float dataChangeDuration, Axis xAxis)
+        private double GetStackValue(List<List<SerieData>> stackDataList, int dataIndex, float dataChangeDuration, Axis xAxis)
         {
-            float value = 0;
+            double value = 0;
             foreach (var dataList in stackDataList)
             {
                 value += dataList[dataIndex].GetCurrData(1, dataChangeDuration, xAxis.inverse, xAxis.runtimeMinValue, xAxis.runtimeMaxValue);

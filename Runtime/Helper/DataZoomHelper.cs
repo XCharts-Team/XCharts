@@ -43,8 +43,8 @@ namespace XCharts
         public static void UpdateDataZoomRuntimeStartEndValue(DataZoom dataZoom, Serie serie)
         {
             if (dataZoom == null || serie == null) return;
-            float min = 0;
-            float max = 0;
+            double min = 0;
+            double max = 0;
             SerieHelper.GetMinMaxData(serie, out min, out max, null);
             dataZoom.runtimeStartValue = min + (max - min) * dataZoom.start / 100;
             dataZoom.runtimeEndValue = min + (max - min) * dataZoom.end / 100;
@@ -55,8 +55,8 @@ namespace XCharts
             foreach (var dataZoom in chart.dataZooms)
             {
                 if (!dataZoom.enable) continue;
-                float min = float.MaxValue;
-                float max = float.MinValue;
+                double min = double.MaxValue;
+                double max = double.MinValue;
                 foreach (var serie in chart.series.list)
                 {
                     if (!serie.show || serie.type != serieType) continue;
@@ -70,8 +70,8 @@ namespace XCharts
                     }
                     else
                     {
-                        var serieMinValue = 0f;
-                        var serieMaxValue = 0f;
+                        double serieMinValue = 0;
+                        double serieMaxValue = 0;
                         SerieHelper.GetMinMaxData(serie, out serieMinValue, out serieMaxValue, null, 2);
                         if (serieMinValue < min) min = serieMinValue;
                         if (serieMaxValue > max) max = serieMaxValue;

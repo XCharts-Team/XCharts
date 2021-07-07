@@ -249,11 +249,11 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterContent(int labelIndex, float value, float minValue, float maxValue, bool isLog = false)
+        public string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             if (showAsPositiveNumber && value < 0)
             {
-                value = Mathf.Abs(value);
+                value = Math.Abs(value);
             }
             if (m_FormatterFunction != null)
             {
@@ -283,7 +283,7 @@ namespace XCharts
             }
         }
 
-        public string GetFormatterDateTime(int labelIndex, float value)
+        public string GetFormatterDateTime(int labelIndex, double value)
         {
             if (m_FormatterFunction != null)
             {

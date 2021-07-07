@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using XUGL;
+using System;
 
 namespace XCharts
 {
@@ -286,8 +287,8 @@ namespace XCharts
                             var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                             var symbolSize = symbol.GetSize(serieData == null ? null : serieData.data,
                                 m_Theme.serie.lineSymbolSize);
-                            if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
-                                && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
+                            if (Math.Abs(xValue - xdata) / xRate < symbolSize
+                                && Math.Abs(yValue - ydata) / yRate < symbolSize)
                             {
                                 tooltip.runtimeDataIndex[i] = n;
                                 RefreshPainter(serie);
@@ -900,8 +901,8 @@ namespace XCharts
                 axis.runtimeMaxValue = SeriesHelper.GetMaxSerieDataCount(m_Series) - 1;
                 return;
             }
-            float tempMinValue = 0;
-            float tempMaxValue = 0;
+            double tempMinValue = 0;
+            double tempMaxValue = 0;
             GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
             if (tempMinValue != axis.runtimeMinValue || tempMaxValue != axis.runtimeMaxValue)
             {
@@ -919,13 +920,13 @@ namespace XCharts
                     {
                         axis.runtimeZeroXOffset = axis.runtimeMinValue > 0 ? 0 :
                             axis.runtimeMaxValue < 0 ? grid.runtimeWidth :
-                            Mathf.Abs(axis.runtimeMinValue) * (grid.runtimeWidth / (Mathf.Abs(axis.runtimeMinValue) + Mathf.Abs(axis.runtimeMaxValue)));
+                            (float)(Math.Abs(axis.runtimeMinValue) * (grid.runtimeWidth / (Math.Abs(axis.runtimeMinValue) + Math.Abs(axis.runtimeMaxValue))));
                     }
                     if (grid != null && axis is YAxis && axis.IsValue())
                     {
                         axis.runtimeZeroYOffset = axis.runtimeMinValue > 0 ? 0 :
                             axis.runtimeMaxValue < 0 ? grid.runtimeHeight :
-                            Mathf.Abs(axis.runtimeMinValue) * (grid.runtimeHeight / (Mathf.Abs(axis.runtimeMinValue) + Mathf.Abs(axis.runtimeMaxValue)));
+                            (float)(Math.Abs(axis.runtimeMinValue) * (grid.runtimeHeight / (Math.Abs(axis.runtimeMinValue) + Math.Abs(axis.runtimeMaxValue))));
                     }
                 }
                 var dataZoom = DataZoomHelper.GetAxisRelatedDataZoom(axis, dataZooms);
@@ -947,7 +948,7 @@ namespace XCharts
             }
         }
 
-        protected virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out float tempMinValue, out float tempMaxValue)
+        protected virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)
         {
             if (IsValue())
             {
@@ -1344,8 +1345,8 @@ namespace XCharts
                 {
                     case Tooltip.Type.Corss:
                     case Tooltip.Type.Line:
-                        float pX = grid.runtimeX + tooltip.runtimeXValues[i] * splitWidth
-                            + (xAxis.boundaryGap ? splitWidth / 2 : 0);
+                        float pX = (float)(grid.runtimeX + tooltip.runtimeXValues[i] * splitWidth
+                            + (xAxis.boundaryGap ? splitWidth / 2 : 0));
                         if (xAxis.IsValue()) pX = tooltip.runtimePointerPos.x;
                         Vector2 sp = new Vector2(pX, grid.runtimeY);
                         Vector2 ep = new Vector2(pX, grid.runtimeY + grid.runtimeHeight);
@@ -1360,9 +1361,9 @@ namespace XCharts
                         break;
                     case Tooltip.Type.Shadow:
                         float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
-                        pX = grid.runtimeX + splitWidth * tooltip.runtimeXValues[i] -
-                            (xAxis.boundaryGap ? 0 : splitWidth / 2);
-                        if (xAxis.IsValue()) pX = tooltip.runtimeXValues[i];
+                        pX = (float)(grid.runtimeX + splitWidth * tooltip.runtimeXValues[i] -
+                            (xAxis.boundaryGap ? 0 : splitWidth / 2));
+                        if (xAxis.IsValue()) pX = (float)tooltip.runtimeXValues[i];
                         float pY = grid.runtimeY + grid.runtimeHeight;
                         Vector3 p1 = new Vector3(pX, grid.runtimeY);
                         Vector3 p2 = new Vector3(pX, pY);
@@ -1396,7 +1397,7 @@ namespace XCharts
                 {
                     case Tooltip.Type.Corss:
                     case Tooltip.Type.Line:
-                        float pY = grid.runtimeY + tooltip.runtimeYValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0);
+                        float pY = (float)(grid.runtimeY + tooltip.runtimeYValues[i] * splitWidth + (yAxis.boundaryGap ? splitWidth / 2 : 0));
                         Vector2 sp = new Vector2(grid.runtimeX, pY);
                         Vector2 ep = new Vector2(grid.runtimeX + grid.runtimeWidth, pY);
                         var lineColor = TooltipHelper.GetLineColor(tooltip, m_Theme);
@@ -1411,8 +1412,8 @@ namespace XCharts
                     case Tooltip.Type.Shadow:
                         float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                         float pX = grid.runtimeX + grid.runtimeWidth;
-                        pY = grid.runtimeY + splitWidth * tooltip.runtimeYValues[i] -
-                            (yAxis.boundaryGap ? 0 : splitWidth / 2);
+                        pY = (float)(grid.runtimeY + splitWidth * tooltip.runtimeYValues[i] -
+                            (yAxis.boundaryGap ? 0 : splitWidth / 2));
                         Vector3 p1 = new Vector3(grid.runtimeX, pY);
                         Vector3 p2 = new Vector3(grid.runtimeX, pY + tooltipSplitWid);
                         Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
@@ -1559,7 +1560,7 @@ namespace XCharts
                     serieData.labelObject.UpdateIcon(serieData.iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel && !isIgnore)
                     {
-                        float value = 0f;
+                        double value = 0;
 
                         if (serie.type == SerieType.Heatmap)
                         {

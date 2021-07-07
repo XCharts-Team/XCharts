@@ -22,11 +22,11 @@ namespace XCharts
         /// <param name="min">最小值</param>
         /// <param name="max">最大值</param>
         /// <param name="dataZoom">缩放组件，默认null</param>
-        public static void GetMinMaxData(Serie serie, int dimension, out float min, out float max,
+        public static void GetMinMaxData(Serie serie, int dimension, out double min, out double max,
             DataZoom dataZoom = null)
         {
-            max = float.MinValue;
-            min = float.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             var dataList = serie.GetDataList(dataZoom);
             for (int i = 0; i < dataList.Count; i++)
             {
@@ -48,10 +48,10 @@ namespace XCharts
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="dataZoom"></param>
-        public static void GetMinMaxData(Serie serie, out float min, out float max, DataZoom dataZoom = null, int dimension = 0)
+        public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)
         {
-            max = float.MinValue;
-            min = float.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             var dataList = serie.GetDataList(dataZoom);
             for (int i = 0; i < dataList.Count; i++)
             {
@@ -406,7 +406,7 @@ namespace XCharts
         /// <returns></returns>
         public static void UpdateMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)
         {
-            float min = 0, max = 0;
+            double min = 0, max = 0;
             GetMinMaxData(serie, dimension, out min, out max, dataZoom);
             if (ceilRate < 0)
             {
@@ -422,7 +422,7 @@ namespace XCharts
 
         public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)
         {
-            float min = 0, max = 0;
+            double min = 0, max = 0;
             GetMinMaxData(serie, out min, out max, dataZoom);
             if (ceilRate < 0)
             {
@@ -448,7 +448,7 @@ namespace XCharts
             {
                 if (dataZoom.IsXAxisIndexValue(serie.xAxisIndex))
                 {
-                    float min = 0, max = 0;
+                    double min = 0, max = 0;
                     dataZoom.GetXAxisIndexValue(serie.xAxisIndex, out min, out max);
                     UpdateFilterData_XAxisValue(serie, dataZoom, 0, min, max);
                 }
@@ -461,7 +461,7 @@ namespace XCharts
             {
                 if (dataZoom.IsYAxisIndexValue(serie.yAxisIndex))
                 {
-                    float min = 0, max = 0;
+                    double min = 0, max = 0;
                     dataZoom.GetYAxisIndexValue(serie.yAxisIndex, out min, out max);
                     UpdateFilterData_XAxisValue(serie, dataZoom, 0, min, max);
                 }
@@ -472,7 +472,7 @@ namespace XCharts
             }
         }
 
-        private static void UpdateFilterData_XAxisValue(Serie serie, DataZoom dataZoom, int dimension, float min, float max)
+        private static void UpdateFilterData_XAxisValue(Serie serie, DataZoom dataZoom, int dimension, double min, double max)
         {
             var data = serie.data;
             var startValue = min + (max - min) * dataZoom.start / 100;

@@ -44,8 +44,8 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
-            float xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
+            double xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
+            double xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
             var isAllBarEnd = true;
             for (int i = serie.minShow; i < maxCount; i++)
             {
@@ -61,7 +61,7 @@ namespace XCharts
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
 
                 serieData.canShowLabel = true;
-                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
+                double value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
                 float axisLineWidth = value == 0 ? 0
@@ -79,11 +79,11 @@ namespace XCharts
                 }
 
                 var barHig = 0f;
-                var valueTotal = 0f;
+                double valueTotal = 0f;
                 if (isPercentStack)
                 {
                     valueTotal = Internal_GetBarSameStackTotalValue(serie.stack, i, SerieType.Bar);
-                    barHig = valueTotal != 0 ? (value / valueTotal * grid.runtimeWidth) : 0;
+                    barHig = valueTotal != 0 ? (float)((value / valueTotal * grid.runtimeWidth)) : 0;
                 }
                 else
                 {
@@ -97,8 +97,8 @@ namespace XCharts
                     {
                         valueTotal = xMaxValue - xMinValue;
                         if (valueTotal != 0)
-                            barHig = (xMinValue > 0 ? value - xMinValue : value)
-                                / valueTotal * grid.runtimeWidth;
+                            barHig = (float)((xMinValue > 0 ? value - xMinValue : value)
+                                / valueTotal * grid.runtimeWidth);
                     }
                 }
                 serieData.runtimeStackHig = barHig;
@@ -193,8 +193,8 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
-            float yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
+            double yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
+            double yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
             var isAllBarEnd = true;
             for (int i = serie.minShow; i < maxCount; i++)
             {
@@ -208,7 +208,7 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                double value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = grid.runtimeX + i * categoryWidth;
@@ -240,7 +240,7 @@ namespace XCharts
                         if (yAxis.IsLog())
                         {
                             int minIndex = yAxis.runtimeMinLogIndex;
-                            float nowIndex = yAxis.GetLogValue(value);
+                            var nowIndex = yAxis.GetLogValue(value);
                             barHig = (nowIndex - minIndex) / yAxis.splitNumber * grid.runtimeHeight;
                         }
                         else
@@ -621,10 +621,10 @@ namespace XCharts
             return gap;
         }
 
-        public float Internal_GetBarSameStackTotalValue(string stack, int dataIndex, SerieType type)
+        public double Internal_GetBarSameStackTotalValue(string stack, int dataIndex, SerieType type)
         {
             if (string.IsNullOrEmpty(stack)) return 0;
-            float total = 0;
+            double total = 0;
             foreach (var serie in m_Series.list)
             {
                 if (serie.type == type)

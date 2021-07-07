@@ -38,8 +38,8 @@ namespace XCharts
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, colorIndex, highlight);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
-                float xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
-                float yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                double xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
+                double yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = grid.runtimeX + xAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
                 float pY = grid.runtimeY + yAxis.axisLine.GetWidth(m_Theme.axis.lineWidth);
@@ -88,7 +88,7 @@ namespace XCharts
             }
         }
 
-        private float GetDataHig(Axis axis, float value, float totalWidth)
+        private float GetDataHig(Axis axis, double value, float totalWidth)
         {
             if (axis.IsLog())
             {

@@ -16,7 +16,7 @@ namespace XCharts
     /// <param name="value">当前label对应的数值数据，Value轴或Time轴有效</param>
     /// <param name="category">当前label对应的类目数据，Category轴有效</param>
     /// <returns>最终显示的文本内容</returns>
-    public delegate string DelegateAxisLabelFormatter(int labelIndex, float value, string category);
+    public delegate string DelegateAxisLabelFormatter(int labelIndex, double value, string category);
     /// <summary>
     /// The delegate function for SerieLabel‘s formatter.
     /// SerieLabel的formatter自定义委托。
@@ -24,5 +24,5 @@ namespace XCharts
     /// <param name="dataIndex">数据索引</param>
     /// <param name="value">数值</param>
     /// <returns>最终显示的文本内容</returns>
-    public delegate string DelegateSerieLabelFormatter(int dataIndex, float value);
+    public delegate string DelegateSerieLabelFormatter(int dataIndex, double value);
 }

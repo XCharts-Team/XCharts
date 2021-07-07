@@ -53,19 +53,19 @@ namespace XCharts
         [System.Serializable]
         public class Pieces
         {
-            [SerializeField] private float m_Min;
-            [SerializeField] private float m_Max;
+            [SerializeField] private double m_Min;
+            [SerializeField] private double m_Max;
             [SerializeField] private string m_Label;
             [SerializeField] private Color32 m_Color;
 
             /// <summary>
             /// 范围最小值
             /// </summary>
-            public float min { get { return m_Min; } set { m_Min = value; } }
+            public double min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
             /// 范围最大值
             /// </summary>
-            public float max { get { return m_Max; } set { m_Max = value; } }
+            public double max { get { return m_Max; } set { m_Max = value; } }
             /// <summary>
             /// 文字描述
             /// </summary>
@@ -75,10 +75,10 @@ namespace XCharts
             /// </summary>
             public Color32 color { get { return m_Color; } set { m_Color = value; } }
 
-            public bool Contains(float value, float minMaxRange)
+            public bool Contains(double value, double minMaxRange)
             {
-                var cmin = Mathf.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
-                var cmax = Mathf.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
+                var cmin = System.Math.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
+                var cmax = System.Math.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
                 return value >= cmin && value < cmax;
             }
         }
@@ -87,10 +87,10 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Continuous;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
-        [SerializeField] private float m_Min = 0;
-        [SerializeField] private float m_Max = 100f;
+        [SerializeField] private double m_Min = 0;
+        [SerializeField] private double m_Max = 100;
 
-        [SerializeField] private float[] m_Range = new float[2] { 0, 100f };
+        [SerializeField] private double[] m_Range = new double[2] { 0, 100 };
         [SerializeField] private string[] m_Text = new string[2] { "", "" };
         [SerializeField] private float[] m_TextGap = new float[2] { 10f, 10f };
         [SerializeField] private int m_SplitNumber = 5;
@@ -156,7 +156,7 @@ namespace XCharts
         /// 
         /// 允许的最小值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
         /// </summary>
-        public float min
+        public double min
         {
             get { return m_Min; }
             set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetVerticesDirty(); }
@@ -166,7 +166,7 @@ namespace XCharts
         /// 
         /// 允许的最大值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
         /// </summary>
-        public float max
+        public double max
         {
             get { return m_Max; }
             set { m_Max = (value < min ? min + 1 : value); SetVerticesDirty(); }
@@ -176,7 +176,7 @@ namespace XCharts
         /// 
         /// 指定手柄对应数值的位置。range 应在[min,max]范围内。
         /// </summary>
-        public float[] range { get { return m_Range; } }
+        public double[] range { get { return m_Range; } }
         /// <summary>
         /// Text on both ends.
         /// 两端的文本，如 ['High', 'Low']。
@@ -356,14 +356,14 @@ namespace XCharts
         /// </summary>
         /// <value></value>
         public int runtimeSelectedIndex { get; set; }
-        public float runtimeSelectedValue { get; set; }
+        public double runtimeSelectedValue { get; set; }
         /// <summary>
         /// the current pointer position.
         /// 当前鼠标位置。
         /// </summary>
         public Vector2 runtimePointerPos { get; set; }
         public bool runtimeIsVertical { get { return orient == Orient.Vertical; } }
-        public float rangeMin
+        public double rangeMin
         {
             get
             {
@@ -376,7 +376,7 @@ namespace XCharts
             }
         }
 
-        public float rangeMax
+        public double rangeMax
         {
             get
             {
@@ -398,8 +398,8 @@ namespace XCharts
             }
         }
 
-        public float runtimeRangeMinHeight { get { return (rangeMin - min) / (max - min) * itemHeight; } }
-        public float runtimeRangeMaxHeight { get { return (rangeMax - min) / (max - min) * itemHeight; } }
+        public float runtimeRangeMinHeight { get { return (float)((rangeMin - min) / (max - min) * itemHeight); } }
+        public float runtimeRangeMaxHeight { get { return (float)((rangeMax - min) / (max - min) * itemHeight); } }
         public bool runtimeMinDrag { get; internal set; }
         public bool runtimeMaxDrag { get; internal set; }
 
@@ -440,7 +440,7 @@ namespace XCharts
                             }
                             else
                             {
-                                var rate = (rtValue - inValue) / diff1;
+                                var rate = (float)((rtValue - inValue) / diff1);
                                 m_RtInRange.Add(Color32.Lerp(m_InRange[inCount], m_InRange[inCount + 1], rate));
                             }
                         }
@@ -450,7 +450,7 @@ namespace XCharts
             }
         }
 
-        public Color32 GetColor(float value)
+        public Color32 GetColor(double value)
         {
             switch (type)
             {
@@ -463,7 +463,7 @@ namespace XCharts
             }
         }
 
-        private Color32 GetPiecesColor(float value)
+        private Color32 GetPiecesColor(double value)
         {
             foreach (var piece in m_Pieces)
             {
@@ -476,7 +476,7 @@ namespace XCharts
             else return ChartConst.clearColor32;
         }
 
-        private Color32 GetContinuousColor(float value)
+        private Color32 GetContinuousColor(double value)
         {
             if (value < m_Min || value > m_Max)
             {
@@ -498,15 +498,15 @@ namespace XCharts
                 var nowMin = m_Min + index * diff;
                 var rate = (value - nowMin) / diff;
                 if (index == splitNumber - 1) return runtimeInRange[index];
-                else return Color32.Lerp(runtimeInRange[index], runtimeInRange[index + 1], rate);
+                else return Color32.Lerp(runtimeInRange[index], runtimeInRange[index + 1], (float)rate);
             }
         }
 
-        public int GetIndex(float value)
+        public int GetIndex(double value)
         {
             int splitNumber = runtimeInRange.Count;
             if (splitNumber <= 0) return -1;
-            value = Mathf.Clamp(value, m_Min, m_Max);
+            value = MathUtil.Clamp(value, m_Min, m_Max);
 
             var diff = (m_Max - m_Min) / (splitNumber - 1);
             var index = -1;
@@ -526,7 +526,7 @@ namespace XCharts
             return m_Type == VisualMap.Type.Piecewise;
         }
 
-        public bool IsInSelectedValue(float value)
+        public bool IsInSelectedValue(double value)
         {
             if (runtimeSelectedIndex < 0) return true;
             else
@@ -535,7 +535,7 @@ namespace XCharts
             }
         }
 
-        public float GetValue(Vector3 pos, Rect chartRect)
+        public double GetValue(Vector3 pos, Rect chartRect)
         {
             var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             var pos1 = centerPos + (runtimeIsVertical ? Vector3.down : Vector3.left) * itemHeight / 2;
@@ -726,7 +726,7 @@ namespace XCharts
             var halfHig = visualMap.itemHeight / 2;
             var centerPos = chart.chartPosition + visualMap.location.GetPosition(chart.chartWidth, chart.chartHeight);
             var selectedIndex = -1;
-            var value = 0f;
+            double value = 0;
             switch (visualMap.orient)
             {
                 case Orient.Horizonal:

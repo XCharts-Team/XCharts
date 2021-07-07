@@ -81,7 +81,7 @@ namespace XCharts
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var value = serieData.GetFirstData(dataChangeDuration);
                 var max = serieData.GetLastData();
-                var degree = 360 * value / max;
+                var degree = (float)(360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);

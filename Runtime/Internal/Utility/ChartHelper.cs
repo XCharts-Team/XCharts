@@ -725,7 +725,7 @@ namespace XCharts
             return (Color32)color;
         }
 
-        public static float GetMaxDivisibleValue(float max, int ceilRate)
+        public static double GetMaxDivisibleValue(double max, int ceilRate)
         {
             if (max == 0) return 0;
             if (max > -1 && max < 1)
@@ -742,20 +742,20 @@ namespace XCharts
             }
             if (ceilRate == 0)
             {
-                var bigger = Mathf.Ceil(Mathf.Abs(max));
+                var bigger = Math.Ceiling(Math.Abs(max));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {
                     n++;
                 }
-                float mm = bigger;
+                double mm = bigger;
                 if (mm > 10 && n < 38)
                 {
                     mm = bigger - bigger % (Mathf.Pow(10, n));
                     mm += max > 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
                 }
-                if (max < 0) return -Mathf.Ceil(mm);
-                else return Mathf.Ceil(mm);
+                if (max < 0) return -Math.Ceiling(mm);
+                else return Math.Ceiling(mm);
             }
             else
             {
@@ -765,7 +765,7 @@ namespace XCharts
             }
         }
 
-        public static float GetMinDivisibleValue(float min, int ceilRate)
+        public static double GetMinDivisibleValue(double min, int ceilRate)
         {
             if (min == 0) return 0;
             if (min > -1 && min < 1)
@@ -782,20 +782,20 @@ namespace XCharts
             }
             if (ceilRate == 0)
             {
-                var bigger = Mathf.Floor(Mathf.Abs(min));
+                var bigger = Math.Floor(Math.Abs(min));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {
                     n++;
                 }
-                float mm = bigger;
+                double mm = bigger;
                 if (mm > 10 && n < 38)
                 {
                     mm = bigger - bigger % (Mathf.Pow(10, n));
                     mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
                 }
-                if (min < 0) return -Mathf.Floor(mm);
-                else return Mathf.Floor(mm);
+                if (min < 0) return -Math.Floor(mm);
+                else return Math.Floor(mm);
             }
             else
             {
@@ -805,11 +805,11 @@ namespace XCharts
             }
         }
 
-        public static float GetMaxLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
         {
             splitNumber = 0;
             if (value <= 0) return 0;
-            float max = 0;
+            double max = 0;
             while (max < value)
             {
                 if (isLogBaseE)
@@ -825,7 +825,7 @@ namespace XCharts
             return max;
         }
 
-        public static float GetMinLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        public static float GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
         {
             splitNumber = 0;
             if (value > 1) return 1;
@@ -845,7 +845,7 @@ namespace XCharts
             return min;
         }
 
-        public static int GetFloatAccuracy(float value)
+        public static int GetFloatAccuracy(double value)
         {
             if (value > 1 || value < -1) return 0;
             int count = 1;

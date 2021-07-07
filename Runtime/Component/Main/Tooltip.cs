@@ -257,14 +257,14 @@ namespace XCharts
         /// the value for x indicator label.
         /// 指示器X轴上要显示的值。
         /// </summary>
-        public float[] runtimeXValues { get { return m_RuntimeXValue; } internal set { m_RuntimeXValue = value; } }
-        private float[] m_RuntimeXValue = new float[2] { -1, -1 };
+        public double[] runtimeXValues { get { return m_RuntimeXValue; } internal set { m_RuntimeXValue = value; } }
+        private double[] m_RuntimeXValue = new double[2] { -1, -1 };
         /// <summary>
         /// the value for y indicator label. 
         /// 指示器Y轴上要显示的值。
         /// </summary>
-        public float[] runtimeYValues { get { return m_RuntimeYValue; } internal set { m_RuntimeYValue = value; } }
-        private float[] m_RuntimeYValue = new float[2] { -1, -1 };
+        public double[] runtimeYValues { get { return m_RuntimeYValue; } internal set { m_RuntimeYValue = value; } }
+        private double[] m_RuntimeYValue = new double[2] { -1, -1 };
         /// <summary>
         /// the current pointer position.
         /// 当前鼠标位置。

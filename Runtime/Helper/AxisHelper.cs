@@ -112,14 +112,14 @@ namespace XCharts
         /// <param name="maxValue"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public static string GetLabelName(Axis axis, float coordinateWidth, int index, float minValue, float maxValue,
+        public static string GetLabelName(Axis axis, float coordinateWidth, int index, double minValue, double maxValue,
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (axis.type == Axis.AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
-                var value = 0f;
+                double value = 0;
                 if (forcePercent) maxValue = 100;
                 if (axis.interval > 0)
                 {
@@ -155,7 +155,7 @@ namespace XCharts
             else if (axis.type == Axis.AxisType.Time)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
-                var value = 0f;
+                double value = 0;
                 if (axis.interval > 0)
                 {
                     if (index == split) value = maxValue;
@@ -323,7 +323,7 @@ namespace XCharts
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        public static void AdjustMinMaxValue(Axis axis, ref float minValue, ref float maxValue, bool needFormat, int ceilRate = 0)
+        public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, int ceilRate = 0)
         {
             if (axis.type == Axis.AxisType.Log)
             {

@@ -16,7 +16,7 @@ namespace XCharts.Examples
     {
         RadarChart chart;
         int count = 0;
-        float max = 0;
+        double max = 0;
 
         void Awake()
         {

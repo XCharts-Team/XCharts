@@ -70,7 +70,7 @@ namespace XCharts
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    public delegate float SymbolSizeCallback(List<float> data);
+    public delegate float SymbolSizeCallback(List<double> data);
 
     /// <summary>
     /// 系列数据项的标记的图形
@@ -249,7 +249,7 @@ namespace XCharts
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public float GetSize(List<float> data, float themeSize)
+        public float GetSize(List<double> data, float themeSize)
         {
             switch (m_SizeType)
             {
@@ -258,7 +258,7 @@ namespace XCharts
                 case SerieSymbolSizeType.FromData:
                     if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
-                        return data[dataIndex] * m_DataScale;
+                        return (float)data[dataIndex] * m_DataScale;
                     }
                     else
                     {
@@ -276,7 +276,7 @@ namespace XCharts
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public float GetSelectedSize(List<float> data, float themeSelectedSize)
+        public float GetSelectedSize(List<double> data, float themeSelectedSize)
         {
             switch (m_SizeType)
             {
@@ -285,7 +285,7 @@ namespace XCharts
                 case SerieSymbolSizeType.FromData:
                     if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
-                        return data[dataIndex] * m_SelectedDataScale;
+                        return (float)data[dataIndex] * m_SelectedDataScale;
                     }
                     else
                     {

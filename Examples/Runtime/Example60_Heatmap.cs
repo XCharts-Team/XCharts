@@ -94,7 +94,7 @@ namespace XCharts.Examples
                     var rate = Random.Range(0, 101);
                     if (rate > 70) value = Random.Range(8f, 10f);
                     else value = Random.Range(1f, 8f);
-                    var list = new List<float> { i, j, value };
+                    var list = new List<double> { i, j, value };
                     //至少是一个三位数据：（x,y,value）
                     chart.AddData(0, list);
                 }

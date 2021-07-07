@@ -324,7 +324,7 @@ namespace XCharts
         [SerializeField] private bool m_ShowDataIcon;
         [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
-        [SerializeField] private float m_IgnoreValue = 0;
+        [SerializeField] private double m_IgnoreValue = 0;
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_Large = true;
         [SerializeField] private int m_LargeThreshold = 200;
@@ -354,8 +354,8 @@ namespace XCharts
 
         [NonSerialized] internal int m_FilterStart;
         [NonSerialized] internal int m_FilterEnd;
-        [NonSerialized] internal float m_FilterStartValue;
-        [NonSerialized] internal float m_FilterEndValue;
+        [NonSerialized] internal double m_FilterStartValue;
+        [NonSerialized] internal double m_FilterEndValue;
         [NonSerialized] internal int m_FilterMinShow;
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] internal List<SerieData> m_FilterData = new List<SerieData>();
@@ -763,7 +763,7 @@ namespace XCharts
         /// <summary>
         /// 忽略数据的默认值。当ignore为true才有效。
         /// </summary>
-        public float ignoreValue
+        public double ignoreValue
         {
             get { return m_IgnoreValue; }
             set { if (PropertyUtil.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
@@ -1137,18 +1137,18 @@ namespace XCharts
         /// <summary>
         /// 运行时的最大数据值
         /// </summary>
-        public float runtimeDataMax { get; internal set; }
+        public double runtimeDataMax { get; internal set; }
         /// <summary>
         /// 运行时的最小数据值
         /// </summary>
-        public float runtimeDataMin { get; internal set; }
+        public double runtimeDataMin { get; internal set; }
         /// <summary>
         /// 饼图的数据项之和
         /// </summary>
-        public float runtimePieDataTotal { get; internal set; }
+        public double runtimePieDataTotal { get; internal set; }
         public float runtimeWaveSpeed { get; internal set; }
         public Painter runtimeCanvas { get; internal set; }
-        public float runtimeCheckValue { get; set; }
+        public double runtimeCheckValue { get; set; }
         public int runtimeGridIndex { get; internal set; }
         public float runtimeX { get; internal set; }
         public float runtimeY { get; internal set; }
@@ -1214,11 +1214,11 @@ namespace XCharts
         /// <summary>
         /// 维度Y对应数据中最大值。
         /// </summary>
-        public float yMax
+        public double yMax
         {
             get
             {
-                float max = float.MinValue;
+                var max = double.MinValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[1] > max)
@@ -1233,11 +1233,11 @@ namespace XCharts
         /// <summary>
         /// 维度X对应数据中的最大值。
         /// </summary>
-        public float xMax
+        public double xMax
         {
             get
             {
-                float max = float.MinValue;
+                var max = double.MinValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[0] > max)
@@ -1252,11 +1252,11 @@ namespace XCharts
         /// <summary>
         /// 维度Y对应数据的最小值。
         /// </summary>
-        public float yMin
+        public double yMin
         {
             get
             {
-                float min = float.MaxValue;
+                var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[1] < min)
@@ -1271,11 +1271,11 @@ namespace XCharts
         /// <summary>
         /// 维度X对应数据的最小值。
         /// </summary>
-        public float xMin
+        public double xMin
         {
             get
             {
-                float min = float.MaxValue;
+                var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
                     if (sdata.show && sdata.data[0] < min)
@@ -1290,11 +1290,11 @@ namespace XCharts
         /// <summary>
         /// 维度Y数据的总和。
         /// </summary>
-        public float yTotal
+        public double yTotal
         {
             get
             {
-                float total = 0;
+                double total = 0;
                 foreach (var sdata in data)
                 {
                     if (sdata.show)
@@ -1308,11 +1308,11 @@ namespace XCharts
         /// <summary>
         /// 维度X数据的总和。
         /// </summary>
-        public float xTotal
+        public double xTotal
         {
             get
             {
-                float total = 0;
+                double total = 0;
                 foreach (var sdata in data)
                 {
                     if (sdata.show)
@@ -1373,7 +1373,7 @@ namespace XCharts
         /// </summary>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        public SerieData AddYData(float value, string dataName = null)
+        public SerieData AddYData(double value, string dataName = null)
         {
             CheckMaxCache();
             int xValue = m_Data.Count;
@@ -1414,7 +1414,7 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public SerieData AddXYData(float xValue, float yValue, string dataName = null)
+        public SerieData AddXYData(double xValue, double yValue, string dataName = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
@@ -1439,7 +1439,7 @@ namespace XCharts
         /// <param name="heighest"></param>
         /// <param name="dataName"></param>
         /// <returns></returns>
-        public SerieData AddData(float open, float close, float lowest, float heighest, string dataName = null)
+        public SerieData AddData(double open, double close, double lowest, double heighest, string dataName = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
@@ -1464,7 +1464,7 @@ namespace XCharts
         /// <param name="valueList"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public SerieData AddData(List<float> valueList, string dataName = null)
+        public SerieData AddData(List<double> valueList, string dataName = null)
         {
             if (valueList == null || valueList.Count == 0) return null;
             if (valueList.Count == 1)
@@ -1512,7 +1512,7 @@ namespace XCharts
         /// <param name="dimension"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetData(int index, int dimension, DataZoom dataZoom = null)
+        public double GetData(int index, int dimension, DataZoom dataZoom = null)
         {
             if (index < 0 || dimension < 0) return 0;
             var serieData = GetSerieData(index, dataZoom);
@@ -1521,7 +1521,7 @@ namespace XCharts
                 var value = serieData.GetData(dimension);
                 if (showAsPositiveNumber)
                 {
-                    value = Mathf.Abs(value);
+                    value = Math.Abs(value);
                 }
                 return value;
             }
@@ -1537,7 +1537,7 @@ namespace XCharts
         /// <param name="index"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public float GetYData(int index, DataZoom dataZoom = null)
+        public double GetYData(int index, DataZoom dataZoom = null)
         {
             if (index < 0) return 0;
             var serieData = GetDataList(dataZoom);
@@ -1546,14 +1546,14 @@ namespace XCharts
                 var value = serieData[index].data[1];
                 if (showAsPositiveNumber)
                 {
-                    value = Mathf.Abs(value);
+                    value = Math.Abs(value);
                 }
                 return value;
             }
             return 0;
         }
 
-        public float GetYCurrData(int index, DataZoom dataZoom = null)
+        public double GetYCurrData(int index, DataZoom dataZoom = null)
         {
             if (index < 0) return 0;
             var serieData = GetDataList(dataZoom);
@@ -1562,7 +1562,7 @@ namespace XCharts
                 var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
                 if (showAsPositiveNumber)
                 {
-                    value = Mathf.Abs(value);
+                    value = Math.Abs(value);
                 }
                 return value;
             }
@@ -1576,7 +1576,7 @@ namespace XCharts
         /// <param name="yData">对应的数据值</param>
         /// <param name="dataName">对应的数据名</param>
         /// <param name="dataZoom">区域缩放</param>
-        public void GetYData(int index, out float yData, out string dataName, DataZoom dataZoom = null)
+        public void GetYData(int index, out double yData, out string dataName, DataZoom dataZoom = null)
         {
             yData = 0;
             dataName = null;
@@ -1587,7 +1587,7 @@ namespace XCharts
                 yData = serieData[index].data[1];
                 if (showAsPositiveNumber)
                 {
-                    yData = Mathf.Abs(yData);
+                    yData = Math.Abs(yData);
                 }
                 dataName = serieData[index].name;
             }
@@ -1616,7 +1616,7 @@ namespace XCharts
         /// <param name="dataZoom"></param>
         /// <param name="xValue"></param>
         /// <param name="yVlaue"></param>
-        public void GetXYData(int index, DataZoom dataZoom, out float xValue, out float yVlaue)
+        public void GetXYData(int index, DataZoom dataZoom, out double xValue, out double yVlaue)
         {
             xValue = 0;
             yVlaue = 0;
@@ -1629,15 +1629,15 @@ namespace XCharts
                 yVlaue = serieData.data[1];
                 if (showAsPositiveNumber)
                 {
-                    xValue = Mathf.Abs(xValue);
-                    yVlaue = Mathf.Abs(yVlaue);
+                    xValue = Math.Abs(xValue);
+                    yVlaue = Math.Abs(yVlaue);
                 }
             }
         }
 
-        public float GetDataTotal(int dimension)
+        public double GetDataTotal(int dimension)
         {
-            float total = 0;
+            double total = 0;
             foreach (var sdata in data)
             {
                 if (sdata.show)
@@ -1670,7 +1670,7 @@ namespace XCharts
         /// </summary>
         /// <param name="index"></param>
         /// <param name="value"></param>
-        public bool UpdateYData(int index, float value)
+        public bool UpdateYData(int index, double value)
         {
             UpdateData(index, 1, value);
             return true;
@@ -1695,7 +1695,7 @@ namespace XCharts
         /// <param name="index">要更新数据的索引</param>
         /// <param name="dimension">要更新数据的维数</param>
         /// <param name="value">新的数据值</param>
-        public bool UpdateData(int index, int dimension, float value)
+        public bool UpdateData(int index, int dimension, double value)
         {
             if (index >= 0 && index < m_Data.Count)
             {
@@ -1716,7 +1716,7 @@ namespace XCharts
         /// </summary>
         /// <param name="index"></param>
         /// <param name="values"></param>
-        public bool UpdateData(int index, List<float> values)
+        public bool UpdateData(int index, List<double> values)
         {
             if (index >= 0 && index < m_Data.Count && values != null)
             {
@@ -1847,9 +1847,9 @@ namespace XCharts
             return IsIgnoreValue(serieData.GetData(dimension));
         }
 
-        public bool IsIgnoreValue(float value)
+        public bool IsIgnoreValue(double value)
         {
-            return m_Ignore && Mathf.Approximately(value, m_IgnoreValue);
+            return m_Ignore && MathUtil.Approximately(value, m_IgnoreValue);
         }
 
         public bool IsIgnorePoint(int index)
@@ -1940,8 +1940,8 @@ namespace XCharts
                     for (int j = 0; j < data.Length; j++)
                     {
                         var txt = data[j].Trim().Replace("]", "");
-                        float value;
-                        var flag = float.TryParse(txt, out value);
+                        double value;
+                        var flag = double.TryParse(txt, out value);
                         if (flag)
                         {
                             serieData.data.Add(value);
@@ -1962,8 +1962,8 @@ namespace XCharts
                     {
                         if (a.StartsWith("value:"))
                         {
-                            float value = float.Parse(a.Substring(6, a.Length - 6));
-                            serieData.data = new List<float>() { i, value };
+                            double value = double.Parse(a.Substring(6, a.Length - 6));
+                            serieData.data = new List<double>() { i, value };
                         }
                         else if (a.StartsWith("name:"))
                         {
@@ -1984,12 +1984,12 @@ namespace XCharts
                 string[] datas = temp.Split(',');
                 for (int i = 0; i < datas.Length; i++)
                 {
-                    float value;
-                    var flag = float.TryParse(datas[i].Trim(), out value);
+                    double value;
+                    var flag = double.TryParse(datas[i].Trim(), out value);
                     if (flag)
                     {
                         var serieData = new SerieData();
-                        serieData.data = new List<float>() { i, value };
+                        serieData.data = new List<double>() { i, value };
                         AddSerieDataHeadOrTail(serieData);
                     }
                 }

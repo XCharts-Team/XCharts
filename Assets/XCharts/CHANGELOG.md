@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.09) 优化`BarChart`可通过`serieData.show`设置是否显示柱条
 * (2021.07.08) 优化数据存储类型由`float`全部转为`double`
 * (2021.07.05) 修复`PieChart`的`avoidLabelOverlap`参数不生效的问题
 * (2021.07.04) 修复`PieChart`选中扇区后鼠标区域指示不准确的问题

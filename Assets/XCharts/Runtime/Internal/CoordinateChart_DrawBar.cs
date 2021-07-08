@@ -50,7 +50,7 @@ namespace XCharts
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
-                if (serie.IsIgnoreValue(serieData))
+                if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     continue;
@@ -199,7 +199,7 @@ namespace XCharts
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
-                if (serie.IsIgnoreValue(serieData))
+                if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.dataPoints.Add(Vector3.zero);
                     continue;

@@ -82,7 +82,7 @@ namespace XCharts
         internal bool m_IsPlayingAnimation = false;
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
-        protected Painter m_PainterTop;
+        internal Painter m_PainterTop;
         protected GameObject m_SerieLabelRoot;
         private Theme m_CheckTheme = 0;
 
@@ -120,8 +120,8 @@ namespace XCharts
             if (m_Tooltips.Count == 0) m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
             CheckTheme();
             base.Awake();
-            m_Series.AnimationReset();
-            m_Series.AnimationFadeIn();
+            AnimationReset();
+            AnimationFadeIn();
             XChartsMgr.Instance.AddChart(this);
         }
 
@@ -732,7 +732,7 @@ namespace XCharts
             if (!m_CheckAnimation)
             {
                 m_CheckAnimation = true;
-                m_Series.AnimationFadeIn();
+                AnimationFadeIn();
             }
         }
 
@@ -1012,10 +1012,15 @@ namespace XCharts
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
           float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius)
         {
+            DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius, Vector3.zero);
+        }
+        public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
+          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius, Vector3 startPos)
+        {
             var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
             var smoothness = settings.cicleSmoothness;
             ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
-                cornerRadius, backgroundColor, smoothness);
+                cornerRadius, backgroundColor, smoothness, startPos);
         }
 
         public void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)

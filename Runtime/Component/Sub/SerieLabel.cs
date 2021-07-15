@@ -58,6 +58,21 @@ namespace XCharts
             /// 图形标志的右边。
             /// </summary>
             Right,
+            /// <summary>
+            /// the start of line.
+            /// 线的起始点。
+            /// </summary>
+            Start,
+            /// <summary>
+            /// the middle of line.
+            /// 线的中点。
+            /// </summary>
+            Middle,
+            /// <summary>
+            /// the end of line.
+            /// 线的结束点。
+            /// </summary>
+            End
         }
 
         /// <summary>

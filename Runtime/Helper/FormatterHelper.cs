@@ -245,8 +245,8 @@ namespace XCharts
                     var isPercent = p == 'd' || p == 'D';
                     if (isPercent)
                     {
-                        var percent = total == 0 ? 0 : value / total * 100;
-                        content = content.Replace(old, ChartCached.FloatToStr(percent, numericFormatter));
+                        if (total != 0)
+                            content = content.Replace(old, ChartCached.FloatToStr(value / total * 100, numericFormatter));
                     }
                     else
                     {

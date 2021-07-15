@@ -75,6 +75,7 @@ namespace XCharts
                         PropertyField(prop, "m_LineStyle");
                         PropertyField(prop, "m_LineArrow");
                         PropertyField(prop, "m_AreaStyle");
+                        PropertyField(prop, "m_MarkLine");
                         break;
                     case SerieType.Bar:
                         PropertyField(prop, "m_Stack");
@@ -102,6 +103,7 @@ namespace XCharts
                         PropertyField(prop, "m_ShowAsPositiveNumber");
                         PropertyField(prop, "m_Large");
                         PropertyField(prop, "m_LargeThreshold");
+                         PropertyField(prop, "m_MarkLine");
                         break;
                     case SerieType.Pie:
                         PropertyField(prop, "m_RoseType");

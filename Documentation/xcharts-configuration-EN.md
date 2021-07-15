@@ -48,6 +48,7 @@ __Sub component:__
 * [LineArrow](#LineArrow)  
 * [LineStyle](#LineStyle)  
 * [Location](#Location)  
+* [MarkLine](#MarkLine) 
 * [SerieAnimation](#SerieAnimation)  
 * [SerieData](#SerieData)  
 * [SerieLabel](#SerieLabel)  
@@ -844,6 +845,27 @@ K线图系列。
 * `right`: 离容器右侧的距离。
 * `top`: 离容器上侧的距离。
 * `bottom`: 离容器下侧的距离。
+
+## `MarkLine`
+
+* `show`：是否显示标线。
+* `animation`：标线的动画样式。
+* `data`：标线的数据项[MarkLineData](#MarkLineData)列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表示标线的起始点和终止点来组成一条标线，此时标线的相关样式参数取起始点的参数。
+
+## `MarkLineData`
+
+* `name`：标注名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。
+* `type`：特殊的标注类型，用于标注最大值最小值等。。有以下标注类型：
+  * `None`：无类型。此时通过
+  * `Min`：最小值。`dimension`维度上数据的最小值。
+  * `Max`：最大值。`dimension`维度上数据的最大值。
+  * `Average`：平均值。`dimension`维度上数据的平均值。
+  * `Median`：中位数。`dimension`维度上数据的中位数。
+* `dimension`：当type为特殊类型时，指示从哪个维度的数据上计算特殊值。
+* `xPosition`：相对原点的 x 坐标，单位像素。当type为None时有效。
+* `yPosition`：相对原点的 y 坐标，单位像素。当type为None时有效。
+* `xValue`：X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+* `yValue`：Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
 
 ## `SerieData`
 

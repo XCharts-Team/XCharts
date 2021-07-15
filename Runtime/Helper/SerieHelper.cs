@@ -13,6 +13,111 @@ namespace XCharts
 {
     public static partial class SerieHelper
     {
+        public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            double min = double.MaxValue;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value < min) min = value;
+                }
+            }
+            return min == double.MaxValue ? 0 : min;
+        }
+        public static SerieData GetMinSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            double min = double.MaxValue;
+            SerieData minData = null;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value < min)
+                    {
+                        min = value;
+                        minData = serieData;
+                    }
+                }
+            }
+            return minData;
+        }
+        public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            double max = double.MinValue;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value > max) max = value;
+                }
+            }
+            return max == double.MinValue ? 0 : max;
+        }
+        public static SerieData GetMaxSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            double max = double.MinValue;
+            SerieData maxData = null;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    var value = serieData.data[dimension];
+                    if (value > max)
+                    {
+                        max = value;
+                        maxData = serieData;
+                    }
+                }
+            }
+            return maxData;
+        }
+
+        public static double GetAverageData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            double total = 0;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    total += serieData.data[dimension];
+                }
+            }
+            return total != 0 ? total / dataList.Count : 0;
+        }
+
+        private static List<double> s_TempList = new List<double>();
+        public static double GetMedianData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        {
+            s_TempList.Clear();
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
+                {
+                    s_TempList.Add(serieData.data[dimension]);
+                }
+            }
+            s_TempList.Sort();
+            var n = s_TempList.Count;
+            if (n % 2 == 0) return (s_TempList[n / 2] + s_TempList[n / 2 - 1]) / 2;
+            else return s_TempList[n / 2];
+        }
+
         /// <summary>
         /// Gets the maximum and minimum values of the specified dimension of a serie.
         /// 获得系列指定维数的最大最小值。

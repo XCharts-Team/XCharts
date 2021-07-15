@@ -652,7 +652,7 @@ namespace XCharts
         /// <param name="flag"></param>
         public void AnimationEnable(bool flag)
         {
-            m_Series.AnimationEnable(flag);
+            foreach (var serie in m_Series.list) serie.AnimationEnable(flag);
         }
 
         /// <summary>
@@ -661,8 +661,7 @@ namespace XCharts
         /// </summary>
         public void AnimationFadeIn()
         {
-            m_Series.AnimationFadeIn();
-            RefreshChart();
+            foreach (var serie in m_Series.list) serie.AnimationFadeIn();
         }
 
         /// <summary>
@@ -671,8 +670,7 @@ namespace XCharts
         /// </summary>
         public void AnimationFadeOut()
         {
-            m_Series.AnimationFadeOut();
-            RefreshChart();
+            foreach (var serie in m_Series.list) serie.AnimationFadeOut();
         }
 
         /// <summary>
@@ -681,8 +679,7 @@ namespace XCharts
         /// </summary>
         public void AnimationPause()
         {
-            m_Series.AnimationPause();
-            RefreshChart();
+            foreach (var serie in m_Series.list) serie.AnimationPause();
         }
 
         /// <summary>
@@ -691,8 +688,7 @@ namespace XCharts
         /// </summary>
         public void AnimationResume()
         {
-            m_Series.AnimationResume();
-            RefreshChart();
+            foreach (var serie in m_Series.list) serie.AnimationResume();
         }
 
         /// <summary>
@@ -701,8 +697,7 @@ namespace XCharts
         /// </summary>
         public void AnimationReset()
         {
-            m_Series.AnimationReset();
-            RefreshChart();
+            foreach (var serie in m_Series.list) serie.AnimationReset();
         }
 
         /// <summary>

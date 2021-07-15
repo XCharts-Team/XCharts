@@ -15,9 +15,10 @@ namespace XCharts
 {
     public static class ChartDrawer
     {
+
         public static void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
            float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
-           Color32 backgroundColor, float smoothness)
+           Color32 backgroundColor, float smoothness, Vector3 startPos)
         {
             switch (type)
             {
@@ -76,6 +77,14 @@ namespace XCharts
                     {
                         UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
                     }
+                    break;
+                case SerieSymbolType.Arrow:
+                    var arrowWidth = symbolSize * 2;
+                    var arrowHeight = arrowWidth * 1.5f;
+                    var arrowOffset = 0;
+                    var arrowDent = arrowWidth / 3.3f;
+                    UGL.DrawArrow(vh, startPos, pos, arrowWidth, arrowHeight,
+                            arrowOffset, arrowDent, color);
                     break;
             }
         }

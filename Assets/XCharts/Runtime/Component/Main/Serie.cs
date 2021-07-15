@@ -319,6 +319,7 @@ namespace XCharts
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
+        [SerializeField] private MarkLine m_MarkLine = MarkLine.defaultMarkLine;
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
@@ -853,6 +854,14 @@ namespace XCharts
             set { if (PropertyUtil.SetClass(ref m_TitleStyle, value, true)) SetAllDirty(); }
         }
         /// <summary>
+        /// 标线。
+        /// </summary>
+        public MarkLine markLine
+        {
+            get { return m_MarkLine; }
+            set { if (PropertyUtil.SetClass(ref m_MarkLine, value, true)) SetAllDirty(); }
+        }
+        /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
         public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = value; } }
@@ -1068,7 +1077,8 @@ namespace XCharts
                     label.vertsDirty ||
                     emphasis.vertsDirty ||
                     gaugeAxis.vertsDirty ||
-                    gaugePointer.vertsDirty;
+                    gaugePointer.vertsDirty ||
+                    markLine.vertsDirty;
             }
         }
 
@@ -1086,6 +1096,7 @@ namespace XCharts
             gaugeAxis.ClearVerticesDirty();
             gaugePointer.ClearVerticesDirty();
             titleStyle.ClearVerticesDirty();
+            markLine.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
@@ -1101,6 +1112,7 @@ namespace XCharts
             gaugeAxis.ClearComponentDirty();
             gaugePointer.ClearComponentDirty();
             titleStyle.ClearComponentDirty();
+            markLine.ClearComponentDirty();
         }
 
         /// <summary>
@@ -1909,6 +1921,75 @@ namespace XCharts
                 var data = m_Data[dataIndex];
                 data.iconStyle.color = color;
             }
+        }
+
+        /// <summary>
+        /// 启用或取消初始动画
+        /// </summary>
+        public void AnimationEnable(bool flag)
+        {
+            if (animation.enable) animation.enable = flag;
+            if (markLine.show && markLine.animation.enable) markLine.animation.enable = flag;
+            SetVerticesDirty();
+        }
+
+        /// <summary>
+        /// 渐入动画
+        /// </summary>
+        public void AnimationFadeIn()
+        {
+            if (animation.enable) animation.FadeIn();
+            if (markLine.show && markLine.animation.enable) markLine.animation.FadeIn();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
+        /// 渐出动画
+        /// </summary>
+        public void AnimationFadeOut()
+        {
+            if (animation.enable) animation.FadeOut();
+            if (markLine.show && markLine.animation.enable) markLine.animation.FadeOut();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
+        /// 暂停动画
+        /// </summary>
+        public void AnimationPause()
+        {
+            if (animation.enable) animation.Pause();
+            if (markLine.show && markLine.animation.enable) markLine.animation.Pause();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
+        /// 继续动画
+        /// </summary>
+        public void AnimationResume()
+        {
+            if (animation.enable) animation.Resume();
+            if (markLine.show && markLine.animation.enable) markLine.animation.Resume();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
+        /// 重置动画
+        /// </summary>
+        public void AnimationReset()
+        {
+            if (animation.enable) animation.Reset();
+            if (markLine.show && markLine.animation.enable) markLine.animation.Reset();
+            SetVerticesDirty();
+        }
+        /// <summary>
+        /// 重置动画
+        /// </summary>
+        public void AnimationRestart()
+        {
+            if (animation.enable) animation.Restart();
+            if (markLine.show && markLine.animation.enable) markLine.animation.Restart();
+            SetVerticesDirty();
         }
 
         /// <summary>

@@ -40,6 +40,10 @@ namespace XCharts
         /// 不显示标记。
         /// </summary>
         None,
+        /// <summary>
+        /// 箭头。
+        /// </summary>
+        Arrow
     }
 
     /// <summary>

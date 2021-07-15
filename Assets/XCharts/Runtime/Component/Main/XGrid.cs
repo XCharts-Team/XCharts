@@ -90,6 +90,7 @@ namespace XCharts
         public float runtimeY { get; private set; }
         public float runtimeWidth { get; private set; }
         public float runtimeHeight { get; private set; }
+        public Vector3 runtimePosition { get; private set; }
 
         internal void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
         {
@@ -101,6 +102,7 @@ namespace XCharts
             runtimeY = chartY + runtimeBottom;
             runtimeWidth = chartWidth - runtimeLeft - runtimeRight;
             runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
+            runtimePosition = new Vector3(runtimeX, runtimeY);
         }
 
         public static Grid defaultGrid

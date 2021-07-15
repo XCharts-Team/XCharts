@@ -46,7 +46,7 @@ namespace XCharts
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                 Internal_CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
-                    symbolToColor, symbol.gap, clip, cornerRadius, grid);
+                    symbolToColor, symbol.gap, clip, cornerRadius, grid, i > 0 ? serie.dataPoints[i - 1] : grid.runtimePosition);
             }
         }
 

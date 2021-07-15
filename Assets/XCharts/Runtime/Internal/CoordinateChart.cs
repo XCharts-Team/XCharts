@@ -32,6 +32,10 @@ namespace XCharts
             InitAxisX();
             InitAxisY();
             tooltip.UpdateToTop();
+
+            var handler = new MarkLineHandler(this);
+            m_ComponentHandlers.Add(handler);
+            handler.Init();
         }
 
         protected override void Update()
@@ -1675,11 +1679,11 @@ namespace XCharts
         }
 
         public void Internal_CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize, float tickness,
-            Vector3 pos, Color32 color, Color32 toColor, float gap, bool clip, float[] cornerRadius, Grid grid)
+            Vector3 pos, Color32 color, Color32 toColor, float gap, bool clip, float[] cornerRadius, Grid grid, Vector3 startPos)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInGrid(grid, pos))))
-                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius);
+                DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius, startPos);
         }
 
         public void Internal_CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,

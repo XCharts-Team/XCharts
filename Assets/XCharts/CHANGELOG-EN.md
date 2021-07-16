@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.15) Added `MarkLine` (#142)
 * (2021.07.09) Optimize `BarChart` to set whether to show bars via `seriedata.show`
 * (2021.07.08) Optimize data storage type from `float` to `double`
 * (2021.07.05) Fixed `Piechart` `avoidLabelOverlap` parameter not working

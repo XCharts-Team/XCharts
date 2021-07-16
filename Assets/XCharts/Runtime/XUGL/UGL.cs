@@ -37,8 +37,7 @@ namespace XUGL
            float height, float offset, float dent, Color32 color)
         {
             var dir = (arrowPoint - startPoint).normalized;
-
-            var sharpPos = arrowPoint + (offset + height / 2) * dir;
+            var sharpPos = arrowPoint + (offset + height / 4) * dir;
             var middle = sharpPos + (dent - height) * dir;
             var diff = Vector3.Cross(dir, Vector3.forward).normalized * width / 2;
             var left = sharpPos - height * dir + diff;

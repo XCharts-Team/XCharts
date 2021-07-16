@@ -12,6 +12,9 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
+    /// <summary>
+    /// 标线类型
+    /// </summary>
     public enum MarkLineType
     {
         None,
@@ -64,7 +67,7 @@ namespace XCharts
 
         /// <summary>
         /// Name of the marker, which will display as a label.
-        /// 标注名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。
+        /// 标线名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。
         /// </summary>
         public string name
         {
@@ -73,7 +76,7 @@ namespace XCharts
         }
         /// <summary>
         /// Special label types, are used to label maximum value, minimum value and so on.
-        /// 特殊的标注类型，用于标注最大值最小值等。
+        /// 特殊的标线类型，用于标注最大值最小值等。
         /// </summary>
         public MarkLineType type
         {
@@ -152,7 +155,7 @@ namespace XCharts
             get { return m_StartSymbol; }
             set { if (PropertyUtil.SetClass(ref m_StartSymbol, value)) SetVerticesDirty(); }
         }
-         /// <summary>
+        /// <summary>
         /// The symbol of the end point of markline.
         /// 结束点的图形标记。
         /// </summary>
@@ -196,7 +199,7 @@ namespace XCharts
         [SerializeField] private bool m_Show;
         [SerializeField] private SerieAnimation m_Animation = new SerieAnimation();
         [SerializeField] private List<MarkLineData> m_Data = new List<MarkLineData>();
-        
+
         /// <summary>
         /// Whether to display the marking line.
         /// 是否显示标线。
@@ -238,11 +241,17 @@ namespace XCharts
                     m_Data = new List<MarkLineData>()
                 };
                 var data = new MarkLineData();
-                data.type = MarkLineType.Min;
+                data.name = "average";
+                data.type = MarkLineType.Average;
+                data.lineStyle.type = LineStyle.Type.Dashed;
+                data.lineStyle.color = Color.blue;
                 data.startSymbol.show = true;
                 data.startSymbol.type = SerieSymbolType.Circle;
                 data.endSymbol.show = true;
-                data.endSymbol.type = SerieSymbolType.Triangle;
+                data.endSymbol.type = SerieSymbolType.Arrow;
+                data.label.show = true;
+                data.label.numericFormatter = "f1";
+                data.label.formatter = "{c}";
                 markLine.data.Add(data);
                 return markLine;
             }
@@ -271,6 +280,10 @@ namespace XCharts
 
         public void Init()
         {
+            m_MarkLineLabelRoot = ChartHelper.AddObject("markline", chart.transform, chart.chartMinAnchor,
+                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+            m_MarkLineLabelRoot.hideFlags = chart.chartHideFlags;
+            ChartHelper.HideAllObject(m_MarkLineLabelRoot);
             foreach (var serie in chart.series.list) InitMarkLine(serie);
         }
 
@@ -318,10 +331,6 @@ namespace XCharts
         {
             if (!serie.show || !serie.markLine.show) return;
             ResetTempMarkLineGroupData(serie.markLine);
-            m_MarkLineLabelRoot = ChartHelper.AddObject("markline", chart.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
-            m_MarkLineLabelRoot.hideFlags = chart.chartHideFlags;
-            ChartHelper.HideAllObject(m_MarkLineLabelRoot);
             var serieColor = (Color)chart.theme.GetColor(chart.GetLegendRealShowNameIndex(serie.name));
             if (m_TempGroupData.Count > 0)
             {
@@ -355,7 +364,7 @@ namespace XCharts
                 var item = new ChartLabel();
                 item.SetLabel(element, isAutoSize, label.paddingLeftRight, label.paddingTopBottom);
                 item.SetIconActive(false);
-                item.SetActive(true);
+                item.SetActive(data.label.show);
                 item.SetPosition(MarkLineHelper.GetLabelPosition(data));
                 item.SetText(MarkLineHelper.GetFormatterContent(serie, data));
                 data.runtimeLabel = item;
@@ -443,10 +452,7 @@ namespace XCharts
                             data.runtimeValue = data.yValue;
                             if (yAxis.IsCategory())
                             {
-                                var categoryIndex = (int)data.yValue;
-                                var scaleWid = AxisHelper.GetDataWidth(yAxis, grid.runtimeHeight, showData.Count, dataZoom);
-                                float startY = grid.runtimeY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
-                                var pY = startY + scaleWid * categoryIndex;
+                                var pY = AxisHelper.GetAxisPosition(grid, yAxis, data.yValue, showData.Count, dataZoom);
                                 sp = new Vector3(grid.runtimeX, pY);
                                 ep = new Vector3(grid.runtimeX + grid.runtimeWidth, pY);
                             }
@@ -460,10 +466,7 @@ namespace XCharts
                             data.runtimeValue = data.xValue;
                             if (xAxis.IsCategory())
                             {
-                                var categoryIndex = (int)data.xValue;
-                                var scaleWid = AxisHelper.GetDataWidth(xAxis, grid.runtimeWidth, showData.Count, dataZoom);
-                                float startX = grid.runtimeX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
-                                var pX = startX + scaleWid * categoryIndex;
+                                var pX = AxisHelper.GetAxisPosition(grid, xAxis, data.xValue, showData.Count, dataZoom);
                                 sp = new Vector3(pX, grid.runtimeY);
                                 ep = new Vector3(pX, grid.runtimeY + grid.runtimeHeight);
                             }
@@ -543,15 +546,13 @@ namespace XCharts
         {
             if (xAxis.IsCategory())
             {
-                var yDataHig = (value - yAxis.runtimeMinValue) / yAxis.runtimeMinMaxRange * grid.runtimeHeight;
-                var pY = grid.runtimeY + (float)yDataHig;
+                var pY = AxisHelper.GetAxisPosition(grid, yAxis, value);
                 sp = new Vector3(grid.runtimeX, pY);
                 ep = new Vector3(grid.runtimeX + grid.runtimeWidth, pY);
             }
             else
             {
-                var xDataHig = (value - xAxis.runtimeMinValue) / xAxis.runtimeMinMaxRange * grid.runtimeWidth;
-                var pX = grid.runtimeX + (float)xDataHig;
+                var pX = AxisHelper.GetAxisPosition(grid, xAxis, value);
                 sp = new Vector3(pX, grid.runtimeY);
                 ep = new Vector3(pX, grid.runtimeY + grid.runtimeHeight);
             }
@@ -559,33 +560,7 @@ namespace XCharts
 
         private float GetAxisPosition(Grid grid, Axis axis, DataZoom dataZoom, int dataCount, double value)
         {
-            if (axis is YAxis)
-            {
-                if (axis.IsCategory())
-                {
-                    var categoryIndex = (int)value;
-                    var scaleWid = AxisHelper.GetDataWidth(axis, grid.runtimeHeight, dataCount, dataZoom);
-                    float startY = grid.runtimeY + (axis.boundaryGap ? scaleWid / 2 : 0);
-                    return startY + scaleWid * categoryIndex;
-                }
-                var yDataHig = (value - axis.runtimeMinValue) / axis.runtimeMinMaxRange * grid.runtimeHeight;
-                return grid.runtimeY + (float)yDataHig;
-            }
-            else
-            {
-                if (axis.IsCategory())
-                {
-                    var categoryIndex = (int)value;
-                    var scaleWid = AxisHelper.GetDataWidth(axis, grid.runtimeWidth, dataCount, dataZoom);
-                    float startX = grid.runtimeX + (axis.boundaryGap ? scaleWid / 2 : 0);
-                    return startX + scaleWid * categoryIndex;
-                }
-                else
-                {
-                    var xDataHig = (value - axis.runtimeMinValue) / axis.runtimeMinMaxRange * grid.runtimeWidth;
-                    return grid.runtimeX + (float)xDataHig;
-                }
-            }
+            return AxisHelper.GetAxisPosition(grid, axis, value, dataCount, dataZoom);
         }
 
         private Vector3 GetSinglePos(Axis xAxis, Axis yAxis, Grid grid, Serie serie, DataZoom dataZoom, MarkLineData data,
@@ -650,14 +625,22 @@ namespace XCharts
         public static Vector3 GetLabelPosition(MarkLineData data)
         {
             if (!data.label.show) return Vector3.zero;
+            var dir = (data.runtimeEndPosition - data.runtimeStartPosition).normalized;
+            var horizontal = Mathf.Abs(Vector3.Dot(dir, Vector3.right)) == 1;
+            var labelWidth = data.runtimeLabel == null ? 50 : data.runtimeLabel.GetLabelWidth();
+            var labelHeight = data.runtimeLabel == null ? 20 : data.runtimeLabel.GetLabelHeight();
             switch (data.label.position)
             {
                 case SerieLabel.Position.Start:
-                    return data.runtimeStartPosition + data.label.offset;
+                    if (horizontal) return data.runtimeStartPosition + data.label.offset + labelWidth / 2 * Vector3.left;
+                    else return data.runtimeStartPosition + data.label.offset + labelHeight / 2 * Vector3.down;
                 case SerieLabel.Position.Middle:
-                    return (data.runtimeStartPosition + data.runtimeCurrentEndPosition) / 2 + data.label.offset;
+                    var center = (data.runtimeStartPosition + data.runtimeCurrentEndPosition) / 2;
+                    if (horizontal) return center + data.label.offset + labelHeight / 2 * Vector3.up;
+                    else return center + data.label.offset + labelWidth / 2 * Vector3.right;
                 default:
-                    return data.runtimeCurrentEndPosition + data.label.offset;
+                    if (horizontal) return data.runtimeCurrentEndPosition + data.label.offset + labelWidth / 2 * Vector3.right;
+                    else return data.runtimeCurrentEndPosition + data.label.offset + labelHeight / 2 * Vector3.up;
             }
         }
     }

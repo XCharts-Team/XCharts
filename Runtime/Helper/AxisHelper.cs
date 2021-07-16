@@ -465,5 +465,26 @@ namespace XCharts
             }
             txt.SetLocalPosition(pos);
         }
+
+        public static float GetAxisPosition(Grid grid, Axis axis, double value, int dataCount = 0, DataZoom dataZoom = null)
+        {
+            var gridHeight = axis is YAxis ? grid.runtimeHeight : grid.runtimeWidth;
+            var gridXY = axis is YAxis ? grid.runtimeY : grid.runtimeX;
+            if (axis.IsCategory())
+            {
+                if (dataCount == 0) dataCount = axis.data.Count;
+                var categoryIndex = (int)value;
+                var scaleWid = AxisHelper.GetDataWidth(axis, grid.runtimeHeight, dataCount, dataZoom);
+                float startY = gridXY + (axis.boundaryGap ? scaleWid / 2 : 0);
+                return startY + scaleWid * categoryIndex;
+            }
+            else
+            {
+                var yDataHig = (axis.runtimeMinMaxRange == 0) ? 0f :
+                    (float)((value - axis.runtimeMinValue) / axis.runtimeMinMaxRange * gridHeight);
+                return gridXY + yDataHig;
+
+            }
+        }
     }
 }

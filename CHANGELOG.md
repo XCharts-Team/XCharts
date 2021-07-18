@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.18) 增加`Serie`的`iconStyle`统一配置图标
 * (2021.07.15) 增加`MarkLine`标线 (#142)
 * (2021.07.09) 优化`BarChart`可通过`serieData.show`设置是否显示柱条
 * (2021.07.08) 优化数据存储类型由`float`全部转为`double`

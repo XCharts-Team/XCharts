@@ -88,13 +88,14 @@ namespace XCharts
                     var serieData = serie.data[n];
                     if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                     var labelPos = serieData.labelPosition;
                     if (serieLabel.margin != 0)
                     {
                         labelPos += serieLabel.margin * (labelPos - center).normalized;
                     }
                     serieData.labelObject.SetPosition(labelPos);
-                    serieData.labelObject.UpdateIcon(serieData.iconStyle);
+                    serieData.labelObject.UpdateIcon(iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel)
                     {
                         var value = serieData.GetCurrData(1);

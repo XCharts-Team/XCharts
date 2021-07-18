@@ -499,9 +499,9 @@ namespace XCharts
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
             var showLabel = ((serieLabel.show || isHighlight) && serieData.canShowLabel);
-
-            if (showLabel || serieData.iconStyle.show)
+            if (showLabel)
             {
                 serieData.SetLabelActive(showLabel);
                 float rotate = 0;
@@ -558,7 +558,7 @@ namespace XCharts
             {
                 serieData.SetLabelActive(false);
             }
-            serieData.labelObject.UpdateIcon(serieData.iconStyle);
+            serieData.labelObject.UpdateIcon(iconStyle);
         }
 
         protected int GetPiePosIndex(Serie serie, Vector2 local)

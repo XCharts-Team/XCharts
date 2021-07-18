@@ -540,8 +540,9 @@ namespace XCharts
             if (m_SerieLabelRoot == null) return;
             if (count == -1) count = serie.dataCount;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
             if (serie.IsPerformanceMode()) return;
-            if (!serieLabel.show) return;
+            if (!serieLabel.show && !iconStyle.show) return;
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
             var color = Color.grey;
             if (serie.type == SerieType.Pie)
@@ -555,13 +556,13 @@ namespace XCharts
                     (Color)m_Theme.GetColor(serie.index);
             }
             var labelObj = SerieLabelPool.Get(textName, m_SerieLabelRoot.transform, serieLabel, color,
-                       serieData.iconStyle.width, serieData.iconStyle.height, theme);
+                       iconStyle.width, iconStyle.height, theme);
             var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
             var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
             var item = new ChartLabel();
             item.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
             item.SetIcon(iconImage);
-            item.SetIconActive(false);
+            item.SetIconActive(iconStyle.show);
             serieData.labelObject = item;
         }
 

@@ -1471,7 +1471,7 @@ namespace XCharts
                     if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
                     serieData.index = j;
-                    if ((serieLabel.show || serieData.iconStyle.show) && j < serie.dataPoints.Count)
+                    if (serieLabel.show && j < serie.dataPoints.Count)
                     {
                         var pos = serie.dataPoints[j];
 
@@ -1482,48 +1482,8 @@ namespace XCharts
                         }
                         else
                         {
-                            var value = serieData.data[1];
-                            switch (serie.type)
-                            {
-                                case SerieType.Line:
-                                    break;
-                                case SerieType.Bar:
-                                    var zeroPos = Vector3.zero;
-                                    var lastStackSerie = SeriesHelper.GetLastStackSerie(m_Series, n);
-                                    if (serie.type == SerieType.Bar)
-                                    {
-                                        if (serieLabel.position == SerieLabel.Position.Bottom || serieLabel.position == SerieLabel.Position.Center)
-                                        {
-                                            if (isYAxis)
-                                            {
-                                                var xAxis = m_XAxes[serie.xAxisIndex];
-                                                var grid = GetAxisGridOrDefault(xAxis);
-                                                zeroPos = new Vector3(grid.runtimeX + xAxis.runtimeZeroXOffset, grid.runtimeY);
-                                            }
-                                            else
-                                            {
-                                                var yAxis = m_YAxes[serie.yAxisIndex];
-                                                var grid = GetAxisGridOrDefault(yAxis);
-                                                zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + yAxis.runtimeZeroYOffset);
-                                            }
-                                        }
-                                    }
-                                    var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
-                                    switch (serieLabel.position)
-                                    {
-                                        case SerieLabel.Position.Center:
-
-                                            pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
-                                                new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
-                                            break;
-                                        case SerieLabel.Position.Bottom:
-                                            pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
-                                            break;
-                                    }
-                                    break;
-                            }
+                            Internal_RefreshLabelPosition(serie, serieData, serieLabel, pos, serie.type == SerieType.Bar, isYAxis);
                             m_RefreshLabel = true;
-                            serieData.labelPosition = pos;
                             if (serieLabel.show) DrawLabelBackground(vh, serie, serieData);
                         }
                     }
@@ -1535,10 +1495,50 @@ namespace XCharts
             }
         }
 
+        public void Internal_RefreshLabelPosition(Serie serie, SerieData serieData, SerieLabel serieLabel, Vector3 pos, bool IsNeedCheckPosition, bool isYAxis)
+        {
+            if (IsNeedCheckPosition)
+            {
+                var value = serieData.data[1];
+                var zeroPos = Vector3.zero;
+                var lastStackSerie = SeriesHelper.GetLastStackSerie(m_Series, serie.index);
+                if (serieLabel.position == SerieLabel.Position.Bottom || serieLabel.position == SerieLabel.Position.Center)
+                {
+                    if (isYAxis)
+                    {
+                        var xAxis = m_XAxes[serie.xAxisIndex];
+                        var grid = GetAxisGridOrDefault(xAxis);
+                        zeroPos = new Vector3(grid.runtimeX + xAxis.runtimeZeroXOffset, grid.runtimeY);
+                    }
+                    else
+                    {
+                        var yAxis = m_YAxes[serie.yAxisIndex];
+                        var grid = GetAxisGridOrDefault(yAxis);
+                        zeroPos = new Vector3(grid.runtimeX, grid.runtimeY + yAxis.runtimeZeroYOffset);
+                    }
+                }
+                var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[serieData.index];
+                switch (serieLabel.position)
+                {
+                    case SerieLabel.Position.Center:
+
+                        pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
+                            new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
+                        break;
+                    case SerieLabel.Position.Bottom:
+                        pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
+                        break;
+                }
+            }
+            serieData.labelPosition = pos;
+        }
+
         protected override void OnRefreshLabel()
         {
             base.OnRefreshLabel();
+            var isYAxis = IsAnyYAxisIsCategory();
             var anyPercentStack = SeriesHelper.IsPercentStack(m_Series, SerieType.Bar);
+
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
@@ -1546,7 +1546,6 @@ namespace XCharts
                 if (!serie.IsCoordinateSerie()) continue;
                 var total = serie.yTotal;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
-
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
@@ -1554,14 +1553,17 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count)
                     {
                         serieData.SetLabelActive(false);
+                        serieData.SetIconActive(false);
                         continue;
                     }
                     var pos = serie.dataPoints[j];
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                     var dimension = 1;
                     var isIgnore = serie.IsIgnoreIndex(j);
+                    Internal_RefreshLabelPosition(serie, serieData, serieLabel, pos, serie.type == SerieType.Bar, isYAxis);
                     serieData.labelObject.SetPosition(serieData.labelPosition);
-                    serieData.labelObject.UpdateIcon(serieData.iconStyle);
+                    serieData.labelObject.UpdateIcon(iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel && !isIgnore)
                     {
                         double value = 0;

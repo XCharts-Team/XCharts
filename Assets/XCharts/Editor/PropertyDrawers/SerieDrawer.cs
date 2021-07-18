@@ -103,7 +103,7 @@ namespace XCharts
                         PropertyField(prop, "m_ShowAsPositiveNumber");
                         PropertyField(prop, "m_Large");
                         PropertyField(prop, "m_LargeThreshold");
-                         PropertyField(prop, "m_MarkLine");
+                        PropertyField(prop, "m_MarkLine");
                         break;
                     case SerieType.Pie:
                         PropertyField(prop, "m_RoseType");
@@ -200,6 +200,7 @@ namespace XCharts
                         break;
                 }
                 PropertyField(prop, "m_ItemStyle");
+                PropertyField(prop, "m_IconStyle");
                 PropertyField(prop, "m_Label");
                 PropertyField(prop, "m_Emphasis");
                 PropertyField(prop, "m_Animation");
@@ -400,6 +401,7 @@ namespace XCharts
             {
                 EditorGUI.indentLevel += 2;
                 var m_Ignore = serieData.FindPropertyRelative("m_Ignore");
+                var m_EnableIcon = serieData.FindPropertyRelative("m_EnableIconStyle");
                 var m_Icon = serieData.FindPropertyRelative("m_IconStyle");
                 var m_EnableLabel = serieData.FindPropertyRelative("m_EnableLabel");
                 var m_Label = serieData.FindPropertyRelative("m_Label");
@@ -412,6 +414,7 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Ignore);
                 AddHeight(EditorGUI.GetPropertyHeight(m_Ignore));
                 EditorGUI.PropertyField(drawRect, m_Icon);
+                ChartEditorHelper.MakeBool(drawRect, m_EnableIcon, 1, "(enable)");
                 AddHeight(EditorGUI.GetPropertyHeight(m_Icon));
                 EditorGUI.PropertyField(drawRect, m_Symbol);
                 ChartEditorHelper.MakeBool(drawRect, m_EnableSymbol, 1, "(enable)");

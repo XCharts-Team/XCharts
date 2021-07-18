@@ -319,6 +319,7 @@ namespace XCharts
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
+        [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private MarkLine m_MarkLine = MarkLine.defaultMarkLine;
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
@@ -862,6 +863,15 @@ namespace XCharts
             set { if (PropertyUtil.SetClass(ref m_MarkLine, value, true)) SetAllDirty(); }
         }
         /// <summary>
+        /// the icon of data.
+        /// 数据项图标样式。
+        /// </summary>
+        public IconStyle iconStyle
+        {
+            get { return m_IconStyle; }
+            set { if (PropertyUtil.SetClass(ref m_IconStyle, value, true)) SetAllDirty(); }
+        }
+        /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
         public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = value; } }
@@ -1097,6 +1107,7 @@ namespace XCharts
             gaugePointer.ClearVerticesDirty();
             titleStyle.ClearVerticesDirty();
             markLine.ClearVerticesDirty();
+            iconStyle.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
@@ -1113,6 +1124,7 @@ namespace XCharts
             gaugePointer.ClearComponentDirty();
             titleStyle.ClearComponentDirty();
             markLine.ClearComponentDirty();
+            iconStyle.ClearComponentDirty();
         }
 
         /// <summary>
@@ -1787,60 +1799,6 @@ namespace XCharts
         {
             if (m_BarWidth > 1) return m_BarWidth;
             else return m_BarWidth * categoryWidth;
-        }
-
-        /// <summary>
-        /// 设置所有数据的图标是否显示
-        /// </summary>
-        /// <param name="flag"></param>
-        public void SetDataIconActive(bool flag)
-        {
-            foreach (var data in m_Data)
-            {
-                data.iconStyle.show = flag;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标是否显示
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="flag"></param>
-        public void SetDataIconActive(int dataIndex, bool flag)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconStyle.show = flag;
-            }
-        }
-
-        /// <summary>
-        /// 统一设置图标的尺寸
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetDataIconSize(float width, float height)
-        {
-            foreach (var data in m_Data)
-            {
-                data.iconStyle.width = width;
-                data.iconStyle.height = height;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的图片
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="image"></param>
-        public void SetDataIcon(int dataIndex, Sprite image)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconStyle.sprite = image;
-            }
         }
 
         public bool IsIgnoreIndex(int index, int dimension = 1)

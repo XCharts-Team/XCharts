@@ -419,6 +419,12 @@ namespace XCharts
             }
         }
 
+        public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
+        {
+            if(serieData.enableIconStyle) return serieData.iconStyle;
+            else return serie.iconStyle;
+        }
+
         public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
         {
             if (!serie.IsPerformanceMode() && serieData.enableSymbol) return serieData.symbol;

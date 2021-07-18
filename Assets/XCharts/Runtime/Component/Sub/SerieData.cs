@@ -21,6 +21,7 @@ namespace XCharts
         [SerializeField] private bool m_Selected;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_Radius;
+        [SerializeField] private bool m_EnableIconStyle = false;
         [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private bool m_EnableLabel = false;
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
@@ -57,6 +58,10 @@ namespace XCharts
         /// 该数据项是否被选中。
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
+        /// <summary>
+        /// 是否启用单个数据项的图标设置。
+        /// </summary>
+        public bool enableIconStyle { get { return m_EnableIconStyle; } set { m_EnableIconStyle = value; } }
         /// <summary>
         /// the icon of data.
         /// 数据项图标样式。
@@ -185,6 +190,7 @@ namespace XCharts
             m_Show = true;
             m_Selected = false;
             m_CanShowLabel = true;
+            m_EnableIconStyle = false;
             m_EnableSymbol = false;
             m_EnableLabel = false;
             m_EnableEmphasis = false;
@@ -380,6 +386,10 @@ namespace XCharts
         public void SetLabelActive(bool flag)
         {
             if (labelObject != null) labelObject.SetLabelActive(flag);
+        }
+        public void SetIconActive(bool flag)
+        {
+            if (labelObject != null) labelObject.SetIconActive(flag);
         }
 
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)

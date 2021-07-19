@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.19) Fixed issue where `Tooltip` was not displayed on `WdbGL` platform
 * (2021.07.18) Added `iconStyle` for serie
 * (2021.07.15) Added `MarkLine` (#142)
 * (2021.07.09) Optimize `BarChart` to set whether to show bars via `seriedata.show`

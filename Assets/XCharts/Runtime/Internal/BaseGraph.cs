@@ -56,7 +56,7 @@ namespace XCharts
         protected Vector2 graphAnchorMax { get { return m_GraphMinAnchor; } }
         protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
         protected Vector2 graphPivot { get { return m_GraphPivot; } }
-        internal HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
+        public HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
 
         private ScrollRect m_ScrollRect;
 

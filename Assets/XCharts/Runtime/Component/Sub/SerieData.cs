@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -176,6 +177,7 @@ namespace XCharts
         public float runtimeAngle { get; set; }
         public Vector3 runtiemPieOffsetCenter { get; set; }
         public float runtimeStackHig { get; set; }
+        public Image runtimeSymbol { get; set; }
         private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();

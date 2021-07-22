@@ -387,7 +387,8 @@ namespace XCharts
             return ChartHelper.GetOrAddComponent<Painter>(painterObj);
         }
 
-        public static Image AddIcon(string name, Transform parent, float width, float height)
+        public static Image AddIcon(string name, Transform parent, float width, float height, Sprite sprite = null,
+            Image.Type type = Image.Type.Simple)
         {
             var anchorMax = new Vector2(0.5f, 0.5f);
             var anchorMin = new Vector2(0.5f, 0.5f);
@@ -396,6 +397,15 @@ namespace XCharts
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var img = GetOrAddComponent<Image>(iconObj);
             img.raycastTarget = false;
+            img.type = type;
+            if (sprite != null)
+            {
+                img.sprite = sprite;
+                if (width == 0 || height == 0)
+                {
+                    img.SetNativeSize();
+                }
+            }
             return img;
         }
 

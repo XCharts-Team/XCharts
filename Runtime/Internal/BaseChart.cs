@@ -163,7 +163,7 @@ namespace XCharts
             foreach (var draw in m_ComponentHandlers) draw.Update();
         }
 
-        internal Painter GetPainter(int index)
+        public Painter GetPainter(int index)
         {
             if (index >= 0 && index < m_PainterList.Count)
             {

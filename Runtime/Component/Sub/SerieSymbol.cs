@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -43,7 +44,11 @@ namespace XCharts
         /// <summary>
         /// 箭头。
         /// </summary>
-        Arrow
+        Arrow,
+        /// <summary>
+        /// 自定义标记。
+        /// </summary>
+        Custom
     }
 
     /// <summary>
@@ -96,6 +101,12 @@ namespace XCharts
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;
         [SerializeField] private float m_Gap = 0;
+        [SerializeField] private float m_Width = 0f;
+        [SerializeField] private float m_Height = 0f;
+        [SerializeField] private bool m_Repeat = false;
+        [SerializeField] private Vector2 m_Offset = Vector2.zero;
+        [SerializeField] private Sprite m_Image;
+        [SerializeField] private Image.Type m_ImageType;
 
         public void Reset()
         {
@@ -113,6 +124,12 @@ namespace XCharts
             m_Interval = 0;
             m_ForceShowLast = false;
             m_Gap = 0;
+            m_Width = 0f;
+            m_Height = 0f;
+            m_Repeat = false;
+            m_Offset = Vector2.zero;
+            m_Image = null;
+            m_ImageType = Image.Type.Simple;
         }
 
         /// <summary>
@@ -241,6 +258,52 @@ namespace XCharts
             get { return m_Gap; }
             set { if (PropertyUtil.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 图形的宽。
+        /// </summary>
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 图形的高。
+        /// </summary>
+        public float height
+        {
+            get { return m_Height; }
+            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 图形是否重复。
+        /// </summary>
+        public bool repeat
+        {
+            get { return m_Repeat; }
+            set { if (PropertyUtil.SetStruct(ref m_Repeat, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 自定义的标记图形。
+        /// </summary>
+        public Sprite image
+        {
+            get { return m_Image; }
+            set { if (PropertyUtil.SetClass(ref m_Image, value)) SetAllDirty(); }
+        }
+        public Image.Type imageType
+        {
+            get { return m_ImageType; }
+            set { if (PropertyUtil.SetStruct(ref m_ImageType, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 图形的偏移。
+        /// </summary>
+        public Vector2 offset
+        {
+            get { return m_Offset; }
+            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetAllDirty(); }
+        }
+        public Vector3 offset3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.

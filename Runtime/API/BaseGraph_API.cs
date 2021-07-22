@@ -166,8 +166,10 @@ namespace XCharts
 
         public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)
         {
-#if UNITY_STANDALONE
-            screenPoint = Display.RelativeMouseAt(screenPoint);
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
+            var relative = Display.RelativeMouseAt(screenPoint);
+            if(relative != Vector3.zero)
+                screenPoint = relative;
 #endif
             var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,

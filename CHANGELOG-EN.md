@@ -38,6 +38,7 @@
 
 ## master
 
+* (2021.07.22) Improved `SerieSymbol` to support `PictorialBarchart` extension
 * (2021.07.19) Fixed issue where `Tooltip` was not displayed on `WdbGL` platform
 * (2021.07.18) Added `iconStyle` for serie
 * (2021.07.15) Added `MarkLine` (#142)

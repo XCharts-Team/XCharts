@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
 [v2.2.1](#v2.2.1)  
@@ -38,12 +39,31 @@
 
 ## master
 
+## v2.3.0
+
+### 版本要点
+
+* 数据存储由`float`升级为`double`
+* 新增`MarkLine`标线
+* `Serie`下可用`IconStyle`统一配置图标
+* `Label`支持用代码自定义显示样式
+* `DataZoom`完善
+* `PieChart`优化
+* 问题修复
+
+### 升级注意
+
+由于数据类型升级为了`double`，`float`隐式转`double`可能有精度问题，所以建议之前为`float`的数据类型都手动改为`double`类型。
+
+### 日志详情
+
+* (2021.07.24) 发布`v2.3.0`版本
 * (2021.07.22) 完善`SerieSymbol`以支持象形柱图`PictorialBarChart`扩展
 * (2021.07.19) 修复`WdbGL`平台上`Tooltip`不显示的问题
 * (2021.07.18) 增加`Serie`的`iconStyle`统一配置图标
 * (2021.07.15) 增加`MarkLine`标线 (#142)
 * (2021.07.09) 优化`BarChart`可通过`serieData.show`设置是否显示柱条
-* (2021.07.08) 优化数据存储类型由`float`全部转为`double`
+* (2021.07.08) 优化`data`数据存储类型由`float`全部转为`double`
 * (2021.07.05) 修复`PieChart`的`avoidLabelOverlap`参数不生效的问题
 * (2021.07.04) 修复`PieChart`选中扇区后鼠标区域指示不准确的问题
 * (2021.07.04) 优化`PieChart`的`Label`为`Inside`时可通过参数`Margin`调节偏移

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections.ObjectModel;
-/******************************************/
+﻿/******************************************/
 /*                                        */
 /*     Copyright (c) 2021 monitor1394     */
 /*     https://github.com/monitor1394     */

@@ -24,14 +24,22 @@
   <a href="">
     <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
   </a>
-  <a href="https://www.npmjs.org/package/unity-ugui-xcharts">
-    <img src="https://img.shields.io/npm/dm/unity-ugui-xcharts?label=npm%20downloads%20">
-  </a>
   <a href="">
     <img src="https://img.shields.io/badge/Unity-5.6+-green">
   </a>
   <a href="">
     <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
+  </a>
+</p>
+<p align="center">
+  <a href="">
+    <img src="https://img.shields.io/github/stars/monitor1394/unity-ugui-XCharts?style=social">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/forks/monitor1394/unity-ugui-XCharts?style=social">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/issues-closed/monitor1394/unity-ugui-XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
   </a>
 </p>
 

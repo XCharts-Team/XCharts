@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
 [v2.2.1](#v2.2.1)  
@@ -38,6 +39,25 @@
 
 ## master
 
+## v2.3.0
+
+### Main points
+
+* Data store upgraded from `float` to `double`
+* Added `MarkLine`
+* `Serie` can use `IconStyle` to configure ICONS uniformly
+* `Label` supports custom display styles with code
+* `DataZoom` is perfect
+* `PieChart` optimization
+* Problem fixes
+
+### Upgrade Note
+
+Since the data type is upgraded to `double`, the implicit conversion of `float` to `double` may have precision problems, so it is recommended that all previous data types of `float` be manually changed to `double`.
+
+### Details
+
+* (2021.07.24) Release `v2.3.0` version
 * (2021.07.22) Improved `SerieSymbol` to support `PictorialBarchart` extension
 * (2021.07.19) Fixed issue where `Tooltip` was not displayed on `WdbGL` platform
 * (2021.07.18) Added `iconStyle` for serie

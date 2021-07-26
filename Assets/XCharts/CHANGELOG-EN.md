@@ -39,6 +39,8 @@
 
 ## master
 
+* (2021.07.26) Fixed issue where `XCharts` path could not be found when `TextMeshPro Enable` (#160)
+
 ## v2.3.0
 
 ### Main points

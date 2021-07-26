@@ -39,6 +39,8 @@
 
 ## master
 
+* (2021.07.26) 修复`TextMeshPro Enable`时找不到`XCharts`路径的问题 (#160)
+
 ## v2.3.0
 
 ### 版本要点

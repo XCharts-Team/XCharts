@@ -1245,7 +1245,7 @@ namespace XCharts
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && sdata.data[1] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] > max)
                     {
                         max = sdata.data[1];
                     }
@@ -1264,7 +1264,7 @@ namespace XCharts
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && sdata.data[0] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] > max)
                     {
                         max = sdata.data[0];
                     }
@@ -1283,7 +1283,7 @@ namespace XCharts
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && sdata.data[1] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] < min)
                     {
                         min = sdata.data[1];
                     }
@@ -1302,7 +1302,7 @@ namespace XCharts
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && sdata.data[0] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] < min)
                     {
                         min = sdata.data[0];
                     }
@@ -1321,9 +1321,8 @@ namespace XCharts
                 double total = 0;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[1]))
                         total += sdata.GetCurrData(1, animation.GetUpdateAnimationDuration());
-                    //total += sdata.GetData(1);
                 }
                 return total;
             }
@@ -1339,7 +1338,7 @@ namespace XCharts
                 double total = 0;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show)
+                    if (sdata.show && !IsIgnoreValue(sdata.data[1]))
                         total += sdata.data[0];
                 }
                 return total;

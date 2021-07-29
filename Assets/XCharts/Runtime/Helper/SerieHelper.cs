@@ -23,7 +23,7 @@ namespace XCharts
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value < min) min = value;
+                    if (value < min && !serie.IsIgnoreValue(value)) min = value;
                 }
             }
             return min == double.MaxValue ? 0 : min;
@@ -39,7 +39,7 @@ namespace XCharts
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value < min)
+                    if (value < min && !serie.IsIgnoreValue(value))
                     {
                         min = value;
                         minData = serieData;
@@ -58,7 +58,7 @@ namespace XCharts
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value > max) max = value;
+                    if (value > max && !serie.IsIgnoreValue(value)) max = value;
                 }
             }
             return max == double.MinValue ? 0 : max;
@@ -74,7 +74,7 @@ namespace XCharts
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value > max)
+                    if (value > max && !serie.IsIgnoreValue(value))
                     {
                         max = value;
                         maxData = serieData;
@@ -93,7 +93,9 @@ namespace XCharts
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    total += serieData.data[dimension];
+                    var value = serieData.data[dimension];
+                    if (!serie.IsIgnoreValue(value))
+                        total += value;
                 }
             }
             return total != 0 ? total / dataList.Count : 0;
@@ -109,7 +111,9 @@ namespace XCharts
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    s_TempList.Add(serieData.data[dimension]);
+                    var value = serieData.data[dimension];
+                    if (!serie.IsIgnoreValue(value))
+                        s_TempList.Add(value);
                 }
             }
             s_TempList.Sort();
@@ -139,8 +143,11 @@ namespace XCharts
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value > max) max = value;
-                    if (value < min) min = value;
+                    if (!serie.IsIgnoreValue(value))
+                    {
+                        if (value > max) max = value;
+                        if (value < min) min = value;
+                    }
                 }
             }
         }
@@ -171,8 +178,11 @@ namespace XCharts
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];
-                        if (value > max) max = value;
-                        if (value < min) min = value;
+                        if (!serie.IsIgnoreValue(value))
+                        {
+                            if (value > max) max = value;
+                            if (value < min) min = value;
+                        }
                     }
                 }
             }
@@ -421,7 +431,7 @@ namespace XCharts
 
         public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
         {
-            if(serieData.enableIconStyle) return serieData.iconStyle;
+            if (serieData.enableIconStyle) return serieData.iconStyle;
             else return serie.iconStyle;
         }
 
@@ -690,7 +700,6 @@ namespace XCharts
                     });
                     break;
                 case SerieDataSortType.None:
-
                     break;
             }
         }

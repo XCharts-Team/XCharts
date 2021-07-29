@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.07.29) Fixed ignored data will also participate in calculations when `ignore` is enabled (#161)
 * (2021.07.29) Improved `BarChart`'s `Zebra` gradient support
 * (2021.07.26) Fixed issue where `XCharts` path could not be found when `TextMeshPro Enable` (#160)
 

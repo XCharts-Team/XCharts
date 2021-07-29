@@ -444,28 +444,29 @@ namespace XCharts
                     var serie = series.GetSerie(i);
                     if ((isPolar && serie.polarIndex != axisIndex)
                         || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
-                    if (series.IsActive(i))
+                    if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
                     {
-                        if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
+                        if (100 > max) max = 100;
+                        if (0 < min) min = 0;
+                    }
+                    else
+                    {
+                        var showData = serie.GetDataList(dataZoom);
+                        foreach (var data in showData)
                         {
-                            if (100 > max) max = 100;
-                            if (0 < min) min = 0;
-                        }
-                        else
-                        {
-                            var showData = serie.GetDataList(dataZoom);
-                            foreach (var data in showData)
+
+                            if (serie.type == SerieType.Candlestick)
                             {
-                                if (serie.type == SerieType.Candlestick)
+                                var dataMin = data.GetMinData(inverse);
+                                var dataMax = data.GetMaxData(inverse);
+                                if (dataMax > max) max = dataMax;
+                                if (dataMin < min) min = dataMin;
+                            }
+                            else
+                            {
+                                var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                if (!serie.IsIgnoreValue(currData))
                                 {
-                                    var dataMin = data.GetMinData(inverse);
-                                    var dataMax = data.GetMaxData(inverse);
-                                    if (dataMax > max) max = dataMax;
-                                    if (dataMin < min) min = dataMin;
-                                }
-                                else
-                                {
-                                    var currData = data.GetData(yValue ? 1 : 0, inverse);
                                     if (currData > max) max = currData;
                                     if (currData < min) min = currData;
                                 }
@@ -484,8 +485,7 @@ namespace XCharts
                     {
                         var serie = ss.Value[i];
                         if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)
-                        || !series.IsActive(i)) continue;
+                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
                         var showData = serie.GetDataList(dataZoom);
                         if (SeriesHelper.IsPercentStack(series, serie.stack, SerieType.Bar))
                         {
@@ -510,7 +510,8 @@ namespace XCharts
                                     currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
                                 }
                                 if (inverse) currData = -currData;
-                                _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
+                                if(!serie.IsIgnoreValue(currData))
+                                    _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }
                         }
                     }

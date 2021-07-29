@@ -104,10 +104,10 @@ namespace XCharts
             switch (lineType)
             {
                 case LineStyle.Type.Dashed:
-                    UGL.DrawDashLine(vh, startPos, endPos, lineWidth, color);
+                    UGL.DrawDashLine(vh, startPos, endPos, lineWidth, color, color);
                     break;
                 case LineStyle.Type.Dotted:
-                    UGL.DrawDotLine(vh, startPos, endPos, lineWidth, color);
+                    UGL.DrawDotLine(vh, startPos, endPos, lineWidth, color, color);
                     break;
                 case LineStyle.Type.Solid:
                     UGL.DrawLine(vh, startPos, endPos, lineWidth, color);

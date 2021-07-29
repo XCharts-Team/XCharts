@@ -376,21 +376,22 @@ namespace XCharts
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, Grid grid)
         {
-            var areaColor = SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
+            var barColor = SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
+            var barToColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, colorIndex, highlight);
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid);
             if (isYAxis)
             {
                 plt = (plb + plt) / 2;
                 prt = (prt + prb) / 2;
                 Internal_CheckClipAndDrawZebraLine(vh, plt, prt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    areaColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid);
             }
             else
             {
                 plb = (prb + plb) / 2;
                 plt = (plt + prt) / 2;
                 Internal_CheckClipAndDrawZebraLine(vh, plb, plt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    areaColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid);
             }
         }
 

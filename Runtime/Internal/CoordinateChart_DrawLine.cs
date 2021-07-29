@@ -635,11 +635,11 @@ namespace XCharts
                             areaColor, areaToColor, zeroPos);
                         break;
                     case LineType.Dash:
-                        UGL.DrawDashLine(vh, lp, np, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor);
+                        UGL.DrawDashLine(vh, lp, np, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, lineColor);
                         isFinish = true;
                         break;
                     case LineType.Dot:
-                        UGL.DrawDotLine(vh, lp, np, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor);
+                        UGL.DrawDotLine(vh, lp, np, serie.lineStyle.GetWidth(m_Theme.serie.lineWidth), lineColor, lineColor);
                         isFinish = true;
                         break;
                     case LineType.DashDot:
@@ -1172,10 +1172,10 @@ namespace XCharts
             switch (serie.lineType)
             {
                 case LineType.Dash:
-                    UGL.DrawDashLine(vh, lp, np, lineWidth, lineColor, 0, 0, posList);
+                    UGL.DrawDashLine(vh, lp, np, lineWidth, lineColor, lineColor, 0, 0, posList);
                     break;
                 case LineType.Dot:
-                    UGL.DrawDotLine(vh, lp, np, lineWidth, lineColor, 0, 0, posList);
+                    UGL.DrawDotLine(vh, lp, np, lineWidth, lineColor, lineColor, 0, 0, posList);
                     break;
                 case LineType.DashDot:
                     UGL.DrawDashDotLine(vh, lp, np, lineWidth, lineColor, 0, 0, 0, posList);

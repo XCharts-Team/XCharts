@@ -119,12 +119,13 @@ namespace XUGL
         /// <param name="startPoint">起始点</param>
         /// <param name="endPoint">结束点</param>
         /// <param name="width">线宽</param>
-        /// <param name="color">颜色</param>
+        /// <param name="color">起始颜色</param>
+        /// <param name="toColor">结束颜色</param>
         /// <param name="lineLength">实线部分长度，默认为线宽的12倍</param>
         /// <param name="gapLength">间隙部分长度，默认为线宽的3倍</param>
         /// <param name="posList">可选，输出的关键点</param>
         public static void DrawDashLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width,
-            Color32 color, float lineLength = 0f, float gapLength = 0f, List<Vector3> posList = null)
+            Color32 color, Color32 toColor, float lineLength = 0f, float gapLength = 0f, List<Vector3> posList = null)
         {
             float dist = Vector3.Distance(startPoint, endPoint);
             if (dist < 0.1f) return;
@@ -133,17 +134,18 @@ namespace XUGL
             int segment = Mathf.CeilToInt(dist / (lineLength + gapLength));
             Vector3 dir = (endPoint - startPoint).normalized;
             Vector3 sp = startPoint, np;
+            var isGradient = !color.Equals(toColor);
             if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
                 if (posList != null) posList.Add(sp);
                 np = startPoint + dir * dist * i / segment;
                 var dashep = np - dir * gapLength;
-                DrawLine(vh, sp, dashep, width, color);
+                DrawLine(vh, sp, dashep, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / segment) : color);
                 sp = np;
             }
             if (posList != null) posList.Add(endPoint);
-            DrawLine(vh, sp, endPoint, width, color);
+            DrawLine(vh, sp, endPoint, width, toColor);
         }
 
         /// <summary>
@@ -153,31 +155,34 @@ namespace XUGL
         /// <param name="startPoint">起始点</param>
         /// <param name="endPoint">结束点</param>
         /// <param name="width">线宽</param>
-        /// <param name="color">颜色</param>
+        /// <param name="color">起始颜色</param>
+        /// <param name="toColor">结束颜色</param>
         /// <param name="lineLength">实线部分长度，默认为线宽的3倍</param>
         /// <param name="gapLength">间隙部分长度，默认为线宽的3倍</param>
         /// <param name="posList">可选，输出的关键点</param>
         public static void DrawDotLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width,
-            Color32 color, float lineLength = 0f, float gapLength = 0f, List<Vector3> posList = null)
+            Color32 color, Color32 toColor, float lineLength = 0f, float gapLength = 0f, List<Vector3> posList = null)
         {
-            float dist = Vector3.Distance(startPoint, endPoint);
+            var dist = Vector3.Distance(startPoint, endPoint);
             if (dist < 0.1f) return;
             if (lineLength == 0) lineLength = 3 * width;
             if (gapLength == 0) gapLength = 3 * width;
-            int segment = Mathf.CeilToInt(dist / (lineLength + gapLength));
-            Vector3 dir = (endPoint - startPoint).normalized;
-            Vector3 sp = startPoint, np;
+            var segment = Mathf.CeilToInt(dist / (lineLength + gapLength));
+            var dir = (endPoint - startPoint).normalized;
+            var sp = startPoint;
+            var np = Vector3.zero;
+            var isGradient = !color.Equals(toColor);
             if (posList != null) posList.Clear();
             for (int i = 1; i <= segment; i++)
             {
                 if (posList != null) posList.Add(sp);
                 np = startPoint + dir * dist * i / segment;
                 var dashep = np - dir * gapLength;
-                DrawLine(vh, sp, dashep, width, color);
+                DrawLine(vh, sp, dashep, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / segment) : color);
                 sp = np;
             }
             if (posList != null) posList.Add(endPoint);
-            DrawLine(vh, sp, endPoint, width, color);
+            DrawLine(vh, sp, endPoint, width, toColor);
         }
 
         /// <summary>
@@ -277,11 +282,12 @@ namespace XUGL
         /// <param name="width">线宽</param>
         /// <param name="zebraWidth">斑马条纹宽</param>
         /// <param name="zebraGap">间隙宽</param>
-        /// <param name="color">颜色</param>
+        /// <param name="color">起始颜色</param>
+        /// <param name="toColor">结束颜色</param>
         public static void DrawZebraLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width,
-            float zebraWidth, float zebraGap, Color32 color)
+            float zebraWidth, float zebraGap, Color32 color, Color32 toColor)
         {
-            DrawDotLine(vh, startPoint, endPoint, width, color, zebraWidth, zebraGap);
+            DrawDotLine(vh, startPoint, endPoint, width, color, toColor, zebraWidth, zebraGap);
         }
 
         /// <summary>

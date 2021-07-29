@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.07.29) 完善`BarChart`的`Zebra`斑马柱图渐变支持
 * (2021.07.26) 修复`TextMeshPro Enable`时找不到`XCharts`路径的问题 (#160)
 
 ## v2.3.0

@@ -118,7 +118,8 @@ namespace XCharts
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (axis.type == Axis.AxisType.Value)
             {
-                if (minValue == 0 && maxValue == 0) return string.Empty;
+                if (minValue == 0 && maxValue == 0)
+                    maxValue = axis.max != 0 ? axis.max : 1;
                 double value = 0;
                 if (forcePercent) maxValue = 100;
                 if (axis.interval > 0)
@@ -396,7 +397,6 @@ namespace XCharts
         {
             if (!axis.show) return false;
             if (axis.IsCategory() && axis.GetDataList().Count <= 0) return false;
-            else if (axis.IsValue() && axis.runtimeMinValue == 0 && axis.runtimeMaxValue == 0) return false;
             else return true;
         }
 

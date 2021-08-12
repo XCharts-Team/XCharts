@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.12) Optimize `BarChart` setting `Corner` when the positive and negative columns are fillet symmetric
 * (2021.08.03) Fixed y axis not displaying when all data is 0
 * (2021.07.29) Fixed ignored data will also participate in calculations when `ignore` is enabled (#161)
 * (2021.07.29) Improved `BarChart`'s `Zebra` gradient support

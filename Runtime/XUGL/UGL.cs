@@ -483,13 +483,34 @@ namespace XUGL
         }
 
         private static void InitCornerRadius(float[] cornerRadius, float width, float height, bool horizontal,
-            ref float brLt, ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
+            bool invert, ref float brLt, ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
         {
             if (cornerRadius == null) return;
-            brLt = cornerRadius.Length > 0 ? cornerRadius[0] : 0;
-            brRt = cornerRadius.Length > 1 ? cornerRadius[1] : 0;
-            brRb = cornerRadius.Length > 2 ? cornerRadius[2] : 0;
-            brLb = cornerRadius.Length > 3 ? cornerRadius[3] : 0;
+            if (invert)
+            {
+                if (horizontal)
+                {
+                    brLt = cornerRadius.Length > 0 ? cornerRadius[1] : 0;
+                    brRt = cornerRadius.Length > 1 ? cornerRadius[0] : 0;
+                    brRb = cornerRadius.Length > 2 ? cornerRadius[3] : 0;
+                    brLb = cornerRadius.Length > 3 ? cornerRadius[2] : 0;
+                }
+                else
+                {
+                    brLt = cornerRadius.Length > 0 ? cornerRadius[3] : 0;
+                    brRt = cornerRadius.Length > 1 ? cornerRadius[2] : 0;
+                    brRb = cornerRadius.Length > 2 ? cornerRadius[1] : 0;
+                    brLb = cornerRadius.Length > 3 ? cornerRadius[0] : 0;
+                }
+            }
+            else
+            {
+                brLt = cornerRadius.Length > 0 ? cornerRadius[0] : 0;
+                brRt = cornerRadius.Length > 1 ? cornerRadius[1] : 0;
+                brRb = cornerRadius.Length > 2 ? cornerRadius[2] : 0;
+                brLb = cornerRadius.Length > 3 ? cornerRadius[3] : 0;
+            }
+
             needRound = brLb != 0 || brRt != 0 || brRb != 0 || brLb != 0;
             if (needRound)
             {
@@ -568,18 +589,22 @@ namespace XUGL
         /// <param name="rectWidth"></param>
         /// <param name="rectHeight"></param>
         /// <param name="color"></param>
+        /// <param name="toColor"></param>
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
+        /// <param name="isYAxis"></param>
+        /// <param name="smoothness"></param>
+        /// <param name="invertCorner"></param>
         public static void DrawRoundRectangle(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
-            float smoothness = 2)
+            float smoothness = 2, bool invertCorner = false)
         {
             var isGradient = !UGLHelper.IsValueEqualsColor(color, toColor);
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, ref brLt, ref brRt, ref brRb,
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, invertCorner, ref brLt, ref brRt, ref brRb,
                 ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
             var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
@@ -811,12 +836,13 @@ namespace XUGL
         /// <param name="color"></param>
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
+        /// <param name="invertCorner"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null,
-            bool horizontal = false, float smoothness = 1f)
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
         {
             DrawBorder(vh, center, rectWidth, rectHeight, borderWidth, color, s_ClearColor32, rotate,
-                cornerRadius, horizontal, smoothness);
+                cornerRadius, horizontal, smoothness, invertCorner);
         }
 
         /// <summary>
@@ -831,9 +857,12 @@ namespace XUGL
         /// <param name="toColor"></param>
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
+        /// <param name="horizontal"></param>
+        /// <param name="smoothness"></param>
+        /// <param name="invertCorner"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             float borderWidth, Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null,
-            bool horizontal = false, float smoothness = 1f)
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
         {
             if (borderWidth == 0 || UGLHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
@@ -848,7 +877,7 @@ namespace XUGL
             var rbOt = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, horizontal, ref brLt, ref brRt, ref brRb,
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, horizontal, invertCorner, ref brLt, ref brRt, ref brRb,
                 ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
             if (UGLHelper.IsClearColor(toColor))

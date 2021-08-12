@@ -329,17 +329,18 @@ namespace XCharts
                 var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
                 if (itemWidth > 0 && itemHeight > 0)
                 {
+                    var invert = center.x < plb.x;
                     if (ItemStyleHelper.IsNeedCorner(itemStyle))
                     {
                         UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
-                            itemStyle.cornerRadius, isYAxis);
+                            itemStyle.cornerRadius, isYAxis, m_Settings.cicleSmoothness, invert);
                     }
                     else
                     {
                         Internal_CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip, grid);
                     }
                     UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
-                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis);
+                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis, m_Settings.cicleSmoothness, invert);
                 }
             }
             else
@@ -356,10 +357,11 @@ namespace XCharts
                 var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
                 if (itemWidth > 0 && itemHeight > 0)
                 {
+                    var invert = center.y < plb.y;
                     if (ItemStyleHelper.IsNeedCorner(itemStyle))
                     {
                         UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
-                            itemStyle.cornerRadius, isYAxis);
+                            itemStyle.cornerRadius, isYAxis, m_Settings.cicleSmoothness, invert);
                     }
                     else
                     {
@@ -367,7 +369,7 @@ namespace XCharts
                             serie.clip, grid);
                     }
                     UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
-                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis);
+                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis, m_Settings.cicleSmoothness, invert);
                 }
             }
         }

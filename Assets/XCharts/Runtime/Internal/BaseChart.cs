@@ -450,7 +450,7 @@ namespace XCharts
                     var active = IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(this, readIndex, datas[i], active);
                     var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, m_Theme,
-                        legendName, bgColor, active);
+                        legendName, bgColor, active,readIndex);
                     legend.SetButton(legendName, item, totalLegend);
                     ChartHelper.ClearEventListener(item.button.gameObject);
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>

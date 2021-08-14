@@ -78,6 +78,7 @@ namespace XCharts
         [SerializeField] private float m_ItemHeight = 12.0f;
         [SerializeField] private float m_ItemGap = 10f;
         [SerializeField] private bool m_ItemAutoColor = true;
+        [SerializeField] private bool m_TextAutoColor = false;
         [SerializeField] private string m_Formatter;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
@@ -174,6 +175,16 @@ namespace XCharts
         {
             get { return m_ItemAutoColor; }
             set { if (PropertyUtil.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Whether the legend text matches the color automatically.
+        /// 图例标记的文本是否自动匹配颜色。
+        /// [default:false]
+        /// </summary>
+        public bool textAutoColor
+        {
+            get { return m_TextAutoColor; }
+            set { if (PropertyUtil.SetStruct(ref m_TextAutoColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Legend content string template formatter. Support for wrapping lines with \n. Template:{name}.

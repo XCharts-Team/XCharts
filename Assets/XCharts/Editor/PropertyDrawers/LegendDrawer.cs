@@ -25,6 +25,7 @@ namespace XCharts
                 PropertyField(prop, "m_ItemHeight");
                 PropertyField(prop, "m_ItemGap");
                 PropertyField(prop, "m_ItemAutoColor");
+                PropertyField(prop, "m_TextAutoColor");
                 PropertyField(prop, "m_SelectedMode");
                 PropertyField(prop, "m_Orient");
                 PropertyField(prop, "m_Location");

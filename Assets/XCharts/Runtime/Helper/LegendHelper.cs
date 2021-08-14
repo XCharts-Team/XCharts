@@ -11,10 +11,14 @@ namespace XCharts
 {
     public static class LegendHelper
     {
-        public static Color GetContentColor(Legend legend, ChartTheme theme, bool active)
+        public static Color GetContentColor(int legendIndex, Legend legend, ChartTheme theme, bool active)
         {
             var textStyle = legend.textStyle;
-            if (active) return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
+            if (active)
+            {
+                if (legend.textAutoColor) return theme.GetColor(legendIndex);
+                else return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
+            }
             else return theme.legend.unableColor;
         }
 
@@ -34,7 +38,7 @@ namespace XCharts
         }
 
         public static LegendItem AddLegendItem(Legend legend, int i, string legendName, Transform parent,
-            ChartTheme theme, string content, Color itemColor, bool active)
+            ChartTheme theme, string content, Color itemColor, bool active, int legendIndex)
         {
             var objName = i + "_" + legendName;
             var anchorMin = new Vector2(0, 0.5f);
@@ -43,7 +47,7 @@ namespace XCharts
             var sizeDelta = new Vector2(100, 30);
             var iconSizeDelta = new Vector2(legend.itemWidth, legend.itemHeight);
             var textStyle = legend.textStyle;
-            var contentColor = GetContentColor(legend, theme, active);
+            var contentColor = GetContentColor(legendIndex, legend, theme, active);
 
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);

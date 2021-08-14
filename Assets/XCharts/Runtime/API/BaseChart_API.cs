@@ -543,7 +543,7 @@ namespace XCharts
                 foreach (var legend in m_Legends)
                 {
                     var iconColor = LegendHelper.GetIconColor(this, legendIndex, legendName, active);
-                    var contentColor = LegendHelper.GetContentColor(legend, m_Theme, active);
+                    var contentColor = LegendHelper.GetContentColor(legendIndex, legend, m_Theme, active);
                     legend.UpdateButtonColor(legendName, iconColor);
                     legend.UpdateContentColor(legendName, contentColor);
                 }

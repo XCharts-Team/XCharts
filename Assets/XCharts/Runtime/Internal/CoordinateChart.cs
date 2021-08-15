@@ -728,12 +728,12 @@ namespace XCharts
                     var labelName = AxisHelper.GetLabelName(xAxis, grid.runtimeWidth, i, xAxis.runtimeMinValue,
                         xAxis.runtimeMaxValue, dataZoom, isPercentStack);
                     var label = ChartHelper.AddAxisLabelObject(splitNumber, i, ChartCached.GetXAxisName(xAxisIndex, i),
-                        axisObj.transform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(1, 0.5f),
+                        axisObj.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                         new Vector2(textWidth, textHeight), xAxis, theme.axis, labelName);
 
                     if (i == 0) xAxis.axisLabel.SetRelatedText(label.label, labelWidth);
                     label.label.SetAlignment(axisLabelTextStyle.GetAlignment(TextAnchor.MiddleCenter));
-                    label.SetPosition(GetLabelXPosition(totalWidth + textWidth / 2 + gapWidth, i, xAxisIndex, xAxis));
+                    label.SetPosition(GetLabelXPosition(totalWidth + gapWidth, i, xAxisIndex, xAxis));
                     xAxis.runtimeAxisLabelList.Add(label);
                     totalWidth += labelWidth;
                 }

@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.15) Fixed the problem of displaying exceptions after adding data again when `DataZoom` is enable (#163)
 * (2021.08.15) Improved `Axis`'s `AxisLabel` text rotate setting to avoid inconsistency offset in `DataZoom` (#163)
 * (2021.08.14) Added `Legend`'s `textAutoColor` to set the text color match with `Serie` color (#163)
 * (2021.08.12) Optimize `BarChart` setting `Corner` when the positive and negative columns are fillet symmetric

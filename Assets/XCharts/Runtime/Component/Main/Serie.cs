@@ -1355,6 +1355,7 @@ namespace XCharts
                 RemoveData(0);
             }
             m_Data.Clear();
+            m_NeedUpdateFilterData = true;
             SetVerticesDirty();
         }
 
@@ -1388,6 +1389,7 @@ namespace XCharts
                     m_DownSmoothPoints.Remove(serieData.index);
                 }
                 m_Data.RemoveAt(index);
+                m_NeedUpdateFilterData = true;
             }
         }
 
@@ -1416,6 +1418,7 @@ namespace XCharts
         {
             if (m_InsertDataToHead) m_Data.Insert(0, serieData);
             else m_Data.Add(serieData);
+            m_NeedUpdateFilterData = true;
         }
 
         private void CheckDataName(string dataName)

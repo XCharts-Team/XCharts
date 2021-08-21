@@ -489,6 +489,12 @@ namespace XCharts
             return axis;
         }
 
+        public override void SetComponentDirty()
+        {
+            m_NeedUpdateFilterData = true;
+            base.SetComponentDirty();
+        }
+
         public void Copy(Axis axis)
         {
             show = axis.show;

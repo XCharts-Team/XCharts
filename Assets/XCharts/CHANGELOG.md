@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.22) 修复`Axis`在`DataZoom`开启时`Label`可能不更新的问题 (#164)
 * (2021.08.15) 优化`Axis`的`AxisLabel`文本旋转设置，避免在DataZoom开启时偏移不一致 (#163)
 * (2021.08.14) 增加`Legend`的`textAutoColor`设置文本颜色和`Serie`一致 (#163)
 * (2021.08.12) 优化`BarChart`设置`Corner`时正负柱条圆角对称

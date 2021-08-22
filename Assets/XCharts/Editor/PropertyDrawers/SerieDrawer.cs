@@ -68,6 +68,7 @@ namespace XCharts
                         PropertyField(prop, "m_Clip");
                         PropertyField(prop, "m_Ignore");
                         PropertyField(prop, "m_IgnoreValue");
+                        PropertyField(prop, "m_IgnoreLineBreak");
                         PropertyField(prop, "m_ShowAsPositiveNumber");
                         PropertyField(prop, "m_Large");
                         PropertyField(prop, "m_LargeThreshold");

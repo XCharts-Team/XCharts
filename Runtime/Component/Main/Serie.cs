@@ -327,6 +327,7 @@ namespace XCharts
         [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private double m_IgnoreValue = 0;
+        [SerializeField] private bool m_IgnoreLineBreak = false;
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_Large = true;
         [SerializeField] private int m_LargeThreshold = 200;
@@ -769,6 +770,15 @@ namespace XCharts
         {
             get { return m_IgnoreValue; }
             set { if (PropertyUtil.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 忽略数据时折线是断开还是连接。默认false为连接。
+        /// </summary>
+        /// <value></value>
+        public bool ignoreLineBreak
+        {
+            get { return m_IgnoreLineBreak; }
+            set { if (PropertyUtil.SetStruct(ref m_IgnoreLineBreak, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 雷达图类型。

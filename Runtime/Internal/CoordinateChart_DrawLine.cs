@@ -167,8 +167,8 @@ namespace XCharts
             }
             var startIndex = 0;
             var endIndex = serie.dataPoints.Count;
-            var startPos = GetStartPos(serie.dataPoints, ref startIndex);
-            var endPos = GetEndPos(serie.dataPoints, ref endIndex);
+            var startPos = GetStartPos(serie.dataPoints, ref startIndex, serie.ignoreLineBreak);
+            var endPos = GetEndPos(serie.dataPoints, ref endIndex, serie.ignoreLineBreak);
             lp = startPos;
             stPos1 = stPos2 = lastDir = lastDnPos = Vector3.zero;
             smoothStartPosUp = smoothStartPosDn = Vector3.zero;
@@ -219,10 +219,16 @@ namespace XCharts
             {
                 np = serie.dataPoints[i];
                 serie.ClearSmoothList(i);
+                var isIgnoreBreak = false;
                 if (np == Vector3.zero)
                 {
-                    serie.animation.SetDataFinish(i);
-                    continue;
+                    if (serie.ignoreLineBreak)
+                        isIgnoreBreak = true;
+                    else
+                    {
+                        serie.animation.SetDataFinish(i);
+                        continue;
+                    }
                 }
                 if (!serie.animation.NeedAnimation(i)) break;
                 bool isFinish = true;
@@ -239,34 +245,51 @@ namespace XCharts
                 switch (serie.lineType)
                 {
                     case LineType.Normal:
-                        lp = GetLastPos(serie.dataPoints, i, np);
-                        nnp = GetNNPos(serie.dataPoints, i, np);
-                        isFinish = DrawNormalLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
-                            areaColor, areaToColor, zeroPos, startIndex);
+                        lp = GetLastPos(serie.dataPoints, i, np, serie.ignoreLineBreak);
+                        nnp = GetNNPos(serie.dataPoints, i, np, serie.ignoreLineBreak);
+                        if (lp == Vector3.zero && serie.ignoreLineBreak) isIgnoreBreak = true;
+                        isFinish = DrawNormalLine(vh, serie, xAxis, lp, np, nnp, i,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
+                            zeroPos, startIndex);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
-                        llp = GetLLPos(serie.dataPoints, i, firstLastPos);
-                        nnp = GetNNPos(serie.dataPoints, i, lastNextPos);
+                        llp = GetLLPos(serie.dataPoints, i, firstLastPos, serie.ignoreLineBreak);
+                        nnp = GetNNPos(serie.dataPoints, i, lastNextPos, serie.ignoreLineBreak);
+                        if (lp == Vector3.zero && serie.ignoreLineBreak) isIgnoreBreak = true;
                         isFinish = DrawSmoothLine(vh, serie, xAxis, lp, np, llp, nnp, i,
-                            lineColor, areaColor, areaToColor, isStack, zeroPos, startIndex);
+                            isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
+                             isStack, zeroPos, startIndex);
                         break;
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
-                        nnp = GetNNPos(serie.dataPoints, i, np);
-                        isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
-                            areaColor, areaToColor, zeroPos);
+                        nnp = GetNNPos(serie.dataPoints, i, np, serie.ignoreLineBreak);
+                        if (lp == Vector3.zero && serie.ignoreLineBreak) isIgnoreBreak = true;
+                        isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
+                            zeroPos);
                         break;
                     case LineType.Dash:
                     case LineType.Dot:
                     case LineType.DashDot:
                     case LineType.DashDotDot:
-                        DrawOtherLine(vh, serie, xAxis, lp, np, i, lineColor, areaColor, areaToColor, zeroPos);
+                        if (lp == Vector3.zero && serie.ignoreLineBreak) isIgnoreBreak = true;
+                        DrawOtherLine(vh, serie, xAxis, lp, np, i,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
+                            isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
+                            zeroPos);
                         break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);
-                if (np != Vector3.zero) lp = np;
+                if (np != Vector3.zero || serie.ignoreLineBreak) lp = np;
             }
             if (!serie.animation.IsFinish())
             {
@@ -277,22 +300,22 @@ namespace XCharts
             }
         }
 
-        private Vector3 GetNNPos(List<Vector3> dataPoints, int index, Vector3 np)
+        private Vector3 GetNNPos(List<Vector3> dataPoints, int index, Vector3 np, bool ignoreLineBreak)
         {
             int size = dataPoints.Count;
             if (index >= size) return np;
             for (int i = index + 1; i < size; i++)
             {
-                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+                if (dataPoints[i] != Vector3.zero || ignoreLineBreak) return dataPoints[i];
             }
             return np;
         }
 
-        private Vector3 GetStartPos(List<Vector3> dataPoints, ref int start)
+        private Vector3 GetStartPos(List<Vector3> dataPoints, ref int start, bool ignoreLineBreak)
         {
             for (int i = 0; i < dataPoints.Count; i++)
             {
-                if (dataPoints[i] != Vector3.zero)
+                if (dataPoints[i] != Vector3.zero || ignoreLineBreak)
                 {
                     start = i;
                     return dataPoints[i];
@@ -301,11 +324,11 @@ namespace XCharts
             return Vector3.zero;
         }
 
-        private Vector3 GetEndPos(List<Vector3> dataPoints, ref int end)
+        private Vector3 GetEndPos(List<Vector3> dataPoints, ref int end, bool ignoreLineBreak)
         {
             for (int i = dataPoints.Count - 1; i >= 0; i--)
             {
-                if (dataPoints[i] != Vector3.zero)
+                if (dataPoints[i] != Vector3.zero || ignoreLineBreak)
                 {
                     end = i;
                     return dataPoints[i];
@@ -314,22 +337,22 @@ namespace XCharts
             return Vector3.zero;
         }
 
-        private Vector3 GetLastPos(List<Vector3> dataPoints, int index, Vector3 pos)
+        private Vector3 GetLastPos(List<Vector3> dataPoints, int index, Vector3 pos, bool ignoreLineBreak)
         {
             if (index <= 0) return pos;
             for (int i = index - 1; i >= 0; i--)
             {
-                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+                if (dataPoints[i] != Vector3.zero || ignoreLineBreak) return dataPoints[i];
             }
             return pos;
         }
 
-        private Vector3 GetLLPos(List<Vector3> dataPoints, int index, Vector3 lp)
+        private Vector3 GetLLPos(List<Vector3> dataPoints, int index, Vector3 lp, bool ignoreLineBreak)
         {
             if (index <= 1) return lp;
             for (int i = index - 2; i >= 0; i--)
             {
-                if (dataPoints[i] != Vector3.zero) return dataPoints[i];
+                if (dataPoints[i] != Vector3.zero || ignoreLineBreak) return dataPoints[i];
             }
             return lp;
         }
@@ -941,8 +964,8 @@ namespace XCharts
                     Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + grid.runtimeHeight) : new Vector3(zeroPos.x + grid.runtimeWidth, zeroPos.y);
                     var sindex = 0;
                     var eindex = 0;
-                    var sp = GetStartPos(points, ref sindex);
-                    var ep = GetEndPos(points, ref eindex);
+                    var sp = GetStartPos(points, ref sindex, serie.ignoreLineBreak);
+                    var ep = GetEndPos(points, ref eindex, serie.ignoreLineBreak);
                     var cross = ChartHelper.GetIntersection(lp, np, zeroPos, aep);
                     if (cross == Vector3.zero || smoothDownPoints.Count <= 3)
                     {

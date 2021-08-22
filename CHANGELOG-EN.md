@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.22) Added `Serie`'s `ignoreLineBreak` (#164)
 * (2021.08.22) Fixed `Axis` label may not be updated when `DataZoom` is turn on (#164)
 * (2021.08.15) Improved `Axis`'s `AxisLabel` text rotate setting to avoid inconsistency offset in `DataZoom` (#163)
 * (2021.08.14) Added `Legend`'s `textAutoColor` to set the text color match with `Serie` color (#163)

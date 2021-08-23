@@ -35,6 +35,7 @@ namespace XCharts
         [SerializeField] private bool m_DataChangeEnable = true;
         [SerializeField] private float m_DataChangeDuration = 500;
         [SerializeField] private float m_ActualDuration;
+        [SerializeField] private bool m_AlongWithLinePath;
         /// <summary>
         /// 自定义渐入动画延时函数。返回ms值。
         /// </summary>
@@ -100,6 +101,10 @@ namespace XCharts
         /// 数据变更的动画时长（毫秒）。
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
+        /// <summary>
+        /// 是否沿着线的轨迹进行匀速动画。
+        /// </summary>
+        public bool alongWithLinePath { get { return m_AlongWithLinePath; } set { m_AlongWithLinePath = value; } }
         /// <summary>
         /// 渐入动画完成回调
         /// </summary>

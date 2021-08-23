@@ -810,6 +810,7 @@ K线图系列。
 * `fadeOutDuration`：设定的渐出动画时长，单位毫秒。如果要设置单个数据项的渐出时长，可以用代码定制：`customFadeOutDuration`。
 * `dataChangeEnable`：是否开启数据变更动画。
 * `dataChangeDuration`：数据变更动画时长，单位毫秒。
+* `alongWithLinePath`：是否沿着线的轨迹进行匀速动画。
 
 ## `AreaStyle`
 

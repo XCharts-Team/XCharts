@@ -172,10 +172,6 @@ namespace XCharts
             lp = startPos;
             stPos1 = stPos2 = lastDir = lastDnPos = Vector3.zero;
             smoothStartPosUp = smoothStartPosDn = Vector3.zero;
-            float currDetailProgress = lp.x;
-            float totalDetailProgress = endPos.x;
-            serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);
-            serie.animation.SetDataFinish(startIndex);
 
             Vector3 firstLastPos = Vector3.zero, lastNextPos = Vector3.zero;
             if (serie.minShow > 0 && serie.minShow < showData.Count)
@@ -215,6 +211,27 @@ namespace XCharts
                 lastNextPos = endPos;
             }
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, xAxis, yAxis);
+
+            float currDetailProgress = lp.x;
+            float totalDetailProgress = endPos.x;
+            if (serie.animation.alongWithLinePath)
+            {
+                currDetailProgress = 0;
+                totalDetailProgress = 0;
+                var tempLp = startPos;
+                for (i = startIndex + 1; i < serie.dataPoints.Count; i++)
+                {
+                    np = serie.dataPoints[i];
+                    if (np != Vector3.zero)
+                    {
+                        totalDetailProgress += Vector3.Distance(np, tempLp);
+                        tempLp = np;
+                    }
+                }
+            }
+            serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);
+            serie.animation.SetDataFinish(startIndex);
+            var currLineDist = 0f;
             for (i = startIndex + 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
@@ -252,7 +269,7 @@ namespace XCharts
                             isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
                             isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
                             isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
-                            zeroPos, startIndex);
+                            zeroPos, startIndex, currLineDist);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
@@ -289,7 +306,12 @@ namespace XCharts
                         break;
                 }
                 if (isFinish) serie.animation.SetDataFinish(i);
-                if (np != Vector3.zero || serie.ignoreLineBreak) lp = np;
+                if (np != Vector3.zero || serie.ignoreLineBreak)
+                {
+                    if (serie.animation.alongWithLinePath)
+                        currLineDist += Vector3.Distance(np, lp);
+                    lp = np;
+                }
             }
             if (!serie.animation.IsFinish())
             {
@@ -641,7 +663,7 @@ namespace XCharts
                     case LineType.Normal:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         isFinish = DrawNormalLine(vh, serie, yAxis, lp, np, nnp, i, lineColor,
-                            areaColor, areaToColor, zeroPos);
+                            areaColor, areaToColor, zeroPos, 0, 0);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
@@ -701,7 +723,7 @@ namespace XCharts
         private bool lastIsDown;
         private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 nnp,
             int dataIndex, Color32 lineColor, Color32 areaColor, Color32 areaToColor,
-            Vector3 zeroPos, int startIndex = 0)
+            Vector3 zeroPos, int startIndex, float currLineDist)
         {
             var defaultLineColor = lineColor;
             var isSecond = dataIndex == startIndex + 1;
@@ -787,7 +809,12 @@ namespace XCharts
             {
                 var isEndPos = i == segment - 1;
                 var cp = lp + dir1 * (dist * i / segment);
-                if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
+                if (serie.animation.alongWithLinePath)
+                {
+                    currLineDist += Vector3.Distance(cp, start);
+                    if (serie.animation.CheckDetailBreak(currLineDist)) isBreak = true;
+                }
+                else if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.GetWidth(m_Theme.serie.lineWidth);
                 var tp2 = cp + dir1v * serie.lineStyle.GetWidth(m_Theme.serie.lineWidth);
                 CheckLineGradientColor(cp, serie.lineStyle, axis, defaultLineColor, ref lineColor);

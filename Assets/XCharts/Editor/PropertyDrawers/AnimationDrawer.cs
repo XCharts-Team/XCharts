@@ -28,6 +28,7 @@ namespace XCharts
                 PropertyField(prop, "m_DataChangeEnable");
                 PropertyField(prop, "m_DataChangeDuration");
                 PropertyField(prop, "m_ActualDuration");
+                PropertyField(prop, "m_AlongWithLinePath");
                 --EditorGUI.indentLevel;
             }
         }

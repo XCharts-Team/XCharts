@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.24) 增加`Animation`的`alongWithLinePath`参数设置折线轨迹匀速动画
 * (2021.08.22) 增加`Serie`的`ignoreLineBreak`参数设置忽略数据连线是否断开 (#164)
 * (2021.08.22) 修复`Axis`在`DataZoom`开启时`Label`可能不更新的问题 (#164)
 * (2021.08.15) 优化`Axis`的`AxisLabel`文本旋转设置，避免在DataZoom开启时偏移不一致 (#163)

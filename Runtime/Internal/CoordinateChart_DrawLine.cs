@@ -228,10 +228,10 @@ namespace XCharts
                         tempLp = np;
                     }
                 }
+                serie.animation.SetLinePathStartPos(startPos);
             }
             serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);
             serie.animation.SetDataFinish(startIndex);
-            var currLineDist = 0f;
             for (i = startIndex + 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
@@ -269,7 +269,7 @@ namespace XCharts
                             isIgnoreBreak ? ColorUtil.clearColor32 : lineColor,
                             isIgnoreBreak ? ColorUtil.clearColor32 : areaColor,
                             isIgnoreBreak ? ColorUtil.clearColor32 : areaToColor,
-                            zeroPos, startIndex, currLineDist);
+                            zeroPos, startIndex);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
@@ -308,8 +308,6 @@ namespace XCharts
                 if (isFinish) serie.animation.SetDataFinish(i);
                 if (np != Vector3.zero || serie.ignoreLineBreak)
                 {
-                    if (serie.animation.alongWithLinePath)
-                        currLineDist += Vector3.Distance(np, lp);
                     lp = np;
                 }
             }
@@ -663,7 +661,7 @@ namespace XCharts
                     case LineType.Normal:
                         nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         isFinish = DrawNormalLine(vh, serie, yAxis, lp, np, nnp, i, lineColor,
-                            areaColor, areaToColor, zeroPos, 0, 0);
+                            areaColor, areaToColor, zeroPos, 0);
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
@@ -723,7 +721,7 @@ namespace XCharts
         private bool lastIsDown;
         private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 nnp,
             int dataIndex, Color32 lineColor, Color32 areaColor, Color32 areaToColor,
-            Vector3 zeroPos, int startIndex, float currLineDist)
+            Vector3 zeroPos, int startIndex)
         {
             var defaultLineColor = lineColor;
             var isSecond = dataIndex == startIndex + 1;
@@ -809,12 +807,7 @@ namespace XCharts
             {
                 var isEndPos = i == segment - 1;
                 var cp = lp + dir1 * (dist * i / segment);
-                if (serie.animation.alongWithLinePath)
-                {
-                    currLineDist += Vector3.Distance(cp, start);
-                    if (serie.animation.CheckDetailBreak(currLineDist)) isBreak = true;
-                }
-                else if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
+                if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.GetWidth(m_Theme.serie.lineWidth);
                 var tp2 = cp + dir1v * serie.lineStyle.GetWidth(m_Theme.serie.lineWidth);
                 CheckLineGradientColor(cp, serie.lineStyle, axis, defaultLineColor, ref lineColor);

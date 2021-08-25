@@ -128,6 +128,8 @@ namespace XCharts
         [SerializeField] private float m_CurrDetailProgress;
         [SerializeField] private float m_DestDetailProgress;
         private float m_CurrSymbolProgress;
+        private Vector3 m_LinePathLastPos;
+        private float m_LinePathCurrTotalDist = 0f;
 
         public void FadeIn()
         {
@@ -348,11 +350,29 @@ namespace XCharts
             return !IsFinish() && detail > m_CurrDetailProgress;
         }
 
+        public void SetLinePathStartPos(Vector3 pos)
+        {
+            if (m_AlongWithLinePath)
+            {
+                m_LinePathLastPos = pos;
+                m_LinePathCurrTotalDist = 0;
+            }
+        }
+
         public bool CheckDetailBreak(Vector3 pos, bool isYAxis)
         {
             if (IsFinish()) return false;
-            if (isYAxis) return pos.y > m_CurrDetailProgress;
-            else return pos.x > m_CurrDetailProgress;
+            if (m_AlongWithLinePath)
+            {
+                m_LinePathCurrTotalDist += Vector3.Distance(pos, m_LinePathLastPos);
+                m_LinePathLastPos = pos;
+                return CheckDetailBreak(m_LinePathCurrTotalDist);
+            }
+            else
+            {
+                if (isYAxis) return pos.y > m_CurrDetailProgress;
+                else return pos.x > m_CurrDetailProgress;
+            }
         }
 
         public bool NeedAnimation(int dataIndex)

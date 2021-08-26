@@ -224,6 +224,9 @@ namespace XCharts
                 {
                     m_CheckTheme = m_Theme.theme;
                     m_Theme.CopyTheme(m_CheckTheme);
+#if UNITY_EDITOR
+                    UnityEditor.EditorUtility.SetDirty(this);
+#endif
                     SetAllComponentDirty();
                     OnThemeChanged();
                 }

@@ -643,6 +643,9 @@ namespace XCharts
         {
             m_Theme.CopyTheme(theme);
             SetAllComponentDirty();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         /// <summary>

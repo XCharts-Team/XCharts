@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.31) 优化`RingChart`的渐变效果
 * (2021.08.31) 修复`DataZoom`拖动时`SerieLabel`不刷新的问题 (#165)
 * (2021.08.25) 修复`Theme`主题切换无法保持到场景上的问题 (#166)
 * (2021.08.24) 增加`Animation`的`alongWithLinePath`参数设置折线轨迹匀速动画

@@ -104,6 +104,14 @@ namespace XCharts
                         itemStyle.backgroundColor, Color.clear, 0, 360, borderWidth, borderColor, 0,
                         chart.settings.cicleSmoothness, false, serie.clockwise);
                 }
+                var isGradient = !UGLHelper.IsValueEqualsColor(itemColor, itemToColor);
+                if (isGradient)
+                {
+                    if (serie.clockwise)
+                        itemToColor = Color.Lerp(itemColor, itemToColor, toDegree / (startDegree + 360));
+                    else
+                        itemToColor = Color.Lerp(itemToColor, itemColor, toDegree / (startDegree + 360));
+                }
                 UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemToColor,
                     Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, chart.settings.cicleSmoothness,
                     roundCap, serie.clockwise);

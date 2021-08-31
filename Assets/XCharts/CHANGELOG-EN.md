@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v2.4.0](#v2.4.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
@@ -39,6 +40,17 @@
 
 ## master
 
+## v2.4.0
+
+### Main points
+
+* LineChart support the line of ignore data is disconnected or connected
+* LineChart support animation at a constant speed
+* Other optimizations and bug fixes
+
+### Details
+
+* (2021.08.31) Release `v2.4.0` version
 * (2021.08.31) Optimized the gradient effect of `RingChart`
 * (2021.08.31) Fixed bug where `SerieLabel` does not refresh when `DataZoom` is dragged (#165)
 * (2021.08.25) Fixed an issue where the theme switch could not be save to the scene (#166)

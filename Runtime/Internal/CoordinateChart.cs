@@ -1464,10 +1464,11 @@ namespace XCharts
                 if (!serie.show) continue;
                 if (serie.IsPerformanceMode()) continue;
                 if (!serie.IsCoordinateSerie()) continue;
-
-                for (int j = 0; j < serie.data.Count; j++)
+                DataZoomHelper.GetSerieRelatedDataZoom(serie, dataZooms, out var xDataZoom, out var yDataZoom);
+                var showData = serie.GetDataList(xDataZoom);
+                for (int j = 0; j < showData.Count; j++)
                 {
-                    var serieData = serie.data[j];
+                    var serieData = showData[j];
                     if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.highlighted);
                     serieData.index = j;
@@ -1546,9 +1547,13 @@ namespace XCharts
                 if (!serie.IsCoordinateSerie()) continue;
                 var total = serie.yTotal;
                 var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
-                for (int j = 0; j < serie.data.Count; j++)
+                DataZoomHelper.GetSerieRelatedDataZoom(serie, dataZooms, out var xDataZoom, out var yDataZoom);
+                var showData = serie.GetDataList(xDataZoom);
+                if (xDataZoom != null)
+                    ChartHelper.HideAllObject(m_SerieLabelRoot, "label_" + i);
+                for (int j = 0; j < showData.Count; j++)
                 {
-                    var serieData = serie.data[j];
+                    var serieData = showData[j];
                     if (serieData.labelObject == null) continue;
                     if (j >= serie.dataPoints.Count)
                     {
@@ -1556,6 +1561,7 @@ namespace XCharts
                         serieData.SetIconActive(false);
                         continue;
                     }
+                    serieData.labelObject.SetActive(true);
                     var pos = serie.dataPoints[j];
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
@@ -1689,7 +1695,7 @@ namespace XCharts
         }
 
         public void Internal_CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
-            float zebraGap, Color32 color,Color32 toColor, bool clip, Grid grid)
+            float zebraGap, Color32 color, Color32 toColor, bool clip, Grid grid)
         {
             ClampInChart(ref p1);
             ClampInChart(ref p2);

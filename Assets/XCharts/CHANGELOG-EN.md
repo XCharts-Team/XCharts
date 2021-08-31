@@ -39,6 +39,7 @@
 
 ## master
 
+* (2021.08.31) Fixed bug where `SerieLabel` does not refresh when `DataZoom` is dragged (#165)
 * (2021.08.25) Fixed an issue where the theme switch could not be save to the scene (#166)
 * (2021.08.24) Added `Animation`'s `alongWithLinePath`
 * (2021.08.22) Added `Serie`'s `ignoreLineBreak` (#164)

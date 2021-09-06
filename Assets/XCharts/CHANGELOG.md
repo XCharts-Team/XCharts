@@ -40,6 +40,8 @@
 
 ## master
 
+* (2021.09.06) 修复`GaugeChart`用代码改变`splitNumber`不会刷新`label`的问题 #167
+
 ## v2.4.0
 
 ### 版本要点

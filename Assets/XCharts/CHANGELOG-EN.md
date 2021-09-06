@@ -40,6 +40,8 @@
 
 ## master
 
+* (2021.09.06) Fixed bug where `GaugeChart` changing `splitNumber` with code does not refresh `label` #167
+
 ## v2.4.0
 
 ### Main points

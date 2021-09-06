@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using XUGL;
+using System.Collections.Generic;
 
 namespace XCharts
 {
@@ -20,6 +21,7 @@ namespace XCharts
         private static readonly string s_AxisLabelObjectName = "axis_label";
         private bool m_UpdateTitleText = false;
         private bool m_UpdateLabelText = false;
+        private Dictionary<int, int> m_LastSplitNumber = new Dictionary<int, int>();
 
         public DrawSerieGauge(BaseChart chart)
         {
@@ -58,6 +60,21 @@ namespace XCharts
                     {
                         SerieLabelHelper.SetGaugeLabelText(serie);
                         UpdateAxisLabel(serie);
+                    }
+                }
+            }
+            foreach (var serie in chart.series.list)
+            {
+                if (serie.type == SerieType.Gauge)
+                {
+                    if (!m_LastSplitNumber.TryGetValue(serie.index, out var lastSplitNumber))
+                    {
+                        m_LastSplitNumber[serie.index] = lastSplitNumber;
+                    }
+                    else if (serie.splitNumber != lastSplitNumber)
+                    {
+                        m_LastSplitNumber[serie.index] = serie.splitNumber;
+                        InitAxisLabel();
                     }
                 }
             }

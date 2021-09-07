@@ -40,6 +40,7 @@
 
 ## master
 
+* (2021.09.07) 修复`PieChart`渐出动画结束时`label`没有消失的问题 #168
 * (2021.09.06) 修复`GaugeChart`用代码改变`splitNumber`不会刷新`label`的问题 #167
 
 ## v2.4.0

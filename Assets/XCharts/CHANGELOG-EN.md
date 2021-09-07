@@ -40,6 +40,7 @@
 
 ## master
 
+* (2021.09.07) Fixed bug where `label` does not disappear at the end of `PieChart` fade animation #168
 * (2021.09.06) Fixed bug where `GaugeChart` changing `splitNumber` with code does not refresh `label` #167
 
 ## v2.4.0

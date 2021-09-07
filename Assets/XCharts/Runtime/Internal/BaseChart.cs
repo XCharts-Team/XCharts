@@ -546,6 +546,7 @@ namespace XCharts
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
             if (serie.IsPerformanceMode()) return;
             if (!serieLabel.show && !iconStyle.show) return;
+            if(serie.animation.enable && serie.animation.HasFadeOut()) return;
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
             var color = Color.grey;
             if (serie.type == SerieType.Pie)

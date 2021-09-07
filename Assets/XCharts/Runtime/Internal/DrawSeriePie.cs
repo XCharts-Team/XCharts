@@ -413,6 +413,7 @@ namespace XCharts
 
         private void DrawPieLabelLine(VertexHelper vh, Serie serie, SerieData serieData, Color color)
         {
+            if (serie.animation.enable && serie.animation.HasFadeOut()) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (serieLabel.show
                 && serieLabel.position == SerieLabel.Position.Outside
@@ -496,6 +497,7 @@ namespace XCharts
         private void DrawPieLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {
             if (serieData.labelObject == null) return;
+            if (serie.animation.enable && serie.animation.HasFadeOut()) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);

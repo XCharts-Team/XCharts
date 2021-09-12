@@ -176,7 +176,10 @@ Radar coordinate conponnet for radar charts.
 * `center`: the center of radar chart. The `center[0]` is the x-coordinate, and the `center[1]` is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.[default:[0.5f,0.4f]].
 * `ceilRate`: The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.[default:0].
 * `splitNumber`: Segments of indicator axis.[default:5].
-* `splitNumber`: Tooltip displays all the data on the axis.[default:false].
+* `isAxisTooltip`: Tooltip displays all the data on the axis.[default:false].
+* `outRangeColor`: The color displayed when data out of range.[default:red]
+* `connectCenter`: Whether serie data connect to radar center with line.[default:false]
+* `lineGradient`: Whether need gradient for data line..[default:true]
 * `splitLine`: The split line style of radar [AxisSplitLine](#AxisSplitLine).
 * `splitArea`: The split area style of radar [AxisSplitArea](#AxisSplitArea).
 * `indicator`: Whether to show indicator.
@@ -190,6 +193,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 * `name`: The name of indicator.
 * `max`: The maximum value of indicator, with default value of 0, but we recommend to set it manually.
 * `min`: The minimum value of indicator, with default value of 0.
+* `min`: Normal range. When the value is outside this range, the display color is automatically changed.
 * `textStyle`: The text style of indicator [TextStyle](#TextStyle).
 
 ## `TextLimit`

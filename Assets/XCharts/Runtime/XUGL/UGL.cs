@@ -56,6 +56,20 @@ namespace XUGL
         /// <param name="color">颜色</param>
         public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)
         {
+            DrawLine(vh, startPoint, endPoint, width, color, color);
+        }
+
+        /// <summary>
+        /// Draw a line. 画直线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="startPoint">起点</param>
+        /// <param name="endPoint">终点</param>
+        /// <param name="width">线宽</param>
+        /// <param name="color">颜色</param>
+        /// <param name="toColor">渐变颜色</param>
+        public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)
+        {
             if (startPoint == endPoint) return;
             Vector3 v = Vector3.Cross(endPoint - startPoint, Vector3.forward).normalized * width;
             s_Vertex[0].position = startPoint - v;
@@ -65,7 +79,7 @@ namespace XUGL
 
             for (int j = 0; j < 4; j++)
             {
-                s_Vertex[j].color = color;
+                s_Vertex[j].color = j == 0 || j == 3 ? color : toColor;
                 s_Vertex[j].uv0 = s_ZeroVector2;
             }
             vh.AddUIVertexQuad(s_Vertex);

@@ -88,29 +88,45 @@ namespace XCharts
                     break;
             }
         }
-
-        public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
-        Vector3 startPos, Vector3 endPos, Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
+        
+        public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle, Vector3 startPos, Vector3 endPos,
+           Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
         {
             var type = lineStyle.GetType(themeType);
             var width = lineStyle.GetWidth(themeWidth);
             var color = lineStyle.GetColor(defaultColor);
-            DrawLineStyle(vh, type, width, startPos, endPos, color);
+            DrawLineStyle(vh, type, width, startPos, endPos, color, color);
+        }
+
+        public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle, Vector3 startPos, Vector3 endPos,
+            float themeWidth, LineStyle.Type themeType, Color32 defaultColor, Color32 defaultToColor)
+        {
+            var type = lineStyle.GetType(themeType);
+            var width = lineStyle.GetWidth(themeWidth);
+            var color = lineStyle.GetColor(defaultColor);
+            var toColor = ChartHelper.IsClearColor(defaultToColor) ? color : defaultToColor;
+            DrawLineStyle(vh, type, width, startPos, endPos, color, toColor);
         }
 
         public static void DrawLineStyle(VertexHelper vh, LineStyle.Type lineType, float lineWidth,
             Vector3 startPos, Vector3 endPos, Color32 color)
         {
+            DrawLineStyle(vh, lineType, lineWidth, startPos, endPos, color, color);
+        }
+
+        public static void DrawLineStyle(VertexHelper vh, LineStyle.Type lineType, float lineWidth,
+            Vector3 startPos, Vector3 endPos, Color32 color, Color32 toColor)
+        {
             switch (lineType)
             {
                 case LineStyle.Type.Dashed:
-                    UGL.DrawDashLine(vh, startPos, endPos, lineWidth, color, color);
+                    UGL.DrawDashLine(vh, startPos, endPos, lineWidth, color, toColor);
                     break;
                 case LineStyle.Type.Dotted:
-                    UGL.DrawDotLine(vh, startPos, endPos, lineWidth, color, color);
+                    UGL.DrawDotLine(vh, startPos, endPos, lineWidth, color, toColor);
                     break;
                 case LineStyle.Type.Solid:
-                    UGL.DrawLine(vh, startPos, endPos, lineWidth, color);
+                    UGL.DrawLine(vh, startPos, endPos, lineWidth, color, toColor);
                     break;
                 case LineStyle.Type.DashDot:
                     UGL.DrawDashDotLine(vh, startPos, endPos, lineWidth, color);

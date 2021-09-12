@@ -28,6 +28,9 @@ namespace XCharts
                 PropertyField(prop, "m_SplitNumber");
                 PropertyField(prop, "m_CeilRate");
                 PropertyField(prop, "m_IsAxisTooltip");
+                PropertyField(prop, "m_OutRangeColor");
+                PropertyField(prop, "m_ConnectCenter");
+                PropertyField(prop, "m_LineGradient");
                 PropertyField(prop, "m_AxisLine");
                 PropertyField(prop, "m_SplitLine");
                 PropertyField(prop, "m_SplitArea");
@@ -50,6 +53,7 @@ namespace XCharts
                 PropertyField(prop, "m_Name");
                 PropertyField(prop, "m_Min");
                 PropertyField(prop, "m_Max");
+                PropertyTwoFiled(prop, "m_Range");
                 PropertyField(prop, "m_TextStyle");
                 --EditorGUI.indentLevel;
             }

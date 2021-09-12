@@ -439,6 +439,8 @@ namespace XCharts
             var startPoint = Vector3.zero;
             var toPoint = Vector3.zero;
             var firstPoint = Vector3.zero;
+            var lastColor = ColorUtil.clearColor32;
+            var firstColor = ColorUtil.clearColor32;
 
             var radar = chart.radars[serie.radarIndex];
             var indicatorNum = radar.indicatorList.Count;
@@ -503,8 +505,10 @@ namespace XCharts
                 var value = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
-                {
                     max = serie.runtimeDataMax;
+                if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
+                {
+                    lineColor = radar.outRangeColor;
                 }
                 var radius = (float)(max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
                 : radar.runtimeDataRadius * value / max);
@@ -515,6 +519,8 @@ namespace XCharts
                     startPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                         p.y + radius * Mathf.Cos(currAngle));
                     firstPoint = startPoint;
+                    lastColor = lineColor;
+                    firstColor = lineColor;
                 }
                 else
                 {
@@ -526,22 +532,28 @@ namespace XCharts
                     }
                     if (serie.lineStyle.show)
                     {
-                        ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor,
-                         chart.theme.serie.lineWidth, LineStyle.Type.Solid);
+                        if (radar.connectCenter)
+                            ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, centerPos,
+                                chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
+                        ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, chart.theme.serie.lineWidth,
+                            LineStyle.Type.Solid, radar.lineGradient ? lastColor : lineColor, lineColor);
                     }
                     startPoint = toPoint;
+                    lastColor = lineColor;
                 }
                 serieData.labelPosition = startPoint;
                 pointList.Add(startPoint);
-
                 if (serie.areaStyle.show && j == endIndex)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
                 if (serie.lineStyle.show && j == endIndex)
                 {
-                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor,
-                    chart.theme.serie.lineWidth, LineStyle.Type.Solid);
+                    if (radar.connectCenter)
+                        ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, centerPos,
+                             chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
+                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, chart.theme.serie.lineWidth,
+                        LineStyle.Type.Solid, lineColor, radar.lineGradient ? firstColor : lineColor);
                 }
             }
             if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
@@ -560,6 +572,11 @@ namespace XCharts
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
+                    if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
+                    {
+                        symbolColor = radar.outRangeColor;
+                        symbolToColor = radar.outRangeColor;
+                    }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
                            symbolToColor, serie.symbol.gap, cornerRadius);
                 }

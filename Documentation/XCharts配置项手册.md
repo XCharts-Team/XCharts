@@ -176,6 +176,9 @@
 * `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
 * `splitNumber`：分割段数。默认为 `5`。
 * `isAxisTooltip`：是否Tooltip显示轴线上的所有数据。只对Mutiple类型的Radar有效。
+* `outRangeColor`：数值超出范围时显示的颜色。
+* `connectCenter`：数值是否连线到中心点。
+* `lineGradient`：数值线段是否渐变。
 * `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
@@ -187,6 +190,7 @@
 * `name`：指示器名称。
 * `max`：指示器的最大值，默认为 0 无限制。
 * `min`：指示器的最小值，默认为 0 无限制。
+* `range`：指示器的正常值范围，当数值超出这个范围时显示`Radar`的`outRangeColor`颜色。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
 
 ## `TextLimit`

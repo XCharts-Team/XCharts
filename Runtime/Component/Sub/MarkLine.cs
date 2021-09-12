@@ -520,7 +520,7 @@ namespace XCharts
                 var theme = chart.theme.axis;
                 var lineColor = ChartHelper.IsClearColor(data.lineStyle.color) ? serieColor : data.lineStyle.color;
                 var lineWidth = data.lineStyle.width == 0 ? theme.lineWidth : data.lineStyle.width;
-                ChartDrawer.DrawLineStyle(vh, data.lineStyle, sp, ep, lineColor, lineWidth, LineStyle.Type.Dashed);
+                ChartDrawer.DrawLineStyle(vh, data.lineStyle, sp, ep, lineWidth, LineStyle.Type.Dashed, lineColor, lineColor);
                 if (data.startSymbol != null && data.startSymbol.show)
                 {
                     DrawMarkLineSymbol(vh, data.startSymbol, serie, grid, chart.theme, sp, sp, lineColor);

@@ -56,6 +56,7 @@ namespace XCharts
             [SerializeField] private string m_Name;
             [SerializeField] private double m_Max;
             [SerializeField] private double m_Min;
+            [SerializeField] private double[] m_Range = new double[2] { 0, 0 };
             [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
             /// <summary>
@@ -83,6 +84,24 @@ namespace XCharts
             /// 指示器的文本组件。
             /// </summary>
             public Text text { get; set; }
+            /// <summary>
+            /// Normal range. When the value is outside this range, the display color is automatically changed.
+            /// 正常值范围。当数值不在这个范围时，会自动变更显示颜色。
+            /// </summary>
+            public double[] range
+            {
+                get { return m_Range; }
+                set { if (value != null && value.Length == 2) { m_Range = value; } }
+            }
+
+            public bool IsInRange(double value)
+            {
+                if (m_Range == null || m_Range.Length < 2) return true;
+                if (m_Range[0] != 0 || m_Range[1] != 0)
+                    return value >= m_Range[0] && value <= m_Range[1];
+                else
+                    return true;
+            }
         }
         [SerializeField] private bool m_Show;
         [SerializeField] private Shape m_Shape;
@@ -97,6 +116,9 @@ namespace XCharts
         [SerializeField] private float m_IndicatorGap = 10;
         [SerializeField] private int m_CeilRate = 0;
         [SerializeField] private bool m_IsAxisTooltip;
+        [SerializeField] private Color32 m_OutRangeColor = Color.red;
+        [SerializeField] private bool m_ConnectCenter = false;
+        [SerializeField] private bool m_LineGradient = true;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
         /// [default:true]
@@ -214,6 +236,33 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_PositionType, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// The color displayed when data out of range.
+        /// 数值超出范围时显示的颜色。
+        /// </summary>
+        public Color32 outRangeColor
+        {
+            get { return m_OutRangeColor; }
+            set { if (PropertyUtil.SetStruct(ref m_OutRangeColor, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether serie data connect to radar center with line.
+        /// 数值是否连线到中心点。
+        /// </summary>
+        public bool connectCenter
+        {
+            get { return m_ConnectCenter; }
+            set { if (PropertyUtil.SetStruct(ref m_ConnectCenter, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether need gradient for data line.
+        /// 数值线段是否需要渐变。
+        /// </summary>
+        public bool lineGradient
+        {
+            get { return m_LineGradient; }
+            set { if (PropertyUtil.SetStruct(ref m_LineGradient, value)) SetAllDirty(); }
+        }
+        /// <summary>
         /// the indicator list.
         /// 指示器列表。
         /// </summary>
@@ -274,6 +323,12 @@ namespace XCharts
                 if (!indicator1.Equals(indicator2)) return false;
             }
             return true;
+        }
+
+        public bool IsInIndicatorRange(int index, double value)
+        {
+            var indicator = GetIndicator(index);
+            return indicator == null ? true : indicator.IsInRange(value);
         }
 
         public double GetIndicatorMin(int index)

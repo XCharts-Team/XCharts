@@ -19,6 +19,7 @@ namespace XCharts
     public class SerieData : SubComponent
     {
         [SerializeField] private string m_Name;
+        [SerializeField] private string m_Uuid;
         [SerializeField] private bool m_Selected;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_Radius;
@@ -33,6 +34,7 @@ namespace XCharts
         [SerializeField] private bool m_EnableSymbol = false;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private List<double> m_Data = new List<double>();
+        [SerializeField] private List<SerieData> m_Children = new List<SerieData>();
 
         public ChartLabel labelObject { get; set; }
 
@@ -45,6 +47,10 @@ namespace XCharts
         /// 数据项名称。
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
+        /// <summary>
+        /// 数据项的唯一id。唯一id不是必须设置的。
+        /// </summary>
+        public string uuid { get { return m_Uuid; } set { m_Uuid = value; } }
         /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
@@ -113,6 +119,7 @@ namespace XCharts
         /// 可指定任意维数的数值列表。
         /// </summary>
         public List<double> data { get { return m_Data; } set { m_Data = value; } }
+        public List<SerieData> children { get { return m_Children; } set { m_Children = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
         /// 该数据项是否要显示。
@@ -174,6 +181,11 @@ namespace XCharts
         /// 绘制区域。
         /// </summary>
         public Rect runtimeRect { get; set; }
+        public Rect runtimeSubRect { get; set; }
+        public int runtimeLevel { get; set; }
+        public SerieData runtimeParent { get; set; }
+        public Color32 runtimeColor { get; set; }
+        public double runtimeArea { get; set; }
         public float runtimeAngle { get; set; }
         public Vector3 runtiemPieOffsetCenter { get; set; }
         public float runtimeStackHig { get; set; }
@@ -206,6 +218,25 @@ namespace XCharts
             m_Label.Reset();
             m_ItemStyle.Reset();
             m_Emphasis.Reset();
+        }
+
+        public SerieData AddChildData(double value, string name = null)
+        {
+            var serieData = new SerieData();
+            serieData.name = name;
+            serieData.data = new List<double>() { children.Count, value };
+            serieData.runtimeParent = this;
+            children.Add(serieData);
+            return serieData;
+        }
+        public SerieData AddChildData(List<double> value, string name = null)
+        {
+            var serieData = new SerieData();
+            serieData.name = name;
+            serieData.data = new List<double>(value);
+            serieData.runtimeParent = this;
+            children.Add(serieData);
+            return serieData;
         }
 
         public double GetData(int index, bool inverse = false)
@@ -344,6 +375,16 @@ namespace XCharts
                 //m_PreviousData[dimension] = data[dimension];;
                 m_DataUpdateTime[dimension] = Time.time;
                 m_DataUpdateFlag[dimension] = updateAnimation;
+                data[dimension] = value;
+                return true;
+            }
+            return false;
+        }
+
+        public bool UpdateData(int dimension, double value)
+        {
+            if (dimension >= 0 && dimension < data.Count)
+            {
                 data[dimension] = value;
                 return true;
             }

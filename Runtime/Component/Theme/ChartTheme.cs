@@ -227,6 +227,19 @@ namespace XCharts
             else return Color.clear;
         }
 
+        public void SetColorPalette(List<Color32> colorList)
+        {
+            m_ColorPalette = colorList;
+            SetVerticesDirty();
+        }
+        public void SetColorPalette(List<string> hexColorStringList)
+        {
+            m_ColorPalette.Clear();
+            foreach (var hexColor in hexColorStringList)
+                m_ColorPalette.Add(ColorUtil.GetColor(hexColor));
+            SetVerticesDirty();
+        }
+
         public void CheckWarning(StringBuilder sb)
         {
 #if dUI_TextMeshPro

@@ -235,6 +235,7 @@ namespace XCharts
                 serie.runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
                 serie.runtimeCenterPos = new Vector3(serie.runtimeX + serie.runtimeWidth / 2,
                     serie.runtimeY + serie.runtimeHeight / 2);
+                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
             }
             else
             {
@@ -243,6 +244,7 @@ namespace XCharts
                 serie.runtimeWidth = chartWidth;
                 serie.runtimeHeight = chartHeight;
                 serie.runtimeCenterPos = chartPosition + new Vector3(chartWidth / 2, chartHeight / 2);
+                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
             }
         }
 

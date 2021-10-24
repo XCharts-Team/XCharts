@@ -453,7 +453,7 @@ namespace XCharts
                     var active = IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(this, readIndex, datas[i], active);
                     var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, m_Theme,
-                        legendName, bgColor, active,readIndex);
+                        legendName, bgColor, active, readIndex);
                     legend.SetButton(legendName, item, totalLegend);
                     ChartHelper.ClearEventListener(item.button.gameObject);
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>
@@ -529,16 +529,17 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    serieData.index = j;
+                    serieData.index = count;
                     serieData.labelObject = null;
-                    AddSerieLabel(serie, serieData, count);
+                    AddSerieLabel(serie, serieData, ref count);
                     count++;
                 }
             }
             SerieLabelHelper.UpdateLabelText(m_Series, m_Theme, m_LegendRealShowName);
         }
 
-        protected void AddSerieLabel(Serie serie, SerieData serieData, int count = -1)
+
+        protected void AddSerieLabel(Serie serie, SerieData serieData, ref int count)
         {
             if (m_SerieLabelRoot == null) return;
             if (count == -1) count = serie.dataCount;
@@ -546,7 +547,7 @@ namespace XCharts
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
             if (serie.IsPerformanceMode()) return;
             if (!serieLabel.show && !iconStyle.show) return;
-            if(serie.animation.enable && serie.animation.HasFadeOut()) return;
+            if (serie.animation.enable && serie.animation.HasFadeOut()) return;
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
             var color = Color.grey;
             if (serie.type == SerieType.Pie)
@@ -568,6 +569,12 @@ namespace XCharts
             item.SetIcon(iconImage);
             item.SetIconActive(iconStyle.show);
             serieData.labelObject = item;
+
+            foreach (var data in serieData.children)
+            {
+                AddSerieLabel(serie, data, ref count);
+                count++;
+            }
         }
 
         private void InitSerieTitle()

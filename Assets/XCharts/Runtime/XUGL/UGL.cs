@@ -456,6 +456,20 @@ namespace XUGL
             DrawQuadrilateral(vh, p1, p2, p3, p4, color, toColor);
         }
 
+        public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color)
+        {
+            DrawRectangle(vh, rect, 0, color);
+        }
+        public static void DrawRectangle(VertexHelper vh, Rect rect, float border, Color32 color)
+        {
+            DrawRectangle(vh, rect, border, color, color);
+        }
+
+        public static void DrawRectangle(VertexHelper vh, Rect rect, float border, Color32 color, Color32 toColor)
+        {
+            DrawRectangle(vh, rect.center, rect.width / 2 - border, rect.height / 2 - border, color, toColor, true);
+        }
+
         /// <summary>
         ///  Draw a quadrilateral. 画任意的四边形
         /// </summary>
@@ -856,6 +870,26 @@ namespace XUGL
             bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
         {
             DrawBorder(vh, center, rectWidth, rectHeight, borderWidth, color, s_ClearColor32, rotate,
+                cornerRadius, horizontal, smoothness, invertCorner);
+        }
+
+        /// <summary>
+        /// 绘制（圆角）边框
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="rect"></param>
+        /// <param name="borderWidth"></param>
+        /// <param name="color"></param>
+        /// <param name="rotate"></param>
+        /// <param name="cornerRadius"></param>
+        /// <param name="horizontal"></param>
+        /// <param name="smoothness"></param>
+        /// <param name="invertCorner"></param>
+        public static void DrawBorder(VertexHelper vh, Rect rect,
+            float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null,
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
+        {
+            DrawBorder(vh, rect.center, rect.width, rect.height, borderWidth, color, s_ClearColor32, rotate,
                 cornerRadius, horizontal, smoothness, invertCorner);
         }
 

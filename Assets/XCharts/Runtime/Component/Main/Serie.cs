@@ -1188,6 +1188,7 @@ namespace XCharts
         public float runtimeY { get; internal set; }
         public float runtimeWidth { get; internal set; }
         public float runtimeHeight { get; internal set; }
+        public Rect runtimeRect { get; internal set; }
         public List<SerieData> runtimeSortedData { get { return m_SortedData; } }
         public bool nameDirty { get { return m_NameDirty; } }
 
@@ -1641,6 +1642,31 @@ namespace XCharts
             if (index >= 0 && index <= data.Count - 1)
             {
                 return data[index];
+            }
+            return null;
+        }
+
+        public SerieData GetSerieData(string uuid, DataZoom dataZoom = null)
+        {
+            var data = GetDataList(dataZoom);
+            foreach (var serieData in data)
+            {
+                var target = GetSerieData(serieData, uuid);
+                if (target != null) return target;
+            }
+            return null;
+        }
+
+        public SerieData GetSerieData(SerieData parent, string uuid)
+        {
+            if (uuid.Equals(parent.uuid)) return parent;
+            foreach (var child in parent.children)
+            {
+                var data = GetSerieData(child, uuid);
+                if (data != null)
+                {
+                    return data;
+                }
             }
             return null;
         }

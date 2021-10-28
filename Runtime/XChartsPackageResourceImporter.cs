@@ -34,10 +34,14 @@ namespace XCharts
                     GUI.enabled = !m_EssentialResourcesImported;
                     if (GUILayout.Button("Import XCharts Essentials"))
                     {
-                        AssetDatabase.importPackageCompleted += ImportCallback;
-
                         string packageFullPath = GetPackageFullPath();
-                        AssetDatabase.ImportPackage(packageFullPath + "/Package Resources/XCharts Essential Resources.unitypackage", false);
+                        var sourPath = Path.Combine(packageFullPath, "Resources");
+                        var destPath = Path.Combine(Application.dataPath, "XCharts/Resources");
+                        if (CopyFolder(sourPath, destPath))
+                        {
+                            AssetDatabase.SaveAssets();
+                            AssetDatabase.Refresh();
+                        }
                     }
                     GUILayout.Space(5f);
                     GUI.enabled = true;
@@ -45,33 +49,38 @@ namespace XCharts
                 GUILayout.EndVertical();
             }
             GUILayout.EndVertical();
-
-            GUILayout.BeginVertical();
-            {
-                GUILayout.BeginVertical(EditorStyles.helpBox);
-                {
-                    GUILayout.Label("TextMeshPro", EditorStyles.boldLabel);
-#if dUI_TextMeshPro
-                    GUILayout.Label("TextMeshPro is now enabled. You can turn it off by clicking the button below.", new GUIStyle(EditorStyles.label) { wordWrap = true });
-                    GUILayout.Space(5f);
-                    if (GUILayout.Button("Disable TextMeshPro"))
-                    {
-                        XChartsMgr.DisableTextMeshPro();
-                    }
-#else
-                    GUILayout.Label("TextMeshPro is not active. You can activate it by clicking the button below. Make sure TextMeshPro is already in your project before activating it.", new GUIStyle(EditorStyles.label) { wordWrap = true });
-                    GUILayout.Space(5f);
-                    if (GUILayout.Button("Enable TextMeshPro"))
-                    {
-                        XChartsMgr.EnableTextMeshPro();
-                    }
-#endif
-                    GUILayout.Space(5f);
-                }
-                GUILayout.EndVertical();
-            }
-            GUILayout.EndVertical();
             GUILayout.Space(5f);
+        }
+
+        private static bool CopyFolder(string sourPath, string destPath)
+        {
+            try
+            {
+                if (!Directory.Exists(destPath))
+                {
+                    Directory.CreateDirectory(destPath);
+                }
+                var files = Directory.GetFiles(sourPath);
+                foreach (var file in files)
+                {
+                    var name = Path.GetFileName(file);
+                    var path = Path.Combine(destPath, name);
+                    File.Copy(file, path);
+                }
+                var folders = Directory.GetDirectories(sourPath);
+                foreach (var folder in folders)
+                {
+                    var name = Path.GetFileName(folder);
+                    var path = Path.Combine(destPath, name);
+                    CopyFolder(folder, path);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("CopyFolder:" + e.Message);
+                return false;
+            }
         }
 
         internal void RegisterResourceImportCallback()

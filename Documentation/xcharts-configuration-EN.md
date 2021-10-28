@@ -237,6 +237,7 @@ Tooltip component.
   * `{b}` is the `name` of the `serieData` that is currently indicated or whose `index` is `0`, or a `category` value (such as the X-axis of a line chart).
   * `{c}` is the value of a Y-dimension (`dimesion` is 1) from the `serie` that is currently indicated or whose `index` is `0`.
   * `{d}` is the percentage value of Y-dimensions (`dimesion` is 1) from the `serie` that is currently indicated or whose `index` is `0`, with no `%` sign.
+  * `{e}` is the `name` of the `serieData` that is currently indicated or whose `index` is `0`.
   * `{.1}` represents a dot from serie corresponding color that specifies `index` as `1`.
   * `1` in `{a1}`, `{b1}`, `{c1}` represents a `serie` that specifies an `index` of `1`.
   * `{c1:2}` represents the third data from `serie`'s current indication data item indexed to `1` (a data item has multiple data, `index` 2 represents the third data).

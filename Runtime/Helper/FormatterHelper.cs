@@ -15,7 +15,7 @@ namespace XCharts
     public static class FormatterHelper
     {
         public const string PH_NN = "\n";
-        private static Regex s_Regex = new Regex(@"{([a-d|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_Regex = new Regex(@"{([a-e|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSub = new Regex(@"(0\.#*)|(\d+-\d+)|(\w+)|(\.)", RegexOptions.IgnoreCase);
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
@@ -23,11 +23,11 @@ namespace XCharts
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-d|\.](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-d])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-e|\.](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-e])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}。
+        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}。
         /// </summary>
         /// <param name="content">要替换的字符串</param>
         /// <param name="dataIndex">选中的数据项serieData索引</param>
@@ -84,15 +84,16 @@ namespace XCharts
                         content = content.Replace(old, serie.name);
                     }
                 }
-                else if (p == 'b' || p == 'B')
+                else if (p == 'b' || p == 'B' || p == 'e' || p == 'E')
                 {
                     var bIndex = dataIndex;
                     if (argsCount >= 2)
                     {
                         var args1Str = args[1].ToString();
-                        if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
+                        if (s_RegexN.IsMatch(args1Str))
+                            bIndex = int.Parse(args1Str);
                     }
-                    var needCategory = serie.type == SerieType.Line || serie.type == SerieType.Bar;
+                    var needCategory = (p != 'e' && p != 'E') && (serie.type == SerieType.Line || serie.type == SerieType.Bar);
                     if (needCategory)
                     {
                         var category = (chart as CoordinateChart).GetTooltipCategory(dataIndex, serie, dataZoom);
@@ -236,7 +237,7 @@ namespace XCharts
                 {
                     content = content.Replace(old, serieName);
                 }
-                else if (p == 'b' || p == 'B')
+                else if (p == 'b' || p == 'B' || p == 'c' || p == 'E')
                 {
                     content = content.Replace(old, dataName);
                 }

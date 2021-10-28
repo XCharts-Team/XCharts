@@ -101,6 +101,7 @@ namespace XCharts
         /// {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).
         /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.
         /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.
+        /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.
         /// {.1} represents a dot from serie corresponding color that specifies index as 1.
         /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.
         /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).
@@ -115,6 +116,7 @@ namespace XCharts
         /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。
         /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。
         /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。
+        /// {e}为当前所指示或index为0的serie的数据项serieData的name。
         /// {.1}表示指定index为1的serie对应颜色的圆点。
         /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。

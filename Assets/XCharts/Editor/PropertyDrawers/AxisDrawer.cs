@@ -29,6 +29,12 @@ namespace XCharts
                 EditorGUI.indentLevel++;
                 PropertyField(prop, isPolar ? "m_PolarIndex" : "m_GridIndex");
                 PropertyField(prop, "m_Type");
+                if (type == Axis.AxisType.Time)
+                {
+                    var chartTypeName = prop.serializedObject.targetObject.GetType().Name;
+                    if (!chartTypeName.Equals("GanttChart"))
+                        EditorGUILayout.HelpBox("The Time axis is currently only supported in GanttChart.", MessageType.Warning);
+                }
                 PropertyField(prop, "m_Position");
                 PropertyField(prop, "m_Offset");
                 if (type == Axis.AxisType.Log)

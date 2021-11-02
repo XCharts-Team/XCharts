@@ -363,6 +363,7 @@ namespace XCharts
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] internal List<SerieData> m_FilterData = new List<SerieData>();
         [NonSerialized] internal List<SerieData> m_SortedData = new List<SerieData>();
+        [NonSerialized] internal List<SerieData> m_RootData = new List<SerieData>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
@@ -1190,6 +1191,7 @@ namespace XCharts
         public float runtimeHeight { get; internal set; }
         public Rect runtimeRect { get; internal set; }
         public List<SerieData> runtimeSortedData { get { return m_SortedData; } }
+        public List<SerieData> rootData { get { return m_RootData; } }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()
@@ -1530,6 +1532,32 @@ namespace XCharts
             }
         }
 
+        public SerieData AddChildData(SerieData parent, double value, string name = null)
+        {
+            var serieData = new SerieData();
+            serieData.name = name;
+            serieData.index = m_Data.Count;
+            serieData.data = new List<double>() { parent.children.Count, value };
+            serieData.parentIndex = parent.index;
+            serieData.runtimeParent = parent;
+            AddSerieDataHeadOrTail(serieData);
+            parent.children.Add(serieData.index);
+            parent.runtimeChildren.Add(serieData);
+            return serieData;
+        }
+        public SerieData AddChildData(SerieData parent, List<double> value, string name = null)
+        {
+            var serieData = new SerieData();
+            serieData.name = name;
+            serieData.index = m_Data.Count;
+            serieData.data = new List<double>(value);
+            serieData.parentIndex = parent.index;
+            serieData.runtimeParent = parent;
+            AddSerieDataHeadOrTail(serieData);
+            parent.children.Add(serieData.index);
+            parent.runtimeChildren.Add(serieData);
+            return serieData;
+        }
 
         private void CheckMaxCache()
         {
@@ -1646,23 +1674,23 @@ namespace XCharts
             return null;
         }
 
-        public SerieData GetSerieData(string uuid, DataZoom dataZoom = null)
+        public SerieData GetSerieData(string id, DataZoom dataZoom = null)
         {
             var data = GetDataList(dataZoom);
             foreach (var serieData in data)
             {
-                var target = GetSerieData(serieData, uuid);
+                var target = GetSerieData(serieData, id);
                 if (target != null) return target;
             }
             return null;
         }
 
-        public SerieData GetSerieData(SerieData parent, string uuid)
+        public SerieData GetSerieData(SerieData parent, string id)
         {
-            if (uuid.Equals(parent.uuid)) return parent;
+            if (id.Equals(parent.id)) return parent;
             foreach (var child in parent.children)
             {
-                var data = GetSerieData(child, uuid);
+                var data = GetSerieData(GetSerieData(child), id);
                 if (data != null)
                 {
                     return data;

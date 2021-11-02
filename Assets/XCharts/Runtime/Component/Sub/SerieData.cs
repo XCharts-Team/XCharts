@@ -18,8 +18,10 @@ namespace XCharts
     [System.Serializable]
     public class SerieData : SubComponent
     {
+        [SerializeField] private int m_Index;
+        [SerializeField] private int m_ParentIndex = -1;
         [SerializeField] private string m_Name;
-        [SerializeField] private string m_Uuid;
+        [SerializeField] private string m_Id;
         [SerializeField] private bool m_Selected;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_Radius;
@@ -34,14 +36,15 @@ namespace XCharts
         [SerializeField] private bool m_EnableSymbol = false;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private List<double> m_Data = new List<double>();
-        [SerializeField] private List<SerieData> m_Children = new List<SerieData>();
+        [SerializeField] private List<int> m_Children = new List<int>();
 
         public ChartLabel labelObject { get; set; }
 
         private bool m_Show = true;
         private float m_RtPieOutsideRadius;
 
-        public int index { get; set; }
+        public int index { get { return m_Index; } set { m_Index = value; } }
+        public int parentIndex { get { return m_ParentIndex; } set { m_ParentIndex = value; } }
         /// <summary>
         /// the name of data item.
         /// 数据项名称。
@@ -50,7 +53,7 @@ namespace XCharts
         /// <summary>
         /// 数据项的唯一id。唯一id不是必须设置的。
         /// </summary>
-        public string uuid { get { return m_Uuid; } set { m_Uuid = value; } }
+        public string id { get { return m_Id; } set { m_Id = value; } }
         /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
@@ -119,7 +122,7 @@ namespace XCharts
         /// 可指定任意维数的数值列表。
         /// </summary>
         public List<double> data { get { return m_Data; } set { m_Data = value; } }
-        public List<SerieData> children { get { return m_Children; } set { m_Children = value; } }
+        public List<int> children { get { return m_Children; } set { m_Children = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
         /// 该数据项是否要显示。
@@ -190,14 +193,19 @@ namespace XCharts
         public Vector3 runtiemPieOffsetCenter { get; set; }
         public float runtimeStackHig { get; set; }
         public Image runtimeSymbol { get; set; }
+        public List<SerieData> runtimeChildren { get { return m_RuntimeChildren; } }
+
         private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
         private List<Vector2> m_PolygonPoints = new List<Vector2>();
+        [System.NonSerialized]
+        private List<SerieData> m_RuntimeChildren = new List<SerieData>();
 
         public void Reset()
         {
             index = 0;
+            m_ParentIndex = -1;
             labelObject = null;
             highlighted = false;
             m_Name = string.Empty;
@@ -212,31 +220,14 @@ namespace XCharts
             m_Radius = 0;
             m_Data.Clear();
             m_PreviousData.Clear();
+            m_PolygonPoints.Clear();
+            m_RuntimeChildren.Clear();
             m_DataUpdateTime.Clear();
             m_DataUpdateFlag.Clear();
             m_IconStyle.Reset();
             m_Label.Reset();
             m_ItemStyle.Reset();
             m_Emphasis.Reset();
-        }
-
-        public SerieData AddChildData(double value, string name = null)
-        {
-            var serieData = new SerieData();
-            serieData.name = name;
-            serieData.data = new List<double>() { children.Count, value };
-            serieData.runtimeParent = this;
-            children.Add(serieData);
-            return serieData;
-        }
-        public SerieData AddChildData(List<double> value, string name = null)
-        {
-            var serieData = new SerieData();
-            serieData.name = name;
-            serieData.data = new List<double>(value);
-            serieData.runtimeParent = this;
-            children.Add(serieData);
-            return serieData;
         }
 
         public double GetData(int index, bool inverse = false)

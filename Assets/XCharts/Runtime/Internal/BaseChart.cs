@@ -570,9 +570,9 @@ namespace XCharts
             item.SetIconActive(iconStyle.show);
             serieData.labelObject = item;
 
-            foreach (var data in serieData.children)
+            foreach (var dataIndex in serieData.children)
             {
-                AddSerieLabel(serie, data, ref count);
+                AddSerieLabel(serie, serie.GetSerieData(dataIndex), ref count);
                 count++;
             }
         }

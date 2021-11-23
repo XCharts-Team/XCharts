@@ -61,8 +61,8 @@ if (chart == null)
 Set the title:
 
 ```C#
-chart.title.show = true;
-chart.title.text = "Line Simple";
+chart.GetChartComponent<Title>().show = true;
+chart.GetChartComponent<Title>().text = "Line Simple";
 ```
 
 Set the tooltip and legend:
@@ -75,19 +75,19 @@ chart.legend.show = false;
 Sets whether to use double axes and the type of axes:
 
 ```C#
-chart.xAxes[0].show = true;
+xAxis.show = true;
 chart.xAxes[1].show = false;
-chart.yAxes[0].show = true;
+yAxis.show = true;
 chart.yAxes[1].show = false;
-chart.xAxes[0].type = Axis.AxisType.Category;
-chart.yAxes[0].type = Axis.AxisType.Value;
+xAxis.type = Axis.AxisType.Category;
+yAxis.type = Axis.AxisType.Value;
 ```
 
 Set the dividing line of coordinate axis:
 
 ```C#
-chart.xAxes[0].splitNumber = 10;
-chart.xAxes[0].boundaryGap = true;
+xAxis.splitNumber = 10;
+xAxis.boundaryGap = true;
 ```
 
 Clear data, add 'Serie' of type 'Line' to receive the data:

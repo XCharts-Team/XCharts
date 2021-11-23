@@ -1,0 +1,26 @@
+/************************************************/
+/*                                              */
+/*     Copyright (c) 2018 - 2021 monitor1394    */
+/*     https://github.com/monitor1394           */
+/*                                              */
+/************************************************/
+
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace XCharts
+{
+    public class VisualMapContext : MainComponentContext
+    {
+        /// <summary>
+        /// 鼠标悬停选中的index
+        /// </summary>
+        public int pointerIndex { get; set; }
+        public double pointerValue { get; set; }
+        public bool minDrag { get; internal set; }
+        public bool maxDrag { get; internal set; }
+
+        internal List<Color32> inRangeColors = new List<Color32>();
+        
+    }
+}

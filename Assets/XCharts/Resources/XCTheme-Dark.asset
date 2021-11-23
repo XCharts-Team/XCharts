@@ -1,0 +1,207 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c59330ca0f4443b69f06b890a44f32e, type: 3}
+  m_Name: XCTheme-Dark
+  m_EditorClassIdentifier: 
+  m_ThemeType: 2
+  m_ThemeName: Dark
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_ContrastColor:
+    serializedVersion: 2
+    rgba: 0
+  m_BackgroundColor:
+    serializedVersion: 2
+    rgba: 4280945680
+  m_ColorPalette:
+  - serializedVersion: 2
+    rgba: 4294939209
+  - serializedVersion: 2
+    rgba: 4289920892
+  - serializedVersion: 2
+    rgba: 4284538365
+  - serializedVersion: 2
+    rgba: 4285951743
+  - serializedVersion: 2
+    rgba: 4294564184
+  - serializedVersion: 2
+    rgba: 4287741957
+  - serializedVersion: 2
+    rgba: 4282747647
+  - serializedVersion: 2
+    rgba: 4293085325
+  - serializedVersion: 2
+    rgba: 4294932957
+  m_Common:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 20
+  m_Title:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.93333334, g: 0.94509804, b: 0.98039216, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 24
+  m_SubTitle:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 22
+  m_Legend:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 20
+    m_UnableColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_Axis:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 18
+    m_LineType: 0
+    m_LineWidth: 0.8
+    m_LineLength: 0
+    m_LineColor:
+      serializedVersion: 2
+      rgba: 4291737785
+    m_SplitLineType: 0
+    m_SplitLineWidth: 0.8
+    m_SplitLineLength: 0
+    m_SplitLineColor:
+      serializedVersion: 2
+      rgba: 4283647816
+    m_TickWidth: 0.8
+    m_TickLength: 5
+    m_TickColor:
+      serializedVersion: 2
+      rgba: 4291737785
+    m_SplitAreaColors:
+    - serializedVersion: 2
+      rgba: 100663295
+    - serializedVersion: 2
+      rgba: 218103807
+  m_Gauge:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 18
+    m_LineType: 0
+    m_LineWidth: 15
+    m_LineLength: 0
+    m_LineColor:
+      serializedVersion: 2
+      rgba: 4291737785
+    m_SplitLineType: 0
+    m_SplitLineWidth: 0.8
+    m_SplitLineLength: 15
+    m_SplitLineColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_TickWidth: 0.8
+    m_TickLength: 5
+    m_TickColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_SplitAreaColors:
+    - serializedVersion: 2
+      rgba: 100663295
+    - serializedVersion: 2
+      rgba: 218103807
+    m_BarBackgroundColor:
+      serializedVersion: 2
+      rgba: 4291348680
+    m_StageColor:
+    - m_Percent: 0.2
+      m_Color:
+        serializedVersion: 2
+        rgba: 4289644433
+    - m_Percent: 0.8
+      m_Color:
+        serializedVersion: 2
+        rgba: 4288579171
+    - m_Percent: 1
+      m_Color:
+        serializedVersion: 2
+        rgba: 4281415106
+  m_Tooltip:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+    m_TextBackgroundColor: {r: 0.31764707, g: 0.31764707, b: 0.31764707, a: 0.78431374}
+    m_FontSize: 20
+    m_LineType: 0
+    m_LineWidth: 0.8
+    m_LineColor:
+      serializedVersion: 2
+      rgba: 4293848814
+    m_AreaColor:
+      serializedVersion: 2
+      rgba: 542200145
+    m_LabelTextColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_LabelBackgroundColor:
+      serializedVersion: 2
+      rgba: 4289177511
+  m_DataZoom:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 20
+    m_BorderWidth: 0.5
+    m_DataLineWidth: 0.5
+    m_FillerColor:
+      serializedVersion: 2
+      rgba: 869180295
+    m_BorderColor:
+      serializedVersion: 2
+      rgba: 4287262833
+    m_DataLineColor:
+      serializedVersion: 2
+      rgba: 4287262833
+    m_DataAreaColor:
+      serializedVersion: 2
+      rgba: 4287262833
+    m_BackgroundColor:
+      serializedVersion: 2
+      rgba: 0
+  m_VisualMap:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_TextColor: {r: 0.7254902, g: 0.72156864, b: 0.80784315, a: 1}
+    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    m_FontSize: 18
+    m_BorderWidth: 0
+    m_BorderColor:
+      serializedVersion: 2
+      rgba: 4291611852
+    m_BackgroundColor:
+      serializedVersion: 2
+      rgba: 0
+    m_TriangeLen: 20
+  m_Serie:
+    m_LineWidth: 1.8
+    m_LineSymbolSize: 4
+    m_LineSymbolSelectedSize: 8
+    m_ScatterSymbolSize: 20
+    m_ScatterSymbolSelectedSize: 30
+    m_PieTooltipExtraRadius: 8
+    m_PieSelectedOffset: 8
+    m_CandlestickColor:
+      serializedVersion: 2
+      rgba: 4281415106
+    m_CandlestickColor0:
+      serializedVersion: 2
+      rgba: 4283844145
+    m_CandlestickBorderWidth: 1
+    m_CandlestickBorderColor:
+      serializedVersion: 2
+      rgba: 4281415106
+    m_CandlestickBorderColor0:
+      serializedVersion: 2
+      rgba: 4283844145

@@ -13,56 +13,47 @@ namespace XCharts
     {
         public static void CheckLabel(Serie serie, ref bool m_ReinitLabel, ref bool m_UpdateLabelText)
         {
-            switch (serie.type)
+            if (serie is Gauge || serie is Ring)
             {
-                case SerieType.Gauge:
-                case SerieType.Ring:
-                    var serieData = serie.GetSerieData(0);
-                    if (serieData != null)
+                var serieData = serie.GetSerieData(0);
+                if (serieData != null)
+                {
+                    if (serie.label.show && serie.show)
                     {
-                        if (serie.label.show && serie.show)
+                        if (serieData.labelObject != null)
                         {
-                            if (serieData.labelObject != null)
-                            {
-                                serieData.SetLabelActive(true);
-                                m_UpdateLabelText = true;
-                            }
-                            else
-                            {
-                                m_ReinitLabel = true;
-                            }
+                            serieData.SetLabelActive(true);
+                            m_UpdateLabelText = true;
                         }
-                        else if (serieData.labelObject != null)
+                        else
                         {
-                            serieData.SetLabelActive(false);
+                            m_ReinitLabel = true;
                         }
                     }
-                    break;
-            }
-        }
-
-        public static void UpdateLabelText(Series series, ChartTheme theme, List<string> legendRealShowName)
-        {
-            foreach (var serie in series.list)
-            {
-                if (!serie.label.show) continue;
-                var colorIndex = legendRealShowName.IndexOf(serie.name);
-                switch (serie.type)
-                {
-                    case SerieType.Gauge:
-                        SetGaugeLabelText(serie);
-                        break;
-                    case SerieType.Ring:
-                        SetRingLabelText(serie, theme);
-                        break;
-                    case SerieType.Liquid:
-                        SetLiquidLabelText(serie, theme, colorIndex);
-                        break;
+                    else if (serieData.labelObject != null)
+                    {
+                        serieData.SetLabelActive(false);
+                    }
                 }
             }
         }
 
-        public static Color GetLabelColor(Serie serie, ChartTheme theme, int index)
+        public static void UpdateLabelText(List<Serie> series, ThemeStyle theme, List<string> legendRealShowName)
+        {
+            foreach (var serie in series)
+            {
+                if (!serie.label.show) continue;
+                var colorIndex = legendRealShowName.IndexOf(serie.serieName);
+                if (serie is Gauge)
+                    SetGaugeLabelText(serie);
+                else if (serie is Ring)
+                    SetRingLabelText(serie, theme);
+                else if (serie is Liquid)
+                    SetLiquidLabelText(serie, theme, colorIndex);
+            }
+        }
+
+        public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)
         {
             if (!ChartHelper.IsClearColor(serie.label.textStyle.color))
             {
@@ -74,7 +65,7 @@ namespace XCharts
             }
         }
 
-        public static void ResetLabel(ChartText labelObject, SerieLabel label, ChartTheme theme, int colorIndex)
+        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme, int colorIndex)
         {
             if (labelObject == null) return;
             labelObject.SetColor(!ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color :
@@ -83,20 +74,20 @@ namespace XCharts
             labelObject.SetFontStyle(label.textStyle.fontStyle);
         }
 
-        public static bool CanShowLabel(Serie serie, SerieData serieData, SerieLabel label, int dimesion)
+        public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)
         {
             return serie.show && serieData.canShowLabel && !serie.IsIgnoreValue(serieData, dimesion);
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,
-            double dataValue, double dataTotal, SerieLabel serieLabel, Color color)
+            double dataValue, double dataTotal, LabelStyle serieLabel, Color color)
         {
             if (serieLabel == null)
             {
                 serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             }
             var numericFormatter = serieLabel == null ? serie.label.numericFormatter : serieLabel.numericFormatter;
-            var serieName = serie.name;
+            var serieName = serie.serieName;
             var dataName = serieData != null ? serieData.name : null;
             if (serieLabel.formatterFunction != null)
             {
@@ -129,7 +120,7 @@ namespace XCharts
             }
         }
 
-        public static void SetRingLabelText(Serie serie, ChartTheme theme)
+        public static void SetRingLabelText(Serie serie, ThemeStyle theme)
         {
             for (int i = 0; i < serie.dataCount; i++)
             {
@@ -147,9 +138,9 @@ namespace XCharts
                     var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
                     serieData.SetLabelActive(true);
                     serieData.labelObject.SetText(content);
-                    serieData.labelObject.SetLabelColor(GetLabelColor(serie, theme, i));
+                    serieData.labelObject.SetTextColor(GetLabelColor(serie, theme, i));
 
-                    if (serie.label.position == SerieLabel.Position.Bottom)
+                    if (serie.label.position == LabelStyle.Position.Bottom)
                     {
                         var labelWidth = serieData.GetLabelWidth();
                         if (serie.clockwise)
@@ -165,7 +156,7 @@ namespace XCharts
             }
         }
 
-        public static void SetLiquidLabelText(Serie serie, ChartTheme theme, int colorIndex)
+        public static void SetLiquidLabelText(Serie serie, ThemeStyle theme, int colorIndex)
         {
             var serieData = serie.GetSerieData(0);
             if (serieData == null) return;
@@ -182,7 +173,7 @@ namespace XCharts
                 var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
                 serieData.SetLabelActive(true);
                 serieData.labelObject.SetText(content);
-                serieData.labelObject.SetLabelColor(GetLabelColor(serie, theme, colorIndex));
+                serieData.labelObject.SetTextColor(GetLabelColor(serie, theme, colorIndex));
                 serieData.labelObject.SetLabelPosition(serieData.labelPosition + serieLabel.offset);
             }
         }
@@ -196,19 +187,20 @@ namespace XCharts
             var insideRadius = serieData.runtimePieInsideRadius;
             var outsideRadius = serieData.runtimePieOutsideRadius;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             switch (serieLabel.position)
             {
-                case SerieLabel.Position.Center:
+                case LabelStyle.Position.Center:
                     serieData.labelPosition = serie.runtimeCenterPos;
                     break;
-                case SerieLabel.Position.Inside:
+                case LabelStyle.Position.Inside:
                     var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.margin;
                     var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
                         serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
                     serieData.labelPosition = labelCenter;
                     break;
-                case SerieLabel.Position.Outside:
-                    if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine)
+                case LabelStyle.Position.Outside:
+                    if (labelLine.lineType == LabelLine.LineType.HorizontalLine)
                     {
                         var radius1 = serie.runtimeOutsideRadius;
                         var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
@@ -221,13 +213,13 @@ namespace XCharts
                             currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
                         }
                         var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
-                        r4 += serieLabel.lineLength1 + serieLabel.lineWidth * 4;
+                        r4 += labelLine.lineLength1 + labelLine.lineWidth * 4;
                         r4 += serieData.labelObject.label.GetPreferredWidth() / 2;
                         serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
                     }
                     else
                     {
-                        labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
+                        labelRadius = serie.runtimeOutsideRadius + labelLine.lineLength1;
                         labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
                             serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
                         serieData.labelPosition = labelCenter;
@@ -272,9 +264,10 @@ namespace XCharts
             }
             if (!serieData.show) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             var fontSize = serieLabel.textStyle.GetFontSize(theme);
             if (!serieLabel.show) return;
-            if (serieLabel.position != SerieLabel.Position.Outside) return;
+            if (serieLabel.position != LabelStyle.Position.Outside) return;
             if (lastCheckPos == Vector3.zero)
             {
                 lastCheckPos = serieData.labelPosition;
@@ -283,7 +276,7 @@ namespace XCharts
             {
                 if (lastCheckPos.y - serieData.labelPosition.y < fontSize)
                 {
-                    var labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
+                    var labelRadius = serie.runtimeOutsideRadius + labelLine.lineLength1;
                     var y1 = lastCheckPos.y - fontSize;
                     var cy = serie.runtimeCenterPos.y;
                     var diff = Mathf.Abs(y1 - cy);
@@ -293,16 +286,16 @@ namespace XCharts
                     serieData.labelPosition = new Vector3(x1, y1);
                 }
                 lastCheckPos = serieData.labelPosition;
-                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel));
+                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel, labelLine));
             }
         }
 
-        public static Vector3 GetRealLabelPosition(SerieData serieData, SerieLabel label)
+        public static Vector3 GetRealLabelPosition(SerieData serieData, LabelStyle label, LabelLine labelLine)
         {
-            if (label.position == SerieLabel.Position.Outside && label.lineType != SerieLabel.LineType.HorizontalLine)
+            if (label.position == LabelStyle.Position.Outside && labelLine.lineType != LabelLine.LineType.HorizontalLine)
             {
                 var currAngle = serieData.runtimePieHalfAngle;
-                var offset = label.lineLength2 + serieData.labelObject.GetLabelWidth() / 2;
+                var offset = labelLine.lineLength2 + serieData.labelObject.GetLabelWidth() / 2;
                 if (currAngle > 180)
                     return serieData.labelPosition + new Vector3(-offset, 0, 0);
                 else

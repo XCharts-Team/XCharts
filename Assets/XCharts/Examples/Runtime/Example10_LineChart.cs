@@ -56,15 +56,16 @@ namespace XCharts.Examples
         {
             chart = gameObject.GetComponent<LineChart>();
             if (chart == null) chart = gameObject.AddComponent<LineChart>();
-            chart.title.text = "LineChart - 折线图";
-            chart.title.subText = "普通折线图";
+            chart.GetChartComponent<Title>().text = "LineChart - 折线图";
+            chart.GetChartComponent<Title>().subText = "普通折线图";
 
-            chart.yAxis0.minMaxType = Axis.AxisMinMaxType.Custom;
-            chart.yAxis0.min = 0;
-            chart.yAxis0.max = 100;
+            var yAxis = chart.GetChartComponent<YAxis>();
+            yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
+            yAxis.min = 0;
+            yAxis.max = 100;
 
             chart.RemoveData();
-            serie = chart.AddSerie(SerieType.Line, "Line");
+            serie = chart.AddSerie<Line>("Line");
 
             for (int i = 0; i < m_DataNum; i++)
             {
@@ -76,12 +77,12 @@ namespace XCharts.Examples
 
         IEnumerator ChangeLineType()
         {
-            chart.title.subText = "LineTyle - 曲线图";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 曲线图";
             serie.lineType = LineType.Smooth;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineTyle - 阶梯线图";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 阶梯线图";
             serie.lineType = LineType.StepStart;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
@@ -94,22 +95,22 @@ namespace XCharts.Examples
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineTyle - 虚线";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 虚线";
             serie.lineType = LineType.Dash;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineTyle - 点线";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 点线";
             serie.lineType = LineType.Dot;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineTyle - 点划线";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 点划线";
             serie.lineType = LineType.DashDot;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineTyle - 双点划线";
+            chart.GetChartComponent<Title>().subText = "LineTyle - 双点划线";
             serie.lineType = LineType.DashDotDot;
             chart.RefreshChart();
 
@@ -119,19 +120,19 @@ namespace XCharts.Examples
 
         IEnumerator LineAreaStyleSettings()
         {
-            chart.title.subText = "AreaStyle 面积图";
+            chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
 
             serie.areaStyle.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
 
-            chart.title.subText = "AreaStyle 面积图";
+            chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
             serie.lineType = LineType.Smooth;
             serie.areaStyle.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
 
-            chart.title.subText = "AreaStyle 面积图 - 调整透明度";
+            chart.GetChartComponent<Title>().subText = "AreaStyle 面积图 - 调整透明度";
             while (serie.areaStyle.opacity > 0.4)
             {
                 serie.areaStyle.opacity -= 0.6f * Time.deltaTime;
@@ -140,7 +141,7 @@ namespace XCharts.Examples
             }
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "AreaStyle 面积图 - 渐变";
+            chart.GetChartComponent<Title>().subText = "AreaStyle 面积图 - 渐变";
             serie.areaStyle.toColor = Color.white;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
@@ -148,13 +149,13 @@ namespace XCharts.Examples
 
         IEnumerator LineArrowSettings()
         {
-            chart.title.subText = "LineArrow 头部箭头";
+            chart.GetChartComponent<Title>().subText = "LineArrow 头部箭头";
             serie.lineArrow.show = true;
             serie.lineArrow.position = LineArrow.Position.Start;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "LineArrow 尾部箭头";
+            chart.GetChartComponent<Title>().subText = "LineArrow 尾部箭头";
             serie.lineArrow.position = LineArrow.Position.End;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
@@ -167,38 +168,38 @@ namespace XCharts.Examples
         /// <returns></returns>
         IEnumerator LineSymbolSettings()
         {
-            chart.title.subText = "SerieSymbol 图形标记";
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记";
             while (serie.symbol.size < 5)
             {
                 serie.symbol.size += 2.5f * Time.deltaTime;
                 chart.RefreshChart();
                 yield return null;
             }
-            chart.title.subText = "SerieSymbol 图形标记 - 空心圆";
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 空心圆";
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "SerieSymbol 图形标记 - 实心圆";
-            serie.symbol.type = SerieSymbolType.Circle;
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 实心圆";
+            serie.symbol.type = SymbolType.Circle;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "SerieSymbol 图形标记 - 三角形";
-            serie.symbol.type = SerieSymbolType.Triangle;
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 三角形";
+            serie.symbol.type = SymbolType.Triangle;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "SerieSymbol 图形标记 - 正方形";
-            serie.symbol.type = SerieSymbolType.Rect;
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 正方形";
+            serie.symbol.type = SymbolType.Rect;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "SerieSymbol 图形标记 - 菱形";
-            serie.symbol.type = SerieSymbolType.Diamond;
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 菱形";
+            serie.symbol.type = SymbolType.Diamond;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            chart.title.subText = "SerieSymbol 图形标记";
-            serie.symbol.type = SerieSymbolType.EmptyCircle;
+            chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记";
+            serie.symbol.type = SymbolType.EmptyCircle;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
         }
@@ -209,7 +210,7 @@ namespace XCharts.Examples
         /// <returns></returns>
         IEnumerator LineLabelSettings()
         {
-            chart.title.subText = "SerieLabel 文本标签";
+            chart.GetChartComponent<Title>().subText = "SerieLabel 文本标签";
             serie.label.show = true;
             serie.label.border = false;
             chart.RefreshChart();
@@ -227,7 +228,7 @@ namespace XCharts.Examples
 
             serie.label.textStyle.color = Color.white;
             serie.label.textStyle.backgroundColor = Color.grey;
-            chart.RefreshLabel();
+            serie.labelDirty = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
@@ -241,8 +242,8 @@ namespace XCharts.Examples
         /// <returns></returns>
         IEnumerator LineMutilSerie()
         {
-            chart.title.subText = "多系列";
-            var serie2 = chart.AddSerie(SerieType.Line, "Line2");
+            chart.GetChartComponent<Title>().subText = "多系列";
+            var serie2 = chart.AddSerie<Line>("Line2");
             serie2.lineType = LineType.Normal;
             for (int i = 0; i < m_DataNum; i++)
             {
@@ -250,7 +251,7 @@ namespace XCharts.Examples
             }
             yield return new WaitForSeconds(1);
 
-            var serie3 = chart.AddSerie(SerieType.Line, "Line3");
+            var serie3 = chart.AddSerie<Line>("Line3");
             serie3.lineType = LineType.Normal;
             for (int i = 0; i < m_DataNum; i++)
             {
@@ -258,8 +259,9 @@ namespace XCharts.Examples
             }
             yield return new WaitForSeconds(1);
 
-            chart.yAxis0.minMaxType = Axis.AxisMinMaxType.Default;
-            chart.title.subText = "多系列 - 堆叠";
+            var yAxis = chart.GetChartComponent<YAxis>();
+            yAxis.minMaxType = Axis.AxisMinMaxType.Default;
+            chart.GetChartComponent<Title>().subText = "多系列 - 堆叠";
             serie.stack = "samename";
             serie2.stack = "samename";
             serie3.stack = "samename";

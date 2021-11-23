@@ -47,28 +47,35 @@ namespace XCharts.Examples
         {
             chart = gameObject.GetComponent<RadarChart>();
             if (chart == null) chart = gameObject.AddComponent<RadarChart>();
-            chart.RemoveRadar();
+
+            chart.RemoveChartComponents<RadarCoord>();
             chart.RemoveData();
 
-            chart.title.text = "RadarChart - 雷达图";
-            chart.title.subText = "";
+            chart.GetChartComponent<Title>().text = "RadarChart - 雷达图";
+            chart.GetChartComponent<Title>().subText = "";
 
-            chart.legend.show = true;
-            chart.legend.location.align = Location.Align.TopLeft;
-            chart.legend.location.top = 60;
-            chart.legend.location.left = 2;
-            chart.legend.itemWidth = 70;
-            chart.legend.itemHeight = 20;
-            chart.legend.orient = Orient.Vertical;
+            var legend = chart.GetChartComponent<Legend>();
+            legend.show = true;
+            legend.location.align = Location.Align.TopLeft;
+            legend.location.top = 60;
+            legend.location.left = 2;
+            legend.itemWidth = 70;
+            legend.itemHeight = 20;
+            legend.orient = Orient.Vertical;
 
-            chart.AddRadar(Radar.Shape.Polygon, new Vector2(0.5f, 0.4f), 0.4f);
-            chart.AddIndicator(0, "indicator1", 0, 100);
-            chart.AddIndicator(0, "indicator2", 0, 100);
-            chart.AddIndicator(0, "indicator3", 0, 100);
-            chart.AddIndicator(0, "indicator4", 0, 100);
-            chart.AddIndicator(0, "indicator5", 0, 100);
+            var radarCoord = chart.AddChartComponent<RadarCoord>();
+            radarCoord.shape = RadarCoord.Shape.Polygon;
+            radarCoord.center[0] = 0.5f;
+            radarCoord.center[1] = 0.4f;
+            radarCoord.radius = 0.4f;
 
-            serie = chart.AddSerie(SerieType.Radar, "test");
+            radarCoord.AddIndicator("indicator1", 0, 100);
+            radarCoord.AddIndicator("indicator2", 0, 100);
+            radarCoord.AddIndicator("indicator3", 0, 100);
+            radarCoord.AddIndicator("indicator4", 0, 100);
+            radarCoord.AddIndicator("indicator5", 0, 100);
+
+            serie = chart.AddSerie<Radar>("test");
             serie.radarIndex = 0;
             chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
             chart.AddData(0, new List<double> { 40, 60, 90, 80, 70 }, "data2");
@@ -77,7 +84,8 @@ namespace XCharts.Examples
 
         IEnumerator RadarUpdate()
         {
-            chart.UpdateIndicator(0, 0, "new1", 0, 100);
+            var radarCoord = chart.GetChartComponent<RadarCoord>();
+            radarCoord.UpdateIndicator(0, "new1", 0, 100);
             chart.UpdateData(0, 0, new List<double> { 15, 30, 50, 60, 50 });
             chart.UpdateDataName(0, 0, "new1");
             yield return new WaitForSeconds(1);
@@ -85,37 +93,46 @@ namespace XCharts.Examples
 
         IEnumerator RadarAddMultiple()
         {
-            chart.RemoveRadar();
+            chart.RemoveChartComponents<RadarCoord>();
             chart.RemoveData();
 
-            chart.title.text = "RadarChart - 多雷达图";
-            chart.title.subText = "";
+            chart.GetChartComponent<Title>().text = "RadarChart - 多雷达图";
+            chart.GetChartComponent<Title>().subText = "";
 
-            chart.legend.show = true;
-            chart.legend.location.align = Location.Align.TopLeft;
-            chart.legend.location.top = 60;
-            chart.legend.location.left = 2;
-            chart.legend.itemWidth = 70;
-            chart.legend.itemHeight = 20;
-            chart.legend.orient = Orient.Vertical;
+            var legend = chart.GetChartComponent<Legend>();
+            legend.show = true;
+            legend.location.align = Location.Align.TopLeft;
+            legend.location.top = 60;
+            legend.location.left = 2;
+            legend.itemWidth = 70;
+            legend.itemHeight = 20;
+            legend.orient = Orient.Vertical;
 
-            chart.AddRadar(Radar.Shape.Polygon, new Vector2(0.25f, 0.4f), 0.25f);
+            var radarCoord = chart.AddChartComponent<RadarCoord>();
+            radarCoord.shape = RadarCoord.Shape.Polygon;
+            radarCoord.center[0] = 0.25f;
+            radarCoord.center[1] = 0.4f;
+            radarCoord.radius = 0.25f;
             for (int i = 1; i <= 5; i++)
             {
-                chart.AddIndicator(0, "radar1" + i, 0, 100);
+                radarCoord.AddIndicator("radar1" + i, 0, 100);
             }
 
-            chart.AddRadar(Radar.Shape.Circle, new Vector2(0.75f, 0.4f), 0.25f);
+            var radarCoord2 = chart.AddChartComponent<RadarCoord>();
+            radarCoord2.shape = RadarCoord.Shape.Polygon;
+            radarCoord2.center[0] = 0.75f;
+            radarCoord2.center[1] = 0.4f;
+            radarCoord2.radius = 0.25f;
             for (int i = 1; i <= 5; i++)
             {
-                chart.AddIndicator(1, "radar2" + i, 0, 100);
+                radarCoord2.AddIndicator("radar2" + i, 0, 100);
             }
 
-            serie = chart.AddSerie(SerieType.Radar, "test1");
+            serie = chart.AddSerie<Radar>("test1");
             serie.radarIndex = 0;
             chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
 
-            serie1 = chart.AddSerie(SerieType.Radar, "test2");
+            serie1 = chart.AddSerie<Radar>("test2");
             serie1.radarIndex = 1;
             chart.AddData(1, new List<double> { 10, 20, 60, 40, 20 }, "data2");
             yield return new WaitForSeconds(1);

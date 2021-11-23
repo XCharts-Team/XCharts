@@ -11,25 +11,24 @@ namespace XCharts.Examples
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(CoordinateChart))]
+    [RequireComponent(typeof(BaseChart))]
     public class Example_LargeData : MonoBehaviour
     {
         public int maxCacheDataNumber = 3000;
         public float initDataTime = 5;
 
-        private CoordinateChart chart;
+        private BaseChart chart;
         private float initTime;
         private int initCount = 0;
         private System.DateTime timeNow;
 
         void Awake()
         {
-            chart = gameObject.GetComponentInChildren<CoordinateChart>();
+            chart = gameObject.GetComponentInChildren<BaseChart>();
             timeNow = System.DateTime.Now;
-            chart.ClearAxisData();
-            chart.series.ClearData();
+            chart.ClearData();
             chart.SetMaxCache(maxCacheDataNumber);
-            chart.title.text = maxCacheDataNumber + "数据";
+            chart.GetChartComponent<Title>().text = maxCacheDataNumber + "数据";
         }
 
         private void Update()
@@ -40,7 +39,8 @@ namespace XCharts.Examples
                 {
                     initCount++;
                     if (initCount > maxCacheDataNumber) break;
-                    chart.title.text = initCount + "数据";
+                    chart.GetChartComponent<Title>().text = initCount + "数据";
+                    
                     timeNow = timeNow.AddSeconds(1);
                     float xvalue = Mathf.PI / 180 * initCount;
                     float yvalue = Mathf.Sin(xvalue);

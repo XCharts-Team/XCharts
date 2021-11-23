@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65fc8b25febc4b9e8acb500d16770b2, type: 3}
+  m_Name: XCLang-ZH
+  m_EditorClassIdentifier: 
+  langName: ZH
+  time:
+    months:
+    - "\u4E00\u6708"
+    - "\u4E8C\u6708"
+    - "\u4E09\u6708"
+    - "\u56DB\u6708"
+    - "\u4E94\u6708"
+    - "\u516D\u6708"
+    - "\u4E03\u6708"
+    - "\u516B\u6708"
+    - "\u4E5D\u6708"
+    - "\u5341\u6708"
+    - "\u5341\u4E00\u6708"
+    - "\u5341\u4E8C\u6708"
+    monthAbbr:
+    - "1\u6708"
+    - "2\u6708"
+    - "3\u6708"
+    - "4\u6708"
+    - "5\u6708"
+    - "6\u6708"
+    - "7\u6708"
+    - "8\u6708"
+    - "9\u6708"
+    - "10\u6708"
+    - "11\u6708"
+    - "12\u6708"
+    dayOfMonth:
+    - "1\u65E5"
+    - "2\u65E5"
+    - "3\u65E5"
+    - "4\u65E5"
+    - "5\u65E5"
+    - "6\u65E5"
+    - "7\u65E5"
+    - "8\u65E5"
+    - "9\u65E5"
+    - "10\u65E5"
+    - "11\u65E5"
+    - "12\u65E5"
+    - "13\u65E5"
+    - "14\u65E5"
+    - "15\u65E5"
+    - "16\u65E5"
+    - "17\u65E5"
+    - "18\u65E5"
+    - "19\u65E5"
+    - "20\u65E5"
+    - "21\u65E5"
+    - "22\u65E5"
+    - "23\u65E5"
+    - "24\u65E5"
+    - "25\u65E5"
+    - "26\u65E5"
+    - "27\u65E5"
+    - "28\u65E5"
+    - "29\u65E5"
+    - "30\u65E5"
+    - "31\u65E5"
+    dayOfWeek:
+    - "\u661F\u671F\u65E5"
+    - "\u661F\u671F\u4E00"
+    - "\u661F\u671F\u4E8C"
+    - "\u661F\u671F\u4E09"
+    - "\u661F\u671F\u56DB"
+    - "\u661F\u671F\u4E94"
+    - "\u661F\u671F\u516D"
+    dayOfWeekAbbr:
+    - "\u65E5"
+    - "\u4E00"
+    - "\u4E8C"
+    - "\u4E09"
+    - "\u56DB"
+    - "\u4E94"
+    - "\u516D"

@@ -21,25 +21,25 @@ namespace XCharts.Examples
                 chart = gameObject.AddComponent<LineChart>();
                 chart.SetSize(580, 300);//代码动态添加图表需要设置尺寸，或直接操作chart.rectTransform
             }
-            chart.title.show = true;
-            chart.title.text = "Line Simple";
+            chart.GetChartComponent<Title>().show = true;
+            chart.GetChartComponent<Title>().text = "Line Simple";
 
-            chart.tooltip.show = true;
-            chart.legend.show = false;
+            chart.GetChartComponent<Tooltip>().show = true;
+            chart.GetChartComponent<Legend>().show = false;
 
-            chart.xAxes[0].show = true;
-            chart.xAxes[1].show = false;
-            chart.yAxes[0].show = true;
-            chart.yAxes[1].show = false;
-            chart.xAxes[0].type = Axis.AxisType.Category;
-            chart.yAxes[0].type = Axis.AxisType.Value;
+            var xAxis = chart.GetChartComponent<XAxis>();
+            var yAxis = chart.GetChartComponent<YAxis>();
+            xAxis.show = true;
+            yAxis.show = true;
+            xAxis.type = Axis.AxisType.Category;
+            yAxis.type = Axis.AxisType.Value;
 
-            chart.xAxes[0].splitNumber = 10;
-            chart.xAxes[0].boundaryGap = true;
+            xAxis.splitNumber = 10;
+            xAxis.boundaryGap = true;
 
             chart.RemoveData();
-            chart.AddSerie(SerieType.Line);
-            chart.AddSerie(SerieType.Line);
+            chart.AddSerie<Line>();
+            chart.AddSerie<Line>();
             for (int i = 0; i < 2000; i++)
             {
                 chart.AddXAxisData("x" + i);

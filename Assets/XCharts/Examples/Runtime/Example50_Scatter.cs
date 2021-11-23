@@ -21,7 +21,11 @@ namespace XCharts.Examples
         {
             chart = gameObject.GetComponent<ScatterChart>();
             if (chart == null) return;
-            chart.series.SetSerieSymbolSizeCallback(SymbolSize, SymbolSelectedSize);
+            foreach (var serie in chart.series)
+            {
+                serie.symbol.sizeCallback = SymbolSize;
+                serie.symbol.selectedSizeCallback = SymbolSelectedSize;
+            }
         }
 
         float SymbolSize(List<double> data)

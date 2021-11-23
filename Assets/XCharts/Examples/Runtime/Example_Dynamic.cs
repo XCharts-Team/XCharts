@@ -12,14 +12,14 @@ namespace XCharts.Examples
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(CoordinateChart))]
+    [RequireComponent(typeof(LineChart))]
     public class Example_Dynamic : MonoBehaviour
     {
         public int maxCacheDataNumber = 100;
         public float initDataTime = 2;
         public bool insertDataToHead = false;
 
-        private CoordinateChart chart;
+        private LineChart chart;
         private float updateTime;
         private float initTime;
         private int initCount;
@@ -29,17 +29,19 @@ namespace XCharts.Examples
 
         void Awake()
         {
-            chart = gameObject.GetComponentInChildren<CoordinateChart>();
+            chart = gameObject.GetComponent<LineChart>();
             chart.RemoveData();
-            var serie = chart.AddSerie(SerieType.Line);
+            var serie = chart.AddSerie<Line>();
             serie.symbol.show = false;
             serie.maxCache = maxCacheDataNumber;
-            chart.xAxes[0].maxCache = maxCacheDataNumber;
+
+            var xAxis = chart.GetOrAddChartComponent<XAxis>();
+            xAxis.maxCache = maxCacheDataNumber;
             timeNow = DateTime.Now;
             timeNow = timeNow.AddSeconds(-maxCacheDataNumber);
 
             serie.insertDataToHead = insertDataToHead;
-            chart.xAxes[0].insertDataToHead = insertDataToHead;
+            xAxis.insertDataToHead = insertDataToHead;
         }
 
         void Update()
@@ -50,8 +52,8 @@ namespace XCharts.Examples
                 for (int i = 0; i < count; i++)
                 {
                     timeNow = timeNow.AddSeconds(1);
-                    string category = timeNow.ToString("hh:mm:ss");
-                    float value = UnityEngine.Random.Range(60, 150);
+                    var category = timeNow.ToString("hh:mm:ss");
+                    var value = UnityEngine.Random.Range(60, 150);
                     chart.AddXAxisData(category);
                     chart.AddData(0, value);
                     initCount++;
@@ -62,10 +64,10 @@ namespace XCharts.Examples
             updateTime += Time.deltaTime;
             if (updateTime >= 1)
             {
+                var category = DateTime.Now.ToString("hh:mm:ss");
+                var value = UnityEngine.Random.Range(60, 150);
                 updateTime = 0;
                 count++;
-                string category = DateTime.Now.ToString("hh:mm:ss");
-                float value = UnityEngine.Random.Range(60, 150);
                 chart.AddXAxisData(category);
                 chart.AddData(0, value);
                 chart.RefreshChart();

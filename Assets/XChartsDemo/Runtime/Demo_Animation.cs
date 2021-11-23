@@ -36,7 +36,7 @@ namespace XChartsDemo
             var charts = transform.GetComponentsInChildren<BaseChart>();
             foreach (var chart in charts)
             {
-                foreach (var serie in chart.series.list)
+                foreach (var serie in chart.series)
                 {
                     serie.animation.fadeInDuration = m_FadeInDuration;
                     serie.animation.fadeOutDuration = m_FadeOutDuration;
@@ -104,12 +104,12 @@ namespace XChartsDemo
             {
                 if (chart is RingChart)
                 {
-                    var serieData = chart.series.GetSerie(0).GetSerieData(0);
+                    var serieData = chart.GetSerie(0).GetSerieData(0);
                     chart.UpdateData(0, 0, 0, Random.Range(0, (float)serieData.GetData(1)));
                 }
                 else
                 {
-                    var dataCount = chart.series.list[0].dataCount;
+                    var dataCount = chart.series[0].dataCount;
                     var index = UnityEngine.Random.Range(0, dataCount);
                     chart.UpdateData(0, index, UnityEngine.Random.Range(1, 100));
                 }
@@ -149,7 +149,7 @@ namespace XChartsDemo
             m_FadeInDuration = int.Parse(content);
             foreach (var chart in charts)
             {
-                foreach (var serie in chart.series.list)
+                foreach (var serie in chart.series)
                 {
                     serie.animation.fadeInDuration = m_FadeInDuration;
                 }
@@ -162,7 +162,7 @@ namespace XChartsDemo
             m_FadeOutDuration = int.Parse(content);
             foreach (var chart in charts)
             {
-                foreach (var serie in chart.series.list)
+                foreach (var serie in chart.series)
                 {
                     serie.animation.fadeOutDuration = m_FadeOutDuration;
                 }
@@ -175,7 +175,7 @@ namespace XChartsDemo
             m_DataChangeDuration = int.Parse(content);
             foreach (var chart in charts)
             {
-                foreach (var serie in chart.series.list)
+                foreach (var serie in chart.series)
                 {
                     serie.animation.dataChangeDuration = m_DataChangeDuration;
                 }

@@ -66,8 +66,8 @@ if (chart == null)
 设置标题：
 
 ```C#
-chart.title.show = true;
-chart.title.text = "Line Simple";
+chart.GetChartComponent<Title>().show = true;
+chart.GetChartComponent<Title>().text = "Line Simple";
 ```
 
 设置提示框和图例是否显示：
@@ -80,19 +80,19 @@ chart.legend.show = false;
 设置是否使用双坐标轴和坐标轴类型：
 
 ```C#
-chart.xAxes[0].show = true;
+xAxis.show = true;
 chart.xAxes[1].show = false;
-chart.yAxes[0].show = true;
+yAxis.show = true;
 chart.yAxes[1].show = false;
-chart.xAxes[0].type = Axis.AxisType.Category;
-chart.yAxes[0].type = Axis.AxisType.Value;
+xAxis.type = Axis.AxisType.Category;
+yAxis.type = Axis.AxisType.Value;
 ```
 
 设置坐标轴分割线：
 
 ```C#
-chart.xAxes[0].splitNumber = 10;
-chart.xAxes[0].boundaryGap = true;
+xAxis.splitNumber = 10;
+xAxis.boundaryGap = true;
 ```
 
 清空数据，添加`Line`类型的`Serie`用于接收数据：
@@ -139,8 +139,8 @@ XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换�
 1. 改组件上的参数：
 
 ```C#
-chart.title.text = "LineChart - 折线图";
-chart.title.subText = "普通折线图";
+chart.GetChartComponent<Title>().text = "LineChart - 折线图";
+chart.GetChartComponent<Title>().subText = "普通折线图";
 chart.yAxis0.minMaxType = Axis.AxisMinMaxType.Custom;
 chart.yAxis0.min = 0;
 chart.yAxis0.max = 100;

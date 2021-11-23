@@ -25,12 +25,20 @@ namespace XCharts.Examples
             }
         }
 
+        float m_LastTime = 0;
+        double m_Value = 0;
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //AddData();
                 OnTestBtn();
+            }
+            if (Time.time - m_LastTime > 0.1f)
+            {
+                m_LastTime = Time.time;
+                chart.UpdateData(0, 2, m_Value);
+                m_Value += 15;
             }
         }
 
@@ -60,7 +68,7 @@ namespace XCharts.Examples
             int count = Random.Range(5, 100);
             for (int i = 0; i < count; i++)
             {
-                (chart as CoordinateChart).AddXAxisData("x" + i);
+                chart.AddXAxisData("x" + i);
                 if (Random.Range(1, 3) == 2)
                     chart.AddData(0, Random.Range(-110, 200));
                 else

@@ -24,10 +24,10 @@ namespace XCharts.Examples
                 chart = gameObject.AddComponent<PieChart>();
             }
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             serie.label.show = true;
-            serie.label.position = SerieLabel.Position.Outside;
+            serie.label.position = LabelStyle.Position.Outside;
         }
 
         void Update()
@@ -43,7 +43,7 @@ namespace XCharts.Examples
         void UpdateDataName()
         {
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             for (int i = 0; i < serie.dataCount; i++)
             {
@@ -56,7 +56,7 @@ namespace XCharts.Examples
         void ResetSameName()
         {
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             for (int i = 0; i < serie.dataCount; i++)
             {
@@ -67,7 +67,7 @@ namespace XCharts.Examples
         void ClearAndAddData()
         {
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             int count = serie.dataCount;
             serie.ClearData();

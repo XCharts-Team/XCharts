@@ -25,10 +25,10 @@ namespace XCharts.Examples
             {
                 chart = gameObject.AddComponent<GaugeChart>();
             }
-            chart.title.text = "GaugeChart";
+            chart.GetChartComponent<Title>().text = "GaugeChart";
             chart.RemoveData();
 
-            var serie = chart.AddSerie(SerieType.Gauge, "速度");
+            var serie = chart.AddSerie<Gauge>("速度");
             serie.min = 0;
             serie.max = 220;
             serie.startAngle = -125;

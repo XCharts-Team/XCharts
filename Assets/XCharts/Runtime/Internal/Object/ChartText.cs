@@ -16,18 +16,10 @@ namespace XCharts
     public class ChartText
     {
         private Text m_Text;
-        private TextGenerationSettings m_RelatedTextSettings;
         public Text text
         {
             get { return m_Text; }
-            set
-            {
-                m_Text = value;
-                if (value != null)
-                {
-                    m_RelatedTextSettings = m_Text.GetGenerationSettings(Vector2.zero);
-                }
-            }
+            set { m_Text = value; }
         }
 #if dUI_TextMeshPro
         private TextMeshProUGUI m_TMPText;
@@ -246,7 +238,12 @@ namespace XCharts
 #if dUI_TextMeshPro
             if (m_TMPText != null) return 0; // TODO:
 #else
-            if (m_Text != null) return m_Text.cachedTextGenerator.GetPreferredWidth(content, m_RelatedTextSettings);
+            if (m_Text != null)
+            {
+                var tg = m_Text.cachedTextGeneratorForLayout;
+                var setting = m_Text.GetGenerationSettings(Vector2.zero);
+                return tg.GetPreferredWidth(content, setting) / m_Text.pixelsPerUnit;
+            }
 #endif
             return 0;
         }
@@ -268,6 +265,30 @@ namespace XCharts
             if (m_Text != null) return m_Text.preferredHeight;
 #endif
             return 0;
+        }
+
+        public string GetPreferredText(string content, string suffix, float maxWidth)
+        {
+#if dUI_TextMeshPro
+            if (m_TMPText != null) return content; // TODO:
+#else
+            if (m_Text != null)
+            {
+                var sourWid = GetPreferredWidth(content);
+                if (sourWid < maxWidth) return content;
+                var suffixWid = GetPreferredWidth(suffix);
+                var textWid = maxWidth - 1.3f * suffixWid;
+                for (int i = content.Length; i > 0; i--)
+                {
+                    var temp = content.Substring(0, i);
+                    if (GetPreferredWidth(temp) < textWid)
+                    {
+                        return temp + suffix;
+                    }
+                }
+            }
+#endif
+            return string.Empty;
         }
 
 #if dUI_TextMeshPro

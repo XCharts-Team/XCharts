@@ -77,8 +77,8 @@ namespace XChartsDemo
 
         void AddOneData()
         {
-            lineChart.title.text = initCount + "数据";
-            barChart.title.text = initCount + "数据";
+            lineChart.GetChartComponent<Title>().text = initCount + "数据";
+            barChart.GetChartComponent<Title>().text = initCount + "数据";
             timeNow = timeNow.AddSeconds(1);
             string category = timeNow.ToString("hh:mm:ss");
             float xvalue = Mathf.PI / 180 * initCount;

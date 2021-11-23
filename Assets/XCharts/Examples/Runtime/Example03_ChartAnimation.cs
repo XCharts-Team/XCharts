@@ -22,7 +22,7 @@ namespace XCharts.Examples
             {
                 chart = gameObject.AddComponent<BarChart>();
             }
-            var serie = chart.series.GetSerie(0);
+            var serie = chart.GetSerie(0);
             serie.animation.enable = true;
             //自定义每个数据项的渐入延时
             serie.animation.customFadeInDelay = CustomFadeInDelay;

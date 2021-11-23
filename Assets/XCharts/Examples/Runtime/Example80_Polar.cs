@@ -14,16 +14,17 @@ namespace XCharts.Examples
     [ExecuteInEditMode]
     public class Example80_Polar : MonoBehaviour
     {
-        private PolarChart chart;
+        private BaseChart chart;
         private float updateTime;
 
         void Awake()
         {
-            chart = gameObject.GetComponent<PolarChart>();
+            chart = gameObject.GetComponent<BaseChart>();
             if (chart == null)
             {
-                chart = gameObject.AddComponent<PolarChart>();
+                chart = gameObject.AddComponent<BaseChart>();
             }
+            chart.GetOrAddChartComponent<PolarCoord>();
         }
 
         void Update()
@@ -37,13 +38,14 @@ namespace XCharts.Examples
         void AddData()
         {
             chart.RemoveData();
-            chart.tooltip.type = Tooltip.Type.Corss;
-            chart.angleAxis.type = Axis.AxisType.Value;
-            chart.angleAxis.minMaxType = Axis.AxisMinMaxType.Custom;
-            chart.angleAxis.min = 0;
-            chart.angleAxis.max = 360;
-            chart.angleAxis.startAngle = Random.Range(0, 90);
-            chart.AddSerie(SerieType.Line, "line1");
+            chart.GetChartComponent<Tooltip>().type = Tooltip.Type.Corss;
+            var angleAxis = chart.GetChartComponent<AngleAxis>();
+            angleAxis.type = Axis.AxisType.Value;
+            angleAxis.minMaxType = Axis.AxisMinMaxType.Custom;
+            angleAxis.min = 0;
+            angleAxis.max = 360;
+            angleAxis.startAngle = Random.Range(0, 90);
+            chart.AddSerie<Line>("line1");
 
             var rate = Random.Range(1, 4);
             for (int i = 0; i <= 360; i++)

@@ -235,6 +235,7 @@ namespace XCharts
                 serie.runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
                 serie.runtimeCenterPos = new Vector3(serie.runtimeX + serie.runtimeWidth / 2,
                     serie.runtimeY + serie.runtimeHeight / 2);
+                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
             }
             else
             {
@@ -243,10 +244,11 @@ namespace XCharts
                 serie.runtimeWidth = chartWidth;
                 serie.runtimeHeight = chartHeight;
                 serie.runtimeCenterPos = chartPosition + new Vector3(chartWidth / 2, chartHeight / 2);
+                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
             }
         }
 
-        public static Color32 GetItemBackgroundColor(Serie serie, SerieData serieData, ChartTheme theme, int index,
+        public static Color32 GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeStyle theme, int index,
             bool highlight, bool useDefault = true)
         {
             var color = ChartConst.clearColor32;
@@ -278,7 +280,7 @@ namespace XCharts
             return color;
         }
 
-        public static Color32 GetItemColor(Serie serie, SerieData serieData, ChartTheme theme, int index, bool highlight)
+        public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             if (serie == null) return ChartConst.clearColor32;
             if (highlight)
@@ -304,7 +306,7 @@ namespace XCharts
                 return color;
             }
         }
-        public static Color32 GetItemColor0(Serie serie, SerieData serieData, ChartTheme theme, bool highlight, Color32 defaultColor)
+        public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)
         {
             if (serie == null) return ChartConst.clearColor32;
             if (highlight)
@@ -331,7 +333,7 @@ namespace XCharts
             }
         }
 
-        public static Color32 GetItemToColor(Serie serie, SerieData serieData, ChartTheme theme, int index, bool highlight)
+        public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             if (highlight)
             {
@@ -401,47 +403,63 @@ namespace XCharts
                 else return style;
             }
             else if (serie.IsPerformanceMode()) return serie.itemStyle;
-            else if (serieData != null && serieData.enableItemStyle) return serieData.itemStyle;
+            else if (serieData != null && serieData.itemStyle != null) return serieData.itemStyle;
             else return serie.itemStyle;
         }
 
         public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
         {
-            if (!serie.IsPerformanceMode() && serieData != null && serieData.enableEmphasis && serieData.emphasis.show)
+            if (!serie.IsPerformanceMode() && serieData != null && serieData.emphasis != null && serieData.emphasis.show)
                 return serieData.emphasis.itemStyle;
             else if (serie.emphasis.show) return serie.emphasis.itemStyle;
             else return null;
         }
 
-        public static SerieLabel GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
+        public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
         {
             if (highlight)
             {
-                if (!serie.IsPerformanceMode() && serieData.enableEmphasis && serieData.emphasis.show)
+                if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
                     return serieData.emphasis.label;
                 else if (serie.emphasis.show) return serie.emphasis.label;
                 else return serie.label;
             }
             else
             {
-                if (!serie.IsPerformanceMode() && serieData.enableLabel) return serieData.label;
+                if (!serie.IsPerformanceMode() && serieData.label != null) return serieData.label;
                 else return serie.label;
+            }
+        }
+
+        public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, bool highlight = false)
+        {
+            if (highlight)
+            {
+                if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
+                    return serieData.emphasis.labelLine;
+                else if (serie.emphasis.show) return serie.emphasis.labelLine;
+                else return serie.labelLine;
+            }
+            else
+            {
+                if (!serie.IsPerformanceMode() && serieData.labelLine != null) return serieData.labelLine;
+                else return serie.labelLine;
             }
         }
 
         public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
         {
-            if (serieData.enableIconStyle) return serieData.iconStyle;
+            if (serieData.iconStyle != null) return serieData.iconStyle;
             else return serie.iconStyle;
         }
 
-        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
+        public static SymbolStyle GetSerieSymbol(Serie serie, SerieData serieData)
         {
-            if (!serie.IsPerformanceMode() && serieData.enableSymbol) return serieData.symbol;
+            if (!serie.IsPerformanceMode() && serieData.symbol != null) return serieData.symbol;
             else return serie.symbol;
         }
 
-        public static Color32 GetAreaColor(Serie serie, ChartTheme theme, int index, bool highlight)
+        public static Color32 GetAreaColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             var color = !ChartHelper.IsClearColor(areaStyle.color) ? areaStyle.color : theme.GetColor(index);
@@ -454,7 +472,7 @@ namespace XCharts
             return color;
         }
 
-        public static Color32 GetAreaToColor(Serie serie, ChartTheme theme, int index, bool highlight)
+        public static Color32 GetAreaToColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
             if (!ChartHelper.IsClearColor(areaStyle.toColor))
@@ -474,7 +492,7 @@ namespace XCharts
             }
         }
 
-        public static Color32 GetLineColor(Serie serie, ChartTheme theme, int index, bool highlight)
+        public static Color32 GetLineColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;
             if (highlight)
@@ -498,7 +516,7 @@ namespace XCharts
             return color;
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, ChartTheme theme, bool highlight, bool useLineWidth = true)
+        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, bool useLineWidth = true)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
@@ -630,7 +648,7 @@ namespace XCharts
             var range = Mathf.RoundToInt(data.Count * (dataZoom.end - dataZoom.start) / 100);
             if (range <= 0) range = 1;
             int start = 0, end = 0;
-            if (dataZoom.runtimeInvert)
+            if (dataZoom.context.invert)
             {
                 end = Mathf.CeilToInt(data.Count * dataZoom.end / 100);
                 start = end - range;

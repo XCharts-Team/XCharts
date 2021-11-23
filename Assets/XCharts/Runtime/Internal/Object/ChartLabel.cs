@@ -10,34 +10,32 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    public class ChartLabel : ChartObject
+    public class ChartLabel : Image
     {
         private bool m_AutoHideIconWhenLabelEmpty = false;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
         private float m_LabelPaddingTopBottom = 3f;
+
         private ChartText m_LabelText;
         private RectTransform m_LabelRect;
+        private RectTransform m_LabelBackgroundRect;
         private RectTransform m_IconRect;
         private RectTransform m_ObjectRect;
         private Vector3 m_IconOffest;
         private Align m_Align = Align.Left;
-
         private Image m_IconImage;
+        private Image m_LabelBackgroundImage;
 
-        public GameObject gameObject
-        {
-            get { return m_GameObject; }
-            set
-            {
-                m_GameObject = value;
-                m_ObjectRect = value.GetComponent<RectTransform>();
-            }
-        }
         public Image icon
         {
             get { return m_IconImage; }
             set { SetIcon(value); }
+        }
+        public Image labelBackground
+        {
+            get { return m_LabelBackgroundImage; }
+            set { SetLabelBackground(value); }
         }
         public ChartText label
         {
@@ -52,25 +50,42 @@ namespace XCharts
         public bool autoHideIconWhenLabelEmpty { set { m_AutoHideIconWhenLabelEmpty = value; } }
         public bool isIconActive { get; private set; }
 
-        public ChartLabel()
+        protected override void Awake()
         {
+            m_ObjectRect = gameObject.GetComponent<RectTransform>();
+            raycastTarget = false;
         }
+
+        // protected override void OnPopulateMesh(VertexHelper vh)
+        // {
+        //     if (m_BackgroundColor != Color.clear || m_BackgroundImage != null)
+        //     {
+
+        //     }
+        //     else
+        //     {
+        //         vh.Clear();
+        //     }
+        // }
 
         public void SetLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
         {
-            m_GameObject = labelObj;
             m_LabelAutoSize = autoSize;
             m_LabelPaddingLeftRight = paddingLeftRight;
             m_LabelPaddingTopBottom = paddingTopBottom;
             m_LabelText = new ChartText(labelObj);
             m_LabelRect = m_LabelText.gameObject.GetComponent<RectTransform>();
-            m_ObjectRect = labelObj.GetComponent<RectTransform>();
+
             m_Align = Align.Left;
         }
 
-        public void SetAutoSize(bool flag)
+        public void SetLabelBackground(Image image)
         {
-            m_LabelAutoSize = flag;
+            m_LabelBackgroundImage = image;
+            if (image != null)
+            {
+                m_LabelBackgroundRect = m_LabelBackgroundImage.GetComponent<RectTransform>();
+            }
         }
 
         public void SetIcon(Image image)
@@ -80,6 +95,11 @@ namespace XCharts
             {
                 m_IconRect = m_IconImage.GetComponent<RectTransform>();
             }
+        }
+
+        public void SetAutoSize(bool flag)
+        {
+            m_LabelAutoSize = flag;
         }
 
         public void SetIconSprite(Sprite sprite)
@@ -108,7 +128,7 @@ namespace XCharts
                 if (iconStyle.layer == IconStyle.Layer.UnderLabel)
                     m_IconRect.SetSiblingIndex(0);
                 else
-                    m_IconRect.SetSiblingIndex(m_GameObject.transform.childCount - 1);
+                    m_IconRect.SetSiblingIndex(transform.childCount - 1);
             }
         }
 
@@ -124,7 +144,7 @@ namespace XCharts
             return 0;
         }
 
-        public void SetLabelColor(Color color)
+        public void SetTextColor(Color color)
         {
             if (m_LabelText != null) m_LabelText.SetColor(color);
         }
@@ -136,10 +156,12 @@ namespace XCharts
 
         public void SetPosition(Vector3 position)
         {
-            if (m_GameObject != null)
-            {
-                m_GameObject.transform.localPosition = position;
-            }
+            transform.localPosition = position;
+        }
+
+        public Vector3 GetPosition()
+        {
+            return transform.localPosition;
         }
 
         public void SetLabelPosition(Vector3 position)
@@ -149,7 +171,7 @@ namespace XCharts
 
         public void SetActive(bool flag)
         {
-            if (m_GameObject) ChartHelper.SetActive(m_GameObject, flag);
+            ChartHelper.SetActive(gameObject, flag);
         }
         public void SetLabelActive(bool flag)
         {
@@ -176,6 +198,8 @@ namespace XCharts
                     if (sizeChange)
                     {
                         m_LabelRect.sizeDelta = newSize;
+                        if (m_LabelBackgroundRect != null)
+                            m_LabelBackgroundRect.sizeDelta = newSize;
                         AdjustIconPos();
                     }
                     return sizeChange;
@@ -191,7 +215,7 @@ namespace XCharts
 
         private void AdjustIconPos()
         {
-            if (m_IconImage && m_IconRect)
+            if (m_IconImage && m_IconRect && m_LabelText != null && m_ObjectRect != null)
             {
                 var iconX = 0f;
                 switch (m_Align)

@@ -13,41 +13,6 @@ namespace XCharts
 {
     public static class SeriesHelper
     {
-        public static bool IsNeedLabelUpdate(Series series)
-        {
-            foreach (var serie in series.list)
-            {
-                if (serie.label.vertsDirty) return true;
-            }
-            return false;
-        }
-
-        public static bool IsLabelDirty(Series series)
-        {
-            if (series.labelDirty) return true;
-            foreach (var serie in series.list)
-            {
-                if (serie.label.componentDirty) return true;
-            }
-            return false;
-        }
-
-        public static bool IsNameDirty(Series series)
-        {
-            foreach (var serie in series.list)
-            {
-                if (serie.nameDirty) return true;
-            }
-            return false;
-        }
-
-        public static void ClearNameDirty(Series series)
-        {
-            foreach (var serie in series.list)
-            {
-                serie.ClearNameDirty();
-            }
-        }
 
         public static bool IsLegalLegendName(string name)
         {
@@ -59,28 +24,25 @@ namespace XCharts
             return true;
         }
 
-        public static List<string> GetLegalSerieNameList(Series series)
+        public static List<string> GetLegalSerieNameList(List<Serie> series)
         {
             var list = new List<string>();
-            for (int n = 0; n < series.list.Count; n++)
+            for (int n = 0; n < series.Count; n++)
             {
-                var serie = series.GetSerie(n);
-                switch (serie.type)
+                var serie = series[n];
+                if (serie.useDataNameForColor)
                 {
-                    case SerieType.Pie:
-                    case SerieType.Radar:
-                    case SerieType.Ring:
-                        for (int i = 0; i < serie.data.Count; i++)
-                        {
-                            var dataName = serie.data[i].name;
-                            if (!string.IsNullOrEmpty(dataName) && IsLegalLegendName(dataName) && !list.Contains(dataName))
-                                list.Add(dataName);
-                        }
-                        break;
-                    default:
-                        if (!string.IsNullOrEmpty(serie.name) && !list.Contains(serie.name) && IsLegalLegendName(serie.name))
-                            list.Add(serie.name);
-                        break;
+                    for (int i = 0; i < serie.data.Count; i++)
+                    {
+                        var dataName = serie.data[i].name;
+                        if (!string.IsNullOrEmpty(dataName) && IsLegalLegendName(dataName) && !list.Contains(dataName))
+                            list.Add(dataName);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(serie.serieName) && !list.Contains(serie.serieName) && IsLegalLegendName(serie.serieName))
+                        list.Add(serie.serieName);
                 }
             }
             return list;
@@ -93,17 +55,14 @@ namespace XCharts
         public static void UpdateSerieNameList(BaseChart chart, ref List<string> serieNameList)
         {
             serieNameList.Clear();
-            for (int n = 0; n < chart.series.list.Count; n++)
+            for (int n = 0; n < chart.series.Count; n++)
             {
-                var serie = chart.series.GetSerie(n);
-                if (serie.type == SerieType.Pie
-                    || serie.type == SerieType.Radar
-                    || serie.type == SerieType.Ring
-                    || (serie.type == SerieType.Custom && chart.GetCustomSerieDataNameForColor()))
+                var serie = chart.series[n];
+                if (serie.useDataNameForColor)
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
-                        if (serie.type == SerieType.Pie && serie.IsIgnoreValue(serie.data[i])) continue;
+                        if (serie is Pie && serie.IsIgnoreValue(serie.data[i])) continue;
                         if (string.IsNullOrEmpty(serie.data[i].name))
                             serieNameList.Add(ChartCached.IntToStr(i));
                         else if (!serieNameList.Contains(serie.data[i].name))
@@ -112,10 +71,10 @@ namespace XCharts
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(serie.name))
+                    if (string.IsNullOrEmpty(serie.serieName))
                         serieNameList.Add(ChartCached.IntToStr(n));
-                    else if (!serieNameList.Contains(serie.name))
-                        serieNameList.Add(serie.name);
+                    else if (!serieNameList.Contains(serie.serieName))
+                        serieNameList.Add(serie.serieName);
                 }
             }
         }
@@ -125,11 +84,10 @@ namespace XCharts
             Serie destSerie = null;
             SerieData destSerieData = null;
             var series = chart.series;
-            for (int n = 0; n < series.list.Count; n++)
+            for (int n = 0; n < series.Count; n++)
             {
-                var serie = series.GetSerie(n);
-                if (serie.type == SerieType.Pie || serie.type == SerieType.Radar || serie.type == SerieType.Ring
-                    || (serie.type == SerieType.Custom && chart.GetCustomSerieDataNameForColor()))
+                var serie = series[n];
+                if (serie.useDataNameForColor)
                 {
                     bool found = false;
                     for (int i = 0; i < serie.data.Count; i++)
@@ -146,7 +104,7 @@ namespace XCharts
                 }
                 else
                 {
-                    if (name.Equals(serie.name))
+                    if (name.Equals(serie.serieName))
                     {
                         destSerie = serie;
                         destSerieData = null;
@@ -162,10 +120,10 @@ namespace XCharts
         /// </summary>
         /// <param name="stack"></param>
         /// <returns></returns>
-        public static bool IsAnyGradientSerie(Series series, string stack)
+        public static bool IsAnyGradientSerie(List<Serie> series, string stack)
         {
             if (string.IsNullOrEmpty(stack)) return false;
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
                 {
@@ -181,27 +139,18 @@ namespace XCharts
         /// 是否有需裁剪的serie。
         /// </summary>
         /// <returns></returns>
-        public static bool IsAnyClipSerie(Series series)
+        public static bool IsAnyClipSerie(List<Serie> series)
         {
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (serie.clip) return true;
             }
             return false;
         }
 
-        public static bool ContainsSerie(Series series, SerieType type)
+        public static bool IsAnyUpdateAnimationSerie(List<Serie> series)
         {
-            foreach (var serie in series.list)
-            {
-                if (serie.type == type) return true;
-            }
-            return false;
-        }
-
-        public static bool IsAnyUpdateAnimationSerie(Series series)
-        {
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (serie.animation.enable && serie.animation.dataChangeEnable)
                 {
@@ -216,12 +165,12 @@ namespace XCharts
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public static Serie GetLastStackSerie(Series series, Serie serie)
+        public static Serie GetLastStackSerie(List<Serie> series, Serie serie)
         {
             if (serie == null || string.IsNullOrEmpty(serie.stack)) return null;
             for (int i = serie.index - 1; i >= 0; i--)
             {
-                var temp = series.list[i];
+                var temp = series[i];
                 if (temp.show && serie.stack.Equals(temp.stack)) return temp;
             }
             return null;
@@ -232,15 +181,15 @@ namespace XCharts
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static Serie GetLastStackSerie(Series series, int index)
+        public static Serie GetLastStackSerie(List<Serie> series, int index)
         {
-            var serie = series.GetSerie(index);
+            var serie = series[index];
             return GetLastStackSerie(series, serie);
         }
 
-        public static Serie GetSerieByVesselIndex(Series series, int vesselIndex)
+        public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)
         {
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (serie.vesselIndex == vesselIndex) return serie;
             }
@@ -252,17 +201,14 @@ namespace XCharts
         /// 是否由数据堆叠
         /// </summary>
         /// <returns></returns>
-        public static bool IsStack(Series series)
+        public static bool IsStack(List<Serie> series)
         {
             _setForStack.Clear();
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (string.IsNullOrEmpty(serie.stack)) continue;
                 if (_setForStack.Contains(serie.stack)) return true;
-                else
-                {
-                    _setForStack.Add(serie.stack);
-                }
+                _setForStack.Add(serie.stack);
             }
             return false;
         }
@@ -273,13 +219,13 @@ namespace XCharts
         /// <param name="stackName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsStack(Series series, string stackName, SerieType type)
+        public static bool IsStack<T>(List<Serie> series, string stackName) where T : Serie
         {
             if (string.IsNullOrEmpty(stackName)) return false;
             int count = 0;
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
-                if (serie.show && (serie.type == type))
+                if (serie.show && serie is T)
                 {
                     if (stackName.Equals(serie.stack)) count++;
                     if (count >= 2) return true;
@@ -293,13 +239,13 @@ namespace XCharts
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsPercentStack(Series series, SerieType type)
+        public static bool IsPercentStack<T>(List<Serie> series) where T : Serie
         {
             int count = 0;
             bool isPercentStack = false;
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
-                if (serie.show && serie.type == type)
+                if (serie.show && serie is T)
                 {
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
@@ -318,14 +264,14 @@ namespace XCharts
         /// <param name="stackName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsPercentStack(Series series, string stackName, SerieType type)
+        public static bool IsPercentStack<T>(List<Serie> series, string stackName) where T : Serie
         {
             if (string.IsNullOrEmpty(stackName)) return false;
             int count = 0;
             bool isPercentStack = false;
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
-                if (serie.show && serie.type == type)
+                if (serie.show && serie is T)
                 {
                     if (stackName.Equals(serie.stack))
                     {
@@ -344,10 +290,10 @@ namespace XCharts
         /// </summary>
         /// <param name="Dictionary<int"></param>
         /// <param name="stackSeries"></param>
-        public static void GetStackSeries(Series series, ref Dictionary<int, List<Serie>> stackSeries)
+        public static void GetStackSeries(List<Serie> series, ref Dictionary<int, List<Serie>> stackSeries)
         {
             int count = 0;
-            var serieCount = series.list.Count;
+            var serieCount = series.Count;
             sets.Clear();
             if (stackSeries == null)
             {
@@ -362,7 +308,7 @@ namespace XCharts
             }
             for (int i = 0; i < serieCount; i++)
             {
-                var serie = series.GetSerie(i);
+                var serie = series[i];
                 serie.index = i;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
@@ -390,13 +336,13 @@ namespace XCharts
             }
         }
 
-        public static void UpdateStackDataList(Series series, Serie currSerie, DataZoom dataZoom, List<List<SerieData>> dataList)
+        public static void UpdateStackDataList(List<Serie> series, Serie currSerie, DataZoom dataZoom, List<List<SerieData>> dataList)
         {
             dataList.Clear();
             for (int i = 0; i <= currSerie.index; i++)
             {
-                var serie = series.list[i];
-                if (serie.type == currSerie.type && ChartHelper.IsValueEqualsString(serie.stack, currSerie.stack))
+                var serie = series[i];
+                if (serie.GetType() == currSerie.GetType() && ChartHelper.IsValueEqualsString(serie.stack, currSerie.stack))
                 {
                     dataList.Add(serie.GetDataList(dataZoom));
                 }
@@ -410,7 +356,7 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public static void GetXMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        public static void GetXMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
             bool inverse, out double minVaule, out double maxValue, bool isPolar = false)
         {
             GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue, isPolar);
@@ -423,7 +369,7 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public static void GetYMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        public static void GetYMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
             bool inverse, out double minVaule, out double maxValue, bool isPolar = false)
         {
             GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue, isPolar);
@@ -431,20 +377,20 @@ namespace XCharts
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, double> _serieTotalValueForMinMax = new Dictionary<int, double>();
-        public static void GetMinMaxValue(Series series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
+        public static void GetMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
             bool inverse, bool yValue, out double minVaule, out double maxValue, bool isPolar = false)
         {
             double min = double.MaxValue;
             double max = double.MinValue;
-            var isPercentStack = SeriesHelper.IsPercentStack(series, SerieType.Bar);
+            var isPercentStack = SeriesHelper.IsPercentStack<Bar>(series);
             if (!SeriesHelper.IsStack(series) || (isValueAxis && !yValue))
             {
-                for (int i = 0; i < series.list.Count; i++)
+                for (int i = 0; i < series.Count; i++)
                 {
-                    var serie = series.GetSerie(i);
+                    var serie = series[i];
                     if ((isPolar && serie.polarIndex != axisIndex)
                         || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
-                    if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
+                    if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
                         if (100 > max) max = 100;
                         if (0 < min) min = 0;
@@ -455,7 +401,7 @@ namespace XCharts
                         foreach (var data in showData)
                         {
 
-                            if (serie.type == SerieType.Candlestick)
+                            if (serie is Candlestick)
                             {
                                 var dataMin = data.GetMinData(inverse);
                                 var dataMax = data.GetMaxData(inverse);
@@ -487,7 +433,7 @@ namespace XCharts
                         if ((isPolar && serie.polarIndex != axisIndex)
                         || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
                         var showData = serie.GetDataList(dataZoom);
-                        if (SeriesHelper.IsPercentStack(series, serie.stack, SerieType.Bar))
+                        if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {
                             for (int j = 0; j < showData.Count; j++)
                             {
@@ -501,7 +447,7 @@ namespace XCharts
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
                                     _serieTotalValueForMinMax[j] = 0;
                                 double currData = 0;
-                                if (serie.type == SerieType.Candlestick)
+                                if (serie is Candlestick)
                                 {
                                     currData = showData[j].GetMaxData(false);
                                 }
@@ -510,7 +456,7 @@ namespace XCharts
                                     currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
                                 }
                                 if (inverse) currData = -currData;
-                                if(!serie.IsIgnoreValue(currData))
+                                if (!serie.IsIgnoreValue(currData))
                                     _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }
                         }
@@ -538,10 +484,10 @@ namespace XCharts
             }
         }
 
-        public static int GetMaxSerieDataCount(Series series)
+        public static int GetMaxSerieDataCount(List<Serie> series)
         {
             int max = 0;
-            foreach (var serie in series.list)
+            foreach (var serie in series)
             {
                 if (serie.dataCount > max) max = serie.dataCount;
             }

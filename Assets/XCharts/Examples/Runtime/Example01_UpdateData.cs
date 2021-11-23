@@ -26,7 +26,7 @@ namespace XCharts.Examples
             if (chart && updateTime > 2)
             {
                 updateTime = 0;
-                var serie = chart.series.GetSerie(0);
+                var serie = chart.GetSerie(0);
                 //serie.animation.dataChangeEnable = true;
                 var dataCount = serie.dataCount;
                 if (chart is RadarChart)

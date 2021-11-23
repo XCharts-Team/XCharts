@@ -17,11 +17,9 @@ namespace XCharts
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
-        protected static readonly string s_BackgroundObjectName = "background";
-        [SerializeField] protected bool m_MultiComponentMode = false;
         [SerializeField] protected bool m_DebugMode = false;
         [SerializeField] protected bool m_EnableTextMeshPro = false;
-        [SerializeField] protected Background m_Background = Background.defaultBackground;
+
         protected Painter m_Painter;
         protected int m_SiblingIndex;
 
@@ -60,22 +58,18 @@ namespace XCharts
 
         private ScrollRect m_ScrollRect;
 
+        public Painter painter { get { return m_Painter; } }
+        internal bool debugModel { get { return m_DebugMode; } }
 
         protected virtual void InitComponent()
         {
             InitPainter();
-            InitBackground();
         }
 
         protected override void Awake()
         {
             CheckTextMeshPro();
             m_SiblingIndex = 0;
-            if (transform.parent != null)
-            {
-                m_IsControlledByLayout = transform.parent.GetComponent<LayoutGroup>() != null;
-            }
-            raycastTarget = false;
             m_LastLocalPosition = transform.localPosition;
             UpdateSize();
             InitComponent();
@@ -116,20 +110,16 @@ namespace XCharts
             }
 #endif
             m_PainerDirty = true;
-            m_Background.SetAllDirty();
         }
 
         protected virtual void CheckComponent()
         {
-            CheckComponentDirty(m_Background);
             if (m_PainerDirty)
             {
                 InitPainter();
                 m_PainerDirty = false;
             }
         }
-
-       
 
         private void CheckTextMeshPro()
         {
@@ -145,24 +135,7 @@ namespace XCharts
             }
         }
 
-        protected void CheckComponentDirty(ChartComponent component)
-        {
-            if (component.anyDirty)
-            {
-                if (component.componentDirty && component.refreshComponent != null)
-                {
-                    component.refreshComponent.Invoke();
-                }
-                if (component.vertsDirty)
-                {
-                    if (component.painter != null)
-                    {
-                        RefreshPainter(component.painter);
-                    }
-                }
-                component.ClearDirty();
-            }
-        }
+
 
 #if UNITY_EDITOR
         protected override void Reset()
@@ -188,33 +161,13 @@ namespace XCharts
             vh.Clear();
         }
 
-        private void InitBackground()
-        {
-            m_Background.painter = m_Painter;
-            m_Background.refreshComponent = delegate ()
-            {
-                var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
-                m_Background.gameObject = backgroundObj;
-                backgroundObj.hideFlags = chartHideFlags;
-                var backgroundImage = ChartHelper.GetOrAddComponent<Image>(backgroundObj);
-                ChartHelper.UpdateRectTransform(backgroundObj, m_GraphMinAnchor,
-                    m_GraphMaxAnchor, m_GraphPivot, m_GraphSizeDelta);
-                backgroundImage.sprite = m_Background.image;
-                backgroundImage.type = m_Background.imageType;
-                backgroundImage.color = m_Background.imageColor;
-                backgroundObj.transform.SetSiblingIndex(0);
-                backgroundObj.SetActive(m_Background.show);
-            };
-            m_Background.refreshComponent();
-        }
-
         protected virtual void InitPainter()
         {
             m_Painter = ChartHelper.AddPainterObject("painter_b", transform, m_GraphMinAnchor,
                     m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1);
             m_Painter.type = Painter.Type.Base;
             m_Painter.onPopulateMesh = OnDrawPainterBase;
+            m_Painter.transform.SetSiblingIndex(0);
         }
 
         private void CheckSize()
@@ -268,35 +221,22 @@ namespace XCharts
 
         private void CheckPointerPos()
         {
-            if (m_ForceOpenRaycastTarget) raycastTarget = true;
-            if (IsNeedCheckPointerPos())
+            if (!isPointerInChart) return;
+            if (canvas == null) return;
+            Vector2 local;
+            if (!ScreenPointToChartPoint(Input.mousePosition, out local))
             {
-                raycastTarget = true;
-                if (canvas == null) return;
-                Vector2 local;
-                if (!ScreenPointToChartPoint(Input.mousePosition, out local))
-                {
-                    pointerPos = Vector2.zero;
-                }
-                else
-                {
-                    pointerPos = local;
-                }
+                pointerPos = Vector2.zero;
             }
             else
             {
-                raycastTarget = false;
+                pointerPos = local;
             }
         }
 
         protected virtual void CheckIsInScrollRect()
         {
             m_ScrollRect = GetComponentInParent<ScrollRect>();
-        }
-
-        protected virtual bool IsNeedCheckPointerPos()
-        {
-            return raycastTarget;
         }
 
         protected virtual void CheckRefreshChart()
@@ -330,15 +270,10 @@ namespace XCharts
 
         protected virtual void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {
-            DrawBackground(vh);
             DrawPainterBase(vh);
         }
 
         protected virtual void DrawPainterBase(VertexHelper vh)
-        {
-        }
-
-        protected virtual void DrawBackground(VertexHelper vh)
         {
         }
 

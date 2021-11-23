@@ -40,7 +40,7 @@ namespace XCharts.Examples
         void UpdateData()
         {
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             if (serie.radarType == RadarType.Multiple)
             {
@@ -62,17 +62,17 @@ namespace XCharts.Examples
                     chart.UpdateData(serieIndex, i, value);
                 }
             }
-            chart.title.subText = "max:" + serie.runtimeDataMax;
+            chart.GetChartComponent<Title>().subText = "max:" + serie.runtimeDataMax;
         }
 
         void UpdateMax()
         {
             var serieIndex = 0;
-            var serie = chart.series.GetSerie(serieIndex);
+            var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
             if (serie.runtimeDataMax != max)
             {
-                chart.title.subText = "max:" + serie.runtimeDataMax;
+                chart.GetChartComponent<Title>().subText = "max:" + serie.runtimeDataMax;
                 max = serie.runtimeDataMax;
             }
         }

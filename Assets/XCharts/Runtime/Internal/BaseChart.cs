@@ -5,59 +5,75 @@
 /*                                              */
 /************************************************/
 
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
 using XUGL;
+using System.Reflection;
 
 namespace XCharts
 {
-    /// <summary>
-    /// the layout is horizontal or vertical.
-    /// 垂直还是水平布局方式。
-    /// </summary>
-    public enum Orient
+    [AddComponentMenu("XCharts/EmptyChart", 10)]
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(RectTransform))]
+    [DisallowMultipleComponent]
+    public partial class BaseChart : BaseGraph, ISerializationCallbackReceiver
     {
-        /// <summary>
-        /// 水平
-        /// </summary>
-        Horizonal,
-        /// <summary>
-        /// 垂直
-        /// </summary>
-        Vertical
-    }
-
-    public partial class BaseChart : BaseGraph
-    {
-        protected static readonly string s_TitleObjectName = "title";
-        protected static readonly string s_SubTitleObjectName = "title_sub";
-        protected static readonly string s_LegendObjectName = "legend";
-        protected static readonly string s_SerieLabelObjectName = "label";
-        protected static readonly string s_SerieTitleObjectName = "serie";
-
         [SerializeField] protected string m_ChartName;
-        [SerializeField] protected ChartTheme m_Theme;
+        [SerializeField] protected ThemeStyle m_Theme = new ThemeStyle();
         [SerializeField] protected Settings m_Settings;
-        [SerializeField] protected List<Title> m_Titles = new List<Title>() { Title.defaultTitle };
-        [SerializeField] protected List<Legend> m_Legends = new List<Legend>() { Legend.defaultLegend };
-        [SerializeField] protected List<Tooltip> m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
+        [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
 
-        [SerializeField] protected List<Grid> m_Grids = new List<Grid>();
-        [SerializeField] protected List<XAxis> m_XAxes = new List<XAxis>();
-        [SerializeField] protected List<YAxis> m_YAxes = new List<YAxis>();
-        [SerializeField] protected List<DataZoom> m_DataZooms = new List<DataZoom>();
-        [SerializeField] protected List<VisualMap> m_VisualMaps = new List<VisualMap>();
-        [SerializeField] protected List<Vessel> m_Vessels = new List<Vessel>();
-        [SerializeField] protected List<Polar> m_Polars = new List<Polar>();
-        [SerializeField] protected List<RadiusAxis> m_RadiusAxes = new List<RadiusAxis>();
-        [SerializeField] protected List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
-        [SerializeField] protected List<Radar> m_Radars = new List<Radar>();
+#pragma warning disable 0414
+        [SerializeField] [ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
+        [SerializeField] [ListForComponent(typeof(Background))] private List<Background> m_Backgrounds = new List<Background>();
+        [SerializeField] [ListForComponent(typeof(DataZoom))] private List<DataZoom> m_DataZooms = new List<DataZoom>();
+        [SerializeField] [ListForComponent(typeof(GridCoord))] private List<GridCoord> m_Grids = new List<GridCoord>();
+        [SerializeField] [ListForComponent(typeof(Legend))] private List<Legend> m_Legends = new List<Legend>();
+        [SerializeField] [ListForComponent(typeof(MarkLine))] private List<MarkLine> m_MarkLines = new List<MarkLine>();
+        [SerializeField] [ListForComponent(typeof(MarkArea))] private List<MarkArea> m_MarkAreas = new List<MarkArea>();
+        [SerializeField] [ListForComponent(typeof(PolarCoord))] private List<PolarCoord> m_Polars = new List<PolarCoord>();
+        [SerializeField] [ListForComponent(typeof(RadarCoord))] private List<RadarCoord> m_Radars = new List<RadarCoord>();
+        [SerializeField] [ListForComponent(typeof(RadiusAxis))] private List<RadiusAxis> m_RadiusAxes = new List<RadiusAxis>();
+        [SerializeField] [ListForComponent(typeof(Title))] private List<Title> m_Titles = new List<Title>();
+        [SerializeField] [ListForComponent(typeof(Tooltip))] private List<Tooltip> m_Tooltips = new List<Tooltip>();
+        [SerializeField] [ListForComponent(typeof(Vessel))] private List<Vessel> m_Vessels = new List<Vessel>();
+        [SerializeField] [ListForComponent(typeof(VisualMap))] private List<VisualMap> m_VisualMaps = new List<VisualMap>();
+        [SerializeField] [ListForComponent(typeof(XAxis))] private List<XAxis> m_XAxes = new List<XAxis>();
+        [SerializeField] [ListForComponent(typeof(YAxis))] private List<YAxis> m_YAxes = new List<YAxis>();
+        [SerializeField] [ListForComponent(typeof(SingleAxis))] private List<SingleAxis> m_SingleAxes = new List<SingleAxis>();
+        [SerializeField] [ListForComponent(typeof(ParallelCoord))] private List<ParallelCoord> m_Parallels = new List<ParallelCoord>();
+        [SerializeField] [ListForComponent(typeof(ParallelAxis))] private List<ParallelAxis> m_ParallelAxes = new List<ParallelAxis>();
 
-        [SerializeField] protected Series m_Series = Series.defaultSeries;
+        [SerializeField] [ListForSerie(typeof(Bar))] private List<Bar> m_SerieBars = new List<Bar>();
+        [SerializeField] [ListForSerie(typeof(Candlestick))] private List<Candlestick> m_SerieCandlesticks = new List<Candlestick>();
+        [SerializeField] [ListForSerie(typeof(EffectScatter))] private List<EffectScatter> m_SerieEffectScatters = new List<EffectScatter>();
+        [SerializeField] [ListForSerie(typeof(Gauge))] private List<Gauge> m_SerieGauges = new List<Gauge>();
+        [SerializeField] [ListForSerie(typeof(Heatmap))] private List<Heatmap> m_SerieHeatmaps = new List<Heatmap>();
+        [SerializeField] [ListForSerie(typeof(Line))] private List<Line> m_SerieLines = new List<Line>();
+        [SerializeField] [ListForSerie(typeof(Liquid))] private List<Liquid> m_SerieLiquids = new List<Liquid>();
+        [SerializeField] [ListForSerie(typeof(Pie))] private List<Pie> m_SeriePies = new List<Pie>();
+        [SerializeField] [ListForSerie(typeof(Radar))] private List<Radar> m_SerieRadars = new List<Radar>();
+        [SerializeField] [ListForSerie(typeof(Ring))] private List<Ring> m_SerieRings = new List<Ring>();
+        [SerializeField] [ListForSerie(typeof(Scatter))] private List<Scatter> m_SerieScatters = new List<Scatter>();
+        [SerializeField] [ListForSerie(typeof(Parallel))] private List<Parallel> m_SerieParallels = new List<Parallel>();
+#pragma warning restore 0414
+        protected List<Serie> m_Series = new List<Serie>();
+        protected List<MainComponent> m_Components = new List<MainComponent>();
+
+        protected Dictionary<Type, FieldInfo> m_TypeListForComponent = new Dictionary<Type, FieldInfo>();
+        protected Dictionary<Type, FieldInfo> m_TypeListForSerie = new Dictionary<Type, FieldInfo>();
+
+        protected Dictionary<Type, List<MainComponent>> m_ComponentMaps = new Dictionary<Type, List<MainComponent>>();
+
+        public Dictionary<Type, FieldInfo> typeListForComponent { get { return m_TypeListForComponent; } }
+        public Dictionary<Type, FieldInfo> typeListForSerie { get { return m_TypeListForSerie; } }
+        public List<MainComponent> components { get { return m_Components; } }
+
+        public List<Serie> series { get { return m_Series; } }
+
 
         protected float m_ChartWidth;
         protected float m_ChartHeight;
@@ -74,67 +90,56 @@ namespace XCharts
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieBeforeCallback;
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
+        protected Action<PointerEventData, int> m_OnPointerClickBar;
 
-        protected bool m_RefreshLabel = false;
-        internal bool m_ReinitLabel = false;
-        internal bool m_ReinitTitle = false;
         internal bool m_CheckAnimation = false;
         internal bool m_IsPlayingAnimation = false;
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
         internal Painter m_PainterTop;
-        protected GameObject m_SerieLabelRoot;
-        private Theme m_CheckTheme = 0;
 
-        protected List<IDrawSerie> m_DrawSeries = new List<IDrawSerie>();
-        protected List<IComponentHandler> m_ComponentHandlers = new List<IComponentHandler>();
+
+        private ThemeType m_CheckTheme = 0;
+        protected List<MainComponentHandler> m_ComponentHandlers = new List<MainComponentHandler>();
+        protected List<SerieHandler> m_SerieHandlers = new List<SerieHandler>();
 
         protected override void InitComponent()
         {
             base.InitComponent();
-            InitTitles();
-            InitLegends();
-            InitSerieLabel();
-            InitSerieTitle();
-            InitTooltip();
-            m_DrawSeries.Clear();
-            m_DrawSeries.Add(new DrawSeriePie(this));
-            m_DrawSeries.Add(new DrawSerieRing(this));
-            m_DrawSeries.Add(new DrawSerieGauge(this));
-            m_DrawSeries.Add(new DrawSerieLiquid(this));
-            m_DrawSeries.Add(new DrawSerieRadar(this));
-            foreach (var draw in m_DrawSeries) draw.InitComponent();
-
-            m_ComponentHandlers.Clear();
-            m_ComponentHandlers.Add(new VisualMapHandler(this));
-            m_ComponentHandlers.Add(new DataZoomHandler(this));
-            foreach (var draw in m_ComponentHandlers) draw.Init();
+            SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
+            foreach (var handler in m_ComponentHandlers)
+                handler.InitComponent();
+            foreach (var handler in m_SerieHandlers)
+                handler.InitComponent();
+            m_DebugInfo.Init(this);
         }
 
         protected override void Awake()
         {
-            if (m_Settings == null) m_Settings = Settings.DefaultSettings;
-            if (m_Series == null) m_Series = Series.defaultSeries; ;
-            if (m_Titles.Count == 0) m_Titles = new List<Title>() { Title.defaultTitle };
-            if (m_Legends.Count == 0) m_Legends = new List<Legend>() { Legend.defaultLegend };
-            if (m_Tooltips.Count == 0) m_Tooltips = new List<Tooltip>() { Tooltip.defaultTooltip };
+            if (m_Settings == null)
+                m_Settings = Settings.DefaultSettings;
             CheckTheme();
             base.Awake();
+            InitComponentHandlers();
+            InitSerieHandlers();
             AnimationReset();
             AnimationFadeIn();
-            XChartsMgr.Instance.AddChart(this);
+            XChartsMgr.AddChart(this);
         }
 
 #if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
-            m_Theme = null;
+            RemoveAllChartComponent();
+            OnBeforeSerialize();
+            AddChartComponentWhenNoExist<Title>();
+            AddChartComponentWhenNoExist<Tooltip>();
+
+            GetChartComponent<Title>().text = GetType().Name;
+
+            m_Theme.sharedTheme.CopyTheme(ThemeType.Default);
             m_Settings = null;
-            m_Series = null;
-            m_Titles.Clear();
-            m_Legends.Clear();
-            m_Tooltips.Clear();
             var sizeDelta = rectTransform.sizeDelta;
             if (sizeDelta.x < 580 && sizeDelta.y < 300)
             {
@@ -155,12 +160,11 @@ namespace XCharts
             CheckTheme();
             base.Update();
             CheckPainter();
-            CheckTooltip();
             CheckRefreshChart();
-            CheckRefreshLabel();
             Internal_CheckAnimation();
-            foreach (var draw in m_DrawSeries) draw.Update();
-            foreach (var draw in m_ComponentHandlers) draw.Update();
+            foreach (var handler in m_SerieHandlers) handler.Update();
+            foreach (var handler in m_ComponentHandlers) handler.Update();
+            m_DebugInfo.Update();
         }
 
         public Painter GetPainter(int index)
@@ -210,95 +214,62 @@ namespace XCharts
 
         protected virtual void CheckTheme()
         {
-            if (m_Theme == null)
+            if (m_Theme.sharedTheme == null)
             {
-                m_Theme = ChartTheme.Default;
+                m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
             }
-            else
+            if (m_CheckTheme != m_Theme.themeType)
             {
-                if (m_Theme.colorPalette.Count == 0)
-                {
-                    m_Theme.ResetTheme();
-                }
-                if (m_CheckTheme != m_Theme.theme)
-                {
-                    m_CheckTheme = m_Theme.theme;
-                    m_Theme.CopyTheme(m_CheckTheme);
-                    SetAllComponentDirty();
-                    OnThemeChanged();
-                }
+                m_CheckTheme = m_Theme.themeType;
+                m_Theme.sharedTheme.CopyTheme(m_CheckTheme);
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
+                SetAllComponentDirty();
+                OnThemeChanged();
             }
         }
         protected override void CheckComponent()
         {
             base.CheckComponent();
-            if (m_Series.anyDirty)
-            {
-                if (SeriesHelper.IsLabelDirty(m_Series)) m_ReinitLabel = true;
-                if (SeriesHelper.IsNeedLabelUpdate(m_Series) && !m_RefreshChart) m_RefreshLabel = true;
-                foreach (var serie in m_Series.list)
-                {
-                    if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
-                    if (serie.nameDirty)
-                    {
-                        foreach (var legend in m_Legends) legend.SetAllDirty();
-                        RefreshChart();
-                        serie.ClearNameDirty();
-                    }
-                    if (serie.vertsDirty)
-                    {
-                        RefreshPainter(serie);
-                    }
-                }
-                m_Series.ClearDirty();
-            }
             if (m_Theme.anyDirty)
             {
                 if (m_Theme.componentDirty)
                 {
-                    foreach (var title in m_Titles) title.SetAllDirty();
-                    foreach (var legend in m_Legends) legend.SetAllDirty();
-                    tooltip.SetAllDirty();
+                    SetAllComponentDirty();
                 }
                 if (m_Theme.vertsDirty) RefreshChart();
                 m_Theme.ClearDirty();
             }
-            CheckComponentDirty(tooltip);
-            foreach (var component in m_Titles) CheckComponentDirty(component);
-            foreach (var component in m_Legends) CheckComponentDirty(component);
-            foreach (var component in m_Tooltips) CheckComponentDirty(component);
-            foreach (var component in m_DataZooms) CheckComponentDirty(component);
-            foreach (var component in m_VisualMaps) CheckComponentDirty(component);
-            foreach (var component in m_Grids) CheckComponentDirty(component);
-            foreach (var component in m_XAxes) CheckComponentDirty(component);
-            foreach (var component in m_YAxes) CheckComponentDirty(component);
-            foreach (var component in m_Vessels) CheckComponentDirty(component);
-            foreach (var component in m_Polars) CheckComponentDirty(component);
-            foreach (var component in m_AngleAxes) CheckComponentDirty(component);
-            foreach (var component in m_RadiusAxes) CheckComponentDirty(component);
-            foreach (var component in m_Radars) CheckComponentDirty(component);
-            foreach (var drawSerie in m_DrawSeries) drawSerie.CheckComponent();
+            foreach (var com in m_Components)
+                CheckComponentDirty(com);
+        }
+
+        protected void CheckComponentDirty(MainComponent component)
+        {
+            if (component == null) return;
+            if (component.anyDirty)
+            {
+                if (component.componentDirty && component.refreshComponent != null)
+                {
+                    component.refreshComponent.Invoke();
+                }
+                if (component.vertsDirty)
+                {
+                    if (component.painter != null)
+                    {
+                        RefreshPainter(component.painter);
+                    }
+                }
+                component.ClearDirty();
+            }
         }
 
         protected override void SetAllComponentDirty()
         {
             base.SetAllComponentDirty();
             m_Theme.SetAllDirty();
-            foreach (var component in m_Titles) component.SetAllDirty();
-            foreach (var component in m_Legends) component.SetAllDirty();
-            foreach (var component in m_Tooltips) component.SetAllDirty();
-            foreach (var component in m_Grids) component.SetAllDirty();
-            foreach (var component in m_XAxes) component.SetAllDirty();
-            foreach (var component in m_YAxes) component.SetAllDirty();
-            foreach (var component in m_DataZooms) component.SetAllDirty();
-            foreach (var component in m_VisualMaps) component.SetAllDirty();
-            foreach (var component in m_Vessels) component.SetAllDirty();
-            foreach (var component in m_Polars) component.SetAllDirty();
-            foreach (var component in m_RadiusAxes) component.SetAllDirty();
-            foreach (var component in m_AngleAxes) component.SetAllDirty();
-            foreach (var component in m_Radars) component.SetAllDirty();
-            m_ReinitLabel = true;
-            m_ReinitTitle = true;
+            foreach (var com in m_Components) com.SetAllDirty();
             m_RefreshChart = true;
         }
 
@@ -314,7 +285,7 @@ namespace XCharts
         {
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.GetSerie(i);
+                var serie = m_Series[i];
                 serie.index = i;
                 SetPainterActive(i, true);
             }
@@ -337,6 +308,7 @@ namespace XCharts
                 painter.onPopulateMesh = OnDrawPainterSerie;
                 painter.SetActive(false, m_DebugMode);
                 painter.material = settings.seriePainterMaterial;
+                painter.transform.SetSiblingIndex(i + 1);
                 m_PainterList.Add(painter);
             }
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
@@ -345,347 +317,27 @@ namespace XCharts
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugMode);
             m_PainterTop.material = settings.topPainterMaterial;
+            m_PainterTop.transform.SetSiblingIndex(settings.maxPainter);
         }
 
-        private void InitTitles()
+        internal void InitComponentHandlers()
         {
-            for (int i = 0; i < m_Titles.Count; i++)
+            m_ComponentHandlers.Clear();
+            m_Components.Sort();
+            m_ComponentMaps.Clear();
+            foreach (var component in m_Components)
             {
-                var title = m_Titles[i];
-                title.index = i;
-                InitTitle(title);
-            }
-        }
-        private void InitTitle(Title title)
-        {
-            title.painter = null;
-            title.refreshComponent = delegate ()
-            {
-                title.OnChanged();
-                var anchorMin = title.location.runtimeAnchorMin;
-                var anchorMax = title.location.runtimeAnchorMax;
-                var pivot = title.location.runtimePivot;
-                var titleObject = ChartHelper.AddObject(s_TitleObjectName + title.index, transform, anchorMin, anchorMax,
-                    pivot, m_ChartSizeDelta);
-                title.gameObject = titleObject;
-                anchorMin = title.location.runtimeAnchorMin;
-                anchorMax = title.location.runtimeAnchorMax;
-                pivot = title.location.runtimePivot;
-                title.textStyle.UpdateAlignmentByLocation(title.location);
-                title.subTextStyle.UpdateAlignmentByLocation(title.location);
-                var fontSize = title.textStyle.GetFontSize(theme.title);
-                ChartHelper.UpdateRectTransform(titleObject, anchorMin, anchorMax, pivot, new Vector2(chartWidth, chartHeight));
-                var titlePosition = GetTitlePosition(title);
-                var subTitlePosition = -new Vector3(0, fontSize + title.itemGap, 0);
-                var titleWid = chartWidth;
-
-                titleObject.transform.localPosition = titlePosition;
-                titleObject.hideFlags = chartHideFlags;
-                ChartHelper.HideAllObject(titleObject);
-
-                var titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform, anchorMin, anchorMax,
-                    pivot, new Vector2(titleWid, fontSize), title.textStyle, theme.title);
-                titleText.SetActive(title.show);
-                titleText.SetLocalPosition(Vector3.zero + title.textStyle.offsetv3);
-                titleText.SetText(title.text);
-
-                var subText = ChartHelper.AddTextObject(s_SubTitleObjectName, titleObject.transform, anchorMin, anchorMax,
-                    pivot, new Vector2(titleWid, title.subTextStyle.GetFontSize(theme.subTitle)), title.subTextStyle,
-                    theme.subTitle);
-                subText.SetActive(title.show && !string.IsNullOrEmpty(title.subText));
-                subText.SetLocalPosition(subTitlePosition + title.subTextStyle.offsetv3);
-                subText.SetText(title.subText);
-            };
-            title.refreshComponent();
-        }
-
-        private void InitLegends()
-        {
-            for (int i = 0; i < m_Legends.Count; i++)
-            {
-                var legend = m_Legends[i];
-                legend.index = i;
-                InitLegend(legend);
-            }
-        }
-
-        private void InitLegend(Legend legend)
-        {
-            legend.painter = null; // legend component does not need to paint
-            legend.refreshComponent = delegate ()
-            {
-                legend.OnChanged();
-                var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, transform, m_ChartMinAnchor,
-                     m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-                legend.gameObject = legendObject;
-                legendObject.hideFlags = chartHideFlags;
-                SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
-                List<string> datas;
-                if (legend.show && legend.data.Count > 0)
+                var type = component.GetType();
+                List<MainComponent> list;
+                if (!m_ComponentMaps.TryGetValue(type, out list))
                 {
-                    datas = new List<string>();
-                    for (int i = 0; i < m_LegendRealShowName.Count; i++)
-                    {
-                        if (legend.data.Contains(m_LegendRealShowName[i])) datas.Add(m_LegendRealShowName[i]);
-                    }
+                    list = new List<MainComponent>();
+                    m_ComponentMaps[type] = list;
                 }
-                else
-                {
-                    datas = m_LegendRealShowName;
-                }
-                int totalLegend = 0;
-                for (int i = 0; i < datas.Count; i++)
-                {
-                    if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
-                    totalLegend++;
-                }
-                legend.RemoveButton();
-                ChartHelper.HideAllObject(legendObject);
-                if (!legend.show) return;
-                for (int i = 0; i < datas.Count; i++)
-                {
-                    if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
-                    string legendName = legend.GetFormatterContent(datas[i]);
-                    var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
-                    var active = IsActiveByLegend(datas[i]);
-                    var bgColor = LegendHelper.GetIconColor(this, readIndex, datas[i], active);
-                    var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, m_Theme,
-                        legendName, bgColor, active,readIndex);
-                    legend.SetButton(legendName, item, totalLegend);
-                    ChartHelper.ClearEventListener(item.button.gameObject);
-                    ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>
-                    {
-                        if (data.selectedObject == null || legend.selectedMode == Legend.SelectedMode.None) return;
-                        var temp = data.selectedObject.name.Split('_');
-                        string selectedName = temp[1];
-                        int clickedIndex = int.Parse(temp[0]);
-                        if (legend.selectedMode == Legend.SelectedMode.Multiple)
-                        {
-                            OnLegendButtonClick(clickedIndex, selectedName, !IsActiveByLegend(selectedName));
-                        }
-                        else
-                        {
-                            var btnList = legend.buttonList.Values.ToArray();
-                            if (btnList.Length == 1)
-                            {
-                                OnLegendButtonClick(0, selectedName, !IsActiveByLegend(selectedName));
-                            }
-                            else
-                            {
-                                for (int n = 0; n < btnList.Length; n++)
-                                {
-                                    temp = btnList[n].name.Split('_');
-                                    selectedName = btnList[n].legendName;
-                                    var index = btnList[n].index;
-                                    OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
-                                }
-                            }
-                        }
-                    });
-                    ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerEnter, (data) =>
-                    {
-                        if (item.button == null) return;
-                        var temp = item.button.name.Split('_');
-                        string selectedName = temp[1];
-                        int index = int.Parse(temp[0]);
-                        OnLegendButtonEnter(index, selectedName);
-                    });
-                    ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerExit, (data) =>
-                    {
-                        if (item.button == null) return;
-                        var temp = item.button.name.Split('_');
-                        string selectedName = temp[1];
-                        int index = int.Parse(temp[0]);
-                        OnLegendButtonExit(index, selectedName);
-                    });
-                }
-                if (legend.selectedMode == Legend.SelectedMode.Single)
-                {
-                    for (int n = 0; n < m_LegendRealShowName.Count; n++)
-                    {
-                        OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
-                    }
-                }
-                LegendHelper.ResetItemPosition(legend, m_ChartPosition, m_ChartWidth, m_ChartHeight);
-            };
-            legend.refreshComponent();
-        }
-
-        private void InitSerieLabel()
-        {
-            m_SerieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, transform, m_ChartMinAnchor,
-                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-            m_SerieLabelRoot.hideFlags = chartHideFlags;
-            SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
-            int count = 0;
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var serie = m_Series.list[i];
-                serie.index = i;
-                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
-                for (int j = 0; j < serie.data.Count; j++)
-                {
-                    var serieData = serie.data[j];
-                    serieData.index = j;
-                    serieData.labelObject = null;
-                    AddSerieLabel(serie, serieData, count);
-                    count++;
-                }
+                component.index = list.Count;
+                list.Add(component);
+                CreateComponentHandler(component);
             }
-            SerieLabelHelper.UpdateLabelText(m_Series, m_Theme, m_LegendRealShowName);
-        }
-
-        protected void AddSerieLabel(Serie serie, SerieData serieData, int count = -1)
-        {
-            if (m_SerieLabelRoot == null) return;
-            if (count == -1) count = serie.dataCount;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
-            if (serie.IsPerformanceMode()) return;
-            if (!serieLabel.show && !iconStyle.show) return;
-            var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
-            var color = Color.grey;
-            if (serie.type == SerieType.Pie)
-            {
-                color = (serieLabel.position == SerieLabel.Position.Inside) ? Color.white :
-                    (Color)m_Theme.GetColor(count);
-            }
-            else
-            {
-                color = !ChartHelper.IsClearColor(serieLabel.textStyle.color) ? serieLabel.textStyle.color :
-                    (Color)m_Theme.GetColor(serie.index);
-            }
-            var labelObj = SerieLabelPool.Get(textName, m_SerieLabelRoot.transform, serieLabel, color,
-                       iconStyle.width, iconStyle.height, theme);
-            var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
-            var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
-            var item = new ChartLabel();
-            item.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
-            item.SetIcon(iconImage);
-            item.SetIconActive(iconStyle.show);
-            serieData.labelObject = item;
-        }
-
-        private void InitSerieTitle()
-        {
-            var titleObject = ChartHelper.AddObject(s_SerieTitleObjectName, transform, m_ChartMinAnchor,
-                m_ChartMaxAnchor, m_ChartPivot, new Vector2(chartWidth, chartHeight));
-            titleObject.hideFlags = chartHideFlags;
-            ChartHelper.HideAllObject(titleObject);
-            for (int i = 0; i < m_Series.Count; i++)
-            {
-                var serie = m_Series.list[i];
-                var textStyle = serie.titleStyle.textStyle;
-                var titleColor = ChartHelper.IsClearColor(textStyle.color) ? m_Theme.GetColor(i) : (Color32)textStyle.color;
-                var anchorMin = new Vector2(0.5f, 0.5f);
-                var anchorMax = new Vector2(0.5f, 0.5f);
-                var pivot = new Vector2(0.5f, 0.5f);
-                var fontSize = 10;
-                var sizeDelta = new Vector2(50, fontSize + 2);
-                var txt = ChartHelper.AddTextObject("title_" + i, titleObject.transform, anchorMin, anchorMax,
-                    pivot, sizeDelta, textStyle, theme.common);
-                txt.SetText("");
-                txt.SetColor(titleColor);
-                txt.SetLocalPosition(Vector2.zero);
-                txt.SetLocalEulerAngles(Vector2.zero);
-                txt.SetActive(serie.titleStyle.show);
-                serie.titleStyle.runtimeText = txt;
-                serie.titleStyle.UpdatePosition(serie.runtimeCenterPos);
-                var serieData = serie.GetSerieData(0);
-                if (serieData != null)
-                {
-                    txt.SetText(serieData.name);
-                }
-            }
-        }
-
-        private void InitTooltip()
-        {
-            tooltip.painter = m_PainterTop;
-            tooltip.refreshComponent = delegate ()
-            {
-                tooltip.gameObject = ChartHelper.AddObject("tooltip", transform, m_ChartMinAnchor,
-                    m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
-                var tooltipObject = tooltip.gameObject;
-                tooltipObject.transform.localPosition = Vector3.zero;
-                tooltipObject.hideFlags = chartHideFlags;
-                DestroyImmediate(tooltipObject.GetComponent<Image>());
-                var parent = tooltipObject.transform;
-                var textStyle = tooltip.textStyle;
-                ChartHelper.HideAllObject(tooltipObject.transform);
-                GameObject content = ChartHelper.AddTooltipContent("content", parent, textStyle, m_Theme);
-                tooltip.SetObj(tooltipObject);
-                tooltip.SetContentObj(content);
-                tooltip.SetContentBackgroundColor(TooltipHelper.GetTexBackgroundColor(tooltip, m_Theme.tooltip));
-                tooltip.SetContentTextColor(TooltipHelper.GetTexColor(tooltip, m_Theme.tooltip));
-                tooltip.SetActive(false);
-            };
-            tooltip.refreshComponent();
-        }
-
-        private Vector3 GetLegendPosition(Legend legend, int i)
-        {
-            return legend.location.GetPosition(chartWidth, chartHeight);
-        }
-
-        protected override bool IsNeedCheckPointerPos()
-        {
-            return (tooltip.show && tooltip.runtimeInited)
-                || raycastTarget;
-        }
-
-        private void CheckTooltip()
-        {
-            if (!isPointerInChart || !tooltip.show || !tooltip.runtimeInited)
-            {
-                if (tooltip.IsActive())
-                {
-                    tooltip.ClearValue();
-                    tooltip.SetActive(false);
-                    m_PainterTop.Refresh();
-                }
-                return;
-            }
-            for (int i = 0; i < tooltip.runtimeDataIndex.Count; i++)
-            {
-                tooltip.runtimeDataIndex[i] = -1;
-            }
-            Vector2 local = pointerPos;
-            if (canvas == null) return;
-
-            if (local == Vector2.zero)
-            {
-                if (tooltip.IsActive())
-                {
-                    tooltip.SetActive(false);
-                    m_PainterTop.Refresh();
-                }
-                return;
-            }
-            if (!IsInChart(local))
-            {
-                if (tooltip.IsActive())
-                {
-                    tooltip.SetActive(false);
-                    m_PainterTop.Refresh();
-                }
-                return;
-            }
-            tooltip.runtimePointerPos = local;
-            CheckAllTooptip(local);
-        }
-
-        private void CheckAllTooptip(Vector2 localPostion)
-        {
-            tooltip.runtimeGridIndex = -1;
-            var actived = false;
-            foreach (var draw in m_DrawSeries)
-                actived = actived || draw.CheckTootipArea(localPostion);
-            CheckTootipArea(localPostion, actived);
-        }
-
-        protected virtual void CheckTootipArea(Vector2 localPostion, bool isActivedOther)
-        {
         }
 
         protected override void CheckRefreshChart()
@@ -708,26 +360,6 @@ namespace XCharts
             if (m_PainterTop != null) m_PainterTop.CheckRefresh();
         }
 
-        protected void CheckRefreshLabel()
-        {
-            if (m_ReinitLabel)
-            {
-                m_ReinitLabel = false;
-                SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
-                InitSerieLabel();
-            }
-            if (m_ReinitTitle)
-            {
-                m_ReinitTitle = false;
-                InitSerieTitle();
-            }
-            if (m_RefreshLabel)
-            {
-                m_RefreshLabel = false;
-                OnRefreshLabel();
-            }
-        }
-
         public void Internal_CheckAnimation()
         {
             if (!m_CheckAnimation)
@@ -735,11 +367,6 @@ namespace XCharts
                 m_CheckAnimation = true;
                 AnimationFadeIn();
             }
-        }
-
-        protected virtual void OnRefreshLabel()
-        {
-            foreach (var drawSerie in m_DrawSeries) drawSerie.RefreshLabel();
         }
 
         protected override void OnSizeChanged()
@@ -757,107 +384,161 @@ namespace XCharts
             m_ChartRect = m_GraphRect;
 
             SetAllComponentDirty();
-            m_Series.SetLabelDirty();
-            m_ReinitLabel = true;
+            OnCoordinateChanged();
             RefreshChart();
+        }
+
+        internal virtual void OnCoordinateChanged()
+        {
+            foreach (var component in m_Components)
+            {
+                if (component is Axis)
+                    component.SetAllDirty();
+                if (component is IUpdateRuntimeData)
+                    (component as IUpdateRuntimeData).UpdateRuntimeData(m_ChartX, m_ChartY, m_ChartWidth, m_ChartHeight);
+            }
         }
 
         protected override void OnLocalPositionChanged()
         {
-            m_Background.SetAllDirty();
+            Background background;
+            if (TryGetChartComponent<Background>(out background))
+                background.SetAllDirty();
         }
 
         protected virtual void OnThemeChanged()
         {
         }
 
-        protected virtual void OnYMaxValueChanged()
-        {
-        }
-
         public virtual void OnDataZoomRangeChanged(DataZoom dataZoom)
         {
+            foreach (var index in dataZoom.xAxisIndexs)
+            {
+                var axis = GetChartComponent<XAxis>(index);
+                if (axis != null && axis.show) axis.SetAllDirty();
+            }
+            foreach (var index in dataZoom.yAxisIndexs)
+            {
+                var axis = GetChartComponent<YAxis>(index);
+                if (axis != null && axis.show) axis.SetAllDirty();
+            }
+        }
+
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            base.OnPointerClick(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnPointerClick(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnPointerClick(eventData);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
-            foreach (var drawSerie in m_DrawSeries) drawSerie.OnPointerDown(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnPointerDown(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnPointerDown(eventData);
+        }
+
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+            base.OnPointerUp(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnPointerUp(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnPointerUp(eventData);
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            base.OnPointerEnter(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnPointerEnter(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnPointerEnter(eventData);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            base.OnPointerExit(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnPointerExit(eventData);
+            foreach (var handler in m_ComponentHandlers) handler.OnPointerExit(eventData);
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
             base.OnBeginDrag(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnBeginDrag(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnBeginDrag(eventData);
         }
 
         public override void OnDrag(PointerEventData eventData)
         {
             base.OnDrag(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnDrag(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnDrag(eventData);
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
             base.OnEndDrag(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnEndDrag(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnEndDrag(eventData);
         }
 
         public override void OnScroll(PointerEventData eventData)
         {
             base.OnScroll(eventData);
+            foreach (var handler in m_SerieHandlers) handler.OnScroll(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnScroll(eventData);
         }
 
-        protected virtual void OnLegendButtonClick(int index, string legendName, bool show)
+        public virtual void OnLegendButtonClick(int index, string legendName, bool show)
         {
             var clicked = false;
-            foreach (var drawSerie in m_DrawSeries)
-                clicked = clicked || drawSerie.OnLegendButtonClick(index, legendName, show);
+            foreach (var handler in m_SerieHandlers)
+                clicked = clicked || handler.OnLegendButtonClick(index, legendName, show);
             if (!clicked)
             {
-                foreach (var serie in m_Series.GetSeries(legendName))
+                foreach (var serie in m_Series)
                 {
-                    SetActive(serie.index, show);
-                    RefreshPainter(serie);
+                    if (legendName.Equals(serie.serieName))
+                    {
+                        SetSerieActive(serie.index, show);
+                        RefreshPainter(serie);
+                    }
                 }
-                OnYMaxValueChanged();
             }
         }
 
-        protected virtual void OnLegendButtonEnter(int index, string legendName)
+        public virtual void OnLegendButtonEnter(int index, string legendName)
         {
             var enter = false;
-            foreach (var drawSerie in m_DrawSeries)
-                enter = enter || drawSerie.OnLegendButtonEnter(index, legendName);
+            foreach (var handler in m_SerieHandlers)
+                enter = enter || handler.OnLegendButtonEnter(index, legendName);
             if (!enter)
             {
-                foreach (var serie in m_Series.GetSeries(legendName))
+                foreach (var serie in m_Series)
                 {
-                    serie.highlighted = true;
-                    RefreshPainter(serie);
+                    if (legendName.Equals(serie.serieName))
+                    {
+                        serie.highlighted = true;
+                        RefreshPainter(serie);
+                    }
                 }
             }
         }
 
-        protected virtual void OnLegendButtonExit(int index, string legendName)
+        public virtual void OnLegendButtonExit(int index, string legendName)
         {
             var exit = false;
-            foreach (var drawSerie in m_DrawSeries)
-                exit = exit || drawSerie.OnLegendButtonExit(index, legendName);
+            foreach (var handler in m_SerieHandlers)
+                exit = exit || handler.OnLegendButtonExit(index, legendName);
             if (!exit)
             {
-                foreach (var serie in m_Series.GetSeries(legendName))
+                foreach (var serie in m_Series)
                 {
-                    serie.highlighted = false;
-                    RefreshPainter(serie);
+                    if (legendName.Equals(serie.serieName))
+                    {
+                        serie.highlighted = false;
+                        RefreshPainter(serie);
+                    }
                 }
             }
-        }
-
-        protected virtual void UpdateTooltip()
-        {
         }
 
         protected override void OnDrawPainterBase(VertexHelper vh, Painter painter)
@@ -865,8 +546,8 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawPainterBase(vh);
-            foreach (var draw in m_ComponentHandlers) draw.DrawBase(vh);
-            foreach (var draw in m_DrawSeries) draw.DrawBase(vh);
+            foreach (var handler in m_ComponentHandlers) handler.DrawBase(vh);
+            foreach (var handler in m_SerieHandlers) handler.DrawBase(vh);
             if (m_OnCustomDrawBaseCallback != null)
             {
                 m_OnCustomDrawBaseCallback(vh);
@@ -880,186 +561,58 @@ namespace XCharts
             var maxSeries = m_Series.Count;
             var rate = Mathf.CeilToInt(maxSeries * 1.0f / maxPainter);
             m_PainterTop.Refresh();
+            m_DebugInfo.refreshCount++;
             for (int i = painter.index * rate; i < (painter.index + 1) * rate && i < maxSeries; i++)
             {
-                var serie = m_Series.GetSerie(i);
+                var serie = m_Series[i];
                 if (m_OnCustomDrawSerieBeforeCallback != null)
                 {
                     m_OnCustomDrawSerieBeforeCallback.Invoke(vh, serie);
                 }
+                serie.dataPoints.Clear();
                 DrawPainterSerie(vh, serie);
+                if (i >= 0 && i < m_SerieHandlers.Count)
+                {
+                    var handler = m_SerieHandlers[i];
+                    handler.DrawSerie(vh);
+                    handler.RefreshLabelNextFrame();
+                }
                 if (m_OnCustomDrawSerieAfterCallback != null)
                 {
                     m_OnCustomDrawSerieAfterCallback(vh, serie);
                 }
             }
-            m_RefreshLabel = true;
         }
 
         protected virtual void OnDrawPainterTop(VertexHelper vh, Painter painter)
         {
             vh.Clear();
-            DrawLegend(vh);
             DrawPainterTop(vh);
             foreach (var draw in m_ComponentHandlers) draw.DrawTop(vh);
             if (m_OnCustomDrawTopCallback != null)
             {
                 m_OnCustomDrawTopCallback(vh);
             }
-            DrawTooltip(vh);
         }
 
         protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie)
         {
-            foreach (var drawSerie in m_DrawSeries)
-            {
-                drawSerie.DrawSerie(vh, serie);
-            }
         }
 
         protected virtual void DrawPainterTop(VertexHelper vh)
         {
+            foreach (var handler in m_SerieHandlers)
+                handler.DrawTop(vh);
         }
 
-        protected virtual void DrawTooltip(VertexHelper vh)
+        protected virtual void DrawBackground(VertexHelper vh)
         {
-        }
-
-        protected override void DrawBackground(VertexHelper vh)
-        {
+            if (HasChartComponent<Background>()) return;
             Vector3 p1 = new Vector3(chartX, chartY + chartHeight);
             Vector3 p2 = new Vector3(chartX + chartWidth, chartY + chartHeight);
             Vector3 p3 = new Vector3(chartX + chartWidth, chartY);
             Vector3 p4 = new Vector3(chartX, chartY);
-            var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
-            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
-        }
-
-        protected virtual void DrawLegend(VertexHelper vh)
-        {
-            if (m_Series.Count == 0) return;
-            foreach (var legend in m_Legends)
-            {
-                if (!legend.show) continue;
-                if (legend.iconType == Legend.Type.Custom) continue;
-                foreach (var kv in legend.buttonList)
-                {
-                    var item = kv.Value;
-                    var rect = item.GetIconRect();
-                    var radius = Mathf.Min(rect.width, rect.height) / 2;
-                    var color = item.GetIconColor();
-                    var iconType = legend.iconType;
-                    if (legend.iconType == Legend.Type.Auto)
-                    {
-                        var serie = m_Series.GetSerie(item.legendName);
-                        if (serie != null && serie.type == SerieType.Line)
-                        {
-                            var sp = new Vector3(rect.center.x - rect.width / 2, rect.center.y);
-                            var ep = new Vector3(rect.center.x + rect.width / 2, rect.center.y);
-                            UGL.DrawLine(vh, sp, ep, m_Settings.legendIconLineWidth, color);
-                            if (!serie.symbol.show) continue;
-                            switch (serie.symbol.type)
-                            {
-                                case SerieSymbolType.None:
-                                    continue;
-                                case SerieSymbolType.Circle:
-                                    iconType = Legend.Type.Circle;
-                                    break;
-                                case SerieSymbolType.Diamond:
-                                    iconType = Legend.Type.Diamond;
-                                    break;
-                                case SerieSymbolType.EmptyCircle:
-                                    iconType = Legend.Type.EmptyCircle;
-                                    break;
-                                case SerieSymbolType.Rect:
-                                    iconType = Legend.Type.Rect;
-                                    break;
-                                case SerieSymbolType.Triangle:
-                                    iconType = Legend.Type.Triangle;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            iconType = Legend.Type.Rect;
-                        }
-                    }
-                    switch (iconType)
-                    {
-                        case Legend.Type.Rect:
-                            var cornerRadius = m_Settings.legendIconCornerRadius;
-                            UGL.DrawRoundRectangle(vh, rect.center, rect.width, rect.height, color, color,
-                                0, cornerRadius, false, 0.5f);
-                            break;
-                        case Legend.Type.Circle:
-                            UGL.DrawCricle(vh, rect.center, radius, color);
-                            break;
-                        case Legend.Type.Diamond:
-                            UGL.DrawDiamond(vh, rect.center, radius, color);
-                            break;
-                        case Legend.Type.EmptyCircle:
-                            var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
-                            UGL.DrawEmptyCricle(vh, rect.center, radius, 2 * m_Settings.legendIconLineWidth,
-                                color, color, backgroundColor, 1f);
-                            break;
-                        case Legend.Type.Triangle:
-                            UGL.DrawTriangle(vh, rect.center, 1.2f * radius, color);
-                            break;
-                    }
-                }
-            }
-        }
-
-        public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius)
-        {
-            DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius, Vector3.zero);
-        }
-        public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius, Vector3 startPos)
-        {
-            var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
-            var smoothness = settings.cicleSmoothness;
-            ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
-                cornerRadius, backgroundColor, smoothness, startPos);
-        }
-
-        public void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
-        {
-            if (serieData == null || serieData.labelObject == null) return;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            if (!serieLabel.show) return;
-            var invert = serieLabel.autoOffset
-                && serie.type == SerieType.Line
-                && SerieHelper.IsDownPoint(serie, serieData.index)
-                && !serie.areaStyle.show;
-            var centerPos = Vector3.zero;
-            if (serie.type == SerieType.Pie)
-                centerPos = SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel);
-            else
-                centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
-            var labelHalfWid = serieData.labelObject.GetLabelWidth() / 2;
-            var labelHalfHig = serieData.GetLabelHeight() / 2;
-            var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
-            var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
-            var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);
-            var p4 = new Vector3(centerPos.x - labelHalfWid, centerPos.y - labelHalfHig);
-
-            if (serieLabel.textStyle.rotate > 0)
-            {
-                p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serieLabel.textStyle.rotate);
-                p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serieLabel.textStyle.rotate);
-                p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serieLabel.textStyle.rotate);
-                p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serieLabel.textStyle.rotate);
-            }
-
-            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, serieLabel.textStyle.backgroundColor);
-
-            if (serieLabel.border)
-            {
-                UGL.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
-                    serieLabel.borderWidth, serieLabel.borderColor, serieLabel.textStyle.rotate);
-            }
+            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, theme.backgroundColor);
         }
 
         protected int GetPainterIndexBySerie(Serie serie)
@@ -1072,6 +625,76 @@ namespace XCharts
                 var rate = Mathf.CeilToInt(maxSeries * 1.0f / maxPainter);
                 return serie.index / rate;
             }
+        }
+
+        private void InitListForFieldInfos()
+        {
+            if (m_TypeListForSerie.Count != 0) return;
+            m_TypeListForComponent.Clear();
+            m_TypeListForSerie.Clear();
+            var fileds1 = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            var fileds2 = GetType().BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            var list = ListPool<FieldInfo>.Get();
+            list.AddRange(fileds1);
+            list.AddRange(fileds2);
+            foreach (var field in list)
+            {
+                var attribute1 = field.GetCustomAttribute<ListForSerie>();
+                if (attribute1 != null)
+                    m_TypeListForSerie.Add(attribute1.type, field);
+                var attribute2 = field.GetCustomAttribute<ListForComponent>();
+                if (attribute2 != null)
+                    m_TypeListForComponent.Add(attribute2.type, field);
+            }
+            ListPool<FieldInfo>.Release(list);
+        }
+
+        public void OnBeforeSerialize()
+        {
+            InitListForFieldInfos();
+            foreach (var kv in m_TypeListForSerie)
+            {
+                ReflectionUtil.InvokeListClear(this, kv.Value);
+            }
+            foreach (var kv in m_TypeListForComponent)
+            {
+                ReflectionUtil.InvokeListClear(this, kv.Value);
+            }
+            foreach (var component in m_Components)
+            {
+                FieldInfo field;
+                if (m_TypeListForComponent.TryGetValue(component.GetType(), out field))
+                    ReflectionUtil.InvokeListAdd(this, field, component);
+                else
+                    Debug.LogError("No ListForComponent:" + component.GetType());
+            }
+            foreach (var serie in m_Series)
+            {
+                FieldInfo field;
+                if (m_TypeListForSerie.TryGetValue(serie.GetType(), out field))
+                    ReflectionUtil.InvokeListAdd(this, field, serie);
+                else
+                    Debug.LogError("No ListForSerie:" + serie.GetType());
+            }
+        }
+
+        public void OnAfterDeserialize()
+        {
+            InitListForFieldInfos();
+            m_Components.Clear();
+            m_Series.Clear();
+            foreach (var kv in m_TypeListForComponent)
+            {
+                ReflectionUtil.InvokeListAddTo<MainComponent>(this, kv.Value, AddComponent);
+            }
+            foreach (var kv in m_TypeListForSerie)
+            {
+                ReflectionUtil.InvokeListAddTo<Serie>(this, kv.Value, InternalAddSerie);
+            }
+            m_Series.Sort();
+            m_Components.Sort();
+            InitComponentHandlers();
+            InitSerieHandlers();
         }
     }
 }

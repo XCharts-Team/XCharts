@@ -55,13 +55,14 @@ namespace XCharts.Examples
         {
             chart = gameObject.GetComponent<BarChart>();
             if (chart == null) chart = gameObject.AddComponent<BarChart>();
-            chart.title.text = "BarChart - 柱状图";
-            chart.title.subText = "普通柱状图";
+            chart.GetChartComponent<Title>().text = "BarChart - 柱状图";
+            chart.GetChartComponent<Title>().subText = "普通柱状图";
 
-            chart.yAxis0.minMaxType = Axis.AxisMinMaxType.Default;
+            var yAxis = chart.GetChartComponent<YAxis>();
+            yAxis.minMaxType = Axis.AxisMinMaxType.Default;
 
             chart.RemoveData();
-            serie = chart.AddSerie(SerieType.Bar, "Bar1");
+            serie = chart.AddSerie<Bar>( "Bar1");
 
             for (int i = 0; i < m_DataNum; i++)
             {
@@ -74,7 +75,7 @@ namespace XCharts.Examples
 
         IEnumerator BarMutilSerie()
         {
-            chart.title.subText = "多条柱状图";
+            chart.GetChartComponent<Title>().subText = "多条柱状图";
 
             float now = serie.barWidth - 0.35f;
             while (serie.barWidth > 0.35f)
@@ -84,7 +85,7 @@ namespace XCharts.Examples
                 yield return null;
             }
 
-            serie2 = chart.AddSerie(SerieType.Bar, "Bar2");
+            serie2 = chart.AddSerie<Bar>( "Bar2");
             serie2.lineType = LineType.Normal;
             serie2.barWidth = 0.35f;
             for (int i = 0; i < m_DataNum; i++)
@@ -96,7 +97,7 @@ namespace XCharts.Examples
 
         IEnumerator ZebraBar()
         {
-            chart.title.subText = "斑马柱状图";
+            chart.GetChartComponent<Title>().subText = "斑马柱状图";
             serie.barType = BarType.Zebra;
             serie2.barType = BarType.Zebra;
             serie.barZebraWidth = serie.barZebraGap = 4;
@@ -107,23 +108,21 @@ namespace XCharts.Examples
 
         IEnumerator SameBarAndNotStack()
         {
-            chart.title.subText = "非堆叠同柱";
+            chart.GetChartComponent<Title>().subText = "非堆叠同柱";
             serie.barType = serie2.barType = BarType.Normal;
             serie.stack = "";
             serie2.stack = "";
             serie.barGap = -1;
             serie2.barGap = -1;
-            chart.RefreshAxisMinMaxValue();
             yield return new WaitForSeconds(1);
         }
 
         IEnumerator SameBarAndStack()
         {
-            chart.title.subText = "堆叠同柱";
+            chart.GetChartComponent<Title>().subText = "堆叠同柱";
             serie.barType = serie2.barType = BarType.Normal;
             serie.stack = "samename";
             serie2.stack = "samename";
-            chart.RefreshAxisMinMaxValue();
             yield return new WaitForSeconds(1);
             float now = 0.6f - serie.barWidth;
             while (serie.barWidth < 0.6f)
@@ -140,7 +139,7 @@ namespace XCharts.Examples
 
         IEnumerator SameBarAndPercentStack()
         {
-            chart.title.subText = "百分比堆叠同柱";
+            chart.GetChartComponent<Title>().subText = "百分比堆叠同柱";
             serie.barType = serie2.barType = BarType.Normal;
             serie.stack = "samename";
             serie2.stack = "samename";
@@ -148,18 +147,18 @@ namespace XCharts.Examples
             serie.barPercentStack = true;
 
             serie.label.show = true;
-            serie.label.position = SerieLabel.Position.Center;
+            serie.label.position = LabelStyle.Position.Center;
             serie.label.border = false;
             serie.label.textStyle.color = Color.white;
             serie.label.formatter = "{d:f0}%";
 
             serie2.label.show = true;
-            serie2.label.position = SerieLabel.Position.Center;
+            serie2.label.position = LabelStyle.Position.Center;
             serie2.label.border = false;
             serie2.label.textStyle.color = Color.white;
             serie2.label.formatter = "{d:f0}%";
-
-            chart.RefreshLabel();
+            serie2.labelDirty = true;
+            
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
         }

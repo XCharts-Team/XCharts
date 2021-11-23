@@ -16,8 +16,8 @@ namespace XCharts
         private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
         private static Dictionary<int, bool> m_ReleaseDic = new Dictionary<int, bool>(1000);
 
-        public static GameObject Get(string name, Transform parent, SerieLabel label, Color color,
-            float iconWidth, float iconHeight, ChartTheme theme)
+        public static GameObject Get(string name, Transform parent, LabelStyle label, Color color,
+            float iconWidth, float iconHeight, ThemeStyle theme)
         {
             GameObject element;
             if (m_Stack.Count == 0 || !Application.isPlaying)
@@ -43,8 +43,8 @@ namespace XCharts
             return element;
         }
 
-        private static GameObject CreateSerieLabel(string name, Transform parent, SerieLabel label, Color color,
-            float iconWidth, float iconHeight, ChartTheme theme)
+        private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle label, Color color,
+            float iconWidth, float iconHeight, ThemeStyle theme)
         {
             var element = ChartHelper.AddSerieLabel(name, parent, label.backgroundWidth, label.backgroundHeight,
                 color, label.textStyle, theme);

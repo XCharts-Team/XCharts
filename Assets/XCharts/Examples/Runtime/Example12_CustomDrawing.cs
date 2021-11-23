@@ -37,9 +37,10 @@ namespace XCharts.Examples
                 if (dataPoints.Count > 0)
                 {
                     var pos = dataPoints[3];
-                    var zeroPos = new Vector3(chart.grid.runtimeX, chart.grid.runtimeY);
+                    var grid = chart.GetChartComponent<GridCoord>();
+                    var zeroPos = new Vector3(grid.context.x, grid.context.y);
                     var startPos = new Vector3(pos.x, zeroPos.y);
-                    var endPos = new Vector3(pos.x, zeroPos.y + chart.grid.runtimeHeight);
+                    var endPos = new Vector3(pos.x, zeroPos.y + grid.context.height);
                     UGL.DrawLine(vh, startPos, endPos, chart.theme.serie.lineWidth, Color.blue);
                     UGL.DrawCricle(vh, pos, 5, Color.blue);
                 }

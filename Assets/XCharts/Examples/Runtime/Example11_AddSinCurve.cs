@@ -24,27 +24,28 @@ namespace XCharts.Examples
             {
                 chart = gameObject.AddComponent<LineChart>();
             }
-            chart.title.show = true;
-            chart.title.text = "Sin Curve";
+            chart.GetChartComponent<Title>().show = true;
+            chart.GetChartComponent<Title>().text = "Sin Curve";
 
-            chart.tooltip.show = true;
-            chart.legend.show = false;
+            chart.GetChartComponent<Tooltip>().show = true;
+            chart.GetChartComponent<Legend>().show = false;
 
-            chart.xAxes[0].show = true;
-            chart.xAxes[1].show = false;
-            chart.yAxes[0].show = true;
-            chart.yAxes[1].show = false;
+            var xAxis = chart.GetChartComponent<XAxis>();
+            var yAxis = chart.GetChartComponent<YAxis>();
 
-            chart.xAxes[0].type = Axis.AxisType.Value;
-            chart.yAxes[0].type = Axis.AxisType.Value;
+            xAxis.show = true;
+            yAxis.show = true;
 
-            chart.xAxes[0].boundaryGap = false;
-            chart.xAxes[0].maxCache = 0;
-            chart.series.list[0].maxCache = 0;
+            xAxis.type = Axis.AxisType.Value;
+            yAxis.type = Axis.AxisType.Value;
+
+            xAxis.boundaryGap = false;
+            xAxis.maxCache = 0;
+            chart.series[0].maxCache = 0;
 
             chart.RemoveData();
 
-            var serie = chart.AddSerie(SerieType.Line);
+            var serie = chart.AddSerie<Line>();
             serie.symbol.show = false;
             serie.lineType = LineType.Normal;
             for (angle = 0; angle < 1080; angle++)

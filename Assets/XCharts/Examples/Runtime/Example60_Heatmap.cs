@@ -23,24 +23,29 @@ namespace XCharts.Examples
             {
                 chart = gameObject.AddComponent<HeatmapChart>();
             }
-            chart.title.text = "HeatmapChart";
-            chart.tooltip.type = Tooltip.Type.None;
-            chart.grid.left = 100;
-            chart.grid.right = 60;
-            chart.grid.bottom = 60;
+            chart.GetChartComponent<Title>().text = "HeatmapChart";
+            chart.GetChartComponent<Tooltip>().type = Tooltip.Type.None;
+
+            var grid = chart.GetChartComponent<GridCoord>();
+            grid.left = 100;
+            grid.right = 60;
+            grid.bottom = 60;
+
+            var xAxis = chart.GetChartComponent<XAxis>();
+            var yAxis = chart.GetChartComponent<YAxis>();
             //目前只支持Category
-            chart.xAxes[0].type = Axis.AxisType.Category;
-            chart.yAxes[0].type = Axis.AxisType.Category;
+            xAxis.type = Axis.AxisType.Category;
+            yAxis.type = Axis.AxisType.Category;
 
-            chart.xAxes[0].boundaryGap = true;
-            chart.xAxes[0].boundaryGap = true;
+            xAxis.boundaryGap = true;
+            xAxis.boundaryGap = true;
 
-            chart.xAxes[0].splitNumber = 10;
-            chart.yAxes[0].splitNumber = 10;
+            xAxis.splitNumber = 10;
+            yAxis.splitNumber = 10;
 
             //清空数据重新添加
             chart.RemoveData();
-            var serie = chart.AddSerie(SerieType.Heatmap, "serie1");
+            var serie = chart.AddSerie<Heatmap>("serie1");
 
             //设置样式
             serie.itemStyle.show = true;
@@ -54,27 +59,27 @@ namespace XCharts.Examples
             serie.emphasis.itemStyle.borderColor = Color.black;
 
             //设置视觉映射组件
-            chart.visualMap.enable = true;
-            chart.visualMap.max = 10;
-            chart.visualMap.range[0] = 0f;
-            chart.visualMap.range[1] = 10f;
-            chart.visualMap.orient = Orient.Vertical;
-            chart.visualMap.calculable = true;
-            chart.visualMap.location.align = Location.Align.BottomLeft;
-            chart.visualMap.location.bottom = 100;
-            chart.visualMap.location.left = 30;
+            var visualMap = chart.GetChartComponent<VisualMap>();
+            visualMap.max = 10;
+            visualMap.range[0] = 0f;
+            visualMap.range[1] = 10f;
+            visualMap.orient = Orient.Vertical;
+            visualMap.calculable = true;
+            visualMap.location.align = Location.Align.BottomLeft;
+            visualMap.location.bottom = 100;
+            visualMap.location.left = 30;
 
             //清空颜色重新添加
-            chart.visualMap.inRange.Clear();
+            visualMap.inRange.Clear();
 
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(chart.grid.runtimeWidth / heatmapGridWid);
-            int ySplitNumber = (int)(chart.grid.runtimeHeight / heatmapGridWid);
+            int xSplitNumber = (int)(grid.context.width / heatmapGridWid);
+            int ySplitNumber = (int)(grid.context.height / heatmapGridWid);
             var colors = new List<string>{"#313695", "#4575b4", "#74add1", "#abd9e9", "#e0f3f8", "#ffffbf",
                 "#fee090", "#fdae61", "#f46d43", "#d73027", "#a50026"};
             foreach (var str in colors)
             {
-                chart.visualMap.inRange.Add(ChartTheme.GetColor(str));
+                visualMap.inRange.Add(ThemeStyle.GetColor(str));
             }
             //添加xAxis的数据
             for (int i = 0; i < xSplitNumber; i++)

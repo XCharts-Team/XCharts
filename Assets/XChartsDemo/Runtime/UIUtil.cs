@@ -13,6 +13,17 @@ namespace XChartsDemo
     internal static class UIUtil
     {
 
+        public static GameObject Instantiate(GameObject clone, Transform parent)
+        {
+            var obj = GameObject.Instantiate(clone);
+            obj.layer = LayerMask.NameToLayer("UI");
+            obj.transform.SetParent(parent, true);
+            obj.transform.localScale = Vector3.one;
+            obj.transform.localPosition = Vector3.zero;
+            obj.SetActive(true);
+            return obj;
+        }
+
         public static RectTransform GetRectTransform(Transform transform, string path)
         {
             if (!string.IsNullOrEmpty(path))
@@ -68,6 +79,18 @@ namespace XChartsDemo
                 {
                     Debug.LogError("SetGridLayoutGroupSize ERROR:can't find GridLayoutGroup: " + (transform.name + "/" + path));
                 }
+            }
+        }
+
+        public static void SetText(GameObject parent, string text, string subPath = null)
+        {
+            if (!string.IsNullOrEmpty(subPath))
+            {
+                parent.transform.Find(subPath).GetComponent<Text>().text = text;
+            }
+            else
+            {
+                parent.GetComponent<Text>().text = text;
             }
         }
     }

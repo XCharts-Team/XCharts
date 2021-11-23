@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using XCharts;
 
 namespace XChartsDemo
 {
@@ -35,6 +36,7 @@ namespace XChartsDemo
             SerializedProperty m_Title = prop.FindPropertyRelative("m_Title");
             SerializedProperty m_Selected = prop.FindPropertyRelative("m_Selected");
             SerializedProperty m_Panel = prop.FindPropertyRelative("m_Panel");
+            prop.isExpanded = EditorGUI.Toggle(new Rect(pos.x - 10, pos.y, 10, 10), prop.isExpanded, EditorStyles.foldout);
             var fieldWid = EditorGUIUtility.currentViewWidth - 30 - 5 - 40 - 80 - 50 - 100 - 6 * 2 - 70;
             drawRect.width = 15;
             EditorGUI.BeginChangeCheck();
@@ -120,11 +122,94 @@ namespace XChartsDemo
                     demo.InitModuleButton();
                 }
             }
+
+            if (prop.isExpanded)
+            {
+                drawRect = pos;
+                EditorGUI.indentLevel++;
+                var m_ChartPrefabs = prop.FindPropertyRelative("m_ChartPrefabs");
+                drawRect.x = pos.x;
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                drawRect.height = EditorGUIUtility.singleLineHeight;
+                var chartSize = EditorGUI.IntField(drawRect, "Chart Size", m_ChartPrefabs.arraySize);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (chartSize != m_ChartPrefabs.arraySize)
+                {
+                    while (chartSize > m_ChartPrefabs.arraySize) m_ChartPrefabs.arraySize++;
+                    while (chartSize < m_ChartPrefabs.arraySize) m_ChartPrefabs.arraySize--;
+                }
+                for (int i = 0; i < chartSize; i++)
+                {
+                    var element = m_ChartPrefabs.GetArrayElementAtIndex(i);
+                    drawRect.width -= btnWidth * 5;
+                    EditorGUI.PropertyField(drawRect, element, new GUIContent("Element " + i));
+                    drawRect.x += drawRect.width;
+                    drawRect.width = btnWidth;
+                    if (GUI.Button(drawRect, Styles.iconUp, Styles.invisibleButton))
+                    {
+                        var demo = prop.serializedObject.targetObject as Demo;
+                        var index = GetIndex(prop);
+                        if (index >= 0)
+                        {
+                            var chartIndex = GetIndex(element);
+                            Swap(demo.chartModules[index].chartPrefabs, chartIndex, chartIndex - 1);
+                            demo.InitChartList(demo.chartModules[index]);
+                        }
+                    }
+                    drawRect.x += btnWidth + 1;
+                    if (GUI.Button(drawRect, Styles.iconDown, Styles.invisibleButton))
+                    {
+                        var demo = prop.serializedObject.targetObject as Demo;
+                        var index = GetIndex(prop);
+                        if (index >= 0)
+                        {
+                            var chartIndex = GetIndex(element);
+                            Swap(demo.chartModules[index].chartPrefabs, chartIndex, chartIndex + 1);
+                            demo.InitChartList(demo.chartModules[index]);
+                        }
+                    }
+                    drawRect.x += btnWidth + 1;
+                    if (GUI.Button(drawRect, Styles.iconAdd, Styles.invisibleButton))
+                    {
+                        var demo = prop.serializedObject.targetObject as Demo;
+                        var index = GetIndex(prop);
+                        if (index >= 0)
+                        {
+                            var chartIndex = GetIndex(element);
+                            demo.chartModules[index].chartPrefabs.Insert(chartIndex + 1, null);
+                            demo.InitChartList(demo.chartModules[index]);
+                        }
+                    }
+                    drawRect.x += 16;
+                    if (GUI.Button(drawRect, Styles.iconRemove, Styles.invisibleButton))
+                    {
+                        var demo = prop.serializedObject.targetObject as Demo;
+                        var index = GetIndex(prop);
+                        if (index >= 0)
+                        {
+                            var chartIndex = GetIndex(element);
+                            demo.chartModules[index].chartPrefabs.RemoveAt(chartIndex);
+                            demo.InitChartList(demo.chartModules[index]);
+                        }
+                    }
+                    drawRect.x = pos.x;
+                    drawRect.width = pos.width;
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                }
+
+                EditorGUI.indentLevel--;
+            }
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
-            return 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+            var height = 1 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
+            if (prop.isExpanded)
+            {
+                height += (prop.FindPropertyRelative("m_ChartPrefabs").arraySize + 1)
+                    * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
+            }
+            return height;
         }
 
         private int GetIndex(SerializedProperty prop)

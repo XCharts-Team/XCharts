@@ -1,7 +1,8 @@
 
 # 更新日志
 
-[master](#master)  
+[branch-2.0](#branch-2.0)  
+[v2.5.0](#v2.5.0)  
 [v2.4.0](#v2.4.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
@@ -38,8 +39,11 @@
 [v0.5.0](#v0.5.0)  
 [v0.1.0](#v0.1.0)  
 
-## master
+## branch-2.0
 
+## v2.5.0
+
+* (2021.11.27) Release `v2.5.0` version
 * (2021.11.27) Added `Tooltip` delegate function `positionFunction`
 * (2021.10.29) Removed settings for `TextMeshPro` when package first imported
 * (2021.10.29) Added support for `{e}` in `Tooltip` #170

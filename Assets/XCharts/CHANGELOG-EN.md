@@ -40,6 +40,7 @@
 
 ## master
 
+* (2021.11.27) Added `Tooltip` delegate function `positionFunction`
 * (2021.10.29) Removed settings for `TextMeshPro` when package first imported
 * (2021.10.29) Added support for `{e}` in `Tooltip` #170
 * (2021.09.08) Improved `RadarChart`

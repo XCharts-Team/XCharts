@@ -65,6 +65,7 @@ namespace XCharts
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
+        private DelegateTooltipPosition m_PositionFunction;
 
         private GameObject m_GameObject;
         private GameObject m_Content;
@@ -300,6 +301,12 @@ namespace XCharts
         public int runtimeGridIndex { get; internal set; }
         public int runtimePolarIndex { get; internal set; }
 
+        public DelegateTooltipPosition positionFunction
+        {
+            get { return m_PositionFunction; }
+            set { m_PositionFunction = value; }
+        }
+
         public static Tooltip defaultTooltip
         {
             get
@@ -449,7 +456,12 @@ namespace XCharts
         public void UpdateContentPos(Vector2 pos)
         {
             if (m_Content)
-                m_Content.transform.localPosition = pos;
+            {
+                if (m_PositionFunction != null)
+                    m_Content.transform.localPosition = m_PositionFunction(pos);
+                else
+                    m_Content.transform.localPosition = pos;
+            }
         }
 
         /// <summary>

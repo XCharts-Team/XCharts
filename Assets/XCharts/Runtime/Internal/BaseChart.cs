@@ -138,7 +138,11 @@ namespace XCharts
 
             GetChartComponent<Title>().text = GetType().Name;
 
-            m_Theme.sharedTheme.CopyTheme(ThemeType.Default);
+            if (m_Theme.sharedTheme != null)
+                m_Theme.sharedTheme.CopyTheme(ThemeType.Default);
+            else
+                m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
+
             m_Settings = null;
             var sizeDelta = rectTransform.sizeDelta;
             if (sizeDelta.x < 580 && sizeDelta.y < 300)

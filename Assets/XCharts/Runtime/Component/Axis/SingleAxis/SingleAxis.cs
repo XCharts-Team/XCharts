@@ -26,8 +26,6 @@ namespace XCharts
         [SerializeField] private float m_Width = 0;
         [SerializeField] private float m_Height = 50;
 
-        public new SingleAxisContext context = new SingleAxisContext();
-
         /// <summary>
         /// Orientation of the axis. By default, it's 'Horizontal'. You can set it to be 'Vertical' to make a vertical axis.
         /// 坐标轴朝向。默认为水平朝向。

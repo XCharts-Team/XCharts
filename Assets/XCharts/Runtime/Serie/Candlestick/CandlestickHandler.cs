@@ -42,8 +42,8 @@ namespace XCharts
 
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
-            double yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
+            double yMinValue = yAxis.context.minValue;
+            double yMaxValue = yAxis.context.maxValue;
             var isAllBarEnd = true;
             var isYAxis = false;
             serie.containerIndex = grid.index;

@@ -153,6 +153,13 @@ namespace XCharts
             AddChart<CandlestickChart>("CandlestickChart");
         }
 
+        [MenuItem("XCharts/ParallelChart", priority = 55)]
+        [MenuItem("GameObject/XCharts/ParallelChart", priority = 55)]
+        public static void ParallelChart()
+        {
+            AddChart<ParallelChart>("ParallelChart");
+        }
+
         [MenuItem("XCharts/Themes Reload")]
         public static void ReloadTheme()
         {

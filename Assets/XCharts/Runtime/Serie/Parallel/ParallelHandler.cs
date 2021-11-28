@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -14,6 +15,8 @@ namespace XCharts
     [UnityEngine.Scripting.Preserve]
     internal sealed class ParallelHandler : SerieHandler<Parallel>
     {
+        private List<Vector3> m_Points = new List<Vector3>();
+
         public override void Update()
         {
             base.Update();
@@ -28,36 +31,11 @@ namespace XCharts
 
         private void UpdateSerieContext()
         {
-            if (!chart.isPointerInChart)
-                return;
-
-            var themeSymbolSize = chart.theme.serie.lineSymbolSize;
-
-            serie.context.pointerItemDataIndex = -1;
-            serie.context.pointerEnter = false;
-
-            foreach (var serieData in serie.data)
-            {
-                var dist = Vector3.Distance(chart.pointerPos, serieData.runtimePosition);
-                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-
-                if (dist <= symbolSize)
-                {
-                    serie.context.pointerItemDataIndex = serieData.index;
-                    serie.context.pointerEnter = true;
-                    serieData.highlighted = true;
-                    chart.RefreshTopPainter();
-                }
-                else
-                {
-                    serieData.highlighted = false;
-                }
-            }
         }
 
         private void DrawParallelSerie(VertexHelper vh, int colorIndex, Parallel serie)
         {
+            if (!serie.show) return;
             if (serie.animation.HasFadeOut()) return;
 
             var parallel = chart.GetChartComponent<ParallelCoord>(serie.parallelIndex);
@@ -69,40 +47,90 @@ namespace XCharts
                 return;
 
             var animationIndex = serie.animation.GetCurrIndex();
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var dataChanging = false;
             var isHorizonal = parallel.orient == Orient.Horizonal;
             var lineColor = SerieHelper.GetLineColor(serie, chart.theme, colorIndex, false);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
-            float currDetailProgress = parallel.context.x;
-            float totalDetailProgress = parallel.context.x + parallel.context.width;
-            if (serie.animation.alongWithLinePath)
-            {
-                //TODO:
-            }
-            serie.animation.InitProgress(0, currDetailProgress, totalDetailProgress);
+            float currDetailProgress = !isHorizonal
+                ? parallel.context.x
+                : parallel.context.y;
+
+            float totalDetailProgress = !isHorizonal
+                ? parallel.context.x + parallel.context.width
+                : parallel.context.y + parallel.context.height;
+
+            serie.animation.InitProgress(serie.showDataDimension, currDetailProgress, totalDetailProgress);
             serie.animation.SetDataFinish(0);
 
             serie.dataPoints.Clear();
             serie.containerIndex = parallel.index;
             serie.containterInstanceId = parallel.instanceId;
 
-            Vector3 sp, np;
+            var currProgress = serie.animation.GetCurrDetail();
+            var isSmooth = serie.lineType == LineType.Smooth;
             foreach (var serieData in serie.data)
             {
-                sp = GetPos(parallel, 0, serieData.data[0], isHorizonal);
+                m_Points.Clear();
                 var count = Mathf.Min(axisCount, serieData.data.Count);
-                for (int i = 1; i < count; i++)
+                var lp = Vector3.zero;
+                for (int i = 0; i < count; i++)
                 {
-                    np = GetPos(parallel, i, serieData.data[i], isHorizonal);
-                    UGL.DrawLine(vh, sp, np, lineWidth, lineColor);
-                    sp = np;
+                    if (animationIndex >= 0 && i > animationIndex) continue;
+                    var pos = GetPos(parallel, i, serieData.data[i], isHorizonal);
+                    if (!isHorizonal)
+                    {
+                        if (isSmooth)
+                        {
+                            m_Points.Add(pos);
+                        }
+                        else if (pos.x <= currProgress)
+                        {
+                            m_Points.Add(pos);
+                            serie.animation.SetDataFinish(i);
+                        }
+                        else
+                        {
+                            var currProgressStart = new Vector3(currProgress, parallel.context.y - 50);
+                            var currProgressEnd = new Vector3(currProgress, parallel.context.y + parallel.context.height + 50);
+                            var intersectionPos = Vector3.zero;
+
+                            if (UGLHelper.GetIntersection(lp, pos, currProgressStart, currProgressEnd, ref intersectionPos))
+                                m_Points.Add(intersectionPos);
+                            else
+                                m_Points.Add(pos);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (isSmooth)
+                        {
+                            m_Points.Add(pos);
+                        }
+                        else if (pos.y <= currProgress)
+                        {
+                            m_Points.Add(pos);
+                            serie.animation.SetDataFinish(i);
+                        }
+                        else
+                        {
+                            var currProgressStart = new Vector3(parallel.context.x - 50, currProgress);
+                            var currProgressEnd = new Vector3(parallel.context.x + parallel.context.width + 50, currProgress);
+                            var intersectionPos = Vector3.zero;
+
+                            if (UGLHelper.GetIntersection(lp, pos, currProgressStart, currProgressEnd, ref intersectionPos))
+                                m_Points.Add(intersectionPos);
+                            else
+                                m_Points.Add(pos);
+                            break;
+                        }
+                    }
+                    lp = pos;
                 }
-            }
-            if (dataChanging)
-            {
-                chart.RefreshPainter(serie);
+                if (isSmooth)
+                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor, chart.settings.lineSmoothness, currProgress, isHorizonal);
+                else
+                    UGL.DrawLine(vh, m_Points, lineWidth, lineColor, isSmooth);
             }
             if (!serie.animation.IsFinish())
             {

@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -19,13 +20,20 @@ namespace XCharts
         public static void AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Parallel>(serieName);
-            serie.itemStyle.show = true;
-            serie.itemStyle.borderWidth = 1;
-            serie.itemStyle.borderColor = Color.clear;
-            serie.emphasis.show = true;
-            serie.emphasis.itemStyle.show = true;
-            serie.emphasis.itemStyle.borderWidth = 1;
-            serie.emphasis.itemStyle.borderColor = Color.black;
+            serie.lineStyle.width = 0.8f;
+            serie.lineStyle.opacity = 0.6f;
+
+            for (int i = 0; i < 100; i++)
+            {
+                var data = new List<double>(){
+                    Random.Range(0f,50f),
+                    Random.Range(0f,100f),
+                    Random.Range(0f,1000f),
+                    Random.Range(0,5),
+                    };
+                serie.AddData(data, "data" + i);
+            }
+            chart.RefreshChart();
         }
     }
 }

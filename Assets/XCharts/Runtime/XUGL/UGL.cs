@@ -126,6 +126,48 @@ namespace XUGL
                 DrawTriangle(vh, dnPos, upPos1, upPos2, color);
             }
         }
+
+        public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth)
+        {
+            if (points.Count < 2) return;
+            else if (points.Count <= 2)
+            {
+                DrawLine(vh, points[0], points[1], width, color);
+            }
+            else if (smooth)
+            {
+                DrawCurves(vh, points, width, color, 2);
+            }
+            else
+            {
+                var lineLT = Vector3.zero;
+                var lineLB = Vector3.zero;
+                var ltp = Vector3.zero;
+                var lbp = Vector3.zero;
+                var ntp = Vector3.zero;
+                var nbp = Vector3.zero;
+                var itp = Vector3.zero;
+                var ibp = Vector3.zero;
+                for (int i = 1; i < points.Count - 1; i++)
+                {
+                    UGLHelper.GetLinePoints(points[i - 1], points[i], points[i + 1], width,
+                        ref ltp, ref lbp, ref ntp, ref nbp, ref itp, ref ibp);
+
+                    if (i == 1)
+                    {
+                        lineLT = ltp;
+                        lineLB = lbp;
+                    }
+
+                    DrawQuadrilateral(vh, lineLB, ibp, itp, lineLT, color);
+
+                    lineLT = itp;
+                    lineLB = ibp;
+                }
+                DrawQuadrilateral(vh, lineLB, nbp, ntp, lineLT, color);
+            }
+        }
+
         /// <summary>
         /// Draw a dash line. 画虚线
         /// </summary>
@@ -1619,17 +1661,58 @@ namespace XUGL
             var dist = Vector3.Distance(sp, ep);
             var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             UGLHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
-            if (s_CurvesPosList.Count > 1)
+            DrawCurvesInternal(vh, s_CurvesPosList, lineWidth, lineColor);
+        }
+
+        public static void DrawCurves(VertexHelper vh, List<Vector3> points, float width, Color32 color,
+            float smoothness, float currProgress = float.PositiveInfinity, bool isYAxis = false)
+        {
+            for (int i = 0; i < points.Count - 1; i++)
             {
-                var start = s_CurvesPosList[0];
+                var sp = points[i];
+                var ep = points[i + 1];
+                var lsp = i > 0 ? points[i - 1] : sp;
+                var nep = i < points.Count - 2 ? points[i + 2] : ep;
+                if (currProgress != float.PositiveInfinity)
+                {
+                    var smoothness2 = 0f;
+                    if (isYAxis)
+                        smoothness2 = ep.y <= currProgress ? smoothness : smoothness * 0.5f;
+                    else
+                        smoothness2 = ep.x <= currProgress ? smoothness : smoothness * 0.5f;
+
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2);
+                }
+                else
+                {
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness);
+                }
+                DrawCurvesInternal(vh, s_CurvesPosList, width, color, currProgress, isYAxis);
+            }
+        }
+
+        private static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
+            Color32 lineColor, float currProgress = float.PositiveInfinity, bool isYAxis = false)
+        {
+            if (curvesPosList.Count > 1)
+            {
+                var start = curvesPosList[0];
                 var to = Vector3.zero;
-                var dir = s_CurvesPosList[1] - start;
+                var dir = curvesPosList[1] - start;
                 var diff = Vector3.Cross(dir, Vector3.forward).normalized * lineWidth;
                 var startUp = start - diff;
                 var startDn = start + diff;
-                for (int i = 1; i < s_CurvesPosList.Count; i++)
+                for (int i = 1; i < curvesPosList.Count; i++)
                 {
-                    to = s_CurvesPosList[i];
+                    to = curvesPosList[i];
+                    if (currProgress != float.PositiveInfinity)
+                    {
+                        if (isYAxis && to.y > currProgress)
+                            break;
+                        if (!isYAxis && to.x > currProgress)
+                            break;
+                    }
+
                     diff = Vector3.Cross(to - start, Vector3.forward).normalized * lineWidth;
                     var toUp = to - diff;
                     var toDn = to + diff;

@@ -14,6 +14,8 @@ namespace XCharts
     internal sealed class ParallelAxisHander : AxisHandler<ParallelAxis>
     {
         private Orient m_Orient;
+        private ParallelCoord m_Parallel;
+
         protected override Orient orient { get { return m_Orient; } }
 
         public override void InitComponent()
@@ -24,8 +26,6 @@ namespace XCharts
         public override void Update()
         {
             UpdateContext(component);
-            UpdateAxisMinMaxValue(component.index, component);
-            //UpdatePointerValue(component);
         }
 
         public override void DrawBase(VertexHelper vh)
@@ -43,19 +43,19 @@ namespace XCharts
                 return;
 
             m_Orient = parallel.orient;
-            axis.context.parallel = parallel;
+            m_Parallel = parallel;
             var axisCount = chart.GetChartComponentNum<ParallelAxis>();
 
             if (m_Orient == Orient.Horizonal)
             {
-                var each = parallel.context.height / (axisCount - 1);
+                var each = axisCount > 1 ? parallel.context.height / (axisCount - 1) : 0;
                 axis.context.x = parallel.context.x;
                 axis.context.y = parallel.context.y + (axis.index) * each;
                 axis.context.width = parallel.context.width;
             }
             else
             {
-                var each = parallel.context.width / (axisCount - 1);
+                var each = axisCount > 1 ? parallel.context.width / (axisCount - 1) : 0;
                 axis.context.x = parallel.context.x + (axis.index) * each;
                 axis.context.y = parallel.context.y;
                 axis.context.width = parallel.context.height;
@@ -103,7 +103,7 @@ namespace XCharts
 
         protected override Vector3 GetLabelPosition(float scaleWid, int i)
         {
-            if (component.context.parallel == null)
+            if (m_Parallel == null)
                 return Vector3.zero;
 
             return GetLabelPosition(i, m_Orient, component, null,
@@ -119,7 +119,7 @@ namespace XCharts
         {
             if (AxisHelper.NeedShowSplit(axis))
             {
-                if (axis.context.parallel == null)
+                if (m_Parallel == null)
                     return;
 
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
@@ -137,7 +137,7 @@ namespace XCharts
         {
             if (AxisHelper.NeedShowSplit(axis))
             {
-                if (axis.context.parallel == null)
+                if (m_Parallel == null)
                     return;
 
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
@@ -154,7 +154,7 @@ namespace XCharts
         {
             if (axis.show && axis.axisLine.show)
             {
-                if (axis.context.parallel == null)
+                if (m_Parallel == null)
                     return;
 
                 DrawAxisLine(vh, axis,

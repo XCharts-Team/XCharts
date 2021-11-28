@@ -132,13 +132,26 @@ namespace XCharts
             for (int i = 0; i < component.context.parallelAxes.Count; i++)
             {
                 var axis = component.context.parallelAxes[i];
-                var tempMinValue = m_SerieDimMin[i];
-                var tempMaxValue = m_SerieDimMax[i];
-                AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
-                m_SerieDimMin[i] = tempMinValue;
-                m_SerieDimMax[i] = tempMaxValue;
-            }
+                if (axis.IsCategory())
+                {
+                    m_SerieDimMax[i] = axis.data.Count > 0 ? axis.data.Count - 1 : 0;
+                    m_SerieDimMin[i] = 0;
+                }
+                else if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
+                {
+                    m_SerieDimMin[i] = axis.min;
+                    m_SerieDimMax[i] = axis.max;
+                }
+                else if (m_SerieDimMax.ContainsKey(i))
+                {
 
+                    var tempMinValue = m_SerieDimMin[i];
+                    var tempMaxValue = m_SerieDimMax[i];
+                    AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
+                    m_SerieDimMin[i] = tempMinValue;
+                    m_SerieDimMax[i] = tempMaxValue;
+                }
+            }
             for (int i = 0; i < component.context.parallelAxes.Count; i++)
             {
                 if (m_SerieDimMax.ContainsKey(i))
@@ -156,8 +169,7 @@ namespace XCharts
                         m_LastInterval = axis.interval;
                         chart.m_IsPlayingAnimation = true;
 
-                        var needCheck = !chart.m_IsPlayingAnimation && axis.context.lastCheckInverse == axis.inverse;
-                        axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, needCheck);
+                        axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                         axis.context.xOffset = 0;
                         axis.context.yOffset = 0;
                         axis.context.lastCheckInverse = axis.inverse;

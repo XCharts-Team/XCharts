@@ -562,10 +562,10 @@ namespace XCharts
                 return 0;
             }
             float xDataHig, yDataHig;
-            double xMinValue = xAxis.GetCurrMinValue(duration);
-            double xMaxValue = xAxis.GetCurrMaxValue(duration);
-            double yMinValue = yAxis.GetCurrMinValue(duration);
-            double yMaxValue = yAxis.GetCurrMaxValue(duration);
+            double xMinValue = xAxis.context.minValue;
+            double xMaxValue = xAxis.context.maxValue;
+            double yMinValue = yAxis.context.minValue;
+            double yMaxValue = yAxis.context.maxValue;
             if (xAxis.IsValue() || xAxis.IsLog() || xAxis.IsTime())
             {
                 var axisLineWidth = xAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
@@ -690,8 +690,8 @@ namespace XCharts
             var rate = LineHelper.GetDataAverageRate(serie, grid, maxCount, true);
             var dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
-            double xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
+            double xMinValue = xAxis.context.minValue;
+            double xMaxValue = xAxis.context.maxValue;
 
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
@@ -1171,7 +1171,8 @@ namespace XCharts
                     var eindex = 0;
                     var sp = LineHelper.GetStartPos(points, ref sindex, serie.ignoreLineBreak);
                     var ep = LineHelper.GetEndPos(points, ref eindex, serie.ignoreLineBreak);
-                    var cross = ChartHelper.GetIntersection(lp, np, zeroPos, aep);
+                    var cross = Vector3.zero;
+                    UGLHelper.GetIntersection(lp, np, zeroPos, aep, ref cross);
 
                     if (cross == Vector3.zero || smoothDownPoints.Count <= 3)
                     {
@@ -1194,13 +1195,15 @@ namespace XCharts
                         var axisUpEnd = axisUpStart + (isYAxis ? Vector3.up * grid.context.height : Vector3.right * grid.context.width);
                         var axisDownStart = zeroPos - (isYAxis ? Vector3.right : Vector3.up) * axisLineWidth;
                         var axisDownEnd = axisDownStart + (isYAxis ? Vector3.up * grid.context.height : Vector3.right * grid.context.width);
-                        var luPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
+                        var luPos = Vector3.zero;
+                        UGLHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd, ref cross);
                         var ecount = smoothPoints.Count - 2;
                         if (ecount < 0) ecount = 0;
 
                         sp1 = smoothPoints[0];
                         ep1 = smoothPoints[ecount];
-                        var rdPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
+                        var rdPos = Vector3.zero;
+                        UGLHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd, ref rdPos);
 
                         if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
                         {
@@ -1471,9 +1474,9 @@ namespace XCharts
             }
 
             if (isYAxis)
-                ChartHelper.GetBezierListVertical(ref bezierPoints, lp, np, settings.lineSmoothness, settings.lineSmoothStyle);
+                UGLHelper.GetBezierListVertical(ref bezierPoints, lp, np, settings.lineSmoothness, settings.lineSmoothStyle);
             else
-                ChartHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, settings.lineSmoothness, settings.lineSmoothStyle);
+                UGLHelper.GetBezierList(ref bezierPoints, lp, np, llp, nnp, settings.lineSmoothness, settings.lineSmoothStyle);
 
             Vector3 start, to;
             if (serie.lineType == LineType.SmoothDash)

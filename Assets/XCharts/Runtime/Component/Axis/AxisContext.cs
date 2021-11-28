@@ -13,36 +13,26 @@ namespace XCharts
 {
     public class AxisContext : MainComponentContext
     {
+        internal Orient orient { get; set; }
+        public float x { get; internal set; }
+        public float y { get; internal set; }
+        public float width { get; internal set; }
+        public float height { get; internal set; }
+        public Vector3 position { get; internal set; }
+        public float left { get; internal set; }
+        public float right { get; internal set; }
+        public float bottom { get; internal set; }
+        public float top { get; internal set; }
         /// <summary>
         /// the current minimun value.
         /// 当前最小值。
         /// </summary>
-        public double minValue
-        {
-            get { return m_RuntimeMinValue; }
-            internal set
-            {
-                m_RuntimeMinValue = value;
-                m_RuntimeLastMinValue = value;
-                m_RuntimeMinValueUpdateTime = Time.time;
-                m_RuntimeMinValueChanged = true;
-            }
-        }
+        public double minValue { get; internal set; }
         /// <summary>
         /// the current maximum value.
         /// 当前最大值。
         /// </summary>
-        public double maxValue
-        {
-            get { return m_RuntimeMaxValue; }
-            internal set
-            {
-                m_RuntimeMaxValue = value;
-                m_RuntimeLastMaxValue = value;
-                m_RuntimeMaxValueUpdateTime = Time.time;
-                m_RuntimeMaxValueChanged = false;
-            }
-        }
+        public double maxValue { get; internal set; }
         /// <summary>
         /// the x offset of zero position.
         /// 坐标轴原点在X轴的偏移。
@@ -70,16 +60,6 @@ namespace XCharts
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;
-        private double m_RuntimeMinValue;
-        private double m_RuntimeLastMinValue;
-        private bool m_RuntimeMinValueChanged;
-        private float m_RuntimeMinValueUpdateTime;
-        private double m_RuntimeMaxValue;
-        private double m_RuntimeLastMaxValue;
-        private bool m_RuntimeMaxValueChanged;
-        private float m_RuntimeMaxValueUpdateTime;
-        private bool m_RuntimeMinValueFirstChanged = true;
-        private bool m_RuntimeMaxValueFirstChanged = true;
 
         private List<ChartLabel> m_AxisLabelList = new List<ChartLabel>();
         private List<double> m_LabelValueList = new List<double>();
@@ -89,123 +69,6 @@ namespace XCharts
         internal void Clear()
         {
             m_RuntimeData.Clear();
-        }
-
-        internal bool UpdateMinValue(double value, bool check)
-        {
-            if (value != maxValue)
-            {
-                if (check && Application.isPlaying)
-                {
-                    if (m_RuntimeMinValueFirstChanged)
-                    {
-                        m_RuntimeMinValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMinValue = minValue;
-                        m_RuntimeMinValueChanged = true;
-                        m_RuntimeMinValueUpdateTime = Time.time;
-                    }
-                    minValue = value;
-                }
-                else
-                {
-                    minValue = value;
-                    m_RuntimeLastMinValue = value;
-                    m_RuntimeMinValueUpdateTime = Time.time;
-                    m_RuntimeMinValueChanged = true;
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        internal bool UpdateMaxValue(double value, bool check)
-        {
-            if (value != maxValue)
-            {
-                if (check && Application.isPlaying)
-                {
-                    if (m_RuntimeMaxValueFirstChanged)
-                    {
-                        m_RuntimeMaxValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMaxValue = maxValue;
-                        m_RuntimeMaxValueChanged = true;
-                        m_RuntimeMaxValueUpdateTime = Time.time;
-                    }
-                    maxValue = value;
-                }
-                else
-                {
-                    maxValue = value;
-                    m_RuntimeLastMaxValue = value;
-                    m_RuntimeMaxValueUpdateTime = Time.time;
-                    m_RuntimeMaxValueChanged = false;
-                }
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public double GetCurrMinValue(float duration)
-        {
-            if (!Application.isPlaying || !m_RuntimeMinValueChanged)
-                return minValue;
-
-            if (minValue == 0 && maxValue == 0)
-                return 0;
-
-            var time = Time.time - m_RuntimeMinValueUpdateTime;
-            if (time == 0)
-                return minValue;
-
-            var total = duration / 1000;
-            if (duration > 0 && time <= total)
-            {
-                var curr = MathUtil.Lerp(m_RuntimeLastMinValue, minValue, time / total);
-                return curr;
-            }
-            else
-            {
-                m_RuntimeMinValueChanged = false;
-                return minValue;
-            }
-        }
-
-        public double GetCurrMaxValue(float duration)
-        {
-            if (!Application.isPlaying || !m_RuntimeMaxValueChanged)
-                return maxValue;
-
-            if (minValue == 0 && maxValue == 0)
-                return 0;
-
-            var time = Time.time - m_RuntimeMaxValueUpdateTime;
-            if (time == 0)
-                return maxValue;
-
-            var total = duration / 1000;
-            if (duration > 0 && time < total)
-            {
-                var curr = MathUtil.Lerp(m_RuntimeLastMaxValue, maxValue, time / total);
-                return curr;
-            }
-            else
-            {
-                m_RuntimeMaxValueChanged = false;
-                return maxValue;
-            }
         }
 
         private List<string> m_EmptyFliter = new List<string>();

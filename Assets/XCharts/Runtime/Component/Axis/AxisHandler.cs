@@ -134,8 +134,7 @@ namespace XCharts
                 m_LastInterval = axis.interval;
                 chart.m_IsPlayingAnimation = true;
 
-                var needCheck = !chart.m_IsPlayingAnimation && axis.context.lastCheckInverse == axis.inverse;
-                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, needCheck);
+                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.xOffset = 0;
                 axis.context.yOffset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
@@ -181,7 +180,7 @@ namespace XCharts
                 }
             }
 
-            if (axis.IsValueChanging(500) && !chart.m_IsPlayingAnimation)
+            if ( !chart.m_IsPlayingAnimation)
             {
                 UpdateAxisLabelText(axis);
                 chart.RefreshChart();
@@ -198,7 +197,7 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
             var dataZoom = chart.GetDataZoomOfAxis(axis);
 
-            axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack, 500);
+            axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack);
         }
 
         internal static void UpdateAxisTickValueList(Axis axis)

@@ -6,7 +6,6 @@
 /************************************************/
 
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -73,7 +72,7 @@ namespace XCharts
                     s_Sb.Length = 0;
                     s_Sb.AppendFormat("fps : {0:f0} / {1:f0}\n", fps, avgFps);
                     s_Sb.AppendFormat("data : {0}\n", m_Chart.GetAllSerieDataCount());
-                    s_Sb.AppendFormat("refresh : {0}", refreshCount);
+                    s_Sb.AppendFormat("draw : {0}", refreshCount);
                     m_Label.SetText(s_Sb.ToString());
                 }
             }

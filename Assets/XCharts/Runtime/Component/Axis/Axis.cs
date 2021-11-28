@@ -664,8 +664,16 @@ namespace XCharts
         {
             if (context.minMaxRange == 0)
                 return 0;
+
+            if (IsCategory() && boundaryGap)
+            {
+                var each = axisLength / data.Count;
+                return (float)(each * (value + 0.5f));
+            }
             else
+            {
                 return axisLength * (float)((value - context.minValue) / context.minMaxRange);
+            }
         }
 
         /// <summary>
@@ -718,15 +726,13 @@ namespace XCharts
         /// 更新刻度标签文字
         /// </summary>
         /// <param name="dataZoom"></param>
-        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent, float duration)
+        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
         {
-            var minValue = GetCurrMinValue(duration);
-            var maxValue = GetCurrMaxValue(duration);
             for (int i = 0; i < context.labelObjectList.Count; i++)
             {
                 if (context.labelObjectList[i] != null)
                 {
-                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.minValue, context.maxValue, dataZoom, forcePercent);
                     context.labelObjectList[i].SetText(text);
                 }
             }
@@ -740,20 +746,10 @@ namespace XCharts
                 return Vector3.zero;
         }
 
-        internal bool UpdateMinValue(double value, bool check)
+        internal void UpdateMinMaxValue(double minValue, double maxValue)
         {
-            return context.UpdateMinValue(value, check);
-        }
-
-        internal bool UpdateMaxValue(double value, bool check)
-        {
-            return context.UpdateMaxValue(value, check);
-        }
-
-        internal void UpdateMinMaxValue(double minValue, double maxValue, bool check)
-        {
-            UpdateMinValue(minValue, check);
-            UpdateMaxValue(maxValue, check);
+            context.minValue = minValue;
+            context.maxValue = maxValue;
             double tempRange = maxValue - minValue;
             if (context.minMaxRange != tempRange)
             {
@@ -762,32 +758,6 @@ namespace XCharts
                 {
                     SetComponentDirty();
                 }
-            }
-        }
-
-        public double GetCurrMinValue(float duration)
-        {
-            return context.GetCurrMinValue(duration);
-        }
-
-        public double GetCurrMaxValue(float duration)
-        {
-            return context.GetCurrMaxValue(duration);
-        }
-
-        public bool IsValueChanging(float duration)
-        {
-            if (!Application.isPlaying)
-                return false;
-
-            if (GetCurrMinValue(duration) != context.minValue
-                || GetCurrMaxValue(duration) != context.maxValue)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 

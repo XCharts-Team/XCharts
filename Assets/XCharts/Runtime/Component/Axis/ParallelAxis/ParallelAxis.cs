@@ -15,12 +15,10 @@ namespace XCharts
     [ComponentHandler(typeof(ParallelAxisHander), true)]
     public class ParallelAxis : Axis
     {
-        public new ParallelAxisContext context = new ParallelAxisContext();
-
         public override void SetDefaultValue()
         {
             m_Show = true;
-            m_Type = AxisType.Category;
+            m_Type = AxisType.Value;
             m_Min = 0;
             m_Max = 0;
             m_SplitNumber = 0;
@@ -35,6 +33,6 @@ namespace XCharts
             iconStyle.show = false;
         }
 
-        
+
     }
 }

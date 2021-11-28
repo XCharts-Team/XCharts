@@ -124,8 +124,8 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
-            double xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
+            double xMinValue = xAxis.context.minValue;
+            double xMaxValue = xAxis.context.maxValue;
             var isAllBarEnd = true;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
@@ -266,10 +266,10 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
-            double xMaxValue = xAxis.GetCurrMaxValue(dataChangeDuration);
-            double yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
-            double yMaxValue = yAxis.GetCurrMaxValue(dataChangeDuration);
+            double xMinValue = xAxis.context.minValue;
+            double xMaxValue = xAxis.context.maxValue;
+            double yMinValue = yAxis.context.minValue;
+            double yMaxValue = yAxis.context.maxValue;
             var isAllBarEnd = true;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;

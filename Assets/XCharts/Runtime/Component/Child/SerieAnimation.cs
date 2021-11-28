@@ -555,6 +555,10 @@ namespace XCharts
 
         public float GetCurrDetail()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                return m_DestDetailProgress;
+#endif
             return m_CurrDetailProgress;
         }
 

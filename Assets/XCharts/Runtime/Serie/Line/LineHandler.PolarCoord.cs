@@ -34,9 +34,8 @@ namespace XCharts
             var startAngle = m_AngleAxis.startAngle;
             var radius = m_Polar.context.radius;
 
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var min = m_RadiusAxis.GetCurrMinValue(dataChangeDuration);
-            var max = m_RadiusAxis.GetCurrMaxValue(dataChangeDuration);
+            var min = m_RadiusAxis.context.minValue;
+            var max = m_RadiusAxis.context.maxValue;
             var firstSerieData = datas[0];
             var startPos = GetPolarPos(m_Polar, m_AngleAxis, firstSerieData, min, max, radius);
             var nextPos = Vector3.zero;

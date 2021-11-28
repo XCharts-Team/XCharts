@@ -68,7 +68,7 @@ namespace XCharts
                     m_Show = true,
                     m_AlignWithLabel = false,
                     m_Inside = false,
-                    m_ShowStartTick = false,
+                    m_ShowStartTick = true,
                     m_ShowEndTick = true
                 };
                 return tick;

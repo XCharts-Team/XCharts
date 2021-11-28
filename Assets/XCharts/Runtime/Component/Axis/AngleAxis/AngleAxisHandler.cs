@@ -42,8 +42,7 @@ namespace XCharts
             if (tempMinValue != axis.context.minValue || tempMaxValue != axis.context.maxValue)
             {
                 chart.m_IsPlayingAnimation = true;
-                var needCheck = !chart.m_IsPlayingAnimation && axis.context.lastCheckInverse == axis.inverse;
-                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, needCheck);
+                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.xOffset = 0;
                 axis.context.yOffset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
@@ -53,7 +52,7 @@ namespace XCharts
                     chart.RefreshChart();
                 }
             }
-            if (axis.IsValueChanging(500) && !chart.m_IsPlayingAnimation)
+            if (!chart.m_IsPlayingAnimation)
             {
                 UpdateAxisLabelText(axis);
                 chart.RefreshChart();
@@ -63,7 +62,7 @@ namespace XCharts
         internal void UpdateAxisLabelText(AngleAxis axis)
         {
             var runtimeWidth = 360;
-            axis.UpdateLabelText(runtimeWidth, null, false, 500);
+            axis.UpdateLabelText(runtimeWidth, null, false);
         }
 
         private void InitAngleAxis(AngleAxis axis)

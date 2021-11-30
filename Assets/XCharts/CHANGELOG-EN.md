@@ -41,6 +41,8 @@
 
 ## branch-2.0
 
+* (2021.11.30) Fixed serie ignore display error #173
+
 ## v2.5.0
 
 * (2021.11.27) Release `v2.5.0` version

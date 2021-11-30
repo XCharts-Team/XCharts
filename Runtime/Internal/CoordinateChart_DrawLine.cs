@@ -832,7 +832,8 @@ namespace XCharts
                                 (!lastIsDown && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
                             {
                                 isStart = true;
-                                Internal_CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
+                                if (stPos1 != Vector3.zero && stPos2 != Vector3.zero)
+                                    Internal_CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip, grid);
                             }
                         }
                         else

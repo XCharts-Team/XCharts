@@ -402,6 +402,7 @@ namespace XCharts
             {
                 EditorGUI.indentLevel += 2;
                 var m_Ignore = serieData.FindPropertyRelative("m_Ignore");
+                var m_Selected = serieData.FindPropertyRelative("m_Selected");
                 var m_Id = serieData.FindPropertyRelative("m_Id");
                 var m_EnableIcon = serieData.FindPropertyRelative("m_EnableIconStyle");
                 var m_Icon = serieData.FindPropertyRelative("m_IconStyle");
@@ -415,6 +416,8 @@ namespace XCharts
                 var m_Symbol = serieData.FindPropertyRelative("m_Symbol");
                 EditorGUI.PropertyField(drawRect, m_Ignore);
                 AddHeight(EditorGUI.GetPropertyHeight(m_Ignore));
+                EditorGUI.PropertyField(drawRect, m_Selected);
+                AddHeight(EditorGUI.GetPropertyHeight(m_Selected));
                 EditorGUI.PropertyField(drawRect, m_Id);
                 AddHeight(EditorGUI.GetPropertyHeight(m_Id));
                 EditorGUI.PropertyField(drawRect, m_Icon);

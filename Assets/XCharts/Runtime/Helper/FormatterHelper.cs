@@ -237,7 +237,7 @@ namespace XCharts
                 {
                     content = content.Replace(old, serieName);
                 }
-                else if (p == 'b' || p == 'B' || p == 'c' || p == 'E')
+                else if (p == 'b' || p == 'B' || p == 'e' || p == 'E')
                 {
                     content = content.Replace(old, dataName);
                 }

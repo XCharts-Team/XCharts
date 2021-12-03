@@ -214,17 +214,21 @@ namespace XCharts
             if (splitNum == 0) return 0;
             if (axis.IsCategory())
             {
-                var data = axis.GetDataList(dataZoom);
+                var dataCount = axis.GetDataList(dataZoom).Count;
                 var scaleNum = 0;
 
                 if (axis.boundaryGap)
                 {
-                    scaleNum = data.Count % splitNum == 0 ? splitNum + 1 : splitNum + 2;
+                    scaleNum = dataCount > 2 && dataCount % splitNum == 0
+                        ? splitNum + 1
+                        : splitNum + 2;
                 }
                 else
                 {
-                    if (data.Count < splitNum) scaleNum = splitNum;
-                    else scaleNum = data.Count % splitNum == 0 ? splitNum : splitNum + 1;
+                    if (dataCount < splitNum) scaleNum = splitNum;
+                    else scaleNum = dataCount > 2 && dataCount % splitNum == 0
+                        ? splitNum
+                        : splitNum + 1;
                 }
                 return scaleNum;
             }

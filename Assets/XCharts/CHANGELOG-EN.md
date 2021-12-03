@@ -41,7 +41,8 @@
 
 ## branch-2.0
 
-* (2021.11.30) Fixed serie ignore display error #173
+* (2021.12.03) Fixed axis boundaryGap display error in some cases #174
+* (2021.11.30) Fixed serie ignore display error in some cases #173
 
 ## v2.5.0
 

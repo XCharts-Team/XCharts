@@ -56,6 +56,20 @@ namespace XCharts
                         UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
                     }
                     break;
+                case SerieSymbolType.EmptyRect:
+                    if (gap > 0)
+                    {
+                        UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
+                        UGL.DrawSquare(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawSquare(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
+                    }
+                    else
+                    {
+                        UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                        UGL.DrawRoundRectangle(vh, pos, symbolSize - tickness, symbolSize - tickness,
+                            centerFillColor, centerFillColor, 0, cornerRadius, true);
+                    }
+                    break;
                 case SerieSymbolType.Triangle:
                     if (gap > 0)
                     {
@@ -67,6 +81,19 @@ namespace XCharts
                         UGL.DrawTriangle(vh, pos, symbolSize, color, toColor);
                     }
                     break;
+                case SerieSymbolType.EmptyTriangle:
+                    if (gap > 0)
+                    {
+                        UGL.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
+                        UGL.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawTriangle(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
+                    }
+                    else
+                    {
+                        UGL.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawTriangle(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
+                    }
+                    break;
                 case SerieSymbolType.Diamond:
                     if (gap > 0)
                     {
@@ -76,6 +103,19 @@ namespace XCharts
                     else
                     {
                         UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                    }
+                    break;
+                case SerieSymbolType.EmptyDiamond:
+                    if (gap > 0)
+                    {
+                        UGL.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
+                        UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawDiamond(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
+                    }
+                    else
+                    {
+                        UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawDiamond(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
                     }
                     break;
                 case SerieSymbolType.Arrow:

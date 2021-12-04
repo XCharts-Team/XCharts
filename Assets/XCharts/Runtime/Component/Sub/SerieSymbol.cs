@@ -48,7 +48,10 @@ namespace XCharts
         /// <summary>
         /// 自定义标记。
         /// </summary>
-        Custom
+        Custom,
+        EmptyRect,
+        EmptyTriangle,
+        EmptyDiamond
     }
 
     /// <summary>

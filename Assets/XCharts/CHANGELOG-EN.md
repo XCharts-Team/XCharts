@@ -41,6 +41,7 @@
 
 ## branch-2.0
 
+* (2021.12.04) Added `Symbol` new types: `EmptyRect`, `EmptyTriangle`, `EmptyDiamond`
 * (2021.12.04) Added setting symbol empty area color by itemStyle's backgroundColor
 * (2021.12.03) Fixed formatter `{c}` not work #175
 * (2021.12.03) Fixed axis `boundaryGap` display error in some cases #174

@@ -65,9 +65,7 @@ namespace XCharts
                     }
                     else
                     {
-                        UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
-                        UGL.DrawRoundRectangle(vh, pos, symbolSize - tickness, symbolSize - tickness,
-                            centerFillColor, centerFillColor, 0, cornerRadius, true);
+                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
                     }
                     break;
                 case SerieSymbolType.Triangle:

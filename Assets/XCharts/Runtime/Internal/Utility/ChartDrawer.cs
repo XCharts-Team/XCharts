@@ -60,8 +60,7 @@ namespace XCharts
                     if (gap > 0)
                     {
                         UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
-                        UGL.DrawSquare(vh, pos, symbolSize, color, toColor);
-                        UGL.DrawSquare(vh, pos, symbolSize - tickness, centerFillColor, centerFillColor);
+                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
                     }
                     else
                     {

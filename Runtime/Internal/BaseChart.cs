@@ -1022,17 +1022,20 @@ namespace XCharts
         }
 
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius)
+          float tickness, Vector3 pos, Color32 color, Color32 toColor, Color32 fillColor, float gap, float[] cornerRadius)
         {
-            DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap, cornerRadius, Vector3.zero);
+            DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, fillColor, gap, cornerRadius, Vector3.zero);
         }
+
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius, Vector3 startPos)
+          float tickness, Vector3 pos, Color32 color, Color32 toColor, Color32 fillColor, float gap, float[] cornerRadius, Vector3 startPos)
         {
             var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
+            if (ChartHelper.IsClearColor(fillColor))
+                fillColor = backgroundColor;
             var smoothness = settings.cicleSmoothness;
             ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
-                cornerRadius, backgroundColor, smoothness, startPos);
+                cornerRadius, fillColor, backgroundColor, smoothness, startPos);
         }
 
         public void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)

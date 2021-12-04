@@ -18,7 +18,7 @@ namespace XCharts
 
         public static void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
            float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
-           Color32 backgroundColor, float smoothness, Vector3 startPos)
+           Color32 centerFillColor, Color32 backgroundColor, float smoothness, Vector3 startPos)
         {
             switch (type)
             {
@@ -38,11 +38,11 @@ namespace XCharts
                     if (gap > 0)
                     {
                         UGL.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
+                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, centerFillColor, smoothness);
                     }
                     else
                     {
-                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
+                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, centerFillColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.Rect:
@@ -88,7 +88,7 @@ namespace XCharts
                     break;
             }
         }
-        
+
         public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle, Vector3 startPos, Vector3 endPos,
            Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
         {

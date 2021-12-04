@@ -387,10 +387,11 @@ namespace XCharts
                             : serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
                         var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                         var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
+                        var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
                         var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
                         var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                         chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                           symbolToColor, serie.symbol.gap, cornerRadius);
+                           symbolToColor, backgroundColor, serie.symbol.gap, cornerRadius);
                     }
                 }
             }
@@ -570,6 +571,7 @@ namespace XCharts
                         : serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
+                    var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
@@ -578,7 +580,7 @@ namespace XCharts
                         symbolToColor = radar.outRangeColor;
                     }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
-                           symbolToColor, serie.symbol.gap, cornerRadius);
+                           symbolToColor, backgroundColor, serie.symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())
@@ -619,12 +621,13 @@ namespace XCharts
                     : serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
+                var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                 foreach (var point in pointList)
                 {
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                       symbolToColor, serie.symbol.gap, cornerRadius);
+                       symbolToColor, backgroundColor, serie.symbol.gap, cornerRadius);
                 }
             }
         }

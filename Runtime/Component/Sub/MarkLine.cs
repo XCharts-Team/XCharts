@@ -539,7 +539,7 @@ namespace XCharts
             var tickness = SerieHelper.GetSymbolBorder(serie, null, theme, false);
             var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, null, false);
             chart.Internal_CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, tickness, pos, lineColor, lineColor,
-                symbol.gap, true, cornerRadius, grid, startPos);
+                ColorUtil.clearColor32, symbol.gap, true, cornerRadius, grid, startPos);
         }
 
         private void GetStartEndPos(Axis xAxis, Axis yAxis, Grid grid, double value, ref Vector3 sp, ref Vector3 ep)

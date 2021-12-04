@@ -36,6 +36,7 @@ namespace XCharts
                 var highlight = serie.highlighted || serieData.highlighted;
                 var color = SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, colorIndex, highlight);
+                var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, m_Theme, colorIndex, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 double xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
@@ -67,13 +68,13 @@ namespace XCharts
                     {
                         var nowSize = symbol.animationSize[count];
                         color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
-                        DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
+                        DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, backgroundColor, symbol.gap, cornerRadius);
                     }
                     RefreshPainter(serie);
                 }
                 else
                 {
-                    DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos, color, toColor, symbol.gap, cornerRadius);
+                    DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos, color, toColor, backgroundColor, symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())

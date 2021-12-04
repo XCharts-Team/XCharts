@@ -510,11 +510,12 @@ namespace XCharts
                         : symbol.GetSize(serieData.data, m_Theme.serie.lineSymbolSize);
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_Theme, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, n, highlight);
+                    var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, m_Theme, n, highlight, false);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.runtimePosition, symbolColor,
-                        symbolToColor, symbol.gap, cornerRadius);
+                        symbolToColor, backgroundColor, symbol.gap, cornerRadius);
                 }
             }
         }

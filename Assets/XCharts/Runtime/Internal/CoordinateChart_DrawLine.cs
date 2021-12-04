@@ -40,13 +40,14 @@ namespace XCharts
                     ? symbol.GetSelectedSize(serie.data[i].data, m_Theme.serie.lineSymbolSelectedSize)
                     : symbol.GetSize(serie.data[i].data, m_Theme.serie.lineSymbolSize);
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_Theme, serie.index, highlight);
-
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_Theme, serie.index, highlight);
+                var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, m_Theme, serie.index, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, m_Theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                 Internal_CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
-                    symbolToColor, symbol.gap, clip, cornerRadius, grid, i > 0 ? serie.dataPoints[i - 1] : grid.runtimePosition);
+                    symbolToColor, backgroundColor, symbol.gap, clip, cornerRadius, grid,
+                    i > 0 ? serie.dataPoints[i - 1] : grid.runtimePosition);
             }
         }
 

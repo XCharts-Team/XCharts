@@ -41,6 +41,7 @@
 
 ## branch-2.0
 
+* (2021.12.04) 增加`Symbol`的`Empty`区域颜色可通过`ItemStyle`的`backgroundColor`设置的支持
 * (2021.12.03) 修复`Formatter`的`{c}`通配符不生效的问题 #175
 * (2021.12.03) 修复`Axis`的`boundaryGap`某些情况下显示的问题 #174
 * (2021.11.30) 修复`Serie`的`ignore`某些情况下绘制异常的问题 #173

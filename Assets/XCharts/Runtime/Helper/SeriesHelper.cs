@@ -443,7 +443,8 @@ namespace XCharts
                 {
                     var serie = series.GetSerie(i);
                     if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
+                        || (!isPolar && serie.yAxisIndex != axisIndex)
+                        || !series.IsActive(i)) continue;
                     if (isPercentStack && SeriesHelper.IsPercentStack(series, serie.name, SerieType.Bar))
                     {
                         if (100 > max) max = 100;
@@ -485,7 +486,8 @@ namespace XCharts
                     {
                         var serie = ss.Value[i];
                         if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
+                        || (!isPolar && serie.yAxisIndex != axisIndex)
+                        || !series.IsActive(i)) continue;
                         var showData = serie.GetDataList(dataZoom);
                         if (SeriesHelper.IsPercentStack(series, serie.stack, SerieType.Bar))
                         {
@@ -510,7 +512,7 @@ namespace XCharts
                                     currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
                                 }
                                 if (inverse) currData = -currData;
-                                if(!serie.IsIgnoreValue(currData))
+                                if (!serie.IsIgnoreValue(currData))
                                     _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }
                         }

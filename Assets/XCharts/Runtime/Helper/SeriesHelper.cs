@@ -389,7 +389,8 @@ namespace XCharts
                 {
                     var serie = series[i];
                     if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
+                        || (!isPolar && serie.yAxisIndex != axisIndex)
+                        || !serie.show) continue;
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
                         if (100 > max) max = 100;
@@ -431,7 +432,8 @@ namespace XCharts
                     {
                         var serie = ss.Value[i];
                         if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)) continue;
+                        || (!isPolar && serie.yAxisIndex != axisIndex)
+                        || !serie.show) continue;
                         var showData = serie.GetDataList(dataZoom);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {

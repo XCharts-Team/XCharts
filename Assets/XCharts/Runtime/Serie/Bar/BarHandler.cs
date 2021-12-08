@@ -81,16 +81,16 @@ namespace XCharts
             serie.context.pointerEnter = false;
             foreach (var serieData in serie.data)
             {
-                if (serieData.runtimeRect.Contains(chart.pointerPos))
+                if (serieData.context.rect.Contains(chart.pointerPos))
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.highlighted = true;
+                    serieData.context.highlighted = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.highlighted = false;
+                    serieData.context.highlighted = false;
                 }
             }
         }
@@ -137,11 +137,11 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].highlighted
+                var highlight = serie.data[i].context.highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
 
-                serieData.canShowLabel = true;
+                serieData.context.canShowLabel = true;
                 double value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
                 float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
@@ -155,7 +155,7 @@ namespace XCharts
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
                     {
-                        pX += m_StackSerieData[n][i].runtimeStackHig;
+                        pX += m_StackSerieData[n][i].context.stackHeight;
                     }
                 }
 
@@ -182,7 +182,7 @@ namespace XCharts
                                 / valueTotal * grid.context.width);
                     }
                 }
-                serieData.runtimeStackHig = barHig;
+                serieData.context.stackHeight = barHig;
                 var isBarEnd = false;
                 float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
                 if (!isBarEnd) isAllBarEnd = false;
@@ -210,7 +210,7 @@ namespace XCharts
                     plb = chart.ClampInGrid(grid, plb);
                     top = chart.ClampInGrid(grid, top);
                 }
-                serieData.runtimeRect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
+                serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
                 if (serie.show)
                 {
@@ -281,7 +281,7 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].highlighted
+                var highlight = serie.data[i].context.highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
                 double value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
@@ -307,7 +307,7 @@ namespace XCharts
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
                     {
-                        pY += m_StackSerieData[n][i].runtimeStackHig;
+                        pY += m_StackSerieData[n][i].context.stackHeight;
                     }
                 }
 
@@ -335,7 +335,7 @@ namespace XCharts
                         }
                     }
                 }
-                serieData.runtimeStackHig = barHig;
+                serieData.context.stackHeight = barHig;
                 var isBarEnd = false;
                 float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
                 if (!isBarEnd) isAllBarEnd = false;
@@ -363,7 +363,7 @@ namespace XCharts
                     prb = chart.ClampInGrid(grid, prb);
                     top = chart.ClampInGrid(grid, top);
                 }
-                serieData.runtimeRect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
+                serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
                 if (serie.show && currHig != 0)
                 {

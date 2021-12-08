@@ -7,13 +7,12 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
     /// <summary>
     /// A data item of serie.
-    /// 系列中的一个数据项。可存储数据名和1-n维的数据。
+    /// 系列中的一个数据项。可存储数据名和1-n维个数据。
     /// </summary>
     [System.Serializable]
     public class SerieData : ChildComponent
@@ -36,7 +35,6 @@ namespace XCharts
         public ChartLabel labelObject { get; set; }
 
         private bool m_Show = true;
-        private float m_RtPieOutsideRadius;
 
         /// <summary>
         /// the name of data item.
@@ -103,71 +101,7 @@ namespace XCharts
         /// 该数据项是否要显示。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
-        /// <summary>
-        /// Whether the data item is highlighted.
-        /// 该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
-        /// </summary>
-        public bool highlighted { get; set; }
-        public Vector3 labelPosition { get; set; }
-        private bool m_CanShowLabel = true;
-        /// <summary>
-        /// 是否可以显示Label
-        /// </summary>
-        public bool canShowLabel { get { return m_CanShowLabel; } set { m_CanShowLabel = value; } }
 
-        /// <summary>
-        /// 饼图数据项的开始角度（运行时自动计算）
-        /// </summary>
-        public float runtimePieStartAngle { get; internal set; }
-        /// <summary>
-        /// 饼图数据项的结束角度（运行时自动计算）
-        /// </summary>
-        public float runtimePieToAngle { get; internal set; }
-        /// <summary>
-        /// 饼图数据项的一半时的角度（运行时自动计算）
-        /// </summary>
-        public float runtimePieHalfAngle { get; internal set; }
-        /// <summary>
-        /// 饼图数据项的当前角度（运行时自动计算）
-        /// </summary>
-        public float runtimePieCurrAngle { get; internal set; }
-        /// <summary>
-        /// 饼图数据项的内半径
-        /// </summary>
-        public float runtimePieInsideRadius { get; internal set; }
-        /// <summary>
-        /// 饼图数据项的外半径
-        /// </summary>
-        public float runtimePieOutsideRadius
-        {
-            get
-            {
-                if (radius > 0) return radius;
-                else return m_RtPieOutsideRadius;
-            }
-            internal set
-            {
-                m_RtPieOutsideRadius = value;
-            }
-        }
-        /// <summary>
-        /// 饼图数据项的偏移半径
-        /// </summary>
-        public float runtimePieOffsetRadius { get; internal set; }
-        public Vector3 runtimePosition { get; set; }
-        /// <summary>
-        /// 绘制区域。
-        /// </summary>
-        public Rect runtimeRect { get; set; }
-        public Rect runtimeSubRect { get; set; }
-        public int runtimeLevel { get; set; }
-        public SerieData runtimeParent { get; set; }
-        public Color32 runtimeColor { get; set; }
-        public double runtimeArea { get; set; }
-        public float runtimeAngle { get; set; }
-        public Vector3 runtiemPieOffsetCenter { get; set; }
-        public float runtimeStackHig { get; set; }
-        public Image runtimeSymbol { get; set; }
         private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
@@ -177,11 +111,11 @@ namespace XCharts
         {
             index = 0;
             labelObject = null;
-            highlighted = false;
             m_Name = string.Empty;
             m_Show = true;
             m_Selected = false;
-            m_CanShowLabel = true;
+            context.canShowLabel = true;
+            context.highlighted = false;
             m_Radius = 0;
             m_Data.Clear();
             m_PreviousData.Clear();

@@ -80,7 +80,7 @@ namespace XCharts
 
         public static void ResetItemPosition(Legend legend, Vector3 chartPos, float chartWidth, float chartHeight)
         {
-            legend.location.UpdateRuntimeData(chartWidth,chartHeight);
+            legend.location.UpdateRuntimeData(chartWidth, chartHeight);
             var startX = 0f;
             var startY = 0f;
             var legendMaxWidth = chartWidth - legend.location.runtimeLeft - legend.location.runtimeRight;
@@ -252,7 +252,7 @@ namespace XCharts
                         if (legendName.Equals(data.name))
                         {
                             data.show = show;
-                            data.highlighted = false;
+                            data.context.highlighted = false;
                             if (data.show) needShow = true;
                         }
                     }
@@ -276,8 +276,8 @@ namespace XCharts
                     {
                         if (legendName.Equals(data.name))
                         {
-                            data.highlighted = heighlight;
-                            if (data.highlighted) show = true;
+                            data.context.highlighted = heighlight;
+                            if (data.context.highlighted) show = true;
                         }
                     }
                 }

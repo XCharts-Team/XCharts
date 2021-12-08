@@ -83,12 +83,12 @@ namespace XCharts
                 {
                     var serieData = serie.GetSerieData(i);
                     var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                    if (ChartHelper.IsIngore(serieData.runtimePosition))
+                    if (ChartHelper.IsIngore(serieData.context.position))
                         continue;
 
-                    bool highlight = serieData.highlighted || serie.highlighted;
+                    bool highlight = serieData.context.highlighted || serie.highlighted;
                     if ((!symbol.show || !symbol.ShowSymbol(i, count) || serie.IsPerformanceMode())
-                        && !serieData.highlighted)
+                        && !serieData.context.highlighted)
                         continue;
 
                     var symbolSize = highlight
@@ -102,7 +102,7 @@ namespace XCharts
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
 
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.runtimePosition,
+                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.context.position,
                         symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, cornerRadius);
                 }
             }
@@ -126,10 +126,10 @@ namespace XCharts
             var radius = (float)((value - min) / (max - min) * polarRadius);
 
             angle = (angle + 360) % 360;
-            serieData.runtimeAngle = angle;
-            serieData.runtimePosition = ChartHelper.GetPos(m_Polar.context.center, radius, angle, true);
+            serieData.context.angle = angle;
+            serieData.context.position = ChartHelper.GetPos(m_Polar.context.center, radius, angle, true);
 
-            return serieData.runtimePosition;
+            return serieData.context.position;
         }
     }
 }

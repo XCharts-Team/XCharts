@@ -87,9 +87,9 @@ namespace XCharts
                 var serieData = serie.GetSerieData(lastDataIndex);
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                if (Vector3.Distance(serieData.runtimePosition, chart.pointerPos) <= symbolSize)
+                if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
                 {
-                    serieData.highlighted = true;
+                    serieData.context.highlighted = true;
                     serie.context.pointerItemDataIndex = lastDataIndex;
                     return;
                 }
@@ -98,7 +98,7 @@ namespace XCharts
             serie.context.pointerItemDataIndex = -1;
             if (lastDataIndex >= 0)
             {
-                serie.GetSerieData(lastDataIndex).highlighted = false;
+                serie.GetSerieData(lastDataIndex).context.highlighted = false;
                 chart.RefreshPainter(serie);
             }
             for (int i = serie.dataCount - 1; i >= 0; i--)
@@ -110,9 +110,9 @@ namespace XCharts
                     continue;
 
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                if (Vector3.Distance(serieData.runtimePosition, chart.pointerPos) <= symbolSize)
+                if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
                 {
-                    serieData.highlighted = true;
+                    serieData.context.highlighted = true;
                     serie.context.pointerItemDataIndex = i;
                     serie.context.pointerEnter = true;
                     chart.RefreshPainter(serie);
@@ -165,7 +165,7 @@ namespace XCharts
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
 
-                var highlight = serie.highlighted || serieData.highlighted;
+                var highlight = serie.highlighted || serieData.context.highlighted;
                 var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
@@ -187,11 +187,11 @@ namespace XCharts
                     continue;
 
                 serie.context.dataPoints.Add(pos);
-                serieData.runtimePosition = pos;
+                serieData.context.position = pos;
                 var datas = serieData.data;
                 float symbolSize = 0;
 
-                if (serie.highlighted || serieData.highlighted)
+                if (serie.highlighted || serieData.context.highlighted)
                 {
                     symbolSize = symbol.GetSelectedSize(datas, theme.serie.scatterSymbolSelectedSize);
                 }
@@ -267,7 +267,7 @@ namespace XCharts
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
 
-                var highlight = serie.highlighted || serieData.highlighted;
+                var highlight = serie.highlighted || serieData.context.highlighted;
                 var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
@@ -292,11 +292,11 @@ namespace XCharts
                     pos = new Vector3(axis.context.x + xDataHig, axis.context.y + yDataHig);
                 }
                 serie.context.dataPoints.Add(pos);
-                serieData.runtimePosition = pos;
+                serieData.context.position = pos;
 
                 var datas = serieData.data;
                 var symbolSize = 0f;
-                if (serie.highlighted || serieData.highlighted)
+                if (serie.highlighted || serieData.context.highlighted)
                     symbolSize = symbol.GetSelectedSize(datas, theme.serie.scatterSymbolSelectedSize);
                 else
                     symbolSize = symbol.GetSize(datas, theme.serie.scatterSymbolSize);

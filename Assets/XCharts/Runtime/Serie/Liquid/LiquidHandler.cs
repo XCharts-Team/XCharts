@@ -160,9 +160,9 @@ namespace XCharts
                 serie.context.checkValue = value;
                 m_UpdateLabelText = true;
             }
-            if (serieData.labelPosition != cenPos)
+            if (serieData.context.labelPosition != cenPos)
             {
-                serieData.labelPosition = cenPos;
+                serieData.context.labelPosition = cenPos;
                 m_UpdateLabelText = true;
             }
             if (value <= 0) return;
@@ -273,9 +273,9 @@ namespace XCharts
                 serie.context.checkValue = value;
                 m_UpdateLabelText = true;
             }
-            if (serieData.labelPosition != cenPos)
+            if (serieData.context.labelPosition != cenPos)
             {
-                serieData.labelPosition = cenPos;
+                serieData.context.labelPosition = cenPos;
                 m_UpdateLabelText = true;
             }
             if (value <= 0) return;

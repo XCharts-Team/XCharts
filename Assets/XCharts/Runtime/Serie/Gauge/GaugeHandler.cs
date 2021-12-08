@@ -298,7 +298,7 @@ namespace XCharts
             if (serie.dataCount > 0)
             {
                 var serieData = serie.data[0];
-                serieData.labelPosition = serie.context.center + serie.label.offset;
+                serieData.context.labelPosition = serie.context.center + serie.label.offset;
                 value = dest ? serieData.GetData(1)
                     : serieData.GetCurrData(1, serie.animation.GetUpdateAnimationDuration());
                 value = MathUtil.Clamp(value, serie.min, serie.max);

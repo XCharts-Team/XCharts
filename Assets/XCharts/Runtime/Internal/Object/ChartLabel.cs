@@ -185,21 +185,26 @@ namespace XCharts
 
         public bool SetText(string text)
         {
-            if (m_LabelRect == null) return false;
-            if (m_LabelText != null && !m_LabelText.GetText().Equals(text))
+            if (m_LabelRect == null || m_LabelText == null)
+                return false;
+
+            if (text == null)
+                text = "";
+            if (!m_LabelText.GetText().Equals(text))
             {
                 m_LabelText.SetText(text);
                 if (m_LabelAutoSize)
                 {
                     var newSize = string.IsNullOrEmpty(text) ? Vector2.zero :
                         new Vector2(m_LabelText.GetPreferredWidth() + m_LabelPaddingLeftRight * 2,
-                                        m_LabelText.GetPreferredHeight() + m_LabelPaddingTopBottom * 2);
+                            m_LabelText.GetPreferredHeight() + m_LabelPaddingTopBottom * 2);
                     var sizeChange = newSize.x != m_LabelRect.sizeDelta.x || newSize.y != m_LabelRect.sizeDelta.y;
                     if (sizeChange)
                     {
                         m_LabelRect.sizeDelta = newSize;
                         if (m_LabelBackgroundRect != null)
                             m_LabelBackgroundRect.sizeDelta = newSize;
+
                         AdjustIconPos();
                     }
                     return sizeChange;

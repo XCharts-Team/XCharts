@@ -175,7 +175,7 @@ namespace XCharts
     }
 
     /// <summary>
-    /// 系列。每个系列通过 type 决定自己的图表类型。
+    /// 系列。
     /// </summary>
     [System.Serializable]
     public class Serie : BaseSerie, IComparable
@@ -1285,7 +1285,7 @@ namespace XCharts
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.data = new List<double>() { parent.children.Count, value };
-            serieData.runtimeParent = parent;
+            serieData.context.parent = parent;
             AddSerieData(serieData);
             parent.children.Add(serieData.index);
             return serieData;
@@ -1296,7 +1296,7 @@ namespace XCharts
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.data = new List<double>(value);
-            serieData.runtimeParent = parent;
+            serieData.context.parent = parent;
             AddSerieData(serieData);
             parent.children.Add(serieData.index);
             return serieData;
@@ -1577,7 +1577,7 @@ namespace XCharts
         {
             highlighted = false;
             foreach (var serieData in m_Data)
-                serieData.highlighted = false;
+                serieData.context.highlighted = false;
         }
 
         /// <summary>
@@ -1587,7 +1587,7 @@ namespace XCharts
         {
             var serieData = GetSerieData(index);
             if (serieData != null)
-                serieData.highlighted = flag;
+                serieData.context.highlighted = flag;
         }
 
         public float GetBarWidth(float categoryWidth)
@@ -1619,7 +1619,7 @@ namespace XCharts
         {
             if (index >= 0 && index < dataCount)
             {
-                return ChartHelper.IsIngore(data[index].runtimePosition);
+                return ChartHelper.IsIngore(data[index].context.position);
             }
             return false;
         }

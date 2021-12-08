@@ -36,7 +36,6 @@ namespace XCharts
         /// 鼠标所在轴线上的数据项索引（可能有多个）
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();
-
         /// <summary>
         /// 中心点
         /// </summary>

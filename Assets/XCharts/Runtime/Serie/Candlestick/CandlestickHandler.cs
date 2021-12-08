@@ -56,7 +56,7 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].highlighted || serie.highlighted;
+                var highlight = serie.data[i].context.highlighted || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
                 var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
@@ -79,7 +79,7 @@ namespace XCharts
                     barHig = (float)((close - open) / valueTotal * grid.context.height);
                     pY += (float)((open - minCut) / valueTotal * grid.context.height);
                 }
-                serieData.runtimeStackHig = barHig;
+                serieData.context.stackHeight = barHig;
                 var isBarEnd = false;
                 float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
                 if (!isBarEnd) isAllBarEnd = false;

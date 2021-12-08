@@ -137,7 +137,7 @@ namespace XCharts
 
             foreach (var serieData in serie.data)
             {
-                var dist = Vector3.Distance(chart.pointerPos, serieData.runtimePosition);
+                var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
 
@@ -145,12 +145,12 @@ namespace XCharts
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.highlighted = true;
+                    serieData.context.highlighted = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.highlighted = false;
+                    serieData.context.highlighted = false;
                 }
             }
         }
@@ -193,7 +193,7 @@ namespace XCharts
                 if (ChartHelper.IsIngore(serie.context.dataPoints[i]))
                     continue;
 
-                var highlight = serie.data[i].highlighted || serie.highlighted;
+                var highlight = serie.data[i].context.highlighted || serie.highlighted;
                 var symbolSize = highlight
                     ? symbol.GetSelectedSize(serie.data[i].data, theme.serie.lineSymbolSelectedSize)
                     : symbol.GetSize(serie.data[i].data, theme.serie.lineSymbolSize);
@@ -321,8 +321,8 @@ namespace XCharts
                 var isIgnore = serie.IsIgnoreValue(serieData);
                 if (isIgnore)
                 {
-                    serieData.runtimeStackHig = 0;
-                    serieData.runtimePosition = Vector3.zero;
+                    serieData.context.stackHeight = 0;
+                    serieData.context.position = Vector3.zero;
                     if (serie.ignoreLineBreak && serie.context.dataIgnore.Count > 0)
                     {
                         serie.context.dataIgnore[serie.context.dataIgnore.Count - 1] = true;
@@ -335,10 +335,10 @@ namespace XCharts
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis);
 
-                    serieData.runtimeStackHig = GetDataPoint(isY, axis, relativedAxis, grid, xValue, relativedValue,
+                    serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, grid, xValue, relativedValue,
                         i, scaleWid, isStack, ref np);
 
-                    serieData.runtimePosition = np;
+                    serieData.context.position = np;
 
                     serie.context.dataPoints.Add(np);
                     serie.context.dataIgnore.Add(false);
@@ -382,7 +382,7 @@ namespace XCharts
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
-                        yPos += m_StackSerieData[n][i].runtimeStackHig;
+                        yPos += m_StackSerieData[n][i].context.stackHeight;
                 }
             }
             else
@@ -392,7 +392,7 @@ namespace XCharts
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
-                        xPos += m_StackSerieData[n][i].runtimeStackHig;
+                        xPos += m_StackSerieData[n][i].context.stackHeight;
                 }
             }
             np = new Vector3(xPos, yPos);

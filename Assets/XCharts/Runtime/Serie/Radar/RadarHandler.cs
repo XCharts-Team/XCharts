@@ -52,19 +52,19 @@ namespace XCharts
                     if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
-                    var labelPos = serieData.labelPosition;
+                    var labelPos = serieData.context.labelPosition;
                     if (serieLabel.margin != 0)
                     {
                         labelPos += serieLabel.margin * (labelPos - center).normalized;
                     }
                     serieData.labelObject.SetPosition(labelPos);
                     serieData.labelObject.UpdateIcon(iconStyle);
-                    if (serie.show && serieLabel.show && serieData.canShowLabel)
+                    if (serie.show && serieLabel.show && serieData.context.canShowLabel)
                     {
                         var value = serieData.GetCurrData(1);
                         var max = radar.GetIndicatorMax(n);
                         SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme, i);
-                        serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
+                        serieData.SetLabelActive(serieData.context.labelPosition != Vector3.zero);
                         serieData.labelObject.SetLabelPosition(serieLabel.offset);
                         var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max,
                             serieLabel, Color.clear);
@@ -247,7 +247,7 @@ namespace XCharts
 
         private bool IsHighlight(RadarCoord radar, Serie serie, SerieData serieData, Tooltip tooltip, int dataIndex, int dimension)
         {
-            if (serie.highlighted || serieData.highlighted) return true;
+            if (serie.highlighted || serieData.context.highlighted) return true;
             if (tooltip == null) return false;
             var selectedSerieIndex = tooltip.runtimeDataIndex[0];
             if (selectedSerieIndex < 0) return false;
@@ -332,7 +332,7 @@ namespace XCharts
                 }
                 if (!serieData.show)
                 {
-                    serieData.labelPosition = Vector3.zero;
+                    serieData.context.labelPosition = Vector3.zero;
                     continue;
                 }
                 var isHighlight = IsHighlight(radar, serie, serieData, tooltip, j, 0);
@@ -384,7 +384,7 @@ namespace XCharts
                     startPoint = toPoint;
                     lastColor = lineColor;
                 }
-                serieData.labelPosition = startPoint;
+                serieData.context.labelPosition = startPoint;
                 pointList.Add(startPoint);
 
                 if (serie.areaStyle.show && j == endIndex)
@@ -406,7 +406,7 @@ namespace XCharts
                 {
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
-                    var isHighlight = serie.highlighted || serieData.highlighted ||
+                    var isHighlight = serie.highlighted || serieData.context.highlighted ||
                     (tooltip.show && tooltip.runtimeDataIndex[0] == i && tooltip.runtimeDataIndex[1] == j);
                     var serieIndex = serieData.index;
                     var symbolSize = isHighlight
@@ -422,7 +422,7 @@ namespace XCharts
                         symbolColor = radar.outRangeColor;
                         symbolToColor = radar.outRangeColor;
                     }
-                    chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
+                    chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.context.labelPosition, symbolColor,
                            symbolToColor, symbolEmptyColor, serie.symbol.gap, cornerRadius);
                 }
             }

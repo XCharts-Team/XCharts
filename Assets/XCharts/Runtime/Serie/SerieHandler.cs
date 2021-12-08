@@ -222,9 +222,9 @@ namespace XCharts
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index);
-                serieData.labelObject.SetPosition(serieData.runtimePosition);
+                serieData.labelObject.SetPosition(serieData.context.position);
                 serieData.labelObject.UpdateIcon(iconStyle);
-                if (serie.show && serieLabel.show && serieData.canShowLabel && !isIgnore)
+                if (serie.show && serieLabel.show && serieData.context.canShowLabel && !isIgnore)
                 {
                     var value = serieData.GetData(1);
                     var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
@@ -235,7 +235,7 @@ namespace XCharts
                         && !serie.areaStyle.show;
                     SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme, colorIndex);
                     serieData.SetLabelActive(!isIgnore);
-                    serieData.labelObject.SetPosition(serieData.runtimePosition + (invert ? -serieLabel.offset : serieLabel.offset));
+                    serieData.labelObject.SetPosition(serieData.context.position + (invert ? -serieLabel.offset : serieLabel.offset));
                     serieData.labelObject.SetText(content);
                 }
                 else

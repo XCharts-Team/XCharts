@@ -40,16 +40,16 @@ namespace XCharts
             if (!grid.IsPointerEnter()) return;
             foreach (var serieData in serie.data)
             {
-                if (serieData.runtimeRect.Contains(chart.pointerPos))
+                if (serieData.context.rect.Contains(chart.pointerPos))
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.highlighted = true;
+                    serieData.context.highlighted = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.highlighted = false;
+                    serieData.context.highlighted = false;
                 }
             }
         }
@@ -110,8 +110,8 @@ namespace XCharts
                     var pos = new Vector3(zeroX + (i + (xAxis.boundaryGap ? 0.5f : 0)) * xWidth,
                         zeroY + (j + (yAxis.boundaryGap ? 0.5f : 0)) * yWidth);
                     serie.context.dataPoints.Add(pos);
-                    serieData.canShowLabel = false;
-                    serieData.runtimeRect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
+                    serieData.context.canShowLabel = false;
+                    serieData.context.rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
                     if (value == 0) continue;
                     if ((value < rangeMin && rangeMin != visualMap.min)
                         || (value > rangeMax && rangeMax != visualMap.max))
@@ -121,8 +121,8 @@ namespace XCharts
                     if (!visualMap.IsInSelectedValue(value)) continue;
                     color = visualMap.GetColor(value);
                     if (animationIndex >= 0 && i > animationIndex) continue;
-                    serieData.canShowLabel = true;
-                    var emphasis = (serieData.highlighted)
+                    serieData.context.canShowLabel = true;
+                    var emphasis = (serieData.context.highlighted)
                         || visualMap.context.pointerIndex > 0;
 
                     UGL.DrawRectangle(vh, pos, rectWid / 2, rectHig / 2, color);

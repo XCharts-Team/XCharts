@@ -291,11 +291,11 @@ namespace XCharts
                     if (System.Math.Abs(dist) <= symbolSize)
                     {
                         serie.context.pointerAxisDataIndexs.Add(i);
-                        serieData.highlighted = true;
+                        serieData.context.highlighted = true;
                     }
                     else
                     {
-                        serieData.highlighted = false;
+                        serieData.context.highlighted = false;
                     }
                 }
             }

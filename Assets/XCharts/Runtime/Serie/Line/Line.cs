@@ -12,6 +12,7 @@ namespace XCharts
 {
     [Serializable]
     [SerieHandler(typeof(LineHandler), true)]
+    [SerieConvert(typeof(Bar))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     public class Line : Serie, INeedSerieContainer
     {

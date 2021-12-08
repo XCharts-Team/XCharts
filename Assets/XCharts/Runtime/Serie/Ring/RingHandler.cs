@@ -71,8 +71,6 @@ namespace XCharts
             var data = serie.data;
             serie.animation.InitProgress(data.Count, serie.startAngle, serie.startAngle + 360);
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            //TitleStyleHelper.CheckTitle(serie, ref chart.m_ReinitTitle, ref m_UpdateTitleText);
-            //SerieLabelHelper.CheckLabel(serie, ref chart.m_ReinitLabel, ref m_UpdateLabelText);
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;
             var dataChanging = false;
@@ -86,9 +84,9 @@ namespace XCharts
                 var degree = (float)(360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
-                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.highlighted);
-                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.highlighted);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlighted);
+                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.context.highlighted);
+                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.context.highlighted);
                 var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.ringGap);
                 var insideRadius = outsideRadius - ringWidth;
                 var centerRadius = (outsideRadius + insideRadius) / 2;
@@ -96,10 +94,10 @@ namespace XCharts
                 var borderColor = itemStyle.borderColor;
                 var roundCap = serie.roundCap && insideRadius > 0;
 
-                serieData.runtimePieStartAngle = serie.clockwise ? startDegree : toDegree;
-                serieData.runtimePieToAngle = serie.clockwise ? toDegree : startDegree;
-                serieData.runtimePieInsideRadius = insideRadius;
-                serieData.runtimePieOutsideRadius = outsideRadius;
+                serieData.context.startAngle = serie.clockwise ? startDegree : toDegree;
+                serieData.context.toAngle = serie.clockwise ? toDegree : startDegree;
+                serieData.context.insideRadius = insideRadius;
+                serieData.context.outsideRadius = serieData.radius > 0 ? serieData.radius : outsideRadius;
                 if (itemStyle.backgroundColor.a != 0)
                 {
                     UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemStyle.backgroundColor,
@@ -201,23 +199,23 @@ namespace XCharts
             switch (serie.label.position)
             {
                 case LabelStyle.Position.Center:
-                    serieData.labelPosition = serie.context.center + serie.label.offset;
+                    serieData.context.labelPosition = serie.context.center + serie.label.offset;
                     break;
                 case LabelStyle.Position.Bottom:
                     var px1 = Mathf.Sin(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var py1 = Mathf.Cos(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var xDiff = serie.clockwise ? -serie.label.margin : serie.label.margin;
-                    serieData.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
+                    serieData.context.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
                     break;
                 case LabelStyle.Position.Top:
                     startAngle += serie.clockwise ? -serie.label.margin : serie.label.margin;
                     toAngle += serie.clockwise ? serie.label.margin : -serie.label.margin;
                     var px2 = Mathf.Sin(toAngle * Mathf.Deg2Rad) * centerRadius;
                     var py2 = Mathf.Cos(toAngle * Mathf.Deg2Rad) * centerRadius;
-                    serieData.labelPosition = serie.context.center + new Vector3(px2, py2);
+                    serieData.context.labelPosition = serie.context.center + new Vector3(px2, py2);
                     break;
             }
-            serieData.labelObject.SetLabelPosition(serieData.labelPosition);
+            serieData.labelObject.SetLabelPosition(serieData.context.labelPosition);
         }
 
         private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)
@@ -280,10 +278,10 @@ namespace XCharts
             for (int i = 0; i < serie.data.Count; i++)
             {
                 var serieData = serie.data[i];
-                if (dist >= serieData.runtimePieInsideRadius &&
-                    dist <= serieData.runtimePieOutsideRadius &&
-                    angle >= serieData.runtimePieStartAngle &&
-                    angle <= serieData.runtimePieToAngle)
+                if (dist >= serieData.context.insideRadius &&
+                    dist <= serieData.context.outsideRadius &&
+                    angle >= serieData.context.startAngle &&
+                    angle <= serieData.context.toAngle)
                 {
                     return i;
                 }

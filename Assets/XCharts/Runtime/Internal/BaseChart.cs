@@ -577,7 +577,8 @@ namespace XCharts
                 {
                     m_OnCustomDrawSerieBeforeCallback.Invoke(vh, serie);
                 }
-                serie.dataPoints.Clear();
+                serie.context.dataPoints.Clear();
+                serie.context.dataIgnore.Clear();
                 DrawPainterSerie(vh, serie);
                 if (i >= 0 && i < m_SerieHandlers.Count)
                 {

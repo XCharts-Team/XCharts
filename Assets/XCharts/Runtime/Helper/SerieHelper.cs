@@ -214,10 +214,10 @@ namespace XCharts
             if (serie.center.Length < 2) return;
             var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
             var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
-            serie.runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
+            serie.context.center = chartPosition + new Vector3(centerX, centerY);
             var minWidth = Mathf.Min(chartWidth, chartHeight);
-            serie.runtimeInsideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
-            serie.runtimeOutsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
+            serie.context.insideRadius = serie.radius[0] <= 1 ? minWidth * serie.radius[0] : serie.radius[0];
+            serie.context.outsideRadius = serie.radius[1] <= 1 ? minWidth * serie.radius[1] : serie.radius[1];
         }
 
         public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
@@ -229,22 +229,22 @@ namespace XCharts
                 var runtimeTop = serie.top <= 1 ? serie.top * chartHeight : serie.top;
                 var runtimeRight = serie.right <= 1 ? serie.right * chartWidth : serie.right;
 
-                serie.runtimeX = chartPosition.x + runtimeLeft;
-                serie.runtimeY = chartPosition.y + runtimeBottom;
-                serie.runtimeWidth = chartWidth - runtimeLeft - runtimeRight;
-                serie.runtimeHeight = chartHeight - runtimeTop - runtimeBottom;
-                serie.runtimeCenterPos = new Vector3(serie.runtimeX + serie.runtimeWidth / 2,
-                    serie.runtimeY + serie.runtimeHeight / 2);
-                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
+                serie.context.x = chartPosition.x + runtimeLeft;
+                serie.context.y = chartPosition.y + runtimeBottom;
+                serie.context.width = chartWidth - runtimeLeft - runtimeRight;
+                serie.context.height = chartHeight - runtimeTop - runtimeBottom;
+                serie.context.center = new Vector3(serie.context.x + serie.context.width / 2,
+                    serie.context.y + serie.context.height / 2);
+                serie.context.rect = new Rect(serie.context.x, serie.context.y, serie.context.width, serie.context.height);
             }
             else
             {
-                serie.runtimeX = chartPosition.x;
-                serie.runtimeY = chartPosition.y;
-                serie.runtimeWidth = chartWidth;
-                serie.runtimeHeight = chartHeight;
-                serie.runtimeCenterPos = chartPosition + new Vector3(chartWidth / 2, chartHeight / 2);
-                serie.runtimeRect = new Rect(serie.runtimeX, serie.runtimeY, serie.runtimeWidth, serie.runtimeHeight);
+                serie.context.x = chartPosition.x;
+                serie.context.y = chartPosition.y;
+                serie.context.width = chartWidth;
+                serie.context.height = chartHeight;
+                serie.context.center = chartPosition + new Vector3(chartWidth / 2, chartHeight / 2);
+                serie.context.rect = new Rect(serie.context.x, serie.context.y, serie.context.width, serie.context.height);
             }
         }
 
@@ -370,7 +370,7 @@ namespace XCharts
 
         public static bool IsDownPoint(Serie serie, int index)
         {
-            var dataPoints = serie.dataPoints;
+            var dataPoints = serie.context.dataPoints;
             if (dataPoints.Count < 2) return false;
             else if (index > 0 && index < dataPoints.Count - 1)
             {
@@ -549,13 +549,13 @@ namespace XCharts
             GetMinMaxData(serie, dimension, out min, out max, dataZoom);
             if (ceilRate < 0)
             {
-                serie.runtimeDataMin = min;
-                serie.runtimeDataMax = max;
+                serie.context.dataMin = min;
+                serie.context.dataMax = max;
             }
             else
             {
-                serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
-                serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+                serie.context.dataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+                serie.context.dataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
             }
         }
 
@@ -565,13 +565,13 @@ namespace XCharts
             GetMinMaxData(serie, out min, out max, dataZoom);
             if (ceilRate < 0)
             {
-                serie.runtimeDataMin = min;
-                serie.runtimeDataMax = max;
+                serie.context.dataMin = min;
+                serie.context.dataMax = max;
             }
             else
             {
-                serie.runtimeDataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
-                serie.runtimeDataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
+                serie.context.dataMin = ChartHelper.GetMinDivisibleValue(min, ceilRate);
+                serie.context.dataMax = ChartHelper.GetMaxDivisibleValue(max, ceilRate);
             }
         }
 
@@ -689,16 +689,16 @@ namespace XCharts
 
         public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)
         {
-            serie.runtimeSortedData.Clear();
+            serie.context.sortedData.Clear();
             foreach (var serieData in serie.data)
             {
                 if (!filterInvisible || (filterInvisible && serieData.show))
-                    serie.runtimeSortedData.Add(serieData);
+                    serie.context.sortedData.Add(serieData);
             }
             switch (serie.dataSortType)
             {
                 case SerieDataSortType.Ascending:
-                    serie.runtimeSortedData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);
@@ -708,7 +708,7 @@ namespace XCharts
                     });
                     break;
                 case SerieDataSortType.Descending:
-                    serie.runtimeSortedData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);

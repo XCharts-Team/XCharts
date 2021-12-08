@@ -113,7 +113,7 @@ namespace XCharts
             var total = serie.max;
             var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
             serieData.labelObject.SetText(content);
-            serieData.labelObject.SetLabelPosition(serie.runtimeCenterPos + serie.label.offset);
+            serieData.labelObject.SetLabelPosition(serie.context.center + serie.label.offset);
             if (!ChartHelper.IsClearColor(serie.label.textStyle.color))
             {
                 serieData.labelObject.label.SetColor(serie.label.textStyle.color);
@@ -191,22 +191,22 @@ namespace XCharts
             switch (serieLabel.position)
             {
                 case LabelStyle.Position.Center:
-                    serieData.labelPosition = serie.runtimeCenterPos;
+                    serieData.labelPosition = serie.context.center;
                     break;
                 case LabelStyle.Position.Inside:
                     var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.margin;
-                    var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                        serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
+                    var labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
+                        serie.context.center.y + labelRadius * Mathf.Cos(currRad));
                     serieData.labelPosition = labelCenter;
                     break;
                 case LabelStyle.Position.Outside:
                     if (labelLine.lineType == LabelLine.LineType.HorizontalLine)
                     {
-                        var radius1 = serie.runtimeOutsideRadius;
+                        var radius1 = serie.context.outsideRadius;
                         var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
                         var currSin = Mathf.Sin(currRad);
                         var currCos = Mathf.Cos(currRad);
-                        var pos0 = new Vector3(serie.runtimeCenterPos.x + radius3 * currSin, serie.runtimeCenterPos.y + radius3 * currCos);
+                        var pos0 = new Vector3(serie.context.center.x + radius3 * currSin, serie.context.center.y + radius3 * currCos);
                         if (currAngle > 180)
                         {
                             currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
@@ -219,9 +219,9 @@ namespace XCharts
                     }
                     else
                     {
-                        labelRadius = serie.runtimeOutsideRadius + labelLine.lineLength1;
-                        labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                            serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
+                        labelRadius = serie.context.outsideRadius + labelLine.lineLength1;
+                        labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
+                            serie.context.center.y + labelRadius * Mathf.Cos(currRad));
                         serieData.labelPosition = labelCenter;
                     }
                     break;
@@ -237,7 +237,7 @@ namespace XCharts
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
-                if (serieData.labelPosition.x != 0 && serieData.labelPosition.x < serie.runtimeCenterPos.x)
+                if (serieData.labelPosition.x != 0 && serieData.labelPosition.x < serie.context.center.x)
                 {
                     splitCount = n;
                     break;
@@ -276,13 +276,13 @@ namespace XCharts
             {
                 if (lastCheckPos.y - serieData.labelPosition.y < fontSize)
                 {
-                    var labelRadius = serie.runtimeOutsideRadius + labelLine.lineLength1;
+                    var labelRadius = serie.context.outsideRadius + labelLine.lineLength1;
                     var y1 = lastCheckPos.y - fontSize;
-                    var cy = serie.runtimeCenterPos.y;
+                    var cy = serie.context.center.y;
                     var diff = Mathf.Abs(y1 - cy);
                     var diffX = labelRadius * labelRadius - diff * diff;
                     diffX = diffX <= 0 ? 0 : diffX;
-                    var x1 = serie.runtimeCenterPos.x + Mathf.Sqrt(diffX) * (isLeft ? -1 : 1);
+                    var x1 = serie.context.center.x + Mathf.Sqrt(diffX) * (isLeft ? -1 : 1);
                     serieData.labelPosition = new Vector3(x1, y1);
                 }
                 lastCheckPos = serieData.labelPosition;

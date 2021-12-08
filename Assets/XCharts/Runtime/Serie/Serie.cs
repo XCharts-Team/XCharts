@@ -259,7 +259,6 @@ namespace XCharts
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
         [SerializeField] private bool m_InsertDataToHead;
-
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] internal int m_FilterStart;
@@ -269,11 +268,6 @@ namespace XCharts
         [NonSerialized] internal int m_FilterMinShow;
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] public List<SerieData> m_FilterData = new List<SerieData>();
-        [NonSerialized] internal List<SerieData> m_SortedData = new List<SerieData>();
-        [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
-        [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
-        [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
-        [NonSerialized] private List<bool> m_DataIgnore = new List<bool>();
         [NonSerialized] private bool m_NameDirty;
 
         /// <summary>
@@ -993,38 +987,6 @@ namespace XCharts
         /// 数据项个数。
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
-        /// <summary>
-        /// 数据项位置坐标。
-        /// </summary>
-        public List<Vector3> dataPoints { get { return m_DataPoints; } }
-        public List<bool> dataIgnore { get { return m_DataIgnore; } }
-        /// <summary>
-        /// 饼图的中心点位置。
-        /// </summary>
-        public Vector3 runtimeCenterPos { get; internal set; }
-        /// <summary>
-        /// 饼图的内径
-        /// </summary>
-        public float runtimeInsideRadius { get; internal set; }
-        /// <summary>
-        /// 饼图的外径
-        /// </summary>
-        public float runtimeOutsideRadius { get; internal set; }
-        /// <summary>
-        /// 运行时的最大数据值
-        /// </summary>
-        public double runtimeDataMax { get; internal set; }
-        /// <summary>
-        /// 运行时的最小数据值
-        /// </summary>
-        public double runtimeDataMin { get; internal set; }
-        public double runtimeCheckValue { get; set; }
-        public float runtimeX { get; internal set; }
-        public float runtimeY { get; internal set; }
-        public float runtimeWidth { get; internal set; }
-        public float runtimeHeight { get; internal set; }
-        public Rect runtimeRect { get; internal set; }
-        public List<SerieData> runtimeSortedData { get { return m_SortedData; } }
         public bool nameDirty { get { return m_NameDirty; } }
         public bool labelDirty { get; set; }
         public bool titleDirty { get; set; }
@@ -1042,45 +1004,6 @@ namespace XCharts
         public override void ClearDirty()
         {
             base.ClearDirty();
-        }
-        internal List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
-        {
-            if (m_UpSmoothPoints.ContainsKey(dataIndex))
-            {
-                return m_UpSmoothPoints[dataIndex];
-            }
-            else
-            {
-                var list = ListPool<Vector3>.Get();
-                m_UpSmoothPoints[dataIndex] = list;
-                return list;
-            }
-        }
-
-        internal List<Vector3> GetDownSmoothList(int dataIndex, int size = 100)
-        {
-            if (m_DownSmoothPoints.ContainsKey(dataIndex))
-            {
-                return m_DownSmoothPoints[dataIndex];
-            }
-            else
-            {
-                var list = ListPool<Vector3>.Get();
-                m_DownSmoothPoints[dataIndex] = list;
-                return list;
-            }
-        }
-
-        internal void ClearSmoothList(int dataIndex)
-        {
-            if (m_UpSmoothPoints.ContainsKey(dataIndex))
-            {
-                m_UpSmoothPoints[dataIndex].Clear();
-            }
-            if (m_DownSmoothPoints.ContainsKey(dataIndex))
-            {
-                m_DownSmoothPoints[dataIndex].Clear();
-            }
         }
 
         /// <summary>
@@ -1225,16 +1148,6 @@ namespace XCharts
                 if (serieData.labelObject != null)
                 {
                     SerieLabelPool.Release(serieData.labelObject.gameObject);
-                }
-                if (m_UpSmoothPoints.ContainsKey(serieData.index))
-                {
-                    ListPool<Vector3>.Release(m_UpSmoothPoints[serieData.index]);
-                    m_UpSmoothPoints.Remove(serieData.index);
-                }
-                if (m_DownSmoothPoints.ContainsKey(serieData.index))
-                {
-                    ListPool<Vector3>.Release(m_DownSmoothPoints[serieData.index]);
-                    m_DownSmoothPoints.Remove(serieData.index);
                 }
                 m_Data.RemoveAt(index);
                 m_NeedUpdateFilterData = true;
@@ -1571,7 +1484,7 @@ namespace XCharts
             }
             else
             {
-                return runtimeSortedData.Count > 0 ? runtimeSortedData : m_Data;
+                return context.sortedData.Count > 0 ? context.sortedData : m_Data;
             }
         }
 
@@ -1704,9 +1617,9 @@ namespace XCharts
 
         public bool IsIgnorePoint(int index)
         {
-            if (index >= 0 && index < dataPoints.Count)
+            if (index >= 0 && index < dataCount)
             {
-                return ChartHelper.IsIngore(dataPoints[index]);
+                return ChartHelper.IsIngore(data[index].runtimePosition);
             }
             return false;
         }

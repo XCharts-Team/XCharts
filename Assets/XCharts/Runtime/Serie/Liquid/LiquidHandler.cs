@@ -155,9 +155,9 @@ namespace XCharts
             if (serieData == null) return;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var value = serieData.GetCurrData(1, dataChangeDuration);
-            if (serie.runtimeCheckValue != value)
+            if (serie.context.checkValue != value)
             {
-                serie.runtimeCheckValue = value;
+                serie.context.checkValue = value;
                 m_UpdateLabelText = true;
             }
             if (serieData.labelPosition != cenPos)
@@ -268,9 +268,9 @@ namespace XCharts
             if (serieData == null) return;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var value = serieData.GetCurrData(1, dataChangeDuration);
-            if (serie.runtimeCheckValue != value)
+            if (serie.context.checkValue != value)
             {
-                serie.runtimeCheckValue = value;
+                serie.context.checkValue = value;
                 m_UpdateLabelText = true;
             }
             if (serieData.labelPosition != cenPos)

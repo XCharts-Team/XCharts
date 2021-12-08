@@ -74,7 +74,7 @@ namespace XCharts
             //TitleStyleHelper.CheckTitle(serie, ref chart.m_ReinitTitle, ref m_UpdateTitleText);
             //SerieLabelHelper.CheckLabel(serie, ref chart.m_ReinitLabel, ref m_UpdateLabelText);
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var ringWidth = serie.runtimeOutsideRadius - serie.runtimeInsideRadius;
+            var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;
             var dataChanging = false;
             for (int j = 0; j < data.Count; j++)
             {
@@ -89,7 +89,7 @@ namespace XCharts
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                 var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.highlighted);
                 var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.highlighted);
-                var outsideRadius = serie.runtimeOutsideRadius - j * (ringWidth + serie.ringGap);
+                var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.ringGap);
                 var insideRadius = outsideRadius - ringWidth;
                 var centerRadius = (outsideRadius + insideRadius) / 2;
                 var borderWidth = itemStyle.borderWidth;
@@ -102,11 +102,11 @@ namespace XCharts
                 serieData.runtimePieOutsideRadius = outsideRadius;
                 if (itemStyle.backgroundColor.a != 0)
                 {
-                    UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemStyle.backgroundColor,
+                    UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemStyle.backgroundColor,
                         itemStyle.backgroundColor, Color.clear, 0, 360, borderWidth, borderColor, 0,
                         chart.settings.cicleSmoothness, false, serie.clockwise);
                 }
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemToColor,
+                UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemColor, itemToColor,
                     Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, chart.settings.cicleSmoothness,
                     roundCap, serie.clockwise);
                 DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);
@@ -189,7 +189,7 @@ namespace XCharts
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 var smoothness = chart.settings.cicleSmoothness;
-                UGL.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, smoothness);
+                UGL.DrawCricle(vh, serie.context.center, radius, itemStyle.centerColor, smoothness);
             }
         }
 
@@ -201,20 +201,20 @@ namespace XCharts
             switch (serie.label.position)
             {
                 case LabelStyle.Position.Center:
-                    serieData.labelPosition = serie.runtimeCenterPos + serie.label.offset;
+                    serieData.labelPosition = serie.context.center + serie.label.offset;
                     break;
                 case LabelStyle.Position.Bottom:
                     var px1 = Mathf.Sin(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var py1 = Mathf.Cos(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var xDiff = serie.clockwise ? -serie.label.margin : serie.label.margin;
-                    serieData.labelPosition = serie.runtimeCenterPos + new Vector3(px1 + xDiff, py1);
+                    serieData.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
                     break;
                 case LabelStyle.Position.Top:
                     startAngle += serie.clockwise ? -serie.label.margin : serie.label.margin;
                     toAngle += serie.clockwise ? serie.label.margin : -serie.label.margin;
                     var px2 = Mathf.Sin(toAngle * Mathf.Deg2Rad) * centerRadius;
                     var py2 = Mathf.Cos(toAngle * Mathf.Deg2Rad) * centerRadius;
-                    serieData.labelPosition = serie.runtimeCenterPos + new Vector3(px2, py2);
+                    serieData.labelPosition = serie.context.center + new Vector3(px2, py2);
                     break;
             }
             serieData.labelObject.SetLabelPosition(serieData.labelPosition);
@@ -229,12 +229,12 @@ namespace XCharts
                 var centerRadius = (outsideRadius + insideRadius) / 2;
                 var inradius = centerRadius - itemStyle.backgroundWidth / 2;
                 var outradius = centerRadius + itemStyle.backgroundWidth / 2;
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, inradius,
+                UGL.DrawDoughnut(vh, serie.context.center, inradius,
                     outradius, backgroundColor, Color.clear, chart.settings.cicleSmoothness);
             }
             else
             {
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
+                UGL.DrawDoughnut(vh, serie.context.center, insideRadius,
                     outsideRadius, backgroundColor, Color.clear, chart.settings.cicleSmoothness);
             }
         }
@@ -244,10 +244,10 @@ namespace XCharts
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
             if (itemStyle.show && itemStyle.borderWidth > 0 && !ChartHelper.IsClearColor(itemStyle.borderColor))
             {
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, outsideRadius,
+                UGL.DrawDoughnut(vh, serie.context.center, outsideRadius,
                 outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,
                 Color.clear, chart.settings.cicleSmoothness);
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
+                UGL.DrawDoughnut(vh, serie.context.center, insideRadius,
                 insideRadius + itemStyle.borderWidth, itemStyle.borderColor,
                 Color.clear, chart.settings.cicleSmoothness);
             }
@@ -273,9 +273,9 @@ namespace XCharts
         private int GetRingIndex(Serie serie, Vector2 local)
         {
             if (!(serie is Ring)) return -1;
-            var dist = Vector2.Distance(local, serie.runtimeCenterPos);
-            if (dist > serie.runtimeOutsideRadius) return -1;
-            Vector2 dir = local - new Vector2(serie.runtimeCenterPos.x, serie.runtimeCenterPos.y);
+            var dist = Vector2.Distance(local, serie.context.center);
+            if (dist > serie.context.outsideRadius) return -1;
+            Vector2 dir = local - new Vector2(serie.context.center.x, serie.context.center.y);
             float angle = VectorAngle(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
             {

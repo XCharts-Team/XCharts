@@ -69,7 +69,7 @@ namespace XCharts
         {
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
             var yCategory = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-            serie.dataPoints.Clear();
+            serie.context.dataPoints.Clear();
             if (yCategory) DrawYBarSerie(vh, serie, colorIndex);
             else DrawXBarSerie(vh, serie, colorIndex);
         }
@@ -134,7 +134,7 @@ namespace XCharts
                 var serieData = showData[i];
                 if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
-                    serie.dataPoints.Add(Vector3.zero);
+                    serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
                 var highlight = serie.data[i].highlighted
@@ -211,7 +211,7 @@ namespace XCharts
                     top = chart.ClampInGrid(grid, top);
                 }
                 serieData.runtimeRect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
-                serie.dataPoints.Add(top);
+                serie.context.dataPoints.Add(top);
                 if (serie.show)
                 {
                     switch (serie.barType)
@@ -278,7 +278,7 @@ namespace XCharts
                 var serieData = showData[i];
                 if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
-                    serie.dataPoints.Add(Vector3.zero);
+                    serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
                 var highlight = serie.data[i].highlighted
@@ -364,7 +364,7 @@ namespace XCharts
                     top = chart.ClampInGrid(grid, top);
                 }
                 serieData.runtimeRect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
-                serie.dataPoints.Add(top);
+                serie.context.dataPoints.Add(top);
                 if (serie.show && currHig != 0)
                 {
                     switch (serie.barType)

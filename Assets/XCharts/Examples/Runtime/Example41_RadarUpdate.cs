@@ -62,7 +62,7 @@ namespace XCharts.Examples
                     chart.UpdateData(serieIndex, i, value);
                 }
             }
-            chart.GetChartComponent<Title>().subText = "max:" + serie.runtimeDataMax;
+            chart.GetChartComponent<Title>().subText = "max:" + serie.context.dataMax;
         }
 
         void UpdateMax()
@@ -70,10 +70,10 @@ namespace XCharts.Examples
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
-            if (serie.runtimeDataMax != max)
+            if (serie.context.dataMax != max)
             {
-                chart.GetChartComponent<Title>().subText = "max:" + serie.runtimeDataMax;
-                max = serie.runtimeDataMax;
+                chart.GetChartComponent<Title>().subText = "max:" + serie.context.dataMax;
+                max = serie.context.dataMax;
             }
         }
     }

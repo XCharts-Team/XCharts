@@ -53,7 +53,7 @@ namespace XCharts
                 var serieData = showData[i];
                 if (serie.IsIgnoreValue(serieData))
                 {
-                    serie.dataPoints.Add(Vector3.zero);
+                    serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
                 var highlight = serie.data[i].highlighted || serie.highlighted;
@@ -98,7 +98,7 @@ namespace XCharts
                     prb = chart.ClampInGrid(grid, prb);
                     top = chart.ClampInGrid(grid, top);
                 }
-                serie.dataPoints.Add(top);
+                serie.context.dataPoints.Add(top);
                 var areaColor = isRise
                     ? itemStyle.GetColor(theme.serie.candlestickColor)
                     : itemStyle.GetColor0(theme.serie.candlestickColor0);

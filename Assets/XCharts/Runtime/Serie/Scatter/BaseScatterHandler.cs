@@ -186,7 +186,7 @@ namespace XCharts
                 if (!grid.Contains(pos))
                     continue;
 
-                serie.dataPoints.Add(pos);
+                serie.context.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
                 var datas = serieData.data;
                 float symbolSize = 0;
@@ -291,7 +291,7 @@ namespace XCharts
                     var xDataHig = axis.context.height / 2;
                     pos = new Vector3(axis.context.x + xDataHig, axis.context.y + yDataHig);
                 }
-                serie.dataPoints.Add(pos);
+                serie.context.dataPoints.Add(pos);
                 serieData.runtimePosition = pos;
 
                 var datas = serieData.data;

@@ -373,9 +373,9 @@ namespace XCharts
                     UpdateStepLineDrawPoints(serie, setting, theme, isY);
                     break;
                 default:
-                    for (int i = 0; i < serie.dataPoints.Count; i++)
+                    for (int i = 0; i < serie.context.dataPoints.Count; i++)
                     {
-                        serie.context.drawPoints.Add(new PointInfo(serie.dataPoints[i], serie.dataIgnore[i]));
+                        serie.context.drawPoints.Add(new PointInfo(serie.context.dataPoints[i], serie.context.dataIgnore[i]));
                     }
                     break;
             }
@@ -383,7 +383,7 @@ namespace XCharts
 
         private static void UpdateSmoothLineDrawPoints(Serie serie, Settings setting, bool isY)
         {
-            var points = serie.dataPoints;
+            var points = serie.context.dataPoints;
             float smoothness = setting.lineSmoothness;
             for (int i = 0; i < points.Count - 1; i++)
             {
@@ -391,7 +391,7 @@ namespace XCharts
                 var ep = points[i + 1];
                 var lsp = i > 0 ? points[i - 1] : sp;
                 var nep = i < points.Count - 2 ? points[i + 2] : ep;
-                var ignore = serie.dataIgnore[i];
+                var ignore = serie.context.dataIgnore[i];
                 if (isY)
                     UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness);
                 else
@@ -406,15 +406,15 @@ namespace XCharts
 
         private static void UpdateStepLineDrawPoints(Serie serie, Settings setting, ThemeStyle theme, bool isY)
         {
-            var points = serie.dataPoints;
+            var points = serie.context.dataPoints;
             var lp = points[0];
             var lineWidth = serie.lineStyle.GetWidth(theme.serie.lineWidth);
             serie.context.drawPoints.Clear();
-            serie.context.drawPoints.Add(new PointInfo(lp, serie.dataIgnore[0]));
+            serie.context.drawPoints.Add(new PointInfo(lp, serie.context.dataIgnore[0]));
             for (int i = 1; i < points.Count; i++)
             {
                 var cp = points[i];
-                var ignore = serie.dataIgnore[i];
+                var ignore = serie.context.dataIgnore[i];
                 if ((isY && Mathf.Abs(lp.x - cp.x) <= lineWidth)
                     || (!isY && Mathf.Abs(lp.y - cp.y) <= lineWidth))
                 {

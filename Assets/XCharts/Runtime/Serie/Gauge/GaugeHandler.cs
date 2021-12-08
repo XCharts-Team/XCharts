@@ -138,14 +138,14 @@ namespace XCharts
             var totalValue = serie.max - serie.min;
             var diffAngle = totalAngle / count;
             var diffValue = totalValue / count;
-            var radius = serie.runtimeInsideRadius - serie.gaugeAxis.axisLabel.margin;
+            var radius = serie.context.insideRadius - serie.gaugeAxis.axisLabel.margin;
             var serieData = serie.GetSerieData(0);
             var customLabelText = serie.gaugeAxis.axisLabelText;
             for (int j = 0; j <= count; j++)
             {
                 var angle = serie.startAngle + j * diffAngle;
                 var value = serie.min + j * diffValue;
-                var pos = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, radius);
+                var pos = ChartHelper.GetPosition(serie.context.center, angle, radius);
                 var text = customLabelText != null && j < customLabelText.Count ? customLabelText[j] :
                     SerieLabelHelper.GetFormatterContent(serie, serieData, value, totalValue,
                     serie.gaugeAxis.axisLabel, Color.clear);
@@ -186,13 +186,13 @@ namespace XCharts
             var color = serie.gaugeAxis.GetAxisLineColor(chart.theme, serie.index);
             var backgroundColor = serie.gaugeAxis.GetAxisLineBackgroundColor(chart.theme, serie.index);
             var lineWidth = serie.gaugeAxis.axisLine.GetWidth(chart.theme.gauge.lineWidth);
-            var outsideRadius = serie.runtimeInsideRadius + lineWidth;
+            var outsideRadius = serie.context.insideRadius + lineWidth;
             var borderWidth = serie.itemStyle.borderWidth;
             var borderColor = serie.itemStyle.borderColor;
-            UGL.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
+            UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius, outsideRadius,
                 backgroundColor, backgroundColor, Color.clear, serie.startAngle, serie.endAngle, 0, Color.clear,
                 0, chart.settings.cicleSmoothness, serie.roundCap);
-            UGL.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
+            UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius, outsideRadius,
                 color, color, Color.clear, serie.startAngle, currAngle, 0, Color.clear,
                 0, chart.settings.cicleSmoothness, serie.roundCap);
         }
@@ -205,14 +205,14 @@ namespace XCharts
             var tempStartAngle = serie.startAngle;
             var tempEndAngle = serie.startAngle;
             var lineWidth = serie.gaugeAxis.axisLine.GetWidth(chart.theme.gauge.lineWidth);
-            var outsideRadius = serie.runtimeInsideRadius + lineWidth;
+            var outsideRadius = serie.context.insideRadius + lineWidth;
             serie.gaugeAxis.runtimeStageAngle.Clear();
             for (int i = 0; i < serie.gaugeAxis.axisLine.stageColor.Count; i++)
             {
                 var stageColor = serie.gaugeAxis.axisLine.stageColor[i];
                 tempEndAngle = serie.startAngle + totalAngle * stageColor.percent;
                 serie.gaugeAxis.runtimeStageAngle.Add(tempEndAngle);
-                UGL.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
+                UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius, outsideRadius,
                     stageColor.color, stageColor.color, Color.clear, tempStartAngle, tempEndAngle, 0, Color.clear,
                     0, chart.settings.cicleSmoothness);
                 tempStartAngle = tempEndAngle;
@@ -225,12 +225,12 @@ namespace XCharts
             var pointerColor = serie.gaugeAxis.GetPointerColor(chart.theme, serie.index, currAngle, serie.itemStyle);
             var pointerToColor = !ChartHelper.IsClearColor(serie.itemStyle.toColor) ? serie.itemStyle.toColor : pointerColor;
             var len = serie.gaugePointer.length < 1 && serie.gaugePointer.length > -1 ?
-                serie.runtimeInsideRadius * serie.gaugePointer.length :
+                serie.context.insideRadius * serie.gaugePointer.length :
                 serie.gaugePointer.length;
-            var p1 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle, len);
-            var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 180, serie.gaugePointer.width);
-            var p3 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle - 90, serie.gaugePointer.width / 2);
-            var p4 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 90, serie.gaugePointer.width / 2);
+            var p1 = ChartHelper.GetPosition(serie.context.center, currAngle, len);
+            var p2 = ChartHelper.GetPosition(serie.context.center, currAngle + 180, serie.gaugePointer.width);
+            var p3 = ChartHelper.GetPosition(serie.context.center, currAngle - 90, serie.gaugePointer.width / 2);
+            var p4 = ChartHelper.GetPosition(serie.context.center, currAngle + 90, serie.gaugePointer.width / 2);
             UGL.DrawTriangle(vh, p2, p3, p1, pointerColor, pointerColor, pointerToColor);
             UGL.DrawTriangle(vh, p4, p2, p1, pointerColor, pointerColor, pointerToColor);
         }
@@ -246,14 +246,14 @@ namespace XCharts
             var lineWidth = serie.gaugeAxis.axisLine.GetWidth(chart.theme.gauge.lineWidth);
             var splitLineWidth = splitLine.GetWidth(chart.theme.gauge.splitLineWidth);
             var splitLineLength = splitLine.GetLength(chart.theme.gauge.splitLineLength);
-            var outsideRadius = serie.runtimeInsideRadius + lineWidth;
+            var outsideRadius = serie.context.insideRadius + lineWidth;
             var insideRadius = outsideRadius - splitLineLength;
             for (int i = 0; i < serie.splitNumber + 1; i++)
             {
                 var angle = serie.startAngle + i * diffAngle;
                 var lineColor = serie.gaugeAxis.GetSplitLineColor(chart.theme.gauge.splitLineColor, serie.index, angle);
-                var p1 = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, insideRadius);
-                var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, outsideRadius);
+                var p1 = ChartHelper.GetPosition(serie.context.center, angle, insideRadius);
+                var p2 = ChartHelper.GetPosition(serie.context.center, angle, outsideRadius);
                 UGL.DrawLine(vh, p1, p2, splitLineWidth, lineColor);
             }
         }
@@ -269,7 +269,7 @@ namespace XCharts
             var lineWidth = serie.gaugeAxis.axisLine.GetWidth(chart.theme.gauge.lineWidth);
             var tickWidth = axisTick.GetWidth(chart.theme.gauge.tickWidth);
             var tickLength = axisTick.GetLength(chart.theme.gauge.tickLength);
-            var outsideRadius = serie.runtimeInsideRadius + lineWidth;
+            var outsideRadius = serie.context.insideRadius + lineWidth;
 
             var insideRadius = outsideRadius - (tickLength < 1 ? lineWidth * tickLength : tickLength);
             for (int i = 0; i < serie.splitNumber; i++)
@@ -278,8 +278,8 @@ namespace XCharts
                 {
                     var angle = serie.startAngle + i * diffAngle + j * (diffAngle / axisTick.splitNumber);
                     var lineColor = serie.gaugeAxis.GetSplitLineColor(chart.theme.gauge.tickColor, serie.index, angle);
-                    var p1 = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, insideRadius);
-                    var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, outsideRadius);
+                    var p1 = ChartHelper.GetPosition(serie.context.center, angle, insideRadius);
+                    var p2 = ChartHelper.GetPosition(serie.context.center, angle, outsideRadius);
                     UGL.DrawLine(vh, p1, p2, tickWidth, lineColor);
                 }
             }
@@ -298,7 +298,7 @@ namespace XCharts
             if (serie.dataCount > 0)
             {
                 var serieData = serie.data[0];
-                serieData.labelPosition = serie.runtimeCenterPos + serie.label.offset;
+                serieData.labelPosition = serie.context.center + serie.label.offset;
                 value = dest ? serieData.GetData(1)
                     : serieData.GetCurrData(1, serie.animation.GetUpdateAnimationDuration());
                 value = MathUtil.Clamp(value, serie.min, serie.max);
@@ -348,14 +348,14 @@ namespace XCharts
                     continue;
 
                 var len = serie.gaugePointer.length < 1 && serie.gaugePointer.length > -1
-                    ? serie.runtimeInsideRadius * serie.gaugePointer.length
+                    ? serie.context.insideRadius * serie.gaugePointer.length
                     : serie.gaugePointer.length;
-                if (Vector3.Distance(local, serie.runtimeCenterPos) > len) continue;
+                if (Vector3.Distance(local, serie.context.center) > len) continue;
                 var currAngle = (float)(serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail());
-                var p1 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle, len);
-                var p2 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 180, serie.gaugePointer.width);
-                var p3 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle - 90, serie.gaugePointer.width / 2);
-                var p4 = ChartHelper.GetPosition(serie.runtimeCenterPos, currAngle + 90, serie.gaugePointer.width / 2);
+                var p1 = ChartHelper.GetPosition(serie.context.center, currAngle, len);
+                var p2 = ChartHelper.GetPosition(serie.context.center, currAngle + 180, serie.gaugePointer.width);
+                var p3 = ChartHelper.GetPosition(serie.context.center, currAngle - 90, serie.gaugePointer.width / 2);
+                var p4 = ChartHelper.GetPosition(serie.context.center, currAngle + 90, serie.gaugePointer.width / 2);
                 if (ChartHelper.IsPointInQuadrilateral(local, p1, p3, p2, p4))
                 {
                     return serie;

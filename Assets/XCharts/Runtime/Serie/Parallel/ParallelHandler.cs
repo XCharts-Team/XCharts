@@ -62,7 +62,7 @@ namespace XCharts
             serie.animation.InitProgress(serie.showDataDimension, currDetailProgress, totalDetailProgress);
             serie.animation.SetDataFinish(0);
 
-            serie.dataPoints.Clear();
+            serie.context.dataPoints.Clear();
             serie.containerIndex = parallel.index;
             serie.containterInstanceId = parallel.instanceId;
 

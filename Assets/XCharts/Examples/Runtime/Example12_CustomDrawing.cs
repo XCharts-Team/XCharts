@@ -33,7 +33,7 @@ namespace XCharts.Examples
             chart.onCustomDrawAfterSerie = delegate (VertexHelper vh, Serie serie)
             {
                 if (serie.index != 0) return;
-                var dataPoints = serie.dataPoints;
+                var dataPoints = serie.context.dataPoints;
                 if (dataPoints.Count > 0)
                 {
                     var pos = dataPoints[3];

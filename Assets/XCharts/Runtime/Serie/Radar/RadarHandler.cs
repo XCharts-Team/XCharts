@@ -179,7 +179,7 @@ namespace XCharts
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
-                        max = serie.runtimeDataMax;
+                        max = serie.context.dataMax;
                     }
                     var radius = (float)(max < 0 ? radar.context.dataRadius - radar.context.dataRadius * value / max
                     : radar.context.dataRadius * value / max);
@@ -347,7 +347,7 @@ namespace XCharts
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {
-                    max = serie.runtimeDataMax;
+                    max = serie.context.dataMax;
                 }
                 if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
                 {

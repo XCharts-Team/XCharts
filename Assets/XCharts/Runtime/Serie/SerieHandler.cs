@@ -203,7 +203,7 @@ namespace XCharts
             txt.SetLocalEulerAngles(Vector2.zero);
             txt.SetActive(serie.titleStyle.show);
             serie.titleStyle.runtimeText = txt;
-            serie.titleStyle.UpdatePosition(serie.runtimeCenterPos);
+            serie.titleStyle.UpdatePosition(serie.context.center);
             var serieData = serie.GetSerieData(0);
             if (serieData != null)
             {

@@ -160,7 +160,7 @@ namespace XCharts
         private void UpdateRuntimeData(Serie serie)
         {
             var data = serie.data;
-            serie.runtimeDataMax = serie.yMax;
+            serie.context.dataMax = serie.yMax;
             var runtimePieDataTotal = serie.yTotal;
 
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
@@ -180,7 +180,7 @@ namespace XCharts
             {
                 totalDegree = 360;
                 zeroReplaceValue = totalDegree / data.Count;
-                serie.runtimeDataMax = zeroReplaceValue;
+                serie.context.dataMax = zeroReplaceValue;
                 runtimePieDataTotal = 360;
                 dataTotalFilterMinAngle = 360;
             }
@@ -208,8 +208,8 @@ namespace XCharts
                 if (serie.minAngle > 0 && degree < serie.minAngle) degree = serie.minAngle;
                 serieData.runtimePieToAngle = startDegree + degree;
                 serieData.runtimePieOutsideRadius = serie.pieRoseType > 0 ?
-                    serie.runtimeInsideRadius + (float)((serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimeDataMax) :
-                    serie.runtimeOutsideRadius;
+                    serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
+                    serie.context.outsideRadius;
                 if (serieData.highlighted)
                 {
                     serieData.runtimePieOutsideRadius += chart.theme.serie.pieTooltipExtraRadius;
@@ -229,8 +229,8 @@ namespace XCharts
                 }
                 var halfDegree = (serieData.runtimePieToAngle - startDegree) / 2;
                 serieData.runtimePieHalfAngle = startDegree + halfDegree;
-                serieData.runtiemPieOffsetCenter = serie.runtimeCenterPos;
-                serieData.runtimePieInsideRadius = serie.runtimeInsideRadius;
+                serieData.runtiemPieOffsetCenter = serie.context.center;
+                serieData.runtimePieInsideRadius = serie.context.insideRadius;
                 if (offset > 0)
                 {
                     var currRad = serieData.runtimePieHalfAngle * Mathf.Deg2Rad;
@@ -249,8 +249,8 @@ namespace XCharts
                         serieData.runtimePieOutsideRadius += chart.theme.serie.pieSelectedOffset;
                     }
                     serieData.runtiemPieOffsetCenter = new Vector3(
-                        serie.runtimeCenterPos.x + serieData.runtimePieOffsetRadius * currSin,
-                        serie.runtimeCenterPos.y + serieData.runtimePieOffsetRadius * currCos);
+                        serie.context.center.x + serieData.runtimePieOffsetRadius * currSin,
+                        serie.context.center.y + serieData.runtimePieOffsetRadius * currCos);
                 }
                 serieData.canShowLabel = serieData.runtimePieCurrAngle >= serieData.runtimePieHalfAngle;
                 startDegree = serieData.runtimePieToAngle;
@@ -288,7 +288,7 @@ namespace XCharts
             if (!ChartHelper.IsClearColor(itemStyle.centerColor))
             {
                 var radius = insideRadius - itemStyle.centerGap;
-                UGL.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, chart.settings.cicleSmoothness);
+                UGL.DrawCricle(vh, serie.context.center, radius, itemStyle.centerColor, chart.settings.cicleSmoothness);
             }
         }
 
@@ -331,7 +331,7 @@ namespace XCharts
                 {
                     var drawEndDegree = serieData.runtimePieCurrAngle;
                     var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
-                    UGL.DrawDoughnut(vh, serie.runtimeCenterPos, serieData.runtimePieInsideRadius,
+                    UGL.DrawDoughnut(vh, serie.context.center, serieData.runtimePieInsideRadius,
                         serieData.runtimePieOutsideRadius, color, toColor, Color.clear, serieData.runtimePieStartAngle,
                         drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2, chart.settings.cicleSmoothness,
                         needRoundCap, true);
@@ -400,17 +400,17 @@ namespace XCharts
             {
                 var insideRadius = serieData.runtimePieInsideRadius;
                 var outSideRadius = serieData.runtimePieOutsideRadius;
-                var center = serie.runtimeCenterPos;
+                var center = serie.context.center;
                 var currAngle = serieData.runtimePieHalfAngle;
                 if (!ChartHelper.IsClearColor(labelLine.lineColor)) color = labelLine.lineColor;
                 else if (labelLine.lineType == LabelLine.LineType.HorizontalLine) color *= color;
                 float currSin = Mathf.Sin(currAngle * Mathf.Deg2Rad);
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
                 var radius1 = labelLine.lineType == LabelLine.LineType.HorizontalLine ?
-                    serie.runtimeOutsideRadius : outSideRadius;
-                var radius2 = serie.runtimeOutsideRadius + labelLine.lineLength1;
+                    serie.context.outsideRadius : outSideRadius;
+                var radius2 = serie.context.outsideRadius + labelLine.lineLength1;
                 var radius3 = insideRadius + (outSideRadius - insideRadius) / 2;
-                if (radius1 < serie.runtimeInsideRadius) radius1 = serie.runtimeInsideRadius;
+                if (radius1 < serie.context.insideRadius) radius1 = serie.context.insideRadius;
                 radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
@@ -545,10 +545,10 @@ namespace XCharts
         private int GetPiePosIndex(Serie serie, Vector2 local)
         {
             if (!(serie is Pie)) return -1;
-            var dist = Vector2.Distance(local, serie.runtimeCenterPos);
-            var maxRadius = serie.runtimeOutsideRadius + 3 * chart.theme.serie.pieSelectedOffset;
-            if (dist < serie.runtimeInsideRadius || dist > maxRadius) return -1;
-            Vector2 dir = local - new Vector2(serie.runtimeCenterPos.x, serie.runtimeCenterPos.y);
+            var dist = Vector2.Distance(local, serie.context.center);
+            var maxRadius = serie.context.outsideRadius + 3 * chart.theme.serie.pieSelectedOffset;
+            if (dist < serie.context.insideRadius || dist > maxRadius) return -1;
+            Vector2 dir = local - new Vector2(serie.context.center.x, serie.context.center.y);
             float angle = ChartHelper.GetAngle360(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
             {
@@ -569,8 +569,8 @@ namespace XCharts
         private bool PointerIsInPieSerie(Serie serie, Vector2 local)
         {
             if (!(serie is Pie)) return false;
-            var dist = Vector2.Distance(local, serie.runtimeCenterPos);
-            if (dist >= serie.runtimeInsideRadius && dist <= serie.runtimeOutsideRadius) return true;
+            var dist = Vector2.Distance(local, serie.context.center);
+            if (dist >= serie.context.insideRadius && dist <= serie.context.outsideRadius) return true;
             return false;
         }
     }

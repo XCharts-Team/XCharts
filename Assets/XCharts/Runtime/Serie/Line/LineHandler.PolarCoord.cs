@@ -44,7 +44,7 @@ namespace XCharts
             var currDetailProgress = 0f;
             var totalDetailProgress = datas.Count;
 
-            serie.animation.InitProgress(serie.dataPoints.Count, currDetailProgress, totalDetailProgress);
+            serie.animation.InitProgress(serie.context.dataPoints.Count, currDetailProgress, totalDetailProgress);
             serie.animation.SetDataFinish(0);
 
             for (int i = 1; i < datas.Count; i++)

@@ -94,9 +94,6 @@ namespace XCharts
         public override void DrawSerie(VertexHelper vh)
         {
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-
-            serie.dataPoints.Clear();
-            serie.dataIgnore.Clear();
             serie.context.colorIndex = colorIndex;
 
             if (serie.IsUseCoord<PolarCoord>())
@@ -163,7 +160,7 @@ namespace XCharts
             if (!serie.show || serie.IsPerformanceMode())
                 return;
 
-            var count = serie.dataPoints.Count;
+            var count = serie.context.dataPoints.Count;
             var clip = SeriesHelper.IsAnyClipSerie(chart.series);
             XAxis xAxis;
             YAxis yAxis;
@@ -193,7 +190,7 @@ namespace XCharts
                         continue;
                 }
 
-                if (ChartHelper.IsIngore(serie.dataPoints[i]))
+                if (ChartHelper.IsIngore(serie.context.dataPoints[i]))
                     continue;
 
                 var highlight = serie.data[i].highlighted || serie.highlighted;
@@ -207,9 +204,9 @@ namespace XCharts
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
 
                 symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i],
+                chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.context.dataPoints[i],
                     symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, clip, cornerRadius, grid,
-                    i > 0 ? serie.dataPoints[i - 1] : grid.context.position);
+                    i > 0 ? serie.context.dataPoints[i - 1] : grid.context.position);
             }
         }
 
@@ -218,29 +215,26 @@ namespace XCharts
             if (!serie.show || !serie.lineArrow.show)
                 return;
 
-            if (serie.dataPoints.Count < 2)
+            if (serie.context.dataPoints.Count < 2)
                 return;
 
             var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serie.index, false);
             var startPos = Vector3.zero;
             var arrowPos = Vector3.zero;
             var lineArrow = serie.lineArrow.arrow;
-
+            var dataPoints = serie.context.drawPoints;
             switch (serie.lineArrow.position)
             {
                 case LineArrow.Position.End:
-
-                    var dataPoints = serie.GetUpSmoothList(serie.dataCount - 1);
                     if (dataPoints.Count < 3)
                     {
-                        dataPoints = serie.dataPoints;
-                        startPos = dataPoints[dataPoints.Count - 2];
-                        arrowPos = dataPoints[dataPoints.Count - 1];
+                        startPos = dataPoints[dataPoints.Count - 2].position;
+                        arrowPos = dataPoints[dataPoints.Count - 1].position;
                     }
                     else
                     {
-                        startPos = dataPoints[dataPoints.Count - 3];
-                        arrowPos = dataPoints[dataPoints.Count - 2];
+                        startPos = dataPoints[dataPoints.Count - 3].position;
+                        arrowPos = dataPoints[dataPoints.Count - 2].position;
                     }
                     UGL.DrawArrow(vh, startPos, arrowPos, lineArrow.width, lineArrow.height,
                         lineArrow.offset, lineArrow.dent, lineArrow.GetColor(lineColor));
@@ -248,11 +242,8 @@ namespace XCharts
                     break;
 
                 case LineArrow.Position.Start:
-
-                    dataPoints = serie.GetUpSmoothList(1);
-                    if (dataPoints.Count < 2) dataPoints = serie.dataPoints;
-                    startPos = dataPoints[1];
-                    arrowPos = dataPoints[0];
+                    startPos = dataPoints[1].position;
+                    arrowPos = dataPoints[0].position;
                     UGL.DrawArrow(vh, startPos, arrowPos, lineArrow.width, lineArrow.height,
                         lineArrow.offset, lineArrow.dent, lineArrow.GetColor(lineColor));
 
@@ -332,15 +323,15 @@ namespace XCharts
                 {
                     serieData.runtimeStackHig = 0;
                     serieData.runtimePosition = Vector3.zero;
-                    if (serie.ignoreLineBreak && serie.dataIgnore.Count > 0)
+                    if (serie.ignoreLineBreak && serie.context.dataIgnore.Count > 0)
                     {
-                        serie.dataIgnore[serie.dataIgnore.Count - 1] = true;
+                        serie.context.dataIgnore[serie.context.dataIgnore.Count - 1] = true;
                     }
                 }
                 else
                 {
                     var np = Vector3.zero;
-                    var xValue = serieData.GetData(0, axis.inverse);
+                    var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis);
 
@@ -349,18 +340,18 @@ namespace XCharts
 
                     serieData.runtimePosition = np;
 
-                    serie.dataPoints.Add(np);
-                    serie.dataIgnore.Add(false);
+                    serie.context.dataPoints.Add(np);
+                    serie.context.dataIgnore.Add(false);
                 }
             }
 
             if (dataChanging)
                 chart.RefreshPainter(serie);
 
-            if (serie.dataPoints.Count <= 0)
+            if (serie.context.dataPoints.Count <= 0)
                 return;
 
-            serie.animation.InitProgress(serie.dataPoints, isY);
+            serie.animation.InitProgress(serie.context.dataPoints, isY);
             serie.animation.SetDataFinish(0);
 
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, isY, axis, relativedAxis);

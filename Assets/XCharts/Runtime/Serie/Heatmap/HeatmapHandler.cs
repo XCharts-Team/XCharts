@@ -84,7 +84,7 @@ namespace XCharts
             borderColor.a = (byte)(borderColor.a * serie.itemStyle.opacity);
             var borderToColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderToColor : ChartConst.clearColor32;
             borderToColor.a = (byte)(borderToColor.a * serie.itemStyle.opacity);
-            serie.dataPoints.Clear();
+            serie.context.dataPoints.Clear();
             serie.animation.InitProgress(1, 0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -101,7 +101,7 @@ namespace XCharts
                     var dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
                     if (serie.IsIgnoreIndex(dataIndex, dimension))
                     {
-                        serie.dataPoints.Add(Vector3.zero);
+                        serie.context.dataPoints.Add(Vector3.zero);
                         continue;
                     }
                     var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
@@ -109,7 +109,7 @@ namespace XCharts
                     if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + (xAxis.boundaryGap ? 0.5f : 0)) * xWidth,
                         zeroY + (j + (yAxis.boundaryGap ? 0.5f : 0)) * yWidth);
-                    serie.dataPoints.Add(pos);
+                    serie.context.dataPoints.Add(pos);
                     serieData.canShowLabel = false;
                     serieData.runtimeRect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
                     if (value == 0) continue;

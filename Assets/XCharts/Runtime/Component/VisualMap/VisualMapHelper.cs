@@ -12,13 +12,15 @@ namespace XCharts
 {
     public static class VisualMapHelper
     {
-        public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, XAxis xAxis, YAxis yAxis)
+        public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)
         {
             if (!IsNeedGradient(visualMap) || !visualMap.autoMinMax)
                 return;
 
             double min = 0;
             double max = 0;
+            var xAxis = isY ? relativedAxis : axis;
+            var yAxis = isY ? axis : relativedAxis;
             if (visualMap.dimension == 0)
             {
                 min = xAxis.IsCategory() ? 0 : xAxis.context.minValue;
@@ -66,8 +68,8 @@ namespace XCharts
             }
         }
 
-        public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, BaseChart chart, Axis axis,
-            Color32 defaultColor)
+        public static Color32 GetLineGradientColor(VisualMap visualMap, Vector3 pos, GridCoord grid, Axis axis,
+            Axis relativedAxis, Color32 defaultColor)
         {
             double value = 0;
             double min = 0;
@@ -77,7 +79,6 @@ namespace XCharts
             {
                 min = axis.context.minValue;
                 max = axis.context.maxValue;
-                var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
                 if (axis.IsCategory() && axis.boundaryGap)
                 {
                     float startX = grid.context.x + axis.context.scaleWidth / 2;
@@ -90,25 +91,13 @@ namespace XCharts
             }
             else
             {
-                Axis yAxis;
-                if (axis is YAxis)
-                {
-                    yAxis = chart.GetChartComponent<XAxis>(axis.index);
-                    min = yAxis.context.minValue;
-                    max = yAxis.context.maxValue;
-                }
-                else
-                {
-                    yAxis = chart.GetChartComponent<YAxis>(axis.index);
-                    min = yAxis.context.minValue;
-                    max = yAxis.context.maxValue;
-                }
+                min = relativedAxis.context.minValue;
+                max = relativedAxis.context.maxValue;
 
-                var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-                if (yAxis.IsCategory() && yAxis.boundaryGap)
+                if (relativedAxis.IsCategory() && relativedAxis.boundaryGap)
                 {
-                    float startY = grid.context.y + yAxis.context.scaleWidth / 2;
-                    value = (int)(min + (pos.y - startY) / (grid.context.height - yAxis.context.scaleWidth) * (max - min));
+                    float startY = grid.context.y + relativedAxis.context.scaleWidth / 2;
+                    value = (int)(min + (pos.y - startY) / (grid.context.height - relativedAxis.context.scaleWidth) * (max - min));
                 }
                 else
                 {
@@ -145,12 +134,11 @@ namespace XCharts
                 return color;
         }
 
-        public static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, BaseChart chart,
+        public static Color32 GetLineStyleGradientColor(LineStyle lineStyle, Vector3 pos, GridCoord grid,
             Axis axis, Color32 defaultColor)
         {
             var min = axis.context.minValue;
             var max = axis.context.maxValue;
-            var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             var value = min + (pos.x - grid.context.x) / grid.context.width * (max - min);
             var rate = (value - min) / (max - min);
             var color = lineStyle.GetGradientColor((float)rate, defaultColor);

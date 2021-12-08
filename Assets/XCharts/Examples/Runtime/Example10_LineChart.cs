@@ -96,22 +96,22 @@ namespace XCharts.Examples
             yield return new WaitForSeconds(1);
 
             chart.GetChartComponent<Title>().subText = "LineTyle - 虚线";
-            serie.lineType = LineType.Dash;
+            serie.lineStyle.type = LineStyle.Type.Dashed;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
             chart.GetChartComponent<Title>().subText = "LineTyle - 点线";
-            serie.lineType = LineType.Dot;
+            serie.lineStyle.type = LineStyle.Type.Dotted;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
             chart.GetChartComponent<Title>().subText = "LineTyle - 点划线";
-            serie.lineType = LineType.DashDot;
+            serie.lineStyle.type = LineStyle.Type.DashDot;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
             chart.GetChartComponent<Title>().subText = "LineTyle - 双点划线";
-            serie.lineType = LineType.DashDotDot;
+            serie.lineStyle.type = LineStyle.Type.DashDotDot;
             chart.RefreshChart();
 
             serie.lineType = LineType.Normal;

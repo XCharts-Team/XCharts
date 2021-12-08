@@ -127,6 +127,7 @@ namespace XCharts
         private int m_DestDataProgress { get; set; }
         [SerializeField] private float m_CurrDetailProgress;
         [SerializeField] private float m_DestDetailProgress;
+        [SerializeField] private float m_TotalDetailProgress;
         private float m_CurrSymbolProgress;
         private Vector3 m_LinePathLastPos;
         private float m_LinePathCurrTotalDist = 0f;
@@ -254,6 +255,7 @@ namespace XCharts
 
             m_IsInit = true;
             m_DestDataProgress = data;
+            m_TotalDetailProgress = dest - curr;
 
             if (m_FadeOut)
             {
@@ -264,6 +266,33 @@ namespace XCharts
             {
                 m_CurrDetailProgress = curr;
                 m_DestDetailProgress = dest;
+            }
+        }
+
+        public void InitProgress(List<Vector3> paths, bool isY)
+        {
+            if (paths.Count < 1) return;
+            var sp = paths[0];
+            var ep = paths[paths.Count - 1];
+            var currDetailProgress = isY ? sp.y : sp.x;
+            var totalDetailProgress = isY ? ep.y : ep.x;
+            if (m_AlongWithLinePath)
+            {
+                currDetailProgress = 0;
+                totalDetailProgress = 0;
+                var lp = sp;
+                for (int i = 1; i < paths.Count; i++)
+                {
+                    var np = paths[i];
+                    totalDetailProgress += Vector3.Distance(np, lp);
+                    lp = np;
+                }
+                SetLinePathStartPos(sp);
+            }
+            else
+            {
+
+                InitProgress(paths.Count, currDetailProgress, totalDetailProgress);
             }
         }
 
@@ -416,6 +445,11 @@ namespace XCharts
                 return dataIndex > 0;
             else
                 return dataIndex <= m_CurrDataProgress;
+        }
+
+        internal void CheckProgress()
+        {
+            CheckProgress(m_TotalDetailProgress);
         }
 
         internal void CheckProgress(double total)

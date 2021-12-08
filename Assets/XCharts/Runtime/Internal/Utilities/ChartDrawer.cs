@@ -18,7 +18,7 @@ namespace XCharts
 
         public static void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize,
            float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
-           Color32 backgroundColor, float smoothness, Vector3 startPos)
+           Color32 emptyColor, Color32 backgroundColor, float smoothness, Vector3 startPos)
         {
             switch (type)
             {
@@ -38,11 +38,11 @@ namespace XCharts
                     if (gap > 0)
                     {
                         UGL.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
+                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, emptyColor, smoothness);
                     }
                     else
                     {
-                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, backgroundColor, smoothness);
+                        UGL.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, color, emptyColor, smoothness);
                     }
                     break;
                 case SymbolType.Rect:
@@ -54,6 +54,17 @@ namespace XCharts
                     else
                     {
                         UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                    }
+                    break;
+                case SymbolType.EmptyRect:
+                    if (gap > 0)
+                    {
+                        UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
+                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
+                    }
+                    else
+                    {
+                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
                     }
                     break;
                 case SymbolType.Triangle:

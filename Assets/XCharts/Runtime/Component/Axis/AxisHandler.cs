@@ -84,7 +84,7 @@ namespace XCharts
                     {
                         var yRate = axis.context.minMaxRange / grid.context.height;
 
-                        var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.yOffset);
+                        var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.offset);
                         if (axis.context.minValue > 0)
                             yValue += axis.context.minValue;
 
@@ -96,7 +96,7 @@ namespace XCharts
                     {
                         var xRate = axis.context.minMaxRange / grid.context.width;
 
-                        var xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.xOffset);
+                        var xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
                         if (axis.context.minValue > 0)
                             xValue += axis.context.minValue;
 
@@ -135,8 +135,7 @@ namespace XCharts
                 chart.m_IsPlayingAnimation = true;
 
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
-                axis.context.xOffset = 0;
-                axis.context.yOffset = 0;
+                axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
 
                 UpdateAxisTickValueList(axis);
@@ -146,7 +145,7 @@ namespace XCharts
                     var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
                     if (grid != null && axis is XAxis && axis.IsValue())
                     {
-                        axis.context.xOffset = axis.context.minValue > 0
+                        axis.context.offset = axis.context.minValue > 0
                             ? 0
                             : (axis.context.maxValue < 0
                                 ? grid.context.width
@@ -156,7 +155,7 @@ namespace XCharts
                     }
                     if (grid != null && axis is YAxis && axis.IsValue())
                     {
-                        axis.context.yOffset = axis.context.minValue > 0
+                        axis.context.offset = axis.context.minValue > 0
                             ? 0
                             : (axis.context.maxValue < 0
                                 ? grid.context.height
@@ -443,7 +442,7 @@ namespace XCharts
                 var axisNameTextStyle = axis.axisName.textStyle;
                 var offset = axisNameTextStyle.offset;
 
-                var relativedDist = (relativedAxis == null ? 0 : relativedAxis.context.yOffset);
+                var relativedDist = (relativedAxis == null ? 0 : relativedAxis.context.offset);
                 var zeroPos = new Vector3(axisStartX, axisStartY + relativedDist);
 
                 if (orient == Orient.Horizonal)
@@ -555,7 +554,7 @@ namespace XCharts
             if (orient == Orient.Horizonal)
             {
                 if (axis.axisLabel.onZero && relativedAxis != null)
-                    axisStartY += relativedAxis.context.yOffset;
+                    axisStartY += relativedAxis.context.offset;
 
                 if (axis.IsTop())
                     axisStartY += relativedLength;
@@ -570,7 +569,7 @@ namespace XCharts
             else
             {
                 if (axis.axisLabel.onZero && relativedAxis != null)
-                    axisStartX += relativedAxis.context.yOffset;
+                    axisStartX += relativedAxis.context.offset;
 
                 if (axis.IsRight())
                     axisStartX += relativedLength;

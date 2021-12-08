@@ -72,7 +72,7 @@ namespace XCharts
                 if (component is YAxis)
                 {
                     var yAxis = component as YAxis;
-                    if (yAxis.IsValue() && yAxis.gridIndex == axis.gridIndex) return yAxis.context.yOffset;
+                    if (yAxis.IsValue() && yAxis.gridIndex == axis.gridIndex) return yAxis.context.offset;
                 }
             }
             return 0;
@@ -86,7 +86,7 @@ namespace XCharts
                 if (component is XAxis)
                 {
                     var xAxis = component as XAxis;
-                    if (xAxis.IsValue() && xAxis.gridIndex == axis.gridIndex) return xAxis.context.xOffset;
+                    if (xAxis.IsValue() && xAxis.gridIndex == axis.gridIndex) return xAxis.context.offset;
                 }
             }
             return 0;

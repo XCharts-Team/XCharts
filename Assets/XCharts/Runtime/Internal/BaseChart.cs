@@ -97,6 +97,8 @@ namespace XCharts
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
         internal Painter m_PainterTop;
+        internal int m_BasePainterVertCount;
+        internal int m_TopPainterVertCount;
 
 
         private ThemeType m_CheckTheme = 0;
@@ -430,6 +432,7 @@ namespace XCharts
 
         public override void OnPointerClick(PointerEventData eventData)
         {
+            m_DebugInfo.clickChartCount++;
             base.OnPointerClick(eventData);
             foreach (var handler in m_SerieHandlers) handler.OnPointerClick(eventData);
             foreach (var handler in m_ComponentHandlers) handler.OnPointerClick(eventData);
@@ -556,6 +559,7 @@ namespace XCharts
             {
                 m_OnCustomDrawBaseCallback(vh);
             }
+            m_BasePainterVertCount = vh.currentVertCount;
         }
 
         protected virtual void OnDrawPainterSerie(VertexHelper vh, Painter painter)
@@ -585,6 +589,7 @@ namespace XCharts
                 {
                     m_OnCustomDrawSerieAfterCallback(vh, serie);
                 }
+                serie.context.vertCount = vh.currentVertCount;
             }
         }
 
@@ -597,6 +602,7 @@ namespace XCharts
             {
                 m_OnCustomDrawTopCallback(vh);
             }
+            m_TopPainterVertCount = vh.currentVertCount;
         }
 
         protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie)

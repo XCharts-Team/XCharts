@@ -50,11 +50,6 @@ namespace XCharts
         /// </summary>
         Smooth,
         /// <summary>
-        /// the smooth-dash line chart，
-        /// 平滑虚线。
-        /// </summary>
-        SmoothDash,
-        /// <summary>
         /// step line.
         /// 阶梯线图：当前点。
         /// </summary>
@@ -68,23 +63,7 @@ namespace XCharts
         /// step line.
         /// 阶梯线图：下一个拐点。
         /// </summary>
-        StepEnd,
-        /// <summary>
-        /// 虚线
-        /// </summary>
-        Dash,
-        /// <summary>
-        /// 点线
-        /// </summary>
-        Dot,
-        /// <summary>
-        /// 点划线
-        /// </summary>
-        DashDot,
-        /// <summary>
-        /// 双点划线
-        /// </summary>
-        DashDotDot
+        StepEnd
     }
 
     public enum BarType
@@ -294,6 +273,7 @@ namespace XCharts
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
+        [NonSerialized] private List<bool> m_DataIgnore = new List<bool>();
         [NonSerialized] private bool m_NameDirty;
 
         /// <summary>
@@ -1017,6 +997,7 @@ namespace XCharts
         /// 数据项位置坐标。
         /// </summary>
         public List<Vector3> dataPoints { get { return m_DataPoints; } }
+        public List<bool> dataIgnore { get { return m_DataIgnore; } }
         /// <summary>
         /// 饼图的中心点位置。
         /// </summary>

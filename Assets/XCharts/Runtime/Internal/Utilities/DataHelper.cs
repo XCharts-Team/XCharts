@@ -12,7 +12,8 @@ namespace XCharts
 {
     internal static class DataHelper
     {
-        public static double DataAverage(ref List<SerieData> showData, SampleType sampleType, int minCount, int maxCount, int rate)
+        public static double DataAverage(ref List<SerieData> showData, SampleType sampleType,
+            int minCount, int maxCount, int rate)
         {
             double totalAverage = 0;
             if (rate > 1 && sampleType == SampleType.Peak)
@@ -32,13 +33,14 @@ namespace XCharts
             ref bool dataChanging, Axis axis)
         {
             var inverse = axis.inverse;
-            double minValue = axis.context.minValue;
-            double MaxValue = axis.context.maxValue;
+            var minValue = axis.context.minValue;
+            var maxValue = axis.context.maxValue;
             if (rate <= 1 || index == minCount)
             {
-                if (showData[index].IsDataChanged()) dataChanging = true;
-                //Debug.LogError("sample:"+index+","+rate+","+(showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue))+","+showData[index].GetData(1));
-                return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
+                if (showData[index].IsDataChanged())
+                    dataChanging = true;
+
+                return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
             }
             switch (sampleType)
             {
@@ -48,49 +50,68 @@ namespace XCharts
                     var count = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        count ++;
-                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
-                        if (showData[i].IsDataChanged()) dataChanging = true;
+                        count++;
+                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        if (showData[i].IsDataChanged())
+                            dataChanging = true;
                     }
-                    //Debug.LogError("sample:"+index+","+rate+","+count+","+total);
-                    if (sampleType == SampleType.Average) return total / rate;
-                    else return total;
+                    if (sampleType == SampleType.Average)
+                        return total / rate;
+                    else
+                        return total;
+
                 case SampleType.Max:
                     double max = double.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
-                        if (value > max) max = value;
-                        if (showData[i].IsDataChanged()) dataChanging = true;
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        if (value > max)
+                            max = value;
+
+                        if (showData[i].IsDataChanged())
+                            dataChanging = true;
                     }
                     return max;
+
                 case SampleType.Min:
                     double min = double.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
-                        if (value < min) min = value;
-                        if (showData[i].IsDataChanged()) dataChanging = true;
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        if (value < min)
+                            min = value;
+
+                        if (showData[i].IsDataChanged())
+                            dataChanging = true;
                     }
                     return min;
+
                 case SampleType.Peak:
                     max = double.MinValue;
                     min = double.MaxValue;
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
                         total += value;
-                        if (value < min) min = value;
-                        if (value > max) max = value;
-                        if (showData[i].IsDataChanged()) dataChanging = true;
+                        if (value < min)
+                            min = value;
+                        if (value > max)
+                            max = value;
+
+                        if (showData[i].IsDataChanged())
+                            dataChanging = true;
                     }
                     var average = total / rate;
-                    if (average >= totalAverage) return max;
-                    else return min;
+                    if (average >= totalAverage)
+                        return max;
+                    else
+                        return min;
             }
-            if (showData[index].IsDataChanged()) dataChanging = true;
-            return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, MaxValue);
+            if (showData[index].IsDataChanged())
+                dataChanging = true;
+
+            return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
         }
     }
 }

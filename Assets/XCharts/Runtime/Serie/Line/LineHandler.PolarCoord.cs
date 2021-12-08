@@ -97,12 +97,13 @@ namespace XCharts
 
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, n, highlight);
+                    var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, n, highlight, false);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, highlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
 
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.runtimePosition,
-                        symbolColor, symbolToColor, symbol.gap, cornerRadius);
+                        symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, cornerRadius);
                 }
             }
         }

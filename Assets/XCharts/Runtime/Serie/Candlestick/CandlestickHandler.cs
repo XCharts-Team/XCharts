@@ -68,7 +68,7 @@ namespace XCharts
                     : itemStyle.runtimeBorderWidth);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = grid.context.x + i * categoryWidth;
-                float zeroY = grid.context.y + yAxis.context.yOffset;
+                float zeroY = grid.context.y + yAxis.context.offset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = zeroY;
                 var barHig = 0f;

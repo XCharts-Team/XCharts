@@ -32,7 +32,7 @@ namespace XCharts
         [SerializeField] private List<double> m_Data = new List<double>();
         [SerializeField] private List<int> m_Children = new List<int>();
 
-
+        public SerieDataContext context = new SerieDataContext();
         public ChartLabel labelObject { get; set; }
 
         private bool m_Show = true;

@@ -7,8 +7,8 @@ namespace XCharts
 {
     public class EditorCustomStyles
     {
-        static readonly Color splitterDark = new Color(0.12f, 0.12f, 0.12f, 0.3f);
-        static readonly Color splitterLight = new Color(0.6f, 0.6f, 0.6f, 0.3f);
+        static readonly Color splitterDark = new Color(0.12f, 0.12f, 0.12f, 0.5f);
+        static readonly Color splitterLight = new Color(0.6f, 0.6f, 0.6f, 0.5f);
         static readonly Texture2D paneOptionsIconDark = (Texture2D)EditorGUIUtility.Load("Builtin Skins/DarkSkin/Images/pane options.png");
         static readonly Texture2D paneOptionsIconLight = (Texture2D)EditorGUIUtility.Load("Builtin Skins/LightSkin/Images/pane options.png");
         static readonly Color headerBackgroundDark = new Color(0.1f, 0.1f, 0.1f, 0.2f);

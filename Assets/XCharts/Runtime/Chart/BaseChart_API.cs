@@ -400,10 +400,8 @@ namespace XCharts
                 var tempX = xAxis.Clone();
                 xAxis.Copy(yAxis);
                 yAxis.Copy(tempX);
-                xAxis.context.xOffset = 0;
-                xAxis.context.yOffset = 0;
-                yAxis.context.xOffset = 0;
-                yAxis.context.yOffset = 0;
+                xAxis.context.offset = 0;
+                yAxis.context.offset = 0;
                 xAxis.context.minValue = 0;
                 xAxis.context.maxValue = 0;
                 yAxis.context.minValue = 0;

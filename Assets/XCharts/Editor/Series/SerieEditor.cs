@@ -205,7 +205,7 @@ namespace XCharts
             var componentNum = m_IconStyle.arraySize + m_Label.arraySize + m_ItemStyle.arraySize + m_Emphasis.arraySize
                 + m_Symbol.arraySize;
             var title = "Component";
-            if (componentNum == 0) title += " (No Component)";
+            if (componentNum == 0) title += " (None)";
             m_DataComponentFoldout = ChartEditorHelper.DrawHeader(title, m_DataComponentFoldout, false, null, null,
             new HeaderMenuInfo("Add ItemStyle", () =>
             {

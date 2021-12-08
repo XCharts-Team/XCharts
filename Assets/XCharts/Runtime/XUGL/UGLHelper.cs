@@ -288,29 +288,43 @@ namespace XUGL
         internal static void GetLinePoints(Vector3 lp, Vector3 cp, Vector3 np, float width,
             ref Vector3 ltp, ref Vector3 lbp,
             ref Vector3 ntp, ref Vector3 nbp,
-            ref Vector3 itp, ref Vector3 ibp)
+            ref Vector3 itp, ref Vector3 ibp,
+            ref Vector3 clp, ref Vector3 crp,
+            ref bool bitp, ref bool bibp
+            )
         {
             var dir1 = (cp - lp).normalized;
             var dir2 = (cp - np).normalized;
             var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized;
             var dir2v = Vector3.Cross(dir2, Vector3.back).normalized;
 
-            ltp = lp + dir1v * width;
-            lbp = lp - dir1v * width;
+            ltp = lp - dir1v * width;
+            lbp = lp + dir1v * width;
 
-            ntp = np + dir2v * width;
-            nbp = np - dir2v * width;
+            ntp = np - dir2v * width;
+            nbp = np + dir2v * width;
 
-            var ldist = 1.3f * Vector3.Distance(cp, lp) * dir1;
-            var rdist = 1.3f * Vector3.Distance(cp, np) * dir2;
+            clp = cp - dir2v * width;
+            crp = cp + dir2v * width;
 
+            var ldist = (Vector3.Distance(cp, lp) + 1) * dir1;
+            var rdist = (Vector3.Distance(cp, np) + 1) * dir2;
+
+            bitp = true;
             if (!UGLHelper.GetIntersection(ltp, ltp + ldist, ntp, ntp + rdist, ref itp))
             {
-                itp = cp + dir1v * width;
+                itp = cp - dir1v * width;
+                clp = cp - dir1v * width;
+                crp = cp - dir2v * width;
+                bitp = false;
             }
+            bibp = true;
             if (!UGLHelper.GetIntersection(lbp, lbp + ldist, nbp, nbp + rdist, ref ibp))
             {
-                ibp = cp - dir1v * width;
+                ibp = cp + dir1v * width;
+                clp = cp + dir1v * width;
+                crp = cp + dir2v * width;
+                bibp = false;
             }
         }
     }

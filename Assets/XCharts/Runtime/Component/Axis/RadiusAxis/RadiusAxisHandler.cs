@@ -42,8 +42,7 @@ namespace XCharts
             {
                 chart.m_IsPlayingAnimation = true;
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
-                axis.context.xOffset = 0;
-                axis.context.yOffset = 0;
+                axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
 
                 if (updateChart)

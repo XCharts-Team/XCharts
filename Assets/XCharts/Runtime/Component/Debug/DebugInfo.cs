@@ -19,8 +19,8 @@ namespace XCharts
         [SerializeField]
         private TextStyle m_TextStyle = new TextStyle()
         {
-            fontSize = 16,
-            backgroundColor = new Color32(32, 32, 32, 151),
+            fontSize = 18,
+            backgroundColor = new Color32(32, 32, 32, 170),
             color = Color.white
         };
 
@@ -30,6 +30,7 @@ namespace XCharts
         private static readonly float MAXCACHE = 20;
         private int m_FrameCount = 0;
         private float m_LastTime = 0f;
+        private float m_LastCheckShowTime = 0f;
         private int m_LastRefreshCount = 0;
         private BaseChart m_Chart;
         private ChartLabel m_Label;
@@ -39,6 +40,7 @@ namespace XCharts
         public float fps { get; private set; }
         public float avgFps { get; private set; }
         public int refreshCount { get; internal set; }
+        internal int clickChartCount { get; set; }
 
         public void Init(BaseChart chart)
         {
@@ -48,7 +50,22 @@ namespace XCharts
 
         public void Update()
         {
-            if (!m_Show || m_Label == null) return;
+            if (clickChartCount >= 2)
+            {
+                m_Show = !m_Show;
+                ChartHelper.SetActive(m_Label.transform, m_Show);
+                clickChartCount = 0;
+                m_LastCheckShowTime = Time.realtimeSinceStartup;
+                return;
+            }
+            if (Time.realtimeSinceStartup - m_LastCheckShowTime > 0.5f)
+            {
+                m_LastCheckShowTime = Time.realtimeSinceStartup;
+                clickChartCount = 0;
+            }
+            if (!m_Show || m_Label == null)
+                return;
+
             m_FrameCount++;
             if (Time.realtimeSinceStartup - m_LastTime >= INTERVAL)
             {
@@ -70,15 +87,37 @@ namespace XCharts
                 if (m_Label != null)
                 {
                     s_Sb.Length = 0;
+                    s_Sb.AppendFormat("v{0}\n", XChartsMgr.version);
                     s_Sb.AppendFormat("fps : {0:f0} / {1:f0}\n", fps, avgFps);
-                    s_Sb.AppendFormat("data : {0}\n", m_Chart.GetAllSerieDataCount());
-                    s_Sb.AppendFormat("draw : {0}", refreshCount);
+                    s_Sb.AppendFormat("draw : {0}\n", refreshCount);
+
+                    var dataCount = m_Chart.GetAllSerieDataCount();
+                    SetValueWithKInfo(s_Sb, "data", dataCount);
+
+                    var vertCount = 0;
+                    foreach (var serie in m_Chart.series)
+                        vertCount += serie.context.vertCount;
+
+                    SetValueWithKInfo(s_Sb, "b-vert", m_Chart.m_BasePainterVertCount);
+                    SetValueWithKInfo(s_Sb, "s-vert", vertCount);
+                    SetValueWithKInfo(s_Sb, "t-vert", m_Chart.m_TopPainterVertCount, false);
+
                     m_Label.SetText(s_Sb.ToString());
                 }
             }
         }
 
-        private float GetAvg(List<float> list)
+        private static void SetValueWithKInfo(StringBuilder s_Sb, string key, int value, bool newLine = true)
+        {
+            if (value >= 1000)
+                s_Sb.AppendFormat("{0} : {1:f1}k", key, value * 0.001f);
+            else
+                s_Sb.AppendFormat("{0} : {1}", key, value);
+            if (newLine)
+                s_Sb.Append("\n");
+        }
+
+        private static float GetAvg(List<float> list)
         {
             var total = 0f;
             foreach (var v in list) total += v;
@@ -94,14 +133,11 @@ namespace XCharts
             var sizeDelta = new Vector2(100, 100);
 
             var labelGameObject = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var active = m_Chart.debugModel && m_Show;
-            ChartHelper.SetActive(labelGameObject, active);
-            if (!active)
-            {
-                return null;
-            }
-            var label = ChartHelper.GetOrAddComponent<ChartLabel>(labelGameObject);
+            labelGameObject.transform.SetAsLastSibling();
             labelGameObject.hideFlags = m_Chart.chartHideFlags;
+            ChartHelper.SetActive(labelGameObject, m_Show);
+
+            var label = ChartHelper.GetOrAddComponent<ChartLabel>(labelGameObject);
             label.labelBackground = label;
             label.labelBackground.color = textStyle.backgroundColor;
             label.labelBackground.raycastTarget = false;

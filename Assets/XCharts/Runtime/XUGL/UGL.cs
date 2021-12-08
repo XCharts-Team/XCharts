@@ -140,31 +140,70 @@ namespace XUGL
             }
             else
             {
-                var lineLT = Vector3.zero;
-                var lineLB = Vector3.zero;
                 var ltp = Vector3.zero;
                 var lbp = Vector3.zero;
                 var ntp = Vector3.zero;
                 var nbp = Vector3.zero;
                 var itp = Vector3.zero;
                 var ibp = Vector3.zero;
+                var ctp = Vector3.zero;
+                var cbp = Vector3.zero;
                 for (int i = 1; i < points.Count - 1; i++)
                 {
+                    bool bitp = true, bibp = true;
                     UGLHelper.GetLinePoints(points[i - 1], points[i], points[i + 1], width,
-                        ref ltp, ref lbp, ref ntp, ref nbp, ref itp, ref ibp);
-
+                        ref ltp, ref lbp,
+                        ref ntp, ref nbp,
+                        ref itp, ref ibp,
+                        ref ctp, ref cbp,
+                        ref bitp, ref bibp);
                     if (i == 1)
                     {
-                        lineLT = ltp;
-                        lineLB = lbp;
+                        vh.AddVert(ltp, color, Vector2.zero);
+                        vh.AddVert(lbp, color, Vector2.zero);
                     }
-
-                    DrawQuadrilateral(vh, lineLB, ibp, itp, lineLT, color);
-
-                    lineLT = itp;
-                    lineLB = ibp;
+                    if (bitp == bibp)
+                    {
+                        AddVertToVertexHelper(vh, itp, ibp, color);
+                    }
+                    else
+                    {
+                        if (bitp)
+                        {
+                            AddVertToVertexHelper(vh, itp, ctp, color);
+                            AddVertToVertexHelper(vh, itp, cbp, color);
+                        }
+                        else
+                        {
+                            AddVertToVertexHelper(vh, ctp, ibp, color);
+                            AddVertToVertexHelper(vh, cbp, ibp, color);
+                        }
+                    }
                 }
-                DrawQuadrilateral(vh, lineLB, nbp, ntp, lineLT, color);
+                AddVertToVertexHelper(vh, ntp, nbp, color);
+            }
+        }
+
+        public static void AddVertToVertexHelper(VertexHelper vh, Vector3 top,
+             Vector3 bottom, Color32 color, bool needTriangle = true)
+        {
+            AddVertToVertexHelper(vh, top, bottom, color, color, needTriangle);
+        }
+
+        public static void AddVertToVertexHelper(VertexHelper vh, Vector3 top,
+             Vector3 bottom, Color32 topColor, Color32 bottomColor, bool needTriangle = true)
+        {
+            var lastVertCount = vh.currentVertCount;
+            vh.AddVert(top, topColor, Vector2.zero);
+            vh.AddVert(bottom, bottomColor, Vector2.zero);
+            if (needTriangle)
+            {
+                var indexRt = lastVertCount;
+                var indexRb = indexRt + 1;
+                var indexLt = indexRt - 2;
+                var indexLb = indexLt + 1;
+                vh.AddTriangle(indexLt, indexRb, indexLb);
+                vh.AddTriangle(indexLt, indexRt, indexRb);
             }
         }
 
@@ -546,13 +585,22 @@ namespace XUGL
         public static void DrawQuadrilateral(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 startColor, Color32 toColor)
         {
+            DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, startColor, toColor, toColor);
+        }
+
+        public static void DrawQuadrilateral(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color32 color1, Color32 color2, Color32 color3, Color32 color4)
+        {
             s_Vertex[0].position = p1;
             s_Vertex[1].position = p2;
             s_Vertex[2].position = p3;
             s_Vertex[3].position = p4;
+            s_Vertex[0].color = color1;
+            s_Vertex[1].color = color2;
+            s_Vertex[2].color = color3;
+            s_Vertex[3].color = color4;
             for (int j = 0; j < 4; j++)
             {
-                s_Vertex[j].color = j >= 2 ? toColor : startColor;
                 s_Vertex[j].uv0 = s_ZeroVector2;
             }
             vh.AddUIVertexQuad(s_Vertex);
@@ -1673,20 +1721,19 @@ namespace XUGL
                 var ep = points[i + 1];
                 var lsp = i > 0 ? points[i - 1] : sp;
                 var nep = i < points.Count - 2 ? points[i + 2] : ep;
+                var smoothness2 = smoothness;
                 if (currProgress != float.PositiveInfinity)
                 {
-                    var smoothness2 = 0f;
                     if (isYAxis)
                         smoothness2 = ep.y <= currProgress ? smoothness : smoothness * 0.5f;
                     else
                         smoothness2 = ep.x <= currProgress ? smoothness : smoothness * 0.5f;
-
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2);
                 }
+                if (isYAxis)
+                    UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness2);
                 else
-                {
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness);
-                }
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2);
+
                 DrawCurvesInternal(vh, s_CurvesPosList, width, color, currProgress, isYAxis);
             }
         }
@@ -1702,6 +1749,11 @@ namespace XUGL
                 var diff = Vector3.Cross(dir, Vector3.forward).normalized * lineWidth;
                 var startUp = start - diff;
                 var startDn = start + diff;
+                var toUp = Vector3.zero;
+                var toDn = Vector3.zero;
+
+                var lastVertCount = vh.currentVertCount;
+                AddVertToVertexHelper(vh, startUp, startDn, lineColor, false);
                 for (int i = 1; i < curvesPosList.Count; i++)
                 {
                     to = curvesPosList[i];
@@ -1714,13 +1766,16 @@ namespace XUGL
                     }
 
                     diff = Vector3.Cross(to - start, Vector3.forward).normalized * lineWidth;
-                    var toUp = to - diff;
-                    var toDn = to + diff;
-                    DrawQuadrilateral(vh, startUp, toUp, toDn, startDn, lineColor);
+                    toUp = to - diff;
+                    toDn = to + diff;
+
+                    AddVertToVertexHelper(vh, toUp, toDn, lineColor);
+
                     startUp = toUp;
                     startDn = toDn;
                     start = to;
                 }
+                AddVertToVertexHelper(vh, toUp, toDn, lineColor);
             }
         }
     }

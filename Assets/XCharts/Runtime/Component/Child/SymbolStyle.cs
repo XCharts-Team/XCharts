@@ -18,37 +18,53 @@ namespace XCharts
     public enum SymbolType
     {
         /// <summary>
-        /// 空心圆。
+        /// 不显示标记。
         /// </summary>
-        EmptyCircle,
+        None,
+        /// <summary>
+        /// 自定义标记。
+        /// </summary>
+        Custom,
         /// <summary>
         /// 圆形。
         /// </summary>
         Circle,
         /// <summary>
+        /// 空心圆。
+        /// </summary>
+        EmptyCircle,
+        /// <summary>
         /// 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。
         /// </summary>
         Rect,
+        /// <summary>
+        /// 空心正方形。
+        /// </summary>
+        EmptyRect,
         /// <summary>
         /// 三角形。
         /// </summary>
         Triangle,
         /// <summary>
+        /// 空心三角形。
+        /// </summary>
+        EmptyTriangle,
+        /// <summary>
         /// 菱形。
         /// </summary>
         Diamond,
         /// <summary>
-        /// 不显示标记。
+        /// 空心菱形。
         /// </summary>
-        None,
+        EmptyDiamond,
         /// <summary>
         /// 箭头。
         /// </summary>
         Arrow,
         /// <summary>
-        /// 自定义标记。
+        /// 空心箭头。
         /// </summary>
-        Custom
+        EmptyArrow
     }
 
     /// <summary>

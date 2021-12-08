@@ -150,7 +150,7 @@ namespace XCharts
 
                 float pY = grid.context.y + i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
-                float pX = grid.context.x + xAxis.context.xOffset + axisLineWidth;
+                float pX = grid.context.x + xAxis.context.offset + axisLineWidth;
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -299,7 +299,7 @@ namespace XCharts
                 {
                     if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 }
-                float zeroY = grid.context.y + yAxis.context.yOffset;
+                float zeroY = grid.context.y + yAxis.context.offset;
                 float axisLineWidth = value == 0 ? 0 :
                      ((value < 0 ? -1 : 1) * xAxis.axisLine.GetWidth(chart.theme.axis.lineWidth));
                 float pY = zeroY + axisLineWidth;

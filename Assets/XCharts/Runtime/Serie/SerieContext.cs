@@ -6,9 +6,21 @@
 /************************************************/
 
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts
 {
+    public struct PointInfo
+    {
+        public Vector3 position;
+        public bool isIgnoreBreak;
+
+        public PointInfo(Vector3 pos, bool ignore)
+        {
+            this.position = pos;
+            this.isIgnoreBreak = ignore;
+        }
+    }
     [System.Serializable]
     public class SerieContext
     {
@@ -25,5 +37,9 @@ namespace XCharts
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();
 
+        public int vertCount;
+
+        internal int colorIndex;
+        internal List<PointInfo> drawPoints = new List<PointInfo>();
     }
 }

@@ -34,15 +34,10 @@ namespace XCharts
         /// </summary>
         public double maxValue { get; internal set; }
         /// <summary>
-        /// the x offset of zero position.
-        /// 坐标轴原点在X轴的偏移。
+        /// the offset of zero position.
+        /// 坐标轴原点在坐标轴的偏移。
         /// </summary>
-        public float xOffset { get; internal set; }
-        /// <summary>
-        /// the y offset of zero position.
-        /// 坐标轴原点在Y轴的偏移。
-        /// </summary>
-        public float yOffset { get; internal set; }
+        public float offset { get; internal set; }
         public double minMaxRange { get; internal set; }
         public float scaleWidth { get; internal set; }
         public float startAngle { get; set; }

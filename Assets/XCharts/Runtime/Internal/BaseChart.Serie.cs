@@ -8,6 +8,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace XCharts
 {
@@ -26,6 +27,16 @@ namespace XCharts
         {
             if (!CanAddSerie<T>()) return null;
             return InsertSerie(index, typeof(T), serieName, show) as T;
+        }
+
+        public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)
+        {
+            serie.AnimationRestart();
+            if (addToHead) m_Series.Insert(0, serie);
+            else if (index >= 0) m_Series.Insert(index, serie);
+            else m_Series.Add(serie);
+            ResetSeriesIndex();
+            SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
         }
 
         public bool MoveUpSerie(int serieIndex)
@@ -143,6 +154,46 @@ namespace XCharts
             serie.OnRemove();
             m_Series.Remove(serie);
             RefreshChart();
+        }
+
+        public bool CovertSerie<T>(Serie serie) where T : Serie
+        {
+            return CovertSerie(serie, typeof(T));
+        }
+
+        public bool CovertSerie(Serie serie, Type type)
+        {
+            try
+            {
+                var newSerie = type.InvokeMember("CovertSerie",
+                    BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null,
+                    new object[] { serie }) as Serie;
+                return ReplaceSerie(serie, newSerie);
+            }
+            catch
+            {
+                Debug.LogError(string.Format("CovertSerie Failed: can't found {0}.CovertSerie(Serie serie)", type.Name));
+                return false;
+            }
+        }
+
+        public bool ReplaceSerie(Serie oldSerie, Serie newSerie)
+        {
+            if (oldSerie == null || newSerie == null)
+                return false;
+
+            var index = m_Series.IndexOf(oldSerie);
+            if (index < 0)
+                return false;
+
+            oldSerie.OnRemove();
+            m_Series.RemoveAt(index);
+            m_Series.Insert(index, newSerie);
+            ResetSeriesIndex();
+            InitSerieHandlers();
+            RefreshAllComponent();
+            RefreshChart();
+            return true;
         }
 
 
@@ -786,14 +837,11 @@ namespace XCharts
             {
                 serie.symbol.show = false;
             }
-            serie.AnimationRestart();
-            if (addToHead) m_Series.Insert(0, serie);
-            else if (index >= 0) m_Series.Insert(index, serie);
-            else m_Series.Add(serie);
-            ResetSeriesIndex();
-            SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
+            InsertSerie(serie, index, addToHead);
             return serie;
         }
+
+
 
         private void ResetSeriesIndex()
         {

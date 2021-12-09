@@ -9,6 +9,9 @@ using System;
 namespace XCharts
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    /// <summary>
+    /// What serie can convert to me
+    /// </summary>
     public sealed class SerieConvertAttribute : Attribute
     {
         public readonly Type type0;
@@ -39,9 +42,13 @@ namespace XCharts
             type3 = serie4;
         }
 
-        public bool Contains<T>() where T : CoordSystem
+        public bool Contains<T>() where T : Serie
         {
-            var type = typeof(T);
+            return Contains(typeof(T));
+        }
+
+        public bool Contains(Type type)
+        {
             return (type == type0 || type == type1 || type == type2 || type == type3);
         }
     }

@@ -177,6 +177,9 @@ namespace XCharts
             for (int i = 0; i < count; i++)
             {
                 var serieData = serie.GetSerieData(i);
+                if (serieData == null)
+                    continue;
+
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
 
                 if (!symbol.show || !symbol.ShowSymbol(i, count))

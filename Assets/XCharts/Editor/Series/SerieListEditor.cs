@@ -84,46 +84,20 @@ namespace XCharts
             {
                 var editor = m_Editors[i];
                 string title = editor.GetDisplayTitle();
-                int id = i;
-                var menus = new List<HeaderMenuInfo>();
-                menus.Add(new HeaderMenuInfo("Remove", () => { RemoveSerieEditor(id); }));
-                if (i < m_Editors.Count - 1)
-                    menus.Add(new HeaderMenuInfo("Move Down", () =>
-                    {
-                        if (chart.MoveDownSerie(id))
-                        {
-                            m_SeriesProperty = m_BaseEditor.RefreshSeries();
-                            RefreshEditors();
-                        }
-                    }));
-                if (i > 0)
-                    menus.Add(new HeaderMenuInfo("Move Up", () =>
-                    {
-                        if (chart.MoveUpSerie(id))
-                        {
-                            m_SeriesProperty = m_BaseEditor.RefreshSeries();
-                            RefreshEditors();
-                        }
-                    }));
                 bool displayContent = ChartEditorHelper.DrawHeader(
                     title,
                     editor.baseProperty,
                     editor.showProperty,
-                    menus.ToArray());
+                    editor.menus.ToArray());
                 if (displayContent)
                 {
                     editor.OnInternalInspectorGUI();
                 }
             }
-            if (m_Editors.Count > 0)
-            {
-                //EditorGUILayout.Space();
-            }
-            else
+            if (m_Editors.Count <= 0)
             {
                 EditorGUILayout.HelpBox("No serie.", MessageType.Info);
             }
-            //EditorGUILayout.Space();
         }
 
         void RefreshEditors()
@@ -142,7 +116,7 @@ namespace XCharts
 
         void CreateEditor(Serie serie, SerializedProperty property, int index = -1)
         {
-
+            var id = index >= 0 ? index : m_Editors.Count;
             var settingsType = serie.GetType();
             Type editorType;
 
@@ -150,6 +124,39 @@ namespace XCharts
                 editorType = typeof(SerieBaseEditor);
             var editor = (SerieBaseEditor)Activator.CreateInstance(editorType);
             editor.Init(chart, serie, property, m_BaseEditor);
+            editor.menus.Clear();
+            editor.menus.Add(new HeaderMenuInfo("Clone", () =>
+            {
+                CloneSerie(editor.serie);
+            }));
+            editor.menus.Add(new HeaderMenuInfo("Remove", () =>
+            {
+                if (EditorUtility.DisplayDialog("", "Sure remove serie?", "Yes", "Cancel"))
+                    RemoveSerieEditor(id);
+            }));
+            editor.menus.Add(new HeaderMenuInfo("Move Down", () =>
+            {
+                if (chart.MoveDownSerie(id))
+                {
+                    m_SeriesProperty = m_BaseEditor.RefreshSeries();
+                    RefreshEditors();
+                }
+            }));
+            editor.menus.Add(new HeaderMenuInfo("Move Up", () =>
+            {
+                if (chart.MoveUpSerie(id))
+                {
+                    m_SeriesProperty = m_BaseEditor.RefreshSeries();
+                    RefreshEditors();
+                }
+            }));
+            foreach (var type in GetCovertToSerie(editor.serie.GetType()))
+            {
+                editor.menus.Add(new HeaderMenuInfo("Covert to " + type.Name, () =>
+                {
+                    CovertSerie(editor.serie, type);
+                }));
+            }
 
             if (index < 0)
                 m_Editors.Add(editor);
@@ -173,6 +180,21 @@ namespace XCharts
             AssetDatabase.Refresh();
         }
 
+        public void CovertSerie(Serie serie, Type type)
+        {
+            chart.CovertSerie(serie, type);
+            m_SeriesProperty = m_BaseEditor.RefreshSeries();
+            RefreshEditors();
+        }
+
+        public void CloneSerie(Serie serie){
+            var newSerie = serie.Clone();
+            newSerie.serieName = chart.GenerateDefaultSerieName();
+            chart.InsertSerie(newSerie);
+            m_SeriesProperty = m_BaseEditor.RefreshSeries();
+            RefreshEditors();
+        }
+
         private void RemoveSerieEditor(int id)
         {
             m_Editors[id].OnDisable();
@@ -185,6 +207,24 @@ namespace XCharts
             EditorUtility.SetDirty(chart);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        private List<Type> GetCovertToSerie(Type serie)
+        {
+            var list = new List<Type>();
+            var typeMap = RuntimeUtil.GetAllTypesDerivedFrom<Serie>();
+            foreach (var kvp in typeMap)
+            {
+                var type = kvp;
+                if (type.IsDefined(typeof(SerieConvertAttribute), false))
+                {
+                    var attribute = type.GetAttribute<SerieConvertAttribute>();
+                    if (attribute != null && attribute.Contains(serie))
+                        list.Add(type);
+                }
+            }
+            list.Sort((a, b) => { return a.Name.CompareTo(b.Name); });
+            return list;
         }
     }
 }

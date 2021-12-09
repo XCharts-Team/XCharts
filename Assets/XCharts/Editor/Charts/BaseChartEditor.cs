@@ -252,10 +252,8 @@ namespace XCharts
             foreach (var kvp in typeMap)
             {
                 var type = kvp;
-                if (RuntimeUtil.HasSubclass(type))
-                    continue;
-
-                list.Add(type);
+                if (type.IsDefined(typeof(SerieHandlerAttribute), false))
+                    list.Add(type);
             }
             list.Sort((a, b) => { return a.Name.CompareTo(b.Name); });
             return list;

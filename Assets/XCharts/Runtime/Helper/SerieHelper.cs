@@ -5,7 +5,9 @@
 /*                                              */
 /************************************************/
 
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 
@@ -719,6 +721,25 @@ namespace XCharts
                     break;
                 case SerieDataSortType.None:
                     break;
+            }
+        }
+
+        public static T CloneSerie<T>(Serie serie) where T : Serie
+        {
+            var newSerie = Activator.CreateInstance<T>();
+            SerieHelper.CopySerie(serie, newSerie);
+            return newSerie;
+        }
+
+        public static void CopySerie(Serie oldSerie, Serie newSerie)
+        {
+            var fields = typeof(Serie).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var field in fields)
+            {
+                if (field.IsDefined(typeof(SerializeField)))
+                {
+                    field.SetValue(newSerie, field.GetValue(oldSerie));
+                }
             }
         }
     }

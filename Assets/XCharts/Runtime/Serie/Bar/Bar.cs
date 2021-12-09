@@ -5,10 +5,15 @@
 /*                                              */
 /************************************************/
 
+using System;
+using System.Reflection;
+using UnityEngine;
+
 namespace XCharts
 {
     [System.Serializable]
     [SerieHandler(typeof(BarHandler), true)]
+    [SerieConvert(typeof(Line),typeof(Pie))]
     [RequireChartComponent(typeof(GridCoord))]
     public class Bar : Serie, INeedSerieContainer
     {
@@ -22,6 +27,12 @@ namespace XCharts
             {
                 chart.AddData(serie.index, UnityEngine.Random.Range(10, 90));
             }
+        }
+
+        public static Bar CovertSerie(Serie serie)
+        {
+            var newSerie = SerieHelper.CloneSerie<Bar>(serie);
+            return newSerie;
         }
     }
 }

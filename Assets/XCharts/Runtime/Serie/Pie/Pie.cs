@@ -8,9 +8,12 @@
 namespace XCharts
 {
     [System.Serializable]
+    [SerieConvert(typeof(Line), typeof(Bar))]
     [SerieHandler(typeof(PieHandler), true)]
     public class Pie : Serie
     {
+        public override bool useDataNameForColor { get { return true; } }
+
         public static void AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Pie>(serieName);
@@ -19,6 +22,10 @@ namespace XCharts
             chart.AddData(serie.index, 10, "pie3");
         }
 
-        public override bool useDataNameForColor { get { return true; } }
+        public static Pie CovertSerie(Serie serie)
+        {
+            var newSerie = SerieHelper.CloneSerie<Pie>(serie);
+            return newSerie;
+        }
     }
 }

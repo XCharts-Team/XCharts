@@ -62,7 +62,6 @@ namespace XCharts
             if (m_DataDimension.intValue < 1) m_DataDimension.intValue = 1;
             int dimension = m_DataDimension.intValue;
             bool showName = m_ShowDataName.boolValue;
-            bool showSelected = serie is Pie;
             if (listSize != m_Datas.arraySize)
             {
                 while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
@@ -73,25 +72,25 @@ namespace XCharts
                 int num = listSize > 10 ? 10 : listSize;
                 for (int i = 0; i < num; i++)
                 {
-                    DrawSerieData(dimension, m_Datas, i, showName, showSelected);
+                    DrawSerieData(dimension, m_Datas, i, showName);
                 }
                 if (num >= 10)
                 {
                     ChartEditorHelper.DrawHeader("... ", false, false, null, null);
-                    DrawSerieData(dimension, m_Datas, listSize - 1, showName, showSelected);
+                    DrawSerieData(dimension, m_Datas, listSize - 1, showName);
                 }
             }
             else
             {
                 for (int i = 0; i < m_Datas.arraySize; i++)
                 {
-                    DrawSerieData(dimension, m_Datas, i, showName, showSelected);
+                    DrawSerieData(dimension, m_Datas, i, showName);
                 }
             }
             EditorGUI.indentLevel--;
         }
 
-        private void DrawSerieData(int dimension, SerializedProperty m_Datas, int index, bool showName, bool showSelected)
+        private void DrawSerieData(int dimension, SerializedProperty m_Datas, int index, bool showName)
         {
             bool flag;
             if (!m_DataElementFoldout.TryGetValue(index, out flag))
@@ -112,8 +111,6 @@ namespace XCharts
                 var lastLabelWid = EditorGUIUtility.labelWidth;
                 var serieData = m_Datas.GetArrayElementAtIndex(index);
                 var sereName = serieData.FindPropertyRelative("m_Name");
-                var selected = serieData.FindPropertyRelative("m_Selected");
-
                 var data = serieData.FindPropertyRelative("m_Data");
 #if UNITY_2019_3_OR_NEWER
                 var gap = 2;
@@ -132,21 +129,9 @@ namespace XCharts
                     }
                     SerializedProperty element = data.GetArrayElementAtIndex(1);
                     var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
-                    if (showSelected)
-                    {
-                        drawRect.width = drawRect.width - 18;
-                        EditorGUI.PropertyField(drawRect, element, GUIContent.none);
-                        drawRect.x = currentWidth - 40;
-                        EditorGUI.PropertyField(drawRect, selected, GUIContent.none);
-                        drawRect.x = lastX;
-                        drawRect.width = lastWid;
-                    }
-                    else
-                    {
-                        drawRect.x = startX;
-                        drawRect.xMax = maxX;
-                        EditorGUI.PropertyField(drawRect, element, GUIContent.none);
-                    }
+                    drawRect.x = startX;
+                    drawRect.xMax = maxX;
+                    EditorGUI.PropertyField(drawRect, element, GUIContent.none);
                 }
                 else
                 {

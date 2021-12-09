@@ -1757,5 +1757,19 @@ namespace XCharts
         {
             return index.CompareTo((obj as Serie).index);
         }
+
+        public T Clone<T>() where T : Serie
+        {
+            var newSerie = Activator.CreateInstance<T>();
+            SerieHelper.CopySerie(this, newSerie);
+            return newSerie;
+        }
+
+        public Serie Clone()
+        {
+            var newSerie = Activator.CreateInstance(GetType()) as Serie;
+            SerieHelper.CopySerie(this, newSerie);
+            return newSerie;
+        }
     }
 }

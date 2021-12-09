@@ -12,7 +12,7 @@ namespace XCharts
 {
     [Serializable]
     [SerieHandler(typeof(LineHandler), true)]
-    [SerieConvert(typeof(Bar))]
+    [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     public class Line : Serie, INeedSerieContainer
     {
@@ -28,6 +28,12 @@ namespace XCharts
             {
                 chart.AddData(serie.index, UnityEngine.Random.Range(10, 90));
             }
+        }
+
+        public static Line CovertSerie(Serie serie)
+        {
+            var newSerie = serie.Clone<Line>();
+            return newSerie;
         }
     }
 }

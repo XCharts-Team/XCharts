@@ -21,6 +21,7 @@ namespace XCharts
         //Editor m_Inspector;
         internal SerializedProperty baseProperty;
         internal SerializedProperty showProperty;
+        internal List<HeaderMenuInfo> menus = new List<HeaderMenuInfo>();
         protected Dictionary<string, Type> m_CoordOptionsDic;
         protected List<string> m_CoordOptionsNames;
 

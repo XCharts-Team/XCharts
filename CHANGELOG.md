@@ -41,6 +41,7 @@
 
 ## branch-2.0
 
+* (2021.12.10) 完善`Radar`的`AxisLine`和`SplitLine`可单独控制
 * (2021.12.08) 修复`Serie`隐藏后`Y`轴最大值不刷新的问题
 * (2021.12.04) 增加`Symbol`新类型：`EmptyRect`,`EmptyTriangle`,`EmptyDiamond`
 * (2021.12.04) 增加`Symbol`的`Empty`区域颜色可通过`ItemStyle`的`backgroundColor`设置的支持

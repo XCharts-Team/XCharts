@@ -41,6 +41,7 @@
 
 ## branch-2.0
 
+* (2021.12.10) Improved `Radar`'s `AxisLine` and `SplitLine` to be controlled separately
 * (2021.12.08) Fixed y axis does not refresh when serie hidden
 * (2021.12.04) Added `Symbol` new types: `EmptyRect`, `EmptyTriangle`, `EmptyDiamond`
 * (2021.12.04) Added setting symbol empty area color by itemStyle's backgroundColor

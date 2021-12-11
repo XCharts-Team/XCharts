@@ -58,7 +58,7 @@ namespace XCharts
         /// Whether the data item is highlighted.
         /// 该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
-        public bool highlighted { get; set; }
+        public bool highlight { get; set; }
 
     }
 }

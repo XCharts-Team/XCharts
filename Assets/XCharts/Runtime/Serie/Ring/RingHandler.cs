@@ -84,9 +84,9 @@ namespace XCharts
                 var degree = (float)(360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlighted);
-                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.context.highlighted);
-                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.context.highlighted);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
+                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.context.highlight);
+                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.context.highlight);
                 var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.ringGap);
                 var insideRadius = outsideRadius - ringWidth;
                 var centerRadius = (outsideRadius + insideRadius) / 2;

@@ -89,7 +89,7 @@ namespace XCharts
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
                 if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
                 {
-                    serieData.context.highlighted = true;
+                    serieData.context.highlight = true;
                     serie.context.pointerItemDataIndex = lastDataIndex;
                     return;
                 }
@@ -98,7 +98,7 @@ namespace XCharts
             serie.context.pointerItemDataIndex = -1;
             if (lastDataIndex >= 0)
             {
-                serie.GetSerieData(lastDataIndex).context.highlighted = false;
+                serie.GetSerieData(lastDataIndex).context.highlight = false;
                 chart.RefreshPainter(serie);
             }
             for (int i = serie.dataCount - 1; i >= 0; i--)
@@ -112,7 +112,7 @@ namespace XCharts
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
                 if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
                 {
-                    serieData.context.highlighted = true;
+                    serieData.context.highlight = true;
                     serie.context.pointerItemDataIndex = i;
                     serie.context.pointerEnter = true;
                     chart.RefreshPainter(serie);
@@ -165,7 +165,7 @@ namespace XCharts
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
 
-                var highlight = serie.highlighted || serieData.context.highlighted;
+                var highlight = serie.highlight || serieData.context.highlight;
                 var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
@@ -191,7 +191,7 @@ namespace XCharts
                 var datas = serieData.data;
                 float symbolSize = 0;
 
-                if (serie.highlighted || serieData.context.highlighted)
+                if (serie.highlight || serieData.context.highlight)
                 {
                     symbolSize = symbol.GetSelectedSize(datas, theme.serie.scatterSymbolSelectedSize);
                 }
@@ -267,7 +267,7 @@ namespace XCharts
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
 
-                var highlight = serie.highlighted || serieData.context.highlighted;
+                var highlight = serie.highlight || serieData.context.highlight;
                 var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
@@ -296,7 +296,7 @@ namespace XCharts
 
                 var datas = serieData.data;
                 var symbolSize = 0f;
-                if (serie.highlighted || serieData.context.highlighted)
+                if (serie.highlight || serieData.context.highlight)
                     symbolSize = symbol.GetSelectedSize(datas, theme.serie.scatterSymbolSelectedSize);
                 else
                     symbolSize = symbol.GetSize(datas, theme.serie.scatterSymbolSize);

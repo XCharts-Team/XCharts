@@ -97,13 +97,14 @@ namespace XCharts
             return baseProperty.FindPropertyRelative(path);
         }
 
-        protected void PropertyField(string path)
+        protected SerializedProperty PropertyField(string path)
         {
             Assert.IsNotNull(path);
             var property = FindProperty(path);
             Assert.IsNotNull(property, "Can't find:" + path);
             var title = ChartEditorHelper.GetContent(property.displayName);
             PropertyField(property, title);
+            return property;
         }
 
         protected void PropertyField(SerializedProperty property)
@@ -126,18 +127,40 @@ namespace XCharts
 
         protected void PropertyTwoFiled(string relativePropName)
         {
-            //TODO:
-            PropertyField(relativePropName);
+            var m_DrawRect = GUILayoutUtility.GetRect(1f, 17f);
+            var prop = FindProperty(relativePropName);
+            ChartEditorHelper.MakeTwoField(ref m_DrawRect, m_DrawRect.width, prop, prop.displayName);
         }
-        protected void PropertyFieldLimitMin(string relativePropName, double value)
+        protected void PropertyFieldLimitMin(string relativePropName, double min)
         {
-            //TODO:
-            PropertyField(relativePropName);
+            var prop = PropertyField(relativePropName);
+            switch (prop.propertyType)
+            {
+                case SerializedPropertyType.Float:
+                    if (prop.floatValue < min)
+                        prop.floatValue = (float)min;
+                    break;
+                case SerializedPropertyType.Integer:
+                    if (prop.intValue < min)
+                        prop.intValue = (int)min;
+                    break;
+            }
+
         }
-        protected void PropertyFieldLimitMax(string relativePropName, double value)
+        protected void PropertyFieldLimitMax(string relativePropName, int max)
         {
-            //TODO:
-            PropertyField(relativePropName);
+            var prop = PropertyField(relativePropName);
+            switch (prop.propertyType)
+            {
+                case SerializedPropertyType.Float:
+                    if (prop.floatValue > max)
+                        prop.floatValue = (float)max;
+                    break;
+                case SerializedPropertyType.Integer:
+                    if (prop.intValue > max)
+                        prop.intValue = (int)max;
+                    break;
+            }
         }
     }
 }

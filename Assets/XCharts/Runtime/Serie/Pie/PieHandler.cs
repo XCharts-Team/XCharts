@@ -133,16 +133,16 @@ namespace XCharts
                 if (dataIndex >= 0)
                 {
                     if (lastDataIndex >= 0)
-                        serie.GetSerieData(lastDataIndex).context.highlighted = false;
+                        serie.GetSerieData(lastDataIndex).context.highlight = false;
                     if (lastDataIndex != dataIndex)
                         chart.RefreshPainter(serie);
-                    serie.GetSerieData(dataIndex).context.highlighted = true;
+                    serie.GetSerieData(dataIndex).context.highlight = true;
                     serie.context.pointerItemDataIndex = dataIndex;
                 }
                 else
                 {
                     if (lastDataIndex >= 0)
-                        serie.GetSerieData(lastDataIndex).context.highlighted = false;
+                        serie.GetSerieData(lastDataIndex).context.highlight = false;
                     serie.context.pointerItemDataIndex = -1;
                 }
             }
@@ -151,7 +151,7 @@ namespace XCharts
                 if (lastPointerEnter)
                 {
                     foreach (var serieData in serie.data)
-                        serieData.context.highlighted = false;
+                        serieData.context.highlight = false;
                 }
                 serie.context.pointerItemDataIndex = -1;
             }
@@ -213,7 +213,7 @@ namespace XCharts
                     serieData.context.outsideRadius = serie.pieRoseType > 0 ?
                     serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
                     serie.context.outsideRadius;
-                if (serieData.context.highlighted)
+                if (serieData.context.highlight)
                 {
                     serieData.context.outsideRadius += chart.theme.serie.pieTooltipExtraRadius;
                 }
@@ -311,13 +311,13 @@ namespace XCharts
                 {
                     continue;
                 }
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlighted);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var serieNameCount = chart.m_LegendRealShowName.IndexOf(serieData.legendName);
                 var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieNameCount,
-                    serieData.context.highlighted);
+                    serieData.context.highlight);
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieNameCount,
-                    serieData.context.highlighted);
+                    serieData.context.highlight);
                 var borderWidth = itemStyle.borderWidth;
                 var borderColor = itemStyle.borderColor;
 
@@ -372,7 +372,7 @@ namespace XCharts
                 {
                     foreach (var serieData in serie.data)
                     {
-                        if (serieData.context.highlighted) return true;
+                        if (serieData.context.highlight) return true;
                     }
                 }
             }
@@ -480,7 +480,7 @@ namespace XCharts
         {
             if (serieData.labelObject == null) return;
             var currAngle = serieData.context.halfAngle;
-            var isHighlight = (serieData.context.highlighted && serie.emphasis.label.show);
+            var isHighlight = (serieData.context.highlight && serie.emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);

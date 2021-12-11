@@ -247,7 +247,7 @@ namespace XCharts
 
         private bool IsHighlight(RadarCoord radar, Serie serie, SerieData serieData, Tooltip tooltip, int dataIndex, int dimension)
         {
-            if (serie.highlighted || serieData.context.highlighted) return true;
+            if (serie.highlight || serieData.context.highlight) return true;
             if (tooltip == null) return false;
             var selectedSerieIndex = tooltip.runtimeDataIndex[0];
             if (selectedSerieIndex < 0) return false;
@@ -406,7 +406,7 @@ namespace XCharts
                 {
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
-                    var isHighlight = serie.highlighted || serieData.context.highlighted ||
+                    var isHighlight = serie.highlight || serieData.context.highlight ||
                     (tooltip.show && tooltip.runtimeDataIndex[0] == i && tooltip.runtimeDataIndex[1] == j);
                     var serieIndex = serieData.index;
                     var symbolSize = isHighlight

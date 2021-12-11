@@ -232,7 +232,7 @@ namespace XCharts
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
         [SerializeField] private LabelStyle m_Label = new LabelStyle();
         [SerializeField] private LabelLine m_LabelLine = new LabelLine();
-        [SerializeField] private SerieAnimation m_Animation = new SerieAnimation();
+        [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
@@ -745,7 +745,7 @@ namespace XCharts
         /// The start animation.
         /// 起始动画。
         /// </summary>
-        public SerieAnimation animation
+        public AnimationStyle animation
         {
             get { return m_Animation; }
             set { if (PropertyUtil.SetClass(ref m_Animation, value, true)) SetVerticesDirty(); }
@@ -981,7 +981,7 @@ namespace XCharts
         /// Whether the serie is highlighted.
         /// 该系列是否高亮，一般由图例悬停触发。
         /// </summary>
-        public bool highlighted { get; internal set; }
+        public bool highlight { get; internal set; }
         /// <summary>
         /// the count of data list.
         /// 数据项个数。
@@ -1575,9 +1575,9 @@ namespace XCharts
         /// </summary>
         public void ClearHighlight()
         {
-            highlighted = false;
+            highlight = false;
             foreach (var serieData in m_Data)
-                serieData.context.highlighted = false;
+                serieData.context.highlight = false;
         }
 
         /// <summary>
@@ -1587,7 +1587,7 @@ namespace XCharts
         {
             var serieData = GetSerieData(index);
             if (serieData != null)
-                serieData.context.highlighted = flag;
+                serieData.context.highlight = flag;
         }
 
         public float GetBarWidth(float categoryWidth)

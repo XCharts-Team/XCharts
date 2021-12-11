@@ -749,7 +749,7 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
-                if (serie is T) continue;
+                if (!(serie is T)) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
                     if (serie.index == currSerie.index) return index;

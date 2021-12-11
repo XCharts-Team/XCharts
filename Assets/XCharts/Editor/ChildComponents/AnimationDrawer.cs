@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [CustomPropertyDrawer(typeof(SerieAnimation), true)]
+    [CustomPropertyDrawer(typeof(AnimationStyle), true)]
     public class AnimationDrawer : BasePropertyDrawer
     {
         public override string ClassName { get { return "Animation"; } }

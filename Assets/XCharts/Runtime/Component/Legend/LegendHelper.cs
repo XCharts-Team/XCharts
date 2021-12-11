@@ -242,7 +242,7 @@ namespace XCharts
                 if (legendName.Equals(serie.serieName))
                 {
                     serie.show = show;
-                    serie.highlighted = false;
+                    serie.highlight = false;
                     if (serie.show) needShow = true;
                 }
                 else
@@ -252,7 +252,7 @@ namespace XCharts
                         if (legendName.Equals(data.name))
                         {
                             data.show = show;
-                            data.context.highlighted = false;
+                            data.context.highlight = false;
                             if (data.show) needShow = true;
                         }
                     }
@@ -268,7 +268,7 @@ namespace XCharts
             {
                 if (legendName.Equals(serie.serieName))
                 {
-                    serie.highlighted = heighlight;
+                    serie.highlight = heighlight;
                 }
                 else
                 {
@@ -276,8 +276,8 @@ namespace XCharts
                     {
                         if (legendName.Equals(data.name))
                         {
-                            data.context.highlighted = heighlight;
-                            if (data.context.highlighted) show = true;
+                            data.context.highlight = heighlight;
+                            if (data.context.highlight) show = true;
                         }
                     }
                 }

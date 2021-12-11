@@ -103,11 +103,11 @@ namespace XCharts
         {
             EditorGUI.LabelField(drawRect, name);
             var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
-            var diff = 14 + EditorGUI.indentLevel * 14;
+            var diff = 13 + EditorGUI.indentLevel * 14;
             var offset = diff - INDENT_WIDTH;
             var tempWidth = (rectWidth - startX + diff) / 2;
-            var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
-            var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth, drawRect.height);
+            var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height - 1);
+            var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
             EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
             EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

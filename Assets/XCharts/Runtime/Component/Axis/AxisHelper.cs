@@ -481,6 +481,16 @@ namespace XCharts
 
         public static float GetAxisPosition(GridCoord grid, Axis axis, float scaleWidth, double value)
         {
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, true);
+        }
+
+        public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)
+        {
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false);
+        }
+
+        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY)
+        {
             var isY = axis is YAxis;
             var gridHeight = isY ? grid.context.height : grid.context.width;
             var gridXY = isY ? grid.context.y : grid.context.x;
@@ -489,19 +499,24 @@ namespace XCharts
             {
                 int minIndex = axis.GetLogMinIndex();
                 float nowIndex = axis.GetLogValue(value);
-                return gridXY + (nowIndex - minIndex) / axis.splitNumber * gridHeight;
+                return includeGridXY
+                    ? gridXY + (nowIndex - minIndex) / axis.splitNumber * gridHeight
+                    : (nowIndex - minIndex) / axis.splitNumber * gridHeight;
             }
             else if (axis.IsCategory())
             {
                 var categoryIndex = (int)value;
-                var categoryStart = gridXY + (axis.boundaryGap ? scaleWidth / 2 : 0);
-                return categoryStart + scaleWidth * categoryIndex;
+                return includeGridXY
+                    ? gridXY + (axis.boundaryGap ? scaleWidth / 2 : 0) + scaleWidth * categoryIndex
+                    : (axis.boundaryGap ? scaleWidth / 2 : 0) + scaleWidth * categoryIndex;
             }
             else
             {
                 var yDataHig = (axis.context.minMaxRange == 0) ? 0f :
                     (float)((value - axis.context.minValue) / axis.context.minMaxRange * gridHeight);
-                return gridXY + yDataHig;
+                return includeGridXY
+                    ? gridXY + yDataHig
+                    : yDataHig;
             }
         }
     }

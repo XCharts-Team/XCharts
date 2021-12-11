@@ -16,11 +16,15 @@ namespace XCharts
             PropertyField("m_Space");
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
-            PropertyField("m_MinAngle");
-            PropertyField("m_RoundCap");
-            PropertyField("m_Ignore");
-            PropertyField("m_IgnoreValue");
-            PropertyField("m_AvoidLabelOverlap");
+
+            PropertyFiledMore(() =>
+            {
+                PropertyField("m_MinAngle");
+                PropertyField("m_RoundCap");
+                PropertyField("m_Ignore");
+                PropertyField("m_IgnoreValue");
+                PropertyField("m_AvoidLabelOverlap");
+            });
 
             PropertyField("m_ItemStyle");
             PropertyField("m_IconStyle");

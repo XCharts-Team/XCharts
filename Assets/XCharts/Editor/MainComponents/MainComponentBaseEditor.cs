@@ -111,8 +111,6 @@ namespace XCharts
 
         protected void PropertyTwoFiled(string relativePropName)
         {
-            //TODO:
-            //PropertyField(relativePropName);
             var m_DrawRect = GUILayoutUtility.GetRect(1f, 17f);
             var prop = FindProperty(relativePropName);
             ChartEditorHelper.MakeTwoField(ref m_DrawRect, m_DrawRect.width, prop, prop.displayName);

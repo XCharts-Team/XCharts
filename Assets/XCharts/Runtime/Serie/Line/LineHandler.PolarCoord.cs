@@ -39,7 +39,7 @@ namespace XCharts
             var firstSerieData = datas[0];
             var startPos = GetPolarPos(m_Polar, m_AngleAxis, firstSerieData, min, max, radius);
             var nextPos = Vector3.zero;
-            var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serie.index, serie.highlighted);
+            var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serie.index, serie.highlight);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
             var currDetailProgress = 0f;
             var totalDetailProgress = datas.Count;
@@ -86,9 +86,9 @@ namespace XCharts
                     if (ChartHelper.IsIngore(serieData.context.position))
                         continue;
 
-                    bool highlight = serieData.context.highlighted || serie.highlighted;
+                    bool highlight = serieData.context.highlight || serie.highlight;
                     if ((!symbol.show || !symbol.ShowSymbol(i, count) || serie.IsPerformanceMode())
-                        && !serieData.context.highlighted)
+                        && !serieData.context.highlight)
                         continue;
 
                     var symbolSize = highlight

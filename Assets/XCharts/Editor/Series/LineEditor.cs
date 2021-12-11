@@ -5,6 +5,8 @@
 /*                                              */
 /************************************************/
 
+using UnityEngine;
+
 namespace XCharts
 {
     [SerieEditor(typeof(Line))]
@@ -22,20 +24,23 @@ namespace XCharts
                 PropertyField("m_XAxisIndex");
                 PropertyField("m_YAxisIndex");
             }
-            PropertyFieldLimitMin("m_MinShow", 0);
-            PropertyFieldLimitMin("m_MaxShow", 0);
-            PropertyFieldLimitMin("m_MaxCache", 0);
             PropertyField("m_LineType");
-            PropertyField("m_SampleDist");
-            PropertyField("m_SampleType");
-            PropertyField("m_SampleAverage");
-            PropertyField("m_Clip");
-            PropertyField("m_Ignore");
-            PropertyField("m_IgnoreValue");
-            PropertyField("m_IgnoreLineBreak");
-            PropertyField("m_ShowAsPositiveNumber");
-            PropertyField("m_Large");
-            PropertyField("m_LargeThreshold");
+            PropertyFiledMore(() =>
+            {
+                PropertyFieldLimitMin("m_MinShow", 0);
+                PropertyFieldLimitMin("m_MaxShow", 0);
+                PropertyFieldLimitMin("m_MaxCache", 0);
+                PropertyField("m_SampleDist");
+                PropertyField("m_SampleType");
+                PropertyField("m_SampleAverage");
+                PropertyField("m_Ignore");
+                PropertyField("m_IgnoreValue");
+                PropertyField("m_IgnoreLineBreak");
+                PropertyField("m_ShowAsPositiveNumber");
+                PropertyField("m_Large");
+                PropertyField("m_LargeThreshold");
+                PropertyField("m_Clip");
+            });
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");
             PropertyField("m_LineArrow");

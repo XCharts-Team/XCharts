@@ -115,7 +115,7 @@ namespace XCharts
             m_Show = true;
             m_Selected = false;
             context.canShowLabel = true;
-            context.highlighted = false;
+            context.highlight = false;
             m_Radius = 0;
             m_Data.Clear();
             m_PreviousData.Clear();

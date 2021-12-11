@@ -222,7 +222,7 @@ namespace XCharts
             }
         }
 
-        private void DrawMakLineData(VertexHelper vh, MarkLineData data, SerieAnimation animation, Serie serie,
+        private void DrawMakLineData(VertexHelper vh, MarkLineData data, AnimationStyle animation, Serie serie,
             GridCoord grid, Color32 serieColor, Vector3 sp, Vector3 ep)
         {
             if (!animation.IsFinish())

@@ -523,7 +523,7 @@ namespace XCharts
                 {
                     if (legendName.Equals(serie.serieName))
                     {
-                        serie.highlighted = true;
+                        serie.highlight = true;
                         RefreshPainter(serie);
                     }
                 }
@@ -541,7 +541,7 @@ namespace XCharts
                 {
                     if (legendName.Equals(serie.serieName))
                     {
-                        serie.highlighted = false;
+                        serie.highlight = false;
                         RefreshPainter(serie);
                     }
                 }
@@ -573,12 +573,13 @@ namespace XCharts
             for (int i = painter.index * rate; i < (painter.index + 1) * rate && i < maxSeries; i++)
             {
                 var serie = m_Series[i];
+                serie.context.colorIndex = GetLegendRealShowNameIndex(serie.legendName);
+                serie.context.dataPoints.Clear();
+                serie.context.dataIgnore.Clear();
                 if (m_OnCustomDrawSerieBeforeCallback != null)
                 {
                     m_OnCustomDrawSerieBeforeCallback.Invoke(vh, serie);
                 }
-                serie.context.dataPoints.Clear();
-                serie.context.dataIgnore.Clear();
                 DrawPainterSerie(vh, serie);
                 if (i >= 0 && i < m_SerieHandlers.Count)
                 {

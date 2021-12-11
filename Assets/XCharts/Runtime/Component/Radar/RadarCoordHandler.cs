@@ -85,10 +85,6 @@ namespace XCharts
 
         private void DrawCricleRadar(VertexHelper vh, RadarCoord radar)
         {
-            if (!radar.splitLine.show && !radar.splitArea.show)
-            {
-                return;
-            }
             float insideRadius = 0, outsideRadius = 0;
             float block = radar.context.radius / radar.splitNumber;
             int indicatorNum = radar.indicatorList.Count;
@@ -96,7 +92,10 @@ namespace XCharts
             Vector3 p1;
             float angle = 2 * Mathf.PI / indicatorNum;
             var lineColor = radar.axisLine.GetColor(chart.theme.axis.lineColor);
-            var lineWidth = radar.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
+            var lineWidth = radar.axisLine.GetWidth(chart.theme.axis.lineWidth);
+            var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
+            var splitLineColor = radar.splitLine.GetColor(chart.theme.axis.splitLineColor);
+            var splitLineWidth = radar.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
             for (int i = 0; i < radar.splitNumber; i++)
             {
                 var color = radar.splitArea.GetColor(i, chart.theme.axis);
@@ -108,29 +107,25 @@ namespace XCharts
                 }
                 if (radar.splitLine.show)
                 {
-                    UGL.DrawEmptyCricle(vh, p, outsideRadius, lineWidth, lineColor,
+                    UGL.DrawEmptyCricle(vh, p, outsideRadius, splitLineWidth, splitLineColor,
                         Color.clear, chart.settings.cicleSmoothness);
                 }
                 insideRadius = outsideRadius;
             }
-            for (int j = 0; j <= indicatorNum; j++)
+            if (radar.axisLine.show)
             {
-                float currAngle = j * angle;
-                p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
-                    p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.splitLine.show)
+                for (int j = 0; j <= indicatorNum; j++)
                 {
-                    UGL.DrawLine(vh, p, p1, lineWidth / 2, lineColor);
+                    float currAngle = j * angle;
+                    p1 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                        p.y + outsideRadius * Mathf.Cos(currAngle));
+                    ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, p, p1, lineColor);
                 }
             }
         }
 
         private void DrawPolygonRadar(VertexHelper vh, RadarCoord radar)
         {
-            if (!radar.splitLine.show && !radar.splitArea.show)
-            {
-                return;
-            }
             float insideRadius = 0, outsideRadius = 0;
             float block = radar.context.radius / radar.splitNumber;
             int indicatorNum = radar.indicatorList.Count;
@@ -145,7 +140,6 @@ namespace XCharts
             var splitLineType = radar.splitLine.GetType(chart.theme.axis.splitLineType);
             for (int i = 0; i < radar.splitNumber; i++)
             {
-                var isLast = i == radar.splitNumber - 1;
                 var color = radar.splitArea.GetColor(i, chart.theme.axis);
                 outsideRadius = insideRadius + block;
                 p1 = new Vector3(p.x + insideRadius * Mathf.Sin(0), p.y + insideRadius * Mathf.Cos(0));
@@ -163,24 +157,21 @@ namespace XCharts
                     }
                     if (radar.splitLine.NeedShow(i))
                     {
-                        if (isLast)
-                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, p2, p3, lineColor);
-                        else
-                            ChartDrawer.DrawLineStyle(vh, splitLineType, splitLineWidth, p2, p3, splitLineColor);
+                        ChartDrawer.DrawLineStyle(vh, splitLineType, splitLineWidth, p2, p3, splitLineColor);
                     }
                     p1 = p4;
                     p2 = p3;
                 }
                 insideRadius = outsideRadius;
             }
-            for (int j = 0; j <= indicatorNum; j++)
+            if (radar.axisLine.show)
             {
-                float currAngle = j * angle;
-                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
-                    p.y + outsideRadius * Mathf.Cos(currAngle));
-                if (radar.splitLine.show)
+                for (int j = 0; j <= indicatorNum; j++)
                 {
-                    ChartDrawer.DrawLineStyle(vh, splitLineType, splitLineWidth, p, p3, splitLineColor);
+                    float currAngle = j * angle;
+                    p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                        p.y + outsideRadius * Mathf.Cos(currAngle));
+                    ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, p, p3, lineColor);
                 }
             }
         }

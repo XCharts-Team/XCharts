@@ -14,12 +14,22 @@ namespace XCharts
     public delegate float CustomAnimationDelay(int dataIndex);
     public delegate float CustomAnimationDuration(int dataIndex);
 
+
+    public enum AnimationType
+    {
+        Default,
+        LeftToRight,
+        BottomToTop,
+        InsideOut,
+        Clockwise,
+
+    }
     /// <summary>
     /// the animation of serie.
     /// 动画表现。
     /// </summary>
     [System.Serializable]
-    public class SerieAnimation : ChildComponent
+    public class AnimationStyle : ChildComponent
     {
         public enum Easing
         {

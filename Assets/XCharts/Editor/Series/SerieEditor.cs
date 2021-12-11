@@ -13,6 +13,8 @@ namespace XCharts
 {
     public class SerieEditor<T> : SerieBaseEditor where T : Serie
     {
+        protected const string MORE = "More";
+        protected bool m_MoreFoldout = false;
         private bool m_DataFoldout = false;
         private bool m_DataComponentFoldout = true;
         private Dictionary<int, bool> m_DataElementFoldout = new Dictionary<int, bool>();
@@ -88,6 +90,15 @@ namespace XCharts
                 }
             }
             EditorGUI.indentLevel--;
+        }
+
+        protected void PropertyFiledMore(System.Action action)
+        {
+            m_MoreFoldout = ChartEditorHelper.DrawHeader(MORE, m_MoreFoldout, false, null, null);
+            if (m_MoreFoldout)
+            {
+                if (action != null) action();
+            }
         }
 
         private void DrawSerieData(int dimension, SerializedProperty m_Datas, int index, bool showName)

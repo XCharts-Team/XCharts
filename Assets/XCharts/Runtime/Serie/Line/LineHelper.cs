@@ -252,7 +252,7 @@ namespace XCharts
             var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
 
-            var highlight = serie.highlighted || serie.context.pointerEnter;
+            var highlight = serie.highlight || serie.context.pointerEnter;
             var lineWidth = serie.lineStyle.GetWidth(theme.serie.lineWidth);
             var lineColor = SerieHelper.GetLineColor(serie, theme, serie.context.colorIndex, highlight);
 

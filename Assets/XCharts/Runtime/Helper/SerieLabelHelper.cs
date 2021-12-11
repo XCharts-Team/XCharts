@@ -125,7 +125,7 @@ namespace XCharts
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
-                var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlighted);
+                var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlight);
                 if (serieLabel.show && serieData.labelObject != null)
                 {
                     if (!serie.show || !serieData.show)
@@ -160,7 +160,7 @@ namespace XCharts
         {
             var serieData = serie.GetSerieData(0);
             if (serieData == null) return;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlighted);
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlight);
             if (serieLabel.show && serieData.labelObject != null)
             {
                 if (!serie.show || !serieData.show)

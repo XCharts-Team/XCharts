@@ -56,7 +56,7 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].context.highlighted || serie.highlighted;
+                var highlight = serie.data[i].context.highlight || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
                 var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);

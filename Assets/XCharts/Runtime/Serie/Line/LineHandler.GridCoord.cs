@@ -93,9 +93,6 @@ namespace XCharts
 
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            serie.context.colorIndex = colorIndex;
-
             if (serie.IsUseCoord<PolarCoord>())
             {
                 DrawPolarLine(vh, serie);
@@ -145,12 +142,12 @@ namespace XCharts
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.context.highlighted = true;
+                    serieData.context.highlight = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.context.highlighted = false;
+                    serieData.context.highlight = false;
                 }
             }
         }
@@ -196,7 +193,7 @@ namespace XCharts
                 if (ChartHelper.IsIngore(serie.context.dataPoints[i]))
                     continue;
 
-                var highlight = serie.data[i].context.highlighted || serie.highlighted;
+                var highlight = serie.data[i].context.highlight || serie.highlight;
                 var symbolSize = highlight
                     ? symbol.GetSelectedSize(serie.data[i].data, theme.serie.lineSymbolSelectedSize)
                     : symbol.GetSize(serie.data[i].data, theme.serie.lineSymbolSize);

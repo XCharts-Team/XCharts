@@ -45,7 +45,7 @@ namespace XCharts
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private int m_SerieIndex = 0;
-        [SerializeField] private SerieAnimation m_Animation = new SerieAnimation();
+        [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private List<MarkLineData> m_Data = new List<MarkLineData>();
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace XCharts
         /// The animation of markline.
         /// 标线的动画样式。
         /// </summary>
-        public SerieAnimation animation
+        public AnimationStyle animation
         {
             get { return m_Animation; }
             set { if (PropertyUtil.SetClass(ref m_Animation, value)) SetVerticesDirty(); }

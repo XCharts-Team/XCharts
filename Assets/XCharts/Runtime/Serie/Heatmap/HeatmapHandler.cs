@@ -44,12 +44,12 @@ namespace XCharts
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.context.highlighted = true;
+                    serieData.context.highlight = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.context.highlighted = false;
+                    serieData.context.highlight = false;
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace XCharts
                     color = visualMap.GetColor(value);
                     if (animationIndex >= 0 && i > animationIndex) continue;
                     serieData.context.canShowLabel = true;
-                    var emphasis = (serieData.context.highlighted)
+                    var emphasis = (serieData.context.highlight)
                         || visualMap.context.pointerIndex > 0;
 
                     UGL.DrawRectangle(vh, pos, rectWid / 2, rectHig / 2, color);

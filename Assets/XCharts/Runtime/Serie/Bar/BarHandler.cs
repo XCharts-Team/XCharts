@@ -67,11 +67,7 @@ namespace XCharts
 
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            var yCategory = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-            serie.context.dataPoints.Clear();
-            if (yCategory) DrawYBarSerie(vh, serie, colorIndex);
-            else DrawXBarSerie(vh, serie, colorIndex);
+            DrawXBarSerie(vh, serie, serie.context.colorIndex);
         }
 
         private void UpdateSerieContext()
@@ -85,12 +81,12 @@ namespace XCharts
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
                     serie.context.pointerEnter = true;
-                    serieData.context.highlighted = true;
+                    serieData.context.highlight = true;
                     chart.RefreshTopPainter();
                 }
                 else
                 {
-                    serieData.context.highlighted = false;
+                    serieData.context.highlight = false;
                 }
             }
         }
@@ -137,8 +133,8 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].context.highlighted
-                    || serie.highlighted;
+                var highlight = serie.data[i].context.highlight
+                    || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
 
                 serieData.context.canShowLabel = true;
@@ -242,21 +238,51 @@ namespace XCharts
 
         private void DrawXBarSerie(VertexHelper vh, Bar serie, int colorIndex)
         {
-            if (!serie.show) return;
-            if (serie.animation.HasFadeOut()) return;
-            var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-            var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
-            var dataZoom = chart.GetDataZoomOfAxis(xAxis);
+            if (!serie.show || serie.animation.HasFadeOut())
+                return;
+
+            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
+
+            Axis axis;
+            Axis relativedAxis;
+            GridCoord grid;
+
+            if (isY)
+            {
+                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+            }
+            else
+            {
+                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+            }
+            grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+
+            if (axis == null)
+                return;
+            if (relativedAxis == null)
+                return;
+            if (grid == null)
+                return;
+
+            var dataZoom = chart.GetDataZoomOfAxis(axis);
             var showData = serie.GetDataList(dataZoom);
+
+            if (showData.Count <= 0)
+                return;
+
+            var axisLength = isY ? grid.context.height : grid.context.width;
+
             var isStack = SeriesHelper.IsStack<Bar>(chart.series, serie.stack);
-            m_StackSerieData.Clear();
-            if (isStack) SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
-            float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, showData.Count, dataZoom);
+            if (isStack)
+                SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
+
+            float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
             float barGap = chart.GetSerieBarGap<Bar>();
             float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
-            float offset = (categoryWidth - totalBarWidth) / 2;
+            float offset = (categoryWidth - totalBarWidth) * 0.5f;
             float barGapWidth = barWidth + barWidth * barGap;
             float space = serie.barGap == -1 ? offset : offset + chart.GetSerieIndexIfStack<Bar>(serie) * barGapWidth;
             int maxCount = serie.maxShow > 0
@@ -266,10 +292,8 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double xMinValue = xAxis.context.minValue;
-            double xMaxValue = xAxis.context.maxValue;
-            double yMinValue = yAxis.context.minValue;
-            double yMaxValue = yAxis.context.maxValue;
+            double yMinValue = relativedAxis.context.minValue;
+            double yMaxValue = relativedAxis.context.maxValue;
             var isAllBarEnd = true;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
@@ -281,88 +305,40 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].context.highlighted
-                    || serie.highlighted;
+                if (serieData.IsDataChanged())
+                    dataChanging = true;
+
+                var highlight = serieData.context.highlight || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                double value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
-                if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = grid.context.x + i * categoryWidth;
-                if (xAxis.IsValue() || xAxis.IsTime())
-                {
-                    space = 0;
-                    if ((xMaxValue - xMinValue) <= 0) pX = grid.context.x;
-                    else pX = grid.context.x + (float)((serieData.GetData(0) - xMinValue) / (xMaxValue - xMinValue)) * (grid.context.width - barWidth);
-                    //if (xAxis.boundaryGap) pX += barWidth / 2;
-                }
-                else
-                {
-                    if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
-                }
-                float zeroY = grid.context.y + yAxis.context.offset;
-                float axisLineWidth = value == 0 ? 0 :
-                     ((value < 0 ? -1 : 1) * xAxis.axisLine.GetWidth(chart.theme.axis.lineWidth));
-                float pY = zeroY + axisLineWidth;
-                if (isStack)
-                {
-                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
-                    {
-                        pY += m_StackSerieData[n][i].context.stackHeight;
-                    }
-                }
+                var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
+                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
+                var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+
+                var pX = 0f;
+                var pY = 0f;
+                UpdateXYPosition(grid, isY, axis, relativedAxis, i, categoryWidth, barWidth, isStack, value, ref pX, ref pY);
 
                 var barHig = 0f;
-                double valueTotal = 0f;
                 if (isPercentStack)
                 {
-                    valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
-                    barHig = valueTotal != 0 ? (float)(value / valueTotal * grid.context.height) : 0;
+                    var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
+                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * axisLength) : 0;
                 }
                 else
                 {
-                    valueTotal = (double)(yMaxValue - yMinValue);
-                    if (valueTotal != 0)
-                    {
-                        if (yAxis.IsLog())
-                        {
-                            int minIndex = yAxis.GetLogMinIndex();
-                            var nowIndex = yAxis.GetLogValue(value);
-                            barHig = (nowIndex - minIndex) / yAxis.splitNumber * grid.context.height;
-                        }
-                        else
-                        {
-                            barHig = (float)((yMinValue > 0 ? value - yMinValue : value) / valueTotal * grid.context.height);
-                        }
-                    }
+                    barHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, categoryWidth, relativedValue);
                 }
-                serieData.context.stackHeight = barHig;
+
                 var isBarEnd = false;
                 float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
-                if (!isBarEnd) isAllBarEnd = false;
+                if (!isBarEnd)
+                    isAllBarEnd = false;
+
                 Vector3 plb, plt, prt, prb, top;
-                if (value < 0)
-                {
-                    plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
-                    prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
-                }
-                else
-                {
-                    plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
-                    prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
-                }
-                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
-                if (serie.clip)
-                {
-                    plb = chart.ClampInGrid(grid, plb);
-                    plt = chart.ClampInGrid(grid, plt);
-                    prt = chart.ClampInGrid(grid, prt);
-                    prb = chart.ClampInGrid(grid, prb);
-                    top = chart.ClampInGrid(grid, top);
-                }
+                UpdateRectPosition(grid, isY, relativedValue, pX, pY, space, borderWidth, barWidth, currHig,
+                    out plb, out plt, out prt, out prb, out top);
+                serieData.context.stackHeight = barHig;
+                serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
                 if (serie.show && currHig != 0)
@@ -391,6 +367,97 @@ namespace XCharts
             if (dataChanging)
             {
                 chart.RefreshPainter(serie);
+            }
+        }
+
+        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i, float categoryWidth, float barWidth, bool isStack,
+            double value, ref float pX, ref float pY)
+        {
+            if (isY)
+            {
+                if (axis.IsCategory())
+                {
+                    pY = grid.context.y + i * categoryWidth + (axis.boundaryGap ? 0 : -categoryWidth * 0.5f);
+                }
+                else
+                {
+                    if (axis.context.minMaxRange <= 0) pY = grid.context.y;
+                    else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
+                }
+                pX = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                if (isStack)
+                {
+                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
+                        pX += m_StackSerieData[n][i].context.stackHeight;
+                }
+            }
+            else
+            {
+                if (axis.IsCategory())
+                {
+                    pX = grid.context.x + i * categoryWidth + (axis.boundaryGap ? 0 : -categoryWidth * 0.5f);
+                }
+                else
+                {
+                    if (axis.context.minMaxRange <= 0) pX = grid.context.x;
+                    else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
+                }
+                pY = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                if (isStack)
+                {
+                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
+                        pY += m_StackSerieData[n][i].context.stackHeight;
+                }
+            }
+        }
+
+        private void UpdateRectPosition(GridCoord grid, bool isY, double yValue, float pX, float pY, float space, float borderWidth,
+            float barWidth, float currHig,
+            out Vector3 plb, out Vector3 plt, out Vector3 prt, out Vector3 prb, out Vector3 top)
+        {
+            if (isY)
+            {
+                if (yValue < 0)
+                {
+                    plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig + borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig + borderWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
+                }
+                else
+                {
+                    plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                }
+                top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
+            }
+            else
+            {
+                if (yValue < 0)
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
+                }
+                else
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
+                }
+                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+            }
+            if (serie.clip)
+            {
+                plb = chart.ClampInGrid(grid, plb);
+                plt = chart.ClampInGrid(grid, plt);
+                prt = chart.ClampInGrid(grid, prt);
+                prb = chart.ClampInGrid(grid, prb);
+                top = chart.ClampInGrid(grid, top);
             }
         }
 

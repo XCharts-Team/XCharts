@@ -110,7 +110,7 @@ namespace XCharts
             var numericFormatter = GetItemNumericFormatter(tooltip, serie, serieData);
             if (isCartesian)
             {
-                if (serieData != null && serieData.context.highlighted)
+                if (serieData != null && serieData.context.highlight)
                 {
                     sb.Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "");
                     sb.Append("[").Append(ChartCached.FloatToStr(xValue, numericFormatter)).Append(",")

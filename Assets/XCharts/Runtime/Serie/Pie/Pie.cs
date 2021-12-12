@@ -10,6 +10,7 @@ namespace XCharts
     [System.Serializable]
     [SerieConvert(typeof(Line), typeof(Bar))]
     [SerieHandler(typeof(PieHandler), true)]
+    [DefaultAnimation(AnimationType.Clockwise)]
     public class Pie : Serie
     {
         public override bool useDataNameForColor { get { return true; } }

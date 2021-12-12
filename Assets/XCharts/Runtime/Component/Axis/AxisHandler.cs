@@ -132,7 +132,6 @@ namespace XCharts
             {
                 m_LastSplitNumber = axis.splitNumber;
                 m_LastInterval = axis.interval;
-                chart.m_IsPlayingAnimation = true;
 
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.offset = 0;
@@ -177,12 +176,6 @@ namespace XCharts
                     UpdateAxisLabelText(axis);
                     chart.RefreshChart();
                 }
-            }
-
-            if ( !chart.m_IsPlayingAnimation)
-            {
-                UpdateAxisLabelText(axis);
-                chart.RefreshChart();
             }
         }
 

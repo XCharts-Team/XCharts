@@ -167,7 +167,6 @@ namespace XCharts
                     {
                         m_LastSplitNumber = axis.splitNumber;
                         m_LastInterval = axis.interval;
-                        chart.m_IsPlayingAnimation = true;
 
                         axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                         axis.context.offset = 0;

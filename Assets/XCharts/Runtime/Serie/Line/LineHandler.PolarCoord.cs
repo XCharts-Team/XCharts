@@ -44,8 +44,7 @@ namespace XCharts
             var currDetailProgress = 0f;
             var totalDetailProgress = datas.Count;
 
-            serie.animation.InitProgress(serie.context.dataPoints.Count, currDetailProgress, totalDetailProgress);
-            serie.animation.SetDataFinish(0);
+            serie.animation.InitProgress(currDetailProgress, totalDetailProgress);
 
             for (int i = 1; i < datas.Count; i++)
             {
@@ -62,7 +61,6 @@ namespace XCharts
             {
                 serie.animation.CheckProgress(totalDetailProgress);
                 serie.animation.CheckSymbol(serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize));
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshChart();
             }
         }

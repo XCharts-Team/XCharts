@@ -352,7 +352,6 @@ namespace XCharts
                 return;
 
             serie.animation.InitProgress(serie.context.dataPoints, isY);
-            serie.animation.SetDataFinish(0);
 
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, isY, axis, relativedAxis);
             LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, isY);
@@ -365,7 +364,6 @@ namespace XCharts
             {
                 serie.animation.CheckProgress();
                 serie.animation.CheckSymbol(serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize));
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
         }
@@ -374,25 +372,35 @@ namespace XCharts
             double yValue, int i, float scaleWid, bool isStack, ref Vector3 np)
         {
             float xPos, yPos;
+            var gridXY = isY ? grid.context.x : grid.context.y;
 
             if (isY)
             {
-                xPos = AxisHelper.GetAxisPosition(grid, relativedAxis, scaleWid, yValue);
+                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
+
+                xPos = gridXY + valueHig;
                 yPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
-                if (isStack)
-                {
-                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
-                        yPos += m_StackSerieData[n][i].context.stackHeight;
-                }
-            }
-            else
-            {
-                xPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
-                yPos = AxisHelper.GetAxisPosition(grid, relativedAxis, scaleWid, yValue);
+
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
                         xPos += m_StackSerieData[n][i].context.stackHeight;
+                }
+            }
+            else
+            {
+
+                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
+
+                yPos = gridXY + valueHig;
+                xPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+
+                if (isStack)
+                {
+                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
+                        yPos += m_StackSerieData[n][i].context.stackHeight;
                 }
             }
             np = new Vector3(xPos, yPos);

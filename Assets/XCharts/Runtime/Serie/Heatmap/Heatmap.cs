@@ -11,6 +11,7 @@ namespace XCharts
 {
     [System.Serializable]
     [SerieHandler(typeof(HeatmapHandler), true)]
+    [DefaultAnimation(AnimationType.LeftToRight)]
     public class Heatmap : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

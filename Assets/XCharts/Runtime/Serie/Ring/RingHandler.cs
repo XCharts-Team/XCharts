@@ -69,7 +69,7 @@ namespace XCharts
         {
             if (!serie.show || serie.animation.HasFadeOut()) return;
             var data = serie.data;
-            serie.animation.InitProgress(data.Count, serie.startAngle, serie.startAngle + 360);
+            serie.animation.InitProgress(serie.startAngle, serie.startAngle + 360);
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;

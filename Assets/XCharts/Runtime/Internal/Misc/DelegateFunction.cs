@@ -9,7 +9,7 @@
 namespace XCharts
 {
     /// <summary>
-    /// The delegate function for AxisLabel's formatter. |
+    /// The delegate function for AxisLabel's formatter.
     /// AxisLabel的formatter自定义委托。
     /// </summary>
     /// <param name="labelIndex">label索引</param>

@@ -169,7 +169,7 @@ namespace XCharts
             var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.serieName);
 
             var realHig = (float)((value - serie.min) / (serie.max - serie.min) * radius * 2);
-            serie.animation.InitProgress(1, 0, realHig);
+            serie.animation.InitProgress(0, realHig);
 
             var hig = serie.animation.IsFinish() ? realHig : serie.animation.GetCurrDetail();
             var a = Mathf.Abs(radius - hig + (hig > radius ? serie.waveHeight : -serie.waveHeight));
@@ -256,7 +256,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(realHig);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
         }
@@ -282,7 +281,7 @@ namespace XCharts
             var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.serieName);
 
             var realHig = (value - serie.min) / (serie.max - serie.min) * vessel.context.height;
-            serie.animation.InitProgress(1, 0, (float)realHig);
+            serie.animation.InitProgress(0, (float)realHig);
             var hig = serie.animation.IsFinish() ? realHig : serie.animation.GetCurrDetail();
             var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, false);
             var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, false);
@@ -371,7 +370,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(realHig);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
         }

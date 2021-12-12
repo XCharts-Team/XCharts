@@ -85,7 +85,7 @@ namespace XCharts
             var borderToColor = serie.itemStyle.opacity > 0 ? serie.itemStyle.borderToColor : ChartConst.clearColor32;
             borderToColor.a = (byte)(borderToColor.a * serie.itemStyle.opacity);
             serie.context.dataPoints.Clear();
-            serie.animation.InitProgress(1, 0, xCount);
+            serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
@@ -146,7 +146,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(xCount);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
             if (dataChanging)

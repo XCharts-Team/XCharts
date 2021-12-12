@@ -67,7 +67,7 @@ namespace XCharts
 
         public override void DrawSerie(VertexHelper vh)
         {
-            DrawXBarSerie(vh, serie, serie.context.colorIndex);
+            DrawBarSerie(vh, serie, serie.context.colorIndex);
         }
 
         private void UpdateSerieContext()
@@ -91,152 +91,7 @@ namespace XCharts
             }
         }
 
-        private void DrawYBarSerie(VertexHelper vh, Bar serie, int colorIndex)
-        {
-            if (!serie.show) return;
-            if (serie.animation.HasFadeOut()) return;
-            XAxis xAxis;
-            YAxis yAxis;
-            GridCoord grid;
-            if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
-            if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex)) return;
-            if (!chart.TryGetChartComponent<GridCoord>(out grid, xAxis.gridIndex)) return;
-            var dataZoom = chart.GetDataZoomOfAxis(yAxis);
-            var showData = serie.GetDataList(dataZoom);
-            float categoryWidth = AxisHelper.GetDataWidth(yAxis, grid.context.height, showData.Count, dataZoom);
-            float barGap = chart.GetSerieBarGap<Bar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap);
-            float barWidth = serie.GetBarWidth(categoryWidth);
-            float offset = (categoryWidth - totalBarWidth) / 2;
-            float barGapWidth = barWidth + barWidth * barGap;
-            float space = serie.barGap == -1 ? offset : offset + chart.GetSerieIndexIfStack<Bar>(serie) * barGapWidth;
-            var isStack = SeriesHelper.IsStack<Bar>(chart.series, serie.stack);
-            m_StackSerieData.Clear();
-            if (isStack) SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
-
-            int maxCount = serie.maxShow > 0 ?
-                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
-                : showData.Count;
-            var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
-            bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double xMinValue = xAxis.context.minValue;
-            double xMaxValue = xAxis.context.maxValue;
-            var isAllBarEnd = true;
-            serie.containerIndex = grid.index;
-            serie.containterInstanceId = grid.instanceId;
-            for (int i = serie.minShow; i < maxCount; i++)
-            {
-                var serieData = showData[i];
-                if (!serieData.show || serie.IsIgnoreValue(serieData))
-                {
-                    serie.context.dataPoints.Add(Vector3.zero);
-                    continue;
-                }
-                var highlight = serie.data[i].context.highlight
-                    || serie.highlight;
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-
-                serieData.context.canShowLabel = true;
-                double value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse, xMinValue, xMaxValue);
-                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
-                if (showData[i].IsDataChanged()) dataChanging = true;
-                float axisLineWidth = value == 0 ? 0
-                    : ((value < 0 ? -1 : 1) * yAxis.axisLine.GetWidth(chart.theme.axis.lineWidth));
-
-                float pY = grid.context.y + i * categoryWidth;
-                if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
-                float pX = grid.context.x + xAxis.context.offset + axisLineWidth;
-                if (isStack)
-                {
-                    for (int n = 0; n < m_StackSerieData.Count - 1; n++)
-                    {
-                        pX += m_StackSerieData[n][i].context.stackHeight;
-                    }
-                }
-
-                var barHig = 0f;
-                double valueTotal = 0f;
-                if (isPercentStack)
-                {
-                    valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
-                    barHig = valueTotal != 0 ? (float)((value / valueTotal * grid.context.width)) : 0;
-                }
-                else
-                {
-                    if (yAxis.IsLog())
-                    {
-                        int minIndex = xAxis.GetLogMinIndex();
-                        float nowIndex = xAxis.GetLogValue(value);
-                        barHig = (nowIndex - minIndex) / xAxis.splitNumber * grid.context.width;
-                    }
-                    else
-                    {
-                        valueTotal = xMaxValue - xMinValue;
-                        if (valueTotal != 0)
-                            barHig = (float)((xMinValue > 0 ? value - xMinValue : value)
-                                / valueTotal * grid.context.width);
-                    }
-                }
-                serieData.context.stackHeight = barHig;
-                var isBarEnd = false;
-                float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
-                if (!isBarEnd) isAllBarEnd = false;
-                Vector3 plt, prt, prb, plb, top;
-                if (value < 0)
-                {
-                    plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig + borderWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig + borderWidth, pY + space + borderWidth);
-                    plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
-                }
-                else
-                {
-                    plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
-                    plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
-                }
-                top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
-                if (serie.clip)
-                {
-                    plt = chart.ClampInGrid(grid, plt);
-                    prt = chart.ClampInGrid(grid, prt);
-                    prb = chart.ClampInGrid(grid, prb);
-                    plb = chart.ClampInGrid(grid, plb);
-                    top = chart.ClampInGrid(grid, top);
-                }
-                serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
-                serie.context.dataPoints.Add(top);
-                if (serie.show)
-                {
-                    switch (serie.barType)
-                    {
-                        case BarType.Normal:
-                            DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                                pX, pY, plb, plt, prt, prb, true, grid);
-                            break;
-                        case BarType.Zebra:
-                            DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                                pX, pY, plb, plt, prt, prb, true, grid);
-                            break;
-                        case BarType.Capsule:
-                            DrawCapsuleBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                                pX, pY, plb, plt, prt, prb, true, grid);
-                            break;
-                    }
-                }
-            }
-            if (isAllBarEnd) serie.animation.AllBarEnd();
-            if (dataChanging)
-            {
-                chart.RefreshPainter(serie);
-            }
-        }
-
-
-
-        private void DrawXBarSerie(VertexHelper vh, Bar serie, int colorIndex)
+        private void DrawBarSerie(VertexHelper vh, Bar serie, int colorIndex)
         {
             if (!serie.show || serie.animation.HasFadeOut())
                 return;
@@ -273,6 +128,7 @@ namespace XCharts
                 return;
 
             var axisLength = isY ? grid.context.height : grid.context.width;
+            var axisXY = isY ? grid.context.y : grid.context.x;
 
             var isStack = SeriesHelper.IsStack<Bar>(chart.series, serie.stack);
             if (isStack)
@@ -294,9 +150,9 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             double yMinValue = relativedAxis.context.minValue;
             double yMaxValue = relativedAxis.context.maxValue;
-            var isAllBarEnd = true;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
+            serie.animation.InitProgress(axisXY, axisXY + axisLength);
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
@@ -305,6 +161,7 @@ namespace XCharts
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
+
                 if (serieData.IsDataChanged())
                     dataChanging = true;
 
@@ -329,10 +186,7 @@ namespace XCharts
                     barHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, categoryWidth, relativedValue);
                 }
 
-                var isBarEnd = false;
-                float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
-                if (!isBarEnd)
-                    isAllBarEnd = false;
+                float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
 
                 Vector3 plb, plt, prt, prb, top;
                 UpdateRectPosition(grid, isY, relativedValue, pX, pY, space, borderWidth, barWidth, currHig,
@@ -359,10 +213,16 @@ namespace XCharts
                             break;
                     }
                 }
+
+                if (serie.animation.CheckDetailBreak(top, isY))
+                {
+                    break;
+                }
             }
-            if (isAllBarEnd)
+            if (!serie.animation.IsFinish())
             {
-                serie.animation.AllBarEnd();
+                serie.animation.CheckProgress();
+                chart.RefreshPainter(serie);
             }
             if (dataChanging)
             {

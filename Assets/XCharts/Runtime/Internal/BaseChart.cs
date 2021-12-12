@@ -93,7 +93,6 @@ namespace XCharts
         protected Action<PointerEventData, int> m_OnPointerClickBar;
 
         internal bool m_CheckAnimation = false;
-        internal bool m_IsPlayingAnimation = false;
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
         internal Painter m_PainterTop;
@@ -576,6 +575,7 @@ namespace XCharts
                 serie.context.colorIndex = GetLegendRealShowNameIndex(serie.legendName);
                 serie.context.dataPoints.Clear();
                 serie.context.dataIgnore.Clear();
+                AnimationStyleHelper.UpdateSerieAnimation(serie);
                 if (m_OnCustomDrawSerieBeforeCallback != null)
                 {
                     m_OnCustomDrawSerieBeforeCallback.Invoke(vh, serie);

@@ -20,6 +20,7 @@ namespace XCharts
             if (MakeComponentFoldout(prop, "m_Enable"))
             {
                 ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Type");
                 PropertyField(prop, "m_FadeInDuration");
                 PropertyField(prop, "m_FadeInDelay");
                 PropertyField(prop, "m_FadeOutDuration");

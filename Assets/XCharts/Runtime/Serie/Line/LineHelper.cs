@@ -259,9 +259,6 @@ namespace XCharts
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             for (int i = 1; i < dataCount; i++)
             {
-                if (!serie.animation.NeedAnimation(i))
-                    break;
-
                 var cdata = datas[i];
                 var isIgnore = cdata.isIgnoreBreak;
 
@@ -272,16 +269,10 @@ namespace XCharts
                 if (serie.animation.CheckDetailBreak(cp, isY))
                 {
                     isBreak = true;
-
-                    var progress = serie.animation.GetCurrDetail();
                     var ip = Vector3.zero;
-
-                    var axisStartPos = isY ? new Vector3(-10000, progress) : new Vector3(progress, -10000);
-                    var axisEndPos = isY ? new Vector3(10000, progress) : new Vector3(progress, 10000);
-
-                    if (UGLHelper.GetIntersection(lp, cp, axisStartPos, axisEndPos, ref ip))
+                    var progress = serie.animation.GetCurrDetail();
+                    if (AnimationStyleHelper.GetAnimationPosition(serie.animation, isY, lp, cp, progress, ref ip))
                         cp = np = ip;
-
                 }
                 bool bitp = true, bibp = true;
                 UGLHelper.GetLinePoints(lp, cp, np, lineWidth,
@@ -320,9 +311,7 @@ namespace XCharts
                     }
                 }
                 lastDataIsIgnore = isIgnore;
-                if (!isBreak)
-                    serie.animation.SetDataFinish(i);
-                else
+                if (isBreak)
                     break;
             }
         }

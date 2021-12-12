@@ -773,17 +773,6 @@ namespace XCharts
             return 0;
         }
 
-        public float CheckSerieBarAnimation(Serie serie, int dataIndex, float barHig, out bool isBarEnd)
-        {
-            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig, serie.dataCount, out isBarEnd);
-            if (!serie.animation.IsFinish())
-            {
-                RefreshPainter(serie);
-                m_IsPlayingAnimation = true;
-            }
-            return currHig;
-        }
-
         internal void InitSerieHandlers()
         {
             m_SerieHandlers.Clear();

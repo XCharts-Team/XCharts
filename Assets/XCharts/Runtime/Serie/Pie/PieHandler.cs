@@ -188,7 +188,6 @@ namespace XCharts
             {
                 dataTotalFilterMinAngle = GetTotalAngle(serie, runtimePieDataTotal, ref totalDegree);
             }
-            serie.animation.InitProgress(data.Count, 0, 360);
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
@@ -297,13 +296,13 @@ namespace XCharts
 
         private void DrawPie(VertexHelper vh, Serie serie)
         {
-            var data = serie.data;
-            serie.animation.InitProgress(data.Count, 0, 360);
             if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;
             }
-            bool dataChanging = false;
+            var dataChanging = false;
+            var data = serie.data;
+            serie.animation.InitProgress(0, 360);
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
@@ -311,41 +310,51 @@ namespace XCharts
                 {
                     continue;
                 }
+                if (serieData.IsDataChanged())
+                    dataChanging = true;
+
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
-                if (serieData.IsDataChanged()) dataChanging = true;
                 var serieNameCount = chart.m_LegendRealShowName.IndexOf(serieData.legendName);
+
                 var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieNameCount,
                     serieData.context.highlight);
+
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieNameCount,
                     serieData.context.highlight);
+
                 var borderWidth = itemStyle.borderWidth;
                 var borderColor = itemStyle.borderColor;
+
+                var progress = AnimationStyleHelper.CheckDataAnimation(chart, serie, n, 1);
+                var insideRadius = serieData.context.insideRadius * progress;
+                var outsideRadius = serieData.context.outsideRadius * progress;
 
                 if (serie.pieClickOffset && serieData.selected)
                 {
                     var drawEndDegree = serieData.context.currentAngle;
-                    var needRoundCap = serie.roundCap && serieData.context.insideRadius > 0;
-                    UGL.DrawDoughnut(vh, serieData.context.offsetCenter, serieData.context.insideRadius,
-                        serieData.context.outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
+                    var needRoundCap = serie.roundCap && insideRadius > 0;
+                    UGL.DrawDoughnut(vh, serieData.context.offsetCenter, insideRadius,
+                        outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
                         drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2, chart.settings.cicleSmoothness,
                         needRoundCap, true);
                 }
                 else
                 {
                     var drawEndDegree = serieData.context.currentAngle;
-                    var needRoundCap = serie.roundCap && serieData.context.insideRadius > 0;
-                    UGL.DrawDoughnut(vh, serie.context.center, serieData.context.insideRadius,
-                        serieData.context.outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
+                    var needRoundCap = serie.roundCap && insideRadius > 0;
+                    UGL.DrawDoughnut(vh, serie.context.center, insideRadius,
+                        outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
                         drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2, chart.settings.cicleSmoothness,
                         needRoundCap, true);
-                    DrawPieCenter(vh, serie, itemStyle, serieData.context.insideRadius);
+                    DrawPieCenter(vh, serie, itemStyle, insideRadius);
                 }
-                if (!serie.animation.CheckDetailBreak(serieData.context.toAngle)) serie.animation.SetDataFinish(n);
-                else break;
+
+                if (serie.animation.CheckDetailBreak(serieData.context.toAngle))
+                    break;
             }
             if (!serie.animation.IsFinish())
             {
-                serie.animation.CheckProgress(360);
+                serie.animation.CheckProgress();
                 serie.animation.CheckSymbol(serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize));
                 chart.RefreshPainter(serie);
             }

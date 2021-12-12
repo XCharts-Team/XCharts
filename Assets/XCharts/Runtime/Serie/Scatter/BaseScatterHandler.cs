@@ -149,7 +149,7 @@ namespace XCharts
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                 : serie.dataCount;
-            serie.animation.InitProgress(1, 0, 1);
+            serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
@@ -221,7 +221,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(1);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
             if (dataChanging)
@@ -250,7 +249,7 @@ namespace XCharts
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
                 : serie.dataCount;
-            serie.animation.InitProgress(1, 0, 1);
+            serie.animation.InitProgress(0, 1);
 
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -324,7 +323,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(1);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
             if (dataChanging)

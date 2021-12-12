@@ -14,6 +14,7 @@ namespace XCharts
     [SerieHandler(typeof(LineHandler), true)]
     [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
+    [DefaultAnimation(AnimationType.LeftToRight)]
     public class Line : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

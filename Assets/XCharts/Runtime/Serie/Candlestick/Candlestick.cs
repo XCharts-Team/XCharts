@@ -11,6 +11,7 @@ namespace XCharts
 {
     [System.Serializable]
     [SerieHandler(typeof(CandlestickHandler), true)]
+    [DefaultAnimation(AnimationType.LeftToRight)]
     public class Candlestick : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

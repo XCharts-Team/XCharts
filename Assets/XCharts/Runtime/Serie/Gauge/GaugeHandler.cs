@@ -158,7 +158,7 @@ namespace XCharts
         {
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             var destAngle = GetCurrAngle(serie, true);
-            serie.animation.InitProgress(0, serie.startAngle, destAngle);
+            serie.animation.InitProgress(serie.startAngle, destAngle);
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
             DrawProgressBar(vh, serie, (float)currAngle);
             DrawStageColor(vh, serie);

@@ -40,7 +40,6 @@ namespace XCharts
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.context.minValue || tempMaxValue != axis.context.maxValue)
             {
-                chart.m_IsPlayingAnimation = true;
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
@@ -50,11 +49,6 @@ namespace XCharts
                     UpdateAxisLabelText(axis);
                     chart.RefreshChart();
                 }
-            }
-            if (!chart.m_IsPlayingAnimation)
-            {
-                UpdateAxisLabelText(axis);
-                chart.RefreshChart();
             }
         }
 

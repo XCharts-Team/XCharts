@@ -14,16 +14,45 @@ namespace XCharts
     public delegate float CustomAnimationDelay(int dataIndex);
     public delegate float CustomAnimationDuration(int dataIndex);
 
-
     public enum AnimationType
     {
+        /// <summary>
+        /// he default. An animation playback mode will be selected according to the actual situation.
+        /// 默认。内部会根据实际情况选择一种动画播放方式。
+        /// </summary>
         Default,
+        /// <summary>
+        /// Play the animation from left to right.
+        /// 从左往右播放动画。
+        /// </summary>
         LeftToRight,
+        /// <summary>
+        /// Play the animation from bottom to top.
+        /// 从下往上播放动画。
+        /// </summary>
         BottomToTop,
+        /// <summary>
+        /// Play animations from the inside out.
+        /// 由内到外播放动画。
+        /// </summary>
         InsideOut,
+        /// <summary>
+        /// Play the animation along the path.
+        /// 沿着路径播放动画。
+        /// </summary>
+        AlongPath,
+        /// <summary>
+        /// Play the animation clockwise.
+        /// 顺时针播放动画。
+        /// </summary>
         Clockwise,
-
     }
+
+    public enum AnimationEasing
+    {
+        Linear,
+    }
+
     /// <summary>
     /// the animation of serie.
     /// 动画表现。
@@ -31,12 +60,9 @@ namespace XCharts
     [System.Serializable]
     public class AnimationStyle : ChildComponent
     {
-        public enum Easing
-        {
-            Linear,
-        }
         [SerializeField] private bool m_Enable = true;
-        [SerializeField] private Easing m_Easting;
+        [SerializeField] private AnimationType m_Type;
+        [SerializeField] private AnimationEasing m_Easting;
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField] private float m_FadeInDuration = 1000;
         [SerializeField] private float m_FadeInDelay = 0;
@@ -62,12 +88,18 @@ namespace XCharts
         /// 自定义渐出动画时长函数。返回ms值。
         /// </summary>
         public CustomAnimationDuration customFadeOutDuration;
+        public AnimationStyleContext context = new AnimationStyleContext();
 
         /// <summary>
         /// Whether to enable animation.
         /// 是否开启动画效果。
         /// </summary>
         public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        /// <summary>
+        /// The type of animation.
+        /// 动画类型。
+        /// </summary>
+        public AnimationType type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
         /// Easing method used for the first animation. 
         /// 动画的缓动效果。
@@ -112,10 +144,6 @@ namespace XCharts
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
         /// <summary>
-        /// 是否沿着线的轨迹进行匀速动画。
-        /// </summary>
-        public bool alongWithLinePath { get { return m_AlongWithLinePath; } set { m_AlongWithLinePath = value; } }
-        /// <summary>
         /// 渐入动画完成回调
         /// </summary>
         public Action fadeInFinishCallback { get; set; }
@@ -123,8 +151,8 @@ namespace XCharts
         /// 渐出动画完成回调
         /// </summary>
         public Action fadeOutFinishCallback { get; set; }
-        private Dictionary<int, float> m_DataCurrProgress = new Dictionary<int, float>();
-        private Dictionary<int, float> m_DataDestProgress = new Dictionary<int, float>();
+        private Dictionary<int, float> m_ItemCurrProgress = new Dictionary<int, float>();
+        private Dictionary<int, float> m_ItemDestProgress = new Dictionary<int, float>();
         private bool m_FadeIn = false;
         private bool m_IsEnd = true;
         private bool m_IsPause = false;
@@ -133,14 +161,11 @@ namespace XCharts
         private bool m_IsInit = false;
 
         private float startTime { get; set; }
-        private int m_CurrDataProgress { get; set; }
-        private int m_DestDataProgress { get; set; }
-        [SerializeField] private float m_CurrDetailProgress;
-        [SerializeField] private float m_DestDetailProgress;
-        [SerializeField] private float m_TotalDetailProgress;
+        private float m_CurrDetailProgress;
+        private float m_DestDetailProgress;
+        private float m_TotalDetailProgress;
         private float m_CurrSymbolProgress;
         private Vector3 m_LinePathLastPos;
-        private float m_LinePathCurrTotalDist = 0f;
 
         public void FadeIn()
         {
@@ -162,13 +187,11 @@ namespace XCharts
             m_IsInit = false;
             m_IsPause = false;
             m_FadeOuted = false;
-            m_CurrDataProgress = 1;
-            m_DestDataProgress = 1;
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
-            m_DataCurrProgress.Clear();
-            m_DataDestProgress.Clear();
+            m_ItemCurrProgress.Clear();
+            m_ItemDestProgress.Clear();
         }
 
         public void Restart()
@@ -191,13 +214,11 @@ namespace XCharts
             m_IsEnd = false;
             m_IsInit = false;
             m_IsPause = false;
-            m_CurrDataProgress = 0;
-            m_DestDataProgress = 0;
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
-            m_DataCurrProgress.Clear();
-            m_DataDestProgress.Clear();
+            m_ItemCurrProgress.Clear();
+            m_ItemDestProgress.Clear();
         }
 
         public void Pause()
@@ -222,7 +243,6 @@ namespace XCharts
                 return;
 
             m_ActualDuration = (int)((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
-            m_CurrDataProgress = m_DestDataProgress + (m_FadeOut ? -1 : 1);
             m_IsEnd = true;
             m_IsInit = false;
 
@@ -253,10 +273,10 @@ namespace XCharts
             m_IsPause = false;
             m_FadeOut = false;
             m_FadeOuted = false;
-            m_DataCurrProgress.Clear();
+            m_ItemCurrProgress.Clear();
         }
 
-        public void InitProgress(int data, float curr, float dest)
+        public void InitProgress(float curr, float dest)
         {
             if (m_IsInit || m_IsEnd)
                 return;
@@ -264,7 +284,6 @@ namespace XCharts
                 return;
 
             m_IsInit = true;
-            m_DestDataProgress = data;
             m_TotalDetailProgress = dest - curr;
 
             if (m_FadeOut)
@@ -286,7 +305,7 @@ namespace XCharts
             var ep = paths[paths.Count - 1];
             var currDetailProgress = isY ? sp.y : sp.x;
             var totalDetailProgress = isY ? ep.y : ep.x;
-            if (m_AlongWithLinePath)
+            if (context.type == AnimationType.AlongPath)
             {
                 currDetailProgress = 0;
                 totalDetailProgress = 0;
@@ -297,51 +316,41 @@ namespace XCharts
                     totalDetailProgress += Vector3.Distance(np, lp);
                     lp = np;
                 }
-                SetLinePathStartPos(sp);
+                m_LinePathLastPos = sp;
+                context.currentPathDistance = 0;
             }
-            else
-            {
-
-                InitProgress(paths.Count, currDetailProgress, totalDetailProgress);
-            }
-        }
-
-        public void SetDataFinish(int dataIndex)
-        {
-            if (m_IsEnd)
-                return;
-            m_CurrDataProgress = dataIndex + (m_FadeOut ? -1 : 1);
+            InitProgress(currDetailProgress, totalDetailProgress);
         }
 
         private void SetDataCurrProgress(int index, float state)
         {
-            m_DataCurrProgress[index] = state;
+            m_ItemCurrProgress[index] = state;
         }
 
-        private float GetDataCurrProgress(int index, float initValue, float destValue, out bool isBarEnd)
+        private float GetDataCurrProgress(int index, float initValue, float destValue, ref bool isBarEnd)
         {
             if (IsInDelay())
             {
                 isBarEnd = false;
                 return initValue;
             }
-            var c1 = !m_DataCurrProgress.ContainsKey(index);
-            var c2 = !m_DataDestProgress.ContainsKey(index);
+            var c1 = !m_ItemCurrProgress.ContainsKey(index);
+            var c2 = !m_ItemDestProgress.ContainsKey(index);
             if (c1 || c2)
             {
                 if (c1)
-                    m_DataCurrProgress.Add(index, initValue);
+                    m_ItemCurrProgress.Add(index, initValue);
 
                 if (c2)
-                    m_DataDestProgress.Add(index, destValue);
+                    m_ItemDestProgress.Add(index, destValue);
 
                 isBarEnd = false;
             }
             else
             {
-                isBarEnd = m_DataCurrProgress[index] == m_DataDestProgress[index];
+                isBarEnd = m_ItemCurrProgress[index] == m_ItemDestProgress[index];
             }
-            return m_DataCurrProgress[index];
+            return m_ItemCurrProgress[index];
         }
 
         public bool IsFinish()
@@ -350,7 +359,14 @@ namespace XCharts
             if (!Application.isPlaying)
                 return true;
 #endif
-            return !m_Enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
+            if (!m_Enable || m_IsEnd)
+                return true;
+
+            if (IsIndexAnimation())
+                return m_CurrDetailProgress > m_DestDetailProgress;
+            if (IsItemAnimation())
+                return false;
+            return true;
         }
 
         public bool IsInFadeOut()
@@ -366,7 +382,19 @@ namespace XCharts
                 return (fadeInDelay > 0 && Time.time - startTime < fadeInDelay / 1000);
         }
 
-        public float GetDataDelay(int dataIndex)
+        public bool IsItemAnimation()
+        {
+            return context.type == AnimationType.BottomToTop || context.type == AnimationType.InsideOut;
+        }
+
+        public bool IsIndexAnimation()
+        {
+            return context.type == AnimationType.LeftToRight
+                || context.type == AnimationType.Clockwise
+                || context.type == AnimationType.AlongPath;
+        }
+
+        public float GetIndexDelay(int dataIndex)
         {
             if (m_FadeOut && customFadeOutDelay != null)
                 return customFadeOutDelay(dataIndex);
@@ -376,9 +404,9 @@ namespace XCharts
                 return 0;
         }
 
-        public bool IsInDataDelay(int dataIndex)
+        public bool IsInIndexDelay(int dataIndex)
         {
-            return Time.time - startTime < GetDataDelay(dataIndex) / 1000f;
+            return Time.time - startTime < GetIndexDelay(dataIndex) / 1000f;
         }
 
         public bool IsAllOutDelay(int dataCount)
@@ -386,53 +414,32 @@ namespace XCharts
             var nowTime = Time.time - startTime;
             for (int i = 0; i < dataCount; i++)
             {
-                if (nowTime < GetDataDelay(i) / 1000)
+                if (nowTime < GetIndexDelay(i) / 1000)
                     return false;
-            }
-            return true;
-        }
-
-        public bool IsAllDataFinishProgress(int dataCount)
-        {
-            for (int i = 0; i < dataCount; i++)
-            {
-                if (m_DataDestProgress.ContainsKey(i) && m_DataCurrProgress.ContainsKey(i))
-                {
-                    if (m_DataCurrProgress[i] != m_DataDestProgress[i])
-                        return false;
-                }
-                else
-                {
-                    return false;
-                }
             }
             return true;
         }
 
         public bool CheckDetailBreak(float detail)
         {
+            if (!IsIndexAnimation())
+                return false;
             return !IsFinish() && detail > m_CurrDetailProgress;
-        }
-
-        public void SetLinePathStartPos(Vector3 pos)
-        {
-            if (m_AlongWithLinePath)
-            {
-                m_LinePathLastPos = pos;
-                m_LinePathCurrTotalDist = 0;
-            }
         }
 
         public bool CheckDetailBreak(Vector3 pos, bool isYAxis)
         {
+            if (!IsIndexAnimation())
+                return false;
+
             if (IsFinish())
                 return false;
 
-            if (m_AlongWithLinePath)
+            if (context.type == AnimationType.AlongPath)
             {
-                m_LinePathCurrTotalDist += Vector3.Distance(pos, m_LinePathLastPos);
+                context.currentPathDistance += Vector3.Distance(pos, m_LinePathLastPos);
                 m_LinePathLastPos = pos;
-                return CheckDetailBreak(m_LinePathCurrTotalDist);
+                return CheckDetailBreak(context.currentPathDistance);
             }
             else
             {
@@ -443,26 +450,17 @@ namespace XCharts
             }
         }
 
-        public bool NeedAnimation(int dataIndex)
+        public void CheckProgress()
         {
-            if (!m_Enable || m_IsEnd)
-                return true;
-
-            if (IsInDelay())
-                return false;
-
-            if (m_FadeOut)
-                return dataIndex > 0;
-            else
-                return dataIndex <= m_CurrDataProgress;
-        }
-
-        internal void CheckProgress()
-        {
+            if (IsItemAnimation() && context.isAllItemAnimationEnd)
+            {
+                End();
+                return;
+            }
             CheckProgress(m_TotalDetailProgress);
         }
 
-        internal void CheckProgress(double total)
+        public void CheckProgress(double total)
         {
             if (IsFinish())
                 return;
@@ -512,17 +510,17 @@ namespace XCharts
                 return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
         }
 
-        internal float CheckBarProgress(int dataIndex, float barHig, int dataCount, out bool isBarEnd)
+        internal float CheckItemProgress(int dataIndex, float barHig, ref bool isEnd)
         {
-            isBarEnd = false;
+            isEnd = false;
             var initHig = m_FadeOut ? barHig : 0;
             var destHig = m_FadeOut ? 0 : barHig;
-            var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, out isBarEnd);
-            if (isBarEnd || IsFinish())
+            var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, ref isEnd);
+            if (isEnd || IsFinish())
             {
                 return m_FadeOuted ? 0 : barHig;
             }
-            else if (IsInDelay() || IsInDataDelay(dataIndex))
+            else if (IsInDelay() || IsInIndexDelay(dataIndex))
             {
                 return m_FadeOut ? barHig : 0;
             }
@@ -540,22 +538,17 @@ namespace XCharts
                     if ((initHig > 0 && currHig <= 0) || (initHig < 0 && currHig >= 0))
                     {
                         currHig = 0;
-                        isBarEnd = true;
+                        isEnd = true;
                     }
                 }
                 else if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
                 {
                     currHig = barHig;
-                    isBarEnd = true;
+                    isEnd = true;
                 }
                 SetDataCurrProgress(dataIndex, currHig);
                 return currHig;
             }
-        }
-
-        public void AllBarEnd()
-        {
-            End();
         }
 
         internal void CheckSymbol(float dest)
@@ -626,11 +619,6 @@ namespace XCharts
             if (!enable || m_IsEnd)
                 return -1;
             return (int)m_CurrDetailProgress;
-        }
-
-        public float GetCurrData()
-        {
-            return m_CurrDataProgress;
         }
 
         public float GetUpdateAnimationDuration()

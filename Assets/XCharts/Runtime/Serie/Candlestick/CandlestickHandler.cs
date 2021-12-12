@@ -44,7 +44,6 @@ namespace XCharts
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             double yMinValue = yAxis.context.minValue;
             double yMaxValue = yAxis.context.maxValue;
-            var isAllBarEnd = true;
             var isYAxis = false;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
@@ -80,9 +79,7 @@ namespace XCharts
                     pY += (float)((open - minCut) / valueTotal * grid.context.height);
                 }
                 serieData.context.stackHeight = barHig;
-                var isBarEnd = false;
-                float currHig = chart.CheckSerieBarAnimation(serie, i, barHig, out isBarEnd);
-                if (!isBarEnd) isAllBarEnd = false;
+                float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
 
                 plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
@@ -145,9 +142,9 @@ namespace XCharts
                     UGL.DrawLine(vh, openCenterPos, heighPos, borderWidth, borderColor);
                 }
             }
-            if (isAllBarEnd)
+            if (!serie.animation.IsFinish())
             {
-                serie.animation.AllBarEnd();
+                serie.animation.CheckProgress();
             }
             if (dataChanging)
             {

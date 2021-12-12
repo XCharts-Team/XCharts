@@ -122,7 +122,7 @@ namespace XCharts
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = radar.context.center;
             var serieNameCount = -1;
-            serie.animation.InitProgress(1, 0, 1);
+            serie.animation.InitProgress(0, 1);
             if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;
@@ -288,7 +288,7 @@ namespace XCharts
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = radar.context.center;
             var serieNameCount = -1;
-            serie.animation.InitProgress(1, 0, 1);
+            serie.animation.InitProgress(0, 1);
             if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;

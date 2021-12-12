@@ -59,8 +59,7 @@ namespace XCharts
                 ? parallel.context.x + parallel.context.width
                 : parallel.context.y + parallel.context.height;
 
-            serie.animation.InitProgress(serie.showDataDimension, currDetailProgress, totalDetailProgress);
-            serie.animation.SetDataFinish(0);
+            serie.animation.InitProgress(currDetailProgress, totalDetailProgress);
 
             serie.context.dataPoints.Clear();
             serie.containerIndex = parallel.index;
@@ -86,7 +85,6 @@ namespace XCharts
                         else if (pos.x <= currProgress)
                         {
                             m_Points.Add(pos);
-                            serie.animation.SetDataFinish(i);
                         }
                         else
                         {
@@ -110,7 +108,6 @@ namespace XCharts
                         else if (pos.y <= currProgress)
                         {
                             m_Points.Add(pos);
-                            serie.animation.SetDataFinish(i);
                         }
                         else
                         {
@@ -135,7 +132,6 @@ namespace XCharts
             if (!serie.animation.IsFinish())
             {
                 serie.animation.CheckProgress(totalDetailProgress - currDetailProgress);
-                chart.m_IsPlayingAnimation = true;
                 chart.RefreshPainter(serie);
             }
         }

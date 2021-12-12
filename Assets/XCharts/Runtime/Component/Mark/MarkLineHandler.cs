@@ -111,7 +111,7 @@ namespace XCharts
             var ep = Vector3.zero;
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.serieName);
             var serieColor = SerieHelper.GetLineColor(serie, chart.theme, colorIndex, false);
-            animation.InitProgress(1, 0, 1f);
+            animation.InitProgress(0, 1f);
             ResetTempMarkLineGroupData(markLine);
             if (m_TempGroupData.Count > 0)
             {

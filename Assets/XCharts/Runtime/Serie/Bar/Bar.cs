@@ -15,6 +15,7 @@ namespace XCharts
     [SerieHandler(typeof(BarHandler), true)]
     [SerieConvert(typeof(Line),typeof(Pie))]
     [RequireChartComponent(typeof(GridCoord))]
+    [DefaultAnimation(AnimationType.BottomToTop)]
     public class Bar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

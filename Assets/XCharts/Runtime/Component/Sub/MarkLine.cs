@@ -309,15 +309,16 @@ namespace XCharts
 
         public void Update()
         {
-            if (m_RefreshLabel)
+            foreach (var serie in chart.series.list)
             {
-                m_RefreshLabel = false;
-                foreach (var serie in chart.series.list)
+                var show = serie.show && serie.markLine.show;
+                foreach (var data in serie.markLine.data)
                 {
-                    if (!serie.show || !serie.markLine.show) continue;
-                    foreach (var data in serie.markLine.data)
+                    if (data.runtimeLabel != null)
                     {
-                        if (data.runtimeLabel != null)
+                        if (data.runtimeLabel.gameObject.activeSelf != show)
+                            data.runtimeLabel.gameObject.SetActive(show);
+                        if (show)
                         {
                             data.runtimeLabel.SetPosition(MarkLineHelper.GetLabelPosition(data));
                             data.runtimeLabel.SetText(MarkLineHelper.GetFormatterContent(serie, data));

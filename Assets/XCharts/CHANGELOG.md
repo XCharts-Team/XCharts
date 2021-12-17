@@ -41,6 +41,7 @@
 
 ## branch-2.0
 
+* (2021.12.17) 修复`MarkLine`在运行时`Label`不自动刷新显示隐藏的问题 #178
 * (2021.12.10) 完善`Radar`的`AxisLine`和`SplitLine`可单独控制
 * (2021.12.08) 修复`Serie`隐藏后`Y`轴最大值不刷新的问题
 * (2021.12.04) 增加`Symbol`新类型：`EmptyRect`,`EmptyTriangle`,`EmptyDiamond`

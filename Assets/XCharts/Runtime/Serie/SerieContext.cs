@@ -101,5 +101,6 @@ namespace XCharts
         /// 绘制点
         /// </summary>
         internal List<PointInfo> drawPoints = new List<PointInfo>();
+        public SerieParams param = new SerieParams();
     }
 }

@@ -88,7 +88,7 @@ namespace XCharts
 
         public bool IsPointerEnter()
         {
-            return context.runtimeIsPointerEnter;
+            return context.isPointerEnter;
         }
 
         public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)

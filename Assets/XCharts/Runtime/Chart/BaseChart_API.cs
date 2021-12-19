@@ -42,43 +42,10 @@ namespace XCharts
         /// </summary>
         public ThemeStyle theme { get { return m_Theme; } set { m_Theme = value; } }
         /// <summary>
-        /// The title setting of chart.
-        /// 标题组件
-        /// </summary>
-        //public Title title { get { return GetChartComponent<Title>(); } }
-        /// <summary>
-        /// The legend setting of chart.
-        /// 图例组件
-        /// </summary>
-        //public Legend legend { get { return m_Legends.Count > 0 ? m_Legends[0] : null; } }
-        //public List<Legend> legends { get { return m_Legends; } }
-        /// <summary>
-        /// The tooltip setting of chart.
-        /// 提示框组件
-        /// </summary>
-        //public Tooltip tooltip { get { return m_Tooltips.Count > 0 ? m_Tooltips[0] : null; } }
-        /// <summary>
-        /// The series setting of chart.
-        /// 系列列表
-        /// </summary>
-        //public List<Serie> series { get { return m_Series; } }
-        /// <summary>
         /// Global parameter setting component.
         /// 全局设置组件。
         /// </summary>
         public Settings settings { get { return m_Settings; } }
-        /// <summary>
-        /// dataZoom component.
-        /// 区域缩放组件。
-        /// </summary>
-        //public DataZoom dataZoom { get { return m_DataZooms.Count > 0 ? m_DataZooms[0] : null; } }
-        //public List<DataZoom> dataZooms { get { return m_DataZooms; } }
-        /// <summary>
-        /// visualMap component.
-        /// 视觉映射组件。
-        /// </summary>
-        //public VisualMap visualMap { get { return m_VisualMaps.Count > 0 ? m_VisualMaps[0] : null; } }
-        //public List<VisualMap> visualMaps { get { return m_VisualMaps; } }
         /// <summary>
         /// The x of chart. 
         /// 图表的X
@@ -448,6 +415,12 @@ namespace XCharts
         public int GetLegendRealShowNameIndex(string name)
         {
             return m_LegendRealShowName.IndexOf(name);
+        }
+
+        public Color32 GetLegendRealShowNameColor(string name)
+        {
+            var index = GetLegendRealShowNameIndex(name);
+            return theme.GetColor(index);
         }
 
         /// <summary>

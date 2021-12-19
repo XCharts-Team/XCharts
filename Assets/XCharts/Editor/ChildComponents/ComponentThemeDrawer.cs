@@ -139,6 +139,8 @@ namespace XCharts
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
+            PropertyField(prop, "m_BorderWidth");
+            PropertyField(prop, "m_BorderColor");
             PropertyField(prop, "m_LineType");
             PropertyField(prop, "m_LineWidth");
             PropertyField(prop, "m_LineColor");

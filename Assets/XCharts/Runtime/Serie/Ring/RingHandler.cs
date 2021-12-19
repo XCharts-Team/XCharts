@@ -44,25 +44,53 @@ namespace XCharts
                     }
                 }
             }
+
+            var ringIndex = GetRingIndex(chart.pointerPos);
+            if (ringIndex >= 0)
+            {
+                serie.context.pointerEnter = true;
+                serie.context.pointerItemDataIndex = ringIndex;
+            }
+            else
+            {
+                serie.context.pointerEnter = false;
+                serie.context.pointerItemDataIndex = -1;
+            }
         }
 
-        public override bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb)
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         {
-            if (!serie.context.pointerEnter || serie.context.pointerItemDataIndex < 0) return false;
-            var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
-            if (serieData == null) return false;
-            var key = serieData.name;
-            var numericFormatter = TooltipHelper.GetItemNumericFormatter(tooltip, serie, serieData);
-            var value = serieData.GetData(1);
-            if (!string.IsNullOrEmpty(serie.serieName))
-            {
-                sb.Append(serie.serieName).Append(FormatterHelper.PH_NN);
-            }
-            sb.Append("<color=#").Append(chart.theme.GetColorStr(serie.context.pointerItemDataIndex)).Append(">● </color>");
-            if (!string.IsNullOrEmpty(key))
-                sb.Append(key).Append(": ");
-            sb.Append(ChartCached.FloatToStr(value, numericFormatter));
-            return true;
+            if (dataIndex < 0)
+                dataIndex = serie.context.pointerItemDataIndex;
+
+            if (dataIndex < 0)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.category = category;
+            param.dimension = 0;
+            param.serieData = serieData;
+            param.value = serieData.GetData(0);
+            param.total = serieData.GetData(1);
+            param.color = chart.theme.GetColor(dataIndex);
+            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.columns.Clear();
+
+            param.columns.Add(param.marker);
+            param.columns.Add(serieData.name);
+            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+            paramList.Add(param);
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -268,9 +296,8 @@ namespace XCharts
             }
         }
 
-        private int GetRingIndex(Serie serie, Vector2 local)
+        private int GetRingIndex(Vector2 local)
         {
-            if (!(serie is Ring)) return -1;
             var dist = Vector2.Distance(local, serie.context.center);
             if (dist > serie.context.outsideRadius) return -1;
             Vector2 dir = local - new Vector2(serie.context.center.x, serie.context.center.y);
@@ -287,16 +314,6 @@ namespace XCharts
                 }
             }
             return -1;
-        }
-
-        private bool PointerIsInRingSerie(List<Serie> series, Vector2 local)
-        {
-            foreach (var serie in series)
-            {
-                if (!(serie is Ring)) continue;
-                if (GetRingIndex(serie, local) >= 0) return true;
-            }
-            return false;
         }
 
         private float VectorAngle(Vector2 from, Vector2 to)

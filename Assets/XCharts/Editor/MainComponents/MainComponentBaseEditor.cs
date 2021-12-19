@@ -15,6 +15,8 @@ namespace XCharts
 {
     public class MainComponentBaseEditor
     {
+        protected const string MORE = "More";
+        protected bool m_MoreFoldout = false;
         internal BaseChart chart { get; private set; }
         internal MainComponent component { get; private set; }
 
@@ -81,6 +83,15 @@ namespace XCharts
             else
             {
                 Debug.LogError("Property not exist:" + baseProperty.propertyPath + "," + path);
+            }
+        }
+
+        protected void PropertyFiledMore(System.Action action)
+        {
+            m_MoreFoldout = ChartEditorHelper.DrawHeader(MORE, m_MoreFoldout, false, null, null);
+            if (m_MoreFoldout)
+            {
+                if (action != null) action();
             }
         }
 

@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,11 +36,11 @@ namespace XCharts
         public virtual void OnScroll(PointerEventData eventData) { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
-        public virtual bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb) { return false; }
+        public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category, string marker, string itemFormatter, string numericFormatter, ref List<SerieParams> paramList, ref string title) { }
         public virtual bool OnLegendButtonClick(int index, string legendName, bool show) { return false; }
         public virtual bool OnLegendButtonEnter(int index, string legendName) { return false; }
         public virtual bool OnLegendButtonExit(int index, string legendName) { return false; }
-        internal abstract void SerSerie(Serie serie);
+        internal abstract void SetSerie(Serie serie);
     }
 
     public abstract class SerieHandler<T> : SerieHandler where T : Serie
@@ -52,9 +53,10 @@ namespace XCharts
 
         public T serie { get; internal set; }
 
-        internal override void SerSerie(Serie serie)
+        internal override void SetSerie(Serie serie)
         {
             this.serie = (T)serie;
+            this.serie.context.param.serieType = typeof(T);
         }
         public override void Update()
         {
@@ -113,7 +115,7 @@ namespace XCharts
         private void InitRoot()
         {
             m_InitedLabel = false;
-            var objName =  s_SerieTitleObjectName + "_" + serie.index;
+            var objName = s_SerieTitleObjectName + "_" + serie.index;
             m_SerieRoot = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
                 chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
             m_SerieRoot.hideFlags = chart.chartHideFlags;
@@ -243,6 +245,76 @@ namespace XCharts
                     serieData.SetLabelActive(false);
                 }
             }
+        }
+
+        protected void UpdateCoordSerieParams(ref List<SerieParams> paramList, ref string title,
+            int dataIndex, bool showCategory, string category, string marker,
+            string itemFormatter, string numericFormatter)
+        {
+            if (dataIndex < 0)
+                dataIndex = serie.context.pointerItemDataIndex;
+
+            if (dataIndex < 0)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.category = category;
+            param.dimension = 1;
+            param.serieData = serieData;
+            param.value = serieData.GetData(1);
+            param.total = serie.yTotal;
+            param.color = chart.GetLegendRealShowNameColor(serie.serieName);
+            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.columns.Clear();
+
+            param.columns.Add(param.marker);
+            param.columns.Add(showCategory ? category : serie.serieName);
+            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+            paramList.Add(param);
+        }
+
+        protected void UpdateItemSerieParams(ref List<SerieParams> paramList, ref string title,
+            int dataIndex, string category, string marker,
+            string itemFormatter, string numericFormatter, int dimension = 1)
+        {
+            if (dataIndex < 0)
+                dataIndex = serie.context.pointerItemDataIndex;
+
+            if (dataIndex < 0)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.category = category;
+            param.dimension = dimension;
+            param.serieData = serieData;
+            param.value = serieData.GetData(param.dimension);
+            param.total = SerieHelper.GetMaxData(serie, dimension);
+            param.color = chart.theme.GetColor(dataIndex);
+            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.columns.Clear();
+
+            param.columns.Add(param.marker);
+            param.columns.Add(serieData.name);
+            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+            paramList.Add(param);
         }
     }
 }

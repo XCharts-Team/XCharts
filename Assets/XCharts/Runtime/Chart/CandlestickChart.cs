@@ -25,7 +25,9 @@ namespace XCharts
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
 
-            GetChartComponent<Tooltip>().type = Tooltip.Type.Corss;
+            var tooltip = GetChartComponent<Tooltip>();
+            tooltip.type = Tooltip.Type.Shadow;
+            tooltip.trigger = Tooltip.Trigger.Axis;
 
             RemoveData();
             Candlestick.AddDefaultSerie(this, GenerateDefaultSerieName());

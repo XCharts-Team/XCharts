@@ -99,7 +99,7 @@ namespace XCharts
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, dataValue,
-                    dataTotal, serieName, dataName, color);
+                    dataTotal, serieName, dataName, dataName, color);
                 return content;
             }
         }

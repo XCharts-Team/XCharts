@@ -23,6 +23,7 @@ namespace XCharts
     {
         public string langName = "EN";
         public LangTime time = new LangTime();
+        public LangCandlestick candlestick = new LangCandlestick();
 
         public string GetMonthAbbr(int month)
         {
@@ -37,6 +38,14 @@ namespace XCharts
                 return time.dayOfMonth[day];
             else
                 return day.ToString();
+        }
+
+        public string GetCandlestickDimensionName(int i)
+        {
+            if (i >= 0 && i < candlestick.dimensionNames.Count)
+                return candlestick.dimensionNames[i];
+            else
+                return string.Empty;
         }
     }
 
@@ -53,5 +62,10 @@ namespace XCharts
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         public List<string> dayOfWeekAbbr = new List<string>() {
             "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+    }
+
+    public class LangCandlestick
+    {
+        public List<string> dimensionNames = new List<string>() { "open", "close", "lowest", "highest" };
     }
 }

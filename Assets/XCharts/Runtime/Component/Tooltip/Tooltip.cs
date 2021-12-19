@@ -71,30 +71,42 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type;
         [SerializeField] private Trigger m_Trigger = Trigger.Item;
-        [SerializeField] private string m_Formatter;
         [SerializeField] private string m_ItemFormatter;
         [SerializeField] private string m_TitleFormatter;
+        [SerializeField] private string m_Marker = "●";
         [SerializeField] private float m_FixedWidth = 0;
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
         [SerializeField] private float m_MinHeight = 0;
         [SerializeField] private string m_NumericFormatter = "";
-        [SerializeField] private float m_PaddingLeftRight = 5f;
-        [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private int m_PaddingLeftRight = 10;
+        [SerializeField] private int m_PaddingTopBottom = 10;
         [SerializeField] private bool m_IgnoreDataShow = false;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
         [SerializeField] private bool m_AlwayShow = false;
         [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
         [SerializeField] private Sprite m_BackgroundImage;
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private float m_BorderWidth = 2f;
+        [SerializeField] private bool m_FixedXEnable = false;
+        [SerializeField] private float m_FixedX = 0f;
+        [SerializeField] private bool m_FixedYEnable = false;
+        [SerializeField] private float m_FixedY = 0f;
+        [SerializeField] private float m_TitleHeight = 25f;
+        [SerializeField] private float m_ItemHeight = 25f;
+        [SerializeField] private Color32 m_BorderColor = new Color32(230, 230, 230, 255);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
+        [SerializeField] private TextStyle m_LabelTextStyle = new TextStyle();
+        [SerializeField] private TextStyle m_TitleTextStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft };
+        [SerializeField]
+        private List<TextStyle> m_ColumnsTextStyle = new List<TextStyle>() {
+            new TextStyle() { alignment = TextAnchor.MiddleLeft, extraWidth = 5 },
+            new TextStyle() { alignment = TextAnchor.MiddleLeft, extraWidth = 20 },
+            new TextStyle() { alignment = TextAnchor.MiddleRight, extraWidth = 5 }
+        };
 
-        private GameObject m_GameObject;
-        private GameObject m_Content;
-        private ChartText m_ContentText;
-        private Image m_ContentImage;
-        private RectTransform m_ContentRect;
-        private RectTransform m_ContentTextRect;
+        public TooltipContext context = new TooltipContext();
+        public TooltipView view;
 
         /// <summary>
         /// Whether to show the tooltip component.
@@ -124,8 +136,8 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_Trigger, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// A string template formatter for the total content of the prompt box. Support for wrapping lines with \n. 
-        /// When formatter is not null, use formatter first, otherwise use itemFormatter.
+        /// The string template formatter for the tooltip title content. Support for wrapping lines with \n. 
+        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
         /// Template variables are {.}, {a}, {b}, {c}, {d}.
         /// {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.
         /// {a} is the series name of the serie that is currently indicated or whose index is 0.
@@ -140,8 +152,8 @@ namespace XCharts
         /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).
         /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).
         /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"
-        /// 提示框总内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
-        /// 模板变量有{.}、{a}、{b}、{c}、{d}。
+        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。
         /// {.}为当前所指示或index为0的serie的对应颜色的圆点。
         /// {a}为当前所指示或index为0的serie的系列名name。
         /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。
@@ -156,13 +168,6 @@ namespace XCharts
         /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
         /// </summary>
-        public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
-        /// <summary>
-        /// The string template formatter for the tooltip title content. Support for wrapping lines with \n. 
-        /// This is only valid if the itemFormatter is in effect. 
-        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
-        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。仅当itemFormatter生效时才有效。可以单独设置占位符{i}表示忽略不显示title。
-        /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
         /// a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. 
@@ -170,7 +175,11 @@ namespace XCharts
         /// 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
-
+        /// <summary>
+        /// the marker of serie.
+        /// serie的符号标志。
+        /// </summary>
+        public string marker { get { return m_Marker; } set { m_Marker = value; } }
         /// <summary>
         /// Fixed width. Higher priority than minWidth.
         /// 固定宽度。比 minWidth 优先。
@@ -210,12 +219,12 @@ namespace XCharts
         /// the text padding of left and right. defaut:5.
         /// 左右边距。
         /// </summary>
-        public float paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
+        public int paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
         /// <summary>
         /// the text padding of top and bottom. defaut:5.
         /// 上下边距。
         /// </summary>
-        public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
+        public int paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
         /// Whether to show ignored data on tooltip.
         /// 是否显示忽略数据在tooltip上。
@@ -227,10 +236,15 @@ namespace XCharts
         /// </summary>
         public string ignoreDataDefaultContent { get { return m_IgnoreDataDefaultContent; } set { m_IgnoreDataDefaultContent = value; } }
         /// <summary>
-        /// The image of icon.
-        /// 图标的图片。
+        /// The background image of tooltip.
+        /// 提示框的背景图片。
         /// </summary>
-        public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetBackground(m_BackgroundImage); } }
+        public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetComponentDirty(); } }
+        /// <summary>
+        /// The background color of tooltip.
+        /// 提示框的背景颜色。
+        /// </summary>
+        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; SetComponentDirty(); } }
         /// <summary>
         /// Whether to trigger after always display.
         /// 是否触发后一直显示。
@@ -242,14 +256,77 @@ namespace XCharts
         /// </summary>
         public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
-        /// the text style of content.
-        /// 提示框内容文本样式。
+        /// the width of tooltip border.
+        /// 边框线宽。
         /// </summary>
-        public TextStyle textStyle
+        public float borderWidth
         {
-            get { return m_TextStyle; }
-            set { if (value != null) { m_TextStyle = value; SetComponentDirty(); } }
+            get { return m_BorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the color of tooltip border.
+        /// 边框颜色。
+        /// </summary>
+        public Color32 borderColor
+        {
+            get { return m_BorderColor; }
+            set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
+        }
+        public bool fixedXEnable
+        {
+            get { return m_FixedXEnable; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedXEnable, value)) SetVerticesDirty(); }
+        }
+        public float fixedX
+        {
+            get { return m_FixedX; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedX, value)) SetVerticesDirty(); }
+        }
+        public bool fixedYEnable
+        {
+            get { return m_FixedYEnable; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedYEnable, value)) SetVerticesDirty(); }
+        }
+        public float fixedY
+        {
+            get { return m_FixedY; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetVerticesDirty(); }
+        }
+        public float titleHeight
+        {
+            get { return m_TitleHeight; }
+            set { if (PropertyUtil.SetStruct(ref m_TitleHeight, value)) SetComponentDirty(); }
+        }
+        public float itemHeight
+        {
+            get { return m_ItemHeight; }
+            set { if (PropertyUtil.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the text style of content.
+        /// 提示框标签的文本样式。
+        /// </summary>
+        public TextStyle labelTextStyle
+        {
+            get { return m_LabelTextStyle; }
+            set { if (value != null) { m_LabelTextStyle = value; SetComponentDirty(); } }
+        }
+        /// <summary>
+        /// 标题的文本样式。
+        /// </summary>
+        public TextStyle titleTextStyle
+        {
+            get { return m_TitleTextStyle; }
+            set { if (value != null) { m_TitleTextStyle = value; SetComponentDirty(); } }
+        }
+
+        public List<TextStyle> columnsTextStyle
+        {
+            get { return m_ColumnsTextStyle; }
+            set { if (value != null) { m_ColumnsTextStyle = value; SetComponentDirty(); } }
+        }
+
         /// <summary>
         /// the line style of indicator line.
         /// 指示线样式。
@@ -265,14 +342,14 @@ namespace XCharts
         /// </summary>
         public override bool componentDirty
         {
-            get { return m_ComponentDirty || lineStyle.componentDirty || textStyle.componentDirty; }
+            get { return m_ComponentDirty || lineStyle.componentDirty || labelTextStyle.componentDirty; }
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
-            textStyle.ClearComponentDirty();
+            labelTextStyle.ClearComponentDirty();
         }
         /// <summary>
         /// 当前提示框所指示的Serie索引（目前只对散点图有效）。
@@ -285,126 +362,17 @@ namespace XCharts
         public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
         private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
         /// <summary>
-        /// the width of tooltip. 
-        /// 提示框宽。
-        /// </summary>
-        public float runtimeWidth { get { return m_ContentRect.sizeDelta.x; } }
-        /// <summary>
-        /// the height of tooltip. 
-        /// 提示框高。
-        /// </summary>
-        public float runtimeHeight { get { return m_ContentRect.sizeDelta.y; } }
-        /// <summary>
-        /// Whether the tooltip has been initialized. 
-        /// 提示框是否已初始化。
-        /// </summary>
-        public bool runtimeInited { get { return m_GameObject != null; } }
-        /// <summary>
-        /// the gameObject of tooltip. 
-        /// 提示框的gameObject。
-        /// </summary>
-        public GameObject runtimeGameObject { get { return m_GameObject; } }
-        /// <summary>
         /// 当前指示的角度。
         /// </summary>
         public float runtimeAngle { get; internal set; }
 
         /// <summary>
-        /// 绑定提示框gameObject
-        /// </summary>
-        /// <param name="obj"></param>
-        public void SetObj(GameObject obj)
-        {
-            m_GameObject = obj;
-            m_GameObject.SetActive(false);
-        }
-
-        /// <summary>
-        /// 绑定提示框的文本框gameObject
-        /// </summary>
-        /// <param name="content"></param>
-        public void SetContentObj(GameObject content)
-        {
-            m_Content = content;
-            m_ContentRect = m_Content.GetComponent<RectTransform>();
-            m_ContentImage = m_Content.GetComponent<Image>();
-            m_ContentImage.raycastTarget = false;
-            m_ContentText = new ChartText(m_Content);
-            if (m_ContentText != null)
-            {
-                m_ContentTextRect = m_ContentText.gameObject.GetComponentInChildren<RectTransform>();
-            }
-            SetBackground(backgroundImage);
-        }
-
-        /// <summary>
         /// Keep Tooltiop displayed at the top. 
         /// 保持Tooltiop显示在最顶上
         /// </summary>
-        public void UpdateToTop()
+        public void KeepTop()
         {
-            if (m_GameObject == null) return;
-            int count = m_GameObject.transform.parent.childCount;
-            m_GameObject.GetComponent<RectTransform>().SetSiblingIndex(count - 1);
-        }
-
-        /// <summary>
-        /// 设置提示框文本背景色
-        /// </summary>
-        /// <param name="color"></param>
-        public void SetContentBackgroundColor(Color color)
-        {
-            if (m_ContentImage != null)
-                m_ContentImage.color = color;
-        }
-
-        /// <summary>
-        /// 设置提示框文本背景图片
-        /// </summary>
-        /// <param name="sprite"></param>
-        public void SetBackground(Sprite sprite)
-        {
-            if (m_ContentImage != null)
-            {
-                m_ContentImage.type = Image.Type.Sliced;
-                m_ContentImage.sprite = sprite;
-            }
-        }
-
-        /// <summary>
-        /// 设置提示框文本字体颜色
-        /// </summary>
-        /// <param name="color"></param>
-        public void SetContentTextColor(Color color)
-        {
-            if (m_ContentText != null)
-            {
-                m_ContentText.SetColor(color);
-            }
-        }
-
-        /// <summary>
-        /// 设置提示框文本内容
-        /// </summary>
-        /// <param name="txt"></param>
-        public void UpdateContentText(string txt)
-        {
-            if (m_ContentText != null)
-            {
-                m_ContentText.SetText(txt);
-                float wid, hig;
-                if (m_FixedWidth > 0) wid = m_FixedWidth;
-                else if (m_MinWidth > 0 && m_ContentText.GetPreferredWidth() < m_MinWidth) wid = m_MinWidth;
-                else wid = m_ContentText.GetPreferredWidth() + m_PaddingLeftRight * 2;
-                if (m_FixedHeight > 0) hig = m_FixedHeight;
-                else if (m_MinHeight > 0 && m_ContentText.GetPreferredHeight() < m_MinHeight) hig = m_MinHeight;
-                else hig = m_ContentText.GetPreferredHeight() + m_PaddingTopBottom * 2;
-                if (m_ContentRect != null) m_ContentRect.sizeDelta = new Vector2(wid, hig);
-                if (m_ContentTextRect != null)
-                {
-                    m_ContentTextRect.anchoredPosition = new Vector3(m_PaddingLeftRight, -m_PaddingTopBottom);
-                }
-            }
+            gameObject.transform.SetAsLastSibling();
         }
 
         public override void ClearData()
@@ -426,18 +394,20 @@ namespace XCharts
         /// <returns></returns>
         public bool IsActive()
         {
-            return m_GameObject != null && m_GameObject.activeInHierarchy;
+            return gameObject != null && gameObject.activeInHierarchy;
         }
 
         /// <summary>
-        /// 设置提示框是否显示
+        /// 设置Tooltip组件是否显示
         /// </summary>
         /// <param name="flag"></param>
         public void SetActive(bool flag)
         {
-            if (!flag && m_AlwayShow) return;
-            if (m_GameObject && m_GameObject.activeInHierarchy != flag)
-                m_GameObject.SetActive(flag);
+            if (gameObject && gameObject.activeInHierarchy != flag)
+            {
+                gameObject.SetActive(alwayShow ? true : flag);
+            }
+            SetContentActive(flag);
         }
 
         /// <summary>
@@ -446,26 +416,23 @@ namespace XCharts
         /// <param name="pos"></param>
         public void UpdateContentPos(Vector2 pos)
         {
-            if (m_Content)
-                m_Content.transform.localPosition = pos;
-        }
-
-        public void SetContentActive(bool flag)
-        {
-            if (m_Content)
-                ChartHelper.SetActive(m_Content, flag);
+            if (view != null)
+            {
+                if (fixedXEnable) pos.x = fixedX;
+                if (fixedYEnable) pos.y = fixedY;
+                view.UpdatePosition(pos);
+            }
         }
 
         /// <summary>
-        /// 获得当前提示框的位置
+        /// 设置文本框是否显示
         /// </summary>
-        /// <returns></returns>
-        public Vector3 GetContentPos()
+        /// <param name="flag"></param>
+        public void SetContentActive(bool flag)
         {
-            if (m_Content)
-                return m_Content.transform.localPosition;
-            else
-                return Vector3.zero;
+            if (view == null)
+                return;
+            view.SetActive(alwayShow ? true : flag);
         }
 
         /// <summary>
@@ -525,6 +492,19 @@ namespace XCharts
         public bool IsTriggerAxis()
         {
             return trigger == Trigger.Axis;
+        }
+
+        public TextStyle GetColumnTextStyle(int index)
+        {
+            if (m_ColumnsTextStyle.Count == 0)
+                return null;
+
+            if (index < 0)
+                index = 0;
+            else if (index > m_ColumnsTextStyle.Count - 1)
+                index = m_ColumnsTextStyle.Count - 1;
+
+            return m_ColumnsTextStyle[index];
         }
     }
 }

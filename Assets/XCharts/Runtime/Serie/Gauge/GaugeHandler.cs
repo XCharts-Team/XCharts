@@ -49,25 +49,24 @@ namespace XCharts
                     }
                 }
             }
+            serie.context.pointerEnter = false;
+            serie.context.pointerItemDataIndex = -1;
+            foreach (var serieData in serie.data)
+            {
+                if (serieData.IsInPolygon(chart.pointerPos))
+                {
+                    serie.context.pointerEnter = true;
+                    serie.context.pointerItemDataIndex = serieData.index;
+                }
+            }
         }
 
-        public override bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb)
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         {
-            if (!serie.context.pointerEnter || serie.context.pointerItemDataIndex < 0) return false;
-            var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
-            if (serieData == null) return false;
-            var key = serieData.name;
-            var numericFormatter = TooltipHelper.GetItemNumericFormatter(tooltip, serie, serieData);
-            var value = serieData.GetData(1);
-            if (!string.IsNullOrEmpty(serie.serieName))
-            {
-                sb.Append(serie.serieName).Append(FormatterHelper.PH_NN);
-            }
-            sb.Append("<color=#").Append(chart.theme.GetColorStr(serie.context.pointerItemDataIndex)).Append(">● </color>");
-            if (!string.IsNullOrEmpty(key))
-                sb.Append(key).Append(": ");
-            sb.Append(ChartCached.FloatToStr(value, numericFormatter));
-            return true;
+            UpdateItemSerieParams(ref paramList, ref title, dataIndex, category, 
+                marker, itemFormatter, numericFormatter);
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -233,6 +232,8 @@ namespace XCharts
             var p4 = ChartHelper.GetPosition(serie.context.center, currAngle + 90, serie.gaugePointer.width / 2);
             UGL.DrawTriangle(vh, p2, p3, p1, pointerColor, pointerColor, pointerToColor);
             UGL.DrawTriangle(vh, p4, p2, p1, pointerColor, pointerColor, pointerToColor);
+            if (serie.data.Count > 0)
+                serie.data[0].SetPolygon(p1, p2, p3, p4);
         }
 
         private void DrawLineStyle(VertexHelper vh, Gauge serie)

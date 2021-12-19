@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -18,6 +19,69 @@ namespace XCharts
         {
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
             DrawCandlestickSerie(vh, colorIndex, serie);
+        }
+
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
+        {
+            if (dataIndex < 0)
+                dataIndex = serie.context.pointerItemDataIndex;
+
+            if (dataIndex < 0)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            title = category;
+
+            var color = chart.GetLegendRealShowNameColor(serie.serieName);
+            var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.category = category;
+            param.dimension = 1;
+            param.serieData = serieData;
+            param.value = 0;
+            param.total = 0;
+            param.color = color;
+            param.marker = newMarker;
+            param.itemFormatter = newItemFormatter;
+            param.numericFormatter = newNumericFormatter;
+            param.columns.Clear();
+
+            param.columns.Add(param.marker);
+            param.columns.Add(serie.serieName);
+            param.columns.Add(string.Empty);
+
+            paramList.Add(param);
+            for (int i = 0; i < 4; i++)
+            {
+                param = new SerieParams();
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
+                param.dimension = i;
+                param.serieData = serieData;
+                param.value = serieData.GetData(i);
+                param.total = SerieHelper.GetMaxData(serie, i);
+                param.color = color;
+                param.marker = newMarker;
+                param.itemFormatter = newItemFormatter;
+                param.numericFormatter = newNumericFormatter;
+                param.columns.Clear();
+
+                param.columns.Add(param.marker);
+                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i));
+                param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                paramList.Add(param);
+            }
         }
 
         private void DrawCandlestickSerie(VertexHelper vh, int colorIndex, Candlestick serie)

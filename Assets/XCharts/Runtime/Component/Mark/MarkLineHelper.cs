@@ -25,7 +25,7 @@ namespace XCharts
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, data.runtimeValue,
-                    0, serie.serieName, data.name, Color.clear);
+                    0, serie.serieName, data.name, data.name, Color.clear);
                 return content;
             }
         }

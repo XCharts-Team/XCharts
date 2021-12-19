@@ -30,6 +30,7 @@ namespace XCharts
 #endif
                 PropertyField(prop, "m_Rotate");
                 PropertyField(prop, "m_Offset");
+                PropertyField(prop, "m_ExtraWidth");
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_BackgroundColor");
                 PropertyField(prop, "m_FontSize");

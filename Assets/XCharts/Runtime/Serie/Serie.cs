@@ -1090,10 +1090,11 @@ namespace XCharts
             get
             {
                 double total = 0;
+                var duration = animation.GetUpdateAnimationDuration();
                 foreach (var sdata in data)
                 {
                     if (sdata.show && !IsIgnoreValue(sdata.data[1]))
-                        total += sdata.GetCurrData(1, animation.GetUpdateAnimationDuration());
+                        total += sdata.GetCurrData(1, duration);
                 }
                 return total;
             }

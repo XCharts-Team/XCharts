@@ -24,7 +24,7 @@ namespace XCharts
 
         public override void Update()
         {
-            if (chart.isPointerInChart)
+            if (!chart.isPointerInChart)
             {
                 component.context.isPointerEnter = false;
                 return;

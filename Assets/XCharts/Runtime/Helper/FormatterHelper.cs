@@ -214,7 +214,7 @@ namespace XCharts
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, double value, double total,
-            string serieName, string dataName, Color color)
+            string serieName, string category, string dataName, Color color)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -236,7 +236,11 @@ namespace XCharts
                 {
                     content = content.Replace(old, serieName);
                 }
-                else if (p == 'b' || p == 'B' || p == 'e' || p == 'E')
+                else if (p == 'b' || p == 'B')
+                {
+                    content = content.Replace(old, category);
+                }
+                else if (p == 'e' || p == 'E')
                 {
                     content = content.Replace(old, dataName);
                 }

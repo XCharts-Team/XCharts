@@ -49,11 +49,11 @@ namespace XCharts
         {
             if (chart.isPointerInChart)
             {
-                component.context.runtimeIsPointerEnter = component.Contains(chart.pointerPos);
+                component.context.isPointerEnter = component.Contains(chart.pointerPos);
             }
             else
             {
-                component.context.runtimeIsPointerEnter = false;
+                component.context.isPointerEnter = false;
             }
         }
 

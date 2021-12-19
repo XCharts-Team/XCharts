@@ -798,7 +798,7 @@ namespace XCharts
             var handler = (SerieHandler)Activator.CreateInstance(attrubte.handler);
             handler.attribute = attrubte;
             handler.chart = this;
-            handler.SerSerie(serie);
+            handler.SetSerie(serie);
             serie.handler = handler;
             m_SerieHandlers.Add(handler);
         }

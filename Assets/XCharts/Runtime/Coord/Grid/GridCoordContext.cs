@@ -20,6 +20,6 @@ namespace XCharts
         public float right { get; internal set; }
         public float bottom { get; internal set; }
         public float top { get; internal set; }
-        public bool runtimeIsPointerEnter { get; set; }
+        public bool isPointerEnter { get; set; }
     }
 }

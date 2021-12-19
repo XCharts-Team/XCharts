@@ -15,11 +15,10 @@ namespace XCharts
     [UnityEngine.Scripting.Preserve]
     internal sealed class RadarHandler : SerieHandler<Radar>
     {
-        Dictionary<string, int> serieNameSet = new Dictionary<string, int>();
-
-        public override void DrawBase(VertexHelper vh)
+        public override void Update()
         {
-            serieNameSet.Clear();
+            base.Update();
+            UpdateSerieContext();
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -28,11 +27,63 @@ namespace XCharts
             switch (serie.radarType)
             {
                 case RadarType.Multiple:
-                    DrawMutipleRadar(vh, serie, serie.index);
+                    DrawMutipleRadar(vh);
                     break;
                 case RadarType.Single:
-                    DrawSingleRadar(vh, serie, serie.index);
+                    DrawSingleRadar(vh);
                     break;
+            }
+        }
+
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
+        {
+            if (!serie.context.pointerEnter)
+                return;
+            dataIndex = serie.context.pointerItemDataIndex;
+            if (dataIndex < 0)
+                return;
+
+            if (serie.radarType == RadarType.Single)
+            {
+                UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
+                    marker, itemFormatter, numericFormatter);
+                return;
+            }
+
+            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
+            if (radar == null)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            var color = chart.theme.GetColor(dataIndex);
+            title = serieData.name;
+            for (int i = 0; i < serieData.data.Count; i++)
+            {
+                var indicator = radar.GetIndicator(i);
+
+                var param = new SerieParams();
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
+                param.dimension = i;
+                param.serieData = serieData;
+                param.value = serieData.GetData(i);
+                param.total = indicator.max;
+                param.color = color;
+                param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+                param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+                param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+                param.columns.Clear();
+
+                param.columns.Add(param.marker);
+                param.columns.Add(indicator == null ? string.Empty : indicator.name);
+                param.columns.Add(ChartCached.NumberToStr(serieData.GetData(i), param.numericFormatter));
+
+                paramList.Add(param);
             }
         }
 
@@ -109,19 +160,61 @@ namespace XCharts
             return true;
         }
 
-        private void DrawMutipleRadar(VertexHelper vh, Serie serie, int i)
+
+
+        private void UpdateSerieContext()
+        {
+            if (!chart.isPointerInChart) return;
+            serie.context.pointerEnter = false;
+            switch (serie.radarType)
+            {
+                case RadarType.Multiple:
+                    for (int i = 0; i < serie.data.Count; i++)
+                    {
+                        var serieData = serie.data[i];
+                        serieData.index = i;
+                        foreach (var pos in serieData.context.dataPoints)
+                        {
+                            if (Vector3.Distance(chart.pointerPos, pos) < serie.symbol.size * 2)
+                            {
+                                serie.context.pointerEnter = true;
+                                serie.context.pointerItemDataIndex = i;
+                                return;
+                            }
+                        }
+                    }
+                    break;
+                case RadarType.Single:
+                    for (int i = 0; i < serie.data.Count; i++)
+                    {
+                        var serieData = serie.data[i];
+                        serieData.index = i;
+                        if (Vector3.Distance(chart.pointerPos, serieData.context.position) < serie.symbol.size * 2)
+                        {
+                            serie.context.pointerEnter = true;
+                            serie.context.pointerItemDataIndex = i;
+                            return;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void DrawMutipleRadar(VertexHelper vh)
         {
             if (!serie.show) return;
             var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
             if (radar == null) return;
-            var tooltip = chart.GetChartComponent<Tooltip>();
+
+            serie.containerIndex = radar.index;
+            serie.containterInstanceId = radar.instanceId;
+
             var startPoint = Vector3.zero;
             var toPoint = Vector3.zero;
             var firstPoint = Vector3.zero;
             var indicatorNum = radar.indicatorList.Count;
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = radar.context.center;
-            var serieNameCount = -1;
             serie.animation.InitProgress(0, 1);
             if (!serie.show || serie.animation.HasFadeOut())
             {
@@ -134,43 +227,18 @@ namespace XCharts
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
-                int key = i * 1000 + j;
-                if (!radar.context.dataPositionDict.ContainsKey(key))
-                {
-                    radar.context.dataPositionDict.Add(i * 1000 + j, new List<Vector3>(serieData.data.Count));
-                }
-                else
-                {
-                    radar.context.dataPositionDict[key].Clear();
-                }
                 string dataName = serieData.name;
-                int serieIndex = 0;
-                if (string.IsNullOrEmpty(dataName))
-                {
-                    serieNameCount++;
-                    serieIndex = serieNameCount;
-                }
-                else if (!serieNameSet.ContainsKey(dataName))
-                {
-                    serieNameSet.Add(dataName, serieNameCount);
-                    serieNameCount++;
-                    serieIndex = serieNameCount;
-                }
-                else
-                {
-                    serieIndex = serieNameSet[dataName];
-                }
                 if (!serieData.show)
                 {
                     continue;
                 }
-                var isHighlight = IsHighlight(radar, serie, serieData, tooltip, j, 0);
-                var areaColor = SerieHelper.GetAreaColor(serie, chart.theme, serieIndex, isHighlight);
-                var areaToColor = SerieHelper.GetAreaToColor(serie, chart.theme, serieIndex, isHighlight);
-                var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serieIndex, isHighlight);
+                var isHighlight = serie.context.pointerEnter;
+                var areaColor = SerieHelper.GetAreaColor(serie, chart.theme, j, isHighlight);
+                var areaToColor = SerieHelper.GetAreaToColor(serie, chart.theme, j, isHighlight);
+                var lineColor = SerieHelper.GetLineColor(serie, chart.theme, j, isHighlight);
                 var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
                 int dataCount = radar.indicatorList.Count;
-                List<Vector3> pointList = radar.context.dataPositionDict[key];
+                serieData.context.dataPoints.Clear();
                 for (int n = 0; n < dataCount; n++)
                 {
                     if (n >= serieData.data.Count) break;
@@ -205,7 +273,7 @@ namespace XCharts
                         }
                         startPoint = toPoint;
                     }
-                    pointList.Add(startPoint);
+                    serieData.context.dataPoints.Add(startPoint);
                 }
                 if (serie.areaStyle.show)
                 {
@@ -217,16 +285,16 @@ namespace XCharts
                 }
                 if (serie.symbol.show && serie.symbol.type != SymbolType.None)
                 {
-                    for (int m = 0; m < pointList.Count; m++)
+                    for (int m = 0; m < serieData.context.dataPoints.Count; m++)
                     {
-                        var point = pointList[m];
-                        isHighlight = IsHighlight(radar, serie, serieData, tooltip, j, m);
+                        var point = serieData.context.dataPoints[m];
+                        isHighlight = serie.context.pointerEnter;
                         var symbolSize = isHighlight
                             ? serie.symbol.GetSelectedSize(null, chart.theme.serie.lineSymbolSelectedSize)
                             : serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
-                        var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                        var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                        var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
+                        var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, isHighlight);
+                        var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, isHighlight);
+                        var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, j, isHighlight, false);
                         var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
                         var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                         chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
@@ -245,67 +313,30 @@ namespace XCharts
             }
         }
 
-        private bool IsHighlight(RadarCoord radar, Serie serie, SerieData serieData, Tooltip tooltip, int dataIndex, int dimension)
+        private void DrawSingleRadar(VertexHelper vh)
         {
-            if (serie.highlight || serieData.context.highlight) return true;
-            if (tooltip == null) return false;
-            var selectedSerieIndex = tooltip.runtimeDataIndex[0];
-            if (selectedSerieIndex < 0) return false;
-            if (chart.GetSerie(selectedSerieIndex).radarIndex != serie.radarIndex) return false;
-            switch (serie.radarType)
-            {
-                case RadarType.Multiple:
-                    if (radar.isAxisTooltip)
-                    {
-                        var selectedDimension = tooltip.runtimeDataIndex[2];
-                        return selectedDimension == dimension;
-                    }
-                    else if (tooltip.runtimeDataIndex.Count >= 2)
-                    {
-                        return tooltip.runtimeDataIndex[0] == serie.index && tooltip.runtimeDataIndex[1] == dataIndex;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                case RadarType.Single:
-                    return tooltip.runtimeDataIndex[1] == dataIndex;
-            }
-            return false;
-        }
+            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
+            if (radar == null)
+                return;
 
-        private void DrawSingleRadar(VertexHelper vh, Serie serie, int i)
-        {
+            var indicatorNum = radar.indicatorList.Count;
+            var angle = 2 * Mathf.PI / indicatorNum;
+            var centerPos = radar.context.center;
+            serie.animation.InitProgress(0, 1);
+            serie.context.dataPoints.Clear();
+            if (!serie.show || serie.animation.HasFadeOut())
+            {
+                return;
+            }
             var startPoint = Vector3.zero;
             var toPoint = Vector3.zero;
             var firstPoint = Vector3.zero;
             var lastColor = ColorUtil.clearColor32;
             var firstColor = ColorUtil.clearColor32;
 
-            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
-            var tooltip = chart.GetChartComponent<Tooltip>();
-            var indicatorNum = radar.indicatorList.Count;
-            var angle = 2 * Mathf.PI / indicatorNum;
-            var centerPos = radar.context.center;
-            var serieNameCount = -1;
-            serie.animation.InitProgress(0, 1);
-            if (!serie.show || serie.animation.HasFadeOut())
-            {
-                return;
-            }
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            int key = i * 1000;
-            if (!radar.context.dataPositionDict.ContainsKey(key))
-            {
-                radar.context.dataPositionDict.Add(i * 1000, new List<Vector3>(serie.dataCount));
-            }
-            else
-            {
-                radar.context.dataPositionDict[key].Clear();
-            }
-            var pointList = radar.context.dataPositionDict[key];
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
             SerieHelper.UpdateMinMaxData(serie, 1, radar.ceilRate);
@@ -314,31 +345,16 @@ namespace XCharts
                 var serieData = serie.data[j];
                 serieData.index = j;
                 string dataName = serieData.name;
-                int serieIndex = 0;
-                if (string.IsNullOrEmpty(dataName))
-                {
-                    serieNameCount++;
-                    serieIndex = serieNameCount;
-                }
-                else if (!serieNameSet.ContainsKey(dataName))
-                {
-                    serieNameSet.Add(dataName, serieNameCount);
-                    serieNameCount++;
-                    serieIndex = serieNameCount;
-                }
-                else
-                {
-                    serieIndex = serieNameSet[dataName];
-                }
+
                 if (!serieData.show)
                 {
                     serieData.context.labelPosition = Vector3.zero;
                     continue;
                 }
-                var isHighlight = IsHighlight(radar, serie, serieData, tooltip, j, 0);
-                var areaColor = SerieHelper.GetAreaColor(serie, chart.theme, serieIndex, isHighlight);
-                var areaToColor = SerieHelper.GetAreaToColor(serie, chart.theme, serieIndex, isHighlight);
-                var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serieIndex, isHighlight);
+                var isHighlight = serie.context.pointerEnter;
+                var areaColor = SerieHelper.GetAreaColor(serie, chart.theme, j, isHighlight);
+                var areaToColor = SerieHelper.GetAreaToColor(serie, chart.theme, j, isHighlight);
+                var lineColor = SerieHelper.GetLineColor(serie, chart.theme, j, isHighlight);
                 int dataCount = radar.indicatorList.Count;
                 var index = serieData.index;
                 var p = radar.context.center;
@@ -384,8 +400,8 @@ namespace XCharts
                     startPoint = toPoint;
                     lastColor = lineColor;
                 }
+                serieData.context.position = startPoint;
                 serieData.context.labelPosition = startPoint;
-                pointList.Add(startPoint);
 
                 if (serie.areaStyle.show && j == endIndex)
                 {
@@ -406,8 +422,7 @@ namespace XCharts
                 {
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
-                    var isHighlight = serie.highlight || serieData.context.highlight ||
-                    (tooltip.show && tooltip.runtimeDataIndex[0] == i && tooltip.runtimeDataIndex[1] == j);
+                    var isHighlight = serie.highlight || serieData.context.highlight || serie.context.pointerEnter;
                     var serieIndex = serieData.index;
                     var symbolSize = isHighlight
                         ? serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize)
@@ -473,23 +488,6 @@ namespace XCharts
                        symbolToColor, symbolEmptyColor, serie.symbol.gap, cornerRadius);
                 }
             }
-        }
-
-        private bool IsInRadar(Vector2 local)
-        {
-            foreach (var component in chart.components)
-            {
-                if (component is RadarCoord)
-                {
-                    var radar = component as RadarCoord;
-                    var dist = Vector2.Distance(radar.context.center, local);
-                    if (dist < radar.context.radius + chart.theme.serie.lineSymbolSize)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
     }
 }

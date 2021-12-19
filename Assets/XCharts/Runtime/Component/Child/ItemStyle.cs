@@ -50,7 +50,8 @@ namespace XCharts
         [SerializeField] private Color32 m_BorderColor0;
         [SerializeField] private Color32 m_BorderToColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
-        [SerializeField] private string m_TooltipFormatter;
+        [SerializeField] private string m_ItemMarker;
+        [SerializeField] private string m_ItemFormatter;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
 
@@ -71,7 +72,8 @@ namespace XCharts
             m_BorderColor0 = Color.clear;
             m_BorderToColor = Color.clear;
             m_Opacity = 1;
-            m_TooltipFormatter = null;
+            m_ItemFormatter = null;
+            m_ItemMarker = null;
             m_NumericFormatter = "";
             if (m_CornerRadius == null)
             {
@@ -209,10 +211,18 @@ namespace XCharts
         /// <summary>
         /// 提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
         /// </summary>
-        public string tooltipFormatter
+        public string itemFormatter
         {
-            get { return m_TooltipFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
+            get { return m_ItemFormatter; }
+            set { if (PropertyUtil.SetClass(ref m_ItemFormatter, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 提示框单项的字符标志。用在Tooltip中。
+        /// </summary>
+        public string itemMarker
+        {
+            get { return m_ItemMarker; }
+            set { if (PropertyUtil.SetClass(ref m_ItemMarker, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Standard numeric format strings.

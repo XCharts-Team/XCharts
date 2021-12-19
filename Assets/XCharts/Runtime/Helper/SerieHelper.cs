@@ -532,11 +532,25 @@ namespace XCharts
             else return null;
         }
 
-        public static string GetNumericFormatter(Serie serie, SerieData serieData)
+        public static string GetNumericFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
             if (!string.IsNullOrEmpty(itemStyle.numericFormatter)) return itemStyle.numericFormatter;
-            else return string.Empty;
+            else return defaultFormatter;
+        }
+
+        public static string GetItemFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)
+        {
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (!string.IsNullOrEmpty(itemStyle.itemFormatter)) return itemStyle.itemFormatter;
+            else return defaultFormatter;
+        }
+
+        public static string GetItemMarker(Serie serie, SerieData serieData, string defaultMarker = null)
+        {
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (!string.IsNullOrEmpty(itemStyle.itemMarker)) return itemStyle.itemMarker;
+            else return defaultMarker;
         }
 
         /// <summary>

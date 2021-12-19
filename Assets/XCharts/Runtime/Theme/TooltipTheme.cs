@@ -13,6 +13,7 @@ namespace XCharts
     [Serializable]
     public class TooltipTheme : ComponentTheme
     {
+
         [SerializeField] protected LineStyle.Type m_LineType = LineStyle.Type.Solid;
         [SerializeField] protected float m_LineWidth = 1f;
         [SerializeField] protected Color32 m_LineColor;
@@ -47,6 +48,7 @@ namespace XCharts
             get { return m_LineColor; }
             set { if (PropertyUtil.SetColor(ref m_LineColor, value)) SetVerticesDirty(); }
         }
+
         /// <summary>
         /// the color of line.
         /// 区域指示的颜色。
@@ -83,28 +85,28 @@ namespace XCharts
             switch (theme)
             {
                 case ThemeType.Default:
-                    m_TextBackgroundColor = ColorUtil.GetColor("#515151C8");
-                    m_TextColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextBackgroundColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextColor = ColorUtil.GetColor("#000000FF");
                     m_AreaColor = ColorUtil.GetColor("#51515120");
                     m_LabelTextColor = ColorUtil.GetColor("#FFFFFFFF");
                     m_LabelBackgroundColor = ColorUtil.GetColor("#292929FF");
                     m_LineColor = ColorUtil.GetColor("#29292964");
                     break;
                 case ThemeType.Light:
-                    m_TextBackgroundColor = ColorUtil.GetColor("#515151C8");
-                    m_TextColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextBackgroundColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextColor = ColorUtil.GetColor("#000000FF");
                     m_AreaColor = ColorUtil.GetColor("#51515120");
                     m_LabelTextColor = ColorUtil.GetColor("#FFFFFFFF");
                     m_LabelBackgroundColor = ColorUtil.GetColor("#292929FF");
                     m_LineColor = ColorUtil.GetColor("#29292964");
                     break;
                 case ThemeType.Dark:
-                    m_TextBackgroundColor = ColorUtil.GetColor("#515151C8");
-                    m_TextColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextBackgroundColor = ColorUtil.GetColor("#FFFFFFFF");
+                    m_TextColor = ColorUtil.GetColor("#000000FF");
                     m_AreaColor = ColorUtil.GetColor("#51515120");
                     m_LabelTextColor = ColorUtil.GetColor("#FFFFFFFF");
-                    m_LabelBackgroundColor = ColorUtil.GetColor("#A7A7A7FF");
-                    m_LineColor = ColorUtil.GetColor("#eee");
+                    m_LabelBackgroundColor = ColorUtil.GetColor("#292929FF");
+                    m_LineColor = ColorUtil.GetColor("#29292964");
                     break;
             }
         }

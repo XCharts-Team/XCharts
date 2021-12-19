@@ -15,7 +15,7 @@ namespace XCharts
     [RequireChartComponent(typeof(RadarCoord))]
     public class Radar : Serie, INeedSerieContainer
     {
-        public int containerIndex { get { return radarIndex; } }
+        public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
 
         public override bool useDataNameForColor { get { return true; } }

@@ -16,7 +16,6 @@ namespace XCharts
     [UnityEngine.Scripting.Preserve]
     internal sealed class TooltipHandler : MainComponentHandler<Tooltip>
     {
-        private static StringBuilder s_ContentBuilder = new StringBuilder(200);
         private List<ChartLabel> m_IndicatorLabels = new List<ChartLabel>();
         private GameObject m_LabelRoot;
         private ISerieContainer m_PointerContainer;
@@ -30,6 +29,8 @@ namespace XCharts
         {
             UpdateTooltip(component);
             UpdateTooltipIndicatorLabelText(component);
+            if (component.view != null)
+                component.view.Update();
         }
 
         public override void DrawTop(VertexHelper vh)
@@ -49,13 +50,9 @@ namespace XCharts
                 tooltipObject.transform.localPosition = Vector3.zero;
                 tooltipObject.hideFlags = chart.chartHideFlags;
                 var parent = tooltipObject.transform;
-                var textStyle = tooltip.textStyle;
                 ChartHelper.HideAllObject(tooltipObject.transform);
-                GameObject content = ChartHelper.AddTooltipContent("content", parent, textStyle, chart.theme);
-                tooltip.SetObj(tooltipObject);
-                tooltip.SetContentObj(content);
-                tooltip.SetContentBackgroundColor(TooltipHelper.GetTexBackgroundColor(tooltip, chart.theme.tooltip));
-                tooltip.SetContentTextColor(TooltipHelper.GetTexColor(tooltip, chart.theme.tooltip));
+
+                tooltip.view = TooltipView.CreateView(tooltip, chart.theme, parent);
                 tooltip.SetActive(false);
 
                 m_LabelRoot = ChartHelper.AddObject("label", tooltip.gameObject.transform, chart.chartMinAnchor,
@@ -66,6 +63,7 @@ namespace XCharts
                 {
                     var labelName = "label_" + i;
                     var item = ChartHelper.AddTooltipLabel(component, labelName, m_LabelRoot.transform, chart.theme, new Vector2(0.5f, 0.5f));
+                    item.SetActive(false);
                     m_IndicatorLabels.Add(item);
                 }
             };
@@ -88,7 +86,7 @@ namespace XCharts
         private void UpdateTooltip(Tooltip tooltip)
         {
             if (tooltip.trigger == Tooltip.Trigger.None) return;
-            if (!chart.isPointerInChart || !tooltip.show || !tooltip.runtimeInited)
+            if (!chart.isPointerInChart || !tooltip.show)
             {
                 if (tooltip.IsActive())
                 {
@@ -232,7 +230,7 @@ namespace XCharts
                 serie.context.pointerAxisDataIndexs.Add((int)xAxis.context.pointerValue);
                 xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
             }
-            else// if (xAxis.IsTime())
+            else
             {
                 GetSerieDataIndexByValue(serie, xAxis, grid);
             }
@@ -314,50 +312,71 @@ namespace XCharts
         {
             if (tooltip.trigger == Tooltip.Trigger.None) return false;
             if (serie.context.pointerItemDataIndex < 0) return false;
-            s_ContentBuilder.Length = 0;
-            serie.handler.SetDefaultTooltipContent(tooltip, s_ContentBuilder);
+
+            tooltip.context.data.param.Clear();
+            tooltip.context.data.title = serie.serieName;
+            tooltip.context.pointer = chart.pointerPos;
+
+            serie.handler.UpdateTooltipSerieParams(serie.context.pointerItemDataIndex, false, null,
+                tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                ref tooltip.context.data.param,
+                ref tooltip.context.data.title);
+            TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
+
             tooltip.SetActive(true);
-            tooltip.UpdateContentPos(chart.pointerPos + tooltip.offset);
-            TooltipHelper.SetContentAndPosition(tooltip, s_ContentBuilder.ToString(), chart.chartRect);
+            tooltip.view.Refresh();
+            TooltipHelper.LimitInRect(tooltip, chart.chartRect);
             return true;
         }
 
         private bool SetSerieTooltip(Tooltip tooltip, List<Serie> series)
         {
-            if (tooltip.trigger == Tooltip.Trigger.None) return false;
-            s_ContentBuilder.Length = 0;
-            var showContent = false;
+            if (tooltip.trigger == Tooltip.Trigger.None)
+                return false;
+
+            if (series.Count <= 0)
+                return false;
+
+            string category = null;
+            var showCategory = false;
+            var dataIndex = -1;
+            tooltip.context.data.param.Clear();
+            tooltip.context.pointer = chart.pointerPos;
             if (m_PointerContainer is GridCoord)
             {
                 if (tooltip.trigger == Tooltip.Trigger.Axis)
                 {
-                    var grid = m_PointerContainer as GridCoord;
-                    var category = GetAxisCategory(grid.index);
-                    if (!string.IsNullOrEmpty(category))
-                        s_ContentBuilder.Append(category).Append(FormatterHelper.PH_NN);
-                }
-                for (int i = 0; i < series.Count; i++)
-                {
-                    var serie = series[i];
-                    if (serie.handler.SetDefaultTooltipContent(tooltip, s_ContentBuilder))
+                    GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category);
+                    if (series.Count <= 1)
                     {
-                        showContent = true;
-                        if (i != series.Count - 1)
-                            s_ContentBuilder.Append(FormatterHelper.PH_NN);
+                        showCategory = true;
+                        tooltip.context.data.title = series[0].serieName;
                     }
+                    else
+                        tooltip.context.data.title = category;
                 }
-                if (showContent)
-                {
-                    tooltip.SetActive(true);
-                    tooltip.SetContentActive(true);
-                    tooltip.UpdateContentPos(chart.pointerPos + tooltip.offset);
-                    TooltipHelper.SetContentAndPosition(tooltip, s_ContentBuilder.ToString(), chart.chartRect);
-                }
+
             }
-            return showContent;
+            for (int i = 0; i < series.Count; i++)
+            {
+                var serie = series[i];
+                serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
+                    tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                    ref tooltip.context.data.param,
+                    ref tooltip.context.data.title);
+            }
+            TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
+            if (tooltip.context.data.param.Count > 0)
+            {
+                tooltip.SetActive(true);
+                tooltip.view.Refresh();
+                TooltipHelper.LimitInRect(tooltip, chart.chartRect);
+                return true;
+            }
+            return false;
         }
 
-        private string GetAxisCategory(int gridIndex)
+        private bool GetAxisCategory(int gridIndex, ref int dataIndex, ref string category)
         {
             foreach (var component in chart.components)
             {
@@ -366,11 +385,13 @@ namespace XCharts
                     var axis = component as Axis;
                     if (axis.gridIndex == gridIndex && axis.IsCategory())
                     {
-                        return axis.GetData((int)axis.context.pointerValue);
+                        dataIndex = (int)axis.context.pointerValue;
+                        category = axis.GetData(dataIndex);
+                        return true;
                     }
                 }
             }
-            return null;
+            return false;
         }
 
         private void DrawTooltipIndicator(VertexHelper vh, Tooltip tooltip)

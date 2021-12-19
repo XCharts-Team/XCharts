@@ -27,68 +27,12 @@ namespace XCharts
             UpdateSerieContext();
         }
 
-        public override bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb)
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         {
-            var dataIndex = serie.context.pointerItemDataIndex;
-            if (!serie.context.pointerEnter || dataIndex < 0)
-                return false;
-            var serieData = serie.GetSerieData(dataIndex);
-            if (serieData == null)
-                return false;
-
-            double xValue, yValue;
-            serie.GetXYData(dataIndex, null, out xValue, out yValue);
-
-            var isIngore = serie.IsIgnorePoint(dataIndex);
-            var numericFormatter = TooltipHelper.GetItemNumericFormatter(tooltip, serie, serieData);
-            var valueTxt = isIngore
-                ? tooltip.ignoreDataDefaultContent
-                : ChartCached.FloatToStr(yValue, numericFormatter);
-
-            switch (tooltip.trigger)
-            {
-                case Tooltip.Trigger.Item:
-
-                    var category = string.Empty;
-                    var xAxis = chart.GetChartComponent<XAxis>();
-                    var yAxis = chart.GetChartComponent<YAxis>();
-                    if (yAxis.IsCategory())
-                    {
-                        category = yAxis.GetData((int)yAxis.context.pointerValue);
-                    }
-                    else
-                    {
-                        category = xAxis.IsCategory()
-                            ? xAxis.GetData((int)xAxis.context.pointerValue)
-                            : (isIngore
-                                ? tooltip.ignoreDataDefaultContent
-                                : ChartCached.FloatToStr(xValue, numericFormatter));
-                    }
-                    if (!string.IsNullOrEmpty(serie.serieName))
-                        sb.Append(serie.serieName).Append(FormatterHelper.PH_NN);
-
-                    sb.Append("<color=#")
-                        .Append(chart.theme.GetColorStr(serie.index))
-                        .Append(">● </color>");
-
-                    if (!string.IsNullOrEmpty(category))
-                        sb.Append(category).Append(":");
-                    sb.Append(valueTxt);
-                    break;
-
-                case Tooltip.Trigger.Axis:
-
-                    sb.Append("<color=#")
-                        .Append(chart.theme.GetColorStr(serie.index))
-                        .Append(">● </color>");
-
-                    if (!string.IsNullOrEmpty(serie.serieName))
-                        sb.Append(serie.serieName).Append(":");
-
-                    sb.Append(valueTxt);
-                    break;
-            }
-            return true;
+            UpdateCoordSerieParams(ref paramList, ref title, dataIndex, showCategory, category,
+                marker, itemFormatter, numericFormatter);
         }
 
         public override void DrawSerie(VertexHelper vh)

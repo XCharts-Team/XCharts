@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,23 +29,12 @@ namespace XCharts
             DrawPie(vh, serie);
         }
 
-        public override bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb)
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         {
-            if (!serie.context.pointerEnter || serie.context.pointerItemDataIndex < 0) return false;
-            var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
-            if (serieData == null) return false;
-            var key = serieData.name;
-            var numericFormatter = TooltipHelper.GetItemNumericFormatter(tooltip, serie, serieData);
-            var value = serieData.GetData(1);
-            if (!string.IsNullOrEmpty(serie.serieName))
-            {
-                sb.Append(serie.serieName).Append(FormatterHelper.PH_NN);
-            }
-            sb.Append("<color=#").Append(chart.theme.GetColorStr(serie.context.pointerItemDataIndex)).Append(">● </color>");
-            if (!string.IsNullOrEmpty(key))
-                sb.Append(key).Append(": ");
-            sb.Append(ChartCached.FloatToStr(value, numericFormatter));
-            return true;
+            UpdateItemSerieParams(ref paramList, ref title, dataIndex, category, 
+                marker, itemFormatter, numericFormatter);
         }
 
         public override void RefreshLabelInternal()

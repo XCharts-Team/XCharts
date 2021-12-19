@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -26,18 +27,53 @@ namespace XCharts
             DrawHeatmapSerie(vh, colorIndex, serie);
         }
 
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
+        {
+            dataIndex = serie.context.pointerItemDataIndex;
+            if (dataIndex < 0)
+                return;
+
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null)
+                return;
+
+            title = serie.serieName;
+
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.dimension = 2;
+            param.serieData = serieData;
+            param.color = chart.theme.GetColor(serie.index);
+            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            param.columns.Clear();
+
+            param.columns.Add(param.marker);
+            param.columns.Add(category);
+            param.columns.Add(ChartCached.NumberToStr(serieData.GetData(2), param.numericFormatter));
+
+            paramList.Add(param);
+        }
+
         private void UpdateSerieContext()
         {
-            if (!chart.isPointerInChart) return;
-            XAxis xAxis;
-            YAxis yAxis;
-            GridCoord grid;
-            if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
-            if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex)) return;
-            if (!chart.TryGetChartComponent<GridCoord>(out grid, xAxis.gridIndex)) return;
             serie.context.pointerItemDataIndex = -1;
             serie.context.pointerEnter = false;
-            if (!grid.IsPointerEnter()) return;
+
+            if (!chart.isPointerInChart)
+                return;
+
+            var grid = chart.GetChartComponent<GridCoord>(serie.containerIndex);
+            if (grid == null)
+                return;
+
+            if (!grid.IsPointerEnter())
+                return;
+
             foreach (var serieData in serie.data)
             {
                 if (serieData.context.rect.Contains(chart.pointerPos))
@@ -99,6 +135,7 @@ namespace XCharts
                     if (dataIndex >= dataList.Count) continue;
                     var serieData = dataList[dataIndex];
                     var dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
+                    serieData.index = dataIndex;
                     if (serie.IsIgnoreIndex(dataIndex, dimension))
                     {
                         serie.context.dataPoints.Add(Vector3.zero);

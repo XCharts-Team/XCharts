@@ -267,6 +267,7 @@ namespace XCharts
             chartText.SetFontSize(textStyle.GetFontSize(theme));
             chartText.SetText("Text");
             chartText.SetLineSpacing(textStyle.lineSpacing);
+            chartText.SetExtraWidth(textStyle.extraWidth);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;
@@ -472,7 +473,7 @@ namespace XCharts
         internal static ChartLabel AddTooltipLabel(Tooltip tooltip, string name, Transform parent, ThemeStyle theme, Vector2 pivot,
             Vector2 anchorMin, Vector2 anchorMax, Vector2 sizeDelta)
         {
-            var textStyle = tooltip.textStyle;
+            var textStyle = tooltip.labelTextStyle;
             var labelGameObject = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var label = GetOrAddComponent<ChartLabel>(labelGameObject);
             label.labelBackground = ChartHelper.AddIcon("Background", label.gameObject.transform, 50, 20);

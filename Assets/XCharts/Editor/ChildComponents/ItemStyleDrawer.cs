@@ -34,7 +34,8 @@ namespace XCharts
                 PropertyField(prop, "m_BorderColor0");
                 PropertyField(prop, "m_BorderToColor");
                 PropertyField(prop, "m_Opacity");
-                PropertyField(prop, "m_TooltipFormatter");
+                PropertyField(prop, "m_ItemMarker");
+                PropertyField(prop, "m_ItemFormatter");
                 PropertyField(prop, "m_NumericFormatter");
                 PropertyListField(prop, "m_CornerRadius", true);
                 --EditorGUI.indentLevel;

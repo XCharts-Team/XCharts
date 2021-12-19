@@ -79,11 +79,6 @@ namespace XCharts
                 handler.RefreshLabelNextFrame();
         }
 
-        public virtual bool SetDefaultTooltipContent(StringBuilder sb)
-        {
-            return false;
-        }
-
 #if UNITY_EDITOR
         protected virtual void Reset()
         {

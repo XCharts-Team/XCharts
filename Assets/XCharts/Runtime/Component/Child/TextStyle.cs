@@ -24,6 +24,7 @@ namespace XCharts
         [SerializeField] private bool m_AutoWrap = false;
         [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private float m_Rotate = 0;
+        [SerializeField] private float m_ExtraWidth = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private Color m_Color = Color.clear;
         [SerializeField] private Color m_BackgroundColor = Color.clear;
@@ -45,6 +46,15 @@ namespace XCharts
         {
             get { return m_Rotate; }
             set { if (PropertyUtil.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Extra width of text preferred width.
+        /// 额外的宽度
+        /// </summary>
+        public float extraWidth
+        {
+            get { return m_ExtraWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_ExtraWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the offset of position.

@@ -15,6 +15,7 @@ namespace XCharts
 {
     public class ChartText
     {
+        private float m_ExtraWidth;
         private Text m_Text;
         public Text text
         {
@@ -137,6 +138,11 @@ namespace XCharts
 #endif
         }
 
+        public void SetExtraWidth(float width)
+        {
+            m_ExtraWidth = width;
+        }
+
         public void SetActive(bool flag)
         {
 #if dUI_TextMeshPro
@@ -156,6 +162,16 @@ namespace XCharts
             if (m_Text != null) m_Text.transform.localPosition = position;
 #endif
         }
+
+        public void SetRectPosition(Vector3 position)
+        {
+#if dUI_TextMeshPro
+            if (m_TMPText != null) m_TMPText.GetComponent<RectTransform>().anchoredPosition3D = position;
+#else
+            if (m_Text != null) m_Text.GetComponent<RectTransform>().anchoredPosition3D = position;
+#endif
+        }
+
         public void SetSizeDelta(Vector2 sizeDelta)
         {
 #if dUI_TextMeshPro
@@ -251,9 +267,9 @@ namespace XCharts
         public float GetPreferredWidth()
         {
 #if dUI_TextMeshPro
-            if (m_TMPText != null) return m_TMPText.preferredWidth;
+            if (m_TMPText != null) return m_TMPText.preferredWidth + m_ExtraWidth;
 #else
-            if (m_Text != null) return m_Text.preferredWidth;
+            if (m_Text != null) return m_Text.preferredWidth + m_ExtraWidth;
 #endif
             return 0;
         }

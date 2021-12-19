@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,7 @@ namespace XCharts
         public float offsetRadius { get; internal set; }
         public float outsideRadius { get; set; }
         public Vector3 position { get; set; }
+        public List<Vector3> dataPoints = new List<Vector3>();
         /// <summary>
         /// 绘制区域。
         /// </summary>

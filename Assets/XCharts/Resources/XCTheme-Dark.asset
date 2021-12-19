@@ -132,9 +132,9 @@ MonoBehaviour:
         rgba: 4281415106
   m_Tooltip:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+    m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_TextBackgroundColor: {r: 0.31764707, g: 0.31764707, b: 0.31764707, a: 0.78431374}
-    m_FontSize: 20
+    m_FontSize: 22
     m_LineType: 0
     m_LineWidth: 0.8
     m_LineColor:

@@ -20,7 +20,10 @@ namespace XCharts
         protected override void Reset()
         {
             base.Reset();
-            GetChartComponent<Tooltip>().type =  Tooltip.Type.None;
+
+            var tooltip = GetChartComponent<Tooltip>();
+            tooltip.type = Tooltip.Type.None;
+            tooltip.trigger = Tooltip.Trigger.Axis;
 
             var grid = GetOrAddChartComponent<GridCoord>();
             grid.left = 100;
@@ -37,7 +40,7 @@ namespace XCharts
             yAxis.boundaryGap = true;
             yAxis.splitNumber = 10;
             RemoveData();
-            
+
             var heatmapGridWid = 10f;
             int xSplitNumber = (int)(grid.context.width / heatmapGridWid);
             int ySplitNumber = (int)(grid.context.height / heatmapGridWid);

@@ -25,10 +25,5 @@ namespace XCharts
         public float radius { get; internal set; }
         public float dataRadius { get; internal set; }
         public bool isPointerEnter { get; set; }
-        /// <summary>
-        /// the data position list of radar.
-        /// 雷达图的所有数据坐标点列表。
-        /// </summary>
-        internal Dictionary<int, List<Vector3>> dataPositionDict = new Dictionary<int, List<Vector3>>();
     }
 }

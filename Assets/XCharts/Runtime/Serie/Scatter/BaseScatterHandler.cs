@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,35 +20,38 @@ namespace XCharts
             UpdateSerieContext();
         }
 
-        public override bool SetDefaultTooltipContent(Tooltip tooltip, StringBuilder sb)
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         {
-            var dataIndex = serie.context.pointerItemDataIndex;
+            dataIndex = serie.context.pointerItemDataIndex;
             if (dataIndex < 0)
-                return false;
+                return;
 
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
-                return false;
+                return;
 
-            double xValue, yValue;
-            serie.GetXYData(dataIndex, null, out xValue, out yValue);
+            title = serie.serieName;
 
-            var key = serie.serieName;
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            var numericFormatter = TooltipHelper.GetItemNumericFormatter(tooltip, serie, serieData);
+            var param = serie.context.param;
+            param.serieName = serie.serieName;
+            param.serieIndex = serie.index;
+            param.category = category;
+            param.dimension = 1;
+            param.serieData = serieData;
+            param.color = chart.theme.GetColor(serie.index);
+            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            param.columns.Clear();
 
-            if (!string.IsNullOrEmpty(key))
-                sb.Append(key).Append("\n");
+            param.columns.Add(param.marker);
+            if (!string.IsNullOrEmpty(serieData.name))
+                param.columns.Add(serieData.name);
+            param.columns.Add(ChartCached.NumberToStr(serieData.GetData(1), param.numericFormatter));
 
-            sb.Append("<color=#")
-                .Append(chart.theme.GetColorStr(colorIndex))
-                .Append(">● </color>");
-
-            sb.Append(ChartCached.FloatToStr(xValue, numericFormatter))
-                .Append(", ")
-                .Append(ChartCached.FloatToStr(yValue, numericFormatter));
-
-            return true;
+            paramList.Add(param);
         }
 
         public override void DrawSerie(VertexHelper vh)

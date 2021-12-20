@@ -431,6 +431,14 @@ namespace XCharts
             }
         }
 
+        public static SerieLabel GetSerieEmphasisLabel(Serie serie, SerieData serieData)
+        {
+            if (!serie.IsPerformanceMode() && serieData.enableEmphasis && serieData.emphasis.show)
+                return serieData.emphasis.label;
+            else if (serie.emphasis.show) return serie.emphasis.label;
+            else return null;
+        }
+
         public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
         {
             if (serieData.enableIconStyle) return serieData.iconStyle;

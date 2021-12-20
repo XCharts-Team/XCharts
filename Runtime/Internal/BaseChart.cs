@@ -544,9 +544,10 @@ namespace XCharts
             if (m_SerieLabelRoot == null) return;
             if (count == -1) count = serie.dataCount;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var serieEmphasisLable = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
             if (serie.IsPerformanceMode()) return;
-            if (!serieLabel.show && !iconStyle.show) return;
+            if (!serieLabel.show && (serieEmphasisLable == null || !serieEmphasisLable.show) && !iconStyle.show) return;
             if (serie.animation.enable && serie.animation.HasFadeOut()) return;
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
             var color = Color.grey;

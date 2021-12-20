@@ -262,7 +262,6 @@ namespace XCharts
     {
         public CoordinateChart chart;
         private GameObject m_MarkLineLabelRoot;
-        private bool m_RefreshLabel = false;
 
         public MarkLineHandler(CoordinateChart chart)
         {
@@ -515,7 +514,6 @@ namespace XCharts
             data.runtimeCurrentEndPosition = ep;
             if (sp != Vector3.zero || ep != Vector3.zero)
             {
-                m_RefreshLabel = true;
                 chart.ClampInChart(ref sp);
                 chart.ClampInChart(ref ep);
                 var theme = chart.theme.axis;

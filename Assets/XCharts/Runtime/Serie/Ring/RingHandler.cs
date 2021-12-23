@@ -149,32 +149,29 @@ namespace XCharts
             }
         }
 
-        public override bool OnLegendButtonClick(int index, string legendName, bool show)
+        public override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            if (!chart.HasSerie<Ring>()) return false;
-            if (!LegendHelper.IsSerieLegend<Ring>(chart, legendName)) return false;
-            LegendHelper.CheckDataShow(chart.series, legendName, show);
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataShow(serie, legendName, show);
             chart.UpdateLegendColor(legendName, show);
-            chart.RefreshChart();
-            return true;
+            chart.RefreshPainter(serie);
         }
 
-        public override bool OnLegendButtonEnter(int index, string legendName)
+        public override void OnLegendButtonEnter(int index, string legendName)
         {
-            if (!chart.HasSerie<Ring>()) return false;
-            if (!LegendHelper.IsSerieLegend<Ring>(chart, legendName)) return false;
-            LegendHelper.CheckDataHighlighted(chart.series, legendName, true);
-            chart.RefreshChart();
-            return true;
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataHighlighted(serie, legendName, true);
+            chart.RefreshPainter(serie);
         }
 
-        public override bool OnLegendButtonExit(int index, string legendName)
+        public override void OnLegendButtonExit(int index, string legendName)
         {
-            if (!chart.HasSerie<Ring>()) return false;
-            if (!LegendHelper.IsSerieLegend<Ring>(chart, legendName)) return false;
-            LegendHelper.CheckDataHighlighted(chart.series, legendName, false);
-            chart.RefreshChart();
-            return true;
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataHighlighted(serie, legendName, false);
+            chart.RefreshPainter(serie);
         }
 
         public override void OnPointerDown(PointerEventData eventData)

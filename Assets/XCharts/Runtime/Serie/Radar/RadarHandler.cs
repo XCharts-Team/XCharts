@@ -133,37 +133,34 @@ namespace XCharts
             }
         }
 
-        public override bool OnLegendButtonClick(int index, string legendName, bool show)
+        public override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            if (!chart.HasSerie<Radar>()) return false;
-            if (!LegendHelper.IsSerieLegend<Radar>(chart, legendName)) return false;
-            LegendHelper.CheckDataShow(chart.series, legendName, show);
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataShow(serie, legendName, show);
             chart.UpdateLegendColor(legendName, show);
-            chart.RefreshChart();
-            return true;
+            chart.RefreshPainter(serie);
         }
 
-        public override bool OnLegendButtonEnter(int index, string legendName)
+        public override void OnLegendButtonEnter(int index, string legendName)
         {
-            if (!chart.HasSerie<Radar>()) return false;
-            if (!LegendHelper.IsSerieLegend<Radar>(chart, legendName)) return false;
-            LegendHelper.CheckDataHighlighted(chart.series, legendName, true);
-            chart.RefreshChart();
-            return true;
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataHighlighted(serie, legendName, true);
+            chart.RefreshPainter(serie);
         }
 
-        public override bool OnLegendButtonExit(int index, string legendName)
+        public override void OnLegendButtonExit(int index, string legendName)
         {
-            if (!chart.HasSerie<Radar>()) return false;
-            if (!LegendHelper.IsSerieLegend<Radar>(chart, legendName)) return false;
-            LegendHelper.CheckDataHighlighted(chart.series, legendName, false);
-            chart.RefreshChart();
-            return true;
+            if (!serie.IsLegendName(legendName))
+                return;
+            LegendHelper.CheckDataHighlighted(serie, legendName, false);
+            chart.RefreshPainter(serie);
         }
 
         private void UpdateSerieContext()
         {
-            var needCheck = serie.context.isLegendEnter || (chart.isPointerInChart && m_RadarCoord.IsPointerEnter());
+            var needCheck = m_LegendEnter || (chart.isPointerInChart && m_RadarCoord.IsPointerEnter());
             var needInteract = false;
             var needHideAll = false;
             if (!needCheck)
@@ -184,7 +181,7 @@ namespace XCharts
                         serieData.index = i;
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                         var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                        if (needHideAll || serie.context.isLegendEnter)
+                        if (needHideAll || m_LegendEnter)
                         {
                             serieData.context.highlight = needHideAll ? false : true;
                             serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);

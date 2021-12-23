@@ -82,20 +82,7 @@ namespace XCharts
         Capsule
     }
 
-    /// <summary>
-    /// 仪表盘类型
-    /// </summary>
-    public enum GaugeType
-    {
-        /// <summary>
-        /// 指针型
-        /// </summary>
-        Pointer,
-        /// <summary>
-        /// 进度条型
-        /// </summary>
-        ProgressBar
-    }
+    
 
     /// <summary>
     /// 雷达图类型
@@ -1659,6 +1646,33 @@ namespace XCharts
                 return m_Large && m_Data.Count > m_LargeThreshold;
             else
                 return false;
+        }
+
+        public bool IsLegendName(string legendName)
+        {
+            if (useDataNameForColor)
+            {
+                return IsSerieDataLegendName(legendName);
+            }
+            else
+            {
+                return IsSerieLegendName(legendName);
+            }
+        }
+
+        public bool IsSerieLegendName(string legendName)
+        {
+            return legendName.Equals(this.legendName);
+        }
+
+        public bool IsSerieDataLegendName(string legendName)
+        {
+            foreach (var serieData in m_Data)
+            {
+                if (legendName.Equals(serieData.legendName))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>

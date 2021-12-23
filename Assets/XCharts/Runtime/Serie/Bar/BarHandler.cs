@@ -33,26 +33,6 @@ namespace XCharts
                 marker, itemFormatter, numericFormatter);
         }
 
-        public override bool OnLegendButtonEnter(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = true;
-                return true;
-            }
-            return false;
-        }
-
-        public override bool OnLegendButtonExit(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = false;
-                return true;
-            }
-            return false;
-        }
-
         public override void DrawSerie(VertexHelper vh)
         {
             DrawBarSerie(vh, serie, serie.context.colorIndex);
@@ -63,7 +43,7 @@ namespace XCharts
             if (m_SerieGrid == null)
                 return;
 
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || serie.context.isLegendEnter;
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
             var needInteract = false;
             if (!needCheck)
             {
@@ -86,7 +66,7 @@ namespace XCharts
                 return;
             }
             m_LastCheckContextFlag = needCheck;
-            if (serie.context.isLegendEnter)
+            if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
                 foreach (var serieData in serie.data)

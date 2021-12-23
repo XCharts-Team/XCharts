@@ -125,13 +125,6 @@ namespace XCharts
             AddChart<HeatmapChart>("HeatmapChart");
         }
 
-        [MenuItem("XCharts/GaugeChart", priority = 50)]
-        [MenuItem("GameObject/XCharts/GaugeChart", priority = 50)]
-        public static void AddGaugeChart()
-        {
-            AddChart<GaugeChart>("GaugeChart");
-        }
-
         [MenuItem("XCharts/RingChart", priority = 51)]
         [MenuItem("GameObject/XCharts/RingChart", priority = 51)]
         public static void AddRingChart()

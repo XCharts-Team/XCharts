@@ -67,32 +67,12 @@ namespace XCharts
             }
         }
 
-        public override bool OnLegendButtonEnter(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = true;
-                return true;
-            }
-            return false;
-        }
-
-        public override bool OnLegendButtonExit(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = false;
-                return true;
-            }
-            return false;
-        }
-
         private void UpdateSerieContext()
         {
             if (m_SerieGrid == null)
                 return;
 
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || serie.context.isLegendEnter;
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
             var lineWidth = 0f;
             if (!needCheck)
             {
@@ -127,7 +107,7 @@ namespace XCharts
             lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             var needInteract = false;
-            if (serie.context.isLegendEnter)
+            if (m_LegendEnter)
             {
                 serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
                 for (int i = 0; i < serie.dataCount; i++)

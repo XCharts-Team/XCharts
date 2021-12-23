@@ -37,9 +37,9 @@ namespace XCharts
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
         public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category, string marker, string itemFormatter, string numericFormatter, ref List<SerieParams> paramList, ref string title) { }
-        public virtual bool OnLegendButtonClick(int index, string legendName, bool show) { return false; }
-        public virtual bool OnLegendButtonEnter(int index, string legendName) { return false; }
-        public virtual bool OnLegendButtonExit(int index, string legendName) { return false; }
+        public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
+        public virtual void OnLegendButtonEnter(int index, string legendName) { }
+        public virtual void OnLegendButtonExit(int index, string legendName) { }
         internal abstract void SetSerie(Serie serie);
     }
 
@@ -51,6 +51,8 @@ namespace XCharts
         protected bool m_InitedLabel;
         protected bool m_RefreshLabel;
         protected bool m_LastCheckContextFlag = false;
+        protected bool m_LegendEnter = false;
+        protected int m_LegendEnterIndex;
 
         public T serie { get; internal set; }
 
@@ -111,6 +113,33 @@ namespace XCharts
         public override void RemoveComponent()
         {
             ChartHelper.SetActive(m_SerieRoot, false);
+        }
+
+        public override void OnLegendButtonClick(int index, string legendName, bool show)
+        {
+            if (serie.IsLegendName(legendName))
+            {
+                chart.SetSerieActive(serie, show);
+                chart.RefreshPainter(serie);
+            }
+        }
+
+        public override void OnLegendButtonEnter(int index, string legendName)
+        {
+            if (serie.IsLegendName(legendName))
+            {
+                m_LegendEnter = true;
+                chart.RefreshPainter(serie);
+            }
+        }
+
+        public override void OnLegendButtonExit(int index, string legendName)
+        {
+            if (serie.IsLegendName(legendName))
+            {
+                m_LegendEnter = false;
+                chart.RefreshPainter(serie);
+            }
         }
 
         private void InitRoot()

@@ -56,26 +56,6 @@ namespace XCharts
             paramList.Add(param);
         }
 
-        public override bool OnLegendButtonEnter(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = true;
-                return true;
-            }
-            return false;
-        }
-
-        public override bool OnLegendButtonExit(int index, string legendName)
-        {
-            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
-            {
-                serie.context.isLegendEnter = false;
-                return true;
-            }
-            return false;
-        }
-
         public override void DrawSerie(VertexHelper vh)
         {
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
@@ -92,7 +72,7 @@ namespace XCharts
 
         private void UpdateSerieContext()
         {
-            var needCheck = serie.context.isLegendEnter || (chart.isPointerInChart && (m_Grid == null || m_Grid.IsPointerEnter()));
+            var needCheck = m_LegendEnter || (chart.isPointerInChart && (m_Grid == null || m_Grid.IsPointerEnter()));
 
             var needHideAll = false;
             if (!needCheck)
@@ -113,7 +93,7 @@ namespace XCharts
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
                 var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
-                if (serie.context.isLegendEnter ||
+                if (m_LegendEnter ||
                     (!needHideAll && Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize))
                 {
                     serie.context.pointerItemDataIndex = i;

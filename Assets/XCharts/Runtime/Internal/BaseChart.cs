@@ -50,7 +50,6 @@ namespace XCharts
         [SerializeField] [ListForSerie(typeof(Bar))] private List<Bar> m_SerieBars = new List<Bar>();
         [SerializeField] [ListForSerie(typeof(Candlestick))] private List<Candlestick> m_SerieCandlesticks = new List<Candlestick>();
         [SerializeField] [ListForSerie(typeof(EffectScatter))] private List<EffectScatter> m_SerieEffectScatters = new List<EffectScatter>();
-        [SerializeField] [ListForSerie(typeof(Gauge))] private List<Gauge> m_SerieGauges = new List<Gauge>();
         [SerializeField] [ListForSerie(typeof(Heatmap))] private List<Heatmap> m_SerieHeatmaps = new List<Heatmap>();
         [SerializeField] [ListForSerie(typeof(Line))] private List<Line> m_SerieLines = new List<Line>();
         [SerializeField] [ListForSerie(typeof(Liquid))] private List<Liquid> m_SerieLiquids = new List<Liquid>();
@@ -495,56 +494,20 @@ namespace XCharts
 
         public virtual void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            var clicked = false;
             foreach (var handler in m_SerieHandlers)
-                clicked = clicked || handler.OnLegendButtonClick(index, legendName, show);
-            if (!clicked)
-            {
-                foreach (var serie in m_Series)
-                {
-                    if (legendName.Equals(serie.serieName))
-                    {
-                        SetSerieActive(serie.index, show);
-                        RefreshPainter(serie);
-                    }
-                }
-            }
+                handler.OnLegendButtonClick(index, legendName, show);
         }
 
         public virtual void OnLegendButtonEnter(int index, string legendName)
         {
-            var enter = false;
             foreach (var handler in m_SerieHandlers)
-                enter = enter || handler.OnLegendButtonEnter(index, legendName);
-            if (!enter)
-            {
-                foreach (var serie in m_Series)
-                {
-                    if (legendName.Equals(serie.serieName))
-                    {
-                        serie.highlight = true;
-                        RefreshPainter(serie);
-                    }
-                }
-            }
+                handler.OnLegendButtonEnter(index, legendName);
         }
 
         public virtual void OnLegendButtonExit(int index, string legendName)
         {
-            var exit = false;
             foreach (var handler in m_SerieHandlers)
-                exit = exit || handler.OnLegendButtonExit(index, legendName);
-            if (!exit)
-            {
-                foreach (var serie in m_Series)
-                {
-                    if (legendName.Equals(serie.serieName))
-                    {
-                        serie.highlight = false;
-                        RefreshPainter(serie);
-                    }
-                }
-            }
+                handler.OnLegendButtonExit(index, legendName);
         }
 
         protected override void OnDrawPainterBase(VertexHelper vh, Painter painter)

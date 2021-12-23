@@ -11,47 +11,6 @@ namespace XCharts
 {
     public static class SerieLabelHelper
     {
-        public static void CheckLabel(Serie serie, ref bool m_ReinitLabel, ref bool m_UpdateLabelText)
-        {
-            if (serie is Gauge || serie is Ring)
-            {
-                var serieData = serie.GetSerieData(0);
-                if (serieData != null)
-                {
-                    if (serie.label.show && serie.show)
-                    {
-                        if (serieData.labelObject != null)
-                        {
-                            serieData.SetLabelActive(true);
-                            m_UpdateLabelText = true;
-                        }
-                        else
-                        {
-                            m_ReinitLabel = true;
-                        }
-                    }
-                    else if (serieData.labelObject != null)
-                    {
-                        serieData.SetLabelActive(false);
-                    }
-                }
-            }
-        }
-
-        public static void UpdateLabelText(List<Serie> series, ThemeStyle theme, List<string> legendRealShowName)
-        {
-            foreach (var serie in series)
-            {
-                if (!serie.label.show) continue;
-                var colorIndex = legendRealShowName.IndexOf(serie.serieName);
-                if (serie is Gauge)
-                    SetGaugeLabelText(serie);
-                else if (serie is Ring)
-                    SetRingLabelText(serie, theme);
-                else if (serie is Liquid)
-                    SetLiquidLabelText(serie, theme, colorIndex);
-            }
-        }
 
         public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)
         {

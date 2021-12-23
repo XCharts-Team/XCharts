@@ -110,7 +110,7 @@ namespace XCharts
             return s_ColorDotStr[color];
         }
 
-        internal static string GetSerieLabelName(string prefix, int i, int j)
+        public static string GetSerieLabelName(string prefix, int i, int j)
         {
             int key = i * 10000000 + j;
             if (s_SerieLabelName.ContainsKey(key))

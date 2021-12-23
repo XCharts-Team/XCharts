@@ -37,8 +37,7 @@ namespace XCharts
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();
         public bool isTriggerByAxis = false;
-        public bool isLegendEnter = false;
-        public int legendEnterIndex;
+        
         /// <summary>
         /// 中心点
         /// </summary>

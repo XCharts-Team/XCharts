@@ -234,77 +234,49 @@ namespace XCharts
             return false;
         }
 
-        public static bool CheckDataShow(List<Serie> series, string legendName, bool show)
+        public static bool CheckDataShow(Serie serie, string legendName, bool show)
         {
             bool needShow = false;
-            foreach (var serie in series)
+            if (legendName.Equals(serie.serieName))
             {
-                if (legendName.Equals(serie.serieName))
+                serie.show = show;
+                serie.highlight = false;
+                if (serie.show) needShow = true;
+            }
+            else
+            {
+                foreach (var data in serie.data)
                 {
-                    serie.show = show;
-                    serie.highlight = false;
-                    if (serie.show) needShow = true;
-                }
-                else
-                {
-                    foreach (var data in serie.data)
+                    if (legendName.Equals(data.name))
                     {
-                        if (legendName.Equals(data.name))
-                        {
-                            data.show = show;
-                            data.context.highlight = false;
-                            if (data.show) needShow = true;
-                        }
+                        data.show = show;
+                        data.context.highlight = false;
+                        if (data.show) needShow = true;
                     }
                 }
             }
             return needShow;
         }
 
-        public static bool CheckDataHighlighted(List<Serie> series, string legendName, bool heighlight)
+        public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)
         {
             bool show = false;
-            foreach (var serie in series)
+            if (legendName.Equals(serie.serieName))
             {
-                if (legendName.Equals(serie.serieName))
+                serie.highlight = heighlight;
+            }
+            else
+            {
+                foreach (var data in serie.data)
                 {
-                    serie.highlight = heighlight;
-                }
-                else
-                {
-                    foreach (var data in serie.data)
+                    if (legendName.Equals(data.name))
                     {
-                        if (legendName.Equals(data.name))
-                        {
-                            data.context.highlight = heighlight;
-                            if (data.context.highlight) show = true;
-                        }
+                        data.context.highlight = heighlight;
+                        if (data.context.highlight) show = true;
                     }
                 }
             }
             return show;
-        }
-
-        public static bool IsSerieLegend<T>(BaseChart chart, string legendName) where T : Serie
-        {
-            foreach (var serie in chart.series)
-            {
-                if (serie is T)
-                {
-                    if (serie is Pie || serie is Radar || serie is Ring)
-                    {
-                        foreach (var serieData in serie.data)
-                        {
-                            if (legendName.Equals(serieData.name)) return true;
-                        }
-                    }
-                    else
-                    {
-                        if (legendName.Equals(serie.serieName)) return true;
-                    }
-                }
-            }
-            return false;
         }
     }
 }

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class SerieLabelPool
+    public static class SerieLabelPool
     {
         private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
         private static Dictionary<int, bool> m_ReleaseDic = new Dictionary<int, bool>(1000);

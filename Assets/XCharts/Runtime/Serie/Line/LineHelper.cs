@@ -230,7 +230,7 @@ namespace XCharts
         }
 
         internal static void DrawSerieLine(VertexHelper vh, ThemeStyle theme, Serie serie, VisualMap visualMap,
-            GridCoord grid, Axis axis, Axis relativedAxis)
+            GridCoord grid, Axis axis, Axis relativedAxis, float lineWidth)
         {
             var datas = serie.context.drawPoints;
 
@@ -252,9 +252,8 @@ namespace XCharts
             var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
 
-            var highlight = serie.highlight || serie.context.pointerEnter;
-            var lineWidth = serie.lineStyle.GetWidth(theme.serie.lineWidth);
-            var lineColor = SerieHelper.GetLineColor(serie, theme, serie.context.colorIndex, highlight);
+            //var highlight = serie.highlight || serie.context.pointerEnter;
+            var lineColor = SerieHelper.GetLineColor(serie, theme, serie.context.colorIndex, false);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             for (int i = 1; i < dataCount; i++)
@@ -316,6 +315,17 @@ namespace XCharts
             }
         }
 
+        public static float GetLineWidth(ref bool interacting, Serie serie, float defaultWidth)
+        {
+            var lineWidth = 0f;
+            if (!serie.interact.TryGetValue(ref lineWidth, ref interacting))
+            {
+                lineWidth = serie.lineStyle.GetWidth(defaultWidth);
+                serie.interact.SetValue(ref interacting, lineWidth);
+            }
+            return lineWidth;
+        }
+
         private static void AddLineVertToVertexHelper(VertexHelper vh, Vector3 tp, Vector3 bp,
             Color32 lineColor, bool visualMapGradient, bool lineStyleGradient, VisualMap visualMap,
             LineStyle lineStyle, GridCoord grid, Axis axis, Axis relativedAxis, bool needTriangle,
@@ -346,7 +356,7 @@ namespace XCharts
                 UGL.AddVertToVertexHelper(vh, tp, bp, ColorUtil.clearColor32, false);
         }
 
-        internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, bool isY = false)
+        internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, float lineWidth, bool isY = false)
         {
 
             serie.context.drawPoints.Clear();
@@ -359,12 +369,12 @@ namespace XCharts
                 case LineType.StepStart:
                 case LineType.StepMiddle:
                 case LineType.StepEnd:
-                    UpdateStepLineDrawPoints(serie, setting, theme, isY);
+                    UpdateStepLineDrawPoints(serie, setting, theme, isY, lineWidth);
                     break;
                 default:
                     for (int i = 0; i < serie.context.dataPoints.Count; i++)
                     {
-                        serie.context.drawPoints.Add(new PointInfo(serie.context.dataPoints[i], serie.context.dataIgnore[i]));
+                        serie.context.drawPoints.Add(new PointInfo(serie.context.dataPoints[i], serie.context.dataIgnores[i]));
                     }
                     break;
             }
@@ -380,7 +390,7 @@ namespace XCharts
                 var ep = points[i + 1];
                 var lsp = i > 0 ? points[i - 1] : sp;
                 var nep = i < points.Count - 2 ? points[i + 2] : ep;
-                var ignore = serie.context.dataIgnore[i];
+                var ignore = serie.context.dataIgnores[i];
                 if (isY)
                     UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness);
                 else
@@ -393,17 +403,16 @@ namespace XCharts
             }
         }
 
-        private static void UpdateStepLineDrawPoints(Serie serie, Settings setting, ThemeStyle theme, bool isY)
+        private static void UpdateStepLineDrawPoints(Serie serie, Settings setting, ThemeStyle theme, bool isY, float lineWidth)
         {
             var points = serie.context.dataPoints;
             var lp = points[0];
-            var lineWidth = serie.lineStyle.GetWidth(theme.serie.lineWidth);
             serie.context.drawPoints.Clear();
-            serie.context.drawPoints.Add(new PointInfo(lp, serie.context.dataIgnore[0]));
+            serie.context.drawPoints.Add(new PointInfo(lp, serie.context.dataIgnores[0]));
             for (int i = 1; i < points.Count; i++)
             {
                 var cp = points[i];
-                var ignore = serie.context.dataIgnore[i];
+                var ignore = serie.context.dataIgnores[i];
                 if ((isY && Mathf.Abs(lp.x - cp.x) <= lineWidth)
                     || (!isY && Mathf.Abs(lp.y - cp.y) <= lineWidth))
                 {

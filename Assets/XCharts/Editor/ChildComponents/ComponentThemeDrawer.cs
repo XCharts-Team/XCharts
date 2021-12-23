@@ -175,9 +175,8 @@ namespace XCharts
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_LineWidth");
                 PropertyField(prop, "m_LineSymbolSize");
-                PropertyField(prop, "m_LineSymbolSelectedSize");
                 PropertyField(prop, "m_ScatterSymbolSize");
-                PropertyField(prop, "m_ScatterSymbolSelectedSize");
+                PropertyField(prop, "m_SelectedRate");
                 PropertyField(prop, "m_PieTooltipExtraRadius");
                 PropertyField(prop, "m_PieSelectedOffset");
                 PropertyField(prop, "m_CandlestickColor");

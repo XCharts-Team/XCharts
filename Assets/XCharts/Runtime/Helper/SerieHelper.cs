@@ -433,6 +433,14 @@ namespace XCharts
             }
         }
 
+        public static LabelStyle GetSerieEmphasisLabel(Serie serie, SerieData serieData)
+        {
+            if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
+                return serieData.emphasis.label;
+            else if (serie.emphasis.show) return serie.emphasis.label;
+            else return null;
+        }
+
         public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, bool highlight = false)
         {
             if (highlight)
@@ -518,11 +526,18 @@ namespace XCharts
             return color;
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, bool useLineWidth = true)
+        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)
         {
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else return serie.lineStyle.GetWidth(theme.serie.lineWidth);
+            else return serie.lineStyle.GetWidth(theme.serie.lineWidth) * 2;
+        }
+
+        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, float defaultWidth)
+        {
+            var itemStyle = GetItemStyle(serie, serieData, highlight);
+            if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
+            else return defaultWidth;
         }
 
         public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)

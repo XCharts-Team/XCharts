@@ -574,7 +574,7 @@ namespace XCharts
                 var serie = m_Series[i];
                 serie.context.colorIndex = GetLegendRealShowNameIndex(serie.legendName);
                 serie.context.dataPoints.Clear();
-                serie.context.dataIgnore.Clear();
+                serie.context.dataIgnores.Clear();
                 AnimationStyleHelper.UpdateSerieAnimation(serie);
                 if (m_OnCustomDrawSerieBeforeCallback != null)
                 {

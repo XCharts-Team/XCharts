@@ -33,8 +33,8 @@ MonoBehaviour:
   m_DataZoomDataLineWidth: 0.5
   m_VisualMapBorderWidth: 0
   m_SerieLineWidth: 1.8
-  m_SerieLineSymbolSize: 4
-  m_SerieLineSymbolSelectedSize: 8
+  m_SerieLineSymbolSize: 5
+  m_SerieLineSymbolSelectedSize: 7
   m_SerieScatterSymbolSize: 20
   m_SerieScatterSymbolSelectedSize: 30
   m_SerieCandlestickBorderWidth: 1
@@ -48,8 +48,8 @@ MonoBehaviour:
   m_PieTooltipExtraRadius: 8
   m_PieSelectedOffset: 8
   m_CustomThemes:
-  - {fileID: 11400000, guid: 22c71b519a1e34731aee339407499441, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 289d2fc7f4ce24f73b9ed8ec52639f72, type: 2}
   - {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
-  - {fileID: 11400000, guid: 675c10db67ba545eb8a55e10f9ed5668, type: 2}
-  - {fileID: 11400000, guid: 6e2f85adf3fea474b95fcc1f3341c4f6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

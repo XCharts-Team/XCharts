@@ -33,7 +33,7 @@ namespace XCharts
             string marker, string itemFormatter, string numericFormatter,
             ref List<SerieParams> paramList, ref string title)
         {
-            UpdateItemSerieParams(ref paramList, ref title, dataIndex, category, 
+            UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
                 marker, itemFormatter, numericFormatter);
         }
 
@@ -113,37 +113,59 @@ namespace XCharts
 
         private void UpdateSerieContext()
         {
-            if (!chart.isPointerInChart) return;
-            var lastPointerEnter = serie.context.pointerEnter;
-            serie.context.pointerEnter = PointerIsInPieSerie(serie, chart.pointerPos);
-            if (serie.context.pointerEnter)
+            var needCheck = serie.context.isLegendEnter
+                || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
+            var needInteract = false;
+            if (!needCheck)
             {
-                var lastDataIndex = serie.context.pointerItemDataIndex;
-                var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
-                if (dataIndex >= 0)
+                if (m_LastCheckContextFlag != needCheck)
                 {
-                    if (lastDataIndex >= 0)
-                        serie.GetSerieData(lastDataIndex).context.highlight = false;
-                    if (lastDataIndex != dataIndex)
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerEnter = false;
+                    foreach (var serieData in serie.data)
+                    {
+                        var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                        var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, false);
+                        var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, false);
+                        serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+                    }
+                    if (needInteract)
+                    {
                         chart.RefreshPainter(serie);
-                    serie.GetSerieData(dataIndex).context.highlight = true;
-                    serie.context.pointerItemDataIndex = dataIndex;
+                    }
+                }
+                return;
+            }
+            m_LastCheckContextFlag = needCheck;
+            serie.context.pointerItemDataIndex = -1;
+            var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
+            for (int i = 0; i < serie.dataCount; i++)
+            {
+                var serieData = serie.data[i];
+                if (dataIndex == i || (serie.context.isLegendEnter && serie.context.legendEnterIndex == i))
+                {
+                    serie.context.pointerItemDataIndex = i;
+                    serieData.context.highlight = true;
+
+                    var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                    var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, true);
+                    var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, true);
+                    var value = serieData.context.outsideRadius + chart.theme.serie.pieTooltipExtraRadius;
+                    serieData.interact.SetValueAndColor(ref needInteract, value, color, toColor);
                 }
                 else
                 {
-                    if (lastDataIndex >= 0)
-                        serie.GetSerieData(lastDataIndex).context.highlight = false;
-                    serie.context.pointerItemDataIndex = -1;
+                    serieData.context.highlight = false;
+                    var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                    var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, false);
+                    var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, false);
+                    serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
                 }
             }
-            else
+            if (needInteract)
             {
-                if (lastPointerEnter)
-                {
-                    foreach (var serieData in serie.data)
-                        serieData.context.highlight = false;
-                }
-                serie.context.pointerItemDataIndex = -1;
+                chart.RefreshPainter(serie);
             }
         }
 
@@ -291,6 +313,9 @@ namespace XCharts
                 return;
             }
             var dataChanging = false;
+            var interacting = false;
+            var color = ColorUtil.clearColor32;
+            var toColor = ColorUtil.clearColor32;
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
             for (int n = 0; n < data.Count; n++)
@@ -304,20 +329,22 @@ namespace XCharts
                     dataChanging = true;
 
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
-                var serieNameCount = chart.m_LegendRealShowName.IndexOf(serieData.legendName);
-
-                var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieNameCount,
-                    serieData.context.highlight);
-
-                var toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieNameCount,
-                    serieData.context.highlight);
+                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                var outsideRadius = 0f;
 
                 var borderWidth = itemStyle.borderWidth;
                 var borderColor = itemStyle.borderColor;
 
                 var progress = AnimationStyleHelper.CheckDataAnimation(chart, serie, n, 1);
                 var insideRadius = serieData.context.insideRadius * progress;
-                var outsideRadius = serieData.context.outsideRadius * progress;
+
+                //if (!serieData.interact.TryGetValueAndColor(ref outsideRadius, ref color, ref toColor, ref interacting))
+                {
+                    color = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
+                    toColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
+                    outsideRadius = serieData.context.outsideRadius * progress;
+                    serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
+                }
 
                 if (serie.pieClickOffset && serieData.selected)
                 {

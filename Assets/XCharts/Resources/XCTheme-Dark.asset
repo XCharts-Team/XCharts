@@ -186,11 +186,10 @@ MonoBehaviour:
     m_TriangeLen: 20
   m_Serie:
     m_LineWidth: 1.8
-    m_LineSymbolSize: 4
-    m_LineSymbolSelectedSize: 8
+    m_LineSymbolSize: 5
     m_ScatterSymbolSize: 20
-    m_ScatterSymbolSelectedSize: 30
     m_PieTooltipExtraRadius: 8
+    m_SelectedRate: 1.3
     m_PieSelectedOffset: 8
     m_CandlestickColor:
       serializedVersion: 2

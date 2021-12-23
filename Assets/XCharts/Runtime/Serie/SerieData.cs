@@ -5,6 +5,7 @@
 /*                                              */
 /************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,8 @@ namespace XCharts
         [SerializeField] private List<double> m_Data = new List<double>();
         [SerializeField] private List<int> m_Children = new List<int>();
 
-        public SerieDataContext context = new SerieDataContext();
+        [NonSerialized] public SerieDataContext context = new SerieDataContext();
+        [NonSerialized] public InteractData interact = new InteractData();
         public ChartLabel labelObject { get; set; }
 
         private bool m_Show = true;
@@ -117,6 +119,7 @@ namespace XCharts
             context.canShowLabel = true;
             context.highlight = false;
             m_Radius = 0;
+            interact.Reset();
             m_Data.Clear();
             m_PreviousData.Clear();
             m_DataUpdateTime.Clear();

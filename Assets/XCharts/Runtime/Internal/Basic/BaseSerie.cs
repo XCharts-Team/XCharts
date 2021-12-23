@@ -27,6 +27,7 @@ namespace XCharts
         [NonSerialized] protected bool m_ComponentDirty;
         [NonSerialized] protected Painter m_Painter;
         [NonSerialized] public SerieContext context = new SerieContext();
+        [NonSerialized] public InteractData interact = new InteractData();
 
         internal SerieHandler handler { get; set; }
 

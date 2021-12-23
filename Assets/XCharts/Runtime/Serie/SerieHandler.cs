@@ -50,6 +50,7 @@ namespace XCharts
         protected GameObject m_SerieRoot;
         protected bool m_InitedLabel;
         protected bool m_RefreshLabel;
+        protected bool m_LastCheckContextFlag = false;
 
         public T serie { get; internal set; }
 
@@ -152,8 +153,9 @@ namespace XCharts
             if (serie.IsPerformanceMode()) return false;
             if (count == -1) count = serie.dataCount;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            var serieEmphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
-            if (!serieLabel.show && !iconStyle.show) return false;
+            if (!serieLabel.show && (serieEmphasisLabel == null || !serieEmphasisLabel.show) && !iconStyle.show) return false;
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
             var color = Color.grey;
             if (serie.useDataNameForColor)

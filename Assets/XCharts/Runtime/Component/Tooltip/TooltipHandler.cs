@@ -339,6 +339,7 @@ namespace XCharts
 
             string category = null;
             var showCategory = false;
+            var isTriggerByAxis = false;
             var dataIndex = -1;
             tooltip.context.data.param.Clear();
             tooltip.context.pointer = chart.pointerPos;
@@ -346,6 +347,7 @@ namespace XCharts
             {
                 if (tooltip.trigger == Tooltip.Trigger.Axis)
                 {
+                    isTriggerByAxis = true;
                     GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category);
                     if (series.Count <= 1)
                     {
@@ -360,6 +362,9 @@ namespace XCharts
             for (int i = 0; i < series.Count; i++)
             {
                 var serie = series[i];
+                serie.context.isTriggerByAxis = isTriggerByAxis;
+                if (isTriggerByAxis)
+                    serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
                     ref tooltip.context.data.param,

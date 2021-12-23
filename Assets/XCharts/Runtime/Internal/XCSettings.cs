@@ -53,10 +53,9 @@ namespace XCharts
         [SerializeField] [Range(0, 20)] private float m_VisualMapBorderWidth = 0f;
 
         [SerializeField] [Range(0, 20)] private float m_SerieLineWidth = 1.8f;
-        [SerializeField] [Range(0, 200)] private float m_SerieLineSymbolSize = 4f;
-        [SerializeField] [Range(0, 200)] private float m_SerieLineSymbolSelectedSize = 8f;
+        [SerializeField] [Range(0, 200)] private float m_SerieLineSymbolSize = 5f;
         [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSize = 20f;
-        [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSelectedSize = 30f;
+        [SerializeField] [Range(0, 200)] private float m_SerieSelectedRate = 1.3f;
         [SerializeField] [Range(0, 10)] private float m_SerieCandlestickBorderWidth = 1f;
 
         [SerializeField] private bool m_EditorShowAllListData = false;
@@ -103,9 +102,8 @@ namespace XCharts
         #region serie
         public static float serieLineWidth { get { return Instance.m_SerieLineWidth; } }
         public static float serieLineSymbolSize { get { return Instance.m_SerieLineSymbolSize; } }
-        public static float serieLineSymbolSelectedSize { get { return Instance.m_SerieLineSymbolSelectedSize; } }
         public static float serieScatterSymbolSize { get { return Instance.m_SerieScatterSymbolSize; } }
-        public static float serieScatterSymbolSelectedSize { get { return Instance.m_SerieScatterSymbolSelectedSize; } }
+        public static float serieSelectedRate { get { return Instance.m_SerieSelectedRate; } }
         public static float serieCandlestickBorderWidth { get { return Instance.m_SerieCandlestickBorderWidth; } }
         #endregion
 

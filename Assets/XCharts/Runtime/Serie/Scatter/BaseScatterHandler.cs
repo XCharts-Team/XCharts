@@ -15,6 +15,8 @@ namespace XCharts
     [UnityEngine.Scripting.Preserve]
     internal class BaseScatterHandler<T> : SerieHandler<T> where T : BaseScatter
     {
+        private GridCoord m_Grid;
+
         public override void Update()
         {
             UpdateSerieContext();
@@ -54,6 +56,26 @@ namespace XCharts
             paramList.Add(param);
         }
 
+        public override bool OnLegendButtonEnter(int index, string legendName)
+        {
+            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
+            {
+                serie.context.isLegendEnter = true;
+                return true;
+            }
+            return false;
+        }
+
+        public override bool OnLegendButtonExit(int index, string legendName)
+        {
+            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
+            {
+                serie.context.isLegendEnter = false;
+                return true;
+            }
+            return false;
+        }
+
         public override void DrawSerie(VertexHelper vh)
         {
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
@@ -70,58 +92,44 @@ namespace XCharts
 
         private void UpdateSerieContext()
         {
-            if (serie.IsUseCoord<GridCoord>())
+            var needCheck = serie.context.isLegendEnter || (chart.isPointerInChart && (m_Grid == null || m_Grid.IsPointerEnter()));
+
+            var needHideAll = false;
+            if (!needCheck)
             {
-                var grid = chart.GetChartComponent<GridCoord>(serie.containerIndex);
-                if (grid == null)
+                if (m_LastCheckContextFlag == needCheck)
                     return;
-
-                if (!grid.IsPointerEnter())
-                    return;
+                needHideAll = true;
             }
-
-            var lastDataIndex = serie.context.pointerItemDataIndex;
-            var maxCount = serie.maxShow > 0 ?
-                (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
-                : serie.dataCount;
-            var themeSymbolSize = chart.theme.serie.scatterSymbolSize;
-
-            if (lastDataIndex >= 0)
-            {
-                var serieData = serie.GetSerieData(lastDataIndex);
-                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
-                {
-                    serieData.context.highlight = true;
-                    serie.context.pointerItemDataIndex = lastDataIndex;
-                    return;
-                }
-            }
-            serie.context.pointerEnter = false;
+            m_LastCheckContextFlag = needCheck;
             serie.context.pointerItemDataIndex = -1;
-            if (lastDataIndex >= 0)
-            {
-                serie.GetSerieData(lastDataIndex).context.highlight = false;
-                chart.RefreshPainter(serie);
-            }
+            serie.context.pointerEnter = false;
+            var themeSymbolSize = chart.theme.serie.scatterSymbolSize;
+            var themeSymbolSelectedSize = chart.theme.serie.scatterSymbolSelectedSize;
+            var needInteract = false;
             for (int i = serie.dataCount - 1; i >= 0; i--)
             {
                 var serieData = serie.data[i];
-
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                if (!symbol.ShowSymbol(serieData.index, maxCount))
-                    continue;
-
                 var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                if (Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize)
+                var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+                if (serie.context.isLegendEnter ||
+                    (!needHideAll && Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize))
                 {
-                    serieData.context.highlight = true;
                     serie.context.pointerItemDataIndex = i;
                     serie.context.pointerEnter = true;
-                    chart.RefreshPainter(serie);
-                    break;
+                    serieData.context.highlight = true;
+                    serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
                 }
+                else
+                {
+                    serieData.context.highlight = false;
+                    serieData.interact.SetValue(ref needInteract, symbolSize);
+                }
+            }
+            if (needInteract)
+            {
+                chart.RefreshPainter(serie);
             }
         }
 
@@ -141,8 +149,7 @@ namespace XCharts
             if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex))
                 return;
 
-            GridCoord grid;
-            if (!chart.TryGetChartComponent<GridCoord>(out grid, xAxis.gridIndex))
+            if (!chart.TryGetChartComponent<GridCoord>(out m_Grid, xAxis.gridIndex))
                 return;
 
             DataZoom xDataZoom;
@@ -157,11 +164,12 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var dataChanging = false;
+            var interacting = false;
             var dataList = serie.GetDataList(xDataZoom);
             var isEffectScatter = serie is EffectScatter;
 
-            serie.containerIndex = grid.index;
-            serie.containterInstanceId = grid.instanceId;
+            serie.containerIndex = m_Grid.index;
+            serie.containterInstanceId = m_Grid.instanceId;
 
             foreach (var serieData in dataList)
             {
@@ -181,28 +189,29 @@ namespace XCharts
                 if (serieData.IsDataChanged())
                     dataChanging = true;
 
-                float pX = grid.context.x + xAxis.axisLine.GetWidth(theme.axis.lineWidth);
-                float pY = grid.context.y + yAxis.axisLine.GetWidth(theme.axis.lineWidth);
-                float xDataHig = GetDataHig(xAxis, xValue, grid.context.width);
-                float yDataHig = GetDataHig(yAxis, yValue, grid.context.height);
+                float pX = m_Grid.context.x + xAxis.axisLine.GetWidth(theme.axis.lineWidth);
+                float pY = m_Grid.context.y + yAxis.axisLine.GetWidth(theme.axis.lineWidth);
+                float xDataHig = GetDataHig(xAxis, xValue, m_Grid.context.width);
+                float yDataHig = GetDataHig(yAxis, yValue, m_Grid.context.height);
                 var pos = new Vector3(pX + xDataHig, pY + yDataHig);
 
-                if (!grid.Contains(pos))
+                if (!m_Grid.Contains(pos))
                     continue;
 
                 serie.context.dataPoints.Add(pos);
                 serieData.context.position = pos;
                 var datas = serieData.data;
-                float symbolSize = 0;
+                var symbolSize = serie.highlight || serieData.context.highlight
+                    ? theme.serie.scatterSymbolSelectedSize
+                    : theme.serie.scatterSymbolSize;
+                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                {
+                    symbolSize = highlight
+                        ? symbol.GetSelectedSize(serieData.data, symbolSize)
+                        : symbol.GetSize(serieData.data, symbolSize);
+                    serieData.interact.SetValue(ref interacting, symbolSize);
+                }
 
-                if (serie.highlight || serieData.context.highlight)
-                {
-                    symbolSize = symbol.GetSelectedSize(datas, theme.serie.scatterSymbolSelectedSize);
-                }
-                else
-                {
-                    symbolSize = symbol.GetSize(datas, theme.serie.scatterSymbolSize);
-                }
                 symbolSize *= rate;
 
                 if (isEffectScatter)
@@ -227,7 +236,7 @@ namespace XCharts
                 serie.animation.CheckProgress(1);
                 chart.RefreshPainter(serie);
             }
-            if (dataChanging)
+            if (dataChanging || interacting)
             {
                 chart.RefreshPainter(serie);
             }

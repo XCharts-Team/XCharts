@@ -91,7 +91,7 @@ namespace XCharts
             Vector3 p = radar.context.center;
             Vector3 p1;
             float angle = 2 * Mathf.PI / indicatorNum;
-            var lineColor = radar.axisLine.GetColor(chart.theme.axis.lineColor);
+            var lineColor = radar.axisLine.GetColor(chart.theme.axis.splitLineColor);
             var lineWidth = radar.axisLine.GetWidth(chart.theme.axis.lineWidth);
             var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
             var splitLineColor = radar.splitLine.GetColor(chart.theme.axis.splitLineColor);
@@ -132,7 +132,7 @@ namespace XCharts
             Vector3 p1, p2, p3, p4;
             Vector3 p = radar.context.center;
             float angle = 2 * Mathf.PI / indicatorNum;
-            var lineColor = radar.axisLine.GetColor(chart.theme.axis.lineColor);
+            var lineColor = radar.axisLine.GetColor(chart.theme.axis.splitLineColor);
             var lineWidth = radar.axisLine.GetWidth(chart.theme.axis.lineWidth);
             var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
             var splitLineColor = radar.splitLine.GetColor(chart.theme.axis.splitLineColor);

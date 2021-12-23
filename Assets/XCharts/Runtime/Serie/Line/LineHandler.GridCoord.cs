@@ -20,6 +20,7 @@ namespace XCharts
     internal sealed partial class LineHandler : SerieHandler<Line>
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
+        private GridCoord m_SerieGrid;
 
         public override void Update()
         {
@@ -66,33 +67,134 @@ namespace XCharts
             }
         }
 
+        public override bool OnLegendButtonEnter(int index, string legendName)
+        {
+            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
+            {
+                serie.context.isLegendEnter = true;
+                return true;
+            }
+            return false;
+        }
+
+        public override bool OnLegendButtonExit(int index, string legendName)
+        {
+            if (chart.GetLegendRealShowNameIndex(serie.serieName) == index)
+            {
+                serie.context.isLegendEnter = false;
+                return true;
+            }
+            return false;
+        }
+
         private void UpdateSerieContext()
         {
-            if (!chart.isPointerInChart)
+            if (m_SerieGrid == null)
                 return;
 
-            var themeSymbolSize = chart.theme.serie.lineSymbolSize;
-
-            serie.context.pointerItemDataIndex = -1;
-            serie.context.pointerEnter = false;
-
-            foreach (var serieData in serie.data)
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || serie.context.isLegendEnter;
+            var lineWidth = 0f;
+            if (!needCheck)
             {
-                var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
-                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
+                if (m_LastCheckContextFlag != needCheck)
+                {
+                    var needAnimation1 = false;
+                    lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerEnter = false;
+                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
+                    foreach (var serieData in serie.data)
+                    {
+                        var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needAnimation1, symbolSize);
+                    }
+                    if (needAnimation1)
+                    {
+                        if (SeriesHelper.IsStack(chart.series))
+                            chart.RefreshTopPainter();
+                        else
+                            chart.RefreshPainter(serie);
+                    }
+                }
+                return;
+            }
+            m_LastCheckContextFlag = needCheck;
+            var themeSymbolSize = chart.theme.serie.lineSymbolSize;
+            var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
+            lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
-                if (dist <= symbolSize)
+            var needInteract = false;
+            if (serie.context.isLegendEnter)
+            {
+                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                for (int i = 0; i < serie.dataCount; i++)
                 {
-                    serie.context.pointerItemDataIndex = serieData.index;
-                    serie.context.pointerEnter = true;
+                    var serieData = serie.data[i];
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
                     serieData.context.highlight = true;
-                    chart.RefreshTopPainter();
+                    serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
                 }
-                else
+            }
+            else if (serie.context.isTriggerByAxis)
+            {
+                serie.context.pointerEnter = true;
+                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                for (int i = 0; i < serie.dataCount; i++)
                 {
-                    serieData.context.highlight = false;
+                    var serieData = serie.data[i];
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
+                    if (i == serie.context.pointerItemDataIndex)
+                    {
+                        serieData.context.highlight = true;
+                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needInteract, symbolSize);
+                    }
                 }
+            }
+            else
+            {
+                serie.context.pointerItemDataIndex = -1;
+                serie.context.pointerEnter = false;
+                foreach (var serieData in serie.data)
+                {
+                    var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
+                    if (dist <= symbolSelectedSize)
+                    {
+                        serie.context.pointerItemDataIndex = serieData.index;
+                        serie.context.pointerEnter = true;
+                        serie.interact.SetValue(ref needInteract, lineWidth, true);
+                        serieData.context.highlight = true;
+                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needInteract, symbolSize);
+                    }
+                }
+            }
+            if (needInteract)
+            {
+                if (SeriesHelper.IsStack(chart.series))
+                    chart.RefreshTopPainter();
+                else
+                    chart.RefreshPainter(serie);
             }
         }
 
@@ -101,20 +203,15 @@ namespace XCharts
             if (!serie.show || serie.IsPerformanceMode())
                 return;
 
+            if (m_SerieGrid == null)
+                return;
+
             var count = serie.context.dataPoints.Count;
             var clip = SeriesHelper.IsAnyClipSerie(chart.series);
-            XAxis xAxis;
-            YAxis yAxis;
-            GridCoord grid;
-
-            if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex))
-                return;
-            if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex))
-                return;
-            if (!chart.TryGetChartComponent<GridCoord>(out grid, xAxis.gridIndex))
-                return;
-
             var theme = chart.theme;
+            var interacting = false;
+            //var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
+
             for (int i = 0; i < count; i++)
             {
                 var serieData = serie.GetSerieData(i);
@@ -126,6 +223,11 @@ namespace XCharts
                 if (!symbol.show || !symbol.ShowSymbol(i, count))
                     continue;
 
+                var pos = serie.context.dataPoints[i];
+                // if (serie.animation.CheckDetailBreak(pos, isY))
+                // {
+                //     continue;
+                // }
                 if (serie.lineArrow.show)
                 {
                     if (serie.lineArrow.position == LineArrow.Position.Start && i == 0)
@@ -134,23 +236,37 @@ namespace XCharts
                         continue;
                 }
 
-                if (ChartHelper.IsIngore(serie.context.dataPoints[i]))
+                if (ChartHelper.IsIngore(pos))
                     continue;
 
                 var highlight = serie.data[i].context.highlight || serie.highlight;
                 var symbolSize = highlight
-                    ? symbol.GetSelectedSize(serie.data[i].data, theme.serie.lineSymbolSelectedSize)
-                    : symbol.GetSize(serie.data[i].data, theme.serie.lineSymbolSize);
+                    ? theme.serie.lineSymbolSelectedSize
+                    : theme.serie.lineSymbolSize;
+                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                {
+                    symbolSize = highlight
+                        ? symbol.GetSelectedSize(serieData.data, symbolSize)
+                        : symbol.GetSize(serieData.data, symbolSize);
+                    serieData.interact.SetValue(ref interacting, symbolSize);
+                    symbolSize = serie.animation.GetSysmbolSize(symbolSize);
+                }
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, theme, serie.index, highlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, theme, serie.index, highlight);
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, serie.index, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
 
-                symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.context.dataPoints[i],
-                    symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, clip, cornerRadius, grid,
-                    i > 0 ? serie.context.dataPoints[i - 1] : grid.context.position);
+                chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
+                    symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, clip, cornerRadius, m_SerieGrid,
+                    i > 0 ? serie.context.dataPoints[i - 1] : m_SerieGrid.context.position);
+            }
+            if (interacting)
+            {
+                if (SeriesHelper.IsStack(chart.series))
+                    chart.RefreshTopPainter();
+                else
+                    chart.RefreshPainter(serie);
             }
         }
 
@@ -206,7 +322,6 @@ namespace XCharts
 
             Axis axis;
             Axis relativedAxis;
-            GridCoord grid;
 
             if (isY)
             {
@@ -218,13 +333,13 @@ namespace XCharts
                 axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                 relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
             }
-            grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
 
             if (axis == null)
                 return;
             if (relativedAxis == null)
                 return;
-            if (grid == null)
+            if (m_SerieGrid == null)
                 return;
 
             var visualMap = chart.GetVisualMapOfSerie(serie);
@@ -234,22 +349,25 @@ namespace XCharts
             if (showData.Count <= 0)
                 return;
 
-            var axisLength = isY ? grid.context.height : grid.context.width;
+            var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
 
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
-            int rate = LineHelper.GetDataAverageRate(serie, grid, maxCount, false);
+            int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
             var totalAverage = serie.sampleAverage > 0
                 ? serie.sampleAverage
                 : DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
 
+            var interacting = false;
+            var lineWidth = LineHelper.GetLineWidth(ref interacting, serie, chart.theme.serie.lineWidth);
+
             axis.context.scaleWidth = scaleWid;
-            serie.containerIndex = grid.index;
-            serie.containterInstanceId = grid.instanceId;
+            serie.containerIndex = m_SerieGrid.index;
+            serie.containterInstanceId = m_SerieGrid.instanceId;
 
             Serie lastSerie = null;
             var isStack = SeriesHelper.IsStack<Line>(chart.series, serie.stack);
@@ -267,9 +385,9 @@ namespace XCharts
                 {
                     serieData.context.stackHeight = 0;
                     serieData.context.position = Vector3.zero;
-                    if (serie.ignoreLineBreak && serie.context.dataIgnore.Count > 0)
+                    if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
                     {
-                        serie.context.dataIgnore[serie.context.dataIgnore.Count - 1] = true;
+                        serie.context.dataIgnores[serie.context.dataIgnores.Count - 1] = true;
                     }
                 }
                 else
@@ -279,17 +397,17 @@ namespace XCharts
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis);
 
-                    serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, grid, xValue, relativedValue,
+                    serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
                         i, scaleWid, isStack, ref np);
 
                     serieData.context.position = np;
 
                     serie.context.dataPoints.Add(np);
-                    serie.context.dataIgnore.Add(false);
+                    serie.context.dataIgnores.Add(false);
                 }
             }
 
-            if (dataChanging)
+            if (dataChanging || interacting)
                 chart.RefreshPainter(serie);
 
             if (serie.context.dataPoints.Count <= 0)
@@ -298,9 +416,9 @@ namespace XCharts
             serie.animation.InitProgress(serie.context.dataPoints, isY);
 
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, isY, axis, relativedAxis);
-            LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, isY);
-            LineHelper.DrawSerieLineArea(vh, serie, lastSerie, chart.theme, isY, axis, relativedAxis, grid);
-            LineHelper.DrawSerieLine(vh, chart.theme, serie, visualMap, grid, axis, relativedAxis);
+            LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, lineWidth, isY);
+            LineHelper.DrawSerieLineArea(vh, serie, lastSerie, chart.theme, isY, axis, relativedAxis, m_SerieGrid);
+            LineHelper.DrawSerieLine(vh, chart.theme, serie, visualMap, m_SerieGrid, axis, relativedAxis, lineWidth);
 
             serie.context.vertCount = vh.currentVertCount;
 

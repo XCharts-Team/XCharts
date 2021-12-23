@@ -15,10 +15,9 @@ namespace XCharts
     {
         [SerializeField] protected float m_LineWidth;
         [SerializeField] protected float m_LineSymbolSize;
-        [SerializeField] protected float m_LineSymbolSelectedSize;
         [SerializeField] protected float m_ScatterSymbolSize;
-        [SerializeField] protected float m_ScatterSymbolSelectedSize;
         [SerializeField] protected float m_PieTooltipExtraRadius;
+        [SerializeField] protected float m_SelectedRate = 1.3f;
         [SerializeField] protected float m_PieSelectedOffset;
         [SerializeField] protected Color32 m_CandlestickColor = new Color32(194, 53, 49, 255);
         [SerializeField] protected Color32 m_CandlestickColor0 = new Color32(49, 70, 86, 255);
@@ -40,20 +39,17 @@ namespace XCharts
             get { return m_LineSymbolSize; }
             set { if (PropertyUtil.SetStruct(ref m_LineSymbolSize, value)) SetVerticesDirty(); }
         }
-        public float lineSymbolSelectedSize
-        {
-            get { return m_LineSymbolSelectedSize; }
-            set { if (PropertyUtil.SetStruct(ref m_LineSymbolSelectedSize, value)) SetVerticesDirty(); }
-        }
+        public float lineSymbolSelectedSize { get { return lineSymbolSize * selectedRate; } }
         public float scatterSymbolSize
         {
             get { return m_ScatterSymbolSize; }
             set { if (PropertyUtil.SetStruct(ref m_ScatterSymbolSize, value)) SetVerticesDirty(); }
         }
-        public float scatterSymbolSelectedSize
+        public float scatterSymbolSelectedSize { get { return scatterSymbolSize * selectedRate; } }
+        public float selectedRate
         {
-            get { return m_ScatterSymbolSelectedSize; }
-            set { if (PropertyUtil.SetStruct(ref m_ScatterSymbolSelectedSize, value)) SetVerticesDirty(); }
+            get { return m_SelectedRate; }
+            set { if (PropertyUtil.SetStruct(ref m_SelectedRate, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -118,9 +114,8 @@ namespace XCharts
         {
             m_LineWidth = theme.lineWidth;
             m_LineSymbolSize = theme.lineSymbolSize;
-            m_LineSymbolSelectedSize = theme.lineSymbolSelectedSize;
             m_ScatterSymbolSize = theme.scatterSymbolSize;
-            m_ScatterSymbolSelectedSize = theme.scatterSymbolSelectedSize;
+            selectedRate = theme.selectedRate;
             m_PieTooltipExtraRadius = theme.pieTooltipExtraRadius;
             m_PieSelectedOffset = theme.pieSelectedOffset;
             m_CandlestickColor = theme.candlestickColor;
@@ -134,9 +129,7 @@ namespace XCharts
         {
             m_LineWidth = XCSettings.serieLineWidth;
             m_LineSymbolSize = XCSettings.serieLineSymbolSize;
-            m_LineSymbolSelectedSize = XCSettings.serieLineSymbolSelectedSize;
             m_ScatterSymbolSize = XCSettings.serieScatterSymbolSize;
-            m_ScatterSymbolSelectedSize = XCSettings.serieScatterSymbolSelectedSize;
             m_PieTooltipExtraRadius = XCSettings.pieTooltipExtraRadius;
             m_PieSelectedOffset = XCSettings.pieSelectedOffset;
             m_CandlestickBorderWidth = XCSettings.serieCandlestickBorderWidth;

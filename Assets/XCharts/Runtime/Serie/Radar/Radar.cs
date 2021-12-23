@@ -24,9 +24,7 @@ namespace XCharts
             chart.AddChartComponentWhenNoExist<RadarCoord>();
             var serie = chart.AddSerie<Radar>(serieName);
             serie.symbol.show = true;
-            serie.symbol.type = SymbolType.EmptyCircle;
-            serie.symbol.size = 4;
-            serie.symbol.selectedSize = 6;
+            serie.symbol.type = SymbolType.Circle;
             serie.showDataName = true;
             List<double> data = new List<double>();
             for (int i = 0; i < 5; i++)

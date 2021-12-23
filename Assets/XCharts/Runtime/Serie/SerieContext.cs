@@ -36,6 +36,9 @@ namespace XCharts
         /// 鼠标所在轴线上的数据项索引（可能有多个）
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();
+        public bool isTriggerByAxis = false;
+        public bool isLegendEnter = false;
+        public int legendEnterIndex;
         /// <summary>
         /// 中心点
         /// </summary>
@@ -88,7 +91,7 @@ namespace XCharts
         /// <summary>
         /// 数据对应的位置坐标是否忽略（忽略时连线是透明的），dataIgnore 和 dataPoints 一一对应。
         /// </summary>
-        public List<bool> dataIgnore = new List<bool>();
+        public List<bool> dataIgnores = new List<bool>();
         /// <summary>
         /// 排序后的数据
         /// </summary>

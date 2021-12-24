@@ -1,18 +1,12 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
 
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace XCharts
+namespace XCharts.Editor
 {
-    public class XChartsEditor : Editor
+    public class XChartsEditor : UnityEditor.Editor
     {
         private static Transform GetParent()
         {

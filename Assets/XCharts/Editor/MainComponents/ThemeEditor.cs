@@ -1,22 +1,15 @@
 
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
 
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Editor
 {
     [CustomEditor(typeof(Theme))]
-    public class ThemeEditor : Editor
+    public class ThemeEditor : UnityEditor.Editor
     {
         private Theme m_Theme;
         void OnEnable()

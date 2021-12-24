@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     public class EditorCustomStyles
     {

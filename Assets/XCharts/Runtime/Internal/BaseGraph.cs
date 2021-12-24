@@ -1,10 +1,4 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2021 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 using System;

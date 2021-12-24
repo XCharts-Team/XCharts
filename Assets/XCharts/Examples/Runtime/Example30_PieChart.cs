@@ -1,15 +1,9 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
-
+﻿
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace XCharts.Examples
+namespace XCharts.Example
 {
     [DisallowMultipleComponent]
     public class Example30_PieChart : MonoBehaviour

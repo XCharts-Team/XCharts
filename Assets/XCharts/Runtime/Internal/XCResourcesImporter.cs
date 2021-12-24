@@ -125,7 +125,7 @@ namespace XCharts
         }
     }
 
-    public class XChartsPackageResourceImporterWindow : EditorWindow
+    public class XChartsPackageResourceImporterWindow : UnityEditor.EditorWindow
     {
         [SerializeField]
         XCResourcesImporter m_ResourceImporter;

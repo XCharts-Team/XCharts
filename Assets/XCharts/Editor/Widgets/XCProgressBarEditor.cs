@@ -1,18 +1,10 @@
-﻿/******************************************/
-/*                                        */
-/*     Copyright (c) 2018 monitor1394     */
-/*     https://github.com/monitor1394     */
-/*                                        */
-/******************************************/
-
+﻿
 using UnityEditor;
-using UnityEngine;
-using System.Text;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     [CustomEditor(typeof(XCProgressBar), false)]
-    public class XCProgressBarEditor : Editor
+    public class XCProgressBarEditor : UnityEditor.Editor
     {
 
         [MenuItem("XCharts/ProgressBar", priority = 200)]

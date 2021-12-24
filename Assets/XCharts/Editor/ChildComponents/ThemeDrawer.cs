@@ -1,10 +1,4 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
-
+﻿
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +6,7 @@ using UnityEngine;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(ThemeStyle), true)]
     public class ThemeStyleDrawer : BasePropertyDrawer
@@ -68,7 +62,7 @@ namespace XCharts
         }
     }
 
-    public class ExportThemeWindow : EditorWindow
+    public class ExportThemeWindow : UnityEditor.EditorWindow
     {
         public static BaseChart target;
         private static ExportThemeWindow window;

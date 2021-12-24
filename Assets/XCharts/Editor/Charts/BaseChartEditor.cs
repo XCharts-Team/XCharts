@@ -1,20 +1,14 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
-
+﻿
+using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
-using System.Text;
-using System;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     [CustomEditor(typeof(BaseChart), true)]
-    public class BaseChartEditor : Editor
+    public class BaseChartEditor : UnityEditor.Editor
     {
         protected BaseChart m_Chart;
         protected SerializedProperty m_Script;

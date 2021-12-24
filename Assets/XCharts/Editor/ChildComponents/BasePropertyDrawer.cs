@@ -1,15 +1,9 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
 
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     public delegate void DelegateMenuAction(Vector2 postion);
     public class BasePropertyDrawer : PropertyDrawer

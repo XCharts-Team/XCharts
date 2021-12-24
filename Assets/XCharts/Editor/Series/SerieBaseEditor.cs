@@ -1,9 +1,3 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     public class SerieBaseEditor
     {
@@ -25,7 +19,7 @@ namespace XCharts
         protected Dictionary<string, Type> m_CoordOptionsDic;
         protected List<string> m_CoordOptionsNames;
 
-        internal void Init(BaseChart chart, Serie target, SerializedProperty property, Editor inspector)
+        internal void Init(BaseChart chart, Serie target, SerializedProperty property, UnityEditor.Editor inspector)
         {
             this.chart = chart;
             this.serie = target;

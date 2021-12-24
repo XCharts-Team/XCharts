@@ -1,17 +1,9 @@
-/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
 
-using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     public class MainComponentBaseEditor
     {
@@ -24,7 +16,7 @@ namespace XCharts
         internal SerializedProperty baseProperty;
         internal SerializedProperty showProperty;
 
-        internal void Init(BaseChart chart, MainComponent target, SerializedProperty property, Editor inspector)
+        internal void Init(BaseChart chart, MainComponent target, SerializedProperty property, UnityEditor.Editor inspector)
         {
             this.chart = chart;
             this.component = target;

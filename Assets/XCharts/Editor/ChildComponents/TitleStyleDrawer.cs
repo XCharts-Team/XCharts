@@ -1,15 +1,7 @@
-﻿/************************************************/
-/*                                              */
-/*     Copyright (c) 2018 - 2021 monitor1394    */
-/*     https://github.com/monitor1394           */
-/*                                              */
-/************************************************/
-
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(TitleStyle), true)]
     public class TitleStyleDrawer : BasePropertyDrawer

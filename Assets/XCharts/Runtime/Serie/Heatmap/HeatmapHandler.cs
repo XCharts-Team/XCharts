@@ -96,6 +96,7 @@ namespace XCharts
             xAxis.boundaryGap = true;
             yAxis.boundaryGap = true;
             var visualMap = chart.GetVisualMapOfSerie(serie);
+            var emphasis = serie.emphasis;
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
             var xWidth = grid.context.width / xCount;
@@ -153,7 +154,7 @@ namespace XCharts
                     color = visualMap.GetColor(value);
                     if (animationIndex >= 0 && i > animationIndex) continue;
                     serieData.context.canShowLabel = true;
-                    var emphasis = (serieData.context.highlight)
+                    var highlight = (serieData.context.highlight)
                         || visualMap.context.pointerIndex > 0;
 
                     UGL.DrawRectangle(vh, pos, rectWid / 2, rectHig / 2, color);
@@ -161,14 +162,14 @@ namespace XCharts
                     {
                         UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
                     }
-                    if (visualMap.hoverLink && emphasis && serie.emphasis.show
-                        && serie.emphasis.itemStyle.borderWidth > 0)
+                    if (visualMap.hoverLink && highlight && emphasis != null && emphasis.show
+                        && emphasis.itemStyle.borderWidth > 0)
                     {
-                        var emphasisBorderWidth = serie.emphasis.itemStyle.borderWidth;
-                        var emphasisBorderColor = serie.emphasis.itemStyle.opacity > 0
-                            ? serie.emphasis.itemStyle.borderColor : ChartConst.clearColor32;
-                        var emphasisBorderToColor = serie.emphasis.itemStyle.opacity > 0
-                            ? serie.emphasis.itemStyle.borderToColor : ChartConst.clearColor32;
+                        var emphasisBorderWidth = emphasis.itemStyle.borderWidth;
+                        var emphasisBorderColor = emphasis.itemStyle.opacity > 0
+                            ? emphasis.itemStyle.borderColor : ChartConst.clearColor32;
+                        var emphasisBorderToColor = emphasis.itemStyle.opacity > 0
+                            ? emphasis.itemStyle.borderToColor : ChartConst.clearColor32;
                         UGL.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor,
                             emphasisBorderToColor);
                     }

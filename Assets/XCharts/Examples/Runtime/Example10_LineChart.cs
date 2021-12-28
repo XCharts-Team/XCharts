@@ -116,6 +116,7 @@ namespace XCharts.Example
         {
             chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
 
+            serie.AddExtraComponent<AreaStyle>();
             serie.areaStyle.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
@@ -144,6 +145,7 @@ namespace XCharts.Example
         IEnumerator LineArrowSettings()
         {
             chart.GetChartComponent<Title>().subText = "LineArrow 头部箭头";
+            chart.GetSerie(0).AddExtraComponent<LineArrow>();
             serie.lineArrow.show = true;
             serie.lineArrow.position = LineArrow.Position.Start;
             chart.RefreshChart();
@@ -205,6 +207,7 @@ namespace XCharts.Example
         IEnumerator LineLabelSettings()
         {
             chart.GetChartComponent<Title>().subText = "SerieLabel 文本标签";
+            serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.border = false;
             chart.RefreshChart();

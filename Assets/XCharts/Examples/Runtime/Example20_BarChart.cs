@@ -140,6 +140,7 @@ namespace XCharts.Example
 
             serie.barPercentStack = true;
 
+            serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Center;
             serie.label.border = false;

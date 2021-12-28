@@ -50,18 +50,6 @@ namespace XCharts
             raycastTarget = false;
         }
 
-        // protected override void OnPopulateMesh(VertexHelper vh)
-        // {
-        //     if (m_BackgroundColor != Color.clear || m_BackgroundImage != null)
-        //     {
-
-        //     }
-        //     else
-        //     {
-        //         vh.Clear();
-        //     }
-        // }
-
         public void SetLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
         {
             m_LabelAutoSize = autoSize;
@@ -108,7 +96,9 @@ namespace XCharts
 
         public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)
         {
-            if (m_IconImage == null) return;
+            if (m_IconImage == null || iconStyle == null)
+                return;
+
             SetIconActive(iconStyle.show);
             if (iconStyle.show)
             {

@@ -213,22 +213,23 @@ namespace XCharts
         private void UpateLabelPosition(Serie serie, SerieData serieData, int index, float startAngle,
             float toAngle, float centerRadius)
         {
-            if (!serie.label.show) return;
+            var label = serie.label;
+            if (label == null || !label.show) return;
             if (serieData.labelObject == null) return;
-            switch (serie.label.position)
+            switch (label.position)
             {
                 case LabelStyle.Position.Center:
-                    serieData.context.labelPosition = serie.context.center + serie.label.offset;
+                    serieData.context.labelPosition = serie.context.center + label.offset;
                     break;
                 case LabelStyle.Position.Bottom:
                     var px1 = Mathf.Sin(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var py1 = Mathf.Cos(startAngle * Mathf.Deg2Rad) * centerRadius;
-                    var xDiff = serie.clockwise ? -serie.label.margin : serie.label.margin;
+                    var xDiff = serie.clockwise ? -label.margin : label.margin;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
                     break;
                 case LabelStyle.Position.Top:
-                    startAngle += serie.clockwise ? -serie.label.margin : serie.label.margin;
-                    toAngle += serie.clockwise ? serie.label.margin : -serie.label.margin;
+                    startAngle += serie.clockwise ? -label.margin : label.margin;
+                    toAngle += serie.clockwise ? label.margin : -label.margin;
                     var px2 = Mathf.Sin(toAngle * Mathf.Deg2Rad) * centerRadius;
                     var py2 = Mathf.Cos(toAngle * Mathf.Deg2Rad) * centerRadius;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px2, py2);

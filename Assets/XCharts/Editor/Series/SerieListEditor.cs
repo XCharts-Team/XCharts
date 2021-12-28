@@ -6,7 +6,6 @@ using UnityEditor;
 using System.Linq;
 using System.Reflection;
 
-
 namespace XCharts.Editor
 {
     public sealed class SerieListEditor
@@ -151,7 +150,28 @@ namespace XCharts.Editor
                     CovertSerie(editor.serie, type);
                 }));
             }
-
+            if (editor.serie.GetType().IsDefined(typeof(SerieExtraComponentAttribute), false))
+            {
+                var attribute = editor.serie.GetType().GetAttribute<SerieExtraComponentAttribute>();
+                foreach (var type in attribute.types)
+                {
+                    var size = editor.FindProperty(Serie.extraComponentFieldNameDict[type]).arraySize;
+                    editor.menus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
+                    {
+                        editor.serie.AddExtraComponent(type);
+                        RefreshEditors();
+                    }, size == 0));
+                }
+                foreach (var type in attribute.types)
+                {
+                    var size = editor.FindProperty(Serie.extraComponentFieldNameDict[type]).arraySize;
+                    editor.menus.Add(new HeaderMenuInfo("Remove " + type.Name, () =>
+                    {
+                        editor.serie.RemoveExtraComponent(type);
+                        RefreshEditors();
+                    }, size > 0));
+                }
+            }
             if (index < 0)
                 m_Editors.Add(editor);
             else
@@ -181,7 +201,8 @@ namespace XCharts.Editor
             RefreshEditors();
         }
 
-        public void CloneSerie(Serie serie){
+        public void CloneSerie(Serie serie)
+        {
             var newSerie = serie.Clone();
             newSerie.serieName = chart.GenerateDefaultSerieName();
             chart.InsertSerie(newSerie);

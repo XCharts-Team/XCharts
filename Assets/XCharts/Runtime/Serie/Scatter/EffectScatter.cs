@@ -6,6 +6,7 @@ namespace XCharts
     [System.Serializable]
     [SerieHandler(typeof(EffectScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
     public class EffectScatter : BaseScatter
     {
         public static void AddDefaultSerie(BaseChart chart, string serieName)

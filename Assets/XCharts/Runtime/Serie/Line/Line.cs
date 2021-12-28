@@ -9,6 +9,14 @@ namespace XCharts
     [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.LeftToRight)]
+    [SerieExtraComponent(
+        typeof(LabelStyle),
+        typeof(LabelLine),
+        typeof(EndLabelStyle),
+        typeof(LineArrow),
+        typeof(AreaStyle),
+        typeof(IconStyle),
+        typeof(Emphasis))]
     public class Line : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }
@@ -17,8 +25,6 @@ namespace XCharts
         {
             var serie = chart.AddSerie<Line>(serieName);
             serie.symbol.show = true;
-            serie.label.offset = new Vector3(0, 15f, 0);
-            serie.label.autoOffset = true;
             for (int i = 0; i < 5; i++)
             {
                 chart.AddData(serie.index, UnityEngine.Random.Range(10, 90));

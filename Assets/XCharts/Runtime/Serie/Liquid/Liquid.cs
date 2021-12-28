@@ -6,6 +6,7 @@ namespace XCharts
     [System.Serializable]
     [SerieHandler(typeof(LiquidHandler), true)]
     [RequireChartComponent(typeof(Vessel))]
+    [SerieExtraComponent()]
     public class Liquid : Serie, INeedSerieContainer
     {
         [SerializeField] private float m_WaveHeight = 10f;
@@ -55,6 +56,7 @@ namespace XCharts
             var serie = chart.AddSerie<Liquid>(serieName);
             serie.min = 0;
             serie.max = 100;
+            serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.textStyle.fontSize = 40;
             serie.label.formatter = "{d}%";

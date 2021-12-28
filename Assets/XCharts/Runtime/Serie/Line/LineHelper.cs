@@ -25,7 +25,7 @@ namespace XCharts
         public static void DrawSerieLineArea(VertexHelper vh, Serie serie, Serie lastStackSerie,
             ThemeStyle theme, bool isY, Axis axis, Axis relativedAxis, GridCoord grid)
         {
-            if (!serie.areaStyle.show)
+            if (serie.areaStyle == null || !serie.areaStyle.show)
                 return;
 
             var srcAreaColor = SerieHelper.GetAreaColor(serie, theme, serie.context.colorIndex, false);

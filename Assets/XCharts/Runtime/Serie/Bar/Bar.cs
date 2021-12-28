@@ -10,6 +10,10 @@ namespace XCharts
     [SerieConvert(typeof(Line),typeof(Pie))]
     [RequireChartComponent(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
+    [SerieExtraComponent(
+        typeof(LabelStyle),
+        typeof(IconStyle),
+        typeof(Emphasis))]
     public class Bar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

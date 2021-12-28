@@ -29,12 +29,23 @@ namespace XCharts.Editor
                 }
             }
             OnCustomInspectorGUI();
+            OnExtraInspectorGUI();
             PropertyFieldData();
             --EditorGUI.indentLevel;
         }
 
         public virtual void OnCustomInspectorGUI()
         {
+        }
+
+        private void OnExtraInspectorGUI()
+        {
+            foreach (var kv in Serie.extraComponentFieldNameDict)
+            {
+                var prop = FindProperty(kv.Value);
+                if (prop.arraySize > 0)
+                    PropertyField(prop.GetArrayElementAtIndex(0));
+            }
         }
 
         private void PropertyFieldData()

@@ -8,6 +8,7 @@ namespace XCharts
     [System.Serializable]
     [SerieHandler(typeof(ScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
     public class Scatter : BaseScatter
     {
         public static void AddDefaultSerie(BaseChart chart, string serieName)

@@ -413,9 +413,9 @@ namespace XCharts
         {
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
-            if (serieLabel.show
-                && serieLabel.position == LabelStyle.Position.Outside
-                && labelLine.show)
+            if (serieLabel != null && serieLabel.show
+                && labelLine != null && labelLine.show
+                && serieLabel.position == LabelStyle.Position.Outside)
             {
                 var insideRadius = serieData.context.insideRadius;
                 var outSideRadius = serieData.context.outsideRadius;
@@ -495,8 +495,9 @@ namespace XCharts
         private void DrawPieLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {
             if (serieData.labelObject == null) return;
+            var emphasis = serie.emphasis;
             var currAngle = serieData.context.halfAngle;
-            var isHighlight = (serieData.context.highlight && serie.emphasis.label.show);
+            var isHighlight = (serieData.context.highlight && emphasis != null && emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
@@ -514,9 +515,9 @@ namespace XCharts
                 Color color = serieColor;
                 if (isHighlight)
                 {
-                    if (!ChartHelper.IsClearColor(serie.emphasis.label.textStyle.color))
+                    if (!ChartHelper.IsClearColor(emphasis.label.textStyle.color))
                     {
-                        color = serie.emphasis.label.textStyle.color;
+                        color = emphasis.label.textStyle.color;
                     }
                 }
                 else if (!ChartHelper.IsClearColor(serieLabel.textStyle.color))
@@ -528,10 +529,10 @@ namespace XCharts
                     color = isInsidePosition ? Color.white : serieColor;
                 }
                 var fontSize = isHighlight
-                    ? serie.emphasis.label.textStyle.GetFontSize(chart.theme.common)
+                    ? emphasis.label.textStyle.GetFontSize(chart.theme.common)
                     : serieLabel.textStyle.GetFontSize(chart.theme.common);
                 var fontStyle = isHighlight
-                    ? serie.emphasis.label.textStyle.fontStyle
+                    ? emphasis.label.textStyle.fontStyle
                     : serieLabel.textStyle.fontStyle;
 
                 serieData.labelObject.label.SetColor(color);

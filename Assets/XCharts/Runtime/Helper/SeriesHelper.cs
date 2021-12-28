@@ -119,7 +119,7 @@ namespace XCharts
             if (string.IsNullOrEmpty(stack)) return false;
             foreach (var serie in series)
             {
-                if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
+                if (serie.show && serie.areaStyle != null && serie.areaStyle.show && stack.Equals(serie.stack))
                 {
                     if (!ChartHelper.IsValueEqualsColor(serie.areaStyle.color, serie.areaStyle.toColor)
                     && !ChartHelper.IsClearColor(serie.areaStyle.toColor))

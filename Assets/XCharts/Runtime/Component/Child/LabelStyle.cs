@@ -9,7 +9,7 @@ namespace XCharts
     /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
-    public class LabelStyle : ChildComponent,ISerieDataComponent
+    public class LabelStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
         /// <summary>
         /// The position of label.
@@ -69,7 +69,7 @@ namespace XCharts
             End
         }
 
-        
+
         [SerializeField] private bool m_Show = false;
         [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
@@ -299,4 +299,6 @@ namespace XCharts
             }
         }
     }
+
+
 }

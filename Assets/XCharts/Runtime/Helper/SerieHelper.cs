@@ -407,7 +407,7 @@ namespace XCharts
         {
             if (!serie.IsPerformanceMode() && serieData != null && serieData.emphasis != null && serieData.emphasis.show)
                 return serieData.emphasis.itemStyle;
-            else if (serie.emphasis.show) return serie.emphasis.itemStyle;
+            else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.itemStyle;
             else return null;
         }
 
@@ -417,7 +417,7 @@ namespace XCharts
             {
                 if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
                     return serieData.emphasis.label;
-                else if (serie.emphasis.show) return serie.emphasis.label;
+                else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.label;
                 else return serie.label;
             }
             else
@@ -431,7 +431,7 @@ namespace XCharts
         {
             if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
                 return serieData.emphasis.label;
-            else if (serie.emphasis.show) return serie.emphasis.label;
+            else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.label;
             else return null;
         }
 
@@ -441,7 +441,7 @@ namespace XCharts
             {
                 if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
                     return serieData.emphasis.labelLine;
-                else if (serie.emphasis.show) return serie.emphasis.labelLine;
+                else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.labelLine;
                 else return serie.labelLine;
             }
             else
@@ -466,11 +466,16 @@ namespace XCharts
         public static Color32 GetAreaColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
-            var color = !ChartHelper.IsClearColor(areaStyle.color) ? areaStyle.color : theme.GetColor(index);
+            if (areaStyle == null || !areaStyle.show)
+                return ColorUtil.clearColor32;
+            var color = !ChartHelper.IsClearColor(areaStyle.color)
+                ? areaStyle.color : theme.GetColor(index);
             if (highlight)
             {
-                if (!ChartHelper.IsClearColor(areaStyle.highlightColor)) color = areaStyle.highlightColor;
-                else color = ChartHelper.GetHighlightColor(color);
+                if (!ChartHelper.IsClearColor(areaStyle.highlightColor))
+                    color = areaStyle.highlightColor;
+                else
+                    color = ChartHelper.GetHighlightColor(color);
             }
             ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
             return color;
@@ -479,6 +484,8 @@ namespace XCharts
         public static Color32 GetAreaToColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
             var areaStyle = serie.areaStyle;
+            if (areaStyle == null || !areaStyle.show)
+                return ColorUtil.clearColor32;
             if (!ChartHelper.IsClearColor(areaStyle.toColor))
             {
                 var color = areaStyle.toColor;

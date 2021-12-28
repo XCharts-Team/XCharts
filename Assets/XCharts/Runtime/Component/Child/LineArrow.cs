@@ -7,7 +7,7 @@ namespace XCharts
     /// <summary>
     /// </summary>
     [Serializable]
-    public class LineArrow : ChildComponent
+    public class LineArrow : ChildComponent, ISerieExtraComponent
     {
         public enum Position
         {

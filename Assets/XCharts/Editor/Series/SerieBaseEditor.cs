@@ -86,7 +86,7 @@ namespace XCharts.Editor
             return ObjectNames.NicifyVariableName(title);
         }
 
-        protected SerializedProperty FindProperty(string path)
+        internal SerializedProperty FindProperty(string path)
         {
             return baseProperty.FindPropertyRelative(path);
         }

@@ -83,6 +83,7 @@ namespace XCharts.Example
         {
             chart.GetChartComponent<Title>().subText = "显示文本标签";
 
+            serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);

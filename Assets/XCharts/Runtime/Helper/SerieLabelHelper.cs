@@ -8,7 +8,7 @@ namespace XCharts
 
         public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)
         {
-            if (!ChartHelper.IsClearColor(serie.label.textStyle.color))
+            if (serie.label != null && !ChartHelper.IsClearColor(serie.label.textStyle.color))
             {
                 return serie.label.textStyle.color;
             }
@@ -39,7 +39,7 @@ namespace XCharts
             {
                 serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             }
-            var numericFormatter = serieLabel == null ? serie.label.numericFormatter : serieLabel.numericFormatter;
+            var numericFormatter = serieLabel == null ? "" : serieLabel.numericFormatter;
             var serieName = serie.serieName;
             var dataName = serieData != null ? serieData.name : null;
             if (serieLabel.formatterFunction != null)
@@ -62,14 +62,16 @@ namespace XCharts
             var serieData = serie.GetSerieData(0);
             if (serieData == null) return;
             if (serieData.labelObject == null) return;
+            var label = SerieHelper.GetSerieLabel(serie, serieData);
+            if(label == null) return;
             var value = serieData.GetData(1);
             var total = serie.max;
             var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
             serieData.labelObject.SetText(content);
-            serieData.labelObject.SetLabelPosition(serie.context.center + serie.label.offset);
-            if (!ChartHelper.IsClearColor(serie.label.textStyle.color))
+            serieData.labelObject.SetLabelPosition(serie.context.center + label.offset);
+            if (!ChartHelper.IsClearColor(label.textStyle.color))
             {
-                serieData.labelObject.label.SetColor(serie.label.textStyle.color);
+                serieData.labelObject.label.SetColor(label.textStyle.color);
             }
         }
 
@@ -79,7 +81,7 @@ namespace XCharts
             {
                 var serieData = serie.data[i];
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlight);
-                if (serieLabel.show && serieData.labelObject != null)
+                if (serieLabel != null && serieLabel.show && serieData.labelObject != null)
                 {
                     if (!serie.show || !serieData.show)
                     {
@@ -93,7 +95,7 @@ namespace XCharts
                     serieData.labelObject.SetText(content);
                     serieData.labelObject.SetTextColor(GetLabelColor(serie, theme, i));
 
-                    if (serie.label.position == LabelStyle.Position.Bottom)
+                    if (serieLabel.position == LabelStyle.Position.Bottom)
                     {
                         var labelWidth = serieData.GetLabelWidth();
                         if (serie.clockwise)

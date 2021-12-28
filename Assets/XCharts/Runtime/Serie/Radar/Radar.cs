@@ -7,6 +7,7 @@ namespace XCharts
     [System.Serializable]
     [SerieHandler(typeof(RadarHandler), true)]
     [RequireChartComponent(typeof(RadarCoord))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(AreaStyle), typeof(Emphasis))]
     public class Radar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

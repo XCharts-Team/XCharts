@@ -9,7 +9,7 @@ namespace XCharts
     /// 区域填充样式。
     /// </summary>
     [System.Serializable]
-    public class AreaStyle : ChildComponent
+    public class AreaStyle : ChildComponent, ISerieExtraComponent
     {
         /// <summary>
         /// Origin position of area.
@@ -33,11 +33,11 @@ namespace XCharts
             /// </summary>
             End
         }
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private AreaOrigin m_Origin;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
-        [SerializeField] [Range(0, 1)] private float m_Opacity;
+        [SerializeField] [Range(0, 1)] private float m_Opacity = 0.6f;
         [SerializeField] private bool m_TooltipHighlight;
         [SerializeField] private Color32 m_HighlightColor;
         [SerializeField] private Color32 m_HighlightToColor;
@@ -112,21 +112,6 @@ namespace XCharts
         {
             get { return m_HighlightToColor; }
             set { if (PropertyUtil.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
-        }
-
-        public static AreaStyle defaultAreaStyle
-        {
-            get
-            {
-                var area = new AreaStyle
-                {
-                    m_Show = false,
-                    m_Color = Color.clear,
-                    m_ToColor = Color.clear,
-                    m_Opacity = 0.6f
-                };
-                return area;
-            }
         }
 
         public Color32 GetColor()

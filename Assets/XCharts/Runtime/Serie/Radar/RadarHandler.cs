@@ -226,6 +226,8 @@ namespace XCharts
             serie.containerIndex = m_RadarCoord.index;
             serie.containterInstanceId = m_RadarCoord.instanceId;
 
+            var areaStyle = serie.areaStyle;
+
             var startPoint = Vector3.zero;
             var toPoint = Vector3.zero;
             var firstPoint = Vector3.zero;
@@ -281,7 +283,7 @@ namespace XCharts
                     {
                         toPoint = new Vector3(centerPos.x + radius * Mathf.Sin(currAngle),
                             centerPos.y + radius * Mathf.Cos(currAngle));
-                        if (serie.areaStyle.show)
+                        if (areaStyle != null && areaStyle.show)
                         {
                             UGL.DrawTriangle(vh, startPoint, toPoint, centerPos, areaColor, areaColor, areaToColor);
                         }
@@ -293,7 +295,7 @@ namespace XCharts
                     }
                     serieData.context.dataPoints.Add(startPoint);
                 }
-                if (serie.areaStyle.show)
+                if (areaStyle != null && areaStyle.show)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }

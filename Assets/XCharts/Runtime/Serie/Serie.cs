@@ -76,7 +76,7 @@ namespace XCharts
         Capsule
     }
 
-    
+
 
     /// <summary>
     /// 雷达图类型
@@ -159,7 +159,7 @@ namespace XCharts
     /// 系列。
     /// </summary>
     [System.Serializable]
-    public class Serie : BaseSerie, IComparable
+    public partial class Serie : BaseSerie, IComparable
     {
         [SerializeField] private int m_Index;
         [SerializeField] private bool m_Show = true;
@@ -177,16 +177,12 @@ namespace XCharts
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
-        [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
-        [SerializeField] private SymbolStyle m_Symbol = new SymbolStyle();
 
         [SerializeField] private float m_SampleDist = 0;
         [SerializeField] private SampleType m_SampleType = SampleType.Average;
         [SerializeField] private float m_SampleAverage = 0;
 
         [SerializeField] private LineType m_LineType = LineType.Normal;
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
-
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0.6f;
@@ -211,14 +207,7 @@ namespace XCharts
         [SerializeField] private float m_Space;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
-        [SerializeField] private LabelStyle m_Label = new LabelStyle();
-        [SerializeField] private LabelLine m_LabelLine = new LabelLine();
-        [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
-        [SerializeField] private LineArrow m_LineArrow = new LineArrow();
-        [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
-        [SerializeField] private Emphasis m_Emphasis = new Emphasis();
-        [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
-        [SerializeField] private IconStyle m_IconStyle = new IconStyle();
+
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
@@ -240,6 +229,18 @@ namespace XCharts
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
         [SerializeField] private bool m_InsertDataToHead;
+
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        //[SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
+        [SerializeField] private SymbolStyle m_Symbol = new SymbolStyle();
+        //[SerializeField] private LabelStyle m_Label = new LabelStyle();
+        //[SerializeField] private LabelLine m_LabelLine = new LabelLine();
+        [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
+        //[SerializeField] private LineArrow m_LineArrow = new LineArrow();
+        [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
+        //[SerializeField] private Emphasis m_Emphasis = new Emphasis();
+        [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
+        //[SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] internal int m_FilterStart;
@@ -398,15 +399,7 @@ namespace XCharts
             get { return m_MaxCache; }
             set { if (PropertyUtil.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) { SetVerticesDirty(); } }
         }
-        /// <summary>
-        /// The style of area.
-        /// 区域填充样式。
-        /// </summary>
-        public AreaStyle areaStyle
-        {
-            get { return m_AreaStyle; }
-            set { if (PropertyUtil.SetClass(ref m_AreaStyle, value, true)) SetVerticesDirty(); }
-        }
+
         /// <summary>
         /// the symbol of serie data item.
         /// 标记的图形。
@@ -703,25 +696,6 @@ namespace XCharts
             get { return m_RadarType; }
             set { if (PropertyUtil.SetStruct(ref m_RadarType, value)) SetVerticesDirty(); }
         }
-
-        /// <summary>
-        /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
-        /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
-        /// </summary>
-        public LabelStyle label
-        {
-            get { return m_Label; }
-            set { if (PropertyUtil.SetClass(ref m_Label, value, true)) SetAllDirty(); }
-        }
-        /// <summary>
-        /// The line of label. 
-        /// 标签上的视觉引导线。
-        /// </summary>
-        public LabelLine labelLine
-        {
-            get { return m_LabelLine; }
-            set { if (PropertyUtil.SetClass(ref m_LabelLine, value, true)) SetAllDirty(); }
-        }
         /// <summary>
         /// The start animation.
         /// 起始动画。
@@ -730,15 +704,6 @@ namespace XCharts
         {
             get { return m_Animation; }
             set { if (PropertyUtil.SetClass(ref m_Animation, value, true)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// The arrow of line.
-        /// 折线图的箭头。
-        /// </summary>
-        public LineArrow lineArrow
-        {
-            get { return m_LineArrow; }
-            set { if (PropertyUtil.SetClass(ref m_LineArrow, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The style of data item.
@@ -750,29 +715,12 @@ namespace XCharts
             set { if (PropertyUtil.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 高亮的图形样式和文本标签样式。
-        /// </summary>
-        public Emphasis emphasis
-        {
-            get { return m_Emphasis; }
-            set { if (PropertyUtil.SetClass(ref m_Emphasis, value, true)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// 标题样式。
         /// </summary>
         public TitleStyle titleStyle
         {
             get { return m_TitleStyle; }
             set { if (PropertyUtil.SetClass(ref m_TitleStyle, value, true)) SetAllDirty(); }
-        }
-        /// <summary>
-        /// the icon of data.
-        /// 数据项图标样式。
-        /// </summary>
-        public IconStyle iconStyle
-        {
-            get { return m_IconStyle; }
-            set { if (PropertyUtil.SetClass(ref m_IconStyle, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// 数据项里的数据维数。
@@ -813,7 +761,8 @@ namespace XCharts
                 if (PropertyUtil.SetStruct(ref m_Large, value))
                 {
                     SetAllDirty();
-                    label.SetComponentDirty();
+                    if (label != null)
+                        label.SetComponentDirty();
                 }
             }
         }
@@ -828,7 +777,8 @@ namespace XCharts
                 if (PropertyUtil.SetStruct(ref m_LargeThreshold, value))
                 {
                     SetAllDirty();
-                    label.SetComponentDirty();
+                    if (label != null)
+                        label.SetComponentDirty();
                 }
             }
         }
@@ -922,11 +872,11 @@ namespace XCharts
                 return m_VertsDirty ||
                     symbol.vertsDirty ||
                     lineStyle.vertsDirty ||
-                    lineArrow.vertsDirty ||
+                    (lineArrow != null && lineArrow.vertsDirty) ||
                     itemStyle.vertsDirty ||
-                    areaStyle.vertsDirty ||
-                    label.vertsDirty ||
-                    emphasis.vertsDirty;
+                    (areaStyle != null && areaStyle.vertsDirty) ||
+                    (label != null && label.vertsDirty) ||
+                    (emphasis != null && emphasis.vertsDirty);
             }
         }
 
@@ -936,13 +886,18 @@ namespace XCharts
             base.ClearVerticesDirty();
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
-            lineArrow.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
-            areaStyle.ClearVerticesDirty();
-            label.ClearVerticesDirty();
-            emphasis.ClearVerticesDirty();
             titleStyle.ClearVerticesDirty();
-            iconStyle.ClearVerticesDirty();
+            if (iconStyle != null)
+                iconStyle.ClearVerticesDirty();
+            if (areaStyle != null)
+                areaStyle.ClearVerticesDirty();
+            if (label != null)
+                label.ClearVerticesDirty();
+            if (emphasis != null)
+                emphasis.ClearVerticesDirty();
+            if (lineArrow != null)
+                lineArrow?.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
@@ -950,13 +905,19 @@ namespace XCharts
             base.ClearComponentDirty();
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
-            lineArrow.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
-            areaStyle.ClearComponentDirty();
-            label.ClearComponentDirty();
             emphasis.ClearComponentDirty();
             titleStyle.ClearComponentDirty();
-            iconStyle.ClearComponentDirty();
+            if (iconStyle != null)
+                iconStyle.ClearComponentDirty();
+            if (areaStyle != null)
+                areaStyle.ClearComponentDirty();
+            if (label != null)
+                label.ClearComponentDirty();
+            if (emphasis != null)
+                emphasis.ClearComponentDirty();
+            if (lineArrow != null)
+                lineArrow.ClearComponentDirty();
         }
         /// <summary>
         /// Whether the serie is highlighted.

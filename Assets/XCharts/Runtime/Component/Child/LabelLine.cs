@@ -5,7 +5,7 @@ using UnityEngine;
 namespace XCharts
 {
     [System.Serializable]
-    public class LabelLine : ChildComponent,ISerieDataComponent
+    public class LabelLine : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
         /// <summary>
         /// 标签视觉引导线类型

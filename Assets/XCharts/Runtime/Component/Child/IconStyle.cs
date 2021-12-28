@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace XCharts
 {
     [System.Serializable]
-    public class IconStyle : ChildComponent, ISerieDataComponent
+    public class IconStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
         public enum Layer
         {

@@ -184,6 +184,7 @@ namespace XCharts
             var clip = SeriesHelper.IsAnyClipSerie(chart.series);
             var theme = chart.theme;
             var interacting = false;
+            var lineArrow = serie.lineArrow;
             //var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
 
             for (int i = 0; i < count; i++)
@@ -202,11 +203,11 @@ namespace XCharts
                 // {
                 //     continue;
                 // }
-                if (serie.lineArrow.show)
+                if (lineArrow != null && lineArrow.show)
                 {
-                    if (serie.lineArrow.position == LineArrow.Position.Start && i == 0)
+                    if (lineArrow.position == LineArrow.Position.Start && i == 0)
                         continue;
-                    if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1)
+                    if (lineArrow.position == LineArrow.Position.End && i == count - 1)
                         continue;
                 }
 
@@ -246,7 +247,7 @@ namespace XCharts
 
         private void DrawLineArrow(VertexHelper vh, Serie serie)
         {
-            if (!serie.show || !serie.lineArrow.show)
+            if (!serie.show || serie.lineArrow == null || !serie.lineArrow.show)
                 return;
 
             if (serie.context.dataPoints.Count < 2)

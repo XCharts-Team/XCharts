@@ -20,10 +20,6 @@ namespace XCharts.Editor
             PropertyField("m_Symbol");
 
             PropertyField("m_ItemStyle");
-            PropertyField("m_IconStyle");
-            PropertyField("m_Label");
-            PropertyField("m_LabelLine");
-            PropertyField("m_Emphasis");
             PropertyField("m_Animation");
         }
     }

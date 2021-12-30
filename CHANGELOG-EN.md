@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.6.0](#v2.6.0)  
 [v2.5.0](#v2.5.0)  
 [v2.4.0](#v2.4.0)  
 [v2.3.0](#v2.3.0)  
@@ -41,6 +42,9 @@
 
 ## branch-2.0
 
+## v2.6.0
+
+* (2021.12.30) Release `v2.6.0` version
 * (2021.12.21) Fixed `Emphasis` dont work
 * (2021.12.17) Fixed `MarkLine` does not auto refresh label active when serie hide #178
 * (2021.12.10) Improved `Radar`'s `AxisLine` and `SplitLine` to be controlled separately

@@ -11,7 +11,6 @@ namespace XCharts
     [DefaultAnimation(AnimationType.LeftToRight)]
     [SerieExtraComponent(
         typeof(LabelStyle),
-        typeof(LabelLine),
         typeof(EndLabelStyle),
         typeof(LineArrow),
         typeof(AreaStyle),

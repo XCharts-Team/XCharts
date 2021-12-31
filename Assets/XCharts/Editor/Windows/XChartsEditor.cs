@@ -147,6 +147,27 @@ namespace XCharts.Editor
             AddChart<ParallelChart>("ParallelChart");
         }
 
+        [MenuItem("XCharts/SimplifiedLineChart", priority = 56)]
+        [MenuItem("GameObject/XCharts/SimplifiedLineChart", priority = 56)]
+        public static void SimplifiedLineChart()
+        {
+            AddChart<SimplifiedLineChart>("SimplifiedLineChart");
+        }
+
+        [MenuItem("XCharts/SimplifiedBarChart", priority = 57)]
+        [MenuItem("GameObject/XCharts/SimplifiedBarChart", priority = 57)]
+        public static void SimplifiedBarChart()
+        {
+            AddChart<SimplifiedBarChart>("SimplifiedBarChart");
+        }
+
+        [MenuItem("XCharts/SimplifiedCandlestickChart", priority = 58)]
+        [MenuItem("GameObject/XCharts/SimplifiedCandlestickChart", priority = 58)]
+        public static void SimplifiedCandlestickChart()
+        {
+            AddChart<SimplifiedCandlestickChart>("SimplifiedCandlestickChart");
+        }
+
         [MenuItem("XCharts/Themes Reload")]
         public static void ReloadTheme()
         {

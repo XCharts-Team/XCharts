@@ -1,0 +1,283 @@
+
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+using XUGL;
+
+namespace XCharts
+{
+    /// <summary>
+    /// For grid coord
+    /// </summary>
+    [UnityEngine.Scripting.Preserve]
+    internal sealed class SimplifiedLineHandler : SerieHandler<SimplifiedLine>
+    {
+        private GridCoord m_SerieGrid;
+
+        public override void Update()
+        {
+            base.Update();
+            UpdateSerieContext();
+        }
+
+        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
+            string marker, string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
+        {
+            UpdateCoordSerieParams(ref paramList, ref title, dataIndex, showCategory, category,
+                marker, itemFormatter, numericFormatter);
+        }
+
+        public override void DrawSerie(VertexHelper vh)
+        {
+            DrawLineSerie(vh, serie);
+        }
+
+        private void UpdateSerieContext()
+        {
+            if (m_SerieGrid == null)
+                return;
+
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
+            var lineWidth = 0f;
+            if (!needCheck)
+            {
+                if (m_LastCheckContextFlag != needCheck)
+                {
+                    var needAnimation1 = false;
+                    lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerEnter = false;
+                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
+                    foreach (var serieData in serie.data)
+                    {
+                        var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needAnimation1, symbolSize);
+                    }
+                    if (needAnimation1)
+                    {
+                        if (SeriesHelper.IsStack(chart.series))
+                            chart.RefreshTopPainter();
+                        else
+                            chart.RefreshPainter(serie);
+                    }
+                }
+                return;
+            }
+            m_LastCheckContextFlag = needCheck;
+            var themeSymbolSize = chart.theme.serie.lineSymbolSize;
+            var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
+            lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+
+            var needInteract = false;
+            if (m_LegendEnter)
+            {
+                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                for (int i = 0; i < serie.dataCount; i++)
+                {
+                    var serieData = serie.data[i];
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
+                    serieData.context.highlight = true;
+                    serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                }
+            }
+            else if (serie.context.isTriggerByAxis)
+            {
+                serie.context.pointerEnter = true;
+                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                for (int i = 0; i < serie.dataCount; i++)
+                {
+                    var serieData = serie.data[i];
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
+                    if (i == serie.context.pointerItemDataIndex)
+                    {
+                        serieData.context.highlight = true;
+                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needInteract, symbolSize);
+                    }
+                }
+            }
+            else
+            {
+                serie.context.pointerItemDataIndex = -1;
+                serie.context.pointerEnter = false;
+                foreach (var serieData in serie.data)
+                {
+                    var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
+                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
+
+                    if (dist <= symbolSelectedSize)
+                    {
+                        serie.context.pointerItemDataIndex = serieData.index;
+                        serie.context.pointerEnter = true;
+                        serie.interact.SetValue(ref needInteract, lineWidth, true);
+                        serieData.context.highlight = true;
+                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                        serieData.interact.SetValue(ref needInteract, symbolSize);
+                    }
+                }
+            }
+            if (needInteract)
+            {
+                if (SeriesHelper.IsStack(chart.series))
+                    chart.RefreshTopPainter();
+                else
+                    chart.RefreshPainter(serie);
+            }
+        }
+
+        private void DrawLineSerie(VertexHelper vh, SimplifiedLine serie)
+        {
+            if (!serie.show)
+                return;
+            if (serie.animation.HasFadeOut())
+                return;
+
+            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
+
+            Axis axis;
+            Axis relativedAxis;
+
+            if (isY)
+            {
+                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+            }
+            else
+            {
+                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+            }
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+
+            if (axis == null)
+                return;
+            if (relativedAxis == null)
+                return;
+            if (m_SerieGrid == null)
+                return;
+
+            var dataZoom = chart.GetDataZoomOfAxis(axis);
+            var showData = serie.GetDataList(dataZoom);
+
+            if (showData.Count <= 0)
+                return;
+
+            var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
+            var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
+
+            int maxCount = serie.maxShow > 0
+                ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
+                : showData.Count;
+            int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
+            var totalAverage = serie.sampleAverage > 0
+                ? serie.sampleAverage
+                : DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+
+            var interacting = false;
+            var lineWidth = LineHelper.GetLineWidth(ref interacting, serie, chart.theme.serie.lineWidth);
+
+            axis.context.scaleWidth = scaleWid;
+            serie.containerIndex = m_SerieGrid.index;
+            serie.containterInstanceId = m_SerieGrid.instanceId;
+
+            for (int i = serie.minShow; i < maxCount; i += rate)
+            {
+                var serieData = showData[i];
+                var isIgnore = serie.IsIgnoreValue(serieData);
+                if (isIgnore)
+                {
+                    serieData.context.stackHeight = 0;
+                    serieData.context.position = Vector3.zero;
+                    if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
+                    {
+                        serie.context.dataIgnores[serie.context.dataIgnores.Count - 1] = true;
+                    }
+                }
+                else
+                {
+                    var np = Vector3.zero;
+                    var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
+                    var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
+                        maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis);
+
+                    serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
+                        i, scaleWid, false, ref np);
+
+                    serieData.context.position = np;
+
+                    serie.context.dataPoints.Add(np);
+                    serie.context.dataIgnores.Add(false);
+                }
+            }
+
+            if (dataChanging || interacting)
+                chart.RefreshPainter(serie);
+
+            if (serie.context.dataPoints.Count <= 0)
+                return;
+
+            serie.animation.InitProgress(serie.context.dataPoints, isY);
+
+            LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, lineWidth, isY);
+            LineHelper.DrawSerieLineArea(vh, serie, null, chart.theme, isY, axis, relativedAxis, m_SerieGrid);
+            LineHelper.DrawSerieLine(vh, chart.theme, serie, null, m_SerieGrid, axis, relativedAxis, lineWidth);
+
+            serie.context.vertCount = vh.currentVertCount;
+
+            if (!serie.animation.IsFinish())
+            {
+                serie.animation.CheckProgress();
+                chart.RefreshPainter(serie);
+            }
+        }
+
+        private float GetDataPoint(bool isY, Axis axis, Axis relativedAxis, GridCoord grid, double xValue,
+            double yValue, int i, float scaleWid, bool isStack, ref Vector3 np)
+        {
+            float xPos, yPos;
+            var gridXY = isY ? grid.context.x : grid.context.y;
+
+            if (isY)
+            {
+                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
+
+                xPos = gridXY + valueHig;
+                yPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+            }
+            else
+            {
+
+                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
+
+                yPos = gridXY + valueHig;
+                xPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+            }
+            np = new Vector3(xPos, yPos);
+            return yPos;
+        }
+    }
+}

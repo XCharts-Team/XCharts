@@ -61,7 +61,7 @@ namespace XCharts
             {
                 m_RefreshLabel = false;
                 if (m_InitedLabel)
-                    InternalRefreshLabel();
+                    RefreshLabelInternal();
             }
             if (serie.label != null && (serie.labelDirty || serie.label.componentDirty))
             {
@@ -190,17 +190,7 @@ namespace XCharts
                 return false;
 
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
-            var color = Color.grey;
-            if (serie.useDataNameForColor)
-            {
-                color = (serieLabel.position == LabelStyle.Position.Inside) ? Color.white :
-                    (Color)chart.theme.GetColor(count);
-            }
-            else
-            {
-                color = !ChartHelper.IsClearColor(serieLabel.textStyle.color) ? serieLabel.textStyle.color :
-                    (Color)chart.theme.GetColor(serie.index);
-            }
+            var color = chart.theme.common.textColor;
             var iconWidth = iconStyle != null ? iconStyle.width : 20;
             var iconHeight = iconStyle != null ? iconStyle.height : 20;
             var labelObj = SerieLabelPool.Get(textName, serieLabelRoot.transform, serieLabel, color,
@@ -250,14 +240,18 @@ namespace XCharts
             }
         }
 
-        private void InternalRefreshLabel()
+        public override void RefreshLabelInternal()
         {
-            if (!m_InitedLabel) return;
+            if (!m_InitedLabel)
+                return;
+
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
             var total = serie.yTotal;
             foreach (var serieData in serie.data)
             {
-                if (serieData.labelObject == null) continue;
+                if (serieData.labelObject == null)
+                    continue;
+
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index);
@@ -272,7 +266,7 @@ namespace XCharts
                         && serie is Line
                         && SerieHelper.IsDownPoint(serie, serieData.index)
                         && (serie.areaStyle == null || !serie.areaStyle.show);
-                    SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme, colorIndex);
+                    SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme);
                     serieData.SetLabelActive(!isIgnore);
                     serieData.labelObject.SetPosition(serieData.context.position + (invert ? -serieLabel.offset : serieLabel.offset));
                     serieData.labelObject.SetText(content);
@@ -309,7 +303,7 @@ namespace XCharts
             param.color = chart.GetLegendRealShowNameColor(serie.serieName);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
             param.columns.Clear();
 
             param.columns.Add(param.marker);

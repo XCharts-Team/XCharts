@@ -48,7 +48,7 @@ namespace XCharts
         public Vector3 offsetCenter { get; set; }
         public float stackHeight { get; set; }
 
-        public bool canShowLabel { get; set; }
+        public bool canShowLabel = true;
         public Image symbol { get; set; }
         /// <summary>
         /// Whether the data item is highlighted.

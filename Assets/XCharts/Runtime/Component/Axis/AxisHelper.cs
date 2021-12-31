@@ -46,12 +46,27 @@ namespace XCharts
                 if (dataCount <= 0)
                     dataCount = 1;
 
-                if (axis.splitNumber <= 0 || axis.splitNumber > dataCount)
-                    return dataCount;
-                if (dataCount >= axis.splitNumber * 2)
-                    return axis.splitNumber;
+                if (axis.splitNumber <= 0)
+                {
+                    if (dataCount <= 10) return dataCount;
+                    else
+                    {
+                        for (int i = 4; i < 6; i++)
+                        {
+                            if (dataCount % i == 0) return i;
+                        }
+                        return 5;
+                    }
+                }
                 else
-                    return dataCount;
+                {
+                    if (axis.splitNumber <= 0 || axis.splitNumber > dataCount)
+                        return dataCount;
+                    if (dataCount >= axis.splitNumber * 2)
+                        return axis.splitNumber;
+                    else
+                        return dataCount;
+                }
             }
             return 0;
         }

@@ -64,7 +64,7 @@ namespace XCharts
             /// </summary>
             None
         };
-        [SerializeField] private bool m_Show = false;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_IconType = Type.Auto;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;

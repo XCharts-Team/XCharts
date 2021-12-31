@@ -70,7 +70,7 @@ namespace XCharts
         }
 
 
-        [SerializeField] private bool m_Show = false;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
         [SerializeField] private float m_Margin;

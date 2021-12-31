@@ -5,15 +5,15 @@ using UnityEngine;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    [ExecuteInEditMode]
-    [RequireComponent(typeof(LineChart))]
+    //[ExecuteInEditMode]
+    [RequireComponent(typeof(BaseChart))]
     public class Example_Dynamic : MonoBehaviour
     {
         public int maxCacheDataNumber = 100;
         public float initDataTime = 2;
         public bool insertDataToHead = false;
 
-        private LineChart chart;
+        private BaseChart chart;
         private float updateTime;
         private float initTime;
         private int initCount;
@@ -23,9 +23,8 @@ namespace XCharts.Example
 
         void Awake()
         {
-            chart = gameObject.GetComponent<LineChart>();
-            chart.RemoveData();
-            var serie = chart.AddSerie<Line>();
+            chart = gameObject.GetComponent<BaseChart>();
+            var serie = chart.GetSerie(0);
             serie.symbol.show = false;
             serie.maxCache = maxCacheDataNumber;
 

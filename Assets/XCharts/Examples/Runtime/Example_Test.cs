@@ -8,10 +8,10 @@ namespace XCharts.Example
     [ExecuteInEditMode]
     public class Example_Test : MonoBehaviour
     {
-        LineChart chart;
+        BaseChart chart;
         void Awake()
         {
-            chart = gameObject.GetComponent<LineChart>();
+            chart = gameObject.GetComponent<BaseChart>();
             var btnTrans = transform.parent.Find("Button");
             if (btnTrans)
             {

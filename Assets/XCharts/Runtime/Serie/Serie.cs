@@ -919,6 +919,13 @@ namespace XCharts
             if (lineArrow != null)
                 lineArrow.ClearComponentDirty();
         }
+
+        public override void SetAllDirty()
+        {
+            base.SetAllDirty();
+            labelDirty = true;
+            titleDirty = true;
+        }
         /// <summary>
         /// Whether the serie is highlighted.
         /// 该系列是否高亮，一般由图例悬停触发。

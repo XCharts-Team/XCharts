@@ -109,7 +109,7 @@ namespace XCharts
                     {
                         var value = serieData.GetCurrData(1);
                         var max = radar.GetIndicatorMax(n);
-                        SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme, i);
+                        SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme);
                         serieData.SetLabelActive(serieData.context.labelPosition != Vector3.zero);
                         serieData.labelObject.SetLabelPosition(serieLabel.offset);
                         var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max,

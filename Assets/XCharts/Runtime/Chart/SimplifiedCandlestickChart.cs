@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace XCharts
 {
-    [AddComponentMenu("XCharts/CandlestickChart", 23)]
+    [AddComponentMenu("XCharts/SimplifiedCandlestickChart", 28)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class CandlestickChart : BaseChart
+    public class SimplifiedCandlestickChart : BaseChart
     {
 
 #if UNITY_EDITOR
@@ -24,7 +24,7 @@ namespace XCharts
             tooltip.trigger = Tooltip.Trigger.Axis;
 
             RemoveData();
-            Candlestick.AddDefaultSerie(this, GenerateDefaultSerieName());
+            SimplifiedCandlestick.AddDefaultSerie(this, GenerateDefaultSerieName());
             for (int i = 0; i < GetSerie(0).dataCount; i++)
             {
                 AddXAxisData("x" + (i + 1));

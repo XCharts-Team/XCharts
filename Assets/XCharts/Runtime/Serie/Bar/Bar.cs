@@ -7,14 +7,14 @@ namespace XCharts
 {
     [System.Serializable]
     [SerieHandler(typeof(BarHandler), true)]
-    [SerieConvert(typeof(Line),typeof(Pie))]
+    [SerieConvert(typeof(Line), typeof(Pie))]
     [RequireChartComponent(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
     [SerieExtraComponent(
         typeof(LabelStyle),
         typeof(IconStyle),
         typeof(Emphasis))]
-    public class Bar : Serie, INeedSerieContainer
+    public class Bar : Serie, INeedSerieContainer, ISimplifiedSerie
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }

@@ -52,6 +52,9 @@ namespace XCharts
         [SerializeField] [ListForSerie(typeof(Ring))] private List<Ring> m_SerieRings = new List<Ring>();
         [SerializeField] [ListForSerie(typeof(Scatter))] private List<Scatter> m_SerieScatters = new List<Scatter>();
         [SerializeField] [ListForSerie(typeof(Parallel))] private List<Parallel> m_SerieParallels = new List<Parallel>();
+        [SerializeField] [ListForSerie(typeof(SimplifiedLine))] private List<SimplifiedLine> m_SerieSimplifiedLines = new List<SimplifiedLine>();
+        [SerializeField] [ListForSerie(typeof(SimplifiedBar))] private List<SimplifiedBar> m_SerieSimplifiedBars = new List<SimplifiedBar>();
+        [SerializeField] [ListForSerie(typeof(SimplifiedCandlestick))] private List<SimplifiedCandlestick> m_SerieSimplifiedCandlesticks = new List<SimplifiedCandlestick>();
 #pragma warning restore 0414
         protected List<Serie> m_Series = new List<Serie>();
         protected List<MainComponent> m_Components = new List<MainComponent>();

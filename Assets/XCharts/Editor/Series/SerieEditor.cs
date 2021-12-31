@@ -18,7 +18,7 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             //PropertyField("m_InsertDataToHead");
             PropertyField("m_SerieName");
-            if (m_CoordOptionsNames != null && m_CoordOptionsNames.Count > 0)
+            if (m_CoordOptionsNames != null && m_CoordOptionsNames.Count > 1)
             {
                 var index = m_CoordOptionsNames.IndexOf(serie.coordSystem);
                 var selectedIndex = EditorGUILayout.Popup("Coord System", index, m_CoordOptionsNames.ToArray());
@@ -181,7 +181,8 @@ namespace XCharts.Editor
             });
             if (m_DataElementFoldout[index])
             {
-                DrawSerieDataDetail(m_Datas, index);
+                if(!(serie is ISimplifiedSerie))
+                    DrawSerieDataDetail(m_Datas, index);
             }
         }
 

@@ -18,11 +18,11 @@ namespace XCharts
             }
         }
 
-        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme, int colorIndex)
+        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme)
         {
             if (labelObject == null) return;
             labelObject.SetColor(!ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color :
-                (Color)theme.GetColor(colorIndex));
+                theme.common.textColor);
             labelObject.SetFontSize(label.textStyle.GetFontSize(theme.common));
             labelObject.SetFontStyle(label.textStyle.fontStyle);
         }
@@ -63,7 +63,7 @@ namespace XCharts
             if (serieData == null) return;
             if (serieData.labelObject == null) return;
             var label = SerieHelper.GetSerieLabel(serie, serieData);
-            if(label == null) return;
+            if (label == null) return;
             var value = serieData.GetData(1);
             var total = serie.max;
             var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
@@ -155,7 +155,7 @@ namespace XCharts
                     serieData.context.labelPosition = labelCenter;
                     break;
                 case LabelStyle.Position.Outside:
-                    if (labelLine.lineType == LabelLine.LineType.HorizontalLine)
+                    if (labelLine != null && labelLine.lineType == LabelLine.LineType.HorizontalLine)
                     {
                         var radius1 = serie.context.outsideRadius;
                         var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
@@ -174,7 +174,7 @@ namespace XCharts
                     }
                     else
                     {
-                        labelRadius = serie.context.outsideRadius + labelLine.lineLength1;
+                        labelRadius = serie.context.outsideRadius + (labelLine == null ? 0 : labelLine.lineLength1);
                         labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
                             serie.context.center.y + labelRadius * Mathf.Cos(currRad));
                         serieData.context.labelPosition = labelCenter;

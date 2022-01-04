@@ -283,7 +283,7 @@ namespace XUGL
             ref Vector3 ntp, ref Vector3 nbp,
             ref Vector3 itp, ref Vector3 ibp,
             ref Vector3 clp, ref Vector3 crp,
-            ref bool bitp, ref bool bibp
+            ref bool bitp, ref bool bibp, int debugIndex = 0
             )
         {
             var dir1 = (cp - lp).normalized;
@@ -318,6 +318,12 @@ namespace XUGL
                 clp = cp + dir1v * width;
                 crp = cp + dir2v * width;
                 bibp = false;
+            }
+            if (bitp == false && bibp == false && cp == np)
+            {
+                ltp = cp - dir1v * width;
+                clp = cp + dir1v * width;
+                crp = cp + dir1v * width;
             }
         }
     }

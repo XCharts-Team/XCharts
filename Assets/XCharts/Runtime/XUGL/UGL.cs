@@ -1360,7 +1360,7 @@ namespace XUGL
                 }
                 else
                 {
-                    DrawTriangle(vh, realCenter, p2, p3, toColor, color, color);
+                    AddVertToVertexHelper(vh, p3, realCenter, color, toColor, i > 0);
                 }
                 p2 = p3;
 
@@ -1628,18 +1628,27 @@ namespace XUGL
                     center.y + outsideRadius * Mathf.Cos(currAngle));
                 p4 = new Vector3(center.x + insideRadius * Mathf.Sin(currAngle),
                     center.y + insideRadius * Mathf.Cos(currAngle));
-                if (!UGLHelper.IsClearColor(emptyColor)) DrawTriangle(vh, center, p1, p4, emptyColor);
                 if (isGradient)
                 {
                     var tcolor = Color32.Lerp(color, toColor, i * 1.0f / segments);
-                    DrawQuadrilateral(vh, p2, p3, p4, p1, tcolor, tcolor);
+                    AddVertToVertexHelper(vh, p3, p4, tcolor, tcolor, i > 0);
                 }
                 else
                 {
-                    DrawQuadrilateral(vh, p2, p3, p4, p1, color, color);
+                    AddVertToVertexHelper(vh, p3, p4, color, color, i > 0);
                 }
                 p1 = p4;
                 p2 = p3;
+            }
+            if (!UGLHelper.IsClearColor(emptyColor))
+            {
+                for (int i = 0; i <= segments; i++)
+                {
+                    float currAngle = realStartInAngle + i * segmentAngle;
+                    p4 = new Vector3(center.x + insideRadius * Mathf.Sin(currAngle),
+                        center.y + insideRadius * Mathf.Cos(currAngle));
+                    AddVertToVertexHelper(vh, center, p4, emptyColor, emptyColor, i > 0);
+                }
             }
             if (needBorder || needSpace || roundCap)
             {

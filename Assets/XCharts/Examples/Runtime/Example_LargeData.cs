@@ -4,7 +4,7 @@ using UnityEngine;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [RequireComponent(typeof(BaseChart))]
     public class Example_LargeData : MonoBehaviour
     {
@@ -25,21 +25,25 @@ namespace XCharts.Example
             chart.GetChartComponent<Title>().text = maxCacheDataNumber + "数据";
         }
 
+        private double lastValue = 0d;
+
         private void Update()
         {
             if (initCount < maxCacheDataNumber)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     initCount++;
                     if (initCount > maxCacheDataNumber) break;
                     chart.GetChartComponent<Title>().text = initCount + "数据";
-                    
-                    timeNow = timeNow.AddSeconds(1);
-                    float xvalue = Mathf.PI / 180 * initCount;
-                    float yvalue = Mathf.Sin(xvalue);
 
-                    chart.AddData(0, 15 + yvalue * 2);
+                    timeNow = timeNow.AddSeconds(1);
+                    if (lastValue < 20)
+                        lastValue += UnityEngine.Random.Range(0, 5);
+                    else
+                        lastValue += UnityEngine.Random.Range(-5f, 5f);
+                    chart.AddData(0, lastValue);
+
                     chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
                 }
             }

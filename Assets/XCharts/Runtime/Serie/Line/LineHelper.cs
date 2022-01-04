@@ -273,7 +273,7 @@ namespace XCharts
                     ref ntp, ref nbp,
                     ref itp, ref ibp,
                     ref clp, ref crp,
-                    ref bitp, ref bibp);
+                    ref bitp, ref bibp, i);
 
                 if (i == 1)
                 {
@@ -283,8 +283,16 @@ namespace XCharts
 
                 if (bitp == bibp)
                 {
-                    AddLineVertToVertexHelper(vh, itp, ibp, lineColor, isVisualMapGradient, isLineStyleGradient,
+                    if (bitp)
+                        AddLineVertToVertexHelper(vh, itp, ibp, lineColor, isVisualMapGradient, isLineStyleGradient,
+                                visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                    else
+                    {
+                        AddLineVertToVertexHelper(vh, ltp, clp, lineColor, isVisualMapGradient, isLineStyleGradient,
                             visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                        AddLineVertToVertexHelper(vh, ltp, crp, lineColor, isVisualMapGradient, isLineStyleGradient,
+                            visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                    }
                 }
                 else
                 {

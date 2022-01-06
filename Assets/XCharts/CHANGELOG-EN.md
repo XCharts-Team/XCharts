@@ -42,6 +42,8 @@
 
 ## branch-2.0
 
+* (2022.01.06) Improved `Zebra` bar chart
+
 ## v2.6.0
 
 * (2021.12.30) Release `v2.6.0` version

@@ -1696,11 +1696,11 @@ namespace XCharts
         }
 
         public void Internal_CheckClipAndDrawZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
-            float zebraGap, Color32 color, Color32 toColor, bool clip, Grid grid)
+            float zebraGap, Color32 color, Color32 toColor, bool clip, Grid grid, float maxDistance)
         {
             ClampInChart(ref p1);
             ClampInChart(ref p2);
-            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor);
+            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor,maxDistance);
         }
 
         protected Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, Grid grid)

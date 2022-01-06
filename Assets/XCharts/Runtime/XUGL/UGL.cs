@@ -311,12 +311,12 @@ namespace XUGL
             var sp = startPoint;
             var np = Vector3.zero;
             var isGradient = !color.Equals(toColor);
+            zebraWidth = (maxDistance - zebraGap * (allSegment - 1)) / allSegment;
             for (int i = 1; i <= segment; i++)
             {
-                np = startPoint + dir * maxDistance * i / allSegment;
-                var dashep = np - dir * zebraGap;
-                DrawLine(vh, sp, dashep, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / allSegment) : color);
-                sp = np;
+                np = sp + dir * zebraWidth;
+                DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / allSegment) : color);
+                sp = np + dir * zebraGap;
             }
         }
 

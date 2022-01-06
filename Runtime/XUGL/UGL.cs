@@ -299,9 +299,25 @@ namespace XUGL
         /// <param name="color">起始颜色</param>
         /// <param name="toColor">结束颜色</param>
         public static void DrawZebraLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width,
-            float zebraWidth, float zebraGap, Color32 color, Color32 toColor)
+            float zebraWidth, float zebraGap, Color32 color, Color32 toColor, float maxDistance)
         {
-            DrawDotLine(vh, startPoint, endPoint, width, color, toColor, zebraWidth, zebraGap);
+            var dist = Vector3.Distance(startPoint, endPoint);
+            if (dist < 0.1f) return;
+            if (zebraWidth == 0) zebraWidth = 3 * width;
+            if (zebraGap == 0) zebraGap = 3 * width;
+            var allSegment = Mathf.CeilToInt(maxDistance / (zebraWidth + zebraGap));
+            var segment = Mathf.CeilToInt(dist / maxDistance * allSegment);
+            var dir = (endPoint - startPoint).normalized;
+            var sp = startPoint;
+            var np = Vector3.zero;
+            var isGradient = !color.Equals(toColor);
+            for (int i = 1; i <= segment; i++)
+            {
+                np = startPoint + dir * maxDistance * i / allSegment;
+                var dashep = np - dir * zebraGap;
+                DrawLine(vh, sp, dashep, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / allSegment) : color);
+                sp = np;
+            }
         }
 
         /// <summary>

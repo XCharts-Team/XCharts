@@ -386,14 +386,14 @@ namespace XCharts
                 plt = (plb + plt) / 2;
                 prt = (prt + prb) / 2;
                 Internal_CheckClipAndDrawZebraLine(vh, plt, prt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    barColor, barToColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid, grid.runtimeWidth);
             }
             else
             {
                 plb = (prb + plb) / 2;
                 plt = (plt + prt) / 2;
                 Internal_CheckClipAndDrawZebraLine(vh, plb, plt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    barColor, barToColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid, grid.runtimeHeight);
             }
         }
 

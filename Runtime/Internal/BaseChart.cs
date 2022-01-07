@@ -611,10 +611,11 @@ namespace XCharts
             list.AddRange(fileds2);
             foreach (var field in list)
             {
-                var attribute1 = field.GetCustomAttribute<ListForSerie>();
+                var attribute1 = field.GetAttribute<ListForSerie>(false);
                 if (attribute1 != null)
                     m_TypeListForSerie.Add(attribute1.type, field);
-                var attribute2 = field.GetCustomAttribute<ListForComponent>();
+
+                var attribute2 = field.GetAttribute<ListForComponent>(false);
                 if (attribute2 != null)
                     m_TypeListForComponent.Add(attribute2.type, field);
             }

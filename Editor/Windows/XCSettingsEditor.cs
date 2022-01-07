@@ -46,7 +46,7 @@ namespace XCharts.Editor
         [SettingsProviderGroup]
         static SettingsProvider[] CreateXCSettingsProvider()
         {
-            var providers = new List<SettingsProvider> { new XCResourceImporterProvider() };
+            var providers = new System.Collections.Generic.List<SettingsProvider> { new XCResourceImporterProvider() };
 
             if (GetSettings() != null)
             {

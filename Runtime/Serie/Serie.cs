@@ -897,7 +897,7 @@ namespace XCharts
             if (emphasis != null)
                 emphasis.ClearVerticesDirty();
             if (lineArrow != null)
-                lineArrow?.ClearVerticesDirty();
+                lineArrow.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()

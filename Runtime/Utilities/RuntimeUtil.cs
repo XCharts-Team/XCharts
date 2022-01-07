@@ -59,10 +59,27 @@ namespace XCharts
             return m_AssemblyTypes;
         }
 
-        public static T GetAttribute<T>(this Type type) where T : Attribute
+        public static T GetAttribute<T>(this Type type, bool check = true) where T : Attribute
         {
-            Assert.IsTrue(type.IsDefined(typeof(T), false), "Attribute not found:" + type.Name);
-            return (T)type.GetCustomAttributes(typeof(T), false)[0];
+            if (type.IsDefined(typeof(T), false))
+                return (T)type.GetCustomAttributes(typeof(T), false)[0];
+            else
+            {
+                if (check)
+                    Assert.IsTrue(false, "Attribute not found:" + type.Name);
+                return null;
+            }
+        }
+        public static T GetAttribute<T>(this MemberInfo type, bool check = true) where T : Attribute
+        {
+            if (type.IsDefined(typeof(T), false))
+                return (T)type.GetCustomAttributes(typeof(T), false)[0];
+            else
+            {
+                if (check)
+                    Assert.IsTrue(false, "Attribute not found:" + type.Name);
+                return null;
+            }
         }
 
         public static bool CopyFolder(string sourPath, string destPath)

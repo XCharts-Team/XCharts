@@ -92,11 +92,11 @@ namespace XCharts
         }
 
         public void DrawClipZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
-            float zebraGap, Color32 color, Color32 toColor, bool clip, GridCoord grid)
+            float zebraGap, Color32 color, Color32 toColor, bool clip, GridCoord grid, float maxDistance)
         {
             ClampInChart(ref p1);
             ClampInChart(ref p2);
-            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor);
+            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor, maxDistance);
         }
 
         public void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize,

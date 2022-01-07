@@ -418,14 +418,14 @@ namespace XCharts
                 plt = (plb + plt) / 2;
                 prt = (prt + prb) / 2;
                 chart.DrawClipZebraLine(vh, plt, prt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    barColor, barToColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid, grid.context.width);
             }
             else
             {
                 plb = (prb + plb) / 2;
                 plt = (plt + prt) / 2;
                 chart.DrawClipZebraLine(vh, plb, plt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
-                    barColor, barToColor, serie.clip, grid);
+                    barColor, barToColor, serie.clip, grid, grid.context.height);
             }
         }
 

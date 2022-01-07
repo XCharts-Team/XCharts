@@ -766,7 +766,7 @@ namespace XCharts
             var fields = typeof(Serie).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var field in fields)
             {
-                if (field.IsDefined(typeof(SerializeField)))
+                if (field.IsDefined(typeof(SerializeField), false))
                 {
                     field.SetValue(newSerie, field.GetValue(oldSerie));
                 }

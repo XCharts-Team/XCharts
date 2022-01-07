@@ -15,7 +15,7 @@ namespace XCharts
         public static int InvokeListCount(object obj, FieldInfo field)
         {
             var list = field.GetValue(obj);
-            return (int)list.GetType().GetProperty("Count").GetValue(list);
+            return (int)list.GetType().GetProperty("Count").GetValue(list, null);
         }
 
         public static void InvokeListAdd(object obj, FieldInfo field, object item)
@@ -37,7 +37,7 @@ namespace XCharts
         {
             var list = field.GetValue(obj);
             var listType = list.GetType();
-            var count = Convert.ToInt32(listType.GetProperty("Count").GetValue(list));
+            var count = Convert.ToInt32(listType.GetProperty("Count").GetValue(list, null));
             for (int i = 0; i < count; i++)
             {
                 var item = listType.GetProperty("Item").GetValue(list, new object[] { i });

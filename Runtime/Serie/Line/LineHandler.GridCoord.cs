@@ -231,7 +231,6 @@ namespace XCharts
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, serie.index, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
-
                 chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
                     symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, clip, cornerRadius, m_SerieGrid,
                     i > 0 ? serie.context.dataPoints[i - 1] : m_SerieGrid.context.position);
@@ -410,14 +409,14 @@ namespace XCharts
         {
             float xPos, yPos;
             var gridXY = isY ? grid.context.x : grid.context.y;
-
+            var valueHig = 0f;
             if (isY)
             {
-                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
                 valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
 
                 xPos = gridXY + valueHig;
-                yPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+                yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
 
                 if (isStack)
                 {
@@ -428,11 +427,11 @@ namespace XCharts
             else
             {
 
-                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
                 valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
 
                 yPos = gridXY + valueHig;
-                xPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+                xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
 
                 if (isStack)
                 {
@@ -441,7 +440,7 @@ namespace XCharts
                 }
             }
             np = new Vector3(xPos, yPos);
-            return yPos;
+            return valueHig;
         }
     }
 }

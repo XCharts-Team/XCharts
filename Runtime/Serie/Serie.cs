@@ -220,6 +220,7 @@ namespace XCharts
         [SerializeField] private int m_LargeThreshold = 200;
         [SerializeField] private bool m_AvoidLabelOverlap = false;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
+        [SerializeField] private bool m_PlaceHolder = false;
 
         [SerializeField] private SerieDataSortType m_DataSortType = SerieDataSortType.Descending;
         [SerializeField] private Orient m_Orient = Orient.Vertical;
@@ -231,16 +232,10 @@ namespace XCharts
         [SerializeField] private bool m_InsertDataToHead;
 
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
-        //[SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SymbolStyle m_Symbol = new SymbolStyle();
-        //[SerializeField] private LabelStyle m_Label = new LabelStyle();
-        //[SerializeField] private LabelLine m_LabelLine = new LabelLine();
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
-        //[SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
-        //[SerializeField] private Emphasis m_Emphasis = new Emphasis();
         [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
-        //[SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] internal int m_FilterStart;
@@ -859,6 +854,14 @@ namespace XCharts
         {
             get { return m_Align; }
             set { if (PropertyUtil.SetStruct(ref m_Align, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 占位模式。占位模式时，数据有效但不参与渲染和显示。
+        /// </summary>
+        public bool placeHolder
+        {
+            get { return m_PlaceHolder; }
+            set { if (PropertyUtil.SetStruct(ref m_PlaceHolder, value)) SetAllDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。

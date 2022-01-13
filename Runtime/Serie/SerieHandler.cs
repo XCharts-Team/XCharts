@@ -30,7 +30,9 @@ namespace XCharts
         public virtual void OnScroll(PointerEventData eventData) { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
-        public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category, string marker, string itemFormatter, string numericFormatter, ref List<SerieParams> paramList, ref string title) { }
+        public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category, string marker,
+            string itemFormatter, string numericFormatter, ref List<SerieParams> paramList, ref string title)
+        { }
         public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
         public virtual void OnLegendButtonEnter(int index, string legendName) { }
         public virtual void OnLegendButtonExit(int index, string legendName) { }
@@ -43,6 +45,7 @@ namespace XCharts
         private static readonly string s_SerieTitleObjectName = "serie";
         protected GameObject m_SerieRoot;
         protected bool m_InitedLabel;
+        protected bool m_NeedInitComponent;
         protected bool m_RefreshLabel;
         protected bool m_LastCheckContextFlag = false;
         protected bool m_LegendEnter = false;
@@ -54,9 +57,15 @@ namespace XCharts
         {
             this.serie = (T)serie;
             this.serie.context.param.serieType = typeof(T);
+            m_NeedInitComponent = true;
         }
         public override void Update()
         {
+            if (m_NeedInitComponent)
+            {
+                m_NeedInitComponent = false;
+                InitComponent();
+            }
             if (m_RefreshLabel)
             {
                 m_RefreshLabel = false;
@@ -99,6 +108,7 @@ namespace XCharts
 
         public override void InitComponent()
         {
+            m_InitedLabel = false;
             InitRoot();
             InitSerieLabel();
             InitSerieTitle();
@@ -138,7 +148,7 @@ namespace XCharts
 
         private void InitRoot()
         {
-            m_InitedLabel = false;
+            if (m_SerieRoot != null) return;
             var objName = s_SerieTitleObjectName + "_" + serie.index;
             m_SerieRoot = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
                 chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -151,8 +161,8 @@ namespace XCharts
         {
             if (m_SerieRoot == null)
                 InitRoot();
-            var serieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, m_SerieRoot.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+            var serieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, m_SerieRoot.transform,
+                chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
             serieLabelRoot.hideFlags = chart.chartHideFlags;
             SerieLabelPool.ReleaseAll(serieLabelRoot.transform);
             int count = 0;
@@ -218,7 +228,9 @@ namespace XCharts
             if (m_SerieRoot == null)
                 InitRoot();
             var textStyle = serie.titleStyle.textStyle;
-            var titleColor = ChartHelper.IsClearColor(textStyle.color) ? chart.theme.GetColor(serie.index) : (Color32)textStyle.color;
+            var titleColor = ChartHelper.IsClearColor(textStyle.color)
+                ? chart.theme.GetColor(serie.index)
+                : (Color32)textStyle.color;
             var anchorMin = new Vector2(0.5f, 0.5f);
             var anchorMax = new Vector2(0.5f, 0.5f);
             var pivot = new Vector2(0.5f, 0.5f);
@@ -244,20 +256,19 @@ namespace XCharts
         {
             if (!m_InitedLabel)
                 return;
-
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
             var total = serie.yTotal;
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null)
                     continue;
-
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index);
                 serieData.labelObject.SetPosition(serieData.context.position);
                 serieData.labelObject.UpdateIcon(iconStyle);
-                if (serie.show && serieLabel != null && serieLabel.show && serieData.context.canShowLabel && !isIgnore)
+                if (serie.show && serieLabel != null
+                    && serieLabel.show && serieData.context.canShowLabel && !isIgnore)
                 {
                     var value = serieData.GetData(1);
                     var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
@@ -266,9 +277,11 @@ namespace XCharts
                         && serie is Line
                         && SerieHelper.IsDownPoint(serie, serieData.index)
                         && (serie.areaStyle == null || !serie.areaStyle.show);
+                    var labelPosition = GetSerieDataLabelPosition(serieData, serieLabel);
                     SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme);
                     serieData.SetLabelActive(!isIgnore);
-                    serieData.labelObject.SetPosition(serieData.context.position + (invert ? -serieLabel.offset : serieLabel.offset));
+                    serieData.labelObject.SetPosition(labelPosition
+                        + (invert ? -serieLabel.offset : serieLabel.offset));
                     serieData.labelObject.SetText(content);
                 }
                 else
@@ -276,6 +289,11 @@ namespace XCharts
                     serieData.SetLabelActive(false);
                 }
             }
+        }
+
+        public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
+        {
+            return serieData.context.position;
         }
 
         protected void UpdateCoordSerieParams(ref List<SerieParams> paramList, ref string title,
@@ -292,6 +310,10 @@ namespace XCharts
             if (serieData == null)
                 return;
 
+            itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+                return;
+
             var param = serie.context.param;
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
@@ -302,7 +324,7 @@ namespace XCharts
             param.total = serie.yTotal;
             param.color = chart.GetLegendRealShowNameColor(serie.serieName);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.itemFormatter = itemFormatter;
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
             param.columns.Clear();
 
@@ -327,6 +349,10 @@ namespace XCharts
             if (serieData == null)
                 return;
 
+            itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+                return;
+
             var param = serie.context.param;
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
@@ -337,7 +363,7 @@ namespace XCharts
             param.total = SerieHelper.GetMaxData(serie, dimension);
             param.color = chart.theme.GetColor(dataIndex);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            param.itemFormatter = itemFormatter;
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
             param.columns.Clear();
 

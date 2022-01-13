@@ -74,7 +74,7 @@ namespace XCharts
 
         public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)
         {
-            if (!m_ValueEnable || m_PreviousValue == 0)
+            if (!IsValueEnable() || m_PreviousValue == 0)
                 return false;
             if (m_UpdateFlag)
             {
@@ -99,7 +99,7 @@ namespace XCharts
 
         public bool TryGetColor(ref Color32 color, ref bool interacting, float animationDuration = 250)
         {
-            if (!m_ValueEnable)
+            if (!IsValueEnable())
                 return false;
             if (m_UpdateFlag)
             {
@@ -124,7 +124,7 @@ namespace XCharts
 
         public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
-            if (!m_ValueEnable)
+            if (!IsValueEnable())
                 return false;
             if (m_UpdateFlag)
             {
@@ -150,7 +150,7 @@ namespace XCharts
         }
         public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
-            if (!m_ValueEnable)
+            if (!IsValueEnable())
                 return false;
             if (m_UpdateFlag)
             {
@@ -180,6 +180,15 @@ namespace XCharts
         public void Reset()
         {
             m_ValueEnable = false;
+        }
+
+        private bool IsValueEnable()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                return false;
+#endif
+            return m_ValueEnable;
         }
     }
 }

@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -30,6 +29,21 @@ namespace XCharts
         public override void DrawSerie(VertexHelper vh)
         {
             DrawBarSerie(vh, serie, serie.context.colorIndex);
+        }
+
+        public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
+        {
+            switch (label.position)
+            {
+                case LabelStyle.Position.Bottom:
+                    var center = serieData.context.rect.center;
+                    return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
+                case LabelStyle.Position.Center:
+                case LabelStyle.Position.Inside:
+                    return serieData.context.rect.center;
+                default:
+                    return serieData.context.position;
+            }
         }
 
         private void UpdateSerieContext()
@@ -129,7 +143,6 @@ namespace XCharts
                 return;
             if (m_SerieGrid == null)
                 return;
-
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             var showData = serie.GetDataList(dataZoom);
 
@@ -137,6 +150,7 @@ namespace XCharts
                 return;
 
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
+            var relativedAxisLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
             var axisXY = isY ? m_SerieGrid.context.y : m_SerieGrid.context.x;
 
             var isStack = SeriesHelper.IsStack<Bar>(chart.series, serie.stack);
@@ -200,7 +214,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
-                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * axisLength) : 0;
+                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * relativedAxisLength) : 0;
                 }
                 else
                 {
@@ -208,7 +222,6 @@ namespace XCharts
                 }
 
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
-
                 Vector3 plb, plt, prt, prb, top;
                 UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, space, borderWidth, barWidth, currHig,
                     out plb, out plt, out prt, out prb, out top);
@@ -216,25 +229,24 @@ namespace XCharts
                 serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
-                if (serie.show && currHig != 0)
+                if (serie.show && currHig != 0 && !serie.placeHolder)
                 {
                     switch (serie.barType)
                     {
                         case BarType.Normal:
                             DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                                pX, pY, plb, plt, prt, prb, false, m_SerieGrid, areaColor, areaToColor);
+                                pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                         case BarType.Zebra:
                             DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                                pX, pY, plb, plt, prt, prb, false, m_SerieGrid, areaColor, areaToColor);
+                                pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                         case BarType.Capsule:
                             DrawCapsuleBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
-                               pX, pY, plb, plt, prt, prb, false, m_SerieGrid, areaColor, areaToColor);
+                               pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                     }
                 }
-
                 if (serie.animation.CheckDetailBreak(top, isY))
                 {
                     break;
@@ -265,7 +277,7 @@ namespace XCharts
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
                     else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
                 }
-                pX = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -283,7 +295,7 @@ namespace XCharts
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
                     else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
                 }
-                pY = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -319,8 +331,8 @@ namespace XCharts
                 if (yValue < 0)
                 {
                     plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
                     prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
                 }
                 else
@@ -344,10 +356,9 @@ namespace XCharts
 
         private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
-            Vector3 prb, bool isYAxis, GridCoord grid, Color32 areaColor, Color32 areaToColor)
+            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor)
         {
-
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid, axis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             if (isYAxis)
             {
@@ -410,9 +421,9 @@ namespace XCharts
 
         private void DrawZebraBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
-            Vector3 prb, bool isYAxis, GridCoord grid, Color32 barColor, Color32 barToColor)
+            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 barColor, Color32 barToColor)
         {
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid, axis);
             if (isYAxis)
             {
                 plt = (plb + plt) / 2;
@@ -431,9 +442,9 @@ namespace XCharts
 
         private void DrawCapsuleBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
             bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
-            Vector3 prb, bool isYAxis, GridCoord grid, Color32 areaColor, Color32 areaToColor)
+            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor)
         {
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid);
+            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis, grid, axis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             var radius = barWidth / 2 - borderWidth;
             var isGradient = !ChartHelper.IsValueEqualsColor(areaColor, areaToColor);
@@ -548,13 +559,13 @@ namespace XCharts
         }
 
         private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle,
-            int colorIndex, bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis, GridCoord grid)
+            int colorIndex, bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis,
+            GridCoord grid, Axis axis)
         {
             var color = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
             if (ChartHelper.IsClearColor(color)) return;
             if (isYAxis)
             {
-                var axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
                 var axisWidth = axis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 Vector3 plt = new Vector3(grid.context.x + axisWidth, pY + space + barWidth);
                 Vector3 prt = new Vector3(grid.context.x + axisWidth + grid.context.width, pY + space + barWidth);
@@ -595,7 +606,6 @@ namespace XCharts
             }
             else
             {
-                var axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                 var axisWidth = axis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 Vector3 plb = new Vector3(pX + space, grid.context.y + axisWidth);
                 Vector3 plt = new Vector3(pX + space, grid.context.y + grid.context.height + axisWidth);

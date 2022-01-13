@@ -153,6 +153,7 @@ namespace XCharts
         public static bool AddCustomTheme(Theme theme)
         {
             if (theme == null) return false;
+            if (Instance == null || Instance.m_CustomThemes == null) return false;
             if (!Instance.m_CustomThemes.Contains(theme))
             {
                 Instance.m_CustomThemes.Add(theme);

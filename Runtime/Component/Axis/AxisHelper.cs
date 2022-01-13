@@ -488,17 +488,46 @@ namespace XCharts
             }
         }
 
-        public static float GetAxisPosition(GridCoord grid, Axis axis, float scaleWidth, double value)
+        /// <summary>
+        /// 获得数值value在坐标轴上的坐标位置
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="axis"></param>
+        /// <param name="scaleWidth"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)
         {
-            return GetAxisPositionInternal(grid, axis, scaleWidth, value, true);
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, true, false);
         }
 
+        /// <summary>
+        /// 获得数值value在坐标轴上相对起点的距离
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="axis"></param>
+        /// <param name="scaleWidth"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)
+        {
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, false);
+        }
+
+        /// <summary>
+        /// 获得数值value在坐标轴上对于的长度
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="axis"></param>
+        /// <param name="scaleWidth"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)
         {
-            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false);
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true);
         }
 
-        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY)
+        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength)
         {
             var isY = axis is YAxis;
             var gridHeight = isY ? grid.context.height : grid.context.width;
@@ -521,8 +550,14 @@ namespace XCharts
             }
             else
             {
-                var yDataHig = (axis.context.minMaxRange == 0) ? 0f :
-                    (float)((value - axis.context.minValue) / axis.context.minMaxRange * gridHeight);
+                var yDataHig = 0f;
+                if (axis.context.minMaxRange != 0)
+                {
+                    if (!realLength || (realLength && axis.context.minValue > 0))
+                        yDataHig = (float)((value - axis.context.minValue) / axis.context.minMaxRange * gridHeight);
+                    else
+                        yDataHig = (float)(value / axis.context.minMaxRange * gridHeight);
+                }
                 return includeGridXY
                     ? gridXY + yDataHig
                     : yDataHig;

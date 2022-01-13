@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
@@ -113,7 +112,7 @@ namespace XCharts
         /// </summary>
         public virtual void ClearData()
         {
-            foreach(var serie in m_Series)
+            foreach (var serie in m_Series)
                 serie.ClearData();
             foreach (var component in m_Components)
                 component.ClearData();
@@ -214,6 +213,8 @@ namespace XCharts
                 Debug.LogError("UpdateTheme: not support switch to Custom theme.");
                 return false;
             }
+            if (m_Theme.sharedTheme == null)
+                m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
             m_Theme.sharedTheme.CopyTheme(theme);
             return true;
         }

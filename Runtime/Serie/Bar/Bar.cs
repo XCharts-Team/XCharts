@@ -14,7 +14,7 @@ namespace XCharts
         typeof(LabelStyle),
         typeof(IconStyle),
         typeof(Emphasis))]
-    public class Bar : Serie, INeedSerieContainer, ISimplifiedSerie
+    public class Bar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }

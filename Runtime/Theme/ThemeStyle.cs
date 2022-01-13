@@ -155,7 +155,7 @@ namespace XCharts
         public void CheckWarning(StringBuilder sb)
         {
 #if dUI_TextMeshPro
-            if (m_Profile.tmpFont == null)
+            if (sharedTheme.tmpFont == null)
             {
                 sb.AppendFormat("warning:theme->tmpFont is null\n");
             }

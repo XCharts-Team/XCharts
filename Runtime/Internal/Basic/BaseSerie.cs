@@ -73,16 +73,5 @@ namespace XCharts
             if (handler != null)
                 handler.RefreshLabelNextFrame();
         }
-
-#if UNITY_EDITOR
-        protected virtual void Reset()
-        {
-        }
-
-        protected virtual void OnValidate()
-        {
-            SetAllDirty();
-        }
-#endif
     }
 }

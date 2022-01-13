@@ -190,7 +190,7 @@ namespace XCharts
                 var pY = 0f;
                 UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, barWidth, value, ref pX, ref pY);
 
-                var barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
+                var barHig = AxisHelper.GetAxisValueDistance(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
                 var currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
 
                 Vector3 plb, plt, prt, prb, top;
@@ -233,7 +233,7 @@ namespace XCharts
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
                     else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
                 }
-                pX = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }
             else
             {
@@ -246,7 +246,7 @@ namespace XCharts
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
                     else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
                 }
-                pY = AxisHelper.GetAxisPosition(grid, relativedAxis, categoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }
         }
 

@@ -104,12 +104,6 @@ namespace XCharts
             set
             {
                 m_TMPFont = value;
-                if(value)
-                {
-                    m_TMPFontName = value.name;
-                    m_TMPFontInstanceId = value.GetInstanceID();
-                }
-                SetComponentDirty();
                 SyncTMPFontToSubComponent();
             }
         }
@@ -364,11 +358,7 @@ namespace XCharts
             subTitle.tmpFont = tmpFont;
             legend.tmpFont = tmpFont;
             axis.tmpFont = tmpFont;
-            radiusAxis.tmpFont = tmpFont;
-            angleAxis.tmpFont = tmpFont;
-            polar.tmpFont = tmpFont;
             gauge.tmpFont = tmpFont;
-            radar.tmpFont = tmpFont;
             tooltip.tmpFont = tmpFont;
             dataZoom.tmpFont = tmpFont;
             visualMap.tmpFont = tmpFont;

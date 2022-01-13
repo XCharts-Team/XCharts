@@ -788,9 +788,9 @@ namespace XCharts
                 Debug.LogError("Serie no Handler:" + serie.GetType());
                 return;
             }
-            var attrubte = serie.GetType().GetAttribute<SerieHandlerAttribute>();
-            var handler = (SerieHandler)Activator.CreateInstance(attrubte.handler);
-            handler.attribute = attrubte;
+            var attribute = serie.GetType().GetAttribute<SerieHandlerAttribute>();
+            var handler = (SerieHandler)Activator.CreateInstance(attribute.handler);
+            handler.attribute = attribute;
             handler.chart = this;
             handler.SetSerie(serie);
             serie.handler = handler;

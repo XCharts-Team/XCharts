@@ -653,8 +653,9 @@ namespace XCharts
                     count++;
                     intvalue = (int)(max * Mathf.Pow(10, count));
                 }
-                if (max > 0) return 1 / Mathf.Pow(10, count - 1);
-                else return -1 / Mathf.Pow(10, count);
+                var pow = Mathf.Pow(10, count);
+                if (max > 0) return (int)((max * pow + 1)) / pow;
+                else return (int)((max * pow - 1)) / pow;
             }
             if (ceilRate == 0)
             {
@@ -694,8 +695,9 @@ namespace XCharts
                     count++;
                     intvalue = (int)(min * Mathf.Pow(10, count));
                 }
-                if (min > 0) return 1 / Mathf.Pow(10, count);
-                else return -1 / Mathf.Pow(10, count - 1);
+                var pow = Mathf.Pow(10, count);
+                if (min > 0) return (int)((min * pow + 1)) / pow;
+                else return (int)((min * pow - 1)) / pow;
             }
             if (ceilRate == 0)
             {
@@ -797,7 +799,7 @@ namespace XCharts
         }
 
 
-        
+
 
         public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)
         {

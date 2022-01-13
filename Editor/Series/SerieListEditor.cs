@@ -160,6 +160,8 @@ namespace XCharts.Editor
                     {
                         editor.serie.AddExtraComponent(type);
                         RefreshEditors();
+                        chart.RefreshAllComponent();
+                        EditorUtility.SetDirty(chart);
                     }, size == 0));
                 }
                 foreach (var type in attribute.types)
@@ -169,6 +171,8 @@ namespace XCharts.Editor
                     {
                         editor.serie.RemoveExtraComponent(type);
                         RefreshEditors();
+                        chart.RefreshAllComponent();
+                        EditorUtility.SetDirty(chart);
                     }, size > 0));
                 }
             }

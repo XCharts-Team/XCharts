@@ -22,10 +22,19 @@ namespace XCharts
                         tooltip.numericFormatter, null, chart);
                 }
             }
+            for (int i = tooltip.context.data.param.Count - 1; i >= 0; i--)
+            {
+                var param = tooltip.context.data.param[i];
+                if (TooltipHelper.IsIgnoreItemFormatter(param.itemFormatter))
+                {
+                    tooltip.context.data.param.RemoveAt(i);
+                }
+            }
             foreach (var param in tooltip.context.data.param)
             {
                 if (!string.IsNullOrEmpty(param.itemFormatter))
                 {
+                    param.columns.Clear();
                     var content = param.itemFormatter;
                     FormatterHelper.ReplaceSerieLabelContent(ref content,
                         param.numericFormatter,
@@ -35,15 +44,17 @@ namespace XCharts
                         param.category,
                         param.serieData.name,
                         param.color);
-
-                    param.columns.Clear();
-
                     foreach (var item in content.Split('|'))
                     {
                         param.columns.Add(item);
                     }
                 }
             }
+        }
+
+        public static bool IsIgnoreItemFormatter(string itemFormatter)
+        {
+            return "-".Equals(itemFormatter);
         }
 
         public static void LimitInRect(Tooltip tooltip, Rect chartRect)

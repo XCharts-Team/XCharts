@@ -76,8 +76,12 @@ namespace XCharts
             {
                 var item = GetItem(i);
                 var param = data.param[i];
+                if (param.columns.Count <= 0)
+                {
+                    item.gameObject.SetActive(false);
+                    continue;
+                }
                 item.gameObject.SetActive(true);
-
                 for (int j = 0; j < param.columns.Count; j++)
                 {
                     var column = GetItemColumn(item, j);
@@ -135,7 +139,7 @@ namespace XCharts
             }
             else
             {
-                if (!string.IsNullOrEmpty(title.text.text))
+                if (!string.IsNullOrEmpty(title.GetText()))
                     maxHig += tooltip.titleHeight;
                 maxHig += tooltip.itemHeight * tooltip.context.data.param.Count;
                 maxHig += tooltip.paddingTopBottom * 2;

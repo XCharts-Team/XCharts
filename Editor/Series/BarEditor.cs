@@ -38,6 +38,7 @@ namespace XCharts.Editor
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
                 PropertyField("m_Clip");
+                PropertyField("m_PlaceHolder");
             });
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

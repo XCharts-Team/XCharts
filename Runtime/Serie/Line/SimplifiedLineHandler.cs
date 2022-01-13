@@ -259,20 +259,20 @@ namespace XCharts
 
             if (isY)
             {
-                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
                 valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
 
                 xPos = gridXY + valueHig;
-                yPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+                yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
             }
             else
             {
 
-                var valueHig = AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+                var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
                 valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
 
                 yPos = gridXY + valueHig;
-                xPos = AxisHelper.GetAxisPosition(grid, axis, scaleWid, xValue);
+                xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
             }
             np = new Vector3(xPos, yPos);
             return yPos;

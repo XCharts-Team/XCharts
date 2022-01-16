@@ -230,9 +230,10 @@ namespace XCharts
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, theme, serie.index, highlight);
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, serie.index, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
-                    symbolColor, symbolToColor, symbolEmptyColor, symbol.gap, clip, cornerRadius, m_SerieGrid,
+                    symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, clip, cornerRadius, m_SerieGrid,
                     i > 0 ? serie.context.dataPoints[i - 1] : m_SerieGrid.context.position);
             }
             if (interacting)

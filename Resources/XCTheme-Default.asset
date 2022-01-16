@@ -3,9 +3,8 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -194,14 +193,14 @@ MonoBehaviour:
     m_PieSelectedOffset: 8
     m_CandlestickColor:
       serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4283716843
     m_CandlestickColor0:
       serializedVersion: 2
-      rgba: 4283844145
+      rgba: 4284658247
     m_CandlestickBorderWidth: 1
     m_CandlestickBorderColor:
       serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4283716843
     m_CandlestickBorderColor0:
       serializedVersion: 2
-      rgba: 4283844145
+      rgba: 4284658247

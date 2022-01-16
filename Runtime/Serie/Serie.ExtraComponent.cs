@@ -33,7 +33,7 @@ namespace XCharts
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
-        /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。s
+        /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
         /// </summary>
         public LabelStyle label { get { return m_Labels.Count > 0 ? m_Labels[0] : null; } }
         public LabelStyle endLabel { get { return m_EndLabels.Count > 0 ? m_EndLabels[0] : null; } }

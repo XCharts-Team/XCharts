@@ -156,6 +156,7 @@ namespace XCharts
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 double xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
                 double yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
@@ -194,16 +195,17 @@ namespace XCharts
                     {
                         var nowSize = symbol.animationSize[count];
                         color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
-                        chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos, color, toColor, emptyColor, symbol.gap, cornerRadius);
+                        chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
+                            color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
                     chart.RefreshPainter(serie);
                 }
                 else
                 {
                     if (symbolSize > 100) symbolSize = 100;
-                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos, color, toColor, emptyColor, symbol.gap, cornerRadius);
+                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
+                        color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                 }
-
             }
             if (!serie.animation.IsFinish())
             {
@@ -258,6 +260,7 @@ namespace XCharts
                 var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
                 var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                 var xValue = serieData.GetCurrData(0, dataChangeDuration, axis.inverse);
 
@@ -296,7 +299,7 @@ namespace XCharts
                         var nowSize = symbol.animationSize[count];
                         color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
                         chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
-                            color, toColor, emptyColor, symbol.gap, cornerRadius);
+                            color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
                     chart.RefreshPainter(serie);
                 }
@@ -304,7 +307,7 @@ namespace XCharts
                 {
                     if (symbolSize > 100) symbolSize = 100;
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
-                        color, toColor, emptyColor, symbol.gap, cornerRadius);
+                        color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())

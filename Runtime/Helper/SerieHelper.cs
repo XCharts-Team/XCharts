@@ -465,30 +465,36 @@ namespace XCharts
 
         public static Color32 GetAreaColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
+            Color32 color = ChartConst.clearColor32;
             var areaStyle = serie.areaStyle;
             if (areaStyle == null || !areaStyle.show)
-                return ColorUtil.clearColor32;
-            var color = !ChartHelper.IsClearColor(areaStyle.color)
-                ? areaStyle.color : theme.GetColor(index);
+                return color;
+
             if (highlight)
             {
                 if (!ChartHelper.IsClearColor(areaStyle.highlightColor))
                     color = areaStyle.highlightColor;
                 else
                     color = ChartHelper.GetHighlightColor(color);
+                ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
+                return color;
             }
+            if (!ChartHelper.IsClearColor(areaStyle.color)) color = areaStyle.color;
+            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.color;
+            else color = theme.GetColor(index);
             ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
             return color;
         }
 
         public static Color32 GetAreaToColor(Serie serie, ThemeStyle theme, int index, bool highlight)
         {
+            Color32 color = ChartConst.clearColor32;
             var areaStyle = serie.areaStyle;
             if (areaStyle == null || !areaStyle.show)
-                return ColorUtil.clearColor32;
+                return color;
             if (!ChartHelper.IsClearColor(areaStyle.toColor))
             {
-                var color = areaStyle.toColor;
+                color = areaStyle.toColor;
                 if (highlight)
                 {
                     if (!ChartHelper.IsClearColor(areaStyle.highlightToColor)) color = areaStyle.highlightToColor;
@@ -532,6 +538,13 @@ namespace XCharts
             var itemStyle = GetItemStyle(serie, serieData, highlight);
             if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
             else return serie.lineStyle.GetWidth(theme.serie.lineWidth) * 2;
+        }
+
+        public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)
+        {
+            var itemStyle = GetItemStyle(serie, serieData, highlight);
+            if (itemStyle != null && !ChartHelper.IsClearColor(itemStyle.borderColor)) return itemStyle.borderColor;
+            else return serie.itemStyle.borderColor;
         }
 
         public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, float defaultWidth)

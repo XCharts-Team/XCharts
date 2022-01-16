@@ -193,14 +193,14 @@ MonoBehaviour:
     m_PieSelectedOffset: 8
     m_CandlestickColor:
       serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4283846390
     m_CandlestickColor0:
       serializedVersion: 2
-      rgba: 4283844145
+      rgba: 4287818324
     m_CandlestickBorderWidth: 1
     m_CandlestickBorderColor:
       serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4283846390
     m_CandlestickBorderColor0:
       serializedVersion: 2
-      rgba: 4283844145
+      rgba: 4287818324

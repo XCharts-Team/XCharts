@@ -9,10 +9,9 @@ namespace XCharts
 {
     public static class ChartDrawer
     {
-
-        public static void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize,
-           float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
-           Color32 emptyColor, Color32 backgroundColor, float smoothness, Vector3 startPos)
+        public static void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize, float tickness,
+            Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
+            Color32 emptyColor, Color32 backgroundColor, Color32 borderColor, float smoothness, Vector3 startPos)
         {
             switch (type)
             {
@@ -25,7 +24,10 @@ namespace XCharts
                     }
                     else
                     {
-                        UGL.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
+                        if (tickness > 0)
+                            UGL.DrawDoughnut(vh, pos, symbolSize, symbolSize + tickness, borderColor, borderColor, color, smoothness);
+                        else
+                            UGL.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
                     }
                     break;
                 case SymbolType.EmptyCircle:
@@ -47,7 +49,13 @@ namespace XCharts
                     }
                     else
                     {
-                        UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                        if (tickness > 0)
+                        {
+                            UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                            UGL.DrawBorder(vh, pos, symbolSize, symbolSize, tickness, borderColor, 0, cornerRadius);
+                        }
+                        else
+                            UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
                     }
                     break;
                 case SymbolType.EmptyRect:

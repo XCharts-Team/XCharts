@@ -102,8 +102,11 @@ namespace XCharts.Editor
 
             for (int i = 0; i < chart.series.Count; i++)
             {
-                if (chart.series[i] != null)
-                    CreateEditor(chart.series[i], m_SeriesProperty[i]);
+                var serie = chart.series[i];
+                if (serie != null)
+                {
+                    CreateEditor(serie, m_SeriesProperty[i]);
+                }
             }
         }
 
@@ -186,6 +189,7 @@ namespace XCharts.Editor
         {
             m_SerializedObject.Update();
             var serieName = chart.GenerateDefaultSerieName();
+            UnityEngine.Debug.LogError("AddSerie:" + type);
             type.InvokeMember("AddDefaultSerie",
                 BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null,
                 new object[] { chart, serieName });

@@ -247,9 +247,10 @@ namespace XCharts
         {
             var symbolSize = symbol.GetSize(null, theme.serie.lineSymbolSize);
             var tickness = SerieHelper.GetSymbolBorder(serie, null, theme, false);
+            var borderColor = SerieHelper.GetSymbolBorderColor(serie, null, theme, false);
             var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, null, false);
             chart.DrawClipSymbol(vh, symbol.type, symbolSize, tickness, pos, lineColor, lineColor,
-                ColorUtil.clearColor32, symbol.gap, true, cornerRadius, grid, startPos);
+                ColorUtil.clearColor32, borderColor, symbol.gap, true, cornerRadius, grid, startPos);
         }
 
         private void GetStartEndPos(Axis xAxis, Axis yAxis, GridCoord grid, double value, ref Vector3 sp, ref Vector3 ep)

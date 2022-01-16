@@ -167,6 +167,12 @@ namespace XCharts.Editor
             {
                 m_Series.Add(prop.GetArrayElementAtIndex(i));
             }
+            m_Series.Sort(delegate (SerializedProperty a, SerializedProperty b)
+            {
+                var index1 = a.FindPropertyRelative("m_Index").intValue;
+                var index2 = b.FindPropertyRelative("m_Index").intValue;
+                return index1.CompareTo(index2);
+            });
         }
 
         private void AddComponent()

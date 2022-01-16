@@ -30,8 +30,10 @@ namespace XCharts
         public virtual void OnScroll(PointerEventData eventData) { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
-        public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category, string marker,
-            string itemFormatter, string numericFormatter, ref List<SerieParams> paramList, ref string title)
+        public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory,
+            string category, string marker,
+            string itemFormatter, string numericFormatter,
+            ref List<SerieParams> paramList, ref string title)
         { }
         public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
         public virtual void OnLegendButtonEnter(int index, string legendName) { }
@@ -59,6 +61,7 @@ namespace XCharts
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
         }
+
         public override void Update()
         {
             if (m_NeedInitComponent)
@@ -256,32 +259,64 @@ namespace XCharts
         {
             if (!m_InitedLabel)
                 return;
+
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
             var total = serie.yTotal;
+            var isNeedInvertPositionSerie = serie is Line;
+
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null)
                     continue;
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                var emphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
+                var isHighlight = (serieData.context.highlight && emphasisLabel != null && emphasisLabel.show);
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index);
+                var currLabel = isHighlight && emphasisLabel != null ? emphasisLabel : serieLabel;
+
                 serieData.labelObject.SetPosition(serieData.context.position);
                 serieData.labelObject.UpdateIcon(iconStyle);
-                if (serie.show && serieLabel != null
-                    && serieLabel.show && serieData.context.canShowLabel && !isIgnore)
+
+                if (serie.show
+                    && currLabel != null
+                    && (currLabel.show || isHighlight)
+                    && serieData.context.canShowLabel
+                    && !isIgnore)
                 {
-                    var value = serieData.GetData(1);
-                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
-                        serieLabel, chart.theme.GetColor(colorIndex));
-                    var invert = serieLabel.autoOffset
-                        && serie is Line
+                    var content = serie.useDataNameForColor && string.IsNullOrEmpty(currLabel.formatter)
+                        ? serieData.name
+                        : SerieLabelHelper.GetFormatterContent(serie, serieData, serieData.GetData(1), total,
+                            currLabel, chart.theme.GetColor(colorIndex));
+
+                    var invert = currLabel.autoOffset
+                        && isNeedInvertPositionSerie
                         && SerieHelper.IsDownPoint(serie, serieData.index)
                         && (serie.areaStyle == null || !serie.areaStyle.show);
-                    var labelPosition = GetSerieDataLabelPosition(serieData, serieLabel);
-                    SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme);
+                    var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
+                    var isInsidePosition = currLabel.position == LabelStyle.Position.Inside;
+
+                    //text color
+                    var textColor = chart.theme.common.textColor;
+                    if (!ChartHelper.IsClearColor(currLabel.textStyle.color))
+                        textColor = currLabel.textStyle.color;
+                    else if (isInsidePosition)
+                        textColor = Color.white;
+                    //text rotate
+                    var rotate = currLabel.textStyle.rotate;
+                    if (currLabel.textStyle.rotate > 0 && isInsidePosition)
+                    {
+                        var currAngle = serieData.context.halfAngle;
+                        if (currAngle > 0)
+                        {
+                            if (currAngle > 180) rotate += 270 - currAngle;
+                            else rotate += -(currAngle - 90);
+                        }
+                    }
+                    SerieLabelHelper.ResetLabel(serieData.labelObject.label, currLabel, chart.theme, textColor, rotate);
                     serieData.SetLabelActive(!isIgnore);
                     serieData.labelObject.SetPosition(labelPosition
-                        + (invert ? -serieLabel.offset : serieLabel.offset));
+                        + (invert ? -currLabel.offset : currLabel.offset));
                     serieData.labelObject.SetText(content);
                 }
                 else
@@ -364,7 +399,7 @@ namespace XCharts
             param.color = chart.theme.GetColor(dataIndex);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = itemFormatter;
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
             param.columns.Clear();
 
             param.columns.Add(param.marker);

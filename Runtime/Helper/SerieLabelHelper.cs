@@ -18,11 +18,12 @@ namespace XCharts
             }
         }
 
-        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme)
+        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme,
+            Color textColor, float rotate)
         {
             if (labelObject == null) return;
-            labelObject.SetColor(!ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color :
-                theme.common.textColor);
+            labelObject.SetColor(textColor);
+            labelObject.SetLocalEulerAngles(new Vector3(0, 0, rotate));
             labelObject.SetFontSize(label.textStyle.GetFontSize(theme.common));
             labelObject.SetFontStyle(label.textStyle.fontStyle);
         }
@@ -247,6 +248,9 @@ namespace XCharts
 
         public static Vector3 GetRealLabelPosition(SerieData serieData, LabelStyle label, LabelLine labelLine)
         {
+            if (label == null || labelLine == null)
+                return serieData.context.labelPosition;
+
             if (label.position == LabelStyle.Position.Outside && labelLine.lineType != LabelLine.LineType.HorizontalLine)
             {
                 var currAngle = serieData.context.halfAngle;

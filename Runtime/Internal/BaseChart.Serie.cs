@@ -824,8 +824,6 @@ namespace XCharts
             return serie;
         }
 
-
-
         private void ResetSeriesIndex()
         {
             for (int i = 0; i < m_Series.Count; i++)

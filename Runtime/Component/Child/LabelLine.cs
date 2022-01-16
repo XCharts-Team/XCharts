@@ -26,7 +26,7 @@ namespace XCharts
             HorizontalLine
         }
 
-        [SerializeField] private bool m_Show = false;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
         [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
         [SerializeField] private float m_LineWidth = 1.0f;

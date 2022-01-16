@@ -13,11 +13,11 @@ namespace XCharts
         [SerializeField] protected float m_PieTooltipExtraRadius;
         [SerializeField] protected float m_SelectedRate = 1.3f;
         [SerializeField] protected float m_PieSelectedOffset;
-        [SerializeField] protected Color32 m_CandlestickColor = new Color32(194, 53, 49, 255);
-        [SerializeField] protected Color32 m_CandlestickColor0 = new Color32(49, 70, 86, 255);
+        [SerializeField] protected Color32 m_CandlestickColor = new Color32(235, 84, 84, 255);
+        [SerializeField] protected Color32 m_CandlestickColor0 = new Color32(71, 178, 98, 255);
         [SerializeField] protected float m_CandlestickBorderWidth = 1;
-        [SerializeField] protected Color32 m_CandlestickBorderColor = new Color32(194, 53, 49, 255);
-        [SerializeField] protected Color32 m_CandlestickBorderColor0 = new Color32(49, 70, 86, 255);
+        [SerializeField] protected Color32 m_CandlestickBorderColor = new Color32(235, 84, 84, 255);
+        [SerializeField] protected Color32 m_CandlestickBorderColor0 = new Color32(71, 178, 98, 255);
 
         /// <summary>
         /// the color of text.
@@ -130,22 +130,22 @@ namespace XCharts
             switch (theme)
             {
                 case ThemeType.Default:
-                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
-                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickColor = ColorUtil.GetColor("#eb5454");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#47b262");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#eb5454");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#47b262");
                     break;
                 case ThemeType.Light:
-                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
-                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickColor = ColorUtil.GetColor("#eb5454");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#47b262");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#eb5454");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#47b262");
                     break;
                 case ThemeType.Dark:
-                    m_CandlestickColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickColor0 = ColorUtil.GetColor("#314656");
-                    m_CandlestickBorderColor = ColorUtil.GetColor("#c23531");
-                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#314656");
+                    m_CandlestickColor = ColorUtil.GetColor("#f64e56");
+                    m_CandlestickColor0 = ColorUtil.GetColor("#54ea92");
+                    m_CandlestickBorderColor = ColorUtil.GetColor("#f64e56");
+                    m_CandlestickBorderColor0 = ColorUtil.GetColor("#54ea92");
                     break;
             }
         }

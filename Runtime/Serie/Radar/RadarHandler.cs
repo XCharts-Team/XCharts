@@ -60,6 +60,7 @@ namespace XCharts
             for (int i = 0; i < serieData.data.Count; i++)
             {
                 var indicator = radar.GetIndicator(i);
+                if (indicator == null) continue;
 
                 var param = new SerieParams();
                 param.serieName = serie.serieName;
@@ -75,55 +76,10 @@ namespace XCharts
                 param.columns.Clear();
 
                 param.columns.Add(param.marker);
-                param.columns.Add(indicator == null ? string.Empty : indicator.name);
+                param.columns.Add(indicator.name);
                 param.columns.Add(ChartCached.NumberToStr(serieData.GetData(i), param.numericFormatter));
 
                 paramList.Add(param);
-            }
-        }
-
-        public override void RefreshLabelInternal()
-        {
-            for (int i = 0; i < chart.series.Count; i++)
-            {
-                var serie = chart.GetSerie(i);
-                if (!(serie is Radar)) continue;
-                if (!serie.show && serie.radarType != RadarType.Single) continue;
-                var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
-                if (radar == null) continue;
-                var center = radar.context.center;
-                for (int n = 0; n < serie.dataCount; n++)
-                {
-                    var serieData = serie.data[n];
-                    if (serieData.labelObject == null) continue;
-                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                    var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
-                    var labelPos = serieData.context.labelPosition;
-                    if (serieLabel.margin != 0)
-                    {
-                        labelPos += serieLabel.margin * (labelPos - center).normalized;
-                    }
-                    serieData.labelObject.SetPosition(labelPos);
-                    serieData.labelObject.UpdateIcon(iconStyle);
-                    if (serie.show && serieLabel.show && serieData.context.canShowLabel)
-                    {
-                        var value = serieData.GetCurrData(1);
-                        var max = radar.GetIndicatorMax(n);
-                        SerieLabelHelper.ResetLabel(serieData.labelObject.label, serieLabel, chart.theme);
-                        serieData.SetLabelActive(serieData.context.labelPosition != Vector3.zero);
-                        serieData.labelObject.SetLabelPosition(serieLabel.offset);
-                        var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max,
-                            serieLabel, Color.clear);
-                        if (serieData.labelObject.SetText(content))
-                        {
-                            chart.RefreshPainter(serie);
-                        }
-                    }
-                    else
-                    {
-                        serieData.SetLabelActive(false);
-                    }
-                }
             }
         }
 
@@ -323,9 +279,10 @@ namespace XCharts
                         var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, isHighlight);
                         var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, j, isHighlight, false);
                         var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
+                        var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
                         var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                         chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                           symbolToColor, symbolEmptyColor, serie.symbol.gap, cornerRadius);
+                           symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
                     }
                 }
             }
@@ -458,6 +415,7 @@ namespace XCharts
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                     var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
+                    var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
                     var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
                     {
@@ -465,7 +423,7 @@ namespace XCharts
                         symbolToColor = radar.outRangeColor;
                     }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.context.labelPosition, symbolColor,
-                           symbolToColor, symbolEmptyColor, serie.symbol.gap, cornerRadius);
+                           symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())
@@ -508,11 +466,12 @@ namespace XCharts
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                 foreach (var point in pointList)
                 {
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                       symbolToColor, symbolEmptyColor, serie.symbol.gap, cornerRadius);
+                       symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace XCharts
     /// toColor，toColor2可设置水平方向的渐变，如需要设置垂直方向的渐变，可使用VisualMap。
     /// </summary>
     [System.Serializable]
-    public class LineStyle : ChildComponent
+    public class LineStyle : ChildComponent, ISerieDataComponent
     {
         /// <summary>
         /// 线的类型。

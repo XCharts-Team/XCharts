@@ -20,9 +20,7 @@ namespace XCharts
             tooltip.trigger = Tooltip.Trigger.Axis;
 
             var grid = GetOrAddChartComponent<GridCoord>();
-            grid.left = 100;
-            grid.right = 60;
-            grid.bottom = 60;
+            grid.left = 0.12f;
 
             var xAxis = GetOrAddChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Category;

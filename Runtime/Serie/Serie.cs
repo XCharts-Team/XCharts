@@ -1617,7 +1617,7 @@ namespace XCharts
         {
             if (useDataNameForColor)
             {
-                return IsSerieDataLegendName(legendName);
+                return IsSerieDataLegendName(legendName) || IsSerieLegendName(legendName);
             }
             else
             {

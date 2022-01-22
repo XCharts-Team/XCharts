@@ -1,6 +1,9 @@
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace XCharts
 {
@@ -42,6 +45,77 @@ namespace XCharts
             {
                 var item = listType.GetProperty("Item").GetValue(list, new object[] { i });
                 callback((T)item);
+            }
+        }
+
+        public static object DeepCloneSerializeField(object obj)
+        {
+            if (obj == null)
+                return null;
+
+            var type = obj.GetType();
+            if (type.IsValueType || type == typeof(string))
+            {
+                return obj;
+            }
+            else if (type.IsArray)
+            {
+                var elementType = Type.GetType(type.FullName.Replace("[]", string.Empty));
+                var array = obj as Array;
+                var copied = Array.CreateInstance(elementType, array.Length);
+                for (int i = 0; i < array.Length; i++)
+                    copied.SetValue(DeepCloneSerializeField(array.GetValue(i)), i);
+                return Convert.ChangeType(copied, obj.GetType());
+            }
+            else if (type.IsClass)
+            {
+                object returnObj;
+                var listObj = obj as IList;
+                if (listObj != null)
+                {
+                    var properties = type.GetProperties();
+                    var customList = typeof(List<>).MakeGenericType((properties[properties.Length - 1]).PropertyType);
+                    returnObj = (IList)Activator.CreateInstance(customList);
+                    var list = (IList)returnObj;
+                    foreach (var item in ((IList)obj))
+                    {
+                        if (item == null)
+                            continue;
+                        list.Add(DeepCloneSerializeField(item));
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        returnObj = Activator.CreateInstance(type);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                    var fileds = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    for (int i = 0; i < fileds.Length; i++)
+                    {
+                        var field = fileds[i];
+                        if (!field.IsDefined(typeof(SerializeField), false))
+                            continue;
+                        var filedValue = field.GetValue(obj);
+                        if (filedValue == null)
+                        {
+                            field.SetValue(returnObj, filedValue);
+                        }
+                        else
+                        {
+                            field.SetValue(returnObj, DeepCloneSerializeField(filedValue));
+                        }
+                    }
+                }
+                return returnObj;
+            }
+            else
+            {
+                throw new ArgumentException("DeepCloneSerializeField: Unknown type:" + type + "," + obj);
             }
         }
     }

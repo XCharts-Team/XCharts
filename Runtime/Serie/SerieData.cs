@@ -23,6 +23,8 @@ namespace XCharts
         [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
         [SerializeField] private List<SymbolStyle> m_Symbols = new List<SymbolStyle>();
         [SerializeField] private List<IconStyle> m_IconStyles = new List<IconStyle>();
+        [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
+        [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<double> m_Data = new List<double>();
         [SerializeField] private List<int> m_Children = new List<int>();
 
@@ -77,6 +79,8 @@ namespace XCharts
         /// 单个数据项的标记设置。
         /// </summary>
         public SymbolStyle symbol { get { return m_Symbols.Count > 0 ? m_Symbols[0] : null; } }
+        public LineStyle lineStyle { get { return m_LineStyles.Count > 0 ? m_LineStyles[0] : null; } }
+        public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         /// <summary>
         /// 是否忽略数据。当为 true 时，数据不进行绘制。
         /// </summary>
@@ -124,6 +128,8 @@ namespace XCharts
             m_ItemStyles.Clear();
             m_Emphases.Clear();
             m_Symbols.Clear();
+            m_LineStyles.Clear();
+            m_AreaStyles.Clear();
         }
 
         public T GetOrAddComponent<T>() where T : ChildComponent
@@ -165,6 +171,18 @@ namespace XCharts
                     m_Symbols.Add(new SymbolStyle() { show = true });
                 return m_Symbols[0] as T;
             }
+            else if (type == typeof(LineStyle))
+            {
+                if (m_LineStyles.Count == 0)
+                    m_LineStyles.Add(new LineStyle() { show = true });
+                return m_LineStyles[0] as T;
+            }
+            else if (type == typeof(AreaStyle))
+            {
+                if (m_AreaStyles.Count == 0)
+                    m_AreaStyles.Add(new AreaStyle() { show = true });
+                return m_AreaStyles[0] as T;
+            }
             else
             {
                 throw new System.Exception("SerieData not support component:" + type);
@@ -179,6 +197,8 @@ namespace XCharts
             m_LabelLines.Clear();
             m_Symbols.Clear();
             m_Emphases.Clear();
+            m_LineStyles.Clear();
+            m_AreaStyles.Clear();
         }
 
         public void RemoveComponent<T>() where T : ISerieDataComponent
@@ -196,6 +216,10 @@ namespace XCharts
                 m_Emphases.Clear();
             else if (type == typeof(SymbolStyle))
                 m_Symbols.Clear();
+            else if (type == typeof(LineStyle))
+                m_LineStyles.Clear();
+            else if (type == typeof(AreaStyle))
+                m_AreaStyles.Clear();
             else
                 throw new System.Exception("SerieData not support component:" + type);
         }

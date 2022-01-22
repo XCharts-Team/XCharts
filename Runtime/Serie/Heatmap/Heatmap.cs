@@ -17,7 +17,7 @@ namespace XCharts
             serie.itemStyle.show = true;
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;
-            
+
             var emphasis = serie.AddExtraComponent<Emphasis>();
             emphasis.show = true;
             emphasis.itemStyle.show = true;

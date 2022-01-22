@@ -359,25 +359,6 @@ namespace XCharts
         }
 #endif
 
-        internal static GameObject AddTooltipContent(string name, Transform parent, TextStyle textStyle,
-            ThemeStyle theme)
-        {
-            var anchorMax = new Vector2(0, 1);
-            var anchorMin = new Vector2(0, 1);
-            var pivot = new Vector2(0, 1);
-            var sizeDelta = new Vector2(100, 100);
-            GameObject tooltipObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var img = GetOrAddComponent<Image>(tooltipObj);
-            img.color = Color.black;
-            var txt = AddTextObject("Text", tooltipObj.transform, anchorMin, anchorMax, pivot, sizeDelta,
-                textStyle, theme.tooltip);
-            txt.SetAlignment(textStyle.GetAlignment(TextAnchor.UpperLeft));
-            txt.SetText("Text");
-            txt.SetLocalPosition(new Vector2(3, -3));
-            tooltipObj.transform.localPosition = Vector3.zero;
-            return tooltipObj;
-        }
-
         internal static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
         {

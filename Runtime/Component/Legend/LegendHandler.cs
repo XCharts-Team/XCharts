@@ -42,7 +42,7 @@ namespace XCharts
 
         private void InitLegend(Legend legend)
         {
-            legend.painter = null; // legend component does not need to paint
+            legend.painter = null;
             legend.refreshComponent = delegate ()
             {
                 legend.OnChanged();
@@ -55,9 +55,10 @@ namespace XCharts
                 if (legend.show && legend.data.Count > 0)
                 {
                     datas = new List<string>();
-                    for (int i = 0; i < chart.m_LegendRealShowName.Count; i++)
+                    foreach (var data in legend.data)
                     {
-                        if (legend.data.Contains(chart.m_LegendRealShowName[i])) datas.Add(chart.m_LegendRealShowName[i]);
+                        if (chart.m_LegendRealShowName.Contains(data) || chart.IsSerieName(data))
+                            datas.Add(data);
                     }
                 }
                 else
@@ -129,13 +130,6 @@ namespace XCharts
                         int index = int.Parse(temp[0]);
                         chart.OnLegendButtonExit(index, selectedName);
                     });
-                }
-                if (legend.selectedMode == Legend.SelectedMode.Single)
-                {
-                    for (int n = 0; n < chart.m_LegendRealShowName.Count; n++)
-                    {
-                        chart.OnLegendButtonClick(n, chart.m_LegendRealShowName[n], n == 0 ? true : false);
-                    }
                 }
                 LegendHelper.ResetItemPosition(legend, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             };

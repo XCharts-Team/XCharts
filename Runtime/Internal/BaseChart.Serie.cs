@@ -792,6 +792,7 @@ namespace XCharts
             var handler = (SerieHandler)Activator.CreateInstance(attribute.handler);
             handler.attribute = attribute;
             handler.chart = this;
+            handler.defaultDimension = 1;
             handler.SetSerie(serie);
             serie.handler = handler;
             m_SerieHandlers.Add(handler);
@@ -840,6 +841,18 @@ namespace XCharts
         public string GenerateDefaultSerieName()
         {
             return "serie" + m_Series.Count;
+        }
+
+        public bool IsSerieName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return false;
+            foreach (var serie in m_Series)
+            {
+                if (name.Equals(serie.serieName))
+                    return true;
+            }
+            return false;
         }
     }
 }

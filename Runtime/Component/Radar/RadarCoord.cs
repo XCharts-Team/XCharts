@@ -51,7 +51,6 @@ namespace XCharts
             [SerializeField] private double m_Max;
             [SerializeField] private double m_Min;
             [SerializeField] private double[] m_Range = new double[2] { 0, 0 };
-            [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
             /// <summary>
             /// The name of indicator.
@@ -68,11 +67,6 @@ namespace XCharts
             /// 指示器的最小值，默认为 0 无限制。
             /// </summary>
             public double min { get { return m_Min; } set { m_Min = value; } }
-            /// <summary>
-            /// the style of text.
-            /// 文本样式。
-            /// </summary>
-            public TextStyle textStyle { get { return m_TextStyle; } set { m_TextStyle = value; } }
             /// <summary>
             /// the text conponent of indicator.
             /// 指示器的文本组件。
@@ -103,6 +97,7 @@ namespace XCharts
         [SerializeField] private int m_SplitNumber = 5;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.5f };
         [SerializeField] private AxisLine m_AxisLine = AxisLine.defaultAxisLine;
+        [SerializeField] private AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] private AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] private AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField] private bool m_Indicator = true;
@@ -169,6 +164,15 @@ namespace XCharts
         {
             get { return m_AxisLine; }
             set { if (PropertyUtil.SetClass(ref m_AxisLine, value, true)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Name options for radar indicators.
+        /// 雷达图每个指示器名称的配置项。
+        /// </summary>
+        public AxisName axisName
+        {
+            get { return m_AxisName; }
+            set { if (PropertyUtil.SetClass(ref m_AxisName, value, true)) SetAllDirty(); }
         }
         /// <summary>
         /// split line.
@@ -288,6 +292,8 @@ namespace XCharts
             center[1] = 0.4f;
             splitLine.show = true;
             splitArea.show = true;
+            axisName.show = true;
+            axisName.name = null;
         }
 
         private bool IsEqualsIndicatorList(List<Indicator> indicators1, List<Indicator> indicators2)
@@ -409,6 +415,32 @@ namespace XCharts
         public override void ClearData()
         {
             indicatorList.Clear();
+        }
+
+        public string GetFormatterIndicatorContent(int indicatorIndex)
+        {
+            var indicator = GetIndicator(indicatorIndex);
+            if (indicator == null)
+                return string.Empty;
+            else
+                return GetFormatterIndicatorContent(indicator.name);
+        }
+
+        public string GetFormatterIndicatorContent(string indicatorName)
+        {
+            if (string.IsNullOrEmpty(indicatorName))
+                return indicatorName;
+
+            if (string.IsNullOrEmpty(m_AxisName.formatter))
+            {
+                return indicatorName;
+            }
+            else
+            {
+                var content = m_AxisName.formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, indicatorName);
+                return content;
+            }
         }
     }
 }

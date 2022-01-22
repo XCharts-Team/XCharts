@@ -357,7 +357,7 @@ namespace XCharts
             {
                 var serie = series[i];
                 serie.context.isTriggerByAxis = isTriggerByAxis;
-                if (isTriggerByAxis)
+                if (isTriggerByAxis && dataIndex >= 0)
                     serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,

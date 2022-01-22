@@ -28,8 +28,8 @@ namespace XCharts
             if (serie.areaStyle == null || !serie.areaStyle.show)
                 return;
 
-            var srcAreaColor = SerieHelper.GetAreaColor(serie, theme, serie.context.colorIndex, false);
-            var srcAreaToColor = SerieHelper.GetAreaToColor(serie, theme, serie.context.colorIndex, false);
+            var srcAreaColor = SerieHelper.GetAreaColor(serie, null, theme, serie.context.colorIndex, false);
+            var srcAreaToColor = SerieHelper.GetAreaToColor(serie, null, theme, serie.context.colorIndex, false);
             var gridXY = (isY ? grid.context.x : grid.context.y);
             if (lastStackSerie == null)
             {
@@ -247,7 +247,7 @@ namespace XCharts
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
 
             //var highlight = serie.highlight || serie.context.pointerEnter;
-            var lineColor = SerieHelper.GetLineColor(serie, theme, serie.context.colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex, false);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             for (int i = 1; i < dataCount; i++)

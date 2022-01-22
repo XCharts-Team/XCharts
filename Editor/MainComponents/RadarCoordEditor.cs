@@ -21,6 +21,7 @@ namespace XCharts.Editor
             PropertyField("m_ConnectCenter");
             PropertyField("m_LineGradient");
             PropertyField("m_AxisLine");
+            PropertyField("m_AxisName");
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
             PropertyField("m_IndicatorList");
@@ -42,7 +43,6 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Min");
                 PropertyField(prop, "m_Max");
                 PropertyTwoFiled(prop, "m_Range");
-                PropertyField(prop, "m_TextStyle");
                 --EditorGUI.indentLevel;
             }
         }

@@ -42,7 +42,7 @@ namespace XCharts
 
             var animationIndex = serie.animation.GetCurrIndex();
             var isHorizonal = parallel.orient == Orient.Horizonal;
-            var lineColor = SerieHelper.GetLineColor(serie, chart.theme, colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, false);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             float currDetailProgress = !isHorizonal

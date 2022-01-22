@@ -199,13 +199,15 @@ namespace XCharts.Editor
             var m_ItemStyle = serieData.FindPropertyRelative("m_ItemStyles");
             var m_Emphasis = serieData.FindPropertyRelative("m_Emphases");
             var m_Symbol = serieData.FindPropertyRelative("m_Symbols");
+            var m_LineStyle = serieData.FindPropertyRelative("m_LineStyles");
+            var m_AreaStyle = serieData.FindPropertyRelative("m_AreaStyles");
 
             PropertyField(sereName);
             PropertyField(selected);
             PropertyField(m_Ignore);
 
             var componentNum = m_IconStyle.arraySize + m_Label.arraySize + m_ItemStyle.arraySize + m_Emphasis.arraySize
-                + m_Symbol.arraySize;
+                + m_Symbol.arraySize + m_LineStyle.arraySize + m_AreaStyle.arraySize;
             var title = "Component";
             if (componentNum == 0) title += " (None)";
             m_DataComponentFoldout = ChartEditorHelper.DrawHeader(title, m_DataComponentFoldout, false, null, null,
@@ -229,6 +231,14 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).GetOrAddComponent<SymbolStyle>();
             }, m_Symbol.arraySize == 0),
+            new HeaderMenuInfo("Add LineStyle", () =>
+            {
+                serie.GetSerieData(index).GetOrAddComponent<LineStyle>();
+            }, m_LineStyle.arraySize == 0),
+            new HeaderMenuInfo("Add AreaStyle", () =>
+            {
+                serie.GetSerieData(index).GetOrAddComponent<AreaStyle>();
+            }, m_AreaStyle.arraySize == 0),
             new HeaderMenuInfo("Remove ItemStyle", () =>
             {
                 serie.GetSerieData(index).RemoveComponent<ItemStyle>();
@@ -249,10 +259,18 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).RemoveComponent<SymbolStyle>();
             }, m_Symbol.arraySize > 0),
+            new HeaderMenuInfo("Remove LineStyle", () =>
+            {
+                serie.GetSerieData(index).RemoveComponent<LineStyle>();
+            }, m_LineStyle.arraySize > 0),
+            new HeaderMenuInfo("Remove AreaStyle", () =>
+            {
+                serie.GetSerieData(index).RemoveComponent<AreaStyle>();
+            }, m_AreaStyle.arraySize > 0),
             new HeaderMenuInfo("Remove All", () =>
             {
                 serie.GetSerieData(index).RemoveAllComponent();
-            }, m_Symbol.arraySize > 0));
+            }, componentNum > 0));
             if (m_DataComponentFoldout)
             {
                 if (m_IconStyle.arraySize > 0)
@@ -265,6 +283,10 @@ namespace XCharts.Editor
                     PropertyField(m_Emphasis.GetArrayElementAtIndex(0));
                 if (m_Symbol.arraySize > 0)
                     PropertyField(m_Symbol.GetArrayElementAtIndex(0));
+                if (m_LineStyle.arraySize > 0)
+                    PropertyField(m_LineStyle.GetArrayElementAtIndex(0));
+                if (m_AreaStyle.arraySize > 0)
+                    PropertyField(m_AreaStyle.GetArrayElementAtIndex(0));
             }
             EditorGUI.indentLevel--;
         }

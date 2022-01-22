@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 namespace XCharts
@@ -453,7 +452,7 @@ namespace XCharts
 
         public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
         {
-            if (serieData.iconStyle != null) return serieData.iconStyle;
+            if (serieData != null && serieData.iconStyle != null) return serieData.iconStyle;
             else return serie.iconStyle;
         }
 
@@ -463,55 +462,62 @@ namespace XCharts
             else return serie.symbol;
         }
 
-        public static Color32 GetAreaColor(Serie serie, ThemeStyle theme, int index, bool highlight)
+        public static LineStyle GetLineStyle(Serie serie, SerieData serieData)
+        {
+            if (serieData != null && serieData.lineStyle != null) return serieData.lineStyle;
+            else return serie.lineStyle;
+        }
+
+        public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)
+        {
+            if (serieData != null && serieData.areaStyle != null) return serieData.areaStyle;
+            else return serie.areaStyle;
+        }
+
+        public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;
-            var areaStyle = serie.areaStyle;
+            var areaStyle = GetAreaStyle(serie, serieData);
             if (areaStyle == null || !areaStyle.show)
                 return color;
-
+            if (!ChartHelper.IsClearColor(areaStyle.color)) color = areaStyle.color;
+            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.color;
+            else color = theme.GetColor(index);
+            ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
             if (highlight)
             {
                 if (!ChartHelper.IsClearColor(areaStyle.highlightColor))
                     color = areaStyle.highlightColor;
                 else
                     color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
-                return color;
             }
-            if (!ChartHelper.IsClearColor(areaStyle.color)) color = areaStyle.color;
-            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.color;
-            else color = theme.GetColor(index);
-            ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
             return color;
         }
 
-        public static Color32 GetAreaToColor(Serie serie, ThemeStyle theme, int index, bool highlight)
+        public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;
-            var areaStyle = serie.areaStyle;
+            var areaStyle = GetAreaStyle(serie, serieData);
             if (areaStyle == null || !areaStyle.show)
                 return color;
-            if (!ChartHelper.IsClearColor(areaStyle.toColor))
+            if (!ChartHelper.IsClearColor(areaStyle.toColor)) color = areaStyle.toColor;
+            else if (!ChartHelper.IsClearColor(serie.itemStyle.toColor)) color = serie.itemStyle.toColor;
+            else color = theme.GetColor(index);
+            ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
+            if (highlight)
             {
-                color = areaStyle.toColor;
-                if (highlight)
-                {
-                    if (!ChartHelper.IsClearColor(areaStyle.highlightToColor)) color = areaStyle.highlightToColor;
-                    else color = ChartHelper.GetHighlightColor(color);
-                }
-                ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
-                return color;
+                if (!ChartHelper.IsClearColor(areaStyle.highlightToColor))
+                    color = areaStyle.highlightToColor;
+                else
+                    color = ChartHelper.GetHighlightColor(color);
             }
-            else
-            {
-                return GetAreaColor(serie, theme, index, highlight);
-            }
+            return color;
         }
 
-        public static Color32 GetLineColor(Serie serie, ThemeStyle theme, int index, bool highlight)
+        public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;
+            var lineStyle = GetLineStyle(serie, serieData);
             if (highlight)
             {
                 var itemStyleEmphasis = GetItemStyleEmphasis(serie, null);
@@ -522,13 +528,10 @@ namespace XCharts
                     return color;
                 }
             }
-            if (!ChartHelper.IsClearColor(serie.lineStyle.color)) color = serie.lineStyle.GetColor();
+            if (!ChartHelper.IsClearColor(lineStyle.color)) color = lineStyle.color;
             else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.GetColor();
-            if (ChartHelper.IsClearColor(color))
-            {
-                color = theme.GetColor(index);
-                ChartHelper.SetColorOpacity(ref color, serie.lineStyle.opacity);
-            }
+            if (ChartHelper.IsClearColor(color)) color = theme.GetColor(index);
+            ChartHelper.SetColorOpacity(ref color, lineStyle.opacity);
             if (highlight) color = ChartHelper.GetHighlightColor(color);
             return color;
         }
@@ -781,7 +784,11 @@ namespace XCharts
             {
                 if (field.IsDefined(typeof(SerializeField), false))
                 {
-                    field.SetValue(newSerie, field.GetValue(oldSerie));
+                    var filedValue = field.GetValue(oldSerie);
+                    if (filedValue == null) continue;
+                    var filedType = filedValue.GetType();
+                    if (filedType.IsClass)
+                        field.SetValue(newSerie, ReflectionUtil.DeepCloneSerializeField(filedValue));
                 }
             }
         }

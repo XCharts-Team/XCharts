@@ -253,7 +253,7 @@ namespace XCharts
             if (serie.context.dataPoints.Count < 2)
                 return;
 
-            var lineColor = SerieHelper.GetLineColor(serie, chart.theme, serie.index, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index, false);
             var startPos = Vector3.zero;
             var arrowPos = Vector3.zero;
             var lineArrow = serie.lineArrow.arrow;

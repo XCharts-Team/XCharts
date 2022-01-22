@@ -11,6 +11,7 @@ namespace XCharts
     {
         public BaseChart chart { get; internal set; }
         public SerieHandlerAttribute attribute { get; internal set; }
+        public virtual int defaultDimension { get; internal set; }
 
         public virtual void InitComponent() { }
         public virtual void RemoveComponent() { }
@@ -61,6 +62,8 @@ namespace XCharts
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
         }
+
+        
 
         public override void Update()
         {
@@ -124,7 +127,13 @@ namespace XCharts
 
         public override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            if (serie.IsLegendName(legendName))
+            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            {
+                LegendHelper.CheckDataShow(serie, legendName, show);
+                chart.UpdateLegendColor(legendName, show);
+                chart.RefreshPainter(serie);
+            }
+            else if (serie.IsLegendName(legendName))
             {
                 chart.SetSerieActive(serie, show);
                 chart.RefreshPainter(serie);
@@ -133,7 +142,12 @@ namespace XCharts
 
         public override void OnLegendButtonEnter(int index, string legendName)
         {
-            if (serie.IsLegendName(legendName))
+            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            {
+                LegendHelper.CheckDataHighlighted(serie, legendName, true);
+                chart.RefreshPainter(serie);
+            }
+            else if (serie.IsLegendName(legendName))
             {
                 m_LegendEnter = true;
                 chart.RefreshPainter(serie);
@@ -142,7 +156,12 @@ namespace XCharts
 
         public override void OnLegendButtonExit(int index, string legendName)
         {
-            if (serie.IsLegendName(legendName))
+            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            {
+                LegendHelper.CheckDataHighlighted(serie, legendName, false);
+                chart.RefreshPainter(serie);
+            }
+            else if (serie.IsLegendName(legendName))
             {
                 m_LegendEnter = false;
                 chart.RefreshPainter(serie);
@@ -272,7 +291,7 @@ namespace XCharts
                 var emphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
                 var isHighlight = (serieData.context.highlight && emphasisLabel != null && emphasisLabel.show);
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
-                var isIgnore = serie.IsIgnoreIndex(serieData.index);
+                var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 var currLabel = isHighlight && emphasisLabel != null ? emphasisLabel : serieLabel;
 
                 serieData.labelObject.SetPosition(serieData.context.position);
@@ -286,7 +305,7 @@ namespace XCharts
                 {
                     var content = serie.useDataNameForColor && string.IsNullOrEmpty(currLabel.formatter)
                         ? serieData.name
-                        : SerieLabelHelper.GetFormatterContent(serie, serieData, serieData.GetData(1), total,
+                        : SerieLabelHelper.GetFormatterContent(serie, serieData, serieData.GetData(defaultDimension), total,
                             currLabel, chart.theme.GetColor(colorIndex));
 
                     var invert = currLabel.autoOffset

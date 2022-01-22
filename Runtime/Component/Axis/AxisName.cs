@@ -23,6 +23,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show;
         [SerializeField] private string m_Name;
+        [SerializeField] private string m_Formatter;
         [SerializeField] private Location m_Location;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
@@ -43,6 +44,15 @@ namespace XCharts
         {
             get { return m_Name; }
             set { if (PropertyUtil.SetClass(ref m_Name, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The formatter of indicator's name.
+        /// 指示器名称显示的格式器。可用在雷达图。
+        /// </summary>
+        public string formatter
+        {
+            get { return m_Formatter; }
+            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Location of axis name.

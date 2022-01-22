@@ -99,14 +99,11 @@ namespace XCharts
                     }
                     if (found) break;
                 }
-                else
+                if (name.Equals(serie.serieName))
                 {
-                    if (name.Equals(serie.serieName))
-                    {
-                        destSerie = serie;
-                        destSerieData = null;
-                        break;
-                    }
+                    destSerie = serie;
+                    destSerieData = null;
+                    break;
                 }
             }
             return SerieHelper.GetItemColor(destSerie, destSerieData, chart.theme, index, false);

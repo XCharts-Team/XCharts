@@ -13,7 +13,6 @@ namespace XCharts
     public class TitleStyle : ChildComponent
     {
         [SerializeField] private bool m_Show;
-        [FormerlySerializedAs("m_textStyle")]
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace XCharts
     /// 区域填充样式。
     /// </summary>
     [System.Serializable]
-    public class AreaStyle : ChildComponent, ISerieExtraComponent
+    public class AreaStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
         /// <summary>
         /// Origin position of area.

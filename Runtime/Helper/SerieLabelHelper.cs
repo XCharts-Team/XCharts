@@ -124,7 +124,7 @@ namespace XCharts
                     serieData.SetLabelActive(false);
                     return;
                 }
-                var value = serieData.GetData(1);
+                var value = serieData.GetData(0);
                 var total = serie.max - serie.min;
                 var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
                 serieData.SetLabelActive(true);

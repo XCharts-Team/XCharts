@@ -205,7 +205,7 @@ namespace XCharts
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Space;
-        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
 
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
@@ -1411,8 +1411,10 @@ namespace XCharts
             }
         }
 
-        public double GetDataTotal(int dimension)
+        public virtual double GetDataTotal(int dimension)
         {
+            if (m_Max > 0) return m_Max;
+
             double total = 0;
             foreach (var sdata in data)
             {

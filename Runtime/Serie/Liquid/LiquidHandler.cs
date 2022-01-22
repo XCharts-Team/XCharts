@@ -13,18 +13,16 @@ namespace XCharts
 
         public override void Update()
         {
+            base.Update();
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                foreach (var serie in chart.series)
-                {
-                    if (serie is Liquid)
-                    {
-                        var colorIndex = chart.m_LegendRealShowName.IndexOf(serie.serieName);
-                        SerieLabelHelper.SetLiquidLabelText(serie, chart.theme, colorIndex);
-                    }
-                }
+                RefreshLabelInternal();
             }
+        }
+
+        public override void RefreshLabelNextFrame()
+        {
         }
 
         public override void DrawSerie(VertexHelper vh)

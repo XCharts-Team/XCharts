@@ -99,7 +99,6 @@ namespace XCharts
             {
                 serie.context.pointerItemDataIndex = -1;
                 serie.context.pointerEnter = false;
-                var count = 0;
                 foreach (var serieData in serie.data)
                 {
                     if (!needInteract && serieData.context.rect.Contains(chart.pointerPos))
@@ -113,7 +112,6 @@ namespace XCharts
                     {
                         serieData.context.highlight = false;
                     }
-                    count++;
                 }
             }
             if (needInteract)
@@ -141,7 +139,6 @@ namespace XCharts
 
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
-            var dataList = serie.GetDataList();
             var rangeMin = visualMap.rangeMin;
             var rangeMax = visualMap.rangeMax;
             var color = chart.theme.GetColor(serie.index);

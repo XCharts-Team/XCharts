@@ -63,8 +63,6 @@ namespace XCharts
             m_NeedInitComponent = true;
         }
 
-        
-
         public override void Update()
         {
             if (m_NeedInitComponent)
@@ -280,7 +278,7 @@ namespace XCharts
                 return;
 
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            var total = serie.yTotal;
+            var total = serie.GetDataTotal(defaultDimension);
             var isNeedInvertPositionSerie = serie is Line;
 
             foreach (var serieData in serie.data)
@@ -303,9 +301,10 @@ namespace XCharts
                     && serieData.context.canShowLabel
                     && !isIgnore)
                 {
+                    var value = serieData.GetData(defaultDimension);
                     var content = serie.useDataNameForColor && string.IsNullOrEmpty(currLabel.formatter)
                         ? serieData.name
-                        : SerieLabelHelper.GetFormatterContent(serie, serieData, serieData.GetData(defaultDimension), total,
+                        : SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                             currLabel, chart.theme.GetColor(colorIndex));
 
                     var invert = currLabel.autoOffset

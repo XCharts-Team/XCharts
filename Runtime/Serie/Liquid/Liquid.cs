@@ -6,7 +6,7 @@ namespace XCharts
     [System.Serializable]
     [SerieHandler(typeof(LiquidHandler), true)]
     [RequireChartComponent(typeof(Vessel))]
-    [SerieExtraComponent()]
+    [SerieExtraComponent(typeof(LabelStyle))]
     public class Liquid : Serie, INeedSerieContainer
     {
         [SerializeField] private float m_WaveHeight = 10f;

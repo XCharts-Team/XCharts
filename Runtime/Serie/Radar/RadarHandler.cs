@@ -332,7 +332,6 @@ namespace XCharts
                 int dataCount = radar.indicatorList.Count;
                 var index = serieData.index;
                 var p = radar.context.center;
-                var min = radar.GetIndicatorMin(index);
                 var max = radar.GetIndicatorMax(index);
                 var value = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;

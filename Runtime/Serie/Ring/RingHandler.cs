@@ -11,44 +11,66 @@ namespace XCharts
     [UnityEngine.Scripting.Preserve]
     internal sealed class RingHandler : SerieHandler<Ring>
     {
-        private bool m_UpdateTitleText = false;
-        private bool m_UpdateLabelText = false;
+
+        public override int defaultDimension { get { return 0; } }
 
         public override void Update()
         {
-            if (m_UpdateTitleText)
-            {
-                m_UpdateTitleText = false;
-                foreach (var serie in chart.series)
-                {
-                    if (serie is Ring)
-                    {
-                        serie.titleStyle.SetText(serie.serieName);
-                    }
-                }
-            }
-            if (m_UpdateLabelText)
-            {
-                m_UpdateLabelText = false;
-                foreach (var serie in chart.series)
-                {
-                    if (serie is Ring)
-                    {
-                        SerieLabelHelper.SetRingLabelText(serie, chart.theme);
-                    }
-                }
-            }
+            base.Update();
+            UpdateSerieContext();
+        }
 
-            var ringIndex = GetRingIndex(chart.pointerPos);
-            if (ringIndex >= 0)
+        private void UpdateSerieContext()
+        {
+            var needCheck = chart.isPointerInChart || m_LegendEnter;
+            var needInteract = false;
+            if (!needCheck)
+            {
+                if (m_LastCheckContextFlag != needCheck)
+                {
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerEnter = false;
+                    foreach (var serieData in serie.data)
+                    {
+                        serieData.context.highlight = false;
+                    }
+                    chart.RefreshPainter(serie);
+                }
+                return;
+            }
+            m_LastCheckContextFlag = needCheck;
+            if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.context.pointerItemDataIndex = ringIndex;
+                foreach (var serieData in serie.data)
+                {
+                    serieData.context.highlight = true;
+                }
             }
             else
             {
                 serie.context.pointerEnter = false;
                 serie.context.pointerItemDataIndex = -1;
+                var ringIndex = GetRingIndex(chart.pointerPos);
+                foreach (var serieData in serie.data)
+                {
+                    if (!needInteract && ringIndex == serieData.index)
+                    {
+                        serie.context.pointerEnter = true;
+                        serie.context.pointerItemDataIndex = ringIndex;
+                        serieData.context.highlight = true;
+                        needInteract = true;
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                    }
+                }
+            }
+            if (needInteract)
+            {
+                chart.RefreshPainter(serie);
             }
         }
 
@@ -70,7 +92,7 @@ namespace XCharts
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
             param.category = category;
-            param.dimension = 0;
+            param.dimension = defaultDimension;
             param.serieData = serieData;
             param.value = serieData.GetData(0);
             param.total = serieData.GetData(1);
@@ -99,6 +121,7 @@ namespace XCharts
             for (int j = 0; j < data.Count; j++)
             {
                 var serieData = data[j];
+                serieData.index = j;
                 if (!serieData.show) continue;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var value = serieData.GetFirstData(dataChangeDuration);
@@ -297,6 +320,7 @@ namespace XCharts
             for (int i = 0; i < serie.data.Count; i++)
             {
                 var serieData = serie.data[i];
+                serieData.index = i;
                 if (dist >= serieData.context.insideRadius &&
                     dist <= serieData.context.outsideRadius &&
                     angle >= serieData.context.startAngle &&

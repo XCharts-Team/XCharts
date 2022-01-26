@@ -11,7 +11,7 @@ namespace XCharts
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Heatmap>(serieName);
             serie.itemStyle.show = true;
@@ -23,6 +23,7 @@ namespace XCharts
             emphasis.itemStyle.show = true;
             emphasis.itemStyle.borderWidth = 1;
             emphasis.itemStyle.borderColor = Color.black;
+            return serie;
         }
     }
 }

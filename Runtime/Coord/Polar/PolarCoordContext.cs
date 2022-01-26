@@ -16,5 +16,6 @@ namespace XCharts
         /// 极坐标的运行时实际半径。
         /// </summary>
         public float radius { get; internal set; }
+        public bool isPointerEnter { get; set; }
     }
 }

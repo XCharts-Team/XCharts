@@ -19,6 +19,7 @@ namespace XCharts
         public Vector2 pointer;
         public float width;
         public float height;
+        public float angle;
         public TooltipData data = new TooltipData();
     }
 }

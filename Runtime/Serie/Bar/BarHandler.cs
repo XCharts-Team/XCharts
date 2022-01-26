@@ -228,7 +228,10 @@ namespace XCharts
                 serieData.context.stackHeight = barHig;
                 serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
-                serie.context.dataPoints.Add(top);
+                if (!serie.clip || (serie.clip && m_SerieGrid.Contains(top)))
+                    serie.context.dataPoints.Add(top);
+                else
+                    continue;
                 if (serie.show && currHig != 0 && !serie.placeHolder)
                 {
                     switch (serie.barType)

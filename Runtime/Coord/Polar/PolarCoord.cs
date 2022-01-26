@@ -14,7 +14,7 @@ namespace XCharts
     [Serializable]
     [ComponentHandler(typeof(PolarCoordHandler), true)]
     [RequireChartComponent(typeof(AngleAxis), typeof(RadiusAxis))]
-    public class PolarCoord : CoordSystem
+    public class PolarCoord : CoordSystem, ISerieContainer
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
@@ -63,5 +63,14 @@ namespace XCharts
             set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
 
+        public bool IsPointerEnter()
+        {
+            return context.isPointerEnter;
+        }
+
+        public bool Contains(Vector3 pos)
+        {
+            return Vector3.Distance(pos, context.center) < context.radius;
+        }
     }
 }

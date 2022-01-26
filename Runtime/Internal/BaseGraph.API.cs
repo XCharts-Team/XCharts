@@ -12,12 +12,6 @@ namespace XCharts
     public partial class BaseGraph
     {
         /// <summary>
-        /// The background component.
-        /// 背景组件。
-        /// </summary>
-        /// <value></value>
-        ///public Background background { get { return m_Background; } }
-        /// <summary>
         /// The x of graph. 
         /// 图形的X
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using UnityEngine;
+using XUGL;
 
 namespace XCharts
 {
@@ -111,6 +112,34 @@ namespace XCharts
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// 给定的线段和Grid边界的交点
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="ep"></param>
+        /// <returns></returns>
+        public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref Vector3 point)
+        {
+            if (Contains(sp) && Contains(ep))
+            {
+                point = ep;
+                return false;
+            }
+            var lb = new Vector3(context.x, context.y);
+            var lt = new Vector3(context.x, context.y + context.height);
+            var rt = new Vector3(context.x + context.width, context.y + context.height);
+            var rb = new Vector3(context.x + context.width, context.y);
+            if (UGLHelper.GetIntersection(sp, ep, rb, rt, ref point))
+                return true;
+            if (UGLHelper.GetIntersection(sp, ep, lt, rt, ref point))
+                return true;
+            if (UGLHelper.GetIntersection(sp, ep, lb, rb, ref point))
+                return true;
+            if (UGLHelper.GetIntersection(sp, ep, lb, lt, ref point))
+                return true;
+            return false;
         }
     }
 }

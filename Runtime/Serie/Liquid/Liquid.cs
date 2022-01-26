@@ -50,7 +50,7 @@ namespace XCharts
         public int containerIndex { get { return vesselIndex; } }
         public int containterInstanceId { get; internal set; }
 
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             chart.AddChartComponentWhenNoExist<Vessel>();
             var serie = chart.AddSerie<Liquid>(serieName);
@@ -62,6 +62,7 @@ namespace XCharts
             serie.label.formatter = "{d}%";
             serie.label.textStyle.color = new Color32(70, 70, 240, 255);
             chart.AddData(serie.index, UnityEngine.Random.Range(0, 100));
+            return serie;
         }
     }
 }

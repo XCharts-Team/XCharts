@@ -9,7 +9,7 @@ namespace XCharts
     public class Ring : Serie
     {
         public override bool useDataNameForColor { get { return true; } }
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Ring>(serieName);
             serie.roundCap = true;
@@ -24,6 +24,7 @@ namespace XCharts
             var value = Random.Range(30, 90);
             var max = 100;
             chart.AddData(serie.index, value, max, "data1");
+            return serie;
         }
     }
 }

@@ -10,58 +10,12 @@ namespace XCharts
     /// <summary>
     /// For grid coord
     /// </summary>
-    [UnityEngine.Scripting.Preserve]
     internal sealed partial class LineHandler : SerieHandler<Line>
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
 
-        public override void Update()
-        {
-            base.Update();
-            UpdateSerieContext();
-        }
-
-        public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
-            ref List<SerieParams> paramList, ref string title)
-        {
-            UpdateCoordSerieParams(ref paramList, ref title, dataIndex, showCategory, category,
-                marker, itemFormatter, numericFormatter);
-        }
-
-        public override void DrawSerie(VertexHelper vh)
-        {
-            if (serie.IsUseCoord<PolarCoord>())
-            {
-                DrawPolarLine(vh, serie);
-                DrawPolarLineSymbol(vh);
-            }
-            else if (serie.IsUseCoord<GridCoord>())
-            {
-                DrawLineSerie(vh, serie);
-
-                if (!SeriesHelper.IsStack(chart.series))
-                {
-                    DrawLinePoint(vh, serie);
-                    DrawLineArrow(vh, serie);
-                }
-            }
-        }
-
-        public override void DrawTop(VertexHelper vh)
-        {
-            if (serie.IsUseCoord<GridCoord>())
-            {
-                if (SeriesHelper.IsStack(chart.series))
-                {
-                    DrawLinePoint(vh, serie);
-                    DrawLineArrow(vh, serie);
-                }
-            }
-        }
-
-        private void UpdateSerieContext()
+        private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
                 return;
@@ -185,12 +139,12 @@ namespace XCharts
             var theme = chart.theme;
             var interacting = false;
             var lineArrow = serie.lineArrow;
-            //var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-
             for (int i = 0; i < count; i++)
             {
                 var serieData = serie.GetSerieData(i);
                 if (serieData == null)
+                    continue;
+                if (serieData.context.isClip)
                     continue;
 
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
@@ -199,10 +153,6 @@ namespace XCharts
                     continue;
 
                 var pos = serie.context.dataPoints[i];
-                // if (serie.animation.CheckDetailBreak(pos, isY))
-                // {
-                //     continue;
-                // }
                 if (lineArrow != null && lineArrow.show)
                 {
                     if (lineArrow.position == LineArrow.Position.Start && i == 0)
@@ -308,12 +258,13 @@ namespace XCharts
                 axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                 relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
             }
-            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
 
             if (axis == null)
                 return;
             if (relativedAxis == null)
                 return;
+
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
 
@@ -351,7 +302,7 @@ namespace XCharts
                 lastSerie = SeriesHelper.GetLastStackSerie(chart.series, serie);
                 SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
             }
-
+            var lp = Vector3.zero;
             for (int i = serie.minShow; i < maxCount; i += rate)
             {
                 var serieData = showData[i];
@@ -374,11 +325,18 @@ namespace XCharts
 
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
                         i, scaleWid, isStack, ref np);
-
-                    serieData.context.position = np;
-
-                    serie.context.dataPoints.Add(np);
+                    serieData.context.isClip = false;
+                    if (serie.clip && !m_SerieGrid.Contains(np))
+                    {
+                        if (m_SerieGrid.BoundaryPoint(lp, np, ref np))
+                        {
+                            serieData.context.isClip = true;
+                        }
+                    }
                     serie.context.dataIgnores.Add(false);
+                    serieData.context.position = np;
+                    serie.context.dataPoints.Add(np);
+                    lp = np;
                 }
             }
 

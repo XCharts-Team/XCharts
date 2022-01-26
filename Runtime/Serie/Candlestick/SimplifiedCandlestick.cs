@@ -12,7 +12,7 @@ namespace XCharts
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
 
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<SimplifiedCandlestick>(serieName);
 
@@ -26,6 +26,7 @@ namespace XCharts
                 var heighest = lastValue + Random.Range(10, 20);
                 chart.AddData(serie.index, open, close, lowest, heighest);
             }
+            return serie;
         }
 
         public static SimplifiedCandlestick CovertSerie(Serie serie)

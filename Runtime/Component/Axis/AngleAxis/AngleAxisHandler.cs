@@ -1,5 +1,3 @@
-
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -7,7 +5,7 @@ using XUGL;
 namespace XCharts
 {
     [UnityEngine.Scripting.Preserve]
-    internal sealed class AngleAxisHandler : MainComponentHandler<AngleAxis>
+    internal sealed class AngleAxisHandler : AxisHandler<AngleAxis>
     {
         public override void InitComponent()
         {
@@ -16,8 +14,9 @@ namespace XCharts
 
         public override void Update()
         {
-            component.startAngle = 90 - component.startAngle;
+            component.context.startAngle = 90 - component.startAngle;
             UpdateAxisMinMaxValue(component);
+            UpdatePointerValue(component);
         }
 
         public override void DrawBase(VertexHelper vh)
@@ -38,6 +37,8 @@ namespace XCharts
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
+                UpdateAxisTickValueList(axis);
+
                 if (updateChart)
                 {
                     UpdateAxisLabelText(axis);
@@ -49,7 +50,10 @@ namespace XCharts
         internal void UpdateAxisLabelText(AngleAxis axis)
         {
             var runtimeWidth = 360;
-            axis.UpdateLabelText(runtimeWidth, null, false);
+            if (axis.context.labelObjectList.Count <= 0)
+                InitAngleAxis(axis);
+            else
+                axis.UpdateLabelText(runtimeWidth, null, false);
         }
 
         private void InitAngleAxis(AngleAxis axis)
@@ -59,8 +63,9 @@ namespace XCharts
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             var radius = polar.context.radius;
             axis.context.labelObjectList.Clear();
+            axis.context.startAngle = 90 - axis.startAngle;
 
-            string objName = "axis_angle" + axis.index;
+            string objName = component.GetType().Name + axis.index;
             var axisObj = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
                 chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
             axisObj.transform.localPosition = Vector3.zero;
@@ -68,16 +73,16 @@ namespace XCharts
             axisObj.hideFlags = chart.chartHideFlags;
             ChartHelper.HideAllObject(axisObj);
             var splitNumber = AxisHelper.GetSplitNumber(axis, radius, null);
-            var totalAngle = axis.startAngle;
+            var totalAngle = axis.context.startAngle;
             var total = 360;
             var cenPos = polar.context.center;
             var txtHig = axis.axisLabel.textStyle.GetFontSize(chart.theme.axis) + 2;
-            var margin = axis.axisLabel.margin;
+            var margin = axis.axisLabel.margin + axis.axisTick.GetLength(chart.theme.axis.tickLength);
             var isCategory = axis.IsCategory();
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
             for (int i = 0; i < splitNumber; i++)
             {
-                float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i, null);
+                float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i + 1, null);
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.context.minValue, axis.context.maxValue,
                     null, isPercentStack);
@@ -102,24 +107,31 @@ namespace XCharts
             var cenPos = polar.context.center;
             var total = 360;
             var size = AxisHelper.GetScaleNumber(angleAxis, total, null);
-            var currAngle = angleAxis.startAngle;
+            var currAngle = angleAxis.context.startAngle;
             var tickWidth = angleAxis.axisTick.GetWidth(chart.theme.axis.tickWidth);
             var tickLength = angleAxis.axisTick.GetLength(chart.theme.axis.tickLength);
-            for (int i = 0; i < size; i++)
+            var tickColor = angleAxis.axisTick.GetColor(chart.theme.axis.lineColor);
+            var lineColor = angleAxis.axisLine.GetColor(chart.theme.axis.lineColor);
+            var splitLineColor = angleAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);
+            for (int i = 1; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(angleAxis, total, i);
                 var pos = ChartHelper.GetPos(cenPos, radius, currAngle, true);
                 if (angleAxis.show && angleAxis.splitLine.show)
                 {
-                    var splitLineColor = angleAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);
                     var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
                     UGL.DrawLine(vh, cenPos, pos, lineWidth, splitLineColor);
                 }
                 if (angleAxis.show && angleAxis.axisTick.show)
                 {
-                    var tickY = radius + tickLength;
-                    var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);
-                    UGL.DrawLine(vh, pos, tickPos, tickWidth, chart.theme.axis.lineColor);
+                    if ((i == 1 && angleAxis.axisTick.showStartTick)
+                        || (i == size - 1 && angleAxis.axisTick.showEndTick)
+                        || (i > 1 && i < size - 1))
+                    {
+                        var tickY = radius + tickLength;
+                        var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);
+                        UGL.DrawLine(vh, pos, tickPos, tickWidth, tickColor);
+                    }
                 }
                 currAngle += scaleWidth;
             }
@@ -127,8 +139,26 @@ namespace XCharts
             {
                 var lineWidth = angleAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 var outsideRaidus = radius + lineWidth * 2;
-                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, chart.theme.axis.lineColor, Color.clear);
+                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, Color.clear);
             }
+        }
+
+        protected override void UpdatePointerValue(Axis axis)
+        {
+            var polar = chart.GetChartComponent<PolarCoord>(axis.polarIndex);
+            if (polar == null)
+                return;
+
+            if (!polar.context.isPointerEnter)
+            {
+                axis.context.pointerValue = double.PositiveInfinity;
+                return;
+            }
+
+            var dir = (chart.pointerPos - new Vector2(polar.context.center.x, polar.context.center.y)).normalized;
+            var angle = ChartHelper.GetAngle360(Vector2.up, dir);
+            axis.context.pointerValue = (angle - component.context.startAngle + 360) % 360;
+            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.radius + 25);
         }
     }
 }

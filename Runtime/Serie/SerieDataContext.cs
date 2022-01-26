@@ -47,6 +47,7 @@ namespace XCharts
         public float angle { get; set; }
         public Vector3 offsetCenter { get; set; }
         public float stackHeight { get; set; }
+        public bool isClip { get; set; }
 
         public bool canShowLabel = true;
         public Image symbol { get; set; }

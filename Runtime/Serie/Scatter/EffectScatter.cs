@@ -9,7 +9,7 @@ namespace XCharts
     [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
     public class EffectScatter : BaseScatter
     {
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<EffectScatter>(serieName);
             serie.symbol.show = true;
@@ -20,6 +20,7 @@ namespace XCharts
             {
                 chart.AddData(serie.index, Random.Range(10, 100), Random.Range(10, 100));
             }
+            return serie;
         }
     }
 }

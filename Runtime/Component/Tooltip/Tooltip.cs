@@ -355,10 +355,6 @@ namespace XCharts
         /// </summary>
         public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
         private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
-        /// <summary>
-        /// 当前指示的角度。
-        /// </summary>
-        public float runtimeAngle { get; internal set; }
 
         /// <summary>
         /// Keep Tooltiop displayed at the top. 

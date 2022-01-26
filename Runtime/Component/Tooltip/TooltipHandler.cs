@@ -98,6 +98,7 @@ namespace XCharts
                     if (SetSerieTooltip(tooltip, serie))
                     {
                         showTooltip = true;
+                        chart.RefreshTopPainter();
                         return;
                     }
                 }
@@ -112,7 +113,7 @@ namespace XCharts
             ListPool<Serie>.Release(containerSeries);
             if (!showTooltip)
             {
-                if (tooltip.type == Tooltip.Type.Corss && (m_PointerContainer == null || m_PointerContainer.IsPointerEnter()))
+                if (tooltip.type == Tooltip.Type.Corss && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
                 {
                     tooltip.SetActive(true);
                     tooltip.SetContentActive(false);
@@ -149,21 +150,45 @@ namespace XCharts
                                 if (axis.gridIndex == grid.index)
                                 {
                                     var label = GetIndicatorLabel(labelCount++);
-                                    if (label == null) continue;
-                                    label.SetActive(true);
-                                    label.SetPosition(axis.context.pointerLabelPosition);
-                                    if (axis.IsCategory())
-                                        label.SetText(axis.GetData((int)axis.context.pointerValue));
-                                    else
-                                        label.SetText(axis.context.pointerValue.ToString("f2"));
-                                    var textColor = axis.axisLabel.textStyle.GetColor(chart.theme.axis.textColor);
-                                    label.labelBackground.color = textColor;
+                                    SetTooltipIndicatorLabel(axis, label);
+                                }
+                            }
+                        }
+                    }
+                    else if (m_PointerContainer is PolarCoord)
+                    {
+                        var polar = m_PointerContainer as PolarCoord;
+                        ChartHelper.HideAllObject(m_LabelRoot);
+                        foreach (var component in chart.components)
+                        {
+                            if (component is AngleAxis || component is RadiusAxis)
+                            {
+                                var axis = component as Axis;
+                                if (axis.polarIndex == polar.index)
+                                {
+                                    var label = GetIndicatorLabel(labelCount++);
+                                    SetTooltipIndicatorLabel(axis, label);
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+
+        private void SetTooltipIndicatorLabel(Axis axis, ChartLabel label)
+        {
+            if (label == null) return;
+            label.SetActive(true);
+            label.SetLabelActive(true);
+            label.SetPosition(axis.context.pointerLabelPosition);
+            if (axis.IsCategory())
+                label.SetText(axis.GetData((int)axis.context.pointerValue));
+            else
+                label.SetText(axis.context.pointerValue.ToString("f2"));
+            var textColor = axis.axisLabel.textStyle.GetColor(chart.theme.axis.textColor);
+            label.labelBackground.color = textColor;
+            label.SetTextColor(Color.white);
         }
 
         private ISerieContainer GetPointerContainerAndSeries(Tooltip tooltip, List<Serie> list)
@@ -190,6 +215,11 @@ namespace XCharts
                                         var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
                                         serie.context.pointerEnter = true;
                                         UpdateAxisPointerDataIndex(serie, xAxis, yAxis, container as GridCoord);
+                                    }
+                                    else if (container is PolarCoord)
+                                    {
+                                        var m_AngleAxis = ComponentHelper.GetAngleAxis(chart.components, container.index);
+                                        tooltip.context.angle = (float)m_AngleAxis.context.pointerValue;
                                     }
                                     list.Add(serie);
                                 }
@@ -351,14 +381,15 @@ namespace XCharts
                     else
                         tooltip.context.data.title = category;
                 }
-
             }
+
             for (int i = 0; i < series.Count; i++)
             {
                 var serie = series[i];
                 serie.context.isTriggerByAxis = isTriggerByAxis;
                 if (isTriggerByAxis && dataIndex >= 0)
                     serie.context.pointerItemDataIndex = dataIndex;
+
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
                     ref tooltip.context.data.param,
@@ -447,7 +478,22 @@ namespace XCharts
                             Vector2 sp = new Vector2(pX, grid.context.y);
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
+                            if (xAxis.IsCategory())
+                            {
+                                float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
+                                pX = (float)(grid.context.x + splitWidth * xAxis.context.pointerValue -
+                                    (xAxis.boundaryGap ? 0 : splitWidth / 2));
+                                float pY = grid.context.y + grid.context.height;
+                                Vector3 p1 = new Vector3(pX, grid.context.y);
+                                Vector3 p2 = new Vector3(pX, pY);
+                                Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
+                                Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
+                                UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
+                            }
+                            else
+                            {
+                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
+                            }
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(grid.context.x, chart.pointerPos.y);
@@ -496,7 +542,22 @@ namespace XCharts
                             Vector2 sp = new Vector2(grid.context.x, pY);
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
+                            if (yAxis.IsCategory())
+                            {
+                                float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
+                                float pX = grid.context.x + grid.context.width;
+                                pY = (float)(grid.context.y + splitWidth * yAxis.context.pointerValue -
+                                    (yAxis.boundaryGap ? 0 : splitWidth / 2));
+                                Vector3 p1 = new Vector3(grid.context.x, pY);
+                                Vector3 p2 = new Vector3(grid.context.x, pY + tooltipSplitWid);
+                                Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
+                                Vector3 p4 = new Vector3(pX, pY);
+                                UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
+                            }
+                            else
+                            {
+                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
+                            }
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(chart.pointerPos.x, grid.context.y);
@@ -525,7 +586,7 @@ namespace XCharts
 
         private void DrawPolarIndicator(VertexHelper vh, Tooltip tooltip, PolarCoord m_Polar)
         {
-            if (tooltip.runtimeAngle < 0) return;
+            if (tooltip.context.angle < 0) return;
             var theme = chart.theme;
             var m_AngleAxis = ComponentHelper.GetAngleAxis(chart.components, m_Polar.index);
             var lineColor = TooltipHelper.GetLineColor(tooltip, theme);
@@ -534,7 +595,8 @@ namespace XCharts
             var cenPos = m_Polar.context.center;
             var radius = m_Polar.context.radius;
             var sp = m_Polar.context.center;
-            var tooltipAngle = tooltip.runtimeAngle + m_AngleAxis.startAngle;
+            var tooltipAngle = m_AngleAxis.GetValueAngle(tooltip.context.angle);
+
             var ep = ChartHelper.GetPos(sp, radius, tooltipAngle, true);
 
             switch (tooltip.type)

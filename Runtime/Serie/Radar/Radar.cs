@@ -14,7 +14,7 @@ namespace XCharts
         public int containterInstanceId { get; internal set; }
 
         public override bool useDataNameForColor { get { return true; } }
-        public static void AddDefaultSerie(BaseChart chart, string serieName)
+        public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             chart.AddChartComponentWhenNoExist<RadarCoord>();
             var serie = chart.AddSerie<Radar>(serieName);
@@ -27,6 +27,7 @@ namespace XCharts
                 data.Add(Random.Range(20, 90));
             }
             chart.AddData(serie.index, data, "legendName");
+            return serie;
         }
     }
 }

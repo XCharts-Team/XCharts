@@ -1,12 +1,5 @@
-
-
-
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System.IO;
 #if UNITY_EDITOR

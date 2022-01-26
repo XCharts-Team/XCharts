@@ -4,11 +4,11 @@ using UnityEngine;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    //[ExecuteInEditMode]
+    [ExecuteInEditMode]
     [RequireComponent(typeof(BaseChart))]
     public class Example_LargeData : MonoBehaviour
     {
-        public int maxCacheDataNumber = 3000;
+        public int maxCacheDataNumber = 1000;
         public float initDataTime = 5;
 
         private BaseChart chart;

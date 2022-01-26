@@ -189,7 +189,6 @@ namespace XCharts.Editor
         {
             m_SerializedObject.Update();
             var serieName = chart.GenerateDefaultSerieName();
-            UnityEngine.Debug.LogError("AddSerie:" + type);
             type.InvokeMember("AddDefaultSerie",
                 BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null,
                 new object[] { chart, serieName });

@@ -139,6 +139,12 @@ namespace XCharts.Editor
         {
             AddChart<CandlestickChart>("CandlestickChart");
         }
+        [MenuItem("XCharts/PolarChart", priority = 54)]
+        [MenuItem("GameObject/XCharts/PolarChart", priority = 54)]
+        public static void PolarChart()
+        {
+            AddChart<PolarChart>("PolarChart");
+        }
 
         [MenuItem("XCharts/ParallelChart", priority = 55)]
         [MenuItem("GameObject/XCharts/ParallelChart", priority = 55)]

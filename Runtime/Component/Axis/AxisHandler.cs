@@ -24,9 +24,9 @@ namespace XCharts
             return Vector3.zero;
         }
 
-        protected virtual Orient orient { get; }
+        protected virtual Orient orient { get; set; }
 
-        protected void UpdatePointerValue(Axis axis)
+        protected virtual void UpdatePointerValue(Axis axis)
         {
             var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (grid == null)
@@ -256,6 +256,7 @@ namespace XCharts
 
         private static double GetTick(double max)
         {
+            if (max <= 1) return max / 5;
             var bigger = Math.Ceiling(Math.Abs(max));
             int n = 1;
             while (bigger / (Mathf.Pow(10, n)) > 10)

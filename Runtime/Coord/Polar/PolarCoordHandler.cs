@@ -12,6 +12,11 @@ namespace XCharts
         public override void Update()
         {
             PolarHelper.UpdatePolarCenter(component, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+
+            if (chart.isPointerInChart)
+                component.context.isPointerEnter = component.Contains(chart.pointerPos);
+            else
+                component.context.isPointerEnter = false;
         }
 
         public override void DrawBase(VertexHelper vh)

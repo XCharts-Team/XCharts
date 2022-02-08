@@ -848,7 +848,8 @@ namespace XCharts
         private Vector3 GetLabelYPosition(float scaleWid, int i, int yAxisIndex, YAxis yAxis)
         {
             var grid = GetAxisGridOrDefault(yAxis);
-            var startX = yAxis.IsLeft() ? grid.runtimeX : grid.runtimeX + grid.runtimeWidth;
+            var startX = grid.runtimeX + (yAxis.axisLabel.onZero ? m_XAxes[yAxisIndex].runtimeZeroXOffset : 0);
+            if (yAxis.IsRight()) startX += grid.runtimeWidth;
             var posX = 0f;
             var inside = yAxis.axisLabel.inside;
             if ((inside && yAxis.IsLeft()) || (!inside && yAxis.IsRight()))
@@ -1700,7 +1701,7 @@ namespace XCharts
         {
             ClampInChart(ref p1);
             ClampInChart(ref p2);
-            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor,maxDistance);
+            UGL.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color, toColor, maxDistance);
         }
 
         protected Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, Grid grid)

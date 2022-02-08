@@ -42,6 +42,7 @@
 
 ## branch-2.0
 
+* (2022.02.08) Fixed `YAxis` `AxisLabel`'s `onZero` does not work
 * (2022.01.06) Improved `Zebra` bar chart
 
 ## v2.6.0

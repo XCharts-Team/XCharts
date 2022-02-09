@@ -248,6 +248,8 @@ namespace XCharts
                     {
                         if (total != 0)
                             content = content.Replace(old, ChartCached.FloatToStr(value / total * 100, numericFormatter));
+                        else
+                            content = content.Replace(old, ChartCached.FloatToStr(0, numericFormatter));
                     }
                     else
                     {

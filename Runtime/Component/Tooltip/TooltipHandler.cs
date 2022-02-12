@@ -478,7 +478,7 @@ namespace XCharts
                             Vector2 sp = new Vector2(pX, grid.context.y);
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            if (xAxis.IsCategory())
+                            if (xAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
                             {
                                 float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                                 pX = (float)(grid.context.x + splitWidth * xAxis.context.pointerValue -
@@ -542,7 +542,7 @@ namespace XCharts
                             Vector2 sp = new Vector2(grid.context.x, pY);
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            if (yAxis.IsCategory())
+                            if (yAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
                             {
                                 float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                                 float pX = grid.context.x + grid.context.width;

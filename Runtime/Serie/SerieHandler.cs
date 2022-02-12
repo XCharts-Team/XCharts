@@ -294,7 +294,6 @@ namespace XCharts
 
                 serieData.labelObject.SetPosition(serieData.context.position);
                 serieData.labelObject.UpdateIcon(iconStyle);
-
                 if (serie.show
                     && currLabel != null
                     && (currLabel.show || isHighlight)
@@ -414,7 +413,7 @@ namespace XCharts
             param.serieData = serieData;
             param.value = serieData.GetData(param.dimension);
             param.total = SerieHelper.GetMaxData(serie, dimension);
-            param.color = chart.theme.GetColor(dataIndex);
+            param.color = chart.GetLegendRealShowNameColor(serieData.name);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = itemFormatter;
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);

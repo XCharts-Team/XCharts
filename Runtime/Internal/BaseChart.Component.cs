@@ -55,12 +55,12 @@ namespace XCharts
         {
             if (!CanAddChartComponent(type))
             {
-                throw new InvalidOperationException("DisallowMultipleComponent:" + type.Name);
+                throw new InvalidOperationException("CanAddChartComponent:" + type.Name);
             }
             CheckAddRequireChartComponent(type);
             var component = Activator.CreateInstance(type) as MainComponent;
             if (component == null)
-                throw new InvalidOperationException("DisallowMultipleComponent:" + type.Name);
+                throw new InvalidOperationException("CanAddChartComponent:" + type.Name);
             component.SetDefaultValue();
             if (component is IUpdateRuntimeData)
                 (component as IUpdateRuntimeData).UpdateRuntimeData(chartX, chartY, chartWidth, chartHeight);

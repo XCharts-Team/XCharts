@@ -31,19 +31,18 @@ namespace XCharts
             var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (grid == null)
                 return;
-
             if (!grid.context.isPointerEnter)
             {
                 axis.context.pointerValue = double.PositiveInfinity;
             }
             else
             {
+                var lastPointerValue = axis.context.pointerValue;
                 if (axis.IsCategory())
                 {
                     var dataZoom = chart.GetDataZoomOfAxis(axis);
                     var dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     var local = chart.pointerPos;
-
                     for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
                     {
                         if (axis is YAxis)
@@ -55,6 +54,11 @@ namespace XCharts
                             {
                                 axis.context.pointerValue = j;
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
+                                if (j != lastPointerValue)
+                                {
+                                    if (chart.onUpdateAxisPointer != null)
+                                        chart.onUpdateAxisPointer(axis, j);
+                                }
                                 break;
                             }
                         }
@@ -67,6 +71,11 @@ namespace XCharts
                             {
                                 axis.context.pointerValue = j;
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
+                                if (j != lastPointerValue)
+                                {
+                                    if (chart.onUpdateAxisPointer != null)
+                                        chart.onUpdateAxisPointer(axis, j);
+                                }
                                 break;
                             }
                         }
@@ -85,6 +94,11 @@ namespace XCharts
                         var labelX = axis.GetLabelObjectPosition(0).x;
                         axis.context.pointerValue = yValue;
                         axis.context.pointerLabelPosition = new Vector3(labelX, chart.pointerPos.y);
+                        if (yValue != lastPointerValue)
+                        {
+                            if (chart.onUpdateAxisPointer != null)
+                                chart.onUpdateAxisPointer(axis, yValue);
+                        }
                     }
                     else
                     {
@@ -97,6 +111,11 @@ namespace XCharts
                         var labelY = axis.GetLabelObjectPosition(0).y;
                         axis.context.pointerValue = xValue;
                         axis.context.pointerLabelPosition = new Vector3(chart.pointerPos.x, labelY);
+                        if (xValue != lastPointerValue)
+                        {
+                            if (chart.onUpdateAxisPointer != null)
+                                chart.onUpdateAxisPointer(axis, xValue);
+                        }
                     }
                 }
             }

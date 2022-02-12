@@ -87,6 +87,7 @@ namespace XCharts
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
         protected Action<PointerEventData, int> m_OnPointerClickBar;
+        protected Action<Axis, double> m_OnUpdateAxisPointer;
 
         internal bool m_CheckAnimation = false;
         internal protected List<string> m_LegendRealShowName = new List<string>();
@@ -309,7 +310,7 @@ namespace XCharts
                 painter.onPopulateMesh = OnDrawPainterSerie;
                 painter.SetActive(false, m_DebugMode);
                 painter.material = settings.seriePainterMaterial;
-                painter.transform.SetSiblingIndex(i + 1);
+                painter.transform.SetSiblingIndex(index + 1);
                 m_PainterList.Add(painter);
             }
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
@@ -318,7 +319,7 @@ namespace XCharts
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugMode);
             m_PainterTop.material = settings.topPainterMaterial;
-            m_PainterTop.transform.SetSiblingIndex(settings.maxPainter);
+            m_PainterTop.transform.SetSiblingIndex(settings.maxPainter + 1);
         }
 
         internal void InitComponentHandlers()

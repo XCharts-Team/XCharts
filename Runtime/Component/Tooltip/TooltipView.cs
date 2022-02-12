@@ -57,8 +57,8 @@ namespace XCharts
 
         public void SetActive(bool flag)
         {
-            m_Active = flag;
-            ChartHelper.SetActive(gameObject, flag);
+            m_Active = flag && tooltip.showContent;
+            ChartHelper.SetActive(gameObject, m_Active);
         }
 
         public void Refresh()

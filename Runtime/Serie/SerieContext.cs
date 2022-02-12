@@ -92,11 +92,11 @@ namespace XCharts
         /// <summary>
         /// theme的颜色索引
         /// </summary>
-        internal int colorIndex;
+        public int colorIndex;
         /// <summary>
         /// 绘制点
         /// </summary>
-        internal List<PointInfo> drawPoints = new List<PointInfo>();
+        public List<PointInfo> drawPoints = new List<PointInfo>();
         public SerieParams param = new SerieParams();
     }
 }

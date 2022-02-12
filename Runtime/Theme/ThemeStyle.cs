@@ -41,6 +41,7 @@ namespace XCharts
     {
         [SerializeField] private Theme m_SharedTheme;
         [SerializeField] private bool m_EnableCustomTheme;
+        [SerializeField] private Font m_CustomFont;
         [SerializeField] private Color32 m_CustomBackgroundColor;
 #if UNITY_2020_2
         [NonReorderable]

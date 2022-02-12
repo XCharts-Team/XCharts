@@ -77,7 +77,8 @@ namespace XCharts
         [SerializeField] private int m_PaddingTopBottom = 10;
         [SerializeField] private bool m_IgnoreDataShow = false;
         [SerializeField] private string m_IgnoreDataDefaultContent = "-";
-        [SerializeField] private bool m_AlwayShow = false;
+        [SerializeField] private bool m_ShowContent = true;
+        [SerializeField] private bool m_AlwayShowContent = false;
         [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private Color m_BackgroundColor;
@@ -241,9 +242,15 @@ namespace XCharts
         public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; SetComponentDirty(); } }
         /// <summary>
         /// Whether to trigger after always display.
-        /// 是否触发后一直显示。
+        /// 是否触发后一直显示提示框浮层。
         /// </summary>
-        public bool alwayShow { get { return m_AlwayShow; } set { m_AlwayShow = value; } }
+        public bool alwayShowContent { get { return m_AlwayShowContent; } set { m_AlwayShowContent = value; } }
+        /// <summary>
+        /// Whether to show the tooltip floating layer, whose default value is true. 
+        /// It should be configurated to be false, if you only need tooltip to trigger the event or show the axisPointer without content.
+        /// 是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
+        /// </summary>
+        public bool showContent { get { return m_ShowContent; } set { m_ShowContent = value; } }
         /// <summary>
         /// The position offset of tooltip relative to the mouse position.
         /// 提示框相对于鼠标位置的偏移。
@@ -395,7 +402,7 @@ namespace XCharts
         {
             if (gameObject && gameObject.activeInHierarchy != flag)
             {
-                gameObject.SetActive(alwayShow ? true : flag);
+                gameObject.SetActive(alwayShowContent ? true : flag);
             }
             SetContentActive(flag);
         }
@@ -422,7 +429,8 @@ namespace XCharts
         {
             if (view == null)
                 return;
-            view.SetActive(alwayShow ? true : flag);
+            
+            view.SetActive(alwayShowContent ? true : flag);
         }
 
         /// <summary>

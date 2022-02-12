@@ -484,6 +484,26 @@ namespace XCharts
             return false;
         }
 
+        public double GetData(string serieName, int dataIndex, int dimension = 1)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                return serie.GetData(dataIndex, dimension);
+            }
+            return 0;
+        }
+
+        public double GetData(int serieIndex, int dataIndex, int dimension = 1)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                return serie.GetData(dataIndex, dimension);
+            }
+            return 0;
+        }
+
         public int GetAllSerieDataCount()
         {
             var total = 0;

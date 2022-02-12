@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -34,9 +35,8 @@ MonoBehaviour:
   m_VisualMapBorderWidth: 0
   m_SerieLineWidth: 1.8
   m_SerieLineSymbolSize: 5
-  m_SerieLineSymbolSelectedSize: 7
   m_SerieScatterSymbolSize: 20
-  m_SerieScatterSymbolSelectedSize: 30
+  m_SerieSelectedRate: 1.3
   m_SerieCandlestickBorderWidth: 1
   m_EditorShowAllListData: 0
   m_MaxPainter: 10
@@ -53,3 +53,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 11400000, guid: 0a4f01779f9b24f48846f968fe013a57, type: 2}
+  - {fileID: 11400000, guid: 4d093c897dc514d12aca94b6b17cb4fa, type: 2}

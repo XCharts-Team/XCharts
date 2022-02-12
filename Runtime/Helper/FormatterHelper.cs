@@ -238,18 +238,14 @@ namespace XCharts
                 {
                     content = content.Replace(old, dataName);
                 }
-                else if (p == 'c' || p == 'C' || p == 'd' || p == 'D')
+                else if (p == 'd' || p == 'D')
                 {
-                    var isPercent = p == 'd' || p == 'D';
-                    if (isPercent)
-                    {
-                        if (total != 0)
-                            content = content.Replace(old, ChartCached.FloatToStr(value / total * 100, numericFormatter));
-                    }
-                    else
-                    {
-                        content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
-                    }
+                    var rate = total == 0 ? 0 : value / total * 100;
+                    content = content.Replace(old, ChartCached.FloatToStr(rate, numericFormatter));
+                }
+                else if (p == 'c' || p == 'C')
+                {
+                    content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
                 }
             }
             content = TrimAndReplaceLine(content);

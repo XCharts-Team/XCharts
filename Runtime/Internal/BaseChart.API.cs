@@ -96,6 +96,10 @@ namespace XCharts
         /// </summary>
         public Action<PointerEventData, int> onPointerClickBar { set { m_OnPointerClickBar = value; m_ForceOpenRaycastTarget = true; } }
         /// <summary>
+        /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
+        /// </summary>
+        public Action<Axis, double> onUpdateAxisPointer { set { m_OnUpdateAxisPointer = value; } get { return m_OnUpdateAxisPointer; } }
+        /// <summary>
         /// Redraw chart in next frame.
         /// 在下一帧刷新图表。
         /// </summary>

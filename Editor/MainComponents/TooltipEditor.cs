@@ -11,7 +11,8 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             PropertyField("m_Type");
             PropertyField("m_Trigger");
-            PropertyField("m_AlwayShow");
+            PropertyField("m_ShowContent");
+            PropertyField("m_AlwayShowContent");
             PropertyField("m_TitleFormatter");
             PropertyField("m_ItemFormatter");
             PropertyField("m_NumericFormatter");

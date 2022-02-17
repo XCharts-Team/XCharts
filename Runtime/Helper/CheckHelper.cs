@@ -18,12 +18,18 @@ namespace XCharts
 
         public static string CheckChart(BaseGraph chart)
         {
-            if (chart is BaseChart) return CheckChart((BaseChart)chart);
-            else return string.Empty;
+            if(chart == null)
+                return string.Empty;
+            if (chart is BaseChart)
+                return CheckChart((BaseChart)chart);
+            else
+                return string.Empty;
         }
 
         public static string CheckChart(BaseChart chart)
         {
+            if(chart == null)
+                return string.Empty;
             var sb = ChartHelper.sb;
             sb.Length = 0;
             CheckName(chart, sb);

@@ -1082,7 +1082,7 @@ namespace XCharts
                             new Vector2(grid.runtimeX, pY + scaleWidth),
                             yAxis.splitArea.GetColor(i, m_Theme.axis));
                     }
-                    if (yAxis.splitLine.show)
+                    if (yAxis.splitLine.show && pY >= grid.runtimeY)
                     {
                         if (!xAxis.axisLine.show || !xAxis.axisLine.onZero || zeroPos.y != pY)
                         {
@@ -1200,7 +1200,7 @@ namespace XCharts
                             new Vector2(pX + scaleWidth, grid.runtimeY),
                             xAxis.splitArea.GetColor(i, m_Theme.axis));
                     }
-                    if (xAxis.splitLine.show)
+                    if (xAxis.splitLine.show && pX >= grid.runtimeX)
                     {
                         if (!yAxis.axisLine.show || !yAxis.axisLine.onZero || zeroPos.x != pX)
                         {

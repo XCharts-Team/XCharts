@@ -77,7 +77,7 @@ namespace XCharts
             var total = 360;
             var cenPos = polar.context.center;
             var txtHig = axis.axisLabel.textStyle.GetFontSize(chart.theme.axis) + 2;
-            var margin = axis.axisLabel.margin + axis.axisTick.GetLength(chart.theme.axis.tickLength);
+            var margin = axis.axisLabel.distance + axis.axisTick.GetLength(chart.theme.axis.tickLength);
             var isCategory = axis.IsCategory();
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
             for (int i = 0; i < splitNumber; i++)

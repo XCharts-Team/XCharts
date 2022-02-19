@@ -39,11 +39,11 @@ namespace XCharts
         /// <summary>
         /// 内半径
         /// </summary>
-        public float insideRadius { get; internal set; }
+        public float insideRadius { get; set; }
         /// <summary>
         /// 外半径
         /// </summary>
-        public float outsideRadius { get; internal set; }
+        public float outsideRadius { get; set; }
         /// <summary>
         /// 最大值
         /// </summary>

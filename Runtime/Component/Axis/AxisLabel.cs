@@ -16,7 +16,7 @@ namespace XCharts
         [SerializeField] private string m_Formatter;
         [SerializeField] private int m_Interval = 0;
         [SerializeField] private bool m_Inside = false;
-        [SerializeField] private float m_Margin;
+        [SerializeField] private float m_Distance;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_OnZero = false;
@@ -56,13 +56,13 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_Inside, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// The margin between the axis label and the axis line.
+        /// The distance between the axis label and the axis line.
         /// 刻度标签与轴线之间的距离。
         /// </summary>
-        public float margin
+        public float distance
         {
-            get { return m_Margin; }
-            set { if (PropertyUtil.SetStruct(ref m_Margin, value)) SetComponentDirty(); }
+            get { return m_Distance; }
+            set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
@@ -179,7 +179,7 @@ namespace XCharts
                     m_Show = true,
                     m_Interval = 0,
                     m_Inside = false,
-                    m_Margin = 8,
+                    m_Distance = 8,
                     m_TextStyle = new TextStyle(),
                 };
             }
@@ -192,7 +192,7 @@ namespace XCharts
             axisLabel.formatter = formatter;
             axisLabel.interval = interval;
             axisLabel.inside = inside;
-            axisLabel.margin = margin;
+            axisLabel.distance = distance;
             axisLabel.numericFormatter = numericFormatter;
             axisLabel.width = width;
             axisLabel.height = height;
@@ -209,7 +209,7 @@ namespace XCharts
             formatter = axisLabel.formatter;
             interval = axisLabel.interval;
             inside = axisLabel.inside;
-            margin = axisLabel.margin;
+            distance = axisLabel.distance;
             numericFormatter = axisLabel.numericFormatter;
             width = axisLabel.width;
             height = axisLabel.height;

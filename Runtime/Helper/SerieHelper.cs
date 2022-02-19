@@ -474,6 +474,12 @@ namespace XCharts
             else return serie.areaStyle;
         }
 
+        public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)
+        {
+            if (serieData != null && serieData.titleStyle != null) return serieData.titleStyle;
+            else return serie.titleStyle;
+        }
+
         public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
             Color32 color = ChartConst.clearColor32;

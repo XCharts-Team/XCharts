@@ -73,17 +73,15 @@ namespace XCharts
         [SerializeField] private bool m_Show = true;
         [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
-        [SerializeField] private float m_Margin;
+        [SerializeField] private float m_Distance;
         [SerializeField] private string m_Formatter;
         [SerializeField] private float m_PaddingLeftRight = 2f;
         [SerializeField] private float m_PaddingTopBottom = 2f;
         [SerializeField] private float m_BackgroundWidth = 0;
         [SerializeField] private float m_BackgroundHeight = 0;
-        [SerializeField] private bool m_Border = false;
-        [SerializeField] private float m_BorderWidth = 0.5f;
-        [SerializeField] private Color32 m_BorderColor = ChartConst.greyColor32;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
+        [SerializeField] private bool m_AutoColor = false;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         private DelegateSerieLabelFormatter m_FormatterFunction;
 
@@ -92,16 +90,14 @@ namespace XCharts
             m_Show = false;
             m_Position = Position.Outside;
             m_Offset = Vector3.zero;
-            m_Margin = 0;
+            m_Distance = 0;
             m_PaddingLeftRight = 2f;
             m_PaddingTopBottom = 2f;
             m_BackgroundWidth = 0;
             m_BackgroundHeight = 0;
-            m_Border = false;
-            m_BorderWidth = 0.5f;
-            m_BorderColor = Color.grey;
             m_NumericFormatter = "";
             m_AutoOffset = false;
+            m_AutoColor = false;
         }
 
         /// <summary>
@@ -152,10 +148,10 @@ namespace XCharts
         /// <summary>
         /// 距离轴线的距离。
         /// </summary>
-        public float margin
+        public float distance
         {
-            get { return m_Margin; }
-            set { if (PropertyUtil.SetStruct(ref m_Margin, value)) SetVerticesDirty(); }
+            get { return m_Distance; }
+            set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
@@ -196,33 +192,6 @@ namespace XCharts
             set { if (PropertyUtil.SetStruct(ref m_PaddingTopBottom, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Whether to show border.
-        /// 是否显示边框。
-        /// </summary>
-        public bool border
-        {
-            get { return m_Border; }
-            set { if (PropertyUtil.SetStruct(ref m_Border, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the width of border.
-        /// 边框宽度。
-        /// </summary>
-        public float borderWidth
-        {
-            get { return m_BorderWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of border.
-        /// 边框颜色。
-        /// </summary>
-        public Color32 borderColor
-        {
-            get { return m_BorderColor; }
-            set { if (PropertyUtil.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// Standard numeric format strings.
         /// 标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
@@ -241,6 +210,14 @@ namespace XCharts
         {
             get { return m_AutoOffset; }
             set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 是否开启自动颜色。当开启时，会根据已支持的serie自动设置颜色。
+        /// </summary>
+        public bool autoColor
+        {
+            get { return m_AutoColor; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetAllDirty(); }
         }
 
         /// <summary>
@@ -262,6 +239,14 @@ namespace XCharts
         public bool IsInside()
         {
             return position == Position.Inside || position == Position.Center;
+        }
+
+        public Vector3 GetOffset(float radius)
+        {
+            var x = ChartHelper.GetActualValue(m_Offset.x, radius);
+            var y = ChartHelper.GetActualValue(m_Offset.y, radius);
+            var z = ChartHelper.GetActualValue(m_Offset.z, radius);
+            return new Vector3(x, y, z);
         }
 
         public Color GetColor(Color defaultColor)

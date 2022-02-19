@@ -247,12 +247,12 @@ namespace XCharts
                 case LabelStyle.Position.Bottom:
                     var px1 = Mathf.Sin(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var py1 = Mathf.Cos(startAngle * Mathf.Deg2Rad) * centerRadius;
-                    var xDiff = serie.clockwise ? -label.margin : label.margin;
+                    var xDiff = serie.clockwise ? -label.distance : label.distance;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
                     break;
                 case LabelStyle.Position.Top:
-                    startAngle += serie.clockwise ? -label.margin : label.margin;
-                    toAngle += serie.clockwise ? label.margin : -label.margin;
+                    startAngle += serie.clockwise ? -label.distance : label.distance;
+                    toAngle += serie.clockwise ? label.distance : -label.distance;
                     var px2 = Mathf.Sin(toAngle * Mathf.Deg2Rad) * centerRadius;
                     var py2 = Mathf.Cos(toAngle * Mathf.Deg2Rad) * centerRadius;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px2, py2);

@@ -208,8 +208,6 @@ namespace XCharts.Example
         {
             chart.GetChartComponent<Title>().subText = "SerieLabel 文本标签";
             serie.AddExtraComponent<LabelStyle>();
-            serie.label.show = true;
-            serie.label.border = false;
             chart.RefreshChart();
             while (serie.label.offset[1] < 20)
             {
@@ -219,7 +217,6 @@ namespace XCharts.Example
             }
             yield return new WaitForSeconds(1);
 
-            serie.label.border = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 

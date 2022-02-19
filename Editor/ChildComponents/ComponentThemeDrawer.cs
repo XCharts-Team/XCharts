@@ -25,7 +25,6 @@ namespace XCharts.Editor
 #endif
                 PropertyField(prop, "m_FontSize");
                 PropertyField(prop, "m_TextColor");
-                //PropertyField(prop, "m_TextBackgroundColor");
                 DrawExtendeds(prop);
                 --EditorGUI.indentLevel;
             }
@@ -75,27 +74,6 @@ namespace XCharts.Editor
             }
         }
     }
-    [CustomPropertyDrawer(typeof(GaugeAxisTheme), true)]
-    public class GaugeAxisThemeDrawer : AxisThemeDrawer
-    {
-        public override string ClassName { get { return "Gauge Axis"; } }
-        public override List<string> IngorePropertys
-        {
-            get
-            {
-                return new List<string> {
-                    "m_TextBackgroundColor" ,
-                    "m_LineLength",
-                };
-            }
-        }
-        protected override void DrawExtendeds(SerializedProperty prop)
-        {
-            base.DrawExtendeds(prop);
-            PropertyField(prop, "m_BarBackgroundColor");
-            PropertyField(prop, "m_StageColor");
-        }
-    }
 
     [CustomPropertyDrawer(typeof(DataZoomTheme), true)]
     public class DataZoomThemeDrawer : ComponentThemeDrawer
@@ -133,8 +111,6 @@ namespace XCharts.Editor
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
-            PropertyField(prop, "m_BorderWidth");
-            PropertyField(prop, "m_BorderColor");
             PropertyField(prop, "m_LineType");
             PropertyField(prop, "m_LineWidth");
             PropertyField(prop, "m_LineColor");

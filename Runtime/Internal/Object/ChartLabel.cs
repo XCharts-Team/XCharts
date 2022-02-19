@@ -188,8 +188,10 @@ namespace XCharts
                         m_LabelRect.sizeDelta = newSize;
                         if (m_LabelBackgroundRect != null)
                             m_LabelBackgroundRect.sizeDelta = newSize;
-
+                        if (!isIconActive && m_ObjectRect != null)
+                            m_ObjectRect.sizeDelta = newSize;
                         AdjustIconPos();
+
                     }
                     return sizeChange;
                 }

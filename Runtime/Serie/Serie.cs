@@ -235,7 +235,6 @@ namespace XCharts
         [SerializeField] private SymbolStyle m_Symbol = new SymbolStyle();
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
-        [SerializeField] private TitleStyle m_TitleStyle = new TitleStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] internal int m_FilterStart;
@@ -710,14 +709,6 @@ namespace XCharts
             set { if (PropertyUtil.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 标题样式。
-        /// </summary>
-        public TitleStyle titleStyle
-        {
-            get { return m_TitleStyle; }
-            set { if (PropertyUtil.SetClass(ref m_TitleStyle, value, true)) SetAllDirty(); }
-        }
-        /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
         public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = value; } }
@@ -879,18 +870,25 @@ namespace XCharts
                     itemStyle.vertsDirty ||
                     (areaStyle != null && areaStyle.vertsDirty) ||
                     (label != null && label.vertsDirty) ||
-                    (emphasis != null && emphasis.vertsDirty);
+                    (emphasis != null && emphasis.vertsDirty) ||
+                    (titleStyle != null && titleStyle.vertsDirty);
             }
         }
 
-        public override bool componentDirty { get { return m_ComponentDirty || titleStyle.componentDirty; } }
+        public override bool componentDirty
+        {
+            get
+            {
+                return m_ComponentDirty
+                    || (titleStyle != null && titleStyle.componentDirty);
+            }
+        }
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
-            titleStyle.ClearVerticesDirty();
             if (iconStyle != null)
                 iconStyle.ClearVerticesDirty();
             if (areaStyle != null)
@@ -901,6 +899,8 @@ namespace XCharts
                 emphasis.ClearVerticesDirty();
             if (lineArrow != null)
                 lineArrow.ClearVerticesDirty();
+            if (titleStyle != null)
+                titleStyle.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
@@ -909,8 +909,6 @@ namespace XCharts
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
-            emphasis.ClearComponentDirty();
-            titleStyle.ClearComponentDirty();
             if (iconStyle != null)
                 iconStyle.ClearComponentDirty();
             if (areaStyle != null)
@@ -921,6 +919,8 @@ namespace XCharts
                 emphasis.ClearComponentDirty();
             if (lineArrow != null)
                 lineArrow.ClearComponentDirty();
+            if (titleStyle != null)
+                titleStyle.ClearComponentDirty();
         }
 
         public override void SetAllDirty()

@@ -12,6 +12,15 @@ namespace XCharts
     public class AxisSplitLine : BaseLine
     {
         [SerializeField] private int m_Interval;
+        [SerializeField] private float m_Distance;
+        [SerializeField] private bool m_AutoColor;
+
+        /// <summary>
+        /// The distance between the split line and axis line.
+        /// 刻度线与轴线的距离。
+        /// </summary>
+        public float distance { get { return m_Distance; } set { m_Distance = value; } }
+        public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }
 
         public int interval
         {

@@ -151,7 +151,6 @@ namespace XCharts.Example
             serie1.label.position = LabelStyle.Position.Inside;
             serie1.label.textStyle.color = Color.white;
             serie1.label.textStyle.fontSize = 14;
-            serie1.label.border = false;
 
             chart.RefreshChart();
             yield return new WaitForSeconds(1);

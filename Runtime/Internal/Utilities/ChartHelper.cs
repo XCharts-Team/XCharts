@@ -415,6 +415,21 @@ namespace XCharts
             return label;
         }
 
+        public static ChartLabel AddDefaultChartLabel(string name, Transform parent,
+            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme,
+            string content)
+        {
+            var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme);
+            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, 0, 0);
+            label.SetAutoSize(true);
+            label.label.SetActive(true);
+            label.SetText(content);
+            label.color = textStyle.color;
+            return label;
+        }
+
         internal static GameObject AddSerieLabel(string name, Transform parent, float width, float height,
             Color color, TextStyle textStyle, ThemeStyle theme)
         {
@@ -905,6 +920,12 @@ namespace XCharts
         public static bool IsColorAlphaZero(Color color)
         {
             return !ChartHelper.IsClearColor(color) && color.a == 0;
+        }
+
+        public static float GetActualValue(float valueOrRate, float total)
+        {
+            if (valueOrRate >= -1.5f && valueOrRate <= 1.5f) return valueOrRate * total;
+            else return valueOrRate;
         }
     }
 }

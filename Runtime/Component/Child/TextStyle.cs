@@ -21,6 +21,7 @@ namespace XCharts
         [SerializeField] private float m_ExtraWidth = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private Color m_Color = Color.clear;
+        [SerializeField] private bool m_AutoBackgroundColor = false;
         [SerializeField] private Color m_BackgroundColor = Color.clear;
         [SerializeField] private int m_FontSize = 0;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
@@ -72,6 +73,11 @@ namespace XCharts
         {
             get { return m_Color; }
             set { if (PropertyUtil.SetColor(ref m_Color, value)) SetComponentDirty(); }
+        }
+        public bool autoBackgroundColor
+        {
+            get { return m_AutoBackgroundColor; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoBackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the color of text. 

@@ -112,7 +112,6 @@ namespace XCharts
         public SubTitleTheme subTitle { get { return sharedTheme.subTitle; } }
         public LegendTheme legend { get { return sharedTheme.legend; } }
         public AxisTheme axis { get { return sharedTheme.axis; } }
-        public GaugeAxisTheme gauge { get { return sharedTheme.gauge; } }
         public TooltipTheme tooltip { get { return sharedTheme.tooltip; } }
         public DataZoomTheme dataZoom { get { return sharedTheme.dataZoom; } }
         public VisualMapTheme visualMap { get { return sharedTheme.visualMap; } }

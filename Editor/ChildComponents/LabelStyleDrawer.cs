@@ -17,16 +17,14 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Position");
                 PropertyField(prop, "m_Offset");
                 PropertyField(prop, "m_AutoOffset");
-                PropertyField(prop, "m_Margin");
+                PropertyField(prop, "m_AutoColor");
+                PropertyField(prop, "m_Distance");
                 PropertyField(prop, "m_Formatter");
                 PropertyField(prop, "m_NumericFormatter");
                 PropertyField(prop, "m_BackgroundWidth");
                 PropertyField(prop, "m_BackgroundHeight");
                 PropertyField(prop, "m_PaddingLeftRight");
                 PropertyField(prop, "m_PaddingTopBottom");
-                PropertyField(prop, "m_Border");
-                PropertyField(prop, "m_BorderWidth");
-                PropertyField(prop, "m_BorderColor");
                 PropertyField(prop, "m_TextStyle");
                 --EditorGUI.indentLevel;
             }

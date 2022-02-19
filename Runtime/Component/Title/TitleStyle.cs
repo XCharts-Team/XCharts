@@ -1,7 +1,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace XCharts
 {
@@ -10,9 +9,10 @@ namespace XCharts
     /// 标题相关设置。
     /// </summary>
     [Serializable]
-    public class TitleStyle : ChildComponent
+    public class TitleStyle : ChildComponent, ISerieDataComponent, ISerieExtraComponent
     {
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_Show = true;
+        [SerializeField] private Vector2 m_OffsetCenter = new Vector2(0, -0.2f);
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         /// <summary>
@@ -23,6 +23,15 @@ namespace XCharts
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The offset position relative to the center.
+        /// 相对于中心的偏移位置。
+        /// </summary>
+        public Vector2 offsetCenter
+        {
+            get { return m_OffsetCenter; }
+            set { if (PropertyUtil.SetStruct(ref m_OffsetCenter, value)) SetComponentDirty(); }
         }
 
         /// <summary>
@@ -43,46 +52,11 @@ namespace XCharts
             textStyle.ClearComponentDirty();
         }
 
-        public ChartText runtimeText { get; set; }
-
-        public bool IsInited()
+        public Vector3 GetOffset(float radius)
         {
-            return runtimeText != null;
-        }
-
-        public void SetActive(bool active)
-        {
-            if (runtimeText != null)
-            {
-                runtimeText.SetActive(active);
-            }
-        }
-
-        public void UpdatePosition(Vector3 pos)
-        {
-            if (runtimeText != null)
-            {
-                runtimeText.SetLocalPosition(pos + new Vector3(m_TextStyle.offset.x, m_TextStyle.offset.y));
-            }
-        }
-
-        public void SetText(string text)
-        {
-            if (runtimeText == null) return;
-            var oldText = runtimeText.GetText();
-            if (oldText != null && !oldText.Equals(text))
-            {
-                if (!ChartHelper.IsClearColor(textStyle.color)) runtimeText.SetColor(textStyle.color);
-                runtimeText.SetText(text);
-            }
-        }
-
-        public void SetColor(Color color)
-        {
-            if (runtimeText != null)
-            {
-                runtimeText.SetColor(color);
-            }
+            var x = ChartHelper.GetActualValue(m_OffsetCenter.x, radius);
+            var y = ChartHelper.GetActualValue(m_OffsetCenter.y, radius);
+            return new Vector3(x, y, 0);
         }
     }
 }

@@ -86,6 +86,10 @@ namespace XCharts
         /// </summary>
         public Action<VertexHelper> onCustomDrawTop { set { m_OnCustomDrawTopCallback = value; } }
         /// <summary>
+        /// 自定义仪表盘指针绘制回调。参数：SerieIndex，SerieDataIndex，currAngle
+        /// </summary>
+        public Action<VertexHelper, int, int, float> onCustomDrawGagugePointer { set { m_OnCustomDrawGagugePointerCallback = value; } get { return m_OnCustomDrawGagugePointerCallback; } }
+        /// <summary>
         /// the callback function of click pie area.
         /// 点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>

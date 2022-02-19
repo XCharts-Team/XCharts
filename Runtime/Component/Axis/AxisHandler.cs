@@ -567,9 +567,9 @@ namespace XCharts
                     axisStartY += relativedLength;
 
                 if ((inside && axis.IsBottom()) || (!inside && axis.IsTop()))
-                    current += axisStartY + axis.axisLabel.margin + fontSize / 2;
+                    current += axisStartY + axis.axisLabel.distance + fontSize / 2;
                 else
-                    current += axisStartY - axis.axisLabel.margin - fontSize / 2;
+                    current += axisStartY - axis.axisLabel.distance - fontSize / 2;
 
                 return new Vector3(axisStartX + scaleWid, current) + axis.axisLabel.textStyle.offsetv3;
             }
@@ -582,9 +582,9 @@ namespace XCharts
                     axisStartX += relativedLength;
 
                 if ((inside && axis.IsLeft()) || (!inside && axis.IsRight()))
-                    current += axisStartX + axis.axisLabel.margin;
+                    current += axisStartX + axis.axisLabel.distance;
                 else
-                    current += axisStartX - axis.axisLabel.margin;
+                    current += axisStartX - axis.axisLabel.distance;
 
                 return new Vector3(current, axisStartY + scaleWid) + axis.axisLabel.textStyle.offsetv3;
             }

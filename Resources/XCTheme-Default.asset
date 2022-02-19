@@ -87,49 +87,6 @@ MonoBehaviour:
       rgba: 1308293882
     - serializedVersion: 2
       rgba: 1305004232
-  m_Gauge:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_TextColor: {r: 0.31764707, g: 0.3019608, b: 0.3019608, a: 1}
-    m_TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    m_FontSize: 18
-    m_LineType: 0
-    m_LineWidth: 15
-    m_LineLength: 0
-    m_LineColor:
-      serializedVersion: 2
-      rgba: 4283256145
-    m_SplitLineType: 0
-    m_SplitLineWidth: 0.8
-    m_SplitLineLength: 15
-    m_SplitLineColor:
-      serializedVersion: 2
-      rgba: 4294967295
-    m_TickWidth: 0.8
-    m_TickLength: 5
-    m_TickColor:
-      serializedVersion: 2
-      rgba: 4294967295
-    m_SplitAreaColors:
-    - serializedVersion: 2
-      rgba: 1308293882
-    - serializedVersion: 2
-      rgba: 1305004232
-    m_BarBackgroundColor:
-      serializedVersion: 2
-      rgba: 4291348680
-    m_StageColor:
-    - m_Percent: 0.2
-      m_Color:
-        serializedVersion: 2
-        rgba: 4289644433
-    - m_Percent: 0.8
-      m_Color:
-        serializedVersion: 2
-        rgba: 4288579171
-    - m_Percent: 1
-      m_Color:
-        serializedVersion: 2
-        rgba: 4281415106
   m_Tooltip:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_TextColor: {r: 0, g: 0, b: 0, a: 1}

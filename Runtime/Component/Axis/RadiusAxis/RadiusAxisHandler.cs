@@ -135,7 +135,7 @@ namespace XCharts
             var dire = ChartHelper.GetDire(startAngle, true).normalized;
             var tickLength = axis.axisTick.GetLength(chart.theme.axis.tickLength);
             var tickVector = ChartHelper.GetVertialDire(dire)
-                * (tickLength + axis.axisLabel.margin);
+                * (tickLength + axis.axisLabel.distance);
             return ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVector;
         }
 

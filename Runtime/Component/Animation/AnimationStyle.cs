@@ -504,19 +504,19 @@ namespace XCharts
                 return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
         }
 
-        internal float CheckItemProgress(int dataIndex, float barHig, ref bool isEnd)
+        internal float CheckItemProgress(int dataIndex, float destProgress, ref bool isEnd, float startProgress = 0)
         {
             isEnd = false;
-            var initHig = m_FadeOut ? barHig : 0;
-            var destHig = m_FadeOut ? 0 : barHig;
+            var initHig = m_FadeOut ? destProgress : startProgress;
+            var destHig = m_FadeOut ? startProgress : destProgress;
             var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, ref isEnd);
             if (isEnd || IsFinish())
             {
-                return m_FadeOuted ? 0 : barHig;
+                return m_FadeOuted ? startProgress : destProgress;
             }
             else if (IsInDelay() || IsInIndexDelay(dataIndex))
             {
-                return m_FadeOut ? barHig : 0;
+                return m_FadeOut ? destProgress : startProgress;
             }
             else if (m_IsPause)
             {
@@ -525,7 +525,7 @@ namespace XCharts
             else
             {
                 var duration = GetCurrAnimationDuration(dataIndex);
-                var delta = barHig / duration * Time.deltaTime;
+                var delta = (destProgress - startProgress) / duration * Time.deltaTime;
                 currHig = currHig + (m_FadeOut ? -delta : delta);
                 if (m_FadeOut)
                 {
@@ -535,11 +535,12 @@ namespace XCharts
                         isEnd = true;
                     }
                 }
-                else if (Mathf.Abs(currHig) >= Mathf.Abs(barHig))
+                else if (currHig - destProgress > 0)
                 {
-                    currHig = barHig;
+                    currHig = destProgress;
                     isEnd = true;
                 }
+                
                 SetDataCurrProgress(dataIndex, currHig);
                 return currHig;
             }

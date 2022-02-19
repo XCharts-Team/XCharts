@@ -25,12 +25,14 @@ namespace XCharts
         [SerializeField] private List<IconStyle> m_IconStyles = new List<IconStyle>();
         [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
+        [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
         [SerializeField] private List<double> m_Data = new List<double>();
         [SerializeField] private List<int> m_Children = new List<int>();
 
         [NonSerialized] public SerieDataContext context = new SerieDataContext();
         [NonSerialized] public InteractData interact = new InteractData();
         public ChartLabel labelObject { get; set; }
+        public ChartLabel titleObject { get; set; }
 
         private bool m_Show = true;
 
@@ -81,6 +83,7 @@ namespace XCharts
         public SymbolStyle symbol { get { return m_Symbols.Count > 0 ? m_Symbols[0] : null; } }
         public LineStyle lineStyle { get { return m_LineStyles.Count > 0 ? m_LineStyles[0] : null; } }
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
+        public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
         /// <summary>
         /// 是否忽略数据。当为 true 时，数据不进行绘制。
         /// </summary>
@@ -130,6 +133,7 @@ namespace XCharts
             m_Symbols.Clear();
             m_LineStyles.Clear();
             m_AreaStyles.Clear();
+            m_TitleStyles.Clear();
         }
 
         public T GetOrAddComponent<T>() where T : ChildComponent
@@ -183,6 +187,12 @@ namespace XCharts
                     m_AreaStyles.Add(new AreaStyle() { show = true });
                 return m_AreaStyles[0] as T;
             }
+            else if (type == typeof(TitleStyle))
+            {
+                if (m_TitleStyles.Count == 0)
+                    m_TitleStyles.Add(new TitleStyle() { show = true });
+                return m_TitleStyles[0] as T;
+            }
             else
             {
                 throw new System.Exception("SerieData not support component:" + type);
@@ -199,6 +209,7 @@ namespace XCharts
             m_Emphases.Clear();
             m_LineStyles.Clear();
             m_AreaStyles.Clear();
+            m_TitleStyles.Clear();
         }
 
         public void RemoveComponent<T>() where T : ISerieDataComponent
@@ -220,6 +231,8 @@ namespace XCharts
                 m_LineStyles.Clear();
             else if (type == typeof(AreaStyle))
                 m_AreaStyles.Clear();
+            else if (type == typeof(TitleStyle))
+                m_TitleStyles.Clear();
             else
                 throw new System.Exception("SerieData not support component:" + type);
         }
@@ -426,6 +439,11 @@ namespace XCharts
             m_PolygonPoints.Add(p2);
             m_PolygonPoints.Add(p3);
             m_PolygonPoints.Add(p4);
+        }
+        public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 p5)
+        {
+            SetPolygon(p1, p2, p3, p4);
+            m_PolygonPoints.Add(p5);
         }
 
         public bool IsInPolygon(Vector2 p)

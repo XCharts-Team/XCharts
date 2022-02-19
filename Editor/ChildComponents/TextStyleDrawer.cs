@@ -26,6 +26,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Offset");
                 PropertyField(prop, "m_ExtraWidth");
                 PropertyField(prop, "m_Color");
+                PropertyField(prop, "m_AutoBackgroundColor");
                 PropertyField(prop, "m_BackgroundColor");
                 PropertyField(prop, "m_FontSize");
                 PropertyField(prop, "m_LineSpacing");

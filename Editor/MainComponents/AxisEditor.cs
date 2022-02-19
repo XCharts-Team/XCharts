@@ -152,7 +152,7 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Inside");
                 PropertyField(prop, "m_Interval");
-                PropertyField(prop, "m_Margin");
+                PropertyField(prop, "m_Distance");
                 PropertyField(prop, "m_Width");
                 PropertyField(prop, "m_Height");
                 PropertyField(prop, "m_Formatter");

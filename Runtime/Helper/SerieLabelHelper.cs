@@ -150,7 +150,7 @@ namespace XCharts
                     serieData.context.labelPosition = serie.context.center;
                     break;
                 case LabelStyle.Position.Inside:
-                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.margin;
+                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.distance;
                     var labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
                         serie.context.center.y + labelRadius * Mathf.Cos(currRad));
                     serieData.context.labelPosition = labelCenter;

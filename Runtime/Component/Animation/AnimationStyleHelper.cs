@@ -5,7 +5,7 @@ namespace XCharts
 {
     public static class AnimationStyleHelper
     {
-        public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress)
+        public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)
         {
             if (!serie.animation.IsItemAnimation())
             {
@@ -18,7 +18,7 @@ namespace XCharts
                 return destProgress;
             }
             var isDataAnimationEnd = true;
-            float currHig = serie.animation.CheckItemProgress(dataIndex, destProgress, ref isDataAnimationEnd);
+            float currHig = serie.animation.CheckItemProgress(dataIndex, destProgress, ref isDataAnimationEnd, startPorgress);
             if (!isDataAnimationEnd)
             {
                 serie.animation.context.isAllItemAnimationEnd = false;

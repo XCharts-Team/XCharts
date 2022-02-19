@@ -15,6 +15,15 @@ namespace XCharts
         [SerializeField] private bool m_Inside;
         [SerializeField] private bool m_ShowStartTick;
         [SerializeField] private bool m_ShowEndTick;
+        [SerializeField] private float m_Distance;
+        [SerializeField] protected int m_SplitNumber = 0;
+        [SerializeField] private bool m_AutoColor;
+
+        /// <summary>
+        /// The distance between the tick line and axis line.
+        /// 刻度线与轴线的距离。
+        /// </summary>
+        public float distance { get { return m_Distance; } set { m_Distance = value; } }
 
         /// <summary>
         /// Align axis tick with label, which is available only when boundaryGap is set to be true in category axis.
@@ -52,6 +61,16 @@ namespace XCharts
             get { return m_ShowEndTick; }
             set { if (PropertyUtil.SetStruct(ref m_ShowEndTick, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// Number of segments that the axis is split into.
+        /// 分隔线之间分割的刻度数。
+        /// </summary>
+        public int splitNumber
+        {
+            get { return m_SplitNumber; }
+            set { if (PropertyUtil.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
+        }
+        public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }
 
         public static AxisTick defaultTick
         {

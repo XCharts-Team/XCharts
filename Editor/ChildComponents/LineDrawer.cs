@@ -42,6 +42,8 @@ namespace XCharts.Editor
         {
             base.DrawExtendeds(prop);
             PropertyField(prop, "m_Interval");
+            PropertyField(prop, "m_Distance");
+            PropertyField(prop, "m_AutoColor");
         }
     }
     [CustomPropertyDrawer(typeof(AxisTick), true)]
@@ -55,6 +57,9 @@ namespace XCharts.Editor
             PropertyField(prop, "m_Inside");
             PropertyField(prop, "m_ShowStartTick");
             PropertyField(prop, "m_ShowEndTick");
+            PropertyField(prop, "m_SplitNumber");
+            PropertyField(prop, "m_Distance");
+            PropertyField(prop, "m_AutoColor");
         }
     }
 }

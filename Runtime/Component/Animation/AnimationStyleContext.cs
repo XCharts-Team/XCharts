@@ -8,7 +8,7 @@ namespace XCharts
     public struct AnimationStyleContext
     {
         public AnimationType type;
-        internal float currentPathDistance;
-        internal bool isAllItemAnimationEnd;
+        public float currentPathDistance;
+        public bool isAllItemAnimationEnd;
     }
 }

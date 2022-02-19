@@ -37,7 +37,6 @@ namespace XCharts
         [SerializeField] private SubTitleTheme m_SubTitle;
         [SerializeField] private LegendTheme m_Legend;
         [SerializeField] private AxisTheme m_Axis;
-        [SerializeField] private GaugeAxisTheme m_Gauge;
         [SerializeField] private TooltipTheme m_Tooltip;
         [SerializeField] private DataZoomTheme m_DataZoom;
         [SerializeField] private VisualMapTheme m_VisualMap;
@@ -88,7 +87,6 @@ namespace XCharts
         public SubTitleTheme subTitle { get { return m_SubTitle; } set { m_SubTitle = value; } }
         public LegendTheme legend { get { return m_Legend; } set { m_Legend = value; } }
         public AxisTheme axis { get { return m_Axis; } set { m_Axis = value; } }
-        public GaugeAxisTheme gauge { get { return m_Gauge; } set { m_Gauge = value; } }
         public TooltipTheme tooltip { get { return m_Tooltip; } set { m_Tooltip = value; } }
         public DataZoomTheme dataZoom { get { return m_DataZoom; } set { m_DataZoom = value; } }
         public VisualMapTheme visualMap { get { return m_VisualMap; } set { m_VisualMap = value; } }
@@ -235,7 +233,6 @@ namespace XCharts
             m_Title.Copy(theme.title);
             m_SubTitle.Copy(theme.subTitle);
             m_Axis.Copy(theme.axis);
-            m_Gauge.Copy(theme.gauge);
             m_Tooltip.Copy(theme.tooltip);
             m_DataZoom.Copy(theme.dataZoom);
             m_VisualMap.Copy(theme.visualMap);
@@ -344,7 +341,6 @@ namespace XCharts
             subTitle.font = font;
             legend.font = font;
             axis.font = font;
-            gauge.font = font;
             tooltip.font = font;
             dataZoom.font = font;
             visualMap.font = font;
@@ -372,7 +368,6 @@ namespace XCharts
             theme.subTitle = new SubTitleTheme(theme.themeType);
             theme.legend = new LegendTheme(theme.themeType);
             theme.axis = new AxisTheme(theme.themeType);
-            theme.gauge = new GaugeAxisTheme(theme.themeType);
             theme.tooltip = new TooltipTheme(theme.themeType);
             theme.dataZoom = new DataZoomTheme(theme.themeType);
             theme.visualMap = new VisualMapTheme(theme.themeType);

@@ -143,13 +143,11 @@ namespace XCharts.Example
             serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Center;
-            serie.label.border = false;
             serie.label.textStyle.color = Color.white;
             serie.label.formatter = "{d:f0}%";
 
             serie2.label.show = true;
             serie2.label.position = LabelStyle.Position.Center;
-            serie2.label.border = false;
             serie2.label.textStyle.color = Color.white;
             serie2.label.formatter = "{d:f0}%";
             serie2.labelDirty = true;

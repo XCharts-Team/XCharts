@@ -181,7 +181,7 @@ namespace XCharts.Editor
             });
             if (m_DataElementFoldout[index])
             {
-                if(!(serie is ISimplifiedSerie))
+                if (!(serie is ISimplifiedSerie))
                     DrawSerieDataDetail(m_Datas, index);
             }
         }
@@ -201,6 +201,7 @@ namespace XCharts.Editor
             var m_Symbol = serieData.FindPropertyRelative("m_Symbols");
             var m_LineStyle = serieData.FindPropertyRelative("m_LineStyles");
             var m_AreaStyle = serieData.FindPropertyRelative("m_AreaStyles");
+            var m_TitleStyle = serieData.FindPropertyRelative("m_TitleStyles");
 
             PropertyField(sereName);
             PropertyField(selected);
@@ -239,6 +240,10 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).GetOrAddComponent<AreaStyle>();
             }, m_AreaStyle.arraySize == 0),
+            new HeaderMenuInfo("Add TitleStyle", () =>
+            {
+                serie.GetSerieData(index).GetOrAddComponent<TitleStyle>();
+            }, m_TitleStyle.arraySize == 0),
             new HeaderMenuInfo("Remove ItemStyle", () =>
             {
                 serie.GetSerieData(index).RemoveComponent<ItemStyle>();
@@ -267,6 +272,10 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).RemoveComponent<AreaStyle>();
             }, m_AreaStyle.arraySize > 0),
+            new HeaderMenuInfo("Remove TitleStyle", () =>
+            {
+                serie.GetSerieData(index).RemoveComponent<TitleStyle>();
+            }, m_TitleStyle.arraySize > 0),
             new HeaderMenuInfo("Remove All", () =>
             {
                 serie.GetSerieData(index).RemoveAllComponent();
@@ -287,6 +296,8 @@ namespace XCharts.Editor
                     PropertyField(m_LineStyle.GetArrayElementAtIndex(0));
                 if (m_AreaStyle.arraySize > 0)
                     PropertyField(m_AreaStyle.GetArrayElementAtIndex(0));
+                if (m_TitleStyle.arraySize > 0)
+                    PropertyField(m_TitleStyle.GetArrayElementAtIndex(0));
             }
             EditorGUI.indentLevel--;
         }

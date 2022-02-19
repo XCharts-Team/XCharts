@@ -85,6 +85,7 @@ namespace XCharts
         protected Action<VertexHelper> m_OnCustomDrawTopCallback;
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieBeforeCallback;
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
+        protected Action<VertexHelper, int, int, float> m_OnCustomDrawGagugePointerCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
         protected Action<PointerEventData, int> m_OnPointerClickBar;
         protected Action<Axis, double> m_OnUpdateAxisPointer;

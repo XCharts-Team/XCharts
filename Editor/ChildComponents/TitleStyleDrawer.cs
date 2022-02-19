@@ -13,6 +13,7 @@ namespace XCharts.Editor
             if (MakeComponentFoldout(prop, "m_Show"))
             {
                 ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_OffsetCenter");
                 PropertyField(prop, "m_TextStyle");
                 --EditorGUI.indentLevel;
             }

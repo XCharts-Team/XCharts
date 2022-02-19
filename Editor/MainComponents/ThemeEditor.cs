@@ -2,6 +2,7 @@
 
 using UnityEditor;
 using UnityEngine;
+using XCharts.Runtime;
 #if dUI_TextMeshPro
 using TMPro;
 #endif

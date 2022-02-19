@@ -1,6 +1,6 @@
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class RequireChartComponentAttribute : Attribute

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class SerieExtraComponentAttribute : Attribute

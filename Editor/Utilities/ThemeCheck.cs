@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using XCharts.Runtime;
 
 namespace XCharts.Editor
 {

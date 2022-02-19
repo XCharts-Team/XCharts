@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/LineChart", 13)]
     [ExecuteInEditMode]

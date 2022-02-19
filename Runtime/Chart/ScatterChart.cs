@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/ScatterChart", 17)]
     [ExecuteInEditMode]

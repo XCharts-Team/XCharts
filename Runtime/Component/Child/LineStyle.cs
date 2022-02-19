@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// The style of line.

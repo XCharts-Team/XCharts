@@ -1,5 +1,5 @@
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public interface ISerieContainer
     {

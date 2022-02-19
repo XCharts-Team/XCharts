@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to text.

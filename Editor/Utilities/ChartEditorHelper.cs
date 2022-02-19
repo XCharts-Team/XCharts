@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System;
-using UnityEngine.Assertions;
+using XCharts.Runtime;
 
 namespace XCharts.Editor
 {

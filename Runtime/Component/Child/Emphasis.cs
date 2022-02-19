@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// 高亮的图形样式和文本标签样式。

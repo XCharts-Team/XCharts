@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
+using XCharts.Runtime;
 
 
 namespace XCharts.Example

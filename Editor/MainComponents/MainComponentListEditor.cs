@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Assertions;
 using UnityEditor;
 using System.Linq;
+using XCharts.Runtime;
 
 namespace XCharts.Editor
 {

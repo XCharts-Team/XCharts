@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Radial axis of polar coordinate.

@@ -1,6 +1,6 @@
 
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// the layout is horizontal or vertical.

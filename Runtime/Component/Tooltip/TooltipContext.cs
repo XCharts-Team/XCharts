@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public class TooltipData
     {

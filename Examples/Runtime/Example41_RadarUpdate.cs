@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using XCharts.Runtime;
 
 namespace XCharts.Example
 {

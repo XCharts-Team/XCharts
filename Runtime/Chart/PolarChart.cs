@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/PolarChart", 23)]
     [ExecuteInEditMode]

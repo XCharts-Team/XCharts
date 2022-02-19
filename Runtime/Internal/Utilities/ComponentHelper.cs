@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class ComponentHelper
     {

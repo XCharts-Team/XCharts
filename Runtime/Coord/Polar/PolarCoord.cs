@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Polar coordinate can be used in scatter and line chart. Every polar coordinate has an angleAxis and a radiusAxis.

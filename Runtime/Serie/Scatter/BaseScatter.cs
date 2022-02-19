@@ -1,5 +1,5 @@
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     public class BaseScatter : Serie, INeedSerieContainer

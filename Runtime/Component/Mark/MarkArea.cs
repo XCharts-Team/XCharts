@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// 标域类型

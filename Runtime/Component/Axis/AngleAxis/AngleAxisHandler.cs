@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class AngleAxisHandler : AxisHandler<AngleAxis>

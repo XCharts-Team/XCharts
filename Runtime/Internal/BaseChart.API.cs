@@ -4,7 +4,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// The base class of all charts.

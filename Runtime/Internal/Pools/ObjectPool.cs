@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     internal class ObjectPool<T> where T : new()
     {

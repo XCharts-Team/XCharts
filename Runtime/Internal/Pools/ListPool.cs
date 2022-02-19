@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     internal static class ListPool<T>
     {

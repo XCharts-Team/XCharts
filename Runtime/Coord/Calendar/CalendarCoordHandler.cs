@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class CalendarCoordHandler : MainComponentHandler<CalendarCoord>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class ReflectionUtil
     {

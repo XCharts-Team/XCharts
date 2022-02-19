@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     public abstract class BaseSerie

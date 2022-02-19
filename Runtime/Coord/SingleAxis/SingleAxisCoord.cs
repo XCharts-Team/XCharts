@@ -1,7 +1,7 @@
 
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [Serializable]
     [ComponentHandler(null)]

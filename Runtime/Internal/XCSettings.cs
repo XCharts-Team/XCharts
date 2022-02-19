@@ -9,7 +9,7 @@ using TMPro;
 using UnityEditor;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [Serializable]
 #if UNITY_2018_3

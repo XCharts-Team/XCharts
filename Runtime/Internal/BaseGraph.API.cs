@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// The base class of all graphs or components.

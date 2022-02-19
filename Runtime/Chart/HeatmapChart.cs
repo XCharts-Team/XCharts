@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/HeatmapChart", 18)]
     [ExecuteInEditMode]

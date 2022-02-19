@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Global parameter setting component. The default value can be used in general, and can be adjusted when necessary.

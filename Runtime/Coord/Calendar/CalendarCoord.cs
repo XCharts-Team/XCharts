@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [Serializable]
     [ComponentHandler(typeof(CalendarCoordHandler), true)]

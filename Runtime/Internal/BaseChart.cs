@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using XUGL;
 using System.Reflection;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/EmptyChart", 10)]
     [ExecuteInEditMode]

@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class RuntimeUtil
     {

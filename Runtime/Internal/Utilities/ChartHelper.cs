@@ -13,7 +13,7 @@ using TMPro;
 using UnityEditor;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class ChartHelper
     {

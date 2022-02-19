@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(ScatterHandler), true)]

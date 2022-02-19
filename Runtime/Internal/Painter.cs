@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [RequireComponent(typeof(CanvasRenderer))]
     public class Painter : MaskableGraphic

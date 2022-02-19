@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// The x axis in cartesian(rectangular) coordinate.

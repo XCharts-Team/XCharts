@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public partial class BaseChart
     {

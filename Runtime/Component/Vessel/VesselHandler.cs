@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class VesselHandler : MainComponentHandler<Vessel>

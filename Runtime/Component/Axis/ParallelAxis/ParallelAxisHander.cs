@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class ParallelAxisHander : AxisHandler<ParallelAxis>

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class LegendHandler : MainComponentHandler<Legend>

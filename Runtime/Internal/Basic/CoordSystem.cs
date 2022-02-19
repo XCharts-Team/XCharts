@@ -2,7 +2,7 @@
 
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Coordinate system component.

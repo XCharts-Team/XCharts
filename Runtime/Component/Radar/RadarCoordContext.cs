@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public class RadarCoordContext : MainComponentContext
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class MathUtil
     {

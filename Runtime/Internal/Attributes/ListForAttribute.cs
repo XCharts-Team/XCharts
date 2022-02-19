@@ -1,6 +1,6 @@
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ListFor : Attribute

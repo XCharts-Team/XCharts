@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Title component, including main title and subtitle.

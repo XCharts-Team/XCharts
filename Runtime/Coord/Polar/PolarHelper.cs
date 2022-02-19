@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     internal static class PolarHelper
     {

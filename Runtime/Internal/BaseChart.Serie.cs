@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Reflection;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public partial class BaseChart
     {

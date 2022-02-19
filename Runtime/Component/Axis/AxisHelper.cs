@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class AxisHelper
     {

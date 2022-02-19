@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class CheckHelper
     {

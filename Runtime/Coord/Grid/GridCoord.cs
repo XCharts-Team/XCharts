@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Grid component.

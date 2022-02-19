@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Text;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
 
     [Serializable]

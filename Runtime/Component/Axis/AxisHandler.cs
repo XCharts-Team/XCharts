@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public abstract class AxisHandler<T> : MainComponentHandler
         where T : Axis

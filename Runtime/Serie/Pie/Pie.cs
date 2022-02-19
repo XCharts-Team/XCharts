@@ -1,5 +1,5 @@
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieConvert(typeof(Line), typeof(Bar))]

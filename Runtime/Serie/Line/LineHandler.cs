@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// For grid coord

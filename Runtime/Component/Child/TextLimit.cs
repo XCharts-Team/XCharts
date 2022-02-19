@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Text character limitation and adaptation component. When the length of the text exceeds the set length, 

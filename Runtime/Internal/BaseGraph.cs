@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [RequireComponent(typeof(CanvasRenderer))]
     public partial class BaseGraph : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,

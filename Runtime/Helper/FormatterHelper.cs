@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using System.Linq;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class FormatterHelper
     {

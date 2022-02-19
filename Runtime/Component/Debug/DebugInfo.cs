@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [Serializable]
     public class DebugInfo

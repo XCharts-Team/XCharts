@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public delegate float CustomAnimationDelay(int dataIndex);
     public delegate float CustomAnimationDuration(int dataIndex);

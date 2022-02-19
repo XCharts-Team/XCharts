@@ -1,7 +1,7 @@
 using UnityEngine;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class AnimationStyleHelper
     {

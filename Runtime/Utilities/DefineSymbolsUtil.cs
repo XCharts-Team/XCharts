@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class DefineSymbolsUtil
     {

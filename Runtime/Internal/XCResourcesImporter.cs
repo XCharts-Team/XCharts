@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     public class XCResourcesImporter

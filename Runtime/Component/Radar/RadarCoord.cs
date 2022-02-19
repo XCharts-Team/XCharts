@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Radar coordinate conponnet for radar charts. 

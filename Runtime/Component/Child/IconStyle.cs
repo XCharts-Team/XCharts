@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     public class IconStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent

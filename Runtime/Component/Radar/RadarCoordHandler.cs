@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using XUGL;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
     internal sealed class RadarCoordHandler : MainComponentHandler<RadarCoord>

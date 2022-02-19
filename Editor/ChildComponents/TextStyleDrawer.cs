@@ -4,6 +4,7 @@ using UnityEngine;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
+using XCharts.Runtime;
 
 namespace XCharts.Editor
 {

@@ -6,7 +6,7 @@ using System.IO;
 using UnityEditor;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     class XChartsVersion
     {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public class ChartText
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// 属性变更接口

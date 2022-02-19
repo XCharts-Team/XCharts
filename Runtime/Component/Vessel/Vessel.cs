@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// Vessel component for liquid chart. There can be multiple vessels in a Chart, which can be matched by vesselIndex in Serie.

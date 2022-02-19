@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(BarHandler), true)]

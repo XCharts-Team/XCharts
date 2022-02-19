@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [Serializable]
     public class BaseAxisTheme : ComponentTheme

@@ -10,7 +10,7 @@ using UnityEditor;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     public static class XCThemeMgr
     {

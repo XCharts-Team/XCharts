@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/RadarChart", 16)]
     [ExecuteInEditMode]

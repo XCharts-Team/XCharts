@@ -7,7 +7,7 @@ using System.Text;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     /// <summary>
     /// 主题

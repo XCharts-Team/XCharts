@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace XCharts
+namespace XCharts.Runtime
 {
     [System.Serializable]
     public class LabelLine : ChildComponent, ISerieExtraComponent, ISerieDataComponent

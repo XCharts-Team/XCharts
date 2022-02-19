@@ -7,7 +7,7 @@ using System.Text;
 using TMPro;
 #endif
 
-namespace XCharts
+namespace XCharts.Runtime
 {
 
     [Serializable]

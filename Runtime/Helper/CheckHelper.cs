@@ -18,7 +18,7 @@ namespace XCharts
 
         public static string CheckChart(BaseGraph chart)
         {
-            if(chart == null)
+            if (chart == null)
                 return string.Empty;
             if (chart is BaseChart)
                 return CheckChart((BaseChart)chart);
@@ -28,7 +28,7 @@ namespace XCharts
 
         public static string CheckChart(BaseChart chart)
         {
-            if(chart == null)
+            if (chart == null)
                 return string.Empty;
             var sb = ChartHelper.sb;
             sb.Length = 0;
@@ -45,10 +45,10 @@ namespace XCharts
         private static void CheckName(BaseChart chart, StringBuilder sb)
         {
             if (string.IsNullOrEmpty(chart.chartName)) return;
-            var list = XChartsMgr.Instance.GetCharts(chart.chartName);
-            if (list.Count > 1)
+            if (XChartsMgr.Instance.IsRepeatChartName(chart))
             {
-                sb.AppendFormat("warning:chart name is repeated: {0}\n", chart.chartName);
+                var info = XChartsMgr.Instance.GetRepeatChartNameInfo(chart, chart.chartName);
+                sb.AppendFormat("warning:chart name is repeated: {0}\n{1}", chart.chartName, info);
             }
         }
 

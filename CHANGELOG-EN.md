@@ -42,6 +42,7 @@
 
 ## branch-2.0
 
+* (2022.02.21) Fixed chart name repeat check error #183
 * (2022.02.17) Fixed bug where axis split line might be displayed outside the coordinate system #181
 * (2022.02.08) Fixed {d} formatter error when value is 0
 * (2022.02.08) Fixed `YAxis` `AxisLabel`'s `onZero` does not work

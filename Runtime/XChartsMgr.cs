@@ -279,7 +279,7 @@ namespace XCharts
         public List<BaseChart> GetCharts(string chartName)
         {
             if (string.IsNullOrEmpty(chartName)) return null;
-            return m_ChartList.FindAll(chart => chartName.Equals(chartName));
+            return m_ChartList.FindAll(chart => chartName.Equals(chart.chartName));
         }
 
         public void RemoveChart(string chartName)
@@ -297,6 +297,33 @@ namespace XCharts
         public bool ContainsChart(BaseChart chart)
         {
             return m_ChartList.Contains(chart);
+        }
+
+        public bool IsRepeatChartName(BaseChart chart, string chartName = null)
+        {
+            if(chartName == null)
+                chartName = chart.chartName;
+            if (string.IsNullOrEmpty(chartName))
+                return false;
+            foreach (var temp in m_ChartList)
+            {
+                if (temp != chart && chartName.Equals(temp.chartName))
+                    return true;
+            }
+            return false;
+        }
+
+        public string GetRepeatChartNameInfo(BaseChart chart, string chartName)
+        {
+            if (string.IsNullOrEmpty(chartName))
+                return string.Empty;
+            string result = "";
+            foreach (var temp in m_ChartList)
+            {
+                if (temp != chart && chartName.Equals(temp.chartName))
+                    result += ChartHelper.GetFullName(temp.transform) + "\n";
+            }
+            return result;
         }
 
         public static void RemoveAllChartObject()

@@ -137,6 +137,12 @@ namespace XCharts
                         EditorGUILayout.PropertyField(serializedObject.FindProperty(filed));
                     }
                 }
+                if (XChartsMgr.Instance.IsRepeatChartName(m_Chart, m_ChartName.stringValue))
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.HelpBox("chart name is repeated:" + m_ChartName.stringValue, MessageType.Error);
+                    EditorGUILayout.EndHorizontal();
+                }
             }
             BlockEnd();
 

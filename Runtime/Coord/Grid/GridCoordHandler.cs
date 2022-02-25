@@ -55,27 +55,36 @@ namespace XCharts.Runtime
         {
             if (!SeriesHelper.IsAnyClipSerie(chart.series))
             {
-                DrawCoord(vh);
+                DrawCoord(vh, component);
             }
         }
         public override void DrawTop(VertexHelper vh)
         {
             if (SeriesHelper.IsAnyClipSerie(chart.series))
             {
-                DrawCoord(vh);
+                DrawCoord(vh, component);
             }
         }
 
-        private void DrawCoord(VertexHelper vh)
+        private void DrawCoord(VertexHelper vh, GridCoord grid)
         {
-            var grid = component;
-            if (grid.show && !ChartHelper.IsClearColor(grid.backgroundColor))
+            if (!grid.show) return;
+            if (!ChartHelper.IsClearColor(grid.backgroundColor))
             {
                 var p1 = new Vector2(grid.context.x, grid.context.y);
                 var p2 = new Vector2(grid.context.x, grid.context.y + grid.context.height);
                 var p3 = new Vector2(grid.context.x + grid.context.width, grid.context.y + grid.context.height);
                 var p4 = new Vector2(grid.context.x + grid.context.width, grid.context.y);
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, grid.backgroundColor);
+            }
+            if (grid.showBorder)
+            {
+                var borderWidth = grid.borderWidth == 0 ? chart.theme.axis.lineWidth * 2 : grid.borderWidth;
+                var borderColor = ChartHelper.IsClearColor(grid.borderColor)
+                    ? chart.theme.axis.lineColor
+                    : grid.borderColor;
+                UGL.DrawBorder(vh, grid.context.center, grid.context.width - borderWidth,
+                    grid.context.height - borderWidth, borderWidth, borderColor);
             }
         }
     }

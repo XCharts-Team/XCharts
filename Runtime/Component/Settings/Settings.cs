@@ -9,8 +9,9 @@ namespace XCharts.Runtime
     /// 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
     /// </summary>
     [Serializable]
-    public class Settings : ChildComponent
+    public class Settings : MainComponent
     {
+        [SerializeField] private bool m_Show = true;
         [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
         [SerializeField] protected bool m_ReversePainter = false;
         [SerializeField] protected Material m_BasePainterMaterial;
@@ -23,6 +24,7 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_LegendIconLineWidth = 2;
         [SerializeField] private float[] m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f };
 
+        public bool show { get { return m_Show; } }
         /// <summary>
         /// max painter.
         /// 设定的painter数量。
@@ -142,7 +144,7 @@ namespace XCharts.Runtime
             ChartHelper.CopyArray(m_LegendIconCornerRadius, settings.legendIconCornerRadius);
         }
 
-        public void Reset()
+        public override void Reset()
         {
             Copy(DefaultSettings);
         }

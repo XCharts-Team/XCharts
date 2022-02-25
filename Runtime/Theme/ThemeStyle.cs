@@ -39,6 +39,7 @@ namespace XCharts.Runtime
     /// </summary>
     public class ThemeStyle : ChildComponent
     {
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private Theme m_SharedTheme;
         [SerializeField] private bool m_EnableCustomTheme;
         [SerializeField] private Font m_CustomFont;
@@ -48,6 +49,7 @@ namespace XCharts.Runtime
 #endif
         [SerializeField] private List<Color32> m_CustomColorPalette = new List<Color32>(13);
 
+        public bool show { get { return m_Show; } }
         /// <summary>
         /// the theme of chart.
         /// 主题类型。

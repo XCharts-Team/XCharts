@@ -15,6 +15,9 @@ namespace XCharts.Editor
             PropertyField("m_Top");
             PropertyField("m_Bottom");
             PropertyField("m_BackgroundColor");
+            PropertyField("m_ShowBorder");
+            PropertyField("m_BorderWidth");
+            PropertyField("m_BorderColor");
             --EditorGUI.indentLevel;
         }
     }

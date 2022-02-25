@@ -9,10 +9,18 @@ namespace XCharts.Runtime
 {
     public static class ReflectionUtil
     {
+        private static Dictionary<object, MethodInfo> listClearMethodInfoCaches = new Dictionary<object, MethodInfo>();
+        private static Dictionary<object, MethodInfo> listAddMethodInfoCaches = new Dictionary<object, MethodInfo>();
+
         public static void InvokeListClear(object obj, FieldInfo field)
         {
             var list = field.GetValue(obj);
-            var method = list.GetType().GetMethod("Clear");
+            MethodInfo method;
+            if (!listClearMethodInfoCaches.TryGetValue(list, out method))
+            {
+                method = list.GetType().GetMethod("Clear");
+                listClearMethodInfoCaches[list] = method;
+            }
             method.Invoke(list, new object[] { });
         }
         public static int InvokeListCount(object obj, FieldInfo field)
@@ -24,7 +32,12 @@ namespace XCharts.Runtime
         public static void InvokeListAdd(object obj, FieldInfo field, object item)
         {
             var list = field.GetValue(obj);
-            var method = list.GetType().GetMethod("Add");
+            MethodInfo method;
+            if (!listAddMethodInfoCaches.TryGetValue(list, out method))
+            {
+                method = list.GetType().GetMethod("Add");
+                listAddMethodInfoCaches[list] = method;
+            }
             method.Invoke(list, new object[] { item });
         }
 

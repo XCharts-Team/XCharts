@@ -127,13 +127,6 @@ namespace XCharts.Editor
             AddChart<RingChart>("RingChart");
         }
 
-        [MenuItem("XCharts/LiquidChart", priority = 53)]
-        [MenuItem("GameObject/XCharts/LiquidChart", priority = 53)]
-        public static void AddLiquidChart()
-        {
-            AddChart<LiquidChart>("LiquidChart");
-        }
-
         [MenuItem("XCharts/CandlestickChart", priority = 54)]
         [MenuItem("GameObject/XCharts/CandlestickChart", priority = 54)]
         public static void CandlestickChart()

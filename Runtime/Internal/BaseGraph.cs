@@ -11,8 +11,9 @@ namespace XCharts.Runtime
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
     {
-        [SerializeField] protected bool m_DebugMode = false;
+
         [SerializeField] protected bool m_EnableTextMeshPro = false;
+        [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
 
         protected Painter m_Painter;
         protected int m_SiblingIndex;
@@ -48,12 +49,11 @@ namespace XCharts.Runtime
         protected Vector2 graphAnchorMax { get { return m_GraphMinAnchor; } }
         protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
         protected Vector2 graphPivot { get { return m_GraphPivot; } }
-        public HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
-
+        public HideFlags chartHideFlags { get { return m_DebugInfo.showAllChildObject ? HideFlags.None : HideFlags.HideInHierarchy; } }
+        public DebugInfo debug { get { return m_DebugInfo; } }
         private ScrollRect m_ScrollRect;
 
         public Painter painter { get { return m_Painter; } }
-        internal bool debugModel { get { return m_DebugMode; } }
 
         protected virtual void InitComponent()
         {
@@ -100,7 +100,7 @@ namespace XCharts.Runtime
             if (!Application.isPlaying)
             {
                 m_IsOnValidate = true;
-                Update();
+                //Update();
             }
 #endif
             m_PainerDirty = true;
@@ -125,7 +125,7 @@ namespace XCharts.Runtime
             if (m_EnableTextMeshPro != enableTextMeshPro)
             {
                 m_EnableTextMeshPro = enableTextMeshPro;
-                RemoveChartObject();
+                ReinitAllChartComponent();
             }
         }
 

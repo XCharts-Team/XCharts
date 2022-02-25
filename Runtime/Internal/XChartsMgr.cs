@@ -32,7 +32,7 @@ namespace XCharts.Runtime
         {
             SerieLabelPool.ClearAll();
             chartList.Clear();
-            if(Resources.Load<XCSettings>("XCSettings"))
+            if (Resources.Load<XCSettings>("XCSettings"))
                 XCThemeMgr.ReloadThemeList();
             SceneManager.sceneUnloaded += OnSceneLoaded;
         }
@@ -66,7 +66,7 @@ namespace XCharts.Runtime
         public static List<BaseChart> GetCharts(string chartName)
         {
             if (string.IsNullOrEmpty(chartName)) return null;
-            return chartList.FindAll(chart => chartName.Equals(chartName));
+            return chartList.FindAll(chart => chartName.Equals(chart.chartName));
         }
 
         public static void RemoveChart(string chartName)
@@ -86,6 +86,33 @@ namespace XCharts.Runtime
             return chartList.Contains(chart);
         }
 
+        public static bool IsRepeatChartName(BaseChart chart, string chartName = null)
+        {
+            if (chartName == null)
+                chartName = chart.chartName;
+            if (string.IsNullOrEmpty(chartName))
+                return false;
+            foreach (var temp in chartList)
+            {
+                if (temp != chart && chartName.Equals(temp.chartName))
+                    return true;
+            }
+            return false;
+        }
+
+        public static string GetRepeatChartNameInfo(BaseChart chart, string chartName)
+        {
+            if (string.IsNullOrEmpty(chartName))
+                return string.Empty;
+            string result = "";
+            foreach (var temp in chartList)
+            {
+                if (temp != chart && chartName.Equals(temp.chartName))
+                    result += ChartHelper.GetFullName(temp.transform) + "\n";
+            }
+            return result;
+        }
+
         public static void RemoveAllChartObject()
         {
             if (chartList.Count == 0)
@@ -95,7 +122,7 @@ namespace XCharts.Runtime
             foreach (var chart in chartList)
             {
                 if (chart != null)
-                    chart.RemoveChartObject();
+                    chart.ReinitAllChartComponent();
             }
         }
 

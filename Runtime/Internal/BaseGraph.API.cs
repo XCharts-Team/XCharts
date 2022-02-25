@@ -143,12 +143,12 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 移除所有图表子节点，会自动重新初始化。
+        /// 移除并重新初始化所有组件。
         /// </summary>
-        public void RemoveChartObject()
+        public void ReinitAllChartComponent()
         {
             ChartHelper.DestroyAllChildren(transform);
-            //SetAllComponentDirty();
+            SetAllComponentDirty();
         }
 
         public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)

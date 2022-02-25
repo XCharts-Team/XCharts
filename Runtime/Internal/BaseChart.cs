@@ -18,7 +18,6 @@ namespace XCharts.Runtime
         [SerializeField] protected string m_ChartName;
         [SerializeField] protected ThemeStyle m_Theme = new ThemeStyle();
         [SerializeField] protected Settings m_Settings;
-        [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
 
 #pragma warning disable 0414
         [SerializeField] [ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
@@ -33,7 +32,6 @@ namespace XCharts.Runtime
         [SerializeField] [ListForComponent(typeof(RadiusAxis))] private List<RadiusAxis> m_RadiusAxes = new List<RadiusAxis>();
         [SerializeField] [ListForComponent(typeof(Title))] private List<Title> m_Titles = new List<Title>();
         [SerializeField] [ListForComponent(typeof(Tooltip))] private List<Tooltip> m_Tooltips = new List<Tooltip>();
-        [SerializeField] [ListForComponent(typeof(Vessel))] private List<Vessel> m_Vessels = new List<Vessel>();
         [SerializeField] [ListForComponent(typeof(VisualMap))] private List<VisualMap> m_VisualMaps = new List<VisualMap>();
         [SerializeField] [ListForComponent(typeof(XAxis))] private List<XAxis> m_XAxes = new List<XAxis>();
         [SerializeField] [ListForComponent(typeof(YAxis))] private List<YAxis> m_YAxes = new List<YAxis>();
@@ -46,7 +44,6 @@ namespace XCharts.Runtime
         [SerializeField] [ListForSerie(typeof(EffectScatter))] private List<EffectScatter> m_SerieEffectScatters = new List<EffectScatter>();
         [SerializeField] [ListForSerie(typeof(Heatmap))] private List<Heatmap> m_SerieHeatmaps = new List<Heatmap>();
         [SerializeField] [ListForSerie(typeof(Line))] private List<Line> m_SerieLines = new List<Line>();
-        [SerializeField] [ListForSerie(typeof(Liquid))] private List<Liquid> m_SerieLiquids = new List<Liquid>();
         [SerializeField] [ListForSerie(typeof(Pie))] private List<Pie> m_SeriePies = new List<Pie>();
         [SerializeField] [ListForSerie(typeof(Radar))] private List<Radar> m_SerieRadars = new List<Radar>();
         [SerializeField] [ListForSerie(typeof(Ring))] private List<Ring> m_SerieRings = new List<Ring>();
@@ -212,7 +209,7 @@ namespace XCharts.Runtime
         {
             var painter = GetPainter(index);
             if (painter == null) return;
-            painter.SetActive(flag, m_DebugMode);
+            painter.SetActive(flag, m_DebugInfo.showAllChildObject);
         }
 
         protected virtual void CheckTheme()
@@ -309,7 +306,7 @@ namespace XCharts.Runtime
                 painter.index = m_PainterList.Count;
                 painter.type = Painter.Type.Serie;
                 painter.onPopulateMesh = OnDrawPainterSerie;
-                painter.SetActive(false, m_DebugMode);
+                painter.SetActive(false, m_DebugInfo.showAllChildObject);
                 painter.material = settings.seriePainterMaterial;
                 painter.transform.SetSiblingIndex(index + 1);
                 m_PainterList.Add(painter);
@@ -318,7 +315,7 @@ namespace XCharts.Runtime
                     m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
             m_PainterTop.type = Painter.Type.Top;
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
-            m_PainterTop.SetActive(true, m_DebugMode);
+            m_PainterTop.SetActive(true, m_DebugInfo.showAllChildObject);
             m_PainterTop.material = settings.topPainterMaterial;
             m_PainterTop.transform.SetSiblingIndex(settings.maxPainter + 1);
         }
@@ -626,6 +623,11 @@ namespace XCharts.Runtime
 
         public void OnBeforeSerialize()
         {
+#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+            if (!UnityEditor.EditorUtility.IsDirty(this))
+                return;
+            UnityEditor.EditorUtility.ClearDirty(this);
+#endif
             InitListForFieldInfos();
             foreach (var kv in m_TypeListForSerie)
             {

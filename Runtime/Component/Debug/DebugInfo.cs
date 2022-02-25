@@ -3,16 +3,17 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine.UI;
 
 namespace XCharts.Runtime
 {
     [Serializable]
     public class DebugInfo
     {
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_ShowDebugInfo = false;
+        [SerializeField] protected bool m_ShowAllChildObject = false;
+        [SerializeField] protected bool m_FoldSeries = false;
         [SerializeField]
-        private TextStyle m_TextStyle = new TextStyle()
+        private TextStyle m_DebugInfoTextStyle = new TextStyle()
         {
             fontSize = 18,
             backgroundColor = new Color32(32, 32, 32, 170),
@@ -31,7 +32,8 @@ namespace XCharts.Runtime
         private ChartLabel m_Label;
         private List<float> m_FpsList = new List<float>();
 
-
+        public bool showAllChildObject { get { return m_ShowAllChildObject; } }
+        public bool foldSeries { get { return m_FoldSeries; } set { m_FoldSeries = value; } }
         public float fps { get; private set; }
         public float avgFps { get; private set; }
         public int refreshCount { get; internal set; }
@@ -40,15 +42,15 @@ namespace XCharts.Runtime
         public void Init(BaseChart chart)
         {
             m_Chart = chart;
-            m_Label = AddDebugInfoObject("debug", chart.transform, m_TextStyle, chart.theme);
+            m_Label = AddDebugInfoObject("debug", chart.transform, m_DebugInfoTextStyle, chart.theme);
         }
 
         public void Update()
         {
             if (clickChartCount >= 2)
             {
-                m_Show = !m_Show;
-                ChartHelper.SetActive(m_Label.transform, m_Show);
+                m_ShowDebugInfo = !m_ShowDebugInfo;
+                ChartHelper.SetActive(m_Label.transform, m_ShowDebugInfo);
                 clickChartCount = 0;
                 m_LastCheckShowTime = Time.realtimeSinceStartup;
                 return;
@@ -58,7 +60,7 @@ namespace XCharts.Runtime
                 m_LastCheckShowTime = Time.realtimeSinceStartup;
                 clickChartCount = 0;
             }
-            if (!m_Show || m_Label == null)
+            if (!m_ShowDebugInfo || m_Label == null)
                 return;
 
             m_FrameCount++;
@@ -130,7 +132,7 @@ namespace XCharts.Runtime
             var labelGameObject = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             labelGameObject.transform.SetAsLastSibling();
             labelGameObject.hideFlags = m_Chart.chartHideFlags;
-            ChartHelper.SetActive(labelGameObject, m_Show);
+            ChartHelper.SetActive(labelGameObject, m_ShowDebugInfo);
 
             var label = ChartHelper.GetOrAddComponent<ChartLabel>(labelGameObject);
             label.labelBackground = label;

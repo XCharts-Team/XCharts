@@ -17,7 +17,6 @@ namespace XCharts.Editor
         protected SerializedProperty m_Settings;
         protected SerializedProperty m_Theme;
         protected SerializedProperty m_ChartName;
-        protected SerializedProperty m_DebugMode;
         protected SerializedProperty m_DebugInfo;
         protected SerializedProperty m_RaycastTarget;
 
@@ -25,6 +24,7 @@ namespace XCharts.Editor
         protected List<SerializedProperty> m_Series = new List<SerializedProperty>();
 
         private bool m_BaseFoldout;
+
         private bool m_CheckWarning = false;
         private int m_LastComponentCount = 0;
         private int m_LastSerieCount = 0;
@@ -41,7 +41,6 @@ namespace XCharts.Editor
             m_ChartName = serializedObject.FindProperty("m_ChartName");
             m_Theme = serializedObject.FindProperty("m_Theme");
             m_Settings = serializedObject.FindProperty("m_Settings");
-            m_DebugMode = serializedObject.FindProperty("m_DebugMode");
             m_DebugInfo = serializedObject.FindProperty("m_DebugInfo");
             m_RaycastTarget = serializedObject.FindProperty("m_RaycastTarget");
 
@@ -57,7 +56,7 @@ namespace XCharts.Editor
         public List<SerializedProperty> RefreshComponent()
         {
             m_Components.Clear();
-            serializedObject.Update();
+            serializedObject.UpdateIfRequiredOrScript();
             foreach (var kv in m_Chart.typeListForComponent)
             {
                 InitComponent(kv.Value.Name);
@@ -68,7 +67,7 @@ namespace XCharts.Editor
         public List<SerializedProperty> RefreshSeries()
         {
             m_Series.Clear();
-            serializedObject.Update();
+            serializedObject.UpdateIfRequiredOrScript();
             foreach (var kv in m_Chart.typeListForSerie)
             {
                 InitSerie(kv.Value.Name);
@@ -83,7 +82,7 @@ namespace XCharts.Editor
                 base.OnInspectorGUI();
                 return;
             }
-            serializedObject.Update();
+            serializedObject.UpdateIfRequiredOrScript();
             if (m_LastComponentCount != m_Chart.components.Count)
             {
                 m_LastComponentCount = m_Chart.components.Count;
@@ -107,16 +106,7 @@ namespace XCharts.Editor
 
         protected virtual void OnStartInspectorGUI()
         {
-            var version = string.Format("v{0}_{1}", XChartsMgr.version, XChartsMgr.versionDate);
-            if (m_EnableTextMeshPro.boolValue)
-            {
-                version += " TMP";
-            }
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField(version);
-            EditorGUILayout.Space();
-            serializedObject.Update();
-
+            ShowVersion();
             m_BaseFoldout = ChartEditorHelper.DrawHeader("Base", m_BaseFoldout, false, null, null);
             if (m_BaseFoldout)
             {
@@ -134,13 +124,10 @@ namespace XCharts.Editor
 
         protected virtual void OnDebugInspectorGUI()
         {
+            EditorGUILayout.PropertyField(m_DebugInfo, true);
             AddSerie();
             AddComponent();
             CheckWarning();
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.PropertyField(m_DebugMode);
-            EditorGUILayout.PropertyField(m_DebugInfo, true);
-            EditorGUILayout.EndVertical();
         }
 
         protected void PropertyComponnetList(SerializedProperty prop)
@@ -174,6 +161,15 @@ namespace XCharts.Editor
                 var index2 = b.FindPropertyRelative("m_Index").intValue;
                 return index1.CompareTo(index2);
             });
+        }
+
+        private void ShowVersion()
+        {
+            sb.Length = 0;
+            sb.AppendFormat("v{0}", XChartsMgr.fullVersion);
+            //if(m_EnableTextMeshPro.boolValue)
+                sb.Append("-tmp");
+            EditorGUILayout.HelpBox(sb.ToString(), MessageType.None);
         }
 
         private void AddComponent()
@@ -267,9 +263,9 @@ namespace XCharts.Editor
                 if (GUILayout.Button("Covert XY Axis"))
                     m_Chart.CovertXYAxis(0);
             }
-            if (GUILayout.Button("Remove All Chart Object"))
+            if (GUILayout.Button("Reinit Component"))
             {
-                m_Chart.RemoveChartObject();
+                m_Chart.ReinitAllChartComponent();
             }
             if (m_CheckWarning)
             {
@@ -305,6 +301,7 @@ namespace XCharts.Editor
                     m_CheckWarning = true;
                     m_Chart.CheckWarning();
                 }
+
             }
         }
     }

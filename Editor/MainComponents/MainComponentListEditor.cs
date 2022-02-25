@@ -32,7 +32,6 @@ namespace XCharts.Editor
 
             this.chart = chart;
             m_ComponentsProperty = componentProps;
-            //m_SerializedObject = serializedObject;
 
             Assert.IsNotNull(m_ComponentsProperty);
 
@@ -73,24 +72,17 @@ namespace XCharts.Editor
             if (chart == null)
                 return;
 
-            // if (chart.isDirty)
-            // {
-            //     RefreshEditors();
-            //     chart.isDirty = false;
-            // }
-
-            // Override list
             for (int i = 0; i < m_Editors.Count; i++)
             {
                 var editor = m_Editors[i];
                 string title = editor.GetDisplayTitle();
-                int id = i; // Needed for closure capture below
+                int id = i;
 
                 bool displayContent = ChartEditorHelper.DrawHeader(
                     title,
                     editor.baseProperty,
                     editor.showProperty,
-                    () => { },
+                    () => { ResetComponentEditor(id); },
                     () => { RemoveComponentEditor(id); }
                     );
                 if (displayContent)
@@ -99,11 +91,7 @@ namespace XCharts.Editor
                 }
             }
 
-            if (m_Editors.Count > 0)
-            {
-                //EditorGUILayout.Space();
-            }
-            else
+            if (m_Editors.Count == 0)
             {
                 EditorGUILayout.HelpBox("No componnet.", MessageType.Info);
             }
@@ -146,6 +134,14 @@ namespace XCharts.Editor
             chart.AddChartComponent(type);
             m_ComponentsProperty = m_BaseEditor.RefreshComponent();
             RefreshEditors();
+            EditorUtility.SetDirty(chart);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        private void ResetComponentEditor(int id)
+        {
+            m_Editors[id].component.Reset();
             EditorUtility.SetDirty(chart);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

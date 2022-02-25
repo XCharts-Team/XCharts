@@ -22,7 +22,10 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
         [SerializeField] private float m_Bottom = 0.12f;
-        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private Color32 m_BackgroundColor;
+        [SerializeField] private bool m_ShowBorder = false;
+        [SerializeField] private float m_BorderWidth = 0f;
+        [SerializeField] private Color32 m_BorderColor;
 
         public GridCoordContext context = new GridCoordContext();
 
@@ -75,10 +78,37 @@ namespace XCharts.Runtime
         /// Background color of grid, which is transparent by default.
         /// 网格背景色，默认透明。
         /// </summary>
-        public Color backgroundColor
+        public Color32 backgroundColor
         {
             get { return m_BackgroundColor; }
             set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        ///  Whether to show the grid border.
+        /// 是否显示网格边框。
+        /// </summary>
+        public bool showBorder
+        {
+            get { return m_ShowBorder; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowBorder, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Border width of grid.
+        /// 网格边框宽。
+        /// </summary>
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The color of grid border.
+        /// 网格边框颜色。
+        /// </summary>
+        public Color32 borderColor
+        {
+            get { return m_BorderColor; }
+            set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
 
         public bool IsPointerEnter()
@@ -97,6 +127,7 @@ namespace XCharts.Runtime
             context.width = chartWidth - context.left - context.right;
             context.height = chartHeight - context.top - context.bottom;
             context.position = new Vector3(context.x, context.y);
+            context.center = new Vector3(context.x + context.width / 2, context.y + context.height / 2);
         }
 
         public bool Contains(Vector3 pos)

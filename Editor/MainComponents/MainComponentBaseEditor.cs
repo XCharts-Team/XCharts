@@ -10,19 +10,17 @@ namespace XCharts.Editor
     {
         protected const string MORE = "More";
         protected bool m_MoreFoldout = false;
-        internal BaseChart chart { get; private set; }
-        internal MainComponent component { get; private set; }
+        public BaseChart chart { get; private set; }
+        public MainComponent component { get; private set; }
 
-        //Editor m_Inspector;
-        internal SerializedProperty baseProperty;
-        internal SerializedProperty showProperty;
+        public SerializedProperty baseProperty;
+        public SerializedProperty showProperty;
 
         internal void Init(BaseChart chart, MainComponent target, SerializedProperty property, UnityEditor.Editor inspector)
         {
             this.chart = chart;
             this.component = target;
             this.baseProperty = property;
-            //m_Inspector = inspector;
             showProperty = baseProperty.FindPropertyRelative("m_Show");
             if (showProperty == null)
                 showProperty = baseProperty.FindPropertyRelative("m_Enable");

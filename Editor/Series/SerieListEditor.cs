@@ -20,6 +20,7 @@ namespace XCharts.Editor
 
         Dictionary<Type, Type> m_EditorTypes;
         List<SerieBaseEditor> m_Editors;
+        private bool m_SerieFoldout;
 
 
         public SerieListEditor(BaseChartEditor editor)
@@ -73,7 +74,22 @@ namespace XCharts.Editor
         {
             if (chart == null)
                 return;
+            if (chart.debug.foldSeries)
+            {
+                m_SerieFoldout = ChartEditorHelper.DrawHeader("Series", m_SerieFoldout, false, null, null);
+                if (m_SerieFoldout)
+                {
+                    DrawSeries();
+                }
+            }
+            else
+            {
+                DrawSeries();
+            }
+        }
 
+        void DrawSeries()
+        {
             for (int i = 0; i < m_Editors.Count; i++)
             {
                 var editor = m_Editors[i];
@@ -96,6 +112,7 @@ namespace XCharts.Editor
 
         void RefreshEditors()
         {
+            m_SerializedObject.UpdateIfRequiredOrScript();
             foreach (var editor in m_Editors)
                 editor.OnDisable();
 

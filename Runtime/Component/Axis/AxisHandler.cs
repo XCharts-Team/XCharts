@@ -2,9 +2,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using XCharts.Runtime;
 using XUGL;
 
-namespace XCharts.Runtime
+namespace XCharts
 {
     public abstract class AxisHandler<T> : MainComponentHandler
         where T : Axis

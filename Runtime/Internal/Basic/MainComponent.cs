@@ -53,6 +53,10 @@ namespace XCharts.Runtime
             m_ComponentDirty = false;
         }
 
+        public virtual void Reset()
+        {
+        }
+
         public virtual void ClearData()
         {
         }

@@ -1,13 +1,13 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace XCharts.Runtime
 {
     public static class DateTimeUtil
     {
-        private static readonly DateTime k_DateTime1970 = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+        //private static readonly DateTime k_DateTime1970 = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+        private static readonly DateTime k_DateTime1970 = new DateTime(1970, 1, 1);
         public static readonly int ONE_SECOND = 1;
         public static readonly int ONE_MINUTE = ONE_SECOND * 60;
         public static readonly int ONE_HOUR = ONE_MINUTE * 60;

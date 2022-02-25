@@ -10,6 +10,7 @@ namespace XCharts.Runtime
         public float width { get; internal set; }
         public float height { get; internal set; }
         public Vector3 position { get; internal set; }
+        public Vector3 center { get; internal set; }
         public float left { get; internal set; }
         public float right { get; internal set; }
         public float bottom { get; internal set; }

@@ -10,7 +10,7 @@ namespace XCharts.Editor
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
             PropertyField("m_StartAngle");
-            PropertyField("m_RingGap");
+            PropertyField("m_Gap");
             PropertyField("m_RoundCap");
             PropertyField("m_Clockwise");
 

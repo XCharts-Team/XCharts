@@ -23,7 +23,6 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_BackgroundWidth");
                 PropertyField(prop, "m_CenterColor");
                 PropertyField(prop, "m_CenterGap");
-                PropertyField(prop, "m_BorderType");
                 PropertyField(prop, "m_BorderWidth");
                 PropertyField(prop, "m_BorderColor");
                 PropertyField(prop, "m_BorderColor0");

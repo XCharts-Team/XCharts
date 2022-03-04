@@ -78,18 +78,11 @@ namespace XCharts.Runtime
         /// </summary>
         FromData,
         /// <summary>
-        /// Specify callback function for symbol size.
-        /// 通过回调函数获取。
+        /// Specify function for symbol size.
+        /// 通过委托函数获取。
         /// </summary>
-        Callback,
+        Function,
     }
-
-    /// <summary>
-    /// 获取标记大小的回调。
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    public delegate float SymbolSizeCallback(List<double> data);
 
     /// <summary>
     /// 系列数据项的标记的图形
@@ -105,8 +98,8 @@ namespace XCharts.Runtime
         [SerializeField] private int m_DataIndex = 1;
         [SerializeField] private float m_DataScale = 1;
         [SerializeField] private float m_SelectedDataScale = 1.5f;
-        [SerializeField] private SymbolSizeCallback m_SizeCallback;
-        [SerializeField] private SymbolSizeCallback m_SelectedSizeCallback;
+        [SerializeField] private SymbolSizeFunction m_SizeFunction;
+        [SerializeField] private SymbolSizeFunction m_SelectedSizeFunction;
         [SerializeField] private int m_StartIndex;
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;
@@ -128,8 +121,8 @@ namespace XCharts.Runtime
             m_DataIndex = 1;
             m_DataScale = 1;
             m_SelectedDataScale = 1.5f;
-            m_SizeCallback = null;
-            m_SelectedSizeCallback = null;
+            m_SizeFunction = null;
+            m_SelectedSizeFunction = null;
             m_StartIndex = 0;
             m_Interval = 0;
             m_ForceShowLast = false;
@@ -215,22 +208,22 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SelectedDataScale, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the callback of size when sizeType assined as Callback.
-        /// 当sizeType指定为Callback时，指定的回调函数。
+        /// the function of size when sizeType assined as Function.
+        /// 当sizeType指定为Function时，指定的委托函数。
         /// </summary>
-        public SymbolSizeCallback sizeCallback
+        public SymbolSizeFunction sizeFunction
         {
-            get { return m_SizeCallback; }
-            set { if (PropertyUtil.SetClass(ref m_SizeCallback, value)) SetVerticesDirty(); }
+            get { return m_SizeFunction; }
+            set { if (PropertyUtil.SetClass(ref m_SizeFunction, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the callback of size when sizeType assined as Callback.
-        /// 当sizeType指定为Callback时，指定的高亮回调函数。
+        /// the function of size when sizeType assined as Function.
+        /// 当sizeType指定为Function时，指定的高亮委托函数。
         /// </summary>
-        public SymbolSizeCallback selectedSizeCallback
+        public SymbolSizeFunction selectedSizeFunction
         {
-            get { return m_SelectedSizeCallback; }
-            set { if (PropertyUtil.SetClass(ref m_SelectedSizeCallback, value)) SetVerticesDirty(); }
+            get { return m_SelectedSizeFunction; }
+            set { if (PropertyUtil.SetClass(ref m_SelectedSizeFunction, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the index start to show symbol.
@@ -341,8 +334,8 @@ namespace XCharts.Runtime
                     {
                         return size == 0 ? themeSize : size;
                     }
-                case SymbolSizeType.Callback:
-                    if (data != null && sizeCallback != null) return sizeCallback(data);
+                case SymbolSizeType.Function:
+                    if (data != null && sizeFunction != null) return sizeFunction(data);
                     else return size == 0 ? themeSize : size;
                 default: return size == 0 ? themeSize : size;
             }
@@ -372,10 +365,10 @@ namespace XCharts.Runtime
                         return selectedSize == 0 ? themeSelectedSize : selectedSize;
                     }
 
-                case SymbolSizeType.Callback:
+                case SymbolSizeType.Function:
 
-                    if (data != null && selectedSizeCallback != null)
-                        return selectedSizeCallback(data);
+                    if (data != null && selectedSizeFunction != null)
+                        return selectedSizeFunction(data);
                     else
                         return selectedSize == 0 ? themeSelectedSize : selectedSize;
 

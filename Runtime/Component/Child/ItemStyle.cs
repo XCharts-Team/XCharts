@@ -1,6 +1,3 @@
-
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -11,24 +8,6 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class ItemStyle : ChildComponent, ISerieDataComponent
     {
-        /// <summary>
-        /// 线的类型。
-        /// </summary>
-        public enum Type
-        {
-            /// <summary>
-            /// 实线
-            /// </summary>
-            Solid,
-            /// <summary>
-            /// 虚线
-            /// </summary>
-            Dashed,
-            /// <summary>
-            /// 点线
-            /// </summary>
-            Dotted
-        }
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_Color0;
@@ -38,7 +17,6 @@ namespace XCharts.Runtime
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color32 m_CenterColor;
         [SerializeField] private float m_CenterGap;
-        [SerializeField] private Type m_BorderType = Type.Solid;
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color32 m_BorderColor;
         [SerializeField] private Color32 m_BorderColor0;
@@ -60,7 +38,6 @@ namespace XCharts.Runtime
             m_BackgroundWidth = 0;
             m_CenterColor = Color.clear;
             m_CenterGap = 0;
-            m_BorderType = Type.Solid;
             m_BorderWidth = 0;
             m_BorderColor = Color.clear;
             m_BorderColor0 = Color.clear;
@@ -153,14 +130,6 @@ namespace XCharts.Runtime
         {
             get { return m_BackgroundWidth; }
             set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// 边框的类型。
-        /// </summary>
-        public Type borderType
-        {
-            get { return m_BorderType; }
-            set { if (PropertyUtil.SetStruct(ref m_BorderType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框的颜色。
@@ -261,6 +230,7 @@ namespace XCharts.Runtime
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }
+
         public Color32 GetColor0()
         {
             if (m_Opacity == 1 || m_Color0.a == 0)
@@ -270,6 +240,7 @@ namespace XCharts.Runtime
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }
+
         public Color32 GetColor(Color32 defaultColor)
         {
             var color = ChartHelper.IsClearColor(m_Color) ? defaultColor : m_Color;
@@ -280,6 +251,7 @@ namespace XCharts.Runtime
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }
+
         public Color32 GetColor0(Color32 defaultColor)
         {
             var color = ChartHelper.IsClearColor(m_Color0) ? defaultColor : m_Color0;
@@ -290,6 +262,7 @@ namespace XCharts.Runtime
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }
+
         public Color32 GetBorderColor(Color32 defaultColor)
         {
             var color = ChartHelper.IsClearColor(m_BorderColor) ? defaultColor : m_BorderColor;
@@ -300,6 +273,7 @@ namespace XCharts.Runtime
             color.a = (byte)(color.a * m_Opacity);
             return color;
         }
+
         public Color32 GetBorderColor0(Color32 defaultColor)
         {
             var color = ChartHelper.IsClearColor(m_BorderColor0) ? defaultColor : m_BorderColor0;

@@ -93,7 +93,7 @@ namespace XCharts.Runtime
             var showData = serie.GetDataList(dataZoom);
             float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, showData.Count, dataZoom);
             float barWidth = serie.GetBarWidth(categoryWidth);
-            float space = (categoryWidth - barWidth) / 2;
+            float gap = (categoryWidth - barWidth) / 2;
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -140,11 +140,11 @@ namespace XCharts.Runtime
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
 
-                plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
-                prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
-                prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
-                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+                plb = new Vector3(pX + gap + borderWidth, pY + borderWidth);
+                plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
+                prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
+                prb = new Vector3(pX + gap + barWidth - borderWidth, pY + borderWidth);
+                top = new Vector3(pX + gap + barWidth / 2, pY + currHig - borderWidth);
                 // if (serie.clip)
                 // {
                 //     plb = chart.ClampInGrid(grid, plb);

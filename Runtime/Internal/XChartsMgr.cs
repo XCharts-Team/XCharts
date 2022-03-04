@@ -122,7 +122,7 @@ namespace XCharts.Runtime
             foreach (var chart in chartList)
             {
                 if (chart != null)
-                    chart.ReinitAllChartComponent();
+                    chart.RemoveAndReinitChartObject();
             }
         }
 

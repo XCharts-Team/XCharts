@@ -5,9 +5,6 @@ using System;
 
 namespace XCharts.Runtime
 {
-    public delegate float CustomAnimationDelay(int dataIndex);
-    public delegate float CustomAnimationDuration(int dataIndex);
-
     public enum AnimationType
     {
         /// <summary>
@@ -69,19 +66,19 @@ namespace XCharts.Runtime
         /// <summary>
         /// 自定义渐入动画延时函数。返回ms值。
         /// </summary>
-        public CustomAnimationDelay customFadeInDelay;
+        public AnimationDelayFunction fadeInDelayFunction;
         /// <summary>
         /// 自定义渐入动画时长函数。返回ms值。
         /// </summary>
-        public CustomAnimationDuration customFadeInDuration;
+        public AnimationDurationFunction fadeInDurationFunction;
         /// <summary>
         /// 自定义渐出动画延时函数。返回ms值。
         /// </summary>
-        public CustomAnimationDelay customFadeOutDelay;
+        public AnimationDelayFunction fadeOutDelayFunction;
         /// <summary>
         /// 自定义渐出动画时长函数。返回ms值。
         /// </summary>
-        public CustomAnimationDuration customFadeOutDuration;
+        public AnimationDurationFunction fadeOutDurationFunction;
         public AnimationStyleContext context = new AnimationStyleContext();
 
         /// <summary>
@@ -390,10 +387,10 @@ namespace XCharts.Runtime
 
         public float GetIndexDelay(int dataIndex)
         {
-            if (m_FadeOut && customFadeOutDelay != null)
-                return customFadeOutDelay(dataIndex);
-            else if (m_FadeIn && customFadeInDelay != null)
-                return customFadeInDelay(dataIndex);
+            if (m_FadeOut && fadeOutDelayFunction != null)
+                return fadeOutDelayFunction(dataIndex);
+            else if (m_FadeIn && fadeInDelayFunction != null)
+                return fadeInDelayFunction(dataIndex);
             else
                 return 0;
         }
@@ -492,10 +489,10 @@ namespace XCharts.Runtime
         {
             if (dataIndex >= 0)
             {
-                if (m_FadeOut && customFadeOutDuration != null)
-                    return customFadeOutDuration(dataIndex) / 1000f;
-                if (m_FadeIn && customFadeInDuration != null)
-                    return customFadeInDuration(dataIndex) / 1000f;
+                if (m_FadeOut && fadeOutDurationFunction != null)
+                    return fadeOutDurationFunction(dataIndex) / 1000f;
+                if (m_FadeIn && fadeInDurationFunction != null)
+                    return fadeInDurationFunction(dataIndex) / 1000f;
             }
 
             if (m_FadeOut)

@@ -89,6 +89,7 @@ namespace XCharts.Runtime
         /// 排序后的数据
         /// </summary>
         public List<SerieData> sortedData = new List<SerieData>();
+        public List<SerieData> rootData = new List<SerieData>();
         /// <summary>
         /// theme的颜色索引
         /// </summary>

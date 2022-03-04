@@ -38,7 +38,6 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 0.6f;
-        [SerializeField] private bool m_TooltipHighlight;
         [SerializeField] private Color32 m_HighlightColor;
         [SerializeField] private Color32 m_HighlightToColor;
 
@@ -86,14 +85,6 @@ namespace XCharts.Runtime
         {
             get { return m_Opacity; }
             set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// 鼠标悬浮时是否高亮之前的区域
-        /// </summary>
-        public bool tooltipHighlight
-        {
-            get { return m_TooltipHighlight; }
-            set { if (PropertyUtil.SetStruct(ref m_TooltipHighlight, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the color of area,default use serie color.

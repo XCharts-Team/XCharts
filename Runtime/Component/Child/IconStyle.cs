@@ -12,7 +12,7 @@ namespace XCharts.Runtime
             UnderLabel,
             AboveLabel
         }
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_Show = false;
         [SerializeField] private Layer m_Layer;
         [SerializeField] private Align m_Align = Align.Left;
         [SerializeField] private Sprite m_Sprite;

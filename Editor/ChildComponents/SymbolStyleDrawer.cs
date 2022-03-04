@@ -39,7 +39,7 @@ namespace XCharts.Editor
                         PropertyField(prop, "m_DataScale");
                         PropertyField(prop, "m_SelectedDataScale");
                         break;
-                    case SymbolSizeType.Callback:
+                    case SymbolSizeType.Function:
                         break;
                 }
                 PropertyField(prop, "m_StartIndex");

@@ -132,7 +132,7 @@ namespace XCharts.Runtime
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
                 var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.context.highlight);
                 var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.context.highlight);
-                var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.ringGap);
+                var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.gap);
                 var insideRadius = outsideRadius - ringWidth;
                 var centerRadius = (outsideRadius + insideRadius) / 2;
                 var borderWidth = itemStyle.borderWidth;

@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class ChildComponent
     {
-        public int index { get; set; }
+        public virtual int index { get; set; }
         [NonSerialized] protected bool m_VertsDirty;
         [NonSerialized] protected bool m_ComponentDirty;
         [NonSerialized] protected Painter m_Painter;

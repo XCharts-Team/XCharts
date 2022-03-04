@@ -212,7 +212,7 @@ The component of settings related to text.
 * `font`: the font of text. When `null`, the theme's font is used by default. [default: `null`].
 * `fontSize`: the size of text. [default: `18`].
 * `fontStyle`: the font style of text. [default: `FontStyle.Normal`].
-* `lineSpacing`: the space of text line.  [default: `1f`].
+* `lineSpacing`: the gap of text line.  [default: `1f`].
 * `autoWrap`: Whether to wrap lines.
 * `autoAlign`: Whether to let the system automatically set alignment. If true, the system automatically selects alignment, and if false, use alignment.
 
@@ -531,7 +531,7 @@ Line chart serie.
   * `None`: 不展示成南丁格尔玫瑰图。
   * `Radius`: 扇区圆心角展现数据的百分比，半径展现数据的大小。
   * `Area`: 所有扇区圆心角相同，仅通过半径展现数据大小。
-* `space`: 扇区间隙。
+* `gap`: 扇区间隙。
 * `center`: 中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`: 半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
 * `minAngle`: The minimum angle of sector(0-360). It prevents some sector from being too small when value is small.

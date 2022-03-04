@@ -72,23 +72,23 @@ namespace XCharts.Runtime
         /// <summary>
         /// 自定义绘制回调。在绘制Serie前调用。
         /// </summary>
-        public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawBaseCallback = value; } }
+        public Action<VertexHelper> onDraw { set { m_OnDrawBase = value; } }
         /// <summary>
         /// 自定义Serie绘制回调。在每个Serie绘制完前调用。
         /// </summary>
-        public Action<VertexHelper, Serie> onCustomDrawBeforeSerie { set { m_OnCustomDrawSerieBeforeCallback = value; } }
+        public Action<VertexHelper, Serie> onDrawBeforeSerie { set { m_OnDrawSerieBefore = value; } }
         /// <summary>
         /// 自定义Serie绘制回调。在每个Serie绘制完后调用。
         /// </summary>
-        public Action<VertexHelper, Serie> onCustomDrawAfterSerie { set { m_OnCustomDrawSerieAfterCallback = value; } }
+        public Action<VertexHelper, Serie> onDrawAfterSerie { set { m_OnDrawSerieAfter = value; } }
         /// <summary>
         /// 自定义Top绘制回调。在绘制Tooltip前调用。
         /// </summary>
-        public Action<VertexHelper> onCustomDrawTop { set { m_OnCustomDrawTopCallback = value; } }
+        public Action<VertexHelper> onDrawTop { set { m_OnDrawTop = value; } }
         /// <summary>
-        /// 自定义仪表盘指针绘制回调。参数：SerieIndex，SerieDataIndex，currAngle
+        /// 自定义仪表盘指针绘制委托。
         /// </summary>
-        public Action<VertexHelper, int, int, float> onCustomDrawGagugePointer { set { m_OnCustomDrawGagugePointerCallback = value; } get { return m_OnCustomDrawGagugePointerCallback; } }
+        public CustomDrawGaugePointerFunction customDrawGaugePointerFunction { set { m_CustomDrawGaugePointerFunction = value; } get { return m_CustomDrawGaugePointerFunction; } }
         /// <summary>
         /// the callback function of click pie area.
         /// 点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
@@ -102,7 +102,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
         /// </summary>
-        public Action<Axis, double> onUpdateAxisPointer { set { m_OnUpdateAxisPointer = value; } get { return m_OnUpdateAxisPointer; } }
+        public Action<Axis, double> onAxisPointerValueChanged { set { m_OnAxisPointerValueChanged = value; } get { return m_OnAxisPointerValueChanged; } }
         /// <summary>
         /// Redraw chart in next frame.
         /// 在下一帧刷新图表。

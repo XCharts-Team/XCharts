@@ -19,7 +19,6 @@ namespace XCharts.Runtime
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
         private static Dictionary<Type, Dictionary<int, string>> s_ComponentObjectName = new Dictionary<Type, Dictionary<int, string>>();
         private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>();
-        private static Dictionary<string, string> s_AxisLabel = new Dictionary<string, string>();
         private static Dictionary<Type, string> s_TypeName = new Dictionary<Type, string>();
 
 
@@ -156,15 +155,6 @@ namespace XCharts.Runtime
             {
                 return name;
             }
-        }
-
-        internal static string GetAxisTooltipLabel(string axisName)
-        {
-            if (!s_AxisLabel.ContainsKey(axisName))
-            {
-                s_AxisLabel[axisName] = axisName + "_label";
-            }
-            return s_AxisLabel[axisName];
         }
 
         internal static string GetTypeName<T>()

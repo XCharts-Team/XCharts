@@ -167,7 +167,7 @@ namespace XCharts.Editor
         {
             sb.Length = 0;
             sb.AppendFormat("v{0}", XChartsMgr.fullVersion);
-            //if(m_EnableTextMeshPro.boolValue)
+            if(m_EnableTextMeshPro.boolValue)
                 sb.Append("-tmp");
             EditorGUILayout.HelpBox(sb.ToString(), MessageType.None);
         }
@@ -265,7 +265,7 @@ namespace XCharts.Editor
             }
             if (GUILayout.Button("Reinit Component"))
             {
-                m_Chart.ReinitAllChartComponent();
+                m_Chart.RemoveAndReinitChartObject();
             }
             if (m_CheckWarning)
             {

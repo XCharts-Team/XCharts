@@ -26,7 +26,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ShowEndLabel = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
-        private DelegateAxisLabelFormatter m_FormatterFunction;
+        private AxisLabelFormatterFunction m_FormatterFunction;
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -158,7 +158,7 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
         }
 
-        public DelegateAxisLabelFormatter formatterFunction
+        public AxisLabelFormatterFunction formatterFunction
         {
             set { m_FormatterFunction = value; }
         }

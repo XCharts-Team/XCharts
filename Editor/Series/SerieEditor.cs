@@ -75,7 +75,7 @@ namespace XCharts.Editor
                 while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
                 while (listSize < m_Datas.arraySize) m_Datas.arraySize--;
             }
-            if (listSize > 30 && !XCSettings.editorShowAllListData)
+            if (listSize > 30)// && !XCSettings.editorShowAllListData)
             {
                 int num = listSize > 10 ? 10 : listSize;
                 for (int i = 0; i < num; i++)
@@ -191,10 +191,10 @@ namespace XCharts.Editor
         {
             EditorGUI.indentLevel++;
             var serieData = m_Datas.GetArrayElementAtIndex(index);
-            var sereName = serieData.FindPropertyRelative("m_Name");
-            var selected = serieData.FindPropertyRelative("m_Selected");
+            var m_Name = serieData.FindPropertyRelative("m_Name");
+            var m_Id = serieData.FindPropertyRelative("m_Id");
+            var m_ParentId = serieData.FindPropertyRelative("m_ParentId");
 
-            var m_Ignore = serieData.FindPropertyRelative("m_Ignore");
             var m_IconStyle = serieData.FindPropertyRelative("m_IconStyles");
             var m_Label = serieData.FindPropertyRelative("m_Labels");
             var m_ItemStyle = serieData.FindPropertyRelative("m_ItemStyles");
@@ -204,9 +204,9 @@ namespace XCharts.Editor
             var m_AreaStyle = serieData.FindPropertyRelative("m_AreaStyles");
             var m_TitleStyle = serieData.FindPropertyRelative("m_TitleStyles");
 
-            PropertyField(sereName);
-            PropertyField(selected);
-            PropertyField(m_Ignore);
+            PropertyField(m_Name);
+            PropertyField(m_Id);
+            PropertyField(m_ParentId);
 
             var componentNum = m_IconStyle.arraySize + m_Label.arraySize + m_ItemStyle.arraySize + m_Emphasis.arraySize
                 + m_Symbol.arraySize + m_LineStyle.arraySize + m_AreaStyle.arraySize;

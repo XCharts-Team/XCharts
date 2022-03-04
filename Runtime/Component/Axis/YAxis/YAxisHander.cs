@@ -89,14 +89,15 @@ namespace XCharts.Runtime
                 var grid = chart.GetChartComponent<GridCoord>(yAxis.gridIndex);
                 if (grid == null)
                     return;
-
+                var relativedAxis = chart.GetChartComponent<XAxis>(yAxis.gridIndex);
                 var dataZoom = chart.GetDataZoomOfAxis(yAxis);
                 DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
                     Orient.Vertical,
                     grid.context.x,
                     grid.context.y,
                     grid.context.height,
-                    grid.context.width);
+                    grid.context.width,
+                    relativedAxis);
             }
         }
 

@@ -1,6 +1,5 @@
 
 using System;
-using System.Text;
 using UnityEngine;
 
 namespace XCharts.Runtime

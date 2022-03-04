@@ -12,11 +12,10 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class SerieData : ChildComponent
     {
+        [SerializeField] private int m_Index;
         [SerializeField] private string m_Name;
-        [SerializeField] private string m_Uuid;
-        [SerializeField] private bool m_Selected;
-        [SerializeField] private bool m_Ignore = false;
-        [SerializeField] private float m_Radius;
+        [SerializeField] private string m_Id;
+        [SerializeField] private string m_ParentId;
         [SerializeField] private List<ItemStyle> m_ItemStyles = new List<ItemStyle>();
         [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
         [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
@@ -27,15 +26,18 @@ namespace XCharts.Runtime
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
         [SerializeField] private List<double> m_Data = new List<double>();
-        [SerializeField] private List<int> m_Children = new List<int>();
 
         [NonSerialized] public SerieDataContext context = new SerieDataContext();
         [NonSerialized] public InteractData interact = new InteractData();
+        [NonSerialized] private bool m_Ignore = false;
+        [NonSerialized] private bool m_Selected;
+        [NonSerialized] private float m_Radius;
         public ChartLabel labelObject { get; set; }
         public ChartLabel titleObject { get; set; }
 
         private bool m_Show = true;
 
+        public override int index { get { return m_Index; } set { m_Index = value; } }
         /// <summary>
         /// the name of data item.
         /// 数据项名称。
@@ -44,7 +46,8 @@ namespace XCharts.Runtime
         /// <summary>
         /// 数据项的唯一id。唯一id不是必须设置的。
         /// </summary>
-        public string uuid { get { return m_Uuid; } set { m_Uuid = value; } }
+        public string id { get { return m_Id; } set { m_Id = value; } }
+        public string parentId { get { return m_ParentId; } set { m_ParentId = value; } }
         /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
@@ -97,8 +100,6 @@ namespace XCharts.Runtime
         /// 可指定任意维数的数值列表。
         /// </summary>
         public List<double> data { get { return m_Data; } set { m_Data = value; } }
-
-        public List<int> children { get { return m_Children; } set { m_Children = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
         /// 该数据项是否要显示。
@@ -113,12 +114,16 @@ namespace XCharts.Runtime
         public void Reset()
         {
             index = 0;
+            m_Id = null;
+            m_ParentId = null;
             labelObject = null;
             m_Name = string.Empty;
             m_Show = true;
             m_Selected = false;
             context.canShowLabel = true;
             context.highlight = false;
+            context.children.Clear();
+            context.dataPoints.Clear();
             m_Radius = 0;
             interact.Reset();
             m_Data.Clear();

@@ -20,9 +20,9 @@ namespace XCharts.Example
             var serie = chart.GetSerie(0);
             serie.animation.enable = true;
             //自定义每个数据项的渐入延时
-            serie.animation.customFadeInDelay = CustomFadeInDelay;
+            serie.animation.fadeInDelayFunction = CustomFadeInDelay;
             //自定义每个数据项的渐入时长
-            serie.animation.customFadeInDuration = CustomFadeInDuration;
+            serie.animation.fadeInDurationFunction = CustomFadeInDuration;
         }
 
         float CustomFadeInDelay(int dataIndex)

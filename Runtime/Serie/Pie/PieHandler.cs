@@ -330,7 +330,7 @@ namespace XCharts.Runtime
                     var needRoundCap = serie.roundCap && insideRadius > 0;
                     UGL.DrawDoughnut(vh, serieData.context.offsetCenter, insideRadius,
                         outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
-                        drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2, chart.settings.cicleSmoothness,
+                        drawEndDegree, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
                         needRoundCap, true);
                 }
                 else
@@ -339,7 +339,7 @@ namespace XCharts.Runtime
                     var needRoundCap = serie.roundCap && insideRadius > 0;
                     UGL.DrawDoughnut(vh, serie.context.center, insideRadius,
                         outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
-                        drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2, chart.settings.cicleSmoothness,
+                        drawEndDegree, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
                         needRoundCap, true);
                     DrawPieCenter(vh, serie, itemStyle, insideRadius);
                 }

@@ -17,15 +17,15 @@ namespace XCharts.Example
             chart = gameObject.GetComponent<LineChart>();
             if (chart == null) return;
 
-            chart.onCustomDraw = delegate (VertexHelper vh)
+            chart.onDraw = delegate (VertexHelper vh)
             {
             };
             // or
-            chart.onCustomDrawBeforeSerie = delegate (VertexHelper vh, Serie serie)
+            chart.onDrawBeforeSerie = delegate (VertexHelper vh, Serie serie)
             {
             };
             // or
-            chart.onCustomDrawAfterSerie = delegate (VertexHelper vh, Serie serie)
+            chart.onDrawAfterSerie = delegate (VertexHelper vh, Serie serie)
             {
                 if (serie.index != 0) return;
                 var dataPoints = serie.context.dataPoints;
@@ -41,7 +41,7 @@ namespace XCharts.Example
                 }
             };
             // or
-            chart.onCustomDrawTop = delegate (VertexHelper vh)
+            chart.onDrawTop = delegate (VertexHelper vh)
             {
             };
         }

@@ -263,7 +263,7 @@ Since the data type is upgraded to `double`, the implicit conversion of `float` 
 * (2020.05.30) 优化`PieChart`支持设置`ignoreValue`不显示指定数据
 * (2020.05.30) 修复`RadarChart`为`Circle`时不绘制`SplitArea`的问题
 * (2020.05.30) 优化`RadarChart`在设置`max`为`0`时可自动刷新最大值
-* (2020.05.29) 修复`PieChart`设置`space`时只有一个数据时绘制异常的问题
+* (2020.05.29) 修复`PieChart`设置`gap`时只有一个数据时绘制异常的问题
 * (2020.05.27) 修复调用`UpdateDataName()`接口时不会自动刷新的问题
 * (2020.05.27) 优化`柱状图`的渐变色效果
 * (2020.05.24) 修复`Axis`同时设置`boundaryGap`和`alignWithLabel`时`Tick`绘制异常的问题

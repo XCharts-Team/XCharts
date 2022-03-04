@@ -57,8 +57,8 @@ namespace XCharts
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
                                 if (j != lastPointerValue)
                                 {
-                                    if (chart.onUpdateAxisPointer != null)
-                                        chart.onUpdateAxisPointer(axis, j);
+                                    if (chart.onAxisPointerValueChanged != null)
+                                        chart.onAxisPointerValueChanged(axis, j);
                                 }
                                 break;
                             }
@@ -74,8 +74,8 @@ namespace XCharts
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
                                 if (j != lastPointerValue)
                                 {
-                                    if (chart.onUpdateAxisPointer != null)
-                                        chart.onUpdateAxisPointer(axis, j);
+                                    if (chart.onAxisPointerValueChanged != null)
+                                        chart.onAxisPointerValueChanged(axis, j);
                                 }
                                 break;
                             }
@@ -97,8 +97,8 @@ namespace XCharts
                         axis.context.pointerLabelPosition = new Vector3(labelX, chart.pointerPos.y);
                         if (yValue != lastPointerValue)
                         {
-                            if (chart.onUpdateAxisPointer != null)
-                                chart.onUpdateAxisPointer(axis, yValue);
+                            if (chart.onAxisPointerValueChanged != null)
+                                chart.onAxisPointerValueChanged(axis, yValue);
                         }
                     }
                     else
@@ -114,8 +114,8 @@ namespace XCharts
                         axis.context.pointerLabelPosition = new Vector3(chart.pointerPos.x, labelY);
                         if (xValue != lastPointerValue)
                         {
-                            if (chart.onUpdateAxisPointer != null)
-                                chart.onUpdateAxisPointer(axis, xValue);
+                            if (chart.onAxisPointerValueChanged != null)
+                                chart.onAxisPointerValueChanged(axis, xValue);
                         }
                     }
                 }
@@ -750,7 +750,7 @@ namespace XCharts
         }
 
         internal static void DrawAxisSplit(VertexHelper vh, Axis axis, AxisTheme theme, DataZoom dataZoom,
-            Orient orient, float startX, float startY, float axisLength, float splitLength)
+            Orient orient, float startX, float startY, float axisLength, float splitLength, Axis relativedAxis = null)
         {
             var lineColor = axis.splitLine.GetColor(theme.splitLineColor);
             var lineWidth = axis.splitLine.GetWidth(theme.lineWidth);
@@ -803,6 +803,7 @@ namespace XCharts
                     {
                         if (orient == Orient.Horizonal)
                         {
+                            if (relativedAxis == null || MathUtil.Approximately(current, relativedAxis.context.x))
                             ChartDrawer.DrawLineStyle(vh,
                                 lineType,
                                 lineWidth,
@@ -812,12 +813,13 @@ namespace XCharts
                         }
                         else
                         {
-                            ChartDrawer.DrawLineStyle(vh,
-                                lineType,
-                                lineWidth,
-                                new Vector3(startX, current),
-                                new Vector3(startX + splitLength, current),
-                                lineColor);
+                            if (relativedAxis == null || MathUtil.Approximately(current, relativedAxis.context.y))
+                                ChartDrawer.DrawLineStyle(vh,
+                                    lineType,
+                                    lineWidth,
+                                    new Vector3(startX, current),
+                                    new Vector3(startX + splitLength, current),
+                                    lineColor);
                         }
 
                     }

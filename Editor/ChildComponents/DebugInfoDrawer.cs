@@ -17,7 +17,7 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_FoldSeries");
                 PropertyField(prop, "m_ShowDebugInfo");
-                PropertyField(prop, "m_ShowAllChildObject");
+                PropertyField(prop, "m_ShowAllChartObject");
                 PropertyField(prop, "m_DebugInfoTextStyle");
                 --EditorGUI.indentLevel;
             }

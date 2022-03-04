@@ -49,7 +49,7 @@ namespace XCharts.Runtime
         protected Vector2 graphAnchorMax { get { return m_GraphMinAnchor; } }
         protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
         protected Vector2 graphPivot { get { return m_GraphPivot; } }
-        public HideFlags chartHideFlags { get { return m_DebugInfo.showAllChildObject ? HideFlags.None : HideFlags.HideInHierarchy; } }
+        public HideFlags chartHideFlags { get { return m_DebugInfo.showAllChartObject ? HideFlags.None : HideFlags.HideInHierarchy; } }
         public DebugInfo debug { get { return m_DebugInfo; } }
         private ScrollRect m_ScrollRect;
 
@@ -125,7 +125,7 @@ namespace XCharts.Runtime
             if (m_EnableTextMeshPro != enableTextMeshPro)
             {
                 m_EnableTextMeshPro = enableTextMeshPro;
-                ReinitAllChartComponent();
+                RemoveAndReinitChartObject();
             }
         }
 

@@ -18,8 +18,8 @@ namespace XCharts.Example
             if (chart == null) return;
             foreach (var serie in chart.series)
             {
-                serie.symbol.sizeCallback = SymbolSize;
-                serie.symbol.selectedSizeCallback = SymbolSelectedSize;
+                serie.symbol.sizeFunction = SymbolSize;
+                serie.symbol.selectedSizeFunction = SymbolSelectedSize;
             }
         }
 

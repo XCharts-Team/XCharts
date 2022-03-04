@@ -48,6 +48,7 @@ namespace XCharts.Runtime
         private static readonly string s_SerieTitleObjectName = "title";
         private static readonly string s_SerieRootObjectName = "serie";
         protected GameObject m_SerieRoot;
+        protected GameObject m_SerieLabelRoot;
         protected bool m_InitedLabel;
         protected bool m_NeedInitComponent;
         protected bool m_RefreshLabel;
@@ -56,6 +57,7 @@ namespace XCharts.Runtime
         protected int m_LegendEnterIndex;
 
         public T serie { get; internal set; }
+        public GameObject labelObject { get { return m_SerieLabelRoot; } }
 
         internal override void SetSerie(Serie serie)
         {
@@ -76,6 +78,11 @@ namespace XCharts.Runtime
                 m_RefreshLabel = false;
                 if (m_InitedLabel)
                     RefreshLabelInternal();
+            }
+            if (serie.dataDirty)
+            {
+                serie.OnDataUpdate();
+                serie.dataDirty = false;
             }
             if (serie.label != null && (serie.labelDirty || serie.label.componentDirty))
             {
@@ -182,10 +189,11 @@ namespace XCharts.Runtime
         {
             if (m_SerieRoot == null)
                 InitRoot();
-            var serieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, m_SerieRoot.transform,
+            m_SerieLabelRoot = ChartHelper.AddObject(s_SerieLabelObjectName, m_SerieRoot.transform,
                 chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
-            serieLabelRoot.hideFlags = chart.chartHideFlags;
-            SerieLabelPool.ReleaseAll(serieLabelRoot.transform);
+            m_SerieLabelRoot.hideFlags = chart.chartHideFlags;
+            //SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
+            ChartHelper.DestroyAllChildren(m_SerieLabelRoot.transform);
             int count = 0;
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             for (int j = 0; j < serie.data.Count; j++)
@@ -193,7 +201,7 @@ namespace XCharts.Runtime
                 var serieData = serie.data[j];
                 serieData.index = count;
                 serieData.labelObject = null;
-                if (AddSerieLabel(serieLabelRoot, serie, serieData, ref count))
+                if (AddSerieLabel(m_SerieLabelRoot, serie, serieData, ref count))
                 {
                     m_InitedLabel = true;
                     count++;
@@ -204,6 +212,8 @@ namespace XCharts.Runtime
 
         protected bool AddSerieLabel(GameObject serieLabelRoot, Serie serie, SerieData serieData, ref int count)
         {
+            if (serieData == null)
+                return false;
             if (serieLabelRoot == null)
                 return false;
             if (serie.IsPerformanceMode())
@@ -217,8 +227,9 @@ namespace XCharts.Runtime
             var serieEmphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
             var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
 
-            if (!serieLabel.show && (serieEmphasisLabel == null || !serieEmphasisLabel.show)
-                && (iconStyle != null && !iconStyle.show))
+            if (!serieLabel.show
+                && (serieEmphasisLabel == null || !serieEmphasisLabel.show)
+                && (iconStyle == null || !iconStyle.show))
                 return false;
 
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
@@ -239,12 +250,14 @@ namespace XCharts.Runtime
                 item.color = serieLabel.textStyle.backgroundColor;
             serieData.labelObject = item;
 
-            foreach (var data in serieData.children)
+            if (serieData.context.children.Count > 0)
             {
-                AddSerieLabel(serieLabelRoot, serie, serie.GetSerieData(data), ref count);
-                count++;
+                foreach (var childSerieData in serieData.context.children)
+                {
+                    AddSerieLabel(serieLabelRoot, serie, childSerieData, ref count);
+                    count++;
+                }
             }
-
             return true;
         }
 

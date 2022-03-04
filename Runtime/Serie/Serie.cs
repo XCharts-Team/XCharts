@@ -187,7 +187,6 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0.6f;
         [SerializeField] private float m_BarGap = 0.3f; // 30%
-        [SerializeField] private float m_BarCategoryGap = 0.2f; // 20%
         [SerializeField] private float m_BarZebraWidth = 4f;
         [SerializeField] private float m_BarZebraGap = 2f;
 
@@ -200,11 +199,10 @@ namespace XCharts.Runtime
         [SerializeField] private float m_MinAngle;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_RoundCap;
-        [SerializeField] private float m_RingGap = 10f;
         [SerializeField] private int m_SplitNumber;
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
-        [SerializeField] private float m_Space;
+        [SerializeField] private float m_Gap;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
 
@@ -488,19 +486,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_BarGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// The bar gap of a single series, defaults to be 20% of the category gap, can be set as a fixed value.
-        /// In a single coodinate system, this attribute is shared by multiple 'bar' series. 
-        /// This attribute should be set on the last 'bar' series in the coodinate system, 
-        /// then it will be adopted by all 'bar' series in the coordinate system.
-        /// 同一系列的柱间距离，默认为类目间距的20%，可设固定值。
-        /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
-        /// </summary>
-        public float barCategoryGap
-        {
-            get { return m_BarCategoryGap; }
-            set { if (PropertyUtil.SetStruct(ref m_BarCategoryGap, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// 斑马线的粗细。
         /// </summary>
         public float barZebraWidth
@@ -536,18 +521,13 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_RoseType, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the space of pie chart item.
-        /// 饼图项间的空隙留白。
+        /// gap of item.
+        /// 间距。
         /// </summary>
-        public float pieSpace
-        {
-            get { return m_Space; }
-            set { if (PropertyUtil.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
-        }
         public float gap
         {
-            get { return m_Space; }
-            set { if (PropertyUtil.SetStruct(ref m_Space, value)) SetVerticesDirty(); }
+            get { return m_Gap; }
+            set { if (PropertyUtil.SetStruct(ref m_Gap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the center of chart.
@@ -631,15 +611,6 @@ namespace XCharts.Runtime
         {
             get { return m_Clockwise; }
             set { if (PropertyUtil.SetStruct(ref m_Clockwise, value)) SetVerticesDirty(); }
-        }
-
-        /// <summary>
-        /// 环形图的环间隙。
-        /// </summary>
-        public float ringGap
-        {
-            get { return m_RingGap; }
-            set { if (PropertyUtil.SetStruct(ref m_RingGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 刻度分割段数。最大可设置36。
@@ -742,15 +713,7 @@ namespace XCharts.Runtime
         public bool large
         {
             get { return m_Large; }
-            set
-            {
-                if (PropertyUtil.SetStruct(ref m_Large, value))
-                {
-                    SetAllDirty();
-                    if (label != null)
-                        label.SetComponentDirty();
-                }
-            }
+            set { if (PropertyUtil.SetStruct(ref m_Large, value)) SetAllDirty(); }
         }
         /// <summary>
         /// 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
@@ -758,15 +721,7 @@ namespace XCharts.Runtime
         public int largeThreshold
         {
             get { return m_LargeThreshold; }
-            set
-            {
-                if (PropertyUtil.SetStruct(ref m_LargeThreshold, value))
-                {
-                    SetAllDirty();
-                    if (label != null)
-                        label.SetComponentDirty();
-                }
-            }
+            set { if (PropertyUtil.SetStruct(ref m_LargeThreshold, value)) SetAllDirty(); }
         }
         /// <summary>
         /// 在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
@@ -942,6 +897,7 @@ namespace XCharts.Runtime
         public bool nameDirty { get { return m_NameDirty; } }
         public bool labelDirty { get; set; }
         public bool titleDirty { get; set; }
+        public bool dataDirty { get; set; }
 
         private void SetSerieNameDirty()
         {
@@ -1080,6 +1036,7 @@ namespace XCharts.Runtime
             }
             m_Data.Clear();
             m_NeedUpdateFilterData = true;
+            dataDirty = true;
             SetVerticesDirty();
         }
 
@@ -1105,6 +1062,7 @@ namespace XCharts.Runtime
                 m_Data.RemoveAt(index);
                 m_NeedUpdateFilterData = true;
                 labelDirty = true;
+                dataDirty = true;
             }
         }
 
@@ -1113,7 +1071,8 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        public SerieData AddYData(double value, string dataName = null)
+        /// <param name="dataId">the unique id of data</param>
+        public SerieData AddYData(double value, string dataName = null, string dataId = null)
         {
             CheckMaxCache();
             int xValue = m_Data.Count;
@@ -1122,11 +1081,13 @@ namespace XCharts.Runtime
             serieData.data.Add(value);
             serieData.name = dataName;
             serieData.index = xValue;
+            serieData.id = dataId;
             AddSerieData(serieData);
             m_ShowDataDimension = 1;
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            dataDirty = true;
             return serieData;
         }
 
@@ -1136,6 +1097,8 @@ namespace XCharts.Runtime
                 m_Data.Insert(0, serieData);
             else
                 m_Data.Add(serieData);
+            SetVerticesDirty();
+            dataDirty = true;
             m_NeedUpdateFilterData = true;
         }
 
@@ -1153,8 +1116,8 @@ namespace XCharts.Runtime
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
-        public SerieData AddXYData(double xValue, double yValue, string dataName = null)
+        /// <param name="dataId">the unique id of data</param>
+        public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
@@ -1163,6 +1126,7 @@ namespace XCharts.Runtime
             serieData.data.Add(yValue);
             serieData.name = dataName;
             serieData.index = m_Data.Count;
+            serieData.id = dataId;
             AddSerieData(serieData);
             m_ShowDataDimension = 2;
             SetVerticesDirty();
@@ -1179,8 +1143,9 @@ namespace XCharts.Runtime
         /// <param name="lowest"></param>
         /// <param name="heighest"></param>
         /// <param name="dataName"></param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns></returns>
-        public SerieData AddData(double open, double close, double lowest, double heighest, string dataName = null)
+        public SerieData AddData(double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
@@ -1191,6 +1156,7 @@ namespace XCharts.Runtime
             serieData.data.Add(heighest);
             serieData.name = dataName;
             serieData.index = m_Data.Count;
+            serieData.id = dataId;
             AddSerieData(serieData);
             m_ShowDataDimension = 4;
             SetVerticesDirty();
@@ -1205,14 +1171,14 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="valueList"></param>
         /// <param name="dataName"></param>
-        /// <param name="maxDataNumber"></param>
-        public SerieData AddData(List<double> valueList, string dataName = null)
+        /// <param name="dataId">the unique id of data</param>
+        public SerieData AddData(List<double> valueList, string dataName = null, string dataId = null)
         {
             if (valueList == null || valueList.Count == 0) return null;
             if (valueList.Count == 1)
-                return AddYData(valueList[0], dataName);
+                return AddYData(valueList[0], dataName, dataId);
             else if (valueList.Count == 2)
-                return AddXYData(valueList[0], valueList[1], dataName);
+                return AddXYData(valueList[0], valueList[1], dataName, dataId);
             else
             {
                 CheckMaxCache();
@@ -1220,6 +1186,7 @@ namespace XCharts.Runtime
                 var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
                 serieData.index = m_Data.Count;
+                serieData.id = dataId;
                 for (int i = 0; i < valueList.Count; i++)
                 {
                     serieData.data.Add(valueList[i]);
@@ -1232,27 +1199,40 @@ namespace XCharts.Runtime
             }
         }
 
-        public SerieData AddChildData(SerieData parent, double value, string name = null)
+        public SerieData AddChildData(SerieData parent, double value, string name, string id)
         {
             var serieData = new SerieData();
             serieData.name = name;
             serieData.index = m_Data.Count;
-            serieData.data = new List<double>() { parent.children.Count, value };
-            serieData.context.parent = parent;
-            AddSerieData(serieData);
-            parent.children.Add(serieData.index);
+            serieData.id = id;
+            serieData.data = new List<double>() { m_Data.Count, value };
+            AddChildData(parent, serieData);
             return serieData;
         }
-        public SerieData AddChildData(SerieData parent, List<double> value, string name = null)
+
+        public SerieData AddChildData(SerieData parent, List<double> value, string name, string id)
         {
             var serieData = new SerieData();
             serieData.name = name;
             serieData.index = m_Data.Count;
+            serieData.id = id;
             serieData.data = new List<double>(value);
-            serieData.context.parent = parent;
-            AddSerieData(serieData);
-            parent.children.Add(serieData.index);
+            AddChildData(parent, serieData);
             return serieData;
+        }
+
+        public void AddChildData(SerieData parent, SerieData serieData)
+        {
+            serieData.parentId = parent.id;
+            serieData.context.parent = parent;
+
+            if (!m_Data.Contains(serieData))
+                AddSerieData(serieData);
+
+            if (!parent.context.children.Contains(serieData))
+            {
+                parent.context.children.Add(serieData);
+            }
         }
 
         private void CheckMaxCache()
@@ -1360,23 +1340,23 @@ namespace XCharts.Runtime
             return null;
         }
 
-        public SerieData GetSerieData(string uuid, DataZoom dataZoom = null)
+        public SerieData GetSerieData(string id, DataZoom dataZoom = null)
         {
             var data = GetDataList(dataZoom);
             foreach (var serieData in data)
             {
-                var target = GetSerieData(serieData, uuid);
+                var target = GetSerieData(serieData, id);
                 if (target != null) return target;
             }
             return null;
         }
 
-        public SerieData GetSerieData(SerieData parent, string uuid)
+        public SerieData GetSerieData(SerieData parent, string id)
         {
-            if (uuid.Equals(parent.uuid)) return parent;
-            foreach (var child in parent.children)
+            if (id.Equals(parent.id)) return parent;
+            foreach (var child in parent.context.children)
             {
-                var data = GetSerieData(GetSerieData(child), uuid);
+                var data = GetSerieData(child, id);
                 if (data != null)
                 {
                     return data;
@@ -1480,7 +1460,11 @@ namespace XCharts.Runtime
                 var animationOpen = animation.enable;
                 var animationDuration = animation.GetUpdateAnimationDuration();
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, animationDuration);
-                if (flag) SetVerticesDirty();
+                if (flag)
+                {
+                    SetVerticesDirty();
+                    dataDirty = true;
+                }
                 return flag;
             }
             else
@@ -1504,6 +1488,7 @@ namespace XCharts.Runtime
                 for (int i = 0; i < values.Count; i++)
                     serieData.UpdateData(i, values[i], animationOpen, animationDuration);
                 SetVerticesDirty();
+                dataDirty = true;
                 return true;
             }
             return false;

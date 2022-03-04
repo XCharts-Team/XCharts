@@ -144,7 +144,7 @@ namespace XCharts.Runtime
             float barWidth = serie.GetBarWidth(categoryWidth);
             float offset = (categoryWidth - totalBarWidth) * 0.5f;
             float barGapWidth = barWidth + barWidth * barGap;
-            float space = serie.barGap == -1 ? offset : offset + serie.index * barGapWidth;
+            float gap = serie.barGap == -1 ? offset : offset + serie.index * barGapWidth;
             int maxCount = serie.maxShow > 0
                 ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -194,13 +194,13 @@ namespace XCharts.Runtime
                 var currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
 
                 Vector3 plb, plt, prt, prb, top;
-                UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, space, borderWidth, barWidth, currHig,
+                UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, gap, borderWidth, barWidth, currHig,
                     out plb, out plt, out prt, out prb, out top);
                 serieData.context.stackHeight = barHig;
                 serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
-                DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, space, barWidth,
+                DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
                     pX, pY, plb, plt, prt, prb, false, m_SerieGrid, areaColor, areaToColor);
 
                 if (serie.animation.CheckDetailBreak(top, isY))
@@ -250,7 +250,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateRectPosition(GridCoord grid, bool isY, double yValue, float pX, float pY, float space, float borderWidth,
+        private void UpdateRectPosition(GridCoord grid, bool isY, double yValue, float pX, float pY, float gap, float borderWidth,
             float barWidth, float currHig,
             out Vector3 plb, out Vector3 plt, out Vector3 prt, out Vector3 prb, out Vector3 top)
         {
@@ -258,37 +258,37 @@ namespace XCharts.Runtime
             {
                 if (yValue < 0)
                 {
-                    plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig + borderWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig + borderWidth, pY + space + borderWidth);
-                    plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
+                    plt = new Vector3(pX - borderWidth, pY + gap + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig + borderWidth, pY + gap + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig + borderWidth, pY + gap + borderWidth);
+                    plb = new Vector3(pX - borderWidth, pY + gap + borderWidth);
                 }
                 else
                 {
-                    plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
-                    plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                    plt = new Vector3(pX + borderWidth, pY + gap + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth, pY + gap + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth, pY + gap + borderWidth);
+                    plb = new Vector3(pX + borderWidth, pY + gap + borderWidth);
                 }
-                top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
+                top = new Vector3(pX + currHig - borderWidth, pY + gap + barWidth / 2);
             }
             else
             {
                 if (yValue < 0)
                 {
-                    plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth);
-                    prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
+                    plb = new Vector3(pX + gap + borderWidth, pY - borderWidth);
+                    plt = new Vector3(pX + gap + borderWidth, pY + currHig + borderWidth);
+                    prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig + borderWidth);
+                    prb = new Vector3(pX + gap + barWidth - borderWidth, pY - borderWidth);
                 }
                 else
                 {
-                    plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
-                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
-                    prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
+                    plb = new Vector3(pX + gap + borderWidth, pY + borderWidth);
+                    plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
+                    prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
+                    prb = new Vector3(pX + gap + barWidth - borderWidth, pY + borderWidth);
                 }
-                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+                top = new Vector3(pX + gap + barWidth / 2, pY + currHig - borderWidth);
             }
             if (serie.clip)
             {
@@ -301,7 +301,7 @@ namespace XCharts.Runtime
         }
 
         private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
-            bool highlight, float space, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+            bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Color32 areaColor, Color32 areaToColor)
         {
 

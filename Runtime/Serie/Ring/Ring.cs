@@ -13,6 +13,7 @@ namespace XCharts.Runtime
         {
             var serie = chart.AddSerie<Ring>(serieName);
             serie.roundCap = true;
+            serie.gap = 10;
             serie.radius = new float[] { 0.3f, 0.35f };
 
             serie.AddExtraComponent<LabelStyle>();

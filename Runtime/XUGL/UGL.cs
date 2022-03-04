@@ -1266,16 +1266,16 @@ namespace XUGL
         /// <param name="toDegree">结束角度</param>
         /// <param name="borderWidth">边框宽度</param>
         /// <param name="borderColor">边框颜色</param>
-        /// <param name="space">边距</param>
+        /// <param name="gap">边距</param>
         /// <param name="smoothness">光滑度</param>
         /// <param name="gradientType">渐变类型，0:向圆形渐变，1:水平或垂直渐变，2:开始角度向结束角度渐变</param>
         /// <param name="isYAxis">水平渐变还是垂直渐变，gradientType为1时生效</param>
         public static void DrawSector(VertexHelper vh, Vector3 center, float radius, Color32 color, Color32 toColor,
-            float startDegree, float toDegree, float borderWidth, Color32 borderColor, float space,
+            float startDegree, float toDegree, float borderWidth, Color32 borderColor, float gap,
             float smoothness, int gradientType = 0, bool isYAxis = false)
         {
             if (radius == 0) return;
-            if (space > 0 && Mathf.Abs(toDegree - startDegree) >= 360) space = 0;
+            if (gap > 0 && Mathf.Abs(toDegree - startDegree) >= 360) gap = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
             int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
@@ -1296,7 +1296,7 @@ namespace XUGL
             var lastP4 = center;
             var lastColor = color;
             var needBorder = borderWidth != 0;
-            var needSpace = space != 0;
+            var needSpace = gap != 0;
             var borderLineWidth = needSpace ? borderWidth : borderWidth / 2;
             var lastPos = Vector3.zero;
             var middleDire = UGLHelper.GetDire(startAngle + halfAngle);
@@ -1306,10 +1306,10 @@ namespace XUGL
                 float borderDiff = 0f;
                 if (needSpace)
                 {
-                    spaceDiff = space / Mathf.Sin(halfAngle);
+                    spaceDiff = gap / Mathf.Sin(halfAngle);
                     spaceCenter = center + spaceDiff * middleDire;
                     realCenter = spaceCenter;
-                    spaceAngle = 2 * Mathf.Asin(space / (2 * radius));
+                    spaceAngle = 2 * Mathf.Asin(gap / (2 * radius));
                     realStartAngle = startAngle + spaceAngle;
                     realToAngle = toAngle - spaceAngle;
                     if (realToAngle < realStartAngle) realToAngle = realStartAngle;
@@ -1452,14 +1452,14 @@ namespace XUGL
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 center, float insideRadius, float outsideRadius,
             Color32 color, Color32 toColor, Color32 emptyColor, float startDegree, float toDegree, float borderWidth,
-            Color32 borderColor, float space, float smoothness, bool roundCap = false, bool clockwise = true)
+            Color32 borderColor, float gap, float smoothness, bool roundCap = false, bool clockwise = true)
         {
             if (toDegree - startDegree == 0) return;
-            if (space > 0 && Mathf.Abs(toDegree - startDegree) >= 360) space = 0;
+            if (gap > 0 && Mathf.Abs(toDegree - startDegree) >= 360) gap = 0;
             if (insideRadius <= 0)
             {
                 DrawSector(vh, center, outsideRadius, color, toColor, startDegree, toDegree, borderWidth, borderColor,
-                    space, smoothness);
+                    gap, smoothness);
                 return;
             }
             outsideRadius -= borderWidth;
@@ -1467,7 +1467,7 @@ namespace XUGL
             smoothness = smoothness < 0 ? 2f : smoothness;
             Vector3 p1, p2, p3, p4, e1, e2;
             var needBorder = borderWidth != 0;
-            var needSpace = space != 0;
+            var needSpace = gap != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
 
             int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
@@ -1506,12 +1506,12 @@ namespace XUGL
             {
                 if (needSpace)
                 {
-                    var spaceDiff = space / Mathf.Sin(halfAngle);
+                    var spaceDiff = gap / Mathf.Sin(halfAngle);
                     spaceCenter = center + Mathf.Abs(spaceDiff) * middleDire;
                     realCenter = spaceCenter;
-                    spaceAngle = 2 * Mathf.Asin(space / (2 * outsideRadius));
-                    spaceInAngle = 2 * Mathf.Asin(space / (2 * insideRadius));
-                    spaceHalfAngle = 2 * Mathf.Asin(space / (2 * (insideRadius + (outsideRadius - insideRadius) / 2)));
+                    spaceAngle = 2 * Mathf.Asin(gap / (2 * outsideRadius));
+                    spaceInAngle = 2 * Mathf.Asin(gap / (2 * insideRadius));
+                    spaceHalfAngle = 2 * Mathf.Asin(gap / (2 * (insideRadius + (outsideRadius - insideRadius) / 2)));
                     if (clockwise)
                     {
                         p1 = UGLHelper.GetPos(center, insideRadius, startAngle + spaceInAngle, false);

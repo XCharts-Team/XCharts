@@ -114,7 +114,7 @@ namespace XCharts.Example
                 chart.RefreshChart();
                 yield return null;
             }
-            serie.pieSpace = 1f;
+            serie.gap = 1f;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
@@ -122,7 +122,7 @@ namespace XCharts.Example
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            serie.pieSpace = 0f;
+            serie.gap = 0f;
             serie.data[0].selected = false;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);

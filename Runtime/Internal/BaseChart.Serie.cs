@@ -190,7 +190,6 @@ namespace XCharts.Runtime
             return true;
         }
 
-
         /// <summary>
         /// Add a data to serie.
         /// If serieName doesn't exist in legend,will be add to legend.
@@ -199,13 +198,14 @@ namespace XCharts.Runtime
         /// <param name="serieName">the name of serie</param>
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(string serieName, double data, string dataName = null)
+        public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                var serieData = serie.AddYData(data, dataName);
+                var serieData = serie.AddYData(data, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -219,13 +219,14 @@ namespace XCharts.Runtime
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="data">the data to add</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(int serieIndex, double data, string dataName = null)
+        public SerieData AddData(int serieIndex, double data, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.AddYData(data, dataName);
+                var serieData = serie.AddYData(data, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -239,13 +240,14 @@ namespace XCharts.Runtime
         /// <param name="serieName">the name of serie</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null)
+        public SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                var serieData = serie.AddData(multidimensionalData, dataName);
+                var serieData = serie.AddData(multidimensionalData, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -259,13 +261,14 @@ namespace XCharts.Runtime
         /// <param name="serieIndex">the index of serie,index starts at 0</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null)
+        public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.AddData(multidimensionalData, dataName);
+                var serieData = serie.AddData(multidimensionalData, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -280,13 +283,14 @@ namespace XCharts.Runtime
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null)
+        public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                var serieData = serie.AddXYData(xValue, yValue, dataName);
+                var serieData = serie.AddXYData(xValue, yValue, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -301,35 +305,36 @@ namespace XCharts.Runtime
         /// <param name="xValue">x data</param>
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
+        /// <param name="dataId">the unique id of data</param>
         /// <returns>Returns True on success</returns>
-        public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null)
+        public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.AddXYData(xValue, yValue, dataName);
+                var serieData = serie.AddXYData(xValue, yValue, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
             return null;
         }
-        public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null)
+        public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.AddData(open, close, lowest, heighest, dataName);
+                var serieData = serie.AddData(open, close, lowest, heighest, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
             return null;
         }
-        public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null)
+        public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                var serieData = serie.AddData(open, close, lowest, heighest, dataName);
+                var serieData = serie.AddData(open, close, lowest, heighest, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
@@ -853,8 +858,9 @@ namespace XCharts.Runtime
             }
         }
 
-        private void InternalAddSerie(Serie serie)
+        private void AddSerieAfterDeserialize(Serie serie)
         {
+            serie.OnAfterDeserialize();
             m_Series.Add(serie);
         }
 

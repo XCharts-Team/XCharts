@@ -10,7 +10,7 @@ namespace XCharts.Runtime
     public class DebugInfo
     {
         [SerializeField] private bool m_ShowDebugInfo = false;
-        [SerializeField] protected bool m_ShowAllChildObject = false;
+        [SerializeField] protected bool m_ShowAllChartObject = false;
         [SerializeField] protected bool m_FoldSeries = false;
         [SerializeField]
         private TextStyle m_DebugInfoTextStyle = new TextStyle()
@@ -32,7 +32,7 @@ namespace XCharts.Runtime
         private ChartLabel m_Label;
         private List<float> m_FpsList = new List<float>();
 
-        public bool showAllChildObject { get { return m_ShowAllChildObject; } }
+        public bool showAllChartObject { get { return m_ShowAllChartObject; } }
         public bool foldSeries { get { return m_FoldSeries; } set { m_FoldSeries = value; } }
         public float fps { get; private set; }
         public float avgFps { get; private set; }

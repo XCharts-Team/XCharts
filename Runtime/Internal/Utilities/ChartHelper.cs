@@ -794,9 +794,6 @@ namespace XCharts.Runtime
             }
         }
 
-
-
-
         public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)
         {
             Vector3 point = Quaternion.AngleAxis(angle, axis) * (position - center);
@@ -857,23 +854,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static float GetRuntimeRelativeOrAbsoluteValue(float check, float total)
-        {
-            if (check <= 0)
-            {
-                return 0;
-            }
-            else if (check <= 1)
-            {
-                return total * check;
-            }
-            else
-            {
-                return check;
-            }
-        }
-
-        public static Vector3 GetLastPoint(List<Vector3> list)
+        public static Vector3 GetLastValue(List<Vector3> list)
         {
             if (list.Count <= 0) return Vector3.zero;
             else return list[list.Count - 1];

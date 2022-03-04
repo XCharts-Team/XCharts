@@ -412,6 +412,7 @@ namespace XCharts.Runtime
 
         public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
         {
+            if (serieData == null) return serie.label;
             if (highlight)
             {
                 if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)

@@ -81,6 +81,8 @@ namespace XCharts.Runtime
         {
             if (dataCount < 1)
                 dataCount = 1;
+            if (axis.IsValue())
+                return dataCount > 1 ? coordinateWidth / (dataCount - 1) : coordinateWidth;
             var categoryCount = axis.GetDataCount(dataZoom);
             int segment = (axis.boundaryGap ? categoryCount : categoryCount - 1);
             segment = segment <= 0 ? dataCount : segment;

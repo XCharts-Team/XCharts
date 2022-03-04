@@ -83,7 +83,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_AutoOffset = false;
         [SerializeField] private bool m_AutoColor = false;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
-        private DelegateSerieLabelFormatter m_FormatterFunction;
+        private SerieLabelFormatterFunction m_FormatterFunction;
 
         public void Reset()
         {
@@ -230,7 +230,7 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
         }
 
-        public DelegateSerieLabelFormatter formatterFunction
+        public SerieLabelFormatterFunction formatterFunction
         {
             get { return m_FormatterFunction; }
             set { m_FormatterFunction = value; }

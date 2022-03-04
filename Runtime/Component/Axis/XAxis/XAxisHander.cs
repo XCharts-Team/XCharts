@@ -92,6 +92,7 @@ namespace XCharts.Runtime
                 if (grid == null)
                     return;
 
+                var relativedAxis = chart.GetChartComponent<YAxis>(xAxis.gridIndex);
                 var dataZoom = chart.GetDataZoomOfAxis(xAxis);
 
                 DrawAxisSplit(vh, xAxis, chart.theme.axis, dataZoom,
@@ -99,7 +100,8 @@ namespace XCharts.Runtime
                     grid.context.x,
                     grid.context.y,
                     grid.context.width,
-                    grid.context.height);
+                    grid.context.height,
+                    relativedAxis);
             }
         }
 

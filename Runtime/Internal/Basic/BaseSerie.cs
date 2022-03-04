@@ -23,7 +23,7 @@ namespace XCharts.Runtime
         [NonSerialized] public SerieContext context = new SerieContext();
         [NonSerialized] public InteractData interact = new InteractData();
 
-        internal SerieHandler handler { get; set; }
+        public SerieHandler handler { get; set; }
 
 
         public virtual void SetVerticesDirty()
@@ -66,6 +66,19 @@ namespace XCharts.Runtime
         {
             if (handler != null)
                 handler.RemoveComponent();
+        }
+
+        public virtual void OnDataUpdate()
+        {
+        }
+
+        public virtual void OnBeforeSerialize()
+        {
+        }
+
+        public virtual void OnAfterDeserialize()
+        {
+            OnDataUpdate();
         }
 
         public void RefreshLabel()

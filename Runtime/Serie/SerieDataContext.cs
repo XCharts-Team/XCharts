@@ -35,6 +35,8 @@ namespace XCharts.Runtime
         public float outsideRadius { get; set; }
         public Vector3 position { get; set; }
         public List<Vector3> dataPoints = new List<Vector3>();
+        public List<SerieData> children = new List<SerieData>();
+        
         /// <summary>
         /// 绘制区域。
         /// </summary>

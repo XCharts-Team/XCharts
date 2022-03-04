@@ -19,6 +19,7 @@ namespace XCharts.Runtime
             }
             return null;
         }
+        
         public static RadiusAxis GetRadiusAxis(List<MainComponent> components, int polarIndex)
         {
             foreach (var component in components)
@@ -27,32 +28,6 @@ namespace XCharts.Runtime
                 {
                     var axis = component as RadiusAxis;
                     if (axis.polarIndex == polarIndex) return axis;
-                }
-            }
-            return null;
-        }
-
-        public static YAxis GetYAxisRelatedWitchXAxis(List<MainComponent> components, XAxis axis)
-        {
-            foreach (var component in components)
-            {
-                if (component is YAxis)
-                {
-                    var yAxis = component as YAxis;
-                    if (yAxis.gridIndex == axis.gridIndex) return yAxis;
-                }
-            }
-            return null;
-        }
-
-        public static XAxis GetXAxisRelatedWithYAxis(List<MainComponent> components, YAxis axis)
-        {
-            foreach (var component in components)
-            {
-                if (component is XAxis)
-                {
-                    var xAxis = component as XAxis;
-                    if (xAxis.gridIndex == axis.gridIndex) return xAxis;
                 }
             }
             return null;

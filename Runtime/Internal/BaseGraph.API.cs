@@ -145,7 +145,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 移除并重新初始化所有组件。
         /// </summary>
-        public void ReinitAllChartComponent()
+        public void RemoveAndReinitChartObject()
         {
             ChartHelper.DestroyAllChildren(transform);
             SetAllComponentDirty();

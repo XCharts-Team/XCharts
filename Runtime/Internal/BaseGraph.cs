@@ -125,7 +125,7 @@ namespace XCharts.Runtime
             if (m_EnableTextMeshPro != enableTextMeshPro)
             {
                 m_EnableTextMeshPro = enableTextMeshPro;
-                RemoveAndReinitChartObject();
+                RebuildChartObject();
             }
         }
 

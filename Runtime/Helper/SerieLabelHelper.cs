@@ -76,64 +76,6 @@ namespace XCharts.Runtime
             }
         }
 
-        public static void SetRingLabelText(Serie serie, ThemeStyle theme)
-        {
-            for (int i = 0; i < serie.dataCount; i++)
-            {
-                var serieData = serie.data[i];
-                var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlight);
-                if (serieLabel != null && serieLabel.show && serieData.labelObject != null)
-                {
-                    if (!serie.show || !serieData.show)
-                    {
-                        serieData.SetLabelActive(false);
-                        continue;
-                    }
-                    var value = serieData.GetData(0);
-                    var total = serieData.GetData(1);
-                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
-                    serieData.SetLabelActive(true);
-                    serieData.labelObject.SetText(content);
-                    serieData.labelObject.SetTextColor(GetLabelColor(serie, theme, i));
-
-                    if (serieLabel.position == LabelStyle.Position.Bottom)
-                    {
-                        var labelWidth = serieData.GetLabelWidth();
-                        if (serie.clockwise)
-                            serieData.labelObject.SetLabelPosition(serieData.context.labelPosition - new Vector3(labelWidth / 2, 0));
-                        else
-                            serieData.labelObject.SetLabelPosition(serieData.context.labelPosition + new Vector3(labelWidth / 2, 0));
-                    }
-                    else
-                    {
-                        serieData.labelObject.SetLabelPosition(serieData.context.labelPosition);
-                    }
-                }
-            }
-        }
-
-        public static void SetLiquidLabelText(Serie serie, ThemeStyle theme, int colorIndex)
-        {
-            var serieData = serie.GetSerieData(0);
-            if (serieData == null) return;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData, serieData.context.highlight);
-            if (serieLabel.show && serieData.labelObject != null)
-            {
-                if (!serie.show || !serieData.show)
-                {
-                    serieData.SetLabelActive(false);
-                    return;
-                }
-                var value = serieData.GetData(0);
-                var total = serie.max - serie.min;
-                var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
-                serieData.SetLabelActive(true);
-                serieData.labelObject.SetText(content);
-                serieData.labelObject.SetTextColor(GetLabelColor(serie, theme, colorIndex));
-                serieData.labelObject.SetLabelPosition(serieData.context.labelPosition + serieLabel.offset);
-            }
-        }
-
         public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)
         {
             if (serieData.labelObject == null) return;

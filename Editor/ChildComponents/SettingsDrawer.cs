@@ -12,7 +12,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, "m_Show", new HeaderMenuInfo("Reset", () =>
+            if (MakeComponentFoldout(prop, "m_Show", false, new HeaderMenuInfo("Reset", () =>
             {
                 var chart = prop.serializedObject.targetObject as BaseChart;
                 chart.settings.Reset();

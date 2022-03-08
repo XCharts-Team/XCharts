@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +34,7 @@ namespace XUGL
 
             //背景边框
             UGL.DrawSquare(vh, m_Center, m_Width / 2, m_BackgroundColor);
-            UGL.DrawBorder(vh, m_Center, m_Width, m_Height, 40, Color.green, Color.red, 0, m_BorderRadius,false,1);
+            UGL.DrawBorder(vh, m_Center, m_Width, m_Height, 40, Color.green, Color.red, 0, m_BorderRadius, false, 1);
 
             //点
             UGL.DrawCricle(vh, m_LeftTopPos + new Vector3(20, -20), 10, m_DrawColor);

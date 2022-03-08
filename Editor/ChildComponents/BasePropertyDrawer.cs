@@ -162,18 +162,19 @@ namespace XCharts.Editor
                     m_DisplayName, relativeProp);
             }
         }
-        protected bool MakeComponentFoldout(SerializedProperty prop, string relativePropName, params HeaderMenuInfo[] menus)
+        protected bool MakeComponentFoldout(SerializedProperty prop, string relativePropName, bool relativePropEnable,
+             params HeaderMenuInfo[] menus)
         {
             if (string.IsNullOrEmpty(relativePropName))
             {
                 return ChartEditorHelper.MakeComponentFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName,
-                    m_DisplayName, null, menus);
+                    m_DisplayName, null, relativePropEnable, menus);
             }
             else
-            {
+            {   
                 var relativeProp = prop.FindPropertyRelative(relativePropName);
                 return ChartEditorHelper.MakeComponentFoldout(ref m_DrawRect, m_Heights, m_PropToggles, m_KeyName,
-                    m_DisplayName, relativeProp, menus);
+                    m_DisplayName, relativeProp, relativePropEnable, menus);
             }
         }
 

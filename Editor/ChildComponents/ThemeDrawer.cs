@@ -19,7 +19,7 @@ namespace XCharts.Editor
             var defaultWidth = pos.width;
             var defaultX = pos.x;
             var chart = prop.serializedObject.targetObject as BaseChart;
-            if (MakeComponentFoldout(prop, "m_Show", new HeaderMenuInfo("Reset|Reset to theme default color", () =>
+            if (MakeComponentFoldout(prop, "m_Show", false, new HeaderMenuInfo("Reset|Reset to theme default color", () =>
             {
                 chart.theme.sharedTheme.ResetTheme();
                 chart.RefreshAllComponent();

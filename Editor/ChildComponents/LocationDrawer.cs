@@ -12,7 +12,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, "m_Align"))
+            if (MakeComponentFoldout(prop, "m_Align", true))
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Top");

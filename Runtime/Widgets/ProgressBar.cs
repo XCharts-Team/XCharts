@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class XCProgressBar : BaseChart
+    public class ProgressBar : BaseChart
     {
         [SerializeField] [Range(0f, 1f)] private float m_Value = 0.5f;
         [SerializeField] private Color m_BackgroundColor = new Color32(255, 233, 233, 255);

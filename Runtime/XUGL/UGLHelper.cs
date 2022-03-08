@@ -43,6 +43,12 @@ namespace XUGL
                 && v1.z == v2.z;
         }
 
+        public static bool IsValueEqualsVector3(Vector3 v1, Vector2 v2)
+        {
+            return v1.x == v2.x
+                && v1.y == v2.y;
+        }
+
         public static bool IsValueEqualsList<T>(List<T> list1, List<T> list2)
         {
             if (list1 == null || list2 == null)

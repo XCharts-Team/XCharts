@@ -166,7 +166,7 @@ namespace XCharts.Editor
         }
         public static bool MakeComponentFoldout(ref Rect drawRect, Dictionary<string, float> heights,
             Dictionary<string, bool> moduleToggle, string key, string content, SerializedProperty prop,
-            params HeaderMenuInfo[] menus)
+            bool propEnable, params HeaderMenuInfo[] menus)
         {
             var sourRect = drawRect;
             float defaultWidth = drawRect.width;
@@ -180,7 +180,11 @@ namespace XCharts.Editor
             {
                 if (prop.propertyType == SerializedPropertyType.Boolean)
                 {
-                    MakeBool(drawRect, prop);
+                    if (!propEnable)
+                        using (new EditorGUI.DisabledScope(true))
+                            MakeBool(drawRect, prop);
+                    else
+                        MakeBool(drawRect, prop);
                 }
                 else
                 {

@@ -122,6 +122,11 @@ namespace XUGL
 
         public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth)
         {
+            for (int i = points.Count - 1; i >= 1; i--)
+            {
+                if (UGLHelper.IsValueEqualsVector3(points[i], points[i - 1]))
+                    points.RemoveAt(i);
+            }
             if (points.Count < 2) return;
             else if (points.Count <= 2)
             {
@@ -1795,6 +1800,11 @@ namespace XUGL
                 }
                 AddVertToVertexHelper(vh, toUp, toDn, lineColor);
             }
+        }
+
+        public static void DrawSvgPath(VertexHelper vh, string path)
+        {
+            SVG.DrawPath(vh, path);
         }
     }
 }

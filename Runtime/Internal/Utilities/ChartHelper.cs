@@ -903,9 +903,9 @@ namespace XCharts.Runtime
             return !ChartHelper.IsClearColor(color) && color.a == 0;
         }
 
-        public static float GetActualValue(float valueOrRate, float total)
+        public static float GetActualValue(float valueOrRate, float total, float maxRate = 1.5f)
         {
-            if (valueOrRate >= -1.5f && valueOrRate <= 1.5f) return valueOrRate * total;
+            if (valueOrRate >= -maxRate && valueOrRate <= maxRate) return valueOrRate * total;
             else return valueOrRate;
         }
     }

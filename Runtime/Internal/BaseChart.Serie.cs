@@ -146,6 +146,7 @@ namespace XCharts.Runtime
         public void RemoveSerie(Serie serie)
         {
             serie.OnRemove();
+            m_SerieHandlers.Remove(serie.handler);
             m_Series.Remove(serie);
             RefreshChart();
         }

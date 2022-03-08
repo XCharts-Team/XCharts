@@ -28,7 +28,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, ""))
+            if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;
                 var type = (MarkAreaType)(prop.FindPropertyRelative("m_Type")).enumValueIndex;

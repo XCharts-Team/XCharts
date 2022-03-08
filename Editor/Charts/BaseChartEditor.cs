@@ -263,9 +263,9 @@ namespace XCharts.Editor
                 if (GUILayout.Button("Covert XY Axis"))
                     m_Chart.CovertXYAxis(0);
             }
-            if (GUILayout.Button("Reinit Component"))
+            if (GUILayout.Button("Rebuild Chart Object"))
             {
-                m_Chart.RemoveAndReinitChartObject();
+                m_Chart.RebuildChartObject();
             }
             if (m_CheckWarning)
             {

@@ -9,6 +9,9 @@ namespace XCharts.Runtime
     [Serializable]
     public class DebugInfo
     {
+        #pragma warning disable 0414
+        [SerializeField] private bool m_Show = true;
+        #pragma warning restore 0414
         [SerializeField] private bool m_ShowDebugInfo = false;
         [SerializeField] protected bool m_ShowAllChartObject = false;
         [SerializeField] protected bool m_FoldSeries = false;

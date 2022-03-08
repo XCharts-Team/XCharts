@@ -4,15 +4,15 @@ using XCharts.Runtime;
 
 namespace XCharts.Editor
 {
-    [CustomEditor(typeof(XCProgressBar), false)]
-    public class XCProgressBarEditor : UnityEditor.Editor
+    [CustomEditor(typeof(ProgressBar), false)]
+    public class ProgressBarEditor : UnityEditor.Editor
     {
 
         [MenuItem("XCharts/ProgressBar", priority = 200)]
         [MenuItem("GameObject/XCharts/ProgressBar", priority = 200)]
         public static void AddPyramidChart()
         {
-            XChartsEditor.AddChart<XCProgressBar>("ProgressBar");
+            XChartsEditor.AddChart<ProgressBar>("ProgressBar");
         }
 
         protected SerializedProperty m_Script;

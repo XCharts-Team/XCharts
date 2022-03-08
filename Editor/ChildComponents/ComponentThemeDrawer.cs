@@ -16,7 +16,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, ""))
+            if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;
 #if dUI_TextMeshPro
@@ -141,7 +141,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, ""))
+            if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_LineWidth");

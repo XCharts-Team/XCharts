@@ -6,6 +6,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(HeatmapHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
+    [RequireChartComponent(typeof(VisualMap))]
     [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
     public class Heatmap : Serie, INeedSerieContainer
     {

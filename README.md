@@ -44,3 +44,5 @@
 </p>
 
 一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等常见图表。
+
+[WebGL Demo](https://xcharts-team.github.io/demo.github.io/)

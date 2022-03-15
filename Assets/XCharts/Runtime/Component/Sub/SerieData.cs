@@ -143,23 +143,23 @@ namespace XCharts
         /// <summary>
         /// 饼图数据项的开始角度（运行时自动计算）
         /// </summary>
-        public float runtimePieStartAngle { get; internal set; }
+        public float runtimePieStartAngle { get; set; }
         /// <summary>
         /// 饼图数据项的结束角度（运行时自动计算）
         /// </summary>
-        public float runtimePieToAngle { get; internal set; }
+        public float runtimePieToAngle { get; set; }
         /// <summary>
         /// 饼图数据项的一半时的角度（运行时自动计算）
         /// </summary>
-        public float runtimePieHalfAngle { get; internal set; }
+        public float runtimePieHalfAngle { get; set; }
         /// <summary>
         /// 饼图数据项的当前角度（运行时自动计算）
         /// </summary>
-        public float runtimePieCurrAngle { get; internal set; }
+        public float runtimePieCurrAngle { get; set; }
         /// <summary>
         /// 饼图数据项的内半径
         /// </summary>
-        public float runtimePieInsideRadius { get; internal set; }
+        public float runtimePieInsideRadius { get; set; }
         /// <summary>
         /// 饼图数据项的外半径
         /// </summary>
@@ -170,7 +170,7 @@ namespace XCharts
                 if (radius > 0) return radius;
                 else return m_RtPieOutsideRadius;
             }
-            internal set
+            set
             {
                 m_RtPieOutsideRadius = value;
             }
@@ -178,7 +178,7 @@ namespace XCharts
         /// <summary>
         /// 饼图数据项的偏移半径
         /// </summary>
-        public float runtimePieOffsetRadius { get; internal set; }
+        public float runtimePieOffsetRadius { get; set; }
         public Vector3 runtimePosition { get; set; }
         /// <summary>
         /// 绘制区域。

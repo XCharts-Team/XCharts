@@ -1142,12 +1142,12 @@ namespace XCharts
         /// The index of serie,start at 0.
         /// 系列的索引，从0开始。
         /// </summary>
-        public int index { get; internal set; }
+        public int index { get; set; }
         /// <summary>
         /// Whether the serie is highlighted.
         /// 该系列是否高亮，一般由图例悬停触发。
         /// </summary>
-        public bool highlighted { get; internal set; }
+        public bool highlighted { get; set; }
         /// <summary>
         /// the count of data list.
         /// 数据项个数。
@@ -1160,27 +1160,27 @@ namespace XCharts
         /// <summary>
         /// 饼图的中心点位置。
         /// </summary>
-        public Vector3 runtimeCenterPos { get; internal set; }
+        public Vector3 runtimeCenterPos { get; set; }
         /// <summary>
         /// 饼图的内径
         /// </summary>
-        public float runtimeInsideRadius { get; internal set; }
+        public float runtimeInsideRadius { get; set; }
         /// <summary>
         /// 饼图的外径
         /// </summary>
-        public float runtimeOutsideRadius { get; internal set; }
+        public float runtimeOutsideRadius { get; set; }
         /// <summary>
         /// 运行时的最大数据值
         /// </summary>
-        public double runtimeDataMax { get; internal set; }
+        public double runtimeDataMax { get; set; }
         /// <summary>
         /// 运行时的最小数据值
         /// </summary>
-        public double runtimeDataMin { get; internal set; }
+        public double runtimeDataMin { get; set; }
         /// <summary>
         /// 饼图的数据项之和
         /// </summary>
-        public double runtimePieDataTotal { get; internal set; }
+        public double runtimePieDataTotal { get; set; }
         public float runtimeWaveSpeed { get; internal set; }
         public Painter runtimeCanvas { get; internal set; }
         public double runtimeCheckValue { get; set; }

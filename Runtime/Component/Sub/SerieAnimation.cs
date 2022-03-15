@@ -383,7 +383,7 @@ namespace XCharts
             else return dataIndex <= m_CurrDataProgress;
         }
 
-        internal void CheckProgress(double total)
+        public void CheckProgress(double total)
         {
             if (IsFinish()) return;
             if (!m_IsInit || m_IsPause || m_IsEnd) return;
@@ -411,7 +411,7 @@ namespace XCharts
             }
         }
 
-        internal float GetCurrAnimationDuration(int dataIndex = -1)
+        public float GetCurrAnimationDuration(int dataIndex = -1)
         {
             if (dataIndex >= 0)
             {
@@ -422,7 +422,7 @@ namespace XCharts
             else return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
         }
 
-        internal float CheckBarProgress(int dataIndex, float barHig, int dataCount, out bool isBarEnd)
+        public float CheckBarProgress(int dataIndex, float barHig, int dataCount, out bool isBarEnd)
         {
             isBarEnd = false;
             var initHig = m_FadeOut ? barHig : 0;
@@ -468,7 +468,7 @@ namespace XCharts
             End();
         }
 
-        internal void CheckSymbol(float dest)
+        public void CheckSymbol(float dest)
         {
             if (!enable || m_IsEnd || m_IsPause || !m_IsInit) return;
             if (IsInDelay()) return;

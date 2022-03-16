@@ -220,7 +220,7 @@ namespace XCharts.Runtime
             {
                 m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
             }
-            if (m_CheckTheme != m_Theme.themeType)
+            if (m_Theme.sharedTheme != null && m_CheckTheme != m_Theme.themeType)
             {
                 m_CheckTheme = m_Theme.themeType;
                 m_Theme.sharedTheme.CopyTheme(m_CheckTheme);
@@ -536,7 +536,8 @@ namespace XCharts.Runtime
                 serie.context.colorIndex = GetLegendRealShowNameIndex(serie.legendName);
                 serie.context.dataPoints.Clear();
                 serie.context.dataIgnores.Clear();
-                AnimationStyleHelper.UpdateSerieAnimation(serie);
+                serie.animation.context.isAllItemAnimationEnd = true;
+                
                 if (m_OnDrawSerieBefore != null)
                 {
                     m_OnDrawSerieBefore.Invoke(vh, serie);

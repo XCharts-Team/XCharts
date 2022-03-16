@@ -120,7 +120,7 @@ namespace XUGL
             }
         }
 
-        public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth)
+        public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth, bool closepath = false)
         {
             for (int i = points.Count - 1; i >= 1; i--)
             {
@@ -146,6 +146,10 @@ namespace XUGL
                 var ibp = Vector3.zero;
                 var ctp = Vector3.zero;
                 var cbp = Vector3.zero;
+                if (closepath && !UGLHelper.IsValueEqualsVector3(points[points.Count - 1], points[0]))
+                {
+                    points.Add(points[0]);
+                }
                 for (int i = 1; i < points.Count - 1; i++)
                 {
                     bool bitp = true, bibp = true;
@@ -1805,6 +1809,72 @@ namespace XUGL
         public static void DrawSvgPath(VertexHelper vh, string path)
         {
             SVG.DrawPath(vh, path);
+        }
+
+        public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness = 1)
+        {
+            DrawEllipse(vh, center, w, h, color, smoothness, 0, s_ClearColor32, 0, 360);
+        }
+
+        public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness,
+            float borderWidth, Color32 borderColor,
+            float startAngle, float endAngle)
+        {
+            startAngle = (startAngle + 360) % 360;
+            endAngle = (endAngle + 360) % 360;
+            if (endAngle < startAngle)
+                endAngle += 360;
+            if (endAngle <= startAngle)
+                return;
+
+            var angle = startAngle;
+            var lp = Vector2.zero;
+            var fill = color.a != 0;
+            var border = borderWidth != 0 && borderColor.a != 0;
+            if (!fill && !border)
+                return;
+
+            var startTriangleIndex = vh.currentVertCount;
+            if (fill)
+            {
+                vh.AddVert(center, color, Vector2.zero);
+            }
+            if (smoothness < 0.5f)
+                smoothness = 0.5f;
+
+            var i = 0;
+            while (angle <= endAngle)
+            {
+                var rad = angle * Mathf.Deg2Rad;
+                var x = center.x + w * Mathf.Cos(rad);
+                var y = center.y + h * Mathf.Sin(rad);
+                var p1 = new Vector3(x, y);
+                vh.AddVert(p1, color, Vector2.zero);
+                if (border)
+                {
+                    var dire = (p1 - center).normalized;
+                    var diff = dire * borderWidth;
+                    var p2 = p1 + diff;
+                    vh.AddVert(p1, borderColor, Vector2.zero);
+                    vh.AddVert(p2, borderColor, Vector2.zero);
+
+                    if (i > 0)
+                    {
+                        var index = startTriangleIndex + i * 3 + 2;
+                        vh.AddTriangle(index - 3, index + 1, index - 2);
+                        vh.AddTriangle(index - 3, index, index + 1);
+                        if (fill)
+                            vh.AddTriangle(startTriangleIndex, index - 1, index - 4);
+                    }
+                }
+                else if (i > 0 && fill)
+                {
+                    var index = startTriangleIndex + i;
+                    vh.AddTriangle(startTriangleIndex, index + 1, index);
+                }
+                i++;
+                angle += smoothness;
+            }
         }
     }
 }

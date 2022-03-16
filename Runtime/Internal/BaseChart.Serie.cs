@@ -26,6 +26,7 @@ namespace XCharts.Runtime
         public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)
         {
             serie.AnimationRestart();
+            AnimationStyleHelper.UpdateSerieAnimation(serie);
             if (addToHead) m_Series.Insert(0, serie);
             else if (index >= 0) m_Series.Insert(index, serie);
             else m_Series.Add(serie);
@@ -180,7 +181,7 @@ namespace XCharts.Runtime
             var index = m_Series.IndexOf(oldSerie);
             if (index < 0)
                 return false;
-
+            AnimationStyleHelper.UpdateSerieAnimation(newSerie);
             oldSerie.OnRemove();
             m_Series.RemoveAt(index);
             m_Series.Insert(index, newSerie);

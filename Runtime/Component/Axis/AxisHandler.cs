@@ -767,7 +767,6 @@ namespace XCharts
             var current = orient == Orient.Horizonal
                 ? startX
                 : startY;
-
             for (int i = 0; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, axis.IsTime() ? i : i + 1, dataZoom);
@@ -803,17 +802,17 @@ namespace XCharts
                     {
                         if (orient == Orient.Horizonal)
                         {
-                            if (relativedAxis == null || MathUtil.Approximately(current, relativedAxis.context.x))
-                            ChartDrawer.DrawLineStyle(vh,
-                                lineType,
-                                lineWidth,
-                                new Vector3(current, startY),
-                                new Vector3(current, startY + splitLength),
-                                lineColor);
+                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.x))
+                                ChartDrawer.DrawLineStyle(vh,
+                                    lineType,
+                                    lineWidth,
+                                    new Vector3(current, startY),
+                                    new Vector3(current, startY + splitLength),
+                                    lineColor);
                         }
                         else
                         {
-                            if (relativedAxis == null || MathUtil.Approximately(current, relativedAxis.context.y))
+                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.y))
                                 ChartDrawer.DrawLineStyle(vh,
                                     lineType,
                                     lineWidth,

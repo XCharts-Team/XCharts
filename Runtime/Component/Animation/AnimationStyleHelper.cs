@@ -35,7 +35,6 @@ namespace XCharts.Runtime
                 animationType = serieType.GetAttribute<DefaultAnimationAttribute>().type;
             }
             UpdateAnimationType(serie.animation, animationType);
-            serie.animation.context.isAllItemAnimationEnd = true;
         }
 
         public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)

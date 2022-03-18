@@ -11,7 +11,7 @@
   <br>
 </p>
 <p align="center">
-  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE">
+  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/LICENSE">
     <img src="https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts">
   </a>
   <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
@@ -45,11 +45,11 @@
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, gauge, ring, polar, liquid and other common chart.
 
 [XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
-[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
-[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)  
-[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG-EN.md)  
-[Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
+[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
+[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-api-EN.md)  
+[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-configuration-EN.md)  
+[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG-EN.md)  
+[Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
 
 ## XCharts 2.0
 
@@ -78,21 +78,21 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ## Screenshot
 
-![linechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-line.png)
-![barchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-bar.png)
-![piechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-pie.png)
-![radarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-radar.png)
-![scatterchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-scatter.png)
-![heatmapchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-heatmap.png)
-![gaugechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-gauge.png)
-![ringchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-ring.png)
-![polarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-polar.png)
-![liquidchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-liquid.png)
-![combinations](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-combinations.png)
+![linechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-line.png)
+![barchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-bar.png)
+![piechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-pie.png)
+![radarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-radar.png)
+![scatterchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-scatter.png)
+![heatmapchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-heatmap.png)
+![gaugechart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-gauge.png)
+![ringchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-ring.png)
+![polarchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-polar.png)
+![liquidchart](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-liquid.png)
+![combinations](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-combinations.png)
 
 ## Cheat Sheet
 
-![cheatsheet](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/screenshot/xcharts-cheatsheet.gif)
+![cheatsheet](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/screenshot/xcharts-cheatsheet.gif)
 
 `XCharts` consist of components and data. Different components and data can be combined into different types of charts. The component is divided into main component and sub component. The main component contains the sub components.
 
@@ -179,9 +179,9 @@ The following is the relationship structure of LineChart:
   2. In unity menu bar, `Component->XCharts->LineChart`.
   3. In `Inspector`,`Add Component->LineChart`.
   4. Then a simple line chart is done.
-  5. In `Inspector` you can adjust the parameters of components, and in `Game` will feedback the adjustment effect in realtime 。the detail of parameters  go to see: [XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md).
+  5. In `Inspector` you can adjust the parameters of components, and in `Game` will feedback the adjustment effect in realtime 。the detail of parameters  go to see: [XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-configuration-EN.md).
 
-* See more examples of code dynamic control: [Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md).
+* See more examples of code dynamic control: [Tutorial - Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md).
 
 * Enable TextMeshPro:
   1. `XCharts -> TextMeshPro Enable` or `Project Setting -> XCharts -> Enable TextMeshPro`
@@ -191,19 +191,19 @@ The following is the relationship structure of LineChart:
 ## Documents
 
 * [XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
-* [XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
-* [XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
-* [XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)
-* [XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG-EN.md)  
-* [XCharts Tutorial: Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
+* [XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
+* [XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-api-EN.md)  
+* [XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-configuration-EN.md)
+* [XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG-EN.md)  
+* [XCharts Tutorial: Get start with XCharts in 5 minute](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
 
 ## Changelog
 
-[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
+[XCharts Changelog](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG.md)  
 
 ## Licenses
 
-[MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/LICENSE.md)
+[MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/LICENSE.md)
 
 ## Contact
 

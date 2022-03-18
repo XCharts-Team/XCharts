@@ -49,7 +49,7 @@
 [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XChartsAPI.md)  
 [XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts配置项手册.md)  
 [XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG.md)  
-[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)  
+[教程：5分钟上手 XCharts 2.0](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)  
 
 ## XCharts 2.0
 

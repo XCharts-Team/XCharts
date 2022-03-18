@@ -1,4 +1,4 @@
-# 教程：5分钟上手XCharts
+# 教程：5分钟上手 XCharts 2.0
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
 [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts问答.md)  

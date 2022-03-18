@@ -553,8 +553,7 @@ namespace XCharts.Runtime
             {
                 while (m_Data.Count >= maxCache)
                 {
-                    context.isNeedUpdateFilterData = true;
-                    m_Data.RemoveAt(m_InsertDataToHead ? m_Data.Count - 1 : 0);
+                    RemoveData(m_InsertDataToHead ? m_Data.Count - 1 : 0);
                 }
             }
 
@@ -564,6 +563,12 @@ namespace XCharts.Runtime
                 m_Data.Add(category);
 
             SetAllDirty();
+        }
+
+        public void RemoveData(int dataIndex)
+        {
+            context.isNeedUpdateFilterData = true;
+            m_Data.RemoveAt(dataIndex);
         }
 
         /// <summary>

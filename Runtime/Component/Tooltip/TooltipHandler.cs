@@ -431,6 +431,7 @@ namespace XCharts.Runtime
             if (m_PointerContainer is GridCoord)
             {
                 var grid = m_PointerContainer as GridCoord;
+                if (!grid.context.isPointerEnter) return;
                 if (IsYCategoryOfGrid(grid.index))
                     DrawYAxisIndicator(vh, tooltip, grid);
                 else

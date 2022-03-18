@@ -98,7 +98,7 @@ namespace XCharts.Editor
                     title,
                     editor.baseProperty,
                     editor.showProperty,
-                    editor.menus.ToArray());
+                    editor.menus);
                 if (displayContent)
                 {
                     editor.OnInternalInspectorGUI();

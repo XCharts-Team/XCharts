@@ -6,12 +6,12 @@ namespace XCharts.Runtime
 {
     public class ChartLabel : Image
     {
+        [SerializeField] private ChartText m_LabelText;
+        
         private bool m_AutoHideIconWhenLabelEmpty = false;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
         private float m_LabelPaddingTopBottom = 3f;
-
-        private ChartText m_LabelText;
         private RectTransform m_LabelRect;
         private RectTransform m_LabelBackgroundRect;
         private RectTransform m_IconRect;

@@ -998,11 +998,22 @@ namespace XCharts.Runtime
             get
             {
                 double total = 0;
-                var duration = animation.GetUpdateAnimationDuration();
-                foreach (var sdata in data)
+                if (IsPerformanceMode())
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]))
-                        total += sdata.GetCurrData(1, duration);
+                    foreach (var sdata in data)
+                    {
+                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                            total += sdata.data[1];
+                    }
+                }
+                else
+                {
+                    var duration = animation.GetUpdateAnimationDuration();
+                    foreach (var sdata in data)
+                    {
+                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                            total += sdata.GetCurrData(1, duration);
+                    }
                 }
                 return total;
             }
@@ -1590,14 +1601,11 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 是否为性能模式。只有折线图和柱状图才有性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。
+        /// 是否为性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。
         /// </summary>
         public bool IsPerformanceMode()
         {
-            if (IsSerie<Line>() || IsSerie<Bar>())
-                return m_Large && m_Data.Count > m_LargeThreshold;
-            else
-                return false;
+            return m_Large && m_Data.Count > m_LargeThreshold;
         }
 
         public bool IsLegendName(string legendName)

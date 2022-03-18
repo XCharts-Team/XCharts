@@ -34,7 +34,7 @@ namespace XCharts
                 return;
             if (!grid.context.isPointerEnter)
             {
-                axis.context.pointerValue = double.PositiveInfinity;
+                axis.context.pointerValue = 0;
             }
             else
             {
@@ -44,11 +44,11 @@ namespace XCharts
                     var dataZoom = chart.GetDataZoomOfAxis(axis);
                     var dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     var local = chart.pointerPos;
-                    for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
+                    if (axis is YAxis)
                     {
-                        if (axis is YAxis)
+                        float splitWid = AxisHelper.GetDataWidth(axis, grid.context.height, dataCount, dataZoom);
+                        for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
                         {
-                            float splitWid = AxisHelper.GetDataWidth(axis, grid.context.height, dataCount, dataZoom);
                             float pY = grid.context.y + j * splitWid;
                             if ((axis.boundaryGap && (local.y > pY && local.y <= pY + splitWid))
                                 || (!axis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
@@ -63,9 +63,12 @@ namespace XCharts
                                 break;
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        float splitWid = AxisHelper.GetDataWidth(axis, grid.context.width, dataCount, dataZoom);
+                        for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
                         {
-                            float splitWid = AxisHelper.GetDataWidth(axis, grid.context.width, dataCount, dataZoom);
                             float pX = grid.context.x + j * splitWid;
                             if ((axis.boundaryGap && (local.x > pX && local.x <= pX + splitWid))
                                 || (!axis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
@@ -87,7 +90,6 @@ namespace XCharts
                     if (axis is YAxis)
                     {
                         var yRate = axis.context.minMaxRange / grid.context.height;
-
                         var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.offset);
                         if (axis.context.minValue > 0)
                             yValue += axis.context.minValue;
@@ -104,7 +106,6 @@ namespace XCharts
                     else
                     {
                         var xRate = axis.context.minMaxRange / grid.context.width;
-
                         var xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
                         if (axis.context.minValue > 0)
                             xValue += axis.context.minValue;

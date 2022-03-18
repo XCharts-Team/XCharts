@@ -74,7 +74,6 @@ namespace XCharts.Runtime
                 return Vector3.zero;
 
             var yAxis = chart.GetChartComponent<YAxis>(component.index);
-
             return GetLabelPosition(i, Orient.Horizonal, component, yAxis,
                 chart.theme.axis,
                 scaleWid,

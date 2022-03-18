@@ -7,6 +7,7 @@ namespace XCharts.Runtime
 {
     internal class ObjectPool<T> where T : new()
     {
+        private readonly bool m_NewIfEmpty = true;
         private readonly Stack<T> m_Stack = new Stack<T>();
         private readonly UnityAction<T> m_ActionOnGet;
         private readonly UnityAction<T> m_ActionOnRelease;
@@ -15,8 +16,9 @@ namespace XCharts.Runtime
         public int countActive { get { return countAll - countInactive; } }
         public int countInactive { get { return m_Stack.Count; } }
 
-        public ObjectPool(UnityAction<T> actionOnGet, UnityAction<T> actionOnRelease)
+        public ObjectPool(UnityAction<T> actionOnGet, UnityAction<T> actionOnRelease, bool newIfEmpty = true)
         {
+            m_NewIfEmpty = newIfEmpty;
             m_ActionOnGet = actionOnGet;
             m_ActionOnRelease = actionOnRelease;
         }
@@ -26,6 +28,7 @@ namespace XCharts.Runtime
             T element;
             if (m_Stack.Count == 0)
             {
+                if (!m_NewIfEmpty) return default(T);
                 element = new T();
                 countAll++;
             }

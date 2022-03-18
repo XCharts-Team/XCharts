@@ -7,6 +7,7 @@ using TMPro;
 
 namespace XCharts.Runtime
 {
+    [System.Serializable]
     public class ChartText
     {
         private float m_ExtraWidth;

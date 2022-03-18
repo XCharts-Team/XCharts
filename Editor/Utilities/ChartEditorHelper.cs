@@ -540,7 +540,54 @@ namespace XCharts.Editor
             Action<Rect> drawCallback, params HeaderMenuInfo[] menus)
         {
             var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
+            var labelRect = DrawHeaderInternal(rect, title, state, drawBackground, activeField);
+            DrawMenu(rect, menus);
+            if (drawCallback != null)
+            {
+                drawCallback(rect);
+            }
+            var e = Event.current;
+            if (e.type == EventType.MouseDown)
+            {
+                if (labelRect.Contains(e.mousePosition))
+                {
+                    if (e.button == 0)
+                    {
+                        state = !state;
+                        e.Use();
+                    }
+                }
+            }
+            return state;
+        }
 
+        internal static bool DrawHeader(string title, bool state, bool drawBackground, SerializedProperty activeField,
+            Action<Rect> drawCallback, List<HeaderMenuInfo> menus)
+        {
+            var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
+            var labelRect = DrawHeaderInternal(rect, title, state, drawBackground, activeField);
+            DrawMenu(rect, menus);
+            if (drawCallback != null)
+            {
+                drawCallback(rect);
+            }
+            var e = Event.current;
+            if (e.type == EventType.MouseDown)
+            {
+                if (labelRect.Contains(e.mousePosition))
+                {
+                    if (e.button == 0)
+                    {
+                        state = !state;
+                        e.Use();
+                    }
+                }
+            }
+            return state;
+        }
+
+        private static Rect DrawHeaderInternal(Rect rect, string title, bool state, bool drawBackground, SerializedProperty activeField)
+        {
             var splitRect = rect;
             splitRect.x = EditorGUI.indentLevel * INDENT_WIDTH + 4;
             splitRect.xMax = rect.xMax;
@@ -576,24 +623,7 @@ namespace XCharts.Editor
                 toggleRect.height = 13f;
                 activeField.boolValue = GUI.Toggle(toggleRect, activeField.boolValue, GUIContent.none);
             }
-            DrawMenu(rect, menus);
-            if (drawCallback != null)
-            {
-                drawCallback(rect);
-            }
-            var e = Event.current;
-            if (e.type == EventType.MouseDown)
-            {
-                if (labelRect.Contains(e.mousePosition))
-                {
-                    if (e.button == 0)
-                    {
-                        state = !state;
-                        e.Use();
-                    }
-                }
-            }
-            return state;
+            return labelRect;
         }
 
         internal static bool DrawHeader(string title, SerializedProperty group, SerializedProperty activeField,
@@ -607,6 +637,13 @@ namespace XCharts.Editor
 
         internal static bool DrawHeader(string title, SerializedProperty group, SerializedProperty activeField,
             params HeaderMenuInfo[] menus)
+        {
+            group.isExpanded = DrawHeader(title, group.isExpanded, false, activeField, null, menus);
+            return group.isExpanded;
+        }
+
+        internal static bool DrawHeader(string title, SerializedProperty group, SerializedProperty activeField,
+            List<HeaderMenuInfo> menus)
         {
             group.isExpanded = DrawHeader(title, group.isExpanded, false, activeField, null, menus);
             return group.isExpanded;
@@ -638,9 +675,48 @@ namespace XCharts.Editor
             }
         }
 
+        internal static void DrawMenu(Rect parentRect, List<HeaderMenuInfo> menus)
+        {
+            if (menus == null || menus.Count <= 0) return;
+            var menuIcon = EditorCustomStyles.paneOptionsIcon;
+            var menuRect = new Rect(parentRect.xMax - menuIcon.width, parentRect.y + 2f,
+                menuIcon.width, menuIcon.height);
+            GUI.DrawTexture(menuRect, menuIcon);
+            var e = Event.current;
+            if (e.type == EventType.MouseDown)
+            {
+                if (menuRect.Contains(e.mousePosition))
+                {
+                    ShowHeaderContextMenu(new Vector2(menuRect.x, menuRect.yMax), menus);
+                    e.Use();
+                }
+                else if (parentRect.Contains(e.mousePosition))
+                {
+                    if (e.button != 0)
+                    {
+                        ShowHeaderContextMenu(e.mousePosition, menus);
+                        e.Use();
+                    }
+                }
+            }
+        }
+
         static void ShowHeaderContextMenu(Vector2 position, params HeaderMenuInfo[] menus)
         {
             if (menus == null || menus.Length <= 0) return;
+            var menu = new GenericMenu();
+            foreach (var info in menus)
+            {
+                if (info.enable)
+                    menu.AddItem(GetContent(info.name), false, () => info.action());
+                else
+                    menu.AddDisabledItem(GetContent(info.name));
+            }
+            menu.DropDown(new Rect(position, Vector2.zero));
+        }
+        static void ShowHeaderContextMenu(Vector2 position, List<HeaderMenuInfo> menus)
+        {
+            if (menus == null || menus.Count <= 0) return;
             var menu = new GenericMenu();
             foreach (var info in menus)
             {

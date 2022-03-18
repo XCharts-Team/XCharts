@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts.Runtime
 {
@@ -37,15 +36,6 @@ namespace XCharts.Runtime
             return element;
         }
 
-        private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle label, Color color,
-            float iconWidth, float iconHeight, ThemeStyle theme)
-        {
-            var element = ChartHelper.AddSerieLabel(name, parent, label.backgroundWidth, label.backgroundHeight,
-                color, label.textStyle, theme);
-            ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
-            return element;
-        }
-
         public static void Release(GameObject element)
         {
             if (element == null) return;
@@ -71,6 +61,15 @@ namespace XCharts.Runtime
         {
             m_Stack.Clear();
             m_ReleaseDic.Clear();
+        }
+
+        private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle label, Color color,
+            float iconWidth, float iconHeight, ThemeStyle theme)
+        {
+            var element = ChartHelper.AddSerieLabel(name, parent, label.backgroundWidth, label.backgroundHeight,
+                color, label.textStyle, theme);
+            ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
+            return element;
         }
     }
 }

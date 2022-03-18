@@ -233,11 +233,12 @@ namespace XCharts.Runtime
         }
 
         public static ChartText AddTextObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme)
+            Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme, ChartText chartText = null)
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             txtObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
-            var chartText = new ChartText();
+            if(chartText == null)
+                chartText = new ChartText();
 #if dUI_TextMeshPro
             RemoveComponent<Text>(txtObj);
             chartText.tmpText = GetOrAddComponent<TextMeshProUGUI>(txtObj);
@@ -377,9 +378,11 @@ namespace XCharts.Runtime
             var sizeDelta = new Vector2(width, height);
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var img = GetOrAddComponent<Image>(iconObj);
-            img.raycastTarget = false;
-            img.type = type;
-            if (sprite != null)
+            if (img.raycastTarget != false)
+                img.raycastTarget = false;
+            if (img.type != type)
+                img.type = type;
+            if (sprite != null && img.sprite != sprite)
             {
                 img.sprite = sprite;
                 if (width == 0 || height == 0)
@@ -398,15 +401,14 @@ namespace XCharts.Runtime
             var iconStyle = axis.iconStyle;
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var label = GetOrAddComponent<ChartLabel>(labelObj);
-
             var labelShow = axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0);
             if (labelShow)
             {
                 if (!axis.axisLabel.showStartLabel && index == 0) labelShow = false;
                 else if (!axis.axisLabel.showEndLabel && index == total - 1) labelShow = false;
             }
-            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme);
-            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, iconStyle.width, iconStyle.height);
+            label.label = AddTextObject("Text", label.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme, label.label);
+            label.icon = ChartHelper.AddIcon("Icon", label.transform, iconStyle.width, iconStyle.height);
             label.SetAutoSize(false);
             label.UpdateIcon(iconStyle, axis.GetIcon(index));
             label.label.SetActive(labelShow);
@@ -421,7 +423,7 @@ namespace XCharts.Runtime
         {
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             var label = GetOrAddComponent<ChartLabel>(labelObj);
-            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme);
+            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme, label.label);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, 0, 0);
             label.SetAutoSize(true);
             label.label.SetActive(true);
@@ -468,7 +470,7 @@ namespace XCharts.Runtime
             var label = GetOrAddComponent<ChartLabel>(labelGameObject);
             label.labelBackground = ChartHelper.AddIcon("Background", label.gameObject.transform, 50, 20);
             label.labelBackground.color = Color.black;
-            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme.tooltip);
+            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme.tooltip, label.label);
             label.SetAutoSize(true);
             label.SetText("");
             label.color = textStyle.color;

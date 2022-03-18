@@ -19,12 +19,14 @@ namespace XCharts.Editor
         internal List<HeaderMenuInfo> menus = new List<HeaderMenuInfo>();
         protected Dictionary<string, Type> m_CoordOptionsDic;
         protected List<string> m_CoordOptionsNames;
+        private string m_DisplayName;
 
         internal void Init(BaseChart chart, Serie target, SerializedProperty property, UnityEditor.Editor inspector)
         {
             this.chart = chart;
             this.serie = target;
             this.baseProperty = property;
+            m_DisplayName = string.Format("serie {0}: {1}", serie.index, serie.GetType().Name);
             //m_Inspector = inspector;
             showProperty = baseProperty.FindPropertyRelative("m_Show");
             if (showProperty == null)
@@ -83,8 +85,9 @@ namespace XCharts.Editor
 
         public virtual string GetDisplayTitle()
         {
-            var title = string.Format("serie {0}: {1}", serie.index, serie.GetType().Name);
-            return ObjectNames.NicifyVariableName(title);
+            // var title = string.Format("serie {0}: {1}", serie.index, serie.GetType().Name);
+            // return ObjectNames.NicifyVariableName(title);
+            return m_DisplayName;
         }
 
         internal SerializedProperty FindProperty(string path)

@@ -14,20 +14,19 @@ namespace XCharts.Runtime
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
+        private float m_LastLineWidth = 0f;
 
         private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
                 return;
-
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
-            var lineWidth = 0f;
+            var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter || m_LastLineWidth != lineWidth;
             if (!needCheck)
             {
                 if (m_LastCheckContextFlag != needCheck)
                 {
                     var needAnimation1 = false;
-                    lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
@@ -49,11 +48,10 @@ namespace XCharts.Runtime
                 }
                 return;
             }
+            m_LastLineWidth = lineWidth;
             m_LastCheckContextFlag = needCheck;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
-            lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
-
             var needInteract = false;
             if (m_LegendEnter)
             {

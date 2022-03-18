@@ -12,7 +12,7 @@
   <a href="Assets/XCharts/README.md">English Doc</a>
 </p>
 <p align="center">
-  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE">
+  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/LICENSE">
     <img src="https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts">
   </a>
   <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
@@ -45,11 +45,11 @@
 
 一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、仪表盘、环形图、极坐标、水位图、K线图等常见图表。
 
-[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
-[XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)  
-[XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
-[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
+[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts问答.md)  
+[XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts配置项手册.md)  
+[XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG.md)  
+[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)  
 
 ## XCharts 2.0
 
@@ -182,25 +182,25 @@ XCharts的图表由组件和数据组成。不同的组件和数据可以组合�
 * 在Editor上快速创建一个图表：
 
   1. 在`Hierarchy`试图下右键或菜单栏`GameObject`下拉：`XCharts->LineChart`，即可快速创建一个简单的折线图出来。
-  2. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)。
+  2. `Inspector` 视图下可以调整各个组件的参数，`Game` 视图会实时反馈调整的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts配置项手册.md)。
 
-* 更多的代码动态控制的例子请参考[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  。
+* 更多的代码动态控制的例子请参考[教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)  。
 
 ## 文档
 
-* 常见问题看这里☞ [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)  
-* 接口文档看这里☞ [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XChartsAPI.md)  
-* 参数配置看这里☞ [XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts配置项手册.md)  
-* 更新日志看这里☞ [XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
-* 新手教程看这里☞ [教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Doc/教程：5分钟上手XCharts.md)  
+* 常见问题看这里☞ [XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts问答.md)  
+* 接口文档看这里☞ [XChartsAPI手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XChartsAPI.md)  
+* 参数配置看这里☞ [XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/XCharts配置项手册.md)  
+* 更新日志看这里☞ [XCharts更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG.md)  
+* 新手教程看这里☞ [教程：5分钟上手XCharts](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)  
 
 ## 日志
 
-[更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/CHANGELOG.md)  
+[更新日志](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/CHANGELOG.md)  
 
 ## Licenses
 
-[MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/LICENSE.md)
+[MIT License](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/LICENSE.md)
 
 ## 其他
 

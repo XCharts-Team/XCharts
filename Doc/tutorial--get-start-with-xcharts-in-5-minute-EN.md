@@ -1,9 +1,9 @@
 # Get start with XCharts in 5 minute
 
 [Return homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
-[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
-[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)
+[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
+[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-api-EN.md)  
+[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-configuration-EN.md)
 
 ## Installing XCharts
 
@@ -116,9 +116,9 @@ See the complete code in `Examples`：`Example13_LineSimple.cs`
 
 You can also use the code to control more parameters. There are many more examples under `Examples`. All parameters in [XCharts Configuration](xcharts-configuration-EN.md) or `Inspector` can be controlled by code.
 
-In addition, unless customized, it is recommended to call the interfaces in the [XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md), which do some internal correlation processing, such as refreshing the chart, etc. If you call the interface of an internal component, you'll need to handle other issues like refresh yourself.
+In addition, unless customized, it is recommended to call the interfaces in the [XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-api-EN.md), which do some internal correlation processing, such as refreshing the chart, etc. If you call the interface of an internal component, you'll need to handle other issues like refresh yourself.
 
 [Return homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
-[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-api-EN.md)  
-[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-configuration-EN.md)
+[XCharts Q&A](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md)  
+[XCharts API](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-api-EN.md)  
+[XCharts Configuration](https://github.com/monitor1394/unity-ugui-XCharts/blob/2.0/Assets/XCharts/Documentation/xcharts-configuration-EN.md)

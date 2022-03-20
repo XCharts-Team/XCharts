@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
 [v2.5.0](#v2.5.0)  
 [v2.4.0](#v2.4.0)  
@@ -42,6 +43,9 @@
 
 ## branch-2.0
 
+## v2.7.0
+
+* (2022.03.20) Release `v2.7.0` version
 * (2022.02.21) Fixed chart name repeat check error #183
 * (2022.02.17) Fixed bug where axis split line might be displayed outside the coordinate system #181
 * (2022.02.08) Fixed {d} formatter error when value is 0

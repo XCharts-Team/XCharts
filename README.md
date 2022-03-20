@@ -73,7 +73,7 @@
 * 更方便的二次开发。
 * 更丰富的Demo示例。
 
-## XCharts3.0新功能
+## XCharts3.0 新功能
 
 * 增加Time时间轴。
 * 增加SingleAxis单轴。
@@ -82,13 +82,15 @@
 * 增加更细致的图表交互。
 * 增加国际化支持。
 * 增加Widgets小组件。
-* 增加更多付费扩展图表的无缝支持。
+* 增加更多扩展图表。
 
-## 截图
+## 效果
+
+[WebGL Demo](https://xcharts-team.github.io/demo/)
 
 ## 使用
 
-[XCharts教程：5分钟上手教程](Documentation～/XCharts教程：5分钟上手教程.md)  
+[XCharts教程：5分钟上手教程](Documentation~/XCharts教程：5分钟上手教程.md)  
 
 ## 日志
 

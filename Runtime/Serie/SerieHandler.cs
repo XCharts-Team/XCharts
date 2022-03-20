@@ -64,6 +64,7 @@ namespace XCharts.Runtime
             this.serie = (T)serie;
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
+            AnimationStyleHelper.UpdateSerieAnimation(serie);
         }
 
         public override void Update()

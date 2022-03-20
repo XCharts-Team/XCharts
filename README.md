@@ -63,8 +63,8 @@
 
 ## XCharts3.0 比 2.0 的改进
 
-* 更具可读性、可扩展性和可维护性的健壮底层框架。
-* 更好的性能。
+* 更具可读、可扩展和可维护性的底层框架。
+* 更强大的性能。
 * 更小的存储文件。
 * 更好的交互体验。
 * 更多的组件支持。
@@ -84,9 +84,13 @@
 * 增加Widgets小组件。
 * 增加更多扩展图表。
 
-## 效果
+## 截图
 
-[WebGL Demo](https://xcharts-team.github.io/demo/)
+[XCharts Demo 项目](https://github.com/XCharts-Team/XCharts-Demo)
+
+![buildinchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/buildinchart.png)
+
+![extendchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
 
 ## 使用
 

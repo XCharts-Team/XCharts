@@ -12,11 +12,11 @@
   <a href="Documentation~/README-EN.md">English Doc</a>
 </p>
 <p align="center">
-  <a href="https://github.com/monitor1394/unity-ugui-XCharts/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/monitor1394/unity-ugui-XCharts">
+  <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts">
   </a>
-  <a href="https://github.com/monitor1394/unity-ugui-XCharts/releases">
-    <img src="https://img.shields.io/github/v/release/monitor1394/unity-ugui-XCharts?include_prereleases">
+  <a href="https://github.com/XCharts-Team/XCharts/releases">
+    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases">
   </a>
   <a href="">
     <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts">
@@ -33,13 +33,13 @@
 </p>
 <p align="center">
   <a href="">
-    <img src="https://img.shields.io/github/stars/monitor1394/unity-ugui-XCharts?style=social">
+    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social">
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/forks/monitor1394/unity-ugui-XCharts?style=social">
+    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social">
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/issues-closed/monitor1394/unity-ugui-XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
+    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
   </a>
 </p>
 

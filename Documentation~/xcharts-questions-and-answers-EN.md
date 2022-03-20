@@ -1,6 +1,6 @@
 # XCharts Q&A
 
-[XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)  
 [XCharts API](xcharts-api-EN.md)  
 [XCharts Configuration](xcharts-configuration-EN.md)
 
@@ -148,14 +148,14 @@ A: Check whether `RemoveData()` and add new `Serie` in the code. If you want to 
 
 ## Why_are_many_custom_colors_lost_after_upgrading_to_1_6_0_How_should_I_upgrade
 
-A: In version `1.6.0`, in order to reduce implicit conversion, all drawing related `Color` was changed to `Color32`, so some custom colors were lost. The main components affected are: `ItemStyle`, `LineStyle`, `AreaStyle`, `Vessel`, `VisualMap`, `AxisSplitArea`, `AxisSplitLine`, `GaugeAxis`,`SerieLabel`, etc. Can use the script [UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) to upgrade.
+A: In version `1.6.0`, in order to reduce implicit conversion, all drawing related `Color` was changed to `Color32`, so some custom colors were lost. The main components affected are: `ItemStyle`, `LineStyle`, `AreaStyle`, `Vessel`, `VisualMap`, `AxisSplitArea`, `AxisSplitLine`, `GaugeAxis`,`SerieLabel`, etc. Can use the script [UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) to upgrade.
 The upgrade steps are as follows:
 1. Back up the project.
-2. Download or copy the script [UpgradeChartColor.cs](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) in the old project `Editor`, Change the `color` field inside to `color.clear` (because some fields may not exist in the old version).
+2. Download or copy the script [UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) in the old project `Editor`, Change the `color` field inside to `color.clear` (because some fields may not exist in the old version).
 3. After compilation, the old version of color configuration file is exported through `menu bar -> XCharts-> ExportColorConfig` (the configuration file is saved by default to `color.config` under `Assets`).
 4. Upgrade `XCharts` to the latest version.
 5. The custom color can be restored by importing `color.config` through `menu bar -> XCharts-> ImportColorConfig` (if `color.config` is not under `Assets` of the upgraded project, copy it to this directory).
 
-[XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)  
 [XCharts API](xcharts-api-EN.md)  
 [XCharts Configuration](xcharts-configuration-EN.md)

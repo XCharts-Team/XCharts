@@ -18,12 +18,12 @@
   "category": "chart",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monitor1394/unity-ugui-XCharts.git"
+    "url": "git+https://github.com/XCharts-Team/XCharts.git"
   },
   "author": "monitor1394",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/monitor1394/unity-ugui-XCharts/issues"
+    "url": "https://github.com/XCharts-Team/XCharts/issues"
   },
-  "homepage": "https://github.com/monitor1394/unity-ugui-XCharts"
+  "homepage": "https://github.com/XCharts-Team/XCharts"
 }

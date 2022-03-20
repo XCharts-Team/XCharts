@@ -1,6 +1,6 @@
 # XCharts Configuration
 
-[XCharts Homepage](https://github.com/monitor1394/unity-ugui-XCharts)  
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)  
 [XCharts API](xcharts-api-EN.md)  
 [XCharts Q&A](xcharts-questions-and-answers-EN.md)
 
@@ -954,6 +954,6 @@ K线图系列。
 * `height` : the height of the icon.
 * `Offset` : Offset.
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
+[返回首页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)

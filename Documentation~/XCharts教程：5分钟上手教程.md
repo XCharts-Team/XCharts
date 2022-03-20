@@ -1,9 +1,9 @@
 # 教程：5分钟上手 XCharts 3.0
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XCharts问答.md)  
-[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XCharts配置项手册.md)
+[返回首页](https://github.com/XCharts-Team/XCharts)  
+[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation~/XCharts问答.md)  
+[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation~/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation~/XCharts配置项手册.md)
 
 ## 获取和导入 XCharts
 
@@ -17,12 +17,12 @@
 
 3. 通过`Package Manager`导入XCharts
 
-   对于Unity 2018.3以上版本，可通过 Package Manager来导入XCharts，打开Package Manager后，通过 `Add package form git URL...`，输入XCharts的github URL: https://github.com/monitor1394/unity-ugui-XCharts.git#master 稍等片刻后即可使用XCharts。
+   对于Unity 2018.3以上版本，可通过 Package Manager来导入XCharts，打开Package Manager后，通过 `Add package form git URL...`，输入XCharts的github URL: https://github.com/XCharts-Team/XCharts.git#master 稍等片刻后即可使用XCharts。
 
    也可以直接将package加入到`manifest.json`文件：打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
 
     ``` json
-        "com.monitor1394.xcharts": "https://github.com/monitor1394/unity-ugui-XCharts.git#master",
+        "com.monitor1394.xcharts": "https://github.com/XCharts-Team/XCharts.git#master",
     ```
 
     如需更新`XCharts`，删除`manifest.json`文件（部分Unity版本可能是packages-lock.json文件）的`lock`下的`com.monitor1394.xcharts`相关内容即会重新下载编译。
@@ -148,7 +148,7 @@ for (int i = 0; i < 10; i++)
 
 你还可以用代码控制更多的参数，`Examples`下还有更多的其他例子，凡是`Inspector`上看到的可配置的参数，都可以通过代码来设置。[XCharts配置项手册](XCharts配置项手册.md)里面的所有参数都是可以通过代码控制的。
 
-另外，除非定制，建议调用[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XChartsAPI.md)  里面的接口，这些接口内部会做一些关联处理，比如刷新图表等。如果自己调用了内部组件的接口，需要自己处理刷新等其他问题。
+另外，除非定制，建议调用[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation~/XChartsAPI.md)  里面的接口，这些接口内部会做一些关联处理，比如刷新图表等。如果自己调用了内部组件的接口，需要自己处理刷新等其他问题。
 
 ## 使用TextMeshPro
 
@@ -225,7 +225,7 @@ itemStyle.color = Color.blue;
 
 ```
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
-[XCharts问答](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XCharts问答.md)  
-[XChartsAPI接口](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/monitor1394/unity-ugui-XCharts/master/Documentation~/XCharts配置项手册.md)
+[返回首页](https://github.com/XCharts-Team/XCharts)  
+[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation~/XCharts问答.md)  
+[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation~/XChartsAPI.md)  
+[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation~/XCharts配置项手册.md)

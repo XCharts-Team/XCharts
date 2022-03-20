@@ -1,6 +1,6 @@
 # XCharts API
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
+[返回首页](https://github.com/XCharts-Team/XCharts)  
 [XCharts配置项手册](XCharts配置项手册.md)  
 [XCharts问答](XCharts问答.md)
 
@@ -145,7 +145,7 @@
 * `RingChart.UpdateMax(int serieIndex, float value)`：更新指定系列的所有数据项的最大值。
 * `RingChart.UpdateMax(float value)`：更新第一个系列第一个数据项的最大值。
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
+[返回首页](https://github.com/XCharts-Team/XCharts)  
 [XCharts配置项手册](XCharts配置项手册.md)  
 [XCharts问答](XCharts问答.md)
 

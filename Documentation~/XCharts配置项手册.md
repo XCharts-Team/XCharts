@@ -1,6 +1,6 @@
 # 配置项手册
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
+[返回首页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)
 
@@ -1060,6 +1060,6 @@ K线图系列。
 * `height`：图标的高。
 * `offset`：位置偏移。
 
-[返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  
+[返回首页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI接口](XChartsAPI.md)  
 [XCharts问答](XCharts问答.md)

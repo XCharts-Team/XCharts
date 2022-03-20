@@ -10,26 +10,22 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class CandlestickChart : BaseChart
     {
-
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             AddChartComponentWhenNoExist<GridCoord>();
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
 
-            var tooltip = GetChartComponent<Tooltip>();
+            var tooltip = GetOrAddChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.Shadow;
             tooltip.trigger = Tooltip.Trigger.Axis;
 
             RemoveData();
-            Candlestick.AddDefaultSerie(this, GenerateDefaultSerieName());
-            for (int i = 0; i < GetSerie(0).dataCount; i++)
+            var serie = Candlestick.AddDefaultSerie(this, GenerateDefaultSerieName());
+            for (int i = 0; i < serie.dataCount; i++)
             {
                 AddXAxisData("x" + (i + 1));
             }
         }
-#endif
     }
 }

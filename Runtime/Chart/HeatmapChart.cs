@@ -10,11 +10,8 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class HeatmapChart : BaseChart
     {
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
-
             var tooltip = GetChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.None;
             tooltip.trigger = Tooltip.Trigger.Axis;
@@ -76,6 +73,5 @@ namespace XCharts.Runtime
                 }
             }
         }
-#endif
     }
 }

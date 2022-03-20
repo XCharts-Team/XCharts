@@ -69,6 +69,8 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
+        public Action onInit { set { m_OnInit = value; } }
+        public Action onUpdate { set { m_OnUpdate = value; } }
         /// <summary>
         /// 自定义绘制回调。在绘制Serie前调用。
         /// </summary>
@@ -103,6 +105,19 @@ namespace XCharts.Runtime
         /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
         /// </summary>
         public Action<Axis, double> onAxisPointerValueChanged { set { m_OnAxisPointerValueChanged = value; } get { return m_OnAxisPointerValueChanged; } }
+
+        public void Init(bool defaultChart = true)
+        {
+            if (defaultChart)
+            {
+                OnInit();
+                DefaultChart();
+            }
+            else
+            {
+                OnBeforeSerialize();
+            }
+        }
         /// <summary>
         /// Redraw chart in next frame.
         /// 在下一帧刷新图表。
@@ -138,6 +153,7 @@ namespace XCharts.Runtime
             foreach (var component in m_Components)
                 component.ClearData();
             m_Series.Clear();
+            m_SerieHandlers.Clear();
             m_CheckAnimation = false;
             RefreshChart();
         }

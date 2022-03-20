@@ -14,16 +14,17 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<LineChart>();
-                chart.SetSize(580, 300);//代码动态添加图表需要设置尺寸，或直接操作chart.rectTransform
+                chart.Init();
+                chart.SetSize(580, 300);
             }
-            chart.GetChartComponent<Title>().show = true;
-            chart.GetChartComponent<Title>().text = "Line Simple";
+            chart.GetOrAddChartComponent<Title>().show = true;
+            chart.GetOrAddChartComponent<Title>().text = "Line Simple";
 
-            chart.GetChartComponent<Tooltip>().show = true;
-            chart.GetChartComponent<Legend>().show = false;
+            chart.GetOrAddChartComponent<Tooltip>().show = true;
+            chart.GetOrAddChartComponent<Legend>().show = false;
 
-            var xAxis = chart.GetChartComponent<XAxis>();
-            var yAxis = chart.GetChartComponent<YAxis>();
+            var xAxis = chart.GetOrAddChartComponent<XAxis>();
+            var yAxis = chart.GetOrAddChartComponent<YAxis>();
             xAxis.show = true;
             yAxis.show = true;
             xAxis.type = Axis.AxisType.Category;
@@ -35,7 +36,7 @@ namespace XCharts.Example
             chart.RemoveData();
             chart.AddSerie<Line>();
             chart.AddSerie<Line>();
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 200; i++)
             {
                 chart.AddXAxisData("x" + i);
                 chart.AddData(0, Random.Range(10, 20));

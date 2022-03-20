@@ -9,20 +9,12 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class RadarChart : BaseChart
     {
-        protected override void InitComponent()
+        protected override void DefaultChart()
         {
-            base.InitComponent();
-        }
-
-#if UNITY_EDITOR
-        protected override void Reset()
-        {
-            base.Reset();
             RemoveData();
             RemoveChartComponents<RadarCoord>();
             AddChartComponent<RadarCoord>();
             Radar.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
-#endif
     }
 }

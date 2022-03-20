@@ -9,16 +9,13 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class PieChart : BaseChart
     {
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             var legend = GetOrAddChartComponent<Legend>();
             legend.show = true;
 
             RemoveData();
             Pie.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
-#endif
     }
 }

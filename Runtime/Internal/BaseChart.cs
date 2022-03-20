@@ -79,6 +79,8 @@ namespace XCharts.Runtime
         protected Vector2 m_ChartSizeDelta;
 
         protected Rect m_ChartRect = new Rect(0, 0, 0, 0);
+        protected Action m_OnInit;
+        protected Action m_OnUpdate;
         protected Action<VertexHelper> m_OnDrawBase;
         protected Action<VertexHelper> m_OnDrawTop;
         protected Action<VertexHelper, Serie> m_OnDrawSerieBefore;
@@ -100,6 +102,10 @@ namespace XCharts.Runtime
         private ThemeType m_CheckTheme = 0;
         protected List<MainComponentHandler> m_ComponentHandlers = new List<MainComponentHandler>();
         protected List<SerieHandler> m_SerieHandlers = new List<SerieHandler>();
+
+        protected virtual void DefaultChart()
+        {
+        }
 
         protected override void InitComponent()
         {
@@ -125,10 +131,8 @@ namespace XCharts.Runtime
             XChartsMgr.AddChart(this);
         }
 
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected void OnInit()
         {
-            base.Reset();
             RemoveAllChartComponent();
             OnBeforeSerialize();
             AddChartComponentWhenNoExist<Title>();
@@ -148,6 +152,16 @@ namespace XCharts.Runtime
                 rectTransform.sizeDelta = new Vector2(580, 300);
             }
             ChartHelper.HideAllObject(transform);
+            if (m_OnInit != null)
+                m_OnInit();
+        }
+
+#if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            OnInit();
+            DefaultChart();
             Awake();
         }
 #endif
@@ -167,6 +181,8 @@ namespace XCharts.Runtime
             foreach (var handler in m_SerieHandlers) handler.Update();
             foreach (var handler in m_ComponentHandlers) handler.Update();
             m_DebugInfo.Update();
+            if (m_OnUpdate != null)
+                m_OnUpdate();
         }
 
         public Painter GetPainter(int index)
@@ -537,7 +553,7 @@ namespace XCharts.Runtime
                 serie.context.dataPoints.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
-                
+
                 if (m_OnDrawSerieBefore != null)
                 {
                     m_OnDrawSerieBefore.Invoke(vh, serie);

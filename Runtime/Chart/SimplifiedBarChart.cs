@@ -10,11 +10,8 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class SimplifiedBarChart : BaseChart
     {
-
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             AddChartComponentWhenNoExist<GridCoord>();
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
@@ -30,6 +27,5 @@ namespace XCharts.Runtime
                 AddXAxisData("x" + (i + 1));
             }
         }
-#endif
     }
 }

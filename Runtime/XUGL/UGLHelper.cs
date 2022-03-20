@@ -294,17 +294,17 @@ namespace XUGL
         {
             var dir1 = (cp - lp).normalized;
             var dir2 = (cp - np).normalized;
-            var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized;
-            var dir2v = Vector3.Cross(dir2, Vector3.back).normalized;
+            var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized * width;
+            var dir2v = Vector3.Cross(dir2, Vector3.back).normalized * width;
 
-            ltp = lp - dir1v * width;
-            lbp = lp + dir1v * width;
+            ltp = lp - dir1v;
+            lbp = lp + dir1v;
 
-            ntp = np - dir2v * width;
-            nbp = np + dir2v * width;
+            ntp = np - dir2v;
+            nbp = np + dir2v;
 
-            clp = cp - dir2v * width;
-            crp = cp + dir2v * width;
+            clp = cp - dir2v;
+            crp = cp + dir2v;
 
             var ldist = (Vector3.Distance(cp, lp) + 1) * dir1;
             var rdist = (Vector3.Distance(cp, np) + 1) * dir2;
@@ -312,24 +312,24 @@ namespace XUGL
             bitp = true;
             if (!UGLHelper.GetIntersection(ltp, ltp + ldist, ntp, ntp + rdist, ref itp))
             {
-                itp = cp - dir1v * width;
-                clp = cp - dir1v * width;
-                crp = cp - dir2v * width;
+                itp = cp - dir1v;
+                clp = cp - dir1v;
+                crp = cp - dir2v;
                 bitp = false;
             }
             bibp = true;
             if (!UGLHelper.GetIntersection(lbp, lbp + ldist, nbp, nbp + rdist, ref ibp))
             {
-                ibp = cp + dir1v * width;
-                clp = cp + dir1v * width;
-                crp = cp + dir2v * width;
+                ibp = cp + dir1v;
+                clp = cp + dir1v;
+                crp = cp + dir2v;
                 bibp = false;
             }
             if (bitp == false && bibp == false && cp == np)
             {
-                ltp = cp - dir1v * width;
-                clp = cp + dir1v * width;
-                crp = cp + dir1v * width;
+                ltp = cp - dir1v;
+                clp = cp + dir1v;
+                crp = cp + dir1v;
             }
         }
     }

@@ -10,10 +10,8 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class ParallelChart : BaseChart
     {
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             RemoveData();
             AddChartComponent<ParallelCoord>();
 
@@ -29,6 +27,5 @@ namespace XCharts.Runtime
 
             Parallel.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
-#endif
     }
 }

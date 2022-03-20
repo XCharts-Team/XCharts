@@ -20,20 +20,12 @@ namespace XCharts.Example
             }
         }
 
-        float m_LastTime = 0;
-        double m_Value = 0;
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //AddData();
-                OnTestBtn();
-            }
-            if (Time.time - m_LastTime > 0.1f)
-            {
-                m_LastTime = Time.time;
-                chart.UpdateData(0, 2, m_Value);
-                m_Value += 15;
+                AddData();
+                //OnTestBtn();
             }
         }
 

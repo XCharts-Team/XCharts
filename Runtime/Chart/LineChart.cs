@@ -10,16 +10,13 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class LineChart : BaseChart
     {
-
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             AddChartComponentWhenNoExist<GridCoord>();
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
 
-            var tooltip = GetChartComponent<Tooltip>();
+            var tooltip = GetOrAddChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.Line;
             tooltip.trigger = Tooltip.Trigger.Axis;
 
@@ -30,6 +27,5 @@ namespace XCharts.Runtime
                 AddXAxisData("x" + (i + 1));
             }
         }
-#endif
     }
 }

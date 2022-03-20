@@ -7,17 +7,15 @@ namespace XCharts.Runtime
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public partial class BarChart : BaseChart
+    public class BarChart : BaseChart
     {
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             AddChartComponentWhenNoExist<GridCoord>();
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
 
-            var tooltip = GetChartComponent<Tooltip>();
+            var tooltip = GetOrAddChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.Shadow;
             tooltip.trigger = Tooltip.Trigger.Axis;
 
@@ -28,6 +26,5 @@ namespace XCharts.Runtime
                 AddXAxisData("x" + (i + 1));
             }
         }
-#endif
     }
 }

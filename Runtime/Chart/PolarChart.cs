@@ -10,11 +10,8 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class PolarChart : BaseChart
     {
-
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             AddChartComponentWhenNoExist<PolarCoord>();
 
             var tooltip = GetChartComponent<Tooltip>();
@@ -32,6 +29,5 @@ namespace XCharts.Runtime
                 AddData(0, Mathf.Abs(r), i);
             }
         }
-#endif
     }
 }

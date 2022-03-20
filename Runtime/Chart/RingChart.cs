@@ -10,15 +10,11 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class RingChart : BaseChart
     {
-
-#if UNITY_EDITOR
-        protected override void Reset()
+        protected override void DefaultChart()
         {
-            base.Reset();
             GetChartComponent<Tooltip>().type = Tooltip.Type.Line;
             RemoveData();
             Ring.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
-#endif
     }
 }

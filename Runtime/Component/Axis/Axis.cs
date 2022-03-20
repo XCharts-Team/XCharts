@@ -489,7 +489,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public bool IsCategory()
         {
-            return type == AxisType.Category;
+            return m_Type == AxisType.Category;
         }
 
         /// <summary>
@@ -498,7 +498,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public bool IsValue()
         {
-            return type == AxisType.Value;
+            return m_Type == AxisType.Value;
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public bool IsLog()
         {
-            return type == AxisType.Log;
+            return m_Type == AxisType.Log;
         }
 
         /// <summary>
@@ -515,27 +515,27 @@ namespace XCharts.Runtime
         /// </summary>
         public bool IsTime()
         {
-            return type == AxisType.Time;
+            return m_Type == AxisType.Time;
         }
 
         public bool IsLeft()
         {
-            return position == AxisPosition.Left;
+            return m_Position == AxisPosition.Left;
         }
 
         public bool IsRight()
         {
-            return position == AxisPosition.Right;
+            return m_Position == AxisPosition.Right;
         }
 
         public bool IsTop()
         {
-            return position == AxisPosition.Top;
+            return m_Position == AxisPosition.Top;
         }
 
         public bool IsBottom()
         {
-            return position == AxisPosition.Bottom;
+            return m_Position == AxisPosition.Bottom;
         }
 
         public void SetNeedUpdateFilterData()

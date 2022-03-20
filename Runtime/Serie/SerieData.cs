@@ -411,8 +411,8 @@ namespace XCharts.Runtime
 
         public bool IsDataChanged()
         {
-            foreach (var b in m_DataUpdateFlag)
-                if (b) return true;
+            for (int i = 0; i < m_DataUpdateFlag.Count; i++)
+                if (m_DataUpdateFlag[i]) return true;
             return false;
         }
 

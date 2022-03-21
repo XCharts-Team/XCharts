@@ -9,7 +9,7 @@
   <br>
   一款基于UGUI的数据可视化图表插件。
   <br>
-  <a href="Documentation~/README-EN.md">English Doc</a>
+  <a href="Documentation/README-EN.md">English Doc</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -94,7 +94,7 @@
 
 ## 使用
 
-[XCharts教程：5分钟上手教程](Documentation~/XCharts教程：5分钟上手教程.md)  
+[XCharts教程：5分钟上手教程](Documentation/XCharts教程：5分钟上手教程.md)  
 
 ## 日志
 
@@ -109,4 +109,4 @@
 邮箱：monitor1394@gmail.com  
 QQ群：XCharts交流群（`202030963`）  
 VIP群：XCharts技术支持VIP群（`867291970`）  
-捐助和技术支持：[☞ 看这里](Documentation~/SUPPORT.md)
+捐助和技术支持：[☞ 看这里](Documentation/SUPPORT.md)

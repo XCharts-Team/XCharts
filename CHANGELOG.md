@@ -269,7 +269,7 @@
 ## v1.6.0
 
 * (2020.08.24) 发布`v1.6.0`版本
-* (2020.08.23) 重构代码，将与绘制相关的`Color`改为`Color32`，减少隐式转换（更新后会导致自定义的颜色丢失，可参考[问答29](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)进行升级）
+* (2020.08.23) 重构代码，将与绘制相关的`Color`改为`Color32`，减少隐式转换（更新后会导致自定义的颜色丢失，可参考[问答29](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Documentation/XChartsFQA-ZH.md)进行升级）
 * (2020.08.15) 优化`PieChart`绘制表现效果#85
 * (2020.08.11) 增加`LiquidChart`数据变更动画#83
 * (2020.08.11) 优化`PieChart`文本堆叠和引线效果#85

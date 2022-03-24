@@ -19,52 +19,52 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.
-            /// 饼图扇区外侧，通过视觉引导线连到相应的扇区。
+            /// |饼图扇区外侧，通过视觉引导线连到相应的扇区。
             /// </summary>
             Outside,
             /// <summary>
             /// Inside the sectors of pie chart.
-            /// 饼图扇区内部。
+            /// |饼图扇区内部。
             /// </summary>
             Inside,
             /// <summary>
             /// In the center of pie chart.
-            /// 在饼图中心位置。
+            /// |在饼图中心位置。
             /// </summary>
             Center,
             /// <summary>
             /// top of symbol.
-            /// 图形标志的顶部。
+            /// |图形标志的顶部。
             /// </summary>
             Top,
             /// <summary>
             /// the bottom of symbol.
-            /// 图形标志的底部。
+            /// |图形标志的底部。
             /// </summary>
             Bottom,
             /// <summary>
             /// the left of symbol.
-            /// 图形标志的左边。
+            /// |图形标志的左边。
             /// </summary>
             Left,
             /// <summary>
             /// the right of symbol.
-            /// 图形标志的右边。
+            /// |图形标志的右边。
             /// </summary>
             Right,
             /// <summary>
             /// the start of line.
-            /// 线的起始点。
+            /// |线的起始点。
             /// </summary>
             Start,
             /// <summary>
             /// the middle of line.
-            /// 线的中点。
+            /// |线的中点。
             /// </summary>
             Middle,
             /// <summary>
             /// the end of line.
-            /// 线的结束点。
+            /// |线的结束点。
             /// </summary>
             End
         }

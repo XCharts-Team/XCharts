@@ -1,8 +1,8 @@
 # XCharts API
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts配置项手册](XCharts配置项手册.md)  
-[XCharts问答](XCharts问答.md)
+[XCharts配置项手册](XChartsConfiguration-ZH.md)  
+[XCharts问答](XChartsFQA-ZH.md)
 
 ## `BaseChart`
 
@@ -28,6 +28,7 @@
 * `BaseChart.onDrag`：鼠标拖拽回调。
 * `BaseChart.onEndDrag`：鼠标结束拖拽回调。
 * `BaseChart.onScroll`：鼠标滚动回调。
+* `BaseChart.onPointerClickPie`：点击柱条回调。参数：`eventData`, `serieIndex`, `dataIndex`
 * `BaseChart.SetSize(float width, float height)`： 设置图表的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform）。
 * `BaseChart.ClearData()`：清除所有数据，系列列表会保留，只是移除列表中系列的数据。
 * `BaseChart.RemoveData()`：清除所有系列和图例数据，系列列表也会被清除。
@@ -83,6 +84,13 @@
 * `CoordinateChart.ClearAxisData()`：清除所有x轴和y轴的类目数据。
 * `CoordinateChart.AddXAxisData(string category, int xAxisIndex = 0)`：添加一个类目数据到指定的 `X` 轴。
 * `CoordinateChart.AddYAxisData(string category, int yAxisIndex = 0)`：添加一个类目数据到指定的 `Y` 轴。
+* `CoordinateChart.AddXAxisIcon(Sprite icon, int xAxisIndex = 0)`：添加一个图标到指定的 `X` 轴。
+* `CoordinateChart.AddYAxisIcon(Sprite icon, int yAxisIndex = 0)`：添加一个图标到指定的 `Y` 轴。
+* `CoordinateChart.UpdateXAxisData(int index, string category, int xAxisIndex = 0)`：更新 `X` 轴的类目数据。
+* `CoordinateChart.UpdateYAxisData(int index, string category, int yAxisIndex = 0)`：更新 `Y` 轴的类目数据。
+* `CoordinateChart.UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)`：更新 `X` 轴的图标。
+* `CoordinateChart.UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)`：更新 `Y` 轴的图标。
+
 * `CoordinateChart.IsValue()`：是否是纯数值坐标。
 * `CoordinateChart.RefreshDataZoom()`：在下一帧刷新DataZoom组件。
 * `CoordinateChart.RefreshAxisMinMaxValue()`：立即刷新数值坐标轴的最大最小值（更新坐标轴标签并触发重绘）。
@@ -107,11 +115,6 @@
 
 * `BarChart.onPointerClickBar`：点击柱条回调。参数：`eventData`, `dataIndex`
 
-## `PieChart`
-
-* 继承自 `BaseChart`。
-
-* `PieChart.onPointerClickPie`：点击柱条回调。参数：`eventData`, `serieIndex`, `dataIndex`
 
 ## `RadarChart`
 
@@ -143,6 +146,6 @@
 * `RingChart.UpdateMax(float value)`：更新第一个系列第一个数据项的最大值。
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts配置项手册](XCharts配置项手册.md)  
-[XCharts问答](XCharts问答.md)
+[XCharts配置项手册](XChartsConfiguration-ZH.md)  
+[XCharts问答](XChartsFQA-ZH.md)
 

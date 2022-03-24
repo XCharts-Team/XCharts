@@ -20,22 +20,22 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// |数值轴。适用于连续数据。
+            /// ||数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// |类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// ||类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
             /// </summary>
             Category,
             /// <summary>
             /// Log axis, suitable for log data.
-            /// 对数轴。适用于对数数据。
+            /// |对数轴。适用于对数数据。
             /// </summary>
             Log,
             /// <summary>
             /// Time axis, suitable for continuous time series data.
-            /// 时间轴。适用于连续的时序数据。
+            /// |时间轴。适用于连续的时序数据。
             /// </summary>
             Time
         }
@@ -48,17 +48,17 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// 0 - maximum.
-            /// 0-最大值。
+            /// |0-最大值。
             /// </summary>
             Default,
             /// <summary>
             /// minimum - maximum.
-            /// 最小值-最大值。
+            /// |最小值-最大值。
             /// </summary>
             MinMax,
             /// <summary>
             /// Customize the minimum and maximum.
-            /// 自定义最小值最大值。
+            /// |自定义最小值最大值。
             /// </summary>
             Custom
         }

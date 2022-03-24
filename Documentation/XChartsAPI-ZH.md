@@ -1,8 +1,8 @@
 # XCharts API
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts配置项手册](XCharts配置项手册.md)  
-[XCharts问答](XCharts问答.md)
+[XCharts配置项手册](XChartsConfiguration-ZH.md)  
+[XCharts问答](XChartsFQA-ZH.md)
 
 ## `BaseChart`
 
@@ -146,6 +146,6 @@
 * `RingChart.UpdateMax(float value)`：更新第一个系列第一个数据项的最大值。
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts配置项手册](XCharts配置项手册.md)  
-[XCharts问答](XCharts问答.md)
+[XCharts配置项手册](XChartsConfiguration-ZH.md)  
+[XCharts问答](XChartsFQA-ZH.md)
 

@@ -31,12 +31,12 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Display at the vertex.
-            /// 显示在顶点处。
+            /// |显示在顶点处。
             /// </summary>
             Vertice,
             /// <summary>
             /// Display at the middle of line.
-            /// 显示在两者之间。
+            /// |显示在两者之间。
             /// </summary>
             Between,
         }
@@ -54,27 +54,27 @@ namespace XCharts.Runtime
 
             /// <summary>
             /// The name of indicator.
-            /// 指示器名称。
+            /// |指示器名称。
             /// </summary>
             public string name { get { return FormatterHelper.TrimAndReplaceLine(m_Name); } set { m_Name = value; } }
             /// <summary>
             /// The maximum value of indicator, with default value of 0, but we recommend to set it manually.
-            /// 指示器的最大值，默认为 0 无限制。
+            /// |指示器的最大值，默认为 0 无限制。
             /// </summary>
             public double max { get { return m_Max; } set { m_Max = value; } }
             /// <summary>
             /// The minimum value of indicator, with default value of 0.
-            /// 指示器的最小值，默认为 0 无限制。
+            /// |指示器的最小值，默认为 0 无限制。
             /// </summary>
             public double min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
             /// the text conponent of indicator.
-            /// 指示器的文本组件。
+            /// |指示器的文本组件。
             /// </summary>
             public Text text { get; set; }
             /// <summary>
             /// Normal range. When the value is outside this range, the display color is automatically changed.
-            /// 正常值范围。当数值不在这个范围时，会自动变更显示颜色。
+            /// |正常值范围。当数值不在这个范围时，会自动变更显示颜色。
             /// </summary>
             public double[] range
             {

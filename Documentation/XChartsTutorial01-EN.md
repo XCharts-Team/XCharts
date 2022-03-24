@@ -1,9 +1,9 @@
 # 教程：5分钟上手 XCharts 3.0
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XCharts问答.md)  
-[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XCharts配置项手册.md)
+[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsFQA-ZH.md)  
+[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI-ZH.md)  
+[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsConfiguration-ZH.md)
 
 ## 获取和导入 XCharts
 
@@ -64,7 +64,7 @@
 
 功能越丰富就越需要更多的组件和参数支持。XCharts有多达几十种的主组件和子组件，每个组件有几个至几十个不等的可配置参数，以支持各种灵活而复杂的功能。
 
-首次接触XCharts者可在 `Inspector` 视图下可以添加和调整各个组件，`Game` 视图会实时反馈调整的效果，以熟悉各种组件实现的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](XCharts配置项手册.md)。
+首次接触XCharts者可在 `Inspector` 视图下可以添加和调整各个组件，`Game` 视图会实时反馈调整的效果，以熟悉各种组件实现的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](XChartsConfiguration-ZH.md)。
 
 ## 如何快速调整参数
 
@@ -146,9 +146,9 @@ for (int i = 0; i < 10; i++)
 
 完整代码请查阅`Examples`：`Example13_LineSimple.cs`  
 
-你还可以用代码控制更多的参数，`Examples`下还有更多的其他例子，凡是`Inspector`上看到的可配置的参数，都可以通过代码来设置。[XCharts配置项手册](XCharts配置项手册.md)里面的所有参数都是可以通过代码控制的。
+你还可以用代码控制更多的参数，`Examples`下还有更多的其他例子，凡是`Inspector`上看到的可配置的参数，都可以通过代码来设置。[XCharts配置项手册](XChartsConfiguration-ZH.md)里面的所有参数都是可以通过代码控制的。
 
-另外，除非定制，建议调用[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI.md)  里面的接口，这些接口内部会做一些关联处理，比如刷新图表等。如果自己调用了内部组件的接口，需要自己处理刷新等其他问题。
+另外，除非定制，建议调用[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI-ZH.md)  里面的接口，这些接口内部会做一些关联处理，比如刷新图表等。如果自己调用了内部组件的接口，需要自己处理刷新等其他问题。
 
 ## 使用TextMeshPro
 
@@ -226,6 +226,6 @@ itemStyle.color = Color.blue;
 ```
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XCharts问答.md)  
-[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI.md)  
-[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XCharts配置项手册.md)
+[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsFQA-ZH.md)  
+[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI-ZH.md)  
+[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsConfiguration-ZH.md)

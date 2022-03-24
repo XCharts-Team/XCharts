@@ -23,22 +23,22 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// line indicator.
-            /// 直线指示器
+            /// |直线指示器
             /// </summary>
             Line,
             /// <summary>
             /// shadow crosshair indicator.
-            /// 阴影指示器
+            /// |阴影指示器
             /// </summary>
             Shadow,
             /// <summary>
             /// no indicator displayed.
-            /// 无指示器
+            /// |无指示器
             /// </summary>
             None,
             /// <summary>
             /// crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
-            /// 十字准星指示器。坐标轴显示Label和交叉线。
+            /// |十字准星指示器。坐标轴显示Label和交叉线。
             /// </summary>
             Corss
         }
@@ -47,17 +47,17 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.
-            /// 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
+            /// |数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
             /// </summary>
             Item,
             /// <summary>
             /// Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.
-            /// 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
+            /// |坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
             /// </summary>
             Axis,
             /// <summary>
             /// Trigger nothing.
-            /// 什么都不触发。
+            /// |什么都不触发。
             /// </summary>
             None
         }
@@ -132,41 +132,41 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The string template formatter for the tooltip title content. Support for wrapping lines with \n.
-        /// |The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
-        /// |Template variables are {.}, {a}, {b}, {c}, {d}.
-        /// |{.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.
-        /// |{a} is the series name of the serie that is currently indicated or whose index is 0.
-        /// |{b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).
-        /// |{c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.
-        /// |{d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.
-        /// |{e} is the name of the data item serieData that is currently indicated or whose index is 0.
-        /// |{.1} represents a dot from serie corresponding color that specifies index as 1.
-        /// |1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.
-        /// |{c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).
-        /// |{c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).
-        /// |{d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).
-        /// |{d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).
-        /// |Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"
-        /// 提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
-        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。
-        /// {.}为当前所指示或index为0的serie的对应颜色的圆点。
-        /// {a}为当前所指示或index为0的serie的系列名name。
-        /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。
-        /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。
-        /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。
-        /// {e}为当前所指示或index为0的serie的数据项serieData的name。
-        /// {.1}表示指定index为1的serie对应颜色的圆点。
-        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。
-        /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。
-        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
-        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。
-        /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。
+        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
+        /// Template variables are {.}, {a}, {b}, {c}, {d}.</br>
+        /// {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br>
+        /// {a} is the series name of the serie that is currently indicated or whose index is 0.</br>
+        /// {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br>
+        /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br>
+        /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br>
+        /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br>
+        /// {.1} represents a dot from serie corresponding color that specifies index as 1.</br>
+        /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br>
+        /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br>
+        /// {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br>
+        /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br>
+        /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br>
+        /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
+        /// |提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。</br>
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。</br>
+        /// {.}为当前所指示或index为0的serie的对应颜色的圆点。</br>
+        /// {a}为当前所指示或index为0的serie的系列名name。</br>
+        /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br>
+        /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br>
+        /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br>
+        /// {e}为当前所指示或index为0的serie的数据项serieData的name。</br>
+        /// {.1}表示指定index为1的serie对应颜色的圆点。</br>
+        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br>
+        /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br>
+        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br>
+        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br>
+        /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br>
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
         /// a string template formatter for a single Serie or data item content. Support for wrapping lines with \n.
-        /// |When formatter is not null, use formatter first, otherwise use itemFormatter.
+        /// When formatter is not null, use formatter first, otherwise use itemFormatter.
         /// |提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
@@ -197,7 +197,7 @@ namespace XCharts.Runtime
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
         /// <summary>
         /// Standard numeric format string. Used to format numeric values to display as strings.
-        /// |Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
+        /// Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
         /// 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 
         /// 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'.
         /// |标准数字格式字符串。用于将数值格式化显示为字符串。
@@ -247,7 +247,7 @@ namespace XCharts.Runtime
         public bool alwayShowContent { get { return m_AlwayShowContent; } set { m_AlwayShowContent = value; } }
         /// <summary>
         /// Whether to show the tooltip floating layer, whose default value is true.
-        /// |It should be configurated to be false, if you only need tooltip to trigger the event or show the axisPointer without content.
+        /// It should be configurated to be false, if you only need tooltip to trigger the event or show the axisPointer without content.
         /// |是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
         /// </summary>
         public bool showContent { get { return m_ShowContent; } set { m_ShowContent = value; } }

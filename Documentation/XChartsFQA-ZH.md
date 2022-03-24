@@ -1,8 +1,8 @@
 # XCharts问答
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XChartsAPI接口](XChartsAPI.md)  
-[XCharts配置项手册](XCharts配置项手册.md)
+[XChartsAPI](XChartsAPI-ZH.md)  
+[XCharts配置项手册](XChartsConfiguration-ZH.md)
 
 [QA 1：如何调整坐标轴与背景的边距？](#如何调整坐标轴与背景的边距)  
 [QA 2：如何让初始动画重新播放？](#如何让初始动画重新播放)  
@@ -108,7 +108,7 @@
 
 ## 如何自定义Tooltip的显示内容
 
-答：自定义总的内容可以通过`Tooltip`的`formatter`。如果只是想调整所有的`serie`的显示格式可以用`itemFormatter`和`titleFormatter`结合。如果想每个`serie`的显示格式不一样，可以定制`serie`的`itemStyle`里的`tooltipFormatter`。具体的用法请查阅[XCharts配置项手册](XCharts配置项手册.md)。
+答：自定义总的内容可以通过`Tooltip`的`formatter`。如果只是想调整所有的`serie`的显示格式可以用`itemFormatter`和`titleFormatter`结合。如果想每个`serie`的显示格式不一样，可以定制`serie`的`itemStyle`里的`tooltipFormatter`。具体的用法请查阅[XCharts配置项手册](XChartsConfiguration-ZH.md)。
 
 ## 如何让Y轴显示多位小数
 
@@ -116,7 +116,7 @@
 
 ## 如何用代码动态更新数据
 
-答：请查阅`Example`下的代码，`Example13_LineSimple.cs`就是一个简单添加数据构建折线图的例子，其他`Demo`也都是通过代码控制不同的组件实现不同的功能，相关API请查看文档：[XChartsAPI接口](XChartsAPI.md)  。
+答：请查阅`Example`下的代码，`Example13_LineSimple.cs`就是一个简单添加数据构建折线图的例子，其他`Demo`也都是通过代码控制不同的组件实现不同的功能，相关API请查看文档：[XChartsAPI接口](XChartsAPI-ZH.md)  。
 
 ## 如何显示图例_为什么有时候图例无法显示
 
@@ -163,5 +163,5 @@
 7. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
 
 [返回首页](https://github.com/XCharts-Team/XCharts)  
-[XChartsAPI接口](XChartsAPI.md)  
-[XCharts配置项手册](XCharts配置项手册.md)
+[XChartsAPI](XChartsAPI-ZH.md)  
+[XCharts配置项手册](XChartsConfiguration-ZH.md)

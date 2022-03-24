@@ -19,17 +19,17 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// to fill between axis line to data.
-            /// 填充坐标轴轴线到数据间的区域。
+            /// |填充坐标轴轴线到数据间的区域。
             /// </summary>
             Auto,
             /// <summary>
             /// to fill between min axis value (when not inverse) to data.
-            /// 填充坐标轴底部到数据间的区域。
+            /// |填充坐标轴底部到数据间的区域。
             /// </summary>
             Start,
             /// <summary>
             /// to fill between max axis value (when not inverse) to data.
-            /// 填充坐标轴顶部到数据间的区域。
+            /// |填充坐标轴顶部到数据间的区域。
             /// </summary>
             End
         }

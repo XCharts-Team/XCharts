@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Single axis.
-    /// 单轴。
+    /// |单轴。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(SingleAxisHander), true)]
@@ -22,7 +22,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Orientation of the axis. By default, it's 'Horizontal'. You can set it to be 'Vertical' to make a vertical axis.
-        /// 坐标轴朝向。默认为水平朝向。
+        /// |坐标轴朝向。默认为水平朝向。
         /// </summary>
         public Orient orient
         {
@@ -31,7 +31,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// 组件离容器左侧的距离。
+        /// |组件离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -40,7 +40,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the right side of the container.
-        /// 组件离容器右侧的距离。
+        /// |组件离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -49,7 +49,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the top side of the container.
-        /// 组件离容器上侧的距离。
+        /// |组件离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -58,7 +58,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the bottom side of the container.
-        /// 组件离容器下侧的距离。
+        /// |组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {

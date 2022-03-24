@@ -7,25 +7,25 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The axis in rectangular coordinate.
-    /// 直角坐标系的坐标轴组件。
+    /// |直角坐标系的坐标轴组件。
     /// </summary>
     [System.Serializable]
     public class Axis : MainComponent
     {
         /// <summary>
         /// the type of axis.
-        /// 坐标轴类型。
+        /// |坐标轴类型。
         /// </summary>
         public enum AxisType
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// 数值轴。适用于连续数据。
+            /// |数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// 类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// |类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
             /// </summary>
             Category,
             /// <summary>
@@ -42,7 +42,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the type of axis min and max value.
-        /// 坐标轴最大最小刻度显示类型。
+        /// |坐标轴最大最小刻度显示类型。
         /// </summary>
         public enum AxisMinMaxType
         {
@@ -64,7 +64,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the position of axis in grid.
-        /// 坐标轴在Grid中的位置
+        /// |坐标轴在Grid中的位置
         /// </summary>
         public enum AxisPosition
         {
@@ -82,10 +82,10 @@ namespace XCharts.Runtime
         [SerializeField] protected int m_ParallelIndex;
         [SerializeField] protected AxisPosition m_Position;
         [SerializeField] protected float m_Offset;
-        [SerializeField] protected float m_Min;
-        [SerializeField] protected float m_Max;
+        [SerializeField] protected double m_Min;
+        [SerializeField] protected double m_Max;
         [SerializeField] protected int m_SplitNumber = 0;
-        [SerializeField] protected float m_Interval = 0;
+        [SerializeField] protected double m_Interval = 0;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
@@ -108,7 +108,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show axis.
-        /// 是否显示坐标轴。
+        /// |是否显示坐标轴。
         /// </summary>
         public bool show
         {
@@ -116,8 +116,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// the type of axis. 
-        /// 坐标轴类型。
+        /// the type of axis.
+        /// |坐标轴类型。
         /// </summary>
         public AxisType type
         {
@@ -126,7 +126,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of axis minmax.
-        /// 坐标轴刻度最大最小值显示类型。
+        /// |坐标轴刻度最大最小值显示类型。
         /// </summary>
         public AxisMinMaxType minMaxType
         {
@@ -135,7 +135,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the grid on which the axis are located, by default, is in the first grid.
-        /// 坐标轴所在的 grid 的索引，默认位于第一个 grid。
+        /// |坐标轴所在的 grid 的索引，默认位于第一个 grid。
         /// </summary>
         public int gridIndex
         {
@@ -144,7 +144,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the polar on which the axis are located, by default, is in the first polar.
-        /// 坐标轴所在的 ploar 的索引，默认位于第一个 polar。
+        /// |坐标轴所在的 ploar 的索引，默认位于第一个 polar。
         /// </summary>
         public int polarIndex
         {
@@ -153,7 +153,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the parallel on which the axis are located, by default, is in the first parallel.
-        /// 坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
+        /// |坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
         /// </summary>
         public int parallelIndex
         {
@@ -162,7 +162,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the position of axis in grid.
-        /// 坐标轴在Grid中的位置。
+        /// |坐标轴在Grid中的位置。
         /// </summary>
         public AxisPosition position
         {
@@ -171,7 +171,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the offset of axis from the default position. Useful when the same position has multiple axes.
-        /// 坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
+        /// |坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
         /// </summary>
         public float offset
         {
@@ -180,25 +180,25 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The minimun value of axis.Valid when `minMaxType` is `Custom`
-        /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
+        /// |设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
-        public float min
+        public double min
         {
             get { return m_Min; }
             set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The maximum value of axis.Valid when `minMaxType` is `Custom`
-        /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
+        /// |设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
-        public float max
+        public double max
         {
             get { return m_Max; }
             set { if (PropertyUtil.SetStruct(ref m_Max, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Number of segments that the axis is split into.
-        /// 坐标轴的期望的分割段数。默认为0表示自动分割。 
+        /// |坐标轴的期望的分割段数。默认为0表示自动分割。 
         /// </summary>
         public int splitNumber
         {
@@ -207,16 +207,16 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
-        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
+        /// |强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// </summary>
-        public float interval
+        public double interval
         {
             get { return m_Interval; }
             set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'. 
-        /// 坐标轴两边是否留白。只对类目轴有效。
+        /// The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'.
+        /// |坐标轴两边是否留白。只对类目轴有效。
         /// </summary>
         public bool boundaryGap
         {
@@ -225,7 +225,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
-        /// 对数轴的底数，只在对数轴（type:'Log'）中有效。
+        /// |对数轴的底数，只在对数轴（type:'Log'）中有效。
         /// </summary>
         public float logBase
         {
@@ -238,7 +238,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// On the log axis, if base e is the natural number, and is true, logBase fails.
-        /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
+        /// |对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
         /// </summary>
         public bool logBaseE
         {
@@ -247,8 +247,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The max number of axis data cache.
-        /// The first data will be remove when the size of axis data is larger then maxCache.
-        /// 可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// |The first data will be remove when the size of axis data is larger then maxCache.
+        /// |可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
         public int maxCache
         {
@@ -257,7 +257,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
-        /// 最大最小值向上取整的倍率。默认为0时自动计算。
+        /// |最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
         public int ceilRate
         {
@@ -266,7 +266,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the axis are reversed or not. Invalid in `Category` axis.
-        /// 是否反向坐标轴。在类目轴中无效。
+        /// |是否反向坐标轴。在类目轴中无效。
         /// </summary>
         public bool inverse
         {
@@ -275,7 +275,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the positive position of axis is in clockwise. True for clockwise by default.
-        /// 刻度增长是否按顺时针，默认顺时针。
+        /// |刻度增长是否按顺时针，默认顺时针。
         /// </summary>
         public bool clockwise
         {
@@ -284,7 +284,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
-        /// 类目数据，在类目轴（type: 'category'）中有效。
+        /// |类目数据，在类目轴（type: 'category'）中有效。
         /// </summary>
         public List<string> data
         {
@@ -301,7 +301,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis Line.
-        /// 坐标轴轴线。
+        /// |坐标轴轴线。
         /// /// </summary>
         public AxisLine axisLine
         {
@@ -310,7 +310,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis name.
-        /// 坐标轴名称。
+        /// |坐标轴名称。
         /// </summary>
         public AxisName axisName
         {
@@ -319,7 +319,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis tick.
-        /// 坐标轴刻度。
+        /// |坐标轴刻度。
         /// </summary>
         public AxisTick axisTick
         {
@@ -328,7 +328,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis label.
-        /// 坐标轴刻度标签。
+        /// |坐标轴刻度标签。
         /// </summary>
         public AxisLabel axisLabel
         {
@@ -337,7 +337,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis split line.
-        /// 坐标轴分割线。
+        /// |坐标轴分割线。
         /// </summary>
         public AxisSplitLine splitLine
         {
@@ -346,7 +346,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis split area.
-        /// 坐标轴分割区域。
+        /// |坐标轴分割区域。
         /// </summary>
         public AxisSplitArea splitArea
         {
@@ -355,7 +355,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to add new data at the head or at the end of the list.
-        /// 添加新数据时是在列表的头部还是尾部加入。
+        /// |添加新数据时是在列表的头部还是尾部加入。
         /// </summary>
         public bool insertDataToHead
         {

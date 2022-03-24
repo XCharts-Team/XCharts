@@ -30,23 +30,23 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The style of area.
-        /// 区域填充样式。
+        /// |区域填充样式。
         /// </summary>
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         /// <summary>
-        /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
-        /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+        /// Text label of graphic element,to explain some data information about graphic item like value, name and so on.
+        /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
         /// </summary>
         public LabelStyle label { get { return m_Labels.Count > 0 ? m_Labels[0] : null; } }
         public LabelStyle endLabel { get { return m_EndLabels.Count > 0 ? m_EndLabels[0] : null; } }
         /// <summary>
-        /// The line of label. 
-        /// 标签上的视觉引导线。
+        /// The line of label.
+        /// |标签上的视觉引导线。
         /// </summary>
         public LabelLine labelLine { get { return m_LabelLines.Count > 0 ? m_LabelLines[0] : null; } }
         /// <summary>
         /// The arrow of line.
-        /// 折线图的箭头。
+        /// |折线图的箭头。
         /// </summary>
         public LineArrow lineArrow { get { return m_LineArrows.Count > 0 ? m_LineArrows[0] : null; } }
         /// <summary>
@@ -55,12 +55,12 @@ namespace XCharts.Runtime
         public Emphasis emphasis { get { return m_Emphases.Count > 0 ? m_Emphases[0] : null; } }
         /// <summary>
         /// the icon of data.
-        /// 数据项图标样式。
+        /// |数据项图标样式。
         /// </summary>
         public IconStyle iconStyle { get { return m_IconStyles.Count > 0 ? m_IconStyles[0] : null; } }
         /// <summary>
         /// the icon of data.
-        /// 数据项标题样式。
+        /// |数据项标题样式。
         /// </summary>
         public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
 

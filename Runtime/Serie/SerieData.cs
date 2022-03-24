@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// A data item of serie.
-    /// 系列中的一个数据项。可存储数据名和1-n维个数据。
+    /// |系列中的一个数据项。可存储数据名和1-n维个数据。
     /// </summary>
     [System.Serializable]
     public class SerieData : ChildComponent
@@ -40,7 +40,7 @@ namespace XCharts.Runtime
         public override int index { get { return m_Index; } set { m_Index = value; } }
         /// <summary>
         /// the name of data item.
-        /// 数据项名称。
+        /// |数据项名称。
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
         /// <summary>
@@ -59,12 +59,12 @@ namespace XCharts.Runtime
         public float radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// Whether the data item is selected.
-        /// 该数据项是否被选中。
+        /// |该数据项是否被选中。
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         /// <summary>
         /// the icon of data.
-        /// 数据项图标样式。
+        /// |数据项图标样式。
         /// </summary>
         public IconStyle iconStyle { get { return m_IconStyles.Count > 0 ? m_IconStyles[0] : null; } }
         /// <summary>
@@ -97,12 +97,12 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// An arbitrary dimension data list of data item.
-        /// 可指定任意维数的数值列表。
+        /// |可指定任意维数的数值列表。
         /// </summary>
         public List<double> data { get { return m_Data; } set { m_Data = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
-        /// 该数据项是否要显示。
+        /// |该数据项是否要显示。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
 
@@ -338,7 +338,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the maxinum value.
-        /// 最大值。
+        /// |最大值。
         /// </summary>
         public double GetMaxData(bool inverse = false)
         {
@@ -354,7 +354,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the mininum value.
-        /// 最小值。
+        /// |最小值。
         /// </summary>
         public double GetMinData(bool inverse = false)
         {

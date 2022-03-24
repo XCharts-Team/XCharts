@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the title of serie.
-    /// 标题相关设置。
+    /// |标题相关设置。
     /// </summary>
     [Serializable]
     public class TitleStyle : ChildComponent, ISerieDataComponent, ISerieExtraComponent
@@ -17,7 +17,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show title.
-        /// 是否显示标题。
+        /// |是否显示标题。
         /// </summary>
         public bool show
         {
@@ -26,7 +26,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The offset position relative to the center.
-        /// 相对于中心的偏移位置。
+        /// |相对于中心的偏移位置。
         /// </summary>
         public Vector2 offsetCenter
         {
@@ -35,8 +35,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// the color of text. 
-        /// 文本的颜色。
+        /// the color of text.
+        /// |文本的颜色。
         /// </summary>
         public TextStyle textStyle
         {

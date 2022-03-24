@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Background component.
-    /// 
+    /// |
     /// 背景组件。
     /// </summary>
     [Serializable]
@@ -22,8 +22,8 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_HideThemeBackgroundColor = true;
 
         /// <summary>
-        /// Whether to enable the background component. 
-        /// 是否启用背景组件。
+        /// Whether to enable the background component.
+        /// |是否启用背景组件。
         /// </summary>
         public bool show
         {
@@ -32,7 +32,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the image of background.
-        /// 背景图。
+        /// |背景图。
         /// </summary>
         public Sprite image
         {
@@ -42,7 +42,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the fill type of background image.
-        /// 背景图填充类型。
+        /// |背景图填充类型。
         /// </summary>
         public Image.Type imageType
         {
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to hide the background color set in the theme when the background component is on.
-        /// 当background组件开启时，是否隐藏主题中设置的背景色。
+        /// |当background组件开启时，是否隐藏主题中设置的背景色。
         /// </summary>
         public bool hideThemeBackgroundColor
         {

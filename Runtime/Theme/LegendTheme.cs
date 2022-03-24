@@ -14,7 +14,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of text.
-        /// 文本颜色。
+        /// |文本颜色。
         /// </summary>
         public Color unableColor
         {

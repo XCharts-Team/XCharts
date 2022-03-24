@@ -6,14 +6,14 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the name of axis.
-    /// 坐标轴名称。
+    /// |坐标轴名称。
     /// </summary>
     [Serializable]
     public class AxisName : ChildComponent
     {
         /// <summary>
         /// the location of axis name.
-        /// 坐标轴名称显示位置。
+        /// |坐标轴名称显示位置。
         /// </summary>
         public enum Location
         {
@@ -28,8 +28,8 @@ namespace XCharts.Runtime
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
         /// <summary>
-        /// Whether to show axis name. 
-        /// 是否显示坐标名称。
+        /// Whether to show axis name.
+        /// |是否显示坐标名称。
         /// </summary>
         public bool show
         {
@@ -38,7 +38,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the name of axis.
-        /// 坐标轴名称。
+        /// |坐标轴名称。
         /// </summary>
         public string name
         {
@@ -47,7 +47,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The formatter of indicator's name.
-        /// 指示器名称显示的格式器。可用在雷达图。
+        /// |指示器名称显示的格式器。可用在雷达图。
         /// </summary>
         public string formatter
         {
@@ -56,7 +56,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Location of axis name.
-        /// 坐标轴名称显示位置。
+        /// |坐标轴名称显示位置。
         /// </summary>
         public Location location
         {
@@ -66,7 +66,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The text style of axis name.
-        /// 文本样式。
+        /// |文本样式。
         /// </summary>
         public TextStyle textStyle
         {

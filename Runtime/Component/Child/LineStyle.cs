@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The style of line.
-    /// 线条样式。
+    /// |线条样式。
     /// 注： 修改 lineStyle 中的颜色不会影响图例颜色，如果需要图例颜色和折线图颜色一致，需修改 itemStyle.color，线条颜色默认也会取该颜色。
     /// toColor，toColor2可设置水平方向的渐变，如需要设置垂直方向的渐变，可使用VisualMap。
     /// </summary>
@@ -51,7 +51,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether show line.
-        /// 是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
+        /// |是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
         /// </summary>
         public bool show
         {
@@ -60,7 +60,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of line.
-        /// 线的类型。
+        /// |线的类型。
         /// </summary>
         public Type type
         {
@@ -69,7 +69,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of line, default use serie color.
-        /// 线的颜色。
+        /// |线的颜色。
         /// </summary>
         public Color32 color
         {
@@ -78,7 +78,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the middle color of line, default use serie color.
-        /// 线的渐变颜色（需要水平方向渐变时）。
+        /// |线的渐变颜色（需要水平方向渐变时）。
         /// </summary>
         public Color32 toColor
         {
@@ -87,7 +87,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the end color of line, default use serie color.
-        /// 线的渐变颜色2（需要水平方向三个渐变色的渐变时）。
+        /// |线的渐变颜色2（需要水平方向三个渐变色的渐变时）。
         /// </summary>
         public Color32 toColor2
         {
@@ -96,7 +96,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of line.
-        /// 线宽。
+        /// |线宽。
         /// /// </summary>
         public float width
         {
@@ -105,7 +105,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the length of line.
-        /// 线长。
+        /// |线长。
         /// /// </summary>
         public float length
         {
@@ -114,7 +114,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
-        /// 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+        /// |线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
         public float opacity
         {

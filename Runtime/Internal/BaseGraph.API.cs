@@ -7,44 +7,44 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The base class of all graphs or components.
-    /// 所有图形的基类。
+    /// |所有图形的基类。
     /// </summary>
     public partial class BaseGraph
     {
         /// <summary>
-        /// The x of graph. 
-        /// 图形的X
+        /// The x of graph.
+        /// |图形的X
         /// </summary>
         public float graphX { get { return m_GraphX; } }
         /// <summary>
-        /// The y of graph. 
-        /// 图形的Y
+        /// The y of graph.
+        /// |图形的Y
         /// </summary>
         public float graphY { get { return m_GraphY; } }
         /// <summary>
-        /// The width of graph. 
-        /// 图形的宽
+        /// The width of graph.
+        /// |图形的宽
         /// </summary>
         public float graphWidth { get { return m_GraphWidth; } }
         /// <summary>
-        /// The height of graph. 
-        /// 图形的高
+        /// The height of graph.
+        /// |图形的高
         /// </summary>
         public float graphHeight { get { return m_GraphHeight; } }
         /// <summary>
         /// The position of graph.
-        /// 图形的左下角起始坐标。
+        /// |图形的左下角起始坐标。
         /// </summary>
         public Vector3 graphPosition { get { return m_GraphPosition; } }
         public Rect graphRect { get { return m_GraphRect; } }
         /// <summary>
         /// The postion of pointer.
-        /// 鼠标位置。
+        /// |鼠标位置。
         /// </summary>
         public Vector2 pointerPos { get; protected set; }
         /// <summary>
         /// Whether the mouse pointer is in the chart.
-        /// 鼠标是否在图表内。
+        /// |鼠标是否在图表内。
         /// </summary>
         public bool isPointerInChart { get; protected set; }
         /// <summary>
@@ -119,7 +119,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Redraw graph in next frame.
-        /// 在下一帧刷新图形。
+        /// |在下一帧刷新图形。
         /// </summary>
         public void RefreshGraph()
         {

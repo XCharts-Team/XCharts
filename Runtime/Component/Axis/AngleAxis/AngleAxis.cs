@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Angle axis of Polar Coordinate.
-    /// 极坐标系的角度轴。
+    /// |极坐标系的角度轴。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(AngleAxisHandler), true)]
@@ -15,8 +15,8 @@ namespace XCharts.Runtime
         [SerializeField] private float m_StartAngle = 0;
 
         /// <summary>
-        /// Starting angle of axis. 0 degrees by default, standing for right position of center. 
-        /// 起始刻度的角度，默认为 0 度，即圆心的正右方。
+        /// Starting angle of axis. 0 degrees by default, standing for right position of center.
+        /// |起始刻度的角度，默认为 0 度，即圆心的正右方。
         /// </summary>
         public float startAngle
         {

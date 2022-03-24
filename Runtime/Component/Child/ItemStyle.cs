@@ -83,7 +83,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Gradient color1.
-        /// 渐变色的颜色1。
+        /// |渐变色的颜色1。
         /// </summary>
         public Color32 toColor
         {
@@ -92,7 +92,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Gradient color2.Only valid in line diagrams.
-        /// 渐变色的颜色2。只在折线图中有效。
+        /// |渐变色的颜色2。只在折线图中有效。
         /// </summary>
         public Color32 toColor2
         {
@@ -189,7 +189,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Standard numeric format strings.
-        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
@@ -201,7 +201,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
-        /// 圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+        /// |圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
         /// </summary>
         public float[] cornerRadius
         {

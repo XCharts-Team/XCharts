@@ -26,7 +26,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the type of line.
-        /// 坐标轴线类型。
+        /// |坐标轴线类型。
         /// </summary>
         public LineStyle.Type lineType
         {
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of line.
-        /// 坐标轴线宽。
+        /// |坐标轴线宽。
         /// </summary>
         public float lineWidth
         {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the length of line.
-        /// 坐标轴线长。
+        /// |坐标轴线长。
         /// </summary>
         public float lineLength
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of line.
-        /// 坐标轴线颜色。
+        /// |坐标轴线颜色。
         /// </summary>
         public Color32 lineColor
         {
@@ -62,7 +62,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of split line.
-        /// 分割线线类型。
+        /// |分割线线类型。
         /// </summary>
         public LineStyle.Type splitLineType
         {
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of split line.
-        /// 分割线线宽。
+        /// |分割线线宽。
         /// </summary>
         public float splitLineWidth
         {
@@ -80,7 +80,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the length of split line.
-        /// 分割线线长。
+        /// |分割线线长。
         /// </summary>
         public float splitLineLength
         {
@@ -89,7 +89,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of line.
-        /// 分割线线颜色。
+        /// |分割线线颜色。
         /// </summary>
         public Color32 splitLineColor
         {
@@ -98,7 +98,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the length of tick.
-        /// 刻度线线长。
+        /// |刻度线线长。
         /// </summary>
         public float tickLength
         {
@@ -107,7 +107,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of tick.
-        /// 刻度线线宽。
+        /// |刻度线线宽。
         /// </summary>
         public float tickWidth
         {
@@ -116,7 +116,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of tick.
-        /// 坐标轴线颜色。
+        /// |坐标轴线颜色。
         /// </summary>
         public Color32 tickColor
         {

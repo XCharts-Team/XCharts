@@ -15,7 +15,7 @@ namespace XCharts.Runtime
             this.isIgnoreBreak = ignore;
         }
     }
-    [System.Serializable]
+    
     public class SerieContext
     {
         /// <summary>

@@ -29,6 +29,12 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void CheckReloadTheme()
+        {
+            if (XChartsMgr.themeNames.Count < 0)
+                ReloadThemeList();
+        }
+
         public static void AddTheme(Theme theme)
         {
             if (theme == null) return;

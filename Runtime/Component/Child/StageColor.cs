@@ -5,7 +5,7 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     [System.Serializable]
-    public class StageColor
+    public class StageColor : ChildComponent
     {
         [SerializeField] private float m_Percent;
         [SerializeField] private Color32 m_Color;

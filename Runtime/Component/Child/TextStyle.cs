@@ -9,7 +9,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to text.
-    /// 文本的相关设置。
+    /// |文本的相关设置。
     /// </summary>
     [Serializable]
     public class TextStyle : ChildComponent
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
 #endif
         /// <summary>
         /// Rotation of text.
-        /// 文本的旋转。
+        /// |文本的旋转。
         /// [default: `0f`]
         /// </summary>
         public float rotate
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Extra width of text preferred width.
-        /// 额外的宽度
+        /// |额外的宽度
         /// </summary>
         public float extraWidth
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the offset of position.
-        /// 坐标偏移。
+        /// |坐标偏移。
         /// [Default: `Vector2.zero`]
         /// </summary>
         public Vector2 offset
@@ -65,8 +65,8 @@ namespace XCharts.Runtime
         public Vector3 offsetv3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
 
         /// <summary>
-        /// the color of text. 
-        /// 文本的颜色。
+        /// the color of text.
+        /// |文本的颜色。
         /// [default: `Color.clear`]
         /// </summary>
         public Color color
@@ -80,8 +80,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoBackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the color of text. 
-        /// 文本的背景颜色。
+        /// the color of text.
+        /// |文本的背景颜色。
         /// [default: `Color.clear`]
         /// </summary>
         public Color backgroundColor
@@ -91,7 +91,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the font of text. When `null`, the theme's font is used by default.
-        /// 文本字体。
+        /// |文本字体。
         /// [default: null]
         /// </summary>
         public Font font
@@ -101,7 +101,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// font size.
-        /// 文本字体大小。
+        /// |文本字体大小。
         /// [default: 18]
         /// </summary>
         public int fontSize
@@ -111,7 +111,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// font style.
-        /// 文本字体的风格。
+        /// |文本字体的风格。
         /// [default: FontStyle.Normal]
         /// </summary>
         public FontStyle fontStyle
@@ -121,7 +121,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// text line spacing.
-        /// 行间距。
+        /// |行间距。
         /// [default: 1f]
         /// </summary>
         public float lineSpacing

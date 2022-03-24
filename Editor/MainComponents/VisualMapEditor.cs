@@ -42,7 +42,7 @@ namespace XCharts.Editor
         }
     }
 
-    [CustomPropertyDrawer(typeof(VisualMap.Pieces), true)]
+    [CustomPropertyDrawer(typeof(VisualMapPieces), true)]
     public class PiecesDrawer : BasePropertyDrawer
     {
         public override string ClassName { get { return "Pieces"; } }

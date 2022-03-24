@@ -127,8 +127,7 @@ namespace XCharts.Runtime
 
     public class XChartsPackageResourceImporterWindow : UnityEditor.EditorWindow
     {
-        [SerializeField]
-        XCResourcesImporter m_ResourceImporter;
+        [SerializeField] XCResourcesImporter m_ResourceImporter;
 
         static XChartsPackageResourceImporterWindow m_ImporterWindow;
 
@@ -168,7 +167,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Limits the minimum size of the editor window.
-        /// </summary>
+        /// |</summary>
         void SetEditorWindowSize()
         {
             EditorWindow editorWindow = this;

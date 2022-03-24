@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the type of symbol.
-    /// 标记图形的类型。
+    /// |标记图形的类型。
     /// </summary>
     public enum SymbolType
     {
@@ -63,23 +63,23 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// The way to get serie symbol size.
-    /// 获取标记图形大小的方式。
+    /// |获取标记图形大小的方式。
     /// </summary>
     public enum SymbolSizeType
     {
         /// <summary>
         /// Specify constant for symbol size.
-        /// 自定义大小。
+        /// |自定义大小。
         /// </summary>
         Custom,
         /// <summary>
         /// Specify the dataIndex and dataScale to calculate symbol size.
-        /// 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。
+        /// |通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。
         /// </summary>
         FromData,
         /// <summary>
         /// Specify function for symbol size.
-        /// 通过委托函数获取。
+        /// |通过委托函数获取。
         /// </summary>
         Function,
     }
@@ -137,7 +137,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the symbol is showed.
-        /// 是否显示标记。
+        /// |是否显示标记。
         /// </summary>
         public bool show
         {
@@ -146,7 +146,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of symbol.
-        /// 标记类型。
+        /// |标记类型。
         /// </summary>
         public SymbolType type
         {
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of symbol size.
-        /// 标记图形的大小获取方式。
+        /// |标记图形的大小获取方式。
         /// </summary>
         public SymbolSizeType sizeType
         {
@@ -164,7 +164,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the size of symbol.
-        /// 标记的大小。
+        /// |标记的大小。
         /// </summary>
         public float size
         {
@@ -173,7 +173,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the size of selected symbol.
-        /// 被选中的标记的大小。
+        /// |被选中的标记的大小。
         /// </summary>
         public float selectedSize
         {
@@ -182,7 +182,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// whitch data index is when the sizeType assined as FromData.
-        /// 当sizeType指定为FromData时，指定的数据源索引。
+        /// |当sizeType指定为FromData时，指定的数据源索引。
         /// </summary>
         public int dataIndex
         {
@@ -191,7 +191,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the scale of data when sizeType assined as FromData.
-        /// 当sizeType指定为FromData时，指定的倍数系数。
+        /// |当sizeType指定为FromData时，指定的倍数系数。
         /// </summary>
         public float dataScale
         {
@@ -200,7 +200,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the scale of selected data when sizeType assined as FromData.
-        /// 当sizeType指定为FromData时，指定的高亮倍数系数。
+        /// |当sizeType指定为FromData时，指定的高亮倍数系数。
         /// </summary>
         public float selectedDataScale
         {
@@ -209,7 +209,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the function of size when sizeType assined as Function.
-        /// 当sizeType指定为Function时，指定的委托函数。
+        /// |当sizeType指定为Function时，指定的委托函数。
         /// </summary>
         public SymbolSizeFunction sizeFunction
         {
@@ -218,7 +218,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the function of size when sizeType assined as Function.
-        /// 当sizeType指定为Function时，指定的高亮委托函数。
+        /// |当sizeType指定为Function时，指定的高亮委托函数。
         /// </summary>
         public SymbolSizeFunction selectedSizeFunction
         {
@@ -227,7 +227,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the index start to show symbol.
-        /// 开始显示图形标记的索引。
+        /// |开始显示图形标记的索引。
         /// </summary>
         public int startIndex
         {
@@ -236,7 +236,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the interval of show symbol.
-        /// 显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+        /// |显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
         /// </summary>
         public int interval
         {
@@ -245,7 +245,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// whether to show the last symbol.
-        /// 是否强制显示最后一个图形标记。
+        /// |是否强制显示最后一个图形标记。
         /// </summary>
         public bool forceShowLast
         {
@@ -254,7 +254,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the gap of symbol and line segment.
-        /// 图形标记和线条的间隙距离。
+        /// |图形标记和线条的间隙距离。
         /// </summary>
         public float gap
         {
@@ -310,7 +310,7 @@ namespace XCharts.Runtime
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.
-        /// 带有涟漪特效动画的散点图的动画参数。
+        /// |带有涟漪特效动画的散点图的动画参数。
         /// </summary>
         public List<float> animationSize { get { return m_AnimationSize; } }
 

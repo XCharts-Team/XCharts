@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Split line of axis in grid area.
-    /// 坐标轴在 grid 区域中的分隔线。
+    /// |坐标轴在 grid 区域中的分隔线。
     /// </summary>
     [Serializable]
     public class AxisSplitLine : BaseLine
@@ -17,7 +17,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The distance between the split line and axis line.
-        /// 刻度线与轴线的距离。
+        /// |刻度线与轴线的距离。
         /// </summary>
         public float distance { get { return m_Distance; } set { m_Distance = value; } }
         public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }

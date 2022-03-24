@@ -55,6 +55,7 @@ namespace XCharts.Editor
         {
             var parent = GetParent();
             if (parent == null) return null;
+            XCThemeMgr.CheckReloadTheme();
             var chart = new GameObject();
             chart.name = GetName(parent, chartName);
             var t = chart.AddComponent<T>();

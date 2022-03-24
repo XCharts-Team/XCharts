@@ -13,7 +13,7 @@ namespace XCharts.Runtime
     [Serializable]
     /// <summary>
     /// Theme.
-    /// 主题相关配置。
+    /// |主题相关配置。
     /// </summary>
     public class Theme : ScriptableObject
     {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the theme of chart.
-        /// 主题类型。
+        /// |主题类型。
         /// </summary>
         public ThemeType themeType
         {
@@ -60,7 +60,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the contrast color of chart.
-        /// 对比色。
+        /// |对比色。
         /// </summary>
         public Color32 contrastColor
         {
@@ -69,7 +69,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the background color of chart.
-        /// 背景颜色。
+        /// |背景颜色。
         /// </summary>
         public Color32 backgroundColor
         {
@@ -79,7 +79,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
-        /// 调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
+        /// |调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
         /// </summary>
         public List<Color32> colorPalette { get { return m_ColorPalette; } set { m_ColorPalette = value; } }
         public ComponentTheme common { get { return m_Common; } set { m_Common = value; } }
@@ -140,8 +140,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Gets the color of the specified index from the palette. 
-        /// 获得调色盘对应系列索引的颜色值。
+        /// Gets the color of the specified index from the palette.
+        /// |获得调色盘对应系列索引的颜色值。
         /// </summary>
         /// <param name="index">编号索引</param>
         /// <returns>the color,or Color.clear when failed.颜色值，失败时返回Color.clear</returns>
@@ -180,8 +180,8 @@ namespace XCharts.Runtime
 
         Dictionary<int, string> _colorDic = new Dictionary<int, string>();
         /// <summary>
-        /// Gets the hexadecimal color string of the specified index from the palette. 
-        /// 获得指定索引的十六进制颜色值字符串。
+        /// Gets the hexadecimal color string of the specified index from the palette.
+        /// |获得指定索引的十六进制颜色值字符串。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -215,8 +215,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// copy all configurations from theme. 
-        /// 复制主题的所有配置。
+        /// copy all configurations from theme.
+        /// |复制主题的所有配置。
         /// </summary>
         /// <param name="theme"></param>
         public void CopyTheme(Theme theme)
@@ -241,8 +241,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Clear all custom configurations. 
-        /// 重置，清除所有自定义配置。
+        /// Clear all custom configurations.
+        /// |重置，清除所有自定义配置。
         /// </summary>
         public bool ResetTheme()
         {
@@ -270,8 +270,8 @@ namespace XCharts.Runtime
 
 
         /// <summary>
-        /// default theme. 
-        /// 默认主题。
+        /// default theme.
+        /// |默认主题。
         /// </summary>
         /// <value></value>
         public static void ResetToDefaultTheme(Theme theme)
@@ -296,8 +296,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// dark theme. 
-        /// 暗主题。
+        /// dark theme.
+        /// |暗主题。
         /// </summary>
         /// <value></value>
         public static void ResetToDarkTheme(Theme theme)
@@ -376,8 +376,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Convert the html string to color. 
-        /// 将字符串颜色值转成Color。
+        /// Convert the html string to color.
+        /// |将字符串颜色值转成Color。
         /// </summary>
         /// <param name="hexColorStr"></param>
         /// <returns></returns>

@@ -12,7 +12,7 @@ namespace XCharts.Runtime
     {
         private Dictionary<int, double> m_SerieDimMin = new Dictionary<int, double>();
         private Dictionary<int, double> m_SerieDimMax = new Dictionary<int, double>();
-        private float m_LastInterval;
+        private double m_LastInterval;
         private int m_LastSplitNumber;
 
         public override void InitComponent()

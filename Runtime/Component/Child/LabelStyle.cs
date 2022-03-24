@@ -6,14 +6,14 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Text label of chart, to explain some data information about graphic item like value, name and so on.
-    /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+    /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
     public class LabelStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
         /// <summary>
         /// The position of label.
-        /// 标签的位置。
+        /// |标签的位置。
         /// </summary>
         public enum Position
         {
@@ -102,7 +102,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the label is showed.
-        /// 是否显示文本标签。
+        /// |是否显示文本标签。
         /// </summary>
         public bool show
         {
@@ -111,7 +111,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position of label.
-        /// 标签的位置。
+        /// |标签的位置。
         /// </summary>
         public Position position
         {
@@ -137,8 +137,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// offset to the host graphic element. 
-        /// 距离图形元素的偏移
+        /// offset to the host graphic element.
+        /// |距离图形元素的偏移
         /// </summary>
         public Vector3 offset
         {
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
-        /// 标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
+        /// |标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
         /// <value></value>
         public float backgroundWidth
@@ -165,7 +165,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the height of background. If set as default value 0, it means than the background height auto set as the text height.
-        /// 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
+        /// |标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
         /// <value></value>
         public float backgroundHeight
@@ -175,7 +175,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text padding of left and right. defaut:2.
-        /// 左右边距。
+        /// |左右边距。
         /// </summary>
         public float paddingLeftRight
         {
@@ -184,7 +184,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text padding of top and bottom. defaut:2.
-        /// 上下边距。
+        /// |上下边距。
         /// </summary>
         public float paddingTopBottom
         {
@@ -193,7 +193,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Standard numeric format strings.
-        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
@@ -222,7 +222,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the sytle of text.
-        /// 文本样式。
+        /// |文本样式。
         /// </summary>
         public TextStyle textStyle
         {

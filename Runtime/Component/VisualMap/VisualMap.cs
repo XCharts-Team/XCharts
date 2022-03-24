@@ -4,9 +4,42 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
+    [System.Serializable]
+    public class VisualMapPieces : ChildComponent
+    {
+        [SerializeField] private double m_Min;
+        [SerializeField] private double m_Max;
+        [SerializeField] private string m_Label;
+        [SerializeField] private Color32 m_Color;
+
+        /// <summary>
+        /// 范围最小值
+        /// </summary>
+        public double min { get { return m_Min; } set { m_Min = value; } }
+        /// <summary>
+        /// 范围最大值
+        /// </summary>
+        public double max { get { return m_Max; } set { m_Max = value; } }
+        /// <summary>
+        /// 文字描述
+        /// </summary>
+        public string label { get { return m_Label; } set { m_Label = value; } }
+        /// <summary>
+        /// 颜色
+        /// </summary>
+        public Color32 color { get { return m_Color; } set { m_Color = value; } }
+
+        public bool Contains(double value, double minMaxRange)
+        {
+            var cmin = System.Math.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
+            var cmax = System.Math.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
+            return value >= cmin && value < cmax;
+        }
+    }
+
     /// <summary>
     /// VisualMap component. Mapping data to visual elements such as colors.
-    /// 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+    /// |视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(VisualMapHandler), true)]
@@ -42,39 +75,6 @@ namespace XCharts.Runtime
             Single
         }
 
-        [System.Serializable]
-        public class Pieces
-        {
-            [SerializeField] private double m_Min;
-            [SerializeField] private double m_Max;
-            [SerializeField] private string m_Label;
-            [SerializeField] private Color32 m_Color;
-
-            /// <summary>
-            /// 范围最小值
-            /// </summary>
-            public double min { get { return m_Min; } set { m_Min = value; } }
-            /// <summary>
-            /// 范围最大值
-            /// </summary>
-            public double max { get { return m_Max; } set { m_Max = value; } }
-            /// <summary>
-            /// 文字描述
-            /// </summary>
-            public string label { get { return m_Label; } set { m_Label = value; } }
-            /// <summary>
-            /// 颜色
-            /// </summary>
-            public Color32 color { get { return m_Color; } set { m_Color = value; } }
-
-            public bool Contains(double value, double minMaxRange)
-            {
-                var cmin = System.Math.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
-                var cmax = System.Math.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
-                return value >= cmin && value < cmax;
-            }
-        }
-
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Continuous;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
@@ -99,13 +99,13 @@ namespace XCharts.Runtime
         [SerializeField] private Location m_Location = Location.defaultLeft;
         [SerializeField] private List<Color32> m_InRange = new List<Color32>();
         [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>() { Color.gray };
-        [SerializeField] private List<Pieces> m_Pieces = new List<Pieces>();
+        [SerializeField] private List<VisualMapPieces> m_Pieces = new List<VisualMapPieces>();
 
         public VisualMapContext context = new VisualMapContext();
 
         /// <summary>
         /// Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
-        /// 
+        /// |
         /// 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
         /// 
         /// [default: true]
@@ -117,7 +117,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of visualmap component.
-        /// 组件类型。
+        /// |组件类型。
         /// </summary>
         public Type type
         {
@@ -126,7 +126,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the selected mode for Piecewise visualMap.
-        /// 选择模式。
+        /// |选择模式。
         /// </summary>
         public SelectedMode selectedMode
         {
@@ -135,7 +135,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the serie index of visualMap.
-        /// 影响的serie索引。
+        /// |影响的serie索引。
         /// </summary>
         public int serieIndex
         {
@@ -144,7 +144,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The minimum allowed. 'min' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
-        /// 
+        /// |
         /// 允许的最小值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public double min
@@ -154,7 +154,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The maximum allowed. 'max' must be user specified. [visualmap.min, visualmap.max] forms the "domain" of the visualMap.
-        /// 
+        /// |
         /// 允许的最大值。`autoMinMax`为`false`时必须指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
         /// </summary>
         public double max
@@ -164,24 +164,24 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
-        /// 
+        /// |
         /// 指定手柄对应数值的位置。range 应在[min,max]范围内。
         /// </summary>
         public double[] range { get { return m_Range; } }
         /// <summary>
         /// Text on both ends.
-        /// 两端的文本，如 ['High', 'Low']。
+        /// |两端的文本，如 ['High', 'Low']。
         /// </summary>
         public string[] text { get { return m_Text; } }
         /// <summary>
         /// The distance between the two text bodies.
-        /// 两端文字主体之间的距离，单位为px。
+        /// |两端文字主体之间的距离，单位为px。
         /// </summary>
         public float[] textGap { get { return m_TextGap; } }
         /// <summary>
         /// For continuous data, it is automatically evenly divided into several segments 
         /// and automatically matches the size of inRange color list when the default is 0.
-        /// 
+        /// |
         /// 对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
         /// </summary>
         /// <value></value>
@@ -192,7 +192,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
-        /// 
+        /// |
         /// 是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。
         /// </summary>
         public bool calculable
@@ -202,7 +202,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to update in real time while dragging.
-        /// 
+        /// |
         /// 拖拽时，是否实时更新。
         /// </summary>
         public bool realtime
@@ -212,7 +212,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The width of the figure, that is, the width of the color bar.
-        /// 
+        /// |
         /// 图形的宽度，即颜色条的宽度。
         /// </summary>
         public float itemWidth
@@ -222,7 +222,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The height of the figure, that is, the height of the color bar.
-        /// 
+        /// |
         /// 图形的高度，即颜色条的高度。
         /// </summary>
         public float itemHeight
@@ -240,7 +240,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Border line width.
-        /// 
+        /// |
         /// 边框线宽，单位px。
         /// </summary>
         public float borderWidth
@@ -249,9 +249,9 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Specifies "which dimension" of the data to map to the visual element. "Data" is series.data. 
-        /// Starting at 1, the default is 0 to take the last dimension in data.
-        /// 
+        /// Specifies "which dimension" of the data to map to the visual element. "Data" is series.data.
+        /// |Starting at 1, the default is 0 to take the last dimension in data.
+        /// |
         /// 指定用数据的『哪个维度』，映射到视觉元素上。『数据』即 series.data。从1开始，默认为0取 data 中最后一个维度。
         /// </summary>
         public int dimension
@@ -261,10 +261,10 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// When the hoverLink function is turned on, when the mouse hovers over the visualMap component, 
-        /// the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram. 
-        /// Conversely, when the mouse hovers over a graphic element in a diagram, 
+        /// the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram.
+        /// |Conversely, when the mouse hovers over a graphic element in a diagram, 
         /// the corresponding value of the visualMap component is triangulated in the corresponding position.
-        /// 
+        /// |
         /// 打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
         /// 反之，鼠标悬浮到图表中的图形元素上时，在 visualMap 组件的相应位置会有三角提示其所对应的数值。
         /// </summary>
@@ -284,8 +284,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoMinMax, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Specify whether the layout of component is horizontal or vertical. 
-        /// 
+        /// Specify whether the layout of component is horizontal or vertical.
+        /// |
         /// 布局方式是横还是竖。
         /// </summary>
         public Orient orient
@@ -295,7 +295,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The location of component.
-        /// 组件显示的位置。
+        /// |组件显示的位置。
         /// </summary>
         public Location location
         {
@@ -304,7 +304,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Defines the visual color in the selected range.
-        /// 定义 在选中范围中 的视觉颜色。
+        /// |定义 在选中范围中 的视觉颜色。
         /// </summary>
         public List<Color32> inRange
         {
@@ -313,7 +313,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Defines a visual color outside of the selected range.
-        /// 定义 在选中范围外 的视觉颜色。
+        /// |定义 在选中范围外 的视觉颜色。
         /// </summary>
         public List<Color32> outOfRange
         {
@@ -323,7 +323,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 分段式每一段的相关配置。
         /// </summary>
-        public List<Pieces> pieces
+        public List<VisualMapPieces> pieces
         {
             get { return m_Pieces; }
             set { if (value != null) { m_Pieces = value; SetVerticesDirty(); } }

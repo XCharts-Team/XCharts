@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis label.
-    /// 坐标轴刻度标签的相关设置。
+    /// |坐标轴刻度标签的相关设置。
     /// </summary>
     [Serializable]
     public class AxisLabel : ChildComponent
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
-        /// 是否显示刻度标签。
+        /// |是否显示刻度标签。
         /// </summary>
         public bool show
         {
@@ -39,7 +39,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The display interval of the axis label.
-        /// 坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+        /// |坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
         /// </summary>
         public int interval
         {
@@ -48,7 +48,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Set this to true so the axis labels face the inside direction.
-        /// 刻度标签是否朝内，默认朝外。
+        /// |刻度标签是否朝内，默认朝外。
         /// </summary>
         public bool inside
         {
@@ -57,7 +57,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The distance between the axis label and the axis line.
-        /// 刻度标签与轴线之间的距离。
+        /// |刻度标签与轴线之间的距离。
         /// </summary>
         public float distance
         {
@@ -76,7 +76,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Standard numeric format strings.
-        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
@@ -89,7 +89,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Show negative number as positive number.
-        /// 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
+        /// |将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
         /// </summary>
         public bool showAsPositiveNumber
         {
@@ -123,7 +123,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the first label.
-        /// 是否显示第一个文本。
+        /// |是否显示第一个文本。
         /// </summary>
         public bool showStartLabel
         {
@@ -132,7 +132,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the last label.
-        /// 是否显示最后一个文本。
+        /// |是否显示最后一个文本。
         /// </summary>
         public bool showEndLabel
         {
@@ -150,7 +150,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The text style of axis name.
-        /// 文本样式。
+        /// |文本样式。
         /// </summary>
         public TextStyle textStyle
         {

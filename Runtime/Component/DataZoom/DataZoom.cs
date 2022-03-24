@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// DataZoom component is used for zooming a specific area,
     /// which enables user to investigate data in detail,
     /// or get an overview of the data, or get rid of outlier points.
-    /// 
+    /// |
     /// <para>DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。</para>
     /// </summary>
     [System.Serializable]
@@ -18,8 +18,8 @@ namespace XCharts.Runtime
         /// <summary>
         /// Generally dataZoom component zoom or roam coordinate system through data filtering
         /// and set the windows of axes internally.
-        /// Its behaviours vary according to filtering mode settings.
-        /// 
+        /// |Its behaviours vary according to filtering mode settings.
+        /// |
         /// dataZoom 的运行原理是通过 数据过滤 来达到 数据窗口缩放 的效果。数据过滤模式的设置不同，效果也不同。
         /// </summary>
         public enum FilterMode
@@ -98,8 +98,8 @@ namespace XCharts.Runtime
         public DataZoomContext context = new DataZoomContext();
 
         /// <summary>
-        /// Whether to show dataZoom. 
-        /// 是否显示缩放区域。
+        /// Whether to show dataZoom.
+        /// |是否显示缩放区域。
         /// </summary>
         public bool enable
         {
@@ -107,8 +107,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Enable, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// The mode of data filter. 
-        /// 数据过滤类型。
+        /// The mode of data filter.
+        /// |数据过滤类型。
         /// </summary>
         public FilterMode filterMode
         {
@@ -116,8 +116,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_FilterMode, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Specify which xAxis is controlled by the dataZoom. 
-        /// 控制的 x 轴索引列表。
+        /// Specify which xAxis is controlled by the dataZoom.
+        /// |控制的 x 轴索引列表。
         /// </summary>
         public List<int> xAxisIndexs
         {
@@ -125,8 +125,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_XAxisIndexs, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Specify which yAxis is controlled by the dataZoom. 
-        /// 控制的 y 轴索引列表。
+        /// Specify which yAxis is controlled by the dataZoom.
+        /// |控制的 y 轴索引列表。
         /// </summary>
         public List<int> yAxisIndexs
         {
@@ -134,10 +134,10 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_YAxisIndexs, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Whether built-in support is supported. 
-        /// Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, 
+        /// Whether built-in support is supported.
+        /// |Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, 
         /// mouse wheel, finger swiping (on the touch screen).
-        /// 
+        /// |
         /// 是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
         /// </summary>
         public bool supportInside
@@ -163,7 +163,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether a slider is supported. There are separate sliders on which the user zooms or roams.
-        /// 是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。
+        /// |是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。
         /// </summary>
         public bool supportSlider
         {
@@ -180,7 +180,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
-        /// default:true
+        /// |default:true
         /// 是否显示数据阴影。数据阴影可以简单地反应数据走势。
         /// </summary>
         public bool showDataShadow
@@ -190,7 +190,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show detail, that is, show the detailed data information when dragging.
-        /// 是否显示detail，即拖拽时候显示详细数值信息。
+        /// |是否显示detail，即拖拽时候显示详细数值信息。
         /// [default: false]
         /// </summary>
         public bool showDetail
@@ -200,7 +200,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Specify whether to lock the size of window (selected area).
-        /// default:false
+        /// |default:false
         /// 是否锁定选择区域（或叫做数据窗口）的大小。
         /// 如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
         /// </summary>
@@ -211,13 +211,13 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show data shadow in dataZoom-silder component, to indicate the data tendency in brief.
-        /// default:true
+        /// |default:true
         /// 拖动时，是否实时更新系列的视图。如果设置为 false，则只在拖拽结束的时候更新。默认为true，暂不支持修改。
         /// </summary>
         public bool realtime { get { return true; } }
         /// <summary>
         /// The background color of the component.
-        /// 组件的背景颜色。
+        /// |组件的背景颜色。
         /// </summary>
         public Color backgroundColor
         {
@@ -226,7 +226,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of dataZoom data area.
-        /// 数据区域颜色。
+        /// |数据区域颜色。
         /// </summary>
         public Color32 fillerColor
         {
@@ -236,7 +236,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of dataZoom border.
-        /// 边框颜色。
+        /// |边框颜色。
         /// </summary>
         public Color32 borderColor
         {
@@ -253,8 +253,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between dataZoom component and the bottom side of the container.
-        /// bottom value is a instant pixel value like 10 or float value [0-1].
-        /// default:10
+        /// |bottom value is a instant pixel value like 10 or float value [0-1].
+        /// |default:10
         /// 组件离容器下侧的距离。
         /// </summary>
         public float bottom
@@ -264,8 +264,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between dataZoom component and the top side of the container.
-        /// top value is a instant pixel value like 10 or float value [0-1].
-        /// default:10
+        /// |top value is a instant pixel value like 10 or float value [0-1].
+        /// |default:10
         /// 组件离容器上侧的距离。
         /// </summary>
         public float top
@@ -275,8 +275,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between dataZoom component and the left side of the container.
-        /// left value is a instant pixel value like 10 or float value [0-1].
-        /// default:10
+        /// |left value is a instant pixel value like 10 or float value [0-1].
+        /// |default:10
         /// 组件离容器左侧的距离。
         /// </summary>
         public float left
@@ -286,8 +286,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between dataZoom component and the right side of the container.
-        /// right value is a instant pixel value like 10 or float value [0-1].
-        /// default:10
+        /// |right value is a instant pixel value like 10 or float value [0-1].
+        /// |default:10
         /// 组件离容器右侧的距离。
         /// </summary>
         public float right
@@ -297,8 +297,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Use absolute value or percent value in DataZoom.start and DataZoom.end.
-        /// default:RangeMode.Percent.
-        /// 取绝对值还是百分比。
+        /// |default:RangeMode.Percent.
+        /// |取绝对值还是百分比。
         /// </summary>
         public RangeMode rangeMode
         {
@@ -307,8 +307,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The start percentage of the window out of the data extent, in the range of 0 ~ 100.
-        /// [default:30].
-        /// 数据窗口范围的起始百分比。范围是：0 ~ 100。
+        /// |[default:30].
+        /// |数据窗口范围的起始百分比。范围是：0 ~ 100。
         /// </summary>
         public float start
         {
@@ -317,7 +317,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.
-        /// default:70
+        /// |default:70
         /// 数据窗口范围的结束百分比。范围是：0 ~ 100。
         /// </summary>
         public float end
@@ -327,7 +327,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
-        /// 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
+        /// |最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
         /// </summary>
         public int minShowNum
         {
@@ -336,8 +336,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The sensitivity of dataZoom scroll.
-        /// The larger the number, the more sensitive it is.
-        /// default:10
+        /// |The larger the number, the more sensitive it is.
+        /// |default:10
         /// 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
         /// </summary>
         public float scrollSensitivity
@@ -349,7 +349,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// Specify whether the layout of dataZoom component is horizontal or vertical. What's more, 
         /// it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.
-        /// 布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。
+        /// |布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。
         /// </summary>
         /// <value></value>
         public Orient orient
@@ -359,7 +359,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// font style.
-        /// 文字格式。
+        /// |文字格式。
         /// </summary>
         public TextStyle textStyle
         {
@@ -393,12 +393,12 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The start label.
-        /// 组件的开始信息文本。
+        /// |组件的开始信息文本。
         /// </summary>
         private ChartText m_StartLabel { get; set; }
         /// <summary>
         /// The end label.
-        /// 组件的结束信息文本。
+        /// |组件的结束信息文本。
         /// </summary>
         private ChartText m_EndLabel { get; set; }
 

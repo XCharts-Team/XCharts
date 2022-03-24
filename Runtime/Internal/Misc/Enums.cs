@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the layout is horizontal or vertical.
-    /// 垂直还是水平布局方式。
+    /// |垂直还是水平布局方式。
     /// </summary>
     public enum Orient
     {

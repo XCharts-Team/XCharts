@@ -11,7 +11,7 @@ namespace XCharts.Runtime
     [CreateAssetMenu(menuName = "XCharts/Export Lang")]
     /// <summary>
     /// Language.
-    /// 国际化语言表。
+    /// |国际化语言表。
     /// </summary>
     public class Lang : ScriptableObject
     {

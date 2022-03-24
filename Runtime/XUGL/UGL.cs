@@ -6,7 +6,7 @@ namespace XUGL
 {
     /// <summary>
     /// UGUI Graphics Library.
-    /// UGUI 图形库
+    /// |UGUI 图形库
     /// </summary>
     public static class UGL
     {

@@ -5,9 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The x axis in cartesian(rectangular) coordinate.
-    /// <para>
-    /// 直角坐标系 grid 中的 y 轴。
-    /// </para>
+    /// |直角坐标系 grid 中的 y 轴。
     /// </summary>
     [System.Serializable]
     [RequireChartComponent(typeof(GridCoord), typeof(XAxis))]

@@ -19,17 +19,17 @@ namespace XCharts.Runtime
         public float top { get; internal set; }
         /// <summary>
         /// the current minimun value.
-        /// 当前最小值。
+        /// |当前最小值。
         /// </summary>
         public double minValue { get; internal set; }
         /// <summary>
         /// the current maximum value.
-        /// 当前最大值。
+        /// |当前最大值。
         /// </summary>
         public double maxValue { get; internal set; }
         /// <summary>
         /// the offset of zero position.
-        /// 坐标轴原点在坐标轴的偏移。
+        /// |坐标轴原点在坐标轴的偏移。
         /// </summary>
         public float offset { get; internal set; }
         public double minMaxRange { get; internal set; }

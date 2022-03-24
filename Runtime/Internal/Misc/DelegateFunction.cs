@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The delegate function for AxisLabel's formatter.
-    /// AxisLabel的formatter自定义委托。
+    /// |AxisLabel的formatter自定义委托。
     /// </summary>
     /// <param name="labelIndex">label索引</param>
     /// <param name="value">当前label对应的数值数据，Value轴或Time轴有效</param>
@@ -16,7 +16,7 @@ namespace XCharts.Runtime
     public delegate string AxisLabelFormatterFunction(int labelIndex, double value, string category);
     /// <summary>
     /// The delegate function for SerieLabel‘s formatter.
-    /// SerieLabel的formatter自定义委托。
+    /// |SerieLabel的formatter自定义委托。
     /// </summary>
     /// <param name="dataIndex">数据索引</param>
     /// <param name="value">数值</param>

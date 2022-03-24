@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// <summary>
     /// Text character limitation and adaptation component. When the length of the text exceeds the set length, 
     /// it is cropped and suffixes are appended to the end.Only valid in the category axis.
-    /// 文本字符限制和自适应。当文本长度超过设定的长度时进行裁剪，并将后缀附加在最后。
+    /// |文本字符限制和自适应。当文本长度超过设定的长度时进行裁剪，并将后缀附加在最后。
     /// 只在类目轴中有效。
     /// </summary>
     [Serializable]
@@ -21,7 +21,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to enable text limit.
-        /// 是否启用文本自适应。
+        /// |是否启用文本自适应。
         /// [default:true]
         /// </summary>
         public bool enable
@@ -30,9 +30,9 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Enable, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Set the maximum width. A default of 0 indicates automatic fetch; otherwise, custom. 
-        /// Clipping occurs when the width of the text is greater than this value.
-        /// 设定最大宽度。默认为0表示自动获取，否则表示自定义。当文本的宽度大于该值进行裁剪。
+        /// Set the maximum width. A default of 0 indicates automatic fetch; otherwise, custom.
+        /// |Clipping occurs when the width of the text is greater than this value.
+        /// |设定最大宽度。默认为0表示自动获取，否则表示自定义。当文本的宽度大于该值进行裁剪。
         /// </summary>
         public float maxWidth
         {
@@ -40,8 +40,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_MaxWidth, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// White pixel distance at both ends. 
-        /// 两边留白像素距离。
+        /// White pixel distance at both ends.
+        /// |两边留白像素距离。
         /// [default:10f]
         /// </summary>
         public float gap
@@ -51,7 +51,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Suffixes when the length exceeds.
-        /// 长度超出时的后缀。
+        /// |长度超出时的后缀。
         /// [default: "..."]
         /// </summary>
         public string suffix

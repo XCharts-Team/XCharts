@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Radial axis of polar coordinate.
-    /// 极坐标系的径向轴。
+    /// |极坐标系的径向轴。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(RadiusAxisHandler), true)]

@@ -47,7 +47,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the label line is showed.
-        /// 是否显示视觉引导线。
+        /// |是否显示视觉引导线。
         /// </summary>
         public bool show
         {
@@ -56,7 +56,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of visual guide line.
-        /// 视觉引导线类型。
+        /// |视觉引导线类型。
         /// </summary>
         public LineType lineType
         {
@@ -65,7 +65,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of visual guild line.
-        /// 视觉引导线颜色。默认和serie一致取自调色板。
+        /// |视觉引导线颜色。默认和serie一致取自调色板。
         /// </summary>
         public Color32 lineColor
         {
@@ -74,7 +74,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of visual guild line.
-        /// 视觉引导线的宽度。
+        /// |视觉引导线的宽度。
         /// </summary>
         public float lineWidth
         {
@@ -83,7 +83,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the gap of container and guild line.
-        /// 视觉引导线和容器的间距。
+        /// |视觉引导线和容器的间距。
         /// </summary>
         public float lineGap
         {
@@ -92,7 +92,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The length of the first segment of visual guide line.
-        /// 视觉引导线第一段的长度。
+        /// |视觉引导线第一段的长度。
         /// </summary>
         public float lineLength1
         {
@@ -101,7 +101,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The length of the second segment of visual guide line.
-        /// 视觉引导线第二段的长度。
+        /// |视觉引导线第二段的长度。
         /// </summary>
         public float lineLength2
         {

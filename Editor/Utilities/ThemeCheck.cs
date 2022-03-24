@@ -27,7 +27,7 @@ namespace XCharts.Editor
         public static void CheckAddedAsset(string assetPath)
         {
             var fileName = Path.GetFileName(assetPath);
-            if (fileName.Equals("XChartsSettings.asset"))
+            if (fileName.Equals("XCSettings.asset"))
             {
                 XCThemeMgr.ReloadThemeList();
                 return;

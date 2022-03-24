@@ -20,7 +20,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the font of text.
-        /// 字体。
+        /// |字体。
         /// </summary>
         public Font font
         {
@@ -29,7 +29,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of text.
-        /// 文本颜色。
+        /// |文本颜色。
         /// </summary>
         public Color textColor
         {
@@ -38,7 +38,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of text.
-        /// 文本颜色。
+        /// |文本颜色。
         /// </summary>
         public Color textBackgroundColor
         {
@@ -47,7 +47,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the font size of text.
-        /// 文本字体大小。
+        /// |文本字体大小。
         /// </summary>
         public int fontSize
         {

@@ -35,7 +35,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the data icon is show.
-        /// 是否显示图标。
+        /// |是否显示图标。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
         public Layer layer { get { return m_Layer; } set { m_Layer = value; } }
         /// <summary>
         /// The image of icon.
-        /// 图标的图片。
+        /// |图标的图片。
         /// </summary>
         public Sprite sprite { get { return m_Sprite; } set { m_Sprite = value; } }
         /// <summary>

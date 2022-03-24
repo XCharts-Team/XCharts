@@ -349,7 +349,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// reutrn true when all the show axis is `Value` type.
-        /// 纯数值坐标轴（数值轴或对数轴）。
+        /// |纯数值坐标轴（数值轴或对数轴）。
         /// </summary>
         public bool IsAllAxisValue()
         {

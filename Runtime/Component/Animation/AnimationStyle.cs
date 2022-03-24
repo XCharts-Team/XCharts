@@ -9,32 +9,32 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// he default. An animation playback mode will be selected according to the actual situation.
-        /// 默认。内部会根据实际情况选择一种动画播放方式。
+        /// |默认。内部会根据实际情况选择一种动画播放方式。
         /// </summary>
         Default,
         /// <summary>
         /// Play the animation from left to right.
-        /// 从左往右播放动画。
+        /// |从左往右播放动画。
         /// </summary>
         LeftToRight,
         /// <summary>
         /// Play the animation from bottom to top.
-        /// 从下往上播放动画。
+        /// |从下往上播放动画。
         /// </summary>
         BottomToTop,
         /// <summary>
         /// Play animations from the inside out.
-        /// 由内到外播放动画。
+        /// |由内到外播放动画。
         /// </summary>
         InsideOut,
         /// <summary>
         /// Play the animation along the path.
-        /// 沿着路径播放动画。
+        /// |沿着路径播放动画。
         /// </summary>
         AlongPath,
         /// <summary>
         /// Play the animation clockwise.
-        /// 顺时针播放动画。
+        /// |顺时针播放动画。
         /// </summary>
         Clockwise,
     }
@@ -46,7 +46,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// the animation of serie.
-    /// 动画表现。
+    /// |动画表现。
     /// </summary>
     [System.Serializable]
     public class AnimationStyle : ChildComponent
@@ -83,42 +83,42 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to enable animation.
-        /// 是否开启动画效果。
+        /// |是否开启动画效果。
         /// </summary>
         public bool enable { get { return m_Enable; } set { m_Enable = value; } }
         /// <summary>
         /// The type of animation.
-        /// 动画类型。
+        /// |动画类型。
         /// </summary>
         public AnimationType type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
-        /// Easing method used for the first animation. 
-        /// 动画的缓动效果。
+        /// Easing method used for the first animation.
+        /// |动画的缓动效果。
         /// </summary>
         //public Easing easing { get { return m_Easting; } set { m_Easting = value; } }
         /// <summary>
         /// The milliseconds duration of the fadeIn animation.
-        /// 设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。
+        /// |设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。
         /// </summary>
         public float fadeInDuration { get { return m_FadeInDuration; } set { m_FadeInDuration = value < 0 ? 0 : value; } }
         /// <summary>
         /// The milliseconds duration of the fadeOut animation.
-        /// 设定的渐出动画时长（毫秒）。如果要设置单个数据项的渐出时长，可以用代码定制：customFadeOutDuration。
+        /// |设定的渐出动画时长（毫秒）。如果要设置单个数据项的渐出时长，可以用代码定制：customFadeOutDuration。
         /// </summary>
         public float fadeOutDuration { get { return m_FadeOutDuration; } set { m_FadeOutDuration = value < 0 ? 0 : value; } }
         /// <summary>
         /// The milliseconds actual duration of the first animation.
-        /// 实际的动画时长（毫秒）。
+        /// |实际的动画时长（毫秒）。
         /// </summary>
         public float actualDuration { get { return m_ActualDuration; } }
         /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
-        /// 是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
+        /// |是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
         /// </summary>
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
         /// <summary>
         /// The milliseconds delay before updating the first animation.
-        /// 渐入动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeInDelay。
+        /// |渐入动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeInDelay。
         /// </summary>
         public float fadeInDelay { get { return m_FadeInDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
         /// <summary>
@@ -131,7 +131,7 @@ namespace XCharts.Runtime
         public bool dataChangeEnable { get { return m_DataChangeEnable; } set { m_DataChangeEnable = value; } }
         /// <summary>
         /// The milliseconds duration of the data change animation.
-        /// 数据变更的动画时长（毫秒）。
+        /// |数据变更的动画时长（毫秒）。
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
         /// <summary>

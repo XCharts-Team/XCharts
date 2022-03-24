@@ -43,6 +43,8 @@
 
 ## branch-2.0
 
+* (2022.03.24) Fixed `Axis` precision issue #184
+
 ## v2.7.0
 
 * (2022.03.20) Release `v2.7.0` version

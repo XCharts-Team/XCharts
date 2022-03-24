@@ -88,10 +88,10 @@ namespace XCharts
         [SerializeField] protected int m_PolarIndex;
         [SerializeField] protected AxisPosition m_Position;
         [SerializeField] protected float m_Offset;
-        [SerializeField] protected float m_Min;
-        [SerializeField] protected float m_Max;
+        [SerializeField] protected double m_Min;
+        [SerializeField] protected double m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
-        [SerializeField] protected float m_Interval = 0;
+        [SerializeField] protected double m_Interval = 0;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
@@ -180,7 +180,7 @@ namespace XCharts
         /// The minimun value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
-        public float min
+        public double min
         {
             get { return m_Min; }
             set { if (PropertyUtil.SetStruct(ref m_Min, value)) SetAllDirty(); }
@@ -189,7 +189,7 @@ namespace XCharts
         /// The maximum value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
-        public float max
+        public double max
         {
             get { return m_Max; }
             set { if (PropertyUtil.SetStruct(ref m_Max, value)) SetAllDirty(); }
@@ -207,7 +207,7 @@ namespace XCharts
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
         /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// </summary>
-        public float interval
+        public double interval
         {
             get { return m_Interval; }
             set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetAllDirty(); }

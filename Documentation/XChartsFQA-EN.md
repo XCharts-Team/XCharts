@@ -1,8 +1,8 @@
 # XCharts Q&A
 
-[XCharts Homepage](https://github.com/XCharts-Team/XCharts)  
-[XCharts API](xcharts-api-EN.md)  
-[XCharts Configuration](xcharts-configuration-EN.md)
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts API](XChartsAPI-EN.md)</br>
+[XCharts Configuration](XChartsConfiguration-EN.md)
 
 [QA 1: How to adjust the margin between the axis and the background?](#How-to-adjust-the-margin-between-the-axis-and-the=-background)  
 [QA 2: How to play agian the fadeIn animation?](#How-to-play-agian-the-fadeIn-animation)  
@@ -156,6 +156,6 @@ The upgrade steps are as follows:
 4. Upgrade `XCharts` to the latest version.
 5. The custom color can be restored by importing `color.config` through `menu bar -> XCharts-> ImportColorConfig` (if `color.config` is not under `Assets` of the upgraded project, copy it to this directory).
 
-[XCharts Homepage](https://github.com/XCharts-Team/XCharts)  
-[XCharts API](xcharts-api-EN.md)  
-[XCharts Configuration](xcharts-configuration-EN.md)
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts API](XChartsAPI-EN.md)</br>
+[XCharts Configuration](XChartsConfiguration-EN.md)

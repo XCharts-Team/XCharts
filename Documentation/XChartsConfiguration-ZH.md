@@ -1,9 +1,8 @@
 # 配置项手册
 
-[返回首页](https://github.com/XCharts-Team/XCharts) 
-[XChartsAPI接口](XChartsAPI-ZH.md) 
+[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)
-
 
 ## Serie 系列
 
@@ -77,7 +76,6 @@
 - [LevelStyle](#LevelStyle)
 - [LineArrow](#LineArrow)
 - [LineStyle](#LineStyle)
-- [Location](#Location)
 - [MarkAreaData](#MarkAreaData)
 - [MarkLineData](#MarkLineData)
 - [PolarAxisTheme](#PolarAxisTheme)
@@ -281,7 +279,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `show` | | 是否显示坐标名称。 |
 | `name` | | 坐标轴名称。 |
 | `formatter` | | 指示器名称显示的格式器。可用在雷达图。 |
-| `location` | | 坐标轴名称显示位置。 [Location](Location)|
+| `location` | | 坐标轴名称显示位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
 | `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
 
 ## `AxisSplitArea`
@@ -658,10 +656,10 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示图例组件。 |
-| `iconType` | | 图例类型。 [default:Type.Auto]</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `iconType` | | 图例类型。 [default:Type.Auto]</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。 [default:SelectedMode.Multiple]</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `orient` | | 布局方式是横还是竖。 [default:Orient.Horizonal]</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | 图例显示的位置。 [default:Location.defaultTop] [Location](Location)|
+| `location` | | 图例显示的位置。 [default:Location.defaultTop]</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
 | `itemWidth` |25.0f | 图例标记的图形宽度。 [default:24f] |
 | `itemHeight` |12.0f | 图例标记的图形高度。 [default:12f] |
 | `itemGap` |10f | 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。 [default:10f] |
@@ -723,27 +721,13 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。 |
-| `type` | | 线的类型。</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | 线的类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `color` | | 线的颜色。 |
 | `toColor` | | 线的渐变颜色（需要水平方向渐变时）。 |
 | `toColor2` | | 线的渐变颜色2（需要水平方向三个渐变色的渐变时）。 |
 | `width` |0 |  |
 | `length` |0 |  |
 | `opacity` |1 | 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。 |
-
-## `Location`
-
-Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#IPropertyChanged)
-
-位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
-
-|field|default|comment|
-|--|--|--|
-| `align` | | 对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
-| `left` | | 离容器左侧的距离。 |
-| `right` | | 离容器右侧的距离。 |
-| `top` | | 离容器上侧的距离。 |
-| `bottom` | | 离容器下侧的距离。 |
 
 ## `MainComponent`
 
@@ -910,6 +894,14 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 
 |field|default|comment|
 |--|--|--|
+| `labels` | |  |
+| `labelLines` | |  |
+| `endLabels` | |  |
+| `lineArrows` | |  |
+| `areaStyles` | |  |
+| `iconStyles` | |  |
+| `titleStyles` | |  |
+| `emphases` | |  |
 | `index` | | 系列索引。 |
 | `show` |true | 系列是否显示在图表上。 |
 | `coordSystem` | | 使用的坐标系。 |
@@ -1211,7 +1203,7 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 | `subText` | | 副标题文本，支持使用 \n 换行。 |
 | `subTextStyle` | | 副标题文本样式。 [TextStyle](TextStyle)|
 | `itemGap` |0 | 主副标题之间的间距。 |
-| `location` | | 标题显示位置。 [Location](Location)|
+| `location` | | 标题显示位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
 
 ## `TitleStyle`
 
@@ -1239,7 +1231,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示提示框组件。 |
-| `type` | | 提示框指示器类型。</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | 提示框指示器类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `trigger` | | 触发类型。</br>`Tooltip.Trigger`:</br>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。</br>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。</br>- `None`: 什么都不触发。</br>|
 | `itemFormatter` | | 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。 |
 | `titleFormatter` | |  |
@@ -1293,7 +1285,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。 [default: true] |
-| `type` | | 组件类型。</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | 组件类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | 选择模式。</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `serieIndex` |0 | 影响的serie索引。 |
 | `min` |0 | 范围最小值 |
@@ -1312,7 +1304,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `hoverLink` |true | Conversely, when the mouse hovers over a graphic element in a diagram, the corresponding value of the visualMap component is triangulated in the corresponding position. |
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | 布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | 组件显示的位置。 [Location](Location)|
+| `location` | | 组件显示的位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
 | `inRange` | | 定义 在选中范围中 的视觉颜色。 |
 | `outOfRange` | | 定义 在选中范围外 的视觉颜色。 |
 | `pieces` | | 分段式每一段的相关配置。 |
@@ -1348,9 +1340,6 @@ Inherits or Implemented: [Axis](#Axis)
 
 ## `XCResourcesImporter`
 
-|field|default|comment|
-|--|--|--|
-| `XCResourcesImporter` | |  |
 
 ## `XCSettings`
 
@@ -1402,6 +1391,6 @@ Inherits or Implemented: [Axis](#Axis)
 
 直角坐标系 grid 中的 y 轴。
 
-n[返回首页](https://github.com/XCharts-Team/XCharts) 
-[XChartsAPI接口](XChartsAPI-ZH.md) 
+n[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)

@@ -1,9 +1,8 @@
 # Chart Configuration
 
-[XCharts Homepage](https://github.com/XCharts-Team/XCharts) 
-[XCharts API](XChartsAPI-EN.md) 
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts API](XChartsAPI-EN.md)</br>
 [XCharts Q&A](XChartsFQA-EN.md)
-
 
 ## Serie
 
@@ -77,7 +76,6 @@
 - [LevelStyle](#LevelStyle)
 - [LineArrow](#LineArrow)
 - [LineStyle](#LineStyle)
-- [Location](#Location)
 - [MarkAreaData](#MarkAreaData)
 - [MarkLineData](#MarkLineData)
 - [PolarAxisTheme](#PolarAxisTheme)
@@ -281,7 +279,7 @@ the name of axis.
 | `show` | | Whether to show axis name. |
 | `name` | | the name of axis. |
 | `formatter` | | The formatter of indicator's name. |
-| `location` | | Location of axis name. [Location](Location)|
+| `location` | | Location of axis name.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
 | `textStyle` | | The text style of axis name. [TextStyle](TextStyle)|
 
 ## `AxisSplitArea`
@@ -658,10 +656,10 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether to show legend component. |
-| `iconType` | | Type of legend.</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `iconType` | | Type of legend.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `orient` | | Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | The location of legend. [Location](Location)|
+| `location` | | The location of legend.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
 | `itemWidth` |25.0f | Image width of legend symbol. |
 | `itemHeight` |12.0f | Image height of legend symbol. |
 | `itemGap` |10f | The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout. |
@@ -723,27 +721,13 @@ The style of line.
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether show line. |
-| `type` | | the type of line.</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | the type of line.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `color` | | the color of line, default use serie color. |
 | `toColor` | | the middle color of line, default use serie color. |
 | `toColor2` | | the end color of line, default use serie color. |
 | `width` |0 |  |
 | `length` |0 |  |
 | `opacity` |1 | Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0. |
-
-## `Location`
-
-Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#IPropertyChanged)
-
-Location type. Quick to set the general location.
-
-|field|default|comment|
-|--|--|--|
-| `align` | | 对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
-| `left` | | Distance between component and the left side of the container. |
-| `right` | | Distance between component and the left side of the container. |
-| `top` | | Distance between component and the left side of the container. |
-| `bottom` | | Distance between component and the left side of the container. |
 
 ## `MainComponent`
 
@@ -910,6 +894,14 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 
 |field|default|comment|
 |--|--|--|
+| `labels` | |  |
+| `labelLines` | |  |
+| `endLabels` | |  |
+| `lineArrows` | |  |
+| `areaStyles` | |  |
+| `iconStyles` | |  |
+| `titleStyles` | |  |
+| `emphases` | |  |
 | `index` | | The index of serie. |
 | `show` |true | Whether to show serie in chart. |
 | `coordSystem` | | the chart coord system of serie. |
@@ -1211,7 +1203,7 @@ Title component, including main title and subtitle.
 | `subText` | | Subtitle text, supporting for \n for newlines. |
 | `subTextStyle` | | The text style of sub title. [TextStyle](TextStyle)|
 | `itemGap` |0 | [default:8] The gap between the main title and subtitle. |
-| `location` | | The location of title component. [Location](Location)|
+| `location` | | The location of title component.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
 
 ## `TitleStyle`
 
@@ -1239,7 +1231,7 @@ Tooltip component.
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether to show the tooltip component. |
-| `type` | | Indicator type.</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | Indicator type.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `trigger` | | Type of triggering.</br>`Tooltip.Trigger`:</br>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.</br>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.</br>- `None`: Trigger nothing.</br>|
 | `itemFormatter` | | a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. When formatter is not null, use formatter first, otherwise use itemFormatter. |
 | `titleFormatter` | |  |
@@ -1293,7 +1285,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether to display components. If set to false, it will not show up, but the data mapping function still exists. |
-| `type` | | the type of visualmap component.</br>`Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+| `type` | | the type of visualmap component.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | the selected mode for Piecewise visualMap.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `serieIndex` |0 | the serie index of visualMap. |
 | `min` |0 | 范围最小值 |
@@ -1312,7 +1304,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 | `hoverLink` |true | When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram. |
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | Specify whether the layout of component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | The location of component. [Location](Location)|
+| `location` | | The location of component.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
 | `inRange` | | Defines the visual color in the selected range. |
 | `outOfRange` | | Defines a visual color outside of the selected range. |
 | `pieces` | | 分段式每一段的相关配置。 |
@@ -1348,9 +1340,6 @@ The x axis in cartesian(rectangular) coordinate.
 
 ## `XCResourcesImporter`
 
-|field|default|comment|
-|--|--|--|
-| `XCResourcesImporter` | |  |
 
 ## `XCSettings`
 
@@ -1402,6 +1391,6 @@ Inherits or Implemented: [Axis](#Axis)
 
 The x axis in cartesian(rectangular) coordinate.
 
-n[XCharts Homepage](https://github.com/XCharts-Team/XCharts) 
-[XCharts API](XChartsAPI-EN.md) 
+n[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts API](XChartsAPI-EN.md)</br>
 [XCharts Q&A](XChartsFQA-EN.md)

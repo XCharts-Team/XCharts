@@ -1,9 +1,9 @@
 # 教程：5分钟上手 XCharts 3.0
 
-[返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsFQA-ZH.md)  
-[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI-ZH.md)  
-[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsConfiguration-ZH.md)
+[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts问答](XChartsFQA-ZH.md)</br>
+[XChartsAPI接口](XChartsAPI-ZH.md)</br>
+[XCharts配置项手册](XChartsConfiguration-ZH.md)
 
 ## 获取和导入 XCharts
 
@@ -225,7 +225,7 @@ itemStyle.color = Color.blue;
 
 ```
 
-[返回首页](https://github.com/XCharts-Team/XCharts)  
-[XCharts问答](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsFQA-ZH.md)  
-[XChartsAPI接口](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsAPI-ZH.md)  
-[XCharts配置项手册](https://github.com/XCharts-Team/XCharts/master/Documentation/XChartsConfiguration-ZH.md)
+[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts问答](XChartsFQA-ZH.md)</br>
+[XChartsAPI接口](XChartsAPI-ZH.md)</br>
+[XCharts配置项手册](XChartsConfiguration-ZH.md)

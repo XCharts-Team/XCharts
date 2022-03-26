@@ -12,8 +12,8 @@ namespace XCharts.Runtime
 
         private SVGPath m_Path;
 
-        public string svgPath { get { return m_SVGPath; } }
-        public bool mirrorY { get { return m_MirrorY; } }
+        public string svgPath { set { m_SVGPath = value; } get { return m_SVGPath; } }
+        public bool mirrorY { set { m_MirrorY = value; } get { return m_MirrorY; } }
 
         protected override void Awake()
         {

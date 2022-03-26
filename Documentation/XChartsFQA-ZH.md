@@ -1,6 +1,6 @@
 # XCharts问答
 
-[返回首页](https://github.com/XCharts-Team/XCharts)  
+[XCharts主页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI](XChartsAPI-ZH.md)  
 [XCharts配置项手册](XChartsConfiguration-ZH.md)
 
@@ -162,6 +162,6 @@
 6. 升级`XCharts`到最新版本。
 7. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
 
-[返回首页](https://github.com/XCharts-Team/XCharts)  
+[XCharts主页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI](XChartsAPI-ZH.md)  
 [XCharts配置项手册](XChartsConfiguration-ZH.md)

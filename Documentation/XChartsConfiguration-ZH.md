@@ -1,6 +1,6 @@
 # 配置项手册
 
-[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)
 
@@ -1391,6 +1391,7 @@ Inherits or Implemented: [Axis](#Axis)
 
 直角坐标系 grid 中的 y 轴。
 
-n[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)

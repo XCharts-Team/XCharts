@@ -26,7 +26,7 @@ namespace XCharts.Editor
             this.chart = chart;
             this.serie = target;
             this.baseProperty = property;
-            m_DisplayName = string.Format("serie {0}: {1}", serie.index, serie.GetType().Name);
+            m_DisplayName = string.Format("Serie {0}: {1}", serie.index, serie.GetType().Name);
             //m_Inspector = inspector;
             showProperty = baseProperty.FindPropertyRelative("m_Show");
             if (showProperty == null)

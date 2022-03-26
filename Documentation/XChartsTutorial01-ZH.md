@@ -1,6 +1,6 @@
 # 教程：5分钟上手 XCharts 3.0
 
-[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts问答](XChartsFQA-ZH.md)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts配置项手册](XChartsConfiguration-ZH.md)
@@ -225,7 +225,7 @@ itemStyle.color = Color.blue;
 
 ```
 
-[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts问答](XChartsFQA-ZH.md)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
 [XCharts配置项手册](XChartsConfiguration-ZH.md)

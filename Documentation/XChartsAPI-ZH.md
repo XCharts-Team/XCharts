@@ -1,6 +1,6 @@
 # API
 
-[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts配置项手册](XChartsConfiguration-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)
 
@@ -107,9 +107,11 @@
 
 ## `AxisContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `AxisHandler<T>`
 
+Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 
 ## `AxisHelper`
 
@@ -133,8 +135,11 @@
 
 ## `BarChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `BaseChart`
+
+Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver](#ISerializationCallbackReceiver)
 
 |public method|description|
 |--|--|
@@ -262,6 +267,8 @@
 
 ## `BaseGraph`
 
+Inherits or Implemented: [MaskableGraphic](#MaskableGraphic),[IPointerDownHandler](#IPointerDownHandler),[IPointerUpHandler](#IPointerUpHandler),[](#)
+
 |public method|description|
 |--|--|
 | `CheckWarning` |public string CheckWarning()</br>检测警告信息。 |
@@ -283,6 +290,7 @@
 
 ## `CandlestickChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `ChartCached`
 
@@ -297,9 +305,7 @@
 
 ## `ChartConst`
 
-
 ## `ChartDrawer`
-
 
 ## `ChartHelper`
 
@@ -360,6 +366,8 @@
 
 ## `ChartLabel`
 
+Inherits or Implemented: [Image](#Image)
+
 |public method|description|
 |--|--|
 | `GetLabelHeight` |public float GetLabelHeight()</br> |
@@ -402,6 +410,8 @@
 
 ## `ComponentHandlerAttribute`
 
+Inherits or Implemented: [Attribute](#Attribute)
+
 |public method|description|
 |--|--|
 | `ComponentHandlerAttribute` |public ComponentHandlerAttribute(Type handler)</br> |
@@ -419,6 +429,8 @@
 
 ## `CoordOptionsAttribute`
 
+Inherits or Implemented: [Attribute](#Attribute)
+
 |public method|description|
 |--|--|
 | `CoordOptionsAttribute` |public CoordOptionsAttribute(Type coord)</br> |
@@ -428,6 +440,7 @@
 
 ## `DataZoomContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `DataZoomHelper`
 
@@ -444,6 +457,8 @@
 | `GetTimestamp` |public static int GetTimestamp(DateTime time)</br> |
 
 ## `DefaultAnimationAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
@@ -467,9 +482,11 @@
 
 ## `GridCoordContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext),[IRectContext](#IRectContext)
 
 ## `HeatmapChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `InteractData`
 
@@ -495,7 +512,6 @@
 
 ## `LangCandlestick`
 
-
 ## `LayerHelper`
 
 |public method|description|
@@ -505,6 +521,7 @@
 
 ## `LegendContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `LegendHelper`
 
@@ -540,8 +557,11 @@
 
 ## `LineChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `ListFor`
+
+Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
@@ -549,11 +569,15 @@
 
 ## `ListForComponent`
 
+Inherits or Implemented: [ListFor](#ListFor)
+
 |public method|description|
 |--|--|
 | `ListForComponent` |public ListForComponent(Type type) : base(type)</br> |
 
 ## `ListForSerie`
+
+Inherits or Implemented: [ListFor](#ListFor)
 
 |public method|description|
 |--|--|
@@ -561,12 +585,11 @@
 
 ## `MainComponentContext`
 
-
 ## `MainComponentHandler`
-
 
 ## `MainComponentHandler<T>`
 
+Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 
 ## `MathUtil`
 
@@ -580,6 +603,8 @@
 
 ## `Painter`
 
+Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
+
 |public method|description|
 |--|--|
 | `Init` |public void Init()</br> |
@@ -588,21 +613,27 @@
 
 ## `ParallelChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `ParallelCoordContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `PieChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `PolarChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `PolarCoordContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `ProgressBar`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `PropertyUtil`
 
@@ -613,9 +644,11 @@
 
 ## `RadarChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `RadarCoordContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `ReflectionUtil`
 
@@ -630,6 +663,8 @@
 
 ## `RequireChartComponentAttribute`
 
+Inherits or Implemented: [Attribute](#Attribute)
+
 |public method|description|
 |--|--|
 | `RequireChartComponentAttribute` |public RequireChartComponentAttribute(Type requiredComponent)</br> |
@@ -638,6 +673,7 @@
 
 ## `RingChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `RuntimeUtil`
 
@@ -651,11 +687,13 @@
 
 ## `ScatterChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `SerieContext`
 
-
 ## `SerieConvertAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
@@ -667,8 +705,9 @@
 
 ## `SerieDataContext`
 
-
 ## `SerieExtraComponentAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
@@ -684,8 +723,9 @@
 
 ## `SerieHandler`
 
-
 ## `SerieHandler<T>`
+
+Inherits or Implemented: [SerieHandler where T](#SerieHandler where T),[Serie](#Serie)
 
 |public method|description|
 |--|--|
@@ -701,6 +741,8 @@
 | `Update` |public override void Update()</br> |
 
 ## `SerieHandlerAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
@@ -772,7 +814,6 @@
 
 ## `SerieParams`
 
-
 ## `SeriesHelper`
 
 |public method|description|
@@ -794,12 +835,15 @@
 
 ## `SimplifiedBarChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `SimplifiedCandlestickChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `SimplifiedLineChart`
 
+Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## `SVG`
 
@@ -811,6 +855,7 @@
 
 ## `SVGImage`
 
+Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 
 ## `SVGPath`
 
@@ -828,9 +873,7 @@
 
 ## `TooltipContext`
 
-
 ## `TooltipData`
-
 
 ## `TooltipHelper`
 
@@ -855,7 +898,6 @@
 
 ## `TooltipViewItem`
 
-
 ## `UGL`
 
 |public method|description|
@@ -878,6 +920,7 @@
 
 ## `UGLExample`
 
+Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 
 ## `UGLHelper`
 
@@ -905,6 +948,7 @@
 
 ## `VisualMapContext`
 
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `VisualMapHelper`
 
@@ -936,6 +980,8 @@
 
 ## `XChartsPackageResourceImporterWindow`
 
+Inherits or Implemented: [UnityEditor.EditorWindow](#UnityEditor.EditorWindow)
+
 |public method|description|
 |--|--|
 | `ShowPackageImporterWindow` |public static void ShowPackageImporterWindow()</br> |
@@ -959,6 +1005,6 @@
 | `ReloadThemeList` |public static void ReloadThemeList()</br>重新加载主题列表 |
 | `SwitchTheme` |public static void SwitchTheme(BaseChart chart, string themeName)</br> |
 
-[返回首页](https://github.com/XCharts-Team/XCharts)</br>
+[XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts配置项手册](XChartsConfiguration-ZH.md)</br>
 [XCharts问答](XChartsFQA-ZH.md)

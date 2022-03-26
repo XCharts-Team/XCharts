@@ -45,11 +45,11 @@
 
 一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等十种常见免费内置图表，以及3D柱图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图等多种付费扩展图表。
 
-[XCharts教程](Documentation/XChartsTutorial01-ZH.md)  
-[XChartsAPI](Documentation/XChartsAPI-ZH.md)  
-[XCharts问答](Documentation/XChartsFQA-ZH.md)  
-[XCharts配置项手册](Documentation/XChartsConfiguration-ZH.md)  
-[XCharts更新日志](CHANGELOG.md)  
+[XCharts3.0 教程](Documentation/XChartsTutorial01-ZH.md)  
+[XCharts3.0 API](Documentation/XChartsAPI-ZH.md)  
+[XCharts3.0 问答](Documentation/XChartsFQA-ZH.md)  
+[XCharts3.0 配置项手册](Documentation/XChartsConfiguration-ZH.md)  
+[XCharts3.0 更新日志](CHANGELOG.md)  
 
 ## 特性
 

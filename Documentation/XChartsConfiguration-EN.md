@@ -1391,6 +1391,7 @@ Inherits or Implemented: [Axis](#Axis)
 
 The x axis in cartesian(rectangular) coordinate.
 
-n[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
+
+[XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts API](XChartsAPI-EN.md)</br>
 [XCharts Q&A](XChartsFQA-EN.md)

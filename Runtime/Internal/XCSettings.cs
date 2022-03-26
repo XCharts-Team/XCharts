@@ -129,7 +129,9 @@ namespace XCharts.Runtime
 #if UNITY_EDITOR
                     if (s_Instance == null)
                     {
-                        XChartsPackageResourceImporterWindow.ShowPackageImporterWindow();
+                        var isExist = System.IO.File.Exists("Assets/XCharts/Resources/XCSettings.asset");
+                        if(isExist)
+                            XChartsPackageResourceImporterWindow.ShowPackageImporterWindow();
                     }
                     else
                     {

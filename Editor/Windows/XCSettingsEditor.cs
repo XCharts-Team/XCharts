@@ -8,11 +8,6 @@ namespace XCharts.Editor
     [CustomEditor(typeof(XCSettings))]
     public class XCSettingsEditor : UnityEditor.Editor
     {
-        internal class Styles
-        {
-            public static readonly GUIContent defaultFontAssetLabel = new GUIContent("Default Font Asset", "The Font Asset that will be assigned by default to newly created text objects when no Font Asset is specified.");
-            public static readonly GUIContent defaultFontAssetPathLabel = new GUIContent("Path:        Resources/", "The relative path to a Resources folder where the Font Assets and Material Presets are located.\nExample \"Fonts & Materials/\"");
-        }
     }
 
 #if UNITY_2018_3_OR_NEWER
@@ -48,7 +43,7 @@ namespace XCharts.Editor
         static SettingsProvider[] CreateXCSettingsProvider()
         {
             var providers = new System.Collections.Generic.List<SettingsProvider> { new XCResourceImporterProvider() };
-
+            var isExist = File.Exists("Assets/XCharts/Resources/XCSettings.asset");
             if (GetSettings() != null)
             {
                 var provider = new AssetSettingsProvider("Project/XCharts/Settings", GetSettings);

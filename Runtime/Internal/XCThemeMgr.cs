@@ -23,9 +23,12 @@ namespace XCharts.Runtime
             XChartsMgr.themeNames.Clear();
             AddTheme(LoadTheme(ThemeType.Default));
             AddTheme(LoadTheme(ThemeType.Dark));
-            foreach (var theme in XCSettings.customThemes)
+            if (XCSettings.Instance != null)
             {
-                AddTheme(theme);
+                foreach (var theme in XCSettings.customThemes)
+                {
+                    AddTheme(theme);
+                }
             }
         }
 

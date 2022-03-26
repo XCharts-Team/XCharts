@@ -8,7 +8,6 @@ namespace XUGL
     public class SVGPath
     {
         private static Regex s_PathRegex = new Regex(@"(([a-z]|[A-Z])(\d|\.|,|-)*)");
-        // private static Regex s_PathValueRegex = new Regex(@"(^[a-z]|[A-Z])\s*(-?\d+\.*\d*)*[\s|,|-]*(\d+\.*\d*)*");
         private static Regex s_PathValueRegex = new Regex(@"(^[a-z]|[A-Z])\s*(-?\d+\.*\d*)*[\s|,|-]*(\d+\.*\d*)*");
         private static Regex s_PathValueRegex2 = new Regex(@"(-?\d+\.?\d*)");
         public bool mirrorY = true;

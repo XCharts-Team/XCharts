@@ -22,6 +22,25 @@
 - [SimplifiedCandlestick](#SimplifiedCandlestick)
 - [SimplifiedLine](#SimplifiedLine)
 
+## Theme
+
+- [AngleAxisTheme](#AngleAxisTheme)
+- [AxisTheme](#AxisTheme)
+- [BaseAxisTheme](#BaseAxisTheme)
+- [ComponentTheme](#ComponentTheme)
+- [DataZoomTheme](#DataZoomTheme)
+- [LegendTheme](#LegendTheme)
+- [PolarAxisTheme](#PolarAxisTheme)
+- [RadarAxisTheme](#RadarAxisTheme)
+- [RadiusAxisTheme](#RadiusAxisTheme)
+- [SerieTheme](#SerieTheme)
+- [SubTitleTheme](#SubTitleTheme)
+- [Theme](#Theme)
+- [ThemeStyle](#ThemeStyle)
+- [TitleTheme](#TitleTheme)
+- [TooltipTheme](#TooltipTheme)
+- [VisualMapTheme](#VisualMapTheme)
+
 ## MainComponent
 
 - [AngleAxis](#AngleAxis)
@@ -125,9 +144,9 @@
 - [DebugInfo](#DebugInfo)
 - [Indicator](#Indicator)
 - [Lang](#Lang)
+- [LangCandlestick](#LangCandlestick)
 - [LangTime](#LangTime)
 - [MainComponent](#MainComponent)
-- [Theme](#Theme)
 - [XCResourcesImporter](#XCResourcesImporter)
 - [XCSettings](#XCSettings)
 
@@ -430,7 +449,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 | `filterMode` | | The mode of data filter.</br>`DataZoom.FilterMode`:</br>- `Filter`: data that outside the window will be filtered, which may lead to some changes of windows of other axes. For each data item, it will be filtered if one of the relevant dimensions is out of the window.</br>- `WeakFilter`: data that outside the window will be filtered, which may lead to some changes of windows of other axes. For each data item, it will be filtered only if all of the relevant dimensions are out of the same side of the window.</br>- `Empty`: data that outside the window will be set to NaN, which will not lead to changes of windows of other axes.</br>- `None`: Do not filter data.</br>|
 | `xAxisIndexs` | | Specify which xAxis is controlled by the dataZoom. |
 | `yAxisIndexs` | | Specify which yAxis is controlled by the dataZoom. |
-| `supportInside` | | Whether built-in support is supported. |
+| `supportInside` | | Whether built-in support is supported. Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, mouse wheel, finger swiping (on the touch screen). |
 | `supportInsideScroll` |true | 是否支持坐标系内滚动 |
 | `supportInsideDrag` |true | 是否支持坐标系内拖拽 |
 | `supportSlider` | | Whether a slider is supported. There are separate sliders on which the user zooms or roams. |
@@ -449,7 +468,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 | `bottom` | | Distance between dataZoom component and the bottom side of the container. bottom value is a instant pixel value like 10 or float value [0-1]. |
 | `rangeMode` | | Use absolute value or percent value in DataZoom.start and DataZoom.end.</br>`DataZoom.RangeMode`:</br>- `//Value`: The value type of start and end.取值类型</br>- `Percent`: percent value.</br>|
 | `start` | | The start percentage of the window out of the data extent, in the range of 0 ~ 100. |
-| `end` | | The end percentage of the window out of the data extent, in the range of 0 ~ 100. 数据窗口范围的结束百分比。范围是：0 ~ 100。 |
+| `end` | | The end percentage of the window out of the data extent, in the range of 0 ~ 100. |
 | `startValue` | |  |
 | `endValue` | |  |
 | `minShowNum` |1 | Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum. |
@@ -644,6 +663,9 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 Language.
 
 
+## `LangCandlestick`
+
+
 ## `LangTime`
 
 
@@ -709,7 +731,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` | | Whether to show the arrow. |
-| `Position` | |  |
+| `position` | | The position of arrow.</br>`LineArrow.Position`:</br>- `End`: 末端箭头</br>- `Start`: 头端箭头</br>|
 | `arrow` | | the arrow of line. [ArrowStyle](ArrowStyle)|
 
 ## `LineStyle`

@@ -8,8 +8,7 @@ namespace XCharts.Runtime
     /// DataZoom component is used for zooming a specific area,
     /// which enables user to investigate data in detail,
     /// or get an overview of the data, or get rid of outlier points.
-    /// |
-    /// <para>DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。</para>
+    /// |DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(DataZoomHandler), true)]
@@ -132,7 +131,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether built-in support is supported.
-        /// |Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, 
+        /// Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, 
         /// mouse wheel, finger swiping (on the touch screen).
         /// |是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
         /// </summary>
@@ -303,7 +302,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.
-        /// 数据窗口范围的结束百分比。范围是：0 ~ 100。
+        /// |数据窗口范围的结束百分比。范围是：0 ~ 100。
         /// </summary>
         public float end
         {

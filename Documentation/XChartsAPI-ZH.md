@@ -35,7 +35,6 @@
 - [HeatmapChart](#HeatmapChart)
 - [InteractData](#InteractData)
 - [ItemStyleHelper](#ItemStyleHelper)
-- [LangCandlestick](#LangCandlestick)
 - [LayerHelper](#LayerHelper)
 - [LegendContext](#LegendContext)
 - [LegendHelper](#LegendHelper)
@@ -93,7 +92,7 @@
 - [VisualMapContext](#VisualMapContext)
 - [VisualMapHelper](#VisualMapHelper)
 - [XChartsMgr](#XChartsMgr)
-- [XChartsPackageResourceImporterWindow](#XChartsPackageResourceImporterWindow)
+- [XCResourceImporterWindow](#XCResourceImporterWindow)
 - [XCThemeMgr](#XCThemeMgr)
 
 ## `AnimationStyleHelper`
@@ -510,8 +509,6 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 |--|--|
 | `IsNeedCorner` |public static bool IsNeedCorner(ItemStyle itemStyle)</br> |
 
-## `LangCandlestick`
-
 ## `LayerHelper`
 
 |public method|description|
@@ -818,7 +815,6 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
-| `GetLastStackSerie` |public static Serie GetLastStackSerie(List<Serie> series, int index)</br>获得上一个同堆叠且显示的serie。 |
 | `GetLastStackSerie` |public static Serie GetLastStackSerie(List<Serie> series, Serie serie)</br>获得上一个同堆叠且显示的serie。 |
 | `GetLegalSerieNameList` |public static List<string> GetLegalSerieNameList(List<Serie> series)</br> |
 | `GetMaxSerieDataCount` |public static int GetMaxSerieDataCount(List<Serie> series)</br> |
@@ -826,8 +822,6 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetSerieByVesselIndex` |public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)</br> |
 | `GetStackSeries` |public static void GetStackSeries(List<Serie> series, ref Dictionary<int, List<Serie>> stackSeries)</br>获得堆叠系列列表 |
 | `IsAnyClipSerie` |public static bool IsAnyClipSerie(List<Serie> series)</br>是否有需裁剪的serie。 |
-| `IsAnyGradientSerie` |public static bool IsAnyGradientSerie(List<Serie> series, string stack)</br>同堆叠的serie是否有渐变色的。 |
-| `IsAnyUpdateAnimationSerie` |public static bool IsAnyUpdateAnimationSerie(List<Serie> series)</br> |
 | `IsLegalLegendName` |public static bool IsLegalLegendName(string name)</br> |
 | `IsStack` |public static bool IsStack(List<Serie> series)</br>是否由数据堆叠 |
 | `UpdateSerieNameList` |public static void UpdateSerieNameList(BaseChart chart, ref List<string> serieNameList)</br>获得所有系列名，不包含空名字。 |
@@ -971,14 +965,12 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetChart` |public static BaseChart GetChart(string chartName)</br> |
 | `GetCharts` |public static List<BaseChart> GetCharts(string chartName)</br> |
 | `GetPackageFullPath` |public static string GetPackageFullPath()</br> |
-| `GetRepeatChartNameInfo` |public static string GetRepeatChartNameInfo(BaseChart chart, string chartName)</br> |
 | `IsExistTMPAssembly` |public static bool IsExistTMPAssembly()</br> |
-| `IsRepeatChartName` |public static bool IsRepeatChartName(BaseChart chart, string chartName = null)</br> |
 | `ModifyTMPRefence` |public static bool ModifyTMPRefence(bool removeTMP = false)</br> |
 | `RemoveAllChartObject` |public static void RemoveAllChartObject()</br> |
 | `RemoveChart` |public static void RemoveChart(string chartName)</br> |
 
-## `XChartsPackageResourceImporterWindow`
+## `XCResourceImporterWindow`
 
 Inherits or Implemented: [UnityEditor.EditorWindow](#UnityEditor.EditorWindow)
 

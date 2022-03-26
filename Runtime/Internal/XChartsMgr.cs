@@ -86,33 +86,6 @@ namespace XCharts.Runtime
             return chartList.Contains(chart);
         }
 
-        public static bool IsRepeatChartName(BaseChart chart, string chartName = null)
-        {
-            if (chartName == null)
-                chartName = chart.chartName;
-            if (string.IsNullOrEmpty(chartName))
-                return false;
-            foreach (var temp in chartList)
-            {
-                if (temp != chart && chartName.Equals(temp.chartName))
-                    return true;
-            }
-            return false;
-        }
-
-        public static string GetRepeatChartNameInfo(BaseChart chart, string chartName)
-        {
-            if (string.IsNullOrEmpty(chartName))
-                return string.Empty;
-            string result = "";
-            foreach (var temp in chartList)
-            {
-                if (temp != chart && chartName.Equals(temp.chartName))
-                    result += ChartHelper.GetFullName(temp.transform) + "\n";
-            }
-            return result;
-        }
-
         public static void RemoveAllChartObject()
         {
             if (chartList.Count == 0)

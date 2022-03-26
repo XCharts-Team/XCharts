@@ -8,11 +8,9 @@
   "unity": "2018.3",
   "description": "A charting and data visualization library for Unity.",
   "keywords": [
-    "unity",
     "chart",
-    "xcharts",
-    "graphic",
-    "visualization",
+    "charts",
+    "graph",
     "data-visualization"
   ],
   "category": "chart",

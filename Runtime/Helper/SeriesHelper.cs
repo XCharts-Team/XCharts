@@ -110,26 +110,6 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 同堆叠的serie是否有渐变色的。
-        /// </summary>
-        /// <param name="stack"></param>
-        /// <returns></returns>
-        public static bool IsAnyGradientSerie(List<Serie> series, string stack)
-        {
-            if (string.IsNullOrEmpty(stack)) return false;
-            foreach (var serie in series)
-            {
-                if (serie.show && serie.areaStyle != null && serie.areaStyle.show && stack.Equals(serie.stack))
-                {
-                    if (!ChartHelper.IsValueEqualsColor(serie.areaStyle.color, serie.areaStyle.toColor)
-                    && !ChartHelper.IsClearColor(serie.areaStyle.toColor))
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// 是否有需裁剪的serie。
         /// </summary>
         /// <returns></returns>
@@ -138,18 +118,6 @@ namespace XCharts.Runtime
             foreach (var serie in series)
             {
                 if (serie.clip) return true;
-            }
-            return false;
-        }
-
-        public static bool IsAnyUpdateAnimationSerie(List<Serie> series)
-        {
-            foreach (var serie in series)
-            {
-                if (serie.animation.enable && serie.animation.dataChangeEnable)
-                {
-                    return true;
-                }
             }
             return false;
         }
@@ -168,17 +136,6 @@ namespace XCharts.Runtime
                 if (temp.show && serie.stack.Equals(temp.stack)) return temp;
             }
             return null;
-        }
-
-        /// <summary>
-        /// 获得上一个同堆叠且显示的serie。
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public static Serie GetLastStackSerie(List<Serie> series, int index)
-        {
-            var serie = series[index];
-            return GetLastStackSerie(series, serie);
         }
 
         public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)

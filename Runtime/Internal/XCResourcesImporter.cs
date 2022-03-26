@@ -21,7 +21,8 @@ namespace XCharts.Runtime
 
         public void OnGUI()
         {
-            m_EssentialResourcesImported = File.Exists("Assets/XCharts/Resources/XCSettings.asset");
+            m_EssentialResourcesImported = Resources.Load<XCSettings>("XCSettings") != null ||
+                XCSettings.ExistAssetFile();
 
             GUILayout.BeginVertical();
             {
@@ -125,17 +126,17 @@ namespace XCharts.Runtime
         }
     }
 
-    public class XChartsPackageResourceImporterWindow : UnityEditor.EditorWindow
+    public class XCResourceImporterWindow : UnityEditor.EditorWindow
     {
         [SerializeField] XCResourcesImporter m_ResourceImporter;
 
-        static XChartsPackageResourceImporterWindow m_ImporterWindow;
+        static XCResourceImporterWindow m_ImporterWindow;
 
         public static void ShowPackageImporterWindow()
         {
             if (m_ImporterWindow == null)
             {
-                m_ImporterWindow = GetWindow<XChartsPackageResourceImporterWindow>();
+                m_ImporterWindow = GetWindow<XCResourceImporterWindow>();
                 m_ImporterWindow.titleContent = new GUIContent("XCharts Importer");
             }
 

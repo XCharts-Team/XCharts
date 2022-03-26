@@ -9,12 +9,11 @@ using TMPro;
 
 namespace XCharts.Runtime
 {
-
-    [Serializable]
     /// <summary>
     /// Theme.
     /// |主题相关配置。
     /// </summary>
+    [Serializable]
     public class Theme : ScriptableObject
     {
         [SerializeField] private ThemeType m_ThemeType = ThemeType.Default;

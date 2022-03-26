@@ -129,9 +129,8 @@ namespace XCharts.Runtime
 #if UNITY_EDITOR
                     if (s_Instance == null)
                     {
-                        var isExist = System.IO.File.Exists("Assets/XCharts/Resources/XCSettings.asset");
-                        if(isExist)
-                            XChartsPackageResourceImporterWindow.ShowPackageImporterWindow();
+                        if (!ExistAssetFile())
+                            XCResourceImporterWindow.ShowPackageImporterWindow();
                     }
                     else
                     {
@@ -150,6 +149,11 @@ namespace XCharts.Runtime
                 }
                 return s_Instance;
             }
+        }
+
+        public static bool ExistAssetFile()
+        {
+            return System.IO.File.Exists("Assets/XCharts/Resources/XCSettings.asset");
         }
 
         public static bool AddCustomTheme(Theme theme)

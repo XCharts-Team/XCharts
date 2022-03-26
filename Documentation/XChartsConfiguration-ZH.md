@@ -22,6 +22,25 @@
 - [SimplifiedCandlestick](#SimplifiedCandlestick)
 - [SimplifiedLine](#SimplifiedLine)
 
+## Theme 主题
+
+- [AngleAxisTheme](#AngleAxisTheme)
+- [AxisTheme](#AxisTheme)
+- [BaseAxisTheme](#BaseAxisTheme)
+- [ComponentTheme](#ComponentTheme)
+- [DataZoomTheme](#DataZoomTheme)
+- [LegendTheme](#LegendTheme)
+- [PolarAxisTheme](#PolarAxisTheme)
+- [RadarAxisTheme](#RadarAxisTheme)
+- [RadiusAxisTheme](#RadiusAxisTheme)
+- [SerieTheme](#SerieTheme)
+- [SubTitleTheme](#SubTitleTheme)
+- [Theme](#Theme)
+- [ThemeStyle](#ThemeStyle)
+- [TitleTheme](#TitleTheme)
+- [TooltipTheme](#TooltipTheme)
+- [VisualMapTheme](#VisualMapTheme)
+
 ## MainComponent 主组件
 
 - [AngleAxis](#AngleAxis)
@@ -125,9 +144,9 @@
 - [DebugInfo](#DebugInfo)
 - [Indicator](#Indicator)
 - [Lang](#Lang)
+- [LangCandlestick](#LangCandlestick)
 - [LangTime](#LangTime)
 - [MainComponent](#MainComponent)
-- [Theme](#Theme)
 - [XCResourcesImporter](#XCResourcesImporter)
 - [XCSettings](#XCSettings)
 
@@ -422,7 +441,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 
 Inherits or Implemented: [MainComponent](#MainComponent),[IUpdateRuntimeData](#IUpdateRuntimeData)
 
-<para>DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。</para>
+DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。
 
 |field|default|comment|
 |--|--|--|
@@ -430,7 +449,7 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IUpdateRuntimeData](#I
 | `filterMode` | | 数据过滤类型。</br>`DataZoom.FilterMode`:</br>- `Filter`: 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只要有一个维度在数据窗口外，整个数据项就会被过滤掉。</br>- `WeakFilter`: 当前数据窗口外的数据，被 过滤掉。即 会 影响其他轴的数据范围。每个数据项，只有当全部维度都在数据窗口同侧外部，整个数据项才会被过滤掉。</br>- `Empty`: 当前数据窗口外的数据，被 设置为空。即 不会 影响其他轴的数据范围。</br>- `None`: 不过滤数据，只改变数轴范围。</br>|
 | `xAxisIndexs` | | 控制的 x 轴索引列表。 |
 | `yAxisIndexs` | | 控制的 y 轴索引列表。 |
-| `supportInside` | | Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, mouse wheel, finger swiping (on the touch screen). |
+| `supportInside` | | 是否支持内置。内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。 |
 | `supportInsideScroll` |true | 是否支持坐标系内滚动 |
 | `supportInsideDrag` |true | 是否支持坐标系内拖拽 |
 | `supportSlider` | | 是否支持滑动条。有单独的滑动条，用户在滑动条上进行缩放或漫游。 |
@@ -449,7 +468,7 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IUpdateRuntimeData](#I
 | `bottom` | | 组件离容器下侧的距离。 |
 | `rangeMode` | | 取绝对值还是百分比。</br>`DataZoom.RangeMode`:</br>- `//Value`: The value type of start and end.取值类型</br>- `Percent`: 百分比。</br>|
 | `start` | | 数据窗口范围的起始百分比。范围是：0 ~ 100。 |
-| `end` | | The end percentage of the window out of the data extent, in the range of 0 ~ 100. 数据窗口范围的结束百分比。范围是：0 ~ 100。 |
+| `end` | | 数据窗口范围的结束百分比。范围是：0 ~ 100。 |
 | `startValue` | |  |
 | `endValue` | |  |
 | `minShowNum` |1 | 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。 |
@@ -644,6 +663,9 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 国际化语言表。
 
 
+## `LangCandlestick`
+
+
 ## `LangTime`
 
 
@@ -709,7 +731,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` | | 是否显示箭头。 |
-| `Position` | |  |
+| `position` | | 箭头位置。</br>`LineArrow.Position`:</br>- `End`: 末端箭头</br>- `Start`: 头端箭头</br>|
 | `arrow` | | 箭头。 [ArrowStyle](ArrowStyle)|
 
 ## `LineStyle`

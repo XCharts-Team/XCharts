@@ -21,7 +21,7 @@ namespace XCharts.Runtime
             Start
         }
         [SerializeField] private bool m_Show;
-        [SerializeField] Position m_Position;
+        [SerializeField] private Position m_Position;
         [SerializeField]
         private ArrowStyle m_Arrow = new ArrowStyle()
         {

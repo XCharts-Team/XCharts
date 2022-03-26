@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Text;
 
 namespace XCharts.Runtime
 {
-
-    [Serializable]
-    [CreateAssetMenu(menuName = "XCharts/Export Lang")]
     /// <summary>
     /// Language.
     /// |国际化语言表。
     /// </summary>
+    [Serializable]
+    [CreateAssetMenu(menuName = "XCharts/Export Lang")]
     public class Lang : ScriptableObject
     {
         public string langName = "EN";
@@ -58,6 +56,7 @@ namespace XCharts.Runtime
             "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
     }
 
+    [Serializable]
     public class LangCandlestick
     {
         public List<string> dimensionNames = new List<string>() { "open", "close", "lowest", "highest" };

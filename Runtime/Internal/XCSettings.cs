@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.IO;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
@@ -129,8 +130,11 @@ namespace XCharts.Runtime
 #if UNITY_EDITOR
                     if (s_Instance == null)
                     {
-                        if (!ExistAssetFile())
+                        var assetPath = GetSettingAssetPath();
+                        if (string.IsNullOrEmpty(assetPath))
                             XCResourceImporterWindow.ShowPackageImporterWindow();
+                        else
+                            s_Instance = AssetDatabase.LoadAssetAtPath<XCSettings>(assetPath);
                     }
                     else
                     {
@@ -154,6 +158,32 @@ namespace XCharts.Runtime
         public static bool ExistAssetFile()
         {
             return System.IO.File.Exists("Assets/XCharts/Resources/XCSettings.asset");
+        }
+
+        public static string GetSettingAssetPath()
+        {
+            var path = "Assets/XCharts/Resources/XCSettings.asset";
+            if (File.Exists(path)) return path;
+            var dir = Application.dataPath;
+            string[] matchingPaths = Directory.GetDirectories(dir);
+            foreach (var match in matchingPaths)
+            {
+                if (match.Contains("XCharts"))
+                {
+                    var jsonPath = string.Format("{0}/package.json", match);
+                    if (File.Exists(jsonPath))
+                    {
+                        var jsonText = File.ReadAllText(jsonPath);
+                        if (jsonText.Contains("\"displayName\": \"XCharts\""))
+                        {
+                            path = string.Format("{0}/Resources/XCSettings.asset", match);
+                            if (File.Exists(path))
+                                return path.Substring(path.IndexOf("/Assets/") + 1);
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         public static bool AddCustomTheme(Theme theme)

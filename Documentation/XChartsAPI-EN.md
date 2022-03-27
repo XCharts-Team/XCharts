@@ -2,7 +2,7 @@
 
 [XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts Configuration](XChartsConfiguration-EN.md)</br>
-[XCharts Q&A](XChartsFQA-EN.md)
+[XCharts FAQ](XChartsFAQ-EN.md)
 
 ## Class
 
@@ -999,4 +999,4 @@ Inherits or Implemented: [UnityEditor.EditorWindow](#UnityEditor.EditorWindow)
 
 [XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts Configuration](XChartsConfiguration-EN.md)</br>
-[XCharts Q&A](XChartsFQA-EN.md)
+[XCharts FAQ](XChartsFAQ-EN.md)

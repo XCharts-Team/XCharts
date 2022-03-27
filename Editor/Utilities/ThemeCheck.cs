@@ -43,6 +43,7 @@ namespace XCharts.Editor
         public static void CheckDeletedAsset(string assetPath)
         {
             if (!IsThemeAsset(assetPath)) return;
+            if (XCSettings.Instance == null) return;
             var themes = XCSettings.customThemes;
             var changed = false;
 

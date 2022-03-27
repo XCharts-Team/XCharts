@@ -215,7 +215,7 @@ Since the data type is upgraded to `double`, the implicit conversion of `float` 
 ## v1.6.0
 
 * (2020.08.24) Release `v1.6.0` version
-* (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Documentation/XChartsFQA-ZH.md) to upgrade)
+* (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [FAQ 29](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Documentation/XChartsFAQ-ZH.md) to upgrade)
 * (2020.08.15) Optimized `PieChart` drawing performance effect #85
 * (2020.08.11) Added `LiquidChart` data change animation#83
 * (2020.08.11) Optimized `PieChart` text stack and lead line effects#85

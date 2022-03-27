@@ -2,7 +2,7 @@
 
 [XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
-[XCharts问答](XChartsFQA-ZH.md)
+[XCharts问答](XChartsFAQ-ZH.md)
 
 ## Serie 系列
 
@@ -1416,4 +1416,4 @@ Inherits or Implemented: [Axis](#Axis)
 
 [XCharts主页](https://github.com/XCharts-Team/XCharts)</br>
 [XChartsAPI接口](XChartsAPI-ZH.md)</br>
-[XCharts问答](XChartsFQA-ZH.md)
+[XCharts问答](XChartsFAQ-ZH.md)

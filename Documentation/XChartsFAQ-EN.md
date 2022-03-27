@@ -1,4 +1,4 @@
-# XCharts Q&A
+# XCharts FAQ
 
 [XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts API](XChartsAPI-EN.md)</br>

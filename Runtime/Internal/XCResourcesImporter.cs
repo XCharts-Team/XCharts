@@ -21,8 +21,7 @@ namespace XCharts.Runtime
 
         public void OnGUI()
         {
-            m_EssentialResourcesImported = Resources.Load<XCSettings>("XCSettings") != null ||
-                XCSettings.ExistAssetFile();
+            m_EssentialResourcesImported = Resources.Load<XCSettings>("XCSettings") != null;
 
             GUILayout.BeginVertical();
             {
@@ -33,15 +32,19 @@ namespace XCharts.Runtime
                     GUILayout.Space(5f);
 
                     GUI.enabled = !m_EssentialResourcesImported;
+                    GUI.enabled = true;
                     if (GUILayout.Button("Import XCharts Essentials"))
                     {
-                        string packageFullPath = GetPackageFullPath();
-                        var sourPath = Path.Combine(packageFullPath, "Resources");
-                        var destPath = Path.Combine(Application.dataPath, "XCharts/Resources");
-                        if (RuntimeUtil.CopyFolder(sourPath, destPath))
+                        string packageFullPath = XChartsMgr.GetPackageFullPath();
+                        if (packageFullPath != null)
                         {
-                            AssetDatabase.SaveAssets();
-                            AssetDatabase.Refresh();
+                            var sourPath = Path.Combine(packageFullPath, "Resources");
+                            var destPath = Path.Combine(Application.dataPath, "XCharts/Resources");
+                            if (RuntimeUtil.CopyFolder(sourPath, destPath))
+                            {
+                                AssetDatabase.SaveAssets();
+                                AssetDatabase.Refresh();
+                            }
                         }
                     }
                     GUILayout.Space(5f);
@@ -75,55 +78,6 @@ namespace XCharts.Runtime
 
             AssetDatabase.importPackageCompleted -= ImportCallback;
         }
-
-        static string GetPackageFullPath()
-        {
-            // Check for potential UPM package
-            string packagePath = Path.GetFullPath("Packages/com.monitor1394.xcharts");
-            if (Directory.Exists(packagePath))
-            {
-                return packagePath;
-            }
-
-            packagePath = Path.GetFullPath("Assets/..");
-            if (Directory.Exists(packagePath))
-            {
-                // Search default location for development package
-                if (Directory.Exists(packagePath + "/Assets/Packages/com.monitor1394.xcharts/Resources"))
-                {
-                    return packagePath + "/Assets/Packages/com.monitor1394.xcharts";
-                }
-
-                // Search for default location of normal XCharts AssetStore package
-                if (Directory.Exists(packagePath + "/Assets/XCharts/Resources"))
-                {
-                    return packagePath + "/Assets/XCharts";
-                }
-
-                // Search for potential alternative locations in the user project
-                string[] matchingPaths = Directory.GetDirectories(packagePath, "XCharts", SearchOption.AllDirectories);
-                string path = ValidateLocation(matchingPaths, packagePath);
-                if (path != null) return packagePath + path;
-            }
-
-            return null;
-        }
-
-        static string ValidateLocation(string[] paths, string projectPath)
-        {
-            for (int i = 0; i < paths.Length; i++)
-            {
-                // Check if the Editor Resources folder exists.
-                if (Directory.Exists(paths[i] + "/Package Resources"))
-                {
-                    string folderPath = paths[i].Replace(projectPath, "");
-                    folderPath = folderPath.TrimStart('\\', '/');
-                    return folderPath;
-                }
-            }
-
-            return null;
-        }
     }
 
     public class XCResourceImporterWindow : UnityEditor.EditorWindow
@@ -134,13 +88,16 @@ namespace XCharts.Runtime
 
         public static void ShowPackageImporterWindow()
         {
-            if (m_ImporterWindow == null)
+            var packagePath = XChartsMgr.GetPackageFullPath();
+            if (packagePath != null)
             {
-                m_ImporterWindow = GetWindow<XCResourceImporterWindow>();
-                m_ImporterWindow.titleContent = new GUIContent("XCharts Importer");
+                if (m_ImporterWindow == null)
+                {
+                    m_ImporterWindow = GetWindow<XCResourceImporterWindow>();
+                    m_ImporterWindow.titleContent = new GUIContent("XCharts Importer");
+                }
+                m_ImporterWindow.Focus();
             }
-
-            m_ImporterWindow.Focus();
         }
 
         void OnEnable()

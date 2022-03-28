@@ -28,6 +28,7 @@ namespace XCharts.Editor
         private bool m_CheckWarning = false;
         private int m_LastComponentCount = 0;
         private int m_LastSerieCount = 0;
+        private string m_VersionString = "";
         private StringBuilder sb = new StringBuilder();
         MainComponentListEditor m_ComponentList;
         SerieListEditor m_SerieList;
@@ -51,6 +52,10 @@ namespace XCharts.Editor
             RefreshSeries();
             m_SerieList = new SerieListEditor(this);
             m_SerieList.Init(m_Chart, serializedObject, m_Series);
+
+            m_VersionString = "v" + XChartsMgr.fullVersion;
+            if (m_EnableTextMeshPro.boolValue)
+                m_VersionString += "-tmp";
         }
 
         public List<SerializedProperty> RefreshComponent()
@@ -165,11 +170,7 @@ namespace XCharts.Editor
 
         private void ShowVersion()
         {
-            sb.Length = 0;
-            sb.AppendFormat("v{0}", XChartsMgr.fullVersion);
-            if(m_EnableTextMeshPro.boolValue)
-                sb.Append("-tmp");
-            EditorGUILayout.HelpBox(sb.ToString(), MessageType.None);
+            EditorGUILayout.HelpBox(m_VersionString, MessageType.None);
         }
 
         private void AddComponent()

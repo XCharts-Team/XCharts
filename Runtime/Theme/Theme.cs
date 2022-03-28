@@ -353,7 +353,6 @@ namespace XCharts.Runtime
             subTitle.tmpFont = tmpFont;
             legend.tmpFont = tmpFont;
             axis.tmpFont = tmpFont;
-            gauge.tmpFont = tmpFont;
             tooltip.tmpFont = tmpFont;
             dataZoom.tmpFont = tmpFont;
             visualMap.tmpFont = tmpFont;

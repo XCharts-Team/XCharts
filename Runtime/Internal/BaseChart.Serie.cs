@@ -854,6 +854,9 @@ namespace XCharts.Runtime
 
         private void ResetSeriesIndex()
         {
+#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
             for (int i = 0; i < m_Series.Count; i++)
             {
                 m_Series[i].index = i;

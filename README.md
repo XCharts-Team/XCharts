@@ -96,20 +96,19 @@
 - XCharts2.0 进入维护阶段，后续只修复严重bug理论上不再加新功能。
 - XCharts 理论上支持Unity 5.6及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提Issue。
 - XCharts 内置图表都为常见的图表，可以免费使用；扩展图表大部分为不常使用的图表，有需要的可付费获取，感谢对XCharts的支持。
+- 本仓库只包含XCharts源码，不包含Demo示例部分。需要查看Demo示例请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)
 
 ## 截图
-
-[XCharts Demo 项目](https://github.com/XCharts-Team/XCharts-Demo)
 
 ![buildinchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/buildinchart.png)
 
 ![extendchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
 
+更多效果请到 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) 查看
+
 ## 使用
 
-[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)  
-
-
+[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
 
 ## 日志
 

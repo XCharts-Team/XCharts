@@ -11,6 +11,15 @@ namespace XCharts.Editor
     [CustomEditor(typeof(BaseChart), true)]
     public class BaseChartEditor : UnityEditor.Editor
     {
+        class Styles
+        {
+            public static readonly GUIContent btnAddSerie = new GUIContent("Add Serie", "");
+            public static readonly GUIContent btnAddComponent = new GUIContent("Add Main Component", "");
+            public static readonly GUIContent btnCovertXYAxis = new GUIContent("Covert XY Axis", "");
+            public static readonly GUIContent btnRebuildChartObject = new GUIContent("Rebuild Chart Object", "");
+            public static readonly GUIContent btnCheckWarning = new GUIContent("Check Warning", "");
+            public static readonly GUIContent btnHideWarning = new GUIContent("Hide Warning", "");
+        }
         protected BaseChart m_Chart;
         protected SerializedProperty m_Script;
         protected SerializedProperty m_EnableTextMeshPro;
@@ -102,8 +111,6 @@ namespace XCharts.Editor
                 m_SerieList.UpdateSeriesProperty(m_Series);
             }
             OnStartInspectorGUI();
-            EditorGUILayout.Space();
-
             OnDebugInspectorGUI();
             EditorGUILayout.Space();
             serializedObject.ApplyModifiedProperties();
@@ -118,18 +125,23 @@ namespace XCharts.Editor
                 EditorGUILayout.PropertyField(m_Script);
                 EditorGUILayout.PropertyField(m_ChartName);
                 EditorGUILayout.PropertyField(m_RaycastTarget);
+                if (XChartsMgr.IsRepeatChartName(m_Chart, m_ChartName.stringValue))
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.HelpBox("chart name is repeated: " + m_ChartName.stringValue, MessageType.Error);
+                    EditorGUILayout.EndHorizontal();
+                }
             }
             EditorGUILayout.PropertyField(m_Theme);
             EditorGUILayout.PropertyField(m_Settings);
-
             m_ComponentList.OnGUI();
-
             m_SerieList.OnGUI();
         }
 
         protected virtual void OnDebugInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_DebugInfo, true);
+            EditorGUILayout.Space();
             AddSerie();
             AddComponent();
             CheckWarning();
@@ -175,7 +187,7 @@ namespace XCharts.Editor
 
         private void AddComponent()
         {
-            if (GUILayout.Button("Add Component"))
+            if (GUILayout.Button(Styles.btnAddComponent))
             {
                 var menu = new GenericMenu();
                 foreach (var type in GetMainComponentTypeNames())
@@ -198,7 +210,7 @@ namespace XCharts.Editor
         }
         private void AddSerie()
         {
-            if (GUILayout.Button("Add Serie"))
+            if (GUILayout.Button(Styles.btnAddSerie))
             {
                 var menu = new GenericMenu();
                 foreach (var type in GetSerieTypeNames())
@@ -261,22 +273,22 @@ namespace XCharts.Editor
         {
             if (m_Chart.HasChartComponent<XAxis>() && m_Chart.HasChartComponent<YAxis>())
             {
-                if (GUILayout.Button("Covert XY Axis"))
+                if (GUILayout.Button(Styles.btnCovertXYAxis))
                     m_Chart.CovertXYAxis(0);
             }
-            if (GUILayout.Button("Rebuild Chart Object"))
+            if (GUILayout.Button(Styles.btnRebuildChartObject))
             {
                 m_Chart.RebuildChartObject();
             }
             if (m_CheckWarning)
             {
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Check Warning"))
+                if (GUILayout.Button(Styles.btnCheckWarning))
                 {
                     m_CheckWarning = true;
                     m_Chart.CheckWarning();
                 }
-                if (GUILayout.Button("Hide Warning"))
+                if (GUILayout.Button(Styles.btnHideWarning))
                 {
                     m_CheckWarning = false;
                 }
@@ -297,7 +309,7 @@ namespace XCharts.Editor
             }
             else
             {
-                if (GUILayout.Button("Check warning"))
+                if (GUILayout.Button(Styles.btnCheckWarning))
                 {
                     m_CheckWarning = true;
                     m_Chart.CheckWarning();

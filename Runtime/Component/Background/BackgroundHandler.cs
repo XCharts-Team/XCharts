@@ -33,32 +33,6 @@ namespace XCharts.Runtime
             component.refreshComponent();
         }
 
-        //protected void DrawBackground(VertexHelper vh)
-        //{
-        //TODO: CooridateChart
-        // if (SeriesHelper.IsAnyClipSerie(m_Series))
-        // {
-        //     var xLineDiff = xAxis0.axisLine.GetWidth(m_Theme.axis.lineWidth);
-        //     var yLineDiff = yAxis0.axisLine.GetWidth(m_Theme.axis.lineWidth);
-        //     var xSplitDiff = xAxis0.splitLine.GetWidth(m_Theme.axis.splitLineWidth);
-        //     var ySplitDiff = yAxis0.splitLine.GetWidth(m_Theme.axis.splitLineWidth);
-        //     foreach (var grid in m_Grids)
-        //     {
-        //         var cpty = grid.context.runtimeY + grid.context.runtimeHeight + ySplitDiff;
-        //         var cp1 = new Vector3(grid.context.runtimeX - yLineDiff, grid.context.runtimeY - xLineDiff);
-        //         var cp2 = new Vector3(grid.context.runtimeX - yLineDiff, cpty);
-        //         var cp3 = new Vector3(grid.context.runtimeX + grid.context.runtimeWidth + xSplitDiff, cpty);
-        //         var cp4 = new Vector3(grid.context.runtimeX + grid.context.runtimeWidth + xSplitDiff, grid.context.runtimeY - xLineDiff);
-        //         var backgroundColor = ThemeHelper.GetBackgroundColor(m_Theme, m_Background);
-        //         UGL.DrawQuadrilateral(vh, cp1, cp2, cp3, cp4, backgroundColor);
-        //     }
-        // }
-        // else
-        // {
-        //     base.DrawBackground(vh);
-        // }
-        // }
-
         public override void DrawBase(VertexHelper vh)
         {
             if (!component.show)

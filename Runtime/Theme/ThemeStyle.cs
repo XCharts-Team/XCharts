@@ -138,7 +138,7 @@ namespace XCharts.Runtime
         public Color32 GetBackgroundColor(Background background)
         {
             if (background != null && background.show && background.hideThemeBackgroundColor)
-                return ChartConst.clearColor32;
+                return background.imageColor;
             else
                 return backgroundColor;
         }

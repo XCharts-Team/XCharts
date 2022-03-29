@@ -71,7 +71,7 @@ namespace XCharts.Runtime
 
         public override void SetDefaultValue()
         {
-            m_Show = false;
+            m_Show = true;
             m_Image = null;
             m_ImageType = Image.Type.Sliced;
             m_ImageColor = Color.white;

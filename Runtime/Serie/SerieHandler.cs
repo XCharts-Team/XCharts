@@ -233,8 +233,10 @@ namespace XCharts.Runtime
                 && (iconStyle == null || !iconStyle.show))
                 return false;
 
+            var dataAutoColor = (Color)chart.theme.GetColor(serieData.index);
+
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
-            var color = chart.theme.common.textColor;
+            var color = serieLabel.textStyle.autoColor ? dataAutoColor : chart.theme.common.textColor;
             var iconWidth = iconStyle != null ? iconStyle.width : 20;
             var iconHeight = iconStyle != null ? iconStyle.height : 20;
             var labelObj = SerieLabelPool.Get(textName, serieLabelRoot.transform, serieLabel, color,
@@ -246,7 +248,7 @@ namespace XCharts.Runtime
             item.SetIcon(iconImage);
             item.SetIconActive(iconStyle != null && iconStyle.show);
             if (serieLabel.textStyle.autoBackgroundColor)
-                item.color = chart.theme.GetColor(serieData.index);
+                item.color = dataAutoColor;
             else
                 item.color = serieLabel.textStyle.backgroundColor;
             serieData.labelObject = item;
@@ -317,7 +319,6 @@ namespace XCharts.Runtime
                 var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 var currLabel = isHighlight && emphasisLabel != null ? emphasisLabel : serieLabel;
-
                 serieData.labelObject.UpdateIcon(iconStyle);
                 if (serie.show
                     && currLabel != null
@@ -339,6 +340,8 @@ namespace XCharts.Runtime
                         textColor = currLabel.textStyle.color;
                     else if (isInsidePosition)
                         textColor = Color.white;
+                    if (currLabel.textStyle.autoColor && serie.useDataNameForColor)
+                        textColor = chart.theme.GetColor(serieData.index);
                     //text rotate
                     var rotate = currLabel.textStyle.rotate;
                     if (currLabel.textStyle.rotate > 0 && isInsidePosition)

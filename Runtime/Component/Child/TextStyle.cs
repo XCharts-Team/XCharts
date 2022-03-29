@@ -20,6 +20,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Rotate = 0;
         [SerializeField] private float m_ExtraWidth = 0;
         [SerializeField] private Vector2 m_Offset = Vector2.zero;
+        [SerializeField] private bool m_AutoColor = false;
         [SerializeField] private Color m_Color = Color.clear;
         [SerializeField] private bool m_AutoBackgroundColor = false;
         [SerializeField] private Color m_BackgroundColor = Color.clear;
@@ -61,9 +62,15 @@ namespace XCharts.Runtime
             get { return m_Offset; }
             set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetComponentDirty(); }
         }
-
         public Vector3 offsetv3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
-
+        /// <summary>
+        /// 是否开启自动颜色。当开启时，会自动设置颜色。
+        /// </summary>
+        public bool autoColor
+        {
+            get { return m_AutoColor; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the color of text.
         /// |文本的颜色。
@@ -207,7 +214,9 @@ namespace XCharts.Runtime
             font = textStyle.font;
             rotate = textStyle.rotate;
             offset = textStyle.offset;
+            autoColor = textStyle.autoColor;
             color = textStyle.color;
+            autoBackgroundColor = textStyle.autoBackgroundColor;
             backgroundColor = textStyle.backgroundColor;
             fontSize = textStyle.fontSize;
             fontStyle = textStyle.fontStyle;
@@ -250,6 +259,14 @@ namespace XCharts.Runtime
         public TextAnchor GetAlignment(TextAnchor systemAlignment)
         {
             return m_AutoAlign ? systemAlignment : alignment;
+        }
+
+        public Color32 GetBackgroundColor(Color32 chartBackgroundColor)
+        {
+            if (m_AutoColor || ChartHelper.IsClearColor(m_BackgroundColor))
+                return chartBackgroundColor;
+            else
+                return m_BackgroundColor;
         }
     }
 }

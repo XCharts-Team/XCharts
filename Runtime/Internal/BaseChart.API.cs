@@ -481,5 +481,11 @@ namespace XCharts.Runtime
                 m_PainterTop.material = material;
             }
         }
+
+        public Color32 GetChartBackgroundColor()
+        {
+            var background = GetChartComponent<Background>();
+            return theme.GetBackgroundColor(background);
+        }
     }
 }

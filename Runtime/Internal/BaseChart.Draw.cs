@@ -112,7 +112,7 @@ namespace XCharts.Runtime
             Vector3 pos, Color32 color, Color32 toColor, Color32 emptyColor, Color32 borderColor,
             float gap, float[] cornerRadius, Vector3 startPos)
         {
-            var backgroundColor = theme.GetBackgroundColor(GetChartComponent<Background>());
+            var backgroundColor = GetChartBackgroundColor();
             if (ChartHelper.IsClearColor(emptyColor))
                 emptyColor = backgroundColor;
             var smoothness = settings.cicleSmoothness;

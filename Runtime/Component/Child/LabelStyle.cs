@@ -1,6 +1,4 @@
-﻿
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -69,7 +67,6 @@ namespace XCharts.Runtime
             End
         }
 
-
         [SerializeField] private bool m_Show = true;
         [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
@@ -81,7 +78,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_BackgroundHeight = 0;
         [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_AutoOffset = false;
-        [SerializeField] private bool m_AutoColor = false;
+        
         [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         private SerieLabelFormatterFunction m_FormatterFunction;
 
@@ -97,7 +94,6 @@ namespace XCharts.Runtime
             m_BackgroundHeight = 0;
             m_NumericFormatter = "";
             m_AutoOffset = false;
-            m_AutoColor = false;
         }
 
         /// <summary>
@@ -211,14 +207,7 @@ namespace XCharts.Runtime
             get { return m_AutoOffset; }
             set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
         }
-        /// <summary>
-        /// 是否开启自动颜色。当开启时，会根据已支持的serie自动设置颜色。
-        /// </summary>
-        public bool autoColor
-        {
-            get { return m_AutoColor; }
-            set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetAllDirty(); }
-        }
+        
 
         /// <summary>
         /// the sytle of text.

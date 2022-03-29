@@ -198,7 +198,7 @@ namespace XCharts.Runtime
                         UGL.DrawDiamond(vh, rect.center, radius, color);
                         break;
                     case Legend.Type.EmptyCircle:
-                        var backgroundColor = chart.theme.GetBackgroundColor(chart.GetChartComponent<Background>());
+                        var backgroundColor = chart.GetChartBackgroundColor();
                         UGL.DrawEmptyCricle(vh, rect.center, radius, 2 * chart.settings.legendIconLineWidth,
                             color, color, backgroundColor, 1f);
                         break;

@@ -78,12 +78,14 @@ namespace XCharts.Runtime
                 var element = ChartHelper.AddSerieLabel(textName, m_MarkLineLabelRoot.transform, label.backgroundWidth,
                     label.backgroundHeight, color, label.textStyle, chart.theme);
                 var isAutoSize = label.backgroundWidth == 0 || label.backgroundHeight == 0;
+                var backgroundColor = label.textStyle.GetBackgroundColor(chart.GetChartBackgroundColor());
                 var item = ChartHelper.GetOrAddComponent<ChartLabel>(element);
                 item.SetLabel(element, isAutoSize, label.paddingLeftRight, label.paddingTopBottom);
                 item.SetIconActive(false);
                 item.SetActive(data.label.show);
                 item.SetPosition(MarkLineHelper.GetLabelPosition(data));
                 item.SetText(MarkLineHelper.GetFormatterContent(serie, data));
+                item.color = backgroundColor;
                 data.runtimeLabel = item;
             };
             data.refreshComponent();

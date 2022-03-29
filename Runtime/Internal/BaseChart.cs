@@ -597,7 +597,9 @@ namespace XCharts.Runtime
 
         protected virtual void DrawBackground(VertexHelper vh)
         {
-            if (HasChartComponent<Background>()) return;
+            var background = GetChartComponent<Background>();
+            if (background != null && background.show)
+                return;
             Vector3 p1 = new Vector3(chartX, chartY + chartHeight);
             Vector3 p2 = new Vector3(chartX + chartWidth, chartY + chartHeight);
             Vector3 p3 = new Vector3(chartX + chartWidth, chartY);

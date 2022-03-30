@@ -1,9 +1,9 @@
 {
   "name": "com.monitor1394.xcharts",
   "displayName": "XCharts",
-  "version": "3.0.0-preview5",
-  "date": "20220326",
-  "checkdate": "20220326",
+  "version": "3.0.0-preview6",
+  "date": "20220330",
+  "checkdate": "20220330",
   "desc": "如果 XCharts 对您有帮助，希望您能在 Github 上点 Star 支持，非常感谢！",
   "unity": "2018.3",
   "description": "A charting and data visualization library for Unity.",

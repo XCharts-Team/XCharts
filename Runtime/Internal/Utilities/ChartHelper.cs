@@ -413,7 +413,7 @@ namespace XCharts.Runtime
             label.UpdateIcon(iconStyle, axis.GetIcon(index));
             label.label.SetActive(labelShow);
             label.SetText(content);
-            label.color = textStyle.color;
+            label.color = textStyle.backgroundColor;
             return label;
         }
 
@@ -428,7 +428,7 @@ namespace XCharts.Runtime
             label.SetAutoSize(true);
             label.label.SetActive(true);
             label.SetText(content);
-            label.color = textStyle.color;
+            label.color = textStyle.backgroundColor;
             return label;
         }
 
@@ -473,7 +473,7 @@ namespace XCharts.Runtime
             label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme.tooltip, label.label);
             label.SetAutoSize(true);
             label.SetText("");
-            label.color = textStyle.color;
+            label.color = textStyle.backgroundColor;
             return label;
         }
 

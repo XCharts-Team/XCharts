@@ -193,20 +193,5 @@ namespace XCharts.Editor
             XChartsMgr.ModifyTMPRefence(true);
             XChartsMgr.DisableTextMeshPro();
         }
-
-        [MenuItem("XCharts/Theme/Export Default Theme")]
-        public static void ExportDefaultTheme()
-        {
-            var profile = ScriptableObject.CreateInstance<Theme>();
-            profile.name = "Default";
-            profile.themeName = "Default";
-            profile.themeType = ThemeType.Default;
-
-            var themeName = XCSettings.THEME_ASSET_NAME_PREFIX + profile.themeName;
-            var path = XCSettings.THEME_ASSET_FOLDER + "/" + themeName + ".asset";
-            AssetDatabase.CreateAsset(profile, path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-        }
     }
 }

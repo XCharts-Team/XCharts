@@ -44,6 +44,7 @@ namespace XCharts.Editor
                     XCThemeMgr.SwitchTheme(chart, chartNameList[selectedIndex]);
                 }
                 PropertyField(prop, "m_SharedTheme");
+                PropertyField(prop, "m_TransparentBackground");
                 PropertyField(prop, "m_EnableCustomTheme");
                 using (new EditorGUI.DisabledScope(!prop.FindPropertyRelative("m_EnableCustomTheme").boolValue))
                 {

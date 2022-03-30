@@ -41,7 +41,8 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Theme m_SharedTheme;
-        [SerializeField] private bool m_EnableCustomTheme;
+        [SerializeField] private bool m_TransparentBackground = false;
+        [SerializeField] private bool m_EnableCustomTheme = false;
         [SerializeField] private Font m_CustomFont;
         [SerializeField] private Color32 m_CustomBackgroundColor;
 #if UNITY_2020_2
@@ -83,8 +84,27 @@ namespace XCharts.Runtime
         /// </summary>
         public Color32 backgroundColor
         {
-            get { return m_EnableCustomTheme ? m_CustomBackgroundColor : sharedTheme.backgroundColor; }
+            get
+            {
+                if (m_TransparentBackground) return ColorUtil.clearColor32;
+                else return m_EnableCustomTheme ? m_CustomBackgroundColor : sharedTheme.backgroundColor;
+            }
         }
+        /// <summary>
+        /// Whether the background color is transparent. When true, the background color is not drawn.
+        /// ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。
+        /// </summary>
+        public bool transparentBackground
+        {
+            get { return m_TransparentBackground; }
+            set { m_TransparentBackground = value; SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether to customize theme colors. When set to true, 
+        /// you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
+        /// |是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。
+        /// </summary>
+        /// <value></value>
         public bool enableCustomTheme
         {
             get { return m_EnableCustomTheme; }

@@ -71,6 +71,9 @@ namespace XCharts.Runtime
             AddComponent(component);
             m_Components.Sort();
             CreateComponentHandler(component);
+#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
             return component;
         }
 

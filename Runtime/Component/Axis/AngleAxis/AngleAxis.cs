@@ -9,6 +9,7 @@ namespace XCharts.Runtime
     /// |极坐标系的角度轴。
     /// </summary>
     [System.Serializable]
+    [RequireChartComponent(typeof(PolarCoord))]
     [ComponentHandler(typeof(AngleAxisHandler), true)]
     public class AngleAxis : Axis
     {

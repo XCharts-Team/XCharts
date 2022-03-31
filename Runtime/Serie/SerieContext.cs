@@ -15,7 +15,7 @@ namespace XCharts.Runtime
             this.isIgnoreBreak = ignore;
         }
     }
-    
+
     public class SerieContext
     {
         /// <summary>
@@ -31,52 +31,52 @@ namespace XCharts.Runtime
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();
         public bool isTriggerByAxis = false;
-        
+
         /// <summary>
         /// 中心点
         /// </summary>
-        public Vector3 center { get; internal set; }
+        public Vector3 center;
         /// <summary>
         /// 内半径
         /// </summary>
-        public float insideRadius { get; set; }
+        public float insideRadius;
         /// <summary>
         /// 外半径
         /// </summary>
-        public float outsideRadius { get; set; }
+        public float outsideRadius;
         /// <summary>
         /// 最大值
         /// </summary>
-        public double dataMax { get; internal set; }
+        public double dataMax;
         /// <summary>
         /// 最小值
         /// </summary>
-        public double dataMin { get; internal set; }
-        public double checkValue { get; set; }
+        public double dataMin;
+        public double checkValue;
         /// <summary>
         /// 左下角坐标X
         /// </summary>
-        public float x { get; internal set; }
+        public float x;
         /// <summary>
         /// 左下角坐标Y
         /// </summary>
-        public float y { get; internal set; }
+        public float y;
         /// <summary>
         /// 宽
         /// </summary>
-        public float width { get; internal set; }
+        public float width;
         /// <summary>
         /// 高
         /// </summary>
-        public float height { get; internal set; }
+        public float height;
         /// <summary>
         /// 矩形区域
         /// </summary>
-        public Rect rect { get; internal set; }
+        public Rect rect;
         /// <summary>
         /// 绘制顶点数
         /// </summary>
-        public int vertCount { get; internal set; }
+        public int vertCount;
         /// <summary>
         /// 数据对应的位置坐标。
         /// </summary>

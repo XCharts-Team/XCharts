@@ -543,7 +543,7 @@ namespace XCharts.Runtime
             }
         }
 
-        internal void CheckSymbol(float dest)
+        public void CheckSymbol(float dest)
         {
             if (!enable || m_IsEnd || m_IsPause || !m_IsInit)
                 return;

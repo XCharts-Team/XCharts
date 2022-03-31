@@ -8,6 +8,7 @@ namespace XCharts.Runtime
     /// |极坐标系的径向轴。
     /// </summary>
     [System.Serializable]
+    [RequireChartComponent(typeof(PolarCoord))]
     [ComponentHandler(typeof(RadiusAxisHandler), true)]
     public class RadiusAxis : Axis
     {

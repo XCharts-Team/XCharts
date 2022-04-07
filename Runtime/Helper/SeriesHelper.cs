@@ -58,11 +58,12 @@ namespace XCharts.Runtime
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
-                        if (serie is Pie && serie.IsIgnoreValue(serie.data[i])) continue;
-                        if (string.IsNullOrEmpty(serie.data[i].name))
+                        var serieData = serie.data[i];
+                        if (serie is Pie && serie.IsIgnoreValue(serieData)) continue;
+                        if (string.IsNullOrEmpty(serieData.name))
                             serieNameList.Add(ChartCached.IntToStr(i));
-                        else if (!serieNameList.Contains(serie.data[i].name))
-                            serieNameList.Add(serie.data[i].name);
+                        else if (!serieNameList.Contains(serieData.name))
+                            serieNameList.Add(serieData.name);
                     }
                 }
                 else

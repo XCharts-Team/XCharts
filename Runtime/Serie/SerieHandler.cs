@@ -82,6 +82,7 @@ namespace XCharts.Runtime
             }
             if (serie.dataDirty)
             {
+                SeriesHelper.UpdateSerieNameList(chart, ref chart.m_LegendRealShowName);
                 serie.OnDataUpdate();
                 serie.dataDirty = false;
             }

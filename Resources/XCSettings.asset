@@ -48,10 +48,5 @@ MonoBehaviour:
   m_PieTooltipExtraRadius: 8
   m_PieSelectedOffset: 8
   m_CustomThemes:
-  - {fileID: 0}
   - {fileID: 11400000, guid: 289d2fc7f4ce24f73b9ed8ec52639f72, type: 2}
   - {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 11400000, guid: 0a4f01779f9b24f48846f968fe013a57, type: 2}
-  - {fileID: 11400000, guid: 4d093c897dc514d12aca94b6b17cb4fa, type: 2}

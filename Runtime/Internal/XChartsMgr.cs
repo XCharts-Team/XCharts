@@ -20,8 +20,8 @@ namespace XCharts.Runtime
     [ExecuteInEditMode]
     public static class XChartsMgr
     {
-        public static readonly string version = "3.0.0-preview6";
-        public static readonly int versionDate = 20220330;
+        public static readonly string version = "3.0.0-preview7";
+        public static readonly int versionDate = 20220407;
         public static string fullVersion { get { return version + "-" + versionDate; } }
 
         internal static List<BaseChart> chartList = new List<BaseChart>();

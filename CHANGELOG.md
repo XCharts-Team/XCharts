@@ -2,6 +2,13 @@
 # 更新日志
 
 [master](#master)
+[v3.0.0-preivew7](#v3.0.0-preivew7)
+[v3.0.0-preivew6](#v3.0.0-preivew6)
+[v3.0.0-preivew5](#v3.0.0-preivew5)
+[v3.0.0-preivew4](#v3.0.0-preivew4)
+[v3.0.0-preivew3](#v3.0.0-preivew3)
+[v3.0.0-preivew2](#v3.0.0-preivew2)
+[v3.0.0-preivew1](#v3.0.0-preivew1)
 [v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
 [v2.5.0](#v2.5.0)  
@@ -43,10 +50,35 @@
 
 ## master
 
+## v3.0.0-preivew7
+
+* (2022.04.07) 发布`v3.0.0-preivew7`版本
+* (2022.04.07) 修复`Pie`颜色不刷新的问题
+* (2022.03.31) 修复`Add Main Component`添加组件异常的问题
+* (2022.03.30) 修复`Axis`无法自定义`Label`颜色的问题
+
+## v3.0.0-preivew6
+
+* (2022.03.30) 发布`v3.0.0-preivew6`版本
+
+## v3.0.0-preivew5
+
 * (2022.03.26) 发布`v3.0.0-preivew5`版本
+
+## v3.0.0-preivew4
+
 * (2022.03.21) 发布`v3.0.0-preivew4`版本
+
+## v3.0.0-preivew3
+
 * (2022.03.09) 发布`v3.0.0-preivew3`版本
+
+## v3.0.0-preivew2
+
 * (2022.01.08) 发布`v3.0.0-preivew2`版本
+
+## v3.0.0-preivew1
+
 * (2022.01.07) 发布`v3.0.0-preivew1`版本
 
 ## v2.7.0

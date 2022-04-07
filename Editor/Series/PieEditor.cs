@@ -11,6 +11,7 @@ namespace XCharts.Editor
             PropertyField("m_Gap");
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
+            //PropertyField("m_StartAngle");
 
             PropertyFiledMore(() =>
             {

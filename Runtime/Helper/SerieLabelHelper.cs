@@ -79,6 +79,7 @@ namespace XCharts.Runtime
         public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)
         {
             if (serieData.labelObject == null) return;
+            var startAngle = serie.context.startAngle;
             var currAngle = serieData.context.halfAngle;
             var currRad = currAngle * Mathf.Deg2Rad;
             var offsetRadius = serieData.context.offsetRadius;
@@ -105,7 +106,7 @@ namespace XCharts.Runtime
                         var currSin = Mathf.Sin(currRad);
                         var currCos = Mathf.Cos(currRad);
                         var pos0 = new Vector3(serie.context.center.x + radius3 * currSin, serie.context.center.y + radius3 * currCos);
-                        if (currAngle > 180)
+                        if ((currAngle - startAngle) % 360 > 180)
                         {
                             currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
                             currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
@@ -113,7 +114,7 @@ namespace XCharts.Runtime
                         var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
                         r4 += labelLine.lineLength1 + labelLine.lineWidth * 4;
                         r4 += serieData.labelObject.label.GetPreferredWidth() / 2;
-                        serieData.context.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
+                        serieData.context.labelPosition = pos0 + ((currAngle - startAngle) % 360 > 180 ? Vector3.left : Vector3.right) * r4;
                     }
                     else
                     {
@@ -184,11 +185,11 @@ namespace XCharts.Runtime
                     serieData.context.labelPosition = new Vector3(x1, y1);
                 }
                 lastCheckPos = serieData.context.labelPosition;
-                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel, labelLine));
+                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serie, serieData, serieLabel, labelLine));
             }
         }
 
-        public static Vector3 GetRealLabelPosition(SerieData serieData, LabelStyle label, LabelLine labelLine)
+        public static Vector3 GetRealLabelPosition(Serie serie, SerieData serieData, LabelStyle label, LabelLine labelLine)
         {
             if (label == null || labelLine == null)
                 return serieData.context.labelPosition;
@@ -197,7 +198,7 @@ namespace XCharts.Runtime
             {
                 var currAngle = serieData.context.halfAngle;
                 var offset = labelLine.lineLength2 + serieData.labelObject.GetLabelWidth() / 2;
-                if (currAngle > 180)
+                if ((currAngle - serie.context.startAngle) % 360 > 180)
                     return serieData.context.labelPosition + new Vector3(-offset, 0, 0);
                 else
                     return serieData.context.labelPosition + new Vector3(offset, 0, 0);

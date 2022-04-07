@@ -44,6 +44,7 @@ namespace XCharts.Runtime
         /// 外半径
         /// </summary>
         public float outsideRadius;
+        public float startAngle;
         /// <summary>
         /// 最大值
         /// </summary>

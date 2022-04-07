@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
         {
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
-            return SerieLabelHelper.GetRealLabelPosition(serieData, label, labelLine);
+            return SerieLabelHelper.GetRealLabelPosition(serie, serieData, label, labelLine);
         }
 
         public override void OnLegendButtonClick(int index, string legendName, bool show)
@@ -151,11 +151,12 @@ namespace XCharts.Runtime
         {
             var data = serie.data;
             serie.context.dataMax = serie.yMax;
+            serie.context.startAngle = GetStartAngle(serie);
             var runtimePieDataTotal = serie.yTotal;
 
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            float startDegree = serie.context.startAngle;
             float totalDegree = 0;
-            float startDegree = 0;
             float zeroReplaceValue = 0;
             int showdataCount = 0;
             foreach (var sd in serie.data)
@@ -253,7 +254,7 @@ namespace XCharts.Runtime
 
         private double GetTotalAngle(Serie serie, double dataTotal, ref float totalAngle)
         {
-            totalAngle = 360f;
+            totalAngle = serie.context.startAngle + 360f;
             if (serie.minAngle > 0)
             {
                 var rate = serie.minAngle / 360;
@@ -435,6 +436,7 @@ namespace XCharts.Runtime
                 Vector3 pos4, pos6;
                 var horizontalLineCircleRadius = labelLine.lineWidth * 4f;
                 var lineCircleDiff = horizontalLineCircleRadius - 0.3f;
+                var startAngle = serie.context.startAngle;
                 if (currAngle < 90)
                 {
                     var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
@@ -467,7 +469,8 @@ namespace XCharts.Runtime
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
                     pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos5X = currAngle > 180 ? pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
+                var pos5X = (currAngle - startAngle) % 360 > 180
+                    ? pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
                 var pos5 = new Vector3(pos5X, pos2.y);
                 switch (labelLine.lineType)
                 {
@@ -525,6 +528,33 @@ namespace XCharts.Runtime
                 return true;
 
             return false;
+        }
+
+        private float GetStartAngle(Serie serie)
+        {
+            return serie.clockwise ? (serie.startAngle + 360) % 360 : 360 - serie.startAngle;
+        }
+
+        private float GetToAngle(Serie serie, float angle)
+        {
+            var toAngle = angle + serie.startAngle;
+            if (!serie.clockwise)
+            {
+                toAngle = 360 - angle - serie.startAngle;
+            }
+            if (!serie.animation.IsFinish())
+            {
+                var currAngle = serie.animation.GetCurrDetail();
+                if (serie.clockwise)
+                {
+                    toAngle = toAngle > currAngle ? currAngle : toAngle;
+                }
+                else
+                {
+                    toAngle = toAngle < 360 - currAngle ? 360 - currAngle : toAngle;
+                }
+            }
+            return toAngle;
         }
     }
 }

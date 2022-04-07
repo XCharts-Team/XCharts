@@ -653,7 +653,6 @@ Text label of chart, to explain some data information about graphic item like va
 | `backgroundHeight` |0 | the height of background. If set as default value 0, it means than the background height auto set as the text height. |
 | `numericFormatter` | | Standard numeric format strings. |
 | `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
-| `autoColor` |false | 是否开启自动颜色。当开启时，会根据已支持的serie自动设置颜色。 |
 | `textStyle` | | the sytle of text. [TextStyle](TextStyle)|
 
 ## `Lang`
@@ -865,9 +864,9 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether to show the polor component. |
-| `center` | | [default:[0.5f,0.45f]]The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. |
-| `radius` |0.35f | [default:0.35f]the radius of polar. |
-| `backgroundColor` | | [default:Color.clear]Background color of polar, which is transparent by default. |
+| `center` | | The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart. |
+| `radius` |0.35f | the radius of polar. |
+| `backgroundColor` | | Background color of polar, which is transparent by default. |
 
 ## `Radar`
 
@@ -1160,6 +1159,7 @@ Settings related to text.
 | `rotate` |0 | Rotation of text. |
 | `extraWidth` |0 | Extra width of text preferred width. |
 | `offset` |Vector2.zero | the offset of position. |
+| `autoColor` |false | 是否开启自动颜色。当开启时，会自动设置颜色。 |
 | `color` | | the color of text. |
 | `autoBackgroundColor` |false |  |
 | `backgroundColor` | | the color of text. |
@@ -1206,7 +1206,8 @@ Theme.
 |--|--|--|
 | `show` |true |  |
 | `sharedTheme` | |  [Theme](Theme)|
-| `enableCustomTheme` | |  |
+| `transparentBackground` |false | Whether the background color is transparent. When true, the background color is not drawn. ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。 |
+| `enableCustomTheme` |false | Whether to customize theme colors. When set to true, you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually. |
 | `customFont` | |  |
 | `customBackgroundColor` | | the custom background color of chart. |
 | `customColorPalette` | |  |

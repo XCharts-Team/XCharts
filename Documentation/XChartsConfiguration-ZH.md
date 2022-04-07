@@ -653,7 +653,6 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 | `backgroundHeight` |0 | 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。 |
 | `numericFormatter` | | 标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings |
 | `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
-| `autoColor` |false | 是否开启自动颜色。当开启时，会根据已支持的serie自动设置颜色。 |
 | `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
 
 ## `Lang`
@@ -865,7 +864,7 @@ Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieCo
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示极坐标。 |
-| `center` | | When value between 0 and 1 represents a percentage  relative to the chart. |
+| `center` | | 极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。 |
 | `radius` |0.35f | 极坐标的半径。 |
 | `backgroundColor` | | 极坐标的背景色，默认透明。 |
 
@@ -1160,6 +1159,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `rotate` |0 | 文本的旋转。 [default: `0f`] |
 | `extraWidth` |0 | 额外的宽度 |
 | `offset` |Vector2.zero | 坐标偏移。 [Default: `Vector2.zero`] |
+| `autoColor` |false | 是否开启自动颜色。当开启时，会自动设置颜色。 |
 | `color` | | 文本的颜色。 [default: `Color.clear`] |
 | `autoBackgroundColor` |false |  |
 | `backgroundColor` | | 文本的背景颜色。 [default: `Color.clear`] |
@@ -1206,7 +1206,8 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |--|--|--|
 | `show` |true |  |
 | `sharedTheme` | |  [Theme](Theme)|
-| `enableCustomTheme` | |  |
+| `transparentBackground` |false | Whether the background color is transparent. When true, the background color is not drawn. ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。 |
+| `enableCustomTheme` |false | 是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。 |
 | `customFont` | |  |
 | `customBackgroundColor` | | 自定义的背景颜色。 |
 | `customColorPalette` | |  |

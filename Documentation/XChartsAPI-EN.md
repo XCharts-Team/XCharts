@@ -172,6 +172,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `CovertXYAxis` |public void CovertXYAxis(int index)</br>转换X轴和Y轴的配置 |
 | `GenerateDefaultSerieName` |public string GenerateDefaultSerieName()</br> |
 | `GetAllSerieDataCount` |public int GetAllSerieDataCount()</br> |
+| `GetChartBackgroundColor` |public Color32 GetChartBackgroundColor()</br> |
 | `GetChartComponentNum` |public int GetChartComponentNum(Type type)</br> |
 | `GetData` |public double GetData(int serieIndex, int dataIndex, int dimension = 1)</br> |
 | `GetData` |public double GetData(string serieName, int dataIndex, int dimension = 1)</br> |
@@ -797,7 +798,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `AvoidLabelOverlap` |public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)</br> |
 | `CanShowLabel` |public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)</br> |
 | `GetLabelColor` |public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)</br> |
-| `GetRealLabelPosition` |public static Vector3 GetRealLabelPosition(SerieData serieData, LabelStyle label, LabelLine labelLine)</br> |
+| `GetRealLabelPosition` |public static Vector3 GetRealLabelPosition(Serie serie, SerieData serieData, LabelStyle label, LabelLine labelLine)</br> |
 | `SetGaugeLabelText` |public static void SetGaugeLabelText(Serie serie)</br> |
 | `UpdatePieLabelPosition` |public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)</br> |
 
@@ -965,7 +966,9 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetChart` |public static BaseChart GetChart(string chartName)</br> |
 | `GetCharts` |public static List<BaseChart> GetCharts(string chartName)</br> |
 | `GetPackageFullPath` |public static string GetPackageFullPath()</br> |
+| `GetRepeatChartNameInfo` |public static string GetRepeatChartNameInfo(BaseChart chart, string chartName)</br> |
 | `IsExistTMPAssembly` |public static bool IsExistTMPAssembly()</br> |
+| `IsRepeatChartName` |public static bool IsRepeatChartName(BaseChart chart, string chartName = null)</br> |
 | `ModifyTMPRefence` |public static bool ModifyTMPRefence(bool removeTMP = false)</br> |
 | `RemoveAllChartObject` |public static void RemoveAllChartObject()</br> |
 | `RemoveChart` |public static void RemoveChart(string chartName)</br> |

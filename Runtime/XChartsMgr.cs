@@ -57,7 +57,9 @@ namespace XCharts
                     {
                         var obj = GameObject.Find("_xcharts_");
                         if (obj == null) obj = new GameObject("_xcharts_");
+                        obj.SetActive(false);
                         m_XCharts = obj.AddComponent<XChartsMgr>();
+                        obj.SetActive(true);
                     }
                     m_XCharts.m_NowVersion = fullVersion;
                 }

@@ -312,9 +312,9 @@ namespace XCharts
                     serieIndex = serieNameCount;
                 }
                 else if (!serieNameSet.ContainsKey(dataName))
-                {
-                    serieNameSet.Add(dataName, serieNameCount);
+                {                    
                     serieNameCount++;
+                    serieNameSet.Add(dataName, serieNameCount);
                     serieIndex = serieNameCount;
                 }
                 else
@@ -482,8 +482,8 @@ namespace XCharts
                 }
                 else if (!serieNameSet.ContainsKey(dataName))
                 {
-                    serieNameSet.Add(dataName, serieNameCount);
                     serieNameCount++;
+                    serieNameSet.Add(dataName, serieNameCount);
                     serieIndex = serieNameCount;
                 }
                 else

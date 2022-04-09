@@ -147,6 +147,8 @@ namespace XCharts.Runtime
         {
             if (visualMap == null)
                 return false;
+            if (!visualMap.show)
+                return false;
 
             if (visualMap.inRange.Count <= 0 && visualMap.pieces.Count <= 0)
                 return false;

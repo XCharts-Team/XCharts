@@ -270,6 +270,7 @@ namespace XCharts.Example
 
             var visualMap = chart.GetOrAddChartComponent<VisualMap>();
             visualMap.show = true;
+            visualMap.showUI = true;
             visualMap.orient = Orient.Vertical;
             visualMap.calculable = true;
             visualMap.min = 0;

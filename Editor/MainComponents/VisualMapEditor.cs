@@ -20,8 +20,8 @@ namespace XCharts.Editor
             PropertyField("m_Max");
             PropertyField("m_SplitNumber");
             PropertyField("m_Dimension");
-            PropertyField("m_Show");
-            if (baseProperty.FindPropertyRelative("m_Show").boolValue)
+            PropertyField("m_ShowUI");
+            if (baseProperty.FindPropertyRelative("m_ShowUI").boolValue)
             {
                 PropertyField("m_SelectedMode");
                 PropertyTwoFiled("m_Range");

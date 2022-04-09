@@ -32,7 +32,7 @@ namespace XCharts.Runtime
         public override void DrawBase(VertexHelper vh)
         {
             var visualMap = component;
-            if (!visualMap.show) return;
+            if (!visualMap.show || !visualMap.showUI) return;
             switch (visualMap.type)
             {
                 case VisualMap.Type.Continuous:
@@ -319,7 +319,7 @@ namespace XCharts.Runtime
 
         private void OnDragVisualMapStart(VisualMap visualMap)
         {
-            if (!visualMap.show || !visualMap.calculable)
+            if (!visualMap.show || !visualMap.showUI || !visualMap.calculable)
                 return;
 
             var inMinRect = visualMap.IsInRangeMinRect(chart.pointerPos, chart.chartRect, chart.theme.visualMap.triangeLen);
@@ -340,7 +340,7 @@ namespace XCharts.Runtime
 
         private void OnDragVisualMap(VisualMap visualMap)
         {
-            if (!visualMap.show || !visualMap.calculable)
+            if (!visualMap.show || !visualMap.showUI || !visualMap.calculable)
                 return;
 
             if (!visualMap.context.minDrag && !visualMap.context.maxDrag)
@@ -360,7 +360,7 @@ namespace XCharts.Runtime
 
         private void OnDragVisualMapEnd(VisualMap visualMap)
         {
-            if (!visualMap.show || !visualMap.calculable)
+            if (!visualMap.show || !visualMap.showUI || !visualMap.calculable)
                 return;
 
             if (visualMap.context.minDrag || visualMap.context.maxDrag)

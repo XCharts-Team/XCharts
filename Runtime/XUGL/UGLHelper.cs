@@ -306,6 +306,13 @@ namespace XUGL
             clp = cp - dir2v;
             crp = cp + dir2v;
 
+            if (Vector3.Cross(dir1, dir2) == Vector3.zero && np != cp)
+            {
+                itp = ntp;
+                ibp = nbp;
+                return;
+            }
+
             var ldist = (Vector3.Distance(cp, lp) + 1) * dir1;
             var rdist = (Vector3.Distance(cp, np) + 1) * dir2;
 

@@ -76,6 +76,7 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] private bool m_Show = true;
+        [SerializeField] private bool m_ShowUI = false;
         [SerializeField] private Type m_Type = Type.Continuous;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
         [SerializeField] private int m_SerieIndex = 0;
@@ -104,16 +105,22 @@ namespace XCharts.Runtime
         public VisualMapContext context = new VisualMapContext();
 
         /// <summary>
-        /// Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
-        /// |
-        /// 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
-        /// 
-        /// [default: true]
+        /// Whether to enable components. 
+        /// |组件是否生效。
         /// </summary>
         public bool show
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
+        /// |是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
+        /// </summary>
+        public bool showUI
+        {
+            get { return m_ShowUI; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowUI, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the type of visualmap component.

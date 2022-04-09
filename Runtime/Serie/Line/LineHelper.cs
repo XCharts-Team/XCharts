@@ -358,9 +358,9 @@ namespace XCharts.Runtime
                 UGL.AddVertToVertexHelper(vh, tp, bp, ColorUtil.clearColor32, false);
         }
 
-        internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, float lineWidth, bool isY = false)
+        internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, VisualMap visualMap,
+            float lineWidth, bool isY = false)
         {
-
             serie.context.drawPoints.Clear();
             var last = Vector3.zero;
             switch (serie.lineType)
@@ -374,11 +374,51 @@ namespace XCharts.Runtime
                     UpdateStepLineDrawPoints(serie, setting, theme, isY, lineWidth);
                     break;
                 default:
-                    for (int i = 0; i < serie.context.dataPoints.Count; i++)
-                    {
-                        serie.context.drawPoints.Add(new PointInfo(serie.context.dataPoints[i], serie.context.dataIgnores[i]));
-                    }
+                    UpdateNormalLineDrawPoints(serie, setting, visualMap);
                     break;
+            }
+        }
+
+        private static void UpdateNormalLineDrawPoints(Serie serie, Settings setting, VisualMap visualMap)
+        {
+            var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
+            if (isVisualMapGradient)
+            {
+                var dataPoints = serie.context.dataPoints;
+                if (dataPoints.Count > 1)
+                {
+                    var sp = dataPoints[0];
+                    for (int i = 1; i < dataPoints.Count; i++)
+                    {
+                        var ep = dataPoints[i];
+                        var ignore = serie.context.dataIgnores[i];
+                        var dir = (ep - sp).normalized;
+                        var dist = Vector3.Distance(sp, ep);
+                        var segment = (int)(dist / setting.lineSegmentDistance);
+                        serie.context.drawPoints.Add(new PointInfo(sp, ignore));
+                        for (int j = 1; j < segment; j++)
+                        {
+                            var np = sp + dir * dist * j / segment;
+                            serie.context.drawPoints.Add(new PointInfo(np, ignore));
+                        }
+                        sp = ep;
+                        if (i == dataPoints.Count - 1)
+                        {
+                            serie.context.drawPoints.Add(new PointInfo(ep, ignore));
+                        }
+                    }
+                }
+                else
+                {
+                    serie.context.drawPoints.Add(new PointInfo(dataPoints[0], serie.context.dataIgnores[0]));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < serie.context.dataPoints.Count; i++)
+                {
+                    serie.context.drawPoints.Add(new PointInfo(serie.context.dataPoints[i], serie.context.dataIgnores[i]));
+                }
             }
         }
 

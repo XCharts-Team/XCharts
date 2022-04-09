@@ -43,6 +43,9 @@
 
 ## branch-2.0
 
+* (2022.04.09) Fixed `VisualMap` not working in some cases
+* (2022.04.08) Optimized `XCharts` initialization #190
+* (2022.04.08) Fixed color error #187 in `Radar`
 * (2022.03.24) Fixed `Axis` precision issue #184
 
 ## v2.7.0

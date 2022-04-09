@@ -144,7 +144,7 @@ namespace XCharts
 
         public static bool IsNeedGradient(VisualMap visualMap)
         {
-            if (!visualMap.enable || visualMap.inRange.Count <= 0) return false;
+            if (!visualMap.enable || (visualMap.inRange.Count <= 0 && visualMap.pieces.Count <= 0)) return false;
             return true;
         }
 

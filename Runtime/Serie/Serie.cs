@@ -1430,7 +1430,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                return context.sortedData.Count > 0 ? context.sortedData : m_Data;
+                return useSortData && context.sortedData.Count > 0 ? context.sortedData : m_Data;
             }
         }
 

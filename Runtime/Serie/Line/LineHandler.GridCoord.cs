@@ -93,13 +93,14 @@ namespace XCharts.Runtime
             {
                 serie.context.pointerItemDataIndex = -1;
                 serie.context.pointerEnter = false;
-                foreach (var serieData in serie.data)
+                for (int i = 0; i < serie.dataCount; i++)
                 {
+                    var serieData = serie.data[i];
+                    serieData.index = i;
                     var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
                     var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                     var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
                     var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
-
                     if (dist <= symbolSelectedSize)
                     {
                         serie.context.pointerItemDataIndex = serieData.index;

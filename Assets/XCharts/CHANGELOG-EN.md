@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.8.0](#v2.8.0)  
 [v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
 [v2.5.0](#v2.5.0)  
@@ -43,6 +44,9 @@
 
 ## branch-2.0
 
+## v2.8.0
+
+* (2022.04.10) Added the debug information panel
 * (2022.04.09) Fixed `VisualMap` not working in some cases
 * (2022.04.08) Optimized `XCharts` initialization #190
 * (2022.04.08) Fixed color error #187 in `Radar`

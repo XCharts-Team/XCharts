@@ -98,6 +98,16 @@ namespace XCharts
             SeriesHelper.ClearNameDirty(this);
         }
 
+        public int GetAllSerieDataCount()
+        {
+            var count = 0;
+            foreach (var serie in list)
+            {
+                count += serie.dataCount;
+            }
+            return count;
+        }
+
         /// <summary>
         /// 清空所有系列的数据
         /// </summary>
@@ -259,7 +269,7 @@ namespace XCharts
         /// </summary>
         public void RemoveAll()
         {
-            foreach(var serie in m_Series) serie.AnimationFadeIn();
+            foreach (var serie in m_Series) serie.AnimationFadeIn();
             m_Series.Clear();
         }
 

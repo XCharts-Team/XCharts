@@ -22,6 +22,7 @@ namespace XCharts
         [SerializeField] protected bool m_DebugMode = false;
         [SerializeField] protected bool m_EnableTextMeshPro = false;
         [SerializeField] protected Background m_Background = Background.defaultBackground;
+        protected DebugInfo m_DebugInfo = new DebugInfo();
         protected Painter m_Painter;
         protected int m_SiblingIndex;
 
@@ -57,7 +58,7 @@ namespace XCharts
         protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
         protected Vector2 graphPivot { get { return m_GraphPivot; } }
         public HideFlags chartHideFlags { get { return m_DebugMode ? HideFlags.None : HideFlags.HideInHierarchy; } }
-
+        public DebugInfo debug { get { return m_DebugInfo; } }
         private ScrollRect m_ScrollRect;
 
 
@@ -129,7 +130,7 @@ namespace XCharts
             }
         }
 
-       
+
 
         private void CheckTextMeshPro()
         {

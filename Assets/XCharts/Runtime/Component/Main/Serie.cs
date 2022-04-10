@@ -1190,6 +1190,7 @@ namespace XCharts
         public float runtimeWidth { get; internal set; }
         public float runtimeHeight { get; internal set; }
         public Rect runtimeRect { get; internal set; }
+        public int runtimeVertCount { get; internal set; }
         public List<SerieData> runtimeSortedData { get { return m_SortedData; } }
         public List<SerieData> rootData { get { return m_RootData; } }
         public bool nameDirty { get { return m_NameDirty; } }

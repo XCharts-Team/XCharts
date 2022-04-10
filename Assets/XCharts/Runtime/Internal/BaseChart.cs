@@ -80,6 +80,8 @@ namespace XCharts
         internal bool m_ReinitTitle = false;
         internal bool m_CheckAnimation = false;
         internal bool m_IsPlayingAnimation = false;
+        internal int m_BasePainterVertCount;
+        internal int m_TopPainterVertCount;
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
         internal Painter m_PainterTop;
@@ -109,6 +111,8 @@ namespace XCharts
             m_ComponentHandlers.Add(new VisualMapHandler(this));
             m_ComponentHandlers.Add(new DataZoomHandler(this));
             foreach (var draw in m_ComponentHandlers) draw.Init();
+
+            m_DebugInfo.Init(this);
         }
 
         protected override void Awake()
@@ -161,6 +165,7 @@ namespace XCharts
             Internal_CheckAnimation();
             foreach (var draw in m_DrawSeries) draw.Update();
             foreach (var draw in m_ComponentHandlers) draw.Update();
+            m_DebugInfo.Update();
         }
 
         public Painter GetPainter(int index)
@@ -791,6 +796,12 @@ namespace XCharts
         {
         }
 
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            m_DebugInfo.clickChartCount++;
+            base.OnPointerClick(eventData);
+        }
+
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
@@ -883,6 +894,7 @@ namespace XCharts
             {
                 m_OnCustomDrawBaseCallback(vh);
             }
+            m_BasePainterVertCount = vh.currentVertCount;
         }
 
         protected virtual void OnDrawPainterSerie(VertexHelper vh, Painter painter)
@@ -892,6 +904,7 @@ namespace XCharts
             var maxSeries = m_Series.Count;
             var rate = Mathf.CeilToInt(maxSeries * 1.0f / maxPainter);
             m_PainterTop.Refresh();
+            m_DebugInfo.refreshCount++;
             for (int i = painter.index * rate; i < (painter.index + 1) * rate && i < maxSeries; i++)
             {
                 var serie = m_Series.GetSerie(i);
@@ -904,6 +917,7 @@ namespace XCharts
                 {
                     m_OnCustomDrawSerieAfterCallback(vh, serie);
                 }
+                serie.runtimeVertCount = vh.currentVertCount;
             }
             m_RefreshLabel = true;
         }
@@ -919,6 +933,7 @@ namespace XCharts
                 m_OnCustomDrawTopCallback(vh);
             }
             DrawTooltip(vh);
+            m_TopPainterVertCount = vh.currentVertCount;
         }
 
         protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie)

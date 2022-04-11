@@ -1,18 +1,18 @@
 
 # 更新日志
 
-[master](#master)
-[v3.0.0-preivew7](#v3.0.0-preivew7)
-[v3.0.0-preivew6](#v3.0.0-preivew6)
-[v3.0.0-preivew5](#v3.0.0-preivew5)
-[v3.0.0-preivew4](#v3.0.0-preivew4)
-[v3.0.0-preivew3](#v3.0.0-preivew3)
-[v3.0.0-preivew2](#v3.0.0-preivew2)
-[v3.0.0-preivew1](#v3.0.0-preivew1)
+[master](#master)  
+[v3.0.0-preivew7](#v3.0.0-preivew7)  
+[v3.0.0-preivew6](#v3.0.0-preivew6)  
+[v3.0.0-preivew5](#v3.0.0-preivew5)  
+[v3.0.0-preivew4](#v3.0.0-preivew4)  
+[v3.0.0-preivew3](#v3.0.0-preivew3)  
+[v3.0.0-preivew2](#v3.0.0-preivew2)  
+[v3.0.0-preivew1](#v3.0.0-preivew1)  
 [v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
 [v2.5.0](#v2.5.0)  
-[v2.4.0](#v2.4.0)
+[v2.4.0](#v2.4.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
@@ -49,6 +49,9 @@
 [v0.1.0](#v0.1.0)  
 
 ## master
+
+* (2022.04.09) 优化`VisualMap`
+* (2022.04.09) 优化`Tooltip`
 
 ## v3.0.0-preivew7
 

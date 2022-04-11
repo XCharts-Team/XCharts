@@ -67,18 +67,6 @@
 - 支持万级大数据绘制。
 - 支持`TexMeshPro`。
 
-## XCharts3.0 相比XCharts2.0 的改进
-
-- 更健壮的底层框架。
-- 更小的序列化文件。
-- 更强大的性能。
-- 更好的交互体验。
-- 更多的组件支持。
-- 更合理的组件调整。
-- 更灵活的组件插拔。
-- 更方便的二次开发。
-- 更丰富的Demo示例。
-
 ## XCharts3.0 新功能
 
 - 增加Time时间轴。
@@ -89,6 +77,28 @@
 - 增加国际化支持。
 - 增加Widgets小组件。
 - 增加多种扩展图表。
+
+## XCharts3.0 相比 XCharts2.0 的改进
+
+- 更健壮的底层框架。
+- 更强大的性能。
+- 更小的序列化文件。
+- 更好的交互体验。
+- 更多的组件支持。
+- 更合理的组件调整。
+- 更灵活的组件插拔。
+- 更方便的二次开发。
+- 更丰富的Demo示例。
+
+## XCharts3.0 和 2.0 数据对比
+
+| Case | XCharts2.0 | XCharts3.0 | Note |
+| -- | -- | -- | -- |
+| 2000数据折线图的帧频 | 20 | 83 | 性能提升 3 倍 |
+| 2000数据折线图的顶点数 | 36.5k | 6.7k | 顶点数减少 4 倍 |
+| 2000数据折线图的Prefab大小 | 11.1MB | 802kb | 序列化文件大小减少 10 倍 |
+| 单条折线图数据最大容量 | 4100 个 | 19000 个 | 单Serie数据容量提升 4 倍 |
+| 图表种类 | 11种图表 |23种图表| 支持的图表多 1 倍 |
 
 ## 注意
 
@@ -104,7 +114,7 @@
 
 ![extendchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
 
-更多效果请到 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) 查看
+更多示例请看 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)，也可以到 [在线Demo](https://xcharts-team.github.io/demo/) 查看WebGL下的运行效果。
 
 ## 使用
 

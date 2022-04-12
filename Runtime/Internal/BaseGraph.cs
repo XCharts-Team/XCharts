@@ -100,7 +100,6 @@ namespace XCharts.Runtime
             if (!Application.isPlaying)
             {
                 m_IsOnValidate = true;
-                //Update();
             }
 #endif
             m_PainerDirty = true;

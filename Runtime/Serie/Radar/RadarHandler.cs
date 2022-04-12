@@ -98,6 +98,7 @@ namespace XCharts.Runtime
             m_LastCheckContextFlag = needCheck;
             serie.context.pointerEnter = false;
             serie.context.pointerItemDataIndex = -1;
+            var areaStyle = serie.areaStyle;
             switch (serie.radarType)
             {
                 case RadarType.Multiple:
@@ -125,6 +126,23 @@ namespace XCharts.Runtime
                                     break;
                                 }
                             }
+                            if (!serieData.context.highlight && areaStyle != null)
+                            {
+                                var center = m_RadarCoord.context.center;
+                                var dataPoints = serieData.context.dataPoints;
+                                for (int n = 0; n < dataPoints.Count; n++)
+                                {
+                                    var p1 = dataPoints[n];
+                                    var p2 = n >= dataPoints.Count - 1 ? dataPoints[0] : dataPoints[n + 1];
+                                    if (UGLHelper.IsPointInTriangle(p1, center, p2, chart.pointerPos))
+                                    {
+                                        serie.context.pointerEnter = true;
+                                        serie.context.pointerItemDataIndex = i;
+                                        serieData.context.highlight = true;
+                                        break;
+                                    }
+                                }
+                            }
                             serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
                         }
                     }
@@ -139,6 +157,23 @@ namespace XCharts.Runtime
                             serie.context.pointerEnter = true;
                             serie.context.pointerItemDataIndex = i;
                             return;
+                        }
+                    }
+                    if (!serie.context.pointerEnter && areaStyle != null)
+                    {
+                        var center = m_RadarCoord.context.center;
+                        var dataPoints = serie.data;
+                        for (int n = 0; n < dataPoints.Count; n++)
+                        {
+                            var p1 = dataPoints[n];
+                            var p2 = n >= dataPoints.Count - 1 ? dataPoints[0] : dataPoints[n + 1];
+                            if (UGLHelper.IsPointInTriangle(p1.context.position, center, p2.context.position, chart.pointerPos))
+                            {
+                                serie.context.pointerEnter = true;
+                                serie.context.pointerItemDataIndex = n;
+                                p1.context.highlight = true;
+                                break;
+                            }
                         }
                     }
                     break;

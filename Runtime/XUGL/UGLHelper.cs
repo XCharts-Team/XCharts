@@ -339,5 +339,16 @@ namespace XUGL
                 crp = cp + dir1v;
             }
         }
+
+        public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)
+        {
+            var dire1 = check - p1;
+            var dire2 = check - p2;
+            var dire3 = check - p3;
+            var c1 = dire1.x * dire2.y - dire1.y * dire2.x;
+            var c2 = dire2.x * dire3.y - dire2.y * dire3.x;
+            var c3 = dire3.x * dire1.y - dire3.y * dire1.x;
+            return c1 * c2 >= 0 && c1 * c3 >= 0;
+        }
     }
 }

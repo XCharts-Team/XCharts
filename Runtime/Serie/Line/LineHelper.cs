@@ -434,9 +434,9 @@ namespace XCharts.Runtime
                 var nep = i < points.Count - 2 ? points[i + 2] : ep;
                 var ignore = serie.context.dataIgnores[i];
                 if (isY)
-                    UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness);
+                    UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness, setting.lineSmoothStyle);
                 else
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness);
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness, setting.lineSmoothStyle);
 
                 for (int j = 1; j < s_CurvesPosList.Count; j++)
                 {

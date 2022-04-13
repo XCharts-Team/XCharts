@@ -482,7 +482,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## `GridCoordContext`
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext),[IRectContext](#IRectContext)
+Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## `HeatmapChart`
 
@@ -702,6 +702,10 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `SerieConvertAttribute` |public SerieConvertAttribute(Type serie, Type serie2, Type serie3, Type serie4)</br> |
 
 ## `SerieDataContext`
+
+|public method|description|
+|--|--|
+| `Reset` |public void Reset()</br> |
 
 ## `SerieExtraComponentAttribute`
 
@@ -931,6 +935,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 | `GetVertialDire` |public static Vector3 GetVertialDire(Vector3 dire)</br> |
 | `IsClearColor` |public static bool IsClearColor(Color color)</br> |
 | `IsClearColor` |public static bool IsClearColor(Color32 color)</br> |
+| `IsPointInTriangle` |public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)</br> |
 | `IsValueEqualsColor` |public static bool IsValueEqualsColor(Color color1, Color color2)</br> |
 | `IsValueEqualsColor` |public static bool IsValueEqualsColor(Color32 color1, Color32 color2)</br> |
 | `IsValueEqualsList<T>` |public static bool IsValueEqualsList<T>(List<T> list1, List<T> list2)</br> |
@@ -951,7 +956,9 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 |--|--|
 | `AutoSetLineMinMax` |public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)</br> |
 | `GetDimension` |public static int GetDimension(VisualMap visualMap, int serieDataCount)</br> |
+| `IsNeedAreaGradient` |public static bool IsNeedAreaGradient(VisualMap visualMap)</br> |
 | `IsNeedGradient` |public static bool IsNeedGradient(VisualMap visualMap)</br> |
+| `IsNeedLineGradient` |public static bool IsNeedLineGradient(VisualMap visualMap)</br> |
 | `SetMinMax` |public static void SetMinMax(VisualMap visualMap, double min, double max)</br> |
 
 ## `XChartsMgr`

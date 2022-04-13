@@ -1307,7 +1307,8 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 
 |field|default|comment|
 |--|--|--|
-| `show` |true | 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。 [default: true] |
+| `show` |true | 组件是否生效。 |
+| `showUI` |false | 是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。 |
 | `type` | | 组件类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | 选择模式。</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `serieIndex` |0 | 影响的serie索引。 |
@@ -1328,6 +1329,8 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | 布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 | `location` | | 组件显示的位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
+| `workOnLine` |true | 组件是否对LineChart的LineStyle有效。 |
+| `workOnArea` |false | 组件是否对LineChart的AreaStyle有效。 |
 | `inRange` | | 定义 在选中范围中 的视觉颜色。 |
 | `outOfRange` | | 定义 在选中范围外 的视觉颜色。 |
 | `pieces` | | 分段式每一段的相关配置。 |

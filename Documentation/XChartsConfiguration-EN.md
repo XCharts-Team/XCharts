@@ -1307,7 +1307,8 @@ VisualMap component. Mapping data to visual elements such as colors.
 
 |field|default|comment|
 |--|--|--|
-| `show` |true | Whether to display components. If set to false, it will not show up, but the data mapping function still exists. |
+| `show` |true | Whether to enable components. |
+| `showUI` |false | Whether to display components. If set to false, it will not show up, but the data mapping function still exists. |
 | `type` | | the type of visualmap component.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | the selected mode for Piecewise visualMap.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `serieIndex` |0 | the serie index of visualMap. |
@@ -1328,6 +1329,8 @@ VisualMap component. Mapping data to visual elements such as colors.
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | Specify whether the layout of component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 | `location` | | The location of component.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
+| `workOnLine` |true | Whether the visualmap is work on linestyle of linechart. |
+| `workOnArea` |false | Whether the visualmap is work on areaStyle of linechart. |
 | `inRange` | | Defines the visual color in the selected range. |
 | `outOfRange` | | Defines a visual color outside of the selected range. |
 | `pieces` | | 分段式每一段的相关配置。 |

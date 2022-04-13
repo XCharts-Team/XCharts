@@ -277,90 +277,71 @@ namespace XCharts.Runtime
 
         public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
-            if (serie == null) return ChartConst.clearColor32;
+            if (serie == null)
+                return ChartConst.clearColor32;
+
+            ItemStyle itemStyle = null;
             if (highlight)
-            {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
-                {
-                    var color = itemStyleEmphasis.color;
-                    ChartHelper.SetColorOpacity(ref color, itemStyleEmphasis.opacity);
-                    return color;
-                }
-            }
-            var itemStyle = GetItemStyle(serie, serieData);
-            if (!ChartHelper.IsClearColor(itemStyle.color))
-            {
-                return itemStyle.GetColor();
-            }
-            else
-            {
-                var color = theme.GetColor(index);
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
+                itemStyle = GetItemStyleEmphasis(serie, serieData);
+            if (itemStyle == null)
+                itemStyle = GetItemStyle(serie, serieData);
+
+            var color = ChartHelper.IsClearColor(itemStyle.color)
+                ? theme.GetColor(index)
+                : itemStyle.color;
+
+            if (highlight)
+                color = ChartHelper.GetHighlightColor(color);
+
+            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+            return color;
         }
         public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)
         {
-            if (serie == null) return ChartConst.clearColor32;
+            if (serie == null)
+                return ChartConst.clearColor32;
+
+            ItemStyle itemStyle = null;
             if (highlight)
-            {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
-                {
-                    var color = itemStyleEmphasis.color0;
-                    ChartHelper.SetColorOpacity(ref color, itemStyleEmphasis.opacity);
-                    return color;
-                }
-            }
-            var itemStyle = GetItemStyle(serie, serieData);
-            if (!ChartHelper.IsClearColor(itemStyle.color0))
-            {
-                return itemStyle.GetColor0();
-            }
-            else
-            {
-                var color = defaultColor;
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
+                itemStyle = GetItemStyleEmphasis(serie, serieData);
+            if (itemStyle == null)
+                itemStyle = GetItemStyle(serie, serieData);
+
+            var color = ChartHelper.IsClearColor(itemStyle.color0)
+                ? defaultColor
+                : itemStyle.color0;
+
+            if (highlight)
+                color = ChartHelper.GetHighlightColor(color);
+
+            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+            return color;
         }
 
         public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
         {
+            if (serie == null)
+                return ChartConst.clearColor32;
+
+            ItemStyle itemStyle = null;
             if (highlight)
+                itemStyle = GetItemStyleEmphasis(serie, serieData);
+            if (itemStyle == null)
+                itemStyle = GetItemStyle(serie, serieData);
+
+            var color = itemStyle.toColor;
+            if (ChartHelper.IsClearColor(color))
             {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.toColor))
-                {
-                    return itemStyleEmphasis.GetColor();
-                }
+                color = ChartHelper.IsClearColor(itemStyle.color)
+                    ? theme.GetColor(index)
+                    : itemStyle.color;
             }
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle == null) itemStyle = serieData.itemStyle;
-            if (!ChartHelper.IsClearColor(itemStyle.toColor))
-            {
-                var color = itemStyle.toColor;
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
-            if (!ChartHelper.IsClearColor(itemStyle.color))
-            {
-                var color = itemStyle.color;
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
-            else
-            {
-                var color = theme.GetColor(index);
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
+
+            if (highlight)
+                color = ChartHelper.GetHighlightColor(color);
+
+            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+            return color;
         }
 
         public static bool IsDownPoint(Serie serie, int index)

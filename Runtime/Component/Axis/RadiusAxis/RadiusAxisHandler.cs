@@ -36,11 +36,10 @@ namespace XCharts.Runtime
                 axis.context.pointerValue = double.PositiveInfinity;
                 return;
             }
+
             var angleAxis = ComponentHelper.GetAngleAxis(chart.components, polar.index);
             if (angleAxis == null)
                 return;
-
-            var startAngle = angleAxis.context.startAngle;
 
             var dist = Vector3.Distance(chart.pointerPos, polar.context.center);
             axis.context.pointerValue = axis.context.minValue + (dist / polar.context.radius) * axis.context.minMaxRange;

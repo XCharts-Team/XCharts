@@ -179,6 +179,7 @@ namespace XCharts.Runtime
         private void SetTooltipIndicatorLabel(Axis axis, ChartLabel label)
         {
             if (label == null) return;
+            if (double.IsPositiveInfinity(axis.context.pointerValue)) return;
             label.SetActive(true);
             label.SetLabelActive(true);
             label.SetPosition(axis.context.pointerLabelPosition);
@@ -234,7 +235,6 @@ namespace XCharts.Runtime
 
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)
         {
-
             serie.context.pointerAxisDataIndexs.Clear();
             if (yAxis.IsCategory())
             {

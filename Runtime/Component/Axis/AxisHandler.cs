@@ -34,7 +34,7 @@ namespace XCharts
                 return;
             if (!grid.context.isPointerEnter)
             {
-                axis.context.pointerValue = 0;
+                axis.context.pointerValue = double.PositiveInfinity;
             }
             else
             {

@@ -90,7 +90,8 @@ namespace XCharts.Runtime
                 serie.context.pointerEnter = false;
                 foreach (var serieData in serie.data)
                 {
-                    if (serieData.context.rect.Contains(chart.pointerPos))
+                    if (serie.context.pointerAxisDataIndexs.Contains(serieData.index)
+                        || serieData.context.rect.Contains(chart.pointerPos))
                     {
                         serie.context.pointerItemDataIndex = serieData.index;
                         serie.context.pointerEnter = true;

@@ -25,11 +25,14 @@ namespace XCharts.Runtime
         {
             if (m_TargetValue != size)
             {
-                needInteract = true;
-                m_UpdateFlag = true;
-                m_ValueEnable = true;
-                m_UpdateTime = Time.time;
-                m_PreviousValue = m_TargetValue;
+                if (float.IsNaN(m_TargetValue))
+                {
+                    needInteract = true;
+                    m_UpdateFlag = true;
+                    m_ValueEnable = true;
+                    m_UpdateTime = Time.time;
+                    m_PreviousValue = m_TargetValue;
+                }
                 m_TargetValue = size;
             }
         }
@@ -38,11 +41,14 @@ namespace XCharts.Runtime
         {
             if (!ChartHelper.IsValueEqualsColor(color, m_TargetColor))
             {
-                needInteract = true;
-                m_UpdateFlag = true;
-                m_ValueEnable = true;
-                m_UpdateTime = Time.time;
-                m_PreviousColor = m_TargetColor;
+                if (!ChartHelper.IsClearColor(m_TargetColor))
+                {
+                    needInteract = true;
+                    m_UpdateFlag = true;
+                    m_ValueEnable = true;
+                    m_UpdateTime = Time.time;
+                    m_PreviousColor = m_TargetColor;
+                }
                 m_TargetColor = color;
             }
         }
@@ -51,11 +57,14 @@ namespace XCharts.Runtime
             SetColor(ref needInteract, color);
             if (!ChartHelper.IsValueEqualsColor(toColor, m_TargetToColor))
             {
-                needInteract = true;
-                m_UpdateFlag = true;
-                m_ValueEnable = true;
-                m_UpdateTime = Time.time;
-                m_PreviousToColor = m_TargetToColor;
+                if (!ChartHelper.IsClearColor(m_TargetToColor))
+                {
+                    needInteract = true;
+                    m_UpdateFlag = true;
+                    m_ValueEnable = true;
+                    m_UpdateTime = Time.time;
+                    m_PreviousToColor = m_TargetToColor;
+                }
                 m_TargetToColor = toColor;
             }
         }
@@ -179,7 +188,13 @@ namespace XCharts.Runtime
 
         public void Reset()
         {
+            m_UpdateFlag = false;
             m_ValueEnable = false;
+            m_PreviousValue = float.NaN;
+            m_TargetColor = ColorUtil.clearColor32;
+            m_TargetToColor = ColorUtil.clearColor32;
+            m_PreviousColor = ColorUtil.clearColor32;
+            m_PreviousToColor = ColorUtil.clearColor32;
         }
 
         private bool IsValueEnable()

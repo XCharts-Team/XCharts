@@ -7,43 +7,43 @@ namespace XCharts.Runtime
 {
     public class AxisContext : MainComponentContext
     {
-        internal Orient orient { get; set; }
-        public float x { get; internal set; }
-        public float y { get; internal set; }
-        public float width { get; internal set; }
-        public float height { get; internal set; }
-        public Vector3 position { get; internal set; }
-        public float left { get; internal set; }
-        public float right { get; internal set; }
-        public float bottom { get; internal set; }
-        public float top { get; internal set; }
+        public Orient orient;
+        public float x;
+        public float y;
+        public float width;
+        public float height;
+        public Vector3 position;
+        public float left;
+        public float right;
+        public float bottom;
+        public float top;
         /// <summary>
         /// the current minimun value.
         /// |当前最小值。
         /// </summary>
-        public double minValue { get; internal set; }
+        public double minValue;
         /// <summary>
         /// the current maximum value.
         /// |当前最大值。
         /// </summary>
-        public double maxValue { get; internal set; }
+        public double maxValue;
         /// <summary>
         /// the offset of zero position.
         /// |坐标轴原点在坐标轴的偏移。
         /// </summary>
-        public float offset { get; internal set; }
-        public double minMaxRange { get; internal set; }
-        public float scaleWidth { get; internal set; }
-        public float startAngle { get; set; }
-        public double pointerValue { get; internal set; }
-        public Vector3 pointerLabelPosition { get; internal set; }
-        public double axisTooltipValue { get; internal set; }
+        public float offset;
+        public double minMaxRange;
+        public float scaleWidth;
+        public float startAngle;
+        public double pointerValue;
+        public Vector3 pointerLabelPosition;
+        public double axisTooltipValue;
         public List<string> runtimeData { get { return m_RuntimeData; } }
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }
 
         internal List<string> filterData;
-        internal bool lastCheckInverse { get; set; }
+        internal bool lastCheckInverse;
         internal bool isNeedUpdateFilterData;
 
         private int filterStart;

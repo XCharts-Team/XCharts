@@ -231,6 +231,16 @@ namespace XCharts.Runtime
             return color;
         }
 
+        public Color32 GetToColor()
+        {
+            if (m_Opacity == 1 || m_ToColor.a == 0)
+                return m_ToColor;
+
+            var color = m_ToColor;
+            color.a = (byte)(color.a * m_Opacity);
+            return color;
+        }
+
         public Color32 GetColor0()
         {
             if (m_Opacity == 1 || m_Color0.a == 0)

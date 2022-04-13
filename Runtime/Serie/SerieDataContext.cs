@@ -36,7 +36,6 @@ namespace XCharts.Runtime
         public Vector3 position;
         public List<Vector3> dataPoints = new List<Vector3>();
         public List<SerieData> children = new List<SerieData>();
-        
         /// <summary>
         /// 绘制区域。
         /// </summary>
@@ -50,7 +49,6 @@ namespace XCharts.Runtime
         public Vector3 offsetCenter;
         public float stackHeight;
         public bool isClip;
-
         public bool canShowLabel = true;
         public Image symbol;
         /// <summary>
@@ -58,5 +56,17 @@ namespace XCharts.Runtime
         /// |该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
         public bool highlight;
+
+        public void Reset()
+        {
+            canShowLabel = true;
+            highlight = false;
+            parent = null;
+            symbol = null;
+            rect = Rect.zero;
+            subRect = Rect.zero;
+            children.Clear();
+            dataPoints.Clear();
+        }
     }
 }

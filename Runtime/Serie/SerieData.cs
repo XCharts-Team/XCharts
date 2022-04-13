@@ -120,11 +120,8 @@ namespace XCharts.Runtime
             m_Name = string.Empty;
             m_Show = true;
             m_Selected = false;
-            context.canShowLabel = true;
-            context.highlight = false;
-            context.children.Clear();
-            context.dataPoints.Clear();
             m_Radius = 0;
+            context.Reset();
             interact.Reset();
             m_Data.Clear();
             m_PreviousData.Clear();

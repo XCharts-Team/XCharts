@@ -185,6 +185,7 @@ namespace XCharts.Runtime
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
+                serieData.index = i;
                 if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);

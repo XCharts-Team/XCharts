@@ -50,6 +50,8 @@
 
 ## master
 
+* (2022.04.13) 增加`VisualMap`的`workOnLine`和`workOnArea`以支持是对折线还是区域映射的功能 #191
+* (2022.04.12) 优化`Radar`支持`Area`区域触发`Tooltip`
 * (2022.04.09) 优化`VisualMap`
 * (2022.04.09) 优化`Tooltip`
 

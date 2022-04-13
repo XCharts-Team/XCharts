@@ -349,7 +349,7 @@ namespace XCharts.Runtime
 
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, isY, axis, relativedAxis);
             LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, visualMap, lineWidth, isY);
-            LineHelper.DrawSerieLineArea(vh, serie, lastSerie, chart.theme, isY, axis, relativedAxis, m_SerieGrid);
+            LineHelper.DrawSerieLineArea(vh, serie, lastSerie, chart.theme, visualMap, isY, axis, relativedAxis, m_SerieGrid);
             LineHelper.DrawSerieLine(vh, chart.theme, serie, visualMap, m_SerieGrid, axis, relativedAxis, lineWidth);
 
             serie.context.vertCount = vh.currentVertCount;

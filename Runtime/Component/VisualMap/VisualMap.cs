@@ -98,6 +98,9 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_AutoMinMax = true;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
         [SerializeField] private Location m_Location = Location.defaultLeft;
+        [SerializeField] private bool m_WorkOnLine = true;
+        [SerializeField] private bool m_WorkOnArea = false;
+
         [SerializeField] private List<Color32> m_InRange = new List<Color32>();
         [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>() { Color.gray };
         [SerializeField] private List<VisualMapPieces> m_Pieces = new List<VisualMapPieces>();
@@ -308,6 +311,24 @@ namespace XCharts.Runtime
         {
             get { return m_Location; }
             set { if (PropertyUtil.SetClass(ref m_Location, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether the visualmap is work on linestyle of linechart.
+        /// |组件是否对LineChart的LineStyle有效。
+        /// </summary>
+        public bool workOnLine
+        {
+            get { return m_WorkOnLine; }
+            set { if (PropertyUtil.SetStruct(ref m_WorkOnLine, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether the visualmap is work on areaStyle of linechart.
+        /// |组件是否对LineChart的AreaStyle有效。
+        /// </summary>
+        public bool workOnArea
+        {
+            get { return m_WorkOnArea; }
+            set { if (PropertyUtil.SetStruct(ref m_WorkOnArea, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Defines the visual color in the selected range.

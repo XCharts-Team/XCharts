@@ -239,7 +239,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(serie.context.dataPoints, isY);
 
             LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, null, lineWidth, isY);
-            LineHelper.DrawSerieLineArea(vh, serie, null, chart.theme, isY, axis, relativedAxis, m_SerieGrid);
+            LineHelper.DrawSerieLineArea(vh, serie, null, chart.theme, null, isY, axis, relativedAxis, m_SerieGrid);
             LineHelper.DrawSerieLine(vh, chart.theme, serie, null, m_SerieGrid, axis, relativedAxis, lineWidth);
 
             serie.context.vertCount = vh.currentVertCount;

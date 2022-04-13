@@ -147,12 +147,30 @@ namespace XCharts.Runtime
         {
             if (visualMap == null)
                 return false;
-            if (!visualMap.show)
+            if (!visualMap.show || (!visualMap.workOnLine && !visualMap.workOnArea))
                 return false;
-
             if (visualMap.inRange.Count <= 0 && visualMap.pieces.Count <= 0)
                 return false;
-
+            return true;
+        }
+        public static bool IsNeedLineGradient(VisualMap visualMap)
+        {
+            if (visualMap == null)
+                return false;
+            if (!visualMap.show || !visualMap.workOnLine)
+                return false;
+            if (visualMap.inRange.Count <= 0 && visualMap.pieces.Count <= 0)
+                return false;
+            return true;
+        }
+        public static bool IsNeedAreaGradient(VisualMap visualMap)
+        {
+            if (visualMap == null)
+                return false;
+            if (!visualMap.show || !visualMap.workOnArea)
+                return false;
+            if (visualMap.inRange.Count <= 0 && visualMap.pieces.Count <= 0)
+                return false;
             return true;
         }
 

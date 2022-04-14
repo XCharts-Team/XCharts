@@ -289,20 +289,25 @@ namespace XUGL
             ref Vector3 ntp, ref Vector3 nbp,
             ref Vector3 itp, ref Vector3 ibp,
             ref Vector3 clp, ref Vector3 crp,
-            ref bool bitp, ref bool bibp, int debugIndex = 0
-            )
+            ref bool bitp, ref bool bibp, int debugIndex = 0)
         {
             var dir1 = (cp - lp).normalized;
-            var dir2 = (cp - np).normalized;
             var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized * width;
-            var dir2v = Vector3.Cross(dir2, Vector3.back).normalized * width;
-
             ltp = lp - dir1v;
             lbp = lp + dir1v;
+            if (debugIndex == 1 && cp == np)
+            {
+                ntp = np - dir1v;
+                nbp = np + dir1v;
+                clp = cp - dir1v;
+                crp = cp + dir1v;
+                return;
+            }
 
+            var dir2 = (cp - np).normalized;
+            var dir2v = Vector3.Cross(dir2, Vector3.back).normalized * width;
             ntp = np - dir2v;
             nbp = np + dir2v;
-
             clp = cp - dir2v;
             crp = cp + dir2v;
 

@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -16,5 +17,6 @@ namespace XCharts.Runtime
         public float bottom;
         public float top;
         public bool isPointerEnter;
+        public List<ChartLabel> endLabelList = new List<ChartLabel>();
     }
 }

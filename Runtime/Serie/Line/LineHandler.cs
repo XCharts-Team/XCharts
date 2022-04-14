@@ -60,5 +60,39 @@ namespace XCharts.Runtime
                 }
             }
         }
+
+        public override void RefreshEndLabelInternal()
+        {
+            base.RefreshEndLabelInternal();
+            if (m_SerieGrid == null) return;
+            if (!serie.animation.IsFinish()) return;
+            var endLabelList = m_SerieGrid.context.endLabelList;
+            if (endLabelList.Count <= 1) return;
+
+            endLabelList.Sort(delegate (ChartLabel a, ChartLabel b)
+            {
+                return b.transform.position.y.CompareTo(a.transform.position.y);
+            });
+            var lastY = float.NaN;
+            for (int i = 0; i < endLabelList.Count; i++)
+            {
+                var label = endLabelList[i];
+                if (!label.isAnimationEnd) continue;
+                var labelPosition = label.transform.localPosition;
+                if (float.IsNaN(lastY))
+                {
+                    lastY = labelPosition.y;
+                }
+                else
+                {
+                    var labelHeight = label.GetLabelHeight();
+                    if (labelPosition.y + labelHeight > lastY)
+                    {
+                        label.SetPosition(new Vector3(labelPosition.x, lastY - labelHeight, labelPosition.z));
+                    }
+                    lastY = label.transform.localPosition.y;
+                }
+            }
+        }
     }
 }

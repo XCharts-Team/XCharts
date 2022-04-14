@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     public class ChartLabel : Image
     {
         [SerializeField] private ChartText m_LabelText;
-        
+
         private bool m_AutoHideIconWhenLabelEmpty = false;
         private bool m_LabelAutoSize = true;
         private float m_LabelPaddingLeftRight = 3f;
@@ -43,6 +43,7 @@ namespace XCharts.Runtime
 
         public bool autoHideIconWhenLabelEmpty { set { m_AutoHideIconWhenLabelEmpty = value; } }
         public bool isIconActive { get; private set; }
+        public bool isAnimationEnd { get; internal set; }
 
         protected override void Awake()
         {

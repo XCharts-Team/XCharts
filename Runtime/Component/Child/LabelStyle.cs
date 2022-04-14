@@ -67,20 +67,20 @@ namespace XCharts.Runtime
             End
         }
 
-        [SerializeField] private bool m_Show = true;
+        [SerializeField] protected bool m_Show = true;
         [SerializeField] Position m_Position = Position.Outside;
-        [SerializeField] private Vector3 m_Offset;
-        [SerializeField] private float m_Distance;
-        [SerializeField] private string m_Formatter;
-        [SerializeField] private float m_PaddingLeftRight = 2f;
-        [SerializeField] private float m_PaddingTopBottom = 2f;
-        [SerializeField] private float m_BackgroundWidth = 0;
-        [SerializeField] private float m_BackgroundHeight = 0;
-        [SerializeField] private string m_NumericFormatter = "";
-        [SerializeField] private bool m_AutoOffset = false;
+        [SerializeField] protected Vector3 m_Offset;
+        [SerializeField] protected float m_Distance;
+        [SerializeField] protected string m_Formatter;
+        [SerializeField] protected float m_PaddingLeftRight = 2f;
+        [SerializeField] protected float m_PaddingTopBottom = 2f;
+        [SerializeField] protected float m_BackgroundWidth = 0;
+        [SerializeField] protected float m_BackgroundHeight = 0;
+        [SerializeField] protected string m_NumericFormatter = "";
+        [SerializeField] protected bool m_AutoOffset = false;
         
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
-        private SerieLabelFormatterFunction m_FormatterFunction;
+        [SerializeField] protected TextStyle m_TextStyle = new TextStyle();
+        protected SerieLabelFormatterFunction m_FormatterFunction;
 
         public void Reset()
         {

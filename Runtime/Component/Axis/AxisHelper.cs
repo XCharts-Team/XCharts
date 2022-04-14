@@ -490,6 +490,22 @@ namespace XCharts.Runtime
             }
         }
 
+        public static double GetAxisPositionValue(GridCoord grid, Axis axis, Vector3 pos)
+        {
+            if (axis is YAxis)
+                return GetAxisPositionValue(pos.y, grid.context.height, axis.context.minMaxRange, grid.context.y, axis.context.offset);
+            else if (axis is XAxis)
+                return GetAxisPositionValue(pos.x, grid.context.width, axis.context.minMaxRange, grid.context.x, axis.context.offset);
+            else
+                return 0;
+        }
+
+        public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset)
+        {
+            var yRate = axisRange / axisLength;
+            return yRate * (xy - axisStart - axisOffset);
+        }
+
         /// <summary>
         /// 获得数值value在坐标轴上的坐标位置
         /// </summary>

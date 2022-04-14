@@ -30,4 +30,10 @@ namespace XCharts.Editor
             }
         }
     }
+
+    [CustomPropertyDrawer(typeof(EndLabelStyle), true)]
+    public class EndLabelStyleDrawer : LabelStyleDrawer
+    {
+        public override string ClassName { get { return "EndLabel"; } }
+    }
 }

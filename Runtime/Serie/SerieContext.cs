@@ -37,6 +37,11 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 center;
         /// <summary>
+        /// 线段终点
+        /// </summary>
+        public Vector3 lineEndPostion;
+        public double lineEndValue;
+        /// <summary>
         /// 内半径
         /// </summary>
         public float insideRadius;

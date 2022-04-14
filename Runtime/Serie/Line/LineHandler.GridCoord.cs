@@ -266,6 +266,10 @@ namespace XCharts.Runtime
             m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
+            if (m_EndLabel != null && !m_SerieGrid.context.endLabelList.Contains(m_EndLabel))
+            {
+                m_SerieGrid.context.endLabelList.Add(m_EndLabel);
+            }
 
             var visualMap = chart.GetVisualMapOfSerie(serie);
             var dataZoom = chart.GetDataZoomOfAxis(axis);

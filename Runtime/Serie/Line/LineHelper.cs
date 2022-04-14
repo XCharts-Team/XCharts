@@ -295,6 +295,14 @@ namespace XCharts.Runtime
                 {
                     AddLineVertToVertexHelper(vh, ltp, lbp, lineColor, isVisualMapGradient, isLineStyleGradient,
                         visualMap, serie.lineStyle, grid, axis, relativedAxis, false, lastDataIsIgnore, isIgnore);
+                    if (dataCount == 2 || isBreak)
+                    {
+                        AddLineVertToVertexHelper(vh, clp, crp, lineColor, isVisualMapGradient, isLineStyleGradient,
+                               visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                        serie.context.lineEndPostion = cp;
+                        serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
+                        break;
+                    }
                 }
 
                 if (bitp == bibp)
@@ -327,6 +335,8 @@ namespace XCharts.Runtime
                             visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                     }
                 }
+                serie.context.lineEndPostion = cp;
+                serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
                 lastDataIsIgnore = isIgnore;
                 if (isBreak)
                     break;

@@ -47,6 +47,7 @@ namespace XCharts.Runtime
         private static readonly string s_SerieLabelObjectName = "label";
         private static readonly string s_SerieTitleObjectName = "title";
         private static readonly string s_SerieRootObjectName = "serie";
+        private static readonly string s_SerieEndLabelObjectName = "end_label";
         protected GameObject m_SerieRoot;
         protected GameObject m_SerieLabelRoot;
         protected bool m_InitedLabel;
@@ -55,6 +56,7 @@ namespace XCharts.Runtime
         protected bool m_LastCheckContextFlag = false;
         protected bool m_LegendEnter = false;
         protected int m_LegendEnterIndex;
+        protected ChartLabel m_EndLabel;
 
         public T serie { get; internal set; }
         public GameObject labelObject { get { return m_SerieLabelRoot; } }
@@ -77,8 +79,8 @@ namespace XCharts.Runtime
             if (m_RefreshLabel)
             {
                 m_RefreshLabel = false;
-                if (m_InitedLabel)
-                    RefreshLabelInternal();
+                RefreshLabelInternal();
+                RefreshEndLabelInternal();
             }
             if (serie.dataDirty)
             {
@@ -91,6 +93,12 @@ namespace XCharts.Runtime
                 serie.labelDirty = false;
                 serie.label.ClearComponentDirty();
                 InitSerieLabel();
+                InitSerieEndLabel();
+            }
+            if (serie.endLabel != null && serie.endLabel.componentDirty)
+            {
+                serie.endLabel.ClearComponentDirty();
+                InitSerieEndLabel();
             }
             if (serie.titleStyle != null && (serie.titleDirty || serie.titleStyle.componentDirty))
             {
@@ -126,6 +134,7 @@ namespace XCharts.Runtime
             InitRoot();
             InitSerieLabel();
             InitSerieTitle();
+            InitSerieEndLabel();
         }
 
         public override void RemoveComponent()
@@ -265,6 +274,46 @@ namespace XCharts.Runtime
             return true;
         }
 
+        private void InitSerieEndLabel()
+        {
+            if (serie.endLabel == null)
+            {
+                if (m_EndLabel != null)
+                {
+                    m_EndLabel.SetActive(false);
+                    m_EndLabel = null;
+                }
+                return;
+            }
+            if (m_SerieRoot == null)
+                InitRoot();
+            var serieLabel = serie.endLabel;
+            var textStyle = serieLabel.textStyle;
+            var dataAutoColor = (Color)chart.theme.GetColor(serie.index);
+
+            var color = serieLabel.textStyle.autoColor ? dataAutoColor : chart.theme.common.textColor;
+
+            var anchorMin = new Vector2(0f, 0.5f);
+            var anchorMax = new Vector2(0f, 0.5f);
+            var pivot = new Vector2(0f, 0.5f);
+            var sizeDelta = new Vector2(50, textStyle.GetFontSize(chart.theme.common) + 2);
+            var labelObj = ChartHelper.AddObject(s_SerieEndLabelObjectName, m_SerieRoot.transform, anchorMin, anchorMax, pivot, sizeDelta);
+            var txt = ChartHelper.AddTextObject("Text", labelObj.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle,
+                chart.theme.common);
+            txt.SetColor(color);
+            txt.SetAlignment(textStyle.alignment);
+            txt.SetText("Text");
+            txt.SetLocalPosition(new Vector2(0, 0));
+            txt.SetLocalEulerAngles(Vector3.zero);
+
+            var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
+            m_EndLabel = ChartHelper.GetOrAddComponent<ChartLabel>(labelObj);
+            m_EndLabel.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
+            m_EndLabel.SetIconActive(false);
+            m_EndLabel.SetActive(true);
+            RefreshEndLabelInternal();
+        }
+
         private void InitSerieTitle()
         {
             if (m_SerieRoot == null)
@@ -365,6 +414,27 @@ namespace XCharts.Runtime
                     serieData.SetLabelActive(false);
                 }
             }
+        }
+
+        public virtual void RefreshEndLabelInternal()
+        {
+            if (m_EndLabel == null)
+                return;
+            var endLabelStyle = serie.endLabel;
+            if (endLabelStyle == null)
+                return;
+            var dataCount = serie.context.drawPoints.Count;
+            var active = endLabelStyle.show && dataCount > 0;
+            m_EndLabel.SetActive(active);
+            if (active)
+            {
+                var value = serie.context.lineEndValue;
+                var content = SerieLabelHelper.GetFormatterContent(serie, null, value, 0,
+                        endLabelStyle, Color.clear);
+                m_EndLabel.SetText(content);
+                m_EndLabel.SetPosition(serie.context.lineEndPostion + endLabelStyle.offset);
+            }
+            m_EndLabel.isAnimationEnd = serie.animation.IsFinish();
         }
 
         private void UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)

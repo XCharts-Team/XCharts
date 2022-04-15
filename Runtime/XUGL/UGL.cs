@@ -624,10 +624,10 @@ namespace XUGL
             vh.AddUIVertexQuad(s_Vertex);
         }
 
-        private static void InitCornerRadius(float[] cornerRadius, float width, float height, bool horizontal,
+        public static void InitCornerRadius(float[] cornerRadius, float width, float height, bool horizontal,
             bool invert, ref float brLt, ref float brRt, ref float brRb, ref float brLb, ref bool needRound)
         {
-            if (cornerRadius == null) return;
+            if (cornerRadius == null || cornerRadius.Length == 0) return;
             if (invert)
             {
                 if (horizontal)

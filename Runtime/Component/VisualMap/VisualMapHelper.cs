@@ -76,7 +76,9 @@ namespace XCharts.Runtime
                 if (axis.IsCategory() && axis.boundaryGap)
                 {
                     float startX = grid.context.x + axis.context.scaleWidth / 2;
-                    value = (int)(min + (pos.x - startX) / (grid.context.width - axis.context.scaleWidth) * (max - min));
+                    value = (min + (pos.x - startX) / (grid.context.width - axis.context.scaleWidth) * (max - min));
+                    if (visualMap.IsPiecewise())
+                        value = (int)value;
                 }
                 else
                 {
@@ -87,17 +89,19 @@ namespace XCharts.Runtime
             {
                 min = relativedAxis.context.minValue;
                 max = relativedAxis.context.maxValue;
-
                 if (relativedAxis.IsCategory() && relativedAxis.boundaryGap)
                 {
                     float startY = grid.context.y + relativedAxis.context.scaleWidth / 2;
-                    value = (int)(min + (pos.y - startY) / (grid.context.height - relativedAxis.context.scaleWidth) * (max - min));
+                    value = (min + (pos.y - startY) / (grid.context.height - relativedAxis.context.scaleWidth) * (max - min));
+                    if (visualMap.IsPiecewise())
+                        value = (int)value;
                 }
                 else
                 {
                     value = min + (pos.y - grid.context.y) / grid.context.height * (max - min);
                 }
             }
+
             var color = visualMap.GetColor(value);
             if (ChartHelper.IsClearColor(color))
             {

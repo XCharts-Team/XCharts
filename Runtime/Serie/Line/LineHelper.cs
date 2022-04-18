@@ -97,15 +97,13 @@ namespace XCharts.Runtime
                     if (UGLHelper.GetIntersection(lp, tp, axisStartPos, axisEndPos, ref ip))
                         tp = ip;
                 }
+                var zp = isY ? new Vector3(zero, tp.y) : new Vector3(tp.x, zero);
                 if (isVisualMapGradient)
                 {
-                    color = VisualMapHelper.GetLineGradientColor(visualMap, tp, grid, axis, relativedAxis, areaColor);
-                    toColor = color;
-                    lerp = false;
+                    color = VisualMapHelper.GetLineGradientColor(visualMap, zp, grid, axis, relativedAxis, areaColor);
+                    toColor = VisualMapHelper.GetLineGradientColor(visualMap, tp, grid, axis, relativedAxis, areaToColor);
+                    lerp = true;
                 }
-
-                var zp = isY ? new Vector3(zero, tp.y) : new Vector3(tp.x, zero);
-
                 if (i > 0)
                 {
                     if ((lp.y - zero > 0 && tp.y - zero < 0) || (lp.y - zero < 0 && tp.y - zero > 0))

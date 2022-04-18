@@ -18,7 +18,7 @@ namespace XCharts.Runtime
                 return destProgress;
             }
             var isDataAnimationEnd = true;
-            float currHig = serie.animation.CheckItemProgress(dataIndex, destProgress, ref isDataAnimationEnd, startPorgress);
+            var currHig = serie.animation.CheckItemProgress(dataIndex, destProgress, ref isDataAnimationEnd, startPorgress);
             if (!isDataAnimationEnd)
             {
                 serie.animation.context.isAllItemAnimationEnd = false;

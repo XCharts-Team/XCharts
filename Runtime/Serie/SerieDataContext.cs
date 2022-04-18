@@ -40,6 +40,7 @@ namespace XCharts.Runtime
         /// 绘制区域。
         /// </summary>
         public Rect rect;
+        public Rect backgroundRect;
         public Rect subRect;
         public int level;
         public SerieData parent;

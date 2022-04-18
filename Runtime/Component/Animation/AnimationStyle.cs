@@ -532,12 +532,15 @@ namespace XCharts.Runtime
                         isEnd = true;
                     }
                 }
-                else if (currHig - destProgress > 0)
+                else
                 {
-                    currHig = destProgress;
-                    isEnd = true;
+                    if ((destProgress - startProgress > 0 && currHig > destProgress)
+                        || (destProgress - startProgress < 0 && currHig < destProgress))
+                    {
+                        currHig = destProgress;
+                        isEnd = true;
+                    }
                 }
-                
                 SetDataCurrProgress(dataIndex, currHig);
                 return currHig;
             }

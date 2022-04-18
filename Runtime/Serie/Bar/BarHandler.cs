@@ -11,6 +11,7 @@ namespace XCharts.Runtime
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
+        private float[] m_CapusleDefaultCornerRadius = new float[] { 1, 1, 1, 1 };
 
         public override void Update()
         {
@@ -200,6 +201,8 @@ namespace XCharts.Runtime
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+                var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
+                var borderGapAndWidth = borderWidth + borderGap;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
                 {
@@ -228,26 +231,29 @@ namespace XCharts.Runtime
                     out plb, out plt, out prt, out prb, out top);
                 serieData.context.stackHeight = barHig;
                 serieData.context.position = top;
-                serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
+                serieData.context.rect = Rect.MinMaxRect(plb.x + borderGapAndWidth, plb.y + borderGapAndWidth,
+                    prt.x - borderGapAndWidth, prt.y - borderGapAndWidth);
+                serieData.context.backgroundRect = isY
+                    ? Rect.MinMaxRect(m_SerieGrid.context.x, plb.y, m_SerieGrid.context.x + relativedAxisLength, prt.y)
+                    : Rect.MinMaxRect(plb.x, m_SerieGrid.context.y, prb.x, m_SerieGrid.context.y + relativedAxisLength);
+
                 if (!serie.clip || (serie.clip && m_SerieGrid.Contains(top)))
                     serie.context.dataPoints.Add(top);
                 else
                     continue;
+
                 if (serie.show && currHig != 0 && !serie.placeHolder)
                 {
                     switch (serie.barType)
                     {
                         case BarType.Normal:
+                        case BarType.Capsule:
                             DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
-                                pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
+                                pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor, relativedValue);
                             break;
                         case BarType.Zebra:
                             DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
                                 pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
-                            break;
-                        case BarType.Capsule:
-                            DrawCapsuleBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
-                               pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                     }
                 }
@@ -324,37 +330,37 @@ namespace XCharts.Runtime
             {
                 if (yValue < 0)
                 {
-                    plt = new Vector3(pX - borderWidth, pY + gap + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig + borderWidth, pY + gap + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig + borderWidth, pY + gap + borderWidth);
-                    plb = new Vector3(pX - borderWidth, pY + gap + borderWidth);
+                    plt = new Vector3(pX + currHig, pY + gap + barWidth);
+                    prt = new Vector3(pX, pY + gap + barWidth);
+                    prb = new Vector3(pX, pY + gap);
+                    plb = new Vector3(pX + currHig, pY + gap);
                 }
                 else
                 {
-                    plt = new Vector3(pX + borderWidth, pY + gap + barWidth - borderWidth);
-                    prt = new Vector3(pX + currHig - borderWidth, pY + gap + barWidth - borderWidth);
-                    prb = new Vector3(pX + currHig - borderWidth, pY + gap + borderWidth);
-                    plb = new Vector3(pX + borderWidth, pY + gap + borderWidth);
+                    plt = new Vector3(pX, pY + gap + barWidth);
+                    prt = new Vector3(pX + currHig, pY + gap + barWidth);
+                    prb = new Vector3(pX + currHig, pY + gap);
+                    plb = new Vector3(pX, pY + gap);
                 }
-                top = new Vector3(pX + currHig - borderWidth, pY + gap + barWidth / 2);
+                top = new Vector3(pX + currHig, pY + gap + barWidth / 2);
             }
             else
             {
                 if (yValue < 0)
                 {
-                    plb = new Vector3(pX + gap + borderWidth, pY - borderWidth);
-                    plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
-                    prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
-                    prb = new Vector3(pX + gap + barWidth - borderWidth, pY - borderWidth);
+                    plb = new Vector3(pX + gap, pY + currHig);
+                    plt = new Vector3(pX + gap, pY);
+                    prt = new Vector3(pX + gap + barWidth, pY);
+                    prb = new Vector3(pX + gap + barWidth, pY + currHig);
                 }
                 else
                 {
-                    plb = new Vector3(pX + gap + borderWidth, pY + borderWidth);
-                    plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
-                    prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
-                    prb = new Vector3(pX + gap + barWidth - borderWidth, pY + borderWidth);
+                    plb = new Vector3(pX + gap, pY);
+                    plt = new Vector3(pX + gap, pY + currHig);
+                    prt = new Vector3(pX + gap + barWidth, pY + currHig);
+                    prb = new Vector3(pX + gap + barWidth, pY);
                 }
-                top = new Vector3(pX + gap + barWidth / 2, pY + currHig - borderWidth);
+                top = new Vector3(pX + gap + barWidth / 2, pY + currHig);
             }
             if (serie.clip)
             {
@@ -368,66 +374,30 @@ namespace XCharts.Runtime
 
         private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
             bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
-            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor)
+            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor, double value)
         {
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, gap, barWidth, isYAxis, grid, axis);
             var borderWidth = itemStyle.runtimeBorderWidth;
-            if (isYAxis)
+            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
+            var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner()
+                ? m_CapusleDefaultCornerRadius
+                : itemStyle.cornerRadius;
+            var invert = value < 0;
+            if (!ChartHelper.IsClearColor(backgroundColor))
             {
-                if (serie.clip)
-                {
-                    prb = chart.ClampInGrid(grid, prb);
-                    plb = chart.ClampInGrid(grid, plb);
-                    plt = chart.ClampInGrid(grid, plt);
-                    prt = chart.ClampInGrid(grid, prt);
-                }
-                var itemWidth = Mathf.Abs(prb.x - plt.x);
-                var itemHeight = Mathf.Abs(prt.y - plb.y);
-                var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
-                if (itemWidth > 0 && itemHeight > 0)
-                {
-                    var invert = center.x < plb.x;
-                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
-                    {
-                        UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
-                            itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
-                    }
-                    else
-                    {
-                        chart.DrawClipPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip, grid);
-                    }
-                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
-                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
-                }
+                UGL.DrawRoundRectangle(vh, serieData.context.backgroundRect, backgroundColor, backgroundColor, 0,
+                    cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
+            }
+            UGL.DrawRoundRectangle(vh, serieData.context.rect, areaColor, areaToColor, 0,
+                    cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
+            if (serie.barType == BarType.Capsule)
+            {
+                UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, itemStyle.borderColor,
+                    0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, -borderWidth);
             }
             else
             {
-                if (serie.clip)
-                {
-                    prb = chart.ClampInGrid(grid, prb);
-                    plb = chart.ClampInGrid(grid, plb);
-                    plt = chart.ClampInGrid(grid, plt);
-                    prt = chart.ClampInGrid(grid, prt);
-                }
-                var itemWidth = Mathf.Abs(prt.x - plb.x);
-                var itemHeight = Mathf.Abs(plt.y - prb.y);
-                var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                if (itemWidth > 0 && itemHeight > 0)
-                {
-                    var invert = center.y < plb.y;
-                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
-                    {
-                        UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
-                            itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
-                    }
-                    else
-                    {
-                        chart.DrawClipPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor,
-                            serie.clip, grid);
-                    }
-                    UGL.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, itemStyle.borderColor,
-                        itemStyle.borderToColor, 0, itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
-                }
+                UGL.DrawBorder(vh, serieData.context.rect, borderWidth, itemStyle.borderColor,
+                   0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, itemStyle.borderGap);
             }
         }
 
@@ -435,7 +405,12 @@ namespace XCharts.Runtime
             bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 barColor, Color32 barToColor)
         {
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, gap, barWidth, isYAxis, grid, axis);
+            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
+            if (!ChartHelper.IsClearColor(backgroundColor))
+            {
+                UGL.DrawRoundRectangle(vh, serieData.context.backgroundRect, backgroundColor, backgroundColor, 0,
+                    null, isYAxis, chart.settings.cicleSmoothness, false);
+            }
             if (isYAxis)
             {
                 plt = (plb + plt) / 2;
@@ -449,213 +424,6 @@ namespace XCharts.Runtime
                 plt = (plt + prt) / 2;
                 chart.DrawClipZebraLine(vh, plb, plt, barWidth / 2, serie.barZebraWidth, serie.barZebraGap,
                     barColor, barToColor, serie.clip, grid, grid.context.height);
-            }
-        }
-
-        private void DrawCapsuleBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
-            bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
-            Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor)
-        {
-            DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, gap, barWidth, isYAxis, grid, axis);
-            var borderWidth = itemStyle.runtimeBorderWidth;
-            var radius = barWidth / 2 - borderWidth;
-            var isGradient = !ChartHelper.IsValueEqualsColor(areaColor, areaToColor);
-            if (isYAxis)
-            {
-                var diff = Vector3.right * radius;
-                if (plt.x < prt.x)
-                {
-                    var pcl = (plt + plb) / 2 + diff;
-                    var pcr = (prt + prb) / 2 - diff;
-                    if (pcr.x > pcl.x)
-                    {
-                        if (isGradient)
-                        {
-                            var barLen = prt.x - plt.x;
-                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
-                            chart.DrawClipPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, rectStartColor,
-                                rectEndColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pcl, radius, areaColor, rectStartColor, 180, 360, 1, isYAxis);
-                            UGL.DrawSector(vh, pcr, radius, rectEndColor, areaToColor, 0, 180, 1, isYAxis);
-                        }
-                        else
-                        {
-                            chart.DrawClipPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor,
-                                areaToColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pcl, radius, areaColor, 180, 360);
-                            UGL.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
-                        }
-                    }
-                }
-                else if (plt.x > prt.x)
-                {
-                    var pcl = (plt + plb) / 2 - diff;
-                    var pcr = (prt + prb) / 2 + diff;
-                    if (pcr.x < pcl.x)
-                    {
-                        if (isGradient)
-                        {
-                            var barLen = plt.x - prt.x;
-                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
-                            chart.DrawClipPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, rectStartColor,
-                                rectEndColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pcl, radius, rectStartColor, areaColor, 0, 180, 1, isYAxis);
-                            UGL.DrawSector(vh, pcr, radius, areaToColor, rectEndColor, 180, 360, 1, isYAxis);
-                        }
-                        else
-                        {
-                            chart.DrawClipPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, areaColor,
-                                areaToColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pcl, radius, areaColor, 0, 180);
-                            UGL.DrawSector(vh, pcr, radius, areaToColor, 180, 360);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var diff = Vector3.up * radius;
-                if (plt.y > plb.y)
-                {
-                    var pct = (plt + prt) / 2 - diff;
-                    var pcb = (plb + prb) / 2 + diff;
-                    if (pct.y > pcb.y)
-                    {
-                        if (isGradient)
-                        {
-                            var barLen = plt.y - plb.y;
-                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
-                            chart.DrawClipPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, rectStartColor,
-                                rectEndColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 270, 450, 1, isYAxis);
-                            UGL.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 90, 270, 1, isYAxis);
-                        }
-                        else
-                        {
-                            chart.DrawClipPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor,
-                                areaToColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pct, radius, areaToColor, 270, 450);
-                            UGL.DrawSector(vh, pcb, radius, areaColor, 90, 270);
-                        }
-                    }
-                }
-                else if (plt.y < plb.y)
-                {
-                    var pct = (plt + prt) / 2 + diff;
-                    var pcb = (plb + prb) / 2 - diff;
-                    if (pct.y < pcb.y)
-                    {
-                        if (isGradient)
-                        {
-                            var barLen = plb.y - plt.y;
-                            var rectStartColor = Color32.Lerp(areaColor, areaToColor, radius / barLen);
-                            var rectEndColor = Color32.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
-                            chart.DrawClipPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, rectStartColor,
-                                rectEndColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 90, 270, 1, isYAxis);
-                            UGL.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 270, 450, 1, isYAxis);
-                        }
-                        else
-                        {
-                            chart.DrawClipPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, areaColor,
-                                areaToColor, serie.clip, grid);
-                            UGL.DrawSector(vh, pct, radius, areaToColor, 90, 270);
-                            UGL.DrawSector(vh, pcb, radius, areaColor, 270, 450);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void DrawBarBackground(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle,
-            int colorIndex, bool highlight, float pX, float pY, float gap, float barWidth, bool isYAxis,
-            GridCoord grid, Axis axis)
-        {
-            var color = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
-            if (ChartHelper.IsClearColor(color)) return;
-            if (isYAxis)
-            {
-                var axisWidth = axis.axisLine.GetWidth(chart.theme.axis.lineWidth);
-                Vector3 plt = new Vector3(grid.context.x + axisWidth, pY + gap + barWidth);
-                Vector3 prt = new Vector3(grid.context.x + axisWidth + grid.context.width, pY + gap + barWidth);
-                Vector3 prb = new Vector3(grid.context.x + axisWidth + grid.context.width, pY + gap);
-                Vector3 plb = new Vector3(grid.context.x + axisWidth, pY + gap);
-                if (serie.barType == BarType.Capsule)
-                {
-                    var radius = barWidth / 2;
-                    var diff = Vector3.right * radius;
-                    var pcl = (plt + plb) / 2 + diff;
-                    var pcr = (prt + prb) / 2 - diff;
-                    chart.DrawClipPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, color, color, serie.clip, grid);
-                    UGL.DrawSector(vh, pcl, radius, color, 180, 360);
-                    UGL.DrawSector(vh, pcr, radius, color, 0, 180);
-                    if (itemStyle.NeedShowBorder())
-                    {
-                        var borderWidth = itemStyle.borderWidth;
-                        var borderColor = itemStyle.borderColor;
-                        var smoothness = chart.settings.cicleSmoothness;
-                        var inRadius = radius - borderWidth;
-                        var outRadius = radius;
-                        var p1 = plb + diff + Vector3.up * borderWidth / 2;
-                        var p2 = prb - diff + Vector3.up * borderWidth / 2;
-                        var p3 = plt + diff - Vector3.up * borderWidth / 2;
-                        var p4 = prt - diff - Vector3.up * borderWidth / 2;
-                        UGL.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
-                        UGL.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        UGL.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, ChartConst.clearColor32,
-                            180, 360, smoothness);
-                        UGL.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, ChartConst.clearColor32,
-                            0, 180, smoothness);
-                    }
-                }
-                else
-                {
-                    chart.DrawClipPolygon(vh, ref plb, ref plt, ref prt, ref prb, color, color, serie.clip, grid);
-                }
-            }
-            else
-            {
-                var axisWidth = axis.axisLine.GetWidth(chart.theme.axis.lineWidth);
-                Vector3 plb = new Vector3(pX + gap, grid.context.y + axisWidth);
-                Vector3 plt = new Vector3(pX + gap, grid.context.y + grid.context.height + axisWidth);
-                Vector3 prt = new Vector3(pX + gap + barWidth, grid.context.y + grid.context.height + axisWidth);
-                Vector3 prb = new Vector3(pX + gap + barWidth, grid.context.y + axisWidth);
-                if (serie.barType == BarType.Capsule)
-                {
-                    var radius = barWidth / 2;
-                    var diff = Vector3.up * radius;
-                    var pct = (plt + prt) / 2 - diff;
-                    var pcb = (plb + prb) / 2 + diff;
-                    chart.DrawClipPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, color, color,
-                        serie.clip, grid);
-                    UGL.DrawSector(vh, pct, radius, color, 270, 450);
-                    UGL.DrawSector(vh, pcb, radius, color, 90, 270);
-                    if (itemStyle.NeedShowBorder())
-                    {
-                        var borderWidth = itemStyle.borderWidth;
-                        var borderColor = itemStyle.borderColor;
-                        var smoothness = chart.settings.cicleSmoothness;
-                        var inRadius = radius - borderWidth;
-                        var outRadius = radius;
-                        var p1 = plb + diff + Vector3.right * borderWidth / 2;
-                        var p2 = plt - diff + Vector3.right * borderWidth / 2;
-                        var p3 = prb + diff - Vector3.right * borderWidth / 2;
-                        var p4 = prt - diff - Vector3.right * borderWidth / 2;
-                        UGL.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
-                        UGL.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        UGL.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, ChartConst.clearColor32,
-                            270, 450, smoothness);
-                        UGL.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, ChartConst.clearColor32,
-                            90, 270, smoothness);
-                    }
-                }
-                else
-                {
-                    chart.DrawClipPolygon(vh, ref prb, ref plb, ref plt, ref prt, color, color, serie.clip, grid);
-                }
             }
         }
     }

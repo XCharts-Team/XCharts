@@ -171,7 +171,7 @@ namespace XCharts.Runtime
                 {
                     if (itemWidth > 0 && itemHeight > 0)
                     {
-                        if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                        if (itemStyle.IsNeedCorner())
                         {
                             UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaColor, 0,
                                 itemStyle.cornerRadius, isYAxis, 0.5f);

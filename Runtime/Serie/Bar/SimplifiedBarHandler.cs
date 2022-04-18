@@ -321,7 +321,7 @@ namespace XCharts.Runtime
                 if (itemWidth > 0 && itemHeight > 0)
                 {
                     var invert = center.x < plb.x;
-                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    if (itemStyle.IsNeedCorner())
                     {
                         UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
                             itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
@@ -349,7 +349,7 @@ namespace XCharts.Runtime
                 if (itemWidth > 0 && itemHeight > 0)
                 {
                     var invert = center.y < plb.y;
-                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    if (itemStyle.IsNeedCorner())
                     {
                         UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0,
                             itemStyle.cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);

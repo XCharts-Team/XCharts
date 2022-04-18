@@ -723,6 +723,14 @@ namespace XUGL
             }
         }
 
+        public static void DrawRoundRectangle(VertexHelper vh, Rect rect,
+            Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
+            float smoothness = 2, bool invert = false)
+        {
+            DrawRoundRectangle(vh, rect.center, rect.width, rect.height, color, toColor, rotate, cornerRadius,
+                isYAxis, smoothness, invert);
+        }
+
         /// <summary>
         /// 绘制圆角矩形
         /// </summary>
@@ -734,19 +742,25 @@ namespace XUGL
         /// <param name="toColor"></param>
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
-        /// <param name="isYAxis"></param>
+        /// <param name="horizontal"></param>
         /// <param name="smoothness"></param>
-        /// <param name="invertCorner"></param>
+        /// <param name="invert"></param>
         public static void DrawRoundRectangle(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
-            Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool isYAxis = false,
-            float smoothness = 2, bool invertCorner = false)
+            Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null, bool horizontal = false,
+            float smoothness = 2, bool invert = false)
         {
+            if (invert)
+            {
+                var temp = toColor;
+                toColor = color;
+                color = temp;
+            }
             var isGradient = !UGLHelper.IsValueEqualsColor(color, toColor);
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
             float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
             bool needRound = false;
-            InitCornerRadius(cornerRadius, rectWidth, rectHeight, isYAxis, invertCorner, ref brLt, ref brRt, ref brRb,
+            InitCornerRadius(cornerRadius, rectWidth, rectHeight, horizontal, invert, ref brLt, ref brRt, ref brRb,
                 ref brLb, ref needRound);
             var tempCenter = Vector3.zero;
             var lbIn = new Vector3(center.x - halfWid, center.y - halfHig);
@@ -788,7 +802,7 @@ namespace XUGL
                     lbIn2 = roundLb + brLb * Vector3.down;
                 }
 
-                if (isYAxis)
+                if (horizontal)
                 {
                     var maxLeft = Mathf.Max(brLt, brLb);
                     var maxRight = Mathf.Max(brRt, brRb);
@@ -818,10 +832,10 @@ namespace XUGL
                     if (roundRbLeft.x < roundLb.x) roundRbLeft.x = roundLb.x;
                     if (!isGradient)
                     {
-                        DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLt, brLt, color, color, 270, 360, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRb, brRb, toColor, toColor, 90, 180, 1, horizontal, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, horizontal, smoothness);
 
                         DrawQuadrilateral(vh, ltIn, ltInRight, lbInRight, lbIn, color, color);
                         DrawQuadrilateral(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, color, color);
@@ -850,10 +864,10 @@ namespace XUGL
                         var upRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRt) / maxRight);
                         var downRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRb) / maxRight);
 
-                        DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRb, brRb, downRightColor, toColor, 90, 180, 1, horizontal, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, downLeftColor, 180, 270, 1, horizontal, smoothness);
 
                         DrawQuadrilateral(vh, lbIn, ltIn, ltInRight, lbInRight, color, tempLeftColor);
                         DrawQuadrilateral(vh, lbIn2, roundLb, roundLbRight, lbIn2Right, downLeftColor,
@@ -912,10 +926,10 @@ namespace XUGL
 
                     if (!isGradient)
                     {
-                        DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLt, brLt, toColor, toColor, 270, 360, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRt, brRt, toColor, toColor, 0, 90, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRb, brRb, color, color, 90, 180, 1, horizontal, smoothness);
+                        DrawSector(vh, roundLb, brLb, color, color, 180, 270, 1, horizontal, smoothness);
 
                         DrawQuadrilateral(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, toColor);
                         DrawQuadrilateral(vh, ltIn, roundLt, roundLtDown, ltInDown, toColor, toColor);
@@ -938,10 +952,10 @@ namespace XUGL
                         var leftDownColor = Color32.Lerp(color, tempDownColor, brLb / maxdown);
                         var rightDownColor = Color32.Lerp(color, tempDownColor, brRb / maxdown);
 
-                        DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, isYAxis, smoothness);
-                        DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, isYAxis, smoothness);
+                        DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, horizontal, smoothness);
+                        DrawSector(vh, roundRb, brRb, rightDownColor, color, 90, 180, 1, horizontal, smoothness);
+                        DrawSector(vh, roundLb, brLb, leftDownColor, color, 180, 270, 1, horizontal, smoothness);
 
                         DrawQuadrilateral(vh, ltIn2, rtIn, rtInDown, ltIn2Down, toColor, tempUpColor);
                         DrawQuadrilateral(vh, ltIn, roundLt, roundLtDown, ltInDown, leftUpColor,
@@ -963,10 +977,10 @@ namespace XUGL
             }
             else
             {
-                if (isYAxis)
+                if (horizontal)
                     DrawQuadrilateral(vh, lbIn, ltIn, rtIn, rbIn, color, toColor);
                 else
-                    DrawQuadrilateral(vh, lbIn, ltIn, rtIn, rbIn, toColor, color);
+                    DrawQuadrilateral(vh, rbIn, lbIn, ltIn, rtIn, color, toColor);
             }
         }
 
@@ -982,12 +996,13 @@ namespace XUGL
         /// <param name="rotate"></param>
         /// <param name="cornerRadius"></param>
         /// <param name="invertCorner"></param>
+        /// <param name="extWidth"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null,
-            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false, float extWidth = 0)
         {
             DrawBorder(vh, center, rectWidth, rectHeight, borderWidth, color, s_ClearColor32, rotate,
-                cornerRadius, horizontal, smoothness, invertCorner);
+                cornerRadius, horizontal, smoothness, invertCorner, extWidth);
         }
 
         /// <summary>
@@ -1002,12 +1017,13 @@ namespace XUGL
         /// <param name="horizontal"></param>
         /// <param name="smoothness"></param>
         /// <param name="invertCorner"></param>
+        /// <param name="extWidth"></param>
         public static void DrawBorder(VertexHelper vh, Rect rect,
             float borderWidth, Color32 color, float rotate = 0, float[] cornerRadius = null,
-            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false, float extWidth = 0)
         {
             DrawBorder(vh, rect.center, rect.width, rect.height, borderWidth, color, s_ClearColor32, rotate,
-                cornerRadius, horizontal, smoothness, invertCorner);
+                cornerRadius, horizontal, smoothness, invertCorner, extWidth);
         }
 
         /// <summary>
@@ -1025,9 +1041,10 @@ namespace XUGL
         /// <param name="horizontal"></param>
         /// <param name="smoothness"></param>
         /// <param name="invertCorner"></param>
+        /// <param name="extWidth"></param>
         public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
             float borderWidth, Color32 color, Color32 toColor, float rotate = 0, float[] cornerRadius = null,
-            bool horizontal = false, float smoothness = 1f, bool invertCorner = false)
+            bool horizontal = false, float smoothness = 1f, bool invertCorner = false, float extWidth = 0)
         {
             if (borderWidth == 0 || UGLHelper.IsClearColor(color)) return;
             var halfWid = rectWidth / 2;
@@ -1059,9 +1076,10 @@ namespace XUGL
                 var rtOt2 = rtOt;
                 var rbIn2 = rbIn;
                 var rbOt2 = rbOt;
-                if (brLt > 0)
+                //if (brLt > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
+                    brLt += extWidth;
                     DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, horizontal ? color : toColor, s_ClearColor32,
                         270, 360, smoothness);
                     ltIn = tempCenter + brLt * Vector3.left;
@@ -1069,18 +1087,20 @@ namespace XUGL
                     ltIn2 = tempCenter + brLt * Vector3.up;
                     ltOt2 = tempCenter + (brLt + borderWidth) * Vector3.up;
                 }
-                if (brRt > 0)
+                //if (brRt > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
+                    brRt += extWidth;
                     DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, toColor, s_ClearColor32, 0, 90, smoothness);
                     rtIn = tempCenter + brRt * Vector3.up;
                     rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
                     rtIn2 = tempCenter + brRt * Vector3.right;
                     rtOt2 = tempCenter + (brRt + borderWidth) * Vector3.right;
                 }
-                if (brRb > 0)
+                //if (brRb > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
+                    brRb += extWidth;
                     DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, horizontal ? toColor : color, s_ClearColor32,
                         90, 180, smoothness);
                     rbIn = tempCenter + brRb * Vector3.right;
@@ -1088,9 +1108,10 @@ namespace XUGL
                     rbIn2 = tempCenter + brRb * Vector3.down;
                     rbOt2 = tempCenter + (brRb + borderWidth) * Vector3.down;
                 }
-                if (brLb > 0)
+                //if (brLb > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
+                    brLb += extWidth;
                     DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, s_ClearColor32, 180, 270, smoothness);
                     lbIn = tempCenter + brLb * Vector3.left;
                     lbOt = tempCenter + (brLb + borderWidth) * Vector3.left;

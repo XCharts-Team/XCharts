@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_CenterColor;
         [SerializeField] private float m_CenterGap;
         [SerializeField] private float m_BorderWidth = 0;
+        [SerializeField] private float m_BorderGap = 0;
         [SerializeField] private Color32 m_BorderColor;
         [SerializeField] private Color32 m_BorderColor0;
         [SerializeField] private Color32 m_BorderToColor;
@@ -39,6 +40,7 @@ namespace XCharts.Runtime
             m_CenterColor = Color.clear;
             m_CenterGap = 0;
             m_BorderWidth = 0;
+            m_BorderGap = 0;
             m_BorderColor = Color.clear;
             m_BorderColor0 = Color.clear;
             m_BorderToColor = Color.clear;
@@ -162,6 +164,14 @@ namespace XCharts.Runtime
         {
             get { return m_BorderWidth; }
             set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 边框间隙。
+        /// </summary>
+        public float borderGap
+        {
+            get { return m_BorderGap; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
@@ -326,14 +336,11 @@ namespace XCharts.Runtime
             }
             return color;
         }
-    }
 
-    public static class ItemStyleHelper
-    {
-        public static bool IsNeedCorner(ItemStyle itemStyle)
+        public bool IsNeedCorner()
         {
-            if (itemStyle.cornerRadius == null) return false;
-            foreach (var value in itemStyle.cornerRadius)
+            if (m_CornerRadius == null) return false;
+            foreach (var value in m_CornerRadius)
             {
                 if (value != 0) return true;
             }

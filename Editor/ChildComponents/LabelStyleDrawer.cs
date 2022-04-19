@@ -18,6 +18,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Position");
                 PropertyField(prop, "m_Offset");
                 PropertyField(prop, "m_AutoOffset");
+                PropertyField(prop, "m_Rotate");
                 PropertyField(prop, "m_Distance");
                 PropertyField(prop, "m_Formatter");
                 PropertyField(prop, "m_NumericFormatter");

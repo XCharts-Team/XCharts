@@ -237,7 +237,7 @@ namespace XCharts.Runtime
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             txtObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
-            if(chartText == null)
+            if (chartText == null)
                 chartText = new ChartText();
 #if dUI_TextMeshPro
             RemoveComponent<Text>(txtObj);
@@ -435,9 +435,29 @@ namespace XCharts.Runtime
         internal static GameObject AddSerieLabel(string name, Transform parent, float width, float height,
             Color color, TextStyle textStyle, ThemeStyle theme)
         {
-            var anchorMin = new Vector2(0.5f, 0.5f);
-            var anchorMax = new Vector2(0.5f, 0.5f);
-            var pivot = new Vector2(0.5f, 0.5f);
+            Vector3 anchorMin, anchorMax, pivot;
+            switch (textStyle.alignment)
+            {
+                case TextAnchor.LowerLeft:
+                case TextAnchor.UpperLeft:
+                case TextAnchor.MiddleLeft:
+                    anchorMin = new Vector2(0f, 0.5f);
+                    anchorMax = new Vector2(0f, 0.5f);
+                    pivot = new Vector2(0f, 0.5f);
+                    break;
+                case TextAnchor.LowerRight:
+                case TextAnchor.UpperRight:
+                case TextAnchor.MiddleRight:
+                    anchorMin = new Vector2(1, 0.5f);
+                    anchorMax = new Vector2(1, 0.5f);
+                    pivot = new Vector2(1, 0.5f);
+                    break;
+                default:
+                    anchorMin = new Vector2(0.5f, 0.5f);
+                    anchorMax = new Vector2(0.5f, 0.5f);
+                    pivot = new Vector2(0.5f, 0.5f);
+                    break;
+            }
             var sizeDelta = (width != 0 && height != 0)
                 ? new Vector2(width, height)
                 : new Vector2(50, textStyle.GetFontSize(theme.common) + 2);
@@ -450,7 +470,6 @@ namespace XCharts.Runtime
             txt.SetLocalPosition(new Vector2(0, 0));
             txt.SetLocalEulerAngles(Vector3.zero);
             labelObj.transform.localPosition = Vector3.zero;
-            labelObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
             return labelObj;
         }
 

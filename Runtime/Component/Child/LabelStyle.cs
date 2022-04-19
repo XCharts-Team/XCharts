@@ -70,6 +70,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_Show = true;
         [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] protected Vector3 m_Offset;
+        [SerializeField] protected float m_Rotate;
         [SerializeField] protected float m_Distance;
         [SerializeField] protected string m_Formatter;
         [SerializeField] protected float m_PaddingLeftRight = 2f;
@@ -88,6 +89,7 @@ namespace XCharts.Runtime
             m_Position = Position.Outside;
             m_Offset = Vector3.zero;
             m_Distance = 0;
+            m_Rotate = 0;
             m_PaddingLeftRight = 2f;
             m_PaddingTopBottom = 2f;
             m_BackgroundWidth = 0;
@@ -140,6 +142,15 @@ namespace XCharts.Runtime
         {
             get { return m_Offset; }
             set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Rotation of label.
+        /// |文本的旋转。
+        /// </summary>
+        public float rotate
+        {
+            get { return m_Rotate; }
+            set { if (PropertyUtil.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 距离轴线的距离。

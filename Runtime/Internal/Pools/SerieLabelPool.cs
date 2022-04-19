@@ -27,12 +27,12 @@ namespace XCharts.Runtime
                 m_ReleaseDic.Remove(element.GetInstanceID());
                 element.name = name;
                 element.transform.SetParent(parent);
-                element.transform.localEulerAngles = new Vector3(0, 0, label.textStyle.rotate);
                 var text = new ChartText(element);
                 text.SetColor(color);
                 text.SetFontAndSizeAndStyle(label.textStyle, theme.common);
                 ChartHelper.SetActive(element, true);
             }
+            element.transform.localEulerAngles = new Vector3(0, 0, label.rotate);
             return element;
         }
 

@@ -44,6 +44,9 @@
 
 ## branch-2.0
 
+* (2022.04.21) Fixed bug #192 with `RingChart` `Tooltip` exception
+* (2022.04.21) Fixed error when setting `minShowNum` in `DataZoom`
+
 ## v2.8.0
 
 * (2022.04.10) Added the debug information panel

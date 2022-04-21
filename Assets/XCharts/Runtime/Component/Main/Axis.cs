@@ -728,13 +728,15 @@ namespace XCharts
                     filterEnd = end;
                     filterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
-                    if (data.Count > 0)
+                    if (data.Count > 0 && filterMinShow < data.Count)
                     {
-                        if (range < dataZoom.minShowNum)
+                        if (range < filterMinShow)
                         {
-                            if (dataZoom.minShowNum > data.Count) range = data.Count;
-                            else range = dataZoom.minShowNum;
+                            if (filterMinShow > data.Count) range = data.Count;
+                            else range = filterMinShow;
                         }
+                        if (range > data.Count - start - 1)
+                            start = data.Count - range - 1;
                         filterData = data.GetRange(start, range);
                     }
                     else

@@ -666,6 +666,8 @@ namespace XCharts
                         if (dataZoom.minShowNum > data.Count) range = data.Count;
                         else range = dataZoom.minShowNum;
                     }
+                    if (range > data.Count - start - 1)
+                        start = data.Count - range - 1;
                     serie.m_FilterData = data.GetRange(start, range);
                 }
                 else

@@ -21,7 +21,7 @@ namespace XCharts.Runtime
         public override void CheckComponent(System.Text.StringBuilder sb)
         {
             var legend = component;
-            if (ChartHelper.IsColorAlphaZero(legend.textStyle.color))
+            if (ChartHelper.IsColorAlphaZero(legend.labelStyle.textStyle.color))
                 sb.AppendFormat("warning:legend{0}->textStyle->color alpha is 0\n", legend.index);
             var serieNameList = SeriesHelper.GetLegalSerieNameList(chart.series);
             if (serieNameList.Count == 0)

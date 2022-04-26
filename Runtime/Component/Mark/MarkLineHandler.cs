@@ -72,21 +72,16 @@ namespace XCharts.Runtime
             data.painter = chart.m_PainterTop;
             data.refreshComponent = delegate ()
             {
-                var label = data.label;
                 var textName = string.Format("markLine_{0}_{1}", serie.index, data.index);
-                var color = !ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color : chart.theme.axis.textColor;
-                var element = ChartHelper.AddSerieLabel(textName, m_MarkLineLabelRoot.transform, label.backgroundWidth,
-                    label.backgroundHeight, color, label.textStyle, chart.theme);
-                var isAutoSize = label.backgroundWidth == 0 || label.backgroundHeight == 0;
-                var backgroundColor = label.textStyle.GetBackgroundColor(chart.GetChartBackgroundColor());
-                var item = ChartHelper.GetOrAddComponent<ChartLabel>(element);
-                item.SetLabel(element, isAutoSize, label.paddingLeftRight, label.paddingTopBottom);
-                item.SetIconActive(false);
-                item.SetActive(data.label.show);
-                item.SetPosition(MarkLineHelper.GetLabelPosition(data));
-                item.SetText(MarkLineHelper.GetFormatterContent(serie, data));
-                item.color = backgroundColor;
-                data.runtimeLabel = item;
+                var content = MarkLineHelper.GetFormatterContent(serie, data);
+                var label = ChartHelper.AddChartLabel(textName, m_MarkLineLabelRoot.transform, data.label, chart.theme.axis,
+                    content, Color.clear, TextAnchor.MiddleCenter);
+                label.SetActive(data.label.show);
+
+                label.SetIconActive(false);
+                label.SetActive(data.label.show);
+                label.SetPosition(MarkLineHelper.GetLabelPosition(data));
+                data.runtimeLabel = label;
             };
             data.refreshComponent();
         }

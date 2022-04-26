@@ -45,7 +45,7 @@ namespace XCharts.Runtime
             var dataName = serieData != null ? serieData.name : null;
             if (serieLabel.formatterFunction != null)
             {
-                return serieLabel.formatterFunction(serieData.index, dataValue);
+                return serieLabel.formatterFunction(serieData.index, dataValue, null);
             }
             if (string.IsNullOrEmpty(serieLabel.formatter))
                 return ChartCached.NumberToStr(dataValue, numericFormatter);
@@ -69,10 +69,10 @@ namespace XCharts.Runtime
             var total = serie.max;
             var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, null, Color.clear);
             serieData.labelObject.SetText(content);
-            serieData.labelObject.SetLabelPosition(serie.context.center + label.offset);
+            serieData.labelObject.SetPosition(serie.context.center + label.offset);
             if (!ChartHelper.IsClearColor(label.textStyle.color))
             {
-                serieData.labelObject.label.SetColor(label.textStyle.color);
+                serieData.labelObject.text.SetColor(label.textStyle.color);
             }
         }
 
@@ -98,7 +98,8 @@ namespace XCharts.Runtime
                         serie.context.center.y + labelRadius * Mathf.Cos(currRad));
                     serieData.context.labelPosition = labelCenter;
                     break;
-                case LabelStyle.Position.Outside:
+                default:
+                    //LabelStyle.Position.Outside
                     if (labelLine != null && labelLine.lineType == LabelLine.LineType.HorizontalLine)
                     {
                         var radius1 = serie.context.outsideRadius;
@@ -113,7 +114,7 @@ namespace XCharts.Runtime
                         }
                         var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
                         r4 += labelLine.lineLength1 + labelLine.lineWidth * 4;
-                        r4 += serieData.labelObject.label.GetPreferredWidth() / 2;
+                        r4 += serieData.labelObject.text.GetPreferredWidth() / 2;
                         serieData.context.labelPosition = pos0 + ((currAngle - startAngle) % 360 > 180 ? Vector3.left : Vector3.right) * r4;
                     }
                     else
@@ -165,8 +166,10 @@ namespace XCharts.Runtime
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             var fontSize = serieLabel.textStyle.GetFontSize(theme);
+            var isOutside = serieLabel.position == LabelStyle.Position.Outside
+               || serieLabel.position == LabelStyle.Position.Default;
             if (!serieLabel.show) return;
-            if (serieLabel.position != LabelStyle.Position.Outside) return;
+            if (!isOutside) return;
             if (lastCheckPos == Vector3.zero)
             {
                 lastCheckPos = serieData.context.labelPosition;
@@ -193,11 +196,12 @@ namespace XCharts.Runtime
         {
             if (label == null || labelLine == null)
                 return serieData.context.labelPosition;
-
-            if (label.position == LabelStyle.Position.Outside && labelLine.lineType != LabelLine.LineType.HorizontalLine)
+            var isOutside = label.position == LabelStyle.Position.Outside
+               || label.position == LabelStyle.Position.Default;
+            if (isOutside && labelLine.lineType != LabelLine.LineType.HorizontalLine)
             {
                 var currAngle = serieData.context.halfAngle;
-                var offset = labelLine.lineLength2 + serieData.labelObject.GetLabelWidth() / 2;
+                var offset = labelLine.lineLength2 + serieData.labelObject.GetTextWidth() / 2;
                 if ((currAngle - serie.context.startAngle) % 360 > 180)
                     return serieData.context.labelPosition + new Vector3(-offset, 0, 0);
                 else

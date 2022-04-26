@@ -15,6 +15,7 @@ namespace XCharts.Runtime
         /// </summary>
         public enum Position
         {
+            Default,
             /// <summary>
             /// Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.
             /// |饼图扇区外侧，通过视觉引导线连到相应的扇区。
@@ -68,32 +69,31 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] protected bool m_Show = true;
-        [SerializeField] Position m_Position = Position.Outside;
+        [SerializeField] Position m_Position = Position.Default;
+        [SerializeField] protected bool m_AutoOffset = false;
         [SerializeField] protected Vector3 m_Offset;
         [SerializeField] protected float m_Rotate;
         [SerializeField] protected float m_Distance;
         [SerializeField] protected string m_Formatter;
-        [SerializeField] protected float m_PaddingLeftRight = 2f;
-        [SerializeField] protected float m_PaddingTopBottom = 2f;
-        [SerializeField] protected float m_BackgroundWidth = 0;
-        [SerializeField] protected float m_BackgroundHeight = 0;
         [SerializeField] protected string m_NumericFormatter = "";
-        [SerializeField] protected bool m_AutoOffset = false;
-        
+        [SerializeField] protected float m_Width = 0;
+        [SerializeField] protected float m_Height = 0;
+
+        [SerializeField] protected IconStyle m_Icon = new IconStyle();
+        [SerializeField] protected ImageStyle m_Background = new ImageStyle();
+        [SerializeField] protected TextPadding m_TextPadding = new TextPadding();
         [SerializeField] protected TextStyle m_TextStyle = new TextStyle();
-        protected SerieLabelFormatterFunction m_FormatterFunction;
+        protected LabelFormatterFunction m_FormatterFunction;
 
         public void Reset()
         {
             m_Show = false;
-            m_Position = Position.Outside;
+            m_Position = Position.Default;
             m_Offset = Vector3.zero;
             m_Distance = 0;
             m_Rotate = 0;
-            m_PaddingLeftRight = 2f;
-            m_PaddingTopBottom = 2f;
-            m_BackgroundWidth = 0;
-            m_BackgroundHeight = 0;
+            m_Width = 0;
+            m_Height = 0;
             m_NumericFormatter = "";
             m_AutoOffset = false;
         }
@@ -161,42 +161,33 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the width of background. If set as default value 0, it means than the background width auto set as the text width.
-        /// |标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
+        /// the width of label. If set as default value 0, it means than the label width auto set as the text width.
+        /// |标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
         /// <value></value>
-        public float backgroundWidth
+        public float width
         {
-            get { return m_BackgroundWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetComponentDirty(); }
+            get { return m_Width; }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the height of background. If set as default value 0, it means than the background height auto set as the text height.
-        /// |标签的背景高度。一般不用指定，不指定时则自动是文字的高度。
+        /// the height of label. If set as default value 0, it means than the label height auto set as the text height.
+        /// |标签的高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
         /// <value></value>
-        public float backgroundHeight
+        public float height
         {
-            get { return m_BackgroundHeight; }
-            set { if (PropertyUtil.SetStruct(ref m_BackgroundHeight, value)) SetComponentDirty(); }
+            get { return m_Height; }
+            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the text padding of left and right. defaut:2.
-        /// |左右边距。
+        /// the text padding of label. 
+        /// |文本的边距。
         /// </summary>
-        public float paddingLeftRight
+        public TextPadding textPadding
         {
-            get { return m_PaddingLeftRight; }
-            set { if (PropertyUtil.SetStruct(ref m_PaddingLeftRight, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// the text padding of top and bottom. defaut:2.
-        /// |上下边距。
-        /// </summary>
-        public float paddingTopBottom
-        {
-            get { return m_PaddingTopBottom; }
-            set { if (PropertyUtil.SetStruct(ref m_PaddingTopBottom, value)) SetComponentDirty(); }
+            get { return m_TextPadding; }
+            set { if (PropertyUtil.SetClass(ref m_TextPadding, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Standard numeric format strings.
@@ -218,8 +209,24 @@ namespace XCharts.Runtime
             get { return m_AutoOffset; }
             set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
         }
-        
-
+        /// <summary>
+        /// the sytle of background.
+        /// |背景图样式。
+        /// </summary>
+        public ImageStyle background
+        {
+            get { return m_Background; }
+            set { if (PropertyUtil.SetClass(ref m_Background, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the sytle of icon.
+        /// |图标样式。
+        /// </summary>
+        public IconStyle icon
+        {
+            get { return m_Icon; }
+            set { if (PropertyUtil.SetClass(ref m_Icon, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// the sytle of text.
         /// |文本样式。
@@ -229,8 +236,7 @@ namespace XCharts.Runtime
             get { return m_TextStyle; }
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
         }
-
-        public SerieLabelFormatterFunction formatterFunction
+        public LabelFormatterFunction formatterFunction
         {
             get { return m_FormatterFunction; }
             set { m_FormatterFunction = value; }
@@ -239,6 +245,11 @@ namespace XCharts.Runtime
         public bool IsInside()
         {
             return position == Position.Inside || position == Position.Center;
+        }
+
+        public bool IsAutoSize()
+        {
+            return width == 0 && height == 0;
         }
 
         public Vector3 GetOffset(float radius)
@@ -261,29 +272,42 @@ namespace XCharts.Runtime
             }
         }
 
-        public TextAnchor GetAutoAlignment()
+        public virtual LabelStyle Clone()
         {
-            if (textStyle.autoAlign) return textStyle.alignment;
-            else
-            {
-                switch (position)
-                {
-                    case LabelStyle.Position.Inside:
-                    case LabelStyle.Position.Center:
-                    case LabelStyle.Position.Top:
-                    case LabelStyle.Position.Bottom:
-                        return TextAnchor.MiddleCenter;
-                    case LabelStyle.Position.Outside:
-                    case LabelStyle.Position.Right:
-                        return TextAnchor.MiddleLeft;
-                    case LabelStyle.Position.Left:
-                        return TextAnchor.MiddleRight;
-                    default:
-                        return TextAnchor.MiddleCenter;
-                }
-            }
+            var label = new LabelStyle();
+            label.m_Show = m_Show;
+            label.m_Position = m_Position;
+            label.m_Offset = m_Offset;
+            label.m_Rotate = m_Rotate;
+            label.m_Distance = m_Distance;
+            label.m_Formatter = m_Formatter;
+            label.m_Width = m_Width;
+            label.m_Height = m_Height;
+            label.m_NumericFormatter = m_NumericFormatter;
+            label.m_AutoOffset = m_AutoOffset;
+            label.m_Icon.Copy(m_Icon);
+            label.m_Background.Copy(m_Background);
+            label.m_TextPadding = m_TextPadding;
+            label.m_TextStyle.Copy(m_TextStyle);
+            return label;
+        }
+
+        public virtual void Copy(LabelStyle label)
+        {
+            m_Show = label.m_Show;
+            m_Position = label.m_Position;
+            m_Offset = label.m_Offset;
+            m_Rotate = label.m_Rotate;
+            m_Distance = label.m_Distance;
+            m_Formatter = label.m_Formatter;
+            m_Width = label.m_Width;
+            m_Height = label.m_Height;
+            m_NumericFormatter = label.m_NumericFormatter;
+            m_AutoOffset = label.m_AutoOffset;
+            m_Icon.Copy(label.m_Icon);
+            m_Background.Copy(label.m_Background);
+            m_TextPadding = label.m_TextPadding;
+            m_TextStyle.Copy(label.m_TextStyle);
         }
     }
-
-
 }

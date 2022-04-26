@@ -29,15 +29,13 @@ namespace XCharts.Runtime
                 dataZoomObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(dataZoomObject);
 
-                var startLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "start", dataZoomObject.transform,
-                    Vector2.zero, Vector2.zero, new Vector2(1, 0.5f), new Vector2(200, 20), dataZoom.textStyle,
-                    chart.theme.dataZoom);
-                startLabel.SetAlignment(TextAnchor.MiddleRight);
+                var startLabel = ChartHelper.AddChartLabel(s_DefaultDataZoom + "start", dataZoomObject.transform,
+                    dataZoom.labelStyle, chart.theme.dataZoom, "", Color.clear, TextAnchor.MiddleRight);
+                startLabel.gameObject.SetActive(true);
 
-                var endLabel = ChartHelper.AddTextObject(s_DefaultDataZoom + "end", dataZoomObject.transform,
-                    Vector2.zero, Vector2.zero, new Vector2(0, 0.5f), new Vector2(200, 20), dataZoom.textStyle,
-                    chart.theme.dataZoom);
-                endLabel.SetAlignment(TextAnchor.MiddleLeft);
+                var endLabel = ChartHelper.AddChartLabel(s_DefaultDataZoom + "end", dataZoomObject.transform,
+                   dataZoom.labelStyle, chart.theme.dataZoom, "", Color.clear, TextAnchor.MiddleLeft);
+                endLabel.gameObject.SetActive(true);
 
                 dataZoom.SetStartLabel(startLabel);
                 dataZoom.SetEndLabel(endLabel);

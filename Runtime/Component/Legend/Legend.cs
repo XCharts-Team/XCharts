@@ -75,7 +75,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private bool m_TextAutoColor = false;
         [SerializeField] private string m_Formatter;
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle() { offset = new Vector2(2f, 0), fontSize = 0 };
+        [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
 
@@ -195,10 +195,10 @@ namespace XCharts.Runtime
         /// the style of text.
         /// |文本样式。
         /// </summary>
-        public TextStyle textStyle
+        public LabelStyle labelStyle
         {
-            get { return m_TextStyle; }
-            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+            get { return m_LabelStyle; }
+            set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
@@ -229,14 +229,14 @@ namespace XCharts.Runtime
         /// </summary>
         public override bool componentDirty
         {
-            get { return m_ComponentDirty || location.componentDirty || textStyle.componentDirty; }
+            get { return m_ComponentDirty || location.componentDirty || labelStyle.componentDirty; }
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             location.ClearComponentDirty();
-            textStyle.ClearComponentDirty();
+            labelStyle.ClearComponentDirty();
         }
 
         /// <summary>

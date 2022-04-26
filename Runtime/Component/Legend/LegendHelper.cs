@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     {
         public static Color GetContentColor(int legendIndex, Legend legend, ThemeStyle theme, bool active)
         {
-            var textStyle = legend.textStyle;
+            var textStyle = legend.labelStyle.textStyle;
             if (active)
             {
                 if (legend.textAutoColor) return theme.GetColor(legendIndex);
@@ -40,7 +40,7 @@ namespace XCharts.Runtime
             var pivot = new Vector2(0, 0.5f);
             var sizeDelta = new Vector2(100, 30);
             var iconSizeDelta = new Vector2(legend.itemWidth, legend.itemHeight);
-            var textStyle = legend.textStyle;
+            var textStyle = legend.labelStyle.textStyle;
             var contentColor = GetContentColor(legendIndex, legend, theme, active);
 
             var objAnchorMin = new Vector2(0, 1);
@@ -48,16 +48,15 @@ namespace XCharts.Runtime
             var objPivot = new Vector2(0, 1);
             var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta, i);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
-            var contentObj = ChartHelper.AddObject("content", btnObj.transform, anchorMin, anchorMax, pivot, sizeDelta);
             var img = ChartHelper.GetOrAddComponent<Image>(btnObj);
             img.color = Color.clear;
             ChartHelper.GetOrAddComponent<Button>(btnObj);
             ChartHelper.GetOrAddComponent<Image>(iconObj);
-            ChartHelper.GetOrAddComponent<Image>(contentObj);
-            var txt = ChartHelper.AddTextObject("Text", contentObj.transform, anchorMin, anchorMax, pivot, sizeDelta,
-                textStyle, theme.legend);
-            txt.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleLeft));
-            txt.SetColor(contentColor);
+
+            var label = ChartHelper.AddChartLabel("content", btnObj.transform, legend.labelStyle, theme.legend,
+                    content, contentColor, TextAnchor.MiddleLeft);
+            label.SetActive(true);
+
             var item = new LegendItem();
             item.index = i;
             item.name = objName;
@@ -66,9 +65,8 @@ namespace XCharts.Runtime
             item.SetIconSize(legend.itemWidth, legend.itemHeight);
             item.SetIconColor(itemColor);
             item.SetIconImage(legend.GetIcon(i));
-            item.SetContentPosition(textStyle.offsetv3);
+            item.SetContentPosition(legend.labelStyle.offset);
             item.SetContent(content);
-            item.SetContentBackgroundColor(textStyle.backgroundColor);
             return item;
         }
 

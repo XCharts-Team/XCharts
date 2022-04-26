@@ -109,18 +109,17 @@ namespace XCharts.Runtime
                 var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
                 var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.context.minValue, axis.context.maxValue,
                     null, isPercentStack);
-                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
-                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(labelWidth, txtHig), axis, chart.theme.axis,
-                    labelName);
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform,
+                    new Vector2(labelWidth, txtHig), axis, chart.theme.axis, labelName, Color.clear);
 
                 if (i == 0)
-                    axis.axisLabel.SetRelatedText(label.label, labelWidth);
+                    axis.axisLabel.SetRelatedText(label.text, labelWidth);
 
-                label.label.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
+                label.text.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 label.SetText(labelName);
                 label.SetPosition(GetLabelPosition(polar, axis, angleAxis.context.startAngle, totalWidth));
                 label.SetActive(true);
-                label.SetLabelActive(true);
+                label.SetTextActive(true);
 
                 axis.context.labelObjectList.Add(label);
 

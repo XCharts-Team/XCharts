@@ -406,7 +406,8 @@ namespace XCharts.Runtime
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             if (serieLabel != null && serieLabel.show
                 && labelLine != null && labelLine.show
-                && serieLabel.position == LabelStyle.Position.Outside)
+                && (serieLabel.position == LabelStyle.Position.Outside
+                || serieLabel.position == LabelStyle.Position.Default))
             {
                 var insideRadius = serieData.context.insideRadius;
                 var outSideRadius = serieData.context.outsideRadius;

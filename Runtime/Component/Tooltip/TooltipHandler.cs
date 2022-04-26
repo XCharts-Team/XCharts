@@ -56,7 +56,8 @@ namespace XCharts.Runtime
                 for (int i = 0; i < 2; i++)
                 {
                     var labelName = "label_" + i;
-                    var item = ChartHelper.AddTooltipLabel(component, labelName, m_LabelRoot.transform, chart.theme, new Vector2(0.5f, 0.5f));
+                    var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
+                        chart.theme, TextAnchor.MiddleCenter);
                     item.SetActive(false);
                     m_IndicatorLabels.Add(item);
                 }
@@ -71,7 +72,8 @@ namespace XCharts.Runtime
             else
             {
                 var labelName = "label_" + index;
-                var item = ChartHelper.AddTooltipLabel(component, labelName, m_LabelRoot.transform, chart.theme, new Vector2(0.5f, 0.5f));
+                var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
+                    chart.theme, TextAnchor.MiddleCenter);
                 m_IndicatorLabels.Add(item);
                 return item;
             }
@@ -150,7 +152,7 @@ namespace XCharts.Runtime
                                 if (axis.gridIndex == grid.index)
                                 {
                                     var label = GetIndicatorLabel(labelCount++);
-                                    SetTooltipIndicatorLabel(axis, label);
+                                    SetTooltipIndicatorLabel(tooltip, axis, label);
                                 }
                             }
                         }
@@ -167,7 +169,7 @@ namespace XCharts.Runtime
                                 if (axis.polarIndex == polar.index)
                                 {
                                     var label = GetIndicatorLabel(labelCount++);
-                                    SetTooltipIndicatorLabel(axis, label);
+                                    SetTooltipIndicatorLabel(tooltip, axis, label);
                                 }
                             }
                         }
@@ -176,19 +178,22 @@ namespace XCharts.Runtime
             }
         }
 
-        private void SetTooltipIndicatorLabel(Axis axis, ChartLabel label)
+        private void SetTooltipIndicatorLabel(Tooltip tooltip, Axis axis, ChartLabel label)
         {
             if (label == null) return;
             if (double.IsPositiveInfinity(axis.context.pointerValue)) return;
             label.SetActive(true);
-            label.SetLabelActive(true);
+            label.SetTextActive(true);
             label.SetPosition(axis.context.pointerLabelPosition);
             if (axis.IsCategory())
                 label.SetText(axis.GetData((int)axis.context.pointerValue));
             else
                 label.SetText(axis.context.pointerValue.ToString("f2"));
             var textColor = axis.axisLabel.textStyle.GetColor(chart.theme.axis.textColor);
-            label.labelBackground.color = textColor;
+            if (ChartHelper.IsClearColor(tooltip.indicatorLabelStyle.background.color))
+                label.color = textColor;
+            else
+                label.color = tooltip.indicatorLabelStyle.background.color;
             label.SetTextColor(Color.white);
         }
 
@@ -415,7 +420,8 @@ namespace XCharts.Runtime
             if (tooltip.context.data.param.Count > 0)
             {
                 tooltip.SetActive(true);
-                tooltip.view.Refresh();
+                if (tooltip.view != null)
+                    tooltip.view.Refresh();
                 TooltipHelper.LimitInRect(tooltip, chart.chartRect);
                 return true;
             }

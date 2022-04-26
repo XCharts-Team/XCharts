@@ -27,30 +27,23 @@ namespace XCharts.Runtime
                 anchorMin = title.location.runtimeAnchorMin;
                 anchorMax = title.location.runtimeAnchorMax;
                 pivot = title.location.runtimePivot;
-                title.textStyle.UpdateAlignmentByLocation(title.location);
-                title.subTextStyle.UpdateAlignmentByLocation(title.location);
-                var fontSize = title.textStyle.GetFontSize(chart.theme.title);
+                var fontSize = title.labelStyle.textStyle.GetFontSize(chart.theme.title);
                 ChartHelper.UpdateRectTransform(titleObject, anchorMin, anchorMax, pivot, new Vector2(chart.chartWidth, chart.chartHeight));
                 var titlePosition = chart.GetTitlePosition(title);
                 var subTitlePosition = -new Vector3(0, fontSize + title.itemGap, 0);
-                var titleWid = chart.chartWidth;
 
                 titleObject.transform.localPosition = titlePosition;
                 titleObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(titleObject);
 
-                var titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform, anchorMin, anchorMax,
-                    pivot, new Vector2(titleWid, fontSize), title.textStyle, chart.theme.title);
-                titleText.SetActive(title.show);
-                titleText.SetLocalPosition(Vector3.zero + title.textStyle.offsetv3);
-                titleText.SetText(title.text);
+                var label = ChartHelper.AddChartLabel(s_TitleObjectName, titleObject.transform, title.labelStyle, chart.theme.title,
+                    title.text, Color.clear, title.location.runtimeTextAlignment);
+                label.SetActive(title.show && title.labelStyle.show);
 
-                var subText = ChartHelper.AddTextObject(s_SubTitleObjectName, titleObject.transform, anchorMin, anchorMax,
-                    pivot, new Vector2(titleWid, title.subTextStyle.GetFontSize(chart.theme.subTitle)), title.subTextStyle,
-                    chart.theme.subTitle);
-                subText.SetActive(title.show && !string.IsNullOrEmpty(title.subText));
-                subText.SetLocalPosition(subTitlePosition + title.subTextStyle.offsetv3);
-                subText.SetText(title.subText);
+                var subLabel = ChartHelper.AddChartLabel(s_SubTitleObjectName, titleObject.transform, title.subLabelStyle, chart.theme.subTitle,
+                    title.subText, Color.clear, title.location.runtimeTextAlignment);
+                subLabel.SetActive(title.show && title.subLabelStyle.show);
+                subLabel.transform.localPosition = subTitlePosition + title.subLabelStyle.offset;
             };
             title.refreshComponent();
         }

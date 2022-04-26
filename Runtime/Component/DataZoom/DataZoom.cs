@@ -87,7 +87,7 @@ namespace XCharts.Runtime
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
+        [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
 
@@ -339,13 +339,13 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// font style.
-        /// |文字格式。
+        /// label style.
+        /// |文本标签格式。
         /// </summary>
-        public TextStyle textStyle
+        public LabelStyle labelStyle
         {
-            get { return m_TextStyle; }
-            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+            get { return m_LabelStyle; }
+            set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 阴影线条样式。
@@ -376,12 +376,12 @@ namespace XCharts.Runtime
         /// The start label.
         /// |组件的开始信息文本。
         /// </summary>
-        private ChartText m_StartLabel { get; set; }
+        private ChartLabel m_StartLabel { get; set; }
         /// <summary>
         /// The end label.
         /// |组件的结束信息文本。
         /// </summary>
-        private ChartText m_EndLabel { get; set; }
+        private ChartLabel m_EndLabel { get; set; }
 
         public override void SetDefaultValue()
         {
@@ -402,7 +402,7 @@ namespace XCharts.Runtime
             end = 70;
             m_Orient = Orient.Horizonal;
             m_ScrollSensitivity = 10;
-            m_TextStyle = new TextStyle();
+            m_LabelStyle = new LabelStyle();
             m_LineStyle = new LineStyle(LineStyle.Type.Solid)
             {
                 opacity = 0.3f
@@ -562,14 +562,8 @@ namespace XCharts.Runtime
         /// <param name="flag"></param>
         internal void SetLabelActive(bool flag)
         {
-            if (m_StartLabel != null && m_StartLabel.gameObject.activeInHierarchy != flag)
-            {
-                m_StartLabel.gameObject.SetActive(flag);
-            }
-            if (m_EndLabel != null && m_EndLabel.gameObject.activeInHierarchy != flag)
-            {
-                m_EndLabel.gameObject.SetActive(flag);
-            }
+            m_StartLabel.SetActive(flag);
+            m_EndLabel.SetActive(flag);
         }
 
         /// <summary>
@@ -590,24 +584,24 @@ namespace XCharts.Runtime
             if (m_EndLabel != null) m_EndLabel.SetText(text);
         }
 
-        internal void SetStartLabel(ChartText startLabel)
+        internal void SetStartLabel(ChartLabel startLabel)
         {
             m_StartLabel = startLabel;
         }
 
-        internal void SetEndLabel(ChartText endLabel)
+        internal void SetEndLabel(ChartLabel endLabel)
         {
             m_EndLabel = endLabel;
         }
 
         internal void UpdateStartLabelPosition(Vector3 pos)
         {
-            m_StartLabel.SetLocalPosition(pos);
+            m_StartLabel.SetPosition(pos);
         }
 
         internal void UpdateEndLabelPosition(Vector3 pos)
         {
-            m_EndLabel.SetLocalPosition(pos);
+            m_EndLabel.SetPosition(pos);
         }
 
         public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)

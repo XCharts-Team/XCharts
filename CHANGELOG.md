@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.0.0-preivew8](#v3.0.0-preivew8)  
 [v3.0.0-preivew7](#v3.0.0-preivew7)  
 [v3.0.0-preivew6](#v3.0.0-preivew6)  
 [v3.0.0-preivew5](#v3.0.0-preivew5)  
@@ -50,6 +51,11 @@
 
 ## master
 
+## v3.0.0-preivew8
+
+* (2022.04.26) 发布`v3.0.0-preivew8`版本
+* (2022.04.23) 移除`Serie`的`IconStyle`组件
+* (2022.04.23) 强化`LabelStyle`，所有组件的`TextStyle`都升级为`LabelStyle`
 * (2022.04.19) 增加`Label`的`rotate`支持设置旋转
 * (2022.04.17) 修复`Bar`在数值为负数时动画无效的问题
 * (2022.04.17) 增加`ItemStyle`的`BorderGap`支持设置边框间距

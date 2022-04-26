@@ -46,9 +46,9 @@ namespace XCharts.Editor
                 PropertyField("m_Bottom");
                 PropertyField("m_LineStyle");
                 PropertyField("m_AreaStyle");
+                PropertyField("m_LabelStyle");
                 PropertyListField("m_XAxisIndexs", true);
                 PropertyListField("m_YAxisIndexs", true);
-                PropertyField("m_TextStyle");
             }
             else
             {

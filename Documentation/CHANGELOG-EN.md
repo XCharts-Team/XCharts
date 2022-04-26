@@ -39,6 +39,12 @@
 
 ## master
 
+* (2022.04.23) Remove `Serie` `IconStyle` component
+* (2022.04.23) Enhance `LabelStyle`, all components `TextStyle` will be upgraded to `LabelStyle`
+* (2022.04.19) Added `Label` `rotate` to support setting rotation
+* (2022.04.17) Fixed animation invalidation of `Bar` when the value is negative
+* (2022.04.17) Added `BorderGap` support for `ItemStyle` to set border spacing
+* (2022.04.16) Optimize the `Border` and `Capsule` histogram of `Bar`
 * (2021.08.15) Fixed the problem of displaying exceptions after adding data again when `DataZoom` is enable (#163)
 * (2021.08.15) Improved `Axis`'s `AxisLabel` text rotate setting to avoid inconsistency offset in `DataZoom` (#163)
 * (2021.08.14) Added `Legend`'s `textAutoColor` to set the text color match with `Serie` color (#163)

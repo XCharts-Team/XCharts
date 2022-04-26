@@ -8,7 +8,16 @@ namespace XCharts.Example
     [ExecuteInEditMode]
     public class Example13_LineSimple : MonoBehaviour
     {
-        void Awake()
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AddData();
+                //OnTestBtn();
+            }
+        }
+
+        void AddData()
         {
             var chart = gameObject.GetComponent<LineChart>();
             if (chart == null)

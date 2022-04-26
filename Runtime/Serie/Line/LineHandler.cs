@@ -71,12 +71,14 @@ namespace XCharts.Runtime
 
             endLabelList.Sort(delegate (ChartLabel a, ChartLabel b)
             {
+                if (a == null || b == null) return 1;
                 return b.transform.position.y.CompareTo(a.transform.position.y);
             });
             var lastY = float.NaN;
             for (int i = 0; i < endLabelList.Count; i++)
             {
                 var label = endLabelList[i];
+                if (label == null) continue;
                 if (!label.isAnimationEnd) continue;
                 var labelPosition = label.transform.localPosition;
                 if (float.IsNaN(lastY))
@@ -85,7 +87,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var labelHeight = label.GetLabelHeight();
+                    var labelHeight = label.GetTextHeight();
                     if (labelPosition.y + labelHeight > lastY)
                     {
                         label.SetPosition(new Vector3(labelPosition.x, lastY - labelHeight, labelPosition.z));

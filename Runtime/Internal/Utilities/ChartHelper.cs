@@ -232,10 +232,11 @@ namespace XCharts.Runtime
             rect.pivot = pivot;
         }
 
-        public static ChartText AddTextObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme, ChartText chartText = null)
+        public static ChartText AddTextObject(string objectName, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+            Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme, Color autoColor,
+            TextAnchor autoAlignment, ChartText chartText = null)
         {
-            GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            GameObject txtObj = AddObject(objectName, parent, anchorMin, anchorMax, pivot, sizeDelta);
             txtObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
             if (chartText == null)
                 chartText = new ChartText();
@@ -244,7 +245,6 @@ namespace XCharts.Runtime
             chartText.tmpText = GetOrAddComponent<TextMeshProUGUI>(txtObj);
             chartText.tmpText.font = textStyle.tmpFont == null ? theme.tmpFont : textStyle.tmpFont;
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
-            chartText.tmpText.alignment = textStyle.tmpAlignment;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
@@ -252,17 +252,21 @@ namespace XCharts.Runtime
             chartText.text = GetOrAddComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
             chartText.text.fontStyle = textStyle.fontStyle;
-            chartText.text.alignment = textStyle.alignment;
             chartText.text.horizontalOverflow = textStyle.autoWrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
             chartText.text.verticalOverflow = VerticalWrapMode.Overflow;
             chartText.text.supportRichText = true;
             chartText.text.raycastTarget = false;
 #endif
-            chartText.SetColor(textStyle.GetColor(theme.textColor));
+            if (textStyle.autoColor && autoColor != Color.clear)
+                chartText.SetColor(autoColor);
+            else
+                chartText.SetColor(textStyle.GetColor(theme.textColor));
+
+            chartText.SetAlignment(textStyle.autoAlign ? autoAlignment : textStyle.alignment);
             chartText.SetFontSize(textStyle.GetFontSize(theme));
             chartText.SetText("Text");
             chartText.SetLineSpacing(textStyle.lineSpacing);
-            chartText.SetExtraWidth(textStyle.extraWidth);
+            chartText.SetActive(textStyle.show);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;
@@ -273,93 +277,6 @@ namespace XCharts.Runtime
             return chartText;
         }
 
-        public static Text AddTextObject(string name, Transform parent, Font font, Color color,
-            TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal, float lineSpacing = 1)
-        {
-            GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var txt = GetOrAddComponent<Text>(txtObj);
-            txt.font = font;
-            txt.fontSize = fontSize;
-            txt.fontStyle = fontStyle;
-            txt.text = "Text";
-            txt.alignment = anchor;
-            txt.horizontalOverflow = HorizontalWrapMode.Overflow;
-            txt.verticalOverflow = VerticalWrapMode.Overflow;
-            txt.color = color;
-            txt.lineSpacing = lineSpacing;
-            txt.raycastTarget = false;
-            txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
-
-            RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
-            rect.localPosition = Vector3.zero;
-            rect.sizeDelta = sizeDelta;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.pivot = pivot;
-            return txt;
-        }
-
-#if dUI_TextMeshPro
-        public static TextMeshProUGUI AddTMPTextObject(string name, Transform parent, TMP_FontAsset font, Color color,
-           TextAlignmentOptions anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-           int fontSize = 14, float rotate = 0, FontStyles fontStyle = FontStyles.Normal, float lineSpacing = 1)
-        {
-            GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var txt = GetOrAddComponent<TextMeshProUGUI>(txtObj);
-            txt.font = font;
-            txt.fontSize = fontSize;
-            txt.fontStyle = fontStyle;
-            txt.text = "Text";
-            txt.alignment = anchor;
-            txt.color = color;
-            txt.lineSpacing = lineSpacing;
-            txt.raycastTarget = false;
-            txt.enableWordWrapping = false;
-            txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
-
-            RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
-            rect.localPosition = Vector3.zero;
-            rect.sizeDelta = sizeDelta;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.pivot = pivot;
-            return txt;
-        }
-#endif
-
-        public static Button AddButtonObject(string name, Transform parent, Font font, int fontSize,
-            Color color, TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
-            Vector2 sizeDelta, float lineSpacing)
-        {
-            GameObject btnObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            GetOrAddComponent<Image>(btnObj);
-            GetOrAddComponent<Button>(btnObj);
-            Text txt = AddTextObject("Text", btnObj.transform, font, color, TextAnchor.MiddleCenter,
-                    new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-                    sizeDelta, fontSize, lineSpacing);
-            txt.rectTransform.offsetMin = Vector2.zero;
-            txt.rectTransform.offsetMax = Vector2.zero;
-            return btnObj.GetComponent<Button>();
-        }
-
-#if dUI_TextMeshPro
-        public static Button AddTMPButtonObject(string name, Transform parent, TMP_FontAsset font, int fontSize,
-            Color color, TextAlignmentOptions anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
-            Vector2 sizeDelta, float lineSpacing)
-        {
-            GameObject btnObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            GetOrAddComponent<Image>(btnObj);
-            GetOrAddComponent<Button>(btnObj);
-            var txt = AddTMPTextObject("Text", btnObj.transform, font, color, anchor,
-                    new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-                    sizeDelta, fontSize, lineSpacing);
-            txt.rectTransform.offsetMin = Vector2.zero;
-            txt.rectTransform.offsetMax = Vector2.zero;
-            return btnObj.GetComponent<Button>();
-        }
-#endif
-
         internal static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
         {
@@ -367,6 +284,11 @@ namespace XCharts.Runtime
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
             return ChartHelper.GetOrAddComponent<Painter>(painterObj);
+        }
+
+        public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)
+        {
+            return AddIcon(name, parent, iconStyle.width, iconStyle.height, iconStyle.sprite, iconStyle.type);
         }
 
         public static Image AddIcon(string name, Transform parent, float width, float height, Sprite sprite = null,
@@ -394,63 +316,119 @@ namespace XCharts.Runtime
         }
 
         public static ChartLabel AddAxisLabelObject(int total, int index, string name, Transform parent,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, Axis axis, ComponentTheme theme,
-            string content)
+            Vector2 sizeDelta, Axis axis, ComponentTheme theme,
+            string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
         {
             var textStyle = axis.axisLabel.textStyle;
-            var iconStyle = axis.iconStyle;
-            var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
             var labelShow = axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0);
             if (labelShow)
             {
                 if (!axis.axisLabel.showStartLabel && index == 0) labelShow = false;
                 else if (!axis.axisLabel.showEndLabel && index == total - 1) labelShow = false;
             }
-            label.label = AddTextObject("Text", label.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme, label.label);
-            label.icon = ChartHelper.AddIcon("Icon", label.transform, iconStyle.width, iconStyle.height);
-            label.SetAutoSize(false);
-            label.UpdateIcon(iconStyle, axis.GetIcon(index));
-            label.label.SetActive(labelShow);
-            label.SetText(content);
-            label.color = textStyle.backgroundColor;
+            label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index));
+            label.text.SetActive(labelShow);
             return label;
         }
 
-        public static ChartLabel AddDefaultChartLabel(string name, Transform parent,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, TextStyle textStyle, ComponentTheme theme,
-            string content)
+        public static ChartLabel AddChartLabel(string name, Transform parent, LabelStyle labelStyle,
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
         {
+            Vector2 anchorMin, anchorMax, pivot;
+            var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
+            var textStyle = labelStyle.textStyle;
+            var alignment = textStyle.GetAlignment(autoAlignment);
+            UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            // TODO: 为了兼容旧版本，这里后面版本可以去掉
+            #region temp code
+            var oldText = labelObj.GetComponent<Text>();
+            if (oldText != null)
+            {
+                GameObject.DestroyImmediate(oldText);
+            }
+            var oldImage = labelObj.GetComponent<Image>();
+            if (oldImage != null)
+            {
+                GameObject.DestroyImmediate(oldImage);
+            }
+            #endregion
+
             var label = GetOrAddComponent<ChartLabel>(labelObj);
-            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme, label.label);
-            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, 0, 0);
-            label.SetAutoSize(true);
-            label.label.SetActive(true);
+            label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
+                sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
+            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
+            label.SetSize(labelStyle.width, labelStyle.height);
+            label.SetTextPadding(labelStyle.textPadding);
             label.SetText(content);
-            label.color = textStyle.backgroundColor;
+            label.UpdateIcon(labelStyle.icon);
+            if (labelStyle.background.show)
+            {
+                label.color = (!labelStyle.background.autoColor || autoColor == Color.clear)
+                    ? labelStyle.background.color : autoColor;
+                label.sprite = labelStyle.background.sprite;
+                label.type = labelStyle.background.type;
+            }
+            else
+            {
+                label.color = Color.clear;
+                label.sprite = null;
+            }
+            label.transform.localEulerAngles = new Vector3(0, 0, labelStyle.rotate);
+            label.transform.localPosition = labelStyle.offset;
             return label;
         }
 
-        internal static GameObject AddSerieLabel(string name, Transform parent, float width, float height,
-            Color color, TextStyle textStyle, ThemeStyle theme)
+        private static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
+            out Vector2 pivot)
         {
-            Vector3 anchorMin, anchorMax, pivot;
-            switch (textStyle.alignment)
+            switch (alignment)
             {
                 case TextAnchor.LowerLeft:
+                    anchorMin = new Vector2(0f, 0f);
+                    anchorMax = new Vector2(0f, 0f);
+                    pivot = new Vector2(0f, 0f);
+                    break;
                 case TextAnchor.UpperLeft:
+                    anchorMin = new Vector2(0f, 1f);
+                    anchorMax = new Vector2(0f, 1f);
+                    pivot = new Vector2(0f, 1f);
+                    break;
                 case TextAnchor.MiddleLeft:
                     anchorMin = new Vector2(0f, 0.5f);
                     anchorMax = new Vector2(0f, 0.5f);
                     pivot = new Vector2(0f, 0.5f);
                     break;
                 case TextAnchor.LowerRight:
+                    anchorMin = new Vector2(1f, 0f);
+                    anchorMax = new Vector2(1f, 0f);
+                    pivot = new Vector2(1f, 0f);
+                    break;
                 case TextAnchor.UpperRight:
+                    anchorMin = new Vector2(1f, 1f);
+                    anchorMax = new Vector2(1f, 1f);
+                    pivot = new Vector2(1f, 1f);
+                    break;
                 case TextAnchor.MiddleRight:
                     anchorMin = new Vector2(1, 0.5f);
                     anchorMax = new Vector2(1, 0.5f);
                     pivot = new Vector2(1, 0.5f);
+                    break;
+                case TextAnchor.LowerCenter:
+                    anchorMin = new Vector2(0.5f, 0f);
+                    anchorMax = new Vector2(0.5f, 0f);
+                    pivot = new Vector2(0.5f, 0f);
+                    break;
+                case TextAnchor.UpperCenter:
+                    anchorMin = new Vector2(0.5f, 1f);
+                    anchorMax = new Vector2(0.5f, 1f);
+                    pivot = new Vector2(0.5f, 1f);
+                    break;
+                case TextAnchor.MiddleCenter:
+                    anchorMin = new Vector2(0.5f, 0.5f);
+                    anchorMax = new Vector2(0.5f, 0.5f);
+                    pivot = new Vector2(0.5f, 0.5f);
                     break;
                 default:
                     anchorMin = new Vector2(0.5f, 0.5f);
@@ -458,41 +436,14 @@ namespace XCharts.Runtime
                     pivot = new Vector2(0.5f, 0.5f);
                     break;
             }
-            var sizeDelta = (width != 0 && height != 0)
-                ? new Vector2(width, height)
-                : new Vector2(50, textStyle.GetFontSize(theme.common) + 2);
-            var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var txt = AddTextObject("Text", labelObj.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle,
-                theme.common);
-            txt.SetColor(color);
-            txt.SetAlignment(textStyle.alignment);
-            txt.SetText("Text");
-            txt.SetLocalPosition(new Vector2(0, 0));
-            txt.SetLocalEulerAngles(Vector3.zero);
-            labelObj.transform.localPosition = Vector3.zero;
-            return labelObj;
         }
 
-        internal static ChartLabel AddTooltipLabel(Tooltip tooltip, string name, Transform parent, ThemeStyle theme, Vector2 pivot)
+        internal static ChartLabel AddTooltipIndicatorLabel(Tooltip tooltip, string name, Transform parent,
+            ThemeStyle theme, TextAnchor alignment)
         {
-            var anchorMax = new Vector2(0.5f, 0.5f);
-            var anchorMin = new Vector2(0.5f, 0.5f);
-            var sizeDelta = new Vector2(100, 20);
-            return AddTooltipLabel(tooltip, name, parent, theme, pivot, anchorMin, anchorMax, sizeDelta);
-        }
-
-        internal static ChartLabel AddTooltipLabel(Tooltip tooltip, string name, Transform parent, ThemeStyle theme, Vector2 pivot,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 sizeDelta)
-        {
-            var textStyle = tooltip.labelTextStyle;
-            var labelGameObject = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var label = GetOrAddComponent<ChartLabel>(labelGameObject);
-            label.labelBackground = ChartHelper.AddIcon("Background", label.gameObject.transform, 50, 20);
-            label.labelBackground.color = Color.black;
-            label.label = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme.tooltip, label.label);
-            label.SetAutoSize(true);
-            label.SetText("");
-            label.color = textStyle.backgroundColor;
+            var label = ChartHelper.AddChartLabel(name, parent, tooltip.indicatorLabelStyle, theme.tooltip,
+                    "", Color.clear, alignment);
+            label.SetActive(tooltip.show && tooltip.indicatorLabelStyle.show);
             return label;
         }
 

@@ -140,7 +140,6 @@ namespace XCharts.Runtime
             axisLabel.textLimit.enable = true;
             axisTick.showStartTick = true;
             axisTick.showEndTick = true;
-            iconStyle.show = false;
         }
     }
 }

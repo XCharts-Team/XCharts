@@ -9,18 +9,24 @@ namespace XCharts.Runtime
     [Serializable]
     public class DebugInfo
     {
-        #pragma warning disable 0414
+#pragma warning disable 0414
         [SerializeField] private bool m_Show = true;
-        #pragma warning restore 0414
+#pragma warning restore 0414
         [SerializeField] private bool m_ShowDebugInfo = false;
         [SerializeField] protected bool m_ShowAllChartObject = false;
         [SerializeField] protected bool m_FoldSeries = false;
         [SerializeField]
-        private TextStyle m_DebugInfoTextStyle = new TextStyle()
+        private LabelStyle m_LabelStyle = new LabelStyle()
         {
-            fontSize = 18,
-            backgroundColor = new Color32(32, 32, 32, 170),
-            color = Color.white
+            background = new ImageStyle()
+            {
+                color = new Color32(32, 32, 32, 170)
+            },
+            textStyle = new TextStyle()
+            {
+                fontSize = 18,
+                color = Color.white
+            }
         };
 
         private static StringBuilder s_Sb = new StringBuilder();
@@ -45,7 +51,7 @@ namespace XCharts.Runtime
         public void Init(BaseChart chart)
         {
             m_Chart = chart;
-            m_Label = AddDebugInfoObject("debug", chart.transform, m_DebugInfoTextStyle, chart.theme);
+            m_Label = AddDebugInfoObject("debug", chart.transform, m_LabelStyle, chart.theme);
         }
 
         public void Update()
@@ -124,7 +130,7 @@ namespace XCharts.Runtime
             return total / list.Count;
         }
 
-        private ChartLabel AddDebugInfoObject(string name, Transform parent, TextStyle textStyle,
+        private ChartLabel AddDebugInfoObject(string name, Transform parent, LabelStyle labelStyle,
             ThemeStyle theme)
         {
             var anchorMax = new Vector2(0, 1);
@@ -137,16 +143,9 @@ namespace XCharts.Runtime
             labelGameObject.hideFlags = m_Chart.chartHideFlags;
             ChartHelper.SetActive(labelGameObject, m_ShowDebugInfo);
 
-            var label = ChartHelper.GetOrAddComponent<ChartLabel>(labelGameObject);
-            label.labelBackground = label;
-            label.labelBackground.color = textStyle.backgroundColor;
-            label.labelBackground.raycastTarget = false;
-            label.label = ChartHelper.AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle, theme.common);
-            label.SetAutoSize(true);
-            label.label.SetAlignment(textStyle.GetAlignment(TextAnchor.UpperLeft));
-            label.label.SetLocalPosition(new Vector2(3, -3));
-            label.SetText("30");
-            label.SetTextColor(textStyle.color);
+            var label = ChartHelper.AddChartLabel("info", labelGameObject.transform, labelStyle, theme.common,
+                    "", Color.clear, TextAnchor.UpperLeft);
+            label.SetActive(labelStyle.show);
             return label;
         }
     }

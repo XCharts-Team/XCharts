@@ -431,13 +431,13 @@ namespace XCharts.Runtime
             if (string.IsNullOrEmpty(indicatorName))
                 return indicatorName;
 
-            if (string.IsNullOrEmpty(m_AxisName.formatter))
+            if (string.IsNullOrEmpty(m_AxisName.labelStyle.formatter))
             {
                 return indicatorName;
             }
             else
             {
-                var content = m_AxisName.formatter;
+                var content = m_AxisName.labelStyle.formatter;
                 FormatterHelper.ReplaceAxisLabelContent(ref content, indicatorName);
                 return content;
             }

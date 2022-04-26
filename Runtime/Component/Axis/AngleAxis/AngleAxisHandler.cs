@@ -86,14 +86,14 @@ namespace XCharts.Runtime
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.context.minValue, axis.context.maxValue,
                     null, isPercentStack);
-                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, new Vector2(0.5f, 0.5f),
-                    new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(scaleAngle, txtHig), axis,
-                    chart.theme.axis, labelName);
-                label.label.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, 
+                    new Vector2(scaleAngle, txtHig), axis,
+                    chart.theme.axis, labelName, Color.clear);
+                label.text.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 var pos = ChartHelper.GetPos(cenPos, radius + margin,
                     isCategory ? (totalAngle + scaleAngle / 2) : totalAngle, true);
                 AxisHelper.AdjustCircleLabelPos(label, pos, cenPos, txtHig, Vector3.zero);
-                if (i == 0) axis.axisLabel.SetRelatedText(label.label, scaleAngle);
+                if (i == 0) axis.axisLabel.SetRelatedText(label.text, scaleAngle);
                 axis.context.labelObjectList.Add(label);
 
                 totalAngle += scaleAngle;

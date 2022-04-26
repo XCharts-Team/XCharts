@@ -14,9 +14,9 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Text = "Chart Title";
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
         [SerializeField] private string m_SubText = "";
-        [SerializeField] private TextStyle m_SubTextStyle = new TextStyle();
+        [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
+        [SerializeField] private LabelStyle m_SubLabelStyle = new LabelStyle();
         [SerializeField] private float m_ItemGap = 0;
         [SerializeField] private Location m_Location = Location.defaultTop;
 
@@ -35,10 +35,10 @@ namespace XCharts.Runtime
         /// The text style of main title.
         /// |主标题文本样式。
         /// </summary>
-        public TextStyle textStyle
+        public LabelStyle labelStyle
         {
-            get { return m_TextStyle; }
-            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
+            get { return m_LabelStyle; }
+            set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Subtitle text, supporting for \n for newlines.
@@ -53,10 +53,10 @@ namespace XCharts.Runtime
         /// The text style of sub title.
         /// |副标题文本样式。
         /// </summary>
-        public TextStyle subTextStyle
+        public LabelStyle subLabelStyle
         {
-            get { return m_SubTextStyle; }
-            set { if (PropertyUtil.SetClass(ref m_SubTextStyle, value)) SetComponentDirty(); }
+            get { return m_SubLabelStyle; }
+            set { if (PropertyUtil.SetClass(ref m_SubLabelStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// [default:8]
@@ -85,8 +85,8 @@ namespace XCharts.Runtime
             {
                 return m_ComponentDirty
                     || location.componentDirty
-                    || textStyle.componentDirty
-                    || subTextStyle.componentDirty;
+                    || m_LabelStyle.componentDirty
+                    || m_SubLabelStyle.componentDirty;
             }
         }
 
@@ -94,8 +94,8 @@ namespace XCharts.Runtime
         {
             base.ClearComponentDirty();
             location.ClearComponentDirty();
-            textStyle.ClearComponentDirty();
-            subTextStyle.ClearComponentDirty();
+            m_LabelStyle.ClearComponentDirty();
+            m_SubLabelStyle.ClearComponentDirty();
         }
 
         public void OnChanged()

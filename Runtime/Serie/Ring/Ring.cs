@@ -25,7 +25,7 @@ namespace XCharts.Runtime
 
             var titleStyle = serie.AddExtraComponent<TitleStyle>();
             titleStyle.show = false;
-            titleStyle.textStyle.offset = new Vector2(0, 30);
+            titleStyle.offset = new Vector2(0, 30);
 
             var value = Random.Range(30, 90);
             var max = 100;

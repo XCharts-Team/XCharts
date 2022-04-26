@@ -80,7 +80,6 @@ namespace XCharts.Editor
             PropertyField("m_AxisLabel");
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
-            PropertyField("m_IconStyle");
             PropertyListField("m_Icons", true);
             if (type == Axis.AxisType.Category)
             {
@@ -153,17 +152,22 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Inside");
                 PropertyField(prop, "m_Interval");
-                PropertyField(prop, "m_Distance");
-                PropertyField(prop, "m_Width");
-                PropertyField(prop, "m_Height");
-                PropertyField(prop, "m_Formatter");
-                PropertyField(prop, "m_NumericFormatter");
+
                 PropertyField(prop, "m_ShowAsPositiveNumber");
                 PropertyField(prop, "m_OnZero");
                 PropertyField(prop, "m_ShowStartLabel");
                 PropertyField(prop, "m_ShowEndLabel");
-                PropertyField(prop, "m_TextLimit");
+
+                PropertyField(prop, "m_Rotate");
+                PropertyField(prop, "m_Distance");
+                PropertyField(prop, "m_Formatter");
+                PropertyField(prop, "m_NumericFormatter");
+                PropertyField(prop, "m_Width");
+                PropertyField(prop, "m_Height");
+                PropertyField(prop, "m_Icon");
+                PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");
+                PropertyField(prop, "m_Padding");
                 --EditorGUI.indentLevel;
             }
         }
@@ -180,9 +184,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Name");
-                PropertyField(prop, "m_Formatter");
-                PropertyField(prop, "m_Location");
-                PropertyField(prop, "m_TextStyle");
+                PropertyField(prop, "m_LabelStyle");
                 --EditorGUI.indentLevel;
             }
         }

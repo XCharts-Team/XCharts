@@ -63,13 +63,13 @@ namespace XCharts.Runtime
             m_ReleaseDic.Clear();
         }
 
-        private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle label, Color color,
+        private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle labelStyle, Color color,
             float iconWidth, float iconHeight, ThemeStyle theme)
         {
-            var element = ChartHelper.AddSerieLabel(name, parent, label.backgroundWidth, label.backgroundHeight,
-                color, label.textStyle, theme);
-            ChartHelper.AddIcon("Icon", element.transform, iconWidth, iconHeight);
-            return element;
+            var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.common,
+                    "", color, TextAnchor.MiddleCenter);
+            label.SetActive(labelStyle.show);
+            return label.gameObject;
         }
     }
 }

@@ -21,7 +21,6 @@ namespace XCharts.Runtime
         [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
         [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
         [SerializeField] private List<SymbolStyle> m_Symbols = new List<SymbolStyle>();
-        [SerializeField] private List<IconStyle> m_IconStyles = new List<IconStyle>();
         [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
@@ -63,14 +62,9 @@ namespace XCharts.Runtime
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         /// <summary>
-        /// the icon of data.
-        /// |数据项图标样式。
-        /// </summary>
-        public IconStyle iconStyle { get { return m_IconStyles.Count > 0 ? m_IconStyles[0] : null; } }
-        /// <summary>
         /// 单个数据项的标签设置。
         /// </summary>
-        public LabelStyle label { get { return m_Labels.Count > 0 ? m_Labels[0] : null; } }
+        public LabelStyle labelStyle { get { return m_Labels.Count > 0 ? m_Labels[0] : null; } }
         public LabelLine labelLine { get { return m_LabelLines.Count > 0 ? m_LabelLines[0] : null; } }
         /// <summary>
         /// 单个数据项的样式设置。
@@ -127,7 +121,6 @@ namespace XCharts.Runtime
             m_PreviousData.Clear();
             m_DataUpdateTime.Clear();
             m_DataUpdateFlag.Clear();
-            m_IconStyles.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
             m_ItemStyles.Clear();
@@ -146,12 +139,6 @@ namespace XCharts.Runtime
                 if (m_ItemStyles.Count == 0)
                     m_ItemStyles.Add(new ItemStyle() { show = true });
                 return m_ItemStyles[0] as T;
-            }
-            else if (type == typeof(IconStyle))
-            {
-                if (m_IconStyles.Count == 0)
-                    m_IconStyles.Add(new IconStyle() { show = true });
-                return m_IconStyles[0] as T;
             }
             else if (type == typeof(LabelStyle))
             {
@@ -204,7 +191,6 @@ namespace XCharts.Runtime
         public void RemoveAllComponent()
         {
             m_ItemStyles.Clear();
-            m_IconStyles.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
             m_Symbols.Clear();
@@ -219,8 +205,6 @@ namespace XCharts.Runtime
             var type = typeof(T);
             if (type == typeof(ItemStyle))
                 m_ItemStyles.Clear();
-            else if (type == typeof(IconStyle))
-                m_IconStyles.Clear();
             else if (type == typeof(LabelStyle))
                 m_Labels.Clear();
             else if (type == typeof(LabelLine))
@@ -415,23 +399,23 @@ namespace XCharts.Runtime
 
         public float GetLabelWidth()
         {
-            if (labelObject != null) return labelObject.GetLabelWidth();
+            if (labelObject != null) return labelObject.GetTextWidth();
             else return 0;
         }
 
         public float GetLabelHeight()
         {
-            if (labelObject != null) return labelObject.GetLabelHeight();
+            if (labelObject != null) return labelObject.GetTextHeight();
             return 0;
         }
 
         public void SetLabelActive(bool flag)
         {
-            if (labelObject != null) labelObject.SetLabelActive(flag);
+            if (labelObject != null) labelObject.SetActive(flag);
         }
         public void SetIconActive(bool flag)
         {
-            if (labelObject != null) labelObject.SetIconActive(flag);
+            if (labelObject != null) labelObject.SetActive(flag);
         }
 
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)

@@ -5,7 +5,7 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Bar))]
     [SerieHandler(typeof(PieHandler), true)]
     [DefaultAnimation(AnimationType.Clockwise)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(IconStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(Emphasis))]
     public class Pie : Serie
     {
         public override bool useDataNameForColor { get { return true; } }

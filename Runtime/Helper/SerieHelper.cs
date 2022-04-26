@@ -403,7 +403,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                if (!serie.IsPerformanceMode() && serieData.label != null) return serieData.label;
+                if (!serie.IsPerformanceMode() && serieData.labelStyle != null) return serieData.labelStyle;
                 else return serie.label;
             }
         }
@@ -430,12 +430,6 @@ namespace XCharts.Runtime
                 if (!serie.IsPerformanceMode() && serieData.labelLine != null) return serieData.labelLine;
                 else return serie.labelLine;
             }
-        }
-
-        public static IconStyle GetIconStyle(Serie serie, SerieData serieData)
-        {
-            if (serieData != null && serieData.iconStyle != null) return serieData.iconStyle;
-            else return serie.iconStyle;
         }
 
         public static SymbolStyle GetSerieSymbol(Serie serie, SerieData serieData)
@@ -710,7 +704,12 @@ namespace XCharts.Runtime
                         if (dataZoom.minShowNum > data.Count) range = data.Count;
                         else range = dataZoom.minShowNum;
                     }
-                    serie.m_FilterData = data.GetRange(start, range);
+                    if (range > data.Count - start - 1)
+                        start = data.Count - range - 1;
+                    if (start >= 0)
+                        serie.m_FilterData = data.GetRange(start, range);
+                    else
+                        serie.m_FilterData = data;
                 }
                 else
                 {

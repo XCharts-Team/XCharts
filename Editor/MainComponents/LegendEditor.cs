@@ -19,7 +19,7 @@ namespace XCharts.Editor
             PropertyField("m_Orient");
             PropertyField("m_Formatter");
             PropertyField("m_Location");
-            PropertyField("m_TextStyle");
+            PropertyField("m_LabelStyle");
             PropertyListField("m_Icons");
             PropertyListField("m_Data");
             --EditorGUI.indentLevel;

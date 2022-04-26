@@ -10,8 +10,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class ChartText
     {
-        private float m_ExtraWidth;
         private Text m_Text;
+        private TextAnchor m_TextAlignment;
         public Text text
         {
             get { return m_Text; }
@@ -38,25 +38,7 @@ namespace XCharts.Runtime
         {
             get
             {
-#if dUI_TextMeshPro
-            if (m_TMPText == null) return TextAnchor.MiddleCenter;
-            switch (m_TMPText.alignment)
-            {
-                case TextAlignmentOptions.Bottom: return TextAnchor.LowerCenter; 
-                case TextAlignmentOptions.BottomLeft: return TextAnchor.LowerLeft; 
-                case TextAlignmentOptions.BottomRight: return TextAnchor.LowerRight;
-                case TextAlignmentOptions.Center: return TextAnchor.MiddleCenter;
-                case TextAlignmentOptions.Left: return TextAnchor.MiddleLeft;
-                case TextAlignmentOptions.Right: return TextAnchor.MiddleRight;
-                case TextAlignmentOptions.Top: return TextAnchor.UpperCenter;
-                case TextAlignmentOptions.TopLeft: return TextAnchor.UpperLeft;
-                case TextAlignmentOptions.TopRight: return TextAnchor.UpperRight;
-                default: return TextAnchor.MiddleCenter;
-            }
-#else
-                if (m_Text != null) return m_Text.alignment;
-                else return TextAnchor.MiddleCenter;
-#endif
+                return m_TextAlignment;
             }
             set
             {
@@ -133,11 +115,6 @@ namespace XCharts.Runtime
 #endif
         }
 
-        public void SetExtraWidth(float width)
-        {
-            m_ExtraWidth = width;
-        }
-
         public void SetActive(bool flag)
         {
 #if dUI_TextMeshPro
@@ -187,6 +164,7 @@ namespace XCharts.Runtime
 
         public void SetAlignment(TextAnchor alignment)
         {
+            m_TextAlignment = alignment;
 #if dUI_TextMeshPro
             if (m_TMPText == null) return;
             switch (alignment)
@@ -200,6 +178,10 @@ namespace XCharts.Runtime
                 case TextAnchor.UpperCenter: m_TMPText.alignment = TextAlignmentOptions.Top; break;
                 case TextAnchor.UpperLeft: m_TMPText.alignment = TextAlignmentOptions.TopLeft; break;
                 case TextAnchor.UpperRight: m_TMPText.alignment = TextAlignmentOptions.TopRight; break;
+                default:
+                    m_TMPText.alignment = TextAlignmentOptions.Center;
+                    m_TextAlignment = TextAnchor.MiddleCenter;
+                    break;
             }
 #else
             if (m_Text != null) m_Text.alignment = alignment;
@@ -262,9 +244,9 @@ namespace XCharts.Runtime
         public float GetPreferredWidth()
         {
 #if dUI_TextMeshPro
-            if (m_TMPText != null) return m_TMPText.preferredWidth + m_ExtraWidth;
+            if (m_TMPText != null) return m_TMPText.preferredWidth;
 #else
-            if (m_Text != null) return m_Text.preferredWidth + m_ExtraWidth;
+            if (m_Text != null) return m_Text.preferredWidth;
 #endif
             return 0;
         }

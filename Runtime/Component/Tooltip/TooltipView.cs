@@ -10,7 +10,7 @@ namespace XCharts.Runtime
     public class TooltipViewItem
     {
         public GameObject gameObject;
-        public List<ChartText> columns = new List<ChartText>();
+        public List<ChartLabel> columns = new List<ChartLabel>();
     }
     public class TooltipView
     {
@@ -26,7 +26,7 @@ namespace XCharts.Runtime
         public Image background;
         public Outline border;
         public VerticalLayoutGroup layout;
-        public ChartText title;
+        public ChartLabel title;
         private List<TooltipViewItem> m_Items = new List<TooltipViewItem>();
         private List<float> m_ColumnMaxWidth = new List<float>();
         private bool m_Active = false;
@@ -89,12 +89,12 @@ namespace XCharts.Runtime
                     column.SetText(param.columns[j]);
 
                     if (j == 0)
-                        column.SetColor(param.color);
+                        column.text.SetColor(param.color);
 
                     if (j >= m_ColumnMaxWidth.Count)
                         m_ColumnMaxWidth.Add(0);
 
-                    var columnWidth = column.GetPreferredWidth();
+                    var columnWidth = column.GetWidth();
                     if (m_ColumnMaxWidth[j] < columnWidth)
                         m_ColumnMaxWidth[j] = columnWidth;
                 }
@@ -128,7 +128,7 @@ namespace XCharts.Runtime
             else
             {
                 maxWid = TotalMaxWidth();
-                var titleWid = title.GetPreferredWidth();
+                var titleWid = title.GetTextWidth();
                 if (maxWid < titleWid)
                     maxWid = titleWid;
             }
@@ -139,7 +139,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                if (!string.IsNullOrEmpty(title.GetText()))
+                if (!string.IsNullOrEmpty(title.text.GetText()))
                     maxHig += tooltip.titleHeight;
                 maxHig += tooltip.itemHeight * tooltip.context.data.param.Count;
                 maxHig += tooltip.paddingTopBottom * 2;
@@ -159,7 +159,7 @@ namespace XCharts.Runtime
                 for (int j = 0; j < m_ColumnMaxWidth.Count; j++)
                 {
                     var deltaX = j == m_ColumnMaxWidth.Count - 1 ? maxWid - xPos : m_ColumnMaxWidth[j];
-                    item.columns[j].SetSizeDelta(new Vector2(deltaX, tooltip.itemHeight));
+                    item.columns[j].text.SetSizeDelta(new Vector2(deltaX, tooltip.itemHeight));
                     item.columns[j].SetRectPosition(new Vector3(xPos, 0));
                     xPos += m_ColumnMaxWidth[j];
                 }
@@ -192,7 +192,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private ChartText GetItemColumn(TooltipViewItem item, int i)
+        private ChartLabel GetItemColumn(TooltipViewItem item, int i)
         {
             if (i < 0) i = 0;
             if (i < item.columns.Count)
@@ -236,10 +236,8 @@ namespace XCharts.Runtime
                 tooltip.paddingTopBottom,
                 tooltip.paddingTopBottom);
 
-            view.title = ChartHelper.AddTextObject("title", view.gameObject.transform, anchorMin, anchorMax, v2_0_05,
-                new Vector2(10, tooltip.titleHeight), tooltip.titleTextStyle, theme.tooltip);
-            view.title.SetText("");
-            view.title.SetLocalPosition(new Vector2(3, -3));
+            view.title = ChartHelper.AddChartLabel("title", view.gameObject.transform, tooltip.titleLabelStyle, theme.tooltip,
+                    "", Color.clear, TextAnchor.MiddleLeft);
 
             var item = CreateViewItem(0, view.gameObject.transform, tooltip, theme.tooltip);
             view.m_Items.Add(item);
@@ -261,14 +259,12 @@ namespace XCharts.Runtime
             return item;
         }
 
-        private static ChartText CreateViewItemColumn(int i, Transform parent, Tooltip tooltip, ComponentTheme theme)
+        private static ChartLabel CreateViewItemColumn(int i, Transform parent, Tooltip tooltip, ComponentTheme theme)
         {
-            var value = ChartHelper.AddTextObject("column" + i, parent,
-                v2_0_05, v2_0_05, v2_0_05, new Vector2(100, tooltip.itemHeight),
-                tooltip.GetColumnTextStyle(i), theme);
-            value.SetRectPosition(new Vector3(0, 0));
-            value.SetText("");
-            return value;
+            var labelStyle = tooltip.GetContentLabelStyle(i);
+            var label = ChartHelper.AddChartLabel("column" + i, parent, labelStyle, theme,
+                    "", Color.clear, TextAnchor.MiddleLeft);
+            return label;
         }
     }
 }

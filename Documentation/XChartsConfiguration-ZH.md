@@ -87,6 +87,7 @@
 - [Emphasis](#Emphasis)
 - [EndLabelStyle](#EndLabelStyle)
 - [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
@@ -95,6 +96,7 @@
 - [LevelStyle](#LevelStyle)
 - [LineArrow](#LineArrow)
 - [LineStyle](#LineStyle)
+- [Location](#Location)
 - [MarkAreaData](#MarkAreaData)
 - [MarkLineData](#MarkLineData)
 - [PolarAxisTheme](#PolarAxisTheme)
@@ -106,6 +108,7 @@
 - [SubTitleTheme](#SubTitleTheme)
 - [SymbolStyle](#SymbolStyle)
 - [TextLimit](#TextLimit)
+- [TextPadding](#TextPadding)
 - [TextStyle](#TextStyle)
 - [ThemeStyle](#ThemeStyle)
 - [TitleStyle](#TitleStyle)
@@ -118,7 +121,7 @@
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
-- [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineArrow](#LineArrow)
@@ -128,7 +131,7 @@
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
-- [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
@@ -242,7 +245,6 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `inverse` |false | 是否反向坐标轴。在类目轴中无效。 |
 | `clockwise` |true | 刻度增长是否按顺时针，默认顺时针。 |
 | `insertDataToHead` | | 添加新数据时是在列表的头部还是尾部加入。 |
-| `iconStyle` | | 图标样式。 [IconStyle](IconStyle)|
 | `icons` | | 类目数据对应的图标。 |
 | `data` | | 类目数据，在类目轴（type: 'category'）中有效。 |
 | `axisLine` | |  [AxisLine](AxisLine)|
@@ -254,26 +256,19 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 
 ## `AxisLabel`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [LabelStyle](#LabelStyle)
 
 坐标轴刻度标签的相关设置。
 
 |field|default|comment|
 |--|--|--|
-| `show` |true | 是否显示刻度标签。 |
-| `formatter` | |  |
 | `interval` |0 | 坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。 |
 | `inside` |false | 刻度标签是否朝内，默认朝外。 |
-| `distance` | | 刻度标签与轴线之间的距离。 |
-| `numericFormatter` | | 标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings |
 | `showAsPositiveNumber` |false | 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。 |
 | `onZero` |false | 刻度标签显示在0刻度上。 |
-| `width` |0f | 文本的宽。为0时会自动匹配。 |
-| `height` |0f | 文本的高。为0时会自动匹配。 |
 | `showStartLabel` |true | 是否显示第一个文本。 |
 | `showEndLabel` |true | 是否显示最后一个文本。 |
 | `textLimit` | | 文本限制。 [TextLimit](TextLimit)|
-| `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
 
 ## `AxisLine`
 
@@ -297,9 +292,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |--|--|--|
 | `show` | | 是否显示坐标名称。 |
 | `name` | | 坐标轴名称。 |
-| `formatter` | | 指示器名称显示的格式器。可用在雷达图。 |
-| `location` | | 坐标轴名称显示位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
-| `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
+| `labelStyle` | | 文本样式。 [LabelStyle](LabelStyle)|
 
 ## `AxisSplitArea`
 
@@ -474,7 +467,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 | `minShowNum` |1 | 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。 |
 | `scrollSensitivity` |1.1f | 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。 |
 | `orient` | | 布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `textStyle` | | 文字格式。 [TextStyle](TextStyle)|
+| `labelStyle` | | 文本标签格式。 [LabelStyle](LabelStyle)|
 | `lineStyle` | | 阴影线条样式。 [LineStyle](LineStyle)|
 | `areaStyle` | | 阴影填充样式。 [AreaStyle](AreaStyle)|
 
@@ -500,7 +493,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 | `showDebugInfo` |false |  |
 | `showAllChartObject` |false |  |
 | `foldSeries` |false |  |
-| `debugInfoTextStyle` | |  [TextStyle](TextStyle)|
+| `labelStyle` | |  [LabelStyle](LabelStyle)|
 
 ## `EffectScatter`
 
@@ -550,19 +543,34 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## `IconStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
 | `show` |false | 是否显示图标。 |
-| `layer` | | 显示在上层还是在下层。</br>`IconStyle.Layer`:</br>- `UnderLabel`: </br>- `AboveLabel`: </br>|
+| `layer` | | 显示在上层还是在下层。</br>`IconStyle.Layer`:</br>- `UnderText`: The icon is display under the label text. 图标在标签文字下</br>- `AboveText`: The icon is display above the label text. 图标在标签文字上</br>|
 | `align` | | 水平方向对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
 | `sprite` | | 图标的图片。 |
+| `type` | | 图片的显示类型。 |
 | `color` | | 图标颜色。 |
 | `width` |20 | 图标宽。 |
 | `height` |20 | 图标高。 |
 | `offset` | | 图标偏移。 |
 | `autoHideWhenLabelEmpty` |false | 当label内容为空时是否自动隐藏图标 |
+
+## `ImageStyle`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+|field|default|comment|
+|--|--|--|
+| `show` |true | 是否显示图标。 |
+| `sprite` | | 图标的图片。 |
+| `type` | | 图片的显示类型。 |
+| `autoColor` | | 是否自动颜色。 |
+| `color` | | 图标颜色。 |
+| `width` |0 | 图标宽。 |
+| `height` |0 | 图标高。 |
 
 ## `Indicator`
 
@@ -611,6 +619,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 | `centerColor` | | 中心区域颜色。 |
 | `centerGap` | | 中心区域间隙。 |
 | `borderWidth` |0 | 边框宽。 |
+| `borderGap` |0 | 边框间隙。 |
 | `borderColor` | | 边框的颜色。 |
 | `borderColor0` | | 边框的颜色。 |
 | `borderToColor` | | 边框的渐变色。 |
@@ -644,15 +653,17 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |--|--|--|
 | `show` |true | 是否显示文本标签。 |
 | `Position` | |  |
+| `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
 | `offset` | | 距离图形元素的偏移 |
+| `rotate` | | 文本的旋转。 |
 | `distance` | | 距离轴线的距离。 |
 | `formatter` | |  |
-| `paddingLeftRight` |2f | 左右边距。 |
-| `paddingTopBottom` |2f | 上下边距。 |
-| `backgroundWidth` |0 | 标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。 |
-| `backgroundHeight` |0 | 标签的背景高度。一般不用指定，不指定时则自动是文字的高度。 |
 | `numericFormatter` | | 标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings |
-| `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
+| `width` |0 | 标签的宽度。一般不用指定，不指定时则自动是文字的宽度。 |
+| `height` |0 | 标签的高度。一般不用指定，不指定时则自动是文字的高度。 |
+| `icon` | | 图标样式。 [IconStyle](IconStyle)|
+| `background` | | 背景图样式。 [ImageStyle](ImageStyle)|
+| `textPadding` | | 文本的边距。 [TextPadding](TextPadding)|
 | `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
 
 ## `Lang`
@@ -680,14 +691,14 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 | `iconType` | | 图例类型。 [default:Type.Auto]</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | 选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。 [default:SelectedMode.Multiple]</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `orient` | | 布局方式是横还是竖。 [default:Orient.Horizonal]</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | 图例显示的位置。 [default:Location.defaultTop]</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
+| `location` | | 图例显示的位置。 [default:Location.defaultTop] [Location](Location)|
 | `itemWidth` |25.0f | 图例标记的图形宽度。 [default:24f] |
 | `itemHeight` |12.0f | 图例标记的图形高度。 [default:12f] |
 | `itemGap` |10f | 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。 [default:10f] |
 | `itemAutoColor` |true | 图例标记的图形是否自动匹配颜色。 [default:true] |
 | `textAutoColor` |false | 图例标记的文本是否自动匹配颜色。 [default:false] |
 | `formatter` | |  |
-| `textStyle` | | 文本样式。 [TextStyle](TextStyle)|
+| `labelStyle` | | 文本样式。 [LabelStyle](LabelStyle)|
 | `data` | | If data is not specified, it will be auto collected from series. |
 | `icons` | | 自定义的图例标记图形。 |
 
@@ -749,6 +760,20 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 | `width` |0 |  |
 | `length` |0 |  |
 | `opacity` |1 | 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。 |
+
+## `Location`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#IPropertyChanged)
+
+位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
+
+|field|default|comment|
+|--|--|--|
+| `align` | | 对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
+| `left` | | 离容器左侧的距离。 |
+| `right` | | 离容器右侧的距离。 |
+| `top` | | 离容器上侧的距离。 |
+| `bottom` | | 离容器下侧的距离。 |
 
 ## `MainComponent`
 
@@ -920,7 +945,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `endLabels` | |  |
 | `lineArrows` | |  |
 | `areaStyles` | |  |
-| `iconStyles` | |  |
 | `titleStyles` | |  |
 | `emphases` | |  |
 | `index` | | 系列索引。 |
@@ -1008,7 +1032,6 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `labelLines` | |  |
 | `emphases` | |  |
 | `symbols` | |  |
-| `iconStyles` | |  |
 | `lineStyles` | |  |
 | `areaStyles` | |  |
 | `titleStyles` | |  |
@@ -1145,6 +1168,20 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `gap` |1 | 两边留白像素距离。 [default:10f] |
 | `suffix` | | 长度超出时的后缀。 [default: "..."] |
 
+## `TextPadding`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+文本的内边距设置。
+
+|field|default|comment|
+|--|--|--|
+| `show` |true |  |
+| `top` |2 |  |
+| `right` |4 |  |
+| `left` |4 |  |
+| `bottom` |2 |  |
+
 ## `TextStyle`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
@@ -1153,16 +1190,13 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
+| `show` |true | 文本的相关设置。 |
 | `font` | | 文本字体。 [default: null] |
 | `autoWrap` |false | 是否自动换行。 |
 | `autoAlign` |true | 文本是否让系统自动选对齐方式。为false时才会用alignment。 |
 | `rotate` |0 | 文本的旋转。 [default: `0f`] |
-| `extraWidth` |0 | 额外的宽度 |
-| `offset` |Vector2.zero | 坐标偏移。 [Default: `Vector2.zero`] |
 | `autoColor` |false | 是否开启自动颜色。当开启时，会自动设置颜色。 |
 | `color` | | 文本的颜色。 [default: `Color.clear`] |
-| `autoBackgroundColor` |false |  |
-| `backgroundColor` | | 文本的背景颜色。 [default: `Color.clear`] |
 | `fontSize` |0 | 文本字体大小。 [default: 18] |
 | `fontStyle` | | 文本字体的风格。 [default: FontStyle.Normal] |
 | `lineSpacing` |1f | 行间距。 [default: 1f] |
@@ -1222,23 +1256,18 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 |--|--|--|
 | `show` |true | 是否显示标题组件。 |
 | `text` | | 主标题文本，支持使用 \n 换行。 |
-| `textStyle` | | 主标题文本样式。 [TextStyle](TextStyle)|
 | `subText` | | 副标题文本，支持使用 \n 换行。 |
-| `subTextStyle` | | 副标题文本样式。 [TextStyle](TextStyle)|
+| `labelStyle` | | 主标题文本样式。 [LabelStyle](LabelStyle)|
+| `subLabelStyle` | | 副标题文本样式。 [LabelStyle](LabelStyle)|
 | `itemGap` |0 | 主副标题之间的间距。 |
-| `location` | | 标题显示位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
+| `location` | | 标题显示位置。 [Location](Location)|
 
 ## `TitleStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent),[ISerieExtraComponent](#ISerieExtraComponent)
+Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieDataComponent](#ISerieDataComponent),[ISerieExtraComponent](#ISerieExtraComponent)
 
 标题相关设置。
 
-|field|default|comment|
-|--|--|--|
-| `show` |true | 是否显示标题。 |
-| `offsetCenter` |Vector2(0, -0.2f) | 相对于中心的偏移位置。 |
-| `textStyle` | | 文本的颜色。 [TextStyle](TextStyle)|
 
 ## `TitleTheme`
 
@@ -1282,9 +1311,9 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `itemHeight` |25f |  |
 | `borderColor` |Color32(230, 230, 230, 255) | 边框颜色。 |
 | `lineStyle` | | 指示线样式。 [LineStyle](LineStyle)|
-| `labelTextStyle` | | 提示框标签的文本样式。 [TextStyle](TextStyle)|
-| `titleTextStyle` | | 标题的文本样式。 [TextStyle](TextStyle)|
-| `columnsTextStyle` | |  |
+| `indicatorLabelStyle` | | 提示框的坐标轴指示器文本的样式。 [LabelStyle](LabelStyle)|
+| `titleLabelStyle` | | 标题的文本样式。 [LabelStyle](LabelStyle)|
+| `contentLabelStyles` | |  |
 
 ## `TooltipTheme`
 
@@ -1328,7 +1357,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `hoverLink` |true | Conversely, when the mouse hovers over a graphic element in a diagram, the corresponding value of the visualMap component is triangulated in the corresponding position. |
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | 布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | 组件显示的位置。</br>`AxisName.Location`:</br>- `Start`: 坐标轴名称显示位置。</br>- `Middle`: 坐标轴名称显示位置。</br>- `End`: 坐标轴名称显示位置。</br>- `align`: 对齐方式。</br>- `left`: 离容器左侧的距离。</br>- `right`: 离容器右侧的距离。</br>- `top`: 离容器上侧的距离。</br>- `bottom`: 离容器下侧的距离。</br>|
+| `location` | | 组件显示的位置。 [Location](Location)|
 | `workOnLine` |true | 组件是否对LineChart的LineStyle有效。 |
 | `workOnArea` |false | 组件是否对LineChart的AreaStyle有效。 |
 | `inRange` | | 定义 在选中范围中 的视觉颜色。 |

@@ -195,7 +195,6 @@ namespace XCharts.Editor
             var m_Id = serieData.FindPropertyRelative("m_Id");
             var m_ParentId = serieData.FindPropertyRelative("m_ParentId");
 
-            var m_IconStyle = serieData.FindPropertyRelative("m_IconStyles");
             var m_Label = serieData.FindPropertyRelative("m_Labels");
             var m_ItemStyle = serieData.FindPropertyRelative("m_ItemStyles");
             var m_Emphasis = serieData.FindPropertyRelative("m_Emphases");
@@ -208,7 +207,7 @@ namespace XCharts.Editor
             PropertyField(m_Id);
             PropertyField(m_ParentId);
 
-            var componentNum = m_IconStyle.arraySize + m_Label.arraySize + m_ItemStyle.arraySize + m_Emphasis.arraySize
+            var componentNum = m_Label.arraySize + m_ItemStyle.arraySize + m_Emphasis.arraySize
                 + m_Symbol.arraySize + m_LineStyle.arraySize + m_AreaStyle.arraySize;
             var title = "Component";
             if (componentNum == 0) title += " (None)";
@@ -217,10 +216,6 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).GetOrAddComponent<ItemStyle>();
             }, m_ItemStyle.arraySize == 0),
-            new HeaderMenuInfo("Add IconStyle", () =>
-            {
-                serie.GetSerieData(index).GetOrAddComponent<IconStyle>();
-            }, m_IconStyle.arraySize == 0),
             new HeaderMenuInfo("Add Label", () =>
             {
                 serie.GetSerieData(index).GetOrAddComponent<LabelStyle>();
@@ -249,10 +244,6 @@ namespace XCharts.Editor
             {
                 serie.GetSerieData(index).RemoveComponent<ItemStyle>();
             }, m_ItemStyle.arraySize > 0),
-            new HeaderMenuInfo("Remove IconStyle", () =>
-            {
-                serie.GetSerieData(index).RemoveComponent<IconStyle>();
-            }, m_IconStyle.arraySize > 0),
             new HeaderMenuInfo("Remove Label", () =>
             {
                 serie.GetSerieData(index).RemoveComponent<LabelStyle>();
@@ -283,8 +274,6 @@ namespace XCharts.Editor
             }, componentNum > 0));
             if (m_DataComponentFoldout)
             {
-                if (m_IconStyle.arraySize > 0)
-                    PropertyField(m_IconStyle.GetArrayElementAtIndex(0));
                 if (m_Label.arraySize > 0)
                     PropertyField(m_Label.GetArrayElementAtIndex(0));
                 if (m_ItemStyle.arraySize > 0)

@@ -10,7 +10,6 @@ namespace XCharts.Runtime
     internal sealed class MarkAreaHandler : MainComponentHandler<MarkArea>
     {
         private GameObject m_MarkLineLabelRoot;
-        private bool m_LabelShow;
         private bool m_NeedUpdateLabelPosition;
 
         public override void InitComponent()
@@ -41,23 +40,16 @@ namespace XCharts.Runtime
 
         private void InitMarkArea(MarkArea markArea)
         {
-            m_LabelShow = markArea.label.show && !string.IsNullOrEmpty(component.text);
             markArea.painter = chart.m_PainterTop;
             markArea.refreshComponent = delegate ()
             {
-                var label = markArea.label;
-                var color = !ChartHelper.IsClearColor(label.textStyle.color) ? label.textStyle.color : chart.theme.axis.textColor;
-                var element = ChartHelper.AddSerieLabel("label", m_MarkLineLabelRoot.transform, label.backgroundWidth,
-                    label.backgroundHeight, color, label.textStyle, chart.theme);
-                var isAutoSize = label.backgroundWidth == 0 || label.backgroundHeight == 0;
-                var item = ChartHelper.GetOrAddComponent<ChartLabel>(element);
+                var label = ChartHelper.AddChartLabel("label", m_MarkLineLabelRoot.transform, markArea.label, chart.theme.axis,
+                    component.text, Color.clear, TextAnchor.MiddleCenter);
                 UpdateRuntimeData(component);
-                item.SetLabel(element, isAutoSize, label.paddingLeftRight, label.paddingTopBottom);
-                item.SetIconActive(false);
-                item.SetActive(m_LabelShow);
-                item.SetPosition(component.runtimeLabelPosition);
-                item.SetText(component.text);
-                markArea.runtimeLabel = item;
+                label.SetActive(markArea.label.show);
+                label.SetPosition(component.runtimeLabelPosition);
+                label.SetText(component.text);
+                markArea.runtimeLabel = label;
             };
             markArea.refreshComponent();
         }
@@ -96,7 +88,7 @@ namespace XCharts.Runtime
 
         private void UpdateLabelPosition(MarkArea markArea)
         {
-            if (!m_LabelShow) return;
+            if (!markArea.label.show) return;
             m_NeedUpdateLabelPosition = true;
             var rect = markArea.runtimeRect;
             switch (markArea.label.position)
@@ -120,7 +112,7 @@ namespace XCharts.Runtime
                     markArea.runtimeLabelPosition = rect.center + new Vector2(0, rect.height / 2);
                     break;
             }
-            markArea.runtimeLabelPosition += markArea.label.offset + markArea.label.textStyle.offsetv3;
+            markArea.runtimeLabelPosition += markArea.label.offset;
         }
 
         private Vector3 GetPosition(MarkAreaData data, Serie serie, DataZoom dataZoom, XAxis xAxis, YAxis yAxis,

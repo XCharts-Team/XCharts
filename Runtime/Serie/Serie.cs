@@ -844,8 +844,6 @@ namespace XCharts.Runtime
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
-            if (iconStyle != null)
-                iconStyle.ClearVerticesDirty();
             if (areaStyle != null)
                 areaStyle.ClearVerticesDirty();
             if (label != null)
@@ -864,8 +862,6 @@ namespace XCharts.Runtime
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
-            if (iconStyle != null)
-                iconStyle.ClearComponentDirty();
             if (areaStyle != null)
                 areaStyle.ClearComponentDirty();
             if (label != null)
@@ -1633,36 +1629,6 @@ namespace XCharts.Runtime
                     return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的尺寸
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetDataIconSize(int dataIndex, float width, float height)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconStyle.width = width;
-                data.iconStyle.height = height;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的颜色
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="color"></param>
-        public void SetDataIconColor(int dataIndex, Color color)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconStyle.color = color;
-            }
         }
 
         /// <summary>

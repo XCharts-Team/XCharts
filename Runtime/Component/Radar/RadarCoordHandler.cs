@@ -35,7 +35,6 @@ namespace XCharts.Runtime
 
         private void InitRadarCoord(RadarCoord radar)
         {
-            float txtWid = 100;
             float txtHig = 20;
             radar.painter = chart.GetPainter(radar.index);
             radar.refreshComponent = delegate ()
@@ -45,7 +44,6 @@ namespace XCharts.Runtime
                      chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 radar.gameObject = radarObject;
                 radar.gameObject.hideFlags = chart.chartHideFlags;
-                var textStyle = radar.axisName.textStyle;
                 ChartHelper.HideAllObject(radarObject.transform, INDICATOR_TEXT);
                 for (int i = 0; i < radar.indicatorList.Count; i++)
                 {
@@ -53,19 +51,10 @@ namespace XCharts.Runtime
                     var pos = radar.GetIndicatorPosition(i);
                     var objName = INDICATOR_TEXT + "_" + i;
 
-                    var labelGameObject = ChartHelper.AddObject(objName, radarObject.transform, new Vector2(0.5f, 0.5f),
-                        new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(txtWid, txtHig));
-                    var label = ChartHelper.GetOrAddComponent<ChartLabel>(labelGameObject);
-                    label.label = ChartHelper.AddTextObject("Text", label.gameObject.transform, new Vector2(0.5f, 0.5f),
-                        new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(txtWid, txtHig), textStyle, chart.theme.common);
-                    label.SetAutoSize(true);
-                    label.label.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
-                    label.SetText(radar.GetFormatterIndicatorContent(i));
-                    label.SetActive(radar.indicator);
-                    label.color = textStyle.backgroundColor;
-
-                    var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);
-                    AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, offset);
+                    var label = ChartHelper.AddChartLabel(objName, radarObject.transform, radar.axisName.labelStyle,
+                                 chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
+                    label.SetActive(radar.indicator && radar.axisName.labelStyle.show);
+                    AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, radar.axisName.labelStyle.offset);
                 }
                 chart.RefreshBasePainter();
             };

@@ -34,7 +34,6 @@
 - [GridCoordContext](#GridCoordContext)
 - [HeatmapChart](#HeatmapChart)
 - [InteractData](#InteractData)
-- [ItemStyleHelper](#ItemStyleHelper)
 - [LayerHelper](#LayerHelper)
 - [LegendContext](#LegendContext)
 - [LegendHelper](#LegendHelper)
@@ -117,9 +116,8 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 |public method|description|
 |--|--|
 | `AdjustCircleLabelPos()` |public static void AdjustCircleLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
-| `AdjustCircleLabelPos()` |public static void AdjustCircleLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
 | `AdjustMinMaxValue()` |public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, int ceilRate = 0)</br>调整最大最小值 |
-| `AdjustRadiusAxisLabelPos()` |public static void AdjustRadiusAxisLabelPos(ChartText txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
+| `AdjustRadiusAxisLabelPos()` |public static void AdjustRadiusAxisLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
 | `GetAxisLineArrowOffset()` |public static float GetAxisLineArrowOffset(Axis axis)</br>包含箭头偏移的轴线长度 |
 | `GetAxisPosition()` |public static float GetAxisPosition(GridCoord grid, Axis axis, double value, int dataCount = 0, DataZoom dataZoom = null)</br> |
 | `GetAxisPositionValue()` |public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset)</br> |
@@ -314,6 +312,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 |public method|description|
 |--|--|
 | `ActiveAllObject()` |public static void ActiveAllObject(Transform parent, bool active, string match = null)</br> |
+| `AddIcon()` |public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)</br> |
 | `Cancat()` |public static string Cancat(string str1, int i)</br> |
 | `Cancat()` |public static string Cancat(string str1, string str2)</br> |
 | `ClearEventListener()` |public static void ClearEventListener(GameObject obj)</br> |
@@ -372,23 +371,23 @@ Inherits or Implemented: [Image](#Image)
 
 |public method|description|
 |--|--|
-| `GetLabelHeight()` |public float GetLabelHeight()</br> |
-| `GetLabelWidth()` |public float GetLabelWidth()</br> |
 | `GetPosition()` |public Vector3 GetPosition()</br> |
+| `GetTextHeight()` |public float GetTextHeight()</br> |
+| `GetTextWidth()` |public float GetTextWidth()</br> |
 | `SetActive()` |public void SetActive(bool flag)</br> |
-| `SetAutoSize()` |public void SetAutoSize(bool flag)</br> |
 | `SetIcon()` |public void SetIcon(Image image)</br> |
 | `SetIconActive()` |public void SetIconActive(bool flag)</br> |
 | `SetIconSize()` |public void SetIconSize(float width, float height)</br> |
 | `SetIconSprite()` |public void SetIconSprite(Sprite sprite)</br> |
-| `SetLabel()` |public void SetLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)</br> |
-| `SetLabelActive()` |public void SetLabelActive(bool flag)</br> |
-| `SetLabelBackground()` |public void SetLabelBackground(Image image)</br> |
-| `SetLabelPosition()` |public void SetLabelPosition(Vector3 position)</br> |
-| `SetLabelRotate()` |public void SetLabelRotate(float rotate)</br> |
+| `SetPadding()` |public void SetPadding(float[] padding)</br> |
 | `SetPosition()` |public void SetPosition(Vector3 position)</br> |
+| `SetRectPosition()` |public void SetRectPosition(Vector3 position)</br> |
+| `SetSize()` |public void SetSize(float width, float height)</br> |
 | `SetText()` |public bool SetText(string text)</br> |
+| `SetTextActive()` |public void SetTextActive(bool flag)</br> |
 | `SetTextColor()` |public void SetTextColor(Color color)</br> |
+| `SetTextPadding()` |public void SetTextPadding(TextPadding padding)</br> |
+| `SetTextRotate()` |public void SetTextRotate(float rotate)</br> |
 | `UpdateIcon()` |public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)</br> |
 
 ## `ChartObject`
@@ -505,12 +504,6 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `TryGetColor()` |public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)</br> |
 | `TryGetValue()` |public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)</br> |
 | `TryGetValueAndColor()` |public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)</br> |
-
-## `ItemStyleHelper`
-
-|public method|description|
-|--|--|
-| `IsNeedCorner()` |public static bool IsNeedCorner(ItemStyle itemStyle)</br> |
 
 ## `LayerHelper`
 
@@ -764,7 +757,6 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
 | `GetAreaToColor()` |public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAverageData()` |public static double GetAverageData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
-| `GetIconStyle()` |public static IconStyle GetIconStyle(Serie serie, SerieData serieData)</br> |
 | `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetItemColor0()` |public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)</br> |
 | `GetItemFormatter()` |public static string GetItemFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |

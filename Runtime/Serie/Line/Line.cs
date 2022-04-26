@@ -1,6 +1,5 @@
 
 using System;
-using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -14,7 +13,6 @@ namespace XCharts.Runtime
         typeof(EndLabelStyle),
         typeof(LineArrow),
         typeof(AreaStyle),
-        typeof(IconStyle),
         typeof(Emphasis))]
     public class Line : Serie, INeedSerieContainer
     {

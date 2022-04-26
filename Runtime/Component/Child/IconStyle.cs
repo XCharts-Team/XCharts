@@ -5,17 +5,26 @@ using UnityEngine.UI;
 namespace XCharts.Runtime
 {
     [System.Serializable]
-    public class IconStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
+    public class IconStyle : ChildComponent
     {
         public enum Layer
         {
-            UnderLabel,
-            AboveLabel
+            /// <summary>
+            /// The icon is display under the label text.
+            /// 图标在标签文字下
+            /// </summary>
+            UnderText,
+            /// <summary>
+            /// The icon is display above the label text.
+            /// 图标在标签文字上
+            /// </summary>
+            AboveText
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Layer m_Layer;
         [SerializeField] private Align m_Align = Align.Left;
         [SerializeField] private Sprite m_Sprite;
+        [SerializeField] private Image.Type m_Type;
         [SerializeField] private Color m_Color = Color.white;
         [SerializeField] private float m_Width = 20;
         [SerializeField] private float m_Height = 20;
@@ -25,7 +34,7 @@ namespace XCharts.Runtime
         public void Reset()
         {
             m_Show = false;
-            m_Layer = Layer.UnderLabel;
+            m_Layer = Layer.UnderText;
             m_Sprite = null;
             m_Color = Color.white;
             m_Width = 20;
@@ -47,6 +56,11 @@ namespace XCharts.Runtime
         /// |图标的图片。
         /// </summary>
         public Sprite sprite { get { return m_Sprite; } set { m_Sprite = value; } }
+        /// <summary>
+        /// How to display the icon.
+        /// |图片的显示类型。
+        /// </summary>
+        public Image.Type type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
         /// 图标颜色。
         /// </summary>
@@ -77,6 +91,7 @@ namespace XCharts.Runtime
             iconStyle.show = show;
             iconStyle.layer = layer;
             iconStyle.sprite = sprite;
+            iconStyle.type = type;
             iconStyle.color = color;
             iconStyle.width = width;
             iconStyle.height = height;
@@ -91,6 +106,7 @@ namespace XCharts.Runtime
             show = iconStyle.show;
             layer = iconStyle.layer;
             sprite = iconStyle.sprite;
+            type = iconStyle.type;
             color = iconStyle.color;
             width = iconStyle.width;
             height = iconStyle.height;

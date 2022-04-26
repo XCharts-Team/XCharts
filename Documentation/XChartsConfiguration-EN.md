@@ -87,6 +87,7 @@
 - [Emphasis](#Emphasis)
 - [EndLabelStyle](#EndLabelStyle)
 - [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
@@ -95,6 +96,7 @@
 - [LevelStyle](#LevelStyle)
 - [LineArrow](#LineArrow)
 - [LineStyle](#LineStyle)
+- [Location](#Location)
 - [MarkAreaData](#MarkAreaData)
 - [MarkLineData](#MarkLineData)
 - [PolarAxisTheme](#PolarAxisTheme)
@@ -106,6 +108,7 @@
 - [SubTitleTheme](#SubTitleTheme)
 - [SymbolStyle](#SymbolStyle)
 - [TextLimit](#TextLimit)
+- [TextPadding](#TextPadding)
 - [TextStyle](#TextStyle)
 - [ThemeStyle](#ThemeStyle)
 - [TitleStyle](#TitleStyle)
@@ -118,7 +121,7 @@
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
-- [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineArrow](#LineArrow)
@@ -128,7 +131,7 @@
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
-- [IconStyle](#IconStyle)
+- [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
@@ -242,7 +245,6 @@ The axis in rectangular coordinate.
 | `inverse` |false | Whether the axis are reversed or not. Invalid in `Category` axis. |
 | `clockwise` |true | Whether the positive position of axis is in clockwise. True for clockwise by default. |
 | `insertDataToHead` | | Whether to add new data at the head or at the end of the list. |
-| `iconStyle` | | 图标样式。 [IconStyle](IconStyle)|
 | `icons` | | 类目数据对应的图标。 |
 | `data` | | Category data, available in type: 'Category' axis. |
 | `axisLine` | |  [AxisLine](AxisLine)|
@@ -254,26 +256,19 @@ The axis in rectangular coordinate.
 
 ## `AxisLabel`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [LabelStyle](#LabelStyle)
 
 Settings related to axis label.
 
 |field|default|comment|
 |--|--|--|
-| `show` |true | Set this to false to prevent the axis label from appearing. |
-| `formatter` | |  |
 | `interval` |0 | The display interval of the axis label. |
 | `inside` |false | Set this to true so the axis labels face the inside direction. |
-| `distance` | | The distance between the axis label and the axis line. |
-| `numericFormatter` | | Standard numeric format strings. |
 | `showAsPositiveNumber` |false | Show negative number as positive number. |
 | `onZero` |false | 刻度标签显示在0刻度上。 |
-| `width` |0f | 文本的宽。为0时会自动匹配。 |
-| `height` |0f | 文本的高。为0时会自动匹配。 |
 | `showStartLabel` |true | Whether to display the first label. |
 | `showEndLabel` |true | Whether to display the last label. |
 | `textLimit` | | 文本限制。 [TextLimit](TextLimit)|
-| `textStyle` | | The text style of axis name. [TextStyle](TextStyle)|
 
 ## `AxisLine`
 
@@ -297,9 +292,7 @@ the name of axis.
 |--|--|--|
 | `show` | | Whether to show axis name. |
 | `name` | | the name of axis. |
-| `formatter` | | The formatter of indicator's name. |
-| `location` | | Location of axis name.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
-| `textStyle` | | The text style of axis name. [TextStyle](TextStyle)|
+| `labelStyle` | | The text style of axis name. [LabelStyle](LabelStyle)|
 
 ## `AxisSplitArea`
 
@@ -474,7 +467,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 | `minShowNum` |1 | Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum. |
 | `scrollSensitivity` |1.1f | The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is. |
 | `orient` | | Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `textStyle` | | font style. [TextStyle](TextStyle)|
+| `labelStyle` | | label style. [LabelStyle](LabelStyle)|
 | `lineStyle` | | 阴影线条样式。 [LineStyle](LineStyle)|
 | `areaStyle` | | 阴影填充样式。 [AreaStyle](AreaStyle)|
 
@@ -500,7 +493,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 | `showDebugInfo` |false |  |
 | `showAllChartObject` |false |  |
 | `foldSeries` |false |  |
-| `debugInfoTextStyle` | |  [TextStyle](TextStyle)|
+| `labelStyle` | |  [LabelStyle](LabelStyle)|
 
 ## `EffectScatter`
 
@@ -550,19 +543,34 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## `IconStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
 | `show` |false | Whether the data icon is show. |
-| `layer` | | 显示在上层还是在下层。</br>`IconStyle.Layer`:</br>- `UnderLabel`: </br>- `AboveLabel`: </br>|
+| `layer` | | 显示在上层还是在下层。</br>`IconStyle.Layer`:</br>- `UnderText`: The icon is display under the label text. 图标在标签文字下</br>- `AboveText`: The icon is display above the label text. 图标在标签文字上</br>|
 | `align` | | 水平方向对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
 | `sprite` | | The image of icon. |
+| `type` | | How to display the icon. |
 | `color` | | 图标颜色。 |
 | `width` |20 | 图标宽。 |
 | `height` |20 | 图标高。 |
 | `offset` | | 图标偏移。 |
 | `autoHideWhenLabelEmpty` |false | 当label内容为空时是否自动隐藏图标 |
+
+## `ImageStyle`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+|field|default|comment|
+|--|--|--|
+| `show` |true | Whether the data icon is show. |
+| `sprite` | | The image of icon. |
+| `type` | | How to display the image. |
+| `autoColor` | | 是否自动颜色。 |
+| `color` | | 图标颜色。 |
+| `width` |0 | 图标宽。 |
+| `height` |0 | 图标高。 |
 
 ## `Indicator`
 
@@ -611,6 +619,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 | `centerColor` | | 中心区域颜色。 |
 | `centerGap` | | 中心区域间隙。 |
 | `borderWidth` |0 | 边框宽。 |
+| `borderGap` |0 | 边框间隙。 |
 | `borderColor` | | 边框的颜色。 |
 | `borderColor0` | | 边框的颜色。 |
 | `borderToColor` | | 边框的渐变色。 |
@@ -644,15 +653,17 @@ Text label of chart, to explain some data information about graphic item like va
 |--|--|--|
 | `show` |true | Whether the label is showed. |
 | `Position` | |  |
+| `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
 | `offset` | | offset to the host graphic element. |
+| `rotate` | | Rotation of label. |
 | `distance` | | 距离轴线的距离。 |
 | `formatter` | |  |
-| `paddingLeftRight` |2f | the text padding of left and right. defaut:2. |
-| `paddingTopBottom` |2f | the text padding of top and bottom. defaut:2. |
-| `backgroundWidth` |0 | the width of background. If set as default value 0, it means than the background width auto set as the text width. |
-| `backgroundHeight` |0 | the height of background. If set as default value 0, it means than the background height auto set as the text height. |
 | `numericFormatter` | | Standard numeric format strings. |
-| `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
+| `width` |0 | the width of label. If set as default value 0, it means than the label width auto set as the text width. |
+| `height` |0 | the height of label. If set as default value 0, it means than the label height auto set as the text height. |
+| `icon` | | the sytle of icon. [IconStyle](IconStyle)|
+| `background` | | the sytle of background. [ImageStyle](ImageStyle)|
+| `textPadding` | | the text padding of label. [TextPadding](TextPadding)|
 | `textStyle` | | the sytle of text. [TextStyle](TextStyle)|
 
 ## `Lang`
@@ -680,14 +691,14 @@ Legend component.The legend component shows different sets of tags, colors, and 
 | `iconType` | | Type of legend.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `selectedMode` | | Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 | `orient` | | Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | The location of legend.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
+| `location` | | The location of legend. [Location](Location)|
 | `itemWidth` |25.0f | Image width of legend symbol. |
 | `itemHeight` |12.0f | Image height of legend symbol. |
 | `itemGap` |10f | The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout. |
 | `itemAutoColor` |true | Whether the legend symbol matches the color automatically. |
 | `textAutoColor` |false | Whether the legend text matches the color automatically. |
 | `formatter` | |  |
-| `textStyle` | | the style of text. [TextStyle](TextStyle)|
+| `labelStyle` | | the style of text. [LabelStyle](LabelStyle)|
 | `data` | | Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. |
 | `icons` | | 自定义的图例标记图形。 |
 
@@ -749,6 +760,20 @@ The style of line.
 | `width` |0 |  |
 | `length` |0 |  |
 | `opacity` |1 | Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0. |
+
+## `Location`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#IPropertyChanged)
+
+Location type. Quick to set the general location.
+
+|field|default|comment|
+|--|--|--|
+| `align` | | 对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
+| `left` | | Distance between component and the left side of the container. |
+| `right` | | Distance between component and the left side of the container. |
+| `top` | | Distance between component and the left side of the container. |
+| `bottom` | | Distance between component and the left side of the container. |
 
 ## `MainComponent`
 
@@ -920,7 +945,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `endLabels` | |  |
 | `lineArrows` | |  |
 | `areaStyles` | |  |
-| `iconStyles` | |  |
 | `titleStyles` | |  |
 | `emphases` | |  |
 | `index` | | The index of serie. |
@@ -1008,7 +1032,6 @@ A data item of serie.
 | `labelLines` | |  |
 | `emphases` | |  |
 | `symbols` | |  |
-| `iconStyles` | |  |
 | `lineStyles` | |  |
 | `areaStyles` | |  |
 | `titleStyles` | |  |
@@ -1145,6 +1168,20 @@ Text character limitation and adaptation component. When the length of the text 
 | `gap` |1 | White pixel distance at both ends. |
 | `suffix` | | Suffixes when the length exceeds. |
 
+## `TextPadding`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+Settings related to text.
+
+|field|default|comment|
+|--|--|--|
+| `show` |true |  |
+| `top` |2 |  |
+| `right` |4 |  |
+| `left` |4 |  |
+| `bottom` |2 |  |
+
 ## `TextStyle`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
@@ -1153,16 +1190,13 @@ Settings related to text.
 
 |field|default|comment|
 |--|--|--|
+| `show` |true | Settings related to text. |
 | `font` | | the font of text. When `null`, the theme's font is used by default. |
 | `autoWrap` |false | 是否自动换行。 |
 | `autoAlign` |true | 文本是否让系统自动选对齐方式。为false时才会用alignment。 |
 | `rotate` |0 | Rotation of text. |
-| `extraWidth` |0 | Extra width of text preferred width. |
-| `offset` |Vector2.zero | the offset of position. |
 | `autoColor` |false | 是否开启自动颜色。当开启时，会自动设置颜色。 |
 | `color` | | the color of text. |
-| `autoBackgroundColor` |false |  |
-| `backgroundColor` | | the color of text. |
 | `fontSize` |0 | font size. |
 | `fontStyle` | | font style. |
 | `lineSpacing` |1f | text line spacing. |
@@ -1222,23 +1256,18 @@ Title component, including main title and subtitle.
 |--|--|--|
 | `show` |true | [default:true] Set this to false to prevent the title from showing. |
 | `text` | | The main title text, supporting \n for newlines. |
-| `textStyle` | | The text style of main title. [TextStyle](TextStyle)|
 | `subText` | | Subtitle text, supporting for \n for newlines. |
-| `subTextStyle` | | The text style of sub title. [TextStyle](TextStyle)|
+| `labelStyle` | | The text style of main title. [LabelStyle](LabelStyle)|
+| `subLabelStyle` | | The text style of sub title. [LabelStyle](LabelStyle)|
 | `itemGap` |0 | [default:8] The gap between the main title and subtitle. |
-| `location` | | The location of title component.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
+| `location` | | The location of title component. [Location](Location)|
 
 ## `TitleStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent),[ISerieExtraComponent](#ISerieExtraComponent)
+Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieDataComponent](#ISerieDataComponent),[ISerieExtraComponent](#ISerieExtraComponent)
 
 the title of serie.
 
-|field|default|comment|
-|--|--|--|
-| `show` |true | Whether to show title. |
-| `offsetCenter` |Vector2(0, -0.2f) | The offset position relative to the center. |
-| `textStyle` | | the color of text. [TextStyle](TextStyle)|
 
 ## `TitleTheme`
 
@@ -1282,9 +1311,9 @@ Tooltip component.
 | `itemHeight` |25f |  |
 | `borderColor` |Color32(230, 230, 230, 255) | the color of tooltip border. |
 | `lineStyle` | | the line style of indicator line. [LineStyle](LineStyle)|
-| `labelTextStyle` | | the text style of content. [TextStyle](TextStyle)|
-| `titleTextStyle` | | 标题的文本样式。 [TextStyle](TextStyle)|
-| `columnsTextStyle` | |  |
+| `indicatorLabelStyle` | | the label style of tooltip axis indicator label. [LabelStyle](LabelStyle)|
+| `titleLabelStyle` | | 标题的文本样式。 [LabelStyle](LabelStyle)|
+| `contentLabelStyles` | |  |
 
 ## `TooltipTheme`
 
@@ -1328,7 +1357,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 | `hoverLink` |true | When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram. |
 | `autoMinMax` |true | Automatically set min, Max value 自动设置min，max的值 |
 | `orient` | | Specify whether the layout of component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-| `location` | | The location of component.</br>`AxisName.Location`:</br>- `Start`: the location of axis name.</br>- `Middle`: the location of axis name.</br>- `End`: the location of axis name.</br>- `align`: 对齐方式。</br>- `left`: Distance between component and the left side of the container.</br>- `right`: Distance between component and the left side of the container.</br>- `top`: Distance between component and the left side of the container.</br>- `bottom`: Distance between component and the left side of the container.</br>|
+| `location` | | The location of component. [Location](Location)|
 | `workOnLine` |true | Whether the visualmap is work on linestyle of linechart. |
 | `workOnArea` |false | Whether the visualmap is work on areaStyle of linechart. |
 | `inRange` | | Defines the visual color in the selected range. |

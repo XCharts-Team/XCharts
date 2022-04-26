@@ -236,32 +236,17 @@ namespace XCharts.Runtime
                 return false;
 
             var serieEmphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
-            var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
 
             if (!serieLabel.show
-                && (serieEmphasisLabel == null || !serieEmphasisLabel.show)
-                && (iconStyle == null || !iconStyle.show))
+                && (serieEmphasisLabel == null || !serieEmphasisLabel.show))
                 return false;
 
-            var dataAutoColor = (Color)chart.theme.GetColor(serieData.index);
-
+            var dataAutoColor = (Color)chart.theme.GetColor(serie.useDataNameForColor ? serieData.index : serie.index);
             var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
-            var color = serieLabel.textStyle.autoColor ? dataAutoColor : chart.theme.common.textColor;
-            var iconWidth = iconStyle != null ? iconStyle.width : 20;
-            var iconHeight = iconStyle != null ? iconStyle.height : 20;
-            var labelObj = SerieLabelPool.Get(textName, serieLabelRoot.transform, serieLabel, color,
-                       iconWidth, iconHeight, chart.theme);
-            var iconImage = labelObj.transform.Find("Icon").GetComponent<Image>();
-            var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
-            var item = ChartHelper.GetOrAddComponent<ChartLabel>(labelObj);
-            item.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
-            item.SetIcon(iconImage);
-            item.SetIconActive(iconStyle != null && iconStyle.show);
-            if (serieLabel.textStyle.autoBackgroundColor)
-                item.color = dataAutoColor;
-            else
-                item.color = serieLabel.textStyle.backgroundColor;
-            serieData.labelObject = item;
+            var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
+                    "", dataAutoColor, TextAnchor.MiddleCenter);
+            label.SetActive(serieLabel.show);
+            serieData.labelObject = label;
 
             if (serieData.context.children.Count > 0)
             {
@@ -287,30 +272,10 @@ namespace XCharts.Runtime
             }
             if (m_SerieRoot == null)
                 InitRoot();
-            var serieLabel = serie.endLabel;
-            var textStyle = serieLabel.textStyle;
             var dataAutoColor = (Color)chart.theme.GetColor(serie.index);
-
-            var color = serieLabel.textStyle.autoColor ? dataAutoColor : chart.theme.common.textColor;
-
-            var anchorMin = new Vector2(0f, 0.5f);
-            var anchorMax = new Vector2(0f, 0.5f);
-            var pivot = new Vector2(0f, 0.5f);
-            var sizeDelta = new Vector2(50, textStyle.GetFontSize(chart.theme.common) + 2);
-            var labelObj = ChartHelper.AddObject(s_SerieEndLabelObjectName, m_SerieRoot.transform, anchorMin, anchorMax, pivot, sizeDelta);
-            var txt = ChartHelper.AddTextObject("Text", labelObj.transform, anchorMin, anchorMax, pivot, sizeDelta, textStyle,
-                chart.theme.common);
-            txt.SetColor(color);
-            txt.SetAlignment(textStyle.alignment);
-            txt.SetText("Text");
-            txt.SetLocalPosition(new Vector2(0, 0));
-            txt.SetLocalEulerAngles(Vector3.zero);
-
-            var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
-            m_EndLabel = ChartHelper.GetOrAddComponent<ChartLabel>(labelObj);
-            m_EndLabel.SetLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
-            m_EndLabel.SetIconActive(false);
-            m_EndLabel.SetActive(true);
+            m_EndLabel = ChartHelper.AddChartLabel(s_SerieEndLabelObjectName, m_SerieRoot.transform, serie.endLabel,
+                chart.theme.common, "", dataAutoColor, TextAnchor.MiddleLeft);
+            m_EndLabel.SetActive(serie.endLabel.show);
             RefreshEndLabelInternal();
         }
 
@@ -325,28 +290,20 @@ namespace XCharts.Runtime
             ChartHelper.RemoveComponent<Text>(serieTitleRoot);
 
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            var anchorMin = new Vector2(0.5f, 0.5f);
-            var anchorMax = new Vector2(0.5f, 0.5f);
-            var pivot = new Vector2(0.5f, 0.5f);
-            var fontSize = 10;
-            var sizeDelta = new Vector2(50, fontSize + 2);
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
                 var titleStyle = SerieHelper.GetTitleStyle(serie, serieData);
                 if (titleStyle == null) continue;
                 var color = chart.GetLegendRealShowNameColor(serieData.name);
-                var label = ChartHelper.AddDefaultChartLabel("title_" + i, serieTitleRoot.transform, anchorMin, anchorMax,
-                    pivot, sizeDelta, titleStyle.textStyle, chart.theme.common, serieData.name);
+
+                var label = ChartHelper.AddChartLabel("title_" + i, serieTitleRoot.transform, titleStyle, chart.theme.common,
+                    serieData.name, color, TextAnchor.MiddleCenter);
                 serieData.titleObject = label;
                 label.SetActive(titleStyle.show);
                 var labelPosition = GetSerieDataTitlePosition(serieData, titleStyle);
                 var offset = titleStyle.GetOffset(serie.context.insideRadius);
                 label.SetPosition(labelPosition + offset);
-                if (titleStyle.textStyle.autoBackgroundColor)
-                    label.color = color;
-                else
-                    label.color = titleStyle.textStyle.backgroundColor;
             }
         }
 
@@ -366,10 +323,8 @@ namespace XCharts.Runtime
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var emphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
                 var isHighlight = (serieData.context.highlight && emphasisLabel != null && emphasisLabel.show);
-                var iconStyle = SerieHelper.GetIconStyle(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 var currLabel = isHighlight && emphasisLabel != null ? emphasisLabel : serieLabel;
-                serieData.labelObject.UpdateIcon(iconStyle);
                 if (serie.show
                     && currLabel != null
                     && (currLabel.show || isHighlight)
@@ -382,28 +337,28 @@ namespace XCharts.Runtime
                         ? ChartCached.NumberToStr(value, serieLabel.numericFormatter)
                         : SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                             currLabel, chart.theme.GetColor(colorIndex));
-                    var isInsidePosition = currLabel.position == LabelStyle.Position.Inside;
 
-                    //text color
-                    var textColor = chart.theme.common.textColor;
-                    if (!ChartHelper.IsClearColor(currLabel.textStyle.color))
-                        textColor = currLabel.textStyle.color;
-                    else if (isInsidePosition)
-                        textColor = Color.white;
-                    if (currLabel.textStyle.autoColor && serie.useDataNameForColor)
-                        textColor = chart.theme.GetColor(serieData.index);
-                    //text rotate
-                    var rotate = currLabel.textStyle.rotate;
-                    if (currLabel.textStyle.rotate > 0 && isInsidePosition)
-                    {
-                        var currAngle = serieData.context.halfAngle;
-                        if (currAngle > 0)
-                        {
-                            if (currAngle > 180) rotate += 270 - currAngle;
-                            else rotate += -(currAngle - 90);
-                        }
-                    }
-                    SerieLabelHelper.ResetLabel(serieData.labelObject.label, currLabel, chart.theme, textColor, rotate);
+                    // var isInsidePosition = currLabel.position == LabelStyle.Position.Inside;
+                    // //text color
+                    // var textColor = chart.theme.common.textColor;
+                    // if (!ChartHelper.IsClearColor(currLabel.textStyle.color))
+                    //     textColor = currLabel.textStyle.color;
+                    // else if (isInsidePosition)
+                    //     textColor = Color.white;
+                    // if (currLabel.textStyle.autoColor && serie.useDataNameForColor)
+                    //     textColor = chart.theme.GetColor(serieData.index);
+                    // //text rotate
+                    // var rotate = currLabel.textStyle.rotate;
+                    // if (currLabel.textStyle.rotate > 0 && isInsidePosition)
+                    // {
+                    //     var currAngle = serieData.context.halfAngle;
+                    //     if (currAngle > 0)
+                    //     {
+                    //         if (currAngle > 180) rotate += 270 - currAngle;
+                    //         else rotate += -(currAngle - 90);
+                    //     }
+                    // }
+                    // SerieLabelHelper.ResetLabel(serieData.labelObject.text, currLabel, chart.theme, textColor, rotate);
                     serieData.SetLabelActive(!isIgnore);
 
                     serieData.labelObject.SetText(content);

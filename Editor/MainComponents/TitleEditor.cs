@@ -14,8 +14,8 @@ namespace XCharts.Editor
             PropertyField("m_SubText");
             PropertyField("m_ItemGap");
             PropertyField("m_Location");
-            PropertyField("m_TextStyle");
-            PropertyField("m_SubTextStyle");
+            PropertyField("m_LabelStyle");
+            PropertyField("m_SubLabelStyle");
             --EditorGUI.indentLevel;
         }
     }

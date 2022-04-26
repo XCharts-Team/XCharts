@@ -94,7 +94,6 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
-        [SerializeField] private IconStyle m_IconStyle = new IconStyle();
         [SerializeField] protected List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
@@ -362,14 +361,6 @@ namespace XCharts.Runtime
             get { return m_InsertDataToHead; }
             set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
         }
-        /// <summary>
-        /// 图标样式。
-        /// </summary>
-        public IconStyle iconStyle
-        {
-            get { return m_IconStyle; }
-            set { if (PropertyUtil.SetClass(ref m_IconStyle, value)) SetAllDirty(); }
-        }
 
         public override bool vertsDirty
         {
@@ -432,7 +423,6 @@ namespace XCharts.Runtime
             axis.logBaseE = logBaseE;
             axis.ceilRate = ceilRate;
             axis.insertDataToHead = insertDataToHead;
-            axis.iconStyle = iconStyle.Clone();
             axis.axisLine = axisLine.Clone();
             axis.axisName = axisName.Clone();
             axis.axisTick = axisTick.Clone();
@@ -461,7 +451,6 @@ namespace XCharts.Runtime
             logBaseE = axis.logBaseE;
             ceilRate = axis.ceilRate;
             insertDataToHead = axis.insertDataToHead;
-            iconStyle.Copy(axis.iconStyle);
             axisLine.Copy(axis.axisLine);
             axisName.Copy(axis.axisName);
             axisTick.Copy(axis.axisTick);

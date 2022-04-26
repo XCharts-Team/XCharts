@@ -26,7 +26,6 @@ namespace XCharts.Runtime
             splitLine.lineStyle.type = LineStyle.Type.None;
             axisLabel.textLimit.enable = false;
             axisTick.showStartTick = true;
-            iconStyle.show = false;
         }
     }
 }

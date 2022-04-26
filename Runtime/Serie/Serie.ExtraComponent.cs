@@ -14,7 +14,6 @@ namespace XCharts.Runtime
             {typeof(EndLabelStyle), "m_EndLabels"},
             {typeof(LineArrow), "m_LineArrows"},
             {typeof(AreaStyle), "m_AreaStyles"},
-            {typeof(IconStyle), "m_IconStyles"},
             {typeof(Emphasis), "m_Emphases"},
             {typeof(TitleStyle), "m_TitleStyles"},
         };
@@ -24,7 +23,6 @@ namespace XCharts.Runtime
         [SerializeField] private List<EndLabelStyle> m_EndLabels = new List<EndLabelStyle>();
         [SerializeField] private List<LineArrow> m_LineArrows = new List<LineArrow>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
-        [SerializeField] private List<IconStyle> m_IconStyles = new List<IconStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
         [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
 
@@ -53,11 +51,6 @@ namespace XCharts.Runtime
         /// 高亮的图形样式和文本标签样式。
         /// </summary>
         public Emphasis emphasis { get { return m_Emphases.Count > 0 ? m_Emphases[0] : null; } }
-        /// <summary>
-        /// the icon of data.
-        /// |数据项图标样式。
-        /// </summary>
-        public IconStyle iconStyle { get { return m_IconStyles.Count > 0 ? m_IconStyles[0] : null; } }
         /// <summary>
         /// the icon of data.
         /// |数据项标题样式。

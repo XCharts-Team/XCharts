@@ -11,7 +11,7 @@ namespace XCharts.Runtime
             var numericFormatter = serieLabel.numericFormatter;
             if (serieLabel.formatterFunction != null)
             {
-                return serieLabel.formatterFunction(data.index, data.runtimeValue);
+                return serieLabel.formatterFunction(data.index, data.runtimeValue, null);
             }
             if (string.IsNullOrEmpty(serieLabel.formatter))
                 return ChartCached.NumberToStr(data.runtimeValue, numericFormatter);
@@ -29,8 +29,8 @@ namespace XCharts.Runtime
             if (!data.label.show) return Vector3.zero;
             var dir = (data.runtimeEndPosition - data.runtimeStartPosition).normalized;
             var horizontal = Mathf.Abs(Vector3.Dot(dir, Vector3.right)) == 1;
-            var labelWidth = data.runtimeLabel == null ? 50 : data.runtimeLabel.GetLabelWidth();
-            var labelHeight = data.runtimeLabel == null ? 20 : data.runtimeLabel.GetLabelHeight();
+            var labelWidth = data.runtimeLabel == null ? 50 : data.runtimeLabel.GetTextWidth();
+            var labelHeight = data.runtimeLabel == null ? 20 : data.runtimeLabel.GetTextHeight();
             switch (data.label.position)
             {
                 case LabelStyle.Position.Start:

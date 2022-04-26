@@ -10,33 +10,16 @@ namespace XCharts.Runtime
     /// |坐标轴刻度标签的相关设置。
     /// </summary>
     [Serializable]
-    public class AxisLabel : ChildComponent
+    public class AxisLabel : LabelStyle
     {
-        [SerializeField] private bool m_Show = true;
-        [SerializeField] private string m_Formatter;
         [SerializeField] private int m_Interval = 0;
         [SerializeField] private bool m_Inside = false;
-        [SerializeField] private float m_Distance;
-        [SerializeField] private string m_NumericFormatter = "";
         [SerializeField] private bool m_ShowAsPositiveNumber = false;
         [SerializeField] private bool m_OnZero = false;
-        [SerializeField] private float m_Width = 0f;
-        [SerializeField] private float m_Height = 0f;
         [SerializeField] private bool m_ShowStartLabel = true;
         [SerializeField] private bool m_ShowEndLabel = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
-        [SerializeField] private TextStyle m_TextStyle = new TextStyle();
-        private AxisLabelFormatterFunction m_FormatterFunction;
 
-        /// <summary>
-        /// Set this to false to prevent the axis label from appearing.
-        /// |是否显示刻度标签。
-        /// </summary>
-        public bool show
-        {
-            get { return m_Show; }
-            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
-        }
         /// <summary>
         /// The display interval of the axis label.
         /// |坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
@@ -56,38 +39,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Inside, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// The distance between the axis label and the axis line.
-        /// |刻度标签与轴线之间的距离。
-        /// </summary>
-        public float distance
-        {
-            get { return m_Distance; }
-            set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}。
-        /// </summary>
-        public string formatter
-        {
-            get { return m_Formatter; }
-            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
-        }
-
-        /// <summary>
-        /// Standard numeric format strings.
-        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// </summary>
-        /// <value></value>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
-
-        /// <summary>
         /// Show negative number as positive number.
         /// |将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
         /// </summary>
@@ -104,22 +55,6 @@ namespace XCharts.Runtime
         {
             get { return m_OnZero; }
             set { if (PropertyUtil.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// 文本的宽。为0时会自动匹配。
-        /// </summary>
-        public float width
-        {
-            get { return m_Width; }
-            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// 文本的高。为0时会自动匹配。
-        /// </summary>
-        public float height
-        {
-            get { return m_Height; }
-            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Whether to display the first label.
@@ -148,21 +83,6 @@ namespace XCharts.Runtime
             set { if (value != null) { m_TextLimit = value; SetComponentDirty(); } }
         }
 
-        /// <summary>
-        /// The text style of axis name.
-        /// |文本样式。
-        /// </summary>
-        public TextStyle textStyle
-        {
-            get { return m_TextStyle; }
-            set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetComponentDirty(); }
-        }
-
-        public AxisLabelFormatterFunction formatterFunction
-        {
-            set { m_FormatterFunction = value; }
-        }
-
         public override bool componentDirty { get { return m_ComponentDirty || m_TextLimit.componentDirty; } }
         public override void ClearComponentDirty()
         {
@@ -185,7 +105,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public AxisLabel Clone()
+        public new AxisLabel Clone()
         {
             var axisLabel = new AxisLabel();
             axisLabel.show = show;

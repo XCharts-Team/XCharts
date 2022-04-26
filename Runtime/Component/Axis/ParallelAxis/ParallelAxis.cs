@@ -24,7 +24,6 @@ namespace XCharts.Runtime
             splitLine.show = false;
             splitLine.lineStyle.type = LineStyle.Type.None;
             axisLabel.textLimit.enable = true;
-            iconStyle.show = false;
         }
 
 

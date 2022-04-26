@@ -15,7 +15,7 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeComponentFoldout(prop, "", true))
+            if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
 #if dUI_TextMeshPro
@@ -24,12 +24,8 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Font");
 #endif
                 PropertyField(prop, "m_Rotate");
-                PropertyField(prop, "m_Offset");
-                PropertyField(prop, "m_ExtraWidth");
                 PropertyField(prop, "m_AutoColor");
                 PropertyField(prop, "m_Color");
-                PropertyField(prop, "m_AutoBackgroundColor");
-                PropertyField(prop, "m_BackgroundColor");
                 PropertyField(prop, "m_FontSize");
                 PropertyField(prop, "m_LineSpacing");
 #if dUI_TextMeshPro
@@ -38,8 +34,8 @@ namespace XCharts.Editor
 #else
                 PropertyField(prop, "m_FontStyle");
                 PropertyField(prop, "m_Alignment");
-                PropertyField(prop, "m_AutoWrap");
                 PropertyField(prop, "m_AutoAlign");
+                PropertyField(prop, "m_AutoWrap");
 #endif
                 --EditorGUI.indentLevel;
             }

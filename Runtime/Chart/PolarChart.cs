@@ -13,6 +13,8 @@ namespace XCharts.Runtime
         protected override void DefaultChart()
         {
             AddChartComponentWhenNoExist<PolarCoord>();
+            AddChartComponentWhenNoExist<AngleAxis>();
+            AddChartComponentWhenNoExist<RadiusAxis>();
 
             var tooltip = GetChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.Corss;

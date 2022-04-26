@@ -14,16 +14,13 @@ namespace XCharts.Runtime
     [Serializable]
     public class TextStyle : ChildComponent
     {
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private Font m_Font;
         [SerializeField] private bool m_AutoWrap = false;
         [SerializeField] private bool m_AutoAlign = true;
         [SerializeField] private float m_Rotate = 0;
-        [SerializeField] private float m_ExtraWidth = 0;
-        [SerializeField] private Vector2 m_Offset = Vector2.zero;
         [SerializeField] private bool m_AutoColor = false;
         [SerializeField] private Color m_Color = Color.clear;
-        [SerializeField] private bool m_AutoBackgroundColor = false;
-        [SerializeField] private Color m_BackgroundColor = Color.clear;
         [SerializeField] private int m_FontSize = 0;
         [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private float m_LineSpacing = 1f;
@@ -33,6 +30,11 @@ namespace XCharts.Runtime
         [SerializeField] private FontStyles m_TMPFontStyle = FontStyles.Normal;
         [SerializeField] private TextAlignmentOptions m_TMPAlignment = TextAlignmentOptions.Left;
 #endif
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// Rotation of text.
         /// |文本的旋转。
@@ -43,26 +45,6 @@ namespace XCharts.Runtime
             get { return m_Rotate; }
             set { if (PropertyUtil.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
         }
-        /// <summary>
-        /// Extra width of text preferred width.
-        /// |额外的宽度
-        /// </summary>
-        public float extraWidth
-        {
-            get { return m_ExtraWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_ExtraWidth, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// the offset of position.
-        /// |坐标偏移。
-        /// [Default: `Vector2.zero`]
-        /// </summary>
-        public Vector2 offset
-        {
-            get { return m_Offset; }
-            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetComponentDirty(); }
-        }
-        public Vector3 offsetv3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
         /// <summary>
         /// 是否开启自动颜色。当开启时，会自动设置颜色。
         /// </summary>
@@ -80,21 +62,6 @@ namespace XCharts.Runtime
         {
             get { return m_Color; }
             set { if (PropertyUtil.SetColor(ref m_Color, value)) SetComponentDirty(); }
-        }
-        public bool autoBackgroundColor
-        {
-            get { return m_AutoBackgroundColor; }
-            set { if (PropertyUtil.SetStruct(ref m_AutoBackgroundColor, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// the color of text.
-        /// |文本的背景颜色。
-        /// [default: `Color.clear`]
-        /// </summary>
-        public Color backgroundColor
-        {
-            get { return m_BackgroundColor; }
-            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the font of text. When `null`, the theme's font is used by default.
@@ -172,11 +139,6 @@ namespace XCharts.Runtime
             get { return m_TMPFontStyle; }
             set { if (PropertyUtil.SetStruct(ref m_TMPFontStyle, value)) SetComponentDirty(); }
         }
-        public TextAlignmentOptions tmpAlignment
-        {
-            get { return m_TMPAlignment; }
-            set { if (PropertyUtil.SetStruct(ref m_TMPAlignment, value)) SetComponentDirty(); }
-        }
 #endif
 
         public TextStyle()
@@ -213,11 +175,7 @@ namespace XCharts.Runtime
         {
             font = textStyle.font;
             rotate = textStyle.rotate;
-            offset = textStyle.offset;
-            autoColor = textStyle.autoColor;
             color = textStyle.color;
-            autoBackgroundColor = textStyle.autoBackgroundColor;
-            backgroundColor = textStyle.backgroundColor;
             fontSize = textStyle.fontSize;
             fontStyle = textStyle.fontStyle;
             lineSpacing = textStyle.lineSpacing;
@@ -226,7 +184,6 @@ namespace XCharts.Runtime
             autoAlign = textStyle.autoAlign;
 #if dUI_TextMeshPro
             m_TMPFont = textStyle.tmpFont;
-            m_TMPAlignment = textStyle.tmpAlignment;
             m_TMPFontStyle = textStyle.tmpFontStyle;
 #endif
         }
@@ -256,17 +213,9 @@ namespace XCharts.Runtime
                 return fontSize;
         }
 
-        public TextAnchor GetAlignment(TextAnchor systemAlignment)
+        public TextAnchor GetAlignment(TextAnchor defaultAlignment)
         {
-            return m_AutoAlign ? systemAlignment : alignment;
-        }
-
-        public Color32 GetBackgroundColor(Color32 chartBackgroundColor)
-        {
-            if (m_AutoColor || ChartHelper.IsClearColor(m_BackgroundColor))
-                return chartBackgroundColor;
-            else
-                return m_BackgroundColor;
+            return m_AutoAlign ? defaultAlignment : alignment;
         }
     }
 }

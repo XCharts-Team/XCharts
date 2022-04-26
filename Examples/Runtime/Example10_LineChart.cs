@@ -222,7 +222,7 @@ namespace XCharts.Example
             yield return new WaitForSeconds(1);
 
             serie.label.textStyle.color = Color.white;
-            serie.label.textStyle.backgroundColor = Color.grey;
+            serie.label.background.color = Color.grey;
             serie.labelDirty = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);

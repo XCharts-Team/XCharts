@@ -167,7 +167,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Icon");
                 PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");
-                PropertyField(prop, "m_Padding");
+                PropertyField(prop, "m_TextPadding");
                 --EditorGUI.indentLevel;
             }
         }

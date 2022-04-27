@@ -211,6 +211,7 @@ namespace XCharts.Runtime
 
         public void RefreshPainter(Serie serie)
         {
+            if (serie == null) return;
             RefreshPainter(GetPainterIndexBySerie(serie));
         }
 
@@ -363,9 +364,7 @@ namespace XCharts.Runtime
             if (m_Painter == null) return;
             if (m_RefreshChart)
             {
-                m_Painter.Refresh();
-                foreach (var painter in m_PainterList) painter.Refresh();
-                if (m_PainterTop != null) m_PainterTop.Refresh();
+                CheckRefreshPainter();
                 m_RefreshChart = false;
             }
         }
@@ -553,6 +552,8 @@ namespace XCharts.Runtime
                 serie.context.dataPoints.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
+                if (!serie.context.pointerEnter)
+                    serie.ResetInteract();
 
                 if (m_OnDrawSerieBefore != null)
                 {

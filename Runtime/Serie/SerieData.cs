@@ -105,6 +105,54 @@ namespace XCharts.Runtime
         private List<bool> m_DataUpdateFlag = new List<bool>();
         private List<Vector2> m_PolygonPoints = new List<Vector2>();
 
+        public override bool vertsDirty
+        {
+            get
+            {
+                return m_VertsDirty
+                    || (labelLine != null && labelLine.vertsDirty)
+                    || (itemStyle != null && itemStyle.vertsDirty)
+                    || (symbol != null && symbol.vertsDirty)
+                    || (lineStyle != null && lineStyle.vertsDirty)
+                    || (areaStyle != null && areaStyle.vertsDirty);
+            }
+        }
+        public override bool componentDirty
+        {
+            get
+            {
+                return m_ComponentDirty
+                    || (labelStyle != null && labelStyle.componentDirty)
+                    || (labelLine != null && labelLine.componentDirty)
+                    || (titleStyle != null && titleStyle.componentDirty)
+                    || (emphasis != null && emphasis.componentDirty);
+            }
+        }
+
+        public override void ClearVerticesDirty()
+        {
+            base.ClearVerticesDirty();
+            if (labelLine != null) labelLine.ClearVerticesDirty();
+            if (itemStyle != null) itemStyle.ClearVerticesDirty();
+            if (lineStyle != null) lineStyle.ClearVerticesDirty();
+            if (areaStyle != null) areaStyle.ClearVerticesDirty();
+            if (areaStyle != null) areaStyle.ClearVerticesDirty();
+            if (symbol != null) symbol.ClearVerticesDirty();
+            if (emphasis != null) emphasis.ClearVerticesDirty();
+        }
+
+        public override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            if (labelLine != null) labelLine.ClearComponentDirty();
+            if (itemStyle != null) itemStyle.ClearComponentDirty();
+            if (lineStyle != null) lineStyle.ClearComponentDirty();
+            if (areaStyle != null) areaStyle.ClearComponentDirty();
+            if (areaStyle != null) areaStyle.ClearComponentDirty();
+            if (symbol != null) symbol.ClearComponentDirty();
+            if (emphasis != null) emphasis.ClearComponentDirty();
+        }
+
         public void Reset()
         {
             index = 0;

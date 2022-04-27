@@ -821,12 +821,14 @@ namespace XCharts.Runtime
                 return m_VertsDirty ||
                     symbol.vertsDirty ||
                     lineStyle.vertsDirty ||
-                    (lineArrow != null && lineArrow.vertsDirty) ||
                     itemStyle.vertsDirty ||
+                    (lineArrow != null && lineArrow.vertsDirty) ||
                     (areaStyle != null && areaStyle.vertsDirty) ||
                     (label != null && label.vertsDirty) ||
+                    (labelLine != null && labelLine.vertsDirty) ||
                     (emphasis != null && emphasis.vertsDirty) ||
-                    (titleStyle != null && titleStyle.vertsDirty);
+                    (titleStyle != null && titleStyle.vertsDirty) ||
+                    AnySerieDataVerticesDirty();
             }
         }
 
@@ -835,12 +837,17 @@ namespace XCharts.Runtime
             get
             {
                 return m_ComponentDirty
-                    || (titleStyle != null && titleStyle.componentDirty);
+                    || symbol.componentDirty
+                    || (titleStyle != null && titleStyle.componentDirty)
+                    || (label != null && label.componentDirty)
+                    || (labelLine != null && labelLine.componentDirty);
             }
         }
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
+            foreach (var serieData in m_Data)
+                serieData.ClearVerticesDirty();
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
@@ -859,6 +866,8 @@ namespace XCharts.Runtime
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
+            foreach (var serieData in m_Data)
+                serieData.ClearComponentDirty();
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
@@ -879,6 +888,24 @@ namespace XCharts.Runtime
             base.SetAllDirty();
             labelDirty = true;
             titleDirty = true;
+        }
+
+        private bool AnySerieDataVerticesDirty()
+        {
+            if (this is ISimplifiedSerie)
+                return false;
+            foreach (var serieData in m_Data)
+                if (serieData.vertsDirty) return true;
+            return false;
+        }
+
+        private bool AnySerieDataComponentDirty()
+        {
+            if (this is ISimplifiedSerie)
+                return false;
+            foreach (var serieData in m_Data)
+                if (serieData.componentDirty) return true;
+            return false;
         }
         /// <summary>
         /// Whether the serie is highlighted.
@@ -1030,6 +1057,12 @@ namespace XCharts.Runtime
                 }
                 return total;
             }
+        }
+
+        public void ResetInteract()
+        {
+            foreach (var serieData in m_Data)
+                serieData.interact.Reset();
         }
 
         /// <summary>

@@ -120,13 +120,36 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Redraw chart in next frame.
-        /// |在下一帧刷新图表。
+        /// |在下一帧刷新整个图表。
         /// </summary>
         public void RefreshChart()
         {
+            foreach (var serie in m_Series)
+                serie.ResetInteract();
             m_RefreshChart = true;
             if (m_Painter) m_Painter.Refresh();
         }
+
+        /// <summary>
+        /// Redraw chart serie in next frame.
+        /// |在下一帧刷新图表的指定serie。
+        /// </summary>
+        public void RefreshChart(int serieIndex)
+        {
+            RefreshPainter(GetSerie(serieIndex));
+        }
+
+        /// <summary>
+        /// Redraw chart serie in next frame.
+        /// |在下一帧刷新图表的指定serie。
+        /// </summary>
+        public void RefreshChart(Serie serie)
+        {
+            if (serie == null) return;
+            serie.ResetInteract();
+            RefreshPainter(serie);
+        }
+
 
         /// <summary>
         /// Remove all series and legend data.

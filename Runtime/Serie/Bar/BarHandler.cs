@@ -63,14 +63,10 @@ namespace XCharts.Runtime
                     serie.context.pointerEnter = false;
                     foreach (var serieData in serie.data)
                     {
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        serieData.context.highlight = false;
+                        serieData.interact.Reset();
                     }
-                    if (needInteract)
-                    {
-                        chart.RefreshPainter(serie);
-                    }
+                    chart.RefreshPainter(serie);
                 }
                 return;
             }

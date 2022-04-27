@@ -26,25 +26,17 @@ namespace XCharts.Runtime
             {
                 if (m_LastCheckContextFlag != needCheck)
                 {
-                    var needAnimation1 = false;
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
-                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
                     foreach (var serieData in serie.data)
                     {
-                        var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                        serieData.context.highlight = false;
-                        serieData.interact.SetValue(ref needAnimation1, symbolSize);
+                        serieData.interact.Reset();
                     }
-                    if (needAnimation1)
-                    {
-                        if (SeriesHelper.IsStack(chart.series))
-                            chart.RefreshTopPainter();
-                        else
-                            chart.RefreshPainter(serie);
-                    }
+                    if (SeriesHelper.IsStack(chart.series))
+                        chart.RefreshTopPainter();
+                    else
+                        chart.RefreshPainter(serie);
                 }
                 return;
             }

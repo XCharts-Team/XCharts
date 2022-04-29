@@ -81,6 +81,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_AlwayShowContent = false;
         [SerializeField] private Vector2 m_Offset = new Vector2(18f, -25f);
         [SerializeField] private Sprite m_BackgroundImage;
+        [SerializeField] private Image.Type m_BackgroundType = Image.Type.Simple;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BorderWidth = 2f;
         [SerializeField] private bool m_FixedXEnable = false;
@@ -240,6 +241,11 @@ namespace XCharts.Runtime
         /// |提示框的背景图片。
         /// </summary>
         public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetComponentDirty(); } }
+        /// <summary>
+        /// The background type of tooltip.
+        /// |提示框的背景图片显示类型。
+        /// </summary>
+        public Image.Type backgroundType { get { return m_BackgroundType; } set { m_BackgroundType = value; SetComponentDirty(); } }
         /// <summary>
         /// The background color of tooltip.
         /// |提示框的背景颜色。

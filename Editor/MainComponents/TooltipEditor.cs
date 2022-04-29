@@ -27,6 +27,7 @@ namespace XCharts.Editor
                 PropertyField("m_PaddingLeftRight");
                 PropertyField("m_PaddingTopBottom");
                 PropertyField("m_BackgroundImage");
+                PropertyField("m_BackgroundType");
                 PropertyField("m_BackgroundColor");
                 PropertyField("m_FixedWidth");
                 PropertyField("m_FixedHeight");

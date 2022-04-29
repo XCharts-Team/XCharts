@@ -218,11 +218,14 @@ namespace XCharts.Runtime
             view.transform = view.gameObject.transform;
 
             view.background = ChartHelper.GetOrAddComponent<Image>(view.gameObject);
+            view.background.sprite = tooltip.backgroundImage;
+            view.background.type = tooltip.backgroundType;
             view.background.color = ChartHelper.IsClearColor(tooltip.backgroundColor)
                 ? Color.white : tooltip.backgroundColor;
 
             view.border = ChartHelper.GetOrAddComponent<Outline>(view.gameObject);
             view.border.enabled = tooltip.borderWidth > 0;
+            view.border.useGraphicAlpha = false;
             view.border.effectColor = tooltip.borderColor;
             view.border.effectDistance = new Vector2(tooltip.borderWidth, -tooltip.borderWidth);
 

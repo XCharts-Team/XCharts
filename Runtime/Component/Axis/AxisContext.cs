@@ -10,6 +10,8 @@ namespace XCharts.Runtime
         public Orient orient;
         public float x;
         public float y;
+        public float zeroX;
+        public float zeroY;
         public float width;
         public float height;
         public Vector3 position;

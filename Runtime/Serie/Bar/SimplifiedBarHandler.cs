@@ -190,7 +190,7 @@ namespace XCharts.Runtime
                 var pY = 0f;
                 UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, barWidth, value, ref pX, ref pY);
 
-                var barHig = AxisHelper.GetAxisValueDistance(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
+                var barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
                 var currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
 
                 Vector3 plb, plt, prt, prb, top;

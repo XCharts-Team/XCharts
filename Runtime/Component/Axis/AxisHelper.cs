@@ -511,7 +511,7 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 获得数值value在坐标轴上对于的长度
+        /// 获得数值value在坐标轴上对应的长度
         /// </summary>
         /// <param name="grid"></param>
         /// <param name="axis"></param>
@@ -549,10 +549,10 @@ namespace XCharts.Runtime
                 var yDataHig = 0f;
                 if (axis.context.minMaxRange != 0)
                 {
-                    if (!realLength || (realLength && axis.context.minValue > 0))
-                        yDataHig = (float)((value - axis.context.minValue) / axis.context.minMaxRange * gridHeight);
+                    if (realLength)
+                        yDataHig = (float)(value * gridHeight / axis.context.minMaxRange);
                     else
-                        yDataHig = (float)(value / axis.context.minMaxRange * gridHeight);
+                        yDataHig = (float)((value - axis.context.minValue) / axis.context.minMaxRange * gridHeight);
                 }
                 return includeGridXY
                     ? gridXY + yDataHig

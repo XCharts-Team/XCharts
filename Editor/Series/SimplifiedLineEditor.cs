@@ -10,6 +10,7 @@ namespace XCharts.Editor
             PropertyField("m_XAxisIndex");
             PropertyField("m_YAxisIndex");
             PropertyField("m_LineType");
+            //PropertyField("m_Clip");
             PropertyField("m_LineStyle");
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

@@ -26,7 +26,7 @@ namespace XCharts.Editor
                 PropertyField("m_BarZebraWidth");
                 PropertyField("m_BarZebraGap");
             }
-
+            PropertyField("m_Clip");
             PropertyFiledMore(() =>
             {
                 PropertyFieldLimitMin("m_MinShow", 0);
@@ -38,7 +38,6 @@ namespace XCharts.Editor
                 PropertyField("m_ShowAsPositiveNumber");
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
-                PropertyField("m_Clip");
                 PropertyField("m_PlaceHolder");
             });
             PropertyField("m_ItemStyle");

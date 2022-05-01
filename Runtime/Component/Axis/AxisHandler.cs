@@ -166,6 +166,10 @@ namespace XCharts
                                 : (float)(Math.Abs(axis.context.minValue) * (grid.context.width
                                     / (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
                             );
+                        axis.context.x = grid.context.x;
+                        axis.context.y = grid.context.y;
+                        axis.context.zeroY = grid.context.y;
+                        axis.context.zeroX = grid.context.x - (float)(axis.context.minValue * grid.context.width / axis.context.minMaxRange);
                     }
                     if (grid != null && axis is YAxis && axis.IsValue())
                     {
@@ -176,6 +180,10 @@ namespace XCharts
                                 : (float)(Math.Abs(axis.context.minValue) * (grid.context.height
                                     / (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
                             );
+                        axis.context.x = grid.context.x;
+                        axis.context.y = grid.context.y;
+                        axis.context.zeroX = grid.context.x;
+                        axis.context.zeroY = grid.context.y - (float)(axis.context.minValue * grid.context.height / axis.context.minMaxRange);
                     }
                 }
                 var dataZoom = chart.GetDataZoomOfAxis(axis);

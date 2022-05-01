@@ -12,6 +12,7 @@ namespace XCharts.Editor
             PropertyField("m_YAxisIndex");
             PropertyField("m_BarWidth");
             PropertyField("m_BarGap");
+            PropertyField("m_Clip");
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");
         }

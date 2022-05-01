@@ -18,6 +18,7 @@ namespace XCharts.Editor
                 PropertyField("m_YAxisIndex");
             }
             PropertyField("m_LineType");
+            //PropertyField("m_Clip");
             PropertyFiledMore(() =>
             {
                 PropertyFieldLimitMin("m_MinShow", 0);
@@ -32,7 +33,6 @@ namespace XCharts.Editor
                 PropertyField("m_ShowAsPositiveNumber");
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
-                PropertyField("m_Clip");
             });
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");

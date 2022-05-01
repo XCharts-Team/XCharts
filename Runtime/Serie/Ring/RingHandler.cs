@@ -116,21 +116,23 @@ namespace XCharts.Runtime
             var toAngle = serieData.context.toAngle;
             switch (label.position)
             {
-                case LabelStyle.Position.Center:
-                    serieData.context.labelPosition = serie.context.center + label.offset;
-                    break;
                 case LabelStyle.Position.Bottom:
+                case LabelStyle.Position.Start:
                     var px1 = Mathf.Sin(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var py1 = Mathf.Cos(startAngle * Mathf.Deg2Rad) * centerRadius;
                     var xDiff = serie.clockwise ? -label.distance : label.distance;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px1 + xDiff, py1);
                     break;
                 case LabelStyle.Position.Top:
+                case LabelStyle.Position.End:
                     startAngle += serie.clockwise ? -label.distance : label.distance;
                     toAngle += serie.clockwise ? label.distance : -label.distance;
                     var px2 = Mathf.Sin(toAngle * Mathf.Deg2Rad) * centerRadius;
                     var py2 = Mathf.Cos(toAngle * Mathf.Deg2Rad) * centerRadius;
                     serieData.context.labelPosition = serie.context.center + new Vector3(px2, py2);
+                    break;
+                default: //LabelStyle.Position.Center
+                    serieData.context.labelPosition = serie.context.center + label.offset;
                     break;
             }
             return serieData.context.labelPosition;

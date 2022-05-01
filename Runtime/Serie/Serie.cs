@@ -1431,7 +1431,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public virtual double GetDataTotal(int dimension)
+        public virtual double GetDataTotal(int dimension, SerieData serieData = null)
         {
             if (m_Max > 0) return m_Max;
 

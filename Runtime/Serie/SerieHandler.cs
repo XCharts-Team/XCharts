@@ -313,7 +313,7 @@ namespace XCharts.Runtime
                 return;
 
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            var total = serie.GetDataTotal(defaultDimension);
+
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
 
             foreach (var serieData in serie.data)
@@ -333,6 +333,7 @@ namespace XCharts.Runtime
                 {
                     //var value = serieData.GetData(defaultDimension);
                     var value = serieData.GetCurrData(defaultDimension, dataChangeDuration);
+                    var total = serie.GetDataTotal(defaultDimension, serieData);
                     var content = string.IsNullOrEmpty(currLabel.formatter)
                         ? ChartCached.NumberToStr(value, serieLabel.numericFormatter)
                         : SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,

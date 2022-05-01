@@ -32,5 +32,12 @@ namespace XCharts.Runtime
             chart.AddData(serie.index, value, max, "data1");
             return serie;
         }
+
+        public override double GetDataTotal(int dimension, SerieData serieData = null)
+        {
+            if (serieData == null || serieData.data.Count <= 1)
+                return base.GetDataTotal(dimension, serieData);
+            return serieData.GetData(1);
+        }
     }
 }

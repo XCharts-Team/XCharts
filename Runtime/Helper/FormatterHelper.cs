@@ -138,7 +138,7 @@ namespace XCharts.Runtime
                     var value = serie.GetData(bIndex, dimensionIndex, dataZoom);
                     if (isPercent)
                     {
-                        var total = serie.GetDataTotal(dimensionIndex);
+                        var total = serie.GetDataTotal(dimensionIndex, serie.GetSerieData(bIndex));
                         var percent = total == 0 ? 0 : value / serie.yTotal * 100;
                         content = content.Replace(old, ChartCached.FloatToStr(percent, numericFormatter));
                     }

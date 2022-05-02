@@ -33,7 +33,7 @@
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
 [QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
 [QA 29：为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级？](#为什么升级到1_6_0版本后很多自定义颜色丢失了_应该如何升级)  
-
+[QA 30：这个库能用于Winform或者WPF项目上吗？](#这个库能用于Winform或者WPF项目上吗？) 
 ## 如何调整坐标轴与背景的边距
 
 答：`Grid`组件，可调整上下左右边距。

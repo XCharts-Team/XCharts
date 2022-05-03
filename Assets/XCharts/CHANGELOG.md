@@ -44,6 +44,7 @@
 
 ## branch-2.0
 
+* (2022.05.03) 增加`Legend`的`onLegendClick`,`onLegendEnter`和`onLegendExit`委托回调
 * (2022.04.21) 修复`RingChart`的`Tooltip`异常的问题 #192
 * (2022.04.21) 修复`DataZoom`设置`minShowNum`时可能会报错的问题
 

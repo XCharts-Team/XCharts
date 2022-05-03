@@ -74,6 +74,9 @@ namespace XCharts
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieBeforeCallback;
         protected Action<VertexHelper, Serie> m_OnCustomDrawSerieAfterCallback;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
+        protected Action<int, string, bool> m_OnLegendClick;
+        protected Action<int, string> m_OnLegendEnter;
+        protected Action<int, string> m_OnLegendExit;
 
         protected bool m_RefreshLabel = false;
         internal bool m_ReinitLabel = false;
@@ -847,6 +850,8 @@ namespace XCharts
                 }
                 OnYMaxValueChanged();
             }
+            if(m_OnLegendClick != null)
+                m_OnLegendClick(index, legendName, show);
         }
 
         protected virtual void OnLegendButtonEnter(int index, string legendName)
@@ -862,6 +867,8 @@ namespace XCharts
                     RefreshPainter(serie);
                 }
             }
+            if(m_OnLegendEnter != null)
+                m_OnLegendEnter(index, legendName);
         }
 
         protected virtual void OnLegendButtonExit(int index, string legendName)
@@ -877,6 +884,8 @@ namespace XCharts
                     RefreshPainter(serie);
                 }
             }
+            if(m_OnLegendExit != null)
+                m_OnLegendExit(index, legendName);
         }
 
         protected virtual void UpdateTooltip()

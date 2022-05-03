@@ -44,6 +44,7 @@
 
 ## branch-2.0
 
+* (2022.05.03) Added `onLegendClick`, `onLegendEnter` and `onLegendExit` delegate callbacks for `Legend`
 * (2022.04.21) Fixed bug #192 with `RingChart` `Tooltip` exception
 * (2022.04.21) Fixed error when setting `minShowNum` in `DataZoom`
 

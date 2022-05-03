@@ -132,7 +132,21 @@ namespace XCharts
         /// 点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         public Action<PointerEventData, int, int> onPointerClickPie { set { m_OnPointerClickPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickPie; } }
-
+        /// <summary>
+        /// the callback function of click legend.
+        /// 点击图例按钮回调。参数：legendIndex, legendName, show
+        /// </summary>
+        public Action<int, string, bool> onLegendClick { set { m_OnLegendClick = value; } }
+        /// <summary>
+        /// the callback function of enter legend.
+        /// 鼠标进入图例回调。参数：legendIndex, legendName
+        /// </summary>
+        public Action<int, string> onLegendEnter { set { m_OnLegendEnter = value; } }
+        /// <summary>
+        /// the callback function of exit legend.
+        /// 鼠标退出图例回调。参数：legendIndex, legendName
+        /// </summary>
+        public Action<int, string> onLegendExit { set { m_OnLegendExit = value; } }
         /// <summary>
         /// Redraw chart in next frame.
         /// 在下一帧刷新图表。

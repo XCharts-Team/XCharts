@@ -240,6 +240,9 @@ namespace XCharts.Runtime
         internal static void DrawSerieLine(VertexHelper vh, ThemeStyle theme, Serie serie, VisualMap visualMap,
             GridCoord grid, Axis axis, Axis relativedAxis, float lineWidth)
         {
+            if (!serie.lineStyle.show || serie.lineStyle.type == LineStyle.Type.None)
+                return;
+
             var datas = serie.context.drawPoints;
 
             var dataCount = datas.Count;
@@ -264,6 +267,7 @@ namespace XCharts.Runtime
             var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex, false);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
+            var smooth = serie.lineType == LineType.Smooth;
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -281,6 +285,42 @@ namespace XCharts.Runtime
                     if (AnimationStyleHelper.GetAnimationPosition(serie.animation, isY, lp, cp, progress, ref ip))
                         cp = np = ip;
                 }
+                serie.context.lineEndPostion = cp;
+                serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
+                lastDataIsIgnore = isIgnore;
+                var handled = false;
+                if (!smooth)
+                {
+                    switch (serie.lineStyle.type)
+                    {
+                        case LineStyle.Type.Dashed:
+                            UGL.DrawDashLine(vh, lp, cp, lineWidth, lineColor, lineColor, 0, 0);
+                            handled = true;
+                            break;
+                        case LineStyle.Type.Dotted:
+                            UGL.DrawDotLine(vh, lp, cp, lineWidth, lineColor, lineColor, 0, 0);
+                            handled = true;
+                            break;
+                        case LineStyle.Type.DashDot:
+                            UGL.DrawDashDotLine(vh, lp, cp, lineWidth, lineColor, 0, 0, 0);
+                            handled = true;
+                            break;
+                        case LineStyle.Type.DashDotDot:
+                            UGL.DrawDashDotDotLine(vh, lp, cp, lineWidth, lineColor, 0, 0, 0);
+                            handled = true;
+                            break;
+                        case LineStyle.Type.None:
+                            handled = true;
+                            break;
+                    }
+                }
+                if (handled)
+                {
+                    if (isBreak)
+                        break;
+                    else
+                        continue;
+                }
                 bool bitp = true, bibp = true;
                 UGLHelper.GetLinePoints(lp, cp, np, lineWidth,
                     ref ltp, ref lbp,
@@ -288,7 +328,6 @@ namespace XCharts.Runtime
                     ref itp, ref ibp,
                     ref clp, ref crp,
                     ref bitp, ref bibp, i);
-
                 if (i == 1)
                 {
                     AddLineVertToVertexHelper(vh, ltp, lbp, lineColor, isVisualMapGradient, isLineStyleGradient,
@@ -333,9 +372,7 @@ namespace XCharts.Runtime
                             visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                     }
                 }
-                serie.context.lineEndPostion = cp;
-                serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
-                lastDataIsIgnore = isIgnore;
+
                 if (isBreak)
                     break;
             }

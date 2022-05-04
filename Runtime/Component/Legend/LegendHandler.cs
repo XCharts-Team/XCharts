@@ -93,14 +93,14 @@ namespace XCharts.Runtime
                         int clickedIndex = int.Parse(temp[0]);
                         if (legend.selectedMode == Legend.SelectedMode.Multiple)
                         {
-                            chart.OnLegendButtonClick(clickedIndex, selectedName, !chart.IsActiveByLegend(selectedName));
+                            OnLegendButtonClick(legend, clickedIndex, selectedName, !chart.IsActiveByLegend(selectedName));
                         }
                         else
                         {
                             var btnList = legend.context.buttonList.Values.ToArray();
                             if (btnList.Length == 1)
                             {
-                                chart.OnLegendButtonClick(0, selectedName, !chart.IsActiveByLegend(selectedName));
+                                OnLegendButtonClick(legend, 0, selectedName, !chart.IsActiveByLegend(selectedName));
                             }
                             else
                             {
@@ -109,7 +109,7 @@ namespace XCharts.Runtime
                                     temp = btnList[n].name.Split('_');
                                     selectedName = btnList[n].legendName;
                                     var index = btnList[n].index;
-                                    chart.OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
+                                    OnLegendButtonClick(legend, n, selectedName, index == clickedIndex ? true : false);
                                 }
                             }
                         }
@@ -120,7 +120,7 @@ namespace XCharts.Runtime
                         var temp = item.button.name.Split('_');
                         string selectedName = temp[1];
                         int index = int.Parse(temp[0]);
-                        chart.OnLegendButtonEnter(index, selectedName);
+                        OnLegendButtonEnter(legend, index, selectedName);
                     });
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerExit, (data) =>
                     {
@@ -128,12 +128,33 @@ namespace XCharts.Runtime
                         var temp = item.button.name.Split('_');
                         string selectedName = temp[1];
                         int index = int.Parse(temp[0]);
-                        chart.OnLegendButtonExit(index, selectedName);
+                        OnLegendButtonExit(legend, index, selectedName);
                     });
                 }
                 LegendHelper.ResetItemPosition(legend, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             };
             legend.refreshComponent();
+        }
+
+        private void OnLegendButtonClick(Legend legend, int index, string legendName, bool show)
+        {
+            chart.OnLegendButtonClick(index, legendName, show);
+            if (chart.onLegendClick != null)
+                chart.onLegendClick(legend, index, legendName, show);
+        }
+
+        private void OnLegendButtonEnter(Legend legend, int index, string legendName)
+        {
+            chart.OnLegendButtonEnter(index, legendName);
+            if (chart.onLegendEnter != null)
+                chart.onLegendEnter(legend, index, legendName);
+        }
+
+        private void OnLegendButtonExit(Legend legend, int index, string legendName)
+        {
+            chart.OnLegendButtonExit(index, legendName);
+            if (chart.onLegendExit != null)
+                chart.onLegendExit(legend, index, legendName);
         }
 
         private void DrawLegend(VertexHelper vh)

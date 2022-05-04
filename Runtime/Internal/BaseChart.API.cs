@@ -105,7 +105,21 @@ namespace XCharts.Runtime
         /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
         /// </summary>
         public Action<Axis, double> onAxisPointerValueChanged { set { m_OnAxisPointerValueChanged = value; } get { return m_OnAxisPointerValueChanged; } }
-
+        /// <summary>
+        /// the callback function of click legend.
+        /// |点击图例按钮回调。参数：legendIndex, legendName, show
+        /// </summary>
+        public Action<Legend, int, string, bool> onLegendClick { set { m_OnLegendClick = value; } internal get { return m_OnLegendClick; } }
+        /// <summary>
+        /// the callback function of enter legend.
+        /// |鼠标进入图例回调。参数：legendIndex, legendName
+        /// </summary>
+        public Action<Legend, int, string> onLegendEnter { set { m_OnLegendEnter = value; } internal get { return m_OnLegendEnter; } }
+        /// <summary>
+        /// the callback function of exit legend.
+        /// |鼠标退出图例回调。参数：legendIndex, legendName
+        /// </summary>
+        public Action<Legend, int, string> onLegendExit { set { m_OnLegendExit = value; } internal get { return m_OnLegendExit; } }
         public void Init(bool defaultChart = true)
         {
             if (defaultChart)

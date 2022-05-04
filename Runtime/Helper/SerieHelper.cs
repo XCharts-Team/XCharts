@@ -432,7 +432,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static SymbolStyle GetSerieSymbol(Serie serie, SerieData serieData)
+        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
         {
             if (!serie.IsPerformanceMode() && serieData.symbol != null) return serieData.symbol;
             else return serie.symbol;

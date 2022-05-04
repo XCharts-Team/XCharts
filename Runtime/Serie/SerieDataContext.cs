@@ -48,6 +48,7 @@ namespace XCharts.Runtime
         public double area;
         public float angle;
         public Vector3 offsetCenter;
+        public Vector3 areaCenter;
         public float stackHeight;
         public bool isClip;
         public bool canShowLabel = true;
@@ -57,6 +58,7 @@ namespace XCharts.Runtime
         /// |该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
         public bool highlight;
+        public bool selected;
 
         public void Reset()
         {

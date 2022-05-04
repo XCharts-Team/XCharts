@@ -29,7 +29,8 @@ namespace XCharts.Example
 
             var serieData = chart.AddData(0, 20);
             //var serieData = serie1.GetSerieData(0);
-            serieData.radius = 10;
+            var baseInfo = serieData.GetOrAddComponent<SerieDataBaseInfo>();
+            baseInfo.radius = 10;
             var itemStyle = serieData.GetOrAddComponent<ItemStyle>();
             itemStyle.color = Color.blue;
         }

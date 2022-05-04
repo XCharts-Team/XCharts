@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace XCharts.Runtime
 {
-    internal class ObjectPool<T> where T : new()
+    public class ObjectPool<T> where T : new()
     {
         private readonly bool m_NewIfEmpty = true;
         private readonly Stack<T> m_Stack = new Stack<T>();

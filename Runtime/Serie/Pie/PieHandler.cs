@@ -77,8 +77,8 @@ namespace XCharts.Runtime
                     refresh = true;
                     for (int j = 0; j < serie.data.Count; j++)
                     {
-                        if (j == index) serie.data[j].selected = !serie.data[j].selected;
-                        else serie.data[j].selected = false;
+                        if (j == index) serie.data[j].context.selected = !serie.data[j].context.selected;
+                        else serie.data[j].context.selected = false;
                     }
                     if (chart.onPointerClickPie != null)
                     {
@@ -406,8 +406,7 @@ namespace XCharts.Runtime
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             if (serieLabel != null && serieLabel.show
                 && labelLine != null && labelLine.show
-                && (serieLabel.position == LabelStyle.Position.Outside
-                || serieLabel.position == LabelStyle.Position.Default))
+                && (serieLabel.IsDefaultPosition(LabelStyle.Position.Outside)))
             {
                 var insideRadius = serieData.context.insideRadius;
                 var outSideRadius = serieData.context.outsideRadius;

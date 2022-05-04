@@ -355,5 +355,36 @@ namespace XUGL
             var c3 = dire3.x * dire1.y - dire3.y * dire1.x;
             return c1 * c2 >= 0 && c1 * c3 >= 0;
         }
+
+        public static bool IsPointInPolygon(Vector3 p, List<Vector3> polyons)
+        {
+            if (polyons.Count == 0) return false;
+            var inside = false;
+            var j = polyons.Count - 1;
+            for (int i = 0; i < polyons.Count; j = i++)
+            {
+                var pi = polyons[i];
+                var pj = polyons[j];
+                if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+                    (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+                    inside = !inside;
+            }
+            return inside;
+        }
+        public static bool IsPointInPolygon(Vector3 p, List<Vector2> polyons)
+        {
+            if (polyons.Count == 0) return false;
+            var inside = false;
+            var j = polyons.Count - 1;
+            for (int i = 0; i < polyons.Count; j = i++)
+            {
+                var pi = polyons[i];
+                var pj = polyons[j];
+                if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+                    (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+                    inside = !inside;
+            }
+            return inside;
+        }
     }
 }

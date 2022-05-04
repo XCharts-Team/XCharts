@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
+    /// <summary>
+    /// 标签的引导线
+    /// </summary>
     [System.Serializable]
     public class LabelLine : ChildComponent, ISerieExtraComponent, ISerieDataComponent
     {
@@ -29,16 +32,20 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Show = true;
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
         [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
+        [SerializeField] private float m_LineAngle = 0;
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineGap = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
+        [SerializeField] private SymbolStyle m_StartSymbol = new SymbolStyle() { type = SymbolType.Circle, size = 3 };
+        [SerializeField] private SymbolStyle m_EndSymbol = new SymbolStyle() { type = SymbolType.Circle, size = 3 };
 
         public void Reset()
         {
             m_Show = false;
             m_LineType = LineType.BrokenLine;
             m_LineColor = Color.clear;
+            m_LineAngle = 0;
             m_LineWidth = 1.0f;
             m_LineGap = 1.0f;
             m_LineLength1 = 25f;
@@ -71,6 +78,15 @@ namespace XCharts.Runtime
         {
             get { return m_LineColor; }
             set { if (PropertyUtil.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the angle of visual guild line.
+        /// |视觉引导线的固定角度。对折线和曲线有效。
+        /// </summary>
+        public float lineAngle
+        {
+            get { return m_LineAngle; }
+            set { if (PropertyUtil.SetStruct(ref m_LineAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the width of visual guild line.
@@ -107,6 +123,24 @@ namespace XCharts.Runtime
         {
             get { return m_LineLength2; }
             set { if (PropertyUtil.SetStruct(ref m_LineLength2, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The symbol of the start point of labelline.
+        /// |起始点的图形标记。
+        /// </summary>
+        public SymbolStyle startSymbol
+        {
+            get { return m_StartSymbol; }
+            set { if (PropertyUtil.SetClass(ref m_StartSymbol, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The symbol of the end point of labelline.
+        /// |结束点的图形标记。
+        /// </summary>
+        public SymbolStyle endSymbol
+        {
+            get { return m_EndSymbol; }
+            set { if (PropertyUtil.SetClass(ref m_EndSymbol, value)) SetVerticesDirty(); }
         }
     }
 }

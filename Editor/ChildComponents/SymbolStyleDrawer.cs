@@ -23,29 +23,12 @@ namespace XCharts.Editor
                     PropertyField(prop, "m_Image");
                     PropertyField(prop, "m_ImageType");
                     PropertyField(prop, "m_Width");
-                    // PropertyField(prop, "m_Height");
+                    PropertyField(prop, "m_Height");
                     // PropertyField(prop, "m_Offset");
                 }
+                PropertyField(prop, "m_Color");
+                PropertyField(prop, "m_Size");
                 PropertyField(prop, "m_Gap");
-                PropertyField(prop, "m_SizeType");
-                switch ((SymbolSizeType)prop.FindPropertyRelative("m_SizeType").enumValueIndex)
-                {
-                    case SymbolSizeType.Custom:
-                        PropertyField(prop, "m_Size");
-                        PropertyField(prop, "m_SelectedSize");
-                        break;
-                    case SymbolSizeType.FromData:
-                        PropertyField(prop, "m_DataIndex");
-                        PropertyField(prop, "m_DataScale");
-                        PropertyField(prop, "m_SelectedDataScale");
-                        break;
-                    case SymbolSizeType.Function:
-                        break;
-                }
-                PropertyField(prop, "m_StartIndex");
-                PropertyField(prop, "m_Interval");
-                PropertyField(prop, "m_ForceShowLast");
-                PropertyField(prop, "m_Repeat");
                 --EditorGUI.indentLevel;
             }
         }

@@ -230,7 +230,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_InsertDataToHead;
 
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
-        [SerializeField] private SymbolStyle m_Symbol = new SymbolStyle();
+        [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -396,7 +396,7 @@ namespace XCharts.Runtime
         /// the symbol of serie data item.
         /// |标记的图形。
         /// </summary>
-        public SymbolStyle symbol
+        public SerieSymbol symbol
         {
             get { return m_Symbol; }
             set { if (PropertyUtil.SetClass(ref m_Symbol, value, true)) SetVerticesDirty(); }
@@ -1586,7 +1586,8 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(SerieData serieData, int dimension = 1)
         {
-            if (serieData.ignore) return true;
+            if (serieData.baseInfo != null && serieData.baseInfo.ignore)
+                return true;
             return IsIgnoreValue(serieData.GetData(dimension));
         }
 

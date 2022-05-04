@@ -62,7 +62,7 @@ namespace XCharts.Example
             legend.orient = Orient.Vertical;
 
             chart.RemoveData();
-            serie = chart.AddSerie<Bar>( "访问来源");
+            serie = chart.AddSerie<Bar>("访问来源");
             serie.radius[0] = 0;
             serie.radius[1] = 110;
             serie.center[0] = 0.5f;
@@ -118,12 +118,12 @@ namespace XCharts.Example
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
-            serie.data[0].selected = true;
+            serie.data[0].GetOrAddComponent<SerieDataBaseInfo>().selected = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
 
             serie.gap = 0f;
-            serie.data[0].selected = false;
+            serie.data[0].GetOrAddComponent<SerieDataBaseInfo>().selected = false;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
         }
@@ -132,7 +132,7 @@ namespace XCharts.Example
         {
             chart.GetChartComponent<Title>().subText = "多图组合";
 
-            serie1 = chart.AddSerie<Pie>( "访问来源2");
+            serie1 = chart.AddSerie<Pie>("访问来源2");
             chart.AddData(1, 335, "直达");
             chart.AddData(1, 679, "营销广告");
             chart.AddData(1, 1548, "搜索引擎");

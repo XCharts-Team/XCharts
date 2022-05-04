@@ -395,20 +395,19 @@ namespace XCharts.Runtime
 
         private void UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
         {
-            var isNeedInvertPositionSerie = serie is Line;
-            var invert = currLabel.autoOffset
-                        && isNeedInvertPositionSerie
-                        && SerieHelper.IsDownPoint(serie, serieData.index)
-                        && (serie.areaStyle == null || !serie.areaStyle.show);
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
-            var offset = currLabel.GetOffset(serie.context.insideRadius);
-            serieData.labelObject.SetPosition(labelPosition
-                + (invert ? -offset : offset));
+            var offset = GetSerieDataLabelOffset(serieData, currLabel);
+            serieData.labelObject.SetPosition(labelPosition + offset);
         }
 
         public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
         {
             return serieData.context.position;
+        }
+
+        public virtual Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)
+        {
+            return label.GetOffset(serie.context.insideRadius);
         }
 
         public virtual Vector3 GetSerieDataTitlePosition(SerieData serieData, TitleStyle titleStyle)

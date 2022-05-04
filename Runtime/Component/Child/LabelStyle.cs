@@ -244,7 +244,12 @@ namespace XCharts.Runtime
 
         public bool IsInside()
         {
-            return position == Position.Inside || position == Position.Center;
+            return m_Position == Position.Inside || m_Position == Position.Center;
+        }
+
+        public bool IsDefaultPosition(Position position)
+        {
+            return m_Position == Position.Default || m_Position == position;
         }
 
         public bool IsAutoSize()

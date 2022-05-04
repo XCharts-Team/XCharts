@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using XUGL;
 
 namespace XCharts.Runtime
 {
@@ -16,11 +17,12 @@ namespace XCharts.Runtime
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Id;
         [SerializeField] private string m_ParentId;
+        [SerializeField] private List<SerieDataBaseInfo> m_BaseInfos = new List<SerieDataBaseInfo>();
         [SerializeField] private List<ItemStyle> m_ItemStyles = new List<ItemStyle>();
         [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
         [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
         [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
-        [SerializeField] private List<SymbolStyle> m_Symbols = new List<SymbolStyle>();
+        [SerializeField] private List<SerieSymbol> m_Symbols = new List<SerieSymbol>();
         [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
@@ -28,9 +30,7 @@ namespace XCharts.Runtime
 
         [NonSerialized] public SerieDataContext context = new SerieDataContext();
         [NonSerialized] public InteractData interact = new InteractData();
-        [NonSerialized] private bool m_Ignore = false;
-        [NonSerialized] private bool m_Selected;
-        [NonSerialized] private float m_Radius;
+
         public ChartLabel labelObject { get; set; }
         public ChartLabel titleObject { get; set; }
 
@@ -52,15 +52,8 @@ namespace XCharts.Runtime
         /// </summary>
         /// <value></value>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
-        /// <summary>
-        /// 自定义半径。可用在饼图中自定义某个数据项的半径。
-        /// </summary>
-        public float radius { get { return m_Radius; } set { m_Radius = value; } }
-        /// <summary>
-        /// Whether the data item is selected.
-        /// |该数据项是否被选中。
-        /// </summary>
-        public bool selected { get { return m_Selected; } set { m_Selected = value; } }
+
+        public SerieDataBaseInfo baseInfo { get { return m_BaseInfos.Count > 0 ? m_BaseInfos[0] : null; } }
         /// <summary>
         /// 单个数据项的标签设置。
         /// </summary>
@@ -77,18 +70,11 @@ namespace XCharts.Runtime
         /// <summary>
         /// 单个数据项的标记设置。
         /// </summary>
-        public SymbolStyle symbol { get { return m_Symbols.Count > 0 ? m_Symbols[0] : null; } }
+        public SerieSymbol symbol { get { return m_Symbols.Count > 0 ? m_Symbols[0] : null; } }
         public LineStyle lineStyle { get { return m_LineStyles.Count > 0 ? m_LineStyles[0] : null; } }
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
-        /// <summary>
-        /// 是否忽略数据。当为 true 时，数据不进行绘制。
-        /// </summary>
-        public bool ignore
-        {
-            get { return m_Ignore; }
-            set { if (PropertyUtil.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
-        }
+
         /// <summary>
         /// An arbitrary dimension data list of data item.
         /// |可指定任意维数的数值列表。
@@ -99,6 +85,8 @@ namespace XCharts.Runtime
         /// |该数据项是否要显示。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
+        public float radius { get { return baseInfo != null ? baseInfo.radius : 0; } }
+        public bool selected { get { return (baseInfo != null && baseInfo.selected) || context.selected; } }
 
         private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
@@ -110,6 +98,7 @@ namespace XCharts.Runtime
             get
             {
                 return m_VertsDirty
+                    || (baseInfo != null && baseInfo.vertsDirty)
                     || (labelLine != null && labelLine.vertsDirty)
                     || (itemStyle != null && itemStyle.vertsDirty)
                     || (symbol != null && symbol.vertsDirty)
@@ -122,6 +111,7 @@ namespace XCharts.Runtime
             get
             {
                 return m_ComponentDirty
+                    || (baseInfo != null && baseInfo.componentDirty)
                     || (labelStyle != null && labelStyle.componentDirty)
                     || (labelLine != null && labelLine.componentDirty)
                     || (titleStyle != null && titleStyle.componentDirty)
@@ -132,6 +122,7 @@ namespace XCharts.Runtime
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
+            if (baseInfo != null) baseInfo.ClearVerticesDirty();
             if (labelLine != null) labelLine.ClearVerticesDirty();
             if (itemStyle != null) itemStyle.ClearVerticesDirty();
             if (lineStyle != null) lineStyle.ClearVerticesDirty();
@@ -144,6 +135,7 @@ namespace XCharts.Runtime
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
+            if (baseInfo != null) baseInfo.ClearComponentDirty();
             if (labelLine != null) labelLine.ClearComponentDirty();
             if (itemStyle != null) itemStyle.ClearComponentDirty();
             if (lineStyle != null) lineStyle.ClearComponentDirty();
@@ -161,14 +153,13 @@ namespace XCharts.Runtime
             labelObject = null;
             m_Name = string.Empty;
             m_Show = true;
-            m_Selected = false;
-            m_Radius = 0;
             context.Reset();
             interact.Reset();
             m_Data.Clear();
             m_PreviousData.Clear();
             m_DataUpdateTime.Clear();
             m_DataUpdateFlag.Clear();
+            m_BaseInfos.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
             m_ItemStyles.Clear();
@@ -188,6 +179,12 @@ namespace XCharts.Runtime
                     m_ItemStyles.Add(new ItemStyle() { show = true });
                 return m_ItemStyles[0] as T;
             }
+            else if (type == typeof(SerieDataBaseInfo))
+            {
+                if (m_BaseInfos.Count == 0)
+                    m_BaseInfos.Add(new SerieDataBaseInfo() { });
+                return m_BaseInfos[0] as T;
+            }
             else if (type == typeof(LabelStyle))
             {
                 if (m_Labels.Count == 0)
@@ -206,10 +203,10 @@ namespace XCharts.Runtime
                     m_Emphases.Add(new Emphasis() { show = true });
                 return m_Emphases[0] as T;
             }
-            else if (type == typeof(SymbolStyle))
+            else if (type == typeof(SerieSymbol))
             {
                 if (m_Symbols.Count == 0)
-                    m_Symbols.Add(new SymbolStyle() { show = true });
+                    m_Symbols.Add(new SerieSymbol() { show = true });
                 return m_Symbols[0] as T;
             }
             else if (type == typeof(LineStyle))
@@ -238,6 +235,7 @@ namespace XCharts.Runtime
 
         public void RemoveAllComponent()
         {
+            m_BaseInfos.Clear();
             m_ItemStyles.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
@@ -253,13 +251,15 @@ namespace XCharts.Runtime
             var type = typeof(T);
             if (type == typeof(ItemStyle))
                 m_ItemStyles.Clear();
+            else if (type == typeof(SerieDataBaseInfo))
+                m_BaseInfos.Clear();
             else if (type == typeof(LabelStyle))
                 m_Labels.Clear();
             else if (type == typeof(LabelLine))
                 m_LabelLines.Clear();
             else if (type == typeof(Emphasis))
                 m_Emphases.Clear();
-            else if (type == typeof(SymbolStyle))
+            else if (type == typeof(SerieSymbol))
                 m_Symbols.Clear();
             else if (type == typeof(LineStyle))
                 m_LineStyles.Clear();
@@ -482,18 +482,7 @@ namespace XCharts.Runtime
 
         public bool IsInPolygon(Vector2 p)
         {
-            if (m_PolygonPoints.Count == 0) return false;
-            var inside = false;
-            var j = m_PolygonPoints.Count - 1;
-            for (int i = 0; i < m_PolygonPoints.Count; j = i++)
-            {
-                var pi = m_PolygonPoints[i];
-                var pj = m_PolygonPoints[j];
-                if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
-                    (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
-                    inside = !inside;
-            }
-            return inside;
+            return UGLHelper.IsPointInPolygon(p, m_PolygonPoints);
         }
     }
 }

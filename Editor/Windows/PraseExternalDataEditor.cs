@@ -194,7 +194,8 @@ namespace XCharts.Editor
                         else if (a.StartsWith("selected:"))
                         {
                             string selected = a.Substring(9, a.Length - 9);
-                            serieData.selected = bool.Parse(selected);
+                            var baseInfo = serieData.GetOrAddComponent<SerieDataBaseInfo>();
+                            baseInfo.selected = bool.Parse(selected);
                         }
                     }
                     serie.AddSerieData(serieData);

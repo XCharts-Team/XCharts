@@ -16,6 +16,22 @@ namespace XCharts.Runtime
         private GridCoord m_SerieGrid;
         private float m_LastLineWidth = 0f;
 
+        public override Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)
+        {
+            var invert = label.autoOffset
+                && SerieHelper.IsDownPoint(serie, serieData.index)
+                && (serie.areaStyle == null || !serie.areaStyle.show);
+            if (invert)
+            {
+                var offset = label.GetOffset(serie.context.insideRadius);
+                return new Vector3(offset.x, -offset.y, offset.z);
+            }
+            else
+            {
+                return label.GetOffset(serie.context.insideRadius);
+            }
+        }
+
         private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)

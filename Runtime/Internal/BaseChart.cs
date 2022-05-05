@@ -402,7 +402,6 @@ namespace XCharts.Runtime
             m_ChartPivot = m_GraphPivot;
             m_ChartSizeDelta = m_GraphSizeDelta;
             m_ChartRect = m_GraphRect;
-
             SetAllComponentDirty();
             OnCoordinateChanged();
             RefreshChart();

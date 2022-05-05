@@ -11,8 +11,7 @@ namespace XCharts.Runtime
     {
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            DrawCandlestickSerie(vh, colorIndex, serie);
+            DrawCandlestickSerie(vh, serie);
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -31,7 +30,7 @@ namespace XCharts.Runtime
 
             title = category;
 
-            var color = chart.GetLegendRealShowNameColor(serie.serieName);
+            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -78,7 +77,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawCandlestickSerie(VertexHelper vh, int colorIndex, SimplifiedCandlestick serie)
+        private void DrawCandlestickSerie(VertexHelper vh, SimplifiedCandlestick serie)
         {
             if (!serie.show) return;
             if (serie.animation.HasFadeOut()) return;

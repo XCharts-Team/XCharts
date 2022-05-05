@@ -110,6 +110,14 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// 数据项背景宽度。
+        /// </summary>
+        public float backgroundWidth
+        {
+            get { return m_BackgroundWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 中心区域颜色。
         /// </summary>
         public Color32 centerColor
@@ -124,14 +132,6 @@ namespace XCharts.Runtime
         {
             get { return m_CenterGap; }
             set { if (PropertyUtil.SetStruct(ref m_CenterGap, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// 数据项背景宽度。
-        /// </summary>
-        public float backgroundWidth
-        {
-            get { return m_BackgroundWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 边框的颜色。

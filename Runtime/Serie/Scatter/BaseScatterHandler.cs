@@ -36,7 +36,7 @@ namespace XCharts.Runtime
             param.category = category;
             param.dimension = 1;
             param.serieData = serieData;
-            param.color = chart.theme.GetColor(serie.index);
+            param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -52,15 +52,13 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-
             if (serie.IsUseCoord<SingleAxisCoord>())
             {
-                DrawSingAxisScatterSerie(vh, colorIndex, serie);
+                DrawSingAxisScatterSerie(vh, serie);
             }
             else if (serie.IsUseCoord<GridCoord>())
             {
-                DrawScatterSerie(vh, colorIndex, serie);
+                DrawScatterSerie(vh, serie);
             }
         }
 
@@ -107,7 +105,7 @@ namespace XCharts.Runtime
             }
         }
 
-        protected virtual void DrawScatterSerie(VertexHelper vh, int colorIndex, BaseScatter serie)
+        protected virtual void DrawScatterSerie(VertexHelper vh, BaseScatter serie)
         {
             if (serie.animation.HasFadeOut())
                 return;
@@ -141,6 +139,7 @@ namespace XCharts.Runtime
             var interacting = false;
             var dataList = serie.GetDataList(xDataZoom);
             var isEffectScatter = serie is EffectScatter;
+            var colorIndex = serie.context.colorIndex;
 
             serie.containerIndex = m_Grid.index;
             serie.containterInstanceId = m_Grid.instanceId;
@@ -218,7 +217,7 @@ namespace XCharts.Runtime
             }
         }
 
-        protected virtual void DrawSingAxisScatterSerie(VertexHelper vh, int colorIndex, BaseScatter serie)
+        protected virtual void DrawSingAxisScatterSerie(VertexHelper vh, BaseScatter serie)
         {
             if (serie.animation.HasFadeOut())
                 return;
@@ -245,6 +244,7 @@ namespace XCharts.Runtime
             var dataChanging = false;
             var dataList = serie.GetDataList(xDataZoom);
             var isEffectScatter = serie is EffectScatter;
+            var colorIndex = serie.context.colorIndex;
 
             serie.containerIndex = axis.index;
             serie.containterInstanceId = axis.instanceId;

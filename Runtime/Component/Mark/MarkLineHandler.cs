@@ -48,7 +48,7 @@ namespace XCharts.Runtime
             var serie = chart.GetSerie(markLine.serieIndex);
             if (!serie.show || !markLine.show) return;
             ResetTempMarkLineGroupData(markLine);
-            var serieColor = (Color)chart.theme.GetColor(chart.GetLegendRealShowNameIndex(serie.serieName));
+            var serieColor = (Color) chart.GetItemColor(serie);
             if (m_TempGroupData.Count > 0)
             {
                 foreach (var kv in m_TempGroupData)

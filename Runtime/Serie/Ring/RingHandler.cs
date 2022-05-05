@@ -96,7 +96,7 @@ namespace XCharts.Runtime
             param.serieData = serieData;
             param.value = serieData.GetData(0);
             param.total = serieData.GetData(1);
-            param.color = chart.theme.GetColor(dataIndex);
+            param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, dataIndex, false);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
@@ -159,8 +159,9 @@ namespace XCharts.Runtime
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
-                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, serieData.context.highlight);
-                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, serieData.context.highlight);
+                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
+                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
                 var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.gap);
                 var insideRadius = outsideRadius - ringWidth;
                 var borderWidth = itemStyle.borderWidth;
@@ -171,12 +172,7 @@ namespace XCharts.Runtime
                 serieData.context.toAngle = serie.clockwise ? toDegree : startDegree;
                 serieData.context.insideRadius = insideRadius;
                 serieData.context.outsideRadius = serieData.radius > 0 ? serieData.radius : outsideRadius;
-                if (itemStyle.backgroundColor.a != 0)
-                {
-                    UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemStyle.backgroundColor,
-                        itemStyle.backgroundColor, Color.clear, 0, 360, borderWidth, borderColor, 0,
-                        chart.settings.cicleSmoothness, false, serie.clockwise);
-                }
+                DrawBackground(vh, serie, serieData, j, insideRadius, outsideRadius);
                 UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemColor, itemToColor,
                     Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, chart.settings.cicleSmoothness,
                     roundCap, serie.clockwise);

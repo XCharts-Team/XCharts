@@ -55,7 +55,7 @@ namespace XCharts.Runtime
             if (serieData == null)
                 return;
 
-            var color = chart.theme.GetColor(dataIndex);
+            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, dataIndex, false);;
             title = serieData.name;
             for (int i = 0; i < serieData.data.Count; i++)
             {
@@ -221,7 +221,7 @@ namespace XCharts.Runtime
                 var areaStyle = SerieHelper.GetAreaStyle(serie, serieData);
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 var isHighlight = serieData.context.highlight;
-                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.name);
+                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
                 var areaColor = SerieHelper.GetAreaColor(serie, serieData, chart.theme, colorIndex, isHighlight);
                 var areaToColor = SerieHelper.GetAreaToColor(serie, serieData, chart.theme, colorIndex, isHighlight);
                 var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex, isHighlight);

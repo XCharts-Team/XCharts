@@ -19,15 +19,14 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            DrawParallelSerie(vh, colorIndex, serie);
+            DrawParallelSerie(vh, serie);
         }
 
         private void UpdateSerieContext()
         {
         }
 
-        private void DrawParallelSerie(VertexHelper vh, int colorIndex, Parallel serie)
+        private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {
             if (!serie.show) return;
             if (serie.animation.HasFadeOut()) return;
@@ -42,7 +41,7 @@ namespace XCharts.Runtime
 
             var animationIndex = serie.animation.GetCurrIndex();
             var isHorizonal = parallel.orient == Orient.Horizonal;
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex, false);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             float currDetailProgress = !isHorizonal

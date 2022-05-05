@@ -41,7 +41,7 @@ namespace XCharts.Runtime
         private ChartLabel m_Label;
         private List<float> m_FpsList = new List<float>();
 
-        public bool showAllChartObject { get { return m_ShowAllChartObject; } }
+        public bool showAllChartObject { get { return m_ShowAllChartObject; } set { m_ShowAllChartObject = value; } }
         public bool foldSeries { get { return m_FoldSeries; } set { m_FoldSeries = value; } }
         public float fps { get; private set; }
         public float avgFps { get; private set; }

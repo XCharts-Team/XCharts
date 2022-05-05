@@ -524,5 +524,18 @@ namespace XCharts.Runtime
             var background = GetChartComponent<Background>();
             return theme.GetBackgroundColor(background);
         }
+
+        public Color32 GetItemColor(Serie serie, SerieData serieData, bool highlight = false)
+        {
+            var colorIndex = serieData == null || !serie.useDataNameForColor
+                ? GetLegendRealShowNameIndex(serie.legendName)
+                : GetLegendRealShowNameIndex(serieData.legendName);
+            return SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
+        }
+
+        public Color32 GetItemColor(Serie serie, bool highlight = false)
+        {
+            return SerieHelper.GetItemColor(serie, null, m_Theme, serie.context.colorIndex, highlight);
+        }
     }
 }

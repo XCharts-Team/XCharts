@@ -21,8 +21,7 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            DrawHeatmapSerie(vh, colorIndex, serie);
+            DrawHeatmapSerie(vh, serie);
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -120,7 +119,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawHeatmapSerie(VertexHelper vh, int colorIndex, Heatmap serie)
+        private void DrawHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
             if (serie.animation.HasFadeOut()) return;
             XAxis xAxis;

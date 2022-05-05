@@ -103,6 +103,8 @@
 - [RadarAxisTheme](#RadarAxisTheme)
 - [RadiusAxisTheme](#RadiusAxisTheme)
 - [SerieData](#SerieData)
+- [SerieDataBaseInfo](#SerieDataBaseInfo)
+- [SerieSymbol](#SerieSymbol)
 - [SerieTheme](#SerieTheme)
 - [StageColor](#StageColor)
 - [SubTitleTheme](#SubTitleTheme)
@@ -136,7 +138,8 @@
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineStyle](#LineStyle)
-- [SymbolStyle](#SymbolStyle)
+- [SerieDataBaseInfo](#SerieDataBaseInfo)
+- [SerieSymbol](#SerieSymbol)
 - [TitleStyle](#TitleStyle)
 
 ## Other 其他
@@ -633,15 +636,20 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 
 Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
 
+标签的引导线
+
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示视觉引导线。 |
 | `lineType` | | 视觉引导线类型。</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
 | `lineColor` |ChartConst.clearColor32 | 视觉引导线颜色。默认和serie一致取自调色板。 |
+| `lineAngle` |0 | 视觉引导线的固定角度。对折线和曲线有效。 |
 | `lineWidth` |1.0f | 视觉引导线的宽度。 |
 | `lineGap` |1.0f | 视觉引导线和容器的间距。 |
 | `lineLength1` |25f | 视觉引导线第一段的长度。 |
 | `lineLength2` |15f | 视觉引导线第二段的长度。 |
+| `startSymbol` | | 起始点的图形标记。 [SymbolStyle](SymbolStyle)|
+| `endSymbol` | | 结束点的图形标记。 [SymbolStyle](SymbolStyle)|
 
 ## `LabelStyle`
 
@@ -1010,7 +1018,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `bottom` | | 组件离容器下侧的距离。 |
 | `insertDataToHead` | | 添加新数据时是在列表的头部还是尾部加入。 |
 | `lineStyle` | | 线条样式。 [LineStyle](LineStyle)|
-| `symbol` | | 标记的图形。 [SymbolStyle](SymbolStyle)|
+| `symbol` | | 标记的图形。 [SerieSymbol](SerieSymbol)|
 | `animation` | | 起始动画。 [AnimationStyle](AnimationStyle)|
 | `itemStyle` | | 图形样式。 [ItemStyle](ItemStyle)|
 | `data` | | 系列中的数据内容数组。SerieData可以设置1到n维数据。 |
@@ -1027,6 +1035,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `name` | | 数据项名称。 |
 | `id` | | 数据项的唯一id。唯一id不是必须设置的。 |
 | `parentId` | |  |
+| `baseInfos` | |  |
 | `itemStyles` | |  |
 | `labels` | |  |
 | `labelLines` | |  |
@@ -1036,6 +1045,38 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `areaStyles` | |  |
 | `titleStyles` | |  |
 | `data` | | 可指定任意维数的数值列表。 |
+
+## `SerieDataBaseInfo`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+数据项的其他基础数据。
+
+|field|default|comment|
+|--|--|--|
+| `ignore` |false | 是否忽略数据。当为 true 时，数据不进行绘制。 |
+| `selected` | | 该数据项是否被选中。 |
+| `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
+
+## `SerieSymbol`
+
+Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISerieDataComponent)
+
+系列数据项的标记的图形
+
+|field|default|comment|
+|--|--|--|
+| `sizeType` | | 标记图形的大小获取方式。</br>`SymbolSizeType`:</br>- `Custom`: 自定义大小。</br>- `FromData`: 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。</br>- `Function`: 通过委托函数获取。</br>|
+| `selectedSize` |0f | 被选中的标记的大小。 |
+| `dataIndex` |1 | 当sizeType指定为FromData时，指定的数据源索引。 |
+| `dataScale` |1 | 当sizeType指定为FromData时，指定的倍数系数。 |
+| `selectedDataScale` |1.5f | 当sizeType指定为FromData时，指定的高亮倍数系数。 |
+| `sizeFunction` | | 当sizeType指定为Function时，指定的委托函数。 |
+| `selectedSizeFunction` | | 当sizeType指定为Function时，指定的高亮委托函数。 |
+| `startIndex` | | 开始显示图形标记的索引。 |
+| `interval` | | 显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。 |
+| `forceShowLast` |false | 是否强制显示最后一个图形标记。 |
+| `repeat` |false | 图形是否重复。 |
 
 ## `SerieTheme`
 
@@ -1128,7 +1169,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## `SymbolStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 系列数据项的标记的图形
 
@@ -1136,24 +1177,14 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 |--|--|--|
 | `show` |true | 是否显示标记。 |
 | `type` | | 标记类型。</br>`SymbolType`:</br>- `None`: 不显示标记。</br>- `Custom`: 自定义标记。</br>- `Circle`: 圆形。</br>- `EmptyCircle`: 空心圆。</br>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。</br>- `EmptyRect`: 空心正方形。</br>- `Triangle`: 三角形。</br>- `EmptyTriangle`: 空心三角形。</br>- `Diamond`: 菱形。</br>- `EmptyDiamond`: 空心菱形。</br>- `Arrow`: 箭头。</br>- `EmptyArrow`: 空心箭头。</br>|
-| `sizeType` | | 标记图形的大小获取方式。</br>`SymbolSizeType`:</br>- `Custom`: 自定义大小。</br>- `FromData`: 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。</br>- `Function`: 通过委托函数获取。</br>|
 | `size` |0f | 标记的大小。 |
-| `selectedSize` |0f | 被选中的标记的大小。 |
-| `dataIndex` |1 | 当sizeType指定为FromData时，指定的数据源索引。 |
-| `dataScale` |1 | 当sizeType指定为FromData时，指定的倍数系数。 |
-| `selectedDataScale` |1.5f | 当sizeType指定为FromData时，指定的高亮倍数系数。 |
-| `sizeFunction` | | 当sizeType指定为Function时，指定的委托函数。 |
-| `selectedSizeFunction` | | 当sizeType指定为Function时，指定的高亮委托函数。 |
-| `startIndex` | | 开始显示图形标记的索引。 |
-| `interval` | | 显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。 |
-| `forceShowLast` |false | 是否强制显示最后一个图形标记。 |
 | `gap` |0 | 图形标记和线条的间隙距离。 |
 | `width` |0f | 图形的宽。 |
 | `height` |0f | 图形的高。 |
-| `repeat` |false | 图形是否重复。 |
 | `offset` |Vector2.zero | 图形的偏移。 |
 | `image` | | 自定义的标记图形。 |
 | `imageType` | |  |
+| `color` | | 图形的颜色。 |
 
 ## `TextLimit`
 
@@ -1301,6 +1332,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `alwayShowContent` |false | 是否触发后一直显示提示框浮层。 |
 | `offset` |Vector2(18f, -25f) | 提示框相对于鼠标位置的偏移。 |
 | `backgroundImage` | | 提示框的背景图片。 |
+| `backgroundType` | | 提示框的背景图片显示类型。 |
 | `backgroundColor` | | 提示框的背景颜色。 |
 | `borderWidth` |2f | 边框线宽。 |
 | `fixedXEnable` |false |  |

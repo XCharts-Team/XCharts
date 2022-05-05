@@ -103,6 +103,8 @@
 - [RadarAxisTheme](#RadarAxisTheme)
 - [RadiusAxisTheme](#RadiusAxisTheme)
 - [SerieData](#SerieData)
+- [SerieDataBaseInfo](#SerieDataBaseInfo)
+- [SerieSymbol](#SerieSymbol)
 - [SerieTheme](#SerieTheme)
 - [StageColor](#StageColor)
 - [SubTitleTheme](#SubTitleTheme)
@@ -136,7 +138,8 @@
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineStyle](#LineStyle)
-- [SymbolStyle](#SymbolStyle)
+- [SerieDataBaseInfo](#SerieDataBaseInfo)
+- [SerieSymbol](#SerieSymbol)
 - [TitleStyle](#TitleStyle)
 
 ## Other
@@ -633,15 +636,20 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 
 Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
 
+标签的引导线
+
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether the label line is showed. |
 | `lineType` | | the type of visual guide line.</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
 | `lineColor` |ChartConst.clearColor32 | the color of visual guild line. |
+| `lineAngle` |0 | the angle of visual guild line. |
 | `lineWidth` |1.0f | the width of visual guild line. |
 | `lineGap` |1.0f | the gap of container and guild line. |
 | `lineLength1` |25f | The length of the first segment of visual guide line. |
 | `lineLength2` |15f | The length of the second segment of visual guide line. |
+| `startSymbol` | | The symbol of the start point of labelline. [SymbolStyle](SymbolStyle)|
+| `endSymbol` | | The symbol of the end point of labelline. [SymbolStyle](SymbolStyle)|
 
 ## `LabelStyle`
 
@@ -1010,7 +1018,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `bottom` | | Distance between component and the bottom side of the container. |
 | `insertDataToHead` | | Whether to add new data at the head or at the end of the list. |
 | `lineStyle` | | The style of line. [LineStyle](LineStyle)|
-| `symbol` | | the symbol of serie data item. [SymbolStyle](SymbolStyle)|
+| `symbol` | | the symbol of serie data item. [SerieSymbol](SerieSymbol)|
 | `animation` | | The start animation. [AnimationStyle](AnimationStyle)|
 | `itemStyle` | | The style of data item. [ItemStyle](ItemStyle)|
 | `data` | | 系列中的数据内容数组。SerieData可以设置1到n维数据。 |
@@ -1027,6 +1035,7 @@ A data item of serie.
 | `name` | | the name of data item. |
 | `id` | | 数据项的唯一id。唯一id不是必须设置的。 |
 | `parentId` | |  |
+| `baseInfos` | |  |
 | `itemStyles` | |  |
 | `labels` | |  |
 | `labelLines` | |  |
@@ -1036,6 +1045,38 @@ A data item of serie.
 | `areaStyles` | |  |
 | `titleStyles` | |  |
 | `data` | | An arbitrary dimension data list of data item. |
+
+## `SerieDataBaseInfo`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+数据项的其他基础数据。
+
+|field|default|comment|
+|--|--|--|
+| `ignore` |false | 是否忽略数据。当为 true 时，数据不进行绘制。 |
+| `selected` | | Whether the data item is selected. |
+| `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
+
+## `SerieSymbol`
+
+Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISerieDataComponent)
+
+系列数据项的标记的图形
+
+|field|default|comment|
+|--|--|--|
+| `sizeType` | | the type of symbol size.</br>`SymbolSizeType`:</br>- `Custom`: Specify constant for symbol size.</br>- `FromData`: Specify the dataIndex and dataScale to calculate symbol size.</br>- `Function`: Specify function for symbol size.</br>|
+| `selectedSize` |0f | the size of selected symbol. |
+| `dataIndex` |1 | whitch data index is when the sizeType assined as FromData. |
+| `dataScale` |1 | the scale of data when sizeType assined as FromData. |
+| `selectedDataScale` |1.5f | the scale of selected data when sizeType assined as FromData. |
+| `sizeFunction` | | the function of size when sizeType assined as Function. |
+| `selectedSizeFunction` | | the function of size when sizeType assined as Function. |
+| `startIndex` | | the index start to show symbol. |
+| `interval` | | the interval of show symbol. |
+| `forceShowLast` |false | whether to show the last symbol. |
+| `repeat` |false | 图形是否重复。 |
 
 ## `SerieTheme`
 
@@ -1128,7 +1169,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## `SymbolStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 系列数据项的标记的图形
 
@@ -1136,24 +1177,14 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 |--|--|--|
 | `show` |true | Whether the symbol is showed. |
 | `type` | | the type of symbol.</br>`SymbolType`:</br>- `None`: 不显示标记。</br>- `Custom`: 自定义标记。</br>- `Circle`: 圆形。</br>- `EmptyCircle`: 空心圆。</br>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。</br>- `EmptyRect`: 空心正方形。</br>- `Triangle`: 三角形。</br>- `EmptyTriangle`: 空心三角形。</br>- `Diamond`: 菱形。</br>- `EmptyDiamond`: 空心菱形。</br>- `Arrow`: 箭头。</br>- `EmptyArrow`: 空心箭头。</br>|
-| `sizeType` | | the type of symbol size.</br>`SymbolSizeType`:</br>- `Custom`: Specify constant for symbol size.</br>- `FromData`: Specify the dataIndex and dataScale to calculate symbol size.</br>- `Function`: Specify function for symbol size.</br>|
 | `size` |0f | the size of symbol. |
-| `selectedSize` |0f | the size of selected symbol. |
-| `dataIndex` |1 | whitch data index is when the sizeType assined as FromData. |
-| `dataScale` |1 | the scale of data when sizeType assined as FromData. |
-| `selectedDataScale` |1.5f | the scale of selected data when sizeType assined as FromData. |
-| `sizeFunction` | | the function of size when sizeType assined as Function. |
-| `selectedSizeFunction` | | the function of size when sizeType assined as Function. |
-| `startIndex` | | the index start to show symbol. |
-| `interval` | | the interval of show symbol. |
-| `forceShowLast` |false | whether to show the last symbol. |
 | `gap` |0 | the gap of symbol and line segment. |
 | `width` |0f | 图形的宽。 |
 | `height` |0f | 图形的高。 |
-| `repeat` |false | 图形是否重复。 |
 | `offset` |Vector2.zero | 图形的偏移。 |
 | `image` | | 自定义的标记图形。 |
 | `imageType` | |  |
+| `color` | | 图形的颜色。 |
 
 ## `TextLimit`
 
@@ -1301,6 +1332,7 @@ Tooltip component.
 | `alwayShowContent` |false | Whether to trigger after always display. |
 | `offset` |Vector2(18f, -25f) | The position offset of tooltip relative to the mouse position. |
 | `backgroundImage` | | The background image of tooltip. |
+| `backgroundType` | | The background type of tooltip. |
 | `backgroundColor` | | The background color of tooltip. |
 | `borderWidth` |2f | the width of tooltip border. |
 | `fixedXEnable` |false |  |

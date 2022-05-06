@@ -148,7 +148,6 @@ namespace XCharts.Runtime
             else
                 m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
 
-            m_Settings = null;
             var sizeDelta = rectTransform.sizeDelta;
             if (sizeDelta.x < 580 && sizeDelta.y < 300)
             {
@@ -316,9 +315,9 @@ namespace XCharts.Runtime
         protected override void InitPainter()
         {
             base.InitPainter();
+            if (settings == null) return;
             m_Painter.material = settings.basePainterMaterial;
             m_PainterList.Clear();
-            if (settings == null) return;
             var sizeDelta = new Vector2(m_GraphWidth, m_GraphHeight);
             for (int i = 0; i < settings.maxPainter; i++)
             {

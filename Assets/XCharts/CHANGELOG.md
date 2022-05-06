@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.8.1](#v2.8.1)  
 [v2.8.0](#v2.8.0)  
 [v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
@@ -44,6 +45,9 @@
 
 ## branch-2.0
 
+## v2.8.1
+
+* (2022.05.06) 发布`v2.8.1`版本
 * (2022.05.03) 增加`Legend`的`onLegendClick`,`onLegendEnter`和`onLegendExit`委托回调
 * (2022.04.21) 修复`RingChart`的`Tooltip`异常的问题 #192
 * (2022.04.21) 修复`DataZoom`设置`minShowNum`时可能会报错的问题

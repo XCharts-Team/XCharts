@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.0.0-preivew9](#v3.0.0-preivew9)  
 [v3.0.0-preivew8](#v3.0.0-preivew8)  
 [v3.0.0-preivew7](#v3.0.0-preivew7)  
 [v3.0.0-preivew6](#v3.0.0-preivew6)  
@@ -51,6 +52,9 @@
 
 ## master
 
+## v3.0.0-preivew9
+
+* (2022.05.06) 发布`v3.0.0-preivew9`版本
 * (2022.05.05) 优化`ItemStyle`设置`color`时的一致性
 * (2022.05.05) 增加`Line`对`Dash`,`Dot`等的支持 (#197)
 * (2022.05.04) 增加`Legend`的委托回调

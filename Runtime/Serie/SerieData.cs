@@ -127,7 +127,6 @@ namespace XCharts.Runtime
             if (itemStyle != null) itemStyle.ClearVerticesDirty();
             if (lineStyle != null) lineStyle.ClearVerticesDirty();
             if (areaStyle != null) areaStyle.ClearVerticesDirty();
-            if (areaStyle != null) areaStyle.ClearVerticesDirty();
             if (symbol != null) symbol.ClearVerticesDirty();
             if (emphasis != null) emphasis.ClearVerticesDirty();
         }
@@ -139,7 +138,6 @@ namespace XCharts.Runtime
             if (labelLine != null) labelLine.ClearComponentDirty();
             if (itemStyle != null) itemStyle.ClearComponentDirty();
             if (lineStyle != null) lineStyle.ClearComponentDirty();
-            if (areaStyle != null) areaStyle.ClearComponentDirty();
             if (areaStyle != null) areaStyle.ClearComponentDirty();
             if (symbol != null) symbol.ClearComponentDirty();
             if (emphasis != null) emphasis.ClearComponentDirty();

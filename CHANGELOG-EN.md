@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.8.1](#v2.8.1)  
 [v2.8.0](#v2.8.0)  
 [v2.7.0](#v2.7.0)  
 [v2.6.0](#v2.6.0)  
@@ -43,6 +44,8 @@
 [v0.1.0](#v0.1.0)  
 
 ## branch-2.0
+
+## v2.8.1
 
 * (2022.05.03) Added `onLegendClick`, `onLegendEnter` and `onLegendExit` delegate callbacks for `Legend`
 * (2022.04.21) Fixed bug #192 with `RingChart` `Tooltip` exception

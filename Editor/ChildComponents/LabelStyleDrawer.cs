@@ -27,7 +27,6 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");
                 PropertyField(prop, "m_TextPadding");
-                PropertyField(prop, "m_TextLimit");
                 --EditorGUI.indentLevel;
             }
         }

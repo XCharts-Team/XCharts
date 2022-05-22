@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -147,27 +146,30 @@ namespace XCharts.Runtime
                     m_LineColor = ColorUtil.GetColor("#514D4D");
                     m_TickColor = ColorUtil.GetColor("#514D4D");
                     m_SplitLineColor = ColorUtil.GetColor("#51515120");
-                    m_SplitAreaColors = new List<Color32>{
-                        new Color32(250,250,250,77),
-                        new Color32(200,200,200,77)
+                    m_SplitAreaColors = new List<Color32>
+                    {
+                        new Color32(250, 250, 250, 77),
+                        new Color32(200, 200, 200, 77)
                     };
                     break;
                 case ThemeType.Light:
                     m_LineColor = ColorUtil.GetColor("#514D4D");
                     m_TickColor = ColorUtil.GetColor("#514D4D");
                     m_SplitLineColor = ColorUtil.GetColor("#51515120");
-                    m_SplitAreaColors = new List<Color32>{
-                        new Color32(250,250,250,77),
-                        new Color32(200,200,200,77)
+                    m_SplitAreaColors = new List<Color32>
+                    {
+                        new Color32(250, 250, 250, 77),
+                        new Color32(200, 200, 200, 77)
                     };
                     break;
                 case ThemeType.Dark:
                     m_LineColor = ColorUtil.GetColor("#B9B8CE");
                     m_TickColor = ColorUtil.GetColor("#B9B8CE");
                     m_SplitLineColor = ColorUtil.GetColor("#484753");
-                    m_SplitAreaColors = new List<Color32>{
-                        new Color32(255,255,255,(byte)(0.02f * 255)),
-                        new Color32(255,255,255,(byte)(0.05f * 255))
+                    m_SplitAreaColors = new List<Color32>
+                    {
+                        new Color32(255, 255, 255, (byte) (0.02f * 255)),
+                        new Color32(255, 255, 255, (byte) (0.05f * 255))
                     };
                     break;
             }
@@ -195,32 +197,28 @@ namespace XCharts.Runtime
     public class AxisTheme : BaseAxisTheme
     {
         public AxisTheme(ThemeType theme) : base(theme)
-        {
-        }
+        { }
     }
 
     [Serializable]
     public class RadiusAxisTheme : BaseAxisTheme
     {
         public RadiusAxisTheme(ThemeType theme) : base(theme)
-        {
-        }
+        { }
     }
 
     [Serializable]
     public class AngleAxisTheme : BaseAxisTheme
     {
         public AngleAxisTheme(ThemeType theme) : base(theme)
-        {
-        }
+        { }
     }
 
     [Serializable]
     public class PolarAxisTheme : BaseAxisTheme
     {
         public PolarAxisTheme(ThemeType theme) : base(theme)
-        {
-        }
+        { }
     }
 
     [Serializable]

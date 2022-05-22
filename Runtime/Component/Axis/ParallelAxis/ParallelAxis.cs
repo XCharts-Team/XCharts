@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +24,6 @@ namespace XCharts.Runtime
             splitLine.lineStyle.type = LineStyle.Type.None;
             axisLabel.textLimit.enable = true;
         }
-
 
     }
 }

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -105,5 +104,6 @@ namespace XCharts.Runtime
         /// </summary>
         public List<PointInfo> drawPoints = new List<PointInfo>();
         public SerieParams param = new SerieParams();
+        public ChartLabel titleObject { get; set; }
     }
 }

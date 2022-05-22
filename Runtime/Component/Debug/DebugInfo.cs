@@ -1,8 +1,7 @@
-
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -20,12 +19,12 @@ namespace XCharts.Runtime
         {
             background = new ImageStyle()
             {
-                color = new Color32(32, 32, 32, 170)
+            color = new Color32(32, 32, 32, 170)
             },
             textStyle = new TextStyle()
             {
-                fontSize = 18,
-                color = Color.white
+            fontSize = 18,
+            color = Color.white
             }
         };
 
@@ -56,7 +55,7 @@ namespace XCharts.Runtime
 
         public void Update()
         {
-            if (clickChartCount >= 2)
+            if (clickChartCount > 2)
             {
                 m_ShowDebugInfo = !m_ShowDebugInfo;
                 ChartHelper.SetActive(m_Label.transform, m_ShowDebugInfo);
@@ -108,6 +107,13 @@ namespace XCharts.Runtime
                     SetValueWithKInfo(s_Sb, "s-vert", vertCount);
                     SetValueWithKInfo(s_Sb, "t-vert", m_Chart.m_TopPainterVertCount, false);
 
+                    var serie0 = m_Chart.GetSerie(0);
+                    for (int i = 0; i < serie0.dataCount; i++)
+                    {
+                        var serieData = serie0.data[i];
+                        s_Sb.AppendFormat("{0}:{1}\n", i, serieData.interact.targetVaue);
+                    }
+
                     m_Label.SetText(s_Sb.ToString());
                 }
             }
@@ -144,7 +150,7 @@ namespace XCharts.Runtime
             ChartHelper.SetActive(labelGameObject, m_ShowDebugInfo);
 
             var label = ChartHelper.AddChartLabel("info", labelGameObject.transform, labelStyle, theme.common,
-                    "", Color.clear, TextAnchor.UpperLeft);
+                "", Color.clear, TextAnchor.UpperLeft);
             label.SetActive(labelStyle.show);
             return label;
         }

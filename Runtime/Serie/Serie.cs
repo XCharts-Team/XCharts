@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -75,8 +74,6 @@ namespace XCharts.Runtime
         /// </summary>
         Capsule
     }
-
-
 
     /// <summary>
     /// 雷达图类型
@@ -185,8 +182,8 @@ namespace XCharts.Runtime
         [SerializeField] private LineType m_LineType = LineType.Normal;
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
-        [SerializeField] private float m_BarWidth = 0.6f;
-        [SerializeField] private float m_BarGap = 0.3f; // 30%
+        [SerializeField] private float m_BarWidth = 0;
+        [SerializeField] private float m_BarGap = 0.1f;
         [SerializeField] private float m_BarZebraWidth = 4f;
         [SerializeField] private float m_BarZebraGap = 2f;
 
@@ -204,9 +201,9 @@ namespace XCharts.Runtime
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Gap;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
-        [SerializeField] private float[] m_Radius = new float[2] { 0, 80 };
+        [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
 
-        [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
+        [SerializeField][Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
         [SerializeField] private bool m_Clip = false;
@@ -826,7 +823,7 @@ namespace XCharts.Runtime
                     (areaStyle != null && areaStyle.vertsDirty) ||
                     (label != null && label.vertsDirty) ||
                     (labelLine != null && labelLine.vertsDirty) ||
-                    (emphasis != null && emphasis.vertsDirty) ||
+                    (emphasisItemStyle != null && emphasisItemStyle.vertsDirty) ||
                     (titleStyle != null && titleStyle.vertsDirty) ||
                     AnySerieDataVerticesDirty();
             }
@@ -836,11 +833,13 @@ namespace XCharts.Runtime
         {
             get
             {
-                return m_ComponentDirty
-                    || symbol.componentDirty
-                    || (titleStyle != null && titleStyle.componentDirty)
-                    || (label != null && label.componentDirty)
-                    || (labelLine != null && labelLine.componentDirty);
+                return m_ComponentDirty ||
+                    symbol.componentDirty ||
+                    (titleStyle != null && titleStyle.componentDirty) ||
+                    (label != null && label.componentDirty) ||
+                    (labelLine != null && labelLine.componentDirty) ||
+                    (emphasisLabel != null && emphasisLabel.componentDirty) ||
+                    (emphasisLabelLine != null && emphasisLabelLine.componentDirty);
             }
         }
         public override void ClearVerticesDirty()
@@ -855,8 +854,8 @@ namespace XCharts.Runtime
                 areaStyle.ClearVerticesDirty();
             if (label != null)
                 label.ClearVerticesDirty();
-            if (emphasis != null)
-                emphasis.ClearVerticesDirty();
+            if (emphasisItemStyle != null)
+                emphasisItemStyle.ClearVerticesDirty();
             if (lineArrow != null)
                 lineArrow.ClearVerticesDirty();
             if (titleStyle != null)
@@ -875,8 +874,10 @@ namespace XCharts.Runtime
                 areaStyle.ClearComponentDirty();
             if (label != null)
                 label.ClearComponentDirty();
-            if (emphasis != null)
-                emphasis.ClearComponentDirty();
+            if (emphasisLabel != null)
+                emphasisLabel.ClearComponentDirty();
+            if (emphasisLabelLine != null)
+                emphasisLabelLine.ClearComponentDirty();
             if (lineArrow != null)
                 lineArrow.ClearComponentDirty();
             if (titleStyle != null)
@@ -1061,6 +1062,7 @@ namespace XCharts.Runtime
 
         public void ResetInteract()
         {
+            interact.Reset();
             foreach (var serieData in m_Data)
                 serieData.interact.Reset();
         }
@@ -1451,8 +1453,8 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public List<SerieData> GetDataList(DataZoom dataZoom = null)
         {
-            if (dataZoom != null && dataZoom.enable
-                && (dataZoom.IsContainsXAxis(xAxisIndex) || dataZoom.IsContainsYAxis(yAxisIndex)))
+            if (dataZoom != null && dataZoom.enable &&
+                (dataZoom.IsContainsXAxis(xAxisIndex) || dataZoom.IsContainsYAxis(yAxisIndex)))
             {
                 SerieHelper.UpdateFilterData(this, dataZoom);
                 return m_FilterData;
@@ -1570,10 +1572,18 @@ namespace XCharts.Runtime
                 serieData.context.highlight = flag;
         }
 
-        public float GetBarWidth(float categoryWidth)
+        public float GetBarWidth(float categoryWidth, int barCount = 0)
         {
-            if (m_BarWidth > 1) return m_BarWidth;
-            else return m_BarWidth * categoryWidth;
+            if (m_BarWidth == 0)
+            {
+                var width = ChartHelper.GetActualValue(0.6f, categoryWidth);
+                if (barCount == 0)
+                    return width < 1 ? categoryWidth : width;
+                else
+                    return width / barCount;
+            }
+            else
+                return ChartHelper.GetActualValue(m_BarWidth, categoryWidth);
         }
 
         public bool IsIgnoreIndex(int index, int dimension = 1)
@@ -1586,9 +1596,7 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(SerieData serieData, int dimension = 1)
         {
-            if (serieData.baseInfo != null && serieData.baseInfo.ignore)
-                return true;
-            return IsIgnoreValue(serieData.GetData(dimension));
+            return serieData.ignore || IsIgnoreValue(serieData.GetData(dimension));
         }
 
         public bool IsIgnoreValue(double value)

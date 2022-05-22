@@ -1,6 +1,5 @@
-
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
 
@@ -24,8 +23,8 @@ namespace XCharts.Runtime
                 return;
             }
             var radar = component;
-            radar.context.isPointerEnter = radar.show
-                && Vector3.Distance(radar.context.center, chart.pointerPos) <= radar.context.radius;
+            radar.context.isPointerEnter = radar.show &&
+                Vector3.Distance(radar.context.center, chart.pointerPos) <= radar.context.radius;
         }
 
         public override void DrawBase(VertexHelper vh)
@@ -37,11 +36,11 @@ namespace XCharts.Runtime
         {
             float txtHig = 20;
             radar.painter = chart.GetPainter(radar.index);
-            radar.refreshComponent = delegate ()
+            radar.refreshComponent = delegate()
             {
                 radar.UpdateRadarCenter(chart.chartPosition, chart.chartWidth, chart.chartHeight);
                 var radarObject = ChartHelper.AddObject("Radar" + radar.index, chart.transform, chart.chartMinAnchor,
-                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 radar.gameObject = radarObject;
                 radar.gameObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(radarObject.transform, INDICATOR_TEXT);
@@ -52,7 +51,7 @@ namespace XCharts.Runtime
                     var objName = INDICATOR_TEXT + "_" + i;
 
                     var label = ChartHelper.AddChartLabel(objName, radarObject.transform, radar.axisName.labelStyle,
-                                 chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
+                        chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
                     label.SetActive(radar.indicator && radar.axisName.labelStyle.show);
                     AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, radar.axisName.labelStyle.offset);
                 }
@@ -95,7 +94,7 @@ namespace XCharts.Runtime
                 if (radar.splitArea.show)
                 {
                     UGL.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
-                          0, 360, chart.settings.cicleSmoothness);
+                        0, 360, chart.settings.cicleSmoothness);
                 }
                 if (radar.splitLine.show)
                 {

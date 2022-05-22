@@ -1,8 +1,7 @@
-
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using XCharts.Runtime;
 
 namespace XCharts.Editor
@@ -134,6 +133,7 @@ namespace XCharts.Editor
         {
             AddChart<CandlestickChart>("CandlestickChart");
         }
+
         [MenuItem("XCharts/PolarChart", priority = 54)]
         [MenuItem("GameObject/XCharts/PolarChart", priority = 54)]
         public static void PolarChart()

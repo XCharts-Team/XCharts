@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,7 +62,8 @@ namespace XCharts.Runtime
             /// 无法选择。
             /// </summary>
             None
-        };
+        }
+
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_IconType = Type.Auto;
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
@@ -73,11 +73,13 @@ namespace XCharts.Runtime
         [SerializeField] private float m_ItemHeight = 12.0f;
         [SerializeField] private float m_ItemGap = 10f;
         [SerializeField] private bool m_ItemAutoColor = true;
-        [SerializeField] private bool m_TextAutoColor = false;
+        [SerializeField] private float m_ItemOpacity = 1;
         [SerializeField] private string m_Formatter;
+        [SerializeField] protected string m_NumericFormatter = "";
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
+        [SerializeField] private List<Color> m_Colors = new List<Color>();
 
         public LegendContext context = new LegendContext();
 
@@ -171,19 +173,30 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ItemAutoColor, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Whether the legend text matches the color automatically.
-        /// |图例标记的文本是否自动匹配颜色。
-        /// [default:false]
+        /// the opacity of item color.
+        /// |图例标记的图形的颜色透明度。
         /// </summary>
-        public bool textAutoColor
+        public float itemOpacity
         {
-            get { return m_TextAutoColor; }
-            set { if (PropertyUtil.SetStruct(ref m_TextAutoColor, value)) SetComponentDirty(); }
+            get { return m_ItemOpacity; }
+            set { if (PropertyUtil.SetStruct(ref m_ItemOpacity, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Legend content string template formatter. Support for wrapping lines with \n. Template:{name}.
+        /// Standard numeric format strings.
+        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// </summary>
+        /// <value></value>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
         /// |图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {name}。
+        /// 模板变量为图例名称 {value}。
         /// [default:null]
         /// </summary>
         public string formatter
@@ -219,6 +232,11 @@ namespace XCharts.Runtime
         {
             get { return m_Icons; }
             set { if (value != null) { m_Icons = value; SetComponentDirty(); } }
+        }
+        public List<Color> colors
+        {
+            get { return m_Colors; }
+            set { if (value != null) { m_Colors = value; SetAllDirty(); } }
         }
         /// <summary>
         /// 图表是否需要刷新（图例组件不需要刷新图表）
@@ -384,6 +402,14 @@ namespace XCharts.Runtime
             }
         }
 
+        public Color GetColor(int index)
+        {
+            if (index >= 0 && index < m_Colors.Count)
+                return m_Colors[index];
+            else
+                return Color.white;
+        }
+
         /// <summary>
         /// Callback handling when parameters change.
         /// |参数变更时的回调处理。
@@ -391,24 +417,6 @@ namespace XCharts.Runtime
         public void OnChanged()
         {
             m_Location.OnChanged();
-        }
-
-        /// <summary>
-        /// 获得图例格式化后的显示内容。
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        public string GetFormatterContent(string category)
-        {
-            if (string.IsNullOrEmpty(m_Formatter))
-                return category;
-            else
-            {
-                var content = m_Formatter.Replace("{name}", category);
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
-                return content;
-            }
         }
     }
 }

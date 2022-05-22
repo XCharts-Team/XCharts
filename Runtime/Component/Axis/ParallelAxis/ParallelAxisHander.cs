@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,10 +63,10 @@ namespace XCharts.Runtime
             var theme = chart.theme;
             var xAxisIndex = axis.index;
             axis.painter = chart.painter;
-            axis.refreshComponent = delegate ()
+            axis.refreshComponent = delegate()
             {
                 UpdateContext(axis);
-                InitAxis(axis, null, chart, this,
+                InitAxis(null,
                     m_Orient,
                     axis.context.x,
                     axis.context.y,
@@ -118,7 +117,7 @@ namespace XCharts.Runtime
 
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
 
-                DrawAxisSplit(vh, axis, chart.theme.axis, dataZoom,
+                DrawAxisSplit(vh, chart.theme.axis, dataZoom,
                     m_Orient,
                     axis.context.x,
                     axis.context.y,
@@ -158,6 +157,11 @@ namespace XCharts.Runtime
                     axis.context.y,
                     axis.context.width);
             }
+        }
+
+        protected override float GetAxisLineXOrY()
+        {
+            return component.context.y;
         }
     }
 }

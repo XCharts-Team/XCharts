@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,7 +178,6 @@ namespace XCharts.Runtime
         /// |带有涟漪特效动画的散点图的动画参数。
         /// </summary>
         public List<float> animationSize { get { return m_AnimationSize; } }
-        
 
         public Color32 GetColor(Color32 defaultColor)
         {

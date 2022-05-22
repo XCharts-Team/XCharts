@@ -1,11 +1,10 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
 using System;
-using UnityEngine.EventSystems;
-using XUGL;
+using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using XUGL;
 
 namespace XCharts.Runtime
 {
@@ -20,38 +19,39 @@ namespace XCharts.Runtime
         [SerializeField] protected Settings m_Settings;
 
 #pragma warning disable 0414
-        [SerializeField] [ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
-        [SerializeField] [ListForComponent(typeof(Background))] private List<Background> m_Backgrounds = new List<Background>();
-        [SerializeField] [ListForComponent(typeof(DataZoom))] private List<DataZoom> m_DataZooms = new List<DataZoom>();
-        [SerializeField] [ListForComponent(typeof(GridCoord))] private List<GridCoord> m_Grids = new List<GridCoord>();
-        [SerializeField] [ListForComponent(typeof(Legend))] private List<Legend> m_Legends = new List<Legend>();
-        [SerializeField] [ListForComponent(typeof(MarkLine))] private List<MarkLine> m_MarkLines = new List<MarkLine>();
-        [SerializeField] [ListForComponent(typeof(MarkArea))] private List<MarkArea> m_MarkAreas = new List<MarkArea>();
-        [SerializeField] [ListForComponent(typeof(PolarCoord))] private List<PolarCoord> m_Polars = new List<PolarCoord>();
-        [SerializeField] [ListForComponent(typeof(RadarCoord))] private List<RadarCoord> m_Radars = new List<RadarCoord>();
-        [SerializeField] [ListForComponent(typeof(RadiusAxis))] private List<RadiusAxis> m_RadiusAxes = new List<RadiusAxis>();
-        [SerializeField] [ListForComponent(typeof(Title))] private List<Title> m_Titles = new List<Title>();
-        [SerializeField] [ListForComponent(typeof(Tooltip))] private List<Tooltip> m_Tooltips = new List<Tooltip>();
-        [SerializeField] [ListForComponent(typeof(VisualMap))] private List<VisualMap> m_VisualMaps = new List<VisualMap>();
-        [SerializeField] [ListForComponent(typeof(XAxis))] private List<XAxis> m_XAxes = new List<XAxis>();
-        [SerializeField] [ListForComponent(typeof(YAxis))] private List<YAxis> m_YAxes = new List<YAxis>();
-        [SerializeField] [ListForComponent(typeof(SingleAxis))] private List<SingleAxis> m_SingleAxes = new List<SingleAxis>();
-        [SerializeField] [ListForComponent(typeof(ParallelCoord))] private List<ParallelCoord> m_Parallels = new List<ParallelCoord>();
-        [SerializeField] [ListForComponent(typeof(ParallelAxis))] private List<ParallelAxis> m_ParallelAxes = new List<ParallelAxis>();
+        [SerializeField][ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
+        [SerializeField][ListForComponent(typeof(Background))] private List<Background> m_Backgrounds = new List<Background>();
+        [SerializeField][ListForComponent(typeof(DataZoom))] private List<DataZoom> m_DataZooms = new List<DataZoom>();
+        [SerializeField][ListForComponent(typeof(GridCoord))] private List<GridCoord> m_Grids = new List<GridCoord>();
+        [SerializeField][ListForComponent(typeof(Legend))] private List<Legend> m_Legends = new List<Legend>();
+        [SerializeField][ListForComponent(typeof(MarkLine))] private List<MarkLine> m_MarkLines = new List<MarkLine>();
+        [SerializeField][ListForComponent(typeof(MarkArea))] private List<MarkArea> m_MarkAreas = new List<MarkArea>();
+        [SerializeField][ListForComponent(typeof(PolarCoord))] private List<PolarCoord> m_Polars = new List<PolarCoord>();
+        [SerializeField][ListForComponent(typeof(RadarCoord))] private List<RadarCoord> m_Radars = new List<RadarCoord>();
+        [SerializeField][ListForComponent(typeof(RadiusAxis))] private List<RadiusAxis> m_RadiusAxes = new List<RadiusAxis>();
+        [SerializeField][ListForComponent(typeof(Title))] private List<Title> m_Titles = new List<Title>();
+        [SerializeField][ListForComponent(typeof(Tooltip))] private List<Tooltip> m_Tooltips = new List<Tooltip>();
+        [SerializeField][ListForComponent(typeof(VisualMap))] private List<VisualMap> m_VisualMaps = new List<VisualMap>();
+        [SerializeField][ListForComponent(typeof(XAxis))] private List<XAxis> m_XAxes = new List<XAxis>();
+        [SerializeField][ListForComponent(typeof(YAxis))] private List<YAxis> m_YAxes = new List<YAxis>();
+        [SerializeField][ListForComponent(typeof(SingleAxis))] private List<SingleAxis> m_SingleAxes = new List<SingleAxis>();
+        [SerializeField][ListForComponent(typeof(ParallelCoord))] private List<ParallelCoord> m_Parallels = new List<ParallelCoord>();
+        [SerializeField][ListForComponent(typeof(ParallelAxis))] private List<ParallelAxis> m_ParallelAxes = new List<ParallelAxis>();
+        [SerializeField][ListForComponent(typeof(Comment))] private List<Comment> m_Comments = new List<Comment>();
 
-        [SerializeField] [ListForSerie(typeof(Bar))] private List<Bar> m_SerieBars = new List<Bar>();
-        [SerializeField] [ListForSerie(typeof(Candlestick))] private List<Candlestick> m_SerieCandlesticks = new List<Candlestick>();
-        [SerializeField] [ListForSerie(typeof(EffectScatter))] private List<EffectScatter> m_SerieEffectScatters = new List<EffectScatter>();
-        [SerializeField] [ListForSerie(typeof(Heatmap))] private List<Heatmap> m_SerieHeatmaps = new List<Heatmap>();
-        [SerializeField] [ListForSerie(typeof(Line))] private List<Line> m_SerieLines = new List<Line>();
-        [SerializeField] [ListForSerie(typeof(Pie))] private List<Pie> m_SeriePies = new List<Pie>();
-        [SerializeField] [ListForSerie(typeof(Radar))] private List<Radar> m_SerieRadars = new List<Radar>();
-        [SerializeField] [ListForSerie(typeof(Ring))] private List<Ring> m_SerieRings = new List<Ring>();
-        [SerializeField] [ListForSerie(typeof(Scatter))] private List<Scatter> m_SerieScatters = new List<Scatter>();
-        [SerializeField] [ListForSerie(typeof(Parallel))] private List<Parallel> m_SerieParallels = new List<Parallel>();
-        [SerializeField] [ListForSerie(typeof(SimplifiedLine))] private List<SimplifiedLine> m_SerieSimplifiedLines = new List<SimplifiedLine>();
-        [SerializeField] [ListForSerie(typeof(SimplifiedBar))] private List<SimplifiedBar> m_SerieSimplifiedBars = new List<SimplifiedBar>();
-        [SerializeField] [ListForSerie(typeof(SimplifiedCandlestick))] private List<SimplifiedCandlestick> m_SerieSimplifiedCandlesticks = new List<SimplifiedCandlestick>();
+        [SerializeField][ListForSerie(typeof(Bar))] private List<Bar> m_SerieBars = new List<Bar>();
+        [SerializeField][ListForSerie(typeof(Candlestick))] private List<Candlestick> m_SerieCandlesticks = new List<Candlestick>();
+        [SerializeField][ListForSerie(typeof(EffectScatter))] private List<EffectScatter> m_SerieEffectScatters = new List<EffectScatter>();
+        [SerializeField][ListForSerie(typeof(Heatmap))] private List<Heatmap> m_SerieHeatmaps = new List<Heatmap>();
+        [SerializeField][ListForSerie(typeof(Line))] private List<Line> m_SerieLines = new List<Line>();
+        [SerializeField][ListForSerie(typeof(Pie))] private List<Pie> m_SeriePies = new List<Pie>();
+        [SerializeField][ListForSerie(typeof(Radar))] private List<Radar> m_SerieRadars = new List<Radar>();
+        [SerializeField][ListForSerie(typeof(Ring))] private List<Ring> m_SerieRings = new List<Ring>();
+        [SerializeField][ListForSerie(typeof(Scatter))] private List<Scatter> m_SerieScatters = new List<Scatter>();
+        [SerializeField][ListForSerie(typeof(Parallel))] private List<Parallel> m_SerieParallels = new List<Parallel>();
+        [SerializeField][ListForSerie(typeof(SimplifiedLine))] private List<SimplifiedLine> m_SerieSimplifiedLines = new List<SimplifiedLine>();
+        [SerializeField][ListForSerie(typeof(SimplifiedBar))] private List<SimplifiedBar> m_SerieSimplifiedBars = new List<SimplifiedBar>();
+        [SerializeField][ListForSerie(typeof(SimplifiedCandlestick))] private List<SimplifiedCandlestick> m_SerieSimplifiedCandlesticks = new List<SimplifiedCandlestick>();
 #pragma warning restore 0414
         protected List<Serie> m_Series = new List<Serie>();
         protected List<MainComponent> m_Components = new List<MainComponent>();
@@ -66,7 +66,6 @@ namespace XCharts.Runtime
         public List<MainComponent> components { get { return m_Components; } }
 
         public List<Serie> series { get { return m_Series; } }
-
 
         protected float m_ChartWidth;
         protected float m_ChartHeight;
@@ -101,14 +100,11 @@ namespace XCharts.Runtime
         internal int m_BasePainterVertCount;
         internal int m_TopPainterVertCount;
 
-
         private ThemeType m_CheckTheme = 0;
         protected List<MainComponentHandler> m_ComponentHandlers = new List<MainComponentHandler>();
         protected List<SerieHandler> m_SerieHandlers = new List<SerieHandler>();
 
-        protected virtual void DefaultChart()
-        {
-        }
+        protected virtual void DefaultChart() { }
 
         protected override void InitComponent()
         {
@@ -333,7 +329,7 @@ namespace XCharts.Runtime
                 m_PainterList.Add(painter);
             }
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
-                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
+                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
             m_PainterTop.type = Painter.Type.Top;
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugInfo.showAllChartObject);
@@ -406,6 +402,11 @@ namespace XCharts.Runtime
             RefreshChart();
         }
 
+        internal virtual void OnSerieDataUpdate(int serieIndex)
+        {
+            foreach (var handler in m_ComponentHandlers) handler.OnSerieDataUpdate(serieIndex);
+        }
+
         internal virtual void OnCoordinateChanged()
         {
             foreach (var component in m_Components)
@@ -424,9 +425,7 @@ namespace XCharts.Runtime
                 background.SetAllDirty();
         }
 
-        protected virtual void OnThemeChanged()
-        {
-        }
+        protected virtual void OnThemeChanged() { }
 
         public virtual void OnDataZoomRangeChanged(DataZoom dataZoom)
         {
@@ -587,9 +586,7 @@ namespace XCharts.Runtime
             m_TopPainterVertCount = vh.currentVertCount;
         }
 
-        protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie)
-        {
-        }
+        protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie) { }
 
         protected virtual void DrawPainterTop(VertexHelper vh)
         {

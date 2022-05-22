@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +56,7 @@ namespace XCharts.Runtime
             /// </summary>
             Percent
         }
+
         [SerializeField] private bool m_Enable = true;
         [SerializeField] private FilterMode m_FilterMode;
         [SerializeField] private List<int> m_XAxisIndexs = new List<int>() { 0 };
@@ -448,10 +448,10 @@ namespace XCharts.Runtime
                     start = context.y + context.height * m_Start / 100;
                     end = context.y + context.height * m_End / 100;
                     return ChartHelper.IsInRect(pos, context.x, context.x + context.width, start, end);
-                default: return false;
+                default:
+                    return false;
             }
         }
-
 
         public bool IsInSelectedZoom(int totalIndex, int index, bool invert)
         {
@@ -486,7 +486,8 @@ namespace XCharts.Runtime
                 case Orient.Vertical:
                     start = context.y + context.height * m_Start / 100;
                     return ChartHelper.IsInRect(pos, context.x, context.x + context.width, start - 10, start + 10);
-                default: return false;
+                default:
+                    return false;
             }
         }
 
@@ -507,10 +508,10 @@ namespace XCharts.Runtime
                 case Orient.Vertical:
                     end = context.y + context.height * m_End / 100;
                     return ChartHelper.IsInRect(pos, context.x, context.x + context.width, end - 10, end + 10);
-                default: return false;
+                default:
+                    return false;
             }
         }
-
 
         public bool IsContainsAxis(Axis axis)
         {

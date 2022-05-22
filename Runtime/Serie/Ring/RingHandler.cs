@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -94,12 +93,13 @@ namespace XCharts.Runtime
             param.category = category;
             param.dimension = defaultDimension;
             param.serieData = serieData;
+            param.dataCount = serie.dataCount;
             param.value = serieData.GetData(0);
             param.total = serieData.GetData(1);
             param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, dataIndex, false);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);;
             param.columns.Clear();
 
             param.columns.Add(param.marker);
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var value = serieData.GetFirstData(dataChangeDuration);
                 var max = serieData.GetLastData();
-                var degree = (float)(360 * value / max);
+                var degree = (float) (360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
@@ -215,8 +215,7 @@ namespace XCharts.Runtime
         }
 
         public override void OnPointerDown(PointerEventData eventData)
-        {
-        }
+        { }
 
         private float GetStartAngle(Serie serie)
         {
@@ -281,11 +280,11 @@ namespace XCharts.Runtime
             if (itemStyle.show && itemStyle.borderWidth > 0 && !ChartHelper.IsClearColor(itemStyle.borderColor))
             {
                 UGL.DrawDoughnut(vh, serie.context.center, outsideRadius,
-                outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,
-                Color.clear, chart.settings.cicleSmoothness);
+                    outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,
+                    Color.clear, chart.settings.cicleSmoothness);
                 UGL.DrawDoughnut(vh, serie.context.center, insideRadius,
-                insideRadius + itemStyle.borderWidth, itemStyle.borderColor,
-                Color.clear, chart.settings.cicleSmoothness);
+                    insideRadius + itemStyle.borderWidth, itemStyle.borderColor,
+                    Color.clear, chart.settings.cicleSmoothness);
             }
         }
 

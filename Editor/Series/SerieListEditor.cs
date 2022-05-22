@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections.Generic;
-using UnityEngine.Assertions;
-using UnityEditor;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine.Assertions;
 using XCharts.Runtime;
 
 namespace XCharts.Editor
@@ -21,7 +20,6 @@ namespace XCharts.Editor
         Dictionary<Type, Type> m_EditorTypes;
         List<SerieBaseEditor> m_Editors;
         private bool m_SerieFoldout;
-
 
         public SerieListEditor(BaseChartEditor editor)
         {
@@ -136,7 +134,7 @@ namespace XCharts.Editor
 
             if (!m_EditorTypes.TryGetValue(settingsType, out editorType))
                 editorType = typeof(SerieBaseEditor);
-            var editor = (SerieBaseEditor)Activator.CreateInstance(editorType);
+            var editor = (SerieBaseEditor) Activator.CreateInstance(editorType);
             editor.Init(chart, serie, property, m_BaseEditor);
             editor.menus.Clear();
             editor.menus.Add(new HeaderMenuInfo("Clone", () =>
@@ -176,7 +174,7 @@ namespace XCharts.Editor
                 var attribute = editor.serie.GetType().GetAttribute<SerieExtraComponentAttribute>();
                 foreach (var type in attribute.types)
                 {
-                    var size = editor.FindProperty(Serie.extraComponentFieldNameDict[type]).arraySize;
+                    var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
                     {
                         editor.serie.AddExtraComponent(type);
@@ -187,7 +185,7 @@ namespace XCharts.Editor
                 }
                 foreach (var type in attribute.types)
                 {
-                    var size = editor.FindProperty(Serie.extraComponentFieldNameDict[type]).arraySize;
+                    var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Remove " + type.Name, () =>
                     {
                         editor.serie.RemoveExtraComponent(type);

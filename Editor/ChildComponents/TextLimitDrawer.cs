@@ -1,4 +1,3 @@
-﻿
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;

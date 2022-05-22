@@ -52,7 +52,7 @@ namespace XCharts.Runtime
             else
             {
                 var content = serieLabel.formatter;
-                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, dataValue,
+                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, dataValue,
                     dataTotal, serieName, dataName, dataName, color);
                 return content;
             }
@@ -166,8 +166,8 @@ namespace XCharts.Runtime
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             var fontSize = serieLabel.textStyle.GetFontSize(theme);
-            var isOutside = serieLabel.position == LabelStyle.Position.Outside
-               || serieLabel.position == LabelStyle.Position.Default;
+            var isOutside = serieLabel.position == LabelStyle.Position.Outside ||
+                serieLabel.position == LabelStyle.Position.Default;
             if (!serieLabel.show) return;
             if (!isOutside) return;
             if (lastCheckPos == Vector3.zero)
@@ -196,8 +196,8 @@ namespace XCharts.Runtime
         {
             if (label == null || labelLine == null)
                 return serieData.context.labelPosition;
-            var isOutside = label.position == LabelStyle.Position.Outside
-               || label.position == LabelStyle.Position.Default;
+            var isOutside = label.position == LabelStyle.Position.Outside ||
+                label.position == LabelStyle.Position.Default;
             if (isOutside && labelLine.lineType != LabelLine.LineType.HorizontalLine)
             {
                 var currAngle = serieData.context.halfAngle;

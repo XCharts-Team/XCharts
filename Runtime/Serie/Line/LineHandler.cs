@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -69,7 +68,7 @@ namespace XCharts.Runtime
             var endLabelList = m_SerieGrid.context.endLabelList;
             if (endLabelList.Count <= 1) return;
 
-            endLabelList.Sort(delegate (ChartLabel a, ChartLabel b)
+            endLabelList.Sort(delegate(ChartLabel a, ChartLabel b)
             {
                 if (a == null || b == null) return 1;
                 return b.transform.position.y.CompareTo(a.transform.position.y);

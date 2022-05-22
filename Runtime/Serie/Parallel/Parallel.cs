@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(ParallelHandler), true)]
     [RequireChartComponent(typeof(ParallelCoord))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField()]
     public class Parallel : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }
@@ -19,12 +20,13 @@ namespace XCharts.Runtime
 
             for (int i = 0; i < 100; i++)
             {
-                var data = new List<double>(){
-                    Random.Range(0f,50f),
-                    Random.Range(0f,100f),
-                    Random.Range(0f,1000f),
-                    Random.Range(0,5),
-                    };
+                var data = new List<double>()
+                {
+                    Random.Range(0f, 50f),
+                    Random.Range(0f, 100f),
+                    Random.Range(0f, 1000f),
+                    Random.Range(0, 5),
+                };
                 serie.AddData(data, "data" + i);
             }
             chart.RefreshChart();

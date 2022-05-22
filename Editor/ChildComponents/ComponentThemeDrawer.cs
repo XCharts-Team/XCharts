@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -59,6 +58,7 @@ namespace XCharts.Editor
     {
         public override string ClassName { get { return "Axis"; } }
     }
+
     [CustomPropertyDrawer(typeof(RadiusAxisTheme), true)]
     public class RadiusAxisThemeDrawer : BaseAxisThemeDrawer
     {
@@ -67,8 +67,9 @@ namespace XCharts.Editor
         {
             get
             {
-                return new List<string> {
-                    "m_TextBackgroundColor" ,
+                return new List<string>
+                {
+                    "m_TextBackgroundColor",
                     "m_LineLength",
                     "m_SplitLineLength",
                 };

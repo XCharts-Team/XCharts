@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -97,10 +96,10 @@ namespace XCharts.Runtime
                 return new AxisLabel()
                 {
                     m_Show = true,
-                    m_Interval = 0,
-                    m_Inside = false,
-                    m_Distance = 8,
-                    m_TextStyle = new TextStyle(),
+                        m_Interval = 0,
+                        m_Inside = false,
+                        m_Distance = 8,
+                        m_TextStyle = new TextStyle(),
                 };
             }
         }
@@ -150,9 +149,9 @@ namespace XCharts.Runtime
             {
                 return m_FormatterFunction(labelIndex, 0, category);
             }
-            if (string.IsNullOrEmpty(category)) 
+            if (string.IsNullOrEmpty(category))
                 return category;
-            
+
             if (string.IsNullOrEmpty(m_Formatter))
             {
                 return m_TextLimit.GetLimitContent(category);
@@ -205,7 +204,7 @@ namespace XCharts.Runtime
             {
                 return m_FormatterFunction(labelIndex, value, null);
             }
-            var timestamp = (int)value;
+            var timestamp = (int) value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var dateString = string.Empty;
             if (string.IsNullOrEmpty(numericFormatter))

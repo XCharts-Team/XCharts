@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -183,13 +182,13 @@ namespace XCharts.Runtime
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
 
-            int maxCount = serie.maxShow > 0
-                ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
-                : showData.Count;
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
+                showData.Count;
             int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
-            var totalAverage = serie.sampleAverage > 0
-                ? serie.sampleAverage
-                : DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
+            var totalAverage = serie.sampleAverage > 0 ?
+                serie.sampleAverage :
+                DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
 

@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -22,5 +21,23 @@ namespace XCharts.Editor
                 --EditorGUI.indentLevel;
             }
         }
+    }
+
+    [CustomPropertyDrawer(typeof(EmphasisItemStyle), true)]
+    public class EmphasisItemStyleDrawer : ItemStyleDrawer
+    {
+        public override string ClassName { get { return "EmphasisItemStyle"; } }
+    }
+
+    [CustomPropertyDrawer(typeof(EmphasisLabelStyle), true)]
+    public class EmphasisLabelStyleDrawer : LabelStyleDrawer
+    {
+        public override string ClassName { get { return "EmphasisLabel"; } }
+    }
+
+    [CustomPropertyDrawer(typeof(EmphasisLabelLine), true)]
+    public class EmphasisLabelLineDrawer : LabelLineDrawer
+    {
+        public override string ClassName { get { return "EmphasisLabelLine"; } }
     }
 }

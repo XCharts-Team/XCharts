@@ -1,11 +1,12 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(RingHandler), true)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(TitleStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField()]
     public class Ring : Serie
     {
         public override bool useDataNameForColor { get { return true; } }

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +20,7 @@ namespace XCharts.Runtime
         {
             var dataZoom = component;
             dataZoom.painter = chart.m_PainterTop;
-            dataZoom.refreshComponent = delegate ()
+            dataZoom.refreshComponent = delegate()
             {
                 var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + dataZoom.index, chart.transform,
                     chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -34,7 +33,7 @@ namespace XCharts.Runtime
                 startLabel.gameObject.SetActive(true);
 
                 var endLabel = ChartHelper.AddChartLabel(s_DefaultDataZoom + "end", dataZoomObject.transform,
-                   dataZoom.labelStyle, chart.theme.dataZoom, "", Color.clear, TextAnchor.MiddleLeft);
+                    dataZoom.labelStyle, chart.theme.dataZoom, "", Color.clear, TextAnchor.MiddleLeft);
                 endLabel.gameObject.SetActive(true);
 
                 dataZoom.SetStartLabel(startLabel);
@@ -158,8 +157,8 @@ namespace XCharts.Runtime
                 return;
 
             var dataZoom = component;
-            if (dataZoom.context.isDrag || dataZoom.context.isStartDrag || dataZoom.context.isEndDrag
-                || dataZoom.context.isCoordinateDrag)
+            if (dataZoom.context.isDrag || dataZoom.context.isStartDrag || dataZoom.context.isEndDrag ||
+                dataZoom.context.isCoordinateDrag)
             {
                 chart.RefreshChart();
             }
@@ -187,8 +186,8 @@ namespace XCharts.Runtime
                 return;
             }
 
-            if (dataZoom.IsInZoom(localPos)
-                && !dataZoom.IsInSelectedZoom(localPos))
+            if (dataZoom.IsInZoom(localPos) &&
+                !dataZoom.IsInSelectedZoom(localPos))
             {
                 var pointerX = localPos.x;
                 var selectWidth = grid.context.width * (dataZoom.end - dataZoom.start) / 100;
@@ -313,8 +312,8 @@ namespace XCharts.Runtime
         {
             var grid = chart.GetGridOfDataZoom(dataZoom);
             var deltaPercent = dataZoom.orient == Orient.Horizonal ?
-                     Mathf.Abs(delta / grid.context.width * 100) :
-                      Mathf.Abs(delta / grid.context.height * 100);
+                Mathf.Abs(delta / grid.context.width * 100) :
+                Mathf.Abs(delta / grid.context.height * 100);
             if (delta > 0)
             {
                 if (dataZoom.end <= dataZoom.start)
@@ -390,9 +389,9 @@ namespace XCharts.Runtime
                     dataZoom.SetLabelActive(false);
                     return;
                 }
-                if (dataZoom.IsInSelectedZoom(local)
-                    || dataZoom.IsInStartZoom(local)
-                    || dataZoom.IsInEndZoom(local))
+                if (dataZoom.IsInSelectedZoom(local) ||
+                    dataZoom.IsInStartZoom(local) ||
+                    dataZoom.IsInEndZoom(local))
                 {
                     dataZoom.SetLabelActive(true);
                     RefreshDataZoomLabel();
@@ -406,8 +405,8 @@ namespace XCharts.Runtime
             {
                 m_CheckDataZoomLabel = false;
                 var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
-                var startIndex = (int)((xAxis.data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int)((xAxis.data.Count - 1) * dataZoom.end / 100);
+                var startIndex = (int) ((xAxis.data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int) ((xAxis.data.Count - 1) * dataZoom.end / 100);
 
                 if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
                 {
@@ -472,7 +471,7 @@ namespace XCharts.Runtime
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;
                 if (sampleDist > 0)
-                    rate = (int)((maxCount - serie.minShow) / (dataZoom.context.width / sampleDist));
+                    rate = (int) ((maxCount - serie.minShow) / (dataZoom.context.width / sampleDist));
                 if (rate < 1)
                     rate = 1;
 
@@ -485,7 +484,7 @@ namespace XCharts.Runtime
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                         serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pX = dataZoom.context.x + i * scaleWid;
-                    float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
+                    float dataHig = (float) ((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
                     np = new Vector3(pX, chart.chartY + dataZoom.bottom + dataHig);
                     if (i > 0)
@@ -561,7 +560,7 @@ namespace XCharts.Runtime
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;
                 if (sampleDist > 0)
-                    rate = (int)((maxCount - serie.minShow) / (dataZoom.context.height / sampleDist));
+                    rate = (int) ((maxCount - serie.minShow) / (dataZoom.context.height / sampleDist));
                 if (rate < 1)
                     rate = 1;
 
@@ -575,7 +574,7 @@ namespace XCharts.Runtime
                         serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pY = dataZoom.context.y + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
-                        (float)((value - minValue) / (maxValue - minValue) * dataZoom.context.width);
+                        (float) ((value - minValue) / (maxValue - minValue) * dataZoom.context.width);
                     np = new Vector3(chart.chartX + chart.chartWidth - dataZoom.right - dataHig, pY);
                     if (i > 0)
                     {

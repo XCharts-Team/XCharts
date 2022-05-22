@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 #if dUI_TextMeshPro
@@ -141,9 +140,7 @@ namespace XCharts.Runtime
         }
 #endif
 
-        public TextStyle()
-        {
-        }
+        public TextStyle() { }
 
         public TextStyle(int fontSize)
         {

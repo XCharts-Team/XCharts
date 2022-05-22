@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -7,7 +6,9 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(HeatmapHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
     [RequireChartComponent(typeof(VisualMap))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField()]
     public class Heatmap : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }
@@ -19,11 +20,10 @@ namespace XCharts.Runtime
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;
 
-            var emphasis = serie.AddExtraComponent<Emphasis>();
+            var emphasis = serie.AddExtraComponent<EmphasisItemStyle>();
             emphasis.show = true;
-            emphasis.itemStyle.show = true;
-            emphasis.itemStyle.borderWidth = 1;
-            emphasis.itemStyle.borderColor = Color.black;
+            emphasis.borderWidth = 1;
+            emphasis.borderColor = Color.black;
             return serie;
         }
     }

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,7 +66,7 @@ namespace XCharts.Runtime
             float iconWidth, float iconHeight, ThemeStyle theme)
         {
             var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.common,
-                    "", color, TextAnchor.MiddleCenter);
+                "", color, TextAnchor.MiddleCenter);
             label.SetActive(labelStyle.show);
             return label.gameObject;
         }

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,13 +31,13 @@ namespace XCharts.Runtime
             var theme = chart.theme;
             var yAxisIndex = yAxis.index;
             yAxis.painter = chart.painter;
-            yAxis.refreshComponent = delegate ()
+            yAxis.refreshComponent = delegate()
             {
                 var grid = chart.GetChartComponent<GridCoord>(yAxis.gridIndex);
                 if (grid != null)
                 {
                     var xAxis = chart.GetChartComponent<YAxis>(yAxis.index);
-                    InitAxis(yAxis, xAxis, chart, this,
+                    InitAxis(xAxis,
                         orient,
                         grid.context.x,
                         grid.context.y,
@@ -91,7 +90,7 @@ namespace XCharts.Runtime
                     return;
                 var relativedAxis = chart.GetChartComponent<XAxis>(yAxis.gridIndex);
                 var dataZoom = chart.GetDataZoomOfAxis(yAxis);
-                DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
+                DrawAxisSplit(vh, chart.theme.axis, dataZoom,
                     Orient.Vertical,
                     grid.context.x,
                     grid.context.y,
@@ -111,15 +110,9 @@ namespace XCharts.Runtime
 
                 var dataZoom = chart.GetDataZoomOfAxis(yAxis);
 
-                var startX = grid.context.x + yAxis.offset;
-                if (yAxis.IsRight())
-                    startX += grid.context.width;
-                else
-                    startX += ComponentHelper.GetYAxisOnZeroOffset(chart.components, yAxis);
-
                 DrawAxisTick(vh, yAxis, chart.theme.axis, dataZoom,
                     Orient.Vertical,
-                    startX,
+                    GetAxisLineXOrY(),
                     grid.context.y,
                     grid.context.height);
             }
@@ -133,18 +126,24 @@ namespace XCharts.Runtime
                 if (grid == null)
                     return;
 
-                var startX = grid.context.x + yAxis.offset;
-                if (yAxis.IsRight())
-                    startX += grid.context.width;
-                else
-                    startX += ComponentHelper.GetYAxisOnZeroOffset(chart.components, yAxis);
-
                 DrawAxisLine(vh, yAxis, chart.theme.axis,
                     Orient.Vertical,
-                    startX,
+                    GetAxisLineXOrY(),
                     grid.context.y,
                     grid.context.height);
             }
+        }
+
+        protected override float GetAxisLineXOrY()
+        {
+            var yAxis = component;
+            var grid = chart.GetChartComponent<GridCoord>(yAxis.gridIndex);
+            var startX = grid.context.x + yAxis.offset;
+            if (yAxis.IsRight())
+                startX += grid.context.width;
+            else
+                startX += ComponentHelper.GetYAxisOnZeroOffset(chart.components, yAxis);
+            return startX;
         }
     }
 }

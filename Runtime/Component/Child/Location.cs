@@ -1,4 +1,3 @@
-﻿
 using System;
 using UnityEngine;
 #if dUI_TextMeshPro
@@ -126,10 +125,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.CenterLeft,
-                    left = 0.03f,
-                    right = 0,
-                    top = 0,
-                    bottom = 0
+                        left = 0.03f,
+                        right = 0,
+                        top = 0,
+                        bottom = 0
                 };
             }
         }
@@ -141,10 +140,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.CenterRight,
-                    left = 0,
-                    right = 0.03f,
-                    top = 0,
-                    bottom = 0
+                        left = 0,
+                        right = 0.03f,
+                        top = 0,
+                        bottom = 0
                 };
             }
         }
@@ -156,10 +155,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.TopCenter,
-                    left = 0,
-                    right = 0,
-                    top = 0.03f,
-                    bottom = 0
+                        left = 0,
+                        right = 0,
+                        top = 0.03f,
+                        bottom = 0
                 };
             }
         }
@@ -171,10 +170,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.BottomCenter,
-                    left = 0,
-                    right = 0,
-                    top = 0,
-                    bottom = 0.03f
+                        left = 0,
+                        right = 0,
+                        top = 0,
+                        bottom = 0.03f
                 };
             }
         }

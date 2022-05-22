@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +6,15 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(RadarHandler), true)]
     [RequireChartComponent(typeof(RadarCoord))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(AreaStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField()]
     public class Radar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
-
         public override bool useDataNameForColor { get { return true; } }
+
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             chart.AddChartComponentWhenNoExist<RadarCoord>();

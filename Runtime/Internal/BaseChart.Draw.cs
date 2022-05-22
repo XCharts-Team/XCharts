@@ -1,4 +1,3 @@
-﻿
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -35,13 +34,13 @@ namespace XCharts.Runtime
                 p3 = ClampInGrid(grid, p3);
                 p4 = ClampInGrid(grid, p4);
             }
-            if (!clip || (clip && (grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3)
-                && grid.Contains(p4))))
+            if (!clip || (clip && (grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3) &&
+                    grid.Contains(p4))))
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, toColor);
         }
 
         public void DrawClipPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
-           Color32 startColor, Color32 toColor, bool clip, GridCoord grid)
+            Color32 startColor, Color32 toColor, bool clip, GridCoord grid)
         {
             ClampInChart(ref p1);
             ClampInChart(ref p2);
@@ -54,9 +53,9 @@ namespace XCharts.Runtime
                 p3 = ClampInGrid(grid, p3);
                 p4 = ClampInGrid(grid, p4);
             }
-            if (!clip
-                || (clip && (grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3)
-                && grid.Contains(p4))))
+            if (!clip ||
+                (clip && (grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3) &&
+                    grid.Contains(p4))))
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, toColor);
         }
 

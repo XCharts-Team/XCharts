@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -14,13 +13,12 @@ namespace XCharts.Runtime
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
-        private float m_LastLineWidth = 0f;
 
         public override Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)
         {
-            var invert = label.autoOffset
-                && SerieHelper.IsDownPoint(serie, serieData.index)
-                && (serie.areaStyle == null || !serie.areaStyle.show);
+            var invert = label.autoOffset &&
+                SerieHelper.IsDownPoint(serie, serieData.index) &&
+                (serie.areaStyle == null || !serie.areaStyle.show);
             if (invert)
             {
                 var offset = label.GetOffset(serie.context.insideRadius);
@@ -37,7 +35,7 @@ namespace XCharts.Runtime
             if (m_SerieGrid == null)
                 return;
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter || m_LastLineWidth != lineWidth;
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
             if (!needCheck)
             {
                 if (m_LastCheckContextFlag != needCheck)
@@ -45,10 +43,10 @@ namespace XCharts.Runtime
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
+                    serie.highlight = false;
+                    serie.ResetInteract();
                     foreach (var serieData in serie.data)
-                    {
-                        serieData.interact.Reset();
-                    }
+                        serieData.context.highlight = false;
                     if (SeriesHelper.IsStack(chart.series))
                         chart.RefreshTopPainter();
                     else
@@ -56,7 +54,6 @@ namespace XCharts.Runtime
                 }
                 return;
             }
-            m_LastLineWidth = lineWidth;
             m_LastCheckContextFlag = needCheck;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
@@ -146,6 +143,23 @@ namespace XCharts.Runtime
             var theme = chart.theme;
             var interacting = false;
             var lineArrow = serie.lineArrow;
+            var visualMap = chart.GetVisualMapOfSerie(serie);
+            var isVisualMapGradient = VisualMapHelper.IsNeedLineGradient(visualMap);
+            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
+
+            Axis axis;
+            Axis relativedAxis;
+
+            if (isY)
+            {
+                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+            }
+            else
+            {
+                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
+                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+            }
             for (int i = 0; i < count; i++)
             {
                 var serieData = serie.GetSerieData(i);
@@ -172,20 +186,26 @@ namespace XCharts.Runtime
                     continue;
 
                 var highlight = serie.data[i].context.highlight || serie.highlight;
-                var symbolSize = highlight
-                    ? theme.serie.lineSymbolSelectedSize
-                    : theme.serie.lineSymbolSize;
+                var symbolSize = highlight ?
+                    theme.serie.lineSymbolSelectedSize :
+                    theme.serie.lineSymbolSize;
                 if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
                 {
-                    symbolSize = highlight
-                        ? symbol.GetSelectedSize(serieData.data, symbolSize)
-                        : symbol.GetSize(serieData.data, symbolSize);
+                    symbolSize = highlight ?
+                        symbol.GetSelectedSize(serieData.data, symbolSize) :
+                        symbol.GetSize(serieData.data, symbolSize);
                     serieData.interact.SetValue(ref interacting, symbolSize);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                 }
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, theme, serie.index, highlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, theme, serie.index, highlight);
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, serie.index, highlight, false);
+
+                if (isVisualMapGradient)
+                {
+                    symbolColor = VisualMapHelper.GetLineGradientColor(visualMap, pos, m_SerieGrid, axis, relativedAxis, symbolColor);
+                    symbolToColor = symbolColor;
+                }
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
                 var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
                 var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
@@ -289,13 +309,13 @@ namespace XCharts.Runtime
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
 
-            int maxCount = serie.maxShow > 0
-                ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
-                : showData.Count;
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
+                showData.Count;
             int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
-            var totalAverage = serie.sampleAverage > 0
-                ? serie.sampleAverage
-                : DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
+            var totalAverage = serie.sampleAverage > 0 ?
+                serie.sampleAverage :
+                DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
 

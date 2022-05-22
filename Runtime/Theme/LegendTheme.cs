@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 #if dUI_TextMeshPro
@@ -31,7 +30,7 @@ namespace XCharts.Runtime
         public LegendTheme(ThemeType theme) : base(theme)
         {
             m_UnableColor = ColorUtil.GetColor("#cccccc");
-            
+
         }
     }
 }

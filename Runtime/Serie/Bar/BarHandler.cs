@@ -1,6 +1,6 @@
-
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XUGL;
 
@@ -47,6 +47,16 @@ namespace XCharts.Runtime
             }
         }
 
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            if (!serie.context.pointerEnter) return;
+            if (serie.context.pointerItemDataIndex < 0) return;
+            if (chart.onPointerClickBar != null)
+            {
+                chart.onPointerClickBar(eventData, serie.context.pointerItemDataIndex);
+            }
+        }
+
         private void UpdateSerieContext()
         {
             if (m_SerieGrid == null)
@@ -87,8 +97,8 @@ namespace XCharts.Runtime
                 serie.context.pointerEnter = false;
                 foreach (var serieData in serie.data)
                 {
-                    if (serie.context.pointerAxisDataIndexs.Contains(serieData.index)
-                        || serieData.context.rect.Contains(chart.pointerPos))
+                    if (serie.context.pointerAxisDataIndexs.Contains(serieData.index) ||
+                        serieData.context.rect.Contains(chart.pointerPos))
                     {
                         serie.context.pointerItemDataIndex = serieData.index;
                         serie.context.pointerEnter = true;
@@ -155,17 +165,17 @@ namespace XCharts.Runtime
             if (isStack)
                 SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
 
+            var barCount = chart.GetSerieBarRealCount<Bar>();
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
             float barGap = chart.GetSerieBarGap<Bar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap);
-            float barWidth = serie.GetBarWidth(categoryWidth);
+            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
+            float barWidth = serie.GetBarWidth(categoryWidth, barCount);
             float offset = (categoryWidth - totalBarWidth) * 0.5f;
-            float barGapWidth = barWidth + barWidth * barGap;
-            float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieIndexIfStack<Bar>(serie) * barGapWidth;
-            int maxCount = serie.maxShow > 0
-                ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
-                : showData.Count;
-
+            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
+            float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
+                showData.Count;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -214,7 +224,7 @@ namespace XCharts.Runtime
                 if (isPercentStack)
                 {
                     var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
-                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * relativedAxisLength) : 0;
+                    barHig = valueTotal != 0 ? (float) (relativedValue / valueTotal * relativedAxisLength) : 0;
                 }
                 else
                 {
@@ -229,9 +239,9 @@ namespace XCharts.Runtime
                 serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x + borderGapAndWidth, plb.y + borderGapAndWidth,
                     prt.x - borderGapAndWidth, prt.y - borderGapAndWidth);
-                serieData.context.backgroundRect = isY
-                    ? Rect.MinMaxRect(m_SerieGrid.context.x, plb.y, m_SerieGrid.context.x + relativedAxisLength, prt.y)
-                    : Rect.MinMaxRect(plb.x, m_SerieGrid.context.y, prb.x, m_SerieGrid.context.y + relativedAxisLength);
+                serieData.context.backgroundRect = isY ?
+                    Rect.MinMaxRect(m_SerieGrid.context.x, plb.y, m_SerieGrid.context.x + relativedAxisLength, prt.y) :
+                    Rect.MinMaxRect(plb.x, m_SerieGrid.context.y, prb.x, m_SerieGrid.context.y + relativedAxisLength);
 
                 if (!serie.clip || (serie.clip && m_SerieGrid.Contains(top)))
                     serie.context.dataPoints.Add(top);
@@ -283,7 +293,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
                     else
                     {
-                        var valueLen = (float)((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.height;
+                        var valueLen = (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.height;
                         pY = grid.context.y + valueLen - categoryWidth * 0.5f;
                     }
                 }
@@ -305,7 +315,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
                     else
                     {
-                        var valueLen = (float)((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.width;
+                        var valueLen = (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.width;
                         pX = grid.context.x + valueLen - categoryWidth * 0.5f;
                     }
                 }
@@ -374,9 +384,9 @@ namespace XCharts.Runtime
         {
             var borderWidth = itemStyle.runtimeBorderWidth;
             var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
-            var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner()
-                ? m_CapusleDefaultCornerRadius
-                : itemStyle.cornerRadius;
+            var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner() ?
+                m_CapusleDefaultCornerRadius :
+                itemStyle.cornerRadius;
             var invert = value < 0;
             if (!ChartHelper.IsClearColor(backgroundColor))
             {
@@ -384,7 +394,7 @@ namespace XCharts.Runtime
                     cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
             }
             UGL.DrawRoundRectangle(vh, serieData.context.rect, areaColor, areaToColor, 0,
-                    cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
+                cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
             if (serie.barType == BarType.Capsule)
             {
                 UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, itemStyle.borderColor,
@@ -393,7 +403,7 @@ namespace XCharts.Runtime
             else
             {
                 UGL.DrawBorder(vh, serieData.context.rect, borderWidth, itemStyle.borderColor,
-                   0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, itemStyle.borderGap);
+                    0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, itemStyle.borderGap);
             }
         }
 

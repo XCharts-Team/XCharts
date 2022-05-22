@@ -86,7 +86,7 @@ namespace XCharts.Runtime
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.context.minValue, axis.context.maxValue,
                     null, isPercentStack);
-                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform, 
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform,
                     new Vector2(scaleAngle, txtHig), axis,
                     chart.theme.axis, labelName, Color.clear);
                 label.text.SetAlignment(axis.axisLabel.textStyle.GetAlignment(TextAnchor.MiddleCenter));
@@ -124,9 +124,9 @@ namespace XCharts.Runtime
                 }
                 if (angleAxis.show && angleAxis.axisTick.show)
                 {
-                    if ((i == 1 && angleAxis.axisTick.showStartTick)
-                        || (i == size - 1 && angleAxis.axisTick.showEndTick)
-                        || (i > 1 && i < size - 1))
+                    if ((i == 1 && angleAxis.axisTick.showStartTick) ||
+                        (i == size - 1 && angleAxis.axisTick.showEndTick) ||
+                        (i > 1 && i < size - 1))
                     {
                         var tickY = radius + tickLength;
                         var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);

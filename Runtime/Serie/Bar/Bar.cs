@@ -1,8 +1,3 @@
-
-using System;
-using System.Reflection;
-using UnityEngine;
-
 namespace XCharts.Runtime
 {
     [System.Serializable]
@@ -10,7 +5,9 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Pie))]
     [RequireChartComponent(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField("m_Ignore")]
     public class Bar : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

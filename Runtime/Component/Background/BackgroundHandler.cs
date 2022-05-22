@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             component.painter = chart.painter;
-            component.refreshComponent = delegate ()
+            component.refreshComponent = delegate()
             {
                 var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, chart.transform, chart.chartMinAnchor,
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -43,7 +42,7 @@ namespace XCharts.Runtime
             var p3 = new Vector3(chart.chartX + chart.chartWidth, chart.chartY);
             var p4 = new Vector3(chart.chartX, chart.chartY);
             var backgroundColor = chart.theme.GetBackgroundColor(component);
-            
+
             UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
         }
     }

@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_BorderWidth;
         [SerializeField] protected Color32 m_BorderColor;
         [SerializeField] protected Color32 m_BackgroundColor;
-        [SerializeField] [Range(10, 50)] protected float m_TriangeLen = 20f;
+        [SerializeField][Range(10, 50)] protected float m_TriangeLen = 20f;
 
         /// <summary>
         /// the width of border.

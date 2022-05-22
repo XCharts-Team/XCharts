@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +56,15 @@ namespace XCharts.Runtime
         /// Whether the data item is highlighted.
         /// |该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
-        public bool highlight;
+        public bool highlight
+        {
+            get { return m_Highligth; }
+            set
+            {
+                m_Highligth = value;
+            }
+        }
+        private bool m_Highligth;
         public bool selected;
 
         public void Reset()

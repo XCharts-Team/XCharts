@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -115,8 +114,6 @@ namespace XCharts.Runtime
             tooltip.gameObject.transform.SetAsLastSibling();
         }
 
-
-
         private void ResetSize()
         {
             var maxHig = 0f;
@@ -220,8 +217,8 @@ namespace XCharts.Runtime
             view.background = ChartHelper.GetOrAddComponent<Image>(view.gameObject);
             view.background.sprite = tooltip.backgroundImage;
             view.background.type = tooltip.backgroundType;
-            view.background.color = ChartHelper.IsClearColor(tooltip.backgroundColor)
-                ? Color.white : tooltip.backgroundColor;
+            view.background.color = ChartHelper.IsClearColor(tooltip.backgroundColor) ?
+                Color.white : tooltip.backgroundColor;
 
             view.border = ChartHelper.GetOrAddComponent<Outline>(view.gameObject);
             view.border.enabled = tooltip.borderWidth > 0;
@@ -240,7 +237,7 @@ namespace XCharts.Runtime
                 tooltip.paddingTopBottom);
 
             view.title = ChartHelper.AddChartLabel("title", view.gameObject.transform, tooltip.titleLabelStyle, theme.tooltip,
-                    "", Color.clear, TextAnchor.MiddleLeft);
+                "", Color.clear, TextAnchor.MiddleLeft);
 
             var item = CreateViewItem(0, view.gameObject.transform, tooltip, theme.tooltip);
             view.m_Items.Add(item);
@@ -266,7 +263,7 @@ namespace XCharts.Runtime
         {
             var labelStyle = tooltip.GetContentLabelStyle(i);
             var label = ChartHelper.AddChartLabel("column" + i, parent, labelStyle, theme,
-                    "", Color.clear, TextAnchor.MiddleLeft);
+                "", Color.clear, TextAnchor.MiddleLeft);
             return label;
         }
     }

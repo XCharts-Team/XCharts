@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -366,11 +365,11 @@ namespace XCharts.Runtime
         {
             get
             {
-                return m_VertsDirty
-                    || axisLine.anyDirty
-                    || axisTick.anyDirty
-                    || splitLine.anyDirty
-                    || splitArea.anyDirty;
+                return m_VertsDirty ||
+                    axisLine.anyDirty ||
+                    axisTick.anyDirty ||
+                    splitLine.anyDirty ||
+                    splitArea.anyDirty;
             }
         }
 
@@ -378,9 +377,9 @@ namespace XCharts.Runtime
         {
             get
             {
-                return m_ComponentDirty
-                    || axisName.anyDirty
-                    || axisLabel.anyDirty;
+                return m_ComponentDirty ||
+                    axisName.anyDirty ||
+                    axisLabel.anyDirty;
             }
         }
 
@@ -656,11 +655,11 @@ namespace XCharts.Runtime
             if (IsCategory() && boundaryGap)
             {
                 var each = axisLength / data.Count;
-                return (float)(each * (value + 0.5f));
+                return (float) (each * (value + 0.5f));
             }
             else
             {
-                return axisLength * (float)((value - context.minValue) / context.minMaxRange);
+                return axisLength * (float) ((value - context.minValue) / context.minMaxRange);
             }
         }
 
@@ -754,21 +753,21 @@ namespace XCharts.Runtime
             if (value <= 0 || value == 1)
                 return 0;
             else
-                return logBaseE ? (float)Math.Log(value) : (float)Math.Log(value, logBase);
+                return logBaseE ? (float) Math.Log(value) : (float) Math.Log(value, logBase);
         }
 
         public int GetLogMinIndex()
         {
-            return logBaseE
-                ? (int)Math.Log(context.minValue)
-                : (int)Math.Log(context.minValue, logBase);
+            return logBaseE ?
+                (int) Math.Log(context.minValue) :
+                (int) Math.Log(context.minValue, logBase);
         }
 
         public int GetLogMaxIndex()
         {
-            return logBaseE
-                ? (int)Math.Log(context.maxValue)
-                : (int)Math.Log(context.maxValue, logBase);
+            return logBaseE ?
+                (int) Math.Log(context.maxValue) :
+                (int) Math.Log(context.maxValue, logBase);
         }
 
         public double GetLabelValue(int index)

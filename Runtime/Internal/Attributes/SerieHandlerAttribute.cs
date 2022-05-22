@@ -8,7 +8,6 @@ namespace XCharts.Runtime
         public readonly Type handler;
         public readonly bool allowMultiple = true;
 
-
         public SerieHandlerAttribute(Type handler)
         {
             this.handler = handler;

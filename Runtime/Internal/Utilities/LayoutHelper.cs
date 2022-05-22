@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -213,14 +212,14 @@ namespace XCharts.Runtime
         public static bool IsFixedWidthHeight(RectTransform rt)
         {
             return IsLeftTop(rt.anchorMin, rt.anchorMax) ||
-                 IsLeftCenter(rt.anchorMin, rt.anchorMax) ||
-                 IsLeftBottom(rt.anchorMin, rt.anchorMax) ||
-                 IsCenterTop(rt.anchorMin, rt.anchorMax) ||
-                 IsCenterCenter(rt.anchorMin, rt.anchorMax) ||
-                 IsCenterBottom(rt.anchorMin, rt.anchorMax) ||
-                 IsRightTop(rt.anchorMin, rt.anchorMax) ||
-                 IsRightCenter(rt.anchorMin, rt.anchorMax) ||
-                 IsRightBottom(rt.anchorMin, rt.anchorMax);
+                IsLeftCenter(rt.anchorMin, rt.anchorMax) ||
+                IsLeftBottom(rt.anchorMin, rt.anchorMax) ||
+                IsCenterTop(rt.anchorMin, rt.anchorMax) ||
+                IsCenterCenter(rt.anchorMin, rt.anchorMax) ||
+                IsCenterBottom(rt.anchorMin, rt.anchorMax) ||
+                IsRightTop(rt.anchorMin, rt.anchorMax) ||
+                IsRightCenter(rt.anchorMin, rt.anchorMax) ||
+                IsRightBottom(rt.anchorMin, rt.anchorMax);
         }
 
     }

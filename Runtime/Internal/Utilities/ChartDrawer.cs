@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -97,13 +95,13 @@ namespace XCharts.Runtime
                     var arrowOffset = 0;
                     var arrowDent = arrowWidth / 3.3f;
                     UGL.DrawArrow(vh, startPos, pos, arrowWidth, arrowHeight,
-                            arrowOffset, arrowDent, color);
+                        arrowOffset, arrowDent, color);
                     break;
             }
         }
 
         public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle, Vector3 startPos, Vector3 endPos,
-           Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
+            Color32 defaultColor, float themeWidth, LineStyle.Type themeType)
         {
             var type = lineStyle.GetType(themeType);
             var width = lineStyle.GetWidth(themeWidth);

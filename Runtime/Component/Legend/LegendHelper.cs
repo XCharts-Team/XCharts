@@ -11,7 +11,7 @@ namespace XCharts.Runtime
             var textStyle = legend.labelStyle.textStyle;
             if (active)
             {
-                if (legend.textAutoColor) return theme.GetColor(legendIndex);
+                if (legend.labelStyle.textStyle.autoColor) return theme.GetColor(legendIndex);
                 else return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
             }
             else return theme.legend.unableColor;
@@ -21,12 +21,12 @@ namespace XCharts.Runtime
         {
             if (active)
             {
-                if (legend.itemAutoColor || legend.GetIcon(readIndex) == null)
+                if (legend.itemAutoColor)
                 {
                     return SeriesHelper.GetNameColor(chart, readIndex, legendName);
                 }
                 else
-                    return Color.white;
+                    return legend.GetColor(readIndex);
             }
             else return chart.theme.legend.unableColor;
         }
@@ -54,7 +54,7 @@ namespace XCharts.Runtime
             ChartHelper.GetOrAddComponent<Image>(iconObj);
 
             var label = ChartHelper.AddChartLabel("content", btnObj.transform, legend.labelStyle, theme.legend,
-                    content, contentColor, TextAnchor.MiddleLeft);
+                content, contentColor, TextAnchor.MiddleLeft);
             label.SetActive(true);
 
             var item = new LegendItem();

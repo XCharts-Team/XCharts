@@ -1,8 +1,7 @@
-
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
@@ -27,42 +26,42 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
         [SerializeField] private TMP_FontAsset m_TMPFont = null;
 #endif
-        [SerializeField] [Range(1, 200)] private int m_FontSizeLv1 = 28;
-        [SerializeField] [Range(1, 200)] private int m_FontSizeLv2 = 24;
-        [SerializeField] [Range(1, 200)] private int m_FontSizeLv3 = 20;
-        [SerializeField] [Range(1, 200)] private int m_FontSizeLv4 = 18;
+        [SerializeField][Range(1, 200)] private int m_FontSizeLv1 = 28;
+        [SerializeField][Range(1, 200)] private int m_FontSizeLv2 = 24;
+        [SerializeField][Range(1, 200)] private int m_FontSizeLv3 = 20;
+        [SerializeField][Range(1, 200)] private int m_FontSizeLv4 = 18;
         [SerializeField] private LineStyle.Type m_AxisLineType = LineStyle.Type.Solid;
-        [SerializeField] [Range(0, 20)] private float m_AxisLineWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_AxisLineWidth = 0.8f;
         [SerializeField] private LineStyle.Type m_AxisSplitLineType = LineStyle.Type.Solid;
-        [SerializeField] [Range(0, 20)] private float m_AxisSplitLineWidth = 0.8f;
-        [SerializeField] [Range(0, 20)] private float m_AxisTickWidth = 0.8f;
-        [SerializeField] [Range(0, 20)] private float m_AxisTickLength = 5f;
-        [SerializeField] [Range(0, 200)] private float m_GaugeAxisLineWidth = 15f;
-        [SerializeField] [Range(0, 20)] private float m_GaugeAxisSplitLineWidth = 0.8f;
-        [SerializeField] [Range(0, 20)] private float m_GaugeAxisSplitLineLength = 15f;
-        [SerializeField] [Range(0, 20)] private float m_GaugeAxisTickWidth = 0.8f;
-        [SerializeField] [Range(0, 20)] private float m_GaugeAxisTickLength = 5f;
-        [SerializeField] [Range(0, 20)] private float m_TootipLineWidth = 0.8f;
-        [SerializeField] [Range(0, 20)] private float m_DataZoomBorderWidth = 0.5f;
-        [SerializeField] [Range(0, 20)] private float m_DataZoomDataLineWidth = 0.5f;
-        [SerializeField] [Range(0, 20)] private float m_VisualMapBorderWidth = 0f;
+        [SerializeField][Range(0, 20)] private float m_AxisSplitLineWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_AxisTickWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_AxisTickLength = 5f;
+        [SerializeField][Range(0, 200)] private float m_GaugeAxisLineWidth = 15f;
+        [SerializeField][Range(0, 20)] private float m_GaugeAxisSplitLineWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_GaugeAxisSplitLineLength = 15f;
+        [SerializeField][Range(0, 20)] private float m_GaugeAxisTickWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_GaugeAxisTickLength = 5f;
+        [SerializeField][Range(0, 20)] private float m_TootipLineWidth = 0.8f;
+        [SerializeField][Range(0, 20)] private float m_DataZoomBorderWidth = 0.5f;
+        [SerializeField][Range(0, 20)] private float m_DataZoomDataLineWidth = 0.5f;
+        [SerializeField][Range(0, 20)] private float m_VisualMapBorderWidth = 0f;
 
-        [SerializeField] [Range(0, 20)] private float m_SerieLineWidth = 1.8f;
-        [SerializeField] [Range(0, 200)] private float m_SerieLineSymbolSize = 5f;
-        [SerializeField] [Range(0, 200)] private float m_SerieScatterSymbolSize = 20f;
-        [SerializeField] [Range(0, 200)] private float m_SerieSelectedRate = 1.3f;
-        [SerializeField] [Range(0, 10)] private float m_SerieCandlestickBorderWidth = 1f;
+        [SerializeField][Range(0, 20)] private float m_SerieLineWidth = 1.8f;
+        [SerializeField][Range(0, 200)] private float m_SerieLineSymbolSize = 5f;
+        [SerializeField][Range(0, 200)] private float m_SerieScatterSymbolSize = 20f;
+        [SerializeField][Range(0, 200)] private float m_SerieSelectedRate = 1.3f;
+        [SerializeField][Range(0, 10)] private float m_SerieCandlestickBorderWidth = 1f;
 
         [SerializeField] private bool m_EditorShowAllListData = false;
 
-        [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
-        [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
-        [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
-        [SerializeField] [Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
-        [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
-        [SerializeField] [Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
-        [SerializeField] [Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
-        [SerializeField] [Range(1, 20)] protected float m_PieSelectedOffset = 8f;
+        [SerializeField][Range(1, 20)] protected int m_MaxPainter = 10;
+        [SerializeField][Range(1, 10)] protected float m_LineSmoothStyle = 3f;
+        [SerializeField][Range(1f, 20)] protected float m_LineSmoothness = 2f;
+        [SerializeField][Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
+        [SerializeField][Range(1, 10)] protected float m_CicleSmoothness = 2f;
+        [SerializeField][Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
+        [SerializeField][Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
+        [SerializeField][Range(1, 20)] protected float m_PieSelectedOffset = 8f;
         [SerializeField] protected List<Theme> m_CustomThemes = new List<Theme>();
 
         public static Lang lang { get { return Instance.m_Lang; } }

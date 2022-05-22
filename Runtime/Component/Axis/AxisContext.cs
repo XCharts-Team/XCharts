@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,7 +55,6 @@ namespace XCharts.Runtime
         private List<double> m_LabelValueList = new List<double>();
         private List<string> m_RuntimeData = new List<string>();
 
-
         internal void Clear()
         {
             m_RuntimeData.Clear();
@@ -87,10 +85,10 @@ namespace XCharts.Runtime
                 if (end > data.Count) end = data.Count;
             }
 
-            if (start != filterStart
-                || end != filterEnd
-                || dataZoom.minShowNum != filterMinShow
-                || isNeedUpdateFilterData)
+            if (start != filterStart ||
+                end != filterEnd ||
+                dataZoom.minShowNum != filterMinShow ||
+                isNeedUpdateFilterData)
             {
                 filterStart = start;
                 filterEnd = end;

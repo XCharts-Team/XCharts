@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace XCharts.Runtime
 
         public void SetPadding(float top, float right, float bottom, float left)
         {
-            m_Top = top; ;
+            m_Top = top;;
             m_Right = right;
             m_Bottom = bottom;
             m_Left = left;

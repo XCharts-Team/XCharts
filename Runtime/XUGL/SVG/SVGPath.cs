@@ -42,7 +42,7 @@ namespace XUGL
                 }
                 else
                 {
-                    var type = s_PathValueRegex.Match(key).Groups[1].ToString().ToCharArray()[0];
+                    var type = s_PathValueRegex.Match(key).Groups[1].ToString().ToCharArray() [0];
                     var mc3 = s_PathValueRegex2.Matches(key);
                     SVGPathSeg seg = null;
                     switch (type)
@@ -151,7 +151,7 @@ namespace XUGL
                         var cp1 = seg.relative ? np + seg.p1 : seg.p1;
                         cp2 = seg.relative ? np + seg.p2 : seg.p2;
                         var ep = seg.relative ? np + seg.p3 : seg.p3;
-                        var dist = (int)Vector2.Distance(np, ep) * 2;
+                        var dist = (int) Vector2.Distance(np, ep) * 2;
                         if (dist < 2) dist = 2;
                         UGLHelper.GetBezierList2(ref bezierList, np, ep, dist, cp1, cp2);
                         for (int n = 1; n < bezierList.Count; n++)
@@ -162,7 +162,7 @@ namespace XUGL
                         cp1 = np + (np - cp2).normalized * Vector2.Distance(np, cp2);
                         var scp2 = seg.relative ? np + seg.p1 : seg.p1;
                         ep = seg.relative ? np + seg.p2 : seg.p2;
-                        dist = (int)Vector2.Distance(np, ep) * 2;
+                        dist = (int) Vector2.Distance(np, ep) * 2;
                         if (dist < 2) dist = 2;
                         UGLHelper.GetBezierList2(ref bezierList, np, ep, dist, cp1, scp2);
                         for (int n = 1; n < bezierList.Count; n++)

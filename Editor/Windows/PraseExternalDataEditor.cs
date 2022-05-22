@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -194,8 +193,7 @@ namespace XCharts.Editor
                         else if (a.StartsWith("selected:"))
                         {
                             string selected = a.Substring(9, a.Length - 9);
-                            var baseInfo = serieData.GetOrAddComponent<SerieDataBaseInfo>();
-                            baseInfo.selected = bool.Parse(selected);
+                            serieData.selected = bool.Parse(selected);
                         }
                     }
                     serie.AddSerieData(serieData);

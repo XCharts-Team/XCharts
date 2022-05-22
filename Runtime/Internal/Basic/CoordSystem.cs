@@ -1,5 +1,3 @@
-
-
 using System;
 
 namespace XCharts.Runtime
@@ -11,6 +9,5 @@ namespace XCharts.Runtime
     /// </summary>
     [Serializable]
     public abstract class CoordSystem : MainComponent
-    {
-    }
+    { }
 }

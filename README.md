@@ -9,7 +9,7 @@
   <br>
   一款基于UGUI的数据可视化图表插件。
   <br>
-  <a href="Documentation/README-EN.md">English Doc</a>
+  <a href="README-EN.md">English Doc</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -43,7 +43,7 @@
   </a>
 </p>
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等十种常见免费内置图表，以及3D柱图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图等多种付费扩展图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等十种常见免费内置图表，以及3D饼图、3D柱图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图等多种扩展图表。
 
 [XCharts3.0 教程](Documentation/XChartsTutorial01-ZH.md)  
 [XCharts3.0 API](Documentation/XChartsAPI-ZH.md)  
@@ -85,9 +85,10 @@
 - 更小的序列化文件。
 - 更好的交互体验。
 - 更多的组件支持。
+- 更强大的文本自述能力。
 - 更合理的组件调整。
 - 更灵活的组件插拔。
-- 更方便的二次开发。
+- 更高效的二次开发。
 - 更丰富的Demo示例。
 
 ## XCharts3.0 和 2.0 数据对比
@@ -105,7 +106,7 @@
 - XCharts3.0 不兼容 XCharts2.0 版本，建议旧项目还是继续使用XCharts2.0，新项目使用XCharts3.0。
 - XCharts2.0 进入维护阶段，后续只修复严重bug理论上不再加新功能。
 - XCharts 理论上支持Unity 5.6及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提Issue。
-- XCharts 内置图表都为常见的图表，可以免费使用；扩展图表大部分为不常使用的图表，有需要的可付费获取，感谢对XCharts的支持。
+- XCharts 内置图表都为常见的图表，可以免费使用；扩展图表大部分为不常使用的图表，有需要的可付费获取，详情[☞ 看这里](Documentation/SUPPORT.md)
 - 本仓库只包含XCharts源码，不包含Demo示例部分。需要查看Demo示例请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)
 
 ## 截图
@@ -118,7 +119,23 @@
 
 ## 使用
 
-[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+1. 导入`XCharts`的`unitypackage`或者源码到项目
+2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图
+3. 在`Inspector`试图可以调整各个组件的参数，并在`Game`视图看到实时效果
+
+更多教程请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+
+## FAQ
+
+1. XCharts 可以免费使用吗？  
+   答：可以免费使用。一些高级功能和扩展图表可根据自己的需求，再单独付费订阅和购买。
+
+2. XCharts 支持代码动态修改配置和数据吗？  
+   答：支持。
+
+3. 这个插件除了用在Unity，还能用在其他平台（如Winform或WPF）吗？  
+   答：目前只支持在Unity中使用。
+
 
 ## 日志
 

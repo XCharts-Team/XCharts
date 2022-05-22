@@ -1,5 +1,3 @@
-
-
 namespace XCharts.Runtime
 {
     /// <summary>

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,15 +86,15 @@ namespace XCharts.Runtime
 
             if (m_Orient == Orient.Horizonal)
             {
-                context.width = width == 0
-                    ? chartWidth - context.left - context.right
-                    : (width <= 1 ? chartWidth * width : width);
+                context.width = width == 0 ?
+                    chartWidth - context.left - context.right :
+                    (width <= 1 ? chartWidth * width : width);
             }
             else
             {
-                context.width = width == 0
-                    ? chartHeight - context.top - context.bottom
-                    : (width <= 1 ? chartHeight * width : width);
+                context.width = width == 0 ?
+                    chartHeight - context.top - context.bottom :
+                    (width <= 1 ? chartHeight * width : width);
             }
 
             if (context.left != 0 && context.right == 0)

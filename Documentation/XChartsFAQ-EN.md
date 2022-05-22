@@ -32,7 +32,6 @@
 [QA 26: How do I use the background component? What are the conditions?](#How-do-I-use-the-background-component-What-are-the-conditions)  
 [QA 27: Mesh can not have more than 65000 vertices?](#Mesh-cannot-have-more-than-65000-vertices)  
 [QA 28: Why are the parameters set in Serie reset after they run?](#Why-are-the-parameters-set-in-Serie-reset-after-they-run)  
-[QA 29: Why are many custom colors lost after upgrading to 1.6.0? How should I upgrade?](#Why_are_many_custom_colors_lost_after_upgrading_to_1_6_0_How_should_I_upgrade)  
 
 ## How-to-adjust-the-margin-between-the-axis-and-the=-background
 
@@ -145,16 +144,6 @@ A: This is the limit of `UGUI` on the number of vertices for a single `Graphic`.
 ## Why-are-the-parameters-set-in-Serie-reset-after-they-run
 
 A: Check whether `RemoveData()` and add new `Serie` in the code. If you want to keep the configuration of `Serie`, you can only `ClearData()` which just clear data and then readd the data to the old serie.
-
-## Why_are_many_custom_colors_lost_after_upgrading_to_1_6_0_How_should_I_upgrade
-
-A: In version `1.6.0`, in order to reduce implicit conversion, all drawing related `Color` was changed to `Color32`, so some custom colors were lost. The main components affected are: `ItemStyle`, `LineStyle`, `AreaStyle`, `Vessel`, `VisualMap`, `AxisSplitArea`, `AxisSplitLine`, `GaugeAxis`,`SerieLabel`, etc. Can use the script [UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) to upgrade.
-The upgrade steps are as follows:
-1. Back up the project.
-2. Download or copy the script [UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs) in the old project `Editor`, Change the `color` field inside to `color.clear` (because some fields may not exist in the old version).
-3. After compilation, the old version of color configuration file is exported through `menu bar -> XCharts-> ExportColorConfig` (the configuration file is saved by default to `color.config` under `Assets`).
-4. Upgrade `XCharts` to the latest version.
-5. The custom color can be restored by importing `color.config` through `menu bar -> XCharts-> ImportColorConfig` (if `color.config` is not under `Assets` of the upgraded project, copy it to this directory).
 
 [XCharts Homepage](https://github.com/XCharts-Team/XCharts)</br>
 [XCharts API](XChartsAPI-EN.md)</br>

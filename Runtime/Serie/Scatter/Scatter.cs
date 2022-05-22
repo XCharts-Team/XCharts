@@ -1,6 +1,3 @@
-
-
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -8,7 +5,9 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(ScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(Emphasis))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField("m_Radius")]
     public class Scatter : BaseScatter
     {
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)

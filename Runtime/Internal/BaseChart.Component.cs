@@ -1,7 +1,6 @@
-﻿
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -42,7 +41,7 @@ namespace XCharts.Runtime
 
         public T AddChartComponent<T>() where T : MainComponent
         {
-            return (T)AddChartComponent(typeof(T));
+            return (T) AddChartComponent(typeof(T));
         }
 
         public T AddChartComponentWhenNoExist<T>() where T : MainComponent
@@ -119,7 +118,7 @@ namespace XCharts.Runtime
             if (attrubte.handler == null)
                 return;
 
-            var handler = (MainComponentHandler)Activator.CreateInstance(attrubte.handler);
+            var handler = (MainComponentHandler) Activator.CreateInstance(attrubte.handler);
             handler.attribute = attrubte;
             handler.chart = this;
             handler.SetComponent(component);
@@ -128,13 +127,13 @@ namespace XCharts.Runtime
         }
 
         public bool RemoveChartComponent<T>(int index = 0)
-            where T : MainComponent
+        where T : MainComponent
         {
             return RemoveChartComponent(typeof(T), index);
         }
 
         public int RemoveChartComponents<T>()
-            where T : MainComponent
+        where T : MainComponent
         {
             return RemoveChartComponents(typeof(T));
         }
@@ -196,7 +195,7 @@ namespace XCharts.Runtime
         }
 
         public bool HasChartComponent<T>()
-            where T : MainComponent
+        where T : MainComponent
         {
             return HasChartComponent(typeof(T));
         }
@@ -256,14 +255,14 @@ namespace XCharts.Runtime
         }
 
         public bool TryGetChartComponent<T>(out T component, int index = 0)
-            where T : MainComponent
+        where T : MainComponent
         {
             component = null;
             foreach (var com in m_Components)
             {
                 if (com is T && com.index == index)
                 {
-                    component = (T)com;
+                    component = (T) com;
                     return true;
                 }
             }
@@ -402,11 +401,11 @@ namespace XCharts.Runtime
             var yAxis = GetChartComponent<YAxis>();
             if (yAxis.IsCategory())
             {
-                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
+                return yAxis.GetData((int) yAxis.context.pointerValue, dataZoom);
             }
             else if (xAxis.IsCategory())
             {
-                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
+                return xAxis.GetData((int) xAxis.context.pointerValue, dataZoom);
             }
             return null;
         }
@@ -416,11 +415,11 @@ namespace XCharts.Runtime
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
             if (yAxis.IsCategory())
             {
-                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
+                return yAxis.GetData((int) yAxis.context.pointerValue, dataZoom);
             }
             else if (xAxis.IsCategory())
             {
-                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
+                return xAxis.GetData((int) xAxis.context.pointerValue, dataZoom);
             }
             return null;
         }

@@ -1,9 +1,8 @@
-
 using System;
 using System.Collections.Generic;
-using UnityEngine.Assertions;
-using UnityEditor;
 using System.Linq;
+using UnityEditor;
+using UnityEngine.Assertions;
 using XCharts.Runtime;
 
 namespace XCharts.Editor
@@ -84,7 +83,7 @@ namespace XCharts.Editor
                     editor.showProperty,
                     () => { ResetComponentEditor(id); },
                     () => { RemoveComponentEditor(id); }
-                    );
+                );
                 if (displayContent)
                 {
                     editor.OnInternalInspectorGUI();
@@ -120,7 +119,7 @@ namespace XCharts.Editor
 
             if (!m_EditorTypes.TryGetValue(settingsType, out editorType))
                 editorType = typeof(MainComponentBaseEditor);
-            var editor = (MainComponentBaseEditor)Activator.CreateInstance(editorType);
+            var editor = (MainComponentBaseEditor) Activator.CreateInstance(editorType);
             editor.Init(chart, component, property, m_BaseEditor);
 
             if (index < 0)

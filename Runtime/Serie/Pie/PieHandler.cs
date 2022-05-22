@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,6 +34,11 @@ namespace XCharts.Runtime
         {
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
             return SerieLabelHelper.GetRealLabelPosition(serie, serieData, label, labelLine);
+        }
+
+        public override Vector3 GetSerieDataTitlePosition(SerieData serieData, TitleStyle titleStyle)
+        {
+            return serie.context.center;
         }
 
         public override void OnLegendButtonClick(int index, string legendName, bool show)
@@ -192,16 +196,16 @@ namespace XCharts.Runtime
                 {
                     continue;
                 }
-                float degree = serie.pieRoseType == RoseType.Area
-                    ? (totalDegree / showdataCount)
-                    : (float)(totalDegree * value / dataTotalFilterMinAngle);
+                float degree = serie.pieRoseType == RoseType.Area ?
+                    (totalDegree / showdataCount) :
+                    (float) (totalDegree * value / dataTotalFilterMinAngle);
                 if (serie.minAngle > 0 && degree < serie.minAngle) degree = serie.minAngle;
                 serieData.context.toAngle = startDegree + degree;
                 if (serieData.radius > 0)
-                    serieData.context.outsideRadius = serieData.radius;
+                    serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, Mathf.Min(chart.chartWidth, chart.chartHeight));
                 else
                     serieData.context.outsideRadius = serie.pieRoseType > 0 ?
-                    serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
+                    serie.context.insideRadius + (float) ((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
                     serie.context.outsideRadius;
                 if (serieData.context.highlight)
                 {
@@ -404,9 +408,9 @@ namespace XCharts.Runtime
         {
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
-            if (serieLabel != null && serieLabel.show
-                && labelLine != null && labelLine.show
-                && (serieLabel.IsDefaultPosition(LabelStyle.Position.Outside)))
+            if (serieLabel != null && serieLabel.show &&
+                labelLine != null && labelLine.show &&
+                (serieLabel.IsDefaultPosition(LabelStyle.Position.Outside)))
             {
                 var insideRadius = serieData.context.insideRadius;
                 var outSideRadius = serieData.context.outsideRadius;
@@ -469,8 +473,8 @@ namespace XCharts.Runtime
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
                     pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos5X = (currAngle - startAngle) % 360 > 180
-                    ? pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
+                var pos5X = (currAngle - startAngle) % 360 > 180 ?
+                    pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
                 var pos5 = new Vector3(pos5X, pos2.y);
                 switch (labelLine.lineType)
                 {
@@ -506,9 +510,9 @@ namespace XCharts.Runtime
                 var serieData = serie.data[i];
                 if (angle >= serieData.context.startAngle && angle <= serieData.context.toAngle)
                 {
-                    var ndist = serieData.selected
-                        ? Vector2.Distance(local, serieData.context.offsetCenter)
-                        : dist;
+                    var ndist = serieData.selected ?
+                        Vector2.Distance(local, serieData.context.offsetCenter) :
+                        dist;
                     if (ndist >= serieData.context.insideRadius && ndist <= serieData.context.outsideRadius)
                     {
                         return i;

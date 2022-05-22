@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,8 +30,8 @@ namespace XCharts.Runtime
             RemoveData();
 
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(grid.context.width / heatmapGridWid);
-            int ySplitNumber = (int)(grid.context.height / heatmapGridWid);
+            int xSplitNumber = (int) (grid.context.width / heatmapGridWid);
+            int ySplitNumber = (int) (grid.context.height / heatmapGridWid);
 
             Heatmap.AddDefaultSerie(this, GenerateDefaultSerieName());
 
@@ -45,13 +44,21 @@ namespace XCharts.Runtime
             visualMap.location.align = Location.Align.BottomLeft;
             visualMap.location.bottom = 100;
             visualMap.location.left = 30;
-            var colors = new List<string>{"#313695", "#4575b4", "#74add1", "#abd9e9", "#e0f3f8", "#ffffbf",
-                "#fee090", "#fdae61", "#f46d43", "#d73027", "#a50026"};
-            visualMap.inRange.Clear();
-            foreach (var str in colors)
+            var colors = new List<string>
             {
-                visualMap.inRange.Add(ThemeStyle.GetColor(str));
-            }
+                "#313695",
+                "#4575b4",
+                "#74add1",
+                "#abd9e9",
+                "#e0f3f8",
+                "#ffffbf",
+                "#fee090",
+                "#fdae61",
+                "#f46d43",
+                "#d73027",
+                "#a50026"
+            };
+            visualMap.AddColors(colors);
             for (int i = 0; i < xSplitNumber; i++)
             {
                 xAxis.data.Add((i + 1).ToString());

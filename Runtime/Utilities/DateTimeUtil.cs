@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 
@@ -24,20 +23,19 @@ namespace XCharts.Runtime
         private static string s_SecondDateFormatter = "HH:mm:ss";
         //private static string s_DateFormatter = "yyyy-MM-dd HH:mm:ss";
 
-
         public static int GetTimestamp()
         {
-            return (int)(DateTime.Now - k_DateTime1970).TotalSeconds;
+            return (int) (DateTime.Now - k_DateTime1970).TotalSeconds;
         }
 
         public static int GetTimestamp(DateTime time)
         {
-            return (int)(time - k_DateTime1970).TotalSeconds;
+            return (int) (time - k_DateTime1970).TotalSeconds;
         }
 
         public static DateTime GetDateTime(int timestamp)
         {
-            long span = ((long)timestamp) * 10000000;
+            long span = ((long) timestamp) * 10000000;
             return k_DateTime1970.Add(new TimeSpan(span));
         }
 
@@ -50,15 +48,15 @@ namespace XCharts.Runtime
             }
             else if (range >= DateTimeUtil.ONE_MONTH * DateTimeUtil.MIN_TIME_SPLIT_NUMBER)
             {
-                dateString = dateTime.Month == 1
-                    ? dateTime.ToString(s_YearDateFormatter)
-                    : XCSettings.lang.GetMonthAbbr(dateTime.Month);
+                dateString = dateTime.Month == 1 ?
+                    dateTime.ToString(s_YearDateFormatter) :
+                    XCSettings.lang.GetMonthAbbr(dateTime.Month);
             }
             else if (range >= DateTimeUtil.ONE_DAY * DateTimeUtil.MIN_TIME_SPLIT_NUMBER)
             {
-                dateString = dateTime.Day == 1
-                    ? XCSettings.lang.GetMonthAbbr(dateTime.Month)
-                    : XCSettings.lang.GetDay(dateTime.Day);
+                dateString = dateTime.Day == 1 ?
+                    XCSettings.lang.GetMonthAbbr(dateTime.Month) :
+                    XCSettings.lang.GetDay(dateTime.Day);
             }
             else if (range >= DateTimeUtil.ONE_HOUR * DateTimeUtil.MIN_TIME_SPLIT_NUMBER)
             {
@@ -87,6 +85,7 @@ namespace XCharts.Runtime
             list.Clear();
             var range = maxTimestamp - minTimestamp;
             if (range <= 0) return;
+            if (splitNumber <= 0) splitNumber = 1;
             var dtMin = DateTimeUtil.GetDateTime(minTimestamp);
             var dtMax = DateTimeUtil.GetDateTime(maxTimestamp);
             if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)

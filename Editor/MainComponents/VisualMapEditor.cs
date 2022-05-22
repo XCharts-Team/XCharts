@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -11,7 +10,7 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
-            var type = (VisualMap.Type)baseProperty.FindPropertyRelative("m_Type").enumValueIndex;
+            var type = (VisualMap.Type) baseProperty.FindPropertyRelative("m_Type").enumValueIndex;
             var isPiece = type == VisualMap.Type.Piecewise;
             PropertyField("m_Type");
             PropertyField("m_SerieIndex");
@@ -39,19 +38,19 @@ namespace XCharts.Editor
                 PropertyField("m_Location");
             }
             PropertyListField("m_OutOfRange");
-            PropertyListField(isPiece ? "m_Pieces" : "m_InRange");
+            PropertyListField("m_InRange");
             --EditorGUI.indentLevel;
         }
     }
 
-    [CustomPropertyDrawer(typeof(VisualMapPieces), true)]
-    public class PiecesDrawer : BasePropertyDrawer
+    [CustomPropertyDrawer(typeof(VisualMapRange), true)]
+    public class VisualMapRangeDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Pieces"; } }
+        public override string ClassName { get { return "Range"; } }
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            if (MakeFoldout(prop, ""))
+            if (MakeFoldout(prop, "m_Color"))
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Min");

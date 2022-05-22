@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -17,6 +16,7 @@ namespace XCharts.Editor
         internal SerializedProperty baseProperty;
         internal SerializedProperty showProperty;
         internal List<HeaderMenuInfo> menus = new List<HeaderMenuInfo>();
+        internal List<HeaderMenuInfo> serieDataMenus = new List<HeaderMenuInfo>();
         protected Dictionary<string, Type> m_CoordOptionsDic;
         protected List<string> m_CoordOptionsNames;
         private string m_DisplayName;
@@ -62,12 +62,10 @@ namespace XCharts.Editor
         }
 
         public virtual void OnEnable()
-        {
-        }
+        { }
 
         public virtual void OnDisable()
-        {
-        }
+        { }
 
         internal void OnInternalInspectorGUI()
         {
@@ -76,12 +74,10 @@ namespace XCharts.Editor
         }
 
         public virtual void OnInspectorGUI()
-        {
-        }
+        { }
 
         protected virtual void DrawExtendeds()
-        {
-        }
+        { }
 
         public virtual string GetDisplayTitle()
         {
@@ -136,11 +132,11 @@ namespace XCharts.Editor
             {
                 case SerializedPropertyType.Float:
                     if (prop.floatValue < min)
-                        prop.floatValue = (float)min;
+                        prop.floatValue = (float) min;
                     break;
                 case SerializedPropertyType.Integer:
                     if (prop.intValue < min)
-                        prop.intValue = (int)min;
+                        prop.intValue = (int) min;
                     break;
             }
 
@@ -152,11 +148,11 @@ namespace XCharts.Editor
             {
                 case SerializedPropertyType.Float:
                     if (prop.floatValue > max)
-                        prop.floatValue = (float)max;
+                        prop.floatValue = (float) max;
                     break;
                 case SerializedPropertyType.Integer:
                     if (prop.intValue > max)
-                        prop.intValue = (int)max;
+                        prop.intValue = (int) max;
                     break;
             }
         }

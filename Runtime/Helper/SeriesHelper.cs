@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -340,9 +339,10 @@ namespace XCharts.Runtime
                 for (int i = 0; i < series.Count; i++)
                 {
                     var serie = series[i];
-                    if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)
-                        || !serie.show) continue;
+                    if ((isPolar && serie.polarIndex != axisIndex) ||
+                        (!isPolar && serie.yAxisIndex != axisIndex) ||
+                        !serie.show) continue;
+                    var updateDuration = serie.animation.enable?serie.animation.dataChangeDuration : 0;
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
                         if (100 > max) max = 100;
@@ -363,7 +363,8 @@ namespace XCharts.Runtime
                             }
                             else
                             {
-                                var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                //var currData = data.GetData(yValue ? 1 : 0, inverse);
+                                var currData = data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
                                 if (!serie.IsIgnoreValue(currData))
                                 {
                                     if (currData > max) max = currData;
@@ -383,9 +384,9 @@ namespace XCharts.Runtime
                     for (int i = 0; i < ss.Value.Count; i++)
                     {
                         var serie = ss.Value[i];
-                        if ((isPolar && serie.polarIndex != axisIndex)
-                        || (!isPolar && serie.yAxisIndex != axisIndex)
-                        || !serie.show) continue;
+                        if ((isPolar && serie.polarIndex != axisIndex) ||
+                            (!isPolar && serie.yAxisIndex != axisIndex) ||
+                            !serie.show) continue;
                         var showData = serie.GetDataList(dataZoom);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {

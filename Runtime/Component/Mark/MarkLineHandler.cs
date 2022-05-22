@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +35,7 @@ namespace XCharts.Runtime
                 {
                     if (data.runtimeLabel != null)
                     {
+                        data.runtimeLabel.SetActive(data.label.show);
                         data.runtimeLabel.SetPosition(MarkLineHelper.GetLabelPosition(data));
                         data.runtimeLabel.SetText(MarkLineHelper.GetFormatterContent(serie, data));
                     }
@@ -70,13 +70,12 @@ namespace XCharts.Runtime
         private void InitMarkLineLabel(Serie serie, MarkLineData data, Color serieColor)
         {
             data.painter = chart.m_PainterTop;
-            data.refreshComponent = delegate ()
+            data.refreshComponent = delegate()
             {
                 var textName = string.Format("markLine_{0}_{1}", serie.index, data.index);
                 var content = MarkLineHelper.GetFormatterContent(serie, data);
                 var label = ChartHelper.AddChartLabel(textName, m_MarkLineLabelRoot.transform, data.label, chart.theme.axis,
                     content, Color.clear, TextAnchor.MiddleCenter);
-                label.SetActive(data.label.show);
 
                 label.SetIconActive(false);
                 label.SetActive(data.label.show);
@@ -203,7 +202,8 @@ namespace XCharts.Runtime
             for (int i = 0; i < markLine.data.Count; i++)
             {
                 var data = markLine.data[i];
-                data.index = i;
+                // data.index = i;
+                data.index = markLine.index;
                 if (data.group == 0) continue;
                 if (!m_TempGroupData.ContainsKey(data.group))
                 {

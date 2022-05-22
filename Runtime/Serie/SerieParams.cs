@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +13,7 @@ namespace XCharts.Runtime
         public string category;
         public int dimension;
         public SerieData serieData;
+        public int dataCount;
         public double value;
         public double total;
         public Color32 color;

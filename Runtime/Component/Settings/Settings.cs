@@ -1,6 +1,5 @@
-
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -12,15 +11,15 @@ namespace XCharts.Runtime
     public class Settings : MainComponent
     {
         [SerializeField] private bool m_Show = true;
-        [SerializeField] [Range(1, 20)] protected int m_MaxPainter = 10;
+        [SerializeField][Range(1, 20)] protected int m_MaxPainter = 10;
         [SerializeField] protected bool m_ReversePainter = false;
         [SerializeField] protected Material m_BasePainterMaterial;
         [SerializeField] protected Material m_SeriePainterMaterial;
         [SerializeField] protected Material m_TopPainterMaterial;
-        [SerializeField] [Range(1, 10)] protected float m_LineSmoothStyle = 3f;
-        [SerializeField] [Range(1f, 20)] protected float m_LineSmoothness = 2f;
-        [SerializeField] [Range(0.5f, 20)] protected float m_LineSegmentDistance = 3f;
-        [SerializeField] [Range(1, 10)] protected float m_CicleSmoothness = 2f;
+        [SerializeField][Range(1, 10)] protected float m_LineSmoothStyle = 3f;
+        [SerializeField][Range(1f, 20)] protected float m_LineSmoothness = 2f;
+        [SerializeField][Range(0.5f, 20)] protected float m_LineSegmentDistance = 3f;
+        [SerializeField][Range(1, 10)] protected float m_CicleSmoothness = 2f;
         [SerializeField] protected float m_LegendIconLineWidth = 2;
         [SerializeField] private float[] m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f };
 
@@ -156,13 +155,13 @@ namespace XCharts.Runtime
                 return new Settings()
                 {
                     m_ReversePainter = false,
-                    m_MaxPainter = XCSettings.maxPainter,
-                    m_LineSmoothStyle = XCSettings.lineSmoothStyle,
-                    m_LineSmoothness = XCSettings.lineSmoothness,
-                    m_LineSegmentDistance = XCSettings.lineSegmentDistance,
-                    m_CicleSmoothness = XCSettings.cicleSmoothness,
-                    m_LegendIconLineWidth = 2,
-                    m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f }
+                        m_MaxPainter = XCSettings.maxPainter,
+                        m_LineSmoothStyle = XCSettings.lineSmoothStyle,
+                        m_LineSmoothness = XCSettings.lineSmoothness,
+                        m_LineSegmentDistance = XCSettings.lineSegmentDistance,
+                        m_CicleSmoothness = XCSettings.cicleSmoothness,
+                        m_LegendIconLineWidth = 2,
+                        m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f }
                 };
             }
         }

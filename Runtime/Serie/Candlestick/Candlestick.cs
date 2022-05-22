@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -7,6 +6,8 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(CandlestickHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
     [SerieExtraComponent()]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(EmphasisItemStyle))]
+    [SerieDataExtraField()]
     public class Candlestick : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

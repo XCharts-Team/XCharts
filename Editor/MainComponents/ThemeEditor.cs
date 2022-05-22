@@ -1,5 +1,3 @@
-
-
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -12,7 +10,14 @@ namespace XCharts.Editor
     [CustomEditor(typeof(Theme))]
     public class ThemeEditor : UnityEditor.Editor
     {
+        static class Styles
+        {
+            internal static GUIContent btnReset = new GUIContent("Reset", "Reset to default theme");
+            internal static GUIContent btnSync = new GUIContent("Sync Font", "Sync main theme font to sub theme font");
+        }
+
         private Theme m_Theme;
+
         void OnEnable()
         {
             m_Theme = target as Theme;
@@ -20,14 +25,14 @@ namespace XCharts.Editor
 
         public override void OnInspectorGUI()
         {
-            // serializedObject.Update();
-            // EditorGUILayout.PropertyField(m_BackgroundColor);
-            // EditorGUILayout.PropertyField(m_ColorPalette);
-            // serializedObject.ApplyModifiedProperties();
             base.OnInspectorGUI();
-            if (GUILayout.Button(new GUIContent("Reset", "Reset to default theme")))
+            if (GUILayout.Button(Styles.btnReset))
             {
                 m_Theme.ResetTheme();
+            }
+            if (GUILayout.Button(Styles.btnSync))
+            {
+                m_Theme.SyncFontToSubComponent();
             }
         }
     }

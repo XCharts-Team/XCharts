@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -13,7 +12,7 @@ namespace XCharts.Editor
             var m_Type = baseProperty.FindPropertyRelative("m_Type");
             var m_LogBase = baseProperty.FindPropertyRelative("m_LogBase");
             var m_MinMaxType = baseProperty.FindPropertyRelative("m_MinMaxType");
-            var type = (Axis.AxisType)m_Type.enumValueIndex;
+            var type = (Axis.AxisType) m_Type.enumValueIndex;
             EditorGUI.indentLevel++;
             if (component is ParallelAxis)
             {
@@ -41,7 +40,7 @@ namespace XCharts.Editor
             if (type == Axis.AxisType.Value || type == Axis.AxisType.Time)
             {
                 PropertyField("m_MinMaxType");
-                Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType)m_MinMaxType.enumValueIndex;
+                Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType) m_MinMaxType.enumValueIndex;
                 switch (minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
@@ -95,13 +94,11 @@ namespace XCharts.Editor
 
     [ComponentEditor(typeof(XAxis))]
     public class XAxisEditor : AxisEditor
-    {
-    }
+    { }
 
     [ComponentEditor(typeof(YAxis))]
     public class YAxisEditor : AxisEditor
-    {
-    }
+    { }
 
     [ComponentEditor(typeof(SingleAxis))]
     public class SingleAxisEditor : AxisEditor
@@ -132,13 +129,11 @@ namespace XCharts.Editor
 
     [ComponentEditor(typeof(RadiusAxis))]
     public class RadiusAxisEditor : AxisEditor
-    {
-    }
+    { }
 
     [ComponentEditor(typeof(ParallelAxis))]
     public class ParallelAxisEditor : AxisEditor
-    {
-    }
+    { }
 
     [CustomPropertyDrawer(typeof(AxisLabel), true)]
     public class AxisLabelDrawer : BasePropertyDrawer
@@ -159,6 +154,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_ShowEndLabel");
 
                 PropertyField(prop, "m_Rotate");
+                PropertyField(prop, "m_Offset");
                 PropertyField(prop, "m_Distance");
                 PropertyField(prop, "m_Formatter");
                 PropertyField(prop, "m_NumericFormatter");
@@ -168,6 +164,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");
                 PropertyField(prop, "m_TextPadding");
+                PropertyField(prop, "m_TextLimit");
                 --EditorGUI.indentLevel;
             }
         }

@@ -6,7 +6,6 @@ namespace XCharts.Runtime
     public sealed class ListForComponent : ListFor
     {
         public ListForComponent(Type type) : base(type)
-        {
-        }
+        { }
     }
 }

@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,12 +27,10 @@ namespace XCharts.Editor
         }
 
         public virtual void OnEnable()
-        {
-        }
+        { }
 
         public virtual void OnDisable()
-        {
-        }
+        { }
 
         internal void OnInternalInspectorGUI()
         {
@@ -42,12 +39,10 @@ namespace XCharts.Editor
         }
 
         public virtual void OnInspectorGUI()
-        {
-        }
+        { }
 
         protected virtual void DrawExtendeds()
-        {
-        }
+        { }
 
         public virtual string GetDisplayTitle()
         {

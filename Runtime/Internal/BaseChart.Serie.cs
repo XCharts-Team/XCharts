@@ -1,8 +1,7 @@
-﻿
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -320,6 +319,38 @@ namespace XCharts.Runtime
             }
             return null;
         }
+        /// <summary>
+        /// Add a (time,y) data to serie.
+        /// |添加（time,y）数据到指定的系列中。
+        /// </summary>
+        /// <param name="serieName"></param>
+        /// <param name="time"></param>
+        /// <param name="yValue"></param>
+        /// <param name="dataName"></param>
+        /// <param name="dataId"></param>
+        /// <returns></returns>
+        public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)
+        {
+            var xValue = DateTimeUtil.GetTimestamp(time);
+            return AddData(serieName, xValue, yValue, dataName, dataId);
+        }
+
+        /// <summary>
+        /// Add a (time,y) data to serie.
+        /// |添加（time,y）数据到指定的系列中。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        /// <param name="time"></param>
+        /// <param name="yValue"></param>
+        /// <param name="dataName"></param>
+        /// <param name="dataId"></param>
+        /// <returns></returns>
+        public SerieData AddData(int serieIndex, DateTime time, double yValue, string dataName = null, string dataId = null)
+        {
+            var xValue = DateTimeUtil.GetTimestamp(time);
+            return AddData(serieIndex, xValue, yValue, dataName, dataId);
+        }
+
         public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
@@ -710,9 +741,30 @@ namespace XCharts.Runtime
             return total;
         }
 
+        public int GetSerieBarRealCount<T>() where T : Serie
+        {
+            var count = 0;
+            barStackSet.Clear();
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series[i];
+                if (!serie.show) continue;
+                if (serie is T)
+                {
+                    if (!string.IsNullOrEmpty(serie.stack))
+                    {
+                        if (barStackSet.Contains(serie.stack)) continue;
+                        barStackSet.Add(serie.stack);
+                    }
+                    count++;
+
+                }
+            }
+            return count;
+        }
 
         private HashSet<string> barStackSet = new HashSet<string>();
-        public float GetSerieTotalWidth<T>(float categoryWidth, float gap) where T : Serie
+        public float GetSerieTotalWidth<T>(float categoryWidth, float gap, int realBarCount) where T : Serie
         {
             float total = 0;
             float lastGap = 0;
@@ -728,14 +780,14 @@ namespace XCharts.Runtime
                         if (barStackSet.Contains(serie.stack)) continue;
                         barStackSet.Add(serie.stack);
                     }
-                    var width = GetStackBarWidth<T>(categoryWidth, serie);
+                    var width = GetStackBarWidth<T>(categoryWidth, serie, realBarCount);
                     if (gap == -1)
                     {
                         if (width > total) total = width;
                     }
                     else
                     {
-                        lastGap = width * gap;
+                        lastGap = ChartHelper.GetActualValue(gap, width);
                         total += width;
                         total += lastGap;
                     }
@@ -745,21 +797,65 @@ namespace XCharts.Runtime
             return total;
         }
 
-        private float GetStackBarWidth<T>(float categoryWidth, Serie now) where T : Serie
+        public float GetSerieTotalGap<T>(float categoryWidth, float gap, int index) where T : Serie
         {
-            if (string.IsNullOrEmpty(now.stack)) return now.GetBarWidth(categoryWidth);
+            if (index <= 0) return 0;
+            float total = 0;
+            barStackSet.Clear();
+            var count = 0;
+            var totalRealBarCount = GetSerieBarRealCount<T>();
+            for (int i = 0; i < m_Series.Count; i++)
+            {
+                var serie = m_Series[i];
+                if (!serie.show) continue;
+                if (serie is T)
+                {
+                    if (!string.IsNullOrEmpty(serie.stack))
+                    {
+                        if (barStackSet.Contains(serie.stack)) continue;
+                        barStackSet.Add(serie.stack);
+                    }
+                    var width = GetStackBarWidth<T>(categoryWidth, serie, totalRealBarCount);
+                    if (gap == -1)
+                    {
+                        if (width > total) total = width;
+                    }
+                    else
+                    {
+                        total += width + ChartHelper.GetActualValue(gap, width);
+                    }
+                    if (count + 1 >= index)
+                        break;
+                    else
+                        count++;
+                }
+            }
+            return total;
+        }
+
+        private float GetStackBarWidth<T>(float categoryWidth, Serie now, int realBarCount) where T : Serie
+        {
+            if (string.IsNullOrEmpty(now.stack)) return now.GetBarWidth(categoryWidth, realBarCount);
             float barWidth = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
-                if ((serie is T)
-                    && serie.show && now.stack.Equals(serie.stack))
+                if ((serie is T) &&
+                    serie.show && now.stack.Equals(serie.stack))
                 {
                     if (serie.barWidth > barWidth) barWidth = serie.barWidth;
                 }
             }
-            if (barWidth > 1) return barWidth;
-            else return barWidth * categoryWidth;
+            if (barWidth == 0)
+            {
+                var width = ChartHelper.GetActualValue(0.6f, categoryWidth);
+                if (realBarCount == 0)
+                    return width < 1 ? categoryWidth : width;
+                else
+                    return width / realBarCount;
+            }
+            else
+                return ChartHelper.GetActualValue(barWidth, categoryWidth);
         }
 
         private List<string> tempList = new List<string>();
@@ -816,7 +912,7 @@ namespace XCharts.Runtime
                 return;
             }
             var attribute = serie.GetType().GetAttribute<SerieHandlerAttribute>();
-            var handler = (SerieHandler)Activator.CreateInstance(attribute.handler);
+            var handler = (SerieHandler) Activator.CreateInstance(attribute.handler);
             handler.attribute = attribute;
             handler.chart = this;
             handler.defaultDimension = 1;

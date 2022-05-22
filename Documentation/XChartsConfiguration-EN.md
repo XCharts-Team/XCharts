@@ -47,6 +47,7 @@
 - [Axis](#Axis)
 - [Background](#Background)
 - [CalendarCoord](#CalendarCoord)
+- [Comment](#Comment)
 - [CoordSystem](#CoordSystem)
 - [DataZoom](#DataZoom)
 - [GridCoord](#GridCoord)
@@ -82,9 +83,14 @@
 - [AxisTick](#AxisTick)
 - [BaseAxisTheme](#BaseAxisTheme)
 - [BaseLine](#BaseLine)
+- [CommentItem](#CommentItem)
+- [CommentMarkStyle](#CommentMarkStyle)
 - [ComponentTheme](#ComponentTheme)
 - [DataZoomTheme](#DataZoomTheme)
 - [Emphasis](#Emphasis)
+- [EmphasisItemStyle](#EmphasisItemStyle)
+- [EmphasisLabelLine](#EmphasisLabelLine)
+- [EmphasisLabelStyle](#EmphasisLabelStyle)
 - [EndLabelStyle](#EndLabelStyle)
 - [IconStyle](#IconStyle)
 - [ImageStyle](#ImageStyle)
@@ -103,7 +109,6 @@
 - [RadarAxisTheme](#RadarAxisTheme)
 - [RadiusAxisTheme](#RadiusAxisTheme)
 - [SerieData](#SerieData)
-- [SerieDataBaseInfo](#SerieDataBaseInfo)
 - [SerieSymbol](#SerieSymbol)
 - [SerieTheme](#SerieTheme)
 - [StageColor](#StageColor)
@@ -116,13 +121,16 @@
 - [TitleStyle](#TitleStyle)
 - [TitleTheme](#TitleTheme)
 - [TooltipTheme](#TooltipTheme)
-- [VisualMapPieces](#VisualMapPieces)
+- [VisualMapRange](#VisualMapRange)
 - [VisualMapTheme](#VisualMapTheme)
 
 ## ISerieExtraComponent
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
+- [EmphasisItemStyle](#EmphasisItemStyle)
+- [EmphasisLabelLine](#EmphasisLabelLine)
+- [EmphasisLabelStyle](#EmphasisLabelStyle)
 - [ImageStyle](#ImageStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
@@ -133,12 +141,14 @@
 
 - [AreaStyle](#AreaStyle)
 - [Emphasis](#Emphasis)
+- [EmphasisItemStyle](#EmphasisItemStyle)
+- [EmphasisLabelLine](#EmphasisLabelLine)
+- [EmphasisLabelStyle](#EmphasisLabelStyle)
 - [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineStyle](#LineStyle)
-- [SerieDataBaseInfo](#SerieDataBaseInfo)
 - [SerieSymbol](#SerieSymbol)
 - [TitleStyle](#TitleStyle)
 
@@ -414,6 +424,45 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 ## `ChildComponent`
 
 
+## `Comment`
+
+Inherits or Implemented: [MainComponent](#MainComponent)
+
+comment of chart.
+
+|field|default|comment|
+|--|--|--|
+| `show` |true | Set this to false to prevent the comment from showing. |
+| `labelStyle` | | The text style of all comments. [LabelStyle](LabelStyle)|
+| `markStyle` | | The text style of all comments. [CommentMarkStyle](CommentMarkStyle)|
+| `items` | |  |
+
+## `CommentItem`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+comment of chart.
+
+|field|default|comment|
+|--|--|--|
+| `show` |true | Set this to false to prevent this comment item from showing. |
+| `content` | | content of comment. |
+| `position` | | position of comment. |
+| `markRect` | |  |
+| `markStyle` | |  [CommentMarkStyle](CommentMarkStyle)|
+| `labelStyle` | | The text style of all comments. [LabelStyle](LabelStyle)|
+
+## `CommentMarkStyle`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+comment of chart.
+
+|field|default|comment|
+|--|--|--|
+| `show` |true | Set this to false to prevent this comment item from showing. |
+| `lineStyle` | |  [LineStyle](LineStyle)|
+
 ## `ComponentTheme`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
@@ -515,6 +564,27 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 | `label` | | 图形文本标签。 [LabelStyle](LabelStyle)|
 | `labelLine` | |  [LabelLine](LabelLine)|
 | `itemStyle` | | 图形样式。 [ItemStyle](ItemStyle)|
+
+## `EmphasisItemStyle`
+
+Inherits or Implemented: [ItemStyle](#ItemStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+高亮的图形样式
+
+
+## `EmphasisLabelLine`
+
+Inherits or Implemented: [LabelLine](#LabelLine),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+高亮的标签引导线样式
+
+
+## `EmphasisLabelStyle`
+
+Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+高亮的标签样式
+
 
 ## `EndLabelStyle`
 
@@ -704,11 +774,13 @@ Legend component.The legend component shows different sets of tags, colors, and 
 | `itemHeight` |12.0f | Image height of legend symbol. |
 | `itemGap` |10f | The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout. |
 | `itemAutoColor` |true | Whether the legend symbol matches the color automatically. |
-| `textAutoColor` |false | Whether the legend text matches the color automatically. |
+| `itemOpacity` |1 | the opacity of item color. |
 | `formatter` | |  |
+| `numericFormatter` | | Standard numeric format strings. |
 | `labelStyle` | | the style of text. [LabelStyle](LabelStyle)|
 | `data` | | Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. |
 | `icons` | | 自定义的图例标记图形。 |
+| `colors` | |  |
 
 ## `LegendTheme`
 
@@ -749,7 +821,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` | | Whether to show the arrow. |
-| `position` | | The position of arrow.</br>`LineArrow.Position`:</br>- `End`: 末端箭头</br>- `Start`: 头端箭头</br>|
+| `position` | | The position of arrow.</br>`LabelStyle.Position`:</br>- `Default`: The position of label.</br>- `Outside`: Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.</br>- `Inside`: Inside the sectors of pie chart.</br>- `Center`: In the center of pie chart.</br>- `Top`: top of symbol.</br>- `Bottom`: the bottom of symbol.</br>- `Left`: the left of symbol.</br>- `Right`: the right of symbol.</br>- `Start`: the start of line.</br>- `Middle`: the middle of line.</br>- `End`: the end of line.</br>|
 | `arrow` | | the arrow of line. [ArrowStyle](ArrowStyle)|
 
 ## `LineStyle`
@@ -954,7 +1026,9 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `lineArrows` | |  |
 | `areaStyles` | |  |
 | `titleStyles` | |  |
-| `emphases` | |  |
+| `emphasisItemStyles` | |  |
+| `emphasisLabels` | |  |
+| `emphasisLabelLines` | |  |
 | `index` | | The index of serie. |
 | `show` |true | Whether to show serie in chart. |
 | `coordSystem` | | the chart coord system of serie. |
@@ -977,8 +1051,8 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `lineType` | | The type of line chart.</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
 | `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: 普通柱形图</br>- `Zebra`: 斑马柱形图</br>- `Capsule`: 胶囊柱形图</br>|
 | `barPercentStack` |false | 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。 |
-| `barWidth` |0.6f | The width of the bar. Adaptive when default 0. |
-| `barGap` |0.3f; // 30 | The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. |
+| `barWidth` |0 | The width of the bar. Adaptive when default 0. |
+| `barGap` |0.1f | The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. |
 | `barZebraWidth` |4f | 斑马线的粗细。 |
 | `barZebraGap` |2f | 斑马线的间距。 |
 | `min` | | 最小值。 |
@@ -1035,28 +1109,20 @@ A data item of serie.
 | `name` | | the name of data item. |
 | `id` | | 数据项的唯一id。唯一id不是必须设置的。 |
 | `parentId` | |  |
-| `baseInfos` | |  |
+| `ignore` | | 是否忽略数据。当为 true 时，数据不进行绘制。 |
+| `selected` | | Whether the data item is selected. |
+| `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
 | `itemStyles` | |  |
 | `labels` | |  |
 | `labelLines` | |  |
-| `emphases` | |  |
 | `symbols` | |  |
 | `lineStyles` | |  |
 | `areaStyles` | |  |
 | `titleStyles` | |  |
+| `emphasisItemStyles` | |  |
+| `emphasisLabels` | |  |
+| `emphasisLabelLines` | |  |
 | `data` | | An arbitrary dimension data list of data item. |
-
-## `SerieDataBaseInfo`
-
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-数据项的其他基础数据。
-
-|field|default|comment|
-|--|--|--|
-| `ignore` |false | 是否忽略数据。当为 true 时，数据不进行绘制。 |
-| `selected` | | Whether the data item is selected. |
-| `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
 
 ## `SerieSymbol`
 
@@ -1392,11 +1458,10 @@ VisualMap component. Mapping data to visual elements such as colors.
 | `location` | | The location of component. [Location](Location)|
 | `workOnLine` |true | Whether the visualmap is work on linestyle of linechart. |
 | `workOnArea` |false | Whether the visualmap is work on areaStyle of linechart. |
-| `inRange` | | Defines the visual color in the selected range. |
 | `outOfRange` | | Defines a visual color outside of the selected range. |
-| `pieces` | | 分段式每一段的相关配置。 |
+| `inRange` | | 分段式每一段的相关配置。 |
 
-## `VisualMapPieces`
+## `VisualMapRange`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 

@@ -1,4 +1,3 @@
-﻿
 namespace XCharts.Runtime
 {
     /// <summary>
@@ -9,4 +8,3 @@ namespace XCharts.Runtime
         void OnChanged();
     }
 }
-

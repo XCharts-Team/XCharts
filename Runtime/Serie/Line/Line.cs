@@ -1,4 +1,3 @@
-
 using System;
 
 namespace XCharts.Runtime
@@ -13,7 +12,15 @@ namespace XCharts.Runtime
         typeof(EndLabelStyle),
         typeof(LineArrow),
         typeof(AreaStyle),
-        typeof(Emphasis))]
+        typeof(EmphasisItemStyle),
+        typeof(EmphasisLabelStyle))]
+    [SerieDataExtraComponent(
+        typeof(ItemStyle),
+        typeof(LabelStyle),
+        typeof(SerieSymbol),
+        typeof(EmphasisItemStyle),
+        typeof(EmphasisLabelStyle))]
+    [SerieDataExtraField("m_Ignore")]
     public class Line : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -33,11 +31,12 @@ namespace XCharts.Runtime
             /// </summary>
             End
         }
+
         [SerializeField] private bool m_Show = true;
         [SerializeField] private AreaOrigin m_Origin;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
-        [SerializeField] [Range(0, 1)] private float m_Opacity = 0.6f;
+        [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;
         [SerializeField] private Color32 m_HighlightColor;
         [SerializeField] private Color32 m_HighlightToColor;
 
@@ -111,7 +110,7 @@ namespace XCharts.Runtime
                 return m_Color;
 
             var color = m_Color;
-            color.a = (byte)(color.a * m_Opacity);
+            color.a = (byte) (color.a * m_Opacity);
             return color;
         }
 
@@ -124,7 +123,7 @@ namespace XCharts.Runtime
             else
             {
                 var color = themeColor;
-                color.a = (byte)(color.a * opacity);
+                color.a = (byte) (color.a * opacity);
                 return color;
             }
         }

@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -11,6 +10,6 @@ namespace XCharts.Runtime
     [Serializable]
     public class TitleStyle : LabelStyle, ISerieDataComponent, ISerieExtraComponent
     {
-       
+
     }
 }

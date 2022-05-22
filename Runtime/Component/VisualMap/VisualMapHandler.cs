@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -63,11 +62,11 @@ namespace XCharts.Runtime
                 return;
             }
 
-            if (local.x < chart.chartX
-                || local.x > chart.chartX + chart.chartWidth
-                || local.y < chart.chartY
-                || local.y > chart.chartY + chart.chartHeight
-                || !visualMap.IsInRangeRect(local, chart.chartRect))
+            if (local.x < chart.chartX ||
+                local.x > chart.chartX + chart.chartWidth ||
+                local.y < chart.chartY ||
+                local.y > chart.chartY + chart.chartHeight ||
+                !visualMap.IsInRangeRect(local, chart.chartRect))
             {
                 if (visualMap.context.pointerIndex >= 0)
                 {
@@ -116,10 +115,10 @@ namespace XCharts.Runtime
             var halfHig = visualMap.itemHeight / 2;
             var xRadius = 0f;
             var yRadius = 0f;
-            var splitNum = visualMap.runtimeInRange.Count;
+            var splitNum = visualMap.inRange.Count;
             var splitWid = visualMap.itemHeight / (splitNum - 1);
             var isVertical = false;
-            var colors = visualMap.runtimeInRange;
+            var colors = visualMap.inRange;
             var triangeLen = chart.theme.visualMap.triangeLen;
 
             switch (visualMap.orient)
@@ -172,8 +171,8 @@ namespace XCharts.Runtime
                     }
                     break;
             }
-            if (visualMap.calculable
-                && (visualMap.rangeMin > visualMap.min || visualMap.rangeMax < visualMap.max))
+            if (visualMap.calculable &&
+                (visualMap.rangeMin > visualMap.min || visualMap.rangeMax < visualMap.max))
             {
                 var rangeMin = visualMap.rangeMin;
                 var rangeMax = visualMap.rangeMax;
@@ -189,8 +188,8 @@ namespace XCharts.Runtime
                     else if (rangeMin <= splitMin && rangeMax >= splitMax)
                     {
                         var splitPos = pos1 + dir * (i - 1 + 0.5f) * splitWid;
-                        var startColor = colors[i - 1];
-                        var toColor = visualMap.IsPiecewise() ? startColor : colors[i];
+                        var startColor = colors[i - 1].color;
+                        var toColor = visualMap.IsPiecewise() ? startColor : colors[i].color;
                         UGL.DrawRectangle(vh, splitPos, xRadius, yRadius, startColor, toColor, isVertical);
                     }
                     else if (rangeMin > splitMin && rangeMax >= splitMax)
@@ -199,7 +198,7 @@ namespace XCharts.Runtime
                         var splitMaxPos = pos1 + dir * i * splitWid;
                         var splitPos = p0 + (splitMaxPos - p0) / 2;
                         var startColor = visualMap.GetColor(visualMap.rangeMin);
-                        var toColor = visualMap.IsPiecewise() ? startColor : colors[i];
+                        var toColor = visualMap.IsPiecewise() ? startColor : colors[i].color;
                         var yRadius1 = Vector3.Distance(p0, splitMaxPos) / 2;
 
                         if (visualMap.orient == Orient.Vertical)
@@ -212,7 +211,7 @@ namespace XCharts.Runtime
                         var p0 = pos1 + dir * visualMap.runtimeRangeMaxHeight;
                         var splitMinPos = pos1 + dir * (i - 1) * splitWid;
                         var splitPos = splitMinPos + (p0 - splitMinPos) / 2;
-                        var startColor = colors[i - 1];
+                        var startColor = colors[i - 1].color;
                         var toColor = visualMap.IsPiecewise() ? startColor : visualMap.GetColor(visualMap.rangeMax);
                         var yRadius1 = Vector3.Distance(p0, splitMinPos) / 2;
 
@@ -242,8 +241,8 @@ namespace XCharts.Runtime
                 for (int i = 1; i < splitNum; i++)
                 {
                     var splitPos = pos1 + dir * (i - 1 + 0.5f) * splitWid;
-                    var startColor = colors[i - 1];
-                    var toColor = visualMap.IsPiecewise() ? startColor : colors[i];
+                    var startColor = colors[i - 1].color;
+                    var toColor = visualMap.IsPiecewise() ? startColor : colors[i].color;
                     UGL.DrawRectangle(vh, splitPos, xRadius, yRadius, startColor, toColor, isVertical);
                 }
             }
@@ -272,14 +271,14 @@ namespace XCharts.Runtime
                         var p2 = new Vector3(centerPos.x + halfWid, Mathf.Clamp(pointerPos.y + (triangeLen / 2), p0.y, p1.y));
                         var p3 = new Vector3(centerPos.x + halfWid, Mathf.Clamp(pointerPos.y - (triangeLen / 2), p0.y, p1.y));
                         var p4 = new Vector3(centerPos.x + halfWid + triangeLen / 2, pointerPos.y);
-                        UGL.DrawTriangle(vh, p2, p3, p4, colors[visualMap.context.pointerIndex]);
+                        UGL.DrawTriangle(vh, p2, p3, p4, colors[visualMap.context.pointerIndex].color);
                     }
                     else
                     {
                         var p2 = new Vector3(Mathf.Clamp(pointerPos.x + (triangeLen / 2), p0.x, p1.x), centerPos.y + halfWid);
                         var p3 = new Vector3(Mathf.Clamp(pointerPos.x - (triangeLen / 2), p0.x, p1.x), centerPos.y + halfWid);
                         var p4 = new Vector3(pointerPos.x, centerPos.y + halfWid + triangeLen / 2);
-                        UGL.DrawTriangle(vh, p2, p3, p4, colors[visualMap.context.pointerIndex]);
+                        UGL.DrawTriangle(vh, p2, p3, p4, colors[visualMap.context.pointerIndex].color);
                     }
                 }
             }
@@ -293,23 +292,21 @@ namespace XCharts.Runtime
             var dir = Vector3.zero;
             var halfWid = visualMap.itemWidth / 2;
             var halfHig = visualMap.itemHeight / 2;
-            var splitNum = visualMap.runtimeInRange.Count;
-            var colors = visualMap.runtimeInRange;
 
             switch (visualMap.orient)
             {
                 case Orient.Horizonal:
-                    for (int i = 0; i < visualMap.pieces.Count; i++)
+                    for (int i = 0; i < visualMap.inRange.Count; i++)
                     {
-                        var piece = visualMap.pieces[i];
+                        var piece = visualMap.inRange[i];
                     }
                     break;
 
                 case Orient.Vertical:
                     var each = visualMap.itemHeight + visualMap.itemGap;
-                    for (int i = 0; i < visualMap.pieces.Count; i++)
+                    for (int i = 0; i < visualMap.inRange.Count; i++)
                     {
-                        var piece = visualMap.pieces[i];
+                        var piece = visualMap.inRange[i];
                         var pos = new Vector3(centerPos.x, centerPos.y - each * i);
                         UGL.DrawRectangle(vh, pos, halfWid, halfHig, piece.color);
                     }

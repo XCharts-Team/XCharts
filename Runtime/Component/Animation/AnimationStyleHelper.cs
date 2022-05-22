@@ -39,9 +39,9 @@ namespace XCharts.Runtime
 
         public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)
         {
-            animation.context.type = animation.type == AnimationType.Default
-                ? defaultType
-                : animation.type;
+            animation.context.type = animation.type == AnimationType.Default ?
+                defaultType :
+                animation.type;
         }
 
         public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)

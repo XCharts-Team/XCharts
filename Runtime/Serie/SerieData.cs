@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,19 +12,44 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class SerieData : ChildComponent
     {
+        public static List<string> extraFieldList = new List<string>()
+        {
+            "m_Id",
+            "m_ParentId",
+            "m_Ignore",
+            "m_Selected",
+            "m_Radius"
+        };
+        public static Dictionary<Type, string> extraComponentMap = new Dictionary<Type, string>
+        { { typeof(ItemStyle), "m_ItemStyles" },
+            { typeof(LabelStyle), "m_Labels" },
+            { typeof(LabelLine), "m_LabelLines" },
+            { typeof(SerieSymbol), "m_Symbols" },
+            { typeof(LineStyle), "m_LineStyles" },
+            { typeof(AreaStyle), "m_AreaStyles" },
+            { typeof(TitleStyle), "m_TitleStyles" },
+            { typeof(EmphasisItemStyle), "m_EmphasisItemStyles" },
+            { typeof(EmphasisLabelStyle), "m_EmphasisLabels" },
+            { typeof(EmphasisLabelLine), "m_EmphasisLabelLines" },
+        };
+
         [SerializeField] private int m_Index;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Id;
         [SerializeField] private string m_ParentId;
-        [SerializeField] private List<SerieDataBaseInfo> m_BaseInfos = new List<SerieDataBaseInfo>();
+        [SerializeField] private bool m_Ignore;
+        [SerializeField] private bool m_Selected;
+        [SerializeField] private float m_Radius;
         [SerializeField] private List<ItemStyle> m_ItemStyles = new List<ItemStyle>();
         [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
         [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
-        [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
         [SerializeField] private List<SerieSymbol> m_Symbols = new List<SerieSymbol>();
         [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
+        [SerializeField] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
+        [SerializeField] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
+        [SerializeField] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
         [SerializeField] private List<double> m_Data = new List<double>();
 
         [NonSerialized] public SerieDataContext context = new SerieDataContext();
@@ -48,12 +72,28 @@ namespace XCharts.Runtime
         public string id { get { return m_Id; } set { m_Id = value; } }
         public string parentId { get { return m_ParentId; } set { m_ParentId = value; } }
         /// <summary>
+        /// 是否忽略数据。当为 true 时，数据不进行绘制。
+        /// </summary>
+        public bool ignore
+        {
+            get { return m_Ignore; }
+            set { if (PropertyUtil.SetStruct(ref m_Ignore, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 自定义半径。可用在饼图中自定义某个数据项的半径。
+        /// </summary>
+        public float radius { get { return m_Radius; } set { m_Radius = value; } }
+        /// <summary>
+        /// Whether the data item is selected.
+        /// |该数据项是否被选中。
+        /// </summary>
+        public bool selected { get { return m_Selected; } set { m_Selected = value; } }
+        /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         /// <value></value>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
 
-        public SerieDataBaseInfo baseInfo { get { return m_BaseInfos.Count > 0 ? m_BaseInfos[0] : null; } }
         /// <summary>
         /// 单个数据项的标签设置。
         /// </summary>
@@ -64,16 +104,24 @@ namespace XCharts.Runtime
         /// </summary>
         public ItemStyle itemStyle { get { return m_ItemStyles.Count > 0 ? m_ItemStyles[0] : null; } }
         /// <summary>
-        /// 单个数据项的高亮样式设置。
-        /// </summary>
-        public Emphasis emphasis { get { return m_Emphases.Count > 0 ? m_Emphases[0] : null; } }
-        /// <summary>
         /// 单个数据项的标记设置。
         /// </summary>
         public SerieSymbol symbol { get { return m_Symbols.Count > 0 ? m_Symbols[0] : null; } }
         public LineStyle lineStyle { get { return m_LineStyles.Count > 0 ? m_LineStyles[0] : null; } }
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
+        /// <summary>
+        /// 高亮的图形样式
+        /// </summary>
+        public EmphasisItemStyle emphasisItemStyle { get { return m_EmphasisItemStyles.Count > 0 ? m_EmphasisItemStyles[0] : null; } }
+        /// <summary>
+        /// 高亮时的标签样式
+        /// </summary>
+        public EmphasisLabelStyle emphasisLabel { get { return m_EmphasisLabels.Count > 0 ? m_EmphasisLabels[0] : null; } }
+        /// <summary>
+        /// 高亮时的标签引导线样式
+        /// </summary>
+        public EmphasisLabelLine emphasisLabelLine { get { return m_EmphasisLabelLines.Count > 0 ? m_EmphasisLabelLines[0] : null; } }
 
         /// <summary>
         /// An arbitrary dimension data list of data item.
@@ -85,8 +133,6 @@ namespace XCharts.Runtime
         /// |该数据项是否要显示。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
-        public float radius { get { return baseInfo != null ? baseInfo.radius : 0; } }
-        public bool selected { get { return (baseInfo != null && baseInfo.selected) || context.selected; } }
 
         private List<double> m_PreviousData = new List<double>();
         private List<float> m_DataUpdateTime = new List<float>();
@@ -97,50 +143,49 @@ namespace XCharts.Runtime
         {
             get
             {
-                return m_VertsDirty
-                    || (baseInfo != null && baseInfo.vertsDirty)
-                    || (labelLine != null && labelLine.vertsDirty)
-                    || (itemStyle != null && itemStyle.vertsDirty)
-                    || (symbol != null && symbol.vertsDirty)
-                    || (lineStyle != null && lineStyle.vertsDirty)
-                    || (areaStyle != null && areaStyle.vertsDirty);
+                return m_VertsDirty ||
+                    (labelLine != null && labelLine.vertsDirty) ||
+                    (itemStyle != null && itemStyle.vertsDirty) ||
+                    (symbol != null && symbol.vertsDirty) ||
+                    (lineStyle != null && lineStyle.vertsDirty) ||
+                    (areaStyle != null && areaStyle.vertsDirty) ||
+                    (emphasisItemStyle != null && emphasisItemStyle.vertsDirty);
             }
         }
         public override bool componentDirty
         {
             get
             {
-                return m_ComponentDirty
-                    || (baseInfo != null && baseInfo.componentDirty)
-                    || (labelStyle != null && labelStyle.componentDirty)
-                    || (labelLine != null && labelLine.componentDirty)
-                    || (titleStyle != null && titleStyle.componentDirty)
-                    || (emphasis != null && emphasis.componentDirty);
+                return m_ComponentDirty ||
+                    (labelStyle != null && labelStyle.componentDirty) ||
+                    (labelLine != null && labelLine.componentDirty) ||
+                    (titleStyle != null && titleStyle.componentDirty) ||
+                    (emphasisLabel != null && emphasisLabel.componentDirty) ||
+                    (emphasisLabelLine != null && emphasisLabelLine.componentDirty);
             }
         }
 
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
-            if (baseInfo != null) baseInfo.ClearVerticesDirty();
             if (labelLine != null) labelLine.ClearVerticesDirty();
             if (itemStyle != null) itemStyle.ClearVerticesDirty();
             if (lineStyle != null) lineStyle.ClearVerticesDirty();
             if (areaStyle != null) areaStyle.ClearVerticesDirty();
             if (symbol != null) symbol.ClearVerticesDirty();
-            if (emphasis != null) emphasis.ClearVerticesDirty();
+            if (emphasisItemStyle != null) emphasisItemStyle.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
-            if (baseInfo != null) baseInfo.ClearComponentDirty();
             if (labelLine != null) labelLine.ClearComponentDirty();
             if (itemStyle != null) itemStyle.ClearComponentDirty();
             if (lineStyle != null) lineStyle.ClearComponentDirty();
             if (areaStyle != null) areaStyle.ClearComponentDirty();
             if (symbol != null) symbol.ClearComponentDirty();
-            if (emphasis != null) emphasis.ClearComponentDirty();
+            if (emphasisLabel != null) emphasisLabel.ClearComponentDirty();
+            if (emphasisLabelLine != null) emphasisLabelLine.ClearComponentDirty();
         }
 
         public void Reset()
@@ -157,73 +202,84 @@ namespace XCharts.Runtime
             m_PreviousData.Clear();
             m_DataUpdateTime.Clear();
             m_DataUpdateFlag.Clear();
-            m_BaseInfos.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
             m_ItemStyles.Clear();
-            m_Emphases.Clear();
             m_Symbols.Clear();
             m_LineStyles.Clear();
             m_AreaStyles.Clear();
             m_TitleStyles.Clear();
+            m_EmphasisItemStyles.Clear();
+            m_EmphasisLabels.Clear();
+            m_EmphasisLabelLines.Clear();
         }
 
-        public T GetOrAddComponent<T>() where T : ChildComponent
+        public T GetOrAddComponent<T>() where T : ChildComponent, ISerieDataComponent
         {
-            var type = typeof(T);
+            return GetOrAddComponent(typeof(T)) as T;
+        }
+
+        public ISerieDataComponent GetOrAddComponent(Type type)
+        {
             if (type == typeof(ItemStyle))
             {
                 if (m_ItemStyles.Count == 0)
                     m_ItemStyles.Add(new ItemStyle() { show = true });
-                return m_ItemStyles[0] as T;
-            }
-            else if (type == typeof(SerieDataBaseInfo))
-            {
-                if (m_BaseInfos.Count == 0)
-                    m_BaseInfos.Add(new SerieDataBaseInfo() { });
-                return m_BaseInfos[0] as T;
+                return m_ItemStyles[0];
             }
             else if (type == typeof(LabelStyle))
             {
                 if (m_Labels.Count == 0)
                     m_Labels.Add(new LabelStyle() { show = true });
-                return m_Labels[0] as T;
+                return m_Labels[0];
             }
             else if (type == typeof(LabelLine))
             {
                 if (m_LabelLines.Count == 0)
                     m_LabelLines.Add(new LabelLine() { show = true });
-                return m_LabelLines[0] as T;
+                return m_LabelLines[0];
             }
-            else if (type == typeof(Emphasis))
+            else if (type == typeof(EmphasisItemStyle))
             {
-                if (m_Emphases.Count == 0)
-                    m_Emphases.Add(new Emphasis() { show = true });
-                return m_Emphases[0] as T;
+                if (m_EmphasisItemStyles.Count == 0)
+                    m_EmphasisItemStyles.Add(new EmphasisItemStyle() { show = true });
+                return m_EmphasisItemStyles[0];
+            }
+            else if (type == typeof(EmphasisLabelStyle))
+            {
+                if (m_EmphasisLabels.Count == 0)
+                    m_EmphasisLabels.Add(new EmphasisLabelStyle() { show = true });
+                return m_EmphasisLabels[0];
+            }
+            else if (type == typeof(EmphasisLabelLine))
+            {
+                if (m_EmphasisLabelLines.Count == 0)
+                    m_EmphasisLabelLines.Add(new EmphasisLabelLine() { show = true });
+                return m_EmphasisLabelLines[0];
             }
             else if (type == typeof(SerieSymbol))
             {
                 if (m_Symbols.Count == 0)
                     m_Symbols.Add(new SerieSymbol() { show = true });
-                return m_Symbols[0] as T;
+                return m_Symbols[0];
             }
             else if (type == typeof(LineStyle))
             {
                 if (m_LineStyles.Count == 0)
                     m_LineStyles.Add(new LineStyle() { show = true });
-                return m_LineStyles[0] as T;
+                return m_LineStyles[0];
             }
             else if (type == typeof(AreaStyle))
             {
                 if (m_AreaStyles.Count == 0)
                     m_AreaStyles.Add(new AreaStyle() { show = true });
-                return m_AreaStyles[0] as T;
+                return m_AreaStyles[0];
             }
             else if (type == typeof(TitleStyle))
             {
                 if (m_TitleStyles.Count == 0)
                     m_TitleStyles.Add(new TitleStyle() { show = true });
-                return m_TitleStyles[0] as T;
+                return m_TitleStyles[0];
             }
             else
             {
@@ -233,12 +289,13 @@ namespace XCharts.Runtime
 
         public void RemoveAllComponent()
         {
-            m_BaseInfos.Clear();
             m_ItemStyles.Clear();
             m_Labels.Clear();
             m_LabelLines.Clear();
             m_Symbols.Clear();
-            m_Emphases.Clear();
+            m_EmphasisItemStyles.Clear();
+            m_EmphasisLabels.Clear();
+            m_EmphasisLabelLines.Clear();
             m_LineStyles.Clear();
             m_AreaStyles.Clear();
             m_TitleStyles.Clear();
@@ -246,17 +303,23 @@ namespace XCharts.Runtime
 
         public void RemoveComponent<T>() where T : ISerieDataComponent
         {
-            var type = typeof(T);
+            RemoveComponent(typeof(T));
+        }
+
+        public void RemoveComponent(Type type)
+        {
             if (type == typeof(ItemStyle))
                 m_ItemStyles.Clear();
-            else if (type == typeof(SerieDataBaseInfo))
-                m_BaseInfos.Clear();
             else if (type == typeof(LabelStyle))
                 m_Labels.Clear();
             else if (type == typeof(LabelLine))
                 m_LabelLines.Clear();
-            else if (type == typeof(Emphasis))
-                m_Emphases.Clear();
+            else if (type == typeof(EmphasisItemStyle))
+                m_EmphasisItemStyles.Clear();
+            else if (type == typeof(EmphasisLabelStyle))
+                m_EmphasisLabels.Clear();
+            else if (type == typeof(EmphasisLabelLine))
+                m_EmphasisLabelLines.Clear();
             else if (type == typeof(SerieSymbol))
                 m_Symbols.Clear();
             else if (type == typeof(LineStyle))

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -76,7 +75,7 @@ namespace XCharts.Runtime
                     var serieData = serie.data[i];
                     var angle0 = serieData.context.angle;
                     var angle1 = i >= serie.dataCount - 1 ? angle0 : serie.data[i + 1].context.angle;
-                    
+
                     if (pointerAngle >= angle0 && pointerAngle < angle1)
                     {
                         serie.context.pointerItemDataIndex = i;
@@ -146,7 +145,7 @@ namespace XCharts.Runtime
 
                 cp = GetPolarPos(m_SeriePolar, m_AngleAxis, datas[i], min, max, radius);
                 var np = i == datas.Count - 1 ? cp :
-                     GetPolarPos(m_SeriePolar, m_AngleAxis, datas[i + 1], min, max, radius);
+                    GetPolarPos(m_SeriePolar, m_AngleAxis, datas[i + 1], min, max, radius);
 
                 UGLHelper.GetLinePoints(lp, cp, np, lineWidth,
                     ref ltp, ref lbp,
@@ -214,13 +213,13 @@ namespace XCharts.Runtime
                         continue;
 
                     bool highlight = serieData.context.highlight || serie.highlight;
-                    if ((!symbol.show || !symbol.ShowSymbol(i, count) || serie.IsPerformanceMode())
-                        && !serieData.context.highlight)
+                    if ((!symbol.show || !symbol.ShowSymbol(i, count) || serie.IsPerformanceMode()) &&
+                        !serieData.context.highlight)
                         continue;
 
-                    var symbolSize = highlight
-                        ? symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSize)
-                        : symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                    var symbolSize = highlight ?
+                        symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSize) :
+                        symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
 
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, n, highlight);
@@ -243,15 +242,15 @@ namespace XCharts.Runtime
 
             if (!m_AngleAxis.clockwise)
             {
-                angle = m_AngleAxis.GetValueAngle((float)serieData.GetData(1));
+                angle = m_AngleAxis.GetValueAngle((float) serieData.GetData(1));
             }
             else
             {
-                angle = m_AngleAxis.GetValueAngle((float)serieData.GetData(1));
+                angle = m_AngleAxis.GetValueAngle((float) serieData.GetData(1));
             }
 
             var value = serieData.GetData(0);
-            var radius = (float)((value - min) / (max - min) * polarRadius);
+            var radius = (float) ((value - min) / (max - min) * polarRadius);
 
             angle = (angle + 360) % 360;
             serieData.context.angle = angle;

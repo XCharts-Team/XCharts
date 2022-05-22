@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -37,6 +36,7 @@ namespace XCharts.Runtime
                     var content = param.itemFormatter;
                     FormatterHelper.ReplaceSerieLabelContent(ref content,
                         param.numericFormatter,
+                        param.dataCount,
                         param.value,
                         param.total,
                         param.serieName,

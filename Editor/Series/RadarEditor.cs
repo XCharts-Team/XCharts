@@ -9,7 +9,7 @@ namespace XCharts.Editor
         {
             PropertyField("m_RadarType");
             PropertyField("m_RadarIndex");
-            
+
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");
             PropertyField("m_ItemStyle");

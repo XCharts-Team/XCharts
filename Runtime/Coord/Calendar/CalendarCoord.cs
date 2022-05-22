@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -14,7 +13,6 @@ namespace XCharts.Runtime
         }
 
         public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
-        {
-        }
+        { }
     }
 }

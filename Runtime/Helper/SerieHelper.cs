@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -167,9 +166,9 @@ namespace XCharts.Runtime
                 {
                     var count = 0;
                     if (dimension > 0) count = dimension;
-                    else count = serie.showDataDimension > serieData.data.Count
-                        ? serieData.data.Count
-                        : serie.showDataDimension;
+                    else count = serie.showDataDimension > serieData.data.Count ?
+                        serieData.data.Count :
+                        serie.showDataDimension;
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];
@@ -275,7 +274,7 @@ namespace XCharts.Runtime
             return color;
         }
 
-        public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
+        public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)
         {
             if (serie == null)
                 return ChartConst.clearColor32;
@@ -286,14 +285,14 @@ namespace XCharts.Runtime
             if (itemStyle == null)
                 itemStyle = GetItemStyle(serie, serieData);
 
-            var color = ChartHelper.IsClearColor(itemStyle.color)
-                ? theme.GetColor(index)
-                : itemStyle.color;
+            var color = ChartHelper.IsClearColor(itemStyle.color) ?
+                theme.GetColor(index) :
+                itemStyle.color;
 
             if (highlight)
                 color = ChartHelper.GetHighlightColor(color);
-
-            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+            if (opacity)
+                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
             return color;
         }
         public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)
@@ -307,9 +306,9 @@ namespace XCharts.Runtime
             if (itemStyle == null)
                 itemStyle = GetItemStyle(serie, serieData);
 
-            var color = ChartHelper.IsClearColor(itemStyle.color0)
-                ? defaultColor
-                : itemStyle.color0;
+            var color = ChartHelper.IsClearColor(itemStyle.color0) ?
+                defaultColor :
+                itemStyle.color0;
 
             if (highlight)
                 color = ChartHelper.GetHighlightColor(color);
@@ -318,7 +317,7 @@ namespace XCharts.Runtime
             return color;
         }
 
-        public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
+        public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)
         {
             if (serie == null)
                 return ChartConst.clearColor32;
@@ -332,15 +331,16 @@ namespace XCharts.Runtime
             var color = itemStyle.toColor;
             if (ChartHelper.IsClearColor(color))
             {
-                color = ChartHelper.IsClearColor(itemStyle.color)
-                    ? theme.GetColor(index)
-                    : itemStyle.color;
+                color = ChartHelper.IsClearColor(itemStyle.color) ?
+                    theme.GetColor(index) :
+                    itemStyle.color;
             }
 
             if (highlight)
                 color = ChartHelper.GetHighlightColor(color);
 
-            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+            if (opacity)
+                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
             return color;
         }
 
@@ -385,9 +385,9 @@ namespace XCharts.Runtime
 
         public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
         {
-            if (!serie.IsPerformanceMode() && serieData != null && serieData.emphasis != null && serieData.emphasis.show)
-                return serieData.emphasis.itemStyle;
-            else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.itemStyle;
+            if (!serie.IsPerformanceMode() && serieData != null && serieData.emphasisItemStyle != null && serieData.emphasisItemStyle.show)
+                return serieData.emphasisItemStyle;
+            else if (serie.emphasisItemStyle != null && serie.emphasisItemStyle.show) return serie.emphasisItemStyle;
             else return null;
         }
 
@@ -396,9 +396,9 @@ namespace XCharts.Runtime
             if (serieData == null) return serie.label;
             if (highlight)
             {
-                if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
-                    return serieData.emphasis.label;
-                else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.label;
+                if (!serie.IsPerformanceMode() && serieData.emphasisLabel != null && serieData.emphasisLabel.show)
+                    return serieData.emphasisLabel;
+                else if (serie.emphasisLabel != null && serie.emphasisLabel.show) return serie.emphasisLabel;
                 else return serie.label;
             }
             else
@@ -410,9 +410,9 @@ namespace XCharts.Runtime
 
         public static LabelStyle GetSerieEmphasisLabel(Serie serie, SerieData serieData)
         {
-            if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
-                return serieData.emphasis.label;
-            else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.label;
+            if (!serie.IsPerformanceMode() && serieData.emphasisLabel != null && serieData.emphasisLabel.show)
+                return serieData.emphasisLabel;
+            else if (serie.emphasisLabel != null && serie.emphasisLabel.show) return serie.emphasisLabel;
             else return null;
         }
 
@@ -420,9 +420,9 @@ namespace XCharts.Runtime
         {
             if (highlight)
             {
-                if (!serie.IsPerformanceMode() && serieData.emphasis != null && serieData.emphasis.show)
-                    return serieData.emphasis.labelLine;
-                else if (serie.emphasis != null && serie.emphasis.show) return serie.emphasis.labelLine;
+                if (!serie.IsPerformanceMode() && serieData.emphasisLabelLine != null && serieData.emphasisLabelLine.show)
+                    return serieData.emphasisLabelLine;
+                else if (serie.emphasisLabelLine != null && serie.emphasisLabelLine.show) return serie.emphasisLabelLine;
                 else return serie.labelLine;
             }
             else
@@ -648,8 +648,8 @@ namespace XCharts.Runtime
             var endValue = min + (max - min) * dataZoom.end / 100;
             if (endValue < startValue) endValue = startValue;
 
-            if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue
-                || dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+            if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue ||
+                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStartValue = startValue;
                 serie.m_FilterEndValue = endValue;
@@ -690,8 +690,8 @@ namespace XCharts.Runtime
                 end = start + range;
                 if (end > data.Count) end = data.Count;
             }
-            if (start != serie.m_FilterStart || end != serie.m_FilterEnd
-                || dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+            if (start != serie.m_FilterStart || end != serie.m_FilterEnd ||
+                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStart = start;
                 serie.m_FilterEnd = end;
@@ -733,7 +733,7 @@ namespace XCharts.Runtime
             switch (serie.dataSortType)
             {
                 case SerieDataSortType.Ascending:
-                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate(SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);
@@ -743,7 +743,7 @@ namespace XCharts.Runtime
                     });
                     break;
                 case SerieDataSortType.Descending:
-                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate(SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);

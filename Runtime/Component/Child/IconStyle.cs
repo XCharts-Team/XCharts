@@ -1,4 +1,3 @@
-﻿
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +19,7 @@ namespace XCharts.Runtime
             /// </summary>
             AboveText
         }
+
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Layer m_Layer;
         [SerializeField] private Align m_Align = Align.Left;

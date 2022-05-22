@@ -32,7 +32,6 @@
 [QA 26：如何使用背景组件？有什么条件限制？](#如何使用背景组件_有什么条件限制)  
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
 [QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
-[QA 29：为什么升级到1.6.0版本后很多自定义颜色丢失了?应该如何升级？](#为什么升级到1_6_0版本后很多自定义颜色丢失了_应该如何升级)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -149,18 +148,6 @@
 ## 为什么serie里设置的参数运行后又被重置了
 
 答：检测下代码里是否调用了`RemoveData()`并重新添加`Serie`了。如果想保留`Serie`的配置可以只`ClearData()`，然后重新添加数据。
-
-## 为什么升级到1_6_0版本后很多自定义颜色丢失了_应该如何升级
-
-答：1.6.0版本为了减少隐式转换，将所有的绘制相关的`Color`都改为了`Color32`，所以会导致一些自定义的颜色的丢失。影响到的主要组件有：`ItemStyle`，`LineStyle`，`AreaStyle`，`Vessel`，`VisualMap`，`AxisSplitArea`，`AxisSplitLine`，`GaugeAxis`，`SerieLabel`等。可以用脚本[UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)进行升级。
-升级步骤如下：
-1. 备份好你的项目。
-2. 先不升级`XCharts`，只下载或拷贝脚本[UpgradeChartColor.cs](https://github.com/XCharts-Team/XCharts/blob/master/Assets/XCharts/Editor/Tools/UpgradeChartColor.cs)放到旧项目的`Editor`下，由于旧版本可能不存在某些新版本才有的图表或者属性配置，可能会编译错误，需要处理按3，4步骤处理一下。
-3. 若是由`itemStyle.toColor2`引起的编译报错，可将导出地方的`itemStyle.toColor2`改为`Color.clear`；导入的地方注释掉即可。
-4. 若是由`LiquidChart`引起的编译报错，将所有涉及`LiquidChart`的地方都注释掉即可。
-5. 编译通过后，通过`菜单栏->XCharts->ExportColorConfig`导出旧版本的颜色配置文件（配置文件默认保存到`Assets`下的`color.config`）。
-6. 升级`XCharts`到最新版本。
-7. 通过`菜单栏->XCharts->ImportColorConfig`将`color.config`导入即可恢复自定义的颜色（如果`color.config`不在升级后的项目的`Assets`下的话需要拷贝到此目录下）。
 
 [XCharts主页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI](XChartsAPI-ZH.md)  

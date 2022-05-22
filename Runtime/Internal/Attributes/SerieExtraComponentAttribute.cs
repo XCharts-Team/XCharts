@@ -9,56 +9,62 @@ namespace XCharts.Runtime
         public readonly List<Type> types = new List<Type>();
 
         public SerieExtraComponentAttribute()
-        {
-        }
+        { }
         public SerieExtraComponentAttribute(Type type1)
         {
-            types.Add(type1);
+            AddType(type1);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2)
         {
-            types.Add(type1);
-            types.Add(type2);
+            AddType(type1);
+            AddType(type2);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2, Type type3)
         {
-            types.Add(type1);
-            types.Add(type2);
-            types.Add(type3);
+            AddType(type1);
+            AddType(type2);
+            AddType(type3);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4)
         {
-            types.Add(type1);
-            types.Add(type2);
-            types.Add(type3);
-            types.Add(type4);
+            AddType(type1);
+            AddType(type2);
+            AddType(type3);
+            AddType(type4);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)
         {
-            types.Add(type1);
-            types.Add(type2);
-            types.Add(type3);
-            types.Add(type4);
-            types.Add(type5);
+            AddType(type1);
+            AddType(type2);
+            AddType(type3);
+            AddType(type4);
+            AddType(type5);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)
         {
-            types.Add(type1);
-            types.Add(type2);
-            types.Add(type3);
-            types.Add(type4);
-            types.Add(type5);
-            types.Add(type6);
+            AddType(type1);
+            AddType(type2);
+            AddType(type3);
+            AddType(type4);
+            AddType(type5);
+            AddType(type6);
         }
         public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)
         {
-            types.Add(type1);
-            types.Add(type2);
-            types.Add(type3);
-            types.Add(type4);
-            types.Add(type5);
-            types.Add(type6);
-            types.Add(type7);
+            AddType(type1);
+            AddType(type2);
+            AddType(type3);
+            AddType(type4);
+            AddType(type5);
+            AddType(type6);
+            AddType(type7);
+        }
+
+        private void AddType(Type type)
+        {
+            if (!Serie.extraComponentMap.ContainsKey(type))
+                throw new ArgumentException("Serie not support extra component:" + type);
+            types.Add(type);
         }
 
         public bool Contains<T>() where T : ISerieExtraComponent

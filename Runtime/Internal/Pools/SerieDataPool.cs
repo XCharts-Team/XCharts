@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -7,9 +6,7 @@ namespace XCharts.Runtime
     {
         private static readonly ObjectPool<SerieData> s_ListPool = new ObjectPool<SerieData>(null, OnClear);
 
-        static void OnGet(SerieData serieData)
-        {
-        }
+        static void OnGet(SerieData serieData) { }
 
         static void OnClear(SerieData serieData)
         {

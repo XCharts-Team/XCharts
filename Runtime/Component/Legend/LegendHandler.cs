@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,14 +39,20 @@ namespace XCharts.Runtime
             DrawLegend(vh);
         }
 
+        public override void OnSerieDataUpdate(int serieIndex)
+        {
+            if (FormatterHelper.NeedFormat(component.formatter))
+                component.refreshComponent();
+        }
+
         private void InitLegend(Legend legend)
         {
             legend.painter = null;
-            legend.refreshComponent = delegate ()
+            legend.refreshComponent = delegate()
             {
                 legend.OnChanged();
                 var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, chart.transform, chart.chartMinAnchor,
-                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 legend.gameObject = legendObject;
                 legendObject.hideFlags = chart.chartHideFlags;
                 SeriesHelper.UpdateSerieNameList(chart, ref chart.m_LegendRealShowName);
@@ -77,10 +82,11 @@ namespace XCharts.Runtime
                 for (int i = 0; i < datas.Count; i++)
                 {
                     if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
-                    string legendName = legend.GetFormatterContent(datas[i]);
+                    string legendName = GetFormatterContent(legend, i, datas[i]);
                     var readIndex = chart.m_LegendRealShowName.IndexOf(datas[i]);
                     var active = chart.IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(chart, legend, readIndex, datas[i], active);
+                    bgColor.a = legend.itemOpacity;
                     var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, chart.theme,
                         legendName, bgColor, active, readIndex);
                     legend.SetButton(legendName, item, totalLegend);
@@ -134,6 +140,20 @@ namespace XCharts.Runtime
                 LegendHelper.ResetItemPosition(legend, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             };
             legend.refreshComponent();
+        }
+
+        private string GetFormatterContent(Legend legend, int dataIndex, string category)
+        {
+            if (string.IsNullOrEmpty(legend.formatter))
+                return category;
+            else
+            {
+                var content = legend.formatter.Replace("{name}", category);
+                content = content.Replace("{value}", category);
+                var serie = chart.GetSerie(0);
+                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart);
+                return content;
+            }
         }
 
         private void OnLegendButtonClick(Legend legend, int index, string legendName, bool show)

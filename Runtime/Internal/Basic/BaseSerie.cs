@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +11,7 @@ namespace XCharts.Runtime
         public virtual bool vertsDirty { get { return m_VertsDirty; } }
         public virtual bool componentDirty { get { return m_ComponentDirty; } }
         public virtual bool useDataNameForColor { get { return false; } }
+        public virtual bool titleJustForSerie { get { return false; } }
         public virtual bool useSortData { get { return false; } }
         public bool anyDirty { get { return vertsDirty || componentDirty; } }
         public Painter painter { get { return m_Painter; } set { m_Painter = value; } }
@@ -25,7 +25,6 @@ namespace XCharts.Runtime
         [NonSerialized] public InteractData interact = new InteractData();
 
         public SerieHandler handler { get; set; }
-
 
         public virtual void SetVerticesDirty()
         {
@@ -48,8 +47,7 @@ namespace XCharts.Runtime
         }
 
         public virtual void ClearData()
-        {
-        }
+        { }
 
         public virtual void ClearDirty()
         {
@@ -70,12 +68,10 @@ namespace XCharts.Runtime
         }
 
         public virtual void OnDataUpdate()
-        {
-        }
+        { }
 
         public virtual void OnBeforeSerialize()
-        {
-        }
+        { }
 
         public virtual void OnAfterDeserialize()
         {

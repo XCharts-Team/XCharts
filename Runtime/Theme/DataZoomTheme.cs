@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -103,7 +102,7 @@ namespace XCharts.Runtime
                     break;
                 case ThemeType.Dark:
                     m_TextColor = ColorUtil.GetColor("#B9B8CE");
-                    m_FillerColor = new Color32(135, 163, 206, (byte)(0.2f * 255));
+                    m_FillerColor = new Color32(135, 163, 206, (byte) (0.2f * 255));
                     m_BorderColor = ColorUtil.GetColor("#71708A");
                     m_DataLineColor = ColorUtil.GetColor("#71708A");
                     m_DataAreaColor = ColorUtil.GetColor("#71708A");

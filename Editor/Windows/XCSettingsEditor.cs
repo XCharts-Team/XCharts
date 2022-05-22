@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -20,10 +19,8 @@ namespace XCharts.Editor
     {
         XCResourcesImporter m_ResourceImporter;
 
-        public XCResourceImporterProvider()
-            : base("Project/XCharts", SettingsScope.Project)
-        {
-        }
+        public XCResourceImporterProvider() : base("Project/XCharts", SettingsScope.Project)
+        { }
 
         public override void OnGUI(string searchContext)
         {

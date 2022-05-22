@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -20,8 +20,8 @@ namespace XCharts.Runtime
     [ExecuteInEditMode]
     public static class XChartsMgr
     {
-        public static readonly string version = "3.0.0-preview9";
-        public static readonly int versionDate = 20220506;
+        public static readonly string version = "3.0.0";
+        public static readonly int versionDate = 20220522;
         public static string fullVersion { get { return version + "-" + versionDate; } }
 
         internal static List<BaseChart> chartList = new List<BaseChart>();

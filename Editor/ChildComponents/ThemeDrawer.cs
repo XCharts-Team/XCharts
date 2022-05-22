@@ -1,4 +1,3 @@
-﻿
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -20,17 +19,17 @@ namespace XCharts.Editor
             var defaultX = pos.x;
             var chart = prop.serializedObject.targetObject as BaseChart;
             if (MakeComponentFoldout(prop, "m_Show", false, new HeaderMenuInfo("Reset|Reset to theme default color", () =>
-            {
-                chart.theme.sharedTheme.ResetTheme();
-                chart.RefreshAllComponent();
-            }), new HeaderMenuInfo("Export|Export theme to asset for a new theme", () =>
-            {
-                ExportThemeWindow.target = chart;
-                EditorWindow.GetWindow(typeof(ExportThemeWindow));
-            }), new HeaderMenuInfo("Sync color to custom|Sync shared theme color to custom color", () =>
-            {
-                chart.theme.SyncSharedThemeColorToCustom();
-            })))
+                {
+                    chart.theme.sharedTheme.ResetTheme();
+                    chart.RefreshAllComponent();
+                }), new HeaderMenuInfo("Export|Export theme to asset for a new theme", () =>
+                {
+                    ExportThemeWindow.target = chart;
+                    EditorWindow.GetWindow(typeof(ExportThemeWindow));
+                }), new HeaderMenuInfo("Sync color to custom|Sync shared theme color to custom color", () =>
+                {
+                    chart.theme.SyncSharedThemeColorToCustom();
+                })))
             {
                 ++EditorGUI.indentLevel;
                 var chartNameList = XCThemeMgr.GetAllThemeNames();
@@ -46,12 +45,12 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_SharedTheme");
                 PropertyField(prop, "m_TransparentBackground");
                 PropertyField(prop, "m_EnableCustomTheme");
-                using (new EditorGUI.DisabledScope(!prop.FindPropertyRelative("m_EnableCustomTheme").boolValue))
-                {
-                    PropertyField(prop, "m_CustomBackgroundColor");
-                    PropertyField(prop, "m_CustomColorPalette");
-                }
-                --EditorGUI.indentLevel;
+                using(new EditorGUI.DisabledScope(!prop.FindPropertyRelative("m_EnableCustomTheme").boolValue))
+                    {
+                        PropertyField(prop, "m_CustomBackgroundColor");
+                        PropertyField(prop, "m_CustomColorPalette");
+                    }
+                    --EditorGUI.indentLevel;
             }
         }
 
@@ -71,7 +70,7 @@ namespace XCharts.Editor
         private string m_ChartName;
         static void Init()
         {
-            window = (ExportThemeWindow)EditorWindow.GetWindow(typeof(ExportThemeWindow), false, "Export Theme", true);
+            window = (ExportThemeWindow) EditorWindow.GetWindow(typeof(ExportThemeWindow), false, "Export Theme", true);
             window.minSize = new Vector2(600, 50);
             window.maxSize = new Vector2(600, 50);
             window.Show();
@@ -117,14 +116,14 @@ namespace XCharts.Editor
                 }
                 else if (IsAssetsExist(XCThemeMgr.GetThemeAssetPath(m_ChartName)))
                 {
-                    ShowNotification(new GUIContent("ERROR:The asset is exist! \npath="
-                        + XCThemeMgr.GetThemeAssetPath(m_ChartName)));
+                    ShowNotification(new GUIContent("ERROR:The asset is exist! \npath=" +
+                        XCThemeMgr.GetThemeAssetPath(m_ChartName)));
                 }
                 else
                 {
                     XCThemeMgr.ExportTheme(target.theme.sharedTheme, m_ChartName);
-                    ShowNotification(new GUIContent("SUCCESS:The theme is exported. \npath="
-                        + XCThemeMgr.GetThemeAssetPath(m_ChartName)));
+                    ShowNotification(new GUIContent("SUCCESS:The theme is exported. \npath=" +
+                        XCThemeMgr.GetThemeAssetPath(m_ChartName)));
                 }
             }
         }

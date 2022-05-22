@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -87,7 +86,6 @@ namespace XCharts.Runtime
             m_RelatedTextWidth = labelWidth;
         }
 
-
         public string GetLimitContent(string content)
         {
             float checkWidth = m_MaxWidth > 0 ? m_MaxWidth : m_RelatedTextWidth;
@@ -123,9 +121,9 @@ namespace XCharts.Runtime
             int middle = content.Length / 2;
             int end = content.Length;
             float checkWidth = m_MaxWidth > 0 ? m_MaxWidth : m_RelatedTextWidth;
-            
+
             float limit = checkWidth - m_Gap * 2 - suffixLen;
-            if (limit < 0) 
+            if (limit < 0)
                 return 0;
 
             float len = 0;

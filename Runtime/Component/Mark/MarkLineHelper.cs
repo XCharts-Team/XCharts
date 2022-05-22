@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -18,7 +17,7 @@ namespace XCharts.Runtime
             else
             {
                 var content = serieLabel.formatter;
-                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, data.runtimeValue,
+                FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, data.runtimeValue,
                     0, serie.serieName, data.name, data.name, Color.clear);
                 return content;
             }

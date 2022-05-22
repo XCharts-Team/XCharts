@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,8 +22,7 @@ namespace XCharts.Runtime
         }
 
         private void UpdateSerieContext()
-        {
-        }
+        { }
 
         private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {
@@ -44,13 +42,13 @@ namespace XCharts.Runtime
             var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex, false);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
-            float currDetailProgress = !isHorizonal
-                ? parallel.context.x
-                : parallel.context.y;
+            float currDetailProgress = !isHorizonal ?
+                parallel.context.x :
+                parallel.context.y;
 
-            float totalDetailProgress = !isHorizonal
-                ? parallel.context.x + parallel.context.width
-                : parallel.context.y + parallel.context.height;
+            float totalDetailProgress = !isHorizonal ?
+                parallel.context.x + parallel.context.width :
+                parallel.context.y + parallel.context.height;
 
             serie.animation.InitProgress(currDetailProgress, totalDetailProgress);
 

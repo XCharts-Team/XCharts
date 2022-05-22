@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,7 @@ namespace XCharts.Runtime
             var rate = 0;
             var width = isYAxis ? grid.context.height : grid.context.width;
             if (sampleDist > 0)
-                rate = (int)((maxCount - serie.minShow) / (width / sampleDist));
+                rate = (int) ((maxCount - serie.minShow) / (width / sampleDist));
             if (rate < 1)
                 rate = 1;
             return rate;
@@ -69,12 +68,12 @@ namespace XCharts.Runtime
             var lp = Vector3.zero;
             var isVisualMapGradient = VisualMapHelper.IsNeedAreaGradient(visualMap);
             var areaLerp = !ChartHelper.IsValueEqualsColor(areaColor, areaToColor);
-            var zsp = isY
-                ? new Vector3(zero, points[0].position.y)
-                : new Vector3(points[0].position.x, zero);
-            var zep = isY
-                ? new Vector3(zero, points[count - 1].position.y)
-                : new Vector3(points[count - 1].position.x, zero);
+            var zsp = isY ?
+                new Vector3(zero, points[0].position.y) :
+                new Vector3(points[0].position.x, zero);
+            var zep = isY ?
+                new Vector3(zero, points[count - 1].position.y) :
+                new Vector3(points[count - 1].position.x, zero);
 
             var lastDataIsIgnore = false;
             for (int i = 0; i < points.Count; i++)
@@ -189,8 +188,8 @@ namespace XCharts.Runtime
                     var ip = Vector3.zero;
 
                     if (UGLHelper.GetIntersection(ltp, tp,
-                        new Vector3(progress, -10000),
-                        new Vector3(progress, 10000), ref ip))
+                            new Vector3(progress, -10000),
+                            new Vector3(progress, 10000), ref ip))
                         tp = ip;
                     else
                         tp = new Vector3(progress, tp.y);
@@ -203,8 +202,8 @@ namespace XCharts.Runtime
                     var ip = Vector3.zero;
 
                     if (UGLHelper.GetIntersection(lbp, bp,
-                        new Vector3(progress, -10000),
-                        new Vector3(progress, 10000), ref ip))
+                            new Vector3(progress, -10000),
+                            new Vector3(progress, 10000), ref ip))
                         bp = ip;
                     else
                         bp = new Vector3(progress, bp.y);
@@ -335,7 +334,7 @@ namespace XCharts.Runtime
                     if (dataCount == 2 || isBreak)
                     {
                         AddLineVertToVertexHelper(vh, clp, crp, lineColor, isVisualMapGradient, isLineStyleGradient,
-                               visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                            visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                         serie.context.lineEndPostion = cp;
                         serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
                         break;
@@ -346,7 +345,7 @@ namespace XCharts.Runtime
                 {
                     if (bitp)
                         AddLineVertToVertexHelper(vh, itp, ibp, lineColor, isVisualMapGradient, isLineStyleGradient,
-                                visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
+                            visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                     else
                     {
                         AddLineVertToVertexHelper(vh, ltp, clp, lineColor, isVisualMapGradient, isLineStyleGradient,
@@ -455,7 +454,7 @@ namespace XCharts.Runtime
                         var ignore = serie.context.dataIgnores[i];
                         var dir = (ep - sp).normalized;
                         var dist = Vector3.Distance(sp, ep);
-                        var segment = (int)(dist / setting.lineSegmentDistance);
+                        var segment = (int) (dist / setting.lineSegmentDistance);
                         serie.context.drawPoints.Add(new PointInfo(sp, ignore));
                         for (int j = 1; j < segment; j++)
                         {
@@ -516,8 +515,8 @@ namespace XCharts.Runtime
             {
                 var cp = points[i];
                 var ignore = serie.context.dataIgnores[i];
-                if ((isY && Mathf.Abs(lp.x - cp.x) <= lineWidth)
-                    || (!isY && Mathf.Abs(lp.y - cp.y) <= lineWidth))
+                if ((isY && Mathf.Abs(lp.x - cp.x) <= lineWidth) ||
+                    (!isY && Mathf.Abs(lp.y - cp.y) <= lineWidth))
                 {
                     serie.context.drawPoints.Add(new PointInfo(cp, ignore));
                     lp = cp;
@@ -526,22 +525,22 @@ namespace XCharts.Runtime
                 switch (serie.lineType)
                 {
                     case LineType.StepStart:
-                        serie.context.drawPoints.Add(new PointInfo(isY
-                            ? new Vector3(cp.x, lp.y)
-                            : new Vector3(lp.x, cp.y), ignore));
+                        serie.context.drawPoints.Add(new PointInfo(isY ?
+                            new Vector3(cp.x, lp.y) :
+                            new Vector3(lp.x, cp.y), ignore));
                         break;
                     case LineType.StepMiddle:
-                        serie.context.drawPoints.Add(new PointInfo(isY
-                            ? new Vector3(lp.x, (lp.y + cp.y) / 2)
-                            : new Vector3((lp.x + cp.x) / 2, lp.y), ignore));
-                        serie.context.drawPoints.Add(new PointInfo(isY
-                            ? new Vector3(cp.x, (lp.y + cp.y) / 2)
-                            : new Vector3((lp.x + cp.x) / 2, cp.y), ignore));
+                        serie.context.drawPoints.Add(new PointInfo(isY ?
+                            new Vector3(lp.x, (lp.y + cp.y) / 2) :
+                            new Vector3((lp.x + cp.x) / 2, lp.y), ignore));
+                        serie.context.drawPoints.Add(new PointInfo(isY ?
+                            new Vector3(cp.x, (lp.y + cp.y) / 2) :
+                            new Vector3((lp.x + cp.x) / 2, cp.y), ignore));
                         break;
                     case LineType.StepEnd:
-                        serie.context.drawPoints.Add(new PointInfo(isY
-                            ? new Vector3(lp.x, cp.y)
-                            : new Vector3(cp.x, lp.y), ignore));
+                        serie.context.drawPoints.Add(new PointInfo(isY ?
+                            new Vector3(lp.x, cp.y) :
+                            new Vector3(cp.x, lp.y), ignore));
                         break;
                 }
                 serie.context.drawPoints.Add(new PointInfo(cp, ignore));

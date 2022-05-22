@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,6 +5,5 @@ using UnityEngine.UI;
 namespace XCharts.Runtime
 {
     public interface ISerieDataComponent
-    {
-    }
+    { }
 }

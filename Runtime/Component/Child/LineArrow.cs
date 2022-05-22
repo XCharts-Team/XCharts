@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -20,6 +19,7 @@ namespace XCharts.Runtime
             /// </summary>
             Start
         }
+
         [SerializeField] private bool m_Show;
         [SerializeField] private Position m_Position;
         [SerializeField]

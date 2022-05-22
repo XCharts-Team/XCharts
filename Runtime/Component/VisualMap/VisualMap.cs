@@ -1,11 +1,10 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts.Runtime
 {
     [System.Serializable]
-    public class VisualMapPieces : ChildComponent
+    public class VisualMapRange : ChildComponent
     {
         [SerializeField] private double m_Min;
         [SerializeField] private double m_Max;
@@ -31,6 +30,7 @@ namespace XCharts.Runtime
 
         public bool Contains(double value, double minMaxRange)
         {
+            if (m_Min == 0 && m_Max == 0) return false;
             var cmin = System.Math.Abs(m_Min) < 1 ? minMaxRange * m_Min : m_Min;
             var cmax = System.Math.Abs(m_Max) < 1 ? minMaxRange * m_Max : m_Max;
             return value >= cmin && value < cmax;
@@ -101,9 +101,8 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_WorkOnLine = true;
         [SerializeField] private bool m_WorkOnArea = false;
 
-        [SerializeField] private List<Color32> m_InRange = new List<Color32>();
-        [SerializeField] private List<Color32> m_OutOfRange = new List<Color32>() { Color.gray };
-        [SerializeField] private List<VisualMapPieces> m_Pieces = new List<VisualMapPieces>();
+        [SerializeField] private List<VisualMapRange> m_OutOfRange = new List<VisualMapRange>() { new VisualMapRange() { color = Color.gray } };
+        [SerializeField] private List<VisualMapRange> m_InRange = new List<VisualMapRange>();
 
         public VisualMapContext context = new VisualMapContext();
 
@@ -331,19 +330,10 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_WorkOnArea, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Defines the visual color in the selected range.
-        /// |定义 在选中范围中 的视觉颜色。
-        /// </summary>
-        public List<Color32> inRange
-        {
-            get { return m_InRange; }
-            set { if (value != null) { m_InRange = value; SetVerticesDirty(); } }
-        }
-        /// <summary>
         /// Defines a visual color outside of the selected range.
         /// |定义 在选中范围外 的视觉颜色。
         /// </summary>
-        public List<Color32> outOfRange
+        public List<VisualMapRange> outOfRange
         {
             get { return m_OutOfRange; }
             set { if (value != null) { m_OutOfRange = value; SetVerticesDirty(); } }
@@ -351,10 +341,10 @@ namespace XCharts.Runtime
         /// <summary>
         /// 分段式每一段的相关配置。
         /// </summary>
-        public List<VisualMapPieces> pieces
+        public List<VisualMapRange> inRange
         {
-            get { return m_Pieces; }
-            set { if (value != null) { m_Pieces = value; SetVerticesDirty(); } }
+            get { return m_InRange; }
+            set { if (value != null) { m_InRange = value; SetVerticesDirty(); } }
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || location.anyDirty; } }
@@ -396,73 +386,84 @@ namespace XCharts.Runtime
             }
         }
 
-        public float runtimeRangeMinHeight { get { return (float)((rangeMin - min) / (max - min) * itemHeight); } }
-        public float runtimeRangeMaxHeight { get { return (float)((rangeMax - min) / (max - min) * itemHeight); } }
+        public float runtimeRangeMinHeight { get { return (float) ((rangeMin - min) / (max - min) * itemHeight); } }
+        public float runtimeRangeMaxHeight { get { return (float) ((rangeMax - min) / (max - min) * itemHeight); } }
 
-        public List<Color32> runtimeInRange
+        public void AddColors(List<Color32> colors)
         {
-            get
+            m_InRange.Clear();
+            foreach (var color in colors)
             {
-                if (splitNumber == 0 || m_InRange.Count >= splitNumber || m_InRange.Count < 1 || IsPiecewise())
+                m_InRange.Add(new VisualMapRange()
                 {
-                    return m_InRange;
-                }
-                else
+                    color = color
+                });
+            }
+        }
+
+        public void AddColors(List<string> colors)
+        {
+            m_InRange.Clear();
+            foreach (var str in colors)
+            {
+                m_InRange.Add(new VisualMapRange()
                 {
-                    var count = splitNumber > 0 && splitNumber <= m_InRange.Count
-                        ? splitNumber
-                        : m_InRange.Count;
-                    if (context.inRangeColors.Count != count)
-                    {
-                        context.inRangeColors.Clear();
-                        var total = max - min;
-                        var diff1 = total / (m_InRange.Count - 1);
-                        var diff2 = total / splitNumber;
-
-                        var inCount = 0;
-                        var inValue = min;
-                        var rtValue = min;
-
-                        for (int i = 0; i < splitNumber; i++)
-                        {
-                            rtValue += diff2;
-                            if (rtValue > inValue + diff1)
-                            {
-                                inValue += diff1;
-                                inCount++;
-                            }
-                            if (i == splitNumber - 1)
-                            {
-                                context.inRangeColors.Add(m_InRange[m_InRange.Count - 1]);
-                            }
-                            else
-                            {
-                                var rate = (float)((rtValue - inValue) / diff1);
-                                context.inRangeColors.Add(Color32.Lerp(m_InRange[inCount], m_InRange[inCount + 1], rate));
-                            }
-                        }
-                    }
-                    return context.inRangeColors;
-                }
+                    color = ThemeStyle.GetColor(str)
+                });
             }
         }
 
         public Color32 GetColor(double value)
         {
-            switch (type)
+            int index = GetIndex(value);
+            if (index == -1)
             {
-                case Type.Continuous:
-                    return GetContinuousColor(value);
-                case Type.Piecewise:
-                    return GetPiecesColor(value);
-                default:
-                    return ColorUtil.clearColor32;
+                if (m_OutOfRange.Count > 0)
+                    return m_OutOfRange[0].color;
+                else
+                    return ChartConst.clearColor32;
             }
+
+            if (m_Type == VisualMap.Type.Piecewise)
+            {
+                return m_InRange[index].color;
+            }
+            else
+            {
+                int splitNumber = m_InRange.Count;
+                var diff = (m_Max - m_Min) / (splitNumber - 1);
+                var nowMin = m_Min + index * diff;
+                var rate = (value - nowMin) / diff;
+                if (index == splitNumber - 1)
+                    return m_InRange[index].color;
+                else
+                    return Color32.Lerp(m_InRange[index].color, m_InRange[index + 1].color, (float) rate);
+            }
+        }
+
+        private bool IsNeedPieceColor(double value, out int index)
+        {
+            bool flag = false;
+            index = -1;
+            for (int i = 0; i < m_InRange.Count; i++)
+            {
+                var range = m_InRange[i];
+                if (range.min != 0 || range.max != 0)
+                {
+                    flag = true;
+                    if (range.Contains(value, max - min))
+                    {
+                        index = i;
+                        return true;
+                    }
+                }
+            }
+            return flag;
         }
 
         private Color32 GetPiecesColor(double value)
         {
-            foreach (var piece in m_Pieces)
+            foreach (var piece in m_InRange)
             {
                 if (piece.Contains(value, max - min))
                 {
@@ -470,54 +471,25 @@ namespace XCharts.Runtime
                 }
             }
             if (m_OutOfRange.Count > 0)
-                return m_OutOfRange[0];
+                return m_OutOfRange[0].color;
             else
                 return ChartConst.clearColor32;
-        }
-
-        private Color32 GetContinuousColor(double value)
-        {
-            if (value < m_Min || value > m_Max)
-            {
-                if (m_OutOfRange.Count > 0)
-                    return m_OutOfRange[0];
-                else
-                    return ChartConst.clearColor32;
-            }
-            int splitNumber = runtimeInRange.Count;
-            if (splitNumber <= 0)
-                return ChartConst.clearColor32;
-
-            var index = GetIndex(value);
-            if (m_Type == VisualMap.Type.Piecewise)
-            {
-                if (index >= 0 && index < runtimeInRange.Count)
-                    return runtimeInRange[index];
-                else
-                    return ChartConst.clearColor32;
-            }
-            else
-            {
-                var diff = (m_Max - m_Min) / (splitNumber - 1);
-                var nowMin = m_Min + index * diff;
-                var rate = (value - nowMin) / diff;
-                if (index == splitNumber - 1)
-                    return runtimeInRange[index];
-                else
-                    return Color32.Lerp(runtimeInRange[index], runtimeInRange[index + 1], (float)rate);
-            }
         }
 
         public int GetIndex(double value)
         {
-            int splitNumber = runtimeInRange.Count;
+            int splitNumber = m_InRange.Count;
             if (splitNumber <= 0)
                 return -1;
-
+            var index = -1;
+            if (IsNeedPieceColor(value, out index))
+            {
+                return index;
+            }
             value = MathUtil.Clamp(value, m_Min, m_Max);
 
             var diff = (m_Max - m_Min) / (splitNumber - 1);
-            var index = -1;
+
             for (int i = 0; i < splitNumber; i++)
             {
                 if (value <= m_Min + (i + 1) * diff)
@@ -574,10 +546,10 @@ namespace XCharts.Runtime
             var centerPos = new Vector3(chartRect.x, chartRect.y) + location.GetPosition(chartRect.width, chartRect.height);
             var diff = calculable ? triangleLen : 0;
 
-            if (local.x >= centerPos.x - itemWidth / 2 - diff
-                && local.x <= centerPos.x + itemWidth / 2 + diff
-                && local.y >= centerPos.y - itemHeight / 2 - diff
-                && local.y <= centerPos.y + itemHeight / 2 + diff)
+            if (local.x >= centerPos.x - itemWidth / 2 - diff &&
+                local.x <= centerPos.x + itemWidth / 2 + diff &&
+                local.y >= centerPos.y - itemHeight / 2 - diff &&
+                local.y <= centerPos.y + itemHeight / 2 + diff)
             {
                 return true;
             }
@@ -595,18 +567,18 @@ namespace XCharts.Runtime
             {
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
 
-                return local.x >= centerPos.x - itemWidth / 2
-                    && local.x <= centerPos.x + itemWidth / 2
-                    && local.y >= pos1.y + runtimeRangeMinHeight
-                    && local.y <= pos1.y + runtimeRangeMaxHeight;
+                return local.x >= centerPos.x - itemWidth / 2 &&
+                    local.x <= centerPos.x + itemWidth / 2 &&
+                    local.y >= pos1.y + runtimeRangeMinHeight &&
+                    local.y <= pos1.y + runtimeRangeMaxHeight;
             }
             else
             {
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
-                return local.x >= pos1.x + runtimeRangeMinHeight
-                    && local.x <= pos1.x + runtimeRangeMaxHeight
-                    && local.y >= centerPos.y - itemWidth / 2
-                    && local.y <= centerPos.y + itemWidth / 2;
+                return local.x >= pos1.x + runtimeRangeMinHeight &&
+                    local.x <= pos1.x + runtimeRangeMaxHeight &&
+                    local.y >= centerPos.y - itemWidth / 2 &&
+                    local.y <= centerPos.y + itemWidth / 2;
             }
         }
 
@@ -620,10 +592,10 @@ namespace XCharts.Runtime
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
                 var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + runtimeRangeMinHeight - radius);
 
-                return local.x >= cpos.x - radius
-                    && local.x <= cpos.x + radius
-                    && local.y >= cpos.y - radius
-                    && local.y <= cpos.y + radius;
+                return local.x >= cpos.x - radius &&
+                    local.x <= cpos.x + radius &&
+                    local.y >= cpos.y - radius &&
+                    local.y <= cpos.y + radius;
             }
             else
             {
@@ -631,10 +603,10 @@ namespace XCharts.Runtime
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
                 var cpos = new Vector3(pos1.x + runtimeRangeMinHeight, pos1.y + itemWidth / 2 + radius);
 
-                return local.x >= cpos.x - radius
-                    && local.x <= cpos.x + radius
-                    && local.y >= cpos.y - radius
-                    && local.y <= cpos.y + radius;
+                return local.x >= cpos.x - radius &&
+                    local.x <= cpos.x + radius &&
+                    local.y >= cpos.y - radius &&
+                    local.y <= cpos.y + radius;
             }
         }
 
@@ -648,10 +620,10 @@ namespace XCharts.Runtime
                 var pos1 = centerPos + Vector3.down * itemHeight / 2;
                 var cpos = new Vector3(pos1.x + itemWidth / 2 + radius, pos1.y + runtimeRangeMaxHeight + radius);
 
-                return local.x >= cpos.x - radius
-                    && local.x <= cpos.x + radius
-                    && local.y >= cpos.y - radius
-                    && local.y <= cpos.y + radius;
+                return local.x >= cpos.x - radius &&
+                    local.x <= cpos.x + radius &&
+                    local.y >= cpos.y - radius &&
+                    local.y <= cpos.y + radius;
             }
             else
             {
@@ -659,10 +631,10 @@ namespace XCharts.Runtime
                 var pos1 = centerPos + Vector3.left * itemHeight / 2;
                 var cpos = new Vector3(pos1.x + runtimeRangeMaxHeight + radius, pos1.y + itemWidth / 2 + radius);
 
-                return local.x >= cpos.x - radius
-                    && local.x <= cpos.x + radius
-                    && local.y >= cpos.y - radius
-                    && local.y <= cpos.y + radius;
+                return local.x >= cpos.x - radius &&
+                    local.x <= cpos.x + radius &&
+                    local.y >= cpos.y - radius &&
+                    local.y <= cpos.y + radius;
             }
         }
     }

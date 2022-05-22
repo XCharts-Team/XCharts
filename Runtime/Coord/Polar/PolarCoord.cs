@@ -1,4 +1,3 @@
-﻿
 using System;
 using UnityEngine;
 
@@ -19,7 +18,6 @@ namespace XCharts.Runtime
         [SerializeField] private Color m_BackgroundColor;
 
         public PolarCoordContext context = new PolarCoordContext();
-
 
         /// <summary>
         /// Whether to show the polor component.

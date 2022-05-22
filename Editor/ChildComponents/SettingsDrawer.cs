@@ -1,4 +1,3 @@
-﻿
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -13,10 +12,10 @@ namespace XCharts.Editor
         {
             base.OnGUI(pos, prop, label);
             if (MakeComponentFoldout(prop, "m_Show", false, new HeaderMenuInfo("Reset", () =>
-            {
-                var chart = prop.serializedObject.targetObject as BaseChart;
-                chart.settings.Reset();
-            })))
+                {
+                    var chart = prop.serializedObject.targetObject as BaseChart;
+                    chart.settings.Reset();
+                })))
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_ReversePainter");

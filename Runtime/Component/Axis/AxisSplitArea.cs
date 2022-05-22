@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace XCharts.Runtime
                 return new AxisSplitArea()
                 {
                     m_Show = false,
-                    m_Color = new List<Color32>() { }
+                        m_Color = new List<Color32>() { }
                 };
             }
         }

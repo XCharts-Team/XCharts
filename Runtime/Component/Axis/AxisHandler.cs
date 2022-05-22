@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ using XUGL;
 namespace XCharts
 {
     public abstract class AxisHandler<T> : MainComponentHandler
-        where T : Axis
+    where T : Axis
     {
         private static readonly string s_DefaultAxisName = "name";
         private double m_LastInterval = double.MinValue;
@@ -17,12 +16,17 @@ namespace XCharts
 
         internal override void SetComponent(MainComponent component)
         {
-            this.component = (T)component;
+            this.component = (T) component;
         }
 
         protected virtual Vector3 GetLabelPosition(float scaleWid, int i)
         {
             return Vector3.zero;
+        }
+
+        protected virtual float GetAxisLineXOrY()
+        {
+            return 0;
         }
 
         protected virtual Orient orient { get; set; }
@@ -50,8 +54,8 @@ namespace XCharts
                         for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
                         {
                             float pY = grid.context.y + j * splitWid;
-                            if ((axis.boundaryGap && (local.y > pY && local.y <= pY + splitWid))
-                                || (!axis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
+                            if ((axis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
+                                (!axis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
                             {
                                 axis.context.pointerValue = j;
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
@@ -70,8 +74,8 @@ namespace XCharts
                         for (int j = 0; j < axis.GetDataCount(dataZoom); j++)
                         {
                             float pX = grid.context.x + j * splitWid;
-                            if ((axis.boundaryGap && (local.x > pX && local.x <= pX + splitWid))
-                                || (!axis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
+                            if ((axis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
+                                (!axis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
                             {
                                 axis.context.pointerValue = j;
                                 axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
@@ -140,10 +144,10 @@ namespace XCharts
             double tempMaxValue = 0;
             chart.GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
 
-            if (tempMinValue != axis.context.minValue
-                || tempMaxValue != axis.context.maxValue
-                || m_LastInterval != axis.interval
-                || m_LastSplitNumber != axis.splitNumber)
+            if (tempMinValue != axis.context.minValue ||
+                tempMaxValue != axis.context.maxValue ||
+                m_LastInterval != axis.interval ||
+                m_LastSplitNumber != axis.splitNumber)
             {
                 m_LastSplitNumber = axis.splitNumber;
                 m_LastInterval = axis.interval;
@@ -151,7 +155,6 @@ namespace XCharts
                 axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
-
                 UpdateAxisTickValueList(axis);
 
                 if (tempMinValue != 0 || tempMaxValue != 0)
@@ -159,31 +162,31 @@ namespace XCharts
                     var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
                     if (grid != null && axis is XAxis && axis.IsValue())
                     {
-                        axis.context.offset = axis.context.minValue > 0
-                            ? 0
-                            : (axis.context.maxValue < 0
-                                ? grid.context.width
-                                : (float)(Math.Abs(axis.context.minValue) * (grid.context.width
-                                    / (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
+                        axis.context.offset = axis.context.minValue > 0 ?
+                            0 :
+                            (axis.context.maxValue < 0 ?
+                                grid.context.width :
+                                (float) (Math.Abs(axis.context.minValue) * (grid.context.width /
+                                    (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
                             );
                         axis.context.x = grid.context.x;
-                        axis.context.y = grid.context.y;
+                        axis.context.y = GetAxisLineXOrY();
                         axis.context.zeroY = grid.context.y;
-                        axis.context.zeroX = grid.context.x - (float)(axis.context.minValue * grid.context.width / axis.context.minMaxRange);
+                        axis.context.zeroX = grid.context.x - (float) (axis.context.minValue * grid.context.width / axis.context.minMaxRange);
                     }
                     if (grid != null && axis is YAxis && axis.IsValue())
                     {
-                        axis.context.offset = axis.context.minValue > 0
-                            ? 0
-                            : (axis.context.maxValue < 0
-                                ? grid.context.height
-                                : (float)(Math.Abs(axis.context.minValue) * (grid.context.height
-                                    / (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
+                        axis.context.offset = axis.context.minValue > 0 ?
+                            0 :
+                            (axis.context.maxValue < 0 ?
+                                grid.context.height :
+                                (float) (Math.Abs(axis.context.minValue) * (grid.context.height /
+                                    (Math.Abs(axis.context.minValue) + Math.Abs(axis.context.maxValue))))
                             );
-                        axis.context.x = grid.context.x;
+                        axis.context.x = GetAxisLineXOrY();
                         axis.context.y = grid.context.y;
                         axis.context.zeroX = grid.context.x;
-                        axis.context.zeroY = grid.context.y - (float)(axis.context.minValue * grid.context.height / axis.context.minMaxRange);
+                        axis.context.zeroY = grid.context.y - (float) (axis.context.minValue * grid.context.height / axis.context.minMaxRange);
                     }
                 }
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
@@ -220,8 +223,8 @@ namespace XCharts
             if (axis.IsTime())
             {
                 var lastCount = axis.context.labelValueList.Count;
-                DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList, (int)axis.context.minValue,
-                    (int)axis.context.maxValue, axis.splitNumber);
+                DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList, (int) axis.context.minValue,
+                    (int) axis.context.maxValue, axis.splitNumber);
 
                 if (axis.context.labelValueList.Count != lastCount)
                     axis.SetAllDirty();
@@ -255,7 +258,7 @@ namespace XCharts
                     }
                 }
                 var value = 0d;
-                if (Mathf.Approximately((float)(axis.context.minValue % tick), 0))
+                if (Mathf.Approximately((float) (axis.context.minValue % tick), 0))
                 {
                     value = axis.context.minValue;
                 }
@@ -328,9 +331,10 @@ namespace XCharts
             }
         }
 
-        internal static void InitAxis(Axis axis, Axis relativedAxis, BaseChart chart, AxisHandler<T> handler,
-            Orient orient, float axisStartX, float axisStartY, float axisLength, float relativedLength)
+        protected void InitAxis(Axis relativedAxis, Orient orient,
+            float axisStartX, float axisStartY, float axisLength, float relativedLength)
         {
+            Axis axis = component;
             chart.InitAxisRuntimeData(axis);
 
             var objName = ChartCached.GetComponentObjectName(axis);
@@ -358,23 +362,23 @@ namespace XCharts
             var eachWidth = AxisHelper.GetEachWidth(axis, axisLength, dataZoom);
             var gapWidth = axis.boundaryGap ? eachWidth / 2 : 0;
 
-            var textWidth = axis.axisLabel.width > 0
-                ? axis.axisLabel.width
-                : (orient == Orient.Horizonal
-                    ? AxisHelper.GetScaleWidth(axis, axisLength, 0, dataZoom)
-                    : (axisStartX - chart.chartX)
+            var textWidth = axis.axisLabel.width > 0 ?
+                axis.axisLabel.width :
+                (orient == Orient.Horizonal ?
+                    AxisHelper.GetScaleWidth(axis, axisLength, 0, dataZoom) :
+                    (axisStartX - chart.chartX)
                 );
 
-            var textHeight = axis.axisLabel.height > 0
-                ? axis.axisLabel.height
-                : 20f;
+            var textHeight = axis.axisLabel.height > 0 ?
+                axis.axisLabel.height :
+                20f;
 
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
             var inside = axis.axisLabel.inside;
             var defaultAlignment = orient == Orient.Horizonal ? TextAnchor.MiddleCenter :
-             ((inside && axis.IsLeft()) || (!inside && axis.IsRight())
-                        ? TextAnchor.MiddleLeft
-                        : TextAnchor.MiddleRight);
+                ((inside && axis.IsLeft()) || (!inside && axis.IsRight()) ?
+                    TextAnchor.MiddleLeft :
+                    TextAnchor.MiddleRight);
 
             if (axis.IsCategory() && axis.boundaryGap)
                 splitNumber -= 1;
@@ -398,9 +402,9 @@ namespace XCharts
                 if (i == 0)
                     axis.axisLabel.SetRelatedText(label.text, labelWidth);
 
-                var pos = handler.GetLabelPosition(totalWidth + gapWidth, i);
+                var pos = GetLabelPosition(totalWidth + gapWidth, i);
                 label.SetPosition(pos);
-                handler.CheckValueLabelActive(axis, i, label, pos);
+                CheckValueLabelActive(axis, i, label, pos);
 
                 axis.context.labelObjectList.Add(label);
 
@@ -415,6 +419,7 @@ namespace XCharts
                 var autoColor = axis.axisLine.GetColor(chart.theme.axis.lineColor);
                 if (orient == Orient.Horizonal)
                 {
+                    var posY = GetAxisLineXOrY() + offset.y;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -422,9 +427,9 @@ namespace XCharts
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleRight);
                             label.SetActive(axis.axisName.labelStyle.show);
-                            label.SetPosition(axis.position == Axis.AxisPosition.Top
-                                ? new Vector2(zeroPos.x - offset.x, axisStartY + relativedLength + offset.y + axis.offset)
-                                : new Vector2(zeroPos.x - offset.x, zeroPos.y + offset.y + axis.offset));
+                            label.SetPosition(axis.position == Axis.AxisPosition.Top ?
+                                new Vector2(zeroPos.x - offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
+                                new Vector2(zeroPos.x - offset.x, posY));
                             break;
 
                         case LabelStyle.Position.Middle:
@@ -432,9 +437,9 @@ namespace XCharts
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
                             label.SetActive(axis.axisName.labelStyle.show);
-                            label.SetPosition(axis.position == Axis.AxisPosition.Top
-                                ? new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY + relativedLength - offset.y + axis.offset)
-                                : new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY - offset.y + axis.offset));
+                            label.SetPosition(axis.position == Axis.AxisPosition.Top ?
+                                new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY + relativedLength - offset.y + axis.offset) :
+                                new Vector2(axisStartX + axisLength / 2 + offset.x, posY));
                             break;
 
                         default:
@@ -442,44 +447,45 @@ namespace XCharts
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleLeft);
                             label.SetActive(axis.axisName.labelStyle.show);
-                            label.SetPosition(axis.position == Axis.AxisPosition.Top
-                                ? new Vector2(axisStartX + axisLength + offset.x, axisStartY + relativedLength + offset.y + axis.offset)
-                                : new Vector2(axisStartX + axisLength + offset.x, zeroPos.y + offset.y + axis.offset));
+                            label.SetPosition(axis.position == Axis.AxisPosition.Top ?
+                                new Vector2(axisStartX + axisLength + offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
+                                new Vector2(axisStartX + axisLength + offset.x, posY));
                             break;
                     }
                 }
                 else
                 {
+                    var posX = GetAxisLineXOrY() + offset.x;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
-                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                                chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY - offset.y) :
-                                new Vector2(zeroPos.x + offset.x + axis.offset, axisStartY - offset.y));
+                                new Vector2(posX, axisStartY - offset.y));
                             break;
 
                         case LabelStyle.Position.Middle:
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
-                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                                chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength - offset.x + axis.offset, axisStartY + axisLength / 2 + offset.y) :
-                                new Vector2(axisStartX - offset.x + axis.offset, axisStartY + axisLength / 2 + offset.y));
+                                new Vector2(posX, axisStartY + axisLength / 2 + offset.y));
                             break;
 
                         default:
                             //LabelStyle.Position
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
-                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                                chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY + axisLength + offset.y) :
-                                new Vector2(zeroPos.x + offset.x + axis.offset, axisStartY + axisLength + offset.y));
+                                new Vector2(posX, axisStartY + axisLength + offset.y));
                             break;
                     }
                 }
@@ -495,9 +501,9 @@ namespace XCharts
 
             if (axis.IsTime() || axis.IsValue())
             {
-                scaleWid = axis.context.minMaxRange != 0
-                    ? axis.GetDistance(axis.GetLabelValue(i), axisLength)
-                    : 0;
+                scaleWid = axis.context.minMaxRange != 0 ?
+                    axis.GetDistance(axis.GetLabelValue(i), axisLength) :
+                    0;
             }
 
             if (orient == Orient.Horizonal)
@@ -513,7 +519,7 @@ namespace XCharts
                 else
                     current += axisStartY - axis.axisLabel.distance - fontSize / 2;
 
-                return new Vector3(axisStartX + scaleWid, current);
+                return new Vector3(axisStartX + scaleWid, current) + axis.axisLabel.offset;
             }
             else
             {
@@ -528,7 +534,7 @@ namespace XCharts
                 else
                     current += axisStartX - axis.axisLabel.distance;
 
-                return new Vector3(current, axisStartY + scaleWid);
+                return new Vector3(current, axisStartY + scaleWid) + axis.axisLabel.offset;
             }
         }
 
@@ -566,9 +572,9 @@ namespace XCharts
             {
                 var size = AxisHelper.GetScaleNumber(axis, axisLength, dataZoom);
 
-                var current = orient == Orient.Horizonal
-                    ? startX
-                    : startY;
+                var current = orient == Orient.Horizonal ?
+                    startX :
+                    startY;
 
                 for (int i = 0; i < size; i++)
                 {
@@ -587,17 +593,17 @@ namespace XCharts
                     {
                         if (orient == Orient.Horizonal)
                         {
-                            float pX = axis.IsTime()
-                                ? (startX + axis.GetDistance(axis.GetLabelValue(i), axisLength))
-                                : current;
+                            float pX = axis.IsTime() ?
+                                (startX + axis.GetDistance(axis.GetLabelValue(i), axisLength)) :
+                                current;
 
                             if (axis.boundaryGap && axis.axisTick.alignWithLabel)
                                 pX -= scaleWidth / 2;
 
                             var sY = 0f;
                             var eY = 0f;
-                            if ((axis.axisTick.inside && axis.IsBottom())
-                                || (!axis.axisTick.inside && axis.IsTop()))
+                            if ((axis.axisTick.inside && axis.IsBottom()) ||
+                                (!axis.axisTick.inside && axis.IsTop()))
                             {
                                 sY = startY + axis.offset + lineWidth;
                                 eY = sY + tickLength;
@@ -614,17 +620,17 @@ namespace XCharts
                         }
                         else
                         {
-                            float pY = axis.IsTime()
-                                ? (startY + axis.GetDistance(axis.GetLabelValue(i), axisLength))
-                                : current;
+                            float pY = axis.IsTime() ?
+                                (startY + axis.GetDistance(axis.GetLabelValue(i), axisLength)) :
+                                current;
 
                             if (axis.boundaryGap && axis.axisTick.alignWithLabel)
                                 pY -= scaleWidth / 2;
 
                             var sX = 0f;
                             var eX = 0f;
-                            if ((axis.axisTick.inside && axis.IsLeft())
-                                || (!axis.axisTick.inside && axis.IsRight()))
+                            if ((axis.axisTick.inside && axis.IsLeft()) ||
+                                (!axis.axisTick.inside && axis.IsRight()))
                             {
                                 sX = startX + axis.offset + lineWidth;
                                 eX = sX + tickLength;
@@ -690,9 +696,10 @@ namespace XCharts
             }
         }
 
-        internal static void DrawAxisSplit(VertexHelper vh, Axis axis, AxisTheme theme, DataZoom dataZoom,
+        protected void DrawAxisSplit(VertexHelper vh, AxisTheme theme, DataZoom dataZoom,
             Orient orient, float startX, float startY, float axisLength, float splitLength, Axis relativedAxis = null)
         {
+            Axis axis = component;
             var lineColor = axis.splitLine.GetColor(theme.splitLineColor);
             var lineWidth = axis.splitLine.GetWidth(theme.lineWidth);
             var lineType = axis.splitLine.GetType(theme.splitLineType);
@@ -705,9 +712,9 @@ namespace XCharts
                     size += 1;
             }
 
-            var current = orient == Orient.Horizonal
-                ? startX
-                : startY;
+            var current = orient == Orient.Horizonal ?
+                startX :
+                startY;
             for (int i = 0; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, axis.IsTime() ? i : i + 1, dataZoom);
@@ -743,7 +750,7 @@ namespace XCharts
                     {
                         if (orient == Orient.Horizonal)
                         {
-                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.x))
+                            if (relativedAxis == null || !MathUtil.Approximately(current, GetAxisLineXOrY()))
                                 ChartDrawer.DrawLineStyle(vh,
                                     lineType,
                                     lineWidth,
@@ -753,7 +760,7 @@ namespace XCharts
                         }
                         else
                         {
-                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.y))
+                            if (relativedAxis == null || !MathUtil.Approximately(current, GetAxisLineXOrY()))
                                 ChartDrawer.DrawLineStyle(vh,
                                     lineType,
                                     lineWidth,
@@ -761,7 +768,6 @@ namespace XCharts
                                     new Vector3(startX + splitLength, current),
                                     lineColor);
                         }
-
                     }
                 }
                 current += scaleWidth;

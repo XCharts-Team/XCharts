@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +40,7 @@ namespace XCharts.Runtime
         private void InitMarkArea(MarkArea markArea)
         {
             markArea.painter = chart.m_PainterTop;
-            markArea.refreshComponent = delegate ()
+            markArea.refreshComponent = delegate()
             {
                 var label = ChartHelper.AddChartLabel("label", m_MarkLineLabelRoot.transform, markArea.label, chart.theme.axis,
                     component.text, Color.clear, TextAnchor.MiddleCenter);

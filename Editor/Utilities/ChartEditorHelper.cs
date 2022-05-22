@@ -1,8 +1,7 @@
-﻿
-using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 using XCharts.Runtime;
 
 namespace XCharts.Editor
@@ -53,7 +52,7 @@ namespace XCharts.Editor
 
         public static void SecondField(Rect drawRect, SerializedProperty prop)
         {
-            RectOffset offset = new RectOffset(-(int)EditorGUIUtility.labelWidth, 0, 0, 0);
+            RectOffset offset = new RectOffset(-(int) EditorGUIUtility.labelWidth, 0, 0, 0);
             drawRect = offset.Add(drawRect);
             EditorGUI.PropertyField(drawRect, prop, GUIContent.none);
             drawRect = offset.Remove(drawRect);
@@ -166,7 +165,7 @@ namespace XCharts.Editor
         }
         public static bool MakeComponentFoldout(ref Rect drawRect, Dictionary<string, float> heights,
             Dictionary<string, bool> moduleToggle, string key, string content, SerializedProperty prop,
-            bool propEnable, params HeaderMenuInfo[] menus)
+            SerializedProperty prop2, bool propEnable, params HeaderMenuInfo[] menus)
         {
             var sourRect = drawRect;
             float defaultWidth = drawRect.width;
@@ -181,10 +180,16 @@ namespace XCharts.Editor
                 if (prop.propertyType == SerializedPropertyType.Boolean)
                 {
                     if (!propEnable)
-                        using (new EditorGUI.DisabledScope(true))
-                            MakeBool(drawRect, prop);
+                        using(new EditorGUI.DisabledScope(true))
+                    MakeBool(drawRect, prop);
                     else
                         MakeBool(drawRect, prop);
+                    if (prop2 != null && !moduleToggle[key])
+                    {
+                        drawRect.x = EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + ARROW_WIDTH + BOOL_WIDTH;
+                        drawRect.width = defaultWidth - drawRect.x + ARROW_WIDTH;
+                        EditorGUI.PropertyField(drawRect, prop2, GUIContent.none);
+                    }
                 }
                 else
                 {
@@ -200,8 +205,6 @@ namespace XCharts.Editor
             heights[key] += headerHeight;
             return moduleToggle[key];
         }
-
-
 
         public static void MakeBool(Rect drawRect, SerializedProperty boolProp, int index = 0, string name = null)
         {
@@ -378,9 +381,9 @@ namespace XCharts.Editor
                     {
                         var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                         var isSerie = "Serie".Equals(element.type);
-                        var elementRect = isSerie
-                            ? new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * iconGap, drawRect.height)
-                            : new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
+                        var elementRect = isSerie ?
+                            new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * iconGap, drawRect.height) :
+                            new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
                         EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
                         var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                         var oldColor = GUI.contentColor;
@@ -436,7 +439,7 @@ namespace XCharts.Editor
             if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue < minValue)
                 prop.floatValue = minValue;
             if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue < minValue)
-                prop.intValue = (int)minValue;
+                prop.intValue = (int) minValue;
             var hig = EditorGUI.GetPropertyHeight(prop);
             drawRect.y += hig;
             heights[key] += hig;
@@ -451,7 +454,7 @@ namespace XCharts.Editor
             if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue > maxValue)
                 prop.floatValue = maxValue;
             if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue > maxValue)
-                prop.intValue = (int)maxValue;
+                prop.intValue = (int) maxValue;
             var hig = EditorGUI.GetPropertyHeight(prop);
             drawRect.y += hig;
             heights[key] += hig;

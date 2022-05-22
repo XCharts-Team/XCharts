@@ -2,9 +2,8 @@
 
 using System;
 using System.IO;
-using UnityEngine;
 using UnityEditor;
-
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -16,8 +15,7 @@ namespace XCharts.Runtime
         public XCResourcesImporter() { }
 
         public void OnDestroy()
-        {
-        }
+        { }
 
         public void OnGUI()
         {

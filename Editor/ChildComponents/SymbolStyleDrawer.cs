@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace XCharts.Editor
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
-                var type = (SymbolType)prop.FindPropertyRelative("m_Type").enumValueIndex;
+                var type = (SymbolType) prop.FindPropertyRelative("m_Type").enumValueIndex;
                 PropertyField(prop, "m_Type");
                 if (type == SymbolType.Custom)
                 {

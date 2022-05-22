@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,6 +66,7 @@ namespace XCharts.Runtime
                 param.serieIndex = serie.index;
                 param.dimension = i;
                 param.serieData = serieData;
+                param.dataCount = serie.dataCount;
                 param.value = serieData.GetData(i);
                 param.total = indicator.max;
                 param.color = color;
@@ -85,8 +85,8 @@ namespace XCharts.Runtime
 
         private void UpdateSerieContext()
         {
-            var needCheck = m_LegendEnter
-                || (chart.isPointerInChart && (m_RadarCoord != null && m_RadarCoord.IsPointerEnter()));
+            var needCheck = m_LegendEnter ||
+                (chart.isPointerInChart && (m_RadarCoord != null && m_RadarCoord.IsPointerEnter()));
             var needInteract = false;
             var needHideAll = false;
             if (!needCheck)
@@ -249,7 +249,7 @@ namespace XCharts.Runtime
                             max = serie.context.dataMax;
                         }
                     }
-                    var radius = (float)(m_RadarCoord.context.dataRadius * (value - min) / (max - min));
+                    var radius = (float) (m_RadarCoord.context.dataRadius * (value - min) / (max - min));
                     var currAngle = (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
@@ -287,14 +287,14 @@ namespace XCharts.Runtime
                     for (int m = 0; m < serieData.context.dataPoints.Count; m++)
                     {
                         var point = serieData.context.dataPoints[m];
-                        var symbolSize = isHighlight
-                            ? symbol.GetSelectedSize(null, chart.theme.serie.lineSymbolSelectedSize)
-                            : symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = isHighlight ?
+                            symbol.GetSelectedSize(null, chart.theme.serie.lineSymbolSelectedSize) :
+                            symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
                         if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
                         {
-                            symbolSize = isHighlight
-                                ? symbol.GetSelectedSize(serieData.data, symbolSize)
-                                : symbol.GetSize(serieData.data, symbolSize);
+                            symbolSize = isHighlight ?
+                                symbol.GetSelectedSize(serieData.data, symbolSize) :
+                                symbol.GetSize(serieData.data, symbolSize);
                             serieData.interact.SetValue(ref interacting, symbolSize);
                             symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                         }
@@ -305,7 +305,7 @@ namespace XCharts.Runtime
                         var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
                         var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                         chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                           symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
+                            symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
                     }
                 }
             }
@@ -378,8 +378,8 @@ namespace XCharts.Runtime
                 {
                     lineColor = radar.outRangeColor;
                 }
-                var radius = (float)(max < 0 ? radar.context.dataRadius - radar.context.dataRadius * value / max
-                : radar.context.dataRadius * value / max);
+                var radius = (float) (max < 0 ? radar.context.dataRadius - radar.context.dataRadius * value / max :
+                    radar.context.dataRadius * value / max);
                 var currAngle = (index + (radar.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;
                 if (index == startIndex)
@@ -420,7 +420,7 @@ namespace XCharts.Runtime
                 {
                     if (radar.connectCenter)
                         ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, centerPos,
-                             chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
+                            chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
                     ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, firstPoint, chart.theme.serie.lineWidth,
                         LineStyle.Type.Solid, lineColor, radar.lineGradient ? firstColor : lineColor);
                 }
@@ -433,9 +433,9 @@ namespace XCharts.Runtime
                     if (!serieData.show) continue;
                     var isHighlight = serie.highlight || serieData.context.highlight || serie.context.pointerEnter;
                     var serieIndex = serieData.index;
-                    var symbolSize = isHighlight
-                        ? serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize)
-                        : serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                    var symbolSize = isHighlight ?
+                        serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize) :
+                        serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                     var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
@@ -448,7 +448,7 @@ namespace XCharts.Runtime
                         symbolToColor = radar.outRangeColor;
                     }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.context.labelPosition, symbolColor,
-                           symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
+                        symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())
@@ -484,9 +484,9 @@ namespace XCharts.Runtime
         {
             if (serie.symbol.show && serie.symbol.type != SymbolType.None)
             {
-                var symbolSize = isHighlight
-                    ? serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize)
-                    : serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                var symbolSize = isHighlight ?
+                    serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize) :
+                    serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
                 var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
@@ -496,7 +496,7 @@ namespace XCharts.Runtime
                 foreach (var point in pointList)
                 {
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                       symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
+                        symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
                 }
             }
         }

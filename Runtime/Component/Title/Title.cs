@@ -1,6 +1,5 @@
-﻿
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -83,10 +82,10 @@ namespace XCharts.Runtime
         {
             get
             {
-                return m_ComponentDirty
-                    || location.componentDirty
-                    || m_LabelStyle.componentDirty
-                    || m_SubLabelStyle.componentDirty;
+                return m_ComponentDirty ||
+                    location.componentDirty ||
+                    m_LabelStyle.componentDirty ||
+                    m_SubLabelStyle.componentDirty;
             }
         }
 

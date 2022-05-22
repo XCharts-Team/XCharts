@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -8,10 +7,11 @@ namespace XCharts.Runtime
     public class ChildComponent
     {
         public virtual int index { get; set; }
+
         [NonSerialized] protected bool m_VertsDirty;
         [NonSerialized] protected bool m_ComponentDirty;
         [NonSerialized] protected Painter m_Painter;
-        
+
         /// <summary>
         /// 图表重绘标记。
         /// </summary>

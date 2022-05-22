@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -138,16 +137,17 @@ namespace XCharts.Runtime
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var axisXY = isY ? m_SerieGrid.context.y : m_SerieGrid.context.x;
 
+            var barCount = chart.GetSerieBarRealCount<SimplifiedBar>();
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
-            float barGap = chart.GetSerieBarGap<Bar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap);
-            float barWidth = serie.GetBarWidth(categoryWidth);
+            float barGap = chart.GetSerieBarGap<SimplifiedBar>();
+            float totalBarWidth = chart.GetSerieTotalWidth<SimplifiedBar>(categoryWidth, barGap, barCount);
+            float barWidth = serie.GetBarWidth(categoryWidth, barCount);
             float offset = (categoryWidth - totalBarWidth) * 0.5f;
             float barGapWidth = barWidth + barWidth * barGap;
             float gap = serie.barGap == -1 ? offset : offset + serie.index * barGapWidth;
-            int maxCount = serie.maxShow > 0
-                ? (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
-                : showData.Count;
+            int maxCount = serie.maxShow > 0 ?
+                (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
+                showData.Count;
 
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -231,7 +231,7 @@ namespace XCharts.Runtime
                 else
                 {
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
-                    else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
+                    else pY = grid.context.y + (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
                 }
                 pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }
@@ -244,7 +244,7 @@ namespace XCharts.Runtime
                 else
                 {
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
-                    else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
+                    else pX = grid.context.x + (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
                 }
                 pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }

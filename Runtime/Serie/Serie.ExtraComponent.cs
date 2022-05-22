@@ -1,21 +1,22 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
     public partial class Serie
     {
-        public static Dictionary<Type, string> extraComponentFieldNameDict = new Dictionary<Type, string>
-        {
-            {typeof(LabelStyle), "m_Labels"},
-            {typeof(LabelLine), "m_LabelLines"},
-            {typeof(EndLabelStyle), "m_EndLabels"},
-            {typeof(LineArrow), "m_LineArrows"},
-            {typeof(AreaStyle), "m_AreaStyles"},
-            {typeof(Emphasis), "m_Emphases"},
-            {typeof(TitleStyle), "m_TitleStyles"},
+        public static Dictionary<Type, string> extraComponentMap = new Dictionary<Type, string>
+        { { typeof(LabelStyle), "m_Labels" },
+            { typeof(LabelLine), "m_LabelLines" },
+            { typeof(EndLabelStyle), "m_EndLabels" },
+            { typeof(LineArrow), "m_LineArrows" },
+            { typeof(AreaStyle), "m_AreaStyles" },
+            { typeof(TitleStyle), "m_TitleStyles" },
+            { typeof(EmphasisItemStyle), "m_EmphasisItemStyles" },
+            { typeof(EmphasisLabelStyle), "m_EmphasisLabels" },
+            { typeof(EmphasisLabelLine), "m_EmphasisLabelLines" },
         };
 
         [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
@@ -24,7 +25,9 @@ namespace XCharts.Runtime
         [SerializeField] private List<LineArrow> m_LineArrows = new List<LineArrow>();
         [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
-        [SerializeField] private List<Emphasis> m_Emphases = new List<Emphasis>();
+        [SerializeField] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
+        [SerializeField] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
+        [SerializeField] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
 
         /// <summary>
         /// The style of area.
@@ -48,9 +51,17 @@ namespace XCharts.Runtime
         /// </summary>
         public LineArrow lineArrow { get { return m_LineArrows.Count > 0 ? m_LineArrows[0] : null; } }
         /// <summary>
-        /// 高亮的图形样式和文本标签样式。
+        /// 高亮的图形样式
         /// </summary>
-        public Emphasis emphasis { get { return m_Emphases.Count > 0 ? m_Emphases[0] : null; } }
+        public EmphasisItemStyle emphasisItemStyle { get { return m_EmphasisItemStyles.Count > 0 ? m_EmphasisItemStyles[0] : null; } }
+        /// <summary>
+        /// 高亮时的标签样式
+        /// </summary>
+        public EmphasisLabelStyle emphasisLabel { get { return m_EmphasisLabels.Count > 0 ? m_EmphasisLabels[0] : null; } }
+        /// <summary>
+        /// 高亮时的标签引导线样式
+        /// </summary>
+        public EmphasisLabelLine emphasisLabelLine { get { return m_EmphasisLabelLines.Count > 0 ? m_EmphasisLabelLines[0] : null; } }
         /// <summary>
         /// the icon of data.
         /// |数据项标题样式。
@@ -60,14 +71,14 @@ namespace XCharts.Runtime
         public void RemoveAllExtraComponent()
         {
             var serieType = GetType();
-            foreach (var kv in extraComponentFieldNameDict)
+            foreach (var kv in extraComponentMap)
             {
                 ReflectionUtil.InvokeListClear(this, serieType.GetField(kv.Value));
             }
             SetAllDirty();
         }
 
-        public T AddExtraComponent<T>() where T : ChildComponent
+        public T AddExtraComponent<T>() where T : ChildComponent, ISerieExtraComponent
         {
             return AddExtraComponent(typeof(T)) as T;
         }
@@ -80,7 +91,7 @@ namespace XCharts.Runtime
                 if (attr.Contains(type))
                 {
                     var fieldName = string.Empty;
-                    if (extraComponentFieldNameDict.TryGetValue(type, out fieldName))
+                    if (extraComponentMap.TryGetValue(type, out fieldName))
                     {
                         var field = typeof(Serie).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
                         if (ReflectionUtil.InvokeListCount(this, field) <= 0)
@@ -114,7 +125,7 @@ namespace XCharts.Runtime
                 if (attr.Contains(type))
                 {
                     var fieldName = string.Empty;
-                    if (extraComponentFieldNameDict.TryGetValue(type, out fieldName))
+                    if (extraComponentMap.TryGetValue(type, out fieldName))
                     {
                         var field = typeof(Serie).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
                         ReflectionUtil.InvokeListClear(this, field);

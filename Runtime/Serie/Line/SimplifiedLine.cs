@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ namespace XCharts.Runtime
     [CoordOptions(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.LeftToRight)]
     [SerieExtraComponent(typeof(AreaStyle))]
+    [SerieDataExtraComponent()]
+    [SerieDataExtraField()]
     public class SimplifiedLine : Serie, INeedSerieContainer, ISimplifiedSerie
     {
         public int containerIndex { get; internal set; }

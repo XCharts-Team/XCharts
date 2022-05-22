@@ -1,7 +1,6 @@
-﻿
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace XCharts.Runtime
 {
@@ -233,7 +232,7 @@ namespace XCharts.Runtime
             if (m_IsEnd)
                 return;
 
-            m_ActualDuration = (int)((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
+            m_ActualDuration = (int) ((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
             m_IsEnd = true;
             m_IsInit = false;
 
@@ -380,9 +379,9 @@ namespace XCharts.Runtime
 
         public bool IsIndexAnimation()
         {
-            return context.type == AnimationType.LeftToRight
-                || context.type == AnimationType.Clockwise
-                || context.type == AnimationType.AlongPath;
+            return context.type == AnimationType.LeftToRight ||
+                context.type == AnimationType.Clockwise ||
+                context.type == AnimationType.AlongPath;
         }
 
         public float GetIndexDelay(int dataIndex)
@@ -462,9 +461,9 @@ namespace XCharts.Runtime
             if (IsInDelay())
                 return;
 
-            m_ActualDuration = (int)((Time.time - startTime) * 1000) - fadeInDelay;
+            m_ActualDuration = (int) ((Time.time - startTime) * 1000) - fadeInDelay;
             var duration = GetCurrAnimationDuration();
-            var delta = (float)(total / duration * Time.deltaTime);
+            var delta = (float) (total / duration * Time.deltaTime);
             if (m_FadeOut)
             {
                 m_CurrDetailProgress -= delta;
@@ -534,8 +533,8 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if ((destProgress - startProgress > 0 && currHig > destProgress)
-                        || (destProgress - startProgress < 0 && currHig < destProgress))
+                    if ((destProgress - startProgress > 0 && currHig > destProgress) ||
+                        (destProgress - startProgress < 0 && currHig < destProgress))
                     {
                         currHig = destProgress;
                         isEnd = true;
@@ -613,7 +612,7 @@ namespace XCharts.Runtime
 #endif
             if (!enable || m_IsEnd)
                 return -1;
-            return (int)m_CurrDetailProgress;
+            return (int) m_CurrDetailProgress;
         }
 
         public float GetUpdateAnimationDuration()

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +26,6 @@ namespace XCharts.Runtime
         /// </summary>
         Median
     }
-
 
     /// <summary>
     /// Use a line in the chart to illustrate.
@@ -86,11 +84,13 @@ namespace XCharts.Runtime
             item.name = "average";
             item.type = MarkLineType.Average;
             item.lineStyle.type = LineStyle.Type.Dashed;
-            item.lineStyle.color = Color.blue;
+            item.lineStyle.color = Color.clear;
             item.startSymbol.show = true;
             item.startSymbol.type = SymbolType.Circle;
+            item.startSymbol.size = 4;
             item.endSymbol.show = true;
             item.endSymbol.type = SymbolType.Arrow;
+            item.endSymbol.size = 5;
             item.label.show = true;
             item.label.numericFormatter = "f1";
             item.label.formatter = "{c}";

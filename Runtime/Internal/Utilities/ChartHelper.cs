@@ -1,7 +1,6 @@
-﻿
-using System.Text;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -365,8 +364,8 @@ namespace XCharts.Runtime
             label.UpdateIcon(labelStyle.icon);
             if (labelStyle.background.show)
             {
-                label.color = (!labelStyle.background.autoColor || autoColor == Color.clear)
-                    ? labelStyle.background.color : autoColor;
+                label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
+                    labelStyle.background.color : autoColor;
                 label.sprite = labelStyle.background.sprite;
                 label.type = labelStyle.background.type;
             }
@@ -442,7 +441,7 @@ namespace XCharts.Runtime
             ThemeStyle theme, TextAnchor alignment)
         {
             var label = ChartHelper.AddChartLabel(name, parent, tooltip.indicatorLabelStyle, theme.tooltip,
-                    "", Color.clear, alignment);
+                "", Color.clear, alignment);
             label.SetActive(tooltip.show && tooltip.indicatorLabelStyle.show);
             return label;
         }
@@ -451,7 +450,7 @@ namespace XCharts.Runtime
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
-            int segment = (int)(dist / k);
+            int segment = (int) (dist / k);
             posList.Clear();
             posList.Add(sp);
             for (int i = 1; i < segment; i++)
@@ -606,7 +605,7 @@ namespace XCharts.Runtime
         {
             Color color;
             ColorUtility.TryParseHtmlString(hexColorStr, out color);
-            return (Color32)color;
+            return (Color32) color;
         }
 
         public static double GetMaxDivisibleValue(double max, int ceilRate)
@@ -615,15 +614,15 @@ namespace XCharts.Runtime
             if (max > -1 && max < 1)
             {
                 int count = 1;
-                int intvalue = (int)(max * Mathf.Pow(10, count));
+                int intvalue = (int) (max * Mathf.Pow(10, count));
                 while (intvalue == 0 && count < 12)
                 {
                     count++;
-                    intvalue = (int)(max * Mathf.Pow(10, count));
+                    intvalue = (int) (max * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                if (max > 0) return (int)((max * pow + 1)) / pow;
-                else return (int)((max * pow - 1)) / pow;
+                if (max > 0) return (int) ((max * pow + 1)) / pow;
+                else return (int) ((max * pow - 1)) / pow;
             }
             if (ceilRate == 0)
             {
@@ -646,7 +645,7 @@ namespace XCharts.Runtime
             else
             {
                 var mod = max % ceilRate;
-                int rate = (int)(max / ceilRate);
+                int rate = (int) (max / ceilRate);
                 return mod == 0 ? max : (max < 0 ? rate : rate + 1) * ceilRate;
             }
         }
@@ -657,15 +656,15 @@ namespace XCharts.Runtime
             if (min > -1 && min < 1)
             {
                 int count = 1;
-                int intvalue = (int)(min * Mathf.Pow(10, count));
+                int intvalue = (int) (min * Mathf.Pow(10, count));
                 while (intvalue == 0 && count < 12)
                 {
                     count++;
-                    intvalue = (int)(min * Mathf.Pow(10, count));
+                    intvalue = (int) (min * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                if (min > 0) return (int)((min * pow + 1)) / pow;
-                else return (int)((min * pow - 1)) / pow;
+                if (min > 0) return (int) ((min * pow + 1)) / pow;
+                else return (int) ((min * pow - 1)) / pow;
             }
             if (ceilRate == 0)
             {
@@ -687,7 +686,7 @@ namespace XCharts.Runtime
             else
             {
                 var mod = min % ceilRate;
-                int rate = (int)(min / ceilRate);
+                int rate = (int) (min / ceilRate);
                 return mod == 0 ? min : (min < 0 ? rate - 1 : rate) * ceilRate;
             }
         }
@@ -701,31 +700,31 @@ namespace XCharts.Runtime
             {
                 if (isLogBaseE)
                 {
-                    max = Mathf.Exp(splitNumber);
+                    max = Math.Exp(splitNumber);
                 }
                 else
                 {
-                    max = Mathf.Pow(logBase, splitNumber);
+                    max = Math.Pow(logBase, splitNumber);
                 }
                 splitNumber++;
             }
             return max;
         }
 
-        public static float GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
+        public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
         {
             splitNumber = 0;
             if (value > 1) return 1;
-            float min = 1;
+            double min = 1;
             while (min > value)
             {
                 if (isLogBaseE)
                 {
-                    min = Mathf.Exp(-splitNumber);
+                    min = Math.Exp(-splitNumber);
                 }
                 else
                 {
-                    min = Mathf.Pow(logBase, -splitNumber);
+                    min = Math.Pow(logBase, -splitNumber);
                 }
                 splitNumber++;
             }
@@ -736,11 +735,11 @@ namespace XCharts.Runtime
         {
             if (value > 1 || value < -1) return 0;
             int count = 1;
-            int intvalue = (int)(value * Mathf.Pow(10, count));
+            int intvalue = (int) (value * Mathf.Pow(10, count));
             while (intvalue == 0 && count < 38)
             {
                 count++;
-                intvalue = (int)(value * Mathf.Pow(10, count));
+                intvalue = (int) (value * Mathf.Pow(10, count));
             }
             if (count == 38 && (value == 0 || value == 1)) return 1;
             else return count;
@@ -836,16 +835,16 @@ namespace XCharts.Runtime
         {
             if (color.a != 0 && opacity != 1)
             {
-                color.a = (byte)(color.a * opacity);
+                color.a = (byte) (color.a * opacity);
             }
         }
 
         public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
-            newColor.r = (byte)(color.r * rate);
-            newColor.g = (byte)(color.g * rate);
-            newColor.b = (byte)(color.b * rate);
+            newColor.r = (byte) (color.r * rate);
+            newColor.g = (byte) (color.g * rate);
+            newColor.b = (byte) (color.b * rate);
             return newColor;
         }
 

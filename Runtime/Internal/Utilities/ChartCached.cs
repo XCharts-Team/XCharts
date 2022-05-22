@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,14 +12,13 @@ namespace XCharts.Runtime
         private const string NUMERIC_FORMATTER_X = "X";
         private const string NUMERIC_FORMATTER_x = "x";
         private static readonly string s_DefaultAxis = "axis_";
-        private static CultureInfo ci = new CultureInfo("en-us");// "en-us", "zh-cn", "ar-iq", "de-de"
+        private static CultureInfo ci = new CultureInfo("en-us"); // "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
         private static Dictionary<Type, Dictionary<int, string>> s_ComponentObjectName = new Dictionary<Type, Dictionary<int, string>>();
         private static Dictionary<int, string> s_AxisLabelName = new Dictionary<int, string>();
         private static Dictionary<Type, string> s_TypeName = new Dictionary<Type, string>();
-
 
         private static Dictionary<double, Dictionary<string, string>> s_NumberToStr = new Dictionary<double, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
@@ -55,18 +53,18 @@ namespace XCharts.Runtime
             {
                 if (string.IsNullOrEmpty(formatter))
                 {
-                    if (value - (int)value == 0)
-                        s_NumberToStr[value][formatter] = ((int)value).ToString();
+                    if (value - (int) value == 0)
+                        s_NumberToStr[value][formatter] = ((int) value).ToString();
                     else
                         s_NumberToStr[value][formatter] = value.ToString();
                 }
-                else if (formatter.StartsWith(NUMERIC_FORMATTER_D)
-                    || formatter.StartsWith(NUMERIC_FORMATTER_d)
-                    || formatter.StartsWith(NUMERIC_FORMATTER_X)
-                    || formatter.StartsWith(NUMERIC_FORMATTER_x)
-                    )
+                else if (formatter.StartsWith(NUMERIC_FORMATTER_D) ||
+                    formatter.StartsWith(NUMERIC_FORMATTER_d) ||
+                    formatter.StartsWith(NUMERIC_FORMATTER_X) ||
+                    formatter.StartsWith(NUMERIC_FORMATTER_x)
+                )
                 {
-                    s_NumberToStr[value][formatter] = ((int)value).ToString(formatter, ci);
+                    s_NumberToStr[value][formatter] = ((int) value).ToString(formatter, ci);
                 }
                 else
                 {

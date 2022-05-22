@@ -1,4 +1,3 @@
-
 using System;
 using System.Text;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace XCharts.Runtime
         {
             var grid = component;
             grid.painter = chart.painter;
-            grid.refreshComponent = delegate ()
+            grid.refreshComponent = delegate()
             {
                 grid.UpdateRuntimeData(chart.chartX, chart.chartY, chart.chartWidth, chart.chartHeight);
                 chart.OnCoordinateChanged();
@@ -80,9 +79,9 @@ namespace XCharts.Runtime
             if (grid.showBorder)
             {
                 var borderWidth = grid.borderWidth == 0 ? chart.theme.axis.lineWidth * 2 : grid.borderWidth;
-                var borderColor = ChartHelper.IsClearColor(grid.borderColor)
-                    ? chart.theme.axis.lineColor
-                    : grid.borderColor;
+                var borderColor = ChartHelper.IsClearColor(grid.borderColor) ?
+                    chart.theme.axis.lineColor :
+                    grid.borderColor;
                 UGL.DrawBorder(vh, grid.context.center, grid.context.width - borderWidth,
                     grid.context.height - borderWidth, borderWidth, borderColor);
             }

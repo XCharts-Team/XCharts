@@ -12,7 +12,7 @@ namespace XCharts.Runtime
 
         public static string CheckChart(BaseGraph chart)
         {
-            if (chart is BaseChart) return CheckChart((BaseChart)chart);
+            if (chart is BaseChart) return CheckChart((BaseChart) chart);
             else return string.Empty;
         }
 
@@ -68,12 +68,10 @@ namespace XCharts.Runtime
         }
 
         private static void CheckLegend(BaseChart chart, StringBuilder sb)
-        {
-        }
+        { }
 
         private static void CheckGrid(BaseChart chart, StringBuilder sb)
-        {
-        }
+        { }
 
         private static void CheckSerie(BaseChart chart, StringBuilder sb)
         {
@@ -120,11 +118,6 @@ namespace XCharts.Runtime
                         sb.AppendFormat("warning:serie {0} lineStyle->opacity is 0\n", serie.index);
                     if (IsColorAlphaZero(serie.lineStyle.color))
                         sb.AppendFormat("warning:serie {0} lineStyle->color alpha is 0\n", serie.index);
-                }
-                else if (serie is Bar)
-                {
-                    if (serie.barWidth == 0)
-                        sb.AppendFormat("warning:serie {0} barWidth is 0\n", serie.index);
                 }
                 else if (serie is Pie)
                 {

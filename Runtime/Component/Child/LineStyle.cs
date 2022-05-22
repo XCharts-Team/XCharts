@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -40,6 +38,7 @@ namespace XCharts.Runtime
             DashDotDot,
             None,
         }
+
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Solid;
         [SerializeField] private Color32 m_Color;
@@ -47,7 +46,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_ToColor2;
         [SerializeField] private float m_Width = 0;
         [SerializeField] private float m_Length = 0;
-        [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
+        [SerializeField][Range(0, 1)] private float m_Opacity = 1;
 
         /// <summary>
         /// Whether show line.
@@ -123,8 +122,7 @@ namespace XCharts.Runtime
         }
 
         public LineStyle()
-        {
-        }
+        { }
 
         public LineStyle(float width)
         {
@@ -172,7 +170,7 @@ namespace XCharts.Runtime
                 return m_Color;
 
             var color = m_Color;
-            color.a = (byte)(color.a * m_Opacity);
+            color.a = (byte) (color.a * m_Opacity);
             return color;
         }
 
@@ -203,7 +201,7 @@ namespace XCharts.Runtime
             }
             if (m_Opacity != 1)
             {
-                color.a = (byte)(color.a * m_Opacity);
+                color.a = (byte) (color.a * m_Opacity);
             }
             return color;
         }
@@ -232,7 +230,7 @@ namespace XCharts.Runtime
             else
             {
                 var color = themeColor;
-                color.a = (byte)(color.a * opacity);
+                color.a = (byte) (color.a * opacity);
                 return color;
             }
         }

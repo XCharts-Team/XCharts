@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,7 +44,7 @@ namespace XCharts.Editor
         protected virtual void OnEnable()
         {
             if (target == null) return;
-            m_Chart = (BaseChart)target;
+            m_Chart = (BaseChart) target;
             m_Script = serializedObject.FindProperty("m_Script");
             m_EnableTextMeshPro = serializedObject.FindProperty("m_EnableTextMeshPro");
             m_ChartName = serializedObject.FindProperty("m_ChartName");
@@ -172,7 +171,7 @@ namespace XCharts.Editor
             {
                 m_Series.Add(prop.GetArrayElementAtIndex(i));
             }
-            m_Series.Sort(delegate (SerializedProperty a, SerializedProperty b)
+            m_Series.Sort(delegate(SerializedProperty a, SerializedProperty b)
             {
                 var index1 = a.FindPropertyRelative("m_Index").intValue;
                 var index2 = b.FindPropertyRelative("m_Index").intValue;

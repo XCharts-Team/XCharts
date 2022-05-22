@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +14,6 @@ namespace XCharts.Runtime
         public bool maxDrag { get; internal set; }
 
         internal List<Color32> inRangeColors = new List<Color32>();
-        
+
     }
 }

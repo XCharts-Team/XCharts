@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +22,6 @@ namespace XCharts.Runtime
         {
             DrawPolar(vh, component);
         }
-
 
         private void DrawPolar(VertexHelper vh, PolarCoord polar)
         {

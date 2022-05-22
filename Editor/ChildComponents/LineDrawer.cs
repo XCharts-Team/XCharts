@@ -1,4 +1,3 @@
-﻿
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
@@ -47,6 +46,7 @@ namespace XCharts.Editor
             PropertyField(prop, "m_AutoColor");
         }
     }
+
     [CustomPropertyDrawer(typeof(AxisTick), true)]
     public class AxisTickDrawer : BaseLineDrawer
     {

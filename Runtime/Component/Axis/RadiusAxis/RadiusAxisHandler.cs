@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +51,7 @@ namespace XCharts.Runtime
             double tempMinValue = 0;
             double tempMaxValue = 0;
             SeriesHelper.GetXMinMaxValue(chart.series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
-                    out tempMaxValue, true);
+                out tempMaxValue, true);
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.context.minValue || tempMaxValue != axis.context.maxValue)
             {
@@ -132,8 +131,8 @@ namespace XCharts.Runtime
             var cenPos = polar.context.center;
             var dire = ChartHelper.GetDire(startAngle, true).normalized;
             var tickLength = axis.axisTick.GetLength(chart.theme.axis.tickLength);
-            var tickVector = ChartHelper.GetVertialDire(dire)
-                * (tickLength + axis.axisLabel.distance);
+            var tickVector = ChartHelper.GetVertialDire(dire) *
+                (tickLength + axis.axisLabel.distance);
             return ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVector;
         }
 
@@ -168,9 +167,9 @@ namespace XCharts.Runtime
                 }
                 if (radiusAxis.show && radiusAxis.axisTick.show)
                 {
-                    if ((i == 0 && radiusAxis.axisTick.showStartTick)
-                        || (i == size && radiusAxis.axisTick.showEndTick)
-                        || (i > 0 && i < size))
+                    if ((i == 0 && radiusAxis.axisTick.showStartTick) ||
+                        (i == size && radiusAxis.axisTick.showEndTick) ||
+                        (i > 0 && i < size))
                     {
                         UGL.DrawLine(vh, pos, pos + tickVetor, tickWidth, chart.theme.axis.lineColor);
                     }

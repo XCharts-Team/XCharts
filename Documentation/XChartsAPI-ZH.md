@@ -65,6 +65,8 @@
 - [SerieContext](#SerieContext)
 - [SerieConvertAttribute](#SerieConvertAttribute)
 - [SerieDataContext](#SerieDataContext)
+- [SerieDataExtraComponentAttribute](#SerieDataExtraComponentAttribute)
+- [SerieDataExtraFieldAttribute](#SerieDataExtraFieldAttribute)
 - [SerieExtraComponentAttribute](#SerieExtraComponentAttribute)
 - [SerieHandler](#SerieHandler)
 - [SerieHandler<T>](#SerieHandler<T>)
@@ -144,10 +146,12 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 |public method|description|
 |--|--|
 | `AddChartComponent()` |public MainComponent AddChartComponent(Type type)</br> |
+| `AddData()` |public SerieData AddData(int serieIndex, DateTime time, double yValue, string dataName = null, string dataId = null)</br>添加（time,y）数据到指定的系列中。 |
 | `AddData()` |public SerieData AddData(int serieIndex, double data, string dataName = null, string dataId = null)</br>添加一个数据到指定的系列中。 |
 | `AddData()` |public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)</br>添加（x,y）数据到指定系列中。 |
 | `AddData()` |public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null, string dataId = null)</br>添加多维数据（x,y,z...）到指定的系列中。 |
+| `AddData()` |public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)</br>添加（time,y）数据到指定的系列中。 |
 | `AddData()` |public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)</br>If serieName doesn't exist in legend,will be add to legend. |
 | `AddData()` |public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)</br>添加（x,y）数据到指定系列中。 |
@@ -338,7 +342,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetMaxDivisibleValue()` |public static double GetMaxDivisibleValue(double max, int ceilRate)</br> |
 | `GetMaxLogValue()` |public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
 | `GetMinDivisibleValue()` |public static double GetMinDivisibleValue(double min, int ceilRate)</br> |
-| `GetMinLogValue()` |public static float GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
+| `GetMinLogValue()` |public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
 | `GetPosition()` |public static Vector3 GetPosition(Vector3 center, float angle, float radius)</br> |
@@ -483,6 +487,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
+| `NeedFormat()` |public static bool NeedFormat(string content)</br> |
 | `ReplaceAxisLabelContent()` |public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)</br> |
 | `ReplaceAxisLabelContent()` |public static void ReplaceAxisLabelContent(ref string content, string value)</br> |
 | `TrimAndReplaceLine()` |public static string TrimAndReplaceLine(string content)</br> |
@@ -721,6 +726,38 @@ Inherits or Implemented: [Attribute](#Attribute)
 |--|--|
 | `Reset()` |public void Reset()</br> |
 
+## `SerieDataExtraComponentAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
+
+|public method|description|
+|--|--|
+| `Contains()` |public bool Contains(Type type)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute()</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)</br> |
+| `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)</br> |
+
+## `SerieDataExtraFieldAttribute`
+
+Inherits or Implemented: [Attribute](#Attribute)
+
+|public method|description|
+|--|--|
+| `Contains()` |public bool Contains(string field)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute()</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2, string field3)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)</br> |
+| `SerieDataExtraFieldAttribute()` |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)</br> |
+
 ## `SerieExtraComponentAttribute`
 
 Inherits or Implemented: [Attribute](#Attribute)
@@ -745,6 +782,7 @@ Inherits or Implemented: [SerieHandler where T](#SerieHandler where T),[Serie](#
 
 |public method|description|
 |--|--|
+| `GetSerieDataAutoColor()` |public virtual Color GetSerieDataAutoColor(SerieData serieData)</br> |
 | `GetSerieDataLabelOffset()` |public virtual Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)</br> |
 | `GetSerieDataLabelPosition()` |public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)</br> |
 | `GetSerieDataTitlePosition()` |public virtual Vector3 GetSerieDataTitlePosition(SerieData serieData, TitleStyle titleStyle)</br> |
@@ -777,13 +815,13 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
 | `GetAreaToColor()` |public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAverageData()` |public static double GetAverageData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
-| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
+| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
 | `GetItemColor0()` |public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)</br> |
 | `GetItemFormatter()` |public static string GetItemFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |
 | `GetItemMarker()` |public static string GetItemMarker(Serie serie, SerieData serieData, string defaultMarker = null)</br> |
 | `GetItemStyle()` |public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)</br> |
 | `GetItemStyleEmphasis()` |public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)</br> |
-| `GetItemToColor()` |public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
+| `GetItemToColor()` |public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
 | `GetLineColor()` |public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetLineStyle()` |public static LineStyle GetLineStyle(Serie serie, SerieData serieData)</br> |
 | `GetMaxData()` |public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |

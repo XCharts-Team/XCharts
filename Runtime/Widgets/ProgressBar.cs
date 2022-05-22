@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using XUGL;
@@ -10,7 +9,7 @@ namespace XCharts.Runtime
     [DisallowMultipleComponent]
     public class ProgressBar : BaseChart
     {
-        [SerializeField] [Range(0f, 1f)] private float m_Value = 0.5f;
+        [SerializeField][Range(0f, 1f)] private float m_Value = 0.5f;
         [SerializeField] private Color m_BackgroundColor = new Color32(255, 233, 233, 255);
         [SerializeField] private Color m_StartColor = Color.blue;
         [SerializeField] private Color m_EndColor = Color.red;
@@ -33,7 +32,6 @@ namespace XCharts.Runtime
             RemoveData();
         }
 #endif
-
 
         protected override void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {

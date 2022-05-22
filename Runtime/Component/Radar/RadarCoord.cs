@@ -1,6 +1,5 @@
-﻿
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace XCharts.Runtime
@@ -91,6 +90,7 @@ namespace XCharts.Runtime
                     return true;
             }
         }
+
         [SerializeField] private bool m_Show;
         [SerializeField] private Shape m_Shape;
         [SerializeField] private float m_Radius = 100;
@@ -281,12 +281,13 @@ namespace XCharts.Runtime
             m_Radius = 0.35f;
             m_SplitNumber = 5;
             m_Indicator = true;
-            m_IndicatorList = new List<Indicator>(5){
-                new Indicator(){name="indicator1",max = 0},
-                new Indicator(){name="indicator2",max = 0},
-                new Indicator(){name="indicator3",max = 0},
-                new Indicator(){name="indicator4",max = 0},
-                new Indicator(){name="indicator5",max = 0},
+            m_IndicatorList = new List<Indicator>(5)
+            {
+                new Indicator() { name = "indicator1", max = 0 },
+                new Indicator() { name = "indicator2", max = 0 },
+                new Indicator() { name = "indicator3", max = 0 },
+                new Indicator() { name = "indicator4", max = 0 },
+                new Indicator() { name = "indicator5", max = 0 },
             };
             center[0] = 0.5f;
             center[1] = 0.4f;

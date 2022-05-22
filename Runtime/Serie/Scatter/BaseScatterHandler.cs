@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -35,6 +34,7 @@ namespace XCharts.Runtime
             param.serieIndex = serie.index;
             param.category = category;
             param.dimension = 1;
+            param.dataCount = serie.dataCount;
             param.serieData = serieData;
             param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
@@ -130,8 +130,8 @@ namespace XCharts.Runtime
 
             var theme = chart.theme;
             int maxCount = serie.maxShow > 0 ?
-                (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
-                : serie.dataCount;
+                (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow) :
+                serie.dataCount;
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -175,14 +175,14 @@ namespace XCharts.Runtime
                 serie.context.dataPoints.Add(pos);
                 serieData.context.position = pos;
                 var datas = serieData.data;
-                var symbolSize = serie.highlight || serieData.context.highlight
-                    ? theme.serie.scatterSymbolSelectedSize
-                    : theme.serie.scatterSymbolSize;
+                var symbolSize = serie.highlight || serieData.context.highlight ?
+                    theme.serie.scatterSymbolSelectedSize :
+                    theme.serie.scatterSymbolSize;
                 if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
                 {
-                    symbolSize = highlight
-                        ? symbol.GetSelectedSize(serieData.data, symbolSize)
-                        : symbol.GetSize(serieData.data, symbolSize);
+                    symbolSize = highlight ?
+                        symbol.GetSelectedSize(serieData.data, symbolSize) :
+                        symbol.GetSize(serieData.data, symbolSize);
                     serieData.interact.SetValue(ref interacting, symbolSize);
                 }
 
@@ -193,7 +193,7 @@ namespace XCharts.Runtime
                     for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
                         var nowSize = symbol.animationSize[count];
-                        color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
+                        color.a = (byte) (255 * (symbolSize - nowSize) / symbolSize);
                         chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
                             color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -235,8 +235,8 @@ namespace XCharts.Runtime
 
             var theme = chart.theme;
             int maxCount = serie.maxShow > 0 ?
-                (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow)
-                : serie.dataCount;
+                (serie.maxShow > serie.dataCount ? serie.dataCount : serie.maxShow) :
+                serie.dataCount;
             serie.animation.InitProgress(0, 1);
 
             var rate = serie.animation.GetCurrRate();
@@ -297,7 +297,7 @@ namespace XCharts.Runtime
                     for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
                         var nowSize = symbol.animationSize[count];
-                        color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
+                        color.a = (byte) (255 * (symbolSize - nowSize) / symbolSize);
                         chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
                             color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -333,17 +333,17 @@ namespace XCharts.Runtime
             {
                 if (axis.boundaryGap)
                 {
-                    float tick = (float)(totalWidth / (axis.context.minMaxRange + 1));
-                    return tick / 2 + (float)(value - axis.context.minValue) * tick;
+                    float tick = (float) (totalWidth / (axis.context.minMaxRange + 1));
+                    return tick / 2 + (float) (value - axis.context.minValue) * tick;
                 }
                 else
                 {
-                    return (float)((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
+                    return (float) ((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
                 }
             }
             else
             {
-                return (float)((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
+                return (float) ((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
             }
         }
     }

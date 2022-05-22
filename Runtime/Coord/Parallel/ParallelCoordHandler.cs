@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -19,7 +18,7 @@ namespace XCharts.Runtime
         {
             var grid = component;
             grid.painter = chart.painter;
-            grid.refreshComponent = delegate ()
+            grid.refreshComponent = delegate()
             {
                 grid.UpdateRuntimeData(chart.chartX, chart.chartY, chart.chartWidth, chart.chartHeight);
                 chart.OnCoordinateChanged();
@@ -154,10 +153,10 @@ namespace XCharts.Runtime
                     var tempMinValue = m_SerieDimMin[i];
                     var tempMaxValue = m_SerieDimMax[i];
 
-                    if (tempMinValue != axis.context.minValue
-                        || tempMaxValue != axis.context.maxValue
-                        || m_LastInterval != axis.interval
-                        || m_LastSplitNumber != axis.splitNumber)
+                    if (tempMinValue != axis.context.minValue ||
+                        tempMaxValue != axis.context.maxValue ||
+                        m_LastInterval != axis.interval ||
+                        m_LastSplitNumber != axis.splitNumber)
                     {
                         m_LastSplitNumber = axis.splitNumber;
                         m_LastInterval = axis.interval;

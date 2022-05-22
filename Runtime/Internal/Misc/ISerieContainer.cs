@@ -1,4 +1,3 @@
-
 namespace XCharts.Runtime
 {
     public interface ISerieContainer

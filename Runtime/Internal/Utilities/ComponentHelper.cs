@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 
 namespace XCharts.Runtime
@@ -18,7 +16,7 @@ namespace XCharts.Runtime
             }
             return null;
         }
-        
+
         public static RadiusAxis GetRadiusAxis(List<MainComponent> components, int polarIndex)
         {
             foreach (var component in components)

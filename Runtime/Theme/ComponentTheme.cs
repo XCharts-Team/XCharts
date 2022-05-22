@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 #if dUI_TextMeshPro

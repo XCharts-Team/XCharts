@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 #if dUI_TextMeshPro
@@ -47,8 +46,7 @@ namespace XCharts.Runtime
         }
 
         public ChartText()
-        {
-        }
+        { }
 
         public ChartText(GameObject textParent)
         {
@@ -72,7 +70,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
             if (m_TMPText != null) m_TMPText.fontSize = fontSize;
 #else               
-            if (m_Text != null) m_Text.fontSize = (int)fontSize;
+            if (m_Text != null) m_Text.fontSize = (int) fontSize;
 #endif           
         }
 
@@ -81,7 +79,7 @@ namespace XCharts.Runtime
             if (text == null) text = string.Empty;
             else text = text.Replace("\\n", "\n");
 #if dUI_TextMeshPro
-            if(m_TMPText != null) m_TMPText.text = text;
+            if (m_TMPText != null) m_TMPText.text = text;
 #else
             if (m_Text != null) m_Text.text = text;
 #endif
@@ -169,15 +167,33 @@ namespace XCharts.Runtime
             if (m_TMPText == null) return;
             switch (alignment)
             {
-                case TextAnchor.LowerCenter: m_TMPText.alignment = TextAlignmentOptions.Bottom; break;
-                case TextAnchor.LowerLeft: m_TMPText.alignment = TextAlignmentOptions.BottomLeft; break;
-                case TextAnchor.LowerRight: m_TMPText.alignment = TextAlignmentOptions.BottomRight; break;
-                case TextAnchor.MiddleCenter: m_TMPText.alignment = TextAlignmentOptions.Center; break;
-                case TextAnchor.MiddleLeft: m_TMPText.alignment = TextAlignmentOptions.Left; break;
-                case TextAnchor.MiddleRight: m_TMPText.alignment = TextAlignmentOptions.Right; break;
-                case TextAnchor.UpperCenter: m_TMPText.alignment = TextAlignmentOptions.Top; break;
-                case TextAnchor.UpperLeft: m_TMPText.alignment = TextAlignmentOptions.TopLeft; break;
-                case TextAnchor.UpperRight: m_TMPText.alignment = TextAlignmentOptions.TopRight; break;
+                case TextAnchor.LowerCenter:
+                    m_TMPText.alignment = TextAlignmentOptions.Bottom;
+                    break;
+                case TextAnchor.LowerLeft:
+                    m_TMPText.alignment = TextAlignmentOptions.BottomLeft;
+                    break;
+                case TextAnchor.LowerRight:
+                    m_TMPText.alignment = TextAlignmentOptions.BottomRight;
+                    break;
+                case TextAnchor.MiddleCenter:
+                    m_TMPText.alignment = TextAlignmentOptions.Center;
+                    break;
+                case TextAnchor.MiddleLeft:
+                    m_TMPText.alignment = TextAlignmentOptions.Left;
+                    break;
+                case TextAnchor.MiddleRight:
+                    m_TMPText.alignment = TextAlignmentOptions.Right;
+                    break;
+                case TextAnchor.UpperCenter:
+                    m_TMPText.alignment = TextAlignmentOptions.Top;
+                    break;
+                case TextAnchor.UpperLeft:
+                    m_TMPText.alignment = TextAlignmentOptions.TopLeft;
+                    break;
+                case TextAnchor.UpperRight:
+                    m_TMPText.alignment = TextAlignmentOptions.TopRight;
+                    break;
                 default:
                     m_TMPText.alignment = TextAlignmentOptions.Center;
                     m_TextAlignment = TextAnchor.MiddleCenter;
@@ -199,10 +215,18 @@ namespace XCharts.Runtime
             if (m_TMPText == null) return;
             switch (fontStyle)
             {
-                case FontStyle.Normal: m_TMPText.fontStyle = FontStyles.Normal; break;
-                case FontStyle.Bold: m_TMPText.fontStyle = FontStyles.Bold; break;
-                case FontStyle.BoldAndItalic: m_TMPText.fontStyle = FontStyles.Bold | FontStyles.Italic; break;
-                case FontStyle.Italic: m_TMPText.fontStyle = FontStyles.Italic; break;
+                case FontStyle.Normal:
+                    m_TMPText.fontStyle = FontStyles.Normal;
+                    break;
+                case FontStyle.Bold:
+                    m_TMPText.fontStyle = FontStyles.Bold;
+                    break;
+                case FontStyle.BoldAndItalic:
+                    m_TMPText.fontStyle = FontStyles.Bold | FontStyles.Italic;
+                    break;
+                case FontStyle.Italic:
+                    m_TMPText.fontStyle = FontStyles.Italic;
+                    break;
             }
 #else
             if (m_Text != null) m_Text.fontStyle = fontStyle;

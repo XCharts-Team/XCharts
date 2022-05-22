@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -174,7 +173,7 @@ namespace XCharts.Runtime
                 case SymbolSizeType.FromData:
                     if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
-                        return (float)data[dataIndex] * m_DataScale;
+                        return (float) data[dataIndex] * m_DataScale;
                     }
                     else
                     {
@@ -183,7 +182,8 @@ namespace XCharts.Runtime
                 case SymbolSizeType.Function:
                     if (data != null && sizeFunction != null) return sizeFunction(data);
                     else return size == 0 ? themeSize : size;
-                default: return size == 0 ? themeSize : size;
+                default:
+                    return size == 0 ? themeSize : size;
             }
         }
 
@@ -204,7 +204,7 @@ namespace XCharts.Runtime
 
                     if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
-                        return (float)data[dataIndex] * m_SelectedDataScale;
+                        return (float) data[dataIndex] * m_SelectedDataScale;
                     }
                     else
                     {
@@ -218,7 +218,8 @@ namespace XCharts.Runtime
                     else
                         return selectedSize == 0 ? themeSelectedSize : selectedSize;
 
-                default: return selectedSize == 0 ? themeSelectedSize : selectedSize;
+                default:
+                    return selectedSize == 0 ? themeSelectedSize : selectedSize;
             }
         }
 

@@ -1,4 +1,3 @@
-﻿
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -101,9 +100,9 @@ namespace XCharts.Runtime
         [SerializeField]
         private List<LabelStyle> m_ContentLabelStyles = new List<LabelStyle>()
         {
-            new LabelStyle(){ textPadding = new TextPadding(0,5,0,0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft }},
-            new LabelStyle(){ textPadding = new TextPadding(0,20,0,0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft }},
-            new LabelStyle(){ textPadding = new TextPadding(0,0,0,0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleRight }}
+            new LabelStyle() { textPadding = new TextPadding(0, 5, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft } },
+            new LabelStyle() { textPadding = new TextPadding(0, 20, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft } },
+            new LabelStyle() { textPadding = new TextPadding(0, 0, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleRight } }
         };
 
         public TooltipContext context = new TooltipContext();
@@ -146,6 +145,7 @@ namespace XCharts.Runtime
         /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br>
         /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br>
         /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br>
+        /// {f} is sum of data.</br>
         /// {.1} represents a dot from serie corresponding color that specifies index as 1.</br>
         /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br>
         /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br>
@@ -161,6 +161,7 @@ namespace XCharts.Runtime
         /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br>
         /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br>
         /// {e}为当前所指示或index为0的serie的数据项serieData的name。</br>
+        /// {f}为数据总和。</br>
         /// {.1}表示指定index为1的serie对应颜色的圆点。</br>
         /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br>
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br>
@@ -372,7 +373,7 @@ namespace XCharts.Runtime
         /// |当前提示框所指示的数据项索引。
         /// </summary>
         public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
-        private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
+        private List<int> m_RuntimeDateIndex = new List<int>() {-1, -1 };
 
         /// <summary>
         /// Keep Tooltiop displayed at the top.

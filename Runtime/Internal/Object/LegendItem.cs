@@ -120,7 +120,6 @@ namespace XCharts.Runtime
             else return Color.clear;
         }
 
-
         public void SetIconColor(Color color)
         {
             if (m_Icon)

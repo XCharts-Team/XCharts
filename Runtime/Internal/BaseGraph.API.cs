@@ -1,6 +1,5 @@
-﻿
-using UnityEngine;
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace XCharts.Runtime
@@ -155,12 +154,12 @@ namespace XCharts.Runtime
         {
 #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
             var relative = Display.RelativeMouseAt(screenPoint);
-            if(relative != Vector3.zero)
+            if (relative != Vector3.zero)
                 screenPoint = relative;
 #endif
             var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
-                screenPoint, cam, out chartPoint))
+                    screenPoint, cam, out chartPoint))
             {
                 return false;
             }

@@ -1,15 +1,13 @@
-﻿
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
     public partial class BaseChart
     {
         public virtual void InitAxisRuntimeData(Axis axis)
-        {
-        }
+        { }
 
         public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)
         {

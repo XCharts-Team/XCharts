@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,7 +39,7 @@ namespace XCharts.Runtime
             {
                 var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                 if (xAxis != null)
-                    category = xAxis.GetData((int)serieData.GetData(0));
+                    category = xAxis.GetData((int) serieData.GetData(0));
             }
 
             title = serie.serieName;
@@ -49,6 +48,7 @@ namespace XCharts.Runtime
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
             param.dimension = defaultDimension;
+            param.dataCount = serie.dataCount;
             param.serieData = serieData;
             param.color = serieData.context.color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
@@ -130,7 +130,7 @@ namespace XCharts.Runtime
             xAxis.boundaryGap = true;
             yAxis.boundaryGap = true;
             var visualMap = chart.GetVisualMapOfSerie(serie);
-            var emphasis = serie.emphasis;
+            var emphasisItemStyle = serie.emphasisItemStyle;
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
             var xWidth = m_SerieGrid.context.width / xCount;
@@ -145,15 +145,15 @@ namespace XCharts.Runtime
             var rectWid = xWidth - 2 * borderWidth;
             var rectHig = yWidth - 2 * borderWidth;
 
-            var borderColor = serie.itemStyle.opacity > 0
-                ? serie.itemStyle.borderColor
-                : ChartConst.clearColor32;
-            borderColor.a = (byte)(borderColor.a * serie.itemStyle.opacity);
+            var borderColor = serie.itemStyle.opacity > 0 ?
+                serie.itemStyle.borderColor :
+                ChartConst.clearColor32;
+            borderColor.a = (byte) (borderColor.a * serie.itemStyle.opacity);
 
-            var borderToColor = serie.itemStyle.opacity > 0
-                ? serie.itemStyle.borderToColor
-                : ChartConst.clearColor32;
-            borderToColor.a = (byte)(borderToColor.a * serie.itemStyle.opacity);
+            var borderToColor = serie.itemStyle.opacity > 0 ?
+                serie.itemStyle.borderToColor :
+                ChartConst.clearColor32;
+            borderToColor.a = (byte) (borderToColor.a * serie.itemStyle.opacity);
 
             serie.context.dataPoints.Clear();
             serie.animation.InitProgress(0, xCount);
@@ -166,8 +166,8 @@ namespace XCharts.Runtime
             {
                 var serieData = serie.data[n];
                 serieData.index = n;
-                var i = (int)serieData.GetData(0);
-                var j = (int)serieData.GetData(1);
+                var i = (int) serieData.GetData(0);
+                var j = (int) serieData.GetData(1);
                 var dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
                 if (serie.IsIgnoreValue(serieData, dimension))
                 {
@@ -185,8 +185,8 @@ namespace XCharts.Runtime
                 serieData.context.canShowLabel = false;
                 serieData.context.rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
                 if (value == 0) continue;
-                if ((value < rangeMin && rangeMin != visualMap.min)
-                    || (value > rangeMax && rangeMax != visualMap.max))
+                if ((value < rangeMin && rangeMin != visualMap.min) ||
+                    (value > rangeMax && rangeMax != visualMap.max))
                 {
                     continue;
                 }
@@ -199,8 +199,8 @@ namespace XCharts.Runtime
                 serieData.context.canShowLabel = true;
                 serieData.context.color = color;
 
-                var highlight = (serieData.context.highlight)
-                    || visualMap.context.pointerIndex > 0;
+                var highlight = (serieData.context.highlight) ||
+                    visualMap.context.pointerIndex > 0;
 
                 //UGL.DrawRectangle(vh, pos, rectWid / 2, rectHig / 2, color);
                 UGL.DrawRectangle(vh, serieData.context.rect, color);
@@ -209,14 +209,14 @@ namespace XCharts.Runtime
                 {
                     UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
                 }
-                if (visualMap.hoverLink && highlight && emphasis != null && emphasis.show
-                    && emphasis.itemStyle.borderWidth > 0)
+                if (visualMap.hoverLink && highlight && emphasisItemStyle != null &&
+                    emphasisItemStyle.borderWidth > 0)
                 {
-                    var emphasisBorderWidth = emphasis.itemStyle.borderWidth;
-                    var emphasisBorderColor = emphasis.itemStyle.opacity > 0
-                        ? emphasis.itemStyle.borderColor : ChartConst.clearColor32;
-                    var emphasisBorderToColor = emphasis.itemStyle.opacity > 0
-                        ? emphasis.itemStyle.borderToColor : ChartConst.clearColor32;
+                    var emphasisBorderWidth = emphasisItemStyle.borderWidth;
+                    var emphasisBorderColor = emphasisItemStyle.opacity > 0 ?
+                        emphasisItemStyle.borderColor : ChartConst.clearColor32;
+                    var emphasisBorderToColor = emphasisItemStyle.opacity > 0 ?
+                        emphasisItemStyle.borderToColor : ChartConst.clearColor32;
                     UGL.DrawBorder(vh, pos, rectWid, rectHig, emphasisBorderWidth, emphasisBorderColor,
                         emphasisBorderToColor);
                 }

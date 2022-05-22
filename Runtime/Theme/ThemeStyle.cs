@@ -1,8 +1,7 @@
-
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
@@ -230,9 +229,8 @@ namespace XCharts.Runtime
         {
             Color color;
             ColorUtility.TryParseHtmlString(hexColorStr, out color);
-            return (Color32)color;
+            return (Color32) color;
         }
-
 
     }
 }

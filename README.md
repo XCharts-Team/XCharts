@@ -7,7 +7,7 @@
 <p align="center">
   A powerful, easy-to-use, configurable charting and data visualization library for Unity.
   <br>
-  一款基于UGUI的数据可视化图表插件。
+  一款Unity数据可视化图表插件。
   <br>
   <a href="README-EN.md">English Doc</a>
 </p>
@@ -43,7 +43,7 @@
   </a>
 </p>
 
-一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持折线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等十种常见免费内置图表，以及3D饼图、3D柱图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图等多种扩展图表。
+一款基于`UGUI`的功能强大、易用、参数可配置的数据可视化图表插件。支持`折线图`、`柱状图`、`饼图`、`雷达图`、`散点图`、`热力图`、`环形图`、`K线图`、`极坐标`、`平行坐标`等十种常见免费内置图表，以及`3D饼图`、`3D柱图`、`3D金字塔`、`漏斗图`、`仪表盘`、`水位图`、`象形柱图`、`甘特图`、`矩形树图`等多种扩展图表。
 
 [XCharts3.0 教程](Documentation/XChartsTutorial01-ZH.md)  
 [XCharts3.0 API](Documentation/XChartsAPI-ZH.md)  
@@ -67,18 +67,18 @@
 - 支持万级大数据绘制。
 - 支持`TexMeshPro`。
 
-## XCharts3.0 新功能
+## `XCharts3.0` 新功能
 
-- 增加Time时间轴。
-- 增加SingleAxis单轴。
-- 增加多种坐标系：Grid、Polar、Radar、SingleAxis。
+- 增加`Time`时间轴。
+- 增加`SingleAxis`单轴。
+- 增加多种坐标系：`Grid`、`Polar`、`Radar`、`SingleAxis`。
 - 增加多种动画方式。
 - 增加多种图表交互。
 - 增加国际化支持。
-- 增加Widgets小组件。
+- 增加`Widgets`小组件。
 - 增加多种扩展图表。
 
-## XCharts3.0 相比 XCharts2.0 的改进
+## `XCharts3.0` 相比 `XCharts2.0` 的改进
 
 - 更健壮的底层框架。
 - 更强大的性能。
@@ -91,23 +91,23 @@
 - 更高效的二次开发。
 - 更丰富的Demo示例。
 
-## XCharts3.0 和 2.0 数据对比
+## `XCharts3.0` 和 `2.0` 数据对比
 
 | Case | XCharts2.0 | XCharts3.0 | Note |
 | -- | -- | -- | -- |
-| 2000数据折线图的帧频 | 20 | 83 | 性能提升 3 倍 |
-| 2000数据折线图的顶点数 | 36.5k | 6.7k | 顶点数减少 4 倍 |
-| 2000数据折线图的Prefab大小 | 11.1MB | 802KB | 序列化文件大小减少 10 倍 |
-| 单条折线图数据最大容量 | 4.1k | 19k | 单Serie数据容量提升 4 倍 |
-| 支持的图表 | 11种 |23种 | 支持的图表多 1 倍 |
+| 2000数据折线图的帧频 | `20` | `83` | 性能提升 `3` 倍 |
+| 2000数据折线图的顶点数 | `36.5k` | `6.7k` | 顶点数减少 `4` 倍 |
+| 2000数据折线图的Prefab大小 | `11.1MB` | `802KB` | 序列化文件大小减少 `10` 倍 |
+| 单条折线图数据最大容量 | `4.1k` | `19k` | 单Serie数据容量提升 `4` 倍 |
+| 支持的图表 | `11种` |`23种` | 支持的图表多 `1` 倍 |
 
 ## 注意
 
-- XCharts3.0 不兼容 XCharts2.0 版本，建议旧项目还是继续使用XCharts2.0，新项目使用XCharts3.0。
-- XCharts2.0 进入维护阶段，后续只修复严重bug理论上不再加新功能。
-- XCharts 理论上支持Unity 5.6及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提Issue。
-- XCharts 内置图表都为常见的图表，可以免费使用；扩展图表大部分为不常使用的图表，有需要的可付费获取，详情[☞ 看这里](Documentation/SUPPORT.md)
-- 本仓库只包含XCharts源码，不包含Demo示例部分。需要查看Demo示例请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)
+- `XCharts3.0` 不兼容 `XCharts2.0` 版本，建议旧项目还是继续使用`XCharts2.0`，新项目使用`XCharts3.0`。
+- `XCharts2.0` 进入维护阶段，后续只修复严重`bug`，理论上不再加新功能。
+- `XCharts` 理论上支持`Unity 5.6`及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提`Issue`。
+- `XCharts` 内置图表都为常见的图表，可以免费使用；扩展图表大部分为不常使用的图表，有需要的可付费获取，详情[☞ 看这里](Documentation/SUPPORT.md)
+- 本仓库只包含`XCharts`源码，不包含`Demo`示例部分。需要查看`Demo`示例请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)
 
 ## 截图
 
@@ -115,7 +115,7 @@
 
 ![extendchart](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
 
-更多示例请看 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)，也可以到 [在线Demo](https://xcharts-team.github.io/demo/) 查看WebGL下的运行效果。
+更多示例请看 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)，也可以到 [在线Demo](https://xcharts-team.github.io/demo/) 查看`WebGL`下的运行效果。
 
 ## 使用
 
@@ -127,15 +127,14 @@
 
 ## FAQ
 
-1. XCharts 可以免费使用吗？  
-   答：可以免费使用。一些高级功能和扩展图表可根据自己的需求，再单独付费订阅和购买。
+1. `XCharts`可以免费使用吗？  
+   答：`XCharts`使用`MIT`协议，可以免费使用。也可以订阅`VIP`享受更多增值服务。
 
-2. XCharts 支持代码动态修改配置和数据吗？  
-   答：支持。
+2. `XCharts`支持代码动态添加和修改数据吗？支持从`Excel`或数据库中获取数据吗？  
+   答：支持代码动态添加和修改数据，但数据需要自己解析或获取，再调用`XCharts`的接口添加到`XCharts`。
 
-3. 这个插件除了用在Unity，还能用在其他平台（如Winform或WPF）吗？  
-   答：目前只支持在Unity中使用。
-
+3. 这个插件除了用在`Unity`，还能用在其他平台（如`Winform`或`WPF`）吗？  
+   答：目前只支持在`Unity`平台使用。理论上任何支持`UGUI`的`Unity`版本都能运行`XCharts`。
 
 ## 日志
 
@@ -147,7 +146,7 @@
 
 ## 其他
 
-邮箱：monitor1394@gmail.com  
+邮箱：`monitor1394@gmail.com`  
 QQ群：XCharts交流群（`202030963`）  
 VIP群：XCharts技术支持VIP群（`867291970`）  
 捐助和技术支持：[☞ 看这里](Documentation/SUPPORT.md)

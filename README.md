@@ -7,7 +7,7 @@
 <p align="center">
   A powerful, easy-to-use, configurable charting and data visualization library for Unity.
   <br>
-  一款Unity数据可视化图表插件。
+  Unity数据可视化图表插件。
   <br>
   <a href="README-EN.md">English Doc</a>
 </p>

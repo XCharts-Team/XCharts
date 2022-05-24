@@ -50,6 +50,7 @@
 [XCharts3.0 问答](Documentation/XChartsFAQ-ZH.md)  
 [XCharts3.0 配置项手册](Documentation/XChartsConfiguration-ZH.md)  
 [XCharts3.0 更新日志](CHANGELOG.md)  
+[XCharts3.0 订阅服务](Documentation/SUPPORT.md)  
 
 ## 特性
 

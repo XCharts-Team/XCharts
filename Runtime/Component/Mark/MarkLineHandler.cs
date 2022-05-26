@@ -92,7 +92,7 @@ namespace XCharts.Runtime
             if (!serie.show || !markLine.show) return;
             if (markLine.data.Count == 0) return;
             var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            var xAxis = chart.GetChartComponent<XAxis>(serie.yAxisIndex);
+            var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
             var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
             var dataZoom = chart.GetDataZoomOfAxis(xAxis);
             var animation = markLine.animation;

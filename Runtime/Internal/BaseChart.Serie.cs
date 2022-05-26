@@ -800,10 +800,10 @@ namespace XCharts.Runtime
         public float GetSerieTotalGap<T>(float categoryWidth, float gap, int index) where T : Serie
         {
             if (index <= 0) return 0;
-            float total = 0;
-            barStackSet.Clear();
+            var total = 0f;
             var count = 0;
             var totalRealBarCount = GetSerieBarRealCount<T>();
+            barStackSet.Clear();
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];

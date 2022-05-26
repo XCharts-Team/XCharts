@@ -7,15 +7,17 @@
 
 ## 获取和导入 XCharts
 
-1. 直接将XCharts源码到项目
+XCharts可通过以下任意一种方式导入到项目：
+
+- 直接将XCharts源码到项目
 
    下载好XCharts源码后，直接将XCharts目录拷贝到Unity项目工程的Assets目录下。
 
-2. 通过`Assets/Import Package`导入XCharts
+- 通过`Assets/Import Package`导入XCharts
 
    下载好XCharts的.unitypackage文件后，打开Unity，菜单栏 Assets-->Import Package-->选中.unitypackage导入即可开始使用XCharts。
 
-3. 通过`Package Manager`导入XCharts
+- 通过`Package Manager`导入XCharts
 
    对于Unity 2018.3以上版本，可通过 Package Manager来导入XCharts，打开Package Manager后，通过 `Add package form git URL...`，输入XCharts3.0的GitHub URL: `https://github.com/XCharts-Team/XCharts.git#3.0` 稍等片刻后即可使用XCharts。
 

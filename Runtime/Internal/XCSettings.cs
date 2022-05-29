@@ -175,7 +175,7 @@ namespace XCharts.Runtime
                         var jsonText = File.ReadAllText(jsonPath);
                         if (jsonText.Contains("\"displayName\": \"XCharts\""))
                         {
-                            path = string.Format("{0}/Resources/XCSettings.asset", match);
+                            path = string.Format("{0}/Resources/XCSettings.asset", match.Replace('\\', '/'));
                             if (File.Exists(path))
                                 return path.Substring(path.IndexOf("/Assets/") + 1);
                         }

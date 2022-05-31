@@ -1,5 +1,5 @@
 {
-    "name": "XCharts.Examples.Runtime",
+    "name": "XCharts.Examples",
     "references": [
         "XCharts.Runtime"
     ],

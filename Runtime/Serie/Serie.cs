@@ -11,7 +11,8 @@ namespace XCharts.Runtime
     public enum RoseType
     {
         /// <summary>
-        /// Don't show as Nightingale chart.不展示成南丁格尔玫瑰图
+        /// Don't show as Nightingale chart.
+        /// |不展示成南丁格尔玫瑰图。
         /// </summary>
         None,
         /// <summary>
@@ -34,12 +35,12 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// the normal line chart，
-        /// 普通折线图。
+        /// |普通折线图。
         /// </summary>
         Normal,
         /// <summary>
         /// the smooth line chart，
-        /// 平滑曲线。
+        /// |平滑曲线。
         /// </summary>
         Smooth,
         /// <summary>
@@ -59,33 +60,41 @@ namespace XCharts.Runtime
         StepEnd
     }
 
+    /// <summary>
+    /// the type of bar. |柱状图类型。
+    /// </summary>
     public enum BarType
     {
         /// <summary>
-        /// 普通柱形图
+        /// normal bar.
+        /// |普通柱形图。
         /// </summary>
         Normal,
         /// <summary>
-        /// 斑马柱形图
+        /// zebra bar.
+        /// |斑马柱形图。
         /// </summary>
         Zebra,
         /// <summary>
-        /// 胶囊柱形图
+        /// capsule bar.
+        /// |胶囊柱形图。
         /// </summary>
         Capsule
     }
 
     /// <summary>
-    /// 雷达图类型
+    /// the type of radar. |雷达图类型。
     /// </summary>
     public enum RadarType
     {
         /// <summary>
-        /// 多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+        /// multiple radar.
+        /// |多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
         /// </summary>
         Multiple,
         /// <summary>
-        /// 单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+        /// single radar.
+        /// |单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
         /// </summary>
         Single
     }

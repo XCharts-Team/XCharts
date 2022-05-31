@@ -711,7 +711,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether the label line is showed. |
-| `lineType` | | the type of visual guide line.</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
+| `lineType` | | the type of visual guide line.</br>`LineType`:</br>- `Normal`: the normal line chart，</br>- `Smooth`: the smooth line chart，</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
 | `lineColor` |ChartConst.clearColor32 | the color of visual guild line. |
 | `lineAngle` |0 | the angle of visual guild line. |
 | `lineWidth` |1.0f | the width of visual guild line. |
@@ -1048,8 +1048,8 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `sampleDist` |0 | the min pixel dist of sample. |
 | `sampleType` | | the type of sample.</br>`SampleType`:</br>- `Peak`: Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', take the maximum value; If you do it the other way around, you get the minimum.</br>- `Average`: Take the average of the filter points.</br>- `Max`: Take the maximum value of the filter point.</br>- `Min`: Take the minimum value of the filter point.</br>- `Sum`: Take the sum of the filter points.</br>|
 | `sampleAverage` |0 | 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。 |
-| `lineType` | | The type of line chart.</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
-| `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: 普通柱形图</br>- `Zebra`: 斑马柱形图</br>- `Capsule`: 胶囊柱形图</br>|
+| `lineType` | | The type of line chart.</br>`LineType`:</br>- `Normal`: the normal line chart，</br>- `Smooth`: the smooth line chart，</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
+| `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: normal bar.</br>- `Zebra`: zebra bar.</br>- `Capsule`: capsule bar.</br>|
 | `barPercentStack` |false | 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。 |
 | `barWidth` |0 | The width of the bar. Adaptive when default 0. |
 | `barGap` |0.1f | The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. |
@@ -1066,7 +1066,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `roundCap` | | 是否开启圆弧效果。 |
 | `splitNumber` | | 刻度分割段数。最大可设置36。 |
 | `clickOffset` |true | Whether offset when mouse click pie chart item. |
-| `roseType` | | Whether to show as Nightingale chart.</br>`RoseType`:</br>- `None`: Don't show as Nightingale chart.不展示成南丁格尔玫瑰图</br>- `Radius`: Use central angle to show the percentage of data, radius to show data size.</br>- `Area`: All the sectors will share the same central angle, the data size is shown only through radiuses.</br>|
+| `roseType` | | Whether to show as Nightingale chart.</br>`RoseType`:</br>- `None`: Don't show as Nightingale chart.</br>- `Radius`: Use central angle to show the percentage of data, radius to show data size.</br>- `Area`: All the sectors will share the same central angle, the data size is shown only through radiuses.</br>|
 | `gap` | | gap of item. |
 | `center` | | the center of chart. |
 | `radius` | | the radius of chart. |
@@ -1081,7 +1081,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `large` |true | 是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。 开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。 缺点：优化后不能自定义设置单个数据项的样式，不能显示Label。 |
 | `largeThreshold` |200 | 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。 |
 | `avoidLabelOverlap` |false | 在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。 |
-| `radarType` | | 雷达图类型。</br>`RadarType`:</br>- `Multiple`: 多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。</br>- `Single`: 单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。</br>|
+| `radarType` | | 雷达图类型。</br>`RadarType`:</br>- `Multiple`: multiple radar.</br>- `Single`: single radar.</br>|
 | `placeHolder` |false | 占位模式。占位模式时，数据有效但不参与渲染和显示。 |
 | `dataSortType` | | 组件的数据排序。</br>`SerieDataSortType`:</br>- `None`: 按 data 的顺序</br>- `Ascending`: 升序</br>- `Descending`: 降序</br>|
 | `orient` | | 组件的朝向。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|

@@ -9,7 +9,7 @@
   <br>
   Unity数据可视化图表插件。
   <br>
-  <a href="README-EN.md">English Doc</a>
+  <a href="Documentation/README-EN.md">English README</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">

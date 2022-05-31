@@ -711,7 +711,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示视觉引导线。 |
-| `lineType` | | 视觉引导线类型。</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
+| `lineType` | | 视觉引导线类型。</br>`LineType`:</br>- `Normal`: 普通折线图。</br>- `Smooth`: 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
 | `lineColor` |ChartConst.clearColor32 | 视觉引导线颜色。默认和serie一致取自调色板。 |
 | `lineAngle` |0 | 视觉引导线的固定角度。对折线和曲线有效。 |
 | `lineWidth` |1.0f | 视觉引导线的宽度。 |
@@ -1048,8 +1048,8 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `sampleDist` |0 | 采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。 |
 | `sampleType` | | 采样类型。当sampleDist大于0时有效。</br>`SampleType`:</br>- `Peak`: 取峰值。</br>- `Average`: 取过滤点的平均值。</br>- `Max`: 取过滤点的最大值。</br>- `Min`: 取过滤点的最小值。</br>- `Sum`: 取过滤点的和。</br>|
 | `sampleAverage` |0 | 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。 |
-| `lineType` | | 折线图样式类型。</br>`LineType`:</br>- `Normal`: the normal line chart， 普通折线图。</br>- `Smooth`: the smooth line chart， 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
-| `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: 普通柱形图</br>- `Zebra`: 斑马柱形图</br>- `Capsule`: 胶囊柱形图</br>|
+| `lineType` | | 折线图样式类型。</br>`LineType`:</br>- `Normal`: 普通折线图。</br>- `Smooth`: 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
+| `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: 普通柱形图。</br>- `Zebra`: 斑马柱形图。</br>- `Capsule`: 胶囊柱形图。</br>|
 | `barPercentStack` |false | 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。 |
 | `barWidth` |0 | 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。 |
 | `barGap` |0.1f | <para>Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background. |
@@ -1066,7 +1066,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `roundCap` | | 是否开启圆弧效果。 |
 | `splitNumber` | | 刻度分割段数。最大可设置36。 |
 | `clickOffset` |true | 鼠标点击时是否开启偏移，一般用在PieChart图表中。 |
-| `roseType` | | 是否展示成南丁格尔图，通过半径区分数据大小。</br>`RoseType`:</br>- `None`: Don't show as Nightingale chart.不展示成南丁格尔玫瑰图</br>- `Radius`: 扇区圆心角展现数据的百分比，半径展现数据的大小。</br>- `Area`: 所有扇区圆心角相同，仅通过半径展现数据大小。</br>|
+| `roseType` | | 是否展示成南丁格尔图，通过半径区分数据大小。</br>`RoseType`:</br>- `None`: 不展示成南丁格尔玫瑰图。</br>- `Radius`: 扇区圆心角展现数据的百分比，半径展现数据的大小。</br>- `Area`: 所有扇区圆心角相同，仅通过半径展现数据大小。</br>|
 | `gap` | | 间距。 |
 | `center` | | 中心点。 |
 | `radius` | | 半径。radius[0]表示内径，radius[1]表示外径。 |

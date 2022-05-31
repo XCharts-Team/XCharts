@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.0.0](#v3.0.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
@@ -37,22 +38,26 @@
 [v0.5.0](#v0.5.0)  
 [v0.1.0](#v0.1.0)  
 
-## master
+## v3.0.0
 
-* (2022.04.23) Remove `Serie` `IconStyle` component
-* (2022.04.23) Enhance `LabelStyle`, all components `TextStyle` will be upgraded to `LabelStyle`
-* (2022.04.19) Added `Label` `rotate` to support setting rotation
-* (2022.04.17) Fixed animation invalidation of `Bar` when the value is negative
-* (2022.04.17) Added `BorderGap` support for `ItemStyle` to set border spacing
-* (2022.04.16) Optimize the `Border` and `Capsule` histogram of `Bar`
-* (2021.08.15) Fixed the problem of displaying exceptions after adding data again when `DataZoom` is enable (#163)
-* (2021.08.15) Improved `Axis`'s `AxisLabel` text rotate setting to avoid inconsistency offset in `DataZoom` (#163)
-* (2021.08.14) Added `Legend`'s `textAutoColor` to set the text color match with `Serie` color (#163)
-* (2021.08.12) Optimize `BarChart` setting `Corner` when the positive and negative columns are fillet symmetric
-* (2021.08.03) Fixed y axis not displaying when all data is 0
-* (2021.07.29) Fixed ignored data will also participate in calculations when `ignore` is enabled (#161)
-* (2021.07.29) Improved `BarChart`'s `Zebra` gradient support
-* (2021.07.26) Fixed issue where `XCharts` path could not be found when `TextMeshPro Enable` (#160)
+* More robust underlying framework.
+* More powerful performance.
+* Smaller serialized files.
+* Better interactive experience.
+* More component support.
+* More powerful ability to self-report text.
+* More reasonable component adjustments.
+* More flexible component insertion and removal.
+* More efficient secondary development.
+* Richer Demo examples.
+* Added `Time` axis.
+* Added `SingleAxis`.
+* Added multiple coordinate systems: `Grid`, `Polar`, `Radar`, `SingleAxis`.
+* Added multiple animation methods.
+* Added multiple chart interactions.
+* Added internationalization support.
+* Added `Widgets`.
+* Added multiple extension charts.
 
 ## v2.3.0
 

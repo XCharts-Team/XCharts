@@ -696,7 +696,6 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 
 |public method|description|
 |--|--|
-| `CopyFolder()` |public static bool CopyFolder(string sourPath, string destPath)</br> |
 | `GetAllAssemblyTypes()` |public static IEnumerable<Type> GetAllAssemblyTypes()</br> |
 | `GetAllTypesDerivedFrom()` |public static IEnumerable<Type> GetAllTypesDerivedFrom(Type type)</br> |
 | `GetAllTypesDerivedFrom<T>()` |public static IEnumerable<Type> GetAllTypesDerivedFrom<T>()</br> |

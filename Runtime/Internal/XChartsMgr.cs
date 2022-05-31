@@ -126,6 +126,7 @@ namespace XCharts.Runtime
             }
         }
 
+#if UNITY_EDITOR
         public static string GetPackageFullPath()
         {
             string packagePath = Path.GetFullPath("Packages/com.monitor1394.xcharts");
@@ -166,8 +167,6 @@ namespace XCharts.Runtime
             }
             return null;
         }
-
-#if UNITY_EDITOR
 
         [UnityEditor.Callbacks.DidReloadScripts]
         static void OnEditorReload()

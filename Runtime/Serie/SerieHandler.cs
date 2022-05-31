@@ -249,11 +249,26 @@ namespace XCharts.Runtime
                 return false;
 
             var dataAutoColor = GetSerieDataAutoColor(serieData);
-            var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
-            var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
-                "", dataAutoColor, TextAnchor.MiddleCenter);
-            label.SetActive(serieLabel.show);
-            serieData.labelObject = label;
+            serieData.context.dataLabels.Clear();
+            if (serie.multiDimensionLabel)
+            {
+                for (int i = 0; i < serieData.data.Count; i++)
+                {
+                    var textName = string.Format("{0}_{1}_{2}_{3}", s_SerieLabelObjectName, serie.index, serieData.index, i);
+                    var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
+                        "", dataAutoColor, TextAnchor.MiddleCenter);
+                    label.SetActive(serieLabel.show);
+                    serieData.context.dataLabels.Add(label);
+                }
+            }
+            else
+            {
+                var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
+                var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
+                    "", dataAutoColor, TextAnchor.MiddleCenter);
+                label.SetActive(serieLabel.show);
+                serieData.labelObject = label;
+            }
 
             if (serieData.context.children.Count > 0)
             {
@@ -359,7 +374,7 @@ namespace XCharts.Runtime
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             foreach (var serieData in serie.data)
             {
-                if (serieData.labelObject == null)
+                if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
                     continue;
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var emphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
@@ -372,27 +387,59 @@ namespace XCharts.Runtime
                     serieData.context.canShowLabel &&
                     !isIgnore)
                 {
-                    var value = serieData.GetCurrData(defaultDimension, dataChangeDuration);
-                    var total = serie.GetDataTotal(defaultDimension, serieData);
-                    var color = chart.GetItemColor(serie, serieData);
-                    var content = string.IsNullOrEmpty(currLabel.formatter) ?
-                        ChartCached.NumberToStr(value, serieLabel.numericFormatter) :
-                        SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
-                            currLabel, color);
-                    serieData.SetLabelActive(!isIgnore);
-
-                    serieData.labelObject.SetText(content);
-                    UpdateLabelPosition(serieData, currLabel);
-                    if (currLabel.textStyle.autoColor)
+                    if (serie.multiDimensionLabel)
                     {
-                        var dataAutoColor = GetSerieDataAutoColor(serieData);
-                        if (!ChartHelper.IsClearColor(dataAutoColor))
-                            serieData.labelObject.SetTextColor(dataAutoColor);
+                        var total = serieData.GetTotalData();
+                        var color = chart.GetItemColor(serie, serieData);
+                        for (int i = 0; i < serieData.context.dataLabels.Count; i++)
+                        {
+                            if (i >= serieData.context.dataPoints.Count) continue;
+                            var labelObject = serieData.context.dataLabels[i];
+                            var value = serieData.GetCurrData(i, dataChangeDuration);
+                            var content = string.IsNullOrEmpty(currLabel.formatter) ?
+                                ChartCached.NumberToStr(value, serieLabel.numericFormatter) :
+                                SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
+                                    currLabel, color);
+                            var offset = GetSerieDataLabelOffset(serieData, currLabel);
+                            labelObject.SetActive(!isIgnore);
+                            labelObject.SetText(content);
+                            labelObject.SetPosition(serieData.context.dataPoints[i] + offset);
+                            if (currLabel.textStyle.autoColor)
+                            {
+                                var dataAutoColor = GetSerieDataAutoColor(serieData);
+                                if (!ChartHelper.IsClearColor(dataAutoColor))
+                                    labelObject.SetTextColor(dataAutoColor);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var value = serieData.GetCurrData(defaultDimension, dataChangeDuration);
+                        var total = serie.GetDataTotal(defaultDimension, serieData);
+                        var color = chart.GetItemColor(serie, serieData);
+                        var content = string.IsNullOrEmpty(currLabel.formatter) ?
+                            ChartCached.NumberToStr(value, serieLabel.numericFormatter) :
+                            SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
+                                currLabel, color);
+                        serieData.SetLabelActive(!isIgnore);
+
+                        serieData.labelObject.SetText(content);
+                        UpdateLabelPosition(serieData, currLabel);
+                        if (currLabel.textStyle.autoColor)
+                        {
+                            var dataAutoColor = GetSerieDataAutoColor(serieData);
+                            if (!ChartHelper.IsClearColor(dataAutoColor))
+                                serieData.labelObject.SetTextColor(dataAutoColor);
+                        }
                     }
                 }
                 else
                 {
                     serieData.SetLabelActive(false);
+                    foreach (var labelObject in serieData.context.dataLabels)
+                    {
+                        labelObject.SetActive(false);
+                    }
                 }
             }
         }

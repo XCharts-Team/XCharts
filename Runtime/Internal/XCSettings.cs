@@ -154,6 +154,7 @@ namespace XCharts.Runtime
             }
         }
 
+#if UNITY_EDITOR
         public static bool ExistAssetFile()
         {
             return System.IO.File.Exists("Assets/XCharts/Resources/XCSettings.asset");
@@ -184,6 +185,7 @@ namespace XCharts.Runtime
             }
             return null;
         }
+#endif
 
         public static bool AddCustomTheme(Theme theme)
         {

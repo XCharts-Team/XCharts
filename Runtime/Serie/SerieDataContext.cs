@@ -34,6 +34,7 @@ namespace XCharts.Runtime
         public float outsideRadius;
         public Vector3 position;
         public List<Vector3> dataPoints = new List<Vector3>();
+        public List<ChartLabel> dataLabels = new List<ChartLabel>();
         public List<SerieData> children = new List<SerieData>();
         /// <summary>
         /// 绘制区域。
@@ -77,6 +78,7 @@ namespace XCharts.Runtime
             subRect = Rect.zero;
             children.Clear();
             dataPoints.Clear();
+            dataLabels.Clear();
         }
     }
 }

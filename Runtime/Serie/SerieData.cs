@@ -458,6 +458,14 @@ namespace XCharts.Runtime
             return temp;
         }
 
+        public double GetTotalData()
+        {
+            var total = 0d;
+            foreach (var value in m_Data)
+                total += value;
+            return total;
+        }
+
         public bool UpdateData(int dimension, double value, bool updateAnimation, float animationDuration = 500f)
         {
             if (dimension >= 0 && dimension < data.Count)

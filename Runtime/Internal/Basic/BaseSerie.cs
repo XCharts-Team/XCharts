@@ -13,6 +13,7 @@ namespace XCharts.Runtime
         public virtual bool useDataNameForColor { get { return false; } }
         public virtual bool titleJustForSerie { get { return false; } }
         public virtual bool useSortData { get { return false; } }
+        public virtual bool multiDimensionLabel { get { return false; } }
         public bool anyDirty { get { return vertsDirty || componentDirty; } }
         public Painter painter { get { return m_Painter; } set { m_Painter = value; } }
         public Action refreshComponent { get; set; }

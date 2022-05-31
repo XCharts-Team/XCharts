@@ -81,36 +81,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static bool CopyFolder(string sourPath, string destPath)
-        {
-            try
-            {
-                if (!Directory.Exists(destPath))
-                {
-                    Directory.CreateDirectory(destPath);
-                }
-                var files = Directory.GetFiles(sourPath);
-                foreach (var file in files)
-                {
-                    var name = Path.GetFileName(file);
-                    var path = Path.Combine(destPath, name);
-                    File.Copy(file, path);
-                }
-                var folders = Directory.GetDirectories(sourPath);
-                foreach (var folder in folders)
-                {
-                    var name = Path.GetFileName(folder);
-                    var path = Path.Combine(destPath, name);
-                    CopyFolder(folder, path);
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("CopyFolder:" + e.Message);
-                return false;
-            }
-        }
+        
 
     }
 }

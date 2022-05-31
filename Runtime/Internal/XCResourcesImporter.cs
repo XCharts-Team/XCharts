@@ -14,8 +14,7 @@ namespace XCharts.Runtime
 
         public XCResourcesImporter() { }
 
-        public void OnDestroy()
-        { }
+        public void OnDestroy() { }
 
         public void OnGUI()
         {
@@ -38,7 +37,7 @@ namespace XCharts.Runtime
                         {
                             var sourPath = Path.Combine(packageFullPath, "Resources");
                             var destPath = Path.Combine(Application.dataPath, "XCharts/Resources");
-                            if (RuntimeUtil.CopyFolder(sourPath, destPath))
+                            if (CopyFolder(sourPath, destPath))
                             {
                                 AssetDatabase.SaveAssets();
                                 AssetDatabase.Refresh();
@@ -52,6 +51,37 @@ namespace XCharts.Runtime
             }
             GUILayout.EndVertical();
             GUILayout.Space(5f);
+        }
+
+        private static bool CopyFolder(string sourPath, string destPath)
+        {
+            try
+            {
+                if (!Directory.Exists(destPath))
+                {
+                    Directory.CreateDirectory(destPath);
+                }
+                var files = Directory.GetFiles(sourPath);
+                foreach (var file in files)
+                {
+                    var name = Path.GetFileName(file);
+                    var path = Path.Combine(destPath, name);
+                    File.Copy(file, path);
+                }
+                var folders = Directory.GetDirectories(sourPath);
+                foreach (var folder in folders)
+                {
+                    var name = Path.GetFileName(folder);
+                    var path = Path.Combine(destPath, name);
+                    CopyFolder(folder, path);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("CopyFolder:" + e.Message);
+                return false;
+            }
         }
 
         internal void RegisterResourceImportCallback()

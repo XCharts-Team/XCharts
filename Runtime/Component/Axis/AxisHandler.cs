@@ -300,6 +300,11 @@ namespace XCharts
 
         internal void CheckValueLabelActive(Axis axis, int i, ChartLabel label, Vector3 pos)
         {
+            if (!axis.show || !axis.axisLabel.show)
+            {
+                label.SetTextActive(false);
+                return;
+            }
             if (axis.IsValue())
             {
                 if (orient == Orient.Horizonal)

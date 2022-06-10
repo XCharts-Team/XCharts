@@ -226,7 +226,7 @@ namespace XCharts.Runtime
                     {
                         var legend = component as Legend;
                         var iconColor = LegendHelper.GetIconColor(this, legend, legendIndex, legendName, active);
-                        var contentColor = LegendHelper.GetContentColor(legendIndex, legend, m_Theme, active);
+                        var contentColor = LegendHelper.GetContentColor(this, legendIndex, legendName, legend, m_Theme, active);
                         legend.UpdateButtonColor(legendName, iconColor);
                         legend.UpdateContentColor(legendName, contentColor);
                     }

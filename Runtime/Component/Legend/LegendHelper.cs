@@ -6,13 +6,15 @@ namespace XCharts.Runtime
 {
     public static class LegendHelper
     {
-        public static Color GetContentColor(int legendIndex, Legend legend, ThemeStyle theme, bool active)
+        public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)
         {
             var textStyle = legend.labelStyle.textStyle;
             if (active)
             {
-                if (legend.labelStyle.textStyle.autoColor) return theme.GetColor(legendIndex);
-                else return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
+                if (legend.labelStyle.textStyle.autoColor)
+                    return SeriesHelper.GetNameColor(chart, legendIndex, legendName);
+                else
+                    return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
             }
             else return theme.legend.unableColor;
         }
@@ -31,7 +33,7 @@ namespace XCharts.Runtime
             else return chart.theme.legend.unableColor;
         }
 
-        public static LegendItem AddLegendItem(Legend legend, int i, string legendName, Transform parent,
+        public static LegendItem AddLegendItem(BaseChart chart, Legend legend, int i, string legendName, Transform parent,
             ThemeStyle theme, string content, Color itemColor, bool active, int legendIndex)
         {
             var objName = i + "_" + legendName;
@@ -41,7 +43,7 @@ namespace XCharts.Runtime
             var sizeDelta = new Vector2(100, 30);
             var iconSizeDelta = new Vector2(legend.itemWidth, legend.itemHeight);
             var textStyle = legend.labelStyle.textStyle;
-            var contentColor = GetContentColor(legendIndex, legend, theme, active);
+            var contentColor = GetContentColor(chart, legendIndex, legendName, legend, theme, active);
 
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);

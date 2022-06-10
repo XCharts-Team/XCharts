@@ -87,7 +87,7 @@ namespace XCharts.Runtime
                     var active = chart.IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(chart, legend, readIndex, datas[i], active);
                     bgColor.a = legend.itemOpacity;
-                    var item = LegendHelper.AddLegendItem(legend, i, datas[i], legendObject.transform, chart.theme,
+                    var item = LegendHelper.AddLegendItem(chart, legend, i, datas[i], legendObject.transform, chart.theme,
                         legendName, bgColor, active, readIndex);
                     legend.SetButton(legendName, item, totalLegend);
                     ChartHelper.ClearEventListener(item.button.gameObject);

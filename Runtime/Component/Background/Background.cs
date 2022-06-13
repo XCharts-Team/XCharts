@@ -18,7 +18,7 @@ namespace XCharts.Runtime
         [SerializeField] private Sprite m_Image;
         [SerializeField] private Image.Type m_ImageType;
         [SerializeField] private Color m_ImageColor = Color.white;
-        [SerializeField] private bool m_HideThemeBackgroundColor = true;
+        [SerializeField] private bool m_AutoColor = true;
 
         /// <summary>
         /// Whether to enable the background component.
@@ -59,13 +59,13 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Whether to hide the background color set in the theme when the background component is on.
-        /// |当background组件开启时，是否隐藏主题中设置的背景色。
+        /// Whether to use theme background color for component color when the background component is on.
+        /// |当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
         /// </summary>
-        public bool hideThemeBackgroundColor
+        public bool autoColor
         {
-            get { return m_HideThemeBackgroundColor; }
-            set { if (PropertyUtil.SetStruct(ref m_HideThemeBackgroundColor, value)) SetVerticesDirty(); }
+            get { return m_AutoColor; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
         }
 
         public override void SetDefaultValue()
@@ -74,7 +74,7 @@ namespace XCharts.Runtime
             m_Image = null;
             m_ImageType = Image.Type.Sliced;
             m_ImageColor = Color.white;
-            m_HideThemeBackgroundColor = true;
+            m_AutoColor = true;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace XCharts.Runtime
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 backgroundImage.sprite = component.image;
                 backgroundImage.type = component.imageType;
-                backgroundImage.color = component.imageColor;
+                backgroundImage.color = chart.theme.GetBackgroundColor(component);
 
                 backgroundObj.transform.SetSiblingIndex(0);
                 backgroundObj.SetActive(component.show);
@@ -32,9 +32,17 @@ namespace XCharts.Runtime
             component.refreshComponent();
         }
 
+        public override void Update()
+        {
+            if (component.gameObject != null && component.gameObject.transform.GetSiblingIndex() != 0)
+                component.gameObject.transform.SetSiblingIndex(0);
+        }
+
         public override void DrawBase(VertexHelper vh)
         {
             if (!component.show)
+                return;
+            if (component.image != null)
                 return;
 
             var p1 = new Vector3(chart.chartX, chart.chartY + chart.chartHeight);

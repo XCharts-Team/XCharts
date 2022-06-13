@@ -13,7 +13,7 @@ namespace XCharts.Editor
             PropertyField("m_Image");
             PropertyField("m_ImageType");
             PropertyField("m_ImageColor");
-            PropertyField("m_HideThemeBackgroundColor");
+            PropertyField("m_AutoColor");
             --EditorGUI.indentLevel;
         }
     }

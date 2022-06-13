@@ -53,7 +53,8 @@
 
 ## master
 
-* (2022.06.14) 优化`Background`，参数`hideThemeBackgroundColor`重命名为`autoColor`
+* (2022.06.14) 优化`SerieLabelStyle`，支持动态调整`Icon`
+* (2022.06.13) 优化`Background`，参数`hideThemeBackgroundColor`重命名为`autoColor`
 * (2022.06.10) 增加`Legend`的`AxisLabel`支持`autoColor`
 * (2022.06.08) 修复`Axis`的`AxisLabel`在设置不显示时还显示首尾两个`label`的问题
 

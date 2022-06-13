@@ -137,6 +137,7 @@ namespace XCharts.Runtime
             {
                 m_IconImage.sprite = sprite == null ? iconStyle.sprite : sprite;
                 m_IconImage.color = iconStyle.color;
+                m_IconImage.type = iconStyle.type;
                 m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
                 m_IconOffest = iconStyle.offset;
                 m_Align = iconStyle.align;

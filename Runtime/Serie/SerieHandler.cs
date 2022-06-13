@@ -240,13 +240,11 @@ namespace XCharts.Runtime
             if (count == -1) count = serie.dataCount;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             if (serieLabel == null)
-                return false;
-
-            var serieEmphasisLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
-
-            if (!serieLabel.show &&
-                (serieEmphasisLabel == null || !serieEmphasisLabel.show))
-                return false;
+            {
+                serieLabel = SerieHelper.GetSerieEmphasisLabel(serie, serieData);
+                if (serieLabel == null || !serieLabel.show)
+                    return false;
+            }
 
             var dataAutoColor = GetSerieDataAutoColor(serieData);
             serieData.context.dataLabels.Clear();
@@ -404,6 +402,7 @@ namespace XCharts.Runtime
                             labelObject.SetActive(!isIgnore);
                             labelObject.SetText(content);
                             labelObject.SetPosition(serieData.context.dataPoints[i] + offset);
+                            labelObject.UpdateIcon(currLabel.icon);
                             if (currLabel.textStyle.autoColor)
                             {
                                 var dataAutoColor = GetSerieDataAutoColor(serieData);
@@ -422,7 +421,7 @@ namespace XCharts.Runtime
                             SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                 currLabel, color);
                         serieData.SetLabelActive(!isIgnore);
-
+                        serieData.labelObject.UpdateIcon(currLabel.icon);
                         serieData.labelObject.SetText(content);
                         UpdateLabelPosition(serieData, currLabel);
                         if (currLabel.textStyle.autoColor)

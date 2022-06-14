@@ -9,9 +9,17 @@ namespace XCharts.Runtime
         [SerializeField] private LabelStyle m_Label = new LabelStyle();
         [SerializeField] private LabelStyle m_UpperLabel = new LabelStyle();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
-
+        /// <summary>
+        /// 文本标签样式。
+        /// </summary>
         public LabelStyle label { get { return m_Label; } }
+        /// <summary>
+        /// 上方的文本标签样式。
+        /// </summary>
         public LabelStyle upperLabel { get { return m_UpperLabel; } }
+        /// <summary>
+        /// 数据项样式。
+        /// </summary>
         public ItemStyle itemStyle { get { return m_ItemStyle; } }
     }
 

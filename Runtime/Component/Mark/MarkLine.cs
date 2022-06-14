@@ -49,6 +49,10 @@ namespace XCharts.Runtime
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// The serie index of markLine.
+        /// |标线影响的Serie索引。
+        /// </summary>
         public int serieIndex
         {
             get { return m_SerieIndex; }
@@ -99,7 +103,7 @@ namespace XCharts.Runtime
     }
     /// <summary>
     /// Data of marking line. 
-    /// 图表标线的数据。
+    /// |图表标线的数据。
     /// </summary>
     [System.Serializable]
     public class MarkLineData : ChildComponent

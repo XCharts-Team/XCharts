@@ -96,7 +96,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// the width of line.
         /// |线宽。
-        /// /// </summary>
+        /// </summary>
         public float width
         {
             get { return m_Width; }
@@ -105,7 +105,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// the length of line.
         /// |线长。
-        /// /// </summary>
+        /// </summary>
         public float length
         {
             get { return m_Length; }

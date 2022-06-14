@@ -233,6 +233,10 @@ namespace XCharts.Runtime
             get { return m_Icons; }
             set { if (value != null) { m_Icons = value; SetComponentDirty(); } }
         }
+        /// <summary>
+        /// the colors of legend item.
+        /// 图例标记的颜色列表。
+        /// </summary>
         public List<Color> colors
         {
             get { return m_Colors; }

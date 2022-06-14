@@ -200,7 +200,6 @@ the animation of serie.
 | `dataChangeEnable` |true | 是否开启数据变更动画。 |
 | `dataChangeDuration` |500 | The milliseconds duration of the data change animation. |
 | `actualDuration` | | The milliseconds actual duration of the first animation. |
-| `alongWithLinePath` | |  |
 
 ## `AreaStyle`
 
@@ -250,7 +249,7 @@ The axis in rectangular coordinate.
 | `max` | | The maximum value of axis.Valid when `minMaxType` is `Custom` |
 | `splitNumber` |0 | Number of segments that the axis is split into. |
 | `interval` |0 | Compulsively set segmentation interval for axis.This is unavailable for category axis. |
-| `boundaryGap` |true |  |
+| `boundaryGap` |true | The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'. |
 | `maxCache` |0 | The max number of axis data cache. |
 | `logBase` |10 | Base of logarithm, which is valid only for numeric axes with type: 'Log'. |
 | `logBaseE` |false | On the log axis, if base e is the natural number, and is true, logBase fails. |
@@ -260,7 +259,7 @@ The axis in rectangular coordinate.
 | `insertDataToHead` | | Whether to add new data at the head or at the end of the list. |
 | `icons` | | 类目数据对应的图标。 |
 | `data` | | Category data, available in type: 'Category' axis. |
-| `axisLine` | |  [AxisLine](AxisLine)|
+| `axisLine` | | axis Line. [AxisLine](AxisLine)|
 | `axisName` | | axis name. [AxisName](AxisName)|
 | `axisTick` | | axis tick. [AxisTick](AxisTick)|
 | `axisLabel` | | axis label. [AxisLabel](AxisLabel)|
@@ -316,7 +315,7 @@ Split area of axis in grid area, not shown by default.
 |field|default|comment|
 |--|--|--|
 | `show` | | Set this to true to show the splitArea. |
-| `color` | | Color of split area. SplitArea color could also be set in color array, which the split lines would take as their colors in turns. |
+| `color` | | Color of split area. SplitArea color could also be set in color array, which the split lines would take as their colors in turns. Dark and light colors in turns are used by default. |
 
 ## `AxisSplitLine`
 
@@ -326,9 +325,9 @@ Split line of axis in grid area.
 
 |field|default|comment|
 |--|--|--|
-| `interval` | |  |
+| `interval` | | Interval of Axis splitLine. |
 | `distance` | | The distance between the split line and axis line. |
-| `autoColor` | |  |
+| `autoColor` | | auto color. |
 
 ## `AxisTheme`
 
@@ -363,7 +362,7 @@ Background component.
 | `image` | | the image of background. |
 | `imageType` | | the fill type of background image. |
 | `imageColor` | | 背景图颜色。 |
-| `hideThemeBackgroundColor` |true | Whether to hide the background color set in the theme when the background component is on. |
+| `autoColor` |true | Whether to use theme background color for component color when the background component is on. |
 
 ## `Bar`
 
@@ -448,20 +447,20 @@ comment of chart.
 | `show` |true | Set this to false to prevent this comment item from showing. |
 | `content` | | content of comment. |
 | `position` | | position of comment. |
-| `markRect` | |  |
-| `markStyle` | |  [CommentMarkStyle](CommentMarkStyle)|
+| `markRect` | | the mark rect of comment. |
+| `markStyle` | | the mark rect style. [CommentMarkStyle](CommentMarkStyle)|
 | `labelStyle` | | The text style of all comments. [LabelStyle](LabelStyle)|
 
 ## `CommentMarkStyle`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
-comment of chart.
+the comment mark style.
 
 |field|default|comment|
 |--|--|--|
 | `show` |true | Set this to false to prevent this comment item from showing. |
-| `lineStyle` | |  [LineStyle](LineStyle)|
+| `lineStyle` | | line style of comment mark area. [LineStyle](LineStyle)|
 
 ## `ComponentTheme`
 
@@ -473,7 +472,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `textColor` | | the color of text. |
 | `textBackgroundColor` | | the color of text. |
 | `fontSize` |18 | the font size of text. |
-| `tMPFont` | | the font of chart text。 字体。 |
+| `tMPFont` | | the font of chart text。 |
 
 ## `CoordSystem`
 
@@ -502,7 +501,6 @@ DataZoom component is used for zooming a specific area, which enables user to in
 | `showDataShadow` | | Whether to show data shadow, to indicate the data tendency in brief. |
 | `showDetail` | | Whether to show detail, that is, show the detailed data information when dragging. |
 | `zoomLock` | | Specify whether to lock the size of window (selected area). |
-| `realtime` | |  |
 | `fillerColor` | | the color of dataZoom data area. |
 | `borderColor` | | the color of dataZoom border. |
 | `borderWidth` | | 边框宽。 |
@@ -514,8 +512,6 @@ DataZoom component is used for zooming a specific area, which enables user to in
 | `rangeMode` | | Use absolute value or percent value in DataZoom.start and DataZoom.end.</br>`DataZoom.RangeMode`:</br>- `//Value`: The value type of start and end.取值类型</br>- `Percent`: percent value.</br>|
 | `start` | | The start percentage of the window out of the data extent, in the range of 0 ~ 100. |
 | `end` | | The end percentage of the window out of the data extent, in the range of 0 ~ 100. |
-| `startValue` | |  |
-| `endValue` | |  |
 | `minShowNum` |1 | Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum. |
 | `scrollSensitivity` |1.1f | The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is. |
 | `orient` | | Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
@@ -562,7 +558,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |--|--|--|
 | `show` | | 是否启用高亮样式。 |
 | `label` | | 图形文本标签。 [LabelStyle](LabelStyle)|
-| `labelLine` | |  [LabelLine](LabelLine)|
+| `labelLine` | | 图形文本引导线样式。 [LabelLine](LabelLine)|
 | `itemStyle` | | 图形样式。 [ItemStyle](ItemStyle)|
 
 ## `EmphasisItemStyle`
@@ -730,12 +726,12 @@ Text label of chart, to explain some data information about graphic item like va
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether the label is showed. |
-| `Position` | |  |
+| `Position` | | The position of label. |
 | `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
 | `offset` | | offset to the host graphic element. |
 | `rotate` | | Rotation of label. |
 | `distance` | | 距离轴线的距离。 |
-| `formatter` | |  |
+| `formatter` | | formatter of label. |
 | `numericFormatter` | | Standard numeric format strings. |
 | `width` |0 | the width of label. If set as default value 0, it means than the label width auto set as the text width. |
 | `height` |0 | the height of label. If set as default value 0, it means than the label height auto set as the text height. |
@@ -775,12 +771,12 @@ Legend component.The legend component shows different sets of tags, colors, and 
 | `itemGap` |10f | The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout. |
 | `itemAutoColor` |true | Whether the legend symbol matches the color automatically. |
 | `itemOpacity` |1 | the opacity of item color. |
-| `formatter` | |  |
+| `formatter` | | Legend content string template formatter. Support for wrapping lines with \n. Template:{value}. |
 | `numericFormatter` | | Standard numeric format strings. |
 | `labelStyle` | | the style of text. [LabelStyle](LabelStyle)|
 | `data` | | Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. |
 | `icons` | | 自定义的图例标记图形。 |
-| `colors` | |  |
+| `colors` | | the colors of legend item. 图例标记的颜色列表。 |
 
 ## `LegendTheme`
 
@@ -796,9 +792,9 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
-| `label` | |  [LabelStyle](LabelStyle)|
-| `upperLabel` | |  [LabelStyle](LabelStyle)|
-| `itemStyle` | |  [ItemStyle](ItemStyle)|
+| `label` | | 文本标签样式。 [LabelStyle](LabelStyle)|
+| `upperLabel` | | 上方的文本标签样式。 [LabelStyle](LabelStyle)|
+| `itemStyle` | | 数据项样式。 [ItemStyle](ItemStyle)|
 
 ## `LevelStyle`
 
@@ -837,8 +833,8 @@ The style of line.
 | `color` | | the color of line, default use serie color. |
 | `toColor` | | the middle color of line, default use serie color. |
 | `toColor2` | | the end color of line, default use serie color. |
-| `width` |0 |  |
-| `length` |0 |  |
+| `width` |0 | the width of line. |
+| `length` |0 | the length of line. |
 | `opacity` |1 | Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0. |
 
 ## `Location`
@@ -864,24 +860,28 @@ Inherits or Implemented: [IComparable](#IComparable)
 
 Inherits or Implemented: [MainComponent](#MainComponent)
 
+Used to mark an area in chart. For example, mark a time interval.
+
 |field|default|comment|
 |--|--|--|
-| `show` |true |  |
-| `text` | |  |
-| `serieIndex` |0 |  |
-| `start` | |  [MarkAreaData](MarkAreaData)|
-| `end` | |  [MarkAreaData](MarkAreaData)|
-| `itemStyle` | |  [ItemStyle](ItemStyle)|
-| `label` | |  [LabelStyle](LabelStyle)|
+| `show` |true | 是否显示标域。 |
+| `text` | | The text of markArea. 标域显示的文本。 |
+| `serieIndex` |0 | Serie index of markArea. 标域影响的Serie索引。 |
+| `start` | | 标域范围的起始数据。 [MarkAreaData](MarkAreaData)|
+| `end` | | 标域范围的结束数据。 [MarkAreaData](MarkAreaData)|
+| `itemStyle` | | 标域样式。 [ItemStyle](ItemStyle)|
+| `label` | | 标域文本样式。 [LabelStyle](LabelStyle)|
 
 ## `MarkAreaData`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
+标域的数据。
+
 |field|default|comment|
 |--|--|--|
 | `type` | | Special markArea types, are used to label maximum value, minimum value and so on.</br>`MarkAreaType`:</br>- `None`: 标域类型</br>- `Min`: 最小值。</br>- `Max`: 最大值。</br>- `Average`: 平均值。</br>- `Median`: 中位数。</br>|
-| `name` | |  |
+| `name` | | Name of the marker, which will display as a label. |
 | `dimension` |1 | From which dimension of data to calculate the maximum and minimum value and so on. |
 | `xPosition` | | The x coordinate relative to the origin, in pixels. |
 | `yPosition` | | The y coordinate relative to the origin, in pixels. |
@@ -897,7 +897,7 @@ Use a line in the chart to illustrate.
 |field|default|comment|
 |--|--|--|
 | `show` |true | Whether to display the marking line. |
-| `serieIndex` |0 |  |
+| `serieIndex` |0 | The serie index of markLine. |
 | `animation` | | The animation of markline. [AnimationStyle](AnimationStyle)|
 | `data` | | A list of marked data. When the group of data item is 0, each data item represents a line; When the group is not 0, two data items of the same group represent the starting point and the ending point of the line respectively to form a line. In this case, the relevant style parameters of the line are the parameters of the starting point. |
 
@@ -905,12 +905,12 @@ Use a line in the chart to illustrate.
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
-Data of marking line. 图表标线的数据。
+Data of marking line.
 
 |field|default|comment|
 |--|--|--|
 | `type` | | Special label types, are used to label maximum value, minimum value and so on.</br>`MarkLineType`:</br>- `None`: 标线类型</br>- `Min`: 最小值。</br>- `Max`: 最大值。</br>- `Average`: 平均值。</br>- `Median`: 中位数。</br>|
-| `name` | |  |
+| `name` | | Name of the marker, which will display as a label. |
 | `dimension` |1 | From which dimension of data to calculate the maximum and minimum value and so on. |
 | `xPosition` | | The x coordinate relative to the origin, in pixels. |
 | `yPosition` | | The y coordinate relative to the origin, in pixels. |
@@ -922,7 +922,6 @@ Data of marking line. 图表标线的数据。
 | `endSymbol` | | The symbol of the end point of markline. [SymbolStyle](SymbolStyle)|
 | `lineStyle` | | The line style of markline. [LineStyle](LineStyle)|
 | `label` | | Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](LabelStyle)|
-| `emphasis` | |  [Emphasis](Emphasis)|
 
 ## `Parallel`
 
@@ -1020,15 +1019,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 
 |field|default|comment|
 |--|--|--|
-| `labels` | |  |
-| `labelLines` | |  |
-| `endLabels` | |  |
-| `lineArrows` | |  |
-| `areaStyles` | |  |
-| `titleStyles` | |  |
-| `emphasisItemStyles` | |  |
-| `emphasisLabels` | |  |
-| `emphasisLabelLines` | |  |
 | `index` | | The index of serie. |
 | `show` |true | Whether to show serie in chart. |
 | `coordSystem` | | the chart coord system of serie. |
@@ -1044,7 +1034,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `parallelIndex` |0 | Index of parallel coord component that serie uses. |
 | `minShow` | | The min number of data to show in chart. |
 | `maxShow` | | The max number of data to show in chart. |
-| `maxCache` | | The max number of serie data cache. |
+| `maxCache` | | The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache. |
 | `sampleDist` |0 | the min pixel dist of sample. |
 | `sampleType` | | the type of sample.</br>`SampleType`:</br>- `Peak`: Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', take the maximum value; If you do it the other way around, you get the minimum.</br>- `Average`: Take the average of the filter points.</br>- `Max`: Take the maximum value of the filter point.</br>- `Min`: Take the minimum value of the filter point.</br>- `Sum`: Take the sum of the filter points.</br>|
 | `sampleAverage` |0 | 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。 |
@@ -1052,7 +1042,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: normal bar.</br>- `Zebra`: zebra bar.</br>- `Capsule`: capsule bar.</br>|
 | `barPercentStack` |false | 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。 |
 | `barWidth` |0 | The width of the bar. Adaptive when default 0. |
-| `barGap` |0.1f | The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. |
+| `barGap` |0.1f | The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background. In a single coodinate system, this attribute is shared by multiple 'bar' series. This attribute should be set on the last 'bar' series in the coodinate system, then it will be adopted by all 'bar' series in the coordinate system. |
 | `barZebraWidth` |4f | 斑马线的粗细。 |
 | `barZebraGap` |2f | 斑马线的间距。 |
 | `min` | | 最小值。 |
@@ -1072,7 +1062,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `radius` | | the radius of chart. |
 | `showDataDimension` | | 数据项里的数据维数。 |
 | `showDataName` | | 在Editor的inpsector上是否显示name参数 |
-| `showDataIcon` | |  |
 | `clip` |false | If clip the overflow on the coordinate system. |
 | `ignore` |false | 是否开启忽略数据。当为 true 时，数据值为 ignoreValue 时不进行绘制。 |
 | `ignoreValue` |0 | 忽略数据的默认值。当ignore为true才有效。 |
@@ -1105,23 +1094,13 @@ A data item of serie.
 
 |field|default|comment|
 |--|--|--|
-| `index` | |  |
+| `index` | | the index of SerieData. |
 | `name` | | the name of data item. |
-| `id` | | 数据项的唯一id。唯一id不是必须设置的。 |
-| `parentId` | |  |
+| `id` | | the id of data. |
+| `parentId` | | the id of parent SerieData. |
 | `ignore` | | 是否忽略数据。当为 true 时，数据不进行绘制。 |
 | `selected` | | Whether the data item is selected. |
 | `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
-| `itemStyles` | |  |
-| `labels` | |  |
-| `labelLines` | |  |
-| `symbols` | |  |
-| `lineStyles` | |  |
-| `areaStyles` | |  |
-| `titleStyles` | |  |
-| `emphasisItemStyles` | |  |
-| `emphasisLabels` | |  |
-| `emphasisLabelLines` | |  |
 | `data` | | An arbitrary dimension data list of data item. |
 
 ## `SerieSymbol`
@@ -1211,8 +1190,8 @@ Single axis.
 | `right` |0.1f | Distance between component and the right side of the container. |
 | `top` |0f | Distance between component and the top side of the container. |
 | `bottom` |0.2f | Distance between component and the bottom side of the container. |
-| `width` |0 |  |
-| `height` |50 |  |
+| `width` |0 | width of axis. |
+| `height` |50 | height of axis. |
 
 ## `SingleAxisCoord`
 
@@ -1249,7 +1228,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `height` |0f | 图形的高。 |
 | `offset` |Vector2.zero | 图形的偏移。 |
 | `image` | | 自定义的标记图形。 |
-| `imageType` | |  |
+| `imageType` | | the fill type of image. |
 | `color` | | 图形的颜色。 |
 
 ## `TextLimit`
@@ -1273,11 +1252,11 @@ Settings related to text.
 
 |field|default|comment|
 |--|--|--|
-| `show` |true |  |
-| `top` |2 |  |
-| `right` |4 |  |
-| `left` |4 |  |
-| `bottom` |2 |  |
+| `show` |true | show padding. 是否显示。 |
+| `top` |2 | padding of top. |
+| `right` |4 | padding of right. |
+| `left` |4 | padding of left. |
+| `bottom` |2 | padding of bottom. |
 
 ## `TextStyle`
 
@@ -1298,7 +1277,7 @@ Settings related to text.
 | `fontStyle` | | font style. |
 | `lineSpacing` |1f | text line spacing. |
 | `alignment` | | 对齐方式。 |
-| `tMPFont` | |  |
+| `tMPFont` | | the font of textmeshpro. |
 | `tMPFontStyle` | |  |
 | `tMPAlignment` | |  |
 
@@ -1311,9 +1290,9 @@ Theme.
 |field|default|comment|
 |--|--|--|
 | `themeType` | | the theme of chart.</br>`ThemeType`:</br>- `Default`: 默认主题。</br>- `Light`: 亮主题。</br>- `Dark`: 暗主题。</br>- `Custom`: 自定义主题。</br>|
-| `themeName` | |  |
-| `font` | | the font of chart text。 字体。 |
-| `tMPFont` | | the font of chart text。 字体。 |
+| `themeName` | | the name of theme. |
+| `font` | | the font of chart text。 |
+| `tMPFont` | | the font of chart text。 |
 | `contrastColor` | | the contrast color of chart. |
 | `backgroundColor` | | the background color of chart. |
 | `colorPalette` | | The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series. |
@@ -1383,7 +1362,7 @@ Tooltip component.
 | `type` | | Indicator type.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `trigger` | | Type of triggering.</br>`Tooltip.Trigger`:</br>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.</br>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.</br>- `None`: Trigger nothing.</br>|
 | `itemFormatter` | | a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. When formatter is not null, use formatter first, otherwise use itemFormatter. |
-| `titleFormatter` | |  |
+| `titleFormatter` | | The string template formatter for the tooltip title content. Support for wrapping lines with \n. The placeholder {I} can be set separately to indicate that the title is ignored and not displayed. Template variables are {.}, {a}, {b}, {c}, {d}.</br> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br> {a} is the series name of the serie that is currently indicated or whose index is 0.</br> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br> {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br> {f} is sum of data.</br> {.1} represents a dot from serie corresponding color that specifies index as 1.</br> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br> |
 | `marker` | | the marker of serie. |
 | `fixedWidth` |0 | Fixed width. Higher priority than minWidth. |
 | `fixedHeight` |0 | Fixed height. Higher priority than minHeight. |
@@ -1401,17 +1380,17 @@ Tooltip component.
 | `backgroundType` | | The background type of tooltip. |
 | `backgroundColor` | | The background color of tooltip. |
 | `borderWidth` |2f | the width of tooltip border. |
-| `fixedXEnable` |false |  |
-| `fixedX` |0f |  |
-| `fixedYEnable` |false |  |
-| `fixedY` |0f |  |
-| `titleHeight` |25f |  |
-| `itemHeight` |25f |  |
+| `fixedXEnable` |false | enable fixedX. |
+| `fixedX` |0f | the x positionn of fixedX. |
+| `fixedYEnable` |false | enable fixedY. |
+| `fixedY` |0f | the y position of fixedY. |
+| `titleHeight` |25f | height of title text. |
+| `itemHeight` |25f | height of content text. |
 | `borderColor` |Color32(230, 230, 230, 255) | the color of tooltip border. |
 | `lineStyle` | | the line style of indicator line. [LineStyle](LineStyle)|
 | `indicatorLabelStyle` | | the label style of tooltip axis indicator label. [LabelStyle](LabelStyle)|
-| `titleLabelStyle` | | 标题的文本样式。 [LabelStyle](LabelStyle)|
-| `contentLabelStyles` | |  |
+| `titleLabelStyle` | | the textstyle of title. [LabelStyle](LabelStyle)|
+| `contentLabelStyles` | | the textstyle list of content. |
 
 ## `TooltipTheme`
 
@@ -1502,7 +1481,7 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 | `lang` | |  [Lang](Lang)|
 | `font` | |  |
 | `tMPFont` | |  |
-| `fontSizeLv1` |28 |  |
+| `fontSizeLv1` |28 | 一级字体大小。 |
 | `fontSizeLv2` |24 |  |
 | `fontSizeLv3` |20 |  |
 | `fontSizeLv4` |18 |  |

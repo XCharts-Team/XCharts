@@ -214,7 +214,6 @@ namespace XCharts.Runtime
 
         [SerializeField][Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
-        [SerializeField] private bool m_ShowDataIcon;
         [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private double m_IgnoreValue = 0;
@@ -388,8 +387,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The max number of serie data cache.
-        /// |The first data will be remove when the size of serie data is larger then maxCache.
-        /// |default:0,unlimited.
+        /// The first data will be remove when the size of serie data is larger then maxCache.
         /// |系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
         public int maxCache
@@ -478,11 +476,11 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
-        /// |<para>Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background.
-        /// |In a single coodinate system, this attribute is shared by multiple 'bar' series.
-        /// |This attribute should be set on the last 'bar' series in the coodinate system, 
-        /// then it will be adopted by all 'bar' series in the coordinate system.</para>
-        /// 不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
+        /// Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background.
+        /// In a single coodinate system, this attribute is shared by multiple 'bar' series.
+        /// This attribute should be set on the last 'bar' series in the coodinate system, 
+        /// then it will be adopted by all 'bar' series in the coordinate system.
+        /// |不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
         /// 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。
         /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
         /// </summary>

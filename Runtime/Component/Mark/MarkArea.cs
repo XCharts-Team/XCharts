@@ -26,6 +26,10 @@ namespace XCharts.Runtime
         Median
     }
 
+    /// <summary>
+    /// Used to mark an area in chart. For example, mark a time interval.
+    /// |图表标域，常用于标记图表中某个范围的数据。
+    /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(MarkAreaHandler), true)]
     public class MarkArea : MainComponent
@@ -40,37 +44,59 @@ namespace XCharts.Runtime
         public ChartLabel runtimeLabel { get; internal set; }
         public Vector3 runtimeLabelPosition { get; internal set; }
         public Rect runtimeRect { get; internal set; }
-
+        /// <summary>
+        /// 是否显示标域。
+        /// </summary>
         public bool show
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// The text of markArea.
+        /// 标域显示的文本。
+        /// </summary>
         public string text
         {
             get { return m_Text; }
             set { if (PropertyUtil.SetClass(ref m_Text, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// Serie index of markArea.
+        /// 标域影响的Serie索引。
+        /// </summary>
         public int serieIndex
         {
             get { return m_SerieIndex; }
             set { if (PropertyUtil.SetStruct(ref m_SerieIndex, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 标域范围的起始数据。
+        /// </summary>
         public MarkAreaData start
         {
             get { return m_Start; }
             set { if (PropertyUtil.SetClass(ref m_Start, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 标域范围的结束数据。
+        /// </summary>
         public MarkAreaData end
         {
             get { return m_End; }
             set { if (PropertyUtil.SetClass(ref m_End, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 标域样式。
+        /// </summary>
         public ItemStyle itemStyle
         {
             get { return m_ItemStyle; }
             set { if (PropertyUtil.SetClass(ref m_ItemStyle, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 标域文本样式。
+        /// </summary>
         public LabelStyle label
         {
             get { return m_Label; }
@@ -85,6 +111,9 @@ namespace XCharts.Runtime
         }
     }
 
+    /// <summary>
+    /// 标域的数据。
+    /// </summary>
     [System.Serializable]
     public class MarkAreaData : ChildComponent
     {
@@ -96,6 +125,10 @@ namespace XCharts.Runtime
         [SerializeField] private double m_XValue;
         [SerializeField] private double m_YValue;
         public double runtimeValue { get; internal set; }
+        /// <summary>
+        /// Name of the marker, which will display as a label.
+        /// |标注名称。会作为文字显示。
+        /// </summary>
         public string name
         {
             get { return m_Name; }

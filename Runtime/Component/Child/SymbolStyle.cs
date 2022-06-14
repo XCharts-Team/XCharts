@@ -150,6 +150,10 @@ namespace XCharts.Runtime
             get { return m_Image; }
             set { if (PropertyUtil.SetClass(ref m_Image, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// the fill type of image.
+        /// |图形填充类型。
+        /// </summary>
         public Image.Type imageType
         {
             get { return m_ImageType; }

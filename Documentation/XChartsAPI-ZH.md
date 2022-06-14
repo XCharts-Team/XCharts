@@ -33,6 +33,7 @@
 - [FormatterHelper](#FormatterHelper)
 - [GridCoordContext](#GridCoordContext)
 - [HeatmapChart](#HeatmapChart)
+- [IgnoreDoc](#IgnoreDoc)
 - [InteractData](#InteractData)
 - [LayerHelper](#LayerHelper)
 - [LegendContext](#LegendContext)
@@ -501,6 +502,14 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 Inherits or Implemented: [BaseChart](#BaseChart)
 
+## `IgnoreDoc`
+
+Inherits or Implemented: [Attribute](#Attribute)
+
+|public method|description|
+|--|--|
+| `IgnoreDoc()` |public IgnoreDoc()</br> |
+
 ## `InteractData`
 
 |public method|description|
@@ -534,7 +543,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 |--|--|
 | `CheckDataHighlighted()` |public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)</br> |
 | `CheckDataShow()` |public static bool CheckDataShow(Serie serie, string legendName, bool show)</br> |
-| `GetContentColor()` |public static Color GetContentColor(int legendIndex, Legend legend, ThemeStyle theme, bool active)</br> |
+| `GetContentColor()` |public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)</br> |
 | `GetIconColor()` |public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)</br> |
 | `ResetItemPosition()` |public static void ResetItemPosition(Legend legend, Vector3 chartPos, float chartWidth, float chartHeight)</br> |
 

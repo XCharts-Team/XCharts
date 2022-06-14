@@ -57,7 +57,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
         /// <summary>
         /// the font of chart text。
-        /// 字体。
+        /// |字体。
         /// </summary>
         public TMP_FontAsset tmpFont
         {

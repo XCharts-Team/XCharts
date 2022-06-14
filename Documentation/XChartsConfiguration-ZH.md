@@ -200,7 +200,6 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `dataChangeEnable` |true | 是否开启数据变更动画。 |
 | `dataChangeDuration` |500 | 数据变更的动画时长（毫秒）。 |
 | `actualDuration` | | 实际的动画时长（毫秒）。 |
-| `alongWithLinePath` | |  |
 
 ## `AreaStyle`
 
@@ -250,7 +249,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `max` | | 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。 |
 | `splitNumber` |0 | 坐标轴的期望的分割段数。默认为0表示自动分割。 |
 | `interval` |0 | 强制设置坐标轴分割间隔。无法在类目轴中使用。 |
-| `boundaryGap` |true |  |
+| `boundaryGap` |true | 坐标轴两边是否留白。只对类目轴有效。 |
 | `maxCache` |0 | The first data will be remove when the size of axis data is larger then maxCache. |
 | `logBase` |10 | 对数轴的底数，只在对数轴（type:'Log'）中有效。 |
 | `logBaseE` |false | 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。 |
@@ -260,7 +259,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `insertDataToHead` | | 添加新数据时是在列表的头部还是尾部加入。 |
 | `icons` | | 类目数据对应的图标。 |
 | `data` | | 类目数据，在类目轴（type: 'category'）中有效。 |
-| `axisLine` | |  [AxisLine](AxisLine)|
+| `axisLine` | | 坐标轴轴线。 [AxisLine](AxisLine)|
 | `axisName` | | 坐标轴名称。 [AxisName](AxisName)|
 | `axisTick` | | 坐标轴刻度。 [AxisTick](AxisTick)|
 | `axisLabel` | | 坐标轴刻度标签。 [AxisLabel](AxisLabel)|
@@ -316,7 +315,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |field|default|comment|
 |--|--|--|
 | `show` | | 是否显示分隔区域。 |
-| `color` | | Dark and light colors in turns are used by default. |
+| `color` | | 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。 |
 
 ## `AxisSplitLine`
 
@@ -326,9 +325,9 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 
 |field|default|comment|
 |--|--|--|
-| `interval` | |  |
+| `interval` | | 坐标轴分隔线的显示间隔。 |
 | `distance` | | 刻度线与轴线的距离。 |
-| `autoColor` | |  |
+| `autoColor` | | 自动设置颜色。 |
 
 ## `AxisTheme`
 
@@ -363,7 +362,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `image` | | 背景图。 |
 | `imageType` | | 背景图填充类型。 |
 | `imageColor` | | 背景图颜色。 |
-| `hideThemeBackgroundColor` |true | 当background组件开启时，是否隐藏主题中设置的背景色。 |
+| `autoColor` |true | 当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。 |
 
 ## `Bar`
 
@@ -448,20 +447,20 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `show` |true | 是否显示当前注解项。 |
 | `content` | | 注解的文本内容。 |
 | `position` | | 注解项的位置坐标。 |
-| `markRect` | |  |
-| `markStyle` | |  [CommentMarkStyle](CommentMarkStyle)|
+| `markRect` | | 注解区域。 |
+| `markStyle` | | 注解标记区域样式。 [CommentMarkStyle](CommentMarkStyle)|
 | `labelStyle` | | 注解项的文本样式。 [LabelStyle](LabelStyle)|
 
 ## `CommentMarkStyle`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
-注解项。
+注解项区域样式。
 
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示当前注解项。 |
-| `lineStyle` | |  [LineStyle](LineStyle)|
+| `lineStyle` | | 线条样式。 [LineStyle](LineStyle)|
 
 ## `ComponentTheme`
 
@@ -473,7 +472,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `textColor` | | 文本颜色。 |
 | `textBackgroundColor` | | 文本颜色。 |
 | `fontSize` |18 | 文本字体大小。 |
-| `tMPFont` | | the font of chart text。 字体。 |
+| `tMPFont` | | 字体。 |
 
 ## `CoordSystem`
 
@@ -502,7 +501,6 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 | `showDataShadow` | | 是否显示数据阴影。数据阴影可以简单地反应数据走势。 |
 | `showDetail` | | 是否显示detail，即拖拽时候显示详细数值信息。 |
 | `zoomLock` | | 是否锁定选择区域（或叫做数据窗口）的大小。 如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。 |
-| `realtime` | |  |
 | `fillerColor` | | 数据区域颜色。 |
 | `borderColor` | | 边框颜色。 |
 | `borderWidth` | | 边框宽。 |
@@ -514,8 +512,6 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 | `rangeMode` | | 取绝对值还是百分比。</br>`DataZoom.RangeMode`:</br>- `//Value`: The value type of start and end.取值类型</br>- `Percent`: 百分比。</br>|
 | `start` | | 数据窗口范围的起始百分比。范围是：0 ~ 100。 |
 | `end` | | 数据窗口范围的结束百分比。范围是：0 ~ 100。 |
-| `startValue` | |  |
-| `endValue` | |  |
 | `minShowNum` |1 | 最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。 |
 | `scrollSensitivity` |1.1f | 缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。 |
 | `orient` | | 布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
@@ -562,7 +558,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |--|--|--|
 | `show` | | 是否启用高亮样式。 |
 | `label` | | 图形文本标签。 [LabelStyle](LabelStyle)|
-| `labelLine` | |  [LabelLine](LabelLine)|
+| `labelLine` | | 图形文本引导线样式。 [LabelLine](LabelLine)|
 | `itemStyle` | | 图形样式。 [ItemStyle](ItemStyle)|
 
 ## `EmphasisItemStyle`
@@ -730,12 +726,12 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示文本标签。 |
-| `Position` | |  |
+| `Position` | | 标签的位置。 |
 | `autoOffset` |false | 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。 |
 | `offset` | | 距离图形元素的偏移 |
 | `rotate` | | 文本的旋转。 |
 | `distance` | | 距离轴线的距离。 |
-| `formatter` | |  |
+| `formatter` | | 标签内容字符串模版格式器。支持用 \n 换行。 模板变量有： {.}：圆点标记。 {a}：系列名。 {a}：系列名。 {b}：类目值或数据名。 {c}：数据值。 {d}：百分比。 {e}：数据名。 {f}：数据和。 示例：“{b}:{c}” |
 | `numericFormatter` | | 标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings |
 | `width` |0 | 标签的宽度。一般不用指定，不指定时则自动是文字的宽度。 |
 | `height` |0 | 标签的高度。一般不用指定，不指定时则自动是文字的高度。 |
@@ -775,12 +771,12 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 | `itemGap` |10f | 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。 [default:10f] |
 | `itemAutoColor` |true | 图例标记的图形是否自动匹配颜色。 [default:true] |
 | `itemOpacity` |1 | 图例标记的图形的颜色透明度。 |
-| `formatter` | |  |
+| `formatter` | | 图例内容字符串模版格式器。支持用 \n 换行。 模板变量为图例名称 {value}。 [default:null] |
 | `numericFormatter` | | 标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings |
 | `labelStyle` | | 文本样式。 [LabelStyle](LabelStyle)|
 | `data` | | If data is not specified, it will be auto collected from series. |
 | `icons` | | 自定义的图例标记图形。 |
-| `colors` | |  |
+| `colors` | | the colors of legend item. 图例标记的颜色列表。 |
 
 ## `LegendTheme`
 
@@ -796,9 +792,9 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
-| `label` | |  [LabelStyle](LabelStyle)|
-| `upperLabel` | |  [LabelStyle](LabelStyle)|
-| `itemStyle` | |  [ItemStyle](ItemStyle)|
+| `label` | | 文本标签样式。 [LabelStyle](LabelStyle)|
+| `upperLabel` | | 上方的文本标签样式。 [LabelStyle](LabelStyle)|
+| `itemStyle` | | 数据项样式。 [ItemStyle](ItemStyle)|
 
 ## `LevelStyle`
 
@@ -837,8 +833,8 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 | `color` | | 线的颜色。 |
 | `toColor` | | 线的渐变颜色（需要水平方向渐变时）。 |
 | `toColor2` | | 线的渐变颜色2（需要水平方向三个渐变色的渐变时）。 |
-| `width` |0 |  |
-| `length` |0 |  |
+| `width` |0 | 线宽。 |
+| `length` |0 | 线长。 |
 | `opacity` |1 | 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。 |
 
 ## `Location`
@@ -864,24 +860,28 @@ Inherits or Implemented: [IComparable](#IComparable)
 
 Inherits or Implemented: [MainComponent](#MainComponent)
 
+图表标域，常用于标记图表中某个范围的数据。
+
 |field|default|comment|
 |--|--|--|
-| `show` |true |  |
-| `text` | |  |
-| `serieIndex` |0 |  |
-| `start` | |  [MarkAreaData](MarkAreaData)|
-| `end` | |  [MarkAreaData](MarkAreaData)|
-| `itemStyle` | |  [ItemStyle](ItemStyle)|
-| `label` | |  [LabelStyle](LabelStyle)|
+| `show` |true | 是否显示标域。 |
+| `text` | | The text of markArea. 标域显示的文本。 |
+| `serieIndex` |0 | Serie index of markArea. 标域影响的Serie索引。 |
+| `start` | | 标域范围的起始数据。 [MarkAreaData](MarkAreaData)|
+| `end` | | 标域范围的结束数据。 [MarkAreaData](MarkAreaData)|
+| `itemStyle` | | 标域样式。 [ItemStyle](ItemStyle)|
+| `label` | | 标域文本样式。 [LabelStyle](LabelStyle)|
 
 ## `MarkAreaData`
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
+标域的数据。
+
 |field|default|comment|
 |--|--|--|
 | `type` | | 特殊的标域类型，用于标注最大值最小值等。</br>`MarkAreaType`:</br>- `None`: 标域类型</br>- `Min`: 最小值。</br>- `Max`: 最大值。</br>- `Average`: 平均值。</br>- `Median`: 中位数。</br>|
-| `name` | |  |
+| `name` | | 标注名称。会作为文字显示。 |
 | `dimension` |1 | 从哪个维度的数据计算最大最小值等。 |
 | `xPosition` | | 相对原点的 x 坐标，单位像素。当type为None时有效。 |
 | `yPosition` | | 相对原点的 y 坐标，单位像素。当type为None时有效。 |
@@ -897,7 +897,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |field|default|comment|
 |--|--|--|
 | `show` |true | 是否显示标线。 |
-| `serieIndex` |0 |  |
+| `serieIndex` |0 | 标线影响的Serie索引。 |
 | `animation` | | 标线的动画样式。 [AnimationStyle](AnimationStyle)|
 | `data` | | 标线的数据列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表 示标线的起始点和终止点来组成一条标线，此时标线的相关样式参数取起始点的参数。 |
 
@@ -905,12 +905,12 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 
 Inherits or Implemented: [ChildComponent](#ChildComponent)
 
-Data of marking line. 图表标线的数据。
+图表标线的数据。
 
 |field|default|comment|
 |--|--|--|
 | `type` | | 特殊的标线类型，用于标注最大值最小值等。</br>`MarkLineType`:</br>- `None`: 标线类型</br>- `Min`: 最小值。</br>- `Max`: 最大值。</br>- `Average`: 平均值。</br>- `Median`: 中位数。</br>|
-| `name` | |  |
+| `name` | | 标线名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。 |
 | `dimension` |1 | 从哪个维度的数据计算最大最小值等。 |
 | `xPosition` | | 相对原点的 x 坐标，单位像素。当type为None时有效。 |
 | `yPosition` | | 相对原点的 y 坐标，单位像素。当type为None时有效。 |
@@ -922,7 +922,6 @@ Data of marking line. 图表标线的数据。
 | `endSymbol` | | 结束点的图形标记。 [SymbolStyle](SymbolStyle)|
 | `lineStyle` | | 标线样式。 [LineStyle](LineStyle)|
 | `label` | | 文本样式。可设置position为Start、Middle和End在不同的位置显示文本。 [LabelStyle](LabelStyle)|
-| `emphasis` | |  [Emphasis](Emphasis)|
 
 ## `Parallel`
 
@@ -1020,15 +1019,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 
 |field|default|comment|
 |--|--|--|
-| `labels` | |  |
-| `labelLines` | |  |
-| `endLabels` | |  |
-| `lineArrows` | |  |
-| `areaStyles` | |  |
-| `titleStyles` | |  |
-| `emphasisItemStyles` | |  |
-| `emphasisLabels` | |  |
-| `emphasisLabelLines` | |  |
 | `index` | | 系列索引。 |
 | `show` |true | 系列是否显示在图表上。 |
 | `coordSystem` | | 使用的坐标系。 |
@@ -1044,7 +1034,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `parallelIndex` |0 | 所使用的 parallel coord 组件的 index。 |
 | `minShow` | | 系列所显示数据的最小索引 |
 | `maxShow` | | 系列所显示数据的最大索引 |
-| `maxCache` | | The first data will be remove when the size of serie data is larger then maxCache. |
+| `maxCache` | | 系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。 |
 | `sampleDist` |0 | 采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。 |
 | `sampleType` | | 采样类型。当sampleDist大于0时有效。</br>`SampleType`:</br>- `Peak`: 取峰值。</br>- `Average`: 取过滤点的平均值。</br>- `Max`: 取过滤点的最大值。</br>- `Min`: 取过滤点的最小值。</br>- `Sum`: 取过滤点的和。</br>|
 | `sampleAverage` |0 | 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。 |
@@ -1052,7 +1042,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `barType` | | 柱形图类型。</br>`BarType`:</br>- `Normal`: 普通柱形图。</br>- `Zebra`: 斑马柱形图。</br>- `Capsule`: 胶囊柱形图。</br>|
 | `barPercentStack` |false | 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。 |
 | `barWidth` |0 | 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。 |
-| `barGap` |0.1f | <para>Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background. |
+| `barGap` |0.1f | 不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%） 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。 |
 | `barZebraWidth` |4f | 斑马线的粗细。 |
 | `barZebraGap` |2f | 斑马线的间距。 |
 | `min` | | 最小值。 |
@@ -1072,7 +1062,6 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 | `radius` | | 半径。radius[0]表示内径，radius[1]表示外径。 |
 | `showDataDimension` | | 数据项里的数据维数。 |
 | `showDataName` | | 在Editor的inpsector上是否显示name参数 |
-| `showDataIcon` | |  |
 | `clip` |false | 是否裁剪超出坐标系部分的图形。 |
 | `ignore` |false | 是否开启忽略数据。当为 true 时，数据值为 ignoreValue 时不进行绘制。 |
 | `ignoreValue` |0 | 忽略数据的默认值。当ignore为true才有效。 |
@@ -1105,23 +1094,13 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
-| `index` | |  |
+| `index` | | 数据项索引。 |
 | `name` | | 数据项名称。 |
 | `id` | | 数据项的唯一id。唯一id不是必须设置的。 |
-| `parentId` | |  |
+| `parentId` | | 父节点id。父节点id不是必须设置的。 |
 | `ignore` | | 是否忽略数据。当为 true 时，数据不进行绘制。 |
 | `selected` | | 该数据项是否被选中。 |
 | `radius` | | 自定义半径。可用在饼图中自定义某个数据项的半径。 |
-| `itemStyles` | |  |
-| `labels` | |  |
-| `labelLines` | |  |
-| `symbols` | |  |
-| `lineStyles` | |  |
-| `areaStyles` | |  |
-| `titleStyles` | |  |
-| `emphasisItemStyles` | |  |
-| `emphasisLabels` | |  |
-| `emphasisLabelLines` | |  |
 | `data` | | 可指定任意维数的数值列表。 |
 
 ## `SerieSymbol`
@@ -1211,8 +1190,8 @@ Inherits or Implemented: [Axis](#Axis),[IUpdateRuntimeData](#IUpdateRuntimeData)
 | `right` |0.1f | 组件离容器右侧的距离。 |
 | `top` |0f | 组件离容器上侧的距离。 |
 | `bottom` |0.2f | 组件离容器下侧的距离。 |
-| `width` |0 |  |
-| `height` |50 |  |
+| `width` |0 | 坐标轴宽。 |
+| `height` |50 | 坐标轴高。 |
 
 ## `SingleAxisCoord`
 
@@ -1249,7 +1228,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `height` |0f | 图形的高。 |
 | `offset` |Vector2.zero | 图形的偏移。 |
 | `image` | | 自定义的标记图形。 |
-| `imageType` | |  |
+| `imageType` | | 图形填充类型。 |
 | `color` | | 图形的颜色。 |
 
 ## `TextLimit`
@@ -1273,11 +1252,11 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|comment|
 |--|--|--|
-| `show` |true |  |
-| `top` |2 |  |
-| `right` |4 |  |
-| `left` |4 |  |
-| `bottom` |2 |  |
+| `show` |true | show padding. 是否显示。 |
+| `top` |2 | 顶部间距。 |
+| `right` |4 | 右部间距。 |
+| `left` |4 | 左边间距。 |
+| `bottom` |2 | 底部间距。 |
 
 ## `TextStyle`
 
@@ -1298,7 +1277,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 | `fontStyle` | | 文本字体的风格。 [default: FontStyle.Normal] |
 | `lineSpacing` |1f | 行间距。 [default: 1f] |
 | `alignment` | | 对齐方式。 |
-| `tMPFont` | |  |
+| `tMPFont` | | TextMeshPro字体。 |
 | `tMPFontStyle` | |  |
 | `tMPAlignment` | |  |
 
@@ -1311,9 +1290,9 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 |field|default|comment|
 |--|--|--|
 | `themeType` | | 主题类型。</br>`ThemeType`:</br>- `Default`: 默认主题。</br>- `Light`: 亮主题。</br>- `Dark`: 暗主题。</br>- `Custom`: 自定义主题。</br>|
-| `themeName` | |  |
-| `font` | | the font of chart text。 字体。 |
-| `tMPFont` | | the font of chart text。 字体。 |
+| `themeName` | | 主题名称。 |
+| `font` | | 主题字体。 |
+| `tMPFont` | | 主题字体。 |
 | `contrastColor` | | 对比色。 |
 | `backgroundColor` | | 背景颜色。 |
 | `colorPalette` | | 调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。 |
@@ -1383,7 +1362,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `type` | | 提示框指示器类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 | `trigger` | | 触发类型。</br>`Tooltip.Trigger`:</br>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。</br>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。</br>- `None`: 什么都不触发。</br>|
 | `itemFormatter` | | 提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。 |
-| `titleFormatter` | |  |
+| `titleFormatter` | | 提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。</br> 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。</br> {.}为当前所指示或index为0的serie的对应颜色的圆点。</br> {a}为当前所指示或index为0的serie的系列名name。</br> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br> {e}为当前所指示或index为0的serie的数据项serieData的name。</br> {f}为数据总和。</br> {.1}表示指定index为1的serie对应颜色的圆点。</br> {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}" |
 | `marker` | | serie的符号标志。 |
 | `fixedWidth` |0 | 固定宽度。比 minWidth 优先。 |
 | `fixedHeight` |0 | 固定高度。比 minHeight 优先。 |
@@ -1401,17 +1380,17 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 | `backgroundType` | | 提示框的背景图片显示类型。 |
 | `backgroundColor` | | 提示框的背景颜色。 |
 | `borderWidth` |2f | 边框线宽。 |
-| `fixedXEnable` |false |  |
-| `fixedX` |0f |  |
-| `fixedYEnable` |false |  |
-| `fixedY` |0f |  |
-| `titleHeight` |25f |  |
-| `itemHeight` |25f |  |
+| `fixedXEnable` |false | 是否固定X位置。 |
+| `fixedX` |0f | 固定X位置的坐标。 |
+| `fixedYEnable` |false | 是否固定Y位置。 |
+| `fixedY` |0f | 固定Y位置的坐标。 |
+| `titleHeight` |25f | 标题文本的高。 |
+| `itemHeight` |25f | 数据项文本的高。 |
 | `borderColor` |Color32(230, 230, 230, 255) | 边框颜色。 |
 | `lineStyle` | | 指示线样式。 [LineStyle](LineStyle)|
 | `indicatorLabelStyle` | | 提示框的坐标轴指示器文本的样式。 [LabelStyle](LabelStyle)|
 | `titleLabelStyle` | | 标题的文本样式。 [LabelStyle](LabelStyle)|
-| `contentLabelStyles` | |  |
+| `contentLabelStyles` | | 内容部分的文本样式列表。和列一一对应。 |
 
 ## `TooltipTheme`
 
@@ -1502,7 +1481,7 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 | `lang` | |  [Lang](Lang)|
 | `font` | |  |
 | `tMPFont` | |  |
-| `fontSizeLv1` |28 |  |
+| `fontSizeLv1` |28 | 一级字体大小。 |
 | `fontSizeLv2` |24 |  |
 | `fontSizeLv3` |20 |  |
 | `fontSizeLv4` |18 |  |

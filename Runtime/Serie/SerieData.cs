@@ -40,16 +40,16 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Ignore;
         [SerializeField] private bool m_Selected;
         [SerializeField] private float m_Radius;
-        [SerializeField] private List<ItemStyle> m_ItemStyles = new List<ItemStyle>();
-        [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
-        [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
-        [SerializeField] private List<SerieSymbol> m_Symbols = new List<SerieSymbol>();
-        [SerializeField] private List<LineStyle> m_LineStyles = new List<LineStyle>();
-        [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
-        [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
-        [SerializeField] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
-        [SerializeField] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
-        [SerializeField] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
+        [SerializeField][IgnoreDoc] private List<ItemStyle> m_ItemStyles = new List<ItemStyle>();
+        [SerializeField][IgnoreDoc] private List<LabelStyle> m_Labels = new List<LabelStyle>();
+        [SerializeField][IgnoreDoc] private List<LabelLine> m_LabelLines = new List<LabelLine>();
+        [SerializeField][IgnoreDoc] private List<SerieSymbol> m_Symbols = new List<SerieSymbol>();
+        [SerializeField][IgnoreDoc] private List<LineStyle> m_LineStyles = new List<LineStyle>();
+        [SerializeField][IgnoreDoc] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
+        [SerializeField][IgnoreDoc] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
         [SerializeField] private List<double> m_Data = new List<double>();
 
         [NonSerialized] public SerieDataContext context = new SerieDataContext();
@@ -59,7 +59,10 @@ namespace XCharts.Runtime
         public ChartLabel titleObject { get; set; }
 
         private bool m_Show = true;
-
+        /// <summary>
+        /// the index of SerieData.
+        /// |数据项索引。
+        /// </summary>
         public override int index { get { return m_Index; } set { m_Index = value; } }
         /// <summary>
         /// the name of data item.
@@ -67,9 +70,14 @@ namespace XCharts.Runtime
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
         /// <summary>
-        /// 数据项的唯一id。唯一id不是必须设置的。
+        /// the id of data.
+        /// |数据项的唯一id。唯一id不是必须设置的。
         /// </summary>
         public string id { get { return m_Id; } set { m_Id = value; } }
+        /// <summary>
+        /// the id of parent SerieData.
+        /// |父节点id。父节点id不是必须设置的。
+        /// </summary>
         public string parentId { get { return m_ParentId; } set { m_ParentId = value; } }
         /// <summary>
         /// 是否忽略数据。当为 true 时，数据不进行绘制。

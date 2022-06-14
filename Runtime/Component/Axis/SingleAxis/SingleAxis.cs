@@ -64,11 +64,19 @@ namespace XCharts.Runtime
             get { return m_Bottom; }
             set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// width of axis.
+        /// |坐标轴宽。
+        /// </summary>
         public float width
         {
             get { return m_Width; }
             set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// height of axis.
+        /// |坐标轴高。
+        /// </summary>
         public float height
         {
             get { return m_Height; }

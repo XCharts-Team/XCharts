@@ -19,8 +19,15 @@ namespace XCharts.Runtime
         /// |刻度线与轴线的距离。
         /// </summary>
         public float distance { get { return m_Distance; } set { m_Distance = value; } }
+        /// <summary>
+        /// auto color.
+        /// |自动设置颜色。
+        /// </summary>
         public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }
-
+        /// <summary>
+        /// Interval of Axis splitLine.
+        /// |坐标轴分隔线的显示间隔。
+        /// </summary>
         public int interval
         {
             get { return m_Interval; }

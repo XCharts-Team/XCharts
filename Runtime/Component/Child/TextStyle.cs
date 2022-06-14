@@ -127,16 +127,32 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Alignment, value)) SetComponentDirty(); }
         }
 #if dUI_TextMeshPro
+        /// <summary>
+        /// the font of textmeshpro.
+        /// |TextMeshPro字体。
+        /// </summary>
         public TMP_FontAsset tmpFont
         {
             get { return m_TMPFont; }
             set { if (PropertyUtil.SetClass(ref m_TMPFont, value)) SetComponentDirty(); }
         }
-
+        /// <summary>
+        /// the font style of TextMeshPro.
+        /// |TextMeshPro字体类型。
+        /// </summary>
         public FontStyles tmpFontStyle
         {
             get { return m_TMPFontStyle; }
             set { if (PropertyUtil.SetStruct(ref m_TMPFontStyle, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the text alignment of TextMeshPro.
+        /// |TextMeshPro字体对齐方式。
+        /// </summary>
+        public TextAlignmentOptions tmpFontStyle
+        {
+            get { return m_TMPAlignment; }
+            set { if (PropertyUtil.SetStruct(ref m_TMPAlignment, value)) SetComponentDirty(); }
         }
 #endif
 

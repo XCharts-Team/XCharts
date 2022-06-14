@@ -286,31 +286,55 @@ namespace XCharts.Runtime
             get { return m_BorderColor; }
             set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// enable fixedX.
+        /// |是否固定X位置。
+        /// </summary>
         public bool fixedXEnable
         {
             get { return m_FixedXEnable; }
             set { if (PropertyUtil.SetStruct(ref m_FixedXEnable, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the x positionn of fixedX.
+        /// |固定X位置的坐标。
+        /// </summary>
         public float fixedX
         {
             get { return m_FixedX; }
             set { if (PropertyUtil.SetStruct(ref m_FixedX, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// enable fixedY.
+        /// |是否固定Y位置。
+        /// </summary>
         public bool fixedYEnable
         {
             get { return m_FixedYEnable; }
             set { if (PropertyUtil.SetStruct(ref m_FixedYEnable, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the y position of fixedY.
+        /// |固定Y位置的坐标。
+        /// </summary>
         public float fixedY
         {
             get { return m_FixedY; }
             set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// height of title text.
+        /// |标题文本的高。
+        /// </summary>
         public float titleHeight
         {
             get { return m_TitleHeight; }
             set { if (PropertyUtil.SetStruct(ref m_TitleHeight, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// height of content text.
+        /// |数据项文本的高。
+        /// </summary>
         public float itemHeight
         {
             get { return m_ItemHeight; }
@@ -326,14 +350,18 @@ namespace XCharts.Runtime
             set { if (value != null) { m_IndicatorLabelStyle = value; SetComponentDirty(); } }
         }
         /// <summary>
-        /// 标题的文本样式。
+        /// the textstyle of title.
+        /// |标题的文本样式。
         /// </summary>
         public LabelStyle titleLabelStyle
         {
             get { return m_TitleLabelStyle; }
             set { if (value != null) { m_TitleLabelStyle = value; SetComponentDirty(); } }
         }
-
+        /// <summary>
+        /// the textstyle list of content.
+        /// |内容部分的文本样式列表。和列一一对应。
+        /// </summary>
         public List<LabelStyle> contentLabelStyles
         {
             get { return m_ContentLabelStyles; }

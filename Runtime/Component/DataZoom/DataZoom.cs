@@ -69,7 +69,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ShowDataShadow;
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
-        [SerializeField] private bool m_Realtime;
+        //[SerializeField] private bool m_Realtime;
         [SerializeField] protected Color32 m_FillerColor;
         [SerializeField] protected Color32 m_BorderColor;
         [SerializeField] protected float m_BorderWidth;
@@ -81,8 +81,8 @@ namespace XCharts.Runtime
         [SerializeField] private RangeMode m_RangeMode;
         [SerializeField] private float m_Start;
         [SerializeField] private float m_End;
-        [SerializeField] private float m_StartValue;
-        [SerializeField] private float m_EndValue;
+        //[SerializeField] private float m_StartValue;
+        //[SerializeField] private float m_EndValue;
         [SerializeField] private int m_MinShowNum = 1;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
@@ -168,7 +168,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 是否支持框选。提供一个选框进行数据区域缩放。
         /// </summary>
-        private bool supportSelect
+        public bool supportSelect
         {
             get { return m_SupportSelect; }
             set { if (PropertyUtil.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }

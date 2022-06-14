@@ -61,7 +61,6 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_DataChangeEnable = true;
         [SerializeField] private float m_DataChangeDuration = 500;
         [SerializeField] private float m_ActualDuration;
-        [SerializeField] private bool m_AlongWithLinePath;
         /// <summary>
         /// 自定义渐入动画延时函数。返回ms值。
         /// </summary>
@@ -94,7 +93,7 @@ namespace XCharts.Runtime
         /// Easing method used for the first animation.
         /// |动画的缓动效果。
         /// </summary>
-        //public Easing easing { get { return m_Easting; } set { m_Easting = value; } }
+        //public Easing easting { get { return m_Easting; } set { m_Easting = value; } }
         /// <summary>
         /// The milliseconds duration of the fadeIn animation.
         /// |设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。

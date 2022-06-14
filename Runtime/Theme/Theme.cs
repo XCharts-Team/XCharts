@@ -49,6 +49,10 @@ namespace XCharts.Runtime
             get { return m_ThemeType; }
             set { PropertyUtil.SetStruct(ref m_ThemeType, value); }
         }
+        /// <summary>
+        /// the name of theme.
+        /// |主题名称。
+        /// </summary>
         public string themeName
         {
             get { return m_ThemeName; }
@@ -91,7 +95,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
         /// <summary>
         /// the font of chart text。
-        /// 字体。
+        /// |主题字体。
         /// </summary>
         public TMP_FontAsset tmpFont
         {
@@ -105,7 +109,7 @@ namespace XCharts.Runtime
 #endif
         /// <summary>
         /// the font of chart text。
-        /// 字体。
+        /// |主题字体。
         /// </summary>
         public Font font
         {

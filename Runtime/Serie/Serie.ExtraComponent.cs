@@ -19,15 +19,15 @@ namespace XCharts.Runtime
             { typeof(EmphasisLabelLine), "m_EmphasisLabelLines" },
         };
 
-        [SerializeField] private List<LabelStyle> m_Labels = new List<LabelStyle>();
-        [SerializeField] private List<LabelLine> m_LabelLines = new List<LabelLine>();
-        [SerializeField] private List<EndLabelStyle> m_EndLabels = new List<EndLabelStyle>();
-        [SerializeField] private List<LineArrow> m_LineArrows = new List<LineArrow>();
-        [SerializeField] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
-        [SerializeField] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
-        [SerializeField] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
-        [SerializeField] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
-        [SerializeField] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
+        [SerializeField][IgnoreDoc] private List<LabelStyle> m_Labels = new List<LabelStyle>();
+        [SerializeField][IgnoreDoc] private List<LabelLine> m_LabelLines = new List<LabelLine>();
+        [SerializeField][IgnoreDoc] private List<EndLabelStyle> m_EndLabels = new List<EndLabelStyle>();
+        [SerializeField][IgnoreDoc] private List<LineArrow> m_LineArrows = new List<LineArrow>();
+        [SerializeField][IgnoreDoc] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
+        [SerializeField][IgnoreDoc] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
+        [SerializeField][IgnoreDoc] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
 
         /// <summary>
         /// The style of area.

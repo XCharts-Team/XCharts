@@ -300,7 +300,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// axis Line.
         /// |坐标轴轴线。
-        /// /// </summary>
+        /// </summary>
         public AxisLine axisLine
         {
             get { return m_AxisLine; }

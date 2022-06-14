@@ -30,27 +30,46 @@ namespace XCharts.Runtime
             m_Bottom = bottom;
             m_Left = left;
         }
-
+        /// <summary>
+        /// show padding.
+        /// 是否显示。
+        /// </summary>
         public bool show
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// padding of top.
+        /// |顶部间距。
+        /// </summary>
         public float top
         {
             get { return m_Top; }
             set { if (PropertyUtil.SetStruct(ref m_Top, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// padding of right.
+        /// |右部间距。
+        /// </summary>
         public float right
         {
             get { return m_Right; }
             set { if (PropertyUtil.SetStruct(ref m_Right, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// padding of bottom.
+        /// |底部间距。
+        /// </summary>
         public float bottom
         {
             get { return m_Bottom; }
             set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// padding of left.
+        /// |左边间距。
+        /// </summary>
         public float left
         {
             get { return m_Left; }

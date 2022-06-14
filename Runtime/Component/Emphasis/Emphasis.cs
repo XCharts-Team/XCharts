@@ -37,6 +37,9 @@ namespace XCharts.Runtime
             get { return m_Label; }
             set { if (PropertyUtil.SetClass(ref m_Label, value, true)) SetAllDirty(); }
         }
+        /// <summary>
+        /// 图形文本引导线样式。
+        /// </summary>
         public LabelLine labelLine
         {
             get { return m_LabelLine; }

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
@@ -37,6 +38,16 @@
 [v0.8.0](#v0.8.0)  
 [v0.5.0](#v0.5.0)  
 [v0.1.0](#v0.1.0)  
+
+## v3.0.1
+
+* (2022.06.16) Release `v3.0.1` version
+* (2022.06.16) Fixed an issue where the `foldout` arrow on `Inspector` could not be expanded
+* (2022.06.15) Optimized `Doc` auto-generation, improved code comments and configuration item manual documentation
+* (2022.06.14) Optimized `SerieLabelStyle` to support dynamic adjustment of `Icon`
+* (2022.06.13) Optimized `Background` setting
+* (2022.06.10) Added `Legend` AxisLabel support for `autoColor`
+* (2022.06.08) Fixed issue where `Axis` `AxisLabel` still shows the first and last two labels when not displayed
 
 ## v3.0.0
 

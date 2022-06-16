@@ -29,7 +29,7 @@ namespace XCharts.Runtime
         public Vector3 position { get { return m_Position; } set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetComponentDirty(); } }
         /// <summary>
         /// content of comment.
-        /// |注解的文本内容。
+        /// |注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
         /// </summary>
         public string content { get { return m_Content; } set { if (PropertyUtil.SetClass(ref m_Content, value)) SetComponentDirty(); } }
         /// <summary>

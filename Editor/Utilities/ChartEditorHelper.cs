@@ -543,7 +543,7 @@ namespace XCharts.Editor
             Action<Rect> drawCallback, params HeaderMenuInfo[] menus)
         {
             var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
-            var labelRect = DrawHeaderInternal(rect, title, state, drawBackground, activeField);
+            var labelRect = DrawHeaderInternal(rect, title, ref state, drawBackground, activeField);
             DrawMenu(rect, menus);
             if (drawCallback != null)
             {
@@ -568,7 +568,7 @@ namespace XCharts.Editor
             Action<Rect> drawCallback, List<HeaderMenuInfo> menus)
         {
             var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
-            var labelRect = DrawHeaderInternal(rect, title, state, drawBackground, activeField);
+            var labelRect = DrawHeaderInternal(rect, title, ref state, drawBackground, activeField);
             DrawMenu(rect, menus);
             if (drawCallback != null)
             {
@@ -589,7 +589,7 @@ namespace XCharts.Editor
             return state;
         }
 
-        private static Rect DrawHeaderInternal(Rect rect, string title, bool state, bool drawBackground, SerializedProperty activeField)
+        private static Rect DrawHeaderInternal(Rect rect, string title, ref bool state, bool drawBackground, SerializedProperty activeField)
         {
             var splitRect = rect;
             splitRect.x = EditorGUI.indentLevel * INDENT_WIDTH + 4;

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
 [v3.0.0-preivew9](#v3.0.0-preivew9)  
 [v3.0.0-preivew8](#v3.0.0-preivew8)  
@@ -53,8 +54,14 @@
 
 ## master
 
+## v3.0.1
+
+* (2022.06.16) 发布`v3.0.1`版本
+* (2022.06.16) 修复`Inspector`上部分`foldout`箭头点击无法展开的问题
+* (2022.06.16) 修复`Inspector`上部分`foldout`箭头点击无法展开的问题
+* (2022.06.15) 优化`Doc`自动生成，完善代码注释和配置项手册文档
 * (2022.06.14) 优化`SerieLabelStyle`，支持动态调整`Icon`
-* (2022.06.13) 优化`Background`，参数`hideThemeBackgroundColor`重命名为`autoColor`
+* (2022.06.13) 优化`Background`背景设置
 * (2022.06.10) 增加`Legend`的`AxisLabel`支持`autoColor`
 * (2022.06.08) 修复`Axis`的`AxisLabel`在设置不显示时还显示首尾两个`label`的问题
 

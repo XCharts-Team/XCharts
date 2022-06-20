@@ -64,13 +64,18 @@ namespace XCharts.Runtime
             var pos = tooltip.view.GetTargetPos();
             if (pos.x + tooltip.context.width > chartRect.x + chartRect.width)
             {
-                //pos.x = chartRect.x + chartRect.width - tooltip.context.width;
-                pos.x = pos.x - tooltip.context.width - tooltip.offset.x;
+                pos.x = tooltip.context.pointer.x - tooltip.context.width - tooltip.offset.x;
+            }
+            else if (pos.x < chartRect.x)
+            {
+                pos.x = tooltip.context.pointer.x - tooltip.context.width + Mathf.Abs(tooltip.offset.x);
             }
             if (pos.y - tooltip.context.height < chartRect.y)
             {
                 pos.y = chartRect.y + tooltip.context.height;
             }
+            if (pos.y > chartRect.y + chartRect.height)
+                pos.y = chartRect.y + chartRect.height;
             tooltip.UpdateContentPos(pos);
         }
 

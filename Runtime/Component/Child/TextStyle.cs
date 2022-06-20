@@ -149,7 +149,7 @@ namespace XCharts.Runtime
         /// the text alignment of TextMeshPro.
         /// |TextMeshPro字体对齐方式。
         /// </summary>
-        public TextAlignmentOptions tmpFontStyle
+        public TextAlignmentOptions tmpAlignment
         {
             get { return m_TMPAlignment; }
             set { if (PropertyUtil.SetStruct(ref m_TMPAlignment, value)) SetComponentDirty(); }

@@ -350,9 +350,11 @@ namespace XCharts.Runtime
 #endif
             if (!m_Enable || m_IsEnd)
                 return true;
-
             if (IsIndexAnimation())
-                return m_CurrDetailProgress > m_DestDetailProgress;
+            {
+                if (m_FadeOut) return m_CurrDetailProgress <= m_DestDetailProgress;
+                else return m_CurrDetailProgress > m_DestDetailProgress;
+            }
             if (IsItemAnimation())
                 return false;
             return true;

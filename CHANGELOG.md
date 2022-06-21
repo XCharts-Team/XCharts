@@ -54,6 +54,7 @@
 
 ## master
 
+* (2022.06.21) 增加`TextStyle`对`TextMeshPro`的`Sprite Asset`支持 (#201)
 * (2022.06.20) 优化`Tooltip`的边界限制 (#202)
 * (2022.06.20) 修复`TextMeshPro`开启时编译错误
 * (2022.06.20) 修复`Animation`的渐出动画不生效的问题

@@ -28,6 +28,7 @@ namespace XCharts.Runtime
         [SerializeField] private TMP_FontAsset m_TMPFont;
         [SerializeField] private FontStyles m_TMPFontStyle = FontStyles.Normal;
         [SerializeField] private TextAlignmentOptions m_TMPAlignment = TextAlignmentOptions.Left;
+        [SerializeField] private TMP_SpriteAsset m_TMPSpriteAsset;
 #endif
         public bool show
         {
@@ -154,6 +155,15 @@ namespace XCharts.Runtime
             get { return m_TMPAlignment; }
             set { if (PropertyUtil.SetStruct(ref m_TMPAlignment, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// the sprite asset of TextMeshPro.
+        /// |TextMeshPro的Sprite Asset。
+        /// </summary>
+        public TMP_SpriteAsset tmpSpriteAsset
+        {
+            get { return m_TMPSpriteAsset; }
+            set { if (PropertyUtil.SetClass(ref m_TMPSpriteAsset, value)) SetComponentDirty(); }
+        }
 #endif
 
         public TextStyle() { }
@@ -198,6 +208,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
             m_TMPFont = textStyle.tmpFont;
             m_TMPFontStyle = textStyle.tmpFontStyle;
+            m_TMPSpriteAsset = textStyle.tmpSpriteAsset;
 #endif
         }
 

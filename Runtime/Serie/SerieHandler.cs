@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         public virtual void Update() { }
         public virtual void DrawBase(VertexHelper vh) { }
         public virtual void DrawSerie(VertexHelper vh) { }
+        public virtual void DrawUpper(VertexHelper vh) { }
         public virtual void DrawTop(VertexHelper vh) { }
         public virtual void OnPointerClick(PointerEventData eventData) { }
         public virtual void OnPointerDown(PointerEventData eventData) { }

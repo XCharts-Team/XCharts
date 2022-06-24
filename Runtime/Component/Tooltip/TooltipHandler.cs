@@ -26,14 +26,14 @@ namespace XCharts.Runtime
                 component.view.Update();
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             DrawTooltipIndicator(vh, component);
         }
 
         private void InitTooltip(Tooltip tooltip)
         {
-            tooltip.painter = chart.m_PainterTop;
+            tooltip.painter = chart.m_PainterUpper;
             tooltip.refreshComponent = delegate()
             {
                 var objName = ChartCached.GetComponentObjectName(tooltip);

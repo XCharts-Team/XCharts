@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             for (int i = 0; i < component.items.Count; i++)
             {

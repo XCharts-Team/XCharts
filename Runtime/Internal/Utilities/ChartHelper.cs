@@ -314,6 +314,22 @@ namespace XCharts.Runtime
             return img;
         }
 
+        public static void SetBackground(Image background, ImageStyle imageStyle)
+        {
+            if (background == null) return;
+            if (imageStyle.show)
+            {
+                background.sprite = imageStyle.sprite;
+                background.color = imageStyle.color;
+                background.type = imageStyle.type;
+            }
+            else
+            {
+                background.sprite = null;
+                background.color = Color.clear;
+            }
+        }
+
         public static ChartLabel AddAxisLabelObject(int total, int index, string name, Transform parent,
             Vector2 sizeDelta, Axis axis, ComponentTheme theme,
             string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)

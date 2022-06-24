@@ -48,7 +48,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             if (serie.IsUseCoord<GridCoord>())
             {

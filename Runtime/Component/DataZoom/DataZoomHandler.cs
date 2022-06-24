@@ -19,7 +19,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             var dataZoom = component;
-            dataZoom.painter = chart.m_PainterTop;
+            dataZoom.painter = chart.m_PainterUpper;
             dataZoom.refreshComponent = delegate()
             {
                 var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + dataZoom.index, chart.transform,
@@ -62,7 +62,7 @@ namespace XCharts.Runtime
             CheckDataZoomLabel(component);
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             if (chart == null)
                 return;

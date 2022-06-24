@@ -56,7 +56,7 @@ namespace XCharts.Runtime
                 DrawCoord(vh);
             }
         }
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             if (SeriesHelper.IsAnyClipSerie(chart.series))
             {

@@ -20,6 +20,8 @@ namespace XCharts.Editor
             PropertyField("m_Formatter");
             PropertyField("m_Location");
             PropertyField("m_LabelStyle");
+            PropertyField("m_Background");
+            PropertyField("m_Padding");
             PropertyListField("m_Icons");
             PropertyListField("m_Colors");
             PropertyListField("m_Data");

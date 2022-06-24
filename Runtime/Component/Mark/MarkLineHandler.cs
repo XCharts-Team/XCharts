@@ -19,7 +19,7 @@ namespace XCharts.Runtime
             InitMarkLine(component);
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             DrawMarkLine(vh, component);
         }
@@ -69,7 +69,7 @@ namespace XCharts.Runtime
 
         private void InitMarkLineLabel(Serie serie, MarkLineData data, Color serieColor)
         {
-            data.painter = chart.m_PainterTop;
+            data.painter = chart.m_PainterUpper;
             data.refreshComponent = delegate()
             {
                 var textName = string.Format("markLine_{0}_{1}", serie.index, data.index);

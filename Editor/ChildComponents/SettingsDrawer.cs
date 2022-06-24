@@ -22,6 +22,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_MaxPainter");
                 PropertyField(prop, "m_BasePainterMaterial");
                 PropertyField(prop, "m_SeriePainterMaterial");
+                PropertyField(prop, "m_UpperPainterMaterial");
                 PropertyField(prop, "m_TopPainterMaterial");
                 PropertyField(prop, "m_LineSmoothStyle");
                 PropertyField(prop, "m_LineSmoothness");

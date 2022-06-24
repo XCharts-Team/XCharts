@@ -15,6 +15,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_ReversePainter = false;
         [SerializeField] protected Material m_BasePainterMaterial;
         [SerializeField] protected Material m_SeriePainterMaterial;
+        [SerializeField] protected Material m_UpperPainterMaterial;
         [SerializeField] protected Material m_TopPainterMaterial;
         [SerializeField][Range(1, 10)] protected float m_LineSmoothStyle = 3f;
         [SerializeField][Range(1f, 20)] protected float m_LineSmoothness = 2f;
@@ -58,12 +59,20 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_SeriePainterMaterial, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Top Pointer 材质球，设置后会影响Tooltip等。
+        /// Top Pointer 材质球。
         /// </summary>
         public Material topPainterMaterial
         {
             get { return m_TopPainterMaterial; }
             set { if (PropertyUtil.SetClass(ref m_TopPainterMaterial, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Upper Pointer 材质球。
+        /// </summary>
+        public Material upperPainterMaterial
+        {
+            get { return m_UpperPainterMaterial; }
+            set { if (PropertyUtil.SetClass(ref m_UpperPainterMaterial, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, 
@@ -134,6 +143,7 @@ namespace XCharts.Runtime
             m_MaxPainter = settings.maxPainter;
             m_BasePainterMaterial = settings.basePainterMaterial;
             m_SeriePainterMaterial = settings.seriePainterMaterial;
+            m_UpperPainterMaterial = settings.upperPainterMaterial;
             m_TopPainterMaterial = settings.topPainterMaterial;
             m_LineSmoothStyle = settings.lineSmoothStyle;
             m_LineSmoothness = settings.lineSmoothness;

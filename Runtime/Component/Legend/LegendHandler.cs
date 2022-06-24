@@ -56,6 +56,9 @@ namespace XCharts.Runtime
                 legend.gameObject = legendObject;
                 legendObject.hideFlags = chart.chartHideFlags;
                 SeriesHelper.UpdateSerieNameList(chart, ref chart.m_LegendRealShowName);
+                legend.context.background = ChartHelper.AddIcon("background", legendObject.transform, 0, 0);
+                legend.context.background.transform.SetSiblingIndex(0);
+                ChartHelper.SetBackground(legend.context.background, legend.background);
                 List<string> datas;
                 if (legend.show && legend.data.Count > 0)
                 {

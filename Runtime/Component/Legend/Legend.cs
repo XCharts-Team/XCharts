@@ -80,6 +80,8 @@ namespace XCharts.Runtime
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] private List<Color> m_Colors = new List<Color>();
+        [SerializeField] protected ImageStyle m_Background = new ImageStyle() { show = false };
+        [SerializeField] protected Padding m_Padding = new Padding();
 
         public LegendContext context = new LegendContext();
 
@@ -211,6 +213,24 @@ namespace XCharts.Runtime
         {
             get { return m_LabelStyle; }
             set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the sytle of background.
+        /// |背景图样式。
+        /// </summary>
+        public ImageStyle background
+        {
+            get { return m_Background; }
+            set { if (PropertyUtil.SetClass(ref m_Background, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the paddinng of item and background.
+        /// |图例标记和背景的间距。
+        /// </summary>
+        public Padding padding
+        {
+            get { return m_Padding; }
+            set { if (PropertyUtil.SetClass(ref m_Padding, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 

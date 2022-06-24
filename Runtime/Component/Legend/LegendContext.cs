@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts.Runtime
 {
@@ -14,6 +15,7 @@ namespace XCharts.Runtime
         /// 运行时图例的总高度
         /// </summary>
         public float height { get; internal set; }
+        public Vector2 center { get; internal set; }
         /// <summary>
         /// the button list of legend.
         /// |图例按钮列表。
@@ -27,5 +29,6 @@ namespace XCharts.Runtime
         /// 单列高度
         /// </summary>
         internal float eachHeight { get; set; }
+        public Image background { get; set; }
     }
 }

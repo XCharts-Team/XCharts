@@ -488,6 +488,7 @@ namespace XCharts.Runtime
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {
+
             var xAxes = chart.GetChartComponents<XAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);
@@ -496,6 +497,8 @@ namespace XCharts.Runtime
                 var xAxis = component as XAxis;
                 if (xAxis.gridIndex == grid.index)
                 {
+                    if (double.IsInfinity(xAxis.context.pointerValue))
+                        continue;
                     var dataZoom = chart.GetDataZoomOfAxis(xAxis);
                     int dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     float splitWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, dataCount, dataZoom);
@@ -510,22 +513,7 @@ namespace XCharts.Runtime
                             Vector2 sp = new Vector2(pX, grid.context.y);
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            // if (xAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
-                            // {
-                            //     float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
-                            //     pX = (float)(grid.context.x + splitWidth * xAxis.context.pointerValue -
-                            //         (xAxis.boundaryGap ? 0 : splitWidth / 2));
-                            //     float pY = grid.context.y + grid.context.height;
-                            //     Vector3 p1 = new Vector3(pX, grid.context.y);
-                            //     Vector3 p2 = new Vector3(pX, pY);
-                            //     Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
-                            //     Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
-                            //     UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
-                            // }
-                            // else
-                            {
-                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            }
+                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(grid.context.x, chart.pointerPos.y);
@@ -534,7 +522,7 @@ namespace XCharts.Runtime
                             }
                             break;
                         case Tooltip.Type.Shadow:
-                            if (xAxis.IsCategory())
+                            if (xAxis.IsCategory() && !double.IsInfinity(xAxis.context.pointerValue))
                             {
                                 float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                                 pX = (float) (grid.context.x + splitWidth * xAxis.context.pointerValue -
@@ -544,6 +532,10 @@ namespace XCharts.Runtime
                                 Vector3 p2 = new Vector3(pX, pY);
                                 Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
                                 Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
+                                Debug.LogError(p1 + "," + grid.context.x + "," + xAxis.context.pointerValue);
+                                Debug.LogError(p2);
+                                Debug.LogError(p3);
+                                Debug.LogError(p4);
                                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
                             }
                             break;
@@ -565,12 +557,13 @@ namespace XCharts.Runtime
             var yAxes = chart.GetChartComponents<YAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);
-
             foreach (var component in yAxes)
             {
                 var yAxis = component as YAxis;
                 if (yAxis.gridIndex == grid.index)
                 {
+                    if (double.IsInfinity(yAxis.context.pointerValue))
+                        continue;
                     var dataZoom = chart.GetDataZoomOfAxis(yAxis);
                     int dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     float splitWidth = AxisHelper.GetDataWidth(yAxis, grid.context.height, dataCount, dataZoom);
@@ -583,22 +576,7 @@ namespace XCharts.Runtime
                             Vector2 sp = new Vector2(grid.context.x, pY);
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            // if (yAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
-                            // {
-                            //     float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
-                            //     float pX = grid.context.x + grid.context.width;
-                            //     pY = (float)(grid.context.y + splitWidth * yAxis.context.pointerValue -
-                            //         (yAxis.boundaryGap ? 0 : splitWidth / 2));
-                            //     Vector3 p1 = new Vector3(grid.context.x, pY);
-                            //     Vector3 p2 = new Vector3(grid.context.x, pY + tooltipSplitWid);
-                            //     Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
-                            //     Vector3 p4 = new Vector3(pX, pY);
-                            //     UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
-                            // }
-                            // else
-                            {
-                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            }
+                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(chart.pointerPos.x, grid.context.y);

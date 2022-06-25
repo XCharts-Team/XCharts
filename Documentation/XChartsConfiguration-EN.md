@@ -260,12 +260,12 @@ The axis in rectangular coordinate.
 |`insertDataToHead`|||Whether to add new data at the head or at the end of the list.
 |`icons`|||类目数据对应的图标。
 |`data`|||Category data, available in type: 'Category' axis.
-|`axisLine`|||axis Line. [AxisLine](AxisLine)|
-|`axisName`|||axis name. [AxisName](AxisName)|
-|`axisTick`|||axis tick. [AxisTick](AxisTick)|
-|`axisLabel`|||axis label. [AxisLabel](AxisLabel)|
-|`splitLine`|||axis split line. [AxisSplitLine](AxisSplitLine)|
-|`splitArea`|||axis split area. [AxisSplitArea](AxisSplitArea)|
+|`axisLine`|||axis Line. [AxisLine](#AxisLine)|
+|`axisName`|||axis name. [AxisName](#AxisName)|
+|`axisTick`|||axis tick. [AxisTick](#AxisTick)|
+|`axisLabel`|||axis label. [AxisLabel](#AxisLabel)|
+|`splitLine`|||axis split line. [AxisSplitLine](#AxisSplitLine)|
+|`splitArea`|||axis split area. [AxisSplitArea](#AxisSplitArea)|
 
 ## `AxisLabel`
 
@@ -281,7 +281,7 @@ Settings related to axis label.
 |`onZero`|false||刻度标签显示在0刻度上。
 |`showStartLabel`|true||Whether to display the first label.
 |`showEndLabel`|true||Whether to display the last label.
-|`textLimit`|||文本限制。 [TextLimit](TextLimit)|
+|`textLimit`|||文本限制。 [TextLimit](#TextLimit)|
 
 ## `AxisLine`
 
@@ -293,7 +293,7 @@ Settings related to axis line.
 |--|--|--|--|
 |`onZero`|||When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
 |`showArrow`|||Whether to show the arrow symbol of axis.
-|`arrow`|||the arrow of line. [ArrowStyle](ArrowStyle)|
+|`arrow`|||the arrow of line. [ArrowStyle](#ArrowStyle)|
 
 ## `AxisName`
 
@@ -305,7 +305,7 @@ the name of axis.
 |--|--|--|--|
 |`show`|||Whether to show axis name.
 |`name`|||the name of axis.
-|`labelStyle`|||The text style of axis name. [LabelStyle](LabelStyle)|
+|`labelStyle`|||The text style of axis name. [LabelStyle](#LabelStyle)|
 
 ## `AxisSplitArea`
 
@@ -398,7 +398,7 @@ Settings related to base line.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|||Set this to false to prevent the axis line from showing.
-|`lineStyle`|||线条样式 [LineStyle](LineStyle)|
+|`lineStyle`|||线条样式 [LineStyle](#LineStyle)|
 
 ## `BaseScatter`
 
@@ -433,8 +433,8 @@ comment of chart.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Set this to false to prevent the comment from showing.
-|`labelStyle`|||The text style of all comments. [LabelStyle](LabelStyle)|
-|`markStyle`|||The text style of all comments. [CommentMarkStyle](CommentMarkStyle)|
+|`labelStyle`|||The text style of all comments. [LabelStyle](#LabelStyle)|
+|`markStyle`|||The text style of all comments. [CommentMarkStyle](#CommentMarkStyle)|
 |`items`|||
 
 ## `CommentItem`
@@ -449,8 +449,8 @@ comment of chart.
 |`content`|||content of comment.
 |`position`|||position of comment.
 |`markRect`|||the mark rect of comment.
-|`markStyle`|||the mark rect style. [CommentMarkStyle](CommentMarkStyle)|
-|`labelStyle`|||The text style of all comments. [LabelStyle](LabelStyle)|
+|`markStyle`|||the mark rect style. [CommentMarkStyle](#CommentMarkStyle)|
+|`labelStyle`|||The text style of all comments. [LabelStyle](#LabelStyle)|
 
 ## `CommentMarkStyle`
 
@@ -461,7 +461,7 @@ the comment mark style.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Set this to false to prevent this comment item from showing.
-|`lineStyle`|||line style of comment mark area. [LineStyle](LineStyle)|
+|`lineStyle`|||line style of comment mark area. [LineStyle](#LineStyle)|
 
 ## `ComponentTheme`
 
@@ -516,9 +516,9 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |`minShowNum`|1||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
 |`scrollSensitivity`|1.1f||The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is.
 |`orient`|||Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-|`labelStyle`|||label style. [LabelStyle](LabelStyle)|
-|`lineStyle`|||阴影线条样式。 [LineStyle](LineStyle)|
-|`areaStyle`|||阴影填充样式。 [AreaStyle](AreaStyle)|
+|`labelStyle`|||label style. [LabelStyle](#LabelStyle)|
+|`lineStyle`|||阴影线条样式。 [LineStyle](#LineStyle)|
+|`areaStyle`|||阴影填充样式。 [AreaStyle](#AreaStyle)|
 
 ## `DataZoomTheme`
 
@@ -542,7 +542,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 |`showDebugInfo`|false||
 |`showAllChartObject`|false||
 |`foldSeries`|false||
-|`labelStyle`||| [LabelStyle](LabelStyle)|
+|`labelStyle`||| [LabelStyle](#LabelStyle)|
 
 ## `EffectScatter`
 
@@ -558,9 +558,9 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|||是否启用高亮样式。
-|`label`|||图形文本标签。 [LabelStyle](LabelStyle)|
-|`labelLine`|||图形文本引导线样式。 [LabelLine](LabelLine)|
-|`itemStyle`|||图形样式。 [ItemStyle](ItemStyle)|
+|`label`|||图形文本标签。 [LabelStyle](#LabelStyle)|
+|`labelLine`|||图形文本引导线样式。 [LabelLine](#LabelLine)|
+|`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
 
 ## `EmphasisItemStyle`
 
@@ -657,10 +657,10 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |`radius`|100||the radius of radar.
 |`splitNumber`|5||Segments of indicator axis.
 |`center`|||the center of radar chart.
-|`axisLine`|||axis line. [AxisLine](AxisLine)|
-|`axisName`|||Name options for radar indicators. [AxisName](AxisName)|
-|`splitLine`|||split line. [AxisSplitLine](AxisSplitLine)|
-|`splitArea`|||Split area of axis in grid area. [AxisSplitArea](AxisSplitArea)|
+|`axisLine`|||axis line. [AxisLine](#AxisLine)|
+|`axisName`|||Name options for radar indicators. [AxisName](#AxisName)|
+|`splitLine`|||split line. [AxisSplitLine](#AxisSplitLine)|
+|`splitArea`|||Split area of axis in grid area. [AxisSplitArea](#AxisSplitArea)|
 |`indicator`|true||Whether to show indicator.
 |`positionType`|||The position type of indicator.</br>`RadarCoord.PositionType`:</br>- `Vertice`: Display at the vertex.</br>- `Between`: Display at the middle of line.</br>|
 |`indicatorGap`|10||The gap of indicator and radar.
@@ -715,8 +715,8 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |`lineGap`|1.0f||the gap of container and guild line.
 |`lineLength1`|25f||The length of the first segment of visual guide line.
 |`lineLength2`|15f||The length of the second segment of visual guide line.
-|`startSymbol`|||The symbol of the start point of labelline. [SymbolStyle](SymbolStyle)|
-|`endSymbol`|||The symbol of the end point of labelline. [SymbolStyle](SymbolStyle)|
+|`startSymbol`|||The symbol of the start point of labelline. [SymbolStyle](#SymbolStyle)|
+|`endSymbol`|||The symbol of the end point of labelline. [SymbolStyle](#SymbolStyle)|
 
 ## `LabelStyle`
 
@@ -736,10 +736,10 @@ Text label of chart, to explain some data information about graphic item like va
 |`numericFormatter`|||Standard numeric format strings.
 |`width`|0||the width of label. If set as default value 0, it means than the label width auto set as the text width.
 |`height`|0||the height of label. If set as default value 0, it means than the label height auto set as the text height.
-|`icon`|||the sytle of icon. [IconStyle](IconStyle)|
-|`background`|||the sytle of background. [ImageStyle](ImageStyle)|
-|`textPadding`|||the text padding of label. [TextPadding](TextPadding)|
-|`textStyle`|||the sytle of text. [TextStyle](TextStyle)|
+|`icon`|||the sytle of icon. [IconStyle](#IconStyle)|
+|`background`|||the sytle of background. [ImageStyle](#ImageStyle)|
+|`textPadding`|||the text padding of label. [TextPadding](#TextPadding)|
+|`textStyle`|||the sytle of text. [TextStyle](#TextStyle)|
 
 ## `Lang`
 
@@ -766,7 +766,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |`iconType`|||Type of legend.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 |`selectedMode`|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`orient`|||Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-|`location`|||The location of legend. [Location](Location)|
+|`location`|||The location of legend. [Location](#Location)|
 |`itemWidth`|25.0f||Image width of legend symbol.
 |`itemHeight`|12.0f||Image height of legend symbol.
 |`itemGap`|10f||The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
@@ -774,12 +774,12 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |`itemOpacity`|1||the opacity of item color.
 |`formatter`|||Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
 |`numericFormatter`|||Standard numeric format strings.
-|`labelStyle`|||the style of text. [LabelStyle](LabelStyle)|
+|`labelStyle`|||the style of text. [LabelStyle](#LabelStyle)|
 |`data`|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series.
 |`icons`|||自定义的图例标记图形。
 |`colors`|||the colors of legend item. 图例标记的颜色列表。
-|`background`||v3.1.0|the sytle of background. [ImageStyle](ImageStyle)|
-|`padding`||v3.1.0|the paddinng of item and background. [Padding](Padding)|
+|`background`||v3.1.0|the sytle of background. [ImageStyle](#ImageStyle)|
+|`padding`||v3.1.0|the paddinng of item and background. [Padding](#Padding)|
 
 ## `LegendTheme`
 
@@ -795,9 +795,9 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`label`|||文本标签样式。 [LabelStyle](LabelStyle)|
-|`upperLabel`|||上方的文本标签样式。 [LabelStyle](LabelStyle)|
-|`itemStyle`|||数据项样式。 [ItemStyle](ItemStyle)|
+|`label`|||文本标签样式。 [LabelStyle](#LabelStyle)|
+|`upperLabel`|||上方的文本标签样式。 [LabelStyle](#LabelStyle)|
+|`itemStyle`|||数据项样式。 [ItemStyle](#ItemStyle)|
 
 ## `LevelStyle`
 
@@ -821,7 +821,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |--|--|--|--|
 |`show`|||Whether to show the arrow.
 |`position`|||The position of arrow.</br>`LabelStyle.Position`:</br>- `Default`: The position of label.</br>- `Outside`: Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.</br>- `Inside`: Inside the sectors of pie chart.</br>- `Center`: In the center of pie chart.</br>- `Top`: top of symbol.</br>- `Bottom`: the bottom of symbol.</br>- `Left`: the left of symbol.</br>- `Right`: the right of symbol.</br>- `Start`: the start of line.</br>- `Middle`: the middle of line.</br>- `End`: the end of line.</br>|
-|`arrow`|||the arrow of line. [ArrowStyle](ArrowStyle)|
+|`arrow`|||the arrow of line. [ArrowStyle](#ArrowStyle)|
 
 ## `LineStyle`
 
@@ -870,10 +870,10 @@ Used to mark an area in chart. For example, mark a time interval.
 |`show`|true||是否显示标域。
 |`text`|||The text of markArea. 标域显示的文本。
 |`serieIndex`|0||Serie index of markArea. 标域影响的Serie索引。
-|`start`|||标域范围的起始数据。 [MarkAreaData](MarkAreaData)|
-|`end`|||标域范围的结束数据。 [MarkAreaData](MarkAreaData)|
-|`itemStyle`|||标域样式。 [ItemStyle](ItemStyle)|
-|`label`|||标域文本样式。 [LabelStyle](LabelStyle)|
+|`start`|||标域范围的起始数据。 [MarkAreaData](#MarkAreaData)|
+|`end`|||标域范围的结束数据。 [MarkAreaData](#MarkAreaData)|
+|`itemStyle`|||标域样式。 [ItemStyle](#ItemStyle)|
+|`label`|||标域文本样式。 [LabelStyle](#LabelStyle)|
 
 ## `MarkAreaData`
 
@@ -901,7 +901,7 @@ Use a line in the chart to illustrate.
 |--|--|--|--|
 |`show`|true||Whether to display the marking line.
 |`serieIndex`|0||The serie index of markLine.
-|`animation`|||The animation of markline. [AnimationStyle](AnimationStyle)|
+|`animation`|||The animation of markline. [AnimationStyle](#AnimationStyle)|
 |`data`|||A list of marked data. When the group of data item is 0, each data item represents a line; When the group is not 0, two data items of the same group represent the starting point and the ending point of the line respectively to form a line. In this case, the relevant style parameters of the line are the parameters of the starting point.
 
 ## `MarkLineData`
@@ -921,10 +921,10 @@ Data of marking line.
 |`yValue`|||That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
 |`group`|0||Grouping. When the group is not 0, it means that this data is the starting point or end point of the marking line. Data consistent with the group form a marking line.
 |`zeroPosition`|false||Is the origin of the coordinate system.
-|`startSymbol`|||The symbol of the start point of markline. [SymbolStyle](SymbolStyle)|
-|`endSymbol`|||The symbol of the end point of markline. [SymbolStyle](SymbolStyle)|
-|`lineStyle`|||The line style of markline. [LineStyle](LineStyle)|
-|`label`|||Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](LabelStyle)|
+|`startSymbol`|||The symbol of the start point of markline. [SymbolStyle](#SymbolStyle)|
+|`endSymbol`|||The symbol of the end point of markline. [SymbolStyle](#SymbolStyle)|
+|`lineStyle`|||The line style of markline. [LineStyle](#LineStyle)|
+|`label`|||Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](#LabelStyle)|
 
 ## `Padding`
 
@@ -1097,10 +1097,10 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |`top`|||Distance between component and the top side of the container.
 |`bottom`|||Distance between component and the bottom side of the container.
 |`insertDataToHead`|||Whether to add new data at the head or at the end of the list.
-|`lineStyle`|||The style of line. [LineStyle](LineStyle)|
-|`symbol`|||the symbol of serie data item. [SerieSymbol](SerieSymbol)|
-|`animation`|||The start animation. [AnimationStyle](AnimationStyle)|
-|`itemStyle`|||The style of data item. [ItemStyle](ItemStyle)|
+|`lineStyle`|||The style of line. [LineStyle](#LineStyle)|
+|`symbol`|||the symbol of serie data item. [SerieSymbol](#SerieSymbol)|
+|`animation`|||The start animation. [AnimationStyle](#AnimationStyle)|
+|`itemStyle`|||The style of data item. [ItemStyle](#ItemStyle)|
 |`data`|||系列中的数据内容数组。SerieData可以设置1到n维数据。
 
 ## `SerieData`
@@ -1308,15 +1308,15 @@ Theme.
 |`contrastColor`|||the contrast color of chart.
 |`backgroundColor`|||the background color of chart.
 |`colorPalette`|||The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
-|`common`||| [ComponentTheme](ComponentTheme)|
-|`title`||| [TitleTheme](TitleTheme)|
-|`subTitle`||| [SubTitleTheme](SubTitleTheme)|
-|`legend`||| [LegendTheme](LegendTheme)|
-|`axis`||| [AxisTheme](AxisTheme)|
-|`tooltip`||| [TooltipTheme](TooltipTheme)|
-|`dataZoom`||| [DataZoomTheme](DataZoomTheme)|
-|`visualMap`||| [VisualMapTheme](VisualMapTheme)|
-|`serie`||| [SerieTheme](SerieTheme)|
+|`common`||| [ComponentTheme](#ComponentTheme)|
+|`title`||| [TitleTheme](#TitleTheme)|
+|`subTitle`||| [SubTitleTheme](#SubTitleTheme)|
+|`legend`||| [LegendTheme](#LegendTheme)|
+|`axis`||| [AxisTheme](#AxisTheme)|
+|`tooltip`||| [TooltipTheme](#TooltipTheme)|
+|`dataZoom`||| [DataZoomTheme](#DataZoomTheme)|
+|`visualMap`||| [VisualMapTheme](#VisualMapTheme)|
+|`serie`||| [SerieTheme](#SerieTheme)|
 
 ## `ThemeStyle`
 
@@ -1327,7 +1327,7 @@ Theme.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||
-|`sharedTheme`||| [Theme](Theme)|
+|`sharedTheme`||| [Theme](#Theme)|
 |`transparentBackground`|false||Whether the background color is transparent. When true, the background color is not drawn. ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。
 |`enableCustomTheme`|false||Whether to customize theme colors. When set to true, you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
 |`customFont`|||
@@ -1345,10 +1345,10 @@ Title component, including main title and subtitle.
 |`show`|true||[default:true] Set this to false to prevent the title from showing.
 |`text`|||The main title text, supporting \n for newlines.
 |`subText`|||Subtitle text, supporting for \n for newlines.
-|`labelStyle`|||The text style of main title. [LabelStyle](LabelStyle)|
-|`subLabelStyle`|||The text style of sub title. [LabelStyle](LabelStyle)|
+|`labelStyle`|||The text style of main title. [LabelStyle](#LabelStyle)|
+|`subLabelStyle`|||The text style of sub title. [LabelStyle](#LabelStyle)|
 |`itemGap`|0||[default:8] The gap between the main title and subtitle.
-|`location`|||The location of title component. [Location](Location)|
+|`location`|||The location of title component. [Location](#Location)|
 
 ## `TitleStyle`
 
@@ -1399,9 +1399,9 @@ Tooltip component.
 |`titleHeight`|25f||height of title text.
 |`itemHeight`|25f||height of content text.
 |`borderColor`|Color32(230, 230, 230, 255)||the color of tooltip border.
-|`lineStyle`|||the line style of indicator line. [LineStyle](LineStyle)|
-|`indicatorLabelStyle`|||the label style of tooltip axis indicator label. [LabelStyle](LabelStyle)|
-|`titleLabelStyle`|||the textstyle of title. [LabelStyle](LabelStyle)|
+|`lineStyle`|||the line style of indicator line. [LineStyle](#LineStyle)|
+|`indicatorLabelStyle`|||the label style of tooltip axis indicator label. [LabelStyle](#LabelStyle)|
+|`titleLabelStyle`|||the textstyle of title. [LabelStyle](#LabelStyle)|
 |`contentLabelStyles`|||the textstyle list of content.
 
 ## `TooltipTheme`
@@ -1446,7 +1446,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |`hoverLink`|true||When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram.
 |`autoMinMax`|true||Automatically set min, Max value 自动设置min，max的值
 |`orient`|||Specify whether the layout of component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-|`location`|||The location of component. [Location](Location)|
+|`location`|||The location of component. [Location](#Location)|
 |`workOnLine`|true||Whether the visualmap is work on linestyle of linechart.
 |`workOnArea`|false||Whether the visualmap is work on areaStyle of linechart.
 |`outOfRange`|||Defines a visual color outside of the selected range.
@@ -1490,7 +1490,7 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`lang`||| [Lang](Lang)|
+|`lang`||| [Lang](#Lang)|
 |`font`|||
 |`tMPFont`|||
 |`fontSizeLv1`|28||一级字体大小。

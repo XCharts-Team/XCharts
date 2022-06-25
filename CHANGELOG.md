@@ -54,6 +54,9 @@
 
 ## master
 
+* (2022.06.25) 增加`Since`标识配置参数从哪个版本开始支持
+* (2022.06.24) 优化`Painter`绘制层，`Top`层细分为`Upper`和`Top`层
+* (2022.06.24) 增加`Legend`对`Background`和`Padding`的支持
 * (2022.06.21) 增加`TextStyle`对`TextMeshPro`的`Sprite Asset`支持 (#201)
 * (2022.06.20) 优化`Tooltip`的边界限制 (#202)
 * (2022.06.20) 修复`TextMeshPro`开启时编译错误

@@ -28,7 +28,7 @@ namespace XCharts.Runtime
         [SerializeField] private TMP_FontAsset m_TMPFont;
         [SerializeField] private FontStyles m_TMPFontStyle = FontStyles.Normal;
         [SerializeField] private TextAlignmentOptions m_TMPAlignment = TextAlignmentOptions.Left;
-        [SerializeField] private TMP_SpriteAsset m_TMPSpriteAsset;
+        [SerializeField][Since("v3.1.0")] private TMP_SpriteAsset m_TMPSpriteAsset;
 #endif
         public bool show
         {

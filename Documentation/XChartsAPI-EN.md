@@ -80,6 +80,7 @@
 - [SimplifiedBarChart](#SimplifiedBarChart)
 - [SimplifiedCandlestickChart](#SimplifiedCandlestickChart)
 - [SimplifiedLineChart](#SimplifiedLineChart)
+- [Since](#Since)
 - [SVG](#SVG)
 - [SVGImage](#SVGImage)
 - [SVGPath](#SVGPath)
@@ -237,6 +238,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshPainter()` |public void RefreshPainter(int index)</br> |
 | `RefreshPainter()` |public void RefreshPainter(Serie serie)</br> |
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
+| `RefreshUpperPainter()` |public void RefreshUpperPainter()</br> |
 | `RemoveAllChartComponent()` |public void RemoveAllChartComponent()</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(MainComponent component)</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(Type type, int index = 0)</br> |
@@ -257,6 +259,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `SetSerieActive()` |public void SetSerieActive(string serieName, bool active)</br>Whether to show serie. |
 | `SetSeriePainterMaterial()` |public void SetSeriePainterMaterial(Material material)</br>设置Serie Painter的材质球 |
 | `SetTopPainterMaterial()` |public void SetTopPainterMaterial(Material material)</br>设置Top Painter的材质球 |
+| `SetUpperPainterMaterial()` |public void SetUpperPainterMaterial(Material material)</br>设置Upper Painter的材质球 |
 | `TryAddChartComponent()` |public bool TryAddChartComponent(Type type)</br> |
 | `TryGetChartComponent<T>()` |public bool TryGetChartComponent<T>(out T component, int index = 0)</br> |
 | `UdpateXAxisIcon()` |public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)</br>Update xAxis icon. |
@@ -373,6 +376,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `SetActive()` |public static void SetActive(Image image, bool active)</br> |
 | `SetActive()` |public static void SetActive(Text text, bool active)</br> |
 | `SetActive()` |public static void SetActive(Transform transform, bool active)</br>通过设置scale实现是否显示，优化性能，减少GC |
+| `SetBackground()` |public static void SetBackground(Image background, ImageStyle imageStyle)</br> |
 | `SetColorOpacity()` |public static void SetColorOpacity(ref Color32 color, float opacity)</br> |
 
 ## `ChartLabel`
@@ -546,6 +550,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetContentColor()` |public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)</br> |
 | `GetIconColor()` |public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)</br> |
 | `ResetItemPosition()` |public static void ResetItemPosition(Legend legend, Vector3 chartPos, float chartWidth, float chartHeight)</br> |
+| `SetLegendBackground()` |public static void SetLegendBackground(Legend legend, ImageStyle style)</br> |
 
 ## `LegendItem`
 
@@ -554,6 +559,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetIconColor()` |public Color GetIconColor()</br> |
 | `GetIconRect()` |public Rect GetIconRect()</br> |
 | `SetActive()` |public void SetActive(bool active)</br> |
+| `SetBackground()` |public void SetBackground(ImageStyle imageStyle)</br> |
 | `SetButton()` |public void SetButton(Button button)</br> |
 | `SetContent()` |public bool SetContent(string content)</br> |
 | `SetContentBackgroundColor()` |public void SetContentBackgroundColor(Color color)</br> |
@@ -904,6 +910,14 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 ## `SimplifiedLineChart`
 
 Inherits or Implemented: [BaseChart](#BaseChart)
+
+## `Since`
+
+Inherits or Implemented: [Attribute](#Attribute)
+
+|public method|description|
+|--|--|
+| `Since()` |public Since(string version)</br> |
 
 ## `SVG`
 

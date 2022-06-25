@@ -707,17 +707,25 @@ namespace XCharts.Runtime
                     if (range > data.Count - start - 1)
                         start = data.Count - range - 1;
                     if (start >= 0)
+                    {
+                        serie.context.dataZoomStartIndex = start;
                         serie.m_FilterData = data.GetRange(start, range);
+                    }
                     else
+                    {
+                        serie.context.dataZoomStartIndex = 0;
                         serie.m_FilterData = data;
+                    }
                 }
                 else
                 {
+                    serie.context.dataZoomStartIndex = 0;
                     serie.m_FilterData = data;
                 }
             }
             else if (end == 0)
             {
+                serie.context.dataZoomStartIndex = 0;
                 serie.m_FilterData = emptyFilter;
             }
         }

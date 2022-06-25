@@ -262,7 +262,7 @@ namespace XCharts.Runtime
                 if (isTriggerAxis)
                 {
                     serie.context.pointerEnter = true;
-                    serie.context.pointerAxisDataIndexs.Add((int) xAxis.context.pointerValue);
+                    serie.context.pointerAxisDataIndexs.Add(serie.context.dataZoomStartIndex + (int) xAxis.context.pointerValue);
                     xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
                 }
             }
@@ -446,7 +446,7 @@ namespace XCharts.Runtime
                     var axis = component as Axis;
                     if (axis.gridIndex == gridIndex && axis.IsCategory())
                     {
-                        dataIndex = (int) axis.context.pointerValue;
+                        dataIndex = axis.context.dataZoomStartIndex + (int) axis.context.pointerValue;
                         category = axis.GetData(dataIndex);
                         return true;
                     }
@@ -532,10 +532,6 @@ namespace XCharts.Runtime
                                 Vector3 p2 = new Vector3(pX, pY);
                                 Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
                                 Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
-                                Debug.LogError(p1 + "," + grid.context.x + "," + xAxis.context.pointerValue);
-                                Debug.LogError(p2);
-                                Debug.LogError(p3);
-                                Debug.LogError(p4);
                                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
                             }
                             break;

@@ -126,7 +126,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                chart.RefreshTopPainter();
+                chart.RefreshUpperPainter();
             }
         }
 
@@ -210,14 +210,14 @@ namespace XCharts.Runtime
                         foreach (var serie in chart.series)
                         {
                             if (serie is INeedSerieContainer &&
-                                (serie as INeedSerieContainer).containterInstanceId == component.instanceId)
+                                (serie as INeedSerieContainer).containterInstanceId == component.instanceId &&
+                                !serie.placeHolder)
                             {
                                 var isTriggerAxis = tooltip.IsTriggerAxis();
                                 if (container is GridCoord)
                                 {
                                     var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                                     var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                                    serie.context.pointerEnter = true;
                                     UpdateAxisPointerDataIndex(serie, xAxis, yAxis, container as GridCoord, isTriggerAxis);
                                 }
                                 else if (container is PolarCoord)
@@ -242,11 +242,16 @@ namespace XCharts.Runtime
             serie.context.pointerAxisDataIndexs.Clear();
             if (yAxis.IsCategory())
             {
-                serie.context.pointerAxisDataIndexs.Add((int) yAxis.context.pointerValue);
-                yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
+                if (isTriggerAxis)
+                {
+                    serie.context.pointerEnter = true;
+                    serie.context.pointerAxisDataIndexs.Add((int) yAxis.context.pointerValue);
+                    yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
+                }
             }
             else if (yAxis.IsTime())
             {
+                serie.context.pointerEnter = true;
                 if (isTriggerAxis)
                     GetSerieDataIndexByAxis(serie, yAxis, grid);
                 else
@@ -254,11 +259,16 @@ namespace XCharts.Runtime
             }
             else if (xAxis.IsCategory())
             {
-                serie.context.pointerAxisDataIndexs.Add((int) xAxis.context.pointerValue);
-                xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
+                if (isTriggerAxis)
+                {
+                    serie.context.pointerEnter = true;
+                    serie.context.pointerAxisDataIndexs.Add((int) xAxis.context.pointerValue);
+                    xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
+                }
             }
             else
             {
+                serie.context.pointerEnter = true;
                 if (isTriggerAxis)
                     GetSerieDataIndexByAxis(serie, xAxis, grid);
                 else
@@ -449,6 +459,7 @@ namespace XCharts.Runtime
         {
             if (!tooltip.show) return;
             if (tooltip.type == Tooltip.Type.None) return;
+            if (!IsAnySerieNeedTooltip()) return;
             if (m_PointerContainer is GridCoord)
             {
                 var grid = m_PointerContainer as GridCoord;
@@ -539,6 +550,15 @@ namespace XCharts.Runtime
                     }
                 }
             }
+        }
+
+        private bool IsAnySerieNeedTooltip()
+        {
+            foreach (var serie in chart.series)
+            {
+                if (serie.context.pointerEnter) return true;
+            }
+            return false;
         }
         private void DrawYAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {

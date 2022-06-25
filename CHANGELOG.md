@@ -54,6 +54,7 @@
 
 ## master
 
+* (2022.06.25) 优化`Serie`设置`PlaceHolder`时的`Tooltip`表现
 * (2022.06.25) 增加`Since`标识配置参数从哪个版本开始支持
 * (2022.06.24) 优化`Painter`绘制层，`Top`层细分为`Upper`和`Top`层
 * (2022.06.24) 增加`Legend`对`Background`和`Padding`的支持

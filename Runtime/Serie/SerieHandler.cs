@@ -510,7 +510,7 @@ namespace XCharts.Runtime
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+            if (serie.placeHolder || TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
                 return;
 
             var param = serie.context.param;
@@ -550,7 +550,7 @@ namespace XCharts.Runtime
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+            if (serie.placeHolder || TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
                 return;
 
             var colorIndex = chart.GetLegendRealShowNameIndex(serieData.name);

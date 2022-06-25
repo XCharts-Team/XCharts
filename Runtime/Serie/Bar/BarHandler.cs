@@ -62,7 +62,7 @@ namespace XCharts.Runtime
             if (m_SerieGrid == null)
                 return;
 
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter() && !serie.placeHolder) || m_LegendEnter;
             var needInteract = false;
             if (!needCheck)
             {

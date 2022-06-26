@@ -496,7 +496,7 @@ namespace XCharts.Runtime
                 if (isY)
                     UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness, setting.lineSmoothStyle);
                 else
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness, setting.lineSmoothStyle);
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness, setting.lineSmoothStyle, true);
 
                 for (int j = 1; j < s_CurvesPosList.Count; j++)
                 {

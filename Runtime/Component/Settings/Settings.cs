@@ -17,7 +17,7 @@ namespace XCharts.Runtime
         [SerializeField] protected Material m_SeriePainterMaterial;
         [SerializeField] protected Material m_UpperPainterMaterial;
         [SerializeField] protected Material m_TopPainterMaterial;
-        [SerializeField][Range(1, 10)] protected float m_LineSmoothStyle = 3f;
+        [SerializeField][Range(1, 10)] protected float m_LineSmoothStyle = 2.5f;
         [SerializeField][Range(1f, 20)] protected float m_LineSmoothness = 2f;
         [SerializeField][Range(0.5f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField][Range(1, 10)] protected float m_CicleSmoothness = 2f;

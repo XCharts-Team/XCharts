@@ -161,7 +161,7 @@ namespace XCharts.Runtime
         /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br>
         /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
         /// |提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。
-        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。</br>
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}。</br>
         /// {.}为当前所指示或index为0的serie的对应颜色的圆点。</br>
         /// {a}为当前所指示或index为0的serie的系列名name。</br>
         /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br>

@@ -132,6 +132,7 @@ namespace XCharts.Runtime
         {
             if (!serie.avoidLabelOverlap) return;
             var lastCheckPos = Vector3.zero;
+            var lastX = 0f;
             var data = serie.data;
             var splitCount = 0;
             for (int n = 0; n < data.Count; n++)
@@ -143,19 +144,20 @@ namespace XCharts.Runtime
                     break;
                 }
             }
+
             for (int n = 0; n < splitCount; n++)
             {
-                CheckSerieDataLabel(serie, data[n], false, theme, ref lastCheckPos);
+                CheckSerieDataLabel(serie, data[n], splitCount, false, theme, ref lastCheckPos, ref lastX);
             }
             lastCheckPos = Vector3.zero;
             for (int n = data.Count - 1; n >= splitCount; n--)
             {
-                CheckSerieDataLabel(serie, data[n], true, theme, ref lastCheckPos);
+                CheckSerieDataLabel(serie, data[n], data.Count - splitCount, true, theme, ref lastCheckPos, ref lastX);
             }
         }
 
-        private static void CheckSerieDataLabel(Serie serie, SerieData serieData, bool isLeft, ComponentTheme theme,
-            ref Vector3 lastCheckPos)
+        private static void CheckSerieDataLabel(Serie serie, SerieData serieData, int total, bool isLeft, ComponentTheme theme,
+            ref Vector3 lastCheckPos, ref float lastX)
         {
             if (!serieData.context.canShowLabel)
             {
@@ -164,12 +166,12 @@ namespace XCharts.Runtime
             }
             if (!serieData.show) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
-            var fontSize = serieLabel.textStyle.GetFontSize(theme);
             var isOutside = serieLabel.position == LabelStyle.Position.Outside ||
                 serieLabel.position == LabelStyle.Position.Default;
             if (!serieLabel.show) return;
             if (!isOutside) return;
+            var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
+            var fontSize = serieData.labelObject.GetHeight();
             if (lastCheckPos == Vector3.zero)
             {
                 lastCheckPos = serieData.context.labelPosition;
@@ -185,7 +187,25 @@ namespace XCharts.Runtime
                     var diffX = labelRadius * labelRadius - diff * diff;
                     diffX = diffX <= 0 ? 0 : diffX;
                     var x1 = serie.context.center.x + Mathf.Sqrt(diffX) * (isLeft ? -1 : 1);
-                    serieData.context.labelPosition = new Vector3(x1, y1);
+                    var newPos = new Vector3(x1, y1);
+                    serieData.context.labelPosition = newPos;
+                    var angle = ChartHelper.GetAngle360(Vector2.up, newPos - serie.context.center);
+                    if (angle >= 180 && angle <= 270)
+                    {
+                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX):(--lastX), y1);
+                    }
+                    else if (angle < 180 && angle >= 90)
+                    {
+                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX):(--lastX), y1);
+                    }
+                    else
+                    {
+                        lastX = x1;
+                    }
+                }
+                else
+                {
+                    lastX = serieData.context.labelPosition.x;
                 }
                 lastCheckPos = serieData.context.labelPosition;
                 serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serie, serieData, serieLabel, labelLine));

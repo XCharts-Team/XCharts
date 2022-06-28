@@ -11,10 +11,10 @@ namespace XCharts.Runtime
     public class Padding : ChildComponent
     {
         [SerializeField] protected bool m_Show = true;
-        [SerializeField] protected float m_Top = 2;
-        [SerializeField] protected float m_Right = 4;
-        [SerializeField] protected float m_Left = 4;
-        [SerializeField] protected float m_Bottom = 2;
+        [SerializeField] protected float m_Top = 0;
+        [SerializeField] protected float m_Right = 2f;
+        [SerializeField] protected float m_Left = 2f;
+        [SerializeField] protected float m_Bottom = 0;
 
         public Padding() { }
 

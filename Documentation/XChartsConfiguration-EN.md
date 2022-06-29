@@ -935,10 +935,10 @@ padding setting of item or text.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||show padding. 是否显示。
-|`top`|2||padding of top.
-|`right`|4||padding of right.
-|`left`|4||padding of left.
-|`bottom`|2||padding of bottom.
+|`top`|0||padding of top.
+|`right`|2f||padding of right.
+|`left`|2f||padding of left.
+|`bottom`|0||padding of bottom.
 
 ## `Parallel`
 
@@ -1173,7 +1173,7 @@ Global parameter setting component. The default value can be used in general, an
 |`seriePainterMaterial`|||Serie Pointer 材质球，设置后会影响所有Serie。
 |`upperPainterMaterial`|||Upper Pointer 材质球。
 |`topPainterMaterial`|||Top Pointer 材质球。
-|`lineSmoothStyle`|3f||Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, and different curves with slightly different appearance can be obtained.
+|`lineSmoothStyle`|2.5f||Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, and different curves with slightly different appearance can be obtained.
 |`lineSmoothness`|2f||Smoothness of curve. The smaller the value, the smoother the curve, but the number of vertices will increase.
 |`lineSegmentDistance`|3f||The partition distance of a line segment. A line in a normal line chart is made up of many segments, the number of which is determined by the change in value. The smaller the number of segments, the higher the number of vertices. When the area with gradient is filled, the larger the value, the worse the transition effect.
 |`cicleSmoothness`|2f||the smoothess of cricle.

@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, dataValue,
-                    dataTotal, serieName, dataName, dataName, color);
+                    dataTotal, serieName, dataName, dataName, color, serieData);
                 return content;
             }
         }

@@ -439,17 +439,12 @@ namespace XCharts.Runtime
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
                 var radius1 = labelLine.lineType == LabelLine.LineType.HorizontalLine ?
                     serie.context.outsideRadius : outSideRadius;
-                var radius2 = serie.context.outsideRadius + labelLine.lineLength1;
                 var radius3 = insideRadius + (outSideRadius - insideRadius) / 2;
                 if (radius1 < serie.context.insideRadius) radius1 = serie.context.insideRadius;
                 radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
                 var pos2 = serieData.context.labelPosition;
-                if (pos2.x == 0)
-                {
-                    //pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
-                }
                 Vector3 pos4, pos6;
                 var horizontalLineCircleRadius = labelLine.lineWidth * 4f;
                 var lineCircleDiff = horizontalLineCircleRadius - 0.3f;

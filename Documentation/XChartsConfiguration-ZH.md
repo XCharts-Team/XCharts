@@ -935,10 +935,10 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||show padding. 是否显示。
-|`top`|2||顶部间距。
-|`right`|4||右部间距。
-|`left`|4||左边间距。
-|`bottom`|2||底部间距。
+|`top`|0||顶部间距。
+|`right`|2f||右部间距。
+|`left`|2f||左边间距。
+|`bottom`|0||底部间距。
 
 ## `Parallel`
 
@@ -1173,7 +1173,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`seriePainterMaterial`|||Serie Pointer 材质球，设置后会影响所有Serie。
 |`upperPainterMaterial`|||Upper Pointer 材质球。
 |`topPainterMaterial`|||Top Pointer 材质球。
-|`lineSmoothStyle`|3f||曲线平滑系数。通过调整平滑系数可以改变曲线的曲率，得到外观稍微有变化的不同曲线。
+|`lineSmoothStyle`|2.5f||曲线平滑系数。通过调整平滑系数可以改变曲线的曲率，得到外观稍微有变化的不同曲线。
 |`lineSmoothness`|2f||When the area with gradient is filled, the larger the value, the worse the transition effect.
 |`lineSegmentDistance`|3f||线段的分割距离。普通折线图的线是由很多线段组成，段数由该数值决定。值越小段数越多，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
 |`cicleSmoothness`|2f||圆形的平滑度。数越小圆越平滑，但顶点数也会随之增加。
@@ -1373,8 +1373,8 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`show`|true||是否显示提示框组件。
 |`type`|||提示框指示器类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
 |`trigger`|||触发类型。</br>`Tooltip.Trigger`:</br>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。</br>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。</br>- `None`: 什么都不触发。</br>|
-|`itemFormatter`|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}。</br> {.}为当前所指示或index为0的serie的对应颜色的圆点。</br> {a}为当前所指示或index为0的serie的系列名name。</br> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br> {e}为当前所指示或index为0的serie的数据项serieData的name。</br> {f}为数据总和。</br> {.1}表示指定index为1的serie对应颜色的圆点。</br> {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
-|`titleFormatter`|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量参考Toolip的itemFormatter。
+|`itemFormatter`|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用
+|`titleFormatter`|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。</br> {.}为当前所指示或index为0的serie的对应颜色的圆点。</br> {a}为当前所指示或index为0的serie的系列名name。</br> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br> {e}为当前所指示或index为0的serie的数据项serieData的name。</br> {f}为数据总和。</br> {g}为数据总个数。</br> {.1}表示指定index为1的serie对应颜色的圆点。</br> {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
 |`marker`|||serie的符号标志。
 |`fixedWidth`|0||固定宽度。比 minWidth 优先。
 |`fixedHeight`|0||固定高度。比 minHeight 优先。

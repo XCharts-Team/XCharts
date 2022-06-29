@@ -16,8 +16,8 @@ namespace XCharts.Runtime
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-g|\.](:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-g])|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-g|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-g]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -41,6 +41,7 @@ namespace XCharts.Runtime
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
+            Debug.LogError("context:" + content);
             foreach (var m in mc)
             {
                 var old = m.ToString();
@@ -167,7 +168,7 @@ namespace XCharts.Runtime
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, int dataCount, double value, double total,
-            string serieName, string category, string dataName, Color color)
+            string serieName, string category, string dataName, Color color, SerieData serieData)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -176,7 +177,13 @@ namespace XCharts.Runtime
                 var args = s_RegexSubForSerieLabel.Matches(old);
                 var argsCount = args.Count;
                 if (argsCount <= 0) continue;
-                var p = args[0].ToString().ElementAt(0);
+                var pstr = args[0].ToString();
+                var p = pstr.ElementAt(0);
+                var pIndex = -1;
+                if (pstr.Length > 1)
+                {
+                    int.TryParse(pstr.Substring(1, pstr.Length - 1), out pIndex);
+                }
                 if (argsCount >= 2)
                 {
                     numericFormatter = args[1].ToString();
@@ -204,7 +211,10 @@ namespace XCharts.Runtime
                 }
                 else if (p == 'c' || p == 'C')
                 {
-                    content = content.Replace(old, ChartCached.NumberToStr(value, numericFormatter));
+                    if (pIndex >= 0 && serieData != null)
+                        content = content.Replace(old, ChartCached.NumberToStr(serieData.GetData(pIndex), numericFormatter));
+                    else
+                        content = content.Replace(old, ChartCached.NumberToStr(value, numericFormatter));
                 }
                 else if (p == 'f' || p == 'f')
                 {

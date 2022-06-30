@@ -275,9 +275,12 @@ namespace XCharts.Runtime
             if (component == null) return;
             if (component.anyDirty)
             {
-                if (component.componentDirty && component.refreshComponent != null)
+                if (component.componentDirty)
                 {
-                    component.refreshComponent.Invoke();
+                    if (component.refreshComponent != null)
+                        component.refreshComponent.Invoke();
+                    else
+                        component.handler.InitComponent();
                 }
                 if (component.vertsDirty)
                 {

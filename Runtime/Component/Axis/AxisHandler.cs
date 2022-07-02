@@ -272,7 +272,7 @@ namespace XCharts
                     list.Add(value);
                     value += tick;
 
-                    if (list.Count > 20)
+                    if (list.Count > 100)
                         break;
                 }
                 if (!ChartHelper.IsEquals(axis.context.maxValue, list[list.Count - 1]))

@@ -54,6 +54,7 @@
 
 ## master
 
+* (2022.07.02) 修复`AxisLabel`代码设置`distance`属性后一直刷新的问题
 * (2022.06.30) 修复`Runtime`下代码创建图表时组件无法初始化的问题
 * (2022.06.29) 增加`Tooltip`的`itemFormatter`支持`{c0}`显示各维度数据 (#205)
 * (2022.06.28) 优化`Pie`设置`avoidLabelOverlap`时的文本表现 (#56)

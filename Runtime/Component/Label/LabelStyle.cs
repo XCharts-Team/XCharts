@@ -114,7 +114,7 @@ namespace XCharts.Runtime
         public Position position
         {
             get { return m_Position; }
-            set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
         /// formatter of label.
@@ -133,7 +133,7 @@ namespace XCharts.Runtime
         public string formatter
         {
             get { return m_Formatter; }
-            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// offset to the host graphic element.
@@ -142,7 +142,7 @@ namespace XCharts.Runtime
         public Vector3 offset
         {
             get { return m_Offset; }
-            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Offset, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Rotation of label.
@@ -159,7 +159,7 @@ namespace XCharts.Runtime
         public float distance
         {
             get { return m_Distance; }
-            set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Distance, value)) SetAllDirty(); }
         }
         /// <summary>
         /// the width of label. If set as default value 0, it means than the label width auto set as the text width.

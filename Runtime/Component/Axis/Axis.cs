@@ -393,6 +393,7 @@ namespace XCharts.Runtime
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
+            axisLabel.ClearVerticesDirty();
             axisLine.ClearVerticesDirty();
             axisTick.ClearVerticesDirty();
             splitLine.ClearVerticesDirty();

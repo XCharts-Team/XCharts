@@ -72,7 +72,8 @@ namespace XCharts.Runtime
             if (grid == null)
                 return Vector3.zero;
 
-            return GetLabelPosition(i, Orient.Vertical, component, null,
+            var xAxis = chart.GetChartComponent<XAxis>(component.index);
+            return GetLabelPosition(i, Orient.Vertical, component, xAxis,
                 chart.theme.axis,
                 scaleWid,
                 grid.context.x,

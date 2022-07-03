@@ -181,6 +181,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Name");
+                PropertyField(prop, "m_OnZero");
                 PropertyField(prop, "m_LabelStyle");
                 --EditorGUI.indentLevel;
             }

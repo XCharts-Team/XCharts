@@ -424,7 +424,8 @@ namespace XCharts
                 var autoColor = axis.axisLine.GetColor(chart.theme.axis.lineColor);
                 if (orient == Orient.Horizonal)
                 {
-                    var posY = GetAxisLineXOrY() + offset.y;
+                    var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+                    var posY = !axis.axisName.onZero && grid != null? grid.context.y : GetAxisLineXOrY() + offset.y;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -460,7 +461,8 @@ namespace XCharts
                 }
                 else
                 {
-                    var posX = GetAxisLineXOrY() + offset.x;
+                    var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+                    var posX = !axis.axisName.onZero && grid != null? grid.context.x : GetAxisLineXOrY() + offset.x;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:

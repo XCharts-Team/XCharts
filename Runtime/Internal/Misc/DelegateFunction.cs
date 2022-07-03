@@ -9,8 +9,10 @@ namespace XCharts.Runtime
     /// </summary>
     /// <param name="dataIndex">数据索引</param>
     /// <param name="value">数值</param>
+    /// <param name="category">类目</param>
+    /// <param name="content">当前内容</param>
     /// <returns>最终显示的文本内容</returns>
-    public delegate string LabelFormatterFunction(int dataIndex, double value, string category);
+    public delegate string LabelFormatterFunction(int dataIndex, double value, string category, string content);
     public delegate float AnimationDelayFunction(int dataIndex);
     public delegate float AnimationDurationFunction(int dataIndex);
     /// <summary>

@@ -18,16 +18,6 @@ namespace XCharts.Runtime
             }
         }
 
-        public static void ResetLabel(ChartText labelObject, LabelStyle label, ThemeStyle theme,
-            Color textColor, float rotate)
-        {
-            if (labelObject == null) return;
-            labelObject.SetColor(textColor);
-            labelObject.SetLocalEulerAngles(new Vector3(0, 0, rotate));
-            labelObject.SetFontSize(label.textStyle.GetFontSize(theme.common));
-            labelObject.SetFontStyle(label.textStyle.fontStyle);
-        }
-
         public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)
         {
             return serie.show && serieData.context.canShowLabel && !serie.IsIgnoreValue(serieData, dimesion);
@@ -43,18 +33,23 @@ namespace XCharts.Runtime
             var numericFormatter = serieLabel == null ? "" : serieLabel.numericFormatter;
             var serieName = serie.serieName;
             var dataName = serieData != null ? serieData.name : null;
-            if (serieLabel.formatterFunction != null)
-            {
-                return serieLabel.formatterFunction(serieData.index, dataValue, null);
-            }
             if (string.IsNullOrEmpty(serieLabel.formatter))
-                return ChartCached.NumberToStr(dataValue, numericFormatter);
+            {
+                var currentContent = ChartCached.NumberToStr(dataValue, numericFormatter);
+                if (serieLabel.formatterFunction == null)
+                    return currentContent;
+                else
+                    return serieLabel.formatterFunction(serieData.index, dataValue, null, currentContent);
+            }
             else
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, dataValue,
                     dataTotal, serieName, dataName, dataName, color, serieData);
-                return content;
+                if (serieLabel.formatterFunction == null)
+                    return content;
+                else
+                    return serieLabel.formatterFunction(serieData.index, dataValue, null, content);
             }
         }
 
@@ -192,11 +187,11 @@ namespace XCharts.Runtime
                     var angle = ChartHelper.GetAngle360(Vector2.up, newPos - serie.context.center);
                     if (angle >= 180 && angle <= 270)
                     {
-                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX):(--lastX), y1);
+                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX): (--lastX), y1);
                     }
                     else if (angle < 180 && angle >= 90)
                     {
-                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX):(--lastX), y1);
+                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX): (--lastX), y1);
                     }
                     else
                     {

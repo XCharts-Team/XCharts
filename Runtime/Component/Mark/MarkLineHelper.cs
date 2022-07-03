@@ -8,18 +8,19 @@ namespace XCharts.Runtime
         {
             var serieLabel = data.label;
             var numericFormatter = serieLabel.numericFormatter;
-            if (serieLabel.formatterFunction != null)
-            {
-                return serieLabel.formatterFunction(data.index, data.runtimeValue, null);
-            }
             if (string.IsNullOrEmpty(serieLabel.formatter))
-                return ChartCached.NumberToStr(data.runtimeValue, numericFormatter);
+            {
+                var content = ChartCached.NumberToStr(data.runtimeValue, numericFormatter);
+                return serieLabel.formatterFunction == null? content:
+                    serieLabel.formatterFunction(data.index, data.runtimeValue, null, content);
+            }
             else
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, data.runtimeValue,
                     0, serie.serieName, data.name, data.name, Color.clear, null);
-                return content;
+                return serieLabel.formatterFunction == null? content:
+                    serieLabel.formatterFunction(data.index, data.runtimeValue, null, content);
             }
         }
 

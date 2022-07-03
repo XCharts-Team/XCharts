@@ -212,7 +212,7 @@ namespace XCharts.Runtime
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
 
-        [SerializeField][Range(1, 10)] private int m_ShowDataDimension;
+        [SerializeField][Range(2, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
@@ -686,7 +686,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
-        public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = value; } }
+        public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = Mathf.Clamp(2, 10, value); } }
         /// <summary>
         /// 在Editor的inpsector上是否显示name参数
         /// </summary>
@@ -1132,7 +1132,7 @@ namespace XCharts.Runtime
             serieData.index = xValue;
             serieData.id = dataId;
             AddSerieData(serieData);
-            m_ShowDataDimension = 1;
+            m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;

@@ -41,7 +41,6 @@ namespace XCharts.Runtime
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
-            Debug.LogError("context:" + content);
             foreach (var m in mc)
             {
                 var old = m.ToString();

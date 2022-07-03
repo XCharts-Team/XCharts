@@ -138,15 +138,6 @@ namespace XCharts.Runtime
             return null;
         }
 
-        public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)
-        {
-            foreach (var serie in series)
-            {
-                if (serie.vesselIndex == vesselIndex) return serie;
-            }
-            return null;
-        }
-
         private static HashSet<string> _setForStack = new HashSet<string>();
         /// <summary>
         /// 是否由数据堆叠

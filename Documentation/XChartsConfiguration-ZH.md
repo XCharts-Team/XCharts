@@ -239,7 +239,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示坐标轴。
-|`type`|||坐标轴类型。</br>`Axis.AxisType`:</br>- `Value`: </br>- `Category`: </br>- `Log`: 对数轴。适用于对数数据。</br>- `Time`: 时间轴。适用于连续的时序数据。</br>|
+|`type`|||坐标轴类型。</br>`Axis.AxisType`:</br>- `Value`: 数值轴。适用于连续数据。</br>- `Category`: 类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。</br>- `Log`: 对数轴。适用于对数数据。</br>- `Time`: 时间轴。适用于连续的时序数据。</br>|
 |`minMaxType`|||坐标轴刻度最大最小值显示类型。</br>`Axis.AxisMinMaxType`:</br>- `Default`: 0-最大值。</br>- `MinMax`: 最小值-最大值。</br>- `Custom`: 自定义最小值最大值。</br>|
 |`gridIndex`|||坐标轴所在的 grid 的索引，默认位于第一个 grid。
 |`polarIndex`|||坐标轴所在的 ploar 的索引，默认位于第一个 polar。
@@ -303,8 +303,9 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`show`|||是否显示坐标名称。
+|`show`|||是否显示坐标轴名称。
 |`name`|||坐标轴名称。
+|`onZero`||v3.1.0|坐标轴名称的位置是否保持和Y轴0刻度一致。
 |`labelStyle`|||文本样式。 [LabelStyle](#LabelStyle)|
 
 ## `AxisSplitArea`
@@ -376,18 +377,18 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`lineType`|||坐标轴线类型。
+|`lineType`|||坐标轴线类型。</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`lineWidth`|1f||坐标轴线宽。
 |`lineLength`|0f||坐标轴线长。
 |`lineColor`|||坐标轴线颜色。
-|`splitLineType`|||分割线线类型。
+|`splitLineType`|||分割线线类型。</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`splitLineWidth`|1f||分割线线宽。
 |`splitLineLength`|0f||分割线线长。
 |`splitLineColor`|||分割线线颜色。
 |`tickWidth`|1f||刻度线线宽。
 |`tickLength`|5f||刻度线线长。
 |`tickColor`|||坐标轴线颜色。
-|`splitAreaColors`|||
+|`splitAreaColors`|||坐标轴分隔区域的颜色。
 
 ## `BaseLine`
 
@@ -435,7 +436,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`show`|true||是否显示注解组件。
 |`labelStyle`|||所有组件的文本样式。 [LabelStyle](#LabelStyle)|
 |`markStyle`|||所有组件的文本样式。 [CommentMarkStyle](#CommentMarkStyle)|
-|`items`|||
+|`items`|||注解项。每个注解组件可以设置多个注解项。
 
 ## `CommentItem`
 
@@ -538,10 +539,10 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`show`|true||
+|`show`|true||是否显示Debug组件。
 |`showDebugInfo`|false||
-|`showAllChartObject`|false||
-|`foldSeries`|false||
+|`showAllChartObject`|false||是否在Hierarchy试图显示所有chart下的节点。
+|`foldSeries`|false||是否在Inspector上折叠Serie。
 |`labelStyle`||| [LabelStyle](#LabelStyle)|
 
 ## `EffectScatter`
@@ -648,12 +649,12 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 
 |field|default|since|comment|
 |--|--|--|--|
-|`name`|||
+|`name`|||指示器名称。
 |`max`|||指示器的最大值，默认为 0 无限制。
 |`min`|||指示器的最小值，默认为 0 无限制。
 |`range`|||正常值范围。当数值不在这个范围时，会自动变更显示颜色。
 |`show`|||是否显示雷达坐标系组件。
-|`shape`|||雷达图绘制类型，支持 'Polygon' 和 'Circle'。</br>`RadarCoord.Shape`:</br>- `Polygon`: 雷达图绘制类型，支持 'Polygon' 和 'Circle'。</br>- `Circle`: 雷达图绘制类型，支持 'Polygon' 和 'Circle'。</br>|
+|`shape`|||雷达图绘制类型，支持 'Polygon' 和 'Circle'。
 |`radius`|100||雷达图的半径。
 |`splitNumber`|5||指示器轴的分割段数。
 |`center`|||雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
@@ -662,7 +663,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |`splitLine`|||分割线。 [AxisSplitLine](#AxisSplitLine)|
 |`splitArea`|||分割区域。 [AxisSplitArea](#AxisSplitArea)|
 |`indicator`|true||是否显示指示器。
-|`positionType`|||显示位置类型。</br>`RadarCoord.PositionType`:</br>- `Vertice`: 显示在顶点处。</br>- `Between`: 显示在两者之间。</br>|
+|`positionType`|||显示位置类型。
 |`indicatorGap`|10||指示器和雷达的间距。
 |`ceilRate`|0||最大最小值向上取整的倍率。默认为0时自动计算。
 |`isAxisTooltip`|||是否Tooltip显示轴线上的所有数据。
@@ -708,7 +709,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示视觉引导线。
-|`lineType`|||视觉引导线类型。</br>`LineType`:</br>- `Normal`: 普通折线图。</br>- `Smooth`: 平滑曲线。</br>- `StepStart`: 阶梯线图：当前点。</br>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。</br>- `StepEnd`: 阶梯线图：下一个拐点。</br>|
+|`lineType`|||视觉引导线类型。</br>`LabelLine.LineType`:</br>- `BrokenLine`: 折线</br>- `Curves`: 曲线</br>- `HorizontalLine`: 水平线</br>|
 |`lineColor`|ChartConst.clearColor32||视觉引导线颜色。默认和serie一致取自调色板。
 |`lineAngle`|0||视觉引导线的固定角度。对折线和曲线有效。
 |`lineWidth`|1.0f||视觉引导线的宽度。
@@ -763,21 +764,21 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示图例组件。
-|`iconType`|||图例类型。 [default:Type.Auto]</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
-|`selectedMode`|||选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。 [default:SelectedMode.Multiple]</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
-|`orient`|||布局方式是横还是竖。 [default:Orient.Horizonal]</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
-|`location`|||图例显示的位置。 [default:Location.defaultTop] [Location](#Location)|
-|`itemWidth`|25.0f||图例标记的图形宽度。 [default:24f]
-|`itemHeight`|12.0f||图例标记的图形高度。 [default:12f]
-|`itemGap`|10f||图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。 [default:10f]
-|`itemAutoColor`|true||图例标记的图形是否自动匹配颜色。 [default:true]
+|`iconType`|||图例类型。</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`selectedMode`|||选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
+|`orient`|||布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
+|`location`|||图例显示的位置。 [Location](#Location)|
+|`itemWidth`|25.0f||图例标记的图形宽度。
+|`itemHeight`|12.0f||图例标记的图形高度。
+|`itemGap`|10f||图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
+|`itemAutoColor`|true||图例标记的图形是否自动匹配颜色。
 |`itemOpacity`|1||图例标记的图形的颜色透明度。
 |`formatter`|||图例内容字符串模版格式器。支持用 \n 换行。 模板变量为图例名称 {value}。其他模板变量参考Toolip的itemFormatter。
 |`numericFormatter`|||标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
 |`labelStyle`|||文本样式。 [LabelStyle](#LabelStyle)|
-|`data`|||If data is not specified, it will be auto collected from series.
+|`data`|||图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
 |`icons`|||自定义的图例标记图形。
-|`colors`|||the colors of legend item. 图例标记的颜色列表。
+|`colors`|||图例标记的颜色列表。
 |`background`||v3.1.0|背景图样式。 [ImageStyle](#ImageStyle)|
 |`padding`||v3.1.0|图例标记和背景的间距。 [Padding](#Padding)|
 
@@ -820,7 +821,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|||是否显示箭头。
-|`position`|||箭头位置。</br>`LabelStyle.Position`:</br>- `Default`: 标签的位置。</br>- `Outside`: 饼图扇区外侧，通过视觉引导线连到相应的扇区。</br>- `Inside`: 饼图扇区内部。</br>- `Center`: 在饼图中心位置。</br>- `Top`: 图形标志的顶部。</br>- `Bottom`: 图形标志的底部。</br>- `Left`: 图形标志的左边。</br>- `Right`: 图形标志的右边。</br>- `Start`: 线的起始点。</br>- `Middle`: 线的中点。</br>- `End`: 线的结束点。</br>|
+|`position`|||箭头位置。</br>`LineArrow.Position`:</br>- `End`: 末端箭头</br>- `Start`: 头端箭头</br>|
 |`arrow`|||箭头。 [ArrowStyle](#ArrowStyle)|
 
 ## `LineStyle`
@@ -832,7 +833,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
-|`type`|||线的类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||线的类型。</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`color`|||线的颜色。
 |`toColor`|||线的渐变颜色（需要水平方向渐变时）。
 |`toColor2`|||线的渐变颜色2（需要水平方向三个渐变色的渐变时）。
@@ -848,7 +849,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#I
 
 |field|default|since|comment|
 |--|--|--|--|
-|`align`|||对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
+|`align`|||对齐方式。</br>`Location.Align`:</br>- `TopLeft`: 对齐方式</br>- `TopRight`: 对齐方式</br>- `TopCenter`: 对齐方式</br>- `BottomLeft`: 对齐方式</br>- `BottomRight`: 对齐方式</br>- `BottomCenter`: 对齐方式</br>- `Center`: 对齐方式</br>- `CenterLeft`: 对齐方式</br>- `CenterRight`: 对齐方式</br>|
 |`left`|||离容器左侧的距离。
 |`right`|||离容器右侧的距离。
 |`top`|||离容器上侧的距离。
@@ -1147,11 +1148,11 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`lineWidth`|||文本颜色。
-|`lineSymbolSize`|||
-|`scatterSymbolSize`|||
+|`lineSymbolSize`|||折线图的Symbol大小。
+|`scatterSymbolSize`|||散点图的Symbol大小。
 |`pieTooltipExtraRadius`|||饼图鼠标移到高亮时的额外半径
-|`selectedRate`|1.3f||
-|`pieSelectedOffset`|||饼图选中时的中心点偏移
+|`selectedRate`|1.3f||折线图或散点图在被选中时的放大倍数。
+|`pieSelectedOffset`|||饼图选中时的中心点偏移。
 |`candlestickColor`|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |`candlestickColor0`|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色
 |`candlestickBorderWidth`|1||K线图边框宽度
@@ -1327,8 +1328,8 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||
-|`sharedTheme`||| [Theme](#Theme)|
-|`transparentBackground`|false||Whether the background color is transparent. When true, the background color is not drawn. ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。
+|`sharedTheme`|||主题配置。 [Theme](#Theme)|
+|`transparentBackground`|false||是否透明背景颜色。当设置为true时，不绘制背景颜色。
 |`enableCustomTheme`|false||是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。
 |`customFont`|||
 |`customBackgroundColor`|||自定义的背景颜色。
@@ -1371,7 +1372,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示提示框组件。
-|`type`|||提示框指示器类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||提示框指示器类型。</br>`Tooltip.Type`:</br>- `Line`: 直线指示器</br>- `Shadow`: 阴影指示器</br>- `None`: 无指示器</br>- `Corss`: 十字准星指示器。坐标轴显示Label和交叉线。</br>|
 |`trigger`|||触发类型。</br>`Tooltip.Trigger`:</br>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。</br>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。</br>- `None`: 什么都不触发。</br>|
 |`itemFormatter`|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用
 |`titleFormatter`|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。</br> {.}为当前所指示或index为0的serie的对应颜色的圆点。</br> {a}为当前所指示或index为0的serie的系列名name。</br> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br> {e}为当前所指示或index为0的serie的数据项serieData的name。</br> {f}为数据总和。</br> {g}为数据总个数。</br> {.1}表示指定index为1的serie对应颜色的圆点。</br> {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
@@ -1410,7 +1411,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`lineType`|||坐标轴线类型。
+|`lineType`|||坐标轴线类型。</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`lineWidth`|1f||指示线线宽。
 |`lineColor`|||指示线颜色。
 |`areaColor`|||区域指示的颜色。
@@ -1427,7 +1428,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |--|--|--|--|
 |`show`|true||组件是否生效。
 |`showUI`|false||是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
-|`type`|||组件类型。</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||组件类型。</br>`VisualMap.Type`:</br>- `Continuous`: 连续型。</br>- `Piecewise`: 分段型。</br>|
 |`selectedMode`|||选择模式。</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||影响的serie索引。
 |`min`|0||范围最小值
@@ -1497,9 +1498,9 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 |`fontSizeLv2`|24||
 |`fontSizeLv3`|20||
 |`fontSizeLv4`|18||
-|`axisLineType`|||
+|`axisLineType`|||</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`axisLineWidth`|0.8f||
-|`axisSplitLineType`|||
+|`axisSplitLineType`|||</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`axisSplitLineWidth`|0.8f||
 |`axisTickWidth`|0.8f||
 |`axisTickLength`|5f||

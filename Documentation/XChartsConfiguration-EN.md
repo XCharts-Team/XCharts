@@ -305,6 +305,7 @@ the name of axis.
 |--|--|--|--|
 |`show`|||Whether to show axis name.
 |`name`|||the name of axis.
+|`onZero`||v3.1.0|Whether the axis name position are the same with 0 position of YAxis.
 |`labelStyle`|||The text style of axis name. [LabelStyle](#LabelStyle)|
 
 ## `AxisSplitArea`
@@ -376,18 +377,18 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`lineType`|||the type of line.
+|`lineType`|||the type of line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`lineWidth`|1f||the width of line.
 |`lineLength`|0f||the length of line.
 |`lineColor`|||the color of line.
-|`splitLineType`|||the type of split line.
+|`splitLineType`|||the type of split line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`splitLineWidth`|1f||the width of split line.
 |`splitLineLength`|0f||the length of split line.
 |`splitLineColor`|||the color of line.
 |`tickWidth`|1f||the width of tick.
 |`tickLength`|5f||the length of tick.
 |`tickColor`|||the color of tick.
-|`splitAreaColors`|||
+|`splitAreaColors`|||the colors of split area.
 
 ## `BaseLine`
 
@@ -435,7 +436,7 @@ comment of chart.
 |`show`|true||Set this to false to prevent the comment from showing.
 |`labelStyle`|||The text style of all comments. [LabelStyle](#LabelStyle)|
 |`markStyle`|||The text style of all comments. [CommentMarkStyle](#CommentMarkStyle)|
-|`items`|||
+|`items`|||The items of comment.
 
 ## `CommentItem`
 
@@ -538,10 +539,10 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`show`|true||
+|`show`|true||Whether show debug component.
 |`showDebugInfo`|false||
-|`showAllChartObject`|false||
-|`foldSeries`|false||
+|`showAllChartObject`|false||Whether show children components of chart in hierarchy view.
+|`foldSeries`|false||Whether to fold series in inspector view.
 |`labelStyle`||| [LabelStyle](#LabelStyle)|
 
 ## `EffectScatter`
@@ -648,12 +649,12 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`name`|||
+|`name`|||The name of indicator.
 |`max`|||The maximum value of indicator, with default value of 0, but we recommend to set it manually.
 |`min`|||The minimum value of indicator, with default value of 0.
 |`range`|||Normal range. When the value is outside this range, the display color is automatically changed.
 |`show`|||[default:true] Set this to false to prevent the radar from showing.
-|`shape`|||Radar render type, in which 'Polygon' and 'Circle' are supported.</br>`RadarCoord.Shape`:</br>- `Polygon`: Radar render type, in which 'Polygon' and 'Circle' are supported.</br>- `Circle`: Radar render type, in which 'Polygon' and 'Circle' are supported.</br>|
+|`shape`|||Radar render type, in which 'Polygon' and 'Circle' are supported.
 |`radius`|100||the radius of radar.
 |`splitNumber`|5||Segments of indicator axis.
 |`center`|||the center of radar chart.
@@ -662,7 +663,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |`splitLine`|||split line. [AxisSplitLine](#AxisSplitLine)|
 |`splitArea`|||Split area of axis in grid area. [AxisSplitArea](#AxisSplitArea)|
 |`indicator`|true||Whether to show indicator.
-|`positionType`|||The position type of indicator.</br>`RadarCoord.PositionType`:</br>- `Vertice`: Display at the vertex.</br>- `Between`: Display at the middle of line.</br>|
+|`positionType`|||The position type of indicator.
 |`indicatorGap`|10||The gap of indicator and radar.
 |`ceilRate`|0||The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
 |`isAxisTooltip`|||是否Tooltip显示轴线上的所有数据。
@@ -708,7 +709,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether the label line is showed.
-|`lineType`|||the type of visual guide line.</br>`LineType`:</br>- `Normal`: the normal line chart，</br>- `Smooth`: the smooth line chart，</br>- `StepStart`: step line.</br>- `StepMiddle`: step line.</br>- `StepEnd`: step line.</br>|
+|`lineType`|||the type of visual guide line.</br>`LabelLine.LineType`:</br>- `BrokenLine`: 折线</br>- `Curves`: 曲线</br>- `HorizontalLine`: 水平线</br>|
 |`lineColor`|ChartConst.clearColor32||the color of visual guild line.
 |`lineAngle`|0||the angle of visual guild line.
 |`lineWidth`|1.0f||the width of visual guild line.
@@ -763,8 +764,8 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether to show legend component.
-|`iconType`|||Type of legend.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
-|`selectedMode`|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
+|`iconType`|||Type of legend.</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`selectedMode`|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
 |`orient`|||Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 |`location`|||The location of legend. [Location](#Location)|
 |`itemWidth`|25.0f||Image width of legend symbol.
@@ -775,9 +776,9 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |`formatter`|||Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
 |`numericFormatter`|||Standard numeric format strings.
 |`labelStyle`|||the style of text. [LabelStyle](#LabelStyle)|
-|`data`|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series.
+|`data`|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. If data is not specified, it will be auto collected from series.
 |`icons`|||自定义的图例标记图形。
-|`colors`|||the colors of legend item. 图例标记的颜色列表。
+|`colors`|||the colors of legend item.
 |`background`||v3.1.0|the sytle of background. [ImageStyle](#ImageStyle)|
 |`padding`||v3.1.0|the paddinng of item and background. [Padding](#Padding)|
 
@@ -820,7 +821,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|||Whether to show the arrow.
-|`position`|||The position of arrow.</br>`LabelStyle.Position`:</br>- `Default`: The position of label.</br>- `Outside`: Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.</br>- `Inside`: Inside the sectors of pie chart.</br>- `Center`: In the center of pie chart.</br>- `Top`: top of symbol.</br>- `Bottom`: the bottom of symbol.</br>- `Left`: the left of symbol.</br>- `Right`: the right of symbol.</br>- `Start`: the start of line.</br>- `Middle`: the middle of line.</br>- `End`: the end of line.</br>|
+|`position`|||The position of arrow.</br>`LineArrow.Position`:</br>- `End`: 末端箭头</br>- `Start`: 头端箭头</br>|
 |`arrow`|||the arrow of line. [ArrowStyle](#ArrowStyle)|
 
 ## `LineStyle`
@@ -832,7 +833,7 @@ The style of line.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether show line.
-|`type`|||the type of line.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||the type of line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`color`|||the color of line, default use serie color.
 |`toColor`|||the middle color of line, default use serie color.
 |`toColor2`|||the end color of line, default use serie color.
@@ -848,7 +849,7 @@ Location type. Quick to set the general location.
 
 |field|default|since|comment|
 |--|--|--|--|
-|`align`|||对齐方式。</br>`Align`:</br>- `Center`: 对齐方式</br>- `Left`: 对齐方式</br>- `Right`: 对齐方式</br>|
+|`align`|||对齐方式。</br>`Location.Align`:</br>- `TopLeft`: 对齐方式</br>- `TopRight`: 对齐方式</br>- `TopCenter`: 对齐方式</br>- `BottomLeft`: 对齐方式</br>- `BottomRight`: 对齐方式</br>- `BottomCenter`: 对齐方式</br>- `Center`: 对齐方式</br>- `CenterLeft`: 对齐方式</br>- `CenterRight`: 对齐方式</br>|
 |`left`|||Distance between component and the left side of the container.
 |`right`|||Distance between component and the left side of the container.
 |`top`|||Distance between component and the left side of the container.
@@ -1147,11 +1148,11 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |field|default|since|comment|
 |--|--|--|--|
 |`lineWidth`|||the color of text.
-|`lineSymbolSize`|||
-|`scatterSymbolSize`|||
-|`pieTooltipExtraRadius`|||饼图鼠标移到高亮时的额外半径
-|`selectedRate`|1.3f||
-|`pieSelectedOffset`|||饼图选中时的中心点偏移
+|`lineSymbolSize`|||the symbol size of line serie.
+|`scatterSymbolSize`|||the symbol size of scatter serie.
+|`pieTooltipExtraRadius`|||the extra radius of pie when actived by tooltip.
+|`selectedRate`|1.3f||the rate of symbol size of line or scatter serie.
+|`pieSelectedOffset`|||the center offset of pie if selected.
 |`candlestickColor`|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |`candlestickColor0`|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色
 |`candlestickBorderWidth`|1||K线图边框宽度
@@ -1327,8 +1328,8 @@ Theme.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||
-|`sharedTheme`||| [Theme](#Theme)|
-|`transparentBackground`|false||Whether the background color is transparent. When true, the background color is not drawn. ｜是否透明背景颜色。当设置为true时，不绘制背景颜色。
+|`sharedTheme`|||the asset of theme. [Theme](#Theme)|
+|`transparentBackground`|false||Whether the background color is transparent. When true, the background color is not drawn.
 |`enableCustomTheme`|false||Whether to customize theme colors. When set to true, you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
 |`customFont`|||
 |`customBackgroundColor`|||the custom background color of chart.
@@ -1371,7 +1372,7 @@ Tooltip component.
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether to show the tooltip component.
-|`type`|||Indicator type.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||Indicator type.</br>`Tooltip.Type`:</br>- `Line`: line indicator.</br>- `Shadow`: shadow crosshair indicator.</br>- `None`: no indicator displayed.</br>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.</br>|
 |`trigger`|||Type of triggering.</br>`Tooltip.Trigger`:</br>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.</br>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.</br>- `None`: Trigger nothing.</br>|
 |`itemFormatter`|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.</br> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br> {a} is the series name of the serie that is currently indicated or whose index is 0.</br> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br> {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br> {f} is sum of data.</br> {.1} represents a dot from serie corresponding color that specifies index as 1.</br> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
 |`titleFormatter`|||The string template formatter for the tooltip title content. Support for wrapping lines with \n. The placeholder {I} can be set separately to indicate that the title is ignored and not displayed. Template see itemFormatter.
@@ -1410,7 +1411,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 |field|default|since|comment|
 |--|--|--|--|
-|`lineType`|||the type of line.
+|`lineType`|||the type of line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`lineWidth`|1f||the width of line.
 |`lineColor`|||the color of line.
 |`areaColor`|||the color of line.
@@ -1427,7 +1428,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |--|--|--|--|
 |`show`|true||Whether to enable components.
 |`showUI`|false||Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
-|`type`|||the type of visualmap component.</br>`Painter.Type`:</br>- `Base`: </br>- `Serie`: </br>- `Top`: </br>|
+|`type`|||the type of visualmap component.</br>`VisualMap.Type`:</br>- `Continuous`: 连续型。</br>- `Piecewise`: 分段型。</br>|
 |`selectedMode`|||the selected mode for Piecewise visualMap.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||the serie index of visualMap.
 |`min`|0||范围最小值
@@ -1497,9 +1498,9 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 |`fontSizeLv2`|24||
 |`fontSizeLv3`|20||
 |`fontSizeLv4`|18||
-|`axisLineType`|||
+|`axisLineType`|||</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`axisLineWidth`|0.8f||
-|`axisSplitLineType`|||
+|`axisSplitLineType`|||</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`axisSplitLineWidth`|0.8f||
 |`axisTickWidth`|0.8f||
 |`axisTickLength`|5f||

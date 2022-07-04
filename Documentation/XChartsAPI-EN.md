@@ -891,7 +891,6 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetLegalSerieNameList()` |public static List<string> GetLegalSerieNameList(List<Serie> series)</br> |
 | `GetMaxSerieDataCount()` |public static int GetMaxSerieDataCount(List<Serie> series)</br> |
 | `GetNameColor()` |public static Color GetNameColor(BaseChart chart, int index, string name)</br> |
-| `GetSerieByVesselIndex()` |public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)</br> |
 | `GetStackSeries()` |public static void GetStackSeries(List<Serie> series, ref Dictionary<int, List<Serie>> stackSeries)</br>获得堆叠系列列表 |
 | `IsAnyClipSerie()` |public static bool IsAnyClipSerie(List<Serie> series)</br>是否有需裁剪的serie。 |
 | `IsLegalLegendName()` |public static bool IsLegalLegendName(string name)</br> |

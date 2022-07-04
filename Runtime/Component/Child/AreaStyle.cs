@@ -33,7 +33,7 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] private bool m_Show = true;
-        [SerializeField] private AreaOrigin m_Origin;
+        [SerializeField] private AreaStyle.AreaOrigin m_Origin;
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;

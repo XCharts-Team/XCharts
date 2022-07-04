@@ -19,12 +19,12 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// ||数值轴。适用于连续数据。
+            /// |数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// ||类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// |类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。
             /// </summary>
             Category,
             /// <summary>
@@ -74,12 +74,12 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] protected bool m_Show = true;
-        [SerializeField] protected AxisType m_Type;
-        [SerializeField] protected AxisMinMaxType m_MinMaxType;
+        [SerializeField] protected Axis.AxisType m_Type;
+        [SerializeField] protected Axis.AxisMinMaxType m_MinMaxType;
         [SerializeField] protected int m_GridIndex;
         [SerializeField] protected int m_PolarIndex;
         [SerializeField] protected int m_ParallelIndex;
-        [SerializeField] protected AxisPosition m_Position;
+        [SerializeField] protected Axis.AxisPosition m_Position;
         [SerializeField] protected float m_Offset;
         [SerializeField] protected double m_Min;
         [SerializeField] protected double m_Max;

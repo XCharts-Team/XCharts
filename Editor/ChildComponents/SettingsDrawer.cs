@@ -28,6 +28,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_LineSmoothness");
                 PropertyField(prop, "m_LineSegmentDistance");
                 PropertyField(prop, "m_CicleSmoothness");
+                PropertyField(prop, "m_AxisMaxSplitNumber");
                 PropertyField(prop, "m_LegendIconLineWidth");
                 PropertyListField(prop, "m_LegendIconCornerRadius", true);
                 --EditorGUI.indentLevel;

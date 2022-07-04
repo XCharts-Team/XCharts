@@ -218,7 +218,7 @@ namespace XCharts
             axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack);
         }
 
-        internal static void UpdateAxisTickValueList(Axis axis)
+        internal void UpdateAxisTickValueList(Axis axis)
         {
             if (axis.IsTime())
             {
@@ -267,12 +267,13 @@ namespace XCharts
                     list.Add(axis.context.minValue);
                     value = Math.Ceiling(axis.context.minValue / tick) * tick;
                 }
+                var maxSplitNumber = chart.settings.axisMaxSplitNumber;
                 while (value <= axis.context.maxValue)
                 {
                     list.Add(value);
                     value += tick;
 
-                    if (list.Count > 100)
+                    if (maxSplitNumber > 0 && list.Count > maxSplitNumber)
                         break;
                 }
                 if (!ChartHelper.IsEquals(axis.context.maxValue, list[list.Count - 1]))

@@ -165,7 +165,7 @@ namespace XCharts.Runtime
                         axis.context.offset = 0;
                         axis.context.lastCheckInverse = axis.inverse;
 
-                        AxisHandler<ParallelAxis>.UpdateAxisTickValueList(axis);
+                        (axis.handler as ParallelAxisHander).UpdateAxisTickValueList(axis);
                         (axis.handler as ParallelAxisHander).UpdateAxisLabelText(axis);
                         chart.RefreshChart();
                     }

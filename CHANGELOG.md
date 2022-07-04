@@ -56,6 +56,7 @@
 
 ## master
 
+* (2022.07.04) 修复`Axis`在设置`offset`后`Tick`绘制位置异常的问题 (#209)
 * (2022.07.03) 优化`AxisLabel`的`formatterFunction`自定义委托
 * (2022.07.03) 增加`AxisName`的`onZero`参数支持设置坐标轴名称位置是否和Y轴0刻度一致 (#207)
 * (2022.07.02) 修复`PieChart`用代码动态创建时`Legend`不正常的问题 (#206)

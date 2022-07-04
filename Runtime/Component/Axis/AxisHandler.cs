@@ -612,12 +612,12 @@ namespace XCharts
                             if ((axis.axisTick.inside && axis.IsBottom()) ||
                                 (!axis.axisTick.inside && axis.IsTop()))
                             {
-                                sY = startY + axis.offset + lineWidth;
+                                sY = startY + lineWidth;
                                 eY = sY + tickLength;
                             }
                             else
                             {
-                                sY = startY + axis.offset - lineWidth;
+                                sY = startY - lineWidth;
                                 eY = sY - tickLength;
                             }
 
@@ -639,12 +639,12 @@ namespace XCharts
                             if ((axis.axisTick.inside && axis.IsLeft()) ||
                                 (!axis.axisTick.inside && axis.IsRight()))
                             {
-                                sX = startX + axis.offset + lineWidth;
+                                sX = startX + lineWidth;
                                 eX = sX + tickLength;
                             }
                             else
                             {
-                                sX = startX + axis.offset - lineWidth;
+                                sX = startX - lineWidth;
                                 eX = sX - tickLength;
                             }
 

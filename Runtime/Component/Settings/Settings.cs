@@ -23,7 +23,7 @@ namespace XCharts.Runtime
         [SerializeField][Range(1, 10)] protected float m_CicleSmoothness = 2f;
         [SerializeField] protected float m_LegendIconLineWidth = 2;
         [SerializeField] private float[] m_LegendIconCornerRadius = new float[] { 0.25f, 0.25f, 0.25f, 0.25f };
-        [SerializeField][Since("v3.1.0")] protected float m_AxisMaxSplitNumber = 20;
+        [SerializeField][Since("v3.1.0")] protected float m_AxisMaxSplitNumber = 50;
 
         public bool show { get { return m_Show; } }
         /// <summary>

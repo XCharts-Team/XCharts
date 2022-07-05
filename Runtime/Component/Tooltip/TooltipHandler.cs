@@ -199,6 +199,7 @@ namespace XCharts.Runtime
         private ISerieContainer GetPointerContainerAndSeries(Tooltip tooltip, List<Serie> list)
         {
             list.Clear();
+            ISerieContainer target = null;
             for (int i = chart.components.Count - 1; i >= 0; i--)
             {
                 var component = chart.components[i];
@@ -230,11 +231,11 @@ namespace XCharts.Runtime
                                     chart.RefreshTopPainter();
                             }
                         }
-                        return container;
+                        target = container;
                     }
                 }
             }
-            return null;
+            return target;
         }
 
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)

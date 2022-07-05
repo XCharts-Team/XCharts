@@ -9,7 +9,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class MainComponent : IComparable
     {
-        public int instanceId { get; internal set; }
+        public int instanceId { get { return index; } }
         public int index { get; internal set; }
         protected bool m_VertsDirty;
         protected bool m_ComponentDirty;

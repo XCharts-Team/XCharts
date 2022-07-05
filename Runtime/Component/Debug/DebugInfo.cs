@@ -132,13 +132,6 @@ namespace XCharts.Runtime
                     SetValueWithKInfo(s_Sb, "s-vert", vertCount);
                     SetValueWithKInfo(s_Sb, "t-vert", m_Chart.m_TopPainterVertCount, false);
 
-                    var serie0 = m_Chart.GetSerie(0);
-                    for (int i = 0; i < serie0.dataCount; i++)
-                    {
-                        var serieData = serie0.data[i];
-                        s_Sb.AppendFormat("{0}:{1}\n", i, serieData.interact.targetVaue);
-                    }
-
                     m_Label.SetText(s_Sb.ToString());
                 }
             }

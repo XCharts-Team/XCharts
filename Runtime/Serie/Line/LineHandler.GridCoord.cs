@@ -145,21 +145,11 @@ namespace XCharts.Runtime
             var lineArrow = serie.lineArrow;
             var visualMap = chart.GetVisualMapOfSerie(serie);
             var isVisualMapGradient = VisualMapHelper.IsNeedLineGradient(visualMap);
-            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
 
             Axis axis;
             Axis relativedAxis;
+            var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
 
-            if (isY)
-            {
-                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-            }
-            else
-            {
-                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            }
             for (int i = 0; i < count; i++)
             {
                 var serieData = serie.GetSerieData(i);
@@ -270,21 +260,9 @@ namespace XCharts.Runtime
             if (serie.animation.HasFadeOut())
                 return;
 
-            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-
             Axis axis;
             Axis relativedAxis;
-
-            if (isY)
-            {
-                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-            }
-            else
-            {
-                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            }
+            var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
 
             if (axis == null)
                 return;

@@ -423,5 +423,22 @@ namespace XCharts.Runtime
             }
             return null;
         }
+
+        internal bool GetSerieGridCoordAxis(Serie serie, out Axis axis, out Axis relativedAxis)
+        {
+            var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
+            var isY = yAxis.IsCategory();
+            if (isY)
+            {
+                axis = yAxis;
+                relativedAxis = GetChartComponent<XAxis>(serie.xAxisIndex);
+            }
+            else
+            {
+                axis = GetChartComponent<XAxis>(serie.xAxisIndex);
+                relativedAxis = yAxis;
+            }
+            return isY;
+        }
     }
 }

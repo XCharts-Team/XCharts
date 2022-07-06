@@ -49,7 +49,7 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 [XCharts3.0 API](XChartsAPI-EN.md)  
 [XCharts3.0 FAQ](XChartsFAQ-EN.md)  
 [XCharts3.0 Configurate](XChartsConfiguration-EN.md)  
-[XCharts3.0 Changelog](../CHANGELOG.md)  
+[XCharts3.0 Changelog](CHANGELOG.md)  
 [XCharts3.0 Support](SUPPORT.md)  
 
 ## Features

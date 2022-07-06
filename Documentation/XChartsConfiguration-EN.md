@@ -1180,6 +1180,7 @@ Global parameter setting component. The default value can be used in general, an
 |`cicleSmoothness`|2f||the smoothess of cricle.
 |`legendIconLineWidth`|2||the width of line serie legend.
 |`legendIconCornerRadius`|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
+|`axisMaxSplitNumber`|50|v3.1.0|the max splitnumber of axis.
 
 ## `SimplifiedBar`
 

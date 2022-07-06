@@ -1180,6 +1180,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`cicleSmoothness`|2f||圆形的平滑度。数越小圆越平滑，但顶点数也会随之增加。
 |`legendIconLineWidth`|2||Line类型图例图标的线条宽度。
 |`legendIconCornerRadius`|||图例圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+|`axisMaxSplitNumber`|50|v3.1.0|坐标轴最大分隔段数。段数过大时可能会生成较多的label节点。
 
 ## `SimplifiedBar`
 

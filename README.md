@@ -76,7 +76,7 @@
 
 更多示例请看 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) 仓库，也可以在浏览器查看`WebGL`下的运行效果 [在线Demo](https://xcharts-team.github.io/demo/) 。
 
-## `XCharts3.0` 新功能
+## `XCharts3.0`
 
 - 增加`Time`时间轴。
 - 增加`SingleAxis`单轴。
@@ -87,7 +87,7 @@
 - 增加`Widgets`小组件。
 - 增加多种扩展图表。
 
-## `XCharts3.0` 相比 `XCharts2.0` 的改进
+## `XCharts3.0` 相比 `XCharts2.0`
 
 - 更健壮的底层框架。
 - 更强大的性能。
@@ -111,11 +111,13 @@
 
 ## 使用
 
-1. 导入`XCharts`的`unitypackage`或者源码到项目
-2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图
-3. 在`Inspector`试图可以调整各个组件的参数，并在`Game`视图看到实时效果
+1. 导入`XCharts`的`unitypackage`或者源码到项目。
+2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图。
+3. 在`Inspector`视图可以调整各个组件的参数，并在`Game`视图看到实时效果。
 
 更多教程请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+
+首次使用，建议认真看一遍教程。
 
 ## FAQ
 
@@ -128,17 +130,19 @@
 3. 这个插件除了用在`Unity`，还能用在其他平台（如`Winform`或`WPF`）吗？  
    答：目前只支持在`Unity`平台使用。理论上任何支持`UGUI`的`Unity`版本都能运行`XCharts`。
 
-## 日志
-
-[更新日志](CHANGELOG.md)  
-
 ## Licenses
 
 [MIT License](LICENSE.md)
+
+可免费商用，可二次开发
+
+## 日志
+
+[更新日志](CHANGELOG.md)  
 
 ## 其他
 
 邮箱：`monitor1394@gmail.com`  
 QQ群：XCharts交流群（`202030963`）  
 VIP群：XCharts技术支持VIP群（`867291970`）  
-捐助和技术支持：[☞ 看这里](Documentation/SUPPORT.md)
+捐助、合作和技术支持：[☞ 看这里](Documentation/SUPPORT.md)

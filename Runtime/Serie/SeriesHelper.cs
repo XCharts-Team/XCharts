@@ -425,8 +425,8 @@ namespace XCharts.Runtime
             }
             else
             {
-                minVaule = min > 1 ? Math.Floor(min) : min;
-                maxValue = max > 1 ? Math.Ceiling(max) : max;
+                minVaule = min;
+                maxValue = max;
             }
         }
 

@@ -148,7 +148,7 @@ namespace XCharts.Runtime
 
             Axis axis;
             Axis relativedAxis;
-            var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
+            chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
 
             for (int i = 0; i < count; i++)
             {

@@ -327,7 +327,7 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, int ceilRate = 0)
+        public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, double ceilRate = 0)
         {
             if (axis.type == Axis.AxisType.Log)
             {

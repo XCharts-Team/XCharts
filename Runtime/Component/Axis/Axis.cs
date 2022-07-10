@@ -89,7 +89,7 @@ namespace XCharts.Runtime
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
         [SerializeField] protected bool m_LogBaseE = false;
-        [SerializeField] protected int m_CeilRate = 0;
+        [SerializeField] protected double m_CeilRate = 0;
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
@@ -257,7 +257,7 @@ namespace XCharts.Runtime
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
         /// |最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
-        public int ceilRate
+        public double ceilRate
         {
             get { return m_CeilRate; }
             set { if (PropertyUtil.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }

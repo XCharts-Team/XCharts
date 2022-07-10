@@ -573,7 +573,7 @@ namespace XCharts.Runtime
         /// <param name="dimension"></param>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public static void UpdateMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)
+        public static void UpdateMinMaxData(Serie serie, int dimension, double ceilRate = 0, DataZoom dataZoom = null)
         {
             double min = 0, max = 0;
             GetMinMaxData(serie, dimension, out min, out max, dataZoom);
@@ -589,7 +589,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)
+        public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)
         {
             double min = 0, max = 0;
             GetMinMaxData(serie, out min, out max, dataZoom);

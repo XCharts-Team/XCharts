@@ -56,6 +56,7 @@
 
 ## master
 
+* (2022.07.07) 优化`Axis`的`minMaxType`指定为`MinMax`时支持精确到小数
 * (2022.07.05) 修复`Chart`里有多个坐标系时绘制异常的问题 (#210)
 * (2022.07.04) 增加`Settings`的`axisMaxSplitNumber`参数设置`Axis`的最大分隔段数
 * (2022.07.04) 修复`Axis`在设置`offset`后`Tick`绘制位置异常的问题 (#209)

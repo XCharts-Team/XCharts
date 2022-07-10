@@ -356,20 +356,6 @@ namespace XCharts.Runtime
             var alignment = textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            // TODO: 为了兼容旧版本，这里后面版本可以去掉
-            #region temp code
-            var oldText = labelObj.GetComponent<Text>();
-            if (oldText != null)
-            {
-                GameObject.DestroyImmediate(oldText);
-            }
-            var oldImage = labelObj.GetComponent<Image>();
-            if (oldImage != null)
-            {
-                GameObject.DestroyImmediate(oldImage);
-            }
-            #endregion
-
             var label = GetOrAddComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
@@ -624,7 +610,7 @@ namespace XCharts.Runtime
             return (Color32) color;
         }
 
-        public static double GetMaxDivisibleValue(double max, int ceilRate)
+        public static double GetMaxDivisibleValue(double max, double ceilRate)
         {
             if (max == 0) return 0;
             if (max > -1 && max < 1)
@@ -666,7 +652,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static double GetMinDivisibleValue(double min, int ceilRate)
+        public static double GetMinDivisibleValue(double min, double ceilRate)
         {
             if (min == 0) return 0;
             if (min > -1 && min < 1)

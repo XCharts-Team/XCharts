@@ -55,7 +55,7 @@ namespace XCharts.Runtime
             /// The name of indicator.
             /// |指示器名称。
             /// </summary>
-            public string name { get { return FormatterHelper.TrimAndReplaceLine(m_Name); } set { m_Name = value; } }
+            public string name { get { return m_Name; } set { m_Name = value; } }
             /// <summary>
             /// The maximum value of indicator, with default value of 0, but we recommend to set it manually.
             /// |指示器的最大值，默认为 0 无限制。
@@ -103,7 +103,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
         [SerializeField] private float m_IndicatorGap = 10;
-        [SerializeField] private int m_CeilRate = 0;
+        [SerializeField] private double m_CeilRate = 0;
         [SerializeField] private bool m_IsAxisTooltip;
         [SerializeField] private Color32 m_OutRangeColor = Color.red;
         [SerializeField] private bool m_ConnectCenter = false;
@@ -214,7 +214,7 @@ namespace XCharts.Runtime
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
         /// |最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
-        public int ceilRate
+        public double ceilRate
         {
             get { return m_CeilRate; }
             set { if (PropertyUtil.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }

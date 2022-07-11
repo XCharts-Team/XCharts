@@ -149,21 +149,10 @@ namespace XCharts.Runtime
             if (serie.animation.HasFadeOut())
                 return;
 
-            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-
             Axis axis;
             Axis relativedAxis;
+            var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
 
-            if (isY)
-            {
-                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-            }
-            else
-            {
-                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            }
             m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
 
             if (axis == null)

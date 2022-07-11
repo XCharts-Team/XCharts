@@ -20,13 +20,18 @@ namespace XCharts.Editor
                     var canvasObject = new GameObject();
                     canvasObject.name = "Canvas";
                     canvas = canvasObject.AddComponent<Canvas>();
-                    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    var mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                    canvas.worldCamera = mainCamera == null? null : mainCamera.GetComponent<Camera>();
                     canvasObject.AddComponent<CanvasScaler>();
                     canvasObject.AddComponent<GraphicRaycaster>();
-                    var eventSystem = new GameObject();
-                    eventSystem.name = "EventSystem";
-                    eventSystem.AddComponent<EventSystem>();
-                    eventSystem.AddComponent<StandaloneInputModule>();
+                    if (GameObject.Find("EventSystem") == null)
+                    {
+                        var eventSystem = new GameObject();
+                        eventSystem.name = "EventSystem";
+                        eventSystem.AddComponent<EventSystem>();
+                        eventSystem.AddComponent<StandaloneInputModule>();
+                    }
                     return canvas.transform;
                 }
             }

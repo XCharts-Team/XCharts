@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         public virtual void Update() { }
         public virtual void DrawBase(VertexHelper vh) { }
         public virtual void DrawSerie(VertexHelper vh) { }
+        public virtual void DrawUpper(VertexHelper vh) { }
         public virtual void DrawTop(VertexHelper vh) { }
         public virtual void OnPointerClick(PointerEventData eventData) { }
         public virtual void OnPointerDown(PointerEventData eventData) { }
@@ -509,7 +510,7 @@ namespace XCharts.Runtime
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+            if (serie.placeHolder || TooltipHelper.IsIgnoreFormatter(itemFormatter))
                 return;
 
             var param = serie.context.param;
@@ -549,7 +550,7 @@ namespace XCharts.Runtime
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            if (TooltipHelper.IsIgnoreItemFormatter(itemFormatter))
+            if (serie.placeHolder || TooltipHelper.IsIgnoreFormatter(itemFormatter))
                 return;
 
             var colorIndex = chart.GetLegendRealShowNameIndex(serieData.name);

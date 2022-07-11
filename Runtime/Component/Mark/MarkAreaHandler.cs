@@ -39,7 +39,7 @@ namespace XCharts.Runtime
 
         private void InitMarkArea(MarkArea markArea)
         {
-            markArea.painter = chart.m_PainterTop;
+            markArea.painter = chart.m_PainterUpper;
             markArea.refreshComponent = delegate()
             {
                 var label = ChartHelper.AddChartLabel("label", m_MarkLineLabelRoot.transform, markArea.label, chart.theme.axis,

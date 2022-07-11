@@ -27,18 +27,38 @@ namespace XCharts.Runtime
             get { return m_LineWidth; }
             set { if (PropertyUtil.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the symbol size of line serie.
+        /// |折线图的Symbol大小。
+        /// </summary>
         public float lineSymbolSize
         {
             get { return m_LineSymbolSize; }
             set { if (PropertyUtil.SetStruct(ref m_LineSymbolSize, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the selected symbol size of line serie.
+        /// |折线图Symbol在被选中状态时的大小。
+        /// </summary>
         public float lineSymbolSelectedSize { get { return lineSymbolSize * selectedRate; } }
+        /// <summary>
+        /// the symbol size of scatter serie.
+        /// |散点图的Symbol大小。
+        /// </summary>
         public float scatterSymbolSize
         {
             get { return m_ScatterSymbolSize; }
             set { if (PropertyUtil.SetStruct(ref m_ScatterSymbolSize, value)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// the selected symbol size of scatter serie.
+        /// |散点图的Symbol在被选中状态时的大小。
+        /// </summary>
         public float scatterSymbolSelectedSize { get { return scatterSymbolSize * selectedRate; } }
+        /// <summary>
+        /// the rate of symbol size of line or scatter serie.
+        /// |折线图或散点图在被选中时的放大倍数。
+        /// </summary>
         public float selectedRate
         {
             get { return m_SelectedRate; }
@@ -46,7 +66,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 饼图鼠标移到高亮时的额外半径
+        /// the extra radius of pie when actived by tooltip.
+        /// |饼图鼠标移到高亮时的额外半径
         /// </summary>
         public float pieTooltipExtraRadius
         {
@@ -54,7 +75,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_PieTooltipExtraRadius, value < 0 ? 0f : value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 饼图选中时的中心点偏移
+        /// the center offset of pie if selected.
+        /// |饼图选中时的中心点偏移。
         /// </summary>
         public float pieSelectedOffset
         {

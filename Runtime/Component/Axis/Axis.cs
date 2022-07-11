@@ -19,12 +19,12 @@ namespace XCharts.Runtime
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// ||数值轴。适用于连续数据。
+            /// |数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// ||类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// |类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。
             /// </summary>
             Category,
             /// <summary>
@@ -74,12 +74,12 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] protected bool m_Show = true;
-        [SerializeField] protected AxisType m_Type;
-        [SerializeField] protected AxisMinMaxType m_MinMaxType;
+        [SerializeField] protected Axis.AxisType m_Type;
+        [SerializeField] protected Axis.AxisMinMaxType m_MinMaxType;
         [SerializeField] protected int m_GridIndex;
         [SerializeField] protected int m_PolarIndex;
         [SerializeField] protected int m_ParallelIndex;
-        [SerializeField] protected AxisPosition m_Position;
+        [SerializeField] protected Axis.AxisPosition m_Position;
         [SerializeField] protected float m_Offset;
         [SerializeField] protected double m_Min;
         [SerializeField] protected double m_Max;
@@ -89,7 +89,7 @@ namespace XCharts.Runtime
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
         [SerializeField] protected bool m_LogBaseE = false;
-        [SerializeField] protected int m_CeilRate = 0;
+        [SerializeField] protected double m_CeilRate = 0;
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
@@ -257,7 +257,7 @@ namespace XCharts.Runtime
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
         /// |最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
-        public int ceilRate
+        public double ceilRate
         {
             get { return m_CeilRate; }
             set { if (PropertyUtil.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
@@ -393,6 +393,7 @@ namespace XCharts.Runtime
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
+            axisLabel.ClearVerticesDirty();
             axisLine.ClearVerticesDirty();
             axisTick.ClearVerticesDirty();
             splitLine.ClearVerticesDirty();

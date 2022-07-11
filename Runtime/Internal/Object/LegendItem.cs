@@ -13,6 +13,7 @@ namespace XCharts.Runtime
         private Button m_Button;
         private Image m_Icon;
         private ChartText m_Text;
+        private Image m_Background;
         private Image m_TextBackground;
         private RectTransform m_Rect;
         private RectTransform m_IconRect;
@@ -53,7 +54,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    return 0;
+                    return m_Text.GetPreferredHeight();
                 }
             }
         }
@@ -64,6 +65,7 @@ namespace XCharts.Runtime
             m_Button = obj.GetComponent<Button>();
             m_Rect = obj.GetComponent<RectTransform>();
             m_Icon = obj.transform.Find("icon").gameObject.GetComponent<Image>();
+            m_Background = obj.GetComponent<Image>();
             m_TextBackground = obj.transform.Find("content").gameObject.GetComponent<Image>();
             m_Text = new ChartText(obj);
             m_IconRect = m_Icon.gameObject.GetComponent<RectTransform>();
@@ -172,7 +174,8 @@ namespace XCharts.Runtime
 
         public bool SetContent(string content)
         {
-            if (m_Text != null && !m_Text.GetText().Equals(content))
+            if (m_Text == null) return false;
+            if (!m_Text.GetText().Equals(content))
             {
                 m_Text.SetText(content);
                 if (m_LabelAutoSize)
@@ -186,11 +189,13 @@ namespace XCharts.Runtime
                         m_TextRect.anchoredPosition3D = new Vector3(m_LabelPaddingLeftRight, 0);
                         m_TextBackgroundRect.sizeDelta = new Vector2(m_Text.GetPreferredWidth() + m_LabelPaddingLeftRight * 2,
                             m_Text.GetPreferredHeight() + m_LabelPaddingTopBottom * 2 - 4);
-                        m_Rect.sizeDelta = new Vector3(width, height);
+
                     }
+                    m_Rect.sizeDelta = new Vector3(width, height);
                     return sizeChange;
                 }
             }
+            m_Rect.sizeDelta = new Vector3(width, height);
             return false;
         }
 
@@ -208,6 +213,11 @@ namespace XCharts.Runtime
             {
                 m_GameObject.SetActive(active);
             }
+        }
+
+        public void SetBackground(ImageStyle imageStyle)
+        {
+            ChartHelper.SetBackground(m_Background, imageStyle);
         }
     }
 }

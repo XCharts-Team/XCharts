@@ -15,11 +15,22 @@ namespace XCharts.Runtime
             UpdateSerieContext();
         }
 
+        public override void DrawBase(VertexHelper vh)
+        {
+            UpdateRuntimeData(serie);
+            DrawPieLabelLine(vh, serie, false);
+        }
+
         public override void DrawSerie(VertexHelper vh)
         {
             UpdateRuntimeData(serie);
-            DrawPieLabelLine(vh, serie);
             DrawPie(vh, serie);
+            chart.RefreshBasePainter();
+        }
+
+        public override void DrawUpper(VertexHelper vh)
+        {
+            DrawPieLabelLine(vh, serie, true);
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -390,11 +401,13 @@ namespace XCharts.Runtime
             return false;
         }
 
-        private void DrawPieLabelLine(VertexHelper vh, Serie serie)
+        private void DrawPieLabelLine(VertexHelper vh, Serie serie, bool drawHightlight)
         {
             foreach (var serieData in serie.data)
             {
                 var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                if (drawHightlight && !serieData.context.highlight) continue;
+                if (!drawHightlight && serieData.context.highlight) continue;
                 if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                 {
                     int colorIndex = chart.m_LegendRealShowName.IndexOf(serieData.name);
@@ -426,17 +439,12 @@ namespace XCharts.Runtime
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
                 var radius1 = labelLine.lineType == LabelLine.LineType.HorizontalLine ?
                     serie.context.outsideRadius : outSideRadius;
-                var radius2 = serie.context.outsideRadius + labelLine.lineLength1;
                 var radius3 = insideRadius + (outSideRadius - insideRadius) / 2;
                 if (radius1 < serie.context.insideRadius) radius1 = serie.context.insideRadius;
                 radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
                 var pos2 = serieData.context.labelPosition;
-                if (pos2.x == 0)
-                {
-                    pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
-                }
                 Vector3 pos4, pos6;
                 var horizontalLineCircleRadius = labelLine.lineWidth * 4f;
                 var lineCircleDiff = horizontalLineCircleRadius - 0.3f;
@@ -476,19 +484,27 @@ namespace XCharts.Runtime
                 var pos5X = (currAngle - startAngle) % 360 > 180 ?
                     pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
                 var pos5 = new Vector3(pos5X, pos2.y);
-                switch (labelLine.lineType)
+                var angle = Vector3.Angle(pos1 - center, pos2 - pos1);
+                if (angle > 15)
                 {
-                    case LabelLine.LineType.BrokenLine:
-                        UGL.DrawLine(vh, pos1, pos2, pos5, labelLine.lineWidth, color);
-                        break;
-                    case LabelLine.LineType.Curves:
-                        UGL.DrawCurves(vh, pos1, pos5, pos1, pos2, labelLine.lineWidth, color,
-                            chart.settings.lineSmoothness);
-                        break;
-                    case LabelLine.LineType.HorizontalLine:
-                        UGL.DrawCricle(vh, pos0, horizontalLineCircleRadius, color);
-                        UGL.DrawLine(vh, pos6, pos4, labelLine.lineWidth, color);
-                        break;
+                    UGL.DrawLine(vh, pos1, pos5, labelLine.lineWidth, color);
+                }
+                else
+                {
+                    switch (labelLine.lineType)
+                    {
+                        case LabelLine.LineType.BrokenLine:
+                            UGL.DrawLine(vh, pos1, pos2, pos5, labelLine.lineWidth, color);
+                            break;
+                        case LabelLine.LineType.Curves:
+                            UGL.DrawCurves(vh, pos1, pos5, pos1, pos2, labelLine.lineWidth, color,
+                                chart.settings.lineSmoothness);
+                            break;
+                        case LabelLine.LineType.HorizontalLine:
+                            UGL.DrawCricle(vh, pos0, horizontalLineCircleRadius, color);
+                            UGL.DrawLine(vh, pos6, pos4, labelLine.lineWidth, color);
+                            break;
+                    }
                 }
             }
         }

@@ -26,14 +26,14 @@ namespace XCharts.Runtime
                 component.view.Update();
         }
 
-        public override void DrawTop(VertexHelper vh)
+        public override void DrawUpper(VertexHelper vh)
         {
             DrawTooltipIndicator(vh, component);
         }
 
         private void InitTooltip(Tooltip tooltip)
         {
-            tooltip.painter = chart.m_PainterTop;
+            tooltip.painter = chart.m_PainterUpper;
             tooltip.refreshComponent = delegate()
             {
                 var objName = ChartCached.GetComponentObjectName(tooltip);
@@ -126,7 +126,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                chart.RefreshTopPainter();
+                chart.RefreshUpperPainter();
             }
         }
 
@@ -199,6 +199,7 @@ namespace XCharts.Runtime
         private ISerieContainer GetPointerContainerAndSeries(Tooltip tooltip, List<Serie> list)
         {
             list.Clear();
+            ISerieContainer target = null;
             for (int i = chart.components.Count - 1; i >= 0; i--)
             {
                 var component = chart.components[i];
@@ -210,14 +211,14 @@ namespace XCharts.Runtime
                         foreach (var serie in chart.series)
                         {
                             if (serie is INeedSerieContainer &&
-                                (serie as INeedSerieContainer).containterInstanceId == component.instanceId)
+                                (serie as INeedSerieContainer).containterInstanceId == component.instanceId &&
+                                !serie.placeHolder)
                             {
                                 var isTriggerAxis = tooltip.IsTriggerAxis();
                                 if (container is GridCoord)
                                 {
                                     var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                                     var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                                    serie.context.pointerEnter = true;
                                     UpdateAxisPointerDataIndex(serie, xAxis, yAxis, container as GridCoord, isTriggerAxis);
                                 }
                                 else if (container is PolarCoord)
@@ -230,11 +231,11 @@ namespace XCharts.Runtime
                                     chart.RefreshTopPainter();
                             }
                         }
-                        return container;
+                        target = container;
                     }
                 }
             }
-            return null;
+            return target;
         }
 
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)
@@ -242,11 +243,16 @@ namespace XCharts.Runtime
             serie.context.pointerAxisDataIndexs.Clear();
             if (yAxis.IsCategory())
             {
-                serie.context.pointerAxisDataIndexs.Add((int) yAxis.context.pointerValue);
-                yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
+                if (isTriggerAxis)
+                {
+                    serie.context.pointerEnter = true;
+                    serie.context.pointerAxisDataIndexs.Add((int) yAxis.context.pointerValue);
+                    yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
+                }
             }
             else if (yAxis.IsTime())
             {
+                serie.context.pointerEnter = true;
                 if (isTriggerAxis)
                     GetSerieDataIndexByAxis(serie, yAxis, grid);
                 else
@@ -254,11 +260,16 @@ namespace XCharts.Runtime
             }
             else if (xAxis.IsCategory())
             {
-                serie.context.pointerAxisDataIndexs.Add((int) xAxis.context.pointerValue);
-                xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
+                if (isTriggerAxis)
+                {
+                    serie.context.pointerEnter = true;
+                    serie.context.pointerAxisDataIndexs.Add(serie.context.dataZoomStartIndex + (int) xAxis.context.pointerValue);
+                    xAxis.context.axisTooltipValue = xAxis.context.pointerValue;
+                }
             }
             else
             {
+                serie.context.pointerEnter = true;
                 if (isTriggerAxis)
                     GetSerieDataIndexByAxis(serie, xAxis, grid);
                 else
@@ -436,7 +447,7 @@ namespace XCharts.Runtime
                     var axis = component as Axis;
                     if (axis.gridIndex == gridIndex && axis.IsCategory())
                     {
-                        dataIndex = (int) axis.context.pointerValue;
+                        dataIndex = axis.context.dataZoomStartIndex + (int) axis.context.pointerValue;
                         category = axis.GetData(dataIndex);
                         return true;
                     }
@@ -449,6 +460,7 @@ namespace XCharts.Runtime
         {
             if (!tooltip.show) return;
             if (tooltip.type == Tooltip.Type.None) return;
+            if (!IsAnySerieNeedTooltip()) return;
             if (m_PointerContainer is GridCoord)
             {
                 var grid = m_PointerContainer as GridCoord;
@@ -477,6 +489,7 @@ namespace XCharts.Runtime
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {
+
             var xAxes = chart.GetChartComponents<XAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);
@@ -485,6 +498,8 @@ namespace XCharts.Runtime
                 var xAxis = component as XAxis;
                 if (xAxis.gridIndex == grid.index)
                 {
+                    if (double.IsInfinity(xAxis.context.pointerValue))
+                        continue;
                     var dataZoom = chart.GetDataZoomOfAxis(xAxis);
                     int dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     float splitWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, dataCount, dataZoom);
@@ -499,22 +514,7 @@ namespace XCharts.Runtime
                             Vector2 sp = new Vector2(pX, grid.context.y);
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            // if (xAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
-                            // {
-                            //     float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
-                            //     pX = (float)(grid.context.x + splitWidth * xAxis.context.pointerValue -
-                            //         (xAxis.boundaryGap ? 0 : splitWidth / 2));
-                            //     float pY = grid.context.y + grid.context.height;
-                            //     Vector3 p1 = new Vector3(pX, grid.context.y);
-                            //     Vector3 p2 = new Vector3(pX, pY);
-                            //     Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
-                            //     Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
-                            //     UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
-                            // }
-                            // else
-                            {
-                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            }
+                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(grid.context.x, chart.pointerPos.y);
@@ -523,7 +523,7 @@ namespace XCharts.Runtime
                             }
                             break;
                         case Tooltip.Type.Shadow:
-                            if (xAxis.IsCategory())
+                            if (xAxis.IsCategory() && !double.IsInfinity(xAxis.context.pointerValue))
                             {
                                 float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                                 pX = (float) (grid.context.x + splitWidth * xAxis.context.pointerValue -
@@ -540,17 +540,27 @@ namespace XCharts.Runtime
                 }
             }
         }
+
+        private bool IsAnySerieNeedTooltip()
+        {
+            foreach (var serie in chart.series)
+            {
+                if (serie.context.pointerEnter) return true;
+            }
+            return false;
+        }
         private void DrawYAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {
             var yAxes = chart.GetChartComponents<YAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);
-
             foreach (var component in yAxes)
             {
                 var yAxis = component as YAxis;
                 if (yAxis.gridIndex == grid.index)
                 {
+                    if (double.IsInfinity(yAxis.context.pointerValue))
+                        continue;
                     var dataZoom = chart.GetDataZoomOfAxis(yAxis);
                     int dataCount = chart.series.Count > 0 ? chart.series[0].GetDataList(dataZoom).Count : 0;
                     float splitWidth = AxisHelper.GetDataWidth(yAxis, grid.context.height, dataCount, dataZoom);
@@ -563,22 +573,7 @@ namespace XCharts.Runtime
                             Vector2 sp = new Vector2(grid.context.x, pY);
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
-                            // if (yAxis.IsCategory() && tooltip.type == Tooltip.Type.Corss)
-                            // {
-                            //     float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
-                            //     float pX = grid.context.x + grid.context.width;
-                            //     pY = (float)(grid.context.y + splitWidth * yAxis.context.pointerValue -
-                            //         (yAxis.boundaryGap ? 0 : splitWidth / 2));
-                            //     Vector3 p1 = new Vector3(grid.context.x, pY);
-                            //     Vector3 p2 = new Vector3(grid.context.x, pY + tooltipSplitWid);
-                            //     Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);
-                            //     Vector3 p4 = new Vector3(pX, pY);
-                            //     UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, chart.theme.tooltip.areaColor);
-                            // }
-                            // else
-                            {
-                                ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            }
+                            ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                             if (tooltip.type == Tooltip.Type.Corss)
                             {
                                 sp = new Vector2(chart.pointerPos.x, grid.context.y);

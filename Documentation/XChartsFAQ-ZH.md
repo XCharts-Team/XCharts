@@ -32,6 +32,9 @@
 [QA 26：如何使用背景组件？有什么条件限制？](#如何使用背景组件_有什么条件限制)  
 [QA 27：Mesh can not have more than 65000 vertices?](#Mesh_cannot_have_more_than_65000_vertices)  
 [QA 28：为什么serie里设置的参数运行后又被重置了?](#为什么serie里设置的参数运行后又被重置了)  
+[QA 29：如何修改Serie的Symbol的颜色?](#如何修改Serie的Symbol的颜色)  
+[QA 30：导入或更新XCharts时TMP报错怎么办?](#导入或更新XCharts时TMP报错怎么办)  
+[QA 31：支持空数据吗？如何实现折线图断开的效果?](#支持空数据吗_如何实现折线图断开的效果)  
 
 ## 如何调整坐标轴与背景的边距
 
@@ -67,7 +70,7 @@
 
 ## 如何调整图表的对齐方式
 
-答：默认为左下角对齐，暂不支持调整。可以通过包一层parent来辅助控制。（最新版本`1.5.0`及以上已支持任意锚点，可和做UI一样任意调整对其方式）。
+答：调整RectTransform的锚点，和UGUI的其他组件的用法一致。
 
 ## 可以显示超过1000以上的大数据吗
 
@@ -87,7 +90,7 @@
 
 ## 如何在数据项顶上显示文本
 
-答：通过设置`Serie`下的`Label`。
+答：通过设置`Serie`下的`Label`。3.0版本需要先添加`LabelStyle`组件。
 
 ## 如何给数据项自定义图标
 
@@ -123,7 +126,7 @@
 
 ## 如何做成预设
 
-答：请删除chart下所有的子组件再拖成预设。
+答：做成prefab前，执行一下`Rebuild Chart Object`重新刷新节点，避免有冗余的节点存在。
 
 ## 如何在图表上画点画线等自定义内容
 
@@ -148,6 +151,21 @@
 ## 为什么serie里设置的参数运行后又被重置了
 
 答：检测下代码里是否调用了`RemoveData()`并重新添加`Serie`了。如果想保留`Serie`的配置可以只`ClearData()`，然后重新添加数据。
+
+## 如何修改Serie的Symbol的颜色
+
+答：`Symbol` 的颜色是使用的 `ItemStyle` 的 `color`。
+
+## 导入或更新XCharts时TMP报错怎么办
+
+答：XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开启TMP后再更新XCharts可能会出现这个问题。可通过以下两种方式解决：
+
+1. 找到`XCharts.Runtime.asmdef`和`XCharts.Editor.asmdef`，手动加上 `TextMeshPro`的引用
+2. 移除`PlayerSetting`中`Scripting Define Symbols`的`dUI_TextMeshPro`宏
+
+## 支持空数据吗_如何实现折线图断开的效果
+
+答：`Serie`的`data`是`double`类型，所以无法表示空数据。可通过开启`Serie`的`ignore`和指定`ignoreValue`来达到空数据的效果。也可以每个`SerieData`设置`ignore`参数。忽略数据后断开还是连接可设置`ignoreLineBreak`参数。
 
 [XCharts主页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI](XChartsAPI-ZH.md)  

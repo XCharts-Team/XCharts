@@ -59,8 +59,7 @@ namespace XUGL
 
             for (int i = 0; i < list1.Count; i++)
             {
-                if (list1[i] == null && list2[i] == null)
-                { }
+                if (list1[i] == null && list2[i] == null) { }
                 else
                 {
                     if (list1[i] != null)
@@ -109,7 +108,7 @@ namespace XUGL
         }
 
         public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
-            Vector3 lsp, Vector3 nep, float smoothness = 2f, float k = 2.0f)
+            Vector3 lsp, Vector3 nep, float smoothness = 2f, float k = 2.0f, bool limit = false)
         {
             float dist = Mathf.Abs(sp.x - ep.x);
             Vector3 cp1, cp2;
@@ -124,9 +123,20 @@ namespace XUGL
             else
             {
                 cp1 = sp + (ep - lsp).normalized * diff;
+                if (limit)
+                    cp1.y = sp.y;
+
             }
-            if (nep == ep) cp2 = ep;
-            else cp2 = ep - (nep - sp).normalized * diff;
+            if (nep == ep)
+            {
+                cp2 = ep;
+            }
+            else
+            {
+                cp2 = ep - (nep - sp).normalized * diff;
+                if (limit)
+                    cp2.y = ep.y;
+            }
             dist = Vector3.Distance(sp, ep);
             int segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
             if (segment < 1) segment = (int) (dist / 0.5f);

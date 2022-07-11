@@ -100,7 +100,14 @@ namespace XCharts.Runtime
         {
             foreach (var serie in m_Series)
             {
-                if (serie.serieName.Equals(serieName)) return serie;
+                if (string.IsNullOrEmpty(serie.serieName))
+                {
+                    if (string.IsNullOrEmpty(serieName)) return serie;
+                }
+                else if (serie.serieName.Equals(serieName))
+                {
+                    return serie;
+                }
             }
             return null;
         }

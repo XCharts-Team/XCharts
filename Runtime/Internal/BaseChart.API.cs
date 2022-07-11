@@ -84,7 +84,11 @@ namespace XCharts.Runtime
         /// </summary>
         public Action<VertexHelper, Serie> onDrawAfterSerie { set { m_OnDrawSerieAfter = value; } }
         /// <summary>
-        /// 自定义Top绘制回调。在绘制Tooltip前调用。
+        /// 自定义Upper层绘制回调。在绘制Tooltip前调用。
+        /// </summary>
+        public Action<VertexHelper> onDrawUpper { set { m_OnDrawUpper = value; } }
+        /// <summary>
+        /// 自定义Top层绘制回调。在绘制Tooltip前调用。
         /// </summary>
         public Action<VertexHelper> onDrawTop { set { m_OnDrawTop = value; } }
         /// <summary>
@@ -143,6 +147,7 @@ namespace XCharts.Runtime
             m_RefreshChart = true;
             if (m_Painter) m_Painter.Refresh();
             foreach (var painter in m_PainterList) painter.Refresh();
+            if (m_PainterUpper) m_PainterUpper.Refresh();
             if (m_PainterTop) m_PainterTop.Refresh();
         }
 
@@ -504,6 +509,19 @@ namespace XCharts.Runtime
             {
                 foreach (var painter in m_PainterList)
                     painter.material = material;
+            }
+        }
+
+        /// <summary>
+        /// 设置Upper Painter的材质球
+        /// </summary>
+        /// <param name="material"></param>
+        public void SetUpperPainterMaterial(Material material)
+        {
+            settings.upperPainterMaterial = material;
+            if (m_PainterUpper != null)
+            {
+                m_PainterUpper.material = material;
             }
         }
 

@@ -138,15 +138,6 @@ namespace XCharts.Runtime
             return null;
         }
 
-        public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)
-        {
-            foreach (var serie in series)
-            {
-                if (serie.vesselIndex == vesselIndex) return serie;
-            }
-            return null;
-        }
-
         private static HashSet<string> _setForStack = new HashSet<string>();
         /// <summary>
         /// 是否由数据堆叠
@@ -434,8 +425,8 @@ namespace XCharts.Runtime
             }
             else
             {
-                minVaule = min > 1 ? Math.Floor(min) : min;
-                maxValue = max > 1 ? Math.Ceiling(max) : max;
+                minVaule = min;
+                maxValue = max;
             }
         }
 

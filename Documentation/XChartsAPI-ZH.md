@@ -80,6 +80,7 @@
 - [SimplifiedBarChart](#SimplifiedBarChart)
 - [SimplifiedCandlestickChart](#SimplifiedCandlestickChart)
 - [SimplifiedLineChart](#SimplifiedLineChart)
+- [Since](#Since)
 - [SVG](#SVG)
 - [SVGImage](#SVGImage)
 - [SVGPath](#SVGPath)
@@ -120,7 +121,7 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 |public method|description|
 |--|--|
 | `AdjustCircleLabelPos()` |public static void AdjustCircleLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
-| `AdjustMinMaxValue()` |public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, int ceilRate = 0)</br>调整最大最小值 |
+| `AdjustMinMaxValue()` |public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, double ceilRate = 0)</br>调整最大最小值 |
 | `AdjustRadiusAxisLabelPos()` |public static void AdjustRadiusAxisLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)</br> |
 | `GetAxisLineArrowOffset()` |public static float GetAxisLineArrowOffset(Axis axis)</br>包含箭头偏移的轴线长度 |
 | `GetAxisPosition()` |public static float GetAxisPosition(GridCoord grid, Axis axis, double value, int dataCount = 0, DataZoom dataZoom = null)</br> |
@@ -237,6 +238,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshPainter()` |public void RefreshPainter(int index)</br> |
 | `RefreshPainter()` |public void RefreshPainter(Serie serie)</br> |
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
+| `RefreshUpperPainter()` |public void RefreshUpperPainter()</br> |
 | `RemoveAllChartComponent()` |public void RemoveAllChartComponent()</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(MainComponent component)</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(Type type, int index = 0)</br> |
@@ -257,6 +259,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `SetSerieActive()` |public void SetSerieActive(string serieName, bool active)</br>设置指定系列是否显示。 |
 | `SetSeriePainterMaterial()` |public void SetSeriePainterMaterial(Material material)</br>设置Serie Painter的材质球 |
 | `SetTopPainterMaterial()` |public void SetTopPainterMaterial(Material material)</br>设置Top Painter的材质球 |
+| `SetUpperPainterMaterial()` |public void SetUpperPainterMaterial(Material material)</br>设置Upper Painter的材质球 |
 | `TryAddChartComponent()` |public bool TryAddChartComponent(Type type)</br> |
 | `TryGetChartComponent<T>()` |public bool TryGetChartComponent<T>(out T component, int index = 0)</br> |
 | `UdpateXAxisIcon()` |public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)</br>更新X轴图标。 |
@@ -340,9 +343,9 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetFullName()` |public static string GetFullName(Transform transform)</br> |
 | `GetHighlightColor()` |public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)</br> |
 | `GetLastValue()` |public static Vector3 GetLastValue(List<Vector3> list)</br> |
-| `GetMaxDivisibleValue()` |public static double GetMaxDivisibleValue(double max, int ceilRate)</br> |
+| `GetMaxDivisibleValue()` |public static double GetMaxDivisibleValue(double max, double ceilRate)</br> |
 | `GetMaxLogValue()` |public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
-| `GetMinDivisibleValue()` |public static double GetMinDivisibleValue(double min, int ceilRate)</br> |
+| `GetMinDivisibleValue()` |public static double GetMinDivisibleValue(double min, double ceilRate)</br> |
 | `GetMinLogValue()` |public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
@@ -373,6 +376,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `SetActive()` |public static void SetActive(Image image, bool active)</br> |
 | `SetActive()` |public static void SetActive(Text text, bool active)</br> |
 | `SetActive()` |public static void SetActive(Transform transform, bool active)</br>通过设置scale实现是否显示，优化性能，减少GC |
+| `SetBackground()` |public static void SetBackground(Image background, ImageStyle imageStyle)</br> |
 | `SetColorOpacity()` |public static void SetColorOpacity(ref Color32 color, float opacity)</br> |
 
 ## `ChartLabel`
@@ -546,6 +550,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetContentColor()` |public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)</br> |
 | `GetIconColor()` |public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)</br> |
 | `ResetItemPosition()` |public static void ResetItemPosition(Legend legend, Vector3 chartPos, float chartWidth, float chartHeight)</br> |
+| `SetLegendBackground()` |public static void SetLegendBackground(Legend legend, ImageStyle style)</br> |
 
 ## `LegendItem`
 
@@ -554,6 +559,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 | `GetIconColor()` |public Color GetIconColor()</br> |
 | `GetIconRect()` |public Rect GetIconRect()</br> |
 | `SetActive()` |public void SetActive(bool active)</br> |
+| `SetBackground()` |public void SetBackground(ImageStyle imageStyle)</br> |
 | `SetButton()` |public void SetButton(Button button)</br> |
 | `SetContent()` |public bool SetContent(string content)</br> |
 | `SetContentBackgroundColor()` |public void SetContentBackgroundColor(Color color)</br> |
@@ -818,7 +824,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 |public method|description|
 |--|--|
 | `CopySerie()` |public static void CopySerie(Serie oldSerie, Serie newSerie)</br> |
-| `GetAllMinMaxData()` |public static void GetAllMinMaxData(Serie serie, int ceilRate = 0, DataZoom dataZoom = null)</br> |
+| `GetAllMinMaxData()` |public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)</br> |
 | `GetAreaColor()` |public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
 | `GetAreaToColor()` |public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
@@ -852,7 +858,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `IsDownPoint()` |public static bool IsDownPoint(Serie serie, int index)</br> |
 | `UpdateCenter()` |public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)</br>更新运行时中心点和半径 |
 | `UpdateFilterData()` |public static void UpdateFilterData(Serie serie, DataZoom dataZoom)</br>根据dataZoom更新数据列表缓存 |
-| `UpdateMinMaxData()` |public static void UpdateMinMaxData(Serie serie, int dimension, int ceilRate = 0, DataZoom dataZoom = null)</br>获得指定维数的最大最小值 |
+| `UpdateMinMaxData()` |public static void UpdateMinMaxData(Serie serie, int dimension, double ceilRate = 0, DataZoom dataZoom = null)</br>获得指定维数的最大最小值 |
 | `UpdateRect()` |public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)</br> |
 | `UpdateSerieRuntimeFilterData()` |public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)</br> |
 
@@ -885,7 +891,6 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetLegalSerieNameList()` |public static List<string> GetLegalSerieNameList(List<Serie> series)</br> |
 | `GetMaxSerieDataCount()` |public static int GetMaxSerieDataCount(List<Serie> series)</br> |
 | `GetNameColor()` |public static Color GetNameColor(BaseChart chart, int index, string name)</br> |
-| `GetSerieByVesselIndex()` |public static Serie GetSerieByVesselIndex(List<Serie> series, int vesselIndex)</br> |
 | `GetStackSeries()` |public static void GetStackSeries(List<Serie> series, ref Dictionary<int, List<Serie>> stackSeries)</br>获得堆叠系列列表 |
 | `IsAnyClipSerie()` |public static bool IsAnyClipSerie(List<Serie> series)</br>是否有需裁剪的serie。 |
 | `IsLegalLegendName()` |public static bool IsLegalLegendName(string name)</br> |
@@ -904,6 +909,14 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 ## `SimplifiedLineChart`
 
 Inherits or Implemented: [BaseChart](#BaseChart)
+
+## `Since`
+
+Inherits or Implemented: [Attribute](#Attribute)
+
+|public method|description|
+|--|--|
+| `Since()` |public Since(string version)</br> |
 
 ## `SVG`
 
@@ -941,7 +954,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 |--|--|
 | `GetItemNumericFormatter()` |public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)</br> |
 | `GetLineColor()` |public static Color32 GetLineColor(Tooltip tooltip, ThemeStyle theme)</br> |
-| `IsIgnoreItemFormatter()` |public static bool IsIgnoreItemFormatter(string itemFormatter)</br> |
+| `IsIgnoreFormatter()` |public static bool IsIgnoreFormatter(string itemFormatter)</br> |
 | `LimitInRect()` |public static void LimitInRect(Tooltip tooltip, Rect chartRect)</br> |
 
 ## `TooltipView`

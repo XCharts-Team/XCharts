@@ -42,6 +42,7 @@ namespace XCharts.Runtime
         public List<string> runtimeData { get { return m_RuntimeData; } }
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }
+        public int dataZoomStartIndex;
 
         internal List<string> filterData;
         internal bool lastCheckInverse;
@@ -107,17 +108,25 @@ namespace XCharts.Runtime
                     if (range > data.Count - start - 1)
                         start = data.Count - range - 1;
                     if (start >= 0)
+                    {
+                        dataZoomStartIndex = start;
                         filterData = data.GetRange(start, range);
+                    }
                     else
+                    {
+                        dataZoomStartIndex = 0;
                         filterData = data;
+                    }
                 }
                 else
                 {
+                    dataZoomStartIndex = 0;
                     filterData = data;
                 }
             }
             else if (end == 0)
             {
+                dataZoomStartIndex = 0;
                 filterData = m_EmptyFliter;
             }
         }

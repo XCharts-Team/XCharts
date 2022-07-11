@@ -58,6 +58,11 @@ namespace XCharts.Runtime
         {
             m_Active = flag && tooltip.showContent;
             ChartHelper.SetActive(gameObject, m_Active);
+            if (!flag)
+            {
+                foreach (var item in m_Items)
+                    item.gameObject.SetActive(false);
+            }
         }
 
         public void Refresh()

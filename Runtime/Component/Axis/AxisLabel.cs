@@ -145,22 +145,18 @@ namespace XCharts.Runtime
 
         public string GetFormatterContent(int labelIndex, string category)
         {
-            if (m_FormatterFunction != null)
-            {
-                return m_FormatterFunction(labelIndex, 0, category);
-            }
             if (string.IsNullOrEmpty(category))
-                return category;
+                return GetFormatterFunctionContent(labelIndex, category, category);
 
             if (string.IsNullOrEmpty(m_Formatter))
             {
-                return m_TextLimit.GetLimitContent(category);
+                return GetFormatterFunctionContent(labelIndex, category, m_TextLimit.GetLimitContent(category));
             }
             else
             {
                 var content = m_Formatter;
                 FormatterHelper.ReplaceAxisLabelContent(ref content, category);
-                return m_TextLimit.GetLimitContent(content);
+                return GetFormatterFunctionContent(labelIndex, category, m_TextLimit.GetLimitContent(content));
             }
         }
 
@@ -170,15 +166,11 @@ namespace XCharts.Runtime
             {
                 value = Math.Abs(value);
             }
-            if (m_FormatterFunction != null)
-            {
-                return m_FormatterFunction(labelIndex, value, null);
-            }
             if (string.IsNullOrEmpty(m_Formatter))
             {
                 if (isLog)
                 {
-                    return ChartCached.NumberToStr(value, numericFormatter);
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
                 }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
@@ -186,24 +178,20 @@ namespace XCharts.Runtime
                     int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
                     int curAcc = ChartHelper.GetFloatAccuracy(value);
                     int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
-                    return ChartCached.FloatToStr(value, numericFormatter, acc);
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.FloatToStr(value, numericFormatter, acc));
                 }
-                return ChartCached.NumberToStr(value, numericFormatter);
+                return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
             }
             else
             {
                 var content = m_Formatter;
                 FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
-                return content;
+                return GetFormatterFunctionContent(labelIndex, value, content);
             }
         }
 
         public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
         {
-            if (m_FormatterFunction != null)
-            {
-                return m_FormatterFunction(labelIndex, value, null);
-            }
             var timestamp = (int) value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var dateString = string.Empty;
@@ -219,12 +207,24 @@ namespace XCharts.Runtime
             {
                 var content = m_Formatter;
                 FormatterHelper.ReplaceAxisLabelContent(ref content, dateString);
-                return m_TextLimit.GetLimitContent(content);
+                return GetFormatterFunctionContent(labelIndex, value, m_TextLimit.GetLimitContent(content));
             }
             else
             {
-                return m_TextLimit.GetLimitContent(dateString);
+                return GetFormatterFunctionContent(labelIndex, value, m_TextLimit.GetLimitContent(dateString));
             }
+        }
+
+        private string GetFormatterFunctionContent(int labelIndex, string category, string currentContent)
+        {
+            return m_FormatterFunction == null ? currentContent :
+                m_FormatterFunction(labelIndex, labelIndex, category, currentContent);
+        }
+
+        private string GetFormatterFunctionContent(int labelIndex, double value, string currentContent)
+        {
+            return m_FormatterFunction == null ? currentContent :
+                m_FormatterFunction(labelIndex, labelIndex, null, currentContent);
         }
     }
 }

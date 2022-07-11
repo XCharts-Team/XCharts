@@ -11,7 +11,7 @@ namespace XCharts.Example
     {
         public int maxCacheDataNumber = 100;
         public float initDataTime = 2;
-        public bool insertDataToHead = true;
+        public bool insertDataToHead = false;
 
         private BaseChart chart;
         private float updateTime;

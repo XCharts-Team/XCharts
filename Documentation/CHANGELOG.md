@@ -2,8 +2,24 @@
 # 更新日志
 
 [master](#master)  
+[v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
+[v3.0.0-preivew9](#v3.0.0-preivew9)  
+[v3.0.0-preivew8](#v3.0.0-preivew8)  
+[v3.0.0-preivew7](#v3.0.0-preivew7)  
+[v3.0.0-preivew6](#v3.0.0-preivew6)  
+[v3.0.0-preivew5](#v3.0.0-preivew5)  
+[v3.0.0-preivew4](#v3.0.0-preivew4)  
+[v3.0.0-preivew3](#v3.0.0-preivew3)  
+[v3.0.0-preivew2](#v3.0.0-preivew2)  
+[v3.0.0-preivew1](#v3.0.0-preivew1)  
+[v2.8.1](#v2.8.1)  
+[v2.8.0](#v2.8.0)  
+[v2.7.0](#v2.7.0)  
+[v2.6.0](#v2.6.0)  
+[v2.5.0](#v2.5.0)  
+[v2.4.0](#v2.4.0)  
 [v2.3.0](#v2.3.0)  
 [v2.2.3](#v2.2.3)  
 [v2.2.2](#v2.2.2)  
@@ -39,6 +55,36 @@
 [v0.5.0](#v0.5.0)  
 [v0.1.0](#v0.1.0)  
 
+## master
+
+## 3.1.0
+
+* (2022.07.12) Release `v3.1.0` version
+* (2022.07.12) Fixed `Serie` `ignoreLineBreak` not working
+* (2022.07.07) Optimized `Axis` `minMaxType` to support precision to decimals when specified as `MinMax`
+* (2022.07.05) Fixed drawing exception when there are multiple coordinate systems in `Chart` (#210)
+* (2022.07.04) Added the axisMaxSplitNumber parameter of `Settings` to set the maximum number of partitions for `Axis`
+* (2022.07.04) Fixed Axis` Tick `drawing position after setting `offset`(#209)
+* (2022.07.03) Optimize the `AxisLabel` formatterFunction custom delegate
+* (2022.07.03) added the `onZero` parameter of `AxisName` to support setting the coordinate AxisName and position to match the Y-axis 0 scale (#207)
+* (2022.07.02) Fixed bug where `Legend` was not working when `PieChart` was being created dynamically with code (#206)
+* (2022.07.02) Fixed `YAxis` AxisLabel setting `onZero` not working
+* (2022.07.02) Fixed `AxisLabel` code refreshing after setting `distance` property
+* (2022.06.30) Fixed an issue where components could not be initialized when creating diagrams under `Runtime` code
+* (2022.06.29) Added `itemFormatter` support for `{c0}` in `Tooltip` to display dimension data (#205)
+* (2022.06.28) Optimize text performance when `Pie` sets up `avoidLabelOverlap` (#56)
+* (2022.06.25) Optimize smooth curve representation of `Line` (#169)
+* (2022.06.25) Fixed inconsistent display of `Tooltip` when `DataZoom` is enabled (#203)
+* (2022.06.25) Fixed `Toolip` drawing exception when there is no data in the category axis (#204)
+* (2022.06.25) Optimize `Serie` setting `PlaceHolder` for `Tooltip` performance
+* (2022.06.25) Added `Since` to identify the version from which the configuration parameter is supported
+* (2022.06.24) Optimize `Painter` drawing layer, `Top` layer is subdivided into `Upper` and `Top` layers
+* (2022.06.24) Added `Legend` support for `Background` and `Padding`
+* (2022.06.21) Added `TextStyle` support for `Sprite Asset` of `TextMeshPro` (#201)
+* (2022.06.20) Optimize boundary limits for `Tooltip` (#202)
+* (2022.06.20) Fixes compilation error when `TextMeshPro` is turned on
+* (2022.06.20) Fixed issue where the fade Animation of `Animation` would not work
+
 ## v3.0.1
 
 * (2022.06.16) Release `v3.0.1` version
@@ -69,6 +115,95 @@
 * Added internationalization support.
 * Added `Widgets`.
 * Added multiple extension charts.
+
+## v3.0.0_preview9
+
+## v3.0.0_preview8
+
+## v3.0.0_preview7
+
+## v3.0.0_preview6
+
+## v3.0.0_preview5
+
+## v3.0.0_preview4
+
+## v3.0.0_preview3
+
+## v3.0.0_preview2
+
+## v3.0.0_preview1
+
+## v2.8.1
+
+* (2022.05.03) Added `onLegendClick`, `onLegendEnter` and `onLegendExit` delegate callbacks for `Legend`
+* (2022.04.21) Fixed bug #192 with `RingChart` `Tooltip` exception
+* (2022.04.21) Fixed error when setting `minShowNum` in `DataZoom`
+
+## v2.8.0
+
+* (2022.04.10) Added the debug information panel
+* (2022.04.09) Fixed `VisualMap` not working in some cases
+* (2022.04.08) Optimized `XCharts` initialization #190
+* (2022.04.08) Fixed color error #187 in `Radar`
+* (2022.03.24) Fixed `Axis` precision issue #184
+
+## v2.7.0
+
+* (2022.03.20) Release `v2.7.0` version
+* (2022.02.21) Fixed chart name repeat check error #183
+* (2022.02.17) Fixed bug where axis split line might be displayed outside the coordinate system #181
+* (2022.02.08) Fixed {d} formatter error when value is 0
+* (2022.02.08) Fixed `YAxis` `AxisLabel`'s `onZero` does not work
+* (2022.01.06) Improved `Zebra` bar chart
+
+## v2.6.0
+
+* (2021.12.30) Release `v2.6.0` version
+* (2021.12.21) Fixed `Emphasis` dont work
+* (2021.12.17) Fixed `MarkLine` does not auto refresh label active when serie hide #178
+* (2021.12.10) Improved `Radar`'s `AxisLine` and `SplitLine` to be controlled separately
+* (2021.12.08) Fixed y axis does not refresh when serie hidden
+* (2021.12.04) Added `Symbol` new types: `EmptyRect`, `EmptyTriangle`, `EmptyDiamond`
+* (2021.12.04) Added setting symbol empty area color by itemStyle's backgroundColor
+* (2021.12.03) Fixed formatter `{c}` not work #175
+* (2021.12.03) Fixed axis `boundaryGap` display error in some cases #174
+* (2021.11.30) Fixed serie `ignore` display error in some cases #173
+
+## v2.5.0
+
+* (2021.11.27) Release `v2.5.0` version
+* (2021.11.27) Added `Tooltip` delegate function `positionFunction`
+* (2021.10.29) Removed settings for `TextMeshPro` when package first imported
+* (2021.10.29) Added support for `{e}` in `Tooltip` #170
+* (2021.09.08) Improved `RadarChart`
+* (2021.09.07) Fixed bug where `label` does not disappear at the end of `PieChart` fade animation #168
+* (2021.09.06) Fixed bug where `GaugeChart` changing `splitNumber` with code does not refresh `label` #167
+
+## v2.4.0
+
+### Main points
+
+* LineChart support the line of ignore data is disconnected or connected
+* LineChart support animation at a constant speed
+* Other optimizations and bug fixes
+
+### Details
+
+* (2021.08.31) Release `v2.4.0` version
+* (2021.08.31) Optimized the gradient effect of `RingChart`
+* (2021.08.31) Fixed bug where `SerieLabel` does not refresh when `DataZoom` is dragged (#165)
+* (2021.08.25) Fixed an issue where the theme switch could not be save to the scene (#166)
+* (2021.08.24) Added `Animation`'s `alongWithLinePath`
+* (2021.08.22) Added `Serie`'s `ignoreLineBreak` (#164)
+* (2021.08.22) Fixed `Axis` label may not be updated when `DataZoom` is turn on (#164)
+* (2021.08.15) Improved `Axis`'s `AxisLabel` text rotate setting to avoid inconsistency offset in `DataZoom` (#163)
+* (2021.08.14) Added `Legend`'s `textAutoColor` to set the text color match with `Serie` color (#163)
+* (2021.08.12) Optimize `BarChart` setting `Corner` when the positive and negative columns are fillet symmetric
+* (2021.08.03) Fixed y axis not displaying when all data is 0
+* (2021.07.29) Fixed ignored data will also participate in calculations when `ignore` is enabled (#161)
+* (2021.07.29) Improved `BarChart`'s `Zebra` gradient support
+* (2021.07.26) Fixed issue where `XCharts` path could not be found when `TextMeshPro Enable` (#160)
 
 ## v2.3.0
 

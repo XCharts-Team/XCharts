@@ -62,7 +62,7 @@ namespace XCharts.Runtime
             if (m_SerieGrid == null)
                 return;
 
-            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter() && !serie.placeHolder) || m_LegendEnter;
             var needInteract = false;
             if (!needCheck)
             {
@@ -128,21 +128,9 @@ namespace XCharts.Runtime
             if (!serie.show || serie.animation.HasFadeOut())
                 return;
 
-            var isY = ComponentHelper.IsAnyCategoryOfYAxis(chart.components);
-
             Axis axis;
             Axis relativedAxis;
-
-            if (isY)
-            {
-                axis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                relativedAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-            }
-            else
-            {
-                axis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
-                relativedAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-            }
+            var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
             m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
 
             if (axis == null)

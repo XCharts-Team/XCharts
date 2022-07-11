@@ -218,7 +218,7 @@ namespace XCharts
             axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack);
         }
 
-        internal static void UpdateAxisTickValueList(Axis axis)
+        internal void UpdateAxisTickValueList(Axis axis)
         {
             if (axis.IsTime())
             {
@@ -267,12 +267,13 @@ namespace XCharts
                     list.Add(axis.context.minValue);
                     value = Math.Ceiling(axis.context.minValue / tick) * tick;
                 }
+                var maxSplitNumber = chart.settings.axisMaxSplitNumber;
                 while (value <= axis.context.maxValue)
                 {
                     list.Add(value);
                     value += tick;
 
-                    if (list.Count > 20)
+                    if (maxSplitNumber > 0 && list.Count > maxSplitNumber)
                         break;
                 }
                 if (!ChartHelper.IsEquals(axis.context.maxValue, list[list.Count - 1]))
@@ -424,7 +425,8 @@ namespace XCharts
                 var autoColor = axis.axisLine.GetColor(chart.theme.axis.lineColor);
                 if (orient == Orient.Horizonal)
                 {
-                    var posY = GetAxisLineXOrY() + offset.y;
+                    var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+                    var posY = !axis.axisName.onZero && grid != null? grid.context.y : GetAxisLineXOrY() + offset.y;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -460,7 +462,8 @@ namespace XCharts
                 }
                 else
                 {
-                    var posX = GetAxisLineXOrY() + offset.x;
+                    var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+                    var posX = !axis.axisName.onZero && grid != null? grid.context.x : GetAxisLineXOrY() + offset.x;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -610,12 +613,12 @@ namespace XCharts
                             if ((axis.axisTick.inside && axis.IsBottom()) ||
                                 (!axis.axisTick.inside && axis.IsTop()))
                             {
-                                sY = startY + axis.offset + lineWidth;
+                                sY = startY + lineWidth;
                                 eY = sY + tickLength;
                             }
                             else
                             {
-                                sY = startY + axis.offset - lineWidth;
+                                sY = startY - lineWidth;
                                 eY = sY - tickLength;
                             }
 
@@ -637,12 +640,12 @@ namespace XCharts
                             if ((axis.axisTick.inside && axis.IsLeft()) ||
                                 (!axis.axisTick.inside && axis.IsRight()))
                             {
-                                sX = startX + axis.offset + lineWidth;
+                                sX = startX + lineWidth;
                                 eX = sX + tickLength;
                             }
                             else
                             {
-                                sX = startX + axis.offset - lineWidth;
+                                sX = startX - lineWidth;
                                 eX = sX - tickLength;
                             }
 

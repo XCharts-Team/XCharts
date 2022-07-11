@@ -22,6 +22,10 @@ namespace XCharts.Runtime
         /// |是否显示注解组件。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
+        /// <summary>
+        /// The items of comment.
+        /// |注解项。每个注解组件可以设置多个注解项。
+        /// </summary>
         public List<CommentItem> items { get { return m_Items; } set { m_Items = value; SetComponentDirty(); } }
         /// <summary>
         /// The text style of all comments.

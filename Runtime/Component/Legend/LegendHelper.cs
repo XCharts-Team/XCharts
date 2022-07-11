@@ -48,10 +48,11 @@ namespace XCharts.Runtime
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);
             var objPivot = new Vector2(0, 1);
-            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta, i);
+            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
             var img = ChartHelper.GetOrAddComponent<Image>(btnObj);
             img.color = Color.clear;
+            img.raycastTarget = true;
             ChartHelper.GetOrAddComponent<Button>(btnObj);
             ChartHelper.GetOrAddComponent<Image>(iconObj);
 
@@ -69,7 +70,20 @@ namespace XCharts.Runtime
             item.SetIconImage(legend.GetIcon(i));
             item.SetContentPosition(legend.labelStyle.offset);
             item.SetContent(content);
+            //item.SetBackground(legend.background);
             return item;
+        }
+
+        public static void SetLegendBackground(Legend legend, ImageStyle style)
+        {
+            var background = legend.context.background;
+            if (background == null) return;
+            ChartHelper.SetActive(background, style.show);
+            if (!style.show) return;
+            var rect = background.gameObject.GetComponent<RectTransform>();
+            rect.localPosition = legend.context.center;
+            rect.sizeDelta = new Vector2(legend.context.width, legend.context.height);
+            ChartHelper.SetBackground(background, style);
         }
 
         public static void ResetItemPosition(Legend legend, Vector3 chartPos, float chartWidth, float chartHeight)
@@ -122,8 +136,19 @@ namespace XCharts.Runtime
                     startY = chartPos.y + legendRuntimeHeight + legend.location.runtimeBottom;
                     break;
             }
+            if (!legend.padding.show)
+            {
+                legend.context.center = new Vector2(startX + legend.context.width / 2, startY - legend.context.height / 2);
+            }
+            else
+            {
+                legend.context.center = new Vector2(startX + legend.context.width / 2 - legend.padding.left,
+                    startY - legend.context.height / 2 + legend.padding.top);
+            }
+
             if (isVertical) SetVerticalItemPosition(legend, legendMaxHeight, startX, startY);
             else SetHorizonalItemPosition(legend, legendMaxWidth, startX, startY);
+            SetLegendBackground(legend, legend.background);
         }
 
         private static void SetVerticalItemPosition(Legend legend, float legendMaxHeight, float startX, float startY)
@@ -213,6 +238,11 @@ namespace XCharts.Runtime
                 height -= legend.itemGap;
                 legend.context.height = realHeight > 0 ? realHeight : height;
                 legend.context.width = realWidth + width;
+            }
+            if (legend.padding.show)
+            {
+                legend.context.width += legend.padding.left + legend.padding.right;
+                legend.context.height += legend.padding.top + legend.padding.bottom;
             }
         }
 

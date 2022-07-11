@@ -122,7 +122,10 @@ namespace XCharts.Runtime
             get { return m_TickColor; }
             set { if (PropertyUtil.SetColor(ref m_TickColor, value)) SetVerticesDirty(); }
         }
-
+        /// <summary>
+        /// the colors of split area.
+        /// |坐标轴分隔区域的颜色。
+        /// </summary>
         public List<Color32> splitAreaColors
         {
             get { return m_SplitAreaColors; }

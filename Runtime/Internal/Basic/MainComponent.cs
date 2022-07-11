@@ -9,7 +9,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class MainComponent : IComparable
     {
-        public int instanceId { get; internal set; }
+        public int instanceId { get { return index; } }
         public int index { get; internal set; }
         protected bool m_VertsDirty;
         protected bool m_ComponentDirty;
@@ -96,6 +96,7 @@ namespace XCharts.Runtime
         public virtual void CheckComponent(StringBuilder sb) { }
         public virtual void Update() { }
         public virtual void DrawBase(VertexHelper vh) { }
+        public virtual void DrawUpper(VertexHelper vh) { }
         public virtual void DrawTop(VertexHelper vh) { }
         public virtual void OnSerieDataUpdate(int serieIndex) { }
         public virtual void OnPointerClick(PointerEventData eventData) { }

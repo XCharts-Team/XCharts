@@ -12,11 +12,12 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show;
         [SerializeField] private string m_Name;
+        [SerializeField][Since("v3.1.0")] private bool m_OnZero;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
 
         /// <summary>
         /// Whether to show axis name.
-        /// |是否显示坐标名称。
+        /// |是否显示坐标轴名称。
         /// </summary>
         public bool show
         {
@@ -31,6 +32,15 @@ namespace XCharts.Runtime
         {
             get { return m_Name; }
             set { if (PropertyUtil.SetClass(ref m_Name, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Whether the axis name position are the same with 0 position of YAxis.
+        /// |坐标轴名称的位置是否保持和Y轴0刻度一致。
+        /// </summary>
+        public bool onZero
+        {
+            get { return m_OnZero; }
+            set { if (PropertyUtil.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// The text style of axis name.

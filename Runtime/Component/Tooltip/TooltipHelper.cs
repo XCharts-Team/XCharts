@@ -9,7 +9,7 @@ namespace XCharts.Runtime
         {
             if (!string.IsNullOrEmpty(tooltip.titleFormatter))
             {
-                if (tooltip.titleFormatter.Equals("{i}", StringComparison.CurrentCultureIgnoreCase))
+                if (IsIgnoreFormatter(tooltip.titleFormatter))
                 {
                     tooltip.context.data.title = string.Empty;
                 }
@@ -23,7 +23,7 @@ namespace XCharts.Runtime
             for (int i = tooltip.context.data.param.Count - 1; i >= 0; i--)
             {
                 var param = tooltip.context.data.param[i];
-                if (TooltipHelper.IsIgnoreItemFormatter(param.itemFormatter))
+                if (IsIgnoreFormatter(param.itemFormatter))
                 {
                     tooltip.context.data.param.RemoveAt(i);
                 }
@@ -42,7 +42,8 @@ namespace XCharts.Runtime
                         param.serieName,
                         param.category,
                         param.serieData.name,
-                        param.color);
+                        param.color,
+                        param.serieData);
                     foreach (var item in content.Split('|'))
                     {
                         param.columns.Add(item);
@@ -51,9 +52,9 @@ namespace XCharts.Runtime
             }
         }
 
-        public static bool IsIgnoreItemFormatter(string itemFormatter)
+        public static bool IsIgnoreFormatter(string itemFormatter)
         {
-            return "-".Equals(itemFormatter);
+            return "-".Equals(itemFormatter) ||"{i}".Equals(itemFormatter, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public static void LimitInRect(Tooltip tooltip, Rect chartRect)
@@ -64,13 +65,18 @@ namespace XCharts.Runtime
             var pos = tooltip.view.GetTargetPos();
             if (pos.x + tooltip.context.width > chartRect.x + chartRect.width)
             {
-                //pos.x = chartRect.x + chartRect.width - tooltip.context.width;
-                pos.x = pos.x - tooltip.context.width - tooltip.offset.x;
+                pos.x = tooltip.context.pointer.x - tooltip.context.width - tooltip.offset.x;
+            }
+            else if (pos.x < chartRect.x)
+            {
+                pos.x = tooltip.context.pointer.x - tooltip.context.width + Mathf.Abs(tooltip.offset.x);
             }
             if (pos.y - tooltip.context.height < chartRect.y)
             {
                 pos.y = chartRect.y + tooltip.context.height;
             }
+            if (pos.y > chartRect.y + chartRect.height)
+                pos.y = chartRect.y + chartRect.height;
             tooltip.UpdateContentPos(pos);
         }
 

@@ -40,10 +40,35 @@ namespace XCharts.Runtime
         private ChartLabel m_Label;
         private List<float> m_FpsList = new List<float>();
 
+        /// <summary>
+        /// Whether show debug component.
+        /// |是否显示Debug组件。
+        /// </summary>
+        public bool show { get { return m_Show; } set { m_Show = value; } }
+        /// <summary>
+        /// Whether show children components of chart in hierarchy view.
+        /// |是否在Hierarchy试图显示所有chart下的节点。
+        /// </summary>
         public bool showAllChartObject { get { return m_ShowAllChartObject; } set { m_ShowAllChartObject = value; } }
+        /// <summary>
+        /// Whether to fold series in inspector view.
+        /// |是否在Inspector上折叠Serie。
+        /// </summary>
         public bool foldSeries { get { return m_FoldSeries; } set { m_FoldSeries = value; } }
+        /// <summary>
+        /// frame rate.
+        /// |当前帧率。
+        /// </summary>
         public float fps { get; private set; }
+        /// <summary>
+        /// The average frame rate.
+        /// |平均帧率。
+        /// </summary>
         public float avgFps { get; private set; }
+        /// <summary>
+        /// The fefresh count of chart per second.
+        /// |图表每秒刷新次数。
+        /// </summary>
         public int refreshCount { get; internal set; }
         internal int clickChartCount { get; set; }
 
@@ -106,13 +131,6 @@ namespace XCharts.Runtime
                     SetValueWithKInfo(s_Sb, "b-vert", m_Chart.m_BasePainterVertCount);
                     SetValueWithKInfo(s_Sb, "s-vert", vertCount);
                     SetValueWithKInfo(s_Sb, "t-vert", m_Chart.m_TopPainterVertCount, false);
-
-                    var serie0 = m_Chart.GetSerie(0);
-                    for (int i = 0; i < serie0.dataCount; i++)
-                    {
-                        var serieData = serie0.data[i];
-                        s_Sb.AppendFormat("{0}:{1}\n", i, serieData.interact.targetVaue);
-                    }
 
                     m_Label.SetText(s_Sb.ToString());
                 }

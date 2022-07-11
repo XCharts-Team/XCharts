@@ -29,6 +29,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_LineSpacing");
 #if dUI_TextMeshPro
                 PropertyField(prop, "m_TMPFontStyle");
+                PropertyField(prop, "m_TMPSpriteAsset");
                 PropertyField(prop, "m_TMPAlignment");
 #else
                 PropertyField(prop, "m_FontStyle");

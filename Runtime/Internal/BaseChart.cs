@@ -81,6 +81,7 @@ namespace XCharts.Runtime
         protected Action m_OnInit;
         protected Action m_OnUpdate;
         protected Action<VertexHelper> m_OnDrawBase;
+        protected Action<VertexHelper> m_OnDrawUpper;
         protected Action<VertexHelper> m_OnDrawTop;
         protected Action<VertexHelper, Serie> m_OnDrawSerieBefore;
         protected Action<VertexHelper, Serie> m_OnDrawSerieAfter;
@@ -96,8 +97,10 @@ namespace XCharts.Runtime
         internal bool m_CheckAnimation = false;
         internal protected List<string> m_LegendRealShowName = new List<string>();
         protected List<Painter> m_PainterList = new List<Painter>();
+        internal Painter m_PainterUpper;
         internal Painter m_PainterTop;
         internal int m_BasePainterVertCount;
+        internal int m_UpperPainterVertCount;
         internal int m_TopPainterVertCount;
 
         private ThemeType m_CheckTheme = 0;
@@ -201,6 +204,11 @@ namespace XCharts.Runtime
             m_PainterTop.Refresh();
         }
 
+        public void RefreshUpperPainter()
+        {
+            m_PainterUpper.Refresh();
+        }
+
         public void RefreshPainter(int index)
         {
             var painter = GetPainter(index);
@@ -218,7 +226,7 @@ namespace XCharts.Runtime
             base.RefreshPainter(painter);
             if (painter != null && painter.type == Painter.Type.Serie)
             {
-                m_PainterTop.Refresh();
+                m_PainterUpper.Refresh();
             }
         }
 
@@ -267,9 +275,12 @@ namespace XCharts.Runtime
             if (component == null) return;
             if (component.anyDirty)
             {
-                if (component.componentDirty && component.refreshComponent != null)
+                if (component.componentDirty)
                 {
-                    component.refreshComponent.Invoke();
+                    if (component.refreshComponent != null)
+                        component.refreshComponent.Invoke();
+                    else
+                        component.handler.InitComponent();
                 }
                 if (component.vertsDirty)
                 {
@@ -306,6 +317,10 @@ namespace XCharts.Runtime
                 serie.index = i;
                 SetPainterActive(i, true);
             }
+            if (transform.childCount - 3 != m_PainterTop.transform.GetSiblingIndex())
+            {
+                m_PainterTop.transform.SetSiblingIndex(transform.childCount - 3);
+            }
         }
 
         protected override void InitPainter()
@@ -328,6 +343,14 @@ namespace XCharts.Runtime
                 painter.transform.SetSiblingIndex(index + 1);
                 m_PainterList.Add(painter);
             }
+            m_PainterUpper = ChartHelper.AddPainterObject("painter_u", transform, m_GraphMinAnchor,
+                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
+            m_PainterUpper.type = Painter.Type.Top;
+            m_PainterUpper.onPopulateMesh = OnDrawPainterUpper;
+            m_PainterUpper.SetActive(true, m_DebugInfo.showAllChartObject);
+            m_PainterUpper.material = settings.topPainterMaterial;
+            m_PainterUpper.transform.SetSiblingIndex(settings.maxPainter + 1);
+
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
                 m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
             m_PainterTop.type = Painter.Type.Top;
@@ -372,6 +395,7 @@ namespace XCharts.Runtime
             if (m_Painter == null) return;
             m_Painter.CheckRefresh();
             foreach (var painter in m_PainterList) painter.CheckRefresh();
+            if (m_PainterUpper != null) m_PainterUpper.CheckRefresh();
             if (m_PainterTop != null) m_PainterTop.CheckRefresh();
         }
 
@@ -543,6 +567,7 @@ namespace XCharts.Runtime
             var maxPainter = settings.maxPainter;
             var maxSeries = m_Series.Count;
             var rate = Mathf.CeilToInt(maxSeries * 1.0f / maxPainter);
+            m_PainterUpper.Refresh();
             m_PainterTop.Refresh();
             m_DebugInfo.refreshCount++;
             for (int i = painter.index * rate; i < (painter.index + 1) * rate && i < maxSeries; i++)
@@ -574,6 +599,18 @@ namespace XCharts.Runtime
             }
         }
 
+        protected virtual void OnDrawPainterUpper(VertexHelper vh, Painter painter)
+        {
+            vh.Clear();
+            DrawPainterUpper(vh);
+            foreach (var draw in m_ComponentHandlers) draw.DrawUpper(vh);
+            if (m_OnDrawUpper != null)
+            {
+                m_OnDrawUpper(vh);
+            }
+            m_UpperPainterVertCount = vh.currentVertCount;
+        }
+
         protected virtual void OnDrawPainterTop(VertexHelper vh, Painter painter)
         {
             vh.Clear();
@@ -587,6 +624,12 @@ namespace XCharts.Runtime
         }
 
         protected virtual void DrawPainterSerie(VertexHelper vh, Serie serie) { }
+
+        protected virtual void DrawPainterUpper(VertexHelper vh)
+        {
+            foreach (var handler in m_SerieHandlers)
+                handler.DrawUpper(vh);
+        }
 
         protected virtual void DrawPainterTop(VertexHelper vh)
         {

@@ -271,7 +271,6 @@ namespace XCharts.Runtime
             {
                 var cdata = datas[i];
                 var isIgnore = cdata.isIgnoreBreak;
-
                 var cp = cdata.position;
                 var lp = datas[i - 1].position;
 
@@ -286,7 +285,7 @@ namespace XCharts.Runtime
                 }
                 serie.context.lineEndPostion = cp;
                 serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
-                lastDataIsIgnore = isIgnore;
+
                 var handled = false;
                 if (!smooth)
                 {
@@ -315,6 +314,7 @@ namespace XCharts.Runtime
                 }
                 if (handled)
                 {
+                    lastDataIsIgnore = isIgnore;
                     if (isBreak)
                         break;
                     else
@@ -371,7 +371,7 @@ namespace XCharts.Runtime
                             visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                     }
                 }
-
+                lastDataIsIgnore = isIgnore;
                 if (isBreak)
                     break;
             }
@@ -413,9 +413,13 @@ namespace XCharts.Runtime
                 UGL.AddVertToVertexHelper(vh, tp, bp, lineColor, needTriangle);
             }
             if (lastIgnore && !needTriangle)
+            {
                 UGL.AddVertToVertexHelper(vh, tp, bp, ColorUtil.clearColor32, false);
+            }
             if (ignore && needTriangle)
+            {
                 UGL.AddVertToVertexHelper(vh, tp, bp, ColorUtil.clearColor32, false);
+            }
         }
 
         internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, VisualMap visualMap,
@@ -452,6 +456,7 @@ namespace XCharts.Runtime
                     {
                         var ep = dataPoints[i];
                         var ignore = serie.context.dataIgnores[i];
+
                         var dir = (ep - sp).normalized;
                         var dist = Vector3.Distance(sp, ep);
                         var segment = (int) (dist / setting.lineSegmentDistance);
@@ -497,7 +502,6 @@ namespace XCharts.Runtime
                     UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness, setting.lineSmoothStyle);
                 else
                     UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness, setting.lineSmoothStyle, true);
-
                 for (int j = 1; j < s_CurvesPosList.Count; j++)
                 {
                     serie.context.drawPoints.Add(new PointInfo(s_CurvesPosList[j], ignore));

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
 [v3.0.0-preivew9](#v3.0.0-preivew9)  
@@ -56,6 +57,14 @@
 
 ## master
 
+## 3.1.0
+
+* (2022.07.12) Release `v3.1.0` version
+* (2022.07.12) Fixed `Serie` `ignoreLineBreak` not working
+* (2022.07.07) Optimized `Axis` `minMaxType` to support precision to decimals when specified as `MinMax`
+* (2022.07.05) Fixed drawing exception when there are multiple coordinate systems in `Chart` (#210)
+* (2022.07.04) Added the axisMaxSplitNumber parameter of `Settings` to set the maximum number of partitions for `Axis`
+* (2022.07.04) Fixed Axis` Tick `drawing position after setting `offset`(#209)
 * (2022.07.03) Optimize the `AxisLabel` formatterFunction custom delegate
 * (2022.07.03) added the `onZero` parameter of `AxisName` to support setting the coordinate AxisName and position to match the Y-axis 0 scale (#207)
 * (2022.07.02) Fixed bug where `Legend` was not working when `PieChart` was being created dynamically with code (#206)

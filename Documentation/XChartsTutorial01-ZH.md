@@ -172,6 +172,7 @@ XCharts内部有自动刷新机制，但也是在一定条件下。如果自己�
 
 1. `chart.RefreshAllComponent()`：刷新图表组件，会重新初始化所有组件，不建议频繁待用。
 2. `chart.RefreshChart()`：刷新图表绘制，只刷新绘制部分，不会刷新组件文本，位置等部分。
+3. 各个组件也可以通过`SetAllDirty()`只刷新自己。
 
 ## 使用TextMeshPro
 

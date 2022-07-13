@@ -2,6 +2,7 @@
 # 更新日志
 
 [branch-2.0](#branch-2.0)  
+[v2.8.2](#v2.8.2)  
 [v2.8.1](#v2.8.1)  
 [v2.8.0](#v2.8.0)  
 [v2.7.0](#v2.7.0)  
@@ -44,6 +45,12 @@
 [v0.1.0](#v0.1.0)  
 
 ## branch-2.0
+
+## v2.8.2
+
+* (2022.07.13) Release `v2.8.2` version
+* (2022.07.13) Fixed `SerieLabel` refresh exception #215
+* (2022.06.30) Optimize `Radar` so that the `Tooltip` layer is above `Indicator`
 
 ## v2.8.1
 

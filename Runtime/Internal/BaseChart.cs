@@ -528,12 +528,12 @@ namespace XCharts
                 m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             m_SerieLabelRoot.hideFlags = chartHideFlags;
             SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
-            int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
                 serie.index = i;
                 SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
+                int count = 0;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];

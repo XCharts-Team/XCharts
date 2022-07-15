@@ -144,6 +144,15 @@ namespace XCharts
             double tempMaxValue = 0;
             chart.GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
 
+            var dataZoom = chart.GetDataZoomOfAxis(axis);
+            if (dataZoom != null && dataZoom.enable)
+            {
+                if (axis is XAxis)
+                    dataZoom.SetXAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+                else
+                    dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+            }
+
             if (tempMinValue != axis.context.minValue ||
                 tempMaxValue != axis.context.maxValue ||
                 m_LastInterval != axis.interval ||
@@ -189,14 +198,7 @@ namespace XCharts
                         axis.context.zeroY = grid.context.y - (float) (axis.context.minValue * grid.context.height / axis.context.minMaxRange);
                     }
                 }
-                var dataZoom = chart.GetDataZoomOfAxis(axis);
-                if (dataZoom != null && dataZoom.enable)
-                {
-                    if (axis is XAxis)
-                        dataZoom.SetXAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
-                    else
-                        dataZoom.SetYAxisIndexValueInfo(axisIndex, tempMinValue, tempMaxValue);
-                }
+
                 if (updateChart)
                 {
                     UpdateAxisLabelText(axis);

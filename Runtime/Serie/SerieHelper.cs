@@ -644,10 +644,9 @@ namespace XCharts.Runtime
         private static void UpdateFilterData_XAxisValue(Serie serie, DataZoom dataZoom, int dimension, double min, double max)
         {
             var data = serie.data;
-            var startValue = min + (max - min) * dataZoom.start / 100;
-            var endValue = min + (max - min) * dataZoom.end / 100;
+            var startValue = min;
+            var endValue = max;
             if (endValue < startValue) endValue = startValue;
-
             if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue ||
                 dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {

@@ -366,6 +366,8 @@ namespace XCharts.Runtime
 
         class AxisIndexValueInfo
         {
+            public double rawMin;
+            public double rawMax;
             public double min;
             public double max;
         }
@@ -617,38 +619,36 @@ namespace XCharts.Runtime
             context.height = chartHeight - runtimeTop - runtimeBottom;
         }
 
-        internal void SetXAxisIndexValueInfo(int xAxisIndex, double min, double max)
+        internal void SetXAxisIndexValueInfo(int xAxisIndex, ref double min, ref double max)
         {
-            if (!m_XAxisIndexInfos.ContainsKey(xAxisIndex))
+            AxisIndexValueInfo info;
+            if (!m_XAxisIndexInfos.TryGetValue(xAxisIndex, out info))
             {
-                m_XAxisIndexInfos[xAxisIndex] = new AxisIndexValueInfo()
-                {
-                    min = min,
-                    max = max
-                };
+                info = new AxisIndexValueInfo();
+                m_XAxisIndexInfos[xAxisIndex] = info;
             }
-            else
-            {
-                m_XAxisIndexInfos[xAxisIndex].min = min;
-                m_XAxisIndexInfos[xAxisIndex].max = max;
-            }
+            info.rawMin = min;
+            info.rawMax = max;
+            info.min = min + (max - min) * start / 100;
+            info.max = min + (max - min) * end / 100;
+            min = info.min;
+            max = info.max;
         }
 
-        internal void SetYAxisIndexValueInfo(int yAxisIndex, double min, double max)
+        internal void SetYAxisIndexValueInfo(int yAxisIndex, ref double min, ref double max)
         {
-            if (!m_YAxisIndexInfos.ContainsKey(yAxisIndex))
+            AxisIndexValueInfo info;
+            if (!m_YAxisIndexInfos.TryGetValue(yAxisIndex, out info))
             {
-                m_YAxisIndexInfos[yAxisIndex] = new AxisIndexValueInfo()
-                {
-                    min = min,
-                    max = max
-                };
+                info = new AxisIndexValueInfo();
+                m_YAxisIndexInfos[yAxisIndex] = info;
             }
-            else
-            {
-                m_YAxisIndexInfos[yAxisIndex].min = min;
-                m_YAxisIndexInfos[yAxisIndex].max = max;
-            }
+            info.rawMin = min;
+            info.rawMax = max;
+            info.min = min + (max - min) * start / 100;
+            info.max = min + (max - min) * end / 100;
+            min = info.min;
+            max = info.max;
         }
 
         internal bool IsXAxisIndexValue(int axisIndex)
@@ -663,24 +663,32 @@ namespace XCharts.Runtime
 
         internal void GetXAxisIndexValue(int axisIndex, out double min, out double max)
         {
-            min = 0;
-            max = 0;
-            if (m_XAxisIndexInfos.ContainsKey(axisIndex))
+            AxisIndexValueInfo info;
+            if (m_XAxisIndexInfos.TryGetValue(axisIndex, out info))
             {
-                var info = m_XAxisIndexInfos[axisIndex];
-                min = info.min;
-                max = info.max;
+                var range = info.rawMax - info.rawMin;
+                min = info.rawMin + range * m_Start / 100;
+                max = info.rawMin + range * m_End / 100;
+            }
+            else
+            {
+                min = 0;
+                max = 0;
             }
         }
         internal void GetYAxisIndexValue(int axisIndex, out double min, out double max)
         {
-            min = 0;
-            max = 0;
-            if (m_YAxisIndexInfos.ContainsKey(axisIndex))
+            AxisIndexValueInfo info;
+            if (m_YAxisIndexInfos.TryGetValue(axisIndex, out info))
             {
-                var info = m_YAxisIndexInfos[axisIndex];
-                min = info.min;
-                max = info.max;
+                var range = info.rawMax - info.rawMin;
+                min = info.rawMin + range * m_Start / 100;
+                max = info.rawMin + range * m_End / 100;
+            }
+            else
+            {
+                min = 0;
+                max = 0;
             }
         }
     }

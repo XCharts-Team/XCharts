@@ -10,6 +10,24 @@ namespace XUGL
     /// </summary>
     public static class UGL
     {
+        /// <summary>
+        /// 曲线方向
+        /// </summary>
+        public enum Direction
+        {
+            /// <summary>
+            /// 沿X轴方向
+            /// </summary>
+            XAxis,
+            /// <summary>
+            /// 沿Y轴方向
+            /// </summary>
+            YAxis,
+            /// <summary>
+            /// 随机无序的。如一个闭合的环状曲线。
+            /// </summary>
+            Random
+        }
         private static readonly Color32 s_ClearColor32 = new Color32(0, 0, 0, 0);
         private static readonly Vector2 s_ZeroVector2 = Vector2.zero;
         private static UIVertex[] s_Vertex = new UIVertex[4];
@@ -134,7 +152,7 @@ namespace XUGL
             }
             else if (smooth)
             {
-                DrawCurves(vh, points, width, color, 2);
+                DrawCurves(vh, points, width, color, 2, 2, Direction.XAxis, float.NaN, closepath);
             }
             else
             {
@@ -1752,42 +1770,67 @@ namespace XUGL
         /// <param name="lineWidth">曲线宽</param>
         /// <param name="lineColor">曲线颜色</param>
         public static void DrawCurves(VertexHelper vh, Vector3 sp, Vector3 ep, Vector3 cp1, Vector3 cp2,
-            float lineWidth, Color32 lineColor, float smoothness)
+            float lineWidth, Color32 lineColor, float smoothness, Direction dire = Direction.XAxis)
         {
             var dist = Vector3.Distance(sp, ep);
             var segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
             UGLHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
-            DrawCurvesInternal(vh, s_CurvesPosList, lineWidth, lineColor);
+            DrawCurvesInternal(vh, s_CurvesPosList, lineWidth, lineColor, dire);
         }
 
+        /// <summary>
+        /// 画贝塞尔曲线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="points">坐标点列表</param>
+        /// <param name="width">曲线宽</param>
+        /// <param name="color">曲线颜色</param>
+        /// <param name="smoothStyle">曲线样式</param>
+        /// <param name="smoothness">平滑度</param>
+        /// <param name="dire">曲线方向</param>
+        /// <param name="currProgress">当前绘制进度</param>
+        /// <param name="closed">曲线是否闭合</param>
         public static void DrawCurves(VertexHelper vh, List<Vector3> points, float width, Color32 color,
-            float smoothness, float currProgress = float.PositiveInfinity, bool isYAxis = false)
+            float smoothStyle, float smoothness, Direction dire, float currProgress = float.NaN,
+            bool closed = false)
         {
-            for (int i = 0; i < points.Count - 1; i++)
+            var count = points.Count;
+            var size = (closed?count : count - 1);
+            if (closed)
+                dire = Direction.Random;
+            for (int i = 0; i < size; i++)
             {
                 var sp = points[i];
-                var ep = points[i + 1];
-                var lsp = i > 0 ? points[i - 1] : sp;
-                var nep = i < points.Count - 2 ? points[i + 2] : ep;
+                var ep = closed?(i == size - 1 ? points[0] : points[i + 1]) : points[i + 1];
+                var lsp = i > 0 ? points[i - 1] : (closed?points[count - 1] : sp);
+                var nep = i < points.Count - 2 ? points[i + 2] : (closed?points[(i + 2) % count] : ep);
                 var smoothness2 = smoothness;
-                if (currProgress != float.PositiveInfinity)
+                if (currProgress != float.NaN)
                 {
-                    if (isYAxis)
-                        smoothness2 = ep.y <= currProgress ? smoothness : smoothness * 0.5f;
-                    else
-                        smoothness2 = ep.x <= currProgress ? smoothness : smoothness * 0.5f;
+                    switch (dire)
+                    {
+                        case Direction.XAxis:
+                            smoothness2 = ep.x <= currProgress ? smoothness : smoothness * 0.5f;
+                            break;
+                        case Direction.YAxis:
+                            smoothness2 = ep.y <= currProgress ? smoothness : smoothness * 0.5f;
+                            break;
+                        case Direction.Random:
+                            smoothness2 = smoothness * 0.5f;
+                            break;
+                    }
                 }
-                if (isYAxis)
-                    UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness2);
+                if (dire == Direction.YAxis)
+                    UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness2, smoothStyle);
                 else
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2);
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2, smoothStyle);
 
-                DrawCurvesInternal(vh, s_CurvesPosList, width, color, currProgress, isYAxis);
+                DrawCurvesInternal(vh, s_CurvesPosList, width, color, dire, currProgress);
             }
         }
 
         private static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
-            Color32 lineColor, float currProgress = float.PositiveInfinity, bool isYAxis = false)
+            Color32 lineColor, Direction dire, float currProgress = float.NaN)
         {
             if (curvesPosList.Count > 1)
             {
@@ -1805,11 +1848,11 @@ namespace XUGL
                 for (int i = 1; i < curvesPosList.Count; i++)
                 {
                     to = curvesPosList[i];
-                    if (currProgress != float.PositiveInfinity)
+                    if (currProgress != float.NaN)
                     {
-                        if (isYAxis && to.y > currProgress)
+                        if (dire == Direction.YAxis && to.y > currProgress)
                             break;
-                        if (!isYAxis && to.x > currProgress)
+                        if (dire == Direction.XAxis && to.x > currProgress)
                             break;
                     }
 

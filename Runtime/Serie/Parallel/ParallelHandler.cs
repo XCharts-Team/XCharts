@@ -21,8 +21,7 @@ namespace XCharts.Runtime
             DrawParallelSerie(vh, serie);
         }
 
-        private void UpdateSerieContext()
-        { }
+        private void UpdateSerieContext() { }
 
         private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {
@@ -116,7 +115,10 @@ namespace XCharts.Runtime
                     lp = pos;
                 }
                 if (isSmooth)
-                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor, chart.settings.lineSmoothness, currProgress, isHorizonal);
+                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor,
+                        chart.settings.lineSmoothStyle,
+                        chart.settings.lineSmoothness,
+                        UGL.Direction.XAxis, currProgress, isHorizonal);
                 else
                     UGL.DrawLine(vh, m_Points, lineWidth, lineColor, isSmooth);
             }

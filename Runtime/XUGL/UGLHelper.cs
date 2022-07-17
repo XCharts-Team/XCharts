@@ -110,22 +110,21 @@ namespace XUGL
         public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
             Vector3 lsp, Vector3 nep, float smoothness = 2f, float k = 2.0f, bool limit = false)
         {
-            float dist = Mathf.Abs(sp.x - ep.x);
+            var dist = Vector3.Distance(sp, ep);
             Vector3 cp1, cp2;
             var dir = (ep - sp).normalized;
             var diff = dist / k;
             if (lsp == sp)
             {
-                cp1 = sp + dist / k * dir * 1;
-                cp1.y = sp.y;
-                cp1 = sp;
+                cp1 = sp + (nep - ep).normalized * diff;
+                if (limit)
+                    cp1.y = sp.y;
             }
             else
             {
                 cp1 = sp + (ep - lsp).normalized * diff;
                 if (limit)
                     cp1.y = sp.y;
-
             }
             if (nep == ep)
             {
@@ -137,7 +136,6 @@ namespace XUGL
                 if (limit)
                     cp2.y = ep.y;
             }
-            dist = Vector3.Distance(sp, ep);
             int segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
             if (segment < 1) segment = (int) (dist / 0.5f);
             if (segment < 4) segment = 4;

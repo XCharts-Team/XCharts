@@ -180,7 +180,7 @@ namespace XCharts.Runtime
         private void SetTooltipIndicatorLabel(Tooltip tooltip, Axis axis, ChartLabel label)
         {
             if (label == null) return;
-            if (double.IsPositiveInfinity(axis.context.pointerValue)) return;
+            if (double.IsNaN(axis.context.pointerValue)) return;
             label.SetActive(true);
             label.SetTextActive(true);
             label.SetPosition(axis.context.pointerLabelPosition);

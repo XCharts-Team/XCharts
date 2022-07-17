@@ -32,7 +32,7 @@ namespace XCharts.Runtime
 
             if (!polar.context.isPointerEnter)
             {
-                axis.context.pointerValue = double.PositiveInfinity;
+                axis.context.pointerValue = double.NaN;
                 return;
             }
 

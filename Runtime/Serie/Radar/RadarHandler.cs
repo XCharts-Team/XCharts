@@ -262,11 +262,11 @@ namespace XCharts.Runtime
                     {
                         toPoint = new Vector3(centerPos.x + radius * Mathf.Sin(currAngle),
                             centerPos.y + radius * Mathf.Cos(currAngle));
-                        if (areaStyle != null && areaStyle.show)
+                        if (areaStyle != null && areaStyle.show && !serie.smooth)
                         {
                             UGL.DrawTriangle(vh, startPoint, toPoint, centerPos, areaColor, areaColor, areaToColor);
                         }
-                        if (lineStyle.show)
+                        if (lineStyle.show && !serie.smooth)
                         {
                             ChartDrawer.DrawLineStyle(vh, lineStyle.type, lineWidth, startPoint, toPoint, lineColor);
                         }
@@ -274,14 +274,24 @@ namespace XCharts.Runtime
                     }
                     serieData.context.dataPoints.Add(startPoint);
                 }
-                if (areaStyle != null && areaStyle.show)
+                if (areaStyle != null && areaStyle.show && !serie.smooth)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
-                if (lineStyle.show)
+                if (lineStyle.show && !serie.smooth)
                 {
                     ChartDrawer.DrawLineStyle(vh, lineStyle.type, lineWidth, startPoint, firstPoint, lineColor);
                 }
+
+                if (serie.smooth)
+                {
+                    UGL.DrawCurves(vh, serieData.context.dataPoints, lineWidth, lineColor,
+                        chart.settings.lineSmoothStyle,
+                        chart.settings.lineSmoothness,
+                        UGL.Direction.Random,
+                        float.NaN, true);
+                }
+
                 if (symbol.show && symbol.type != SymbolType.None)
                 {
                     for (int m = 0; m < serieData.context.dataPoints.Count; m++)
@@ -394,11 +404,11 @@ namespace XCharts.Runtime
                 {
                     toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                         p.y + radius * Mathf.Cos(currAngle));
-                    if (areaStyle != null && areaStyle.show)
+                    if (areaStyle != null && areaStyle.show && !serie.smooth)
                     {
                         UGL.DrawTriangle(vh, startPoint, toPoint, p, areaColor, areaColor, areaToColor);
                     }
-                    if (lineStyle.show)
+                    if (lineStyle.show && !serie.smooth)
                     {
                         if (radar.connectCenter)
                             ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, centerPos,
@@ -409,14 +419,15 @@ namespace XCharts.Runtime
                     startPoint = toPoint;
                     lastColor = lineColor;
                 }
+                serie.context.dataPoints.Add(startPoint);
                 serieData.context.position = startPoint;
                 serieData.context.labelPosition = startPoint;
 
-                if (areaStyle != null && areaStyle.show && j == endIndex)
+                if (areaStyle != null && areaStyle.show && j == endIndex && !serie.smooth)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
-                if (lineStyle.show && j == endIndex)
+                if (lineStyle.show && j == endIndex && !serie.smooth)
                 {
                     if (radar.connectCenter)
                         ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, centerPos,
@@ -424,6 +435,16 @@ namespace XCharts.Runtime
                     ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, firstPoint, chart.theme.serie.lineWidth,
                         LineStyle.Type.Solid, lineColor, radar.lineGradient ? firstColor : lineColor);
                 }
+            }
+            if (serie.smooth)
+            {
+                var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+                var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex, false);
+                UGL.DrawCurves(vh, serie.context.dataPoints, lineWidth, lineColor,
+                    chart.settings.lineSmoothStyle,
+                    chart.settings.lineSmoothness,
+                    UGL.Direction.Random,
+                    float.NaN, true);
             }
             if (serie.symbol.show && serie.symbol.type != SymbolType.None)
             {

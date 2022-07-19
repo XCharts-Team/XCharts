@@ -130,11 +130,14 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 | `GetAxisValueDistance()` |public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上相对起点的距离 |
 | `GetAxisValueLength()` |public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上对应的长度 |
 | `GetAxisValuePosition()` |public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上的坐标位置 |
+| `GetAxisXOrY()` |public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)</br> |
 | `GetDataWidth()` |public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)</br>获得一个类目数据在坐标系中代表的宽度 |
 | `GetEachWidth()` |public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br> |
 | `GetScaleNumber()` |public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br>获得分割线条数 |
 | `GetScaleWidth()` |public static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)</br>获得分割段宽度 |
 | `GetSplitNumber()` |public static int GetSplitNumber(Axis axis, float coordinateWid, DataZoom dataZoom)</br>获得分割段数 |
+| `GetXAxisXOrY()` |public static float GetXAxisXOrY(GridCoord grid, Axis xAxis, Axis relativedAxis)</br> |
+| `GetYAxisXOrY()` |public static float GetYAxisXOrY(GridCoord grid, Axis yAxis, Axis relativedAxis)</br> |
 | `NeedShowSplit()` |public static bool NeedShowSplit(Axis axis)</br> |
 
 ## `BarChart`

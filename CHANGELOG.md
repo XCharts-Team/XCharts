@@ -57,6 +57,9 @@
 
 ## master
 
+* (2022.07.19) 增加`Axis`的`MinorSplitLine`设置坐标轴次分割线
+* (2022.07.19) 增加`Axis`的`MinorTick`设置坐标轴次刻度
+* (2022.07.17) 增加`Radar`的`smooth`参数设置平滑曲线
 * (2022.07.15) 增加`DataZoom`对`Time`时间轴的支持
 
 ## 3.1.0

@@ -76,6 +76,8 @@
 - [ArrowStyle](#ArrowStyle)
 - [AxisLabel](#AxisLabel)
 - [AxisLine](#AxisLine)
+- [AxisMinorSplitLine](#AxisMinorSplitLine)
+- [AxisMinorTick](#AxisMinorTick)
 - [AxisName](#AxisName)
 - [AxisSplitArea](#AxisSplitArea)
 - [AxisSplitLine](#AxisSplitLine)
@@ -263,8 +265,10 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`axisLine`|||坐标轴轴线。 [AxisLine](#AxisLine)|
 |`axisName`|||坐标轴名称。 [AxisName](#AxisName)|
 |`axisTick`|||坐标轴刻度。 [AxisTick](#AxisTick)|
+|`minorTick`|||坐标轴次刻度。 [AxisMinorTick](#AxisMinorTick)|
 |`axisLabel`|||坐标轴刻度标签。 [AxisLabel](#AxisLabel)|
 |`splitLine`|||坐标轴分割线。 [AxisSplitLine](#AxisSplitLine)|
+|`minorSplitLine`|||坐标轴次分割线。 [AxisMinorSplitLine](#AxisMinorSplitLine)|
 |`splitArea`|||坐标轴分割区域。 [AxisSplitArea](#AxisSplitArea)|
 
 ## `AxisLabel`
@@ -294,6 +298,28 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 |`onZero`|||X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
 |`showArrow`|||是否显示箭头。
 |`arrow`|||轴线箭头。 [ArrowStyle](#ArrowStyle)|
+
+## `AxisMinorSplitLine`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
+
+|field|default|since|comment|
+|--|--|--|--|
+|`distance`|||刻度线与轴线的距离。
+|`autoColor`|||自动设置颜色。
+
+## `AxisMinorTick`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+坐标轴次刻度相关设置。注意：次刻度无法再类目轴中使用。
+
+|field|default|since|comment|
+|--|--|--|--|
+|`splitNumber`|5||分隔线之间分割的刻度数。
+|`autoColor`|||
 
 ## `AxisName`
 
@@ -385,6 +411,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 |`splitLineWidth`|1f||分割线线宽。
 |`splitLineLength`|0f||分割线线长。
 |`splitLineColor`|||分割线线颜色。
+|`minorSplitLineColor`|||次分割线线颜色。
 |`tickWidth`|1f||刻度线线宽。
 |`tickLength`|5f||刻度线线长。
 |`tickColor`|||坐标轴线颜色。
@@ -994,6 +1021,9 @@ Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieCo
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`smooth`|false|3.2.0|是否平滑曲线。平滑曲线时不支持区域填充颜色。
 
 ## `RadarAxisTheme`
 

@@ -76,6 +76,8 @@
 - [ArrowStyle](#ArrowStyle)
 - [AxisLabel](#AxisLabel)
 - [AxisLine](#AxisLine)
+- [AxisMinorSplitLine](#AxisMinorSplitLine)
+- [AxisMinorTick](#AxisMinorTick)
 - [AxisName](#AxisName)
 - [AxisSplitArea](#AxisSplitArea)
 - [AxisSplitLine](#AxisSplitLine)
@@ -263,8 +265,10 @@ The axis in rectangular coordinate.
 |`axisLine`|||axis Line. [AxisLine](#AxisLine)|
 |`axisName`|||axis name. [AxisName](#AxisName)|
 |`axisTick`|||axis tick. [AxisTick](#AxisTick)|
+|`minorTick`|||axis minor tick. [AxisMinorTick](#AxisMinorTick)|
 |`axisLabel`|||axis label. [AxisLabel](#AxisLabel)|
 |`splitLine`|||axis split line. [AxisSplitLine](#AxisSplitLine)|
+|`minorSplitLine`|||axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
 |`splitArea`|||axis split area. [AxisSplitArea](#AxisSplitArea)|
 
 ## `AxisLabel`
@@ -294,6 +298,28 @@ Settings related to axis line.
 |`onZero`|||When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
 |`showArrow`|||Whether to show the arrow symbol of axis.
 |`arrow`|||the arrow of line. [ArrowStyle](#ArrowStyle)|
+
+## `AxisMinorSplitLine`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+Minor split line of axis in grid area.
+
+|field|default|since|comment|
+|--|--|--|--|
+|`distance`|||The distance between the split line and axis line.
+|`autoColor`|||auto color.
+
+## `AxisMinorTick`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+Settings related to axis minor tick.
+
+|field|default|since|comment|
+|--|--|--|--|
+|`splitNumber`|5||Number of segments that the axis is split into.
+|`autoColor`|||
 
 ## `AxisName`
 
@@ -384,7 +410,8 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 |`splitLineType`|||the type of split line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`splitLineWidth`|1f||the width of split line.
 |`splitLineLength`|0f||the length of split line.
-|`splitLineColor`|||the color of line.
+|`splitLineColor`|||the color of split line.
+|`minorSplitLineColor`|||the color of minor split line.
 |`tickWidth`|1f||the width of tick.
 |`tickLength`|5f||the length of tick.
 |`tickColor`|||the color of tick.
@@ -994,6 +1021,9 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`smooth`|false|3.2.0|Whether use smooth curve.
 
 ## `RadarAxisTheme`
 

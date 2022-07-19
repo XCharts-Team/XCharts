@@ -21,9 +21,23 @@ namespace XCharts.Runtime
 
         public override void DrawBase(VertexHelper vh)
         {
+            UpdatePosition(component);
             DrawYAxisSplit(vh, component.index, component);
             DrawYAxisLine(vh, component.index, component);
             DrawYAxisTick(vh, component.index, component);
+        }
+
+        private void UpdatePosition(YAxis axis)
+        {
+            var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+            if (grid != null && axis.IsValue())
+            {
+                var relativedAxis = chart.GetChartComponent<XAxis>(axis.gridIndex);
+                axis.context.x = AxisHelper.GetYAxisXOrY(grid, axis, relativedAxis);
+                axis.context.y = grid.context.y;
+                axis.context.zeroX = axis.context.x;
+                axis.context.zeroY = axis.context.y + axis.context.offset;
+            }
         }
 
         private void InitYAxis(YAxis yAxis)
@@ -135,16 +149,9 @@ namespace XCharts.Runtime
             }
         }
 
-        protected override float GetAxisLineXOrY()
+        internal override float GetAxisLineXOrY()
         {
-            var yAxis = component;
-            var grid = chart.GetChartComponent<GridCoord>(yAxis.gridIndex);
-            var startX = grid.context.x + yAxis.offset;
-            if (yAxis.IsRight())
-                startX += grid.context.width;
-            else
-                startX += ComponentHelper.GetYAxisOnZeroOffset(chart.components, yAxis);
-            return startX;
+            return component.context.x;
         }
     }
 }

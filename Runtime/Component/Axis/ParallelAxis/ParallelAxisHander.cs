@@ -116,7 +116,6 @@ namespace XCharts.Runtime
                     return;
 
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
-
                 DrawAxisSplit(vh, chart.theme.axis, dataZoom,
                     m_Orient,
                     axis.context.x,
@@ -159,7 +158,7 @@ namespace XCharts.Runtime
             }
         }
 
-        protected override float GetAxisLineXOrY()
+        internal override float GetAxisLineXOrY()
         {
             return component.context.y;
         }

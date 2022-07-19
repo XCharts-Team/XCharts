@@ -338,8 +338,7 @@ namespace XCharts.Runtime
                 axis.splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
                 return;
             }
-            if (axis.type == Axis.AxisType.Time)
-            { }
+            if (axis.type == Axis.AxisType.Time) { }
             else if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (axis.min != 0 || axis.max != 0)
@@ -363,8 +362,7 @@ namespace XCharts.Runtime
                 {
                     case Axis.AxisMinMaxType.Default:
 
-                        if (minValue == 0 && maxValue == 0)
-                        { }
+                        if (minValue == 0 && maxValue == 0) { }
                         else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
@@ -556,6 +554,44 @@ namespace XCharts.Runtime
                     gridXY + yDataHig :
                     yDataHig;
             }
+        }
+
+        public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)
+        {
+            if (axis is XAxis)
+                return GetXAxisXOrY(grid, axis, relativedAxis);
+            else if (axis is YAxis)
+                return GetYAxisXOrY(grid, axis, relativedAxis);
+            else if (axis is SingleAxis)
+                return axis.context.y + axis.offset;
+            else if (axis is ParallelAxis)
+                return axis.context.y;
+            else
+                return axis.context.x;
+        }
+
+        public static float GetXAxisXOrY(GridCoord grid, Axis xAxis, Axis relativedAxis)
+        {
+            var startY = grid.context.y + xAxis.offset;
+            if (xAxis.IsTop())
+                startY += grid.context.height;
+            else if (xAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == xAxis.gridIndex)
+                startY += relativedAxis.context.offset;
+            return startY;
+        }
+
+        public static float GetYAxisXOrY(GridCoord grid, Axis yAxis, Axis relativedAxis)
+        {
+            var startX = grid.context.x + yAxis.offset;
+            if (yAxis.IsRight())
+                startX += grid.context.width;
+            else if (yAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == yAxis.gridIndex)
+                startX += relativedAxis.context.offset;
+            return startX;
+        }
+
+        public static void UpdateAxisOffset(){
+
         }
     }
 }

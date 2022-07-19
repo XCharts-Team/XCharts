@@ -30,7 +30,7 @@ namespace XCharts.Runtime
         private void UpdatePosition(YAxis axis)
         {
             var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-            if (grid != null && axis.IsValue())
+            if (grid != null)
             {
                 var relativedAxis = chart.GetChartComponent<XAxis>(axis.gridIndex);
                 axis.context.x = AxisHelper.GetYAxisXOrY(grid, axis, relativedAxis);

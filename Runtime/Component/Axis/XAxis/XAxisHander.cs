@@ -15,7 +15,6 @@ namespace XCharts.Runtime
 
         public override void Update()
         {
-
             UpdateAxisMinMaxValue(component.index, component);
             UpdatePointerValue(component);
         }
@@ -31,7 +30,7 @@ namespace XCharts.Runtime
         private void UpdatePosition(XAxis axis)
         {
             var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-            if (grid != null && axis is XAxis && axis.IsValue())
+            if (grid != null)
             {
                 var relativedAxis = chart.GetChartComponent<YAxis>(axis.gridIndex);
                 axis.context.x = grid.context.x;

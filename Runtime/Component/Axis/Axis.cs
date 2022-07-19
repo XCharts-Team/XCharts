@@ -555,6 +555,21 @@ namespace XCharts.Runtime
             return m_Position == AxisPosition.Bottom;
         }
 
+        public bool IsNeedShowLabel(int index, int total = 0)
+        {
+            if (total == 0)
+            {
+                total = context.labelValueList.Count;
+            }
+            var labelShow = axisLabel.show && (axisLabel.interval == 0 || index % (axisLabel.interval + 1) == 0);
+            if (labelShow)
+            {
+                if (!axisLabel.showStartLabel && index == 0) labelShow = false;
+                else if (!axisLabel.showEndLabel && index == total - 1) labelShow = false;
+            }
+            return labelShow;
+        }
+
         public void SetNeedUpdateFilterData()
         {
             context.isNeedUpdateFilterData = true;
@@ -831,7 +846,7 @@ namespace XCharts.Runtime
 
         public void UpdateZeroOffset(float axisLength)
         {
-            context.offset = context.minValue > 0 || context.minMaxRange == 0?
+            context.offset = context.minValue > 0 || context.minMaxRange == 0 ?
                 0 :
                 (context.maxValue < 0 ?
                     axisLength :

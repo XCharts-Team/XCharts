@@ -296,12 +296,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).x - pos.x;
-                        label.SetTextActive(dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredWidth());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.x - GetLabelPosition(0, i - 1).x;
-                        label.SetTextActive(dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredWidth());
                     }
                 }
                 else
@@ -309,12 +309,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).y - pos.y;
-                        label.SetTextActive(dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredHeight());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.y - GetLabelPosition(0, i - 1).y;
-                        label.SetTextActive(dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredHeight());
                     }
                 }
             }

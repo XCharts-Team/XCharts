@@ -336,12 +336,7 @@ namespace XCharts.Runtime
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
-            var labelShow = axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0);
-            if (labelShow)
-            {
-                if (!axis.axisLabel.showStartLabel && index == 0) labelShow = false;
-                else if (!axis.axisLabel.showEndLabel && index == total - 1) labelShow = false;
-            }
+            var labelShow = axis.IsNeedShowLabel(index, total);
             label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index));
             label.text.SetActive(labelShow);
             return label;

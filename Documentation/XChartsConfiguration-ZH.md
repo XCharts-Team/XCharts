@@ -265,11 +265,11 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`axisLine`|||坐标轴轴线。 [AxisLine](#AxisLine)|
 |`axisName`|||坐标轴名称。 [AxisName](#AxisName)|
 |`axisTick`|||坐标轴刻度。 [AxisTick](#AxisTick)|
-|`minorTick`|||坐标轴次刻度。 [AxisMinorTick](#AxisMinorTick)|
 |`axisLabel`|||坐标轴刻度标签。 [AxisLabel](#AxisLabel)|
 |`splitLine`|||坐标轴分割线。 [AxisSplitLine](#AxisSplitLine)|
-|`minorSplitLine`|||坐标轴次分割线。 [AxisMinorSplitLine](#AxisMinorSplitLine)|
 |`splitArea`|||坐标轴分割区域。 [AxisSplitArea](#AxisSplitArea)|
+|`minorTick`||v3.2.0|坐标轴次刻度。 [AxisMinorTick](#AxisMinorTick)|
+|`minorSplitLine`||v3.2.0|坐标轴次分割线。 [AxisMinorSplitLine](#AxisMinorSplitLine)|
 
 ## `AxisLabel`
 
@@ -303,6 +303,8 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 
 Inherits or Implemented: [BaseLine](#BaseLine)
 
+> 从 `v3.2.0` 开始支持
+
 坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
 
 |field|default|since|comment|
@@ -314,7 +316,9 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 
 Inherits or Implemented: [BaseLine](#BaseLine)
 
-坐标轴次刻度相关设置。注意：次刻度无法再类目轴中使用。
+> 从 `v3.2.0` 开始支持
+
+坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
 
 |field|default|since|comment|
 |--|--|--|--|

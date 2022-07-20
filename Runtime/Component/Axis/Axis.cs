@@ -98,11 +98,11 @@ namespace XCharts.Runtime
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
-        [SerializeField] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
-        [SerializeField] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
+        [SerializeField][Since("v3.2.0")] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
+        [SerializeField][Since("v3.2.0")] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
 
         public AxisContext context = new AxisContext();
 

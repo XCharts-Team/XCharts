@@ -8,6 +8,7 @@ namespace XCharts.Runtime
     /// |坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
     /// </summary>
     [Serializable]
+    [Since("v3.2.0")]
     public class AxisMinorSplitLine : BaseLine
     {
         [SerializeField] private float m_Distance;

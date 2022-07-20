@@ -265,11 +265,11 @@ The axis in rectangular coordinate.
 |`axisLine`|||axis Line. [AxisLine](#AxisLine)|
 |`axisName`|||axis name. [AxisName](#AxisName)|
 |`axisTick`|||axis tick. [AxisTick](#AxisTick)|
-|`minorTick`|||axis minor tick. [AxisMinorTick](#AxisMinorTick)|
 |`axisLabel`|||axis label. [AxisLabel](#AxisLabel)|
 |`splitLine`|||axis split line. [AxisSplitLine](#AxisSplitLine)|
-|`minorSplitLine`|||axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
 |`splitArea`|||axis split area. [AxisSplitArea](#AxisSplitArea)|
+|`minorTick`||v3.2.0|axis minor tick. [AxisMinorTick](#AxisMinorTick)|
+|`minorSplitLine`||v3.2.0|axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
 
 ## `AxisLabel`
 
@@ -303,6 +303,8 @@ Settings related to axis line.
 
 Inherits or Implemented: [BaseLine](#BaseLine)
 
+> Since `v3.2.0`
+
 Minor split line of axis in grid area.
 
 |field|default|since|comment|
@@ -313,6 +315,8 @@ Minor split line of axis in grid area.
 ## `AxisMinorTick`
 
 Inherits or Implemented: [BaseLine](#BaseLine)
+
+> Since `v3.2.0`
 
 Settings related to axis minor tick.
 

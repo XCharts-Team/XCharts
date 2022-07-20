@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis minor tick.
-    /// |坐标轴次刻度相关设置。注意：次刻度无法再类目轴中使用。
+    /// |坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]

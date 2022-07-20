@@ -57,6 +57,7 @@
 
 ## master
 
+* (2022.07.20) 文档支持用`Since`标识类从哪个版本开始支持
 * (2022.07.20) 修复`Axis`在`Value`轴时，`AxisLabel`的`showStartLabel`和`showEndLabel`参数设置不生效的问题
 * (2022.07.19) 增加`Axis`的`MinorSplitLine`设置坐标轴次分割线
 * (2022.07.19) 增加`Axis`的`MinorTick`设置坐标轴次刻度

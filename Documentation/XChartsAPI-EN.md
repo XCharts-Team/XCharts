@@ -190,8 +190,9 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `GetDataZoomOfSerie()` |public void GetDataZoomOfSerie(Serie serie, out DataZoom xDataZoom, out DataZoom yDataZoom)</br> |
 | `GetGrid()` |public GridCoord GetGrid(Vector2 local)</br> |
 | `GetGridOfDataZoom()` |public GridCoord GetGridOfDataZoom(DataZoom dataZoom)</br> |
-| `GetItemColor()` |public Color32 GetItemColor(Serie serie, bool highlight = false)</br> |
-| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData, bool highlight = false)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)</br> |
 | `GetLegendRealShowNameColor()` |public Color32 GetLegendRealShowNameColor(string name)</br> |
 | `GetLegendRealShowNameIndex()` |public int GetLegendRealShowNameIndex(string name)</br> |
 | `GetPainter()` |public Painter GetPainter(int index)</br> |
@@ -340,6 +341,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `DestroyAllChildren()` |public static void DestroyAllChildren(Transform parent)</br> |
 | `GetActualValue()` |public static float GetActualValue(float valueOrRate, float total, float maxRate = 1.5f)</br> |
 | `GetAngle360()` |public static float GetAngle360(Vector2 from, Vector2 to)</br>获得0-360的角度（12点钟方向为0度） |
+| `GetBlurColor()` |public static Color32 GetBlurColor(Color32 color, float a = 0.3f)</br> |
 | `GetColor()` |public static Color32 GetColor(string hexColorStr)</br> |
 | `GetDire()` |public static Vector3 GetDire(float angle, bool isDegree = false)</br> |
 | `GetFloatAccuracy()` |public static int GetFloatAccuracy(double value)</br> |
@@ -353,6 +355,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
 | `GetPosition()` |public static Vector3 GetPosition(Vector3 center, float angle, float radius)</br> |
+| `GetSelectColor()` |public static Color32 GetSelectColor(Color32 color, float rate = 0.7f)</br> |
 | `GetVertialDire()` |public static Vector3 GetVertialDire(Vector3 dire)</br> |
 | `HideAllObject()` |public static void HideAllObject(GameObject obj, string match = null)</br> |
 | `HideAllObject()` |public static void HideAllObject(Transform parent, string match = null)</br> |
@@ -828,18 +831,15 @@ Inherits or Implemented: [Attribute](#Attribute)
 |--|--|
 | `CopySerie()` |public static void CopySerie(Serie oldSerie, Serie newSerie)</br> |
 | `GetAllMinMaxData()` |public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)</br> |
-| `GetAreaColor()` |public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
-| `GetAreaToColor()` |public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAverageData()` |public static double GetAverageData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
-| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
-| `GetItemColor0()` |public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)</br> |
+| `GetBlurStyle()` |public static BlurStyle GetBlurStyle(Serie serie, SerieData serieData)</br> |
+| `GetEmphasisStyle()` |public static EmphasisStyle GetEmphasisStyle(Serie serie, SerieData serieData)</br> |
+| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto, bool opacity = true)</br> |
 | `GetItemFormatter()` |public static string GetItemFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |
 | `GetItemMarker()` |public static string GetItemMarker(Serie serie, SerieData serieData, string defaultMarker = null)</br> |
-| `GetItemStyle()` |public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)</br> |
-| `GetItemStyleEmphasis()` |public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)</br> |
-| `GetItemToColor()` |public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
-| `GetLineColor()` |public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
+| `GetItemStyle()` |public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetLineColor()` |public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto)</br> |
 | `GetLineStyle()` |public static LineStyle GetLineStyle(Serie serie, SerieData serieData)</br> |
 | `GetMaxData()` |public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
 | `GetMaxSerieData()` |public static SerieData GetMaxSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
@@ -848,14 +848,16 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetMinMaxData()` |public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)</br>Gets the maximum and minimum values of all data in the serie. |
 | `GetMinSerieData()` |public static SerieData GetMinSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
 | `GetNumericFormatter()` |public static string GetNumericFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |
-| `GetSerieEmphasisLabel()` |public static LabelStyle GetSerieEmphasisLabel(Serie serie, SerieData serieData)</br> |
-| `GetSerieLabel()` |public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)</br> |
-| `GetSerieLabelLine()` |public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, bool highlight = false)</br> |
+| `GetSelectStyle()` |public static SelectStyle GetSelectStyle(Serie serie, SerieData serieData)</br> |
+| `GetSerieLabel()` |public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetSerieLabelLine()` |public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(Serie serie)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(Serie serie, SerieData serieData)</br> |
 | `GetSerieSymbol()` |public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)</br> |
-| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)</br> |
-| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, float defaultWidth)</br> |
-| `GetSymbolBorderColor()` |public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)</br> |
-| `GetSymbolCornerRadius()` |public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)</br> |
+| `GetStateStyle()` |public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)</br> |
+| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)</br> |
+| `GetSymbolBorderColor()` |public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)</br> |
+| `GetSymbolCornerRadius()` |public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
 | `GetTitleStyle()` |public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)</br> |
 | `IsAllZeroValue()` |public static bool IsAllZeroValue(Serie serie, int dimension = 1)</br>Whether the data for the specified dimension of serie are all 0. |
 | `IsDownPoint()` |public static bool IsDownPoint(Serie serie, int index)</br> |

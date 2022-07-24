@@ -162,6 +162,39 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
+    /// Serie state. Supports normal, emphasis, blur, and select states.
+    /// |Serie状态。支持正常、高亮、淡出、选中四种状态。
+    /// </summary>
+    public enum SerieState
+    {
+        /// <summary>
+        /// Normal state.
+        /// |正常状态。
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// Emphasis state.
+        /// |高亮状态。
+        /// </summary>
+        Emphasis,
+        /// <summary>
+        /// Blur state.
+        /// |淡出状态。
+        /// </summary>
+        Blur,
+        /// <summary>
+        /// Select state.
+        /// |选中状态。
+        /// </summary>
+        Select,
+        /// <summary>
+        /// Auto state.
+        /// |自动保持和父节点一致。一般用在SerieData。
+        /// </summary>
+        Auto
+    }
+
+    /// <summary>
     /// 系列。
     /// </summary>
     [System.Serializable]
@@ -172,6 +205,7 @@ namespace XCharts.Runtime
         [SerializeField] private string m_CoordSystem = "GridCoord";
         [SerializeField] private string m_SerieType = "";
         [SerializeField] private string m_SerieName;
+        [SerializeField][Since("v3.2.0")] private SerieState m_State = SerieState.Normal;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_XAxisIndex = 0;
         [SerializeField] private int m_YAxisIndex = 0;
@@ -295,6 +329,15 @@ namespace XCharts.Runtime
         /// |图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         public string legendName { get { return string.IsNullOrEmpty(serieName) ? ChartCached.IntToStr(index) : serieName; } }
+        /// <summary>
+        /// The default state of a serie.
+        /// |系列的默认状态。
+        /// </summary>
+        public SerieState state
+        {
+            get { return m_State; }
+            set { if (PropertyUtil.SetStruct(ref m_State, value)) { SetAllDirty(); } }
+        }
         /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
         /// |数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
@@ -826,12 +869,14 @@ namespace XCharts.Runtime
                     symbol.vertsDirty ||
                     lineStyle.vertsDirty ||
                     itemStyle.vertsDirty ||
-                    (lineArrow != null && lineArrow.vertsDirty) ||
-                    (areaStyle != null && areaStyle.vertsDirty) ||
-                    (label != null && label.vertsDirty) ||
-                    (labelLine != null && labelLine.vertsDirty) ||
-                    (emphasisItemStyle != null && emphasisItemStyle.vertsDirty) ||
-                    (titleStyle != null && titleStyle.vertsDirty) ||
+                    IsVertsDirty(lineArrow) ||
+                    IsVertsDirty(areaStyle) ||
+                    IsVertsDirty(label) ||
+                    IsVertsDirty(labelLine) ||
+                    IsVertsDirty(titleStyle) ||
+                    IsVertsDirty(emphasisStyle) ||
+                    IsVertsDirty(blurStyle) ||
+                    IsVertsDirty(selectStyle) ||
                     AnySerieDataVerticesDirty();
             }
         }
@@ -842,11 +887,12 @@ namespace XCharts.Runtime
             {
                 return m_ComponentDirty ||
                     symbol.componentDirty ||
-                    (titleStyle != null && titleStyle.componentDirty) ||
-                    (label != null && label.componentDirty) ||
-                    (labelLine != null && labelLine.componentDirty) ||
-                    (emphasisLabel != null && emphasisLabel.componentDirty) ||
-                    (emphasisLabelLine != null && emphasisLabelLine.componentDirty);
+                    IsComponentDirty(titleStyle) ||
+                    IsComponentDirty(label) ||
+                    IsComponentDirty(labelLine) ||
+                    IsComponentDirty(emphasisStyle) ||
+                    IsComponentDirty(blurStyle) ||
+                    IsComponentDirty(selectStyle);
             }
         }
         public override void ClearVerticesDirty()
@@ -860,16 +906,13 @@ namespace XCharts.Runtime
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
-            if (areaStyle != null)
-                areaStyle.ClearVerticesDirty();
-            if (label != null)
-                label.ClearVerticesDirty();
-            if (emphasisItemStyle != null)
-                emphasisItemStyle.ClearVerticesDirty();
-            if (lineArrow != null)
-                lineArrow.ClearVerticesDirty();
-            if (titleStyle != null)
-                titleStyle.ClearVerticesDirty();
+            ClearVerticesDirty(areaStyle);
+            ClearVerticesDirty(label);
+            ClearVerticesDirty(emphasisStyle);
+            ClearVerticesDirty(blurStyle);
+            ClearVerticesDirty(selectStyle);
+            ClearVerticesDirty(lineArrow);
+            ClearVerticesDirty(titleStyle);
         }
 
         public override void ClearComponentDirty()
@@ -883,18 +926,13 @@ namespace XCharts.Runtime
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
-            if (areaStyle != null)
-                areaStyle.ClearComponentDirty();
-            if (label != null)
-                label.ClearComponentDirty();
-            if (emphasisLabel != null)
-                emphasisLabel.ClearComponentDirty();
-            if (emphasisLabelLine != null)
-                emphasisLabelLine.ClearComponentDirty();
-            if (lineArrow != null)
-                lineArrow.ClearComponentDirty();
-            if (titleStyle != null)
-                titleStyle.ClearComponentDirty();
+            ClearComponentDirty(areaStyle);
+            ClearComponentDirty(label);
+            ClearComponentDirty(emphasisStyle);
+            ClearComponentDirty(blurStyle);
+            ClearComponentDirty(selectStyle);
+            ClearComponentDirty(lineArrow);
+            ClearComponentDirty(titleStyle);
         }
 
         public override void SetAllDirty()

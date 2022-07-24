@@ -24,11 +24,11 @@ namespace XCharts.Runtime
         public static void DrawSerieLineArea(VertexHelper vh, Serie serie, Serie lastStackSerie,
             ThemeStyle theme, VisualMap visualMap, bool isY, Axis axis, Axis relativedAxis, GridCoord grid)
         {
-            if (serie.areaStyle == null || !serie.areaStyle.show)
+            Color32 srcAreaColor, srcAreaToColor;
+            if (!SerieHelper.GetAreaColor(out srcAreaColor, out srcAreaToColor, serie, null, theme, serie.context.colorIndex))
+            {
                 return;
-
-            var srcAreaColor = SerieHelper.GetAreaColor(serie, null, theme, serie.context.colorIndex, false);
-            var srcAreaToColor = SerieHelper.GetAreaToColor(serie, null, theme, serie.context.colorIndex, false);
+            }
             var gridXY = (isY ? grid.context.x : grid.context.y);
             if (lastStackSerie == null)
             {
@@ -263,7 +263,7 @@ namespace XCharts.Runtime
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
 
             //var highlight = serie.highlight || serie.context.pointerEnter;
-            var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;

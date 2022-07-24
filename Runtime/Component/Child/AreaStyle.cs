@@ -37,8 +37,6 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;
-        [SerializeField] private Color32 m_HighlightColor;
-        [SerializeField] private Color32 m_HighlightToColor;
 
         /// <summary>
         /// Set this to false to prevent the areafrom showing.
@@ -84,24 +82,6 @@ namespace XCharts.Runtime
         {
             get { return m_Opacity; }
             set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of area,default use serie color.
-        /// |高亮时区域填充的颜色，如果highlightToColor不是默认值，则表示渐变色的起点颜色。
-        /// </summary>
-        public Color32 highlightColor
-        {
-            get { return m_HighlightColor; }
-            set { if (PropertyUtil.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// Gradient color, start highlightColor to highlightToColor.
-        /// |高亮时渐变色的终点颜色。
-        /// </summary>
-        public Color32 highlightToColor
-        {
-            get { return m_HighlightToColor; }
-            set { if (PropertyUtil.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
         }
 
         public Color32 GetColor()

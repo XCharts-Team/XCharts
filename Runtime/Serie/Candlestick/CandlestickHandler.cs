@@ -29,7 +29,7 @@ namespace XCharts.Runtime
 
             title = category;
 
-            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
+            var color = chart.GetItemColor(serie, serieData);
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -113,8 +113,8 @@ namespace XCharts.Runtime
                     serie.context.dataPoints.Add(Vector3.zero);
                     continue;
                 }
-                var highlight = serie.data[i].context.highlight || serie.highlight;
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var lowest = serieData.GetCurrData(2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);

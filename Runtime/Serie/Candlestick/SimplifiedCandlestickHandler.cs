@@ -29,7 +29,7 @@ namespace XCharts.Runtime
 
             title = category;
 
-            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
+            var color = chart.GetItemColor(serie, serieData);
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);

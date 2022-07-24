@@ -187,18 +187,18 @@ namespace XCharts.Runtime
                     serieData.interact.SetValue(ref interacting, symbolSize);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                 }
-                var symbolColor = SerieHelper.GetItemColor(serie, serieData, theme, serie.index, highlight);
-                var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, theme, serie.index, highlight);
-                var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, serie.index, highlight, false);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                Color32 symbolColor, symbolToColor,symbolEmptyColor;
+                SerieHelper.GetItemColor(out symbolColor, out symbolToColor,out symbolEmptyColor, serie, serieData, theme, serie.index, state);
 
                 if (isVisualMapGradient)
                 {
                     symbolColor = VisualMapHelper.GetLineGradientColor(visualMap, pos, m_SerieGrid, axis, relativedAxis, symbolColor);
                     symbolToColor = symbolColor;
                 }
-                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
-                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
-                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, state);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, state);
+                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, state);
                 chart.DrawClipSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
                     symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, clip, cornerRadius, m_SerieGrid,
                     i > 0 ? serie.context.dataPoints[i - 1] : m_SerieGrid.context.position);
@@ -220,7 +220,7 @@ namespace XCharts.Runtime
             if (serie.context.dataPoints.Count < 2)
                 return;
 
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index);
             var startPos = Vector3.zero;
             var arrowPos = Vector3.zero;
             var lineArrow = serie.lineArrow.arrow;

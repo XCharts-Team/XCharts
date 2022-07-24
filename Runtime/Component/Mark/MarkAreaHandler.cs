@@ -62,7 +62,7 @@ namespace XCharts.Runtime
             UpdateRuntimeData(markArea);
 
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
-            var serieColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, false);
+            var serieColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, SerieState.Normal);
             var areaColor = markArea.itemStyle.GetColor(serieColor);
             UGL.DrawRectangle(vh, markArea.runtimeRect, areaColor, areaColor);
         }

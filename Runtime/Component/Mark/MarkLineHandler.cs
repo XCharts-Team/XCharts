@@ -100,7 +100,7 @@ namespace XCharts.Runtime
             var sp = Vector3.zero;
             var ep = Vector3.zero;
             var colorIndex = chart.GetLegendRealShowNameIndex(serie.serieName);
-            var serieColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, false);
+            var serieColor = SerieHelper.GetLineColor(serie, null, chart.theme, colorIndex, SerieState.Normal);
             animation.InitProgress(0, 1f);
             ResetTempMarkLineGroupData(markLine);
             if (m_TempGroupData.Count > 0)
@@ -242,9 +242,9 @@ namespace XCharts.Runtime
         private void DrawMarkLineSymbol(VertexHelper vh, SymbolStyle symbol, Serie serie, GridCoord grid, ThemeStyle theme,
             Vector3 pos, Vector3 startPos, Color32 lineColor)
         {
-            var tickness = SerieHelper.GetSymbolBorder(serie, null, theme, false);
-            var borderColor = SerieHelper.GetSymbolBorderColor(serie, null, theme, false);
-            var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, null, false);
+            var tickness = SerieHelper.GetSymbolBorder(serie, null, theme);
+            var borderColor = SerieHelper.GetSymbolBorderColor(serie, null, theme);
+            var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, null);
             chart.DrawClipSymbol(vh, symbol.type, symbol.size, tickness, pos, lineColor, lineColor,
                 ColorUtil.clearColor32, borderColor, symbol.gap, true, cornerRadius, grid, startPos);
         }

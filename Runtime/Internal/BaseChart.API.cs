@@ -544,17 +544,25 @@ namespace XCharts.Runtime
             return theme.GetBackgroundColor(background);
         }
 
-        public Color32 GetItemColor(Serie serie, SerieData serieData, bool highlight = false)
+        public Color32 GetItemColor(Serie serie, SerieData serieData)
         {
-            var colorIndex = serieData == null || !serie.useDataNameForColor ?
-                GetLegendRealShowNameIndex(serie.legendName) :
-                GetLegendRealShowNameIndex(serieData.legendName);
-            return SerieHelper.GetItemColor(serie, serieData, m_Theme, colorIndex, highlight);
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, serie, serieData, m_Theme);
+            return color;
         }
 
-        public Color32 GetItemColor(Serie serie, bool highlight = false)
+        public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)
         {
-            return SerieHelper.GetItemColor(serie, null, m_Theme, serie.context.colorIndex, highlight);
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, serie, serieData, m_Theme, colorIndex);
+            return color;
+        }
+
+        public Color32 GetItemColor(Serie serie)
+        {
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, serie, null, m_Theme);
+            return color;
         }
     }
 }

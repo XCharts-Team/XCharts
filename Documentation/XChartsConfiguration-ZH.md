@@ -85,14 +85,12 @@
 - [AxisTick](#AxisTick)
 - [BaseAxisTheme](#BaseAxisTheme)
 - [BaseLine](#BaseLine)
+- [BlurStyle](#BlurStyle)
 - [CommentItem](#CommentItem)
 - [CommentMarkStyle](#CommentMarkStyle)
 - [ComponentTheme](#ComponentTheme)
 - [DataZoomTheme](#DataZoomTheme)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [EndLabelStyle](#EndLabelStyle)
 - [IconStyle](#IconStyle)
 - [ImageStyle](#ImageStyle)
@@ -111,10 +109,12 @@
 - [PolarAxisTheme](#PolarAxisTheme)
 - [RadarAxisTheme](#RadarAxisTheme)
 - [RadiusAxisTheme](#RadiusAxisTheme)
+- [SelectStyle](#SelectStyle)
 - [SerieData](#SerieData)
 - [SerieSymbol](#SerieSymbol)
 - [SerieTheme](#SerieTheme)
 - [StageColor](#StageColor)
+- [StateStyle](#StateStyle)
 - [SubTitleTheme](#SubTitleTheme)
 - [SymbolStyle](#SymbolStyle)
 - [TextLimit](#TextLimit)
@@ -130,28 +130,26 @@
 ## ISerieExtraComponent Serie额外组件
 
 - [AreaStyle](#AreaStyle)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [BlurStyle](#BlurStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [ImageStyle](#ImageStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineArrow](#LineArrow)
+- [SelectStyle](#SelectStyle)
 - [TitleStyle](#TitleStyle)
 
 ## ISerieDataComponent SerieData额外组件
 
 - [AreaStyle](#AreaStyle)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [BlurStyle](#BlurStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineStyle](#LineStyle)
+- [SelectStyle](#SelectStyle)
 - [SerieSymbol](#SerieSymbol)
 - [TitleStyle](#TitleStyle)
 
@@ -217,8 +215,6 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |`color`|||区域填充的颜色，如果toColor不是默认值，则表示渐变色的起点颜色。
 |`toColor`|||渐变色的终点颜色。
 |`opacity`|0.6f||图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
-|`highlightColor`|||高亮时区域填充的颜色，如果highlightToColor不是默认值，则表示渐变色的起点颜色。
-|`highlightToColor`|||高亮时渐变色的终点颜色。
 
 ## `ArrowStyle`
 
@@ -440,6 +436,15 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 ## `BaseSerie`
 
 
+## `BlurStyle`
+
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+> 从 `v3.2.0` 开始支持
+
+淡出状态样式。
+
+
 ## `CalendarCoord`
 
 Inherits or Implemented: [CoordSystem](#CoordSystem),[IUpdateRuntimeData](#IUpdateRuntimeData),[ISerieContainer](#ISerieContainer)
@@ -581,39 +586,19 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 Inherits or Implemented: [BaseScatter](#BaseScatter)
 
 
-## `Emphasis`
+## `EmphasisStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
 
-高亮的图形样式和文本标签样式。
+> 从 `v3.2.0` 开始支持
+
+高亮状态样式。
 
 |field|default|since|comment|
 |--|--|--|--|
-|`show`|||是否启用高亮样式。
-|`label`|||图形文本标签。 [LabelStyle](#LabelStyle)|
-|`labelLine`|||图形文本引导线样式。 [LabelLine](#LabelLine)|
-|`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
-
-## `EmphasisItemStyle`
-
-Inherits or Implemented: [ItemStyle](#ItemStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的图形样式
-
-
-## `EmphasisLabelLine`
-
-Inherits or Implemented: [LabelLine](#LabelLine),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的标签引导线样式
-
-
-## `EmphasisLabelStyle`
-
-Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的标签样式
-
+|`scale`|1.1f||Whether to scale to highlight the data in emphasis state. 高亮时的缩放倍数。
+|`focus`|||在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。</br>`EmphasisStyle.FocusType`:</br>- `None`: 不淡出其它图形，默认使用该配置。</br>- `Self`: 只聚焦（不淡出）当前高亮的数据的图形。</br>- `Series`: 聚焦当前高亮的数据所在的系列的所有图形。</br>|
+|`blurScope`|||在开启focus的时候，可以通过blurScope配置淡出的范围。</br>`EmphasisStyle.BlurScope`:</br>- `GridCoord`: 淡出范围为坐标系，默认使用该配置。</br>- `Series`: 淡出范围为系列。</br>- `Global`: 淡出范围为全局。</br>|
 
 ## `EndLabelStyle`
 
@@ -1063,6 +1048,15 @@ Inherits or Implemented: [Serie](#Serie)
 Inherits or Implemented: [BaseScatter](#BaseScatter)
 
 
+## `SelectStyle`
+
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+> 从 `v3.2.0` 开始支持
+
+选中状态样式。
+
+
 ## `Serie`
 
 Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
@@ -1076,6 +1070,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |`coordSystem`|||使用的坐标系。
 |`serieType`|||系列类型。
 |`serieName`|||系列名称，用于 tooltip 的显示，legend 的图例筛选。
+|`state`||v3.2.0|系列的默认状态。</br>`SerieState`:</br>- `Normal`: 正常状态。</br>- `Emphasis`: 高亮状态。</br>- `Blur`: 淡出状态。</br>- `Select`: 选中状态。</br>- `Auto`: 自动保持和父节点一致。一般用在SerieData。</br>|
 |`stack`|||数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
 |`xAxisIndex`|0||使用X轴的index。
 |`yAxisIndex`|0||使用Y轴的index。
@@ -1153,6 +1148,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |`ignore`|||是否忽略数据。当为 true 时，数据不进行绘制。
 |`selected`|||该数据项是否被选中。
 |`radius`|||自定义半径。可用在饼图中自定义某个数据项的半径。
+|`state`||v3.2.0|数据项的默认状态。</br>`SerieState`:</br>- `Normal`: 正常状态。</br>- `Emphasis`: 高亮状态。</br>- `Blur`: 淡出状态。</br>- `Select`: 选中状态。</br>- `Auto`: 自动保持和父节点一致。一般用在SerieData。</br>|
 |`data`|||可指定任意维数的数值列表。
 
 ## `SerieSymbol`
@@ -1260,6 +1256,23 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |--|--|--|--|
 |`percent`|||结束位置百分比。
 |`color`|||颜色。
+
+## `StateStyle`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+> 从 `v3.2.0` 开始支持
+
+Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
+
+|field|default|since|comment|
+|--|--|--|--|
+|`show`|true||是否启用高亮样式。
+|`label`|||图形文本标签。 [LabelStyle](#LabelStyle)|
+|`labelLine`|||图形文本引导线样式。 [LabelLine](#LabelLine)|
+|`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
+|`lineStyle`|||折线样式。 [LineStyle](#LineStyle)|
+|`areaStyle`|||区域样式。 [AreaStyle](#AreaStyle)|
 
 ## `SubTitleTheme`
 

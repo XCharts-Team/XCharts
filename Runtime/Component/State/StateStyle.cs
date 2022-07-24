@@ -3,15 +3,19 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// 高亮的图形样式和文本标签样式。
+    /// the state style of serie.
+    /// |Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
     /// </summary>
     [System.Serializable]
-    public class Emphasis : ChildComponent, ISerieExtraComponent, ISerieDataComponent
+    [Since("v3.2.0")]
+    public class StateStyle : ChildComponent
     {
-        [SerializeField] private bool m_Show;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private LabelStyle m_Label = new LabelStyle();
         [SerializeField] private LabelLine m_LabelLine = new LabelLine();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
 
         public void Reset()
         {
@@ -53,22 +57,57 @@ namespace XCharts.Runtime
             get { return m_ItemStyle; }
             set { if (PropertyUtil.SetClass(ref m_ItemStyle, value, true)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 折线样式。
+        /// </summary>
+        public LineStyle lineStyle
+        {
+            get { return m_LineStyle; }
+            set { if (PropertyUtil.SetClass(ref m_LineStyle, value, true)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 区域样式。
+        /// </summary>
+        public AreaStyle areaStyle
+        {
+            get { return m_AreaStyle; }
+            set { if (PropertyUtil.SetClass(ref m_AreaStyle, value, true)) SetVerticesDirty(); }
+        }
 
-        public override bool vertsDirty { get { return m_VertsDirty || label.vertsDirty || itemStyle.vertsDirty; } }
+        public override bool vertsDirty
+        {
+            get
+            {
+                return m_VertsDirty ||
+                    m_Label.vertsDirty ||
+                    m_ItemStyle.vertsDirty ||
+                    m_LineStyle.vertsDirty ||
+                    m_AreaStyle.vertsDirty;
+            }
+        }
 
-        public override bool componentDirty { get { return m_ComponentDirty || label.componentDirty; } }
+        public override bool componentDirty
+        {
+            get
+            {
+                return m_ComponentDirty ||
+                    m_Label.componentDirty;
+            }
+        }
 
         public override void ClearVerticesDirty()
         {
             base.ClearVerticesDirty();
-            label.ClearVerticesDirty();
-            itemStyle.ClearVerticesDirty();
+            m_Label.ClearVerticesDirty();
+            m_ItemStyle.ClearVerticesDirty();
+            m_LineStyle.ClearVerticesDirty();
+            m_AreaStyle.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
-            label.ClearComponentDirty();
+            m_Label.ClearComponentDirty();
         }
     }
 }

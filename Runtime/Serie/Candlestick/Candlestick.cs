@@ -6,7 +6,7 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(CandlestickHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
     [SerieExtraComponent()]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(EmphasisItemStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Candlestick : Serie, INeedSerieContainer
     {

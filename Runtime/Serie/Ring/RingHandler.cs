@@ -86,6 +86,8 @@ namespace XCharts.Runtime
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
                 return;
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, dataIndex);
 
             var param = serie.context.param;
             param.serieName = serie.serieName;
@@ -96,7 +98,7 @@ namespace XCharts.Runtime
             param.dataCount = serie.dataCount;
             param.value = serieData.GetData(0);
             param.total = serieData.GetData(1);
-            param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, dataIndex, false);
+            param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);;
@@ -158,10 +160,10 @@ namespace XCharts.Runtime
                 var degree = (float) (360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.context.highlight);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                var itemColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
-                var itemToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, serieData.context.highlight);
+                Color32 itemColor, itemToColor;
+                SerieHelper.GetItemColor(out itemColor, out itemToColor, serie, serieData, chart.theme, colorIndex);
                 var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.gap);
                 var insideRadius = outsideRadius - ringWidth;
                 var borderWidth = itemStyle.borderWidth;
@@ -214,8 +216,7 @@ namespace XCharts.Runtime
             chart.RefreshPainter(serie);
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
-        { }
+        public override void OnPointerDown(PointerEventData eventData) { }
 
         private float GetStartAngle(Serie serie)
         {
@@ -258,7 +259,12 @@ namespace XCharts.Runtime
         private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, index, false);
+            var backgroundColor = itemStyle.backgroundColor;
+            if (ChartHelper.IsClearColor(backgroundColor))
+            {
+                backgroundColor = chart.theme.GetColor(index);
+                backgroundColor.a = 50;
+            }
             if (itemStyle.backgroundWidth != 0)
             {
                 var centerRadius = (outsideRadius + insideRadius) / 2;

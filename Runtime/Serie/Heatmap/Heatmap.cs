@@ -6,8 +6,8 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(HeatmapHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
     [RequireChartComponent(typeof(VisualMap))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Heatmap : Serie, INeedSerieContainer
     {
@@ -20,10 +20,11 @@ namespace XCharts.Runtime
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;
 
-            var emphasis = serie.AddExtraComponent<EmphasisItemStyle>();
+            var emphasis = serie.AddExtraComponent<EmphasisStyle>();
             emphasis.show = true;
-            emphasis.borderWidth = 1;
-            emphasis.borderColor = Color.black;
+            emphasis.itemStyle.show = true;
+            emphasis.itemStyle.borderWidth = 1;
+            emphasis.itemStyle.borderColor = Color.black;
             return serie;
         }
     }

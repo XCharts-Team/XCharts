@@ -845,6 +845,22 @@ namespace XCharts.Runtime
             return newColor;
         }
 
+        public static Color32 GetBlurColor(Color32 color, float a = 0.3f)
+        {
+            var newColor = color;
+            newColor.a = (byte) (a * 255);
+            return newColor;
+        }
+
+        public static Color32 GetSelectColor(Color32 color, float rate = 0.7f)
+        {
+            var newColor = color;
+            newColor.r = (byte) (color.r * rate);
+            newColor.g = (byte) (color.g * rate);
+            newColor.b = (byte) (color.b * rate);
+            return newColor;
+        }
+
         public static bool IsPointInQuadrilateral(Vector3 P, Vector3 A, Vector3 B, Vector3 C, Vector3 D)
         {
             Vector3 v0 = Vector3.Cross(A - D, P - D);

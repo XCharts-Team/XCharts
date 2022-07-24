@@ -130,7 +130,7 @@ namespace XCharts.Runtime
             xAxis.boundaryGap = true;
             yAxis.boundaryGap = true;
             var visualMap = chart.GetVisualMapOfSerie(serie);
-            var emphasisItemStyle = serie.emphasisItemStyle;
+            var emphasisStyle = serie.emphasisStyle;
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
             var xWidth = m_SerieGrid.context.width / xCount;
@@ -209,9 +209,10 @@ namespace XCharts.Runtime
                 {
                     UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
                 }
-                if (visualMap.hoverLink && highlight && emphasisItemStyle != null &&
-                    emphasisItemStyle.borderWidth > 0)
+                if (visualMap.hoverLink && highlight && emphasisStyle != null &&
+                    emphasisStyle.itemStyle.borderWidth > 0)
                 {
+                    var emphasisItemStyle = emphasisStyle.itemStyle;
                     var emphasisBorderWidth = emphasisItemStyle.borderWidth;
                     var emphasisBorderColor = emphasisItemStyle.opacity > 0 ?
                         emphasisItemStyle.borderColor : ChartConst.clearColor32;

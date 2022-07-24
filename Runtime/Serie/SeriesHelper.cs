@@ -106,7 +106,9 @@ namespace XCharts.Runtime
                     break;
                 }
             }
-            return SerieHelper.GetItemColor(destSerie, destSerieData, chart.theme, index, false);
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, destSerie, destSerieData, chart.theme, index, SerieState.Normal);
+            return color;
         }
 
         /// <summary>

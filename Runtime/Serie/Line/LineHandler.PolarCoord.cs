@@ -120,7 +120,7 @@ namespace XCharts.Runtime
             var firstSerieData = datas[0];
             var lp = GetPolarPos(m_SeriePolar, m_AngleAxis, firstSerieData, min, max, radius);
             var cp = Vector3.zero;
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index, serie.highlight);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
             var currDetailProgress = 0f;
             var totalDetailProgress = datas.Count;
@@ -205,6 +205,7 @@ namespace XCharts.Runtime
                     continue;
 
                 var count = serie.dataCount;
+                Color32 symbolColor, symbolToColor,symbolEmptyColor;
                 for (int i = 0; i < count; i++)
                 {
                     var serieData = serie.GetSerieData(i);
@@ -220,13 +221,11 @@ namespace XCharts.Runtime
                     var symbolSize = highlight ?
                         symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSize) :
                         symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-
-                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, n, highlight);
-                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, n, highlight);
-                    var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, n, highlight, false);
-                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, highlight);
-                    var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, highlight);
-                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
+                    var state = SerieHelper.GetSerieState(serie, serieData);
+                    SerieHelper.GetItemColor(out symbolColor, out symbolToColor,out symbolEmptyColor, serie, serieData, chart.theme, n);
+                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, state);
+                    var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, state);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, state);
 
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.context.position,

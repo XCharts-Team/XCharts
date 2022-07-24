@@ -6,8 +6,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(RadarHandler), true)]
     [RequireChartComponent(typeof(RadarCoord))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(AreaStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Radar : Serie, INeedSerieContainer
     {

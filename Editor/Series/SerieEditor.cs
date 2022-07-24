@@ -16,7 +16,6 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
-            //PropertyField("m_InsertDataToHead");
             PropertyField("m_SerieName");
             if (m_CoordOptionsNames != null && m_CoordOptionsNames.Count > 1)
             {
@@ -28,6 +27,7 @@ namespace XCharts.Editor
                     serie.coordSystem = m_CoordOptionsDic[typeName].Name;
                 }
             }
+            PropertyField("m_State");
             OnCustomInspectorGUI();
             OnExtraInspectorGUI();
             PropertyFieldData();
@@ -189,9 +189,8 @@ namespace XCharts.Editor
         {
             EditorGUI.indentLevel++;
             var serieData = m_Datas.GetArrayElementAtIndex(index);
-            var m_Name = serieData.FindPropertyRelative("m_Name");
-
-            PropertyField(m_Name);
+            PropertyField(serieData.FindPropertyRelative("m_Name"));
+            PropertyField(serieData.FindPropertyRelative("m_State"));
             if (serie.GetType().IsDefined(typeof(SerieDataExtraFieldAttribute), false))
             {
                 var attribute = serie.GetType().GetAttribute<SerieDataExtraFieldAttribute>();

@@ -37,6 +37,7 @@ namespace XCharts.Runtime
 
             var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
             var needInteract = false;
+            Color32 color, toColor;
             if (!needCheck)
             {
                 if (m_LastCheckContextFlag != needCheck)
@@ -46,9 +47,8 @@ namespace XCharts.Runtime
                     serie.context.pointerEnter = false;
                     foreach (var serieData in serie.data)
                     {
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Normal);
+                        serieData.interact.SetColor(ref needInteract, color, toColor);
                     }
                     if (needInteract)
                     {
@@ -63,9 +63,8 @@ namespace XCharts.Runtime
                 serie.context.pointerEnter = true;
                 foreach (var serieData in serie.data)
                 {
-                    var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                    var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                    serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Emphasis);
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
                 }
             }
             else
@@ -80,16 +79,14 @@ namespace XCharts.Runtime
                         serie.context.pointerEnter = true;
                         serieData.context.highlight = true;
 
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Emphasis);
+                        serieData.interact.SetColor(ref needInteract, color, toColor);
                     }
                     else
                     {
                         serieData.context.highlight = false;
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Normal);
+                        serieData.interact.SetColor(ref needInteract, color, toColor);
                     }
                 }
             }
@@ -162,15 +159,14 @@ namespace XCharts.Runtime
                     dataChanging = true;
 
                 var highlight = serieData.context.highlight || serie.highlight;
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
                 {
-                    areaColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, highlight);
-                    areaToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, highlight);
+                    SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
                 }
 

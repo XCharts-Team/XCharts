@@ -36,7 +36,7 @@ namespace XCharts.Runtime
             param.dimension = 1;
             param.dataCount = serie.dataCount;
             param.serieData = serieData;
-            param.color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
+            param.color = chart.GetItemColor(serie, serieData);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -151,12 +151,12 @@ namespace XCharts.Runtime
                     continue;
 
                 var highlight = serie.highlight || serieData.context.highlight;
-                var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
-                var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
-                var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
-                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
-                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
-                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                Color32 color, toColor, emptyColor;
+                SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, state);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, state);
+                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, state);
                 double xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
                 double yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
 
@@ -255,13 +255,12 @@ namespace XCharts.Runtime
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
 
-                var highlight = serie.highlight || serieData.context.highlight;
-                var color = SerieHelper.GetItemColor(serie, serieData, theme, colorIndex, highlight);
-                var toColor = SerieHelper.GetItemToColor(serie, serieData, theme, colorIndex, highlight);
-                var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, theme, colorIndex, highlight, false);
-                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, highlight);
-                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, highlight);
-                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                Color32 color, toColor, emptyColor;
+                SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
+                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, theme, state);
+                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, theme, state);
+                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, state);
                 var xValue = serieData.GetCurrData(0, dataChangeDuration, axis.inverse);
 
                 if (serieData.IsDataChanged())

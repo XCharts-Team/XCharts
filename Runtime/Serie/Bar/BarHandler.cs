@@ -81,14 +81,14 @@ namespace XCharts.Runtime
                 return;
             }
             m_LastCheckContextFlag = needCheck;
+            Color32 color, toColor;
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
                 foreach (var serieData in serie.data)
                 {
-                    var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                    var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                    serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme);
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
                 }
             }
             else
@@ -103,18 +103,14 @@ namespace XCharts.Runtime
                         serie.context.pointerItemDataIndex = serieData.index;
                         serie.context.pointerEnter = true;
                         serieData.context.highlight = true;
-
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, true);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Emphasis);
                     }
                     else
                     {
                         serieData.context.highlight = false;
-                        var barColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        var barToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
-                        serieData.interact.SetColor(ref needInteract, barColor, barToColor);
+                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Normal);
                     }
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
                 }
             }
             if (needInteract)
@@ -190,18 +186,18 @@ namespace XCharts.Runtime
                 if (serieData.IsDataChanged())
                     dataChanging = true;
 
-                var highlight = serieData.context.highlight || serie.highlight;
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
+                var backgroundColor = itemStyle.backgroundColor;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
                 {
-                    areaColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, colorIndex, highlight);
-                    areaToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, colorIndex, highlight);
+                    SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
                 }
 
@@ -242,11 +238,11 @@ namespace XCharts.Runtime
                     {
                         case BarType.Normal:
                         case BarType.Capsule:
-                            DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
+                            DrawNormalBar(vh, serie, serieData, itemStyle, backgroundColor, gap, barWidth,
                                 pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor, relativedValue);
                             break;
                         case BarType.Zebra:
-                            DrawZebraBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
+                            DrawZebraBar(vh, serie, serieData, itemStyle, backgroundColor, gap, barWidth,
                                 pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                     }
@@ -366,12 +362,11 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
-            bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+        private void DrawNormalBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, Color32 backgroundColor,
+            float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor, double value)
         {
             var borderWidth = itemStyle.runtimeBorderWidth;
-            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
             var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner() ?
                 m_CapusleDefaultCornerRadius :
                 itemStyle.cornerRadius;
@@ -395,11 +390,10 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawZebraBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, int colorIndex,
-            bool highlight, float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
+        private void DrawZebraBar(VertexHelper vh, Serie serie, SerieData serieData, ItemStyle itemStyle, Color32 backgroundColor,
+            float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 barColor, Color32 barToColor)
         {
-            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, colorIndex, highlight, false);
             if (!ChartHelper.IsClearColor(backgroundColor))
             {
                 UGL.DrawRoundRectangle(vh, serieData.context.backgroundRect, backgroundColor, backgroundColor, 0,

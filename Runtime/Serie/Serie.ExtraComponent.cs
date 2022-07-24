@@ -14,9 +14,9 @@ namespace XCharts.Runtime
             { typeof(LineArrow), "m_LineArrows" },
             { typeof(AreaStyle), "m_AreaStyles" },
             { typeof(TitleStyle), "m_TitleStyles" },
-            { typeof(EmphasisItemStyle), "m_EmphasisItemStyles" },
-            { typeof(EmphasisLabelStyle), "m_EmphasisLabels" },
-            { typeof(EmphasisLabelLine), "m_EmphasisLabelLines" },
+            { typeof(EmphasisStyle), "m_EmphasisStyles" },
+            { typeof(BlurStyle), "m_BlurStyles" },
+            { typeof(SelectStyle), "m_SelectStyles" },
         };
 
         [SerializeField][IgnoreDoc] private List<LabelStyle> m_Labels = new List<LabelStyle>();
@@ -25,9 +25,9 @@ namespace XCharts.Runtime
         [SerializeField][IgnoreDoc] private List<LineArrow> m_LineArrows = new List<LineArrow>();
         [SerializeField][IgnoreDoc] private List<AreaStyle> m_AreaStyles = new List<AreaStyle>();
         [SerializeField][IgnoreDoc] private List<TitleStyle> m_TitleStyles = new List<TitleStyle>();
-        [SerializeField][IgnoreDoc] private List<EmphasisItemStyle> m_EmphasisItemStyles = new List<EmphasisItemStyle>();
-        [SerializeField][IgnoreDoc] private List<EmphasisLabelStyle> m_EmphasisLabels = new List<EmphasisLabelStyle>();
-        [SerializeField][IgnoreDoc] private List<EmphasisLabelLine> m_EmphasisLabelLines = new List<EmphasisLabelLine>();
+        [SerializeField][IgnoreDoc] private List<EmphasisStyle> m_EmphasisStyles = new List<EmphasisStyle>();
+        [SerializeField][IgnoreDoc] private List<BlurStyle> m_BlurStyles = new List<BlurStyle>();
+        [SerializeField][IgnoreDoc] private List<SelectStyle> m_SelectStyles = new List<SelectStyle>();
 
         /// <summary>
         /// The style of area.
@@ -51,22 +51,25 @@ namespace XCharts.Runtime
         /// </summary>
         public LineArrow lineArrow { get { return m_LineArrows.Count > 0 ? m_LineArrows[0] : null; } }
         /// <summary>
-        /// 高亮的图形样式
-        /// </summary>
-        public EmphasisItemStyle emphasisItemStyle { get { return m_EmphasisItemStyles.Count > 0 ? m_EmphasisItemStyles[0] : null; } }
-        /// <summary>
-        /// 高亮时的标签样式
-        /// </summary>
-        public EmphasisLabelStyle emphasisLabel { get { return m_EmphasisLabels.Count > 0 ? m_EmphasisLabels[0] : null; } }
-        /// <summary>
-        /// 高亮时的标签引导线样式
-        /// </summary>
-        public EmphasisLabelLine emphasisLabelLine { get { return m_EmphasisLabelLines.Count > 0 ? m_EmphasisLabelLines[0] : null; } }
-        /// <summary>
         /// the icon of data.
         /// |数据项标题样式。
         /// </summary>
         public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
+        /// <summary>
+        /// style of emphasis state.
+        /// |高亮状态的样式。
+        /// </summary>
+        public EmphasisStyle emphasisStyle { get { return m_EmphasisStyles.Count > 0 ? m_EmphasisStyles[0] : null; } }
+        /// <summary>
+        /// style of blur state.
+        /// |淡出状态的样式。
+        /// </summary>
+        public BlurStyle blurStyle { get { return m_BlurStyles.Count > 0 ? m_BlurStyles[0] : null; } }
+        /// <summary>
+        /// style of select state.
+        /// |选中状态的样式。
+        /// </summary>
+        public SelectStyle selectStyle { get { return m_SelectStyles.Count > 0 ? m_SelectStyles[0] : null; } }
 
         public void RemoveAllExtraComponent()
         {

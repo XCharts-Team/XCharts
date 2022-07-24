@@ -57,6 +57,10 @@
 
 ## master
 
+* (2022.07.24) 增加`Serie`和`SerieData`的`state`设置默认状态
+* (2022.07.22) 增加`Serie`的三种状态`EmphasisStyle`,`BlurStyle`,`SelectStyle`
+* (2022.07.22) 去掉`AreaStyle`的`m_HighlightColor`和`m_HighlightToColor`配置
+* (2022.07.22) 去掉`Emphasis`,`EmphasisItemStyle`,`EmphasisLabelStyle`,`EmphasisLabelLine`组件
 * (2022.07.20) 文档支持用`Since`标识类从哪个版本开始支持
 * (2022.07.20) 修复`Axis`在`Value`轴时，`AxisLabel`的`showStartLabel`和`showEndLabel`参数设置不生效的问题
 * (2022.07.19) 增加`Axis`的`MinorSplitLine`设置坐标轴次分割线

@@ -16,6 +16,7 @@ namespace XCharts.Runtime
         {
             "m_Id",
             "m_ParentId",
+            "m_State",
             "m_Ignore",
             "m_Selected",
             "m_Radius",

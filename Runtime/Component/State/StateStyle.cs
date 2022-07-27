@@ -16,6 +16,7 @@ namespace XCharts.Runtime
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
+        [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
 
         public void Reset()
         {
@@ -23,6 +24,7 @@ namespace XCharts.Runtime
             m_Label.Reset();
             m_LabelLine.Reset();
             m_ItemStyle.Reset();
+            m_Symbol.Reset();
         }
 
         /// <summary>
@@ -73,6 +75,14 @@ namespace XCharts.Runtime
             get { return m_AreaStyle; }
             set { if (PropertyUtil.SetClass(ref m_AreaStyle, value, true)) SetVerticesDirty(); }
         }
+        /// <summary>
+        /// 标记样式。
+        /// </summary>
+        public SerieSymbol symbol
+        {
+            get { return m_Symbol; }
+            set { if (PropertyUtil.SetClass(ref m_Symbol, value, true)) SetVerticesDirty(); }
+        }
 
         public override bool vertsDirty
         {
@@ -82,7 +92,8 @@ namespace XCharts.Runtime
                     m_Label.vertsDirty ||
                     m_ItemStyle.vertsDirty ||
                     m_LineStyle.vertsDirty ||
-                    m_AreaStyle.vertsDirty;
+                    m_AreaStyle.vertsDirty ||
+                    m_Symbol.vertsDirty;
             }
         }
 
@@ -102,12 +113,14 @@ namespace XCharts.Runtime
             m_ItemStyle.ClearVerticesDirty();
             m_LineStyle.ClearVerticesDirty();
             m_AreaStyle.ClearVerticesDirty();
+            m_Symbol.ClearVerticesDirty();
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             m_Label.ClearComponentDirty();
+            m_Symbol.ClearComponentDirty();
         }
     }
 }

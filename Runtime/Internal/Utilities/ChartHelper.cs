@@ -836,7 +836,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)
+        public static Color32 GetHighlightColor(Color32 color, float rate = 1.2f)
         {
             var newColor = color;
             newColor.r = (byte) (color.r * rate);
@@ -852,7 +852,7 @@ namespace XCharts.Runtime
             return newColor;
         }
 
-        public static Color32 GetSelectColor(Color32 color, float rate = 0.7f)
+        public static Color32 GetSelectColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
             newColor.r = (byte) (color.r * rate);

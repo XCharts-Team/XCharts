@@ -242,9 +242,10 @@ namespace XCharts.Runtime
         private void DrawMarkLineSymbol(VertexHelper vh, SymbolStyle symbol, Serie serie, GridCoord grid, ThemeStyle theme,
             Vector3 pos, Vector3 startPos, Color32 lineColor)
         {
-            var tickness = SerieHelper.GetSymbolBorder(serie, null, theme);
-            var borderColor = SerieHelper.GetSymbolBorderColor(serie, null, theme);
-            var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, null);
+            float tickness = 0f;
+            float[] cornerRadius = null;
+            Color32 borderColor;
+            SerieHelper.GetSymbolInfo(out borderColor, out tickness, out cornerRadius, serie, null, chart.theme);
             chart.DrawClipSymbol(vh, symbol.type, symbol.size, tickness, pos, lineColor, lineColor,
                 ColorUtil.clearColor32, borderColor, symbol.gap, true, cornerRadius, grid, startPos);
         }

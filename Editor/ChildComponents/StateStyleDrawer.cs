@@ -16,6 +16,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 OnCustomGUI(prop);
+                PropertyField(prop, "m_Symbol");
                 PropertyField(prop, "m_ItemStyle");
                 PropertyField(prop, "m_Label");
                 PropertyField(prop, "m_LabelLine");

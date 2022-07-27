@@ -34,12 +34,9 @@ namespace XCharts.Runtime
     public class SerieSymbol : SymbolStyle, ISerieDataComponent
     {
         [SerializeField] private SymbolSizeType m_SizeType = SymbolSizeType.Custom;
-        [SerializeField] private float m_SelectedSize = 0f;
         [SerializeField] private int m_DataIndex = 1;
         [SerializeField] private float m_DataScale = 1;
-        [SerializeField] private float m_SelectedDataScale = 1.5f;
         [SerializeField] private SymbolSizeFunction m_SizeFunction;
-        [SerializeField] private SymbolSizeFunction m_SelectedSizeFunction;
         [SerializeField] private int m_StartIndex;
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;
@@ -49,12 +46,9 @@ namespace XCharts.Runtime
         {
             base.Reset();
             m_SizeType = SymbolSizeType.Custom;
-            m_SelectedSize = 0f;
             m_DataIndex = 1;
             m_DataScale = 1;
-            m_SelectedDataScale = 1.5f;
             m_SizeFunction = null;
-            m_SelectedSizeFunction = null;
             m_StartIndex = 0;
             m_Interval = 0;
             m_ForceShowLast = false;
@@ -69,15 +63,6 @@ namespace XCharts.Runtime
         {
             get { return m_SizeType; }
             set { if (PropertyUtil.SetStruct(ref m_SizeType, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the size of selected symbol.
-        /// |被选中的标记的大小。
-        /// </summary>
-        public float selectedSize
-        {
-            get { return m_SelectedSize; }
-            set { if (PropertyUtil.SetStruct(ref m_SelectedSize, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// whitch data index is when the sizeType assined as FromData.
@@ -98,15 +83,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_DataScale, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the scale of selected data when sizeType assined as FromData.
-        /// |当sizeType指定为FromData时，指定的高亮倍数系数。
-        /// </summary>
-        public float selectedDataScale
-        {
-            get { return m_SelectedDataScale; }
-            set { if (PropertyUtil.SetStruct(ref m_SelectedDataScale, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// the function of size when sizeType assined as Function.
         /// |当sizeType指定为Function时，指定的委托函数。
         /// </summary>
@@ -114,15 +90,6 @@ namespace XCharts.Runtime
         {
             get { return m_SizeFunction; }
             set { if (PropertyUtil.SetClass(ref m_SizeFunction, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the function of size when sizeType assined as Function.
-        /// |当sizeType指定为Function时，指定的高亮委托函数。
-        /// </summary>
-        public SymbolSizeFunction selectedSizeFunction
-        {
-            get { return m_SelectedSizeFunction; }
-            set { if (PropertyUtil.SetClass(ref m_SelectedSizeFunction, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the index start to show symbol.
@@ -184,42 +151,6 @@ namespace XCharts.Runtime
                     else return size == 0 ? themeSize : size;
                 default:
                     return size == 0 ? themeSize : size;
-            }
-        }
-
-        /// <summary>
-        /// 根据sizeType获得高亮时的标记大小
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public float GetSelectedSize(List<double> data, float themeSelectedSize)
-        {
-            switch (m_SizeType)
-            {
-                case SymbolSizeType.Custom:
-
-                    return selectedSize == 0 ? themeSelectedSize : selectedSize;
-
-                case SymbolSizeType.FromData:
-
-                    if (data != null && dataIndex >= 0 && dataIndex < data.Count)
-                    {
-                        return (float) data[dataIndex] * m_SelectedDataScale;
-                    }
-                    else
-                    {
-                        return selectedSize == 0 ? themeSelectedSize : selectedSize;
-                    }
-
-                case SymbolSizeType.Function:
-
-                    if (data != null && selectedSizeFunction != null)
-                        return selectedSizeFunction(data);
-                    else
-                        return selectedSize == 0 ? themeSelectedSize : selectedSize;
-
-                default:
-                    return selectedSize == 0 ? themeSelectedSize : selectedSize;
             }
         }
 

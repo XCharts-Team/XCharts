@@ -73,15 +73,14 @@ namespace XCharts.Runtime
             var needInteract = false;
             if (m_LegendEnter)
             {
+                serie.context.pointerEnter = true;
                 serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
-
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
-                    serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
+                    serieData.interact.SetValue(ref needInteract, size);
                 }
             }
             else if (serie.context.isTriggerByAxis)
@@ -91,47 +90,42 @@ namespace XCharts.Runtime
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
-
-                    if (i == serie.context.pointerItemDataIndex)
+                    var highlight = i == serie.context.pointerItemDataIndex;
+                    serieData.context.highlight = highlight;
+                    var state = SerieHelper.GetSerieState(serie, serieData, true);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    serieData.interact.SetValue(ref needInteract, size);
+                    if (highlight)
                     {
-                        serieData.context.highlight = true;
-                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
-                    }
-                    else
-                    {
-                        serieData.context.highlight = false;
-                        serieData.interact.SetValue(ref needInteract, symbolSize);
+                        serie.context.pointerEnter = true;
+                        serie.context.pointerItemDataIndex = i;
                     }
                 }
             }
             else
             {
+                var lastIndex = serie.context.pointerItemDataIndex;
                 serie.context.pointerItemDataIndex = -1;
                 serie.context.pointerEnter = false;
-                foreach (var serieData in serie.data)
+                for (int i = 0; i < serie.dataCount; i++)
                 {
+                    var serieData = serie.data[i];
                     var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
-                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                    var symbolSize = symbol.GetSize(serieData.data, themeSymbolSize);
-                    var symbolSelectedSize = symbol.GetSelectedSize(serieData.data, themeSymbolSelectedSize);
-
-                    if (dist <= symbolSelectedSize)
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                    var highlight = dist <= size;
+                    serieData.context.highlight = highlight;
+                    var state = SerieHelper.GetSerieState(serie, serieData, true);
+                    size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    serieData.interact.SetValue(ref needInteract, size);
+                    if (highlight)
                     {
-                        serie.context.pointerItemDataIndex = serieData.index;
                         serie.context.pointerEnter = true;
+                        serie.context.pointerItemDataIndex = serieData.index;
                         serie.interact.SetValue(ref needInteract, lineWidth, true);
-                        serieData.context.highlight = true;
-                        serieData.interact.SetValue(ref needInteract, symbolSelectedSize);
-                    }
-                    else
-                    {
-                        serieData.context.highlight = false;
-                        serieData.interact.SetValue(ref needInteract, symbolSize);
                     }
                 }
+                if (lastIndex != serie.context.pointerItemDataIndex)
+                    needInteract = true;
             }
             if (needInteract)
             {

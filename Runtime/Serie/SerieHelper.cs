@@ -248,10 +248,17 @@ namespace XCharts.Runtime
             return serie.state;
         }
 
-        public static SerieState GetSerieState(Serie serie, SerieData serieData)
+        public static SerieState GetSerieState(SerieData serieData)
         {
-            if (serieData == null || serieData.state == SerieState.Auto) return GetSerieState(serie);
             if (serieData.context.highlight) return SerieState.Emphasis;
+            return serieData.state;
+        }
+
+        public static SerieState GetSerieState(Serie serie, SerieData serieData, bool defaultSerieState = false)
+        {
+            if (serieData == null) return GetSerieState(serie);
+            if (serieData.context.highlight) return SerieState.Emphasis;
+            if (serieData.state == SerieState.Auto) return defaultSerieState?serie.state : GetSerieState(serie);
             return serieData.state;
         }
 
@@ -443,10 +450,18 @@ namespace XCharts.Runtime
             return stateStyle == null?serie.labelLine : stateStyle.labelLine;
         }
 
-        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
+        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
-            if (!serie.IsPerformanceMode() && serieData.symbol != null) return serieData.symbol;
-            else return serie.symbol;
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            if (state == SerieState.Normal)
+            {
+                return serieData != null && serieData.symbol != null? serieData.symbol : serie.symbol;
+            }
+            else
+            {
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.symbol : stateStyle.symbol;
+            }
         }
 
         public static LineStyle GetLineStyle(Serie serie, SerieData serieData)
@@ -579,29 +594,73 @@ namespace XCharts.Runtime
         {
             if (!ChartHelper.IsClearColor(checkColor)) color = checkColor;
             else if (!ChartHelper.IsClearColor(itemColor)) color = itemColor;
-            if (ChartHelper.IsClearColor(color)) color = theme.GetColor(colorIndex);
+            if (ChartHelper.IsClearColor(color) && colorIndex >= 0) color = theme.GetColor(colorIndex);
             if (setOpacity) ChartHelper.SetColorOpacity(ref color, opacity);
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
+        public static void GetSymbolInfo(out Color32 borderColor, out float border, out float[] cornerRadius,
+            Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
         {
-            var itemStyle = GetItemStyle(serie, serieData, state);
-            if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else return serie.lineStyle.GetWidth(theme.serie.lineWidth) * 2;
+            borderColor = ChartConst.clearColor32;
+            if (state == SerieState.Auto)
+                state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+            {
+                var itemStyle = GetItemStyle(serie, serieData, SerieState.Normal);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth);
+                cornerRadius = itemStyle.cornerRadius;
+                GetColor(ref borderColor, itemStyle.borderColor, itemStyle.borderColor, 1, theme, -1);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        borderColor = ChartHelper.GetHighlightColor(borderColor);
+                        break;
+                    case SerieState.Blur:
+                        borderColor = ChartHelper.GetBlurColor(borderColor);
+                        break;
+                    case SerieState.Select:
+                        borderColor = ChartHelper.GetSelectColor(borderColor);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                var itemStyle = stateStyle.itemStyle;
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth);
+                cornerRadius = itemStyle.cornerRadius;
+                GetColor(ref borderColor, stateStyle.itemStyle.borderColor, ColorUtil.clearColor32, 1, theme, -1);
+            }
         }
 
-        public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
+        public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)
         {
-            var itemStyle = GetItemStyle(serie, serieData, state);
-            if (itemStyle != null && !ChartHelper.IsClearColor(itemStyle.borderColor)) return itemStyle.borderColor;
-            else return serie.itemStyle.borderColor;
-        }
-
-        public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
-        {
-            var itemStyle = GetItemStyle(serie, serieData, state);
-            if (itemStyle != null) return itemStyle.cornerRadius;
-            else return null;
+            if (state == SerieState.Auto)
+                state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            var size = 0f;
+            if (stateStyle == null)
+            {
+                var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
+                size = symbol.GetSize(serieData.data, defaultSize);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                    case SerieState.Select:
+                        size *= theme.serie.selectedRate;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                var symbol = stateStyle.symbol;
+                size = symbol.GetSize(serieData.data, defaultSize);
+            }
+            return size;
         }
 
         public static string GetNumericFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)

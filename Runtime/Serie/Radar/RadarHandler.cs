@@ -224,10 +224,10 @@ namespace XCharts.Runtime
                 {
                     continue;
                 }
+                var serieState = SerieHelper.GetSerieState(serie, serieData, true);
                 var lineStyle = SerieHelper.GetLineStyle(serie, serieData);
-                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                var isHighlight = serieData.context.highlight;
-                var serieState = SerieHelper.GetSerieState(serie, serieData);
+                var symbol = SerieHelper.GetSerieSymbol(serie, serieData, serieState);
+
                 var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
                 var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex);
                 var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
@@ -300,25 +300,21 @@ namespace XCharts.Runtime
 
                 if (symbol.show && symbol.type != SymbolType.None)
                 {
+                    float symbolBorder = 0f;
+                    float[] cornerRadius = null;
+                    Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
                     for (int m = 0; m < serieData.context.dataPoints.Count; m++)
                     {
                         var point = serieData.context.dataPoints[m];
-                        var symbolSize = isHighlight ?
-                            symbol.GetSelectedSize(null, chart.theme.serie.lineSymbolSelectedSize) :
-                            symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = 0f;
                         if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
                         {
-                            symbolSize = isHighlight ?
-                                symbol.GetSelectedSize(serieData.data, symbolSize) :
-                                symbol.GetSize(serieData.data, symbolSize);
+                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, serieState);
                             serieData.interact.SetValue(ref interacting, symbolSize);
                             symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                         }
-                        Color32 symbolColor, symbolToColor, symbolEmptyColor;
                         SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, j, serieState);
-                        var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, serieState);
-                        var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, serieState);
-                        var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, serieState);
+                        SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, serieState);
                         chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, point, symbolColor,
                             symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -451,20 +447,18 @@ namespace XCharts.Runtime
             }
             if (serie.symbol.show && serie.symbol.type != SymbolType.None)
             {
+                float symbolBorder = 0f;
+                float[] cornerRadius = null;
+                Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
                     var state = SerieHelper.GetSerieState(serie, serieData);
                     var serieIndex = serieData.index;
-                    var symbolSize = state == SerieState.Emphasis ?
-                        serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize) :
-                        serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                    Color32 symbolColor, symbolToColor,symbolEmptyColor;
-                    SerieHelper.GetItemColor(out symbolColor, out symbolToColor,out symbolEmptyColor, serie, serieData, chart.theme, serieIndex, state);
-                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, state);
-                    var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, state);
-                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, state);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
+                    SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, serieIndex, state);
+                    SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
                     if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
                     {
                         symbolColor = radar.outRangeColor;

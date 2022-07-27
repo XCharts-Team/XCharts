@@ -261,8 +261,6 @@ namespace XCharts.Runtime
             var isY = axis is YAxis;
             var isVisualMapGradient = VisualMapHelper.IsNeedLineGradient(visualMap);
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
-
-            //var highlight = serie.highlight || serie.context.pointerEnter;
             var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;

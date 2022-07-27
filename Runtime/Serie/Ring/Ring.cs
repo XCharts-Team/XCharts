@@ -9,7 +9,7 @@ namespace XCharts.Runtime
     [SerieDataExtraField()]
     public class Ring : Serie
     {
-        public override bool useDataNameForColor { get { return true; } }
+        public override SerieColorBy defaultColorBy { get { return SerieColorBy.Data; } }
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Ring>(serieName);

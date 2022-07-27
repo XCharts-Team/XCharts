@@ -144,7 +144,7 @@ namespace XCharts.Runtime
 
         public override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            if (serie.colorByData && serie.IsSerieDataLegendName(legendName))
             {
                 LegendHelper.CheckDataShow(serie, legendName, show);
                 chart.UpdateLegendColor(legendName, show);
@@ -159,7 +159,7 @@ namespace XCharts.Runtime
 
         public override void OnLegendButtonEnter(int index, string legendName)
         {
-            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            if (serie.colorByData && serie.IsSerieDataLegendName(legendName))
             {
                 LegendHelper.CheckDataHighlighted(serie, legendName, true);
                 chart.RefreshPainter(serie);
@@ -173,7 +173,7 @@ namespace XCharts.Runtime
 
         public override void OnLegendButtonExit(int index, string legendName)
         {
-            if (serie.useDataNameForColor && serie.IsSerieDataLegendName(legendName))
+            if (serie.colorByData && serie.IsSerieDataLegendName(legendName))
             {
                 LegendHelper.CheckDataHighlighted(serie, legendName, false);
                 chart.RefreshPainter(serie);
@@ -485,7 +485,7 @@ namespace XCharts.Runtime
 
         public virtual Color GetSerieDataAutoColor(SerieData serieData)
         {
-            var colorIndex = serie.useDataNameForColor ? serieData.index : serie.index;
+            var colorIndex = serie.colorByData ? serieData.index : serie.index;
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal, false);
             return (Color) color;
@@ -533,7 +533,7 @@ namespace XCharts.Runtime
 
         protected void UpdateItemSerieParams(ref List<SerieParams> paramList, ref string title,
             int dataIndex, string category, string marker,
-            string itemFormatter, string numericFormatter, int dimension = 1)
+            string itemFormatter, string numericFormatter, int dimension = 1, int colorIndex = -1)
         {
             if (dataIndex < 0)
                 dataIndex = serie.context.pointerItemDataIndex;
@@ -549,10 +549,11 @@ namespace XCharts.Runtime
             if (serie.placeHolder || TooltipHelper.IsIgnoreFormatter(itemFormatter))
                 return;
 
-            var colorIndex = chart.GetLegendRealShowNameIndex(serieData.name);
+            if (colorIndex < 0)
+                colorIndex = serie.colorByData?dataIndex : chart.GetLegendRealShowNameIndex(serieData.name);
+
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
-
             var param = serie.context.param;
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;

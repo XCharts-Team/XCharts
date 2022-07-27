@@ -24,7 +24,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             {
                 var serie = chart.series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
@@ -84,7 +84,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     bool found = false;
                     for (int i = 0; i < serie.data.Count; i++)

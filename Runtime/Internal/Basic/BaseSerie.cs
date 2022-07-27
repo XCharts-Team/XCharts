@@ -10,7 +10,8 @@ namespace XCharts.Runtime
     {
         public virtual bool vertsDirty { get { return m_VertsDirty; } }
         public virtual bool componentDirty { get { return m_ComponentDirty; } }
-        public virtual bool useDataNameForColor { get { return false; } }
+        
+        public virtual SerieColorBy defaultColorBy { get { return SerieColorBy.Serie; } }
         public virtual bool titleJustForSerie { get { return false; } }
         public virtual bool useSortData { get { return false; } }
         public virtual bool multiDimensionLabel { get { return false; } }
@@ -26,6 +27,8 @@ namespace XCharts.Runtime
         [NonSerialized] public InteractData interact = new InteractData();
 
         public SerieHandler handler { get; set; }
+
+        
 
         public static void ClearVerticesDirty(ChildComponent component)
         {

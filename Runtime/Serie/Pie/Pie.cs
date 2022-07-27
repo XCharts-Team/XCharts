@@ -9,7 +9,7 @@ namespace XCharts.Runtime
     [SerieDataExtraField("m_Ignore", "m_Selected", "m_Radius")]
     public class Pie : Serie
     {
-        public override bool useDataNameForColor { get { return true; } }
+        public override SerieColorBy defaultColorBy { get { return SerieColorBy.Data; } }
         public override bool titleJustForSerie { get { return true; } }
 
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)

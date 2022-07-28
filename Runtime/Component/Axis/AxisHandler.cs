@@ -205,8 +205,8 @@ namespace XCharts
             if (axis.IsTime())
             {
                 var lastCount = axis.context.labelValueList.Count;
-                DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList, (int) axis.context.minValue,
-                    (int) axis.context.maxValue, axis.splitNumber);
+                axis.context.tickValue = DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList,
+                    (int) axis.context.minValue, (int) axis.context.maxValue, axis.splitNumber);
 
                 if (axis.context.labelValueList.Count != lastCount)
                     axis.SetAllDirty();
@@ -565,13 +565,15 @@ namespace XCharts
                 var tickWidth = axis.axisTick.GetWidth(theme.tickWidth);
                 var tickColor = axis.axisTick.GetColor(theme.tickColor);
                 var current = orient == Orient.Horizonal ? startX : startY;
-                var lastTickX = 0f;
-                var lastTickY = 0f;
+                var maxAxisXY = current + axisLength;
+                var lastTickX = current;
+                var lastTickY = current;
                 var minorTickSplitNumber = axis.minorTick.splitNumber <= 0 ? 5 : axis.minorTick.splitNumber;
                 var minorTickDistance = axis.GetValueLength(axis.context.tickValue / minorTickSplitNumber, axisLength);
                 var minorTickColor = axis.minorTick.GetColor(theme.tickColor);
                 var minorTickWidth = axis.minorTick.GetWidth(theme.tickWidth);
                 var minorTickLength = axis.minorTick.GetLength(theme.tickLength * 0.6f);
+                var minorStartIndex = axis.IsTime() ? 0 : 1;
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
@@ -606,9 +608,9 @@ namespace XCharts
                             }
                             if (!hideTick)
                                 UGL.DrawLine(vh, new Vector3(pX, sY), new Vector3(pX, eY), tickWidth, tickColor);
-                            if (axis.minorTick.show && i > 0 && minorTickDistance > 0)
+                            if (axis.minorTick.show && i >= minorStartIndex && minorTickDistance > 0)
                             {
-                                if (lastTickX <= axis.context.zeroX || (i == 1 && pX > axis.context.zeroX))
+                                if (lastTickX <= axis.context.zeroX || (i == minorStartIndex && pX > axis.context.zeroX))
                                 {
                                     var tickTotal = pX - minorTickDistance;
                                     while (tickTotal > lastTickX)
@@ -621,6 +623,15 @@ namespace XCharts
                                 {
                                     var tickTotal = lastTickX + minorTickDistance;
                                     while (tickTotal < pX)
+                                    {
+                                        UGL.DrawLine(vh, new Vector3(tickTotal, sY), new Vector3(tickTotal, mY), minorTickWidth, minorTickColor);
+                                        tickTotal += minorTickDistance;
+                                    }
+                                }
+                                if (i == size - 1)
+                                {
+                                    var tickTotal = pX + minorTickDistance;
+                                    while (tickTotal < maxAxisXY)
                                     {
                                         UGL.DrawLine(vh, new Vector3(tickTotal, sY), new Vector3(tickTotal, mY), minorTickWidth, minorTickColor);
                                         tickTotal += minorTickDistance;
@@ -656,9 +667,9 @@ namespace XCharts
                             }
                             if (!hideTick)
                                 UGL.DrawLine(vh, new Vector3(sX, pY), new Vector3(eX, pY), tickWidth, tickColor);
-                            if (axis.minorTick.show && i > 0 && minorTickDistance > 0)
+                            if (axis.minorTick.show && i >= minorStartIndex && minorTickDistance > 0)
                             {
-                                if (lastTickY <= axis.context.zeroY || (i == 1 && pY > axis.context.zeroY))
+                                if (lastTickY <= axis.context.zeroY || (i == minorStartIndex && pY > axis.context.zeroY))
                                 {
                                     var tickTotal = pY - minorTickDistance;
                                     while (tickTotal > lastTickY)
@@ -674,6 +685,15 @@ namespace XCharts
                                     while (tickTotal < pY)
                                     {
 
+                                        UGL.DrawLine(vh, new Vector3(sX, tickTotal), new Vector3(mX, tickTotal), minorTickWidth, minorTickColor);
+                                        tickTotal += minorTickDistance;
+                                    }
+                                }
+                                if (i == size - 1)
+                                {
+                                    var tickTotal = pY + minorTickDistance;
+                                    while (tickTotal < maxAxisXY)
+                                    {
                                         UGL.DrawLine(vh, new Vector3(sX, tickTotal), new Vector3(mX, tickTotal), minorTickWidth, minorTickColor);
                                         tickTotal += minorTickDistance;
                                     }
@@ -751,10 +771,8 @@ namespace XCharts
                     size += 1;
             }
 
-            var current = orient == Orient.Horizonal ?
-                startX :
-                startY;
-
+            var current = orient == Orient.Horizonal ? startX : startY;
+            var maxAxisXY = current + axisLength;
             var lastSplitX = 0f;
             var lastSplitY = 0f;
             var minorTickSplitNumber = axis.minorTick.splitNumber <= 0 ? 5 : axis.minorTick.splitNumber;
@@ -762,6 +780,7 @@ namespace XCharts
             var minorSplitLineColor = axis.minorSplitLine.GetColor(theme.minorSplitLineColor);
             var minorLineWidth = axis.minorSplitLine.GetWidth(theme.lineWidth);
             var minorLineType = axis.minorSplitLine.GetType(theme.splitLineType);
+            var minorStartIndex = axis.IsTime() ? 0 : 1;
             for (int i = 0; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, axis.IsTime() ? i : i + 1, dataZoom);
@@ -789,7 +808,6 @@ namespace XCharts
                             new Vector2(startX, current + scaleWidth),
                             axis.splitArea.GetColor(i, theme));
                     }
-
                 }
                 if (axis.splitLine.show)
                 {
@@ -806,9 +824,9 @@ namespace XCharts
                                     new Vector3(current, startY + splitLength),
                                     lineColor);
                             }
-                            if (axis.minorSplitLine.show && i > 0 && minorTickDistance > 0)
+                            if (axis.minorSplitLine.show && i >= minorStartIndex && minorTickDistance > 0)
                             {
-                                if (lastSplitX <= axis.context.zeroX || (i == 1 && current > axis.context.zeroX))
+                                if (lastSplitX <= axis.context.zeroX || (i == minorStartIndex && current > axis.context.zeroX))
                                 {
                                     var tickTotal = current - minorTickDistance;
                                     var count = 0;
@@ -840,6 +858,22 @@ namespace XCharts
                                         tickTotal += minorTickDistance;
                                     }
                                 }
+                                if (i == size - 1)
+                                {
+                                    var tickTotal = current + minorTickDistance;
+                                    var count = 0;
+                                    while (tickTotal < maxAxisXY && count < minorTickSplitNumber - 1)
+                                    {
+                                        ChartDrawer.DrawLineStyle(vh,
+                                            minorLineType,
+                                            minorLineWidth,
+                                            new Vector3(tickTotal, startY),
+                                            new Vector3(tickTotal, startY + splitLength),
+                                            minorSplitLineColor);
+                                        count++;
+                                        tickTotal += minorTickDistance;
+                                    }
+                                }
                             }
                             lastSplitX = current;
                         }
@@ -854,9 +888,9 @@ namespace XCharts
                                     new Vector3(startX + splitLength, current),
                                     lineColor);
                             }
-                            if (axis.minorSplitLine.show && i > 0 && minorTickDistance > 0)
+                            if (axis.minorSplitLine.show && i >= minorStartIndex && minorTickDistance > 0)
                             {
-                                if (lastSplitY <= axis.context.zeroY || (i == 1 && current > axis.context.zeroY))
+                                if (lastSplitY <= axis.context.zeroY || (i == minorStartIndex && current > axis.context.zeroY))
                                 {
                                     var tickTotal = current - minorTickDistance;
                                     var count = 0;
@@ -877,6 +911,22 @@ namespace XCharts
                                     var tickTotal = lastSplitY + minorTickDistance;
                                     var count = 0;
                                     while (tickTotal < current && count < minorTickSplitNumber - 1)
+                                    {
+                                        ChartDrawer.DrawLineStyle(vh,
+                                            minorLineType,
+                                            minorLineWidth,
+                                            new Vector3(startX, tickTotal),
+                                            new Vector3(startX + splitLength, tickTotal),
+                                            minorSplitLineColor);
+                                        count++;
+                                        tickTotal += minorTickDistance;
+                                    }
+                                }
+                                if (i == size - 1)
+                                {
+                                    var tickTotal = current + minorTickDistance;
+                                    var count = 0;
+                                    while (tickTotal < maxAxisXY && count < minorTickSplitNumber - 1)
                                     {
                                         ChartDrawer.DrawLineStyle(vh,
                                             minorLineType,

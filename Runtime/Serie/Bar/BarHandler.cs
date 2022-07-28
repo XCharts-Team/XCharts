@@ -103,13 +103,13 @@ namespace XCharts.Runtime
                         serie.context.pointerItemDataIndex = serieData.index;
                         serie.context.pointerEnter = true;
                         serieData.context.highlight = true;
-                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Emphasis);
                     }
                     else
                     {
                         serieData.context.highlight = false;
-                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, SerieState.Normal);
                     }
+                    var state = SerieHelper.GetSerieState(serie, serieData, true);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, state);
                     serieData.interact.SetColor(ref needInteract, color, toColor);
                 }
             }

@@ -244,7 +244,7 @@ namespace XCharts.Runtime
 
         public static SerieState GetSerieState(Serie serie)
         {
-            if (serie.highlight || serie.context.pointerEnter) return SerieState.Emphasis;
+            if (serie.highlight) return SerieState.Emphasis;
             return serie.state;
         }
 

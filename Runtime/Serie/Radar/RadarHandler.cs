@@ -155,6 +155,7 @@ namespace XCharts.Runtime
                     }
                     break;
                 case RadarType.Single:
+                    needInteract = false;
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
@@ -162,10 +163,14 @@ namespace XCharts.Runtime
                         var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
                         if (Vector3.Distance(chart.pointerPos, serieData.context.position) < size * 2)
                         {
-                            serie.highlight = true;
                             serie.context.pointerEnter = true;
                             serie.context.pointerItemDataIndex = i;
-                            break;
+                            serieData.context.highlight = true;
+                            needInteract = true;
+                        }
+                        else
+                        {
+                            serieData.context.highlight = false;
                         }
                     }
                     if (!serie.context.pointerEnter && areaStyle != null)
@@ -178,10 +183,10 @@ namespace XCharts.Runtime
                             var p2 = n >= dataPoints.Count - 1 ? dataPoints[0] : dataPoints[n + 1];
                             if (UGLHelper.IsPointInTriangle(p1.context.position, center, p2.context.position, chart.pointerPos))
                             {
-                                serie.highlight = true;
                                 serie.context.pointerEnter = true;
                                 serie.context.pointerItemDataIndex = n;
                                 p1.context.highlight = true;
+                                needInteract = true;
                                 break;
                             }
                         }

@@ -1940,5 +1940,25 @@ namespace XUGL
                 angle += smoothness;
             }
         }
+
+        /// <summary>
+        /// 填充任意多边形（目前只支持凸多边形）
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="points"></param>
+        /// <param name="color"></param>
+        public static void DrawPolygon(VertexHelper vh, List<Vector3> points, Color32 color)
+        {
+            if (points.Count < 3 || UGLHelper.IsClearColor(color)) return;
+            var cv = vh.currentVertCount;
+            foreach (var pos in points)
+            {
+                vh.AddVert(pos, color, Vector2.zero);
+            }
+            for (int i = 2; i < points.Count; i++)
+            {
+                vh.AddTriangle(cv, cv + i - 1, cv + i);
+            }
+        }
     }
 }

@@ -85,6 +85,7 @@ namespace XCharts.Runtime
                     {
                         serie.context.pointerEnter = true;
                         serie.context.pointerItemDataIndex = i;
+                        needInteract = true;
                     }
                 }
             }

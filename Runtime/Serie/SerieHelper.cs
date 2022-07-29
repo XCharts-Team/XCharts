@@ -282,7 +282,7 @@ namespace XCharts.Runtime
         public static void GetItemColor(out Color32 color, out Color32 toColor,
             Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
         {
-            var colorIndex = serie.colorByData? serieData.index : serie.context.colorIndex;
+            var colorIndex = serieData != null && serie.colorByData? serieData.index : serie.context.colorIndex;
             GetItemColor(out color, out toColor, serie, serieData, theme, colorIndex, state, true);
         }
 

@@ -440,15 +440,29 @@ namespace XCharts.Runtime
         public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
-            var stateStyle = GetStateStyle(serie, serieData, state);
-            return stateStyle == null?serie.label : stateStyle.label;
+            if (state == SerieState.Normal)
+            {
+                return serieData != null && serieData.labelStyle != null? serieData.labelStyle : serie.label;
+            }
+            else
+            {
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.label : stateStyle.label;
+            }
         }
 
         public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
-            var stateStyle = GetStateStyle(serie, serieData, state);
-            return stateStyle == null?serie.labelLine : stateStyle.labelLine;
+            if (state == SerieState.Normal)
+            {
+                return serieData != null && serieData.labelLine != null? serieData.labelLine : serie.labelLine;
+            }
+            else
+            {
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.labelLine : stateStyle.labelLine;
+            }
         }
 
         public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)

@@ -355,7 +355,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
 | `GetPosition()` |public static Vector3 GetPosition(Vector3 center, float angle, float radius)</br> |
-| `GetSelectColor()` |public static Color32 GetSelectColor(Color32 color, float rate = 0.7f)</br> |
+| `GetSelectColor()` |public static Color32 GetSelectColor(Color32 color, float rate = 0.8f)</br> |
 | `GetVertialDire()` |public static Vector3 GetVertialDire(Vector3 dire)</br> |
 | `HideAllObject()` |public static void HideAllObject(GameObject obj, string match = null)</br> |
 | `HideAllObject()` |public static void HideAllObject(Transform parent, string match = null)</br> |
@@ -852,12 +852,11 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetSerieLabel()` |public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
 | `GetSerieLabelLine()` |public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
 | `GetSerieState()` |public static SerieState GetSerieState(Serie serie)</br> |
-| `GetSerieState()` |public static SerieState GetSerieState(Serie serie, SerieData serieData)</br> |
-| `GetSerieSymbol()` |public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(Serie serie, SerieData serieData, bool defaultSerieState = false)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(SerieData serieData)</br> |
+| `GetSerieSymbol()` |public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
 | `GetStateStyle()` |public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)</br> |
-| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)</br> |
-| `GetSymbolBorderColor()` |public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)</br> |
-| `GetSymbolCornerRadius()` |public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetSysmbolSize()` |public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)</br> |
 | `GetTitleStyle()` |public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)</br> |
 | `IsAllZeroValue()` |public static bool IsAllZeroValue(Serie serie, int dimension = 1)</br>Whether the data for the specified dimension of serie are all 0. |
 | `IsDownPoint()` |public static bool IsDownPoint(Serie serie, int index)</br> |
@@ -986,6 +985,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth, bool closepath = false)</br> |
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)</br>Draw a line. 画直线 |
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)</br>Draw a line. 画直线 |
+| `DrawPolygon()` |public static void DrawPolygon(VertexHelper vh, List<Vector3> points, Color32 color)</br>填充任意多边形（目前只支持凸多边形） |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color)</br> |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color, Color32 toColor)</br> |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, float border, Color32 color)</br> |

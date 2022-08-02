@@ -596,7 +596,7 @@ Configurations of emphasis state.
 
 |field|default|since|comment|
 |--|--|--|--|
-|`scale`|1.1f||Whether to scale to highlight the data in emphasis state. 高亮时的缩放倍数。
+|`scale`|1.1f||Whether to scale to highlight the data in emphasis state.
 |`focus`|||When the data is highlighted, whether to fade out of other data to focus the highlighted.</br>`EmphasisStyle.FocusType`:</br>- `None`: Do not fade out other data, it's by default.</br>- `Self`: Only focus (not fade out) the element of the currently highlighted data.</br>- `Series`: Focus on all elements of the series which the currently highlighted data belongs to.</br>|
 |`blurScope`|||The range of fade out when focus is enabled.</br>`EmphasisStyle.BlurScope`:</br>- `GridCoord`: coordinate system.</br>- `Series`: series.</br>- `Global`: global.</br>|
 
@@ -1071,6 +1071,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |`serieType`|||the type of serie.
 |`serieName`|||Series name used for displaying in tooltip and filtering with legend.
 |`state`||v3.2.0|The default state of a serie.</br>`SerieState`:</br>- `Normal`: Normal state.</br>- `Emphasis`: Emphasis state.</br>- `Blur`: Blur state.</br>- `Select`: Select state.</br>- `Auto`: Auto state.</br>|
+|`colorBy`||v3.2.0|The policy to take color from theme.</br>`SerieColorBy`:</br>- `Default`: Select state.</br>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.</br>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..</br>|
 |`stack`|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |`xAxisIndex`|0||the index of XAxis.
 |`yAxisIndex`|0||the index of YAxis.
@@ -1160,12 +1161,9 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |field|default|since|comment|
 |--|--|--|--|
 |`sizeType`|||the type of symbol size.</br>`SymbolSizeType`:</br>- `Custom`: Specify constant for symbol size.</br>- `FromData`: Specify the dataIndex and dataScale to calculate symbol size.</br>- `Function`: Specify function for symbol size.</br>|
-|`selectedSize`|0f||the size of selected symbol.
 |`dataIndex`|1||whitch data index is when the sizeType assined as FromData.
 |`dataScale`|1||the scale of data when sizeType assined as FromData.
-|`selectedDataScale`|1.5f||the scale of selected data when sizeType assined as FromData.
 |`sizeFunction`|||the function of size when sizeType assined as Function.
-|`selectedSizeFunction`|||the function of size when sizeType assined as Function.
 |`startIndex`|||the index start to show symbol.
 |`interval`|||the interval of show symbol.
 |`forceShowLast`|false||whether to show the last symbol.
@@ -1273,6 +1271,7 @@ the state style of serie.
 |`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
 |`lineStyle`|||折线样式。 [LineStyle](#LineStyle)|
 |`areaStyle`|||区域样式。 [AreaStyle](#AreaStyle)|
+|`symbol`|||标记样式。 [SerieSymbol](#SerieSymbol)|
 
 ## `SubTitleTheme`
 

@@ -596,7 +596,7 @@ Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISeri
 
 |field|default|since|comment|
 |--|--|--|--|
-|`scale`|1.1f||Whether to scale to highlight the data in emphasis state. 高亮时的缩放倍数。
+|`scale`|1.1f||高亮时的缩放倍数。
 |`focus`|||在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。</br>`EmphasisStyle.FocusType`:</br>- `None`: 不淡出其它图形，默认使用该配置。</br>- `Self`: 只聚焦（不淡出）当前高亮的数据的图形。</br>- `Series`: 聚焦当前高亮的数据所在的系列的所有图形。</br>|
 |`blurScope`|||在开启focus的时候，可以通过blurScope配置淡出的范围。</br>`EmphasisStyle.BlurScope`:</br>- `GridCoord`: 淡出范围为坐标系，默认使用该配置。</br>- `Series`: 淡出范围为系列。</br>- `Global`: 淡出范围为全局。</br>|
 
@@ -1071,6 +1071,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |`serieType`|||系列类型。
 |`serieName`|||系列名称，用于 tooltip 的显示，legend 的图例筛选。
 |`state`||v3.2.0|系列的默认状态。</br>`SerieState`:</br>- `Normal`: 正常状态。</br>- `Emphasis`: 高亮状态。</br>- `Blur`: 淡出状态。</br>- `Select`: 选中状态。</br>- `Auto`: 自动保持和父节点一致。一般用在SerieData。</br>|
+|`colorBy`||v3.2.0|从主题中取色的策略。</br>`SerieColorBy`:</br>- `Default`: 默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略</br>- `Serie`: 按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。</br>- `Data`: 按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。</br>|
 |`stack`|||数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
 |`xAxisIndex`|0||使用X轴的index。
 |`yAxisIndex`|0||使用Y轴的index。
@@ -1160,12 +1161,9 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |field|default|since|comment|
 |--|--|--|--|
 |`sizeType`|||标记图形的大小获取方式。</br>`SymbolSizeType`:</br>- `Custom`: 自定义大小。</br>- `FromData`: 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。</br>- `Function`: 通过委托函数获取。</br>|
-|`selectedSize`|0f||被选中的标记的大小。
 |`dataIndex`|1||当sizeType指定为FromData时，指定的数据源索引。
 |`dataScale`|1||当sizeType指定为FromData时，指定的倍数系数。
-|`selectedDataScale`|1.5f||当sizeType指定为FromData时，指定的高亮倍数系数。
 |`sizeFunction`|||当sizeType指定为Function时，指定的委托函数。
-|`selectedSizeFunction`|||当sizeType指定为Function时，指定的高亮委托函数。
 |`startIndex`|||开始显示图形标记的索引。
 |`interval`|||显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
 |`forceShowLast`|false||是否强制显示最后一个图形标记。
@@ -1273,6 +1271,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
 |`lineStyle`|||折线样式。 [LineStyle](#LineStyle)|
 |`areaStyle`|||区域样式。 [AreaStyle](#AreaStyle)|
+|`symbol`|||标记样式。 [SerieSymbol](#SerieSymbol)|
 
 ## `SubTitleTheme`
 

@@ -57,6 +57,7 @@ namespace XCharts.Runtime
             m_LastCheckContextFlag = needCheck;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             var needInteract = false;
+            serie.ResetDataIndex();
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
@@ -112,7 +113,9 @@ namespace XCharts.Runtime
                     }
                 }
                 if (lastIndex != serie.context.pointerItemDataIndex)
+                {
                     needInteract = true;
+                }
             }
             if (needInteract)
             {

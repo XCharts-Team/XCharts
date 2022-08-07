@@ -72,6 +72,7 @@ namespace XCharts.Editor
             {
                 while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
                 while (listSize < m_Datas.arraySize) m_Datas.arraySize--;
+                serie.ResetDataIndex();
             }
             if (listSize > 30) // && !XCSettings.editorShowAllListData)
             {
@@ -114,7 +115,9 @@ namespace XCharts.Editor
                 m_DataElementFoldout[index] = false;
             }
             var fieldCount = dimension + (showName ? 1 : 0);
-            m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + index, flag, false, null,
+            var serieData = m_Datas.GetArrayElementAtIndex(index);
+            var dataIndex = serieData.FindPropertyRelative("m_Index").intValue;
+            m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + dataIndex, flag, false, null,
                 delegate(Rect drawRect)
                 {
                     //drawRect.width -= 2f;
@@ -124,7 +127,7 @@ namespace XCharts.Editor
                     var lastWid = drawRect.width;
                     var lastFieldWid = EditorGUIUtility.fieldWidth;
                     var lastLabelWid = EditorGUIUtility.labelWidth;
-                    var serieData = m_Datas.GetArrayElementAtIndex(index);
+                    //var serieData = m_Datas.GetArrayElementAtIndex(index);
                     var sereName = serieData.FindPropertyRelative("m_Name");
                     var data = serieData.FindPropertyRelative("m_Data");
 #if UNITY_2019_3_OR_NEWER
@@ -190,7 +193,7 @@ namespace XCharts.Editor
             EditorGUI.indentLevel++;
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             PropertyField(serieData.FindPropertyRelative("m_Name"));
-            PropertyField(serieData.FindPropertyRelative("m_State"));
+            //PropertyField(serieData.FindPropertyRelative("m_State"));
             if (serie.GetType().IsDefined(typeof(SerieDataExtraFieldAttribute), false))
             {
                 var attribute = serie.GetType().GetAttribute<SerieDataExtraFieldAttribute>();

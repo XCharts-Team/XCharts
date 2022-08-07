@@ -61,6 +61,18 @@ namespace XCharts.Runtime
             return true;
         }
 
+        /// <summary>
+        /// 重置serie的数据项索引。避免数据项索引异常。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        public bool ResetDataIndex(int serieIndex)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+                return serie.ResetDataIndex();
+            return false;
+        }
+
         public bool CanAddSerie<T>() where T : Serie
         {
             return CanAddSerie(typeof(T));

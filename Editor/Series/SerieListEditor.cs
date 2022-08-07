@@ -162,6 +162,13 @@ namespace XCharts.Editor
                     RefreshEditors();
                 }
             }));
+            editor.menus.Add(new HeaderMenuInfo("Reset Data Index", () =>
+            {
+                if (chart.ResetDataIndex(id))
+                {
+                    RefreshEditors();
+                }
+            }));
             foreach (var type in GetCovertToSerie(editor.serie.GetType()))
             {
                 editor.menus.Add(new HeaderMenuInfo("Covert to " + type.Name, () =>

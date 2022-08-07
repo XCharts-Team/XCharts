@@ -1160,6 +1160,23 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// 重置数据项索引。避免部分数据项的索引异常。
+        /// </summary>
+        public bool ResetDataIndex()
+        {
+            var flag = false;
+            for (int i = 0; i < m_Data.Count; i++)
+            {
+                if (m_Data[i].index != i)
+                {
+                    m_Data[i].index = i;
+                    flag = true;
+                }
+            }
+            return flag;
+        }
+
+        /// <summary>
         /// 清空所有数据
         /// </summary>
         public override void ClearData()

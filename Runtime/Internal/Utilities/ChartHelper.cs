@@ -209,6 +209,7 @@ namespace XCharts.Runtime
                 obj.transform.SetParent(parent);
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;
+                obj.layer = parent.gameObject.layer;
             }
             RectTransform rect = GetOrAddComponent<RectTransform>(obj);
             rect.localPosition = Vector3.zero;
@@ -237,6 +238,7 @@ namespace XCharts.Runtime
         {
             GameObject txtObj = AddObject(objectName, parent, anchorMin, anchorMax, pivot, sizeDelta);
             txtObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
+            txtObj.layer = parent.gameObject.layer;
             if (chartText == null)
                 chartText = new ChartText();
 #if dUI_TextMeshPro

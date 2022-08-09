@@ -62,6 +62,7 @@ namespace XCharts.Editor
             XCThemeMgr.CheckReloadTheme();
             var chart = new GameObject();
             chart.name = GetName(parent, chartName);
+            chart.layer = LayerMask.NameToLayer("UI");
             var t = chart.AddComponent<T>();
             chart.transform.SetParent(parent);
             chart.transform.localScale = Vector3.one;

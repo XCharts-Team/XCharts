@@ -57,6 +57,18 @@
 
 ## master
 
+### 版本要点
+
+* `Serie`支持高亮，淡出和选中三状态配置：`EmphasisStyle`,`BlurStyle`和`SelectStyle`
+* `Axis`支持坐标轴次刻度和次分割线：`MinorTick`和`MinorSplitLine`
+* `Serie`支持不同的取色策略：`colorBy`
+* `Radar`支持平滑曲线：`smooth`
+* `Line`支持当作凸多边形填充：`AreaStyle`的`innerFill`
+* `DataZoom`支持时间轴
+
+### 日志详情
+
+* (2022.08.10) 优化`Chart`的默认`layer`设置为`UI`
 * (2022.08.09) 优化`Axis`的`Time`时间轴的次分割线
 * (2022.08.09) 增加`AreaStyle`的`innerFill`参数支持填充凸多边形
 * (2022.08.08) 优化`Serie`的数据项索引维护，增加检测和修复功能，修复相关问题

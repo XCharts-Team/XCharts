@@ -218,7 +218,6 @@ namespace XCharts.Runtime
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
-                serieData.index = count;
                 serieData.labelObject = null;
                 if (AddSerieLabel(m_SerieLabelRoot, serieData, ref count))
                 {

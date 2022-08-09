@@ -57,9 +57,9 @@
 
 ## master
 
-* (2022.08.09) 修复`Serie`的数据项索引异常引起的其他问题
-* (2022.08.08) 优化`Serie`的数据项索引维护，增加检测和修复功能
-* (2022.07.29) 修复在某些`Unity`版本导入后图表创建异常的问题
+* (2022.08.09) 增加`AreaStyle`的`innerFill`参数支持填充凸多边形
+* (2022.08.08) 优化`Serie`的数据项索引维护，增加检测和修复功能，修复相关问题
+* (2022.07.29) 修复`Unity`版本兼容：在某些版本导入后图表创建异常的问题
 * (2022.07.29) 增加`Axis`为`Time`时间轴时，支持次刻度和次分割线
 * (2022.07.28) 优化`Radar`雷达图效果
 * (2022.07.28) 增加`Serie`的`colorBy`参数配置取色策略
@@ -69,7 +69,7 @@
 * (2022.07.22) 增加`Serie`的三种状态`EmphasisStyle`,`BlurStyle`,`SelectStyle`
 * (2022.07.22) 去掉`AreaStyle`的`highlightColor`和`highlightToColor`参数
 * (2022.07.22) 去掉`Emphasis`,`EmphasisItemStyle`,`EmphasisLabelStyle`,`EmphasisLabelLine`组件
-* (2022.07.20) 文档支持用`Since`标识类从哪个版本开始支持
+* (2022.07.20) 增加`Since`特性对类的支持
 * (2022.07.20) 修复`Axis`在`Value`轴时，`AxisLabel`的`showStartLabel`和`showEndLabel`参数设置不生效的问题
 * (2022.07.19) 增加`Axis`的`MinorSplitLine`设置坐标轴次分割线
 * (2022.07.19) 增加`Axis`的`MinorTick`设置坐标轴次刻度
@@ -107,7 +107,7 @@
 * (2022.06.25) 修复`DataZoom`开启时`Tooltip`显示数据不一致的问题 (#203)
 * (2022.06.25) 修复`Toolip`在类目轴无数据时绘制异常的问题 (#204)
 * (2022.06.25) 优化`Serie`设置`PlaceHolder`时的`Tooltip`表现
-* (2022.06.25) 增加`Since`标识配置参数从哪个版本开始支持
+* (2022.06.25) 增加`Since`特效用于标识配置参数从哪个版本开始支持
 * (2022.06.24) 优化`Painter`绘制层，`Top`层细分为`Upper`和`Top`层
 * (2022.06.24) 增加`Legend`对`Background`和`Padding`的支持
 * (2022.06.21) 增加`TextStyle`对`TextMeshPro`的`Sprite Asset`支持 (#201)

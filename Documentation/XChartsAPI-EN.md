@@ -255,6 +255,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RemoveSerie()` |public void RemoveSerie(Serie serie)</br> |
 | `RemoveSerie()` |public void RemoveSerie(string serieName)</br> |
 | `ReplaceSerie()` |public bool ReplaceSerie(Serie oldSerie, Serie newSerie)</br> |
+| `ResetDataIndex()` |public bool ResetDataIndex(int serieIndex)</br>重置serie的数据项索引。避免数据项索引异常。 |
 | `SetBasePainterMaterial()` |public void SetBasePainterMaterial(Material material)</br>设置Base Painter的材质球 |
 | `SetMaxCache()` |public void SetMaxCache(int maxCache)</br>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 | `SetPainterActive()` |public void SetPainterActive(int index, bool flag)</br> |

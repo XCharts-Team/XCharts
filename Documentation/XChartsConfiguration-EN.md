@@ -215,6 +215,7 @@ The style of area.
 |`color`|||the color of area,default use serie color.
 |`toColor`|||Gradient color, start color to toColor.
 |`opacity`|0.6f||Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
+|`fill`|true|v3.2.0|Whether to fill only polygonal areas. Currently, only convex polygons are supported.
 
 ## `ArrowStyle`
 

@@ -37,6 +37,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;
+        [SerializeField][Since("v3.2.0")] private bool m_InnerFill;
 
         /// <summary>
         /// Set this to false to prevent the areafrom showing.
@@ -82,6 +83,15 @@ namespace XCharts.Runtime
         {
             get { return m_Opacity; }
             set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to fill only polygonal areas. Currently, only convex polygons are supported.
+        /// |是否只填充多边形区域。目前只支持凸多边形。
+        /// </summary>
+        public bool innerFill
+        {
+            get { return m_InnerFill; }
+            set { if (PropertyUtil.SetStruct(ref m_InnerFill, value)) SetVerticesDirty(); }
         }
 
         public Color32 GetColor()

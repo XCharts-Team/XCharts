@@ -24,9 +24,15 @@ namespace XCharts.Runtime
         public static void DrawSerieLineArea(VertexHelper vh, Serie serie, Serie lastStackSerie,
             ThemeStyle theme, VisualMap visualMap, bool isY, Axis axis, Axis relativedAxis, GridCoord grid)
         {
-            Color32 srcAreaColor, srcAreaToColor;
-            if (!SerieHelper.GetAreaColor(out srcAreaColor, out srcAreaToColor, serie, null, theme, serie.context.colorIndex))
+            Color32 areaColor, areaToColor;
+            bool innerFill;
+            if (!SerieHelper.GetAreaColor(out areaColor, out areaToColor, out innerFill, serie, null, theme, serie.context.colorIndex))
             {
+                return;
+            }
+            if (innerFill)
+            {
+                UGL.DrawPolygon(vh, serie.context.dataPoints, areaColor);
                 return;
             }
             var gridXY = (isY ? grid.context.x : grid.context.y);
@@ -36,8 +42,8 @@ namespace XCharts.Runtime
                     gridXY + relativedAxis.context.offset,
                     gridXY,
                     gridXY + (isY ? grid.context.width : grid.context.height),
-                    srcAreaColor,
-                    srcAreaToColor,
+                    areaColor,
+                    areaToColor,
                     visualMap,
                     axis,
                     relativedAxis,
@@ -49,8 +55,8 @@ namespace XCharts.Runtime
                     gridXY + relativedAxis.context.offset,
                     gridXY,
                     gridXY + (isY ? grid.context.width : grid.context.height),
-                    srcAreaColor,
-                    srcAreaToColor,
+                    areaColor,
+                    areaToColor,
                     visualMap);
             }
         }

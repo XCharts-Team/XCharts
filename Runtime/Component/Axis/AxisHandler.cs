@@ -562,6 +562,12 @@ namespace XCharts
             if (AxisHelper.NeedShowSplit(axis))
             {
                 var size = AxisHelper.GetScaleNumber(axis, axisLength, dataZoom);
+                if (axis.IsTime())
+                {
+                    size += 1;
+                    if (!ChartHelper.IsEquals(axis.GetLastLabelValue(), axis.context.maxValue))
+                        size += 1;
+                }
                 var tickWidth = axis.axisTick.GetWidth(theme.tickWidth);
                 var tickColor = axis.axisTick.GetColor(theme.tickColor);
                 var current = orient == Orient.Horizonal ? startX : startY;

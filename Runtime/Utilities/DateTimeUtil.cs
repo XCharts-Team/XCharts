@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -160,7 +161,7 @@ namespace XCharts.Runtime
 
         private static void AddTickTimestamp(List<double> list, int startTimestamp, int maxTimestamp, int tickSecond)
         {
-            while (startTimestamp < maxTimestamp)
+            while (startTimestamp <= maxTimestamp)
             {
                 list.Add(startTimestamp);
                 startTimestamp += tickSecond;

@@ -67,6 +67,7 @@ namespace XCharts.Editor
             chart.transform.SetParent(parent);
             chart.transform.localScale = Vector3.one;
             chart.transform.localPosition = Vector3.zero;
+            chart.transform.localRotation = Quaternion.Euler(0, 0, 0);
             var rect = chart.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);

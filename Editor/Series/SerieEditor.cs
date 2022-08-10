@@ -156,7 +156,7 @@ namespace XCharts.Editor
                         var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
                         var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                         var dataWid = dataWidTotal / fieldCount;
-                        var xWid = dataWid - 2;
+                        var xWid = dataWid - 0;
                         for (int i = 0; i < dimension; i++)
                         {
                             var dataCount = i < 1 ? 2 : i + 1;

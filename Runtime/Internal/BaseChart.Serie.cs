@@ -141,8 +141,15 @@ namespace XCharts.Runtime
             for (int i = m_Series.Count - 1; i >= 0; i--)
             {
                 var serie = m_Series[i];
-                if (string.IsNullOrEmpty(serie.serieName) && serie.serieName.Equals(serieName))
+                if (string.IsNullOrEmpty(serieName))
+                {
+                    if (string.IsNullOrEmpty(serie.serieName))
+                        RemoveSerie(serie);
+                }
+                else if (serieName.Equals(serie.serieName))
+                {
                     RemoveSerie(serie);
+                }
             }
         }
 

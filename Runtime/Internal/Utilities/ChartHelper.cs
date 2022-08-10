@@ -195,6 +195,7 @@ namespace XCharts.Runtime
                 SetActive(obj, true);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localScale = Vector3.one;
+                obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
             else if (replaceIndex >= 0 && replaceIndex < parent.childCount)
             {
@@ -209,6 +210,7 @@ namespace XCharts.Runtime
                 obj.transform.SetParent(parent);
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;
+                obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 obj.layer = parent.gameObject.layer;
             }
             RectTransform rect = GetOrAddComponent<RectTransform>(obj);

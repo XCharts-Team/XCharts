@@ -34,11 +34,11 @@ namespace XCharts.Runtime
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
+            string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
             UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
-                marker, itemFormatter, numericFormatter);
+                marker, itemFormatter, numericFormatter, ignoreDataDefaultContent);
         }
 
         public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)

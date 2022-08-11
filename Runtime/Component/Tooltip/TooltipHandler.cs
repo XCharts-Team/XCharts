@@ -374,7 +374,7 @@ namespace XCharts.Runtime
             tooltip.context.pointer = chart.pointerPos;
 
             serie.handler.UpdateTooltipSerieParams(serie.context.pointerItemDataIndex, false, null,
-                tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter, tooltip.ignoreDataDefaultContent,
                 ref tooltip.context.data.param,
                 ref tooltip.context.data.title);
             TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
@@ -423,6 +423,7 @@ namespace XCharts.Runtime
                     serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                    tooltip.ignoreDataDefaultContent,
                     ref tooltip.context.data.param,
                     ref tooltip.context.data.title);
             }

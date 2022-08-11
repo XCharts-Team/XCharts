@@ -33,7 +33,7 @@ namespace XCharts.Runtime
         public virtual void RefreshLabelInternal() { }
         public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory,
             string category, string marker,
-            string itemFormatter, string numericFormatter,
+            string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title) { }
         public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
         public virtual void OnLegendButtonEnter(int index, string legendName) { }
@@ -492,8 +492,9 @@ namespace XCharts.Runtime
 
         protected void UpdateCoordSerieParams(ref List<SerieParams> paramList, ref string title,
             int dataIndex, bool showCategory, string category, string marker,
-            string itemFormatter, string numericFormatter)
+            string itemFormatter, string numericFormatter, string ignoreDataDefaultContent)
         {
+            var dimension = 1;
             if (dataIndex < 0)
                 dataIndex = serie.context.pointerItemDataIndex;
 
@@ -502,6 +503,10 @@ namespace XCharts.Runtime
 
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
+                return;
+
+            var ignore = serie.IsIgnoreValue(serieData, dimension);
+            if (ignore && string.IsNullOrEmpty(ignoreDataDefaultContent))
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
@@ -512,10 +517,11 @@ namespace XCharts.Runtime
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
             param.category = category;
-            param.dimension = 1;
+            param.dimension = dimension;
             param.serieData = serieData;
             param.dataCount = serie.dataCount;
-            param.value = serieData.GetData(1);
+            param.value = serieData.GetData(dimension);
+            param.ignore = ignore;
             param.total = serie.yTotal;
             param.color = chart.GetItemColor(serie, serieData);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
@@ -525,14 +531,15 @@ namespace XCharts.Runtime
 
             param.columns.Add(param.marker);
             param.columns.Add(showCategory ? category : serie.serieName);
-            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+            param.columns.Add(ignore?ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
             paramList.Add(param);
         }
 
         protected void UpdateItemSerieParams(ref List<SerieParams> paramList, ref string title,
             int dataIndex, string category, string marker,
-            string itemFormatter, string numericFormatter, int dimension = 1, int colorIndex = -1)
+            string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
+            int dimension = 1, int colorIndex = -1)
         {
             if (dataIndex < 0)
                 dataIndex = serie.context.pointerItemDataIndex;
@@ -542,6 +549,10 @@ namespace XCharts.Runtime
 
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
+                return;
+
+            var ignore = serie.IsIgnoreValue(serieData, dimension);
+            if (ignore && string.IsNullOrEmpty(ignoreDataDefaultContent))
                 return;
 
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
@@ -556,11 +567,13 @@ namespace XCharts.Runtime
             var param = serie.context.param;
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
+
             param.category = category;
             param.dimension = dimension;
             param.serieData = serieData;
             param.dataCount = serie.dataCount;
             param.value = serieData.GetData(param.dimension);
+            param.ignore = ignore;
             param.total = SerieHelper.GetMaxData(serie, dimension);
             param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
@@ -570,7 +583,8 @@ namespace XCharts.Runtime
 
             param.columns.Add(param.marker);
             param.columns.Add(serieData.name);
-            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+            param.columns.Add(ignore?ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
             paramList.Add(param);
         }

@@ -215,7 +215,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |`color`|||区域填充的颜色，如果toColor不是默认值，则表示渐变色的起点颜色。
 |`toColor`|||渐变色的终点颜色。
 |`opacity`|0.6f||图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
-|`fill`|true|v3.2.0|是否只填充多边形区域。目前只支持凸多边形。
+|`innerFill`||v3.2.0|是否只填充多边形区域。目前只支持凸多边形。
 
 ## `ArrowStyle`
 
@@ -1433,7 +1433,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`paddingLeftRight`|10||左右边距。
 |`paddingTopBottom`|10||上下边距。
 |`ignoreDataShow`|false||是否显示忽略数据在tooltip上。
-|`ignoreDataDefaultContent`|||被忽略数据的默认显示字符信息。
+|`ignoreDataDefaultContent`|||被忽略数据的默认显示字符信息。如果设置为空，则表示完全不显示忽略数据。
 |`showContent`|true||是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
 |`alwayShowContent`|false||是否触发后一直显示提示框浮层。
 |`offset`|Vector2(18f, -25f)||提示框相对于鼠标位置的偏移。

@@ -30,7 +30,7 @@ namespace XCharts.Runtime
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
+            string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
             if (!serie.context.pointerEnter)
@@ -43,7 +43,7 @@ namespace XCharts.Runtime
             {
                 var colorIndex1 = serie.colorByData ? dataIndex : serie.context.colorIndex;
                 UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
-                    marker, itemFormatter, numericFormatter, 1, colorIndex1);
+                    marker, itemFormatter, numericFormatter, ignoreDataDefaultContent, 1, colorIndex1);
                 return;
             }
 

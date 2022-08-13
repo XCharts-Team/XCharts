@@ -96,6 +96,10 @@ namespace XCharts.Runtime
         /// </summary>
         public List<bool> dataIgnores = new List<bool>();
         /// <summary>
+        /// 数据对应的index索引。dataIndexs 和 dataPoints 一一对应。
+        /// </summary>
+        public List<int> dataIndexs = new List<int>();
+        /// <summary>
         /// 排序后的数据
         /// </summary>
         public List<SerieData> sortedData = new List<SerieData>();

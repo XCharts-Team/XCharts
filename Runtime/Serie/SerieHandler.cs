@@ -368,10 +368,18 @@ namespace XCharts.Runtime
                 return;
 
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var needCheck = serie.context.dataIndexs.Count > 0;
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
+                {
                     continue;
+                }
+                if (needCheck && !serie.context.dataIndexs.Contains(serieData.index))
+                {
+                    serieData.SetLabelActive(false);
+                    continue;
+                };
                 var currLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 if (serie.show &&
@@ -429,10 +437,6 @@ namespace XCharts.Runtime
                 else
                 {
                     serieData.SetLabelActive(false);
-                    foreach (var labelObject in serieData.context.dataLabels)
-                    {
-                        labelObject.SetActive(false);
-                    }
                 }
             }
         }

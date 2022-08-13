@@ -109,13 +109,16 @@ namespace XCharts.Runtime
                     {
                         serie.context.pointerEnter = true;
                         serie.context.pointerItemDataIndex = serieData.index;
-                        serie.interact.SetValue(ref needInteract, lineWidth, true);
                     }
                 }
                 if (lastIndex != serie.context.pointerItemDataIndex)
                 {
                     needInteract = true;
                 }
+                if (serie.context.pointerItemDataIndex >= 0)
+                    serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                else
+                    serie.interact.SetValue(ref needInteract, lineWidth);
             }
             if (needInteract)
             {
@@ -148,7 +151,8 @@ namespace XCharts.Runtime
 
             for (int i = 0; i < count; i++)
             {
-                var serieData = serie.GetSerieData(i);
+                var index = serie.context.dataIndexs[i];
+                var serieData = serie.GetSerieData(index);
                 if (serieData == null)
                     continue;
                 if (serieData.context.isClip)
@@ -156,7 +160,7 @@ namespace XCharts.Runtime
                 var state = SerieHelper.GetSerieState(serie, serieData, true);
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData, state);
 
-                if (!symbol.show || !symbol.ShowSymbol(i, count))
+                if (!symbol.show || !symbol.ShowSymbol(index, count))
                     continue;
 
                 var pos = serie.context.dataPoints[i];
@@ -178,7 +182,6 @@ namespace XCharts.Runtime
                     serieData.interact.SetValue(ref interacting, symbolSize);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                 }
-
                 float symbolBorder = 0f;
                 float[] cornerRadius = null;
                 Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
@@ -335,6 +338,7 @@ namespace XCharts.Runtime
                     serie.context.dataIgnores.Add(false);
                     serieData.context.position = np;
                     serie.context.dataPoints.Add(np);
+                    serie.context.dataIndexs.Add(serieData.index);
                     lp = np;
                 }
             }

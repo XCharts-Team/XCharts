@@ -176,10 +176,10 @@ namespace XCharts.Runtime
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
-                serieData.index = i;
                 if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
+                    serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
 
@@ -228,9 +228,14 @@ namespace XCharts.Runtime
                     Rect.MinMaxRect(plb.x, m_SerieGrid.context.y, prb.x, m_SerieGrid.context.y + relativedAxisLength);
 
                 if (!serie.clip || (serie.clip && m_SerieGrid.Contains(top)))
+                {
                     serie.context.dataPoints.Add(top);
+                    serie.context.dataIndexs.Add(serieData.index);
+                }
                 else
+                {
                     continue;
+                }
 
                 if (serie.show && currHig != 0 && !serie.placeHolder)
                 {

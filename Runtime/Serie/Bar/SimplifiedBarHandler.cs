@@ -152,6 +152,7 @@ namespace XCharts.Runtime
                 if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
+                    serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
 
@@ -184,6 +185,7 @@ namespace XCharts.Runtime
                 serieData.context.position = top;
                 serieData.context.rect = Rect.MinMaxRect(plb.x, plb.y, prb.x, prt.y);
                 serie.context.dataPoints.Add(top);
+                serie.context.dataIndexs.Add(serieData.index);
                 DrawNormalBar(vh, serie, serieData, itemStyle, colorIndex, highlight, gap, barWidth,
                     pX, pY, plb, plt, prt, prb, false, m_SerieGrid, areaColor, areaToColor);
 

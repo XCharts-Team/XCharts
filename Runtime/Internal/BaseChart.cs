@@ -575,6 +575,7 @@ namespace XCharts.Runtime
                 var serie = m_Series[i];
                 serie.context.colorIndex = GetLegendRealShowNameIndex(serie.legendName);
                 serie.context.dataPoints.Clear();
+                serie.context.dataIndexs.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
                 if (!serie.context.pointerEnter)

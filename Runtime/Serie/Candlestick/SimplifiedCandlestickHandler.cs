@@ -113,6 +113,7 @@ namespace XCharts.Runtime
                 if (serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
+                    serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
                 var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
@@ -154,6 +155,7 @@ namespace XCharts.Runtime
                 //     top = chart.ClampInGrid(grid, top);
                 // }
                 serie.context.dataPoints.Add(top);
+                serie.context.dataIndexs.Add(serieData.index);
                 var areaColor = isRise ?
                     itemStyle.GetColor(theme.serie.candlestickColor) :
                     itemStyle.GetColor0(theme.serie.candlestickColor0);

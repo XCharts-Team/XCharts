@@ -195,7 +195,6 @@ namespace XCharts.Runtime
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
-                serieData.index = n;
                 var value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
                 serieData.context.startAngle = startDegree;
                 serieData.context.toAngle = startDegree;

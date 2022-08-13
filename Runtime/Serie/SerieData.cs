@@ -549,6 +549,10 @@ namespace XCharts.Runtime
         public void SetLabelActive(bool flag)
         {
             if (labelObject != null) labelObject.SetActive(flag);
+            foreach (var labelObject in context.dataLabels)
+            {
+                labelObject.SetActive(false);
+            }
         }
         public void SetIconActive(bool flag)
         {

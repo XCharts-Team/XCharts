@@ -208,6 +208,7 @@ namespace XCharts.Runtime
                     serieData.context.position = np;
 
                     serie.context.dataPoints.Add(np);
+                    serie.context.dataIndexs.Add(serieData.index);
                     serie.context.dataIgnores.Add(false);
                 }
             }

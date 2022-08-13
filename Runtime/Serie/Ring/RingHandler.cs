@@ -152,7 +152,6 @@ namespace XCharts.Runtime
             for (int j = 0; j < data.Count; j++)
             {
                 var serieData = data[j];
-                serieData.index = j;
                 if (!serieData.show) continue;
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var value = serieData.GetFirstData(dataChangeDuration);
@@ -303,7 +302,6 @@ namespace XCharts.Runtime
             for (int i = 0; i < serie.data.Count; i++)
             {
                 var serieData = serie.data[i];
-                serieData.index = i;
                 if (dist >= serieData.context.insideRadius &&
                     dist <= serieData.context.outsideRadius &&
                     angle >= serieData.context.startAngle &&

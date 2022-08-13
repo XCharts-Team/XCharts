@@ -172,6 +172,7 @@ namespace XCharts.Runtime
                     continue;
 
                 serie.context.dataPoints.Add(pos);
+                serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = pos;
                 var datas = serieData.data;
                 var symbolSize = 0f;
@@ -276,6 +277,7 @@ namespace XCharts.Runtime
                     pos = new Vector3(axis.context.x + xDataHig, axis.context.y + yDataHig);
                 }
                 serie.context.dataPoints.Add(pos);
+                serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = pos;
 
                 var datas = serieData.data;

@@ -110,7 +110,6 @@ namespace XCharts.Runtime
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        serieData.index = i;
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                         var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                         if (needHideAll || m_LegendEnter)
@@ -159,7 +158,6 @@ namespace XCharts.Runtime
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        serieData.index = i;
                         var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
                         if (Vector3.Distance(chart.pointerPos, serieData.context.position) < size * 2)
                         {
@@ -351,7 +349,6 @@ namespace XCharts.Runtime
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = m_RadarCoord.context.center;
             serie.animation.InitProgress(0, 1);
-            serie.context.dataPoints.Clear();
             if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;
@@ -371,7 +368,6 @@ namespace XCharts.Runtime
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
-                serieData.index = j;
                 string dataName = serieData.name;
 
                 if (!serieData.show)
@@ -430,6 +426,7 @@ namespace XCharts.Runtime
                     lastColor = lineColor;
                 }
                 serie.context.dataPoints.Add(startPoint);
+                serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = startPoint;
                 serieData.context.labelPosition = startPoint;
 

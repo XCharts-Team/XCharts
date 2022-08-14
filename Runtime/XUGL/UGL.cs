@@ -1823,7 +1823,7 @@ namespace XUGL
                 if (dire == Direction.YAxis)
                     UGLHelper.GetBezierListVertical(ref s_CurvesPosList, sp, ep, smoothness2, smoothStyle);
                 else
-                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2, smoothStyle);
+                    UGLHelper.GetBezierList(ref s_CurvesPosList, sp, ep, lsp, nep, smoothness2, smoothStyle, false, dire == Direction.Random);
 
                 DrawCurvesInternal(vh, s_CurvesPosList, width, color, dire, currProgress);
             }

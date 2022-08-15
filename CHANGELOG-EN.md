@@ -48,7 +48,8 @@
 
 ## v2.8.2
 
-* (2022.07.13) Release `v2.8.2` version
+* (2022.08.15) Release `v2.8.2` version
+* (2022.08.15) Added support for the `HeatmapChart` formatter for custom Tooltip
 * (2022.07.13) Fixed `SerieLabel` refresh exception #215
 * (2022.06.30) Optimize `Radar` so that the `Tooltip` layer is above `Indicator`
 

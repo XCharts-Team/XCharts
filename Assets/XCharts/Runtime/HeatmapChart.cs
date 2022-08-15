@@ -35,8 +35,8 @@ namespace XCharts
             m_YAxes[0].splitNumber = 10;
             RemoveData();
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(grid.runtimeWidth / heatmapGridWid);
-            int ySplitNumber = (int)(grid.runtimeHeight / heatmapGridWid);
+            int xSplitNumber = (int) (grid.runtimeWidth / heatmapGridWid);
+            int ySplitNumber = (int) (grid.runtimeHeight / heatmapGridWid);
 
             SerieTemplate.AddDefaultHeatmapSerie(this, "serie1");
 
@@ -49,8 +49,20 @@ namespace XCharts
             visualMap.location.align = Location.Align.BottomLeft;
             visualMap.location.bottom = 100;
             visualMap.location.left = 30;
-            var colors = new List<string>{"#313695", "#4575b4", "#74add1", "#abd9e9", "#e0f3f8", "#ffffbf",
-                "#fee090", "#fdae61", "#f46d43", "#d73027", "#a50026"};
+            var colors = new List<string>
+            {
+                "#313695",
+                "#4575b4",
+                "#74add1",
+                "#abd9e9",
+                "#e0f3f8",
+                "#ffffbf",
+                "#fee090",
+                "#fdae61",
+                "#f46d43",
+                "#d73027",
+                "#a50026"
+            };
             visualMap.inRange.Clear();
             foreach (var str in colors)
             {
@@ -81,10 +93,26 @@ namespace XCharts
 
         protected override void UpdateTooltip()
         {
+            var dataIndex = GetDataIndex();
+            if (dataIndex < 0) return;
+            var content = TooltipHelper.GetFormatterContent(tooltip, dataIndex, this);
+            TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
+            tooltip.SetActive(true);
+            for (int i = 0; i < m_XAxes.Count; i++)
+            {
+                UpdateAxisTooltipLabel(i, m_XAxes[i]);
+            }
+            for (int i = 0; i < m_YAxes.Count; i++)
+            {
+                UpdateAxisTooltipLabel(i, m_YAxes[i]);
+            }
+        }
+
+        private int GetDataIndex()
+        {
             var xData = tooltip.runtimeXValues[0];
             var yData = tooltip.runtimeYValues[0];
-            if (IsCategory() && (xData < 0 || yData < 0)) return;
-            sb.Length = 0;
+            if (IsCategory() && (xData < 0 || yData < 0)) return -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
@@ -96,30 +124,11 @@ namespace XCharts
                 {
                     if (IsCategory())
                     {
-                        string key = serie.name;
-                        var serieData = serie.data[(int)xData * yCount + (int)yData];
-                        var value = serieData.data[2];
-                        var color = visualMap.enable ? visualMap.GetColor(value) :
-                            m_Theme.GetColor(serie.index);
-                        sb.Append("\n")
-                            .Append(key).Append(!string.IsNullOrEmpty(key) ? "\n" : "")
-                            .Append("<color=#").Append(ChartCached.ColorToStr(color)).Append(">● </color>")
-                            .Append(xAxis.data[(int)xData]).Append(": ")
-                            .Append(ChartCached.FloatToStr(value, string.Empty));
+                        return (int) xData * yCount + (int) yData;
                     }
                 }
             }
-            TooltipHelper.SetContentAndPosition(tooltip, sb.ToString().Trim(), chartRect);
-            tooltip.SetActive(true);
-
-            for (int i = 0; i < m_XAxes.Count; i++)
-            {
-                UpdateAxisTooltipLabel(i, m_XAxes[i]);
-            }
-            for (int i = 0; i < m_YAxes.Count; i++)
-            {
-                UpdateAxisTooltipLabel(i, m_YAxes[i]);
-            }
+            return -1;
         }
     }
 }

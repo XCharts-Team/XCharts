@@ -212,12 +212,12 @@ namespace XCharts.Runtime
                 chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
             m_SerieLabelRoot.hideFlags = chart.chartHideFlags;
             SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
-            //ChartHelper.DestroyAllChildren(m_SerieLabelRoot.transform);
             int count = 0;
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
+                serieData.index = j;
                 serieData.labelObject = null;
                 if (AddSerieLabel(m_SerieLabelRoot, serieData, ref count))
                 {

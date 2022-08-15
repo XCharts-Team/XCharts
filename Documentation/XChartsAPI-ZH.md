@@ -176,7 +176,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `CanMultipleComponent()` |public bool CanMultipleComponent(Type type)</br> |
 | `ClampInChart()` |public void ClampInChart(ref Vector3 pos)</br> |
 | `ClampInGrid()` |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)</br> |
-| `ClearData()` |public virtual void ClearData()</br>It just emptying all of serie's data without emptying the list of series. |
+| `ClearData()` |public virtual void ClearData()</br>清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。 |
 | `ClickLegendButton()` |public void ClickLegendButton(int legendIndex, string legendName, bool show)</br>点击图例按钮 |
 | `CovertSerie()` |public bool CovertSerie(Serie serie, Type type)</br> |
 | `CovertXYAxis()` |public void CovertXYAxis(int index)</br>转换X轴和Y轴的配置 |
@@ -244,12 +244,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
 | `RefreshUpperPainter()` |public void RefreshUpperPainter()</br> |
 | `RemoveAllChartComponent()` |public void RemoveAllChartComponent()</br> |
+| `RemoveAllSerie()` |public virtual void RemoveAllSerie()</br>移除所有的Serie。当确认只需要移除Serie时使用该接口，其他情况下一般用RemoveData()。 |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(MainComponent component)</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(Type type, int index = 0)</br> |
 | `RemoveChartComponent<T>()` |public bool RemoveChartComponent<T>(int index = 0)</br> |
 | `RemoveChartComponents()` |public int RemoveChartComponents(Type type)</br> |
 | `RemoveChartComponents<T>()` |public int RemoveChartComponents<T>()</br> |
-| `RemoveData()` |public virtual void RemoveData()</br>The series list is also cleared. |
+| `RemoveData()` |public virtual void RemoveData()</br>清空所有组件数据，并移除所有Serie。一般在图表重新初始化时使用。 注意：组件只清空数据部分，参数会保留不会被重置。 |
 | `RemoveData()` |public virtual void RemoveData(string serieName)</br>清除指定系列名称的数据。 |
 | `RemoveSerie()` |public void RemoveSerie(int serieIndex)</br> |
 | `RemoveSerie()` |public void RemoveSerie(Serie serie)</br> |

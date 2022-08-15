@@ -176,7 +176,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `CanMultipleComponent()` |public bool CanMultipleComponent(Type type)</br> |
 | `ClampInChart()` |public void ClampInChart(ref Vector3 pos)</br> |
 | `ClampInGrid()` |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)</br> |
-| `ClearData()` |public virtual void ClearData()</br>Remove all series and legend data. |
+| `ClearData()` |public virtual void ClearData()</br>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
 | `ClickLegendButton()` |public void ClickLegendButton(int legendIndex, string legendName, bool show)</br>点击图例按钮 |
 | `CovertSerie()` |public bool CovertSerie(Serie serie, Type type)</br> |
 | `CovertXYAxis()` |public void CovertXYAxis(int index)</br>转换X轴和Y轴的配置 |
@@ -244,12 +244,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
 | `RefreshUpperPainter()` |public void RefreshUpperPainter()</br> |
 | `RemoveAllChartComponent()` |public void RemoveAllChartComponent()</br> |
+| `RemoveAllSerie()` |public virtual void RemoveAllSerie()</br>Remove all of them Serie. This interface is used when Serie needs to be removed only, and RemoveData() is generally used in other cases. |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(MainComponent component)</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(Type type, int index = 0)</br> |
 | `RemoveChartComponent<T>()` |public bool RemoveChartComponent<T>(int index = 0)</br> |
 | `RemoveChartComponents()` |public int RemoveChartComponents(Type type)</br> |
 | `RemoveChartComponents<T>()` |public int RemoveChartComponents<T>()</br> |
-| `RemoveData()` |public virtual void RemoveData()</br>Remove all data from series and legend. |
+| `RemoveData()` |public virtual void RemoveData()</br>Empty all component data and remove all series. Use the chart again and again to tell the truth. Note: The component only clears the data part, and the parameters are retained and not reset. |
 | `RemoveData()` |public virtual void RemoveData(string serieName)</br>Remove legend and serie by name. |
 | `RemoveSerie()` |public void RemoveSerie(int serieIndex)</br> |
 | `RemoveSerie()` |public void RemoveSerie(Serie serie)</br> |

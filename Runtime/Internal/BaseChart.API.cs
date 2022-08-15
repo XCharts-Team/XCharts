@@ -172,9 +172,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Remove all series and legend data.
-        /// |It just emptying all of serie's data without emptying the list of series.
-        /// |清除所有数据，系列中只是移除数据，列表会保留。
+        /// Clear all components and series data. Note: serie only empties the data and does not remove serie.
+        /// |清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。
         /// </summary>
         public virtual void ClearData()
         {
@@ -187,14 +186,28 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Remove all data from series and legend.
-        /// |The series list is also cleared.
-        /// |清除所有系列和图例数据，系列的列表也会被清除。
+        /// Empty all component data and remove all series. Use the chart again and again to tell the truth.
+        /// Note: The component only clears the data part, and the parameters are retained and not reset.
+        /// |清空所有组件数据，并移除所有Serie。一般在图表重新初始化时使用。
+        /// 注意：组件只清空数据部分，参数会保留不会被重置。
         /// </summary>
         public virtual void RemoveData()
         {
             foreach (var component in m_Components)
                 component.ClearData();
+            m_Series.Clear();
+            m_SerieHandlers.Clear();
+            m_CheckAnimation = false;
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// Remove all of them Serie. This interface is used when Serie needs to be removed only, and RemoveData() is generally used in other cases.
+        /// |移除所有的Serie。当确认只需要移除Serie时使用该接口，其他情况下一般用RemoveData()。
+        /// </summary>
+        [Since("v3.2.0")]
+        public virtual void RemoveAllSerie()
+        {
             m_Series.Clear();
             m_SerieHandlers.Clear();
             m_CheckAnimation = false;

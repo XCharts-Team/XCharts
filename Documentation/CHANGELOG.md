@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
@@ -57,7 +58,49 @@
 
 ## master
 
-## 3.1.0
+## v3.2.0
+
+### Main points
+
+* `Serie` supports highlighting, EmphasisStyle, EmphasisStyle, BlurStyle, and SelectStyle
+* `Axis` supports sub-scale and sub-partition of coordinate axes:`MinorTick` and `MinorSplitLine`
+* `Serie` supports different color selection strategies: `colorBy`
+* `Radar` supports smooth curves: `smooth`
+* `Line` supports filling as a convex polygon: `AreaStyle` `innerFill`
+* `DataZoom` supports timeline
+* Other optimizations and issue fixes
+
+### Log details
+
+* (2022.08.16) Release `v3.2.0` version
+* (2022.08.15) optimized `Smooth` Bezier curve algorithm
+* (2022.08.13) Fixed an issue where the `DataZoom` component might not display correctly when opened
+* (2022.08.11) Optimized Tooltip supports `ignoreDataDefaultContent`
+* (2022.08.10) fixed abnormal display of some components of `Chart` under 3D camera
+* (2022.08.10) Fix `RemoveSerie()` interface not working (#219)
+* (2022.08.10) Optimized font synchronization for Theme
+* (2022.08.10) optimizes the default `layer` of Chart to `UI`
+* (2022.08.09) optimizes the `Time` timeline of `Axis`
+* (2022.08.09) added AreaStyle `innerFill` parameter to support filling convex polygons
+* (2022.08.08) Optimized the maintenance of data item indexes in `Serie`, added detection and repair functions, and fixed related problems
+* (2022.07.29) Fixed `Unity` version compatibility: Chart creation exception after some versions import
+* (2022.07.29) Add `Axis` to` Time `timeline, support sub-scale and sub-divider
+* (2022.07.28) optimizes the `Radar` image
+* (2022.07.28) increase `Serie` `colorBy` parameter configuration color taking strategy
+* (2022.07.27) Adds StateStyle `Symbol` to configure the Symbol style in the state
+* (2022.07.27) remove selectedSize from SerieSymbol
+* (2022.07.24) adds default state Settings for `Serie` and `SerieData`
+* (2022.07.22) add three states` EmphasisStyle `, `EmphasisStyle`, `SelectStyle` of `Serie`
+* (2022.07.22) remove `highlightColor` and `highlightToColor` arguments from `AreaStyle`
+* (2022.07.22) Omit the `Emphasis`,` EmphasisItemStyle `, `EmphasisLabelStyle`, `EmphasisLabelLine` component
+* (2022.07.20) Added `Since` feature support for classes
+* (2022.07.20) fixed the `showStartLabel` and `showEndLabel` parameter Settings for `AxisLabel` not taking effect when `Axis` is on the` Value `Axis
+* (2022.07.19) added `Axis` to` MinorSplitLine `to set the Axis degree divider
+* (2022.07.19) added `Axis` `MinorTick` to set the Axis sub-scale
+* (2022.07.17) Add the `smooth` parameter for Radar to set the smooth curve
+* (2022.07.15) added DataZoom support for the `Time` timeline
+
+## v3.1.0
 
 * (2022.07.12) Release `v3.1.0` version
 * (2022.07.12) Fixed `Serie` `ignoreLineBreak` not working

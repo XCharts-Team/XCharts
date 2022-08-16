@@ -76,6 +76,8 @@
 - [ArrowStyle](#ArrowStyle)
 - [AxisLabel](#AxisLabel)
 - [AxisLine](#AxisLine)
+- [AxisMinorSplitLine](#AxisMinorSplitLine)
+- [AxisMinorTick](#AxisMinorTick)
 - [AxisName](#AxisName)
 - [AxisSplitArea](#AxisSplitArea)
 - [AxisSplitLine](#AxisSplitLine)
@@ -83,14 +85,12 @@
 - [AxisTick](#AxisTick)
 - [BaseAxisTheme](#BaseAxisTheme)
 - [BaseLine](#BaseLine)
+- [BlurStyle](#BlurStyle)
 - [CommentItem](#CommentItem)
 - [CommentMarkStyle](#CommentMarkStyle)
 - [ComponentTheme](#ComponentTheme)
 - [DataZoomTheme](#DataZoomTheme)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [EndLabelStyle](#EndLabelStyle)
 - [IconStyle](#IconStyle)
 - [ImageStyle](#ImageStyle)
@@ -109,10 +109,12 @@
 - [PolarAxisTheme](#PolarAxisTheme)
 - [RadarAxisTheme](#RadarAxisTheme)
 - [RadiusAxisTheme](#RadiusAxisTheme)
+- [SelectStyle](#SelectStyle)
 - [SerieData](#SerieData)
 - [SerieSymbol](#SerieSymbol)
 - [SerieTheme](#SerieTheme)
 - [StageColor](#StageColor)
+- [StateStyle](#StateStyle)
 - [SubTitleTheme](#SubTitleTheme)
 - [SymbolStyle](#SymbolStyle)
 - [TextLimit](#TextLimit)
@@ -128,28 +130,26 @@
 ## ISerieExtraComponent
 
 - [AreaStyle](#AreaStyle)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [BlurStyle](#BlurStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [ImageStyle](#ImageStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineArrow](#LineArrow)
+- [SelectStyle](#SelectStyle)
 - [TitleStyle](#TitleStyle)
 
 ## ISerieDataComponent
 
 - [AreaStyle](#AreaStyle)
-- [Emphasis](#Emphasis)
-- [EmphasisItemStyle](#EmphasisItemStyle)
-- [EmphasisLabelLine](#EmphasisLabelLine)
-- [EmphasisLabelStyle](#EmphasisLabelStyle)
+- [BlurStyle](#BlurStyle)
+- [EmphasisStyle](#EmphasisStyle)
 - [ImageStyle](#ImageStyle)
 - [ItemStyle](#ItemStyle)
 - [LabelLine](#LabelLine)
 - [LabelStyle](#LabelStyle)
 - [LineStyle](#LineStyle)
+- [SelectStyle](#SelectStyle)
 - [SerieSymbol](#SerieSymbol)
 - [TitleStyle](#TitleStyle)
 
@@ -215,8 +215,7 @@ The style of area.
 |`color`|||the color of area,default use serie color.
 |`toColor`|||Gradient color, start color to toColor.
 |`opacity`|0.6f||Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
-|`highlightColor`|||the color of area,default use serie color.
-|`highlightToColor`|||Gradient color, start highlightColor to highlightToColor.
+|`innerFill`||v3.2.0|Whether to fill only polygonal areas. Currently, only convex polygons are supported.
 
 ## `ArrowStyle`
 
@@ -266,6 +265,8 @@ The axis in rectangular coordinate.
 |`axisLabel`|||axis label. [AxisLabel](#AxisLabel)|
 |`splitLine`|||axis split line. [AxisSplitLine](#AxisSplitLine)|
 |`splitArea`|||axis split area. [AxisSplitArea](#AxisSplitArea)|
+|`minorTick`||v3.2.0|axis minor tick. [AxisMinorTick](#AxisMinorTick)|
+|`minorSplitLine`||v3.2.0|axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
 
 ## `AxisLabel`
 
@@ -294,6 +295,32 @@ Settings related to axis line.
 |`onZero`|||When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
 |`showArrow`|||Whether to show the arrow symbol of axis.
 |`arrow`|||the arrow of line. [ArrowStyle](#ArrowStyle)|
+
+## `AxisMinorSplitLine`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+> Since `v3.2.0`
+
+Minor split line of axis in grid area.
+
+|field|default|since|comment|
+|--|--|--|--|
+|`distance`|||The distance between the split line and axis line.
+|`autoColor`|||auto color.
+
+## `AxisMinorTick`
+
+Inherits or Implemented: [BaseLine](#BaseLine)
+
+> Since `v3.2.0`
+
+Settings related to axis minor tick.
+
+|field|default|since|comment|
+|--|--|--|--|
+|`splitNumber`|5||Number of segments that the axis is split into.
+|`autoColor`|||
 
 ## `AxisName`
 
@@ -384,7 +411,8 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 |`splitLineType`|||the type of split line.</br>`LineStyle.Type`:</br>- `Solid`: 实线</br>- `Dashed`: 虚线</br>- `Dotted`: 点线</br>- `DashDot`: 点划线</br>- `DashDotDot`: 双点划线</br>- `None`: 双点划线</br>|
 |`splitLineWidth`|1f||the width of split line.
 |`splitLineLength`|0f||the length of split line.
-|`splitLineColor`|||the color of line.
+|`splitLineColor`|||the color of split line.
+|`minorSplitLineColor`|||the color of minor split line.
 |`tickWidth`|1f||the width of tick.
 |`tickLength`|5f||the length of tick.
 |`tickColor`|||the color of tick.
@@ -407,6 +435,15 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 
 ## `BaseSerie`
+
+
+## `BlurStyle`
+
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+> Since `v3.2.0`
+
+Configurations of blur state.
 
 
 ## `CalendarCoord`
@@ -550,39 +587,19 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 Inherits or Implemented: [BaseScatter](#BaseScatter)
 
 
-## `Emphasis`
+## `EmphasisStyle`
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
 
-高亮的图形样式和文本标签样式。
+> Since `v3.2.0`
+
+Configurations of emphasis state.
 
 |field|default|since|comment|
 |--|--|--|--|
-|`show`|||是否启用高亮样式。
-|`label`|||图形文本标签。 [LabelStyle](#LabelStyle)|
-|`labelLine`|||图形文本引导线样式。 [LabelLine](#LabelLine)|
-|`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
-
-## `EmphasisItemStyle`
-
-Inherits or Implemented: [ItemStyle](#ItemStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的图形样式
-
-
-## `EmphasisLabelLine`
-
-Inherits or Implemented: [LabelLine](#LabelLine),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的标签引导线样式
-
-
-## `EmphasisLabelStyle`
-
-Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
-
-高亮的标签样式
-
+|`scale`|1.1f||Whether to scale to highlight the data in emphasis state.
+|`focus`|||When the data is highlighted, whether to fade out of other data to focus the highlighted.</br>`EmphasisStyle.FocusType`:</br>- `None`: Do not fade out other data, it's by default.</br>- `Self`: Only focus (not fade out) the element of the currently highlighted data.</br>- `Series`: Focus on all elements of the series which the currently highlighted data belongs to.</br>|
+|`blurScope`|||The range of fade out when focus is enabled.</br>`EmphasisStyle.BlurScope`:</br>- `GridCoord`: coordinate system.</br>- `Series`: series.</br>- `Global`: global.</br>|
 
 ## `EndLabelStyle`
 
@@ -994,6 +1011,9 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`smooth`|false|3.2.0|Whether use smooth curve.
 
 ## `RadarAxisTheme`
 
@@ -1029,6 +1049,15 @@ Inherits or Implemented: [Serie](#Serie)
 Inherits or Implemented: [BaseScatter](#BaseScatter)
 
 
+## `SelectStyle`
+
+Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+
+> Since `v3.2.0`
+
+Configurations of select state.
+
+
 ## `Serie`
 
 Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
@@ -1042,6 +1071,8 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |`coordSystem`|||the chart coord system of serie.
 |`serieType`|||the type of serie.
 |`serieName`|||Series name used for displaying in tooltip and filtering with legend.
+|`state`||v3.2.0|The default state of a serie.</br>`SerieState`:</br>- `Normal`: Normal state.</br>- `Emphasis`: Emphasis state.</br>- `Blur`: Blur state.</br>- `Select`: Select state.</br>- `Auto`: Auto state.</br>|
+|`colorBy`||v3.2.0|The policy to take color from theme.</br>`SerieColorBy`:</br>- `Default`: Select state.</br>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.</br>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..</br>|
 |`stack`|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |`xAxisIndex`|0||the index of XAxis.
 |`yAxisIndex`|0||the index of YAxis.
@@ -1119,6 +1150,7 @@ A data item of serie.
 |`ignore`|||是否忽略数据。当为 true 时，数据不进行绘制。
 |`selected`|||Whether the data item is selected.
 |`radius`|||自定义半径。可用在饼图中自定义某个数据项的半径。
+|`state`||v3.2.0|the state of serie data.</br>`SerieState`:</br>- `Normal`: Normal state.</br>- `Emphasis`: Emphasis state.</br>- `Blur`: Blur state.</br>- `Select`: Select state.</br>- `Auto`: Auto state.</br>|
 |`data`|||An arbitrary dimension data list of data item.
 
 ## `SerieSymbol`
@@ -1130,12 +1162,9 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |field|default|since|comment|
 |--|--|--|--|
 |`sizeType`|||the type of symbol size.</br>`SymbolSizeType`:</br>- `Custom`: Specify constant for symbol size.</br>- `FromData`: Specify the dataIndex and dataScale to calculate symbol size.</br>- `Function`: Specify function for symbol size.</br>|
-|`selectedSize`|0f||the size of selected symbol.
 |`dataIndex`|1||whitch data index is when the sizeType assined as FromData.
 |`dataScale`|1||the scale of data when sizeType assined as FromData.
-|`selectedDataScale`|1.5f||the scale of selected data when sizeType assined as FromData.
 |`sizeFunction`|||the function of size when sizeType assined as Function.
-|`selectedSizeFunction`|||the function of size when sizeType assined as Function.
 |`startIndex`|||the index start to show symbol.
 |`interval`|||the interval of show symbol.
 |`forceShowLast`|false||whether to show the last symbol.
@@ -1226,6 +1255,24 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |--|--|--|--|
 |`percent`|||结束位置百分比。
 |`color`|||颜色。
+
+## `StateStyle`
+
+Inherits or Implemented: [ChildComponent](#ChildComponent)
+
+> Since `v3.2.0`
+
+the state style of serie.
+
+|field|default|since|comment|
+|--|--|--|--|
+|`show`|true||是否启用高亮样式。
+|`label`|||图形文本标签。 [LabelStyle](#LabelStyle)|
+|`labelLine`|||图形文本引导线样式。 [LabelLine](#LabelLine)|
+|`itemStyle`|||图形样式。 [ItemStyle](#ItemStyle)|
+|`lineStyle`|||折线样式。 [LineStyle](#LineStyle)|
+|`areaStyle`|||区域样式。 [AreaStyle](#AreaStyle)|
+|`symbol`|||标记样式。 [SerieSymbol](#SerieSymbol)|
 
 ## `SubTitleTheme`
 

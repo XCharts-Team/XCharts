@@ -130,11 +130,14 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 | `GetAxisValueDistance()` |public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上相对起点的距离 |
 | `GetAxisValueLength()` |public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上对应的长度 |
 | `GetAxisValuePosition()` |public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上的坐标位置 |
+| `GetAxisXOrY()` |public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)</br> |
 | `GetDataWidth()` |public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)</br>获得一个类目数据在坐标系中代表的宽度 |
 | `GetEachWidth()` |public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br> |
 | `GetScaleNumber()` |public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br>获得分割线条数 |
 | `GetScaleWidth()` |public static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)</br>获得分割段宽度 |
 | `GetSplitNumber()` |public static int GetSplitNumber(Axis axis, float coordinateWid, DataZoom dataZoom)</br>获得分割段数 |
+| `GetXAxisXOrY()` |public static float GetXAxisXOrY(GridCoord grid, Axis xAxis, Axis relativedAxis)</br> |
+| `GetYAxisXOrY()` |public static float GetYAxisXOrY(GridCoord grid, Axis yAxis, Axis relativedAxis)</br> |
 | `NeedShowSplit()` |public static bool NeedShowSplit(Axis axis)</br> |
 
 ## `BarChart`
@@ -173,7 +176,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `CanMultipleComponent()` |public bool CanMultipleComponent(Type type)</br> |
 | `ClampInChart()` |public void ClampInChart(ref Vector3 pos)</br> |
 | `ClampInGrid()` |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)</br> |
-| `ClearData()` |public virtual void ClearData()</br>Remove all series and legend data. |
+| `ClearData()` |public virtual void ClearData()</br>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
 | `ClickLegendButton()` |public void ClickLegendButton(int legendIndex, string legendName, bool show)</br>点击图例按钮 |
 | `CovertSerie()` |public bool CovertSerie(Serie serie, Type type)</br> |
 | `CovertXYAxis()` |public void CovertXYAxis(int index)</br>转换X轴和Y轴的配置 |
@@ -187,8 +190,9 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `GetDataZoomOfSerie()` |public void GetDataZoomOfSerie(Serie serie, out DataZoom xDataZoom, out DataZoom yDataZoom)</br> |
 | `GetGrid()` |public GridCoord GetGrid(Vector2 local)</br> |
 | `GetGridOfDataZoom()` |public GridCoord GetGridOfDataZoom(DataZoom dataZoom)</br> |
-| `GetItemColor()` |public Color32 GetItemColor(Serie serie, bool highlight = false)</br> |
-| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData, bool highlight = false)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData)</br> |
+| `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)</br> |
 | `GetLegendRealShowNameColor()` |public Color32 GetLegendRealShowNameColor(string name)</br> |
 | `GetLegendRealShowNameIndex()` |public int GetLegendRealShowNameIndex(string name)</br> |
 | `GetPainter()` |public Painter GetPainter(int index)</br> |
@@ -240,17 +244,19 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
 | `RefreshUpperPainter()` |public void RefreshUpperPainter()</br> |
 | `RemoveAllChartComponent()` |public void RemoveAllChartComponent()</br> |
+| `RemoveAllSerie()` |public virtual void RemoveAllSerie()</br>Remove all of them Serie. This interface is used when Serie needs to be removed only, and RemoveData() is generally used in other cases. |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(MainComponent component)</br> |
 | `RemoveChartComponent()` |public bool RemoveChartComponent(Type type, int index = 0)</br> |
 | `RemoveChartComponent<T>()` |public bool RemoveChartComponent<T>(int index = 0)</br> |
 | `RemoveChartComponents()` |public int RemoveChartComponents(Type type)</br> |
 | `RemoveChartComponents<T>()` |public int RemoveChartComponents<T>()</br> |
-| `RemoveData()` |public virtual void RemoveData()</br>Remove all data from series and legend. |
+| `RemoveData()` |public virtual void RemoveData()</br>Empty all component data and remove all series. Use the chart again and again to tell the truth. Note: The component only clears the data part, and the parameters are retained and not reset. |
 | `RemoveData()` |public virtual void RemoveData(string serieName)</br>Remove legend and serie by name. |
 | `RemoveSerie()` |public void RemoveSerie(int serieIndex)</br> |
 | `RemoveSerie()` |public void RemoveSerie(Serie serie)</br> |
 | `RemoveSerie()` |public void RemoveSerie(string serieName)</br> |
 | `ReplaceSerie()` |public bool ReplaceSerie(Serie oldSerie, Serie newSerie)</br> |
+| `ResetDataIndex()` |public bool ResetDataIndex(int serieIndex)</br>重置serie的数据项索引。避免数据项索引异常。 |
 | `SetBasePainterMaterial()` |public void SetBasePainterMaterial(Material material)</br>设置Base Painter的材质球 |
 | `SetMaxCache()` |public void SetMaxCache(int maxCache)</br>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 | `SetPainterActive()` |public void SetPainterActive(int index, bool flag)</br> |
@@ -337,6 +343,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `DestroyAllChildren()` |public static void DestroyAllChildren(Transform parent)</br> |
 | `GetActualValue()` |public static float GetActualValue(float valueOrRate, float total, float maxRate = 1.5f)</br> |
 | `GetAngle360()` |public static float GetAngle360(Vector2 from, Vector2 to)</br>获得0-360的角度（12点钟方向为0度） |
+| `GetBlurColor()` |public static Color32 GetBlurColor(Color32 color, float a = 0.3f)</br> |
 | `GetColor()` |public static Color32 GetColor(string hexColorStr)</br> |
 | `GetDire()` |public static Vector3 GetDire(float angle, bool isDegree = false)</br> |
 | `GetFloatAccuracy()` |public static int GetFloatAccuracy(double value)</br> |
@@ -350,6 +357,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
 | `GetPosition()` |public static Vector3 GetPosition(Vector3 center, float angle, float radius)</br> |
+| `GetSelectColor()` |public static Color32 GetSelectColor(Color32 color, float rate = 0.8f)</br> |
 | `GetVertialDire()` |public static Vector3 GetVertialDire(Vector3 dire)</br> |
 | `HideAllObject()` |public static void HideAllObject(GameObject obj, string match = null)</br> |
 | `HideAllObject()` |public static void HideAllObject(Transform parent, string match = null)</br> |
@@ -825,18 +833,15 @@ Inherits or Implemented: [Attribute](#Attribute)
 |--|--|
 | `CopySerie()` |public static void CopySerie(Serie oldSerie, Serie newSerie)</br> |
 | `GetAllMinMaxData()` |public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)</br> |
-| `GetAreaColor()` |public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
-| `GetAreaToColor()` |public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
 | `GetAverageData()` |public static double GetAverageData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
-| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
-| `GetItemColor0()` |public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)</br> |
+| `GetBlurStyle()` |public static BlurStyle GetBlurStyle(Serie serie, SerieData serieData)</br> |
+| `GetEmphasisStyle()` |public static EmphasisStyle GetEmphasisStyle(Serie serie, SerieData serieData)</br> |
+| `GetItemColor()` |public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto, bool opacity = true)</br> |
 | `GetItemFormatter()` |public static string GetItemFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |
 | `GetItemMarker()` |public static string GetItemMarker(Serie serie, SerieData serieData, string defaultMarker = null)</br> |
-| `GetItemStyle()` |public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)</br> |
-| `GetItemStyleEmphasis()` |public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)</br> |
-| `GetItemToColor()` |public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)</br> |
-| `GetLineColor()` |public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)</br> |
+| `GetItemStyle()` |public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetLineColor()` |public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto)</br> |
 | `GetLineStyle()` |public static LineStyle GetLineStyle(Serie serie, SerieData serieData)</br> |
 | `GetMaxData()` |public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
 | `GetMaxSerieData()` |public static SerieData GetMaxSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
@@ -845,14 +850,15 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetMinMaxData()` |public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)</br>Gets the maximum and minimum values of all data in the serie. |
 | `GetMinSerieData()` |public static SerieData GetMinSerieData(Serie serie, int dimension = 1, DataZoom dataZoom = null)</br> |
 | `GetNumericFormatter()` |public static string GetNumericFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)</br> |
-| `GetSerieEmphasisLabel()` |public static LabelStyle GetSerieEmphasisLabel(Serie serie, SerieData serieData)</br> |
-| `GetSerieLabel()` |public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)</br> |
-| `GetSerieLabelLine()` |public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, bool highlight = false)</br> |
-| `GetSerieSymbol()` |public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)</br> |
-| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)</br> |
-| `GetSymbolBorder()` |public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, float defaultWidth)</br> |
-| `GetSymbolBorderColor()` |public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)</br> |
-| `GetSymbolCornerRadius()` |public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)</br> |
+| `GetSelectStyle()` |public static SelectStyle GetSelectStyle(Serie serie, SerieData serieData)</br> |
+| `GetSerieLabel()` |public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetSerieLabelLine()` |public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(Serie serie)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(Serie serie, SerieData serieData, bool defaultSerieState = false)</br> |
+| `GetSerieState()` |public static SerieState GetSerieState(SerieData serieData)</br> |
+| `GetSerieSymbol()` |public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)</br> |
+| `GetStateStyle()` |public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)</br> |
+| `GetSysmbolSize()` |public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)</br> |
 | `GetTitleStyle()` |public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)</br> |
 | `IsAllZeroValue()` |public static bool IsAllZeroValue(Serie serie, int dimension = 1)</br>Whether the data for the specified dimension of serie are all 0. |
 | `IsDownPoint()` |public static bool IsDownPoint(Serie serie, int index)</br> |
@@ -981,6 +987,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth, bool closepath = false)</br> |
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)</br>Draw a line. 画直线 |
 | `DrawLine()` |public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)</br>Draw a line. 画直线 |
+| `DrawPolygon()` |public static void DrawPolygon(VertexHelper vh, List<Vector3> points, Color32 color)</br>填充任意多边形（目前只支持凸多边形） |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color)</br> |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color, Color32 toColor)</br> |
 | `DrawRectangle()` |public static void DrawRectangle(VertexHelper vh, Rect rect, float border, Color32 color)</br> |

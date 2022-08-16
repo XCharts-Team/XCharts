@@ -61,6 +61,18 @@ namespace XCharts.Runtime
             return true;
         }
 
+        /// <summary>
+        /// 重置serie的数据项索引。避免数据项索引异常。
+        /// </summary>
+        /// <param name="serieIndex"></param>
+        public bool ResetDataIndex(int serieIndex)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+                return serie.ResetDataIndex();
+            return false;
+        }
+
         public bool CanAddSerie<T>() where T : Serie
         {
             return CanAddSerie(typeof(T));
@@ -129,8 +141,15 @@ namespace XCharts.Runtime
             for (int i = m_Series.Count - 1; i >= 0; i--)
             {
                 var serie = m_Series[i];
-                if (string.IsNullOrEmpty(serie.serieName) && serie.serieName.Equals(serieName))
+                if (string.IsNullOrEmpty(serieName))
+                {
+                    if (string.IsNullOrEmpty(serie.serieName))
+                        RemoveSerie(serie);
+                }
+                else if (serieName.Equals(serie.serieName))
+                {
                     RemoveSerie(serie);
+                }
             }
         }
 

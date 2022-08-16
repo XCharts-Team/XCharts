@@ -28,6 +28,28 @@ namespace XCharts.Runtime
         public Action refreshComponent { get; set; }
         public GameObject gameObject { get; set; }
 
+        public static void ClearVerticesDirty(ChildComponent component)
+        {
+            if (component != null)
+                component.ClearVerticesDirty();
+        }
+
+        public static void ClearComponentDirty(ChildComponent component)
+        {
+            if (component != null)
+                component.ClearComponentDirty();
+        }
+
+        public static bool IsVertsDirty(ChildComponent component)
+        {
+            return component == null?false : component.vertsDirty;
+        }
+
+        public static bool IsComponentDirty(ChildComponent component)
+        {
+            return component == null?false : component.componentDirty;
+        }
+
         public virtual void SetVerticesDirty()
         {
             m_VertsDirty = true;

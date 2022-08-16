@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -80,18 +81,20 @@ namespace XCharts.Runtime
         /// <param name="minTimestamp"></param>
         /// <param name="maxTimestamp"></param>
         /// <param name="splitNumber"></param>
-        internal static void UpdateTimeAxisDateTimeList(List<double> list, int minTimestamp, int maxTimestamp, int splitNumber)
+        internal static float UpdateTimeAxisDateTimeList(List<double> list, int minTimestamp, int maxTimestamp, int splitNumber)
         {
             list.Clear();
             var range = maxTimestamp - minTimestamp;
-            if (range <= 0) return;
+            if (range <= 0) return 0;
             if (splitNumber <= 0) splitNumber = 1;
             var dtMin = DateTimeUtil.GetDateTime(minTimestamp);
             var dtMax = DateTimeUtil.GetDateTime(maxTimestamp);
+            int tick = 0;
             if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
             {
                 var num = Math.Max(range / (splitNumber * ONE_YEAR), 1);
                 var dtStart = new DateTime(dtMin.Year + 1, 1, 1);
+                tick = num * 365 * 24 * 3600;
                 while (dtStart.Ticks < dtMax.Ticks)
                 {
                     list.Add(DateTimeUtil.GetTimestamp(dtStart));
@@ -102,6 +105,7 @@ namespace XCharts.Runtime
             {
                 var num = Math.Max(range / (splitNumber * ONE_MONTH), 1);
                 var dtStart = new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1);
+                tick = num * 30 * 24 * 3600;
                 while (dtStart.Ticks < dtMax.Ticks)
                 {
                     list.Add(DateTimeUtil.GetTimestamp(dtStart));
@@ -110,28 +114,29 @@ namespace XCharts.Runtime
             }
             else if (range >= ONE_DAY * MIN_TIME_SPLIT_NUMBER)
             {
-                var tick = GetTickSecond(range, splitNumber, ONE_DAY);
+                tick = GetTickSecond(range, splitNumber, ONE_DAY);
                 var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else if (range >= ONE_HOUR * MIN_TIME_SPLIT_NUMBER)
             {
-                var tick = GetTickSecond(range, splitNumber, ONE_HOUR);
+                tick = GetTickSecond(range, splitNumber, ONE_HOUR);
                 var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else if (range >= ONE_MINUTE * MIN_TIME_SPLIT_NUMBER)
             {
-                var tick = GetTickSecond(range, splitNumber, ONE_MINUTE);
+                tick = GetTickSecond(range, splitNumber, ONE_MINUTE);
                 var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else
             {
-                var tick = GetTickSecond(range, splitNumber, ONE_SECOND);
+                tick = GetTickSecond(range, splitNumber, ONE_SECOND);
                 var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
+            return tick;
         }
 
         private static int GetTickSecond(int range, int splitNumber, int tickSecond)
@@ -156,7 +161,7 @@ namespace XCharts.Runtime
 
         private static void AddTickTimestamp(List<double> list, int startTimestamp, int maxTimestamp, int tickSecond)
         {
-            while (startTimestamp < maxTimestamp)
+            while (startTimestamp <= maxTimestamp)
             {
                 list.Add(startTimestamp);
                 startTimestamp += tickSecond;

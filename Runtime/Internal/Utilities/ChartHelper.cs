@@ -195,6 +195,7 @@ namespace XCharts.Runtime
                 SetActive(obj, true);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localScale = Vector3.one;
+                obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
             else if (replaceIndex >= 0 && replaceIndex < parent.childCount)
             {
@@ -209,6 +210,8 @@ namespace XCharts.Runtime
                 obj.transform.SetParent(parent);
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;
+                obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                obj.layer = parent.gameObject.layer;
             }
             RectTransform rect = GetOrAddComponent<RectTransform>(obj);
             rect.localPosition = Vector3.zero;
@@ -237,6 +240,7 @@ namespace XCharts.Runtime
         {
             GameObject txtObj = AddObject(objectName, parent, anchorMin, anchorMax, pivot, sizeDelta);
             txtObj.transform.localEulerAngles = new Vector3(0, 0, textStyle.rotate);
+            txtObj.layer = parent.gameObject.layer;
             if (chartText == null)
                 chartText = new ChartText();
 #if dUI_TextMeshPro
@@ -336,12 +340,7 @@ namespace XCharts.Runtime
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
-            var labelShow = axis.axisLabel.show && (axis.axisLabel.interval == 0 || index % (axis.axisLabel.interval + 1) == 0);
-            if (labelShow)
-            {
-                if (!axis.axisLabel.showStartLabel && index == 0) labelShow = false;
-                else if (!axis.axisLabel.showEndLabel && index == total - 1) labelShow = false;
-            }
+            var labelShow = axis.IsNeedShowLabel(index, total);
             label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index));
             label.text.SetActive(labelShow);
             return label;
@@ -842,6 +841,22 @@ namespace XCharts.Runtime
         }
 
         public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)
+        {
+            var newColor = color;
+            newColor.r = (byte) (color.r * rate);
+            newColor.g = (byte) (color.g * rate);
+            newColor.b = (byte) (color.b * rate);
+            return newColor;
+        }
+
+        public static Color32 GetBlurColor(Color32 color, float a = 0.3f)
+        {
+            var newColor = color;
+            newColor.a = (byte) (a * 255);
+            return newColor;
+        }
+
+        public static Color32 GetSelectColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
             newColor.r = (byte) (color.r * rate);

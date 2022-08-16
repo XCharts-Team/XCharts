@@ -14,7 +14,7 @@ namespace XCharts.Runtime
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
+            string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
             if (dataIndex < 0)
@@ -29,7 +29,7 @@ namespace XCharts.Runtime
 
             title = category;
 
-            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, serie.context.colorIndex, false);
+            var color = chart.GetItemColor(serie, serieData);
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -111,10 +111,11 @@ namespace XCharts.Runtime
                 if (serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
+                    serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
-                var highlight = serie.data[i].context.highlight || serie.highlight;
-                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
+                var state = SerieHelper.GetSerieState(serie, serieData);
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var lowest = serieData.GetCurrData(2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
@@ -154,6 +155,7 @@ namespace XCharts.Runtime
                     top = chart.ClampInGrid(grid, top);
                 }
                 serie.context.dataPoints.Add(top);
+                serie.context.dataIndexs.Add(serieData.index);
                 var areaColor = isRise ?
                     itemStyle.GetColor(theme.serie.candlestickColor) :
                     itemStyle.GetColor0(theme.serie.candlestickColor0);

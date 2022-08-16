@@ -70,7 +70,6 @@ namespace XCharts.Editor
             else
             {
                 PropertyField("m_Interval");
-                PropertyField("m_BoundaryGap");
             }
             DrawExtendeds();
             PropertyField("m_AxisLine");
@@ -79,6 +78,11 @@ namespace XCharts.Editor
             PropertyField("m_AxisLabel");
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
+            if (type != Axis.AxisType.Category)
+            {
+                PropertyField("m_MinorTick");
+                PropertyField("m_MinorSplitLine");
+            }
             PropertyListField("m_Icons", true);
             if (type == Axis.AxisType.Category)
             {
@@ -93,12 +97,10 @@ namespace XCharts.Editor
     }
 
     [ComponentEditor(typeof(XAxis))]
-    public class XAxisEditor : AxisEditor
-    { }
+    public class XAxisEditor : AxisEditor { }
 
     [ComponentEditor(typeof(YAxis))]
-    public class YAxisEditor : AxisEditor
-    { }
+    public class YAxisEditor : AxisEditor { }
 
     [ComponentEditor(typeof(SingleAxis))]
     public class SingleAxisEditor : AxisEditor
@@ -128,12 +130,10 @@ namespace XCharts.Editor
     }
 
     [ComponentEditor(typeof(RadiusAxis))]
-    public class RadiusAxisEditor : AxisEditor
-    { }
+    public class RadiusAxisEditor : AxisEditor { }
 
     [ComponentEditor(typeof(ParallelAxis))]
-    public class ParallelAxisEditor : AxisEditor
-    { }
+    public class ParallelAxisEditor : AxisEditor { }
 
     [CustomPropertyDrawer(typeof(AxisLabel), true)]
     public class AxisLabelDrawer : BasePropertyDrawer

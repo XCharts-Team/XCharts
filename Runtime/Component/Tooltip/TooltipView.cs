@@ -69,6 +69,7 @@ namespace XCharts.Runtime
         {
             if (tooltip == null) return;
             var data = tooltip.context.data;
+            var ignoreColumn = string.IsNullOrEmpty(tooltip.ignoreDataDefaultContent);
 
             var titleActive = !string.IsNullOrEmpty(data.title);
             if (titleActive != title.gameObject.activeSelf)
@@ -80,7 +81,7 @@ namespace XCharts.Runtime
             {
                 var item = GetItem(i);
                 var param = data.param[i];
-                if (param.columns.Count <= 0)
+                if (param.columns.Count <= 0 || (ignoreColumn && param.ignore))
                 {
                     item.gameObject.SetActive(false);
                     continue;
@@ -112,9 +113,6 @@ namespace XCharts.Runtime
                 m_Items[i].gameObject.SetActive(false);
             }
             ResetSize();
-            // border.effectColor = data.param.Count == 1
-            //     ? data.param[0].color
-            //     : tooltip.borderColor;
             UpdatePosition(tooltip.context.pointer + tooltip.offset);
             tooltip.gameObject.transform.SetAsLastSibling();
         }

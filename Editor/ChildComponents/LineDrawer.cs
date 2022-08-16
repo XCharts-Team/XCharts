@@ -47,6 +47,18 @@ namespace XCharts.Editor
         }
     }
 
+    [CustomPropertyDrawer(typeof(AxisMinorSplitLine), true)]
+    public class AxisMinorSplitLineDrawer : BaseLineDrawer
+    {
+        public override string ClassName { get { return "MinorSplitLine"; } }
+        protected override void DrawExtendeds(SerializedProperty prop)
+        {
+            base.DrawExtendeds(prop);
+            //PropertyField(prop, "m_Distance");
+            //PropertyField(prop, "m_AutoColor");
+        }
+    }
+
     [CustomPropertyDrawer(typeof(AxisTick), true)]
     public class AxisTickDrawer : BaseLineDrawer
     {
@@ -61,6 +73,18 @@ namespace XCharts.Editor
             PropertyField(prop, "m_SplitNumber");
             PropertyField(prop, "m_Distance");
             PropertyField(prop, "m_AutoColor");
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(AxisMinorTick), true)]
+    public class AxisMinorTickDrawer : BaseLineDrawer
+    {
+        public override string ClassName { get { return "MinorTick"; } }
+        protected override void DrawExtendeds(SerializedProperty prop)
+        {
+            base.DrawExtendeds(prop);
+            PropertyField(prop, "m_SplitNumber");
+            //PropertyField(prop, "m_AutoColor");
         }
     }
 }

@@ -180,7 +180,7 @@ namespace XCharts.Runtime
         private void SetTooltipIndicatorLabel(Tooltip tooltip, Axis axis, ChartLabel label)
         {
             if (label == null) return;
-            if (double.IsPositiveInfinity(axis.context.pointerValue)) return;
+            if (double.IsNaN(axis.context.pointerValue)) return;
             label.SetActive(true);
             label.SetTextActive(true);
             label.SetPosition(axis.context.pointerLabelPosition);
@@ -293,7 +293,6 @@ namespace XCharts.Runtime
                 for (int i = 0; i < dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    serieData.index = i;
                     serie.context.sortedData.Add(serieData);
                 }
                 serie.context.sortedData.Sort(delegate(SerieData a, SerieData b)
@@ -374,7 +373,7 @@ namespace XCharts.Runtime
             tooltip.context.pointer = chart.pointerPos;
 
             serie.handler.UpdateTooltipSerieParams(serie.context.pointerItemDataIndex, false, null,
-                tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter, tooltip.ignoreDataDefaultContent,
                 ref tooltip.context.data.param,
                 ref tooltip.context.data.title);
             TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
@@ -423,6 +422,7 @@ namespace XCharts.Runtime
                     serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
+                    tooltip.ignoreDataDefaultContent,
                     ref tooltip.context.data.param,
                     ref tooltip.context.data.title);
             }
@@ -489,7 +489,6 @@ namespace XCharts.Runtime
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {
-
             var xAxes = chart.GetChartComponents<XAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);
@@ -511,6 +510,8 @@ namespace XCharts.Runtime
                             pX += xAxis.IsCategory() ?
                                 (float) (xAxis.context.pointerValue * splitWidth + (xAxis.boundaryGap ? splitWidth / 2 : 0)) :
                                 xAxis.GetDistance(xAxis.context.axisTooltipValue, grid.context.width);
+                            if (pX < grid.context.x)
+                                break;
                             Vector2 sp = new Vector2(pX, grid.context.y);
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
@@ -528,6 +529,8 @@ namespace XCharts.Runtime
                                 float tooltipSplitWid = splitWidth < 1 ? 1 : splitWidth;
                                 pX = (float) (grid.context.x + splitWidth * xAxis.context.pointerValue -
                                     (xAxis.boundaryGap ? 0 : splitWidth / 2));
+                                if (pX < grid.context.x)
+                                    break;
                                 float pY = grid.context.y + grid.context.height;
                                 Vector3 p1 = new Vector3(pX, grid.context.y);
                                 Vector3 p2 = new Vector3(pX, pY);
@@ -570,6 +573,8 @@ namespace XCharts.Runtime
                         case Tooltip.Type.Line:
                             float pY = (float) (grid.context.y + yAxis.context.pointerValue * splitWidth +
                                 (yAxis.boundaryGap ? splitWidth / 2 : 0));
+                            if (pY < grid.context.y)
+                                break;
                             Vector2 sp = new Vector2(grid.context.x, pY);
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme);
@@ -588,6 +593,8 @@ namespace XCharts.Runtime
                                 float pX = grid.context.x + grid.context.width;
                                 pY = (float) (grid.context.y + splitWidth * yAxis.context.pointerValue -
                                     (yAxis.boundaryGap ? 0 : splitWidth / 2));
+                                if (pY < grid.context.y)
+                                    break;
                                 Vector3 p1 = new Vector3(grid.context.x, pY);
                                 Vector3 p2 = new Vector3(grid.context.x, pY + tooltipSplitWid);
                                 Vector3 p3 = new Vector3(pX, pY + tooltipSplitWid);

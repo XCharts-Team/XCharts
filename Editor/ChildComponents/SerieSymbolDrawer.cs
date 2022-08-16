@@ -31,12 +31,10 @@ namespace XCharts.Editor
                 {
                     case SymbolSizeType.Custom:
                         PropertyField(prop, "m_Size");
-                        PropertyField(prop, "m_SelectedSize");
                         break;
                     case SymbolSizeType.FromData:
                         PropertyField(prop, "m_DataIndex");
                         PropertyField(prop, "m_DataScale");
-                        PropertyField(prop, "m_SelectedDataScale");
                         break;
                     case SymbolSizeType.Function:
                         break;

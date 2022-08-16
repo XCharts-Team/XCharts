@@ -24,7 +24,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             {
                 var serie = chart.series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     for (int i = 0; i < serie.data.Count; i++)
                     {
@@ -84,7 +84,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[n];
                 if (serie.placeHolder) continue;
-                if (serie.useDataNameForColor)
+                if (serie.colorByData)
                 {
                     bool found = false;
                     for (int i = 0; i < serie.data.Count; i++)
@@ -106,7 +106,9 @@ namespace XCharts.Runtime
                     break;
                 }
             }
-            return SerieHelper.GetItemColor(destSerie, destSerieData, chart.theme, index, false);
+            Color32 color, toColor;
+            SerieHelper.GetItemColor(out color, out toColor, destSerie, destSerieData, chart.theme, index, SerieState.Normal);
+            return color;
         }
 
         /// <summary>

@@ -4,12 +4,12 @@ namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(RingHandler), true)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisItemStyle), typeof(EmphasisLabelStyle))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Ring : Serie
     {
-        public override bool useDataNameForColor { get { return true; } }
+        public override SerieColorBy defaultColorBy { get { return SerieColorBy.Data; } }
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Ring>(serieName);

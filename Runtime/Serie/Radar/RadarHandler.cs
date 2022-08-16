@@ -30,7 +30,7 @@ namespace XCharts.Runtime
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
+            string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
             if (!serie.context.pointerEnter)
@@ -41,8 +41,9 @@ namespace XCharts.Runtime
 
             if (serie.radarType == RadarType.Single)
             {
+                var colorIndex1 = serie.colorByData ? dataIndex : serie.context.colorIndex;
                 UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
-                    marker, itemFormatter, numericFormatter);
+                    marker, itemFormatter, numericFormatter, ignoreDataDefaultContent, 1, colorIndex1);
                 return;
             }
 
@@ -54,7 +55,9 @@ namespace XCharts.Runtime
             if (serieData == null)
                 return;
 
-            var color = SerieHelper.GetItemColor(serie, serieData, chart.theme, dataIndex, false);;
+            Color32 color, toColor;
+            var colorIndex = serie.colorByData ? chart.GetLegendRealShowNameIndex(serieData.legendName) : serie.context.colorIndex;
+            SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
             title = serieData.name;
             for (int i = 0; i < serieData.data.Count; i++)
             {
@@ -96,16 +99,17 @@ namespace XCharts.Runtime
                 needHideAll = true;
             }
             m_LastCheckContextFlag = needCheck;
+            serie.highlight = false;
             serie.context.pointerEnter = false;
             serie.context.pointerItemDataIndex = -1;
             var areaStyle = serie.areaStyle;
+            var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             switch (serie.radarType)
             {
                 case RadarType.Multiple:
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        serieData.index = i;
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                         var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
                         if (needHideAll || m_LegendEnter)
@@ -120,6 +124,7 @@ namespace XCharts.Runtime
                             {
                                 if (Vector3.Distance(chart.pointerPos, pos) < symbolSize * 2)
                                 {
+                                    serie.highlight = true;
                                     serie.context.pointerEnter = true;
                                     serie.context.pointerItemDataIndex = i;
                                     serieData.context.highlight = true;
@@ -136,6 +141,7 @@ namespace XCharts.Runtime
                                     var p2 = n >= dataPoints.Count - 1 ? dataPoints[0] : dataPoints[n + 1];
                                     if (UGLHelper.IsPointInTriangle(p1, center, p2, chart.pointerPos))
                                     {
+                                        serie.highlight = true;
                                         serie.context.pointerEnter = true;
                                         serie.context.pointerItemDataIndex = i;
                                         serieData.context.highlight = true;
@@ -148,15 +154,21 @@ namespace XCharts.Runtime
                     }
                     break;
                 case RadarType.Single:
+                    needInteract = false;
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        serieData.index = i;
-                        if (Vector3.Distance(chart.pointerPos, serieData.context.position) < serie.symbol.size * 2)
+                        var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                        if (Vector3.Distance(chart.pointerPos, serieData.context.position) < size * 2)
                         {
                             serie.context.pointerEnter = true;
                             serie.context.pointerItemDataIndex = i;
-                            return;
+                            serieData.context.highlight = true;
+                            needInteract = true;
+                        }
+                        else
+                        {
+                            serieData.context.highlight = false;
                         }
                     }
                     if (!serie.context.pointerEnter && areaStyle != null)
@@ -172,6 +184,7 @@ namespace XCharts.Runtime
                                 serie.context.pointerEnter = true;
                                 serie.context.pointerItemDataIndex = n;
                                 p1.context.highlight = true;
+                                needInteract = true;
                                 break;
                             }
                         }
@@ -209,6 +222,7 @@ namespace XCharts.Runtime
             var interacting = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             SerieHelper.GetAllMinMaxData(serie, m_RadarCoord.ceilRate);
+            Color32 areaColor, areaToColor;
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -217,14 +231,13 @@ namespace XCharts.Runtime
                 {
                     continue;
                 }
+                var serieState = SerieHelper.GetSerieState(serie, serieData, true);
                 var lineStyle = SerieHelper.GetLineStyle(serie, serieData);
-                var areaStyle = SerieHelper.GetAreaStyle(serie, serieData);
-                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                var isHighlight = serieData.context.highlight;
-                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                var areaColor = SerieHelper.GetAreaColor(serie, serieData, chart.theme, colorIndex, isHighlight);
-                var areaToColor = SerieHelper.GetAreaToColor(serie, serieData, chart.theme, colorIndex, isHighlight);
-                var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex, isHighlight);
+                var symbol = SerieHelper.GetSerieSymbol(serie, serieData, serieState);
+
+                var colorIndex = serie.colorByData ? chart.GetLegendRealShowNameIndex(serieData.legendName) : serie.context.colorIndex;
+                var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex);
+                var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
                 var lineWidth = lineStyle.GetWidth(chart.theme.serie.lineWidth);
                 int dataCount = m_RadarCoord.indicatorList.Count;
                 serieData.context.dataPoints.Clear();
@@ -262,11 +275,11 @@ namespace XCharts.Runtime
                     {
                         toPoint = new Vector3(centerPos.x + radius * Mathf.Sin(currAngle),
                             centerPos.y + radius * Mathf.Cos(currAngle));
-                        if (areaStyle != null && areaStyle.show)
+                        if (showArea && !serie.smooth)
                         {
                             UGL.DrawTriangle(vh, startPoint, toPoint, centerPos, areaColor, areaColor, areaToColor);
                         }
-                        if (lineStyle.show)
+                        if (lineStyle.show && !serie.smooth)
                         {
                             ChartDrawer.DrawLineStyle(vh, lineStyle.type, lineWidth, startPoint, toPoint, lineColor);
                         }
@@ -274,36 +287,42 @@ namespace XCharts.Runtime
                     }
                     serieData.context.dataPoints.Add(startPoint);
                 }
-                if (areaStyle != null && areaStyle.show)
+                if (showArea && !serie.smooth)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
-                if (lineStyle.show)
+                if (lineStyle.show && !serie.smooth)
                 {
                     ChartDrawer.DrawLineStyle(vh, lineStyle.type, lineWidth, startPoint, firstPoint, lineColor);
                 }
+
+                if (serie.smooth)
+                {
+                    UGL.DrawCurves(vh, serieData.context.dataPoints, lineWidth, lineColor,
+                        chart.settings.lineSmoothStyle,
+                        chart.settings.lineSmoothness,
+                        UGL.Direction.Random,
+                        float.NaN, true);
+                }
+
                 if (symbol.show && symbol.type != SymbolType.None)
                 {
+                    float symbolBorder = 0f;
+                    float[] cornerRadius = null;
+                    Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
                     for (int m = 0; m < serieData.context.dataPoints.Count; m++)
                     {
                         var point = serieData.context.dataPoints[m];
-                        var symbolSize = isHighlight ?
-                            symbol.GetSelectedSize(null, chart.theme.serie.lineSymbolSelectedSize) :
-                            symbol.GetSize(null, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = 0f;
                         if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
                         {
-                            symbolSize = isHighlight ?
-                                symbol.GetSelectedSize(serieData.data, symbolSize) :
-                                symbol.GetSize(serieData.data, symbolSize);
+                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, serieState);
                             serieData.interact.SetValue(ref interacting, symbolSize);
                             symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                         }
-                        var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, j, isHighlight);
-                        var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, j, isHighlight);
-                        var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, j, isHighlight, false);
-                        var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
-                        var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
-                        var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
+                        colorIndex = serie.colorByData ? m : colorIndex;
+                        SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, colorIndex, serieState);
+                        SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, serieState);
                         chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, point, symbolColor,
                             symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -322,15 +341,14 @@ namespace XCharts.Runtime
 
         private void DrawSingleRadar(VertexHelper vh)
         {
-            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
-            if (radar == null)
+            m_RadarCoord = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
+            if (m_RadarCoord == null)
                 return;
 
-            var indicatorNum = radar.indicatorList.Count;
+            var indicatorNum = m_RadarCoord.indicatorList.Count;
             var angle = 2 * Mathf.PI / indicatorNum;
-            var centerPos = radar.context.center;
+            var centerPos = m_RadarCoord.context.center;
             serie.animation.InitProgress(0, 1);
-            serie.context.dataPoints.Clear();
             if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;
@@ -346,11 +364,10 @@ namespace XCharts.Runtime
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
-            SerieHelper.UpdateMinMaxData(serie, 1, radar.ceilRate);
+            SerieHelper.UpdateMinMaxData(serie, 1, m_RadarCoord.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
-                serieData.index = j;
                 string dataName = serieData.name;
 
                 if (!serieData.show)
@@ -359,28 +376,27 @@ namespace XCharts.Runtime
                     continue;
                 }
                 var lineStyle = SerieHelper.GetLineStyle(serie, serieData);
-                var areaStyle = SerieHelper.GetAreaStyle(serie, serieData);
-                var isHighlight = serie.context.pointerEnter;
-                var areaColor = SerieHelper.GetAreaColor(serie, serieData, chart.theme, j, isHighlight);
-                var areaToColor = SerieHelper.GetAreaToColor(serie, serieData, chart.theme, j, isHighlight);
-                var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, j, isHighlight);
-                int dataCount = radar.indicatorList.Count;
+                Color32 areaColor, areaToColor;
+                var colorIndex = serie.colorByData?j : serie.context.colorIndex;
+                var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex);
+                var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
+                int dataCount = m_RadarCoord.indicatorList.Count;
                 var index = serieData.index;
-                var p = radar.context.center;
-                var max = radar.GetIndicatorMax(index);
+                var p = m_RadarCoord.context.center;
+                var max = m_RadarCoord.GetIndicatorMax(index);
                 var value = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {
                     max = serie.context.dataMax;
                 }
-                if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
+                if (!m_RadarCoord.IsInIndicatorRange(j, serieData.GetData(1)))
                 {
-                    lineColor = radar.outRangeColor;
+                    lineColor = m_RadarCoord.outRangeColor;
                 }
-                var radius = (float) (max < 0 ? radar.context.dataRadius - radar.context.dataRadius * value / max :
-                    radar.context.dataRadius * value / max);
-                var currAngle = (index + (radar.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
+                var radius = (float) (max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
+                    m_RadarCoord.context.dataRadius * value / max);
+                var currAngle = (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;
                 if (index == startIndex)
                 {
@@ -394,58 +410,67 @@ namespace XCharts.Runtime
                 {
                     toPoint = new Vector3(p.x + radius * Mathf.Sin(currAngle),
                         p.y + radius * Mathf.Cos(currAngle));
-                    if (areaStyle != null && areaStyle.show)
+                    if (showArea && !serie.smooth)
                     {
                         UGL.DrawTriangle(vh, startPoint, toPoint, p, areaColor, areaColor, areaToColor);
                     }
-                    if (lineStyle.show)
+                    if (lineStyle.show && !serie.smooth)
                     {
-                        if (radar.connectCenter)
+                        if (m_RadarCoord.connectCenter)
                             ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, centerPos,
                                 chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
                         ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, toPoint, chart.theme.serie.lineWidth,
-                            LineStyle.Type.Solid, radar.lineGradient ? lastColor : lineColor, lineColor);
+                            LineStyle.Type.Solid, m_RadarCoord.lineGradient ? lastColor : lineColor, lineColor);
                     }
                     startPoint = toPoint;
                     lastColor = lineColor;
                 }
+                serie.context.dataPoints.Add(startPoint);
+                serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = startPoint;
                 serieData.context.labelPosition = startPoint;
 
-                if (areaStyle != null && areaStyle.show && j == endIndex)
+                if (showArea && j == endIndex && !serie.smooth)
                 {
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
-                if (lineStyle.show && j == endIndex)
+                if (lineStyle.show && j == endIndex && !serie.smooth)
                 {
-                    if (radar.connectCenter)
+                    if (m_RadarCoord.connectCenter)
                         ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, centerPos,
                             chart.theme.serie.lineWidth, LineStyle.Type.Solid, lastColor, lastColor);
                     ChartDrawer.DrawLineStyle(vh, lineStyle, startPoint, firstPoint, chart.theme.serie.lineWidth,
-                        LineStyle.Type.Solid, lineColor, radar.lineGradient ? firstColor : lineColor);
+                        LineStyle.Type.Solid, lineColor, m_RadarCoord.lineGradient ? firstColor : lineColor);
                 }
+            }
+            if (serie.smooth)
+            {
+                var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+                var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex);
+                UGL.DrawCurves(vh, serie.context.dataPoints, lineWidth, lineColor,
+                    chart.settings.lineSmoothStyle,
+                    chart.settings.lineSmoothness,
+                    UGL.Direction.Random,
+                    float.NaN, true);
             }
             if (serie.symbol.show && serie.symbol.type != SymbolType.None)
             {
+                float symbolBorder = 0f;
+                float[] cornerRadius = null;
+                Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
-                    var isHighlight = serie.highlight || serieData.context.highlight || serie.context.pointerEnter;
-                    var serieIndex = serieData.index;
-                    var symbolSize = isHighlight ?
-                        serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize) :
-                        serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                    var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                    var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                    var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
-                    var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
-                    var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
-                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
-                    if (!radar.IsInIndicatorRange(j, serieData.GetData(1)))
+                    var state = SerieHelper.GetSerieState(serie, serieData);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
+                    var colorIndex = serie.colorByData ? serieData.index : serie.context.colorIndex;
+                    SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, colorIndex, state);
+                    SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
+                    if (!m_RadarCoord.IsInIndicatorRange(j, serieData.GetData(1)))
                     {
-                        symbolColor = radar.outRangeColor;
-                        symbolToColor = radar.outRangeColor;
+                        symbolColor = m_RadarCoord.outRangeColor;
+                        symbolToColor = m_RadarCoord.outRangeColor;
                     }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.context.labelPosition, symbolColor,
                         symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
@@ -477,28 +502,6 @@ namespace XCharts.Runtime
                 if (serie.data[i].show) return i;
             }
             return 0;
-        }
-
-        private void DrawRadarSymbol(VertexHelper vh, Serie serie, SerieData serieData, int serieIndex, bool isHighlight,
-            List<Vector3> pointList)
-        {
-            if (serie.symbol.show && serie.symbol.type != SymbolType.None)
-            {
-                var symbolSize = isHighlight ?
-                    serie.symbol.GetSelectedSize(serieData.data, chart.theme.serie.lineSymbolSelectedSize) :
-                    serie.symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                var symbolColor = SerieHelper.GetItemColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, chart.theme, serieIndex, isHighlight);
-                var symbolEmptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serieIndex, isHighlight, false);
-                var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, chart.theme, isHighlight);
-                var borderColor = SerieHelper.GetSymbolBorderColor(serie, serieData, chart.theme, isHighlight);
-                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
-                foreach (var point in pointList)
-                {
-                    chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                        symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
-                }
-            }
         }
     }
 }

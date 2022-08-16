@@ -117,7 +117,7 @@ namespace XCharts.Runtime
             }
         }
 
-        protected override float GetAxisLineXOrY()
+        internal override float GetAxisLineXOrY()
         {
             return component.context.y + component.offset;
         }

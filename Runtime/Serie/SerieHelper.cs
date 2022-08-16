@@ -242,105 +242,158 @@ namespace XCharts.Runtime
             }
         }
 
+        public static SerieState GetSerieState(Serie serie)
+        {
+            if (serie.highlight) return SerieState.Emphasis;
+            return serie.state;
+        }
+
+        public static SerieState GetSerieState(SerieData serieData)
+        {
+            if (serieData.context.highlight) return SerieState.Emphasis;
+            return serieData.state;
+        }
+
+        public static SerieState GetSerieState(Serie serie, SerieData serieData, bool defaultSerieState = false)
+        {
+            if (serieData == null) return GetSerieState(serie);
+            if (serieData.context.highlight) return SerieState.Emphasis;
+            if (serieData.state == SerieState.Auto) return defaultSerieState?serie.state : GetSerieState(serie);
+            return serieData.state;
+        }
+
         public static Color32 GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeStyle theme, int index,
-            bool highlight, bool useDefault = true)
+            SerieState state = SerieState.Auto, bool useDefault = false)
         {
             var color = ChartConst.clearColor32;
-            if (highlight)
-            {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.backgroundColor))
-                {
-                    color = itemStyleEmphasis.backgroundColor;
-                    ChartHelper.SetColorOpacity(ref color, itemStyleEmphasis.opacity);
-                    return color;
-                }
-            }
-            var itemStyle = GetItemStyle(serie, serieData);
-            if (!ChartHelper.IsClearColor(itemStyle.backgroundColor))
-            {
-                color = itemStyle.backgroundColor;
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-                return color;
-            }
-            else if (useDefault)
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+                color = GetItemStyle(serie, serieData, SerieState.Normal).backgroundColor;
+            else
+                color = stateStyle.itemStyle.backgroundColor;
+            if (useDefault && ChartHelper.IsClearColor(color))
             {
                 color = theme.GetColor(index);
-                if (highlight) color = ChartHelper.GetHighlightColor(color);
                 color.a = 50;
-                return color;
             }
             return color;
         }
 
-        public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)
+        public static void GetItemColor(out Color32 color, out Color32 toColor,
+            Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
         {
-            if (serie == null)
-                return ChartConst.clearColor32;
-
-            ItemStyle itemStyle = null;
-            if (highlight)
-                itemStyle = GetItemStyleEmphasis(serie, serieData);
-            if (itemStyle == null)
-                itemStyle = GetItemStyle(serie, serieData);
-
-            var color = ChartHelper.IsClearColor(itemStyle.color) ?
-                theme.GetColor(index) :
-                itemStyle.color;
-
-            if (highlight)
-                color = ChartHelper.GetHighlightColor(color);
-            if (opacity)
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-            return color;
-        }
-        public static Color32 GetItemColor0(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, Color32 defaultColor)
-        {
-            if (serie == null)
-                return ChartConst.clearColor32;
-
-            ItemStyle itemStyle = null;
-            if (highlight)
-                itemStyle = GetItemStyleEmphasis(serie, serieData);
-            if (itemStyle == null)
-                itemStyle = GetItemStyle(serie, serieData);
-
-            var color = ChartHelper.IsClearColor(itemStyle.color0) ?
-                defaultColor :
-                itemStyle.color0;
-
-            if (highlight)
-                color = ChartHelper.GetHighlightColor(color);
-
-            ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
-            return color;
+            var colorIndex = serieData != null && serie.colorByData? serieData.index : serie.context.colorIndex;
+            GetItemColor(out color, out toColor, serie, serieData, theme, colorIndex, state, true);
         }
 
-        public static Color32 GetItemToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight, bool opacity = true)
+        public static void GetItemColor(out Color32 color, out Color32 toColor,
+            Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto, bool opacity = true)
         {
-            if (serie == null)
-                return ChartConst.clearColor32;
-
-            ItemStyle itemStyle = null;
-            if (highlight)
-                itemStyle = GetItemStyleEmphasis(serie, serieData);
-            if (itemStyle == null)
-                itemStyle = GetItemStyle(serie, serieData);
-
-            var color = itemStyle.toColor;
-            if (ChartHelper.IsClearColor(color))
+            color = ColorUtil.clearColor32;
+            toColor = ColorUtil.clearColor32;
+            if (serie == null) return;
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
             {
-                color = ChartHelper.IsClearColor(itemStyle.color) ?
-                    theme.GetColor(index) :
-                    itemStyle.color;
+                var style = GetItemStyle(serie, serieData, SerieState.Normal);
+                GetColor(ref color, style.color, style.color, style.opacity, theme, index, opacity);
+                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        color = ChartHelper.GetHighlightColor(color);
+                        toColor = ChartHelper.GetHighlightColor(toColor);
+                        break;
+                    case SerieState.Blur:
+                        color = ChartHelper.GetBlurColor(color);
+                        toColor = ChartHelper.GetBlurColor(toColor);
+                        break;
+                    case SerieState.Select:
+                        color = ChartHelper.GetSelectColor(color);
+                        toColor = ChartHelper.GetSelectColor(toColor);
+                        break;
+                    default:
+                        break;
+                }
             }
+            else
+            {
+                GetColor(ref color, stateStyle.itemStyle.color, stateStyle.itemStyle.color, stateStyle.itemStyle.opacity, theme, index, opacity);
+                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity);
+            }
+        }
 
-            if (highlight)
-                color = ChartHelper.GetHighlightColor(color);
+        public static void GetItemColor(out Color32 color, out Color32 toColor, out Color32 backgroundColor,
+            Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto, bool opacity = true)
+        {
+            color = ColorUtil.clearColor32;
+            toColor = ColorUtil.clearColor32;
+            backgroundColor = ColorUtil.clearColor32;
+            if (serie == null) return;
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+            {
+                var style = GetItemStyle(serie, serieData, SerieState.Normal);
+                GetColor(ref color, style.color, style.color, style.opacity, theme, index, opacity);
+                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity);
+                backgroundColor = style.backgroundColor;
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        color = ChartHelper.GetHighlightColor(color);
+                        toColor = ChartHelper.GetHighlightColor(toColor);
+                        break;
+                    case SerieState.Blur:
+                        color = ChartHelper.GetBlurColor(color);
+                        toColor = ChartHelper.GetBlurColor(toColor);
+                        break;
+                    case SerieState.Select:
+                        color = ChartHelper.GetSelectColor(color);
+                        toColor = ChartHelper.GetSelectColor(toColor);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                backgroundColor = stateStyle.itemStyle.backgroundColor;
+                GetColor(ref color, stateStyle.itemStyle.color, stateStyle.itemStyle.color, stateStyle.itemStyle.opacity, theme, index, opacity);
+                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity);
+            }
+        }
 
-            if (opacity)
-                ChartHelper.SetColorOpacity(ref color, itemStyle.opacity);
+        public static Color32 GetItemColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto, bool opacity = true)
+        {
+            var color = ColorUtil.clearColor32;
+            if (serie == null) return color;
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null || !stateStyle.itemStyle.show)
+            {
+                var style = GetItemStyle(serie, serieData);
+                GetColor(ref color, style.color, style.color, style.opacity, theme, index, opacity);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        color = ChartHelper.GetHighlightColor(color);
+                        break;
+                    case SerieState.Blur:
+                        color = ChartHelper.GetBlurColor(color);
+                        break;
+                    case SerieState.Select:
+                        color = ChartHelper.GetSelectColor(color);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                GetColor(ref color, stateStyle.itemStyle.color, stateStyle.itemStyle.color, stateStyle.itemStyle.opacity, theme, index, opacity);
+            }
             return color;
         }
 
@@ -370,72 +423,60 @@ namespace XCharts.Runtime
             }
         }
 
-        public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)
+        public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
-            if (highlight)
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            if (state == SerieState.Normal)
             {
-                var style = GetItemStyleEmphasis(serie, serieData);
-                if (style == null) return GetItemStyle(serie, serieData, false);
-                else return style;
-            }
-            else if (serie.IsPerformanceMode()) return serie.itemStyle;
-            else if (serieData != null && serieData.itemStyle != null) return serieData.itemStyle;
-            else return serie.itemStyle;
-        }
-
-        public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
-        {
-            if (!serie.IsPerformanceMode() && serieData != null && serieData.emphasisItemStyle != null && serieData.emphasisItemStyle.show)
-                return serieData.emphasisItemStyle;
-            else if (serie.emphasisItemStyle != null && serie.emphasisItemStyle.show) return serie.emphasisItemStyle;
-            else return null;
-        }
-
-        public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
-        {
-            if (serieData == null) return serie.label;
-            if (highlight)
-            {
-                if (!serie.IsPerformanceMode() && serieData.emphasisLabel != null && serieData.emphasisLabel.show)
-                    return serieData.emphasisLabel;
-                else if (serie.emphasisLabel != null && serie.emphasisLabel.show) return serie.emphasisLabel;
-                else return serie.label;
+                return serieData != null && serieData.itemStyle != null? serieData.itemStyle : serie.itemStyle;
             }
             else
             {
-                if (!serie.IsPerformanceMode() && serieData.labelStyle != null) return serieData.labelStyle;
-                else return serie.label;
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.itemStyle : stateStyle.itemStyle;
             }
         }
 
-        public static LabelStyle GetSerieEmphasisLabel(Serie serie, SerieData serieData)
+        public static LabelStyle GetSerieLabel(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
-            if (!serie.IsPerformanceMode() && serieData.emphasisLabel != null && serieData.emphasisLabel.show)
-                return serieData.emphasisLabel;
-            else if (serie.emphasisLabel != null && serie.emphasisLabel.show) return serie.emphasisLabel;
-            else return null;
-        }
-
-        public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, bool highlight = false)
-        {
-            if (highlight)
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            if (state == SerieState.Normal)
             {
-                if (!serie.IsPerformanceMode() && serieData.emphasisLabelLine != null && serieData.emphasisLabelLine.show)
-                    return serieData.emphasisLabelLine;
-                else if (serie.emphasisLabelLine != null && serie.emphasisLabelLine.show) return serie.emphasisLabelLine;
-                else return serie.labelLine;
+                return serieData != null && serieData.labelStyle != null? serieData.labelStyle : serie.label;
             }
             else
             {
-                if (!serie.IsPerformanceMode() && serieData.labelLine != null) return serieData.labelLine;
-                else return serie.labelLine;
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.label : stateStyle.label;
             }
         }
 
-        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData)
+        public static LabelLine GetSerieLabelLine(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
-            if (!serie.IsPerformanceMode() && serieData.symbol != null) return serieData.symbol;
-            else return serie.symbol;
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            if (state == SerieState.Normal)
+            {
+                return serieData != null && serieData.labelLine != null? serieData.labelLine : serie.labelLine;
+            }
+            else
+            {
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.labelLine : stateStyle.labelLine;
+            }
+        }
+
+        public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
+        {
+            if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
+            if (state == SerieState.Normal)
+            {
+                return serieData != null && serieData.symbol != null? serieData.symbol : serie.symbol;
+            }
+            else
+            {
+                var stateStyle = GetStateStyle(serie, serieData, state);
+                return stateStyle == null?serie.symbol : stateStyle.symbol;
+            }
         }
 
         public static LineStyle GetLineStyle(Serie serie, SerieData serieData)
@@ -456,94 +497,195 @@ namespace XCharts.Runtime
             else return serie.titleStyle;
         }
 
-        public static Color32 GetAreaColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
+        public static EmphasisStyle GetEmphasisStyle(Serie serie, SerieData serieData)
         {
-            Color32 color = ChartConst.clearColor32;
-            var areaStyle = GetAreaStyle(serie, serieData);
-            if (areaStyle == null || !areaStyle.show)
-                return color;
-            if (!ChartHelper.IsClearColor(areaStyle.color)) color = areaStyle.color;
-            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.color;
-            else color = theme.GetColor(index);
-            ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
-            if (highlight)
-            {
-                if (!ChartHelper.IsClearColor(areaStyle.highlightColor))
-                    color = areaStyle.highlightColor;
-                else
-                    color = ChartHelper.GetHighlightColor(color);
-            }
-            return color;
+            if (serieData != null && serieData.emphasisStyle != null) return serieData.emphasisStyle;
+            else return serie.emphasisStyle;
         }
 
-        public static Color32 GetAreaToColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
+        public static BlurStyle GetBlurStyle(Serie serie, SerieData serieData)
         {
-            Color32 color = ChartConst.clearColor32;
-            var areaStyle = GetAreaStyle(serie, serieData);
-            if (areaStyle == null || !areaStyle.show)
-                return color;
-            if (!ChartHelper.IsClearColor(areaStyle.toColor)) color = areaStyle.toColor;
-            else if (!ChartHelper.IsClearColor(serie.itemStyle.toColor)) color = serie.itemStyle.toColor;
-            else color = theme.GetColor(index);
-            ChartHelper.SetColorOpacity(ref color, areaStyle.opacity);
-            if (highlight)
-            {
-                if (!ChartHelper.IsClearColor(areaStyle.highlightToColor))
-                    color = areaStyle.highlightToColor;
-                else
-                    color = ChartHelper.GetHighlightColor(color);
-            }
-            return color;
+            if (serieData != null && serieData.blurStyle != null) return serieData.blurStyle;
+            else return serie.blurStyle;
+        }
+        public static SelectStyle GetSelectStyle(Serie serie, SerieData serieData)
+        {
+            if (serieData != null && serieData.selectStyle != null) return serieData.selectStyle;
+            else return serie.selectStyle;
         }
 
-        public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, bool highlight)
+        public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)
         {
-            Color32 color = ChartConst.clearColor32;
-            var lineStyle = GetLineStyle(serie, serieData);
-            if (highlight)
+            switch (state)
             {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, null);
-                if (itemStyleEmphasis != null && !ChartHelper.IsClearColor(itemStyleEmphasis.color))
+                case SerieState.Emphasis:
+                    return GetEmphasisStyle(serie, serieData);
+                case SerieState.Blur:
+                    return GetBlurStyle(serie, serieData);
+                case SerieState.Select:
+                    return GetSelectStyle(serie, serieData);
+                default:
+                    return null;
+            }
+        }
+
+        public static bool GetAreaColor(out Color32 color, out Color32 toColor,
+            Serie serie, SerieData serieData, ThemeStyle theme, int index)
+        {
+            bool fill;
+            return GetAreaColor(out color, out toColor, out fill,serie, serieData, theme, index);
+        }
+
+        public static bool GetAreaColor(out Color32 color, out Color32 toColor, out bool innerFill,
+            Serie serie, SerieData serieData, ThemeStyle theme, int index)
+        {
+            color = ChartConst.clearColor32;
+            toColor = ChartConst.clearColor32;
+            innerFill = false;
+            var state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+            {
+                var areaStyle = GetAreaStyle(serie, serieData);
+                if (areaStyle == null || !areaStyle.show) return false;
+                innerFill = areaStyle.innerFill;
+                GetColor(ref color, areaStyle.color, serie.itemStyle.color, areaStyle.opacity, theme, index);
+                GetColor(ref toColor, areaStyle.toColor, color, areaStyle.opacity, theme, index);
+                switch (state)
                 {
-                    color = itemStyleEmphasis.color;
-                    ChartHelper.SetColorOpacity(ref color, itemStyleEmphasis.opacity);
-                    return color;
+                    case SerieState.Emphasis:
+                        color = ChartHelper.GetHighlightColor(color);
+                        toColor = ChartHelper.GetHighlightColor(toColor);
+                        break;
+                    case SerieState.Blur:
+                        color = ChartHelper.GetBlurColor(color);
+                        toColor = ChartHelper.GetBlurColor(toColor);
+                        break;
+                    case SerieState.Select:
+                        color = ChartHelper.GetSelectColor(color);
+                        toColor = ChartHelper.GetSelectColor(toColor);
+                        break;
+                    default:
+                        break;
                 }
             }
-            if (!ChartHelper.IsClearColor(lineStyle.color)) color = lineStyle.color;
-            else if (!ChartHelper.IsClearColor(serie.itemStyle.color)) color = serie.itemStyle.GetColor();
-            if (ChartHelper.IsClearColor(color)) color = theme.GetColor(index);
-            ChartHelper.SetColorOpacity(ref color, lineStyle.opacity);
-            if (highlight) color = ChartHelper.GetHighlightColor(color);
-            return color;
+            else
+            {
+                if (stateStyle.areaStyle.show)
+                {
+                    innerFill = stateStyle.areaStyle.innerFill;
+                    GetColor(ref color, stateStyle.areaStyle.color, stateStyle.itemStyle.color, stateStyle.areaStyle.opacity, theme, index);
+                    GetColor(ref color, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)
+        public static Color32 GetLineColor(Serie serie, SerieData serieData, ThemeStyle theme, int index, SerieState state = SerieState.Auto)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else return serie.lineStyle.GetWidth(theme.serie.lineWidth) * 2;
+            Color32 color = ChartConst.clearColor32;
+            if (state == SerieState.Auto)
+                state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+            {
+                var lineStyle = GetLineStyle(serie, serieData);
+                GetColor(ref color, lineStyle.color, serie.itemStyle.color, lineStyle.opacity, theme, index);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        return ChartHelper.GetHighlightColor(color);
+                    case SerieState.Blur:
+                        return ChartHelper.GetBlurColor(color);
+                    case SerieState.Select:
+                        return ChartHelper.GetSelectColor(color);
+                    default:
+                        return color;
+                }
+            }
+            else
+            {
+                GetColor(ref color, stateStyle.lineStyle.color, stateStyle.itemStyle.color, stateStyle.lineStyle.opacity, theme, index);
+                return color;
+            }
         }
 
-        public static Color32 GetSymbolBorderColor(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight)
+        private static void GetColor(ref Color32 color, Color32 checkColor, Color32 itemColor,
+            float opacity, ThemeStyle theme, int colorIndex, bool setOpacity = true)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle != null && !ChartHelper.IsClearColor(itemStyle.borderColor)) return itemStyle.borderColor;
-            else return serie.itemStyle.borderColor;
+            if (!ChartHelper.IsClearColor(checkColor)) color = checkColor;
+            else if (!ChartHelper.IsClearColor(itemColor)) color = itemColor;
+            if (ChartHelper.IsClearColor(color) && colorIndex >= 0) color = theme.GetColor(colorIndex);
+            if (setOpacity) ChartHelper.SetColorOpacity(ref color, opacity);
         }
 
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, ThemeStyle theme, bool highlight, float defaultWidth)
+        public static void GetSymbolInfo(out Color32 borderColor, out float border, out float[] cornerRadius,
+            Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else return defaultWidth;
+            borderColor = ChartConst.clearColor32;
+            if (state == SerieState.Auto)
+                state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null)
+            {
+                var itemStyle = GetItemStyle(serie, serieData, SerieState.Normal);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth);
+                cornerRadius = itemStyle.cornerRadius;
+                GetColor(ref borderColor, itemStyle.borderColor, itemStyle.borderColor, 1, theme, -1);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                        borderColor = ChartHelper.GetHighlightColor(borderColor);
+                        break;
+                    case SerieState.Blur:
+                        borderColor = ChartHelper.GetBlurColor(borderColor);
+                        break;
+                    case SerieState.Select:
+                        borderColor = ChartHelper.GetSelectColor(borderColor);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                var itemStyle = stateStyle.itemStyle;
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth);
+                cornerRadius = itemStyle.cornerRadius;
+                GetColor(ref borderColor, stateStyle.itemStyle.borderColor, ColorUtil.clearColor32, 1, theme, -1);
+            }
         }
 
-        public static float[] GetSymbolCornerRadius(Serie serie, SerieData serieData, bool highlight)
+        public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle != null) return itemStyle.cornerRadius;
-            else return null;
+            if (state == SerieState.Auto)
+                state = GetSerieState(serie, serieData);
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            var size = 0f;
+            if (stateStyle == null)
+            {
+                var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
+                size = symbol.GetSize(serieData.data, defaultSize);
+                switch (state)
+                {
+                    case SerieState.Emphasis:
+                    case SerieState.Select:
+                        size *= theme.serie.selectedRate;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                var symbol = stateStyle.symbol;
+                size = symbol.GetSize(serieData.data, defaultSize);
+            }
+            return size;
         }
 
         public static string GetNumericFormatter(Serie serie, SerieData serieData, string defaultFormatter = null)
@@ -644,10 +786,9 @@ namespace XCharts.Runtime
         private static void UpdateFilterData_XAxisValue(Serie serie, DataZoom dataZoom, int dimension, double min, double max)
         {
             var data = serie.data;
-            var startValue = min + (max - min) * dataZoom.start / 100;
-            var endValue = min + (max - min) * dataZoom.end / 100;
+            var startValue = min;
+            var endValue = max;
             if (endValue < startValue) endValue = startValue;
-
             if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue ||
                 dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {

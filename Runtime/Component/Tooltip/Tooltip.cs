@@ -250,7 +250,7 @@ namespace XCharts.Runtime
         public bool ignoreDataShow { get { return m_IgnoreDataShow; } set { m_IgnoreDataShow = value; } }
         /// <summary>
         /// The default display character information for ignored data.
-        /// |被忽略数据的默认显示字符信息。
+        /// |被忽略数据的默认显示字符信息。如果设置为空，则表示完全不显示忽略数据。
         /// </summary>
         public string ignoreDataDefaultContent { get { return m_IgnoreDataDefaultContent; } set { m_IgnoreDataDefaultContent = value; } }
         /// <summary>

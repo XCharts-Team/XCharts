@@ -101,6 +101,8 @@ namespace XCharts.Runtime
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
+        [SerializeField][Since("v3.2.0")] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
+        [SerializeField][Since("v3.2.0")] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
 
         public AxisContext context = new AxisContext();
 
@@ -352,6 +354,24 @@ namespace XCharts.Runtime
             set { if (value != null) { m_SplitArea = value; SetVerticesDirty(); } }
         }
         /// <summary>
+        /// axis minor tick.
+        /// |坐标轴次刻度。
+        /// </summary>
+        public AxisMinorTick minorTick
+        {
+            get { return m_MinorTick; }
+            set { if (value != null) { m_MinorTick = value; SetVerticesDirty(); } }
+        }
+        /// <summary>
+        /// axis minor split line.
+        /// |坐标轴次分割线。
+        /// </summary>
+        public AxisMinorSplitLine minorSplitLine
+        {
+            get { return m_MinorSplitLine; }
+            set { if (value != null) { m_MinorSplitLine = value; SetVerticesDirty(); } }
+        }
+        /// <summary>
         /// Whether to add new data at the head or at the end of the list.
         /// |添加新数据时是在列表的头部还是尾部加入。
         /// </summary>
@@ -369,7 +389,9 @@ namespace XCharts.Runtime
                     axisLine.anyDirty ||
                     axisTick.anyDirty ||
                     splitLine.anyDirty ||
-                    splitArea.anyDirty;
+                    splitArea.anyDirty ||
+                    minorTick.anyDirty ||
+                    minorSplitLine.anyDirty;
             }
         }
 
@@ -398,6 +420,8 @@ namespace XCharts.Runtime
             axisTick.ClearVerticesDirty();
             splitLine.ClearVerticesDirty();
             splitArea.ClearVerticesDirty();
+            minorTick.ClearVerticesDirty();
+            minorSplitLine.ClearVerticesDirty();
         }
 
         public override void SetComponentDirty()
@@ -429,6 +453,8 @@ namespace XCharts.Runtime
             axis.axisLabel = axisLabel.Clone();
             axis.splitLine = splitLine.Clone();
             axis.splitArea = splitArea.Clone();
+            axis.minorTick = minorTick.Clone();
+            axis.minorSplitLine = minorSplitLine.Clone();
             axis.icons = new List<Sprite>();
             axis.data = new List<string>();
             ChartHelper.CopyList(axis.data, data);
@@ -457,6 +483,8 @@ namespace XCharts.Runtime
             axisLabel.Copy(axis.axisLabel);
             splitLine.Copy(axis.splitLine);
             splitArea.Copy(axis.splitArea);
+            minorTick.Copy(axis.minorTick);
+            minorSplitLine.Copy(axis.minorSplitLine);
             ChartHelper.CopyList(data, axis.data);
             ChartHelper.CopyList<Sprite>(icons, axis.icons);
         }
@@ -525,6 +553,21 @@ namespace XCharts.Runtime
         public bool IsBottom()
         {
             return m_Position == AxisPosition.Bottom;
+        }
+
+        public bool IsNeedShowLabel(int index, int total = 0)
+        {
+            if (total == 0)
+            {
+                total = context.labelValueList.Count;
+            }
+            var labelShow = axisLabel.show && (axisLabel.interval == 0 || index % (axisLabel.interval + 1) == 0);
+            if (labelShow)
+            {
+                if (!axisLabel.showStartLabel && index == 0) labelShow = false;
+                else if (!axisLabel.showEndLabel && index == total - 1) labelShow = false;
+            }
+            return labelShow;
         }
 
         public void SetNeedUpdateFilterData()
@@ -664,6 +707,18 @@ namespace XCharts.Runtime
             }
         }
 
+        public float GetValueLength(double value, float axisLength)
+        {
+            if (context.minMaxRange > 0)
+            {
+                return axisLength * ((float) (value / context.minMaxRange));
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// 获得指定区域缩放的类目数据列表
         /// </summary>
@@ -787,6 +842,17 @@ namespace XCharts.Runtime
                 return context.labelValueList[context.labelValueList.Count - 1];
             else
                 return 0;
+        }
+
+        public void UpdateZeroOffset(float axisLength)
+        {
+            context.offset = context.minValue > 0 || context.minMaxRange == 0 ?
+                0 :
+                (context.maxValue < 0 ?
+                    axisLength :
+                    (float) (Math.Abs(context.minValue) * (axisLength /
+                        (Math.Abs(context.minValue) + Math.Abs(context.maxValue))))
+                );
         }
     }
 }

@@ -18,18 +18,12 @@ namespace XCharts.Example
             foreach (var serie in chart.series)
             {
                 serie.symbol.sizeFunction = SymbolSize;
-                serie.symbol.selectedSizeFunction = SymbolSelectedSize;
             }
         }
 
         float SymbolSize(List<double> data)
         {
             return (float) (Math.Sqrt(data[2]) / 6e2);
-        }
-
-        float SymbolSelectedSize(List<double> data)
-        {
-            return (float) (Math.Sqrt(data[2]) / 5e2);
         }
     }
 }

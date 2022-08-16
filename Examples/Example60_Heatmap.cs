@@ -47,10 +47,10 @@ namespace XCharts.Example
             serie.itemStyle.borderColor = Color.clear;
 
             //设置高亮样式
-            serie.AddExtraComponent<EmphasisItemStyle>();
-            serie.emphasisItemStyle.show = true;
-            serie.emphasisItemStyle.borderWidth = 1;
-            serie.emphasisItemStyle.borderColor = Color.black;
+            var emphasisStyle = serie.AddExtraComponent<EmphasisStyle>();
+            emphasisStyle.itemStyle.show = true;
+            emphasisStyle.itemStyle.borderWidth = 1;
+            emphasisStyle.itemStyle.borderColor = Color.black;
 
             //设置视觉映射组件
             var visualMap = chart.GetChartComponent<VisualMap>();

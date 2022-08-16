@@ -24,7 +24,7 @@ namespace XCharts.Runtime
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
-            string marker, string itemFormatter, string numericFormatter,
+            string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
             dataIndex = serie.context.pointerItemDataIndex;
@@ -130,7 +130,7 @@ namespace XCharts.Runtime
             xAxis.boundaryGap = true;
             yAxis.boundaryGap = true;
             var visualMap = chart.GetVisualMapOfSerie(serie);
-            var emphasisItemStyle = serie.emphasisItemStyle;
+            var emphasisStyle = serie.emphasisStyle;
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
             var xWidth = m_SerieGrid.context.width / xCount;
@@ -155,7 +155,6 @@ namespace XCharts.Runtime
                 ChartConst.clearColor32;
             borderToColor.a = (byte) (borderToColor.a * serie.itemStyle.opacity);
 
-            serie.context.dataPoints.Clear();
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -165,13 +164,13 @@ namespace XCharts.Runtime
             for (int n = 0; n < serie.dataCount; n++)
             {
                 var serieData = serie.data[n];
-                serieData.index = n;
                 var i = (int) serieData.GetData(0);
                 var j = (int) serieData.GetData(1);
                 var dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
                 if (serie.IsIgnoreValue(serieData, dimension))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
+                    serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
                 var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
@@ -180,6 +179,7 @@ namespace XCharts.Runtime
                 var pos = new Vector3(zeroX + (i + (xAxis.boundaryGap ? 0.5f : 0)) * xWidth,
                     zeroY + (j + (yAxis.boundaryGap ? 0.5f : 0)) * yWidth);
                 serie.context.dataPoints.Add(pos);
+                serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = pos;
 
                 serieData.context.canShowLabel = false;
@@ -209,9 +209,10 @@ namespace XCharts.Runtime
                 {
                     UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
                 }
-                if (visualMap.hoverLink && highlight && emphasisItemStyle != null &&
-                    emphasisItemStyle.borderWidth > 0)
+                if (visualMap.hoverLink && highlight && emphasisStyle != null &&
+                    emphasisStyle.itemStyle.borderWidth > 0)
                 {
+                    var emphasisItemStyle = emphasisStyle.itemStyle;
                     var emphasisBorderWidth = emphasisItemStyle.borderWidth;
                     var emphasisBorderColor = emphasisItemStyle.opacity > 0 ?
                         emphasisItemStyle.borderColor : ChartConst.clearColor32;

@@ -7,8 +7,10 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_ColorBy");
             PropertyField("m_RadarType");
             PropertyField("m_RadarIndex");
+            PropertyField("m_Smooth");
 
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");

@@ -16,7 +16,6 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
-            //PropertyField("m_InsertDataToHead");
             PropertyField("m_SerieName");
             if (m_CoordOptionsNames != null && m_CoordOptionsNames.Count > 1)
             {
@@ -28,6 +27,7 @@ namespace XCharts.Editor
                     serie.coordSystem = m_CoordOptionsDic[typeName].Name;
                 }
             }
+            PropertyField("m_State");
             OnCustomInspectorGUI();
             OnExtraInspectorGUI();
             PropertyFieldData();
@@ -72,6 +72,7 @@ namespace XCharts.Editor
             {
                 while (listSize > m_Datas.arraySize) m_Datas.arraySize++;
                 while (listSize < m_Datas.arraySize) m_Datas.arraySize--;
+                serie.ResetDataIndex();
             }
             if (listSize > 30) // && !XCSettings.editorShowAllListData)
             {
@@ -114,7 +115,9 @@ namespace XCharts.Editor
                 m_DataElementFoldout[index] = false;
             }
             var fieldCount = dimension + (showName ? 1 : 0);
-            m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + index, flag, false, null,
+            var serieData = m_Datas.GetArrayElementAtIndex(index);
+            var dataIndex = serieData.FindPropertyRelative("m_Index").intValue;
+            m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + dataIndex, flag, false, null,
                 delegate(Rect drawRect)
                 {
                     //drawRect.width -= 2f;
@@ -124,7 +127,7 @@ namespace XCharts.Editor
                     var lastWid = drawRect.width;
                     var lastFieldWid = EditorGUIUtility.fieldWidth;
                     var lastLabelWid = EditorGUIUtility.labelWidth;
-                    var serieData = m_Datas.GetArrayElementAtIndex(index);
+                    //var serieData = m_Datas.GetArrayElementAtIndex(index);
                     var sereName = serieData.FindPropertyRelative("m_Name");
                     var data = serieData.FindPropertyRelative("m_Data");
 #if UNITY_2019_3_OR_NEWER
@@ -153,7 +156,7 @@ namespace XCharts.Editor
                         var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
                         var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
                         var dataWid = dataWidTotal / fieldCount;
-                        var xWid = dataWid - 2;
+                        var xWid = dataWid - 0;
                         for (int i = 0; i < dimension; i++)
                         {
                             var dataCount = i < 1 ? 2 : i + 1;
@@ -189,9 +192,8 @@ namespace XCharts.Editor
         {
             EditorGUI.indentLevel++;
             var serieData = m_Datas.GetArrayElementAtIndex(index);
-            var m_Name = serieData.FindPropertyRelative("m_Name");
-
-            PropertyField(m_Name);
+            PropertyField(serieData.FindPropertyRelative("m_Name"));
+            //PropertyField(serieData.FindPropertyRelative("m_State"));
             if (serie.GetType().IsDefined(typeof(SerieDataExtraFieldAttribute), false))
             {
                 var attribute = serie.GetType().GetAttribute<SerieDataExtraFieldAttribute>();

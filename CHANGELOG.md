@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
 [v3.0.0](#v3.0.0)  
@@ -57,7 +58,60 @@
 
 ## master
 
-## 3.1.0
+## v3.2.0
+
+### 版本要点
+
+* `Serie`支持高亮，淡出和选中三状态配置：`EmphasisStyle`,`BlurStyle`和`SelectStyle`
+* `Axis`支持坐标轴次刻度和次分割线：`MinorTick`和`MinorSplitLine`
+* `Serie`支持不同的取色策略：`colorBy`
+* `Radar`支持平滑曲线：`smooth`
+* `Line`支持当作凸多边形填充：`AreaStyle`的`innerFill`
+* `DataZoom`支持时间轴
+* 其他优化和修复
+
+### 日志详情
+
+* (2022.08.16) 发布`v3.2.0`版本
+* (2022.08.15) 优化`Smooth`贝塞尔曲线算法
+* (2022.08.13) 修复`DataZoom`组件开启时图表显示效果可能不正确的问题
+* (2022.08.11) 优化`Tooltip`支持`ignoreDataDefaultContent`
+* (2022.08.10) 修复`Chart`在3D相机下部分组件显示异常的问题
+* (2022.08.10) 修复`RemoveSerie()`接口不生效的问题 (#219)
+* (2022.08.10) 优化`Theme`的字体同步操作
+* (2022.08.10) 优化`Chart`的默认`layer`设置为`UI`
+* (2022.08.09) 优化`Axis`的`Time`时间轴的次分割线
+* (2022.08.09) 增加`AreaStyle`的`innerFill`参数支持填充凸多边形
+* (2022.08.08) 优化`Serie`的数据项索引维护，增加检测和修复功能，修复相关问题
+* (2022.07.29) 修复`Unity`版本兼容：在某些版本导入后图表创建异常的问题
+* (2022.07.29) 增加`Axis`为`Time`时间轴时，支持次刻度和次分割线
+* (2022.07.28) 优化`Radar`雷达图效果
+* (2022.07.28) 增加`Serie`的`colorBy`参数配置取色策略
+* (2022.07.27) 增加`StateStyle`的`Symbol`用于配置状态下的标记样式
+* (2022.07.27) 去掉`SerieSymbol`的`selectedSize`参数
+* (2022.07.24) 增加`Serie`和`SerieData`的`state`设置默认状态
+* (2022.07.22) 增加`Serie`的三种状态`EmphasisStyle`,`BlurStyle`,`SelectStyle`
+* (2022.07.22) 去掉`AreaStyle`的`highlightColor`和`highlightToColor`参数
+* (2022.07.22) 去掉`Emphasis`,`EmphasisItemStyle`,`EmphasisLabelStyle`,`EmphasisLabelLine`组件
+* (2022.07.20) 增加`Since`特性对类的支持
+* (2022.07.20) 修复`Axis`在`Value`轴时，`AxisLabel`的`showStartLabel`和`showEndLabel`参数设置不生效的问题
+* (2022.07.19) 增加`Axis`的`MinorSplitLine`设置坐标轴次分割线
+* (2022.07.19) 增加`Axis`的`MinorTick`设置坐标轴次刻度
+* (2022.07.17) 增加`Radar`的`smooth`参数设置平滑曲线
+* (2022.07.15) 增加`DataZoom`对`Time`时间轴的支持
+
+## v3.1.0
+
+### 版本要点
+
+* 优化`Axis`
+* 优化`Tooltip`
+* 优化平滑曲线算法
+* 优化代码动态创建图表
+* 完善配置项手册
+* 修复若干问题
+
+### 日志详情
 
 * (2022.07.12) 发布`v3.1.0`版本
 * (2022.07.12) 修复`Serie`的`ignoreLineBreak`不生效的问题
@@ -77,7 +131,7 @@
 * (2022.06.25) 修复`DataZoom`开启时`Tooltip`显示数据不一致的问题 (#203)
 * (2022.06.25) 修复`Toolip`在类目轴无数据时绘制异常的问题 (#204)
 * (2022.06.25) 优化`Serie`设置`PlaceHolder`时的`Tooltip`表现
-* (2022.06.25) 增加`Since`标识配置参数从哪个版本开始支持
+* (2022.06.25) 增加`Since`特效用于标识配置参数从哪个版本开始支持
 * (2022.06.24) 优化`Painter`绘制层，`Top`层细分为`Upper`和`Top`层
 * (2022.06.24) 增加`Legend`对`Background`和`Padding`的支持
 * (2022.06.21) 增加`TextStyle`对`TextMeshPro`的`Sprite Asset`支持 (#201)

@@ -84,6 +84,10 @@ namespace XCharts.Runtime
         /// </summary>
         public int vertCount;
         /// <summary>
+        /// theme的颜色索引
+        /// </summary>
+        public int colorIndex;
+        /// <summary>
         /// 数据对应的位置坐标。
         /// </summary>
         public List<Vector3> dataPoints = new List<Vector3>();
@@ -92,14 +96,14 @@ namespace XCharts.Runtime
         /// </summary>
         public List<bool> dataIgnores = new List<bool>();
         /// <summary>
+        /// 数据对应的index索引。dataIndexs 和 dataPoints 一一对应。
+        /// </summary>
+        public List<int> dataIndexs = new List<int>();
+        /// <summary>
         /// 排序后的数据
         /// </summary>
         public List<SerieData> sortedData = new List<SerieData>();
         public List<SerieData> rootData = new List<SerieData>();
-        /// <summary>
-        /// theme的颜色索引
-        /// </summary>
-        public int colorIndex;
         /// <summary>
         /// 绘制点
         /// </summary>

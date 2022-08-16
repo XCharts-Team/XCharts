@@ -24,11 +24,17 @@ namespace XCharts.Runtime
         public static void DrawSerieLineArea(VertexHelper vh, Serie serie, Serie lastStackSerie,
             ThemeStyle theme, VisualMap visualMap, bool isY, Axis axis, Axis relativedAxis, GridCoord grid)
         {
-            if (serie.areaStyle == null || !serie.areaStyle.show)
+            Color32 areaColor, areaToColor;
+            bool innerFill;
+            if (!SerieHelper.GetAreaColor(out areaColor, out areaToColor, out innerFill, serie, null, theme, serie.context.colorIndex))
+            {
                 return;
-
-            var srcAreaColor = SerieHelper.GetAreaColor(serie, null, theme, serie.context.colorIndex, false);
-            var srcAreaToColor = SerieHelper.GetAreaToColor(serie, null, theme, serie.context.colorIndex, false);
+            }
+            if (innerFill)
+            {
+                UGL.DrawPolygon(vh, serie.context.dataPoints, areaColor);
+                return;
+            }
             var gridXY = (isY ? grid.context.x : grid.context.y);
             if (lastStackSerie == null)
             {
@@ -36,8 +42,8 @@ namespace XCharts.Runtime
                     gridXY + relativedAxis.context.offset,
                     gridXY,
                     gridXY + (isY ? grid.context.width : grid.context.height),
-                    srcAreaColor,
-                    srcAreaToColor,
+                    areaColor,
+                    areaToColor,
                     visualMap,
                     axis,
                     relativedAxis,
@@ -49,8 +55,8 @@ namespace XCharts.Runtime
                     gridXY + relativedAxis.context.offset,
                     gridXY,
                     gridXY + (isY ? grid.context.width : grid.context.height),
-                    srcAreaColor,
-                    srcAreaToColor,
+                    areaColor,
+                    areaToColor,
                     visualMap);
             }
         }
@@ -261,9 +267,7 @@ namespace XCharts.Runtime
             var isY = axis is YAxis;
             var isVisualMapGradient = VisualMapHelper.IsNeedLineGradient(visualMap);
             var isLineStyleGradient = serie.lineStyle.IsNeedGradient();
-
-            //var highlight = serie.highlight || serie.context.pointerEnter;
-            var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;

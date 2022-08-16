@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_SplitLineWidth = 1f;
         [SerializeField] protected float m_SplitLineLength = 0f;
         [SerializeField] protected Color32 m_SplitLineColor;
+        [SerializeField] protected Color32 m_MinorSplitLineColor;
         [SerializeField] protected float m_TickWidth = 1f;
         [SerializeField] protected float m_TickLength = 5f;
         [SerializeField] protected Color32 m_TickColor;
@@ -87,13 +88,22 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SplitLineLength, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the color of line.
+        /// the color of split line.
         /// |分割线线颜色。
         /// </summary>
         public Color32 splitLineColor
         {
             get { return m_SplitLineColor; }
             set { if (PropertyUtil.SetColor(ref m_SplitLineColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the color of minor split line.
+        /// |次分割线线颜色。
+        /// </summary>
+        public Color32 minorSplitLineColor
+        {
+            get { return ChartHelper.IsClearColor(m_MinorSplitLineColor) ? ColorUtil.GetColor("#F4F7FD") : m_MinorSplitLineColor; }
+            set { if (PropertyUtil.SetColor(ref m_MinorSplitLineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the length of tick.
@@ -146,33 +156,36 @@ namespace XCharts.Runtime
             switch (theme)
             {
                 case ThemeType.Default:
-                    m_LineColor = ColorUtil.GetColor("#514D4D");
-                    m_TickColor = ColorUtil.GetColor("#514D4D");
-                    m_SplitLineColor = ColorUtil.GetColor("#51515120");
+                    m_LineColor = ColorUtil.GetColor("#6E7079");
+                    m_TickColor = ColorUtil.GetColor("#6E7079");
+                    m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
+                    m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
                     m_SplitAreaColors = new List<Color32>
                     {
-                        new Color32(250, 250, 250, 77),
-                        new Color32(200, 200, 200, 77)
+                        new Color32(250, 250, 250, 51),
+                        new Color32(210, 219, 238, 51)
                     };
                     break;
                 case ThemeType.Light:
-                    m_LineColor = ColorUtil.GetColor("#514D4D");
-                    m_TickColor = ColorUtil.GetColor("#514D4D");
-                    m_SplitLineColor = ColorUtil.GetColor("#51515120");
+                    m_LineColor = ColorUtil.GetColor("#6E7079");
+                    m_TickColor = ColorUtil.GetColor("#6E7079");
+                    m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
+                    m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
                     m_SplitAreaColors = new List<Color32>
                     {
-                        new Color32(250, 250, 250, 77),
-                        new Color32(200, 200, 200, 77)
+                        new Color32(250, 250, 250, 51),
+                        new Color32(210, 219, 238, 51)
                     };
                     break;
                 case ThemeType.Dark:
-                    m_LineColor = ColorUtil.GetColor("#B9B8CE");
-                    m_TickColor = ColorUtil.GetColor("#B9B8CE");
-                    m_SplitLineColor = ColorUtil.GetColor("#484753");
+                    m_LineColor = ColorUtil.GetColor("#6E7079");
+                    m_TickColor = ColorUtil.GetColor("#6E7079");
+                    m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
+                    m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
                     m_SplitAreaColors = new List<Color32>
                     {
                         new Color32(255, 255, 255, (byte) (0.02f * 255)),
-                        new Color32(255, 255, 255, (byte) (0.05f * 255))
+                        new Color32(210, 219, 238, (byte) (0.02f * 255))
                     };
                     break;
             }
@@ -199,29 +212,25 @@ namespace XCharts.Runtime
     [Serializable]
     public class AxisTheme : BaseAxisTheme
     {
-        public AxisTheme(ThemeType theme) : base(theme)
-        { }
+        public AxisTheme(ThemeType theme) : base(theme) { }
     }
 
     [Serializable]
     public class RadiusAxisTheme : BaseAxisTheme
     {
-        public RadiusAxisTheme(ThemeType theme) : base(theme)
-        { }
+        public RadiusAxisTheme(ThemeType theme) : base(theme) { }
     }
 
     [Serializable]
     public class AngleAxisTheme : BaseAxisTheme
     {
-        public AngleAxisTheme(ThemeType theme) : base(theme)
-        { }
+        public AngleAxisTheme(ThemeType theme) : base(theme) { }
     }
 
     [Serializable]
     public class PolarAxisTheme : BaseAxisTheme
     {
-        public PolarAxisTheme(ThemeType theme) : base(theme)
-        { }
+        public PolarAxisTheme(ThemeType theme) : base(theme) { }
     }
 
     [Serializable]

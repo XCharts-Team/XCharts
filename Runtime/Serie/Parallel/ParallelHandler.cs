@@ -21,8 +21,7 @@ namespace XCharts.Runtime
             DrawParallelSerie(vh, serie);
         }
 
-        private void UpdateSerieContext()
-        { }
+        private void UpdateSerieContext() { }
 
         private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {
@@ -39,7 +38,7 @@ namespace XCharts.Runtime
 
             var animationIndex = serie.animation.GetCurrIndex();
             var isHorizonal = parallel.orient == Orient.Horizonal;
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex, false);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex);
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             float currDetailProgress = !isHorizonal ?
@@ -52,7 +51,6 @@ namespace XCharts.Runtime
 
             serie.animation.InitProgress(currDetailProgress, totalDetailProgress);
 
-            serie.context.dataPoints.Clear();
             serie.containerIndex = parallel.index;
             serie.containterInstanceId = parallel.instanceId;
 
@@ -116,7 +114,10 @@ namespace XCharts.Runtime
                     lp = pos;
                 }
                 if (isSmooth)
-                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor, chart.settings.lineSmoothness, currProgress, isHorizonal);
+                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor,
+                        chart.settings.lineSmoothStyle,
+                        chart.settings.lineSmoothness,
+                        UGL.Direction.XAxis, currProgress, isHorizonal);
                 else
                     UGL.DrawLine(vh, m_Points, lineWidth, lineColor, isSmooth);
             }

@@ -162,6 +162,62 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
+    /// Serie state. Supports normal, emphasis, blur, and select states.
+    /// |Serie状态。支持正常、高亮、淡出、选中四种状态。
+    /// </summary>
+    public enum SerieState
+    {
+        /// <summary>
+        /// Normal state.
+        /// |正常状态。
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// Emphasis state.
+        /// |高亮状态。
+        /// </summary>
+        Emphasis,
+        /// <summary>
+        /// Blur state.
+        /// |淡出状态。
+        /// </summary>
+        Blur,
+        /// <summary>
+        /// Select state.
+        /// |选中状态。
+        /// </summary>
+        Select,
+        /// <summary>
+        /// Auto state.
+        /// |自动保持和父节点一致。一般用在SerieData。
+        /// </summary>
+        Auto
+    }
+
+    /// <summary>
+    /// The policy to take color from theme.
+    /// |从主题中取色策略。
+    /// </summary>
+    public enum SerieColorBy
+    {
+        /// <summary>
+        /// Select state.
+        /// |默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略
+        /// </summary>
+        Default,
+        /// <summary>
+        /// assigns the colors in the palette by serie, so that all data in the same series are in the same color;.
+        /// |按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。
+        /// </summary>
+        Serie,
+        /// <summary>
+        /// assigns colors in the palette according to data items, with each data item using a different color..
+        /// |按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。
+        /// </summary>
+        Data
+    }
+
+    /// <summary>
     /// 系列。
     /// </summary>
     [System.Serializable]
@@ -172,6 +228,8 @@ namespace XCharts.Runtime
         [SerializeField] private string m_CoordSystem = "GridCoord";
         [SerializeField] private string m_SerieType = "";
         [SerializeField] private string m_SerieName;
+        [SerializeField][Since("v3.2.0")] private SerieState m_State = SerieState.Normal;
+        [SerializeField][Since("v3.2.0")] private SerieColorBy m_ColorBy = SerieColorBy.Default;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_XAxisIndex = 0;
         [SerializeField] private int m_YAxisIndex = 0;
@@ -295,6 +353,25 @@ namespace XCharts.Runtime
         /// |图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         public string legendName { get { return string.IsNullOrEmpty(serieName) ? ChartCached.IntToStr(index) : serieName; } }
+        /// <summary>
+        /// The default state of a serie.
+        /// |系列的默认状态。
+        /// </summary>
+        public SerieState state
+        {
+            get { return m_State; }
+            set { if (PropertyUtil.SetStruct(ref m_State, value)) { SetAllDirty(); } }
+        }
+        /// <summary>
+        /// The policy to take color from theme.
+        /// |从主题中取色的策略。
+        /// </summary>
+        public SerieColorBy colorBy
+        {
+            //get { return m_ColorBy; }
+            get { return m_ColorBy == SerieColorBy.Default?defaultColorBy : m_ColorBy; }
+            set { if (PropertyUtil.SetStruct(ref m_ColorBy, value)) { SetAllDirty(); } }
+        }
         /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
         /// |数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
@@ -817,7 +894,10 @@ namespace XCharts.Runtime
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
-
+        /// <summary>
+        /// 取色策略是否为按数据项分配。
+        /// </summary>
+        public bool colorByData { get { return colorBy == SerieColorBy.Data; } }
         public override bool vertsDirty
         {
             get
@@ -826,12 +906,14 @@ namespace XCharts.Runtime
                     symbol.vertsDirty ||
                     lineStyle.vertsDirty ||
                     itemStyle.vertsDirty ||
-                    (lineArrow != null && lineArrow.vertsDirty) ||
-                    (areaStyle != null && areaStyle.vertsDirty) ||
-                    (label != null && label.vertsDirty) ||
-                    (labelLine != null && labelLine.vertsDirty) ||
-                    (emphasisItemStyle != null && emphasisItemStyle.vertsDirty) ||
-                    (titleStyle != null && titleStyle.vertsDirty) ||
+                    IsVertsDirty(lineArrow) ||
+                    IsVertsDirty(areaStyle) ||
+                    IsVertsDirty(label) ||
+                    IsVertsDirty(labelLine) ||
+                    IsVertsDirty(titleStyle) ||
+                    IsVertsDirty(emphasisStyle) ||
+                    IsVertsDirty(blurStyle) ||
+                    IsVertsDirty(selectStyle) ||
                     AnySerieDataVerticesDirty();
             }
         }
@@ -842,11 +924,12 @@ namespace XCharts.Runtime
             {
                 return m_ComponentDirty ||
                     symbol.componentDirty ||
-                    (titleStyle != null && titleStyle.componentDirty) ||
-                    (label != null && label.componentDirty) ||
-                    (labelLine != null && labelLine.componentDirty) ||
-                    (emphasisLabel != null && emphasisLabel.componentDirty) ||
-                    (emphasisLabelLine != null && emphasisLabelLine.componentDirty);
+                    IsComponentDirty(titleStyle) ||
+                    IsComponentDirty(label) ||
+                    IsComponentDirty(labelLine) ||
+                    IsComponentDirty(emphasisStyle) ||
+                    IsComponentDirty(blurStyle) ||
+                    IsComponentDirty(selectStyle);
             }
         }
         public override void ClearVerticesDirty()
@@ -860,16 +943,13 @@ namespace XCharts.Runtime
             symbol.ClearVerticesDirty();
             lineStyle.ClearVerticesDirty();
             itemStyle.ClearVerticesDirty();
-            if (areaStyle != null)
-                areaStyle.ClearVerticesDirty();
-            if (label != null)
-                label.ClearVerticesDirty();
-            if (emphasisItemStyle != null)
-                emphasisItemStyle.ClearVerticesDirty();
-            if (lineArrow != null)
-                lineArrow.ClearVerticesDirty();
-            if (titleStyle != null)
-                titleStyle.ClearVerticesDirty();
+            ClearVerticesDirty(areaStyle);
+            ClearVerticesDirty(label);
+            ClearVerticesDirty(emphasisStyle);
+            ClearVerticesDirty(blurStyle);
+            ClearVerticesDirty(selectStyle);
+            ClearVerticesDirty(lineArrow);
+            ClearVerticesDirty(titleStyle);
         }
 
         public override void ClearComponentDirty()
@@ -883,18 +963,13 @@ namespace XCharts.Runtime
             symbol.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
             itemStyle.ClearComponentDirty();
-            if (areaStyle != null)
-                areaStyle.ClearComponentDirty();
-            if (label != null)
-                label.ClearComponentDirty();
-            if (emphasisLabel != null)
-                emphasisLabel.ClearComponentDirty();
-            if (emphasisLabelLine != null)
-                emphasisLabelLine.ClearComponentDirty();
-            if (lineArrow != null)
-                lineArrow.ClearComponentDirty();
-            if (titleStyle != null)
-                titleStyle.ClearComponentDirty();
+            ClearComponentDirty(areaStyle);
+            ClearComponentDirty(label);
+            ClearComponentDirty(emphasisStyle);
+            ClearComponentDirty(blurStyle);
+            ClearComponentDirty(selectStyle);
+            ClearComponentDirty(lineArrow);
+            ClearComponentDirty(titleStyle);
         }
 
         public override void SetAllDirty()
@@ -1082,6 +1157,23 @@ namespace XCharts.Runtime
             interact.Reset();
             foreach (var serieData in m_Data)
                 serieData.interact.Reset();
+        }
+
+        /// <summary>
+        /// 重置数据项索引。避免部分数据项的索引异常。
+        /// </summary>
+        public bool ResetDataIndex()
+        {
+            var flag = false;
+            for (int i = 0; i < m_Data.Count; i++)
+            {
+                if (m_Data[i].index != i)
+                {
+                    m_Data[i].index = i;
+                    flag = true;
+                }
+            }
+            return flag;
         }
 
         /// <summary>
@@ -1665,7 +1757,7 @@ namespace XCharts.Runtime
 
         public bool IsLegendName(string legendName)
         {
-            if (useDataNameForColor)
+            if (colorBy == SerieColorBy.Data)
             {
                 return IsSerieDataLegendName(legendName) || IsSerieLegendName(legendName);
             }

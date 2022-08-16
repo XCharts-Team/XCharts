@@ -17,9 +17,8 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Origin");
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_ToColor");
-                PropertyField(prop, "m_HighlightColor");
-                PropertyField(prop, "m_HighlightToColor");
                 PropertyField(prop, "m_Opacity");
+                PropertyField(prop, "m_InnerFill");
                 --EditorGUI.indentLevel;
             }
         }

@@ -37,8 +37,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_Color;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;
-        [SerializeField] private Color32 m_HighlightColor;
-        [SerializeField] private Color32 m_HighlightToColor;
+        [SerializeField][Since("v3.2.0")] private bool m_InnerFill;
 
         /// <summary>
         /// Set this to false to prevent the areafrom showing.
@@ -86,22 +85,13 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the color of area,default use serie color.
-        /// |高亮时区域填充的颜色，如果highlightToColor不是默认值，则表示渐变色的起点颜色。
+        /// Whether to fill only polygonal areas. Currently, only convex polygons are supported.
+        /// |是否只填充多边形区域。目前只支持凸多边形。
         /// </summary>
-        public Color32 highlightColor
+        public bool innerFill
         {
-            get { return m_HighlightColor; }
-            set { if (PropertyUtil.SetColor(ref m_HighlightColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// Gradient color, start highlightColor to highlightToColor.
-        /// |高亮时渐变色的终点颜色。
-        /// </summary>
-        public Color32 highlightToColor
-        {
-            get { return m_HighlightToColor; }
-            set { if (PropertyUtil.SetColor(ref m_HighlightToColor, value)) SetVerticesDirty(); }
+            get { return m_InnerFill; }
+            set { if (PropertyUtil.SetStruct(ref m_InnerFill, value)) SetVerticesDirty(); }
         }
 
         public Color32 GetColor()

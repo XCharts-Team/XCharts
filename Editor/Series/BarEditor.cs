@@ -7,6 +7,7 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_ColorBy");
             PropertyField("m_Stack");
             if (serie.IsUseCoord<PolarCoord>())
             {

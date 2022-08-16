@@ -7,9 +7,21 @@ namespace XCharts.Runtime
     public class AxisContext : MainComponentContext
     {
         public Orient orient;
+        /// <summary>
+        /// 坐标轴的起点X
+        /// </summary>
         public float x;
+        /// <summary>
+        /// 坐标轴的起点Y
+        /// </summary>
         public float y;
+        /// <summary>
+        /// 坐标轴原点X
+        /// </summary>
         public float zeroX;
+        /// <summary>
+        /// 坐标轴原点Y
+        /// </summary>
         public float zeroY;
         public float width;
         public float height;
@@ -34,6 +46,11 @@ namespace XCharts.Runtime
         /// </summary>
         public float offset;
         public double minMaxRange;
+        /// <summary>
+        /// the tick value of value axis.
+        /// |数值轴时每个tick的数值。
+        /// </summary>
+        public double tickValue;
         public float scaleWidth;
         public float startAngle;
         public double pointerValue;

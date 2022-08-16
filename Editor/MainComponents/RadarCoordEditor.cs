@@ -24,7 +24,7 @@ namespace XCharts.Editor
             PropertyField("m_AxisName");
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
-            PropertyField("m_IndicatorList");
+            PropertyListField("m_IndicatorList");
             --EditorGUI.indentLevel;
         }
     }

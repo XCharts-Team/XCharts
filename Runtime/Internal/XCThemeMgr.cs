@@ -56,9 +56,16 @@ namespace XCharts.Runtime
         {
             if (!XChartsMgr.themes.ContainsKey(themeName))
             {
-                return null;
+                ReloadThemeList();
+                if (XChartsMgr.themes.ContainsKey(themeName))
+                    return XChartsMgr.themes[themeName];
+                else
+                    return null;
             }
-            return XChartsMgr.themes[themeName];
+            else
+            {
+                return XChartsMgr.themes[themeName];
+            }
         }
 
         public static Theme LoadTheme(ThemeType type)

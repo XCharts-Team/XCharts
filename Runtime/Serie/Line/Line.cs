@@ -12,15 +12,17 @@ namespace XCharts.Runtime
         typeof(EndLabelStyle),
         typeof(LineArrow),
         typeof(AreaStyle),
-        typeof(EmphasisItemStyle),
-        typeof(EmphasisLabelStyle))]
+        typeof(EmphasisStyle),
+        typeof(BlurStyle),
+        typeof(SelectStyle))]
     [SerieDataExtraComponent(
         typeof(ItemStyle),
         typeof(LabelStyle),
         typeof(SerieSymbol),
-        typeof(EmphasisItemStyle),
-        typeof(EmphasisLabelStyle))]
-    [SerieDataExtraField("m_Ignore")]
+        typeof(EmphasisStyle),
+        typeof(BlurStyle),
+        typeof(SelectStyle))]
+    [SerieDataExtraField("m_State", "m_Ignore")]
     public class Line : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

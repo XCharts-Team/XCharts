@@ -42,6 +42,10 @@ namespace XCharts.Runtime
             Corss
         }
 
+        /// <summary>
+        /// Trigger strategy.
+        /// |触发类型。
+        /// </summary>
         public enum Trigger
         {
             /// <summary>
@@ -60,10 +64,37 @@ namespace XCharts.Runtime
             /// </summary>
             None
         }
+        /// <summary>
+        /// Position type.
+        /// |坐标类型。
+        /// </summary>
+        public enum Position
+        {
+            /// <summary>
+            /// Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.
+            /// |自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。
+            /// </summary>
+            Auto,
+            /// <summary>
+            /// Custom. Fully customize display position (x,y).
+            /// |自定义。完全自定义显示位置(x,y)。
+            /// </summary>
+            Custom,
+            /// <summary>
+            /// Just fix the coordinate X. Y follows the mouse position.
+            /// |只固定坐标X。Y跟随鼠标位置。
+            /// </summary>
+            FixedX,
+            /// <summary>
+            /// Just fix the coordinate Y. X follows the mouse position.
+            /// |只固定坐标Y。X跟随鼠标位置。
+            FixedY
+        }
 
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type;
         [SerializeField] private Trigger m_Trigger = Trigger.Item;
+        [SerializeField][Since("v3.3.0")] private Position m_Position = Position.Auto;
         [SerializeField] private string m_ItemFormatter;
         [SerializeField] private string m_TitleFormatter;
         [SerializeField] private string m_Marker = "●";
@@ -83,10 +114,8 @@ namespace XCharts.Runtime
         [SerializeField] private Image.Type m_BackgroundType = Image.Type.Simple;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BorderWidth = 2f;
-        [SerializeField] private bool m_FixedXEnable = false;
         [SerializeField] private float m_FixedX = 0f;
-        [SerializeField] private bool m_FixedYEnable = false;
-        [SerializeField] private float m_FixedY = 0f;
+        [SerializeField] private float m_FixedY = 0.7f;
         [SerializeField] private float m_TitleHeight = 25f;
         [SerializeField] private float m_ItemHeight = 25f;
         [SerializeField] private Color32 m_BorderColor = new Color32(230, 230, 230, 255);
@@ -134,6 +163,15 @@ namespace XCharts.Runtime
         {
             get { return m_Trigger; }
             set { if (PropertyUtil.SetStruct(ref m_Trigger, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Type of position.
+        /// |显示位置类型。
+        /// </summary>
+        public Position position
+        {
+            get { return m_Position; }
+            set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The string template formatter for the tooltip title content. Support for wrapping lines with \n.
@@ -304,15 +342,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// enable fixedX.
-        /// |是否固定X位置。
-        /// </summary>
-        public bool fixedXEnable
-        {
-            get { return m_FixedXEnable; }
-            set { if (PropertyUtil.SetStruct(ref m_FixedXEnable, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
         /// the x positionn of fixedX.
         /// |固定X位置的坐标。
         /// </summary>
@@ -320,15 +349,6 @@ namespace XCharts.Runtime
         {
             get { return m_FixedX; }
             set { if (PropertyUtil.SetStruct(ref m_FixedX, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// enable fixedY.
-        /// |是否固定Y位置。
-        /// </summary>
-        public bool fixedYEnable
-        {
-            get { return m_FixedYEnable; }
-            set { if (PropertyUtil.SetStruct(ref m_FixedYEnable, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the y position of fixedY.
@@ -468,12 +488,29 @@ namespace XCharts.Runtime
         /// 更新文本框位置
         /// </summary>
         /// <param name="pos"></param>
-        public void UpdateContentPos(Vector2 pos)
+        public void UpdateContentPos(Vector2 pos, float width, float height)
         {
             if (view != null)
             {
-                if (fixedXEnable) pos.x = fixedX;
-                if (fixedYEnable) pos.y = fixedY;
+                switch (m_Position)
+                {
+                    case Position.Auto:
+#if UNITY_ANDROID || UNITY_IOS
+                        if (m_FixedY == 0) pos.y = ChartHelper.GetActualValue(0.7f, height);
+                        else pos.y = ChartHelper.GetActualValue(m_FixedY, height);
+#endif
+                        break;
+                    case Position.Custom:
+                        pos.x = ChartHelper.GetActualValue(m_FixedX, width);
+                        pos.y = ChartHelper.GetActualValue(m_FixedY, height);
+                        break;
+                    case Position.FixedX:
+                        pos.x = ChartHelper.GetActualValue(m_FixedX, width);
+                        break;
+                    case Position.FixedY:
+                        pos.y = ChartHelper.GetActualValue(m_FixedY, height);
+                        break;
+                }
                 view.UpdatePosition(pos);
             }
         }

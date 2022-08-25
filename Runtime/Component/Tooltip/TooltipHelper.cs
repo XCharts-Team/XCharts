@@ -77,7 +77,7 @@ namespace XCharts.Runtime
             }
             if (pos.y > chartRect.y + chartRect.height)
                 pos.y = chartRect.y + chartRect.height;
-            tooltip.UpdateContentPos(pos);
+            tooltip.UpdateContentPos(pos, chartRect.width / 2, chartRect.height / 2);
         }
 
         public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)

@@ -1422,6 +1422,7 @@ Tooltip component.
 |`show`|true||Whether to show the tooltip component.
 |`type`|||Indicator type.</br>`Tooltip.Type`:</br>- `Line`: line indicator.</br>- `Shadow`: shadow crosshair indicator.</br>- `None`: no indicator displayed.</br>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.</br>|
 |`trigger`|||Type of triggering.</br>`Tooltip.Trigger`:</br>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.</br>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.</br>- `None`: Trigger nothing.</br>|
+|`position`||v3.3.0|Type of position.</br>`Tooltip.Position`:</br>- `Auto`: Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.</br>- `Custom`: Custom. Fully customize display position (x,y).</br>- `FixedX`: Just fix the coordinate X. Y follows the mouse position.</br>- `FixedY`: </br>|
 |`itemFormatter`|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.</br> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br> {a} is the series name of the serie that is currently indicated or whose index is 0.</br> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br> {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br> {f} is sum of data.</br> {.1} represents a dot from serie corresponding color that specifies index as 1.</br> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
 |`titleFormatter`|||The string template formatter for the tooltip title content. Support for wrapping lines with \n. The placeholder {I} can be set separately to indicate that the title is ignored and not displayed. Template see itemFormatter.
 |`marker`|||the marker of serie.
@@ -1441,10 +1442,8 @@ Tooltip component.
 |`backgroundType`|||The background type of tooltip.
 |`backgroundColor`|||The background color of tooltip.
 |`borderWidth`|2f||the width of tooltip border.
-|`fixedXEnable`|false||enable fixedX.
 |`fixedX`|0f||the x positionn of fixedX.
-|`fixedYEnable`|false||enable fixedY.
-|`fixedY`|0f||the y position of fixedY.
+|`fixedY`|0.7f||the y position of fixedY.
 |`titleHeight`|25f||height of title text.
 |`itemHeight`|25f||height of content text.
 |`borderColor`|Color32(230, 230, 230, 255)||the color of tooltip border.

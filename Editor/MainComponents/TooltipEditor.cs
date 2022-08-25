@@ -11,6 +11,10 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             PropertyField("m_Type");
             PropertyField("m_Trigger");
+            PropertyField("m_Position");
+            PropertyField("m_FixedX");
+            PropertyField("m_FixedY");
+            PropertyField("m_Offset");
             PropertyField("m_ShowContent");
             PropertyField("m_AlwayShowContent");
             PropertyField("m_TitleFormatter");
@@ -33,11 +37,6 @@ namespace XCharts.Editor
                 PropertyField("m_MinWidth");
                 PropertyField("m_MinHeight");
                 PropertyField("m_IgnoreDataDefaultContent");
-                PropertyField("m_Offset");
-                PropertyField("m_FixedXEnable");
-                PropertyField("m_FixedX");
-                PropertyField("m_FixedYEnable");
-                PropertyField("m_FixedY");
             });
             PropertyField("m_LineStyle");
             PropertyField("m_IndicatorLabelStyle");

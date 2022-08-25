@@ -35,8 +35,9 @@ namespace XCharts.Runtime
                 {
                     if (data.runtimeLabel != null)
                     {
-                        data.runtimeLabel.SetActive(data.label.show);
-                        data.runtimeLabel.SetPosition(MarkLineHelper.GetLabelPosition(data));
+                        var pos = MarkLineHelper.GetLabelPosition(data);
+                        data.runtimeLabel.SetActive(data.label.show && pos != Vector3.zero);
+                        data.runtimeLabel.SetPosition(pos);
                         data.runtimeLabel.SetText(MarkLineHelper.GetFormatterContent(serie, data));
                     }
                 }
@@ -76,10 +77,10 @@ namespace XCharts.Runtime
                 var content = MarkLineHelper.GetFormatterContent(serie, data);
                 var label = ChartHelper.AddChartLabel(textName, m_MarkLineLabelRoot.transform, data.label, chart.theme.axis,
                     content, Color.clear, TextAnchor.MiddleCenter);
-
+                var pos = MarkLineHelper.GetLabelPosition(data);
                 label.SetIconActive(false);
-                label.SetActive(data.label.show);
-                label.SetPosition(MarkLineHelper.GetLabelPosition(data));
+                label.SetActive(data.label.show && pos != Vector3.zero);
+                label.SetPosition(pos);
                 data.runtimeLabel = label;
             };
             data.refreshComponent();
@@ -202,8 +203,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < markLine.data.Count; i++)
             {
                 var data = markLine.data[i];
-                // data.index = i;
-                data.index = markLine.index;
+                data.index = i;
                 if (data.group == 0) continue;
                 if (!m_TempGroupData.ContainsKey(data.group))
                 {

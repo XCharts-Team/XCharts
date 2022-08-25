@@ -239,7 +239,7 @@ namespace XCharts.Runtime
 
             if (count == -1) count = serie.dataCount;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            if (serieLabel == null || !serieLabel.show)
+            if (serieLabel == null)
             {
                 return false;
             }
@@ -401,7 +401,7 @@ namespace XCharts.Runtime
                                 SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                     currLabel, color);
                             var offset = GetSerieDataLabelOffset(serieData, currLabel);
-                            labelObject.SetActive(!isIgnore);
+                            labelObject.SetActive(currLabel.show && !isIgnore);
                             labelObject.SetText(content);
                             labelObject.SetPosition(serieData.context.dataPoints[i] + offset);
                             labelObject.UpdateIcon(currLabel.icon);
@@ -422,7 +422,7 @@ namespace XCharts.Runtime
                             ChartCached.NumberToStr(value, currLabel.numericFormatter) :
                             SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                 currLabel, color);
-                        serieData.SetLabelActive(!isIgnore);
+                        serieData.SetLabelActive(currLabel.show && !isIgnore);
                         serieData.labelObject.UpdateIcon(currLabel.icon);
                         serieData.labelObject.SetText(content);
                         UpdateLabelPosition(serieData, currLabel);

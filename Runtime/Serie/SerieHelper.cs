@@ -433,7 +433,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.itemStyle : stateStyle.itemStyle;
+                return stateStyle == null || !stateStyle.show ? serie.itemStyle : stateStyle.itemStyle;
             }
         }
 
@@ -447,7 +447,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.label : stateStyle.label;
+                return stateStyle == null || !stateStyle.show ? serie.label : stateStyle.label;
             }
         }
 
@@ -461,7 +461,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.labelLine : stateStyle.labelLine;
+                return stateStyle == null || !stateStyle.show ? serie.labelLine : stateStyle.labelLine;
             }
         }
 
@@ -475,7 +475,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.symbol : stateStyle.symbol;
+                return stateStyle == null || !stateStyle.show ? serie.symbol : stateStyle.symbol;
             }
         }
 
@@ -533,7 +533,7 @@ namespace XCharts.Runtime
             Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
             bool fill;
-            return GetAreaColor(out color, out toColor, out fill,serie, serieData, theme, index);
+            return GetAreaColor(out color, out toColor, out fill, serie, serieData, theme, index);
         }
 
         public static bool GetAreaColor(out Color32 color, out Color32 toColor, out bool innerFill,

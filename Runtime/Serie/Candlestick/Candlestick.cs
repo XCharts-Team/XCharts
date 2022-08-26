@@ -22,7 +22,7 @@ namespace XCharts.Runtime
                 var close = Random.Range(40, 90);
                 var lowest = Random.Range(0, 50);
                 var heighest = Random.Range(50, 100);
-                chart.AddData(serie.index, open, close, lowest, heighest);
+                chart.AddData(serie.index, i, open, close, lowest, heighest);
             }
             return serie;
         }

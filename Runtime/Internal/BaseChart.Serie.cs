@@ -377,23 +377,23 @@ namespace XCharts.Runtime
             return AddData(serieIndex, xValue, yValue, dataName, dataId);
         }
 
-        public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
+        public SerieData AddData(int serieIndex, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var serieData = serie.AddData(open, close, lowest, heighest, dataName, dataId);
+                var serieData = serie.AddData(indexOrTimestamp, open, close, lowest, heighest, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }
             return null;
         }
-        public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
+        public SerieData AddData(string serieName, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                var serieData = serie.AddData(open, close, lowest, heighest, dataName, dataId);
+                var serieData = serie.AddData(indexOrTimestamp, open, close, lowest, heighest, dataName, dataId);
                 RefreshPainter(serie.painter);
                 return serieData;
             }

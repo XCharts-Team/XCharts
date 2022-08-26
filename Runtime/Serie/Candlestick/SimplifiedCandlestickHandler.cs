@@ -110,16 +110,17 @@ namespace XCharts.Runtime
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
-                if (serie.IsIgnoreValue(serieData))
+                if (!serieData.show || serie.IsIgnoreValue(serieData))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
                     serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
-                var open = serieData.GetCurrData(0, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var close = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var lowest = serieData.GetCurrData(2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var heighest = serieData.GetCurrData(3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                var startDataIndex = serieData.data.Count > 4 ? 1 : 0;
+                var open = serieData.GetCurrData(startDataIndex, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                var close = serieData.GetCurrData(startDataIndex + 1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                var lowest = serieData.GetCurrData(startDataIndex + 2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                var heighest = serieData.GetCurrData(startDataIndex + 3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
                 var isRise = yAxis.inverse ? close<open : close> open;
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.runtimeBorderWidth == 0 ? theme.serie.candlestickBorderWidth :

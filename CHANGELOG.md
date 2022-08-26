@@ -58,8 +58,9 @@
 
 ## master
 
-* (2022.08.25) 增加`Tooltip`的`position`参数支持设置移动平台不同的显示位置
-* (2022.08.25) 删除`Tooltip`的`fixedXEnable`和`fixedYEnable`参数
+* (2022.08.26) 优化`CandlestickChart`表现，调整相关的`AddData()`接口参数
+* (2022.08.26) 增加`Tooltip`的`position`参数支持设置移动平台不同的显示位置
+* (2022.08.26) 删除`Tooltip`的`fixedXEnable`和`fixedYEnable`参数
 * (2022.08.25) 优化`EmphasisStyle`对`label`的支持
 * (2022.08.25) 增加`formatter`对`{d3}`指定维度数据百分比的支持
 * (2022.08.24) 修复`ScatterChart`的`label`不刷新的问题

@@ -61,7 +61,7 @@ namespace XCharts.Example
                 var heighest = boxVals[3];
 
                 chart.AddXAxisData(i.ToString());
-                chart.AddData(0, open, close, lowest, heighest);
+                chart.AddData(0, i, open, close, lowest, heighest);
             }
         }
     }

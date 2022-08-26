@@ -196,31 +196,34 @@ namespace XCharts.Runtime
                 if (legend.iconType == Legend.Type.Auto)
                 {
                     var serie = chart.GetSerie(item.legendName);
-                    if (serie != null && serie is Line)
+                    if (serie != null)
                     {
-                        var sp = new Vector3(rect.center.x - rect.width / 2, rect.center.y);
-                        var ep = new Vector3(rect.center.x + rect.width / 2, rect.center.y);
-                        UGL.DrawLine(vh, sp, ep, chart.settings.legendIconLineWidth, color);
-                        if (!serie.symbol.show) continue;
-                        switch (serie.symbol.type)
+                        if (serie is Line || serie is SimplifiedLine)
                         {
-                            case SymbolType.None:
-                                continue;
-                            case SymbolType.Circle:
-                                iconType = Legend.Type.Circle;
-                                break;
-                            case SymbolType.Diamond:
-                                iconType = Legend.Type.Diamond;
-                                break;
-                            case SymbolType.EmptyCircle:
-                                iconType = Legend.Type.EmptyCircle;
-                                break;
-                            case SymbolType.Rect:
-                                iconType = Legend.Type.Rect;
-                                break;
-                            case SymbolType.Triangle:
-                                iconType = Legend.Type.Triangle;
-                                break;
+                            var sp = new Vector3(rect.center.x - rect.width / 2, rect.center.y);
+                            var ep = new Vector3(rect.center.x + rect.width / 2, rect.center.y);
+                            UGL.DrawLine(vh, sp, ep, chart.settings.legendIconLineWidth, color);
+                            if (!serie.symbol.show) continue;
+                            switch (serie.symbol.type)
+                            {
+                                case SymbolType.None:
+                                    continue;
+                                case SymbolType.Circle:
+                                    iconType = Legend.Type.Circle;
+                                    break;
+                                case SymbolType.Diamond:
+                                    iconType = Legend.Type.Diamond;
+                                    break;
+                                case SymbolType.EmptyCircle:
+                                    iconType = Legend.Type.EmptyCircle;
+                                    break;
+                                case SymbolType.Rect:
+                                    iconType = Legend.Type.Rect;
+                                    break;
+                                case SymbolType.Triangle:
+                                    iconType = Legend.Type.Triangle;
+                                    break;
+                            }
                         }
                     }
                     else
@@ -248,6 +251,12 @@ namespace XCharts.Runtime
                         break;
                     case Legend.Type.Triangle:
                         UGL.DrawTriangle(vh, rect.center, 1.2f * radius, color);
+                        break;
+                    case Legend.Type.Candlestick:
+                        UGL.DrawRoundRectangle(vh, rect.center, rect.width / 2, rect.height / 2, color, color,
+                            0, null, false, 0.5f);
+                        UGL.DrawLine(vh, new Vector3(rect.center.x, rect.center.y - rect.height / 2),
+                            new Vector3(rect.center.x, rect.center.y + rect.height / 2), 1, color);
                         break;
                 }
             }

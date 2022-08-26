@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.08.26) 增加`Legend`新图标类型`Candlestick`
 * (2022.08.26) 优化`CandlestickChart`表现，调整相关的`AddData()`接口参数
 * (2022.08.26) 增加`Tooltip`的`position`参数支持设置移动平台不同的显示位置
 * (2022.08.26) 删除`Tooltip`的`fixedXEnable`和`fixedYEnable`参数

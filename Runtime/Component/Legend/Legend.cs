@@ -43,6 +43,10 @@ namespace XCharts.Runtime
             /// 菱形。
             /// </summary>
             Diamond,
+            /// <summary>
+            /// 烛台（可用于K线图）。
+            /// </summary>
+            Candlestick,
         }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.

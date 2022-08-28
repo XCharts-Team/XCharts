@@ -372,14 +372,12 @@ namespace XCharts.Runtime
             float xPos, yPos;
             var gridXY = isY ? grid.context.x : grid.context.y;
             var valueHig = 0f;
+            valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
+            valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
             if (isY)
             {
-                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 xPos = gridXY + valueHig;
                 yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
-
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -388,13 +386,8 @@ namespace XCharts.Runtime
             }
             else
             {
-
-                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 yPos = gridXY + valueHig;
                 xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
-
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -402,7 +395,7 @@ namespace XCharts.Runtime
                 }
             }
             np = new Vector3(xPos, yPos);
-            return valueHig;
+            return AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace XCharts.Runtime
             param.columns.Add(string.Empty);
 
             paramList.Add(param);
-            for (int i = 0; i < 4; i++)
+            for (int i = 1; i < 5; i++)
             {
                 param = new SerieParams();
                 param.serieName = serie.serieName;
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
                 param.columns.Clear();
 
                 param.columns.Add(param.marker);
-                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i));
+                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i-1));
                 param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
 
                 paramList.Add(param);

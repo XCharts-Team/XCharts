@@ -464,7 +464,7 @@ namespace XCharts.Runtime
                 Vector3 np = Vector3.zero;
                 double minValue = 0;
                 double maxValue = 0;
-                SeriesHelper.GetYMinMaxValue(chart.series, null, 0, chart.IsAllAxisValue(), axis.inverse, out minValue, out maxValue);
+                SeriesHelper.GetYMinMaxValue(chart, 0, chart.IsAllAxisValue(), axis.inverse, out minValue, out maxValue, false, false);
                 AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
 
                 int rate = 1;
@@ -553,7 +553,7 @@ namespace XCharts.Runtime
                 Vector3 np = Vector3.zero;
                 double minValue = 0;
                 double maxValue = 0;
-                SeriesHelper.GetYMinMaxValue(chart.series, null, 0, chart.IsAllAxisValue(), axis.inverse, out minValue, out maxValue);
+                SeriesHelper.GetYMinMaxValue(chart, 0, chart.IsAllAxisValue(), axis.inverse, out minValue, out maxValue);
                 AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
 
                 int rate = 1;

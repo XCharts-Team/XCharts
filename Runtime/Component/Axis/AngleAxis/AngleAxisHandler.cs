@@ -29,7 +29,7 @@ namespace XCharts.Runtime
             if (axis.IsCategory() || !axis.show) return;
             double tempMinValue = 0;
             double tempMaxValue = 0;
-            SeriesHelper.GetYMinMaxValue(chart.series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
+            SeriesHelper.GetYMinMaxValue(chart, axis.polarIndex, true, axis.inverse, out tempMinValue,
                 out tempMaxValue, true);
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.context.minValue || tempMaxValue != axis.context.maxValue)

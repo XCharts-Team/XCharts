@@ -349,6 +349,22 @@ namespace XCharts.Runtime
             }
         }
 
+        public DataZoom GetXDataZoomOfSerie(Serie serie)
+        {
+            if (serie == null) return null;
+            foreach (var component in m_Components)
+            {
+                if (component is DataZoom)
+                {
+                    var dataZoom = component as DataZoom;
+                    if (!dataZoom.enable) continue;
+                    if (dataZoom.IsContainsXAxis(serie.xAxisIndex))
+                        return dataZoom;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// reutrn true when all the show axis is `Value` type.
         /// |纯数值坐标轴（数值轴或对数轴）。

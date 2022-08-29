@@ -478,6 +478,23 @@ namespace XCharts.Runtime
             return temp;
         }
 
+        public void GetMinMaxData(int startDimensionIndex, bool inverse, out double min, out double max)
+        {
+            if (m_Data.Count == 0)
+            {
+                min = 0;
+                max = 0;
+            }
+            min = double.MaxValue;
+            max = double.MinValue;
+            for (int i = startDimensionIndex; i < m_Data.Count; i++)
+            {
+                var value = GetData(i, inverse);
+                if (value < min) min = value;
+                if (value > max) max = value;
+            }
+        }
+
         public double GetTotalData()
         {
             var total = 0d;

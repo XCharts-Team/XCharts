@@ -106,7 +106,7 @@ namespace XCharts.Runtime
             var itemStyle = serie.itemStyle;
             serie.containerIndex = grid.index;
             serie.containterInstanceId = grid.instanceId;
-
+            var intensive = grid.context.width / (maxCount - serie.minShow) < 0.6f;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
@@ -170,39 +170,45 @@ namespace XCharts.Runtime
                 var heighPos = new Vector3(center.x, zeroY + (float) ((heighest - minCut) / valueTotal * grid.context.height));
                 var openCenterPos = new Vector3(center.x, prb.y);
                 var closeCenterPos = new Vector3(center.x, prt.y);
-                if (barWidth > 2f * borderWidth)
+                if (intensive)
                 {
-                    if (itemWidth > 0 && itemHeight > 0)
-                    {
-                        if (itemStyle.IsNeedCorner())
-                        {
-                            UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaColor, 0,
-                                itemStyle.cornerRadius, isYAxis, 0.5f);
-                        }
-                        else
-                        {
-                            chart.DrawClipPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaColor,
-                                serie.clip, grid);
-                        }
-                        UGL.DrawBorder(vh, center, itemWidth, itemHeight, 2 * borderWidth, borderColor, 0,
-                            itemStyle.cornerRadius, isYAxis, 0.5f);
-                    }
-                    if (isRise)
-                    {
-                        UGL.DrawLine(vh, openCenterPos, lowPos, borderWidth, borderColor);
-                        UGL.DrawLine(vh, closeCenterPos, heighPos, borderWidth, borderColor);
-                    }
-                    else
-                    {
-                        UGL.DrawLine(vh, closeCenterPos, lowPos, borderWidth, borderColor);
-                        UGL.DrawLine(vh, openCenterPos, heighPos, borderWidth, borderColor);
-                    }
+                    UGL.DrawLine(vh, lowPos, heighPos, borderWidth, borderColor);
                 }
                 else
                 {
-                    UGL.DrawLine(vh, openCenterPos, closeCenterPos, Mathf.Max(borderWidth, barWidth / 2), borderColor);
+                    if (barWidth > 2f * borderWidth)
+                    {
+                        if (itemWidth > 0 && itemHeight > 0)
+                        {
+                            if (itemStyle.IsNeedCorner())
+                            {
+                                UGL.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaColor, 0,
+                                    itemStyle.cornerRadius, isYAxis, 0.5f);
+                            }
+                            else
+                            {
+                                chart.DrawClipPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaColor,
+                                    serie.clip, grid);
+                            }
+                            UGL.DrawBorder(vh, center, itemWidth, itemHeight, 2 * borderWidth, borderColor, 0,
+                                itemStyle.cornerRadius, isYAxis, 0.5f);
+                        }
+                        if (isRise)
+                        {
+                            UGL.DrawLine(vh, openCenterPos, lowPos, borderWidth, borderColor);
+                            UGL.DrawLine(vh, closeCenterPos, heighPos, borderWidth, borderColor);
+                        }
+                        else
+                        {
+                            UGL.DrawLine(vh, closeCenterPos, lowPos, borderWidth, borderColor);
+                            UGL.DrawLine(vh, openCenterPos, heighPos, borderWidth, borderColor);
+                        }
+                    }
+                    else
+                    {
+                        UGL.DrawLine(vh, openCenterPos, closeCenterPos, Mathf.Max(borderWidth, barWidth / 2), borderColor);
+                    }
                 }
-
             }
             if (!serie.animation.IsFinish())
             {

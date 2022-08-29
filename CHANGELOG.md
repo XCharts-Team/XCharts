@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.08.29) 优化`CandlestickChart`大量数据绘制
 * (2022.08.28) 修复`LineChart`在堆叠和自定义Y轴范围的情况下显示不正常的问题
 * (2022.08.26) 增加`Legend`新图标类型`Candlestick`
 * (2022.08.26) 优化`CandlestickChart`表现，调整相关的`AddData()`接口参数

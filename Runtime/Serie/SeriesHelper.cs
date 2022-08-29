@@ -344,19 +344,20 @@ namespace XCharts.Runtime
                     else
                     {
                         var showData = serie.GetDataList(dataZoom);
-                        foreach (var data in showData)
+                        if (serie is Candlestick || serie is SimplifiedCandlestick)
                         {
-
-                            if (serie is Candlestick)
+                            foreach (var data in showData)
                             {
-                                var dataMin = data.GetMinData(inverse);
-                                var dataMax = data.GetMaxData(inverse);
+                                double dataMin, dataMax;
+                                data.GetMinMaxData(1, inverse, out dataMin, out dataMax);
                                 if (dataMax > max) max = dataMax;
                                 if (dataMin < min) min = dataMin;
                             }
-                            else
+                        }
+                        else
+                        {
+                            foreach (var data in showData)
                             {
-                                //var currData = data.GetData(yValue ? 1 : 0, inverse);
                                 var currData = data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
                                 if (!serie.IsIgnoreValue(currData))
                                 {

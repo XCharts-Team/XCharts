@@ -1684,6 +1684,7 @@ namespace XCharts.Runtime
 
         public float GetBarWidth(float categoryWidth, int barCount = 0)
         {
+            if (categoryWidth < 2) return categoryWidth;
             if (m_BarWidth == 0)
             {
                 var width = ChartHelper.GetActualValue(0.6f, categoryWidth);

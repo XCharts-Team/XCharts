@@ -712,13 +712,13 @@ namespace XCharts
                 int start = 0, end = 0;
                 if (dataZoom.runtimeInvert)
                 {
-                    end = Mathf.CeilToInt(data.Count * dataZoom.end / 100);
+                    end = Mathf.RoundToInt(data.Count * dataZoom.end / 100);
                     start = end - range;
                     if (start < 0) start = 0;
                 }
                 else
                 {
-                    start = Mathf.FloorToInt(data.Count * dataZoom.start / 100);
+                    start = Mathf.RoundToInt(data.Count * dataZoom.start / 100);
                     end = start + range;
                     if (end > data.Count) end = data.Count;
                 }
@@ -735,8 +735,8 @@ namespace XCharts
                             if (filterMinShow > data.Count) range = data.Count;
                             else range = filterMinShow;
                         }
-                        if (range > data.Count - start - 1)
-                            start = data.Count - range - 1;
+                        if (range > data.Count - start)
+                            start = data.Count - range;
                         filterData = data.GetRange(start, range);
                     }
                     else

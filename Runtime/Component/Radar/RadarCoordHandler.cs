@@ -87,6 +87,7 @@ namespace XCharts.Runtime
             var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
             var splitLineColor = radar.splitLine.GetColor(chart.theme.axis.splitLineColor);
             var splitLineWidth = radar.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
+            splitLineWidth *= 2f;
             for (int i = 0; i < radar.splitNumber; i++)
             {
                 var color = radar.splitArea.GetColor(i, chart.theme.axis);

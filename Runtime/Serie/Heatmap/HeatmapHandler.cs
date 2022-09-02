@@ -34,6 +34,8 @@ namespace XCharts.Runtime
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
                 return;
+            var visualMap = chart.GetVisualMapOfSerie(serie);
+            var dimension = VisualMapHelper.GetDimension(visualMap, defaultDimension);
 
             if (string.IsNullOrEmpty(category))
             {
@@ -41,13 +43,12 @@ namespace XCharts.Runtime
                 if (xAxis != null)
                     category = xAxis.GetData((int) serieData.GetData(0));
             }
-
             title = serie.serieName;
 
             var param = serie.context.param;
             param.serieName = serie.serieName;
             param.serieIndex = serie.index;
-            param.dimension = defaultDimension;
+            param.dimension = dimension;
             param.dataCount = serie.dataCount;
             param.serieData = serieData;
             param.color = serieData.context.color;
@@ -58,7 +59,7 @@ namespace XCharts.Runtime
 
             param.columns.Add(param.marker);
             param.columns.Add(category);
-            param.columns.Add(ChartCached.NumberToStr(serieData.GetData(defaultDimension), param.numericFormatter));
+            param.columns.Add(ChartCached.NumberToStr(serieData.GetData(dimension), param.numericFormatter));
 
             paramList.Add(param);
         }
@@ -121,7 +122,7 @@ namespace XCharts.Runtime
 
         private void DrawHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
-            if (serie.animation.HasFadeOut()) return;
+            if (!serie.show || serie.animation.HasFadeOut()) return;
             XAxis xAxis;
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
@@ -138,8 +139,6 @@ namespace XCharts.Runtime
 
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
-            var rangeMin = visualMap.rangeMin;
-            var rangeMax = visualMap.rangeMax;
             var color = chart.theme.GetColor(serie.index);
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
             var rectWid = xWidth - 2 * borderWidth;
@@ -161,12 +160,21 @@ namespace XCharts.Runtime
             var dataChanging = false;
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
+
+            var dimension = VisualMapHelper.GetDimension(visualMap, defaultDimension);
+            if (visualMap.autoMinMax)
+            {
+                double maxValue, minValue;
+                SerieHelper.GetMinMaxData(serie, dimension, out minValue, out maxValue);
+                VisualMapHelper.SetMinMax(visualMap, minValue, maxValue);
+            }
+            var rangeMin = visualMap.rangeMin;
+            var rangeMax = visualMap.rangeMax;
             for (int n = 0; n < serie.dataCount; n++)
             {
                 var serieData = serie.data[n];
                 var i = (int) serieData.GetData(0);
                 var j = (int) serieData.GetData(1);
-                var dimension = VisualMapHelper.GetDimension(visualMap, serieData.data.Count);
                 if (serie.IsIgnoreValue(serieData, dimension))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
@@ -184,7 +192,6 @@ namespace XCharts.Runtime
 
                 serieData.context.canShowLabel = false;
                 serieData.context.rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
-                if (value == 0) continue;
                 if ((value < rangeMin && rangeMin != visualMap.min) ||
                     (value > rangeMax && rangeMax != visualMap.max))
                 {

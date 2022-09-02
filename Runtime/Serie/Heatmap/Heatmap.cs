@@ -19,12 +19,6 @@ namespace XCharts.Runtime
             serie.itemStyle.show = true;
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;
-
-            var emphasis = serie.AddExtraComponent<EmphasisStyle>();
-            emphasis.show = true;
-            emphasis.itemStyle.show = true;
-            emphasis.itemStyle.borderWidth = 1;
-            emphasis.itemStyle.borderColor = Color.black;
             return serie;
         }
     }

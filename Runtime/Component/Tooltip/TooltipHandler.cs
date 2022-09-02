@@ -241,7 +241,11 @@ namespace XCharts.Runtime
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)
         {
             serie.context.pointerAxisDataIndexs.Clear();
-            if (yAxis.IsCategory())
+            if (xAxis.IsCategory() && yAxis.IsCategory())
+            {
+                GetSerieDataByXYAxis(serie, xAxis, yAxis);
+            }
+            else if (yAxis.IsCategory())
             {
                 if (isTriggerAxis)
                 {
@@ -274,6 +278,24 @@ namespace XCharts.Runtime
                     GetSerieDataIndexByAxis(serie, xAxis, grid);
                 else
                     GetSerieDataIndexByItem(serie, xAxis, grid);
+            }
+        }
+
+        private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
+        {
+            var xAxisIndex = xAxis.context.pointerValue;
+            var yAxisIndex = yAxis.context.pointerValue;
+            serie.context.pointerItemDataIndex = -1;
+
+            foreach (var serieData in serie.data)
+            {
+                var x = serieData.GetData(0);
+                var y = serieData.GetData(1);
+                if (xAxisIndex == x && y == yAxisIndex)
+                {
+                    serie.context.pointerItemDataIndex = serieData.index;
+                    break;
+                }
             }
         }
 
@@ -418,7 +440,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[i];
                 serie.context.isTriggerByAxis = isTriggerByAxis;
-                if (isTriggerByAxis && dataIndex >= 0)
+                if (isTriggerByAxis && dataIndex >= 0 && serie.context.pointerItemDataIndex < 0)
                     serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,

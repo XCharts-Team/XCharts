@@ -81,9 +81,9 @@ namespace XCharts.Runtime
         [SerializeField] private SelectedMode m_SelectedMode = SelectedMode.Multiple;
         [SerializeField] private int m_SerieIndex = 0;
         [SerializeField] private double m_Min = 0;
-        [SerializeField] private double m_Max = 100;
+        [SerializeField] private double m_Max = 0;
 
-        [SerializeField] private double[] m_Range = new double[2] { 0, 100 };
+        [SerializeField] private double[] m_Range = new double[2] { 0, 0 };
         [SerializeField] private string[] m_Text = new string[2] { "", "" };
         [SerializeField] private float[] m_TextGap = new float[2] { 10f, 10f };
         [SerializeField] private int m_SplitNumber = 5;
@@ -364,7 +364,8 @@ namespace XCharts.Runtime
         {
             get
             {
-                if (m_Range[0] < min || m_Range[0] > max) return min;
+                if (m_Range[0] == 0 && m_Range[1] == 0) return min;
+                else if (m_Range[0] < min || m_Range[0] > max) return min;
                 else return m_Range[0];
             }
             set
@@ -377,6 +378,7 @@ namespace XCharts.Runtime
         {
             get
             {
+                if (m_Range[0] == 0 && m_Range[1] == 0) return max;
                 if (m_Range[1] >= m_Range[0] && m_Range[1] < max) return m_Range[1];
                 else return max;
             }

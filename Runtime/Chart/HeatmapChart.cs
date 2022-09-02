@@ -36,9 +36,7 @@ namespace XCharts.Runtime
             Heatmap.AddDefaultSerie(this, GenerateDefaultSerieName());
 
             var visualMap = GetOrAddChartComponent<VisualMap>();
-            visualMap.max = 10;
-            visualMap.range[0] = 0f;
-            visualMap.range[1] = 10f;
+            visualMap.autoMinMax = true;
             visualMap.orient = Orient.Vertical;
             visualMap.calculable = true;
             visualMap.location.align = Location.Align.BottomLeft;
@@ -71,10 +69,7 @@ namespace XCharts.Runtime
             {
                 for (int j = 0; j < ySplitNumber; j++)
                 {
-                    var value = 0f;
-                    var rate = Random.Range(0, 101);
-                    if (rate > 70) value = Random.Range(8f, 10f);
-                    else value = Random.Range(1f, 8f);
+                    var value = Random.Range(0, 150);
                     var list = new List<double> { i, j, value };
                     AddData(0, list);
                 }

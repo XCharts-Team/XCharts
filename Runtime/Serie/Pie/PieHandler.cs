@@ -123,6 +123,10 @@ namespace XCharts.Runtime
                         serieData.context.highlight = false;
                         serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
                     }
+                    if (chart.onPointerEnterPie != null)
+                    {
+                        chart.onPointerEnterPie(serie.index, serie.context.pointerItemDataIndex);
+                    }
                     if (needInteract)
                     {
                         chart.RefreshPainter(serie);
@@ -131,8 +135,9 @@ namespace XCharts.Runtime
                 return;
             }
             m_LastCheckContextFlag = needCheck;
-            serie.context.pointerItemDataIndex = -1;
+            var lastPointerItemDataIndex = serie.context.pointerItemDataIndex;
             var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
+            serie.context.pointerItemDataIndex = -1;
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
@@ -152,6 +157,14 @@ namespace XCharts.Runtime
                     var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
                     SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
                     serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+                }
+            }
+            if (lastPointerItemDataIndex != serie.context.pointerItemDataIndex)
+            {
+                needInteract = true;
+                if (chart.onPointerEnterPie != null)
+                {
+                    chart.onPointerEnterPie(serie.index, serie.context.pointerItemDataIndex);
                 }
             }
             if (needInteract)

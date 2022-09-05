@@ -7,6 +7,7 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_HeatmapType");
             PropertyField("m_Ignore");
             PropertyField("m_IgnoreValue");
 

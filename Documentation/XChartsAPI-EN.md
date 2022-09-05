@@ -130,12 +130,14 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 | `GetAxisValueDistance()` |public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上相对起点的距离 |
 | `GetAxisValueLength()` |public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上对应的长度 |
 | `GetAxisValuePosition()` |public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上的坐标位置 |
+| `GetAxisValueSplitIndex()` |public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)</br>获得数值value在坐标轴上对应的split索引 |
 | `GetAxisXOrY()` |public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)</br> |
 | `GetDataWidth()` |public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)</br>获得一个类目数据在坐标系中代表的宽度 |
 | `GetEachWidth()` |public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br> |
 | `GetScaleNumber()` |public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br>获得分割线条数 |
 | `GetScaleWidth()` |public static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)</br>获得分割段宽度 |
 | `GetSplitNumber()` |public static int GetSplitNumber(Axis axis, float coordinateWid, DataZoom dataZoom)</br>获得分割段数 |
+| `GetTotalSplitGridNum()` |public static int GetTotalSplitGridNum(Axis axis)</br>获得分割网格个数，包含次刻度 |
 | `GetXAxisXOrY()` |public static float GetXAxisXOrY(GridCoord grid, Axis xAxis, Axis relativedAxis)</br> |
 | `GetYAxisXOrY()` |public static float GetYAxisXOrY(GridCoord grid, Axis yAxis, Axis relativedAxis)</br> |
 | `NeedShowSplit()` |public static bool NeedShowSplit(Axis axis)</br> |
@@ -153,12 +155,12 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `AddChartComponent()` |public MainComponent AddChartComponent(Type type)</br> |
 | `AddData()` |public SerieData AddData(int serieIndex, DateTime time, double yValue, string dataName = null, string dataId = null)</br>Add a (time,y) data to serie. |
 | `AddData()` |public SerieData AddData(int serieIndex, double data, string dataName = null, string dataId = null)</br>Add a data to serie. |
-| `AddData()` |public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
+| `AddData()` |public SerieData AddData(int serieIndex, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)</br>Add a (x,y) data to serie. |
 | `AddData()` |public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null, string dataId = null)</br>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 | `AddData()` |public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)</br>Add a (time,y) data to serie. |
 | `AddData()` |public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)</br>Add a data to serie. |
-| `AddData()` |public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
+| `AddData()` |public SerieData AddData(string serieName, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)</br>Add a (x,y) data to serie. |
 | `AddData()` |public SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null, string dataId = null)</br>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 | `AddXAxisData()` |public void AddXAxisData(string category, int xAxisIndex = 0)</br>Add a category data to xAxis. |
@@ -201,13 +203,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `GetSeriesMinMaxValue()` |public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)</br> |
 | `GetTitlePosition()` |public Vector3 GetTitlePosition(Title title)</br> |
 | `GetVisualMapOfSerie()` |public VisualMap GetVisualMapOfSerie(Serie serie)</br> |
+| `GetXDataZoomOfSerie()` |public DataZoom GetXDataZoomOfSerie(Serie serie)</br> |
 | `GetXLerpColor()` |public Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, GridCoord grid)</br> |
 | `GetYLerpColor()` |public Color32 GetYLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, GridCoord grid)</br> |
 | `HasChartComponent()` |public bool HasChartComponent(Type type)</br> |
 | `HasChartComponent<T>()` |public bool HasChartComponent<T>()</br> |
 | `HasSerie()` |public bool HasSerie(Type type)</br> |
 | `Init()` |public void Init(bool defaultChart = true)</br> |
-| `InitAxisRuntimeData()` |public virtual void InitAxisRuntimeData(Axis axis)</br> |
 | `InsertSerie()` |public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)</br> |
 | `Internal_CheckAnimation()` |public void Internal_CheckAnimation()</br> |
 | `IsActiveByLegend()` |public virtual bool IsActiveByLegend(string legendName)</br>Whether serie is activated. |
@@ -1038,7 +1040,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 |public method|description|
 |--|--|
 | `AutoSetLineMinMax()` |public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)</br> |
-| `GetDimension()` |public static int GetDimension(VisualMap visualMap, int serieDataCount)</br> |
+| `GetDimension()` |public static int GetDimension(VisualMap visualMap, int defaultDimension)</br> |
 | `IsNeedAreaGradient()` |public static bool IsNeedAreaGradient(VisualMap visualMap)</br> |
 | `IsNeedGradient()` |public static bool IsNeedGradient(VisualMap visualMap)</br> |
 | `IsNeedLineGradient()` |public static bool IsNeedLineGradient(VisualMap visualMap)</br> |

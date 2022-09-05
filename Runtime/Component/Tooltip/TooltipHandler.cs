@@ -286,11 +286,19 @@ namespace XCharts.Runtime
             var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue);
             var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue);
             serie.context.pointerItemDataIndex = -1;
-
+            if (serie is Heatmap)
+            {
+                var heatmap = serie as Heatmap;
+                if (heatmap.heatmapType == HeatmapType.Count)
+                {
+                    serie.context.pointerItemDataIndex = HeatmapHandler.GetGridKey(xAxisIndex, yAxisIndex);
+                    return;
+                }
+            }
             foreach (var serieData in serie.data)
             {
-                var x = AxisHelper.GetAxisValueSplitIndex(xAxis,serieData.GetData(0));
-                var y = AxisHelper.GetAxisValueSplitIndex(yAxis,serieData.GetData(1));
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0));
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1));
                 if (xAxisIndex == x && y == yAxisIndex)
                 {
                     serie.context.pointerItemDataIndex = serieData.index;

@@ -628,6 +628,9 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`heatmapType`||3.3.0|热力图类型。通过颜色映射划分。</br>`HeatmapType`:</br>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。</br>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。</br>|
 
 ## `IconStyle`
 
@@ -781,7 +784,7 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示图例组件。
-|`iconType`|||图例类型。</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`iconType`|||图例类型。</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>- `Candlestick`: 烛台（可用于K线图）。</br>|
 |`selectedMode`|||选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
 |`orient`|||布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 |`location`|||图例显示的位置。 [Location](#Location)|
@@ -1479,7 +1482,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`selectedMode`|||选择模式。</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||影响的serie索引。
 |`min`|0||范围最小值
-|`max`|100||范围最大值
+|`max`|0||范围最大值
 |`range`|||指定手柄对应数值的位置。range 应在[min,max]范围内。
 |`text`|||两端的文本，如 ['High', 'Low']。
 |`textGap`|||两端文字主体之间的距离，单位为px。

@@ -31,9 +31,7 @@ namespace XCharts.Runtime
             else
             {
                 var splitNum = axis.splitNumber <= 0 ? GetSplitNumber(axis, 0, null) : axis.splitNumber;
-                return axis.minorTick.show ?
-                    splitNum * axis.minorTick.splitNumber :
-                    splitNum;
+                return splitNum * axis.minorTick.splitNumber;
             }
         }
 

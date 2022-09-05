@@ -628,6 +628,9 @@ Grid component.
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`heatmapType`||3.3.0|The mapping type of heatmap.</br>`HeatmapType`:</br>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.</br>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.</br>|
 
 ## `IconStyle`
 
@@ -781,7 +784,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether to show legend component.
-|`iconType`|||Type of legend.</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`iconType`|||Type of legend.</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>- `Candlestick`: 烛台（可用于K线图）。</br>|
 |`selectedMode`|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
 |`orient`|||Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 |`location`|||The location of legend. [Location](#Location)|
@@ -1479,7 +1482,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |`selectedMode`|||the selected mode for Piecewise visualMap.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||the serie index of visualMap.
 |`min`|0||范围最小值
-|`max`|100||范围最大值
+|`max`|0||范围最大值
 |`range`|||Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
 |`text`|||Text on both ends.
 |`textGap`|||The distance between the two text bodies.

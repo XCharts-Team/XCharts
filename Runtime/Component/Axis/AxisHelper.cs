@@ -20,6 +20,24 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// 获得分割网格个数，包含次刻度
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public static int GetTotalSplitGridNum(Axis axis)
+        {
+            if (axis.IsCategory())
+                return axis.data.Count;
+            else
+            {
+                var splitNum = axis.splitNumber <= 0 ? GetSplitNumber(axis, 0, null) : axis.splitNumber;
+                return axis.minorTick.show ?
+                    splitNum * axis.minorTick.splitNumber :
+                    splitNum;
+            }
+        }
+
+        /// <summary>
         /// 获得分割段数
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -519,6 +537,34 @@ namespace XCharts.Runtime
             return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true);
         }
 
+        /// <summary>
+        /// 获得数值value在坐标轴上对应的split索引
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)
+        {
+            if (axis.IsCategory())
+            {
+                return (int) value;
+            }
+            else
+            {
+                if (value == axis.context.minValue)
+                    return 0;
+                else
+                {
+                    if (totalSplitNumber == -1)
+                        totalSplitNumber = GetTotalSplitGridNum(axis);
+                    if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
+                        return Mathf.CeilToInt(((float) ((value - axis.min) / axis.max) * totalSplitNumber) - 1);
+                    else
+                        return Mathf.CeilToInt(((float) ((value - axis.context.minValue) / axis.context.minMaxRange) * totalSplitNumber) - 1);
+                }
+            }
+        }
+
         private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength)
         {
             var isY = axis is YAxis;
@@ -588,10 +634,6 @@ namespace XCharts.Runtime
             else if (yAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == yAxis.gridIndex)
                 startX += relativedAxis.context.offset;
             return startX;
-        }
-
-        public static void UpdateAxisOffset(){
-
         }
     }
 }

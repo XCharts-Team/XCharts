@@ -241,7 +241,7 @@ namespace XCharts.Runtime
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)
         {
             serie.context.pointerAxisDataIndexs.Clear();
-            if (xAxis.IsCategory() && yAxis.IsCategory())
+            if (serie is Heatmap)
             {
                 GetSerieDataByXYAxis(serie, xAxis, yAxis);
             }
@@ -283,14 +283,14 @@ namespace XCharts.Runtime
 
         private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
         {
-            var xAxisIndex = xAxis.context.pointerValue;
-            var yAxisIndex = yAxis.context.pointerValue;
+            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue);
+            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue);
             serie.context.pointerItemDataIndex = -1;
 
             foreach (var serieData in serie.data)
             {
-                var x = serieData.GetData(0);
-                var y = serieData.GetData(1);
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis,serieData.GetData(0));
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis,serieData.GetData(1));
                 if (xAxisIndex == x && y == yAxisIndex)
                 {
                     serie.context.pointerItemDataIndex = serieData.index;

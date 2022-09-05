@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.09.05) 优化`Tooltip`在热力图为数值轴时的指示
 * (2022.09.02) 增加`onPointerEnterPie`回调支持
 * (2022.09.02) 优化`HeatmapChart`
 * (2022.08.30) 优化`RadarChart`

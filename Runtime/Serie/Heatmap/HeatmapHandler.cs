@@ -132,8 +132,8 @@ namespace XCharts.Runtime
             yAxis.boundaryGap = true;
             var visualMap = chart.GetVisualMapOfSerie(serie);
             var emphasisStyle = serie.emphasisStyle;
-            var xCount = xAxis.data.Count;
-            var yCount = yAxis.data.Count;
+            var xCount = AxisHelper.GetTotalSplitGridNum(xAxis);
+            var yCount = AxisHelper.GetTotalSplitGridNum(yAxis);
             var xWidth = m_SerieGrid.context.width / xCount;
             var yWidth = m_SerieGrid.context.height / yCount;
 
@@ -173,8 +173,11 @@ namespace XCharts.Runtime
             for (int n = 0; n < serie.dataCount; n++)
             {
                 var serieData = serie.data[n];
-                var i = (int) serieData.GetData(0);
-                var j = (int) serieData.GetData(1);
+                var xValue = serieData.GetData(0);
+                var yValue = serieData.GetData(1);
+                var i = AxisHelper.GetAxisValueSplitIndex(xAxis, xValue, xCount);
+                var j = AxisHelper.GetAxisValueSplitIndex(yAxis, yValue, yCount);
+
                 if (serie.IsIgnoreValue(serieData, dimension))
                 {
                     serie.context.dataPoints.Add(Vector3.zero);
@@ -184,8 +187,8 @@ namespace XCharts.Runtime
                 var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
                     yAxis.context.minValue, yAxis.context.maxValue);
                 if (serieData.IsDataChanged()) dataChanging = true;
-                var pos = new Vector3(zeroX + (i + (xAxis.boundaryGap ? 0.5f : 0)) * xWidth,
-                    zeroY + (j + (yAxis.boundaryGap ? 0.5f : 0)) * yWidth);
+                var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
+                    zeroY + (j + 0.5f) * yWidth);
                 serie.context.dataPoints.Add(pos);
                 serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = pos;

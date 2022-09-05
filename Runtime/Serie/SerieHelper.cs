@@ -144,6 +144,11 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            if (min == double.MaxValue && max == double.MinValue)
+            {
+                min = 0;
+                max = 0;
+            }
         }
 
         /// <summary>
@@ -179,6 +184,11 @@ namespace XCharts.Runtime
                         }
                     }
                 }
+            }
+            if (min == double.MaxValue && max == double.MinValue)
+            {
+                min = 0;
+                max = 0;
             }
         }
 

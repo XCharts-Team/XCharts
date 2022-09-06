@@ -679,7 +679,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
-                size = symbol.GetSize(serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -693,7 +693,7 @@ namespace XCharts.Runtime
             else
             {
                 var symbol = stateStyle.symbol;
-                size = symbol.GetSize(serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
             }
             return size;
         }

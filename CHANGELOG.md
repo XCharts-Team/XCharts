@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.09.06) 增加`Heatmap`通过`symbol`设置不同的图案的支持
 * (2022.09.05) 增加`Heatmap`的`heatmapType`支持设置`Data`和`Count`两种不同映射方式的热力图
 * (2022.09.05) 优化`Tooltip`在热力图为数值轴时的指示
 * (2022.09.02) 增加`onPointerEnterPie`回调支持

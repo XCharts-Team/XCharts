@@ -966,6 +966,11 @@ namespace XCharts.Runtime
                 serie.symbol.show = true;
                 serie.symbol.type = SymbolType.EmptyCircle;
             }
+            else if (type == typeof(Heatmap))
+            {
+                serie.symbol.show = true;
+                serie.symbol.type = SymbolType.Rect;
+            }
             else
             {
                 serie.symbol.show = false;

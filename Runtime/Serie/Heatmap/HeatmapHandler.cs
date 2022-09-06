@@ -186,20 +186,10 @@ namespace XCharts.Runtime
 
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
-            var color = chart.theme.GetColor(serie.index);
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
             var rectWid = xWidth - 2 * borderWidth;
             var rectHig = yWidth - 2 * borderWidth;
-
-            var borderColor = serie.itemStyle.opacity > 0 ?
-                serie.itemStyle.borderColor :
-                ChartConst.clearColor32;
-            borderColor.a = (byte) (borderColor.a * serie.itemStyle.opacity);
-
-            var borderToColor = serie.itemStyle.opacity > 0 ?
-                serie.itemStyle.borderToColor :
-                ChartConst.clearColor32;
-            borderToColor.a = (byte) (borderToColor.a * serie.itemStyle.opacity);
+            var defaultSymbolSize = Mathf.Min(rectWid, rectHig) * 0.25f;
 
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -217,6 +207,10 @@ namespace XCharts.Runtime
             }
             var rangeMin = visualMap.rangeMin;
             var rangeMax = visualMap.rangeMax;
+            var color = chart.theme.GetColor(serie.index);
+            float symbolBorder = 0f;
+            float[] cornerRadius = null;
+            Color32 borderColor;
             for (int n = 0; n < serie.dataCount; n++)
             {
                 var serieData = serie.data[n];
@@ -231,6 +225,10 @@ namespace XCharts.Runtime
                     serie.context.dataIndexs.Add(serieData.index);
                     continue;
                 }
+                var state = SerieHelper.GetSerieState(serie, serieData, true);
+                var symbol = SerieHelper.GetSerieSymbol(serie, serieData, state);
+                var isRectSymbol = symbol.type == SymbolType.Rect;
+                SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
                 var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
                     yAxis.context.minValue, yAxis.context.maxValue);
                 if (serieData.IsDataChanged()) dataChanging = true;
@@ -259,12 +257,23 @@ namespace XCharts.Runtime
                 var highlight = (serieData.context.highlight) ||
                     visualMap.context.pointerIndex > 0;
 
-                UGL.DrawRectangle(vh, serieData.context.rect, color);
-
-                if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
+                if (isRectSymbol)
                 {
-                    UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
+                    UGL.DrawRectangle(vh, serieData.context.rect, color);
+
+                    if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
+                    {
+                        UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderColor);
+                    }
                 }
+                else
+                {
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, defaultSymbolSize, state);
+                    var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serie.context.colorIndex, state);
+                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
+                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius);
+                }
+
                 if (visualMap.hoverLink && highlight && emphasisStyle != null &&
                     emphasisStyle.itemStyle.borderWidth > 0)
                 {
@@ -309,20 +318,10 @@ namespace XCharts.Runtime
 
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
-            var color = chart.theme.GetColor(serie.index);
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
             var rectWid = xWidth - 2 * borderWidth;
             var rectHig = yWidth - 2 * borderWidth;
-
-            var borderColor = serie.itemStyle.opacity > 0 ?
-                serie.itemStyle.borderColor :
-                ChartConst.clearColor32;
-            borderColor.a = (byte) (borderColor.a * serie.itemStyle.opacity);
-
-            var borderToColor = serie.itemStyle.opacity > 0 ?
-                serie.itemStyle.borderToColor :
-                ChartConst.clearColor32;
-            borderToColor.a = (byte) (borderToColor.a * serie.itemStyle.opacity);
+            var defaultSymbolSize = Mathf.Min(rectWid, rectHig) * 0.25f;
 
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -366,7 +365,15 @@ namespace XCharts.Runtime
                     GetGridXYByKey(serie.context.pointerItemDataIndex, out highlightX, out highlightY);
                 }
             }
-
+            var state = SerieHelper.GetSerieState(serie, null, true);
+            var symbol = SerieHelper.GetSerieSymbol(serie, null, state);
+            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme, defaultSymbolSize, state);
+            var isRectSymbol = symbol.type == SymbolType.Rect;
+            float symbolBorder = 0f;
+            float[] cornerRadius = null;
+            Color32 color, toColor, emptyColor, borderColor;
+            SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, null, chart.theme, serie.context.colorIndex, state);
+            SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, null, chart.theme, state);
             foreach (var kv in m_CountDict)
             {
                 int i, j;
@@ -377,7 +384,7 @@ namespace XCharts.Runtime
                 {
                     continue;
                 }
-                
+
                 if ((value < rangeMin && rangeMin != visualMap.min) ||
                     (value > rangeMax && rangeMax != visualMap.max))
                 {
@@ -397,12 +404,21 @@ namespace XCharts.Runtime
                 var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
                     zeroY + (j + 0.5f) * yWidth);
                 var rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
-                UGL.DrawRectangle(vh, rect, color);
-
-                if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
+                if (isRectSymbol)
                 {
-                    UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderToColor);
+                    UGL.DrawRectangle(vh, rect, color);
+
+                    if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
+                    {
+                        UGL.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor, borderColor);
+                    }
                 }
+                else
+                {
+                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
+                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius);
+                }
+
                 if (visualMap.hoverLink && highlight && emphasisStyle != null &&
                     emphasisStyle.itemStyle.borderWidth > 0)
                 {

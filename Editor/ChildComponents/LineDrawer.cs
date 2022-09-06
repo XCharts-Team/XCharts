@@ -44,6 +44,8 @@ namespace XCharts.Editor
             PropertyField(prop, "m_Interval");
             PropertyField(prop, "m_Distance");
             PropertyField(prop, "m_AutoColor");
+            PropertyField(prop, "m_ShowStartLine");
+            PropertyField(prop, "m_ShowEndLine");
         }
     }
 

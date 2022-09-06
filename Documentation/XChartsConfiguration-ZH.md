@@ -357,6 +357,8 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 |`interval`|||坐标轴分隔线的显示间隔。
 |`distance`|||刻度线与轴线的距离。
 |`autoColor`|||自动设置颜色。
+|`showStartLine`|true|v3.3.0|是否显示第一条分割线。
+|`showEndLine`|true|v3.3.0|是否显示最后一条分割线。
 
 ## `AxisTheme`
 

@@ -357,6 +357,8 @@ Split line of axis in grid area.
 |`interval`|||Interval of Axis splitLine.
 |`distance`|||The distance between the split line and axis line.
 |`autoColor`|||auto color.
+|`showStartLine`|true|v3.3.0|Whether to show the first split line.
+|`showEndLine`|true|v3.3.0|Whether to show the last split line.
 
 ## `AxisTheme`
 

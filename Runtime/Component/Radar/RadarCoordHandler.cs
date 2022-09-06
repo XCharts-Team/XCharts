@@ -147,7 +147,7 @@ namespace XCharts.Runtime
                     {
                         UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, color);
                     }
-                    if (radar.splitLine.NeedShow(i))
+                    if (radar.splitLine.NeedShow(i, radar.splitNumber))
                     {
                         ChartDrawer.DrawLineStyle(vh, splitLineType, splitLineWidth, p2, p3, splitLineColor);
                     }

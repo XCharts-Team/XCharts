@@ -13,6 +13,8 @@ namespace XCharts.Runtime
         [SerializeField] private int m_Interval;
         [SerializeField] private float m_Distance;
         [SerializeField] private bool m_AutoColor;
+        [SerializeField][Since("v3.3.0")] private bool m_ShowStartLine = true;
+        [SerializeField][Since("v3.3.0")] private bool m_ShowEndLine = true;
 
         /// <summary>
         /// The distance between the split line and axis line.
@@ -32,6 +34,24 @@ namespace XCharts.Runtime
         {
             get { return m_Interval; }
             set { if (PropertyUtil.SetStruct(ref m_Interval, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to show the first split line.
+        /// |是否显示第一条分割线。
+        /// </summary>
+        public bool showStartLine
+        {
+            get { return m_ShowStartLine; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowStartLine, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to show the last split line.
+        /// |是否显示最后一条分割线。
+        /// </summary>
+        public bool showEndLine
+        {
+            get { return m_ShowEndLine; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowEndLine, value)) SetVerticesDirty(); }
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || m_LineStyle.anyDirty; } }
@@ -56,6 +76,8 @@ namespace XCharts.Runtime
             var axisSplitLine = new AxisSplitLine();
             axisSplitLine.show = show;
             axisSplitLine.interval = interval;
+            axisSplitLine.showStartLine = showStartLine;
+            axisSplitLine.showEndLine = showEndLine;
             axisSplitLine.lineStyle = lineStyle.Clone();
             return axisSplitLine;
         }
@@ -64,11 +86,17 @@ namespace XCharts.Runtime
         {
             base.Copy(splitLine);
             interval = splitLine.interval;
+            showStartLine = splitLine.showStartLine;
+            showEndLine = splitLine.showEndLine;
         }
 
-        internal bool NeedShow(int index)
+        internal bool NeedShow(int index, int total)
         {
-            return show && (interval == 0 || index % (interval + 1) == 0);
+            if (!show) return false;
+            if (interval != 0 && index % (interval + 1) != 0) return false;
+            if (!showStartLine && index == 0) return false;
+            if (!showEndLine && index == total - 1) return false;
+            return true;
         }
     }
 }

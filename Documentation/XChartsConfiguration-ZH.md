@@ -1174,6 +1174,8 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |`interval`|||显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
 |`forceShowLast`|false||是否强制显示最后一个图形标记。
 |`repeat`|false||图形是否重复。
+|`minSize`|0f|v3.3.0|图形最小尺寸。只在sizeType为SymbolSizeType.FromData时有效。
+|`maxSize`|0f|v3.3.0|图形最大尺寸。只在sizeType为SymbolSizeType.FromData时有效。
 
 ## `SerieTheme`
 

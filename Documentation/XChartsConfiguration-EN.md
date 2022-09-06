@@ -1174,6 +1174,8 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |`interval`|||the interval of show symbol.
 |`forceShowLast`|false||whether to show the last symbol.
 |`repeat`|false||图形是否重复。
+|`minSize`|0f|v3.3.0|Minimum symbol size.
+|`maxSize`|0f|v3.3.0|Maximum symbol size.
 
 ## `SerieTheme`
 

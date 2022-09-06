@@ -187,9 +187,9 @@ namespace XCharts.Runtime
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
-            var rectWid = xWidth - 2 * borderWidth;
-            var rectHig = yWidth - 2 * borderWidth;
-            var defaultSymbolSize = Mathf.Min(rectWid, rectHig) * 0.25f;
+            var splitWid = xWidth - 2 * borderWidth;
+            var splitHig = yWidth - 2 * borderWidth;
+            var defaultSymbolSize = Mathf.Min(splitWid, splitHig) * 0.25f;
 
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -237,9 +237,8 @@ namespace XCharts.Runtime
                 serie.context.dataPoints.Add(pos);
                 serie.context.dataIndexs.Add(serieData.index);
                 serieData.context.position = pos;
-
                 serieData.context.canShowLabel = false;
-                serieData.context.rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
+
                 if ((value < rangeMin && rangeMin != visualMap.min) ||
                     (value > rangeMax && rangeMax != visualMap.max))
                 {
@@ -256,9 +255,22 @@ namespace XCharts.Runtime
 
                 var highlight = (serieData.context.highlight) ||
                     visualMap.context.pointerIndex > 0;
-
+                var rectWid = 0f;
+                var rectHig = 0f;
                 if (isRectSymbol)
                 {
+                    if (symbol.size == 0 && symbol.sizeType == SymbolSizeType.Custom)
+                    {
+                        rectWid = splitWid;
+                        rectHig = splitHig;
+                    }
+                    else
+                    {
+                        var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, defaultSymbolSize, state);
+                        rectWid = symbolSize;
+                        rectHig = symbolSize;
+                    }
+                    serieData.context.rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
                     UGL.DrawRectangle(vh, serieData.context.rect, color);
 
                     if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
@@ -270,6 +282,7 @@ namespace XCharts.Runtime
                 {
                     var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, defaultSymbolSize, state);
                     var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serie.context.colorIndex, state);
+                    serieData.context.rect = new Rect(pos.x - symbolSize / 2, pos.y - symbolSize / 2, symbolSize, symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
                         color, color, emptyColor, borderColor, symbol.gap, cornerRadius);
                 }
@@ -319,9 +332,9 @@ namespace XCharts.Runtime
             var zeroX = m_SerieGrid.context.x;
             var zeroY = m_SerieGrid.context.y;
             var borderWidth = serie.itemStyle.show ? serie.itemStyle.borderWidth : 0;
-            var rectWid = xWidth - 2 * borderWidth;
-            var rectHig = yWidth - 2 * borderWidth;
-            var defaultSymbolSize = Mathf.Min(rectWid, rectHig) * 0.25f;
+            var splitWid = xWidth - 2 * borderWidth;
+            var splitHig = yWidth - 2 * borderWidth;
+            var defaultSymbolSize = Mathf.Min(splitWid, splitHig) * 0.25f;
 
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
@@ -403,9 +416,22 @@ namespace XCharts.Runtime
 
                 var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
                     zeroY + (j + 0.5f) * yWidth);
-                var rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
+                
+                var rectWid = 0f;
+                var rectHig = 0f;
                 if (isRectSymbol)
                 {
+                    if (symbol.size == 0 && symbol.sizeType == SymbolSizeType.Custom)
+                    {
+                        rectWid = splitWid;
+                        rectHig = splitHig;
+                    }
+                    else
+                    {
+                        rectWid = symbolSize;
+                        rectHig = symbolSize;
+                    }
+                    var rect = new Rect(pos.x - rectWid / 2, pos.y - rectHig / 2, rectWid, rectHig);
                     UGL.DrawRectangle(vh, rect, color);
 
                     if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))

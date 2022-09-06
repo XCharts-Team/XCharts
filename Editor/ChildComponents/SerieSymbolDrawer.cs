@@ -35,6 +35,8 @@ namespace XCharts.Editor
                     case SymbolSizeType.FromData:
                         PropertyField(prop, "m_DataIndex");
                         PropertyField(prop, "m_DataScale");
+                        PropertyField(prop, "m_MinSize");
+                        PropertyField(prop, "m_MaxSize");
                         break;
                     case SymbolSizeType.Function:
                         break;

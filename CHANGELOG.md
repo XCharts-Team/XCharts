@@ -58,7 +58,8 @@
 
 ## master
 
-* (2022.09.06) 增加`AxisSplitLine`的`showStartLine`和`showEndLine`参数
+* (2022.09.06) 增加`SerieSymbol`的`minSize`和`maxSize`参数设置最大最小尺寸的支持
+* (2022.09.06) 增加`AxisSplitLine`的`showStartLine`和`showEndLine`参数设置是否显示首位分割线的支持
 * (2022.09.06) 增加`Heatmap`通过`symbol`设置不同的图案的支持
 * (2022.09.05) 增加`Heatmap`的`heatmapType`支持设置`Data`和`Count`两种不同映射方式的热力图
 * (2022.09.05) 优化`Tooltip`在热力图为数值轴时的指示

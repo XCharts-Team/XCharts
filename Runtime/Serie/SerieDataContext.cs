@@ -7,6 +7,7 @@ namespace XCharts.Runtime
     public class SerieDataContext
     {
         public Vector3 labelPosition;
+        public Vector3 labelLinePosition;
         /// <summary>
         /// 开始角度
         /// </summary>

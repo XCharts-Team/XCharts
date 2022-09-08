@@ -4,8 +4,8 @@ namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(RingHandler), true)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Ring : Serie
     {

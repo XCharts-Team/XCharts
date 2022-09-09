@@ -58,7 +58,8 @@
 
 ## master
 
-* (2022.09.06) 增加`RingChart`可设置`LabelLine`引导线的支持
+* (2022.09.09) 修复`Editor`下编辑参数部分组件可能不会实时刷新的问题
+* (2022.09.08) 增加`RingChart`可设置`LabelLine`引导线的支持
 * (2022.09.06) 增加`SerieSymbol`的`minSize`和`maxSize`参数设置最大最小尺寸的支持
 * (2022.09.06) 增加`AxisSplitLine`的`showStartLine`和`showEndLine`参数设置是否显示首位分割线的支持
 * (2022.09.06) 增加`Heatmap`通过`symbol`设置不同的图案的支持

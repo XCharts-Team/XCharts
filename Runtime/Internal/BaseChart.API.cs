@@ -157,6 +157,11 @@ namespace XCharts.Runtime
             if (m_PainterTop) m_PainterTop.Refresh();
         }
 
+        public override void RefreshGraph()
+        {
+            RefreshChart();
+        }
+
         /// <summary>
         /// Redraw chart serie in next frame.
         /// |在下一帧刷新图表的指定serie。

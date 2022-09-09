@@ -120,7 +120,7 @@ namespace XCharts.Runtime
         /// Redraw graph in next frame.
         /// |在下一帧刷新图形。
         /// </summary>
-        public void RefreshGraph()
+        public virtual void RefreshGraph()
         {
             m_RefreshChart = true;
         }

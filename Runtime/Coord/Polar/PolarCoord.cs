@@ -14,7 +14,7 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
-        [SerializeField] private float m_Radius = 0.35f;
+        [SerializeField] private float[] m_Radius = new float[2] { 0, 0.35f };
         [SerializeField] private Color m_BackgroundColor;
 
         public PolarCoordContext context = new PolarCoordContext();
@@ -41,12 +41,12 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the radius of polar.
-        /// |极坐标的半径。
+        /// |半径。radius[0]表示内径，radius[1]表示外径。
         /// </summary>
-        public float radius
+        public float[] radius
         {
             get { return m_Radius; }
-            set { if (PropertyUtil.SetStruct(ref m_Radius, value)) SetAllDirty(); }
+            set { if (value != null && value.Length == 2) { m_Radius = value; SetAllDirty(); } }
         }
         /// <summary>
         /// Background color of polar, which is transparent by default.
@@ -65,7 +65,8 @@ namespace XCharts.Runtime
 
         public bool Contains(Vector3 pos)
         {
-            return Vector3.Distance(pos, context.center) < context.radius;
+            var dist = Vector3.Distance(pos, context.center);
+            return dist >= context.insideRadius && dist <= context.outsideRadius;
         }
     }
 }

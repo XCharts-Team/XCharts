@@ -111,7 +111,7 @@ namespace XCharts.Runtime
                 return;
 
             var startAngle = m_AngleAxis.startAngle;
-            var radius = m_SeriePolar.context.radius;
+            var radius = m_SeriePolar.context.outsideRadius;
 
             var min = m_RadiusAxis.context.minValue;
             var max = m_RadiusAxis.context.maxValue;

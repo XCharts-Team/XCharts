@@ -9,19 +9,12 @@ namespace XCharts.Runtime
             if (polar.center.Length < 2) return;
             var centerX = polar.center[0] <= 1 ? chartWidth * polar.center[0] : polar.center[0];
             var centerY = polar.center[1] <= 1 ? chartHeight * polar.center[1] : polar.center[1];
+            var minWidth = Mathf.Min(chartWidth, chartHeight);
+
             polar.context.center = chartPosition + new Vector3(centerX, centerY);
-            if (polar.radius <= 0)
-            {
-                polar.context.radius = 0;
-            }
-            else if (polar.radius <= 1)
-            {
-                polar.context.radius = Mathf.Min(chartWidth, chartHeight) * polar.radius;
-            }
-            else
-            {
-                polar.context.radius = polar.radius;
-            }
+            polar.context.insideRadius = polar.radius[0] <= 1 ? minWidth * polar.radius[0] : polar.radius[0];
+            polar.context.outsideRadius = polar.radius[1] <= 1 ? minWidth * polar.radius[1] : polar.radius[1];
+            polar.context.radius = polar.context.outsideRadius - polar.context.insideRadius;
         }
     }
 }

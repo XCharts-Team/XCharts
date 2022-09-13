@@ -74,7 +74,9 @@ namespace XCharts.Runtime
             if (axis.context.labelObjectList.Count <= 0)
                 InitRadiusAxis(axis);
             else
+            {
                 axis.UpdateLabelText(polar.context.radius, null, false);
+            }
         }
 
         private void InitRadiusAxis(RadiusAxis axis)
@@ -89,7 +91,7 @@ namespace XCharts.Runtime
 
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             axis.context.labelObjectList.Clear();
-            var radius = polar.context.radius;
+            var radius = polar.context.outsideRadius - polar.context.insideRadius;
             var objName = component.GetType().Name + axis.index;
             var axisObj = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
                 chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -99,7 +101,7 @@ namespace XCharts.Runtime
             ChartHelper.HideAllObject(axisObj);
             var textStyle = axis.axisLabel.textStyle;
             var splitNumber = AxisHelper.GetScaleNumber(axis, radius, null);
-            var totalWidth = 0f;
+            var totalWidth = polar.context.insideRadius;
             var txtHig = textStyle.GetFontSize(chart.theme.axis) + 2;
             for (int i = 0; i < splitNumber; i++)
             {
@@ -150,7 +152,7 @@ namespace XCharts.Runtime
             var radius = polar.context.radius;
             var cenPos = polar.context.center;
             var size = AxisHelper.GetScaleNumber(radiusAxis, radius, null);
-            var totalWidth = 0f;
+            var totalWidth = polar.context.insideRadius;
             var dire = ChartHelper.GetDire(startAngle, true).normalized;
             var tickWidth = radiusAxis.axisTick.GetWidth(chart.theme.axis.tickWidth);
             var tickLength = radiusAxis.axisTick.GetLength(chart.theme.axis.tickLength);
@@ -178,8 +180,8 @@ namespace XCharts.Runtime
             }
             if (radiusAxis.show && radiusAxis.axisLine.show)
             {
-                var lineStartPos = polar.context.center - dire * tickWidth;
-                var lineEndPos = polar.context.center + dire * (radius + tickWidth);
+                var lineStartPos = polar.context.center + dire * polar.context.insideRadius;
+                var lineEndPos = polar.context.center + dire * (polar.context.outsideRadius + 2 * tickWidth);
                 var lineWidth = radiusAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 UGL.DrawLine(vh, lineStartPos, lineEndPos, lineWidth, chart.theme.axis.lineColor);
             }

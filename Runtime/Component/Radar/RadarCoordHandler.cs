@@ -17,6 +17,7 @@ namespace XCharts.Runtime
 
         public override void Update()
         {
+            base.Update();
             if (!chart.isPointerInChart)
             {
                 component.context.isPointerEnter = false;

@@ -61,7 +61,7 @@ namespace XCharts.Runtime
             var polar = chart.GetChartComponent<PolarCoord>(axis.polarIndex);
             if (polar == null) return;
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            var radius = polar.context.radius;
+            var radius = polar.context.outsideRadius;
             axis.context.labelObjectList.Clear();
             axis.context.startAngle = 90 - axis.startAngle;
 
@@ -103,7 +103,7 @@ namespace XCharts.Runtime
         private void DrawAngleAxis(VertexHelper vh, AngleAxis angleAxis)
         {
             var polar = chart.GetChartComponent<PolarCoord>(angleAxis.polarIndex);
-            var radius = polar.context.radius;
+            var radius = polar.context.outsideRadius;
             var cenPos = polar.context.center;
             var total = 360;
             var size = AxisHelper.GetScaleNumber(angleAxis, total, null);
@@ -158,7 +158,7 @@ namespace XCharts.Runtime
             var dir = (chart.pointerPos - new Vector2(polar.context.center.x, polar.context.center.y)).normalized;
             var angle = ChartHelper.GetAngle360(Vector2.up, dir);
             axis.context.pointerValue = (angle - component.context.startAngle + 360) % 360;
-            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.radius + 25);
+            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.outsideRadius + 25);
         }
     }
 }

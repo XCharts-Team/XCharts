@@ -579,23 +579,25 @@ namespace XCharts.Runtime
                 serie.context.dataIndexs.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
-                if (!serie.context.pointerEnter)
-                    serie.ResetInteract();
-
-                if (m_OnDrawSerieBefore != null)
+                if (serie.show && !serie.animation.HasFadeOut())
                 {
-                    m_OnDrawSerieBefore.Invoke(vh, serie);
-                }
-                DrawPainterSerie(vh, serie);
-                if (i >= 0 && i < m_SerieHandlers.Count)
-                {
-                    var handler = m_SerieHandlers[i];
-                    handler.DrawSerie(vh);
-                    handler.RefreshLabelNextFrame();
-                }
-                if (m_OnDrawSerieAfter != null)
-                {
-                    m_OnDrawSerieAfter(vh, serie);
+                    if (!serie.context.pointerEnter)
+                        serie.ResetInteract();
+                    if (m_OnDrawSerieBefore != null)
+                    {
+                        m_OnDrawSerieBefore.Invoke(vh, serie);
+                    }
+                    DrawPainterSerie(vh, serie);
+                    if (i >= 0 && i < m_SerieHandlers.Count)
+                    {
+                        var handler = m_SerieHandlers[i];
+                        handler.DrawSerie(vh);
+                        handler.RefreshLabelNextFrame();
+                    }
+                    if (m_OnDrawSerieAfter != null)
+                    {
+                        m_OnDrawSerieAfter(vh, serie);
+                    }
                 }
                 serie.context.vertCount = vh.currentVertCount;
             }

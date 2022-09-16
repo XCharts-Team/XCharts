@@ -16,5 +16,18 @@ namespace XCharts.Runtime
             polar.context.outsideRadius = polar.radius[1] <= 1 ? minWidth * polar.radius[1] : polar.radius[1];
             polar.context.radius = polar.context.outsideRadius - polar.context.insideRadius;
         }
+
+        public static Vector3 UpdatePolarAngleAndPos(PolarCoord polar, AngleAxis angleAxis, RadiusAxis radiusAxis, SerieData serieData)
+        {
+            var value = serieData.GetData(0);
+            var angle = angleAxis.GetValueAngle(serieData.GetData(1));
+            var radius = polar.context.insideRadius + radiusAxis.GetValueLength(value, polar.context.radius);
+
+            angle = (angle + 360) % 360;
+            serieData.context.angle = angle;
+            serieData.context.position = ChartHelper.GetPos(polar.context.center, radius, angle, true);
+
+            return serieData.context.position;
+        }
     }
 }

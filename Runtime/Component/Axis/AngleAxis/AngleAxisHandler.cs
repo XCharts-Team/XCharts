@@ -139,7 +139,13 @@ namespace XCharts.Runtime
             {
                 var lineWidth = angleAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 var outsideRaidus = radius + lineWidth * 2;
-                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, Color.clear);
+                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, ColorUtil.clearColor32);
+                if (polar.context.insideRadius > 0)
+                {
+                    radius = polar.context.insideRadius;
+                    outsideRaidus = radius + lineWidth * 2;
+                    UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, ColorUtil.clearColor32);
+                }
             }
         }
 

@@ -443,6 +443,12 @@ namespace XCharts.Runtime
         internal bool GetSerieGridCoordAxis(Serie serie, out Axis axis, out Axis relativedAxis)
         {
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
+            if (yAxis == null)
+            {
+                axis = null;
+                relativedAxis = null;
+                return false;
+            }
             var isY = yAxis.IsCategory();
             if (isY)
             {

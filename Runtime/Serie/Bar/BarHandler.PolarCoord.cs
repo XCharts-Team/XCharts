@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     /// <summary>
     /// For polar coord
     /// </summary>
-    internal sealed partial class LineHandler
+    internal sealed partial class BarHandler
     {
         private PolarCoord m_SeriePolar;
 
@@ -68,13 +68,15 @@ namespace XCharts.Runtime
                 serie.context.pointerEnter = false;
                 var dir = chart.pointerPos - new Vector2(m_SeriePolar.context.center.x, m_SeriePolar.context.center.y);
                 var pointerAngle = ChartHelper.GetAngle360(Vector2.up, dir);
+                var pointerRadius = Vector2.Distance(chart.pointerPos, m_SeriePolar.context.center);
+                Color32 color, toColor;
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var angle0 = serieData.context.angle;
-                    var angle1 = i >= serie.dataCount - 1 ? angle0 : serie.data[i + 1].context.angle;
-
-                    if (pointerAngle >= angle0 && pointerAngle < angle1)
+                    if (pointerAngle >= serieData.context.startAngle &&
+                        pointerAngle < serieData.context.toAngle &&
+                        pointerRadius >= serieData.context.insideRadius &&
+                        pointerRadius < serieData.context.outsideRadius)
                     {
                         serie.context.pointerItemDataIndex = i;
                         serie.context.pointerEnter = true;
@@ -84,6 +86,9 @@ namespace XCharts.Runtime
                     {
                         serieData.context.highlight = false;
                     }
+                    var state = SerieHelper.GetSerieState(serie, serieData, true);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, state);
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
                 }
             }
             if (needInteract)
@@ -95,7 +100,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawPolarLine(VertexHelper vh, Serie serie)
+        private void DrawPolarBar(VertexHelper vh, Serie serie)
         {
             var datas = serie.data;
             if (datas.Count <= 0)
@@ -110,73 +115,61 @@ namespace XCharts.Runtime
             if (m_AngleAxis == null || m_RadiusAxis == null)
                 return;
 
-            var startAngle = m_AngleAxis.startAngle;
-            var firstSerieData = datas[0];
-            var lp = PolarHelper.UpdatePolarAngleAndPos(m_SeriePolar, m_AngleAxis, m_RadiusAxis, firstSerieData);
-            var cp = Vector3.zero;
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index);
-            var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
+            var startAngle = m_AngleAxis.context.startAngle;
             var currDetailProgress = 0f;
             var totalDetailProgress = datas.Count;
 
             serie.animation.InitProgress(currDetailProgress, totalDetailProgress);
 
-            var ltp = Vector3.zero;
-            var lbp = Vector3.zero;
-            var ntp = Vector3.zero;
-            var nbp = Vector3.zero;
-            var itp = Vector3.zero;
-            var ibp = Vector3.zero;
-            var clp = Vector3.zero;
-            var crp = Vector3.zero;
-            bool bitp = true, bibp = true;
-            for (int i = 1; i < datas.Count; i++)
+            var isStack = SeriesHelper.IsStack<Bar>(chart.series, serie.stack);
+            if (isStack)
+                SeriesHelper.UpdateStackDataList(chart.series, serie, null, m_StackSerieData);
+
+            var barCount = chart.GetSerieBarRealCount<Bar>();
+            float categoryWidth = AxisHelper.GetDataWidth(m_AngleAxis, 360, datas.Count, null);
+            float barGap = chart.GetSerieBarGap<Bar>();
+            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
+            float barWidth = serie.GetBarWidth(categoryWidth, barCount);
+            float offset = (categoryWidth - totalBarWidth) * 0.5f;
+            //var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
+            //float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
+
+            var areaColor = ColorUtil.clearColor32;
+            var areaToColor = ColorUtil.clearColor32;
+            var interacting = false;
+
+            for (int i = 0; i < datas.Count; i++)
             {
                 if (serie.animation.CheckDetailBreak(i))
                     break;
-
                 var serieData = datas[i];
+                var value = serieData.GetData(1);
+                var start = startAngle + categoryWidth * i + offset;
+                var end = start + barWidth;
+                var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+                var borderWidth = itemStyle.borderWidth;
+                var borderColor = itemStyle.borderColor;
 
-                cp = PolarHelper.UpdatePolarAngleAndPos(m_SeriePolar, m_AngleAxis, m_RadiusAxis, datas[i]);
-                var np = i == datas.Count - 1 ? cp :
-                    PolarHelper.UpdatePolarAngleAndPos(m_SeriePolar, m_AngleAxis, m_RadiusAxis, datas[i + 1]);
+                serieData.context.startAngle = start;
+                serieData.context.toAngle = end;
 
-                UGLHelper.GetLinePoints(lp, cp, np, lineWidth,
-                    ref ltp, ref lbp,
-                    ref ntp, ref nbp,
-                    ref itp, ref ibp,
-                    ref clp, ref crp,
-                    ref bitp, ref bibp, i);
-
-                if (i == 1)
+                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
                 {
-                    UGL.AddVertToVertexHelper(vh, ltp, lbp, lineColor, false);
+                    SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
+                    serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
                 }
 
-                if (bitp == bibp)
-                {
-                    if (bitp)
-                        UGL.AddVertToVertexHelper(vh, itp, ibp, lineColor, true);
-                    else
-                    {
-                        UGL.AddVertToVertexHelper(vh, ltp, clp, lineColor, true);
-                        UGL.AddVertToVertexHelper(vh, ltp, crp, lineColor, true);
-                    }
-                }
-                else
-                {
-                    if (bitp)
-                    {
-                        UGL.AddVertToVertexHelper(vh, itp, clp, lineColor, true);
-                        UGL.AddVertToVertexHelper(vh, itp, crp, lineColor, true);
-                    }
-                    else if (bibp)
-                    {
-                        UGL.AddVertToVertexHelper(vh, clp, ibp, lineColor, true);
-                        UGL.AddVertToVertexHelper(vh, crp, ibp, lineColor, true);
-                    }
-                }
-                lp = cp;
+                var inside = m_SeriePolar.context.insideRadius;
+                var outside = inside + m_RadiusAxis.GetValueLength(value, m_SeriePolar.context.radius);
+                var needRoundCap = serie.roundCap && inside > 0;
+
+                serieData.context.insideRadius = inside;
+                serieData.context.outsideRadius = outside;
+                serieData.context.position = ChartHelper.GetPosition(m_SeriePolar.context.center, (inside + outside) / 2, outside);
+
+                UGL.DrawDoughnut(vh, m_SeriePolar.context.center, inside, outside, areaColor, areaToColor,
+                    ColorUtil.clearColor32, start, end, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
+                    needRoundCap, true);
             }
 
             if (!serie.animation.IsFinish())
@@ -184,43 +177,6 @@ namespace XCharts.Runtime
                 serie.animation.CheckProgress(totalDetailProgress);
                 serie.animation.CheckSymbol(serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize));
                 chart.RefreshChart();
-            }
-        }
-
-        private void DrawPolarLineSymbol(VertexHelper vh)
-        {
-            for (int n = 0; n < chart.series.Count; n++)
-            {
-                var serie = chart.series[n];
-
-                if (!serie.show)
-                    continue;
-                if (!(serie is Line))
-                    continue;
-
-                var count = serie.dataCount;
-                float symbolBorder = 0f;
-                float[] cornerRadius = null;
-                Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
-                for (int i = 0; i < count; i++)
-                {
-                    var serieData = serie.GetSerieData(i);
-                    var state = SerieHelper.GetSerieState(serie, serieData, true);
-                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData, state);
-                    if (ChartHelper.IsIngore(serieData.context.position))
-                        continue;
-
-                    if (!symbol.show || !symbol.ShowSymbol(i, count))
-                        continue;
-
-                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
-                    SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, n);
-                    SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, null, chart.theme, state);
-
-                    symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.context.position,
-                        symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
-                }
             }
         }
     }

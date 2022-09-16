@@ -248,8 +248,6 @@ namespace XCharts.Runtime
 
         private void DrawLineSerie(VertexHelper vh, Line serie)
         {
-            if (!serie.show)
-                return;
             if (serie.animation.HasFadeOut())
                 return;
 

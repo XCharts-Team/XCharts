@@ -157,15 +157,18 @@ namespace XCharts.Runtime
             var tickWidth = radiusAxis.axisTick.GetWidth(chart.theme.axis.tickWidth);
             var tickLength = radiusAxis.axisTick.GetLength(chart.theme.axis.tickLength);
             var tickVetor = ChartHelper.GetVertialDire(dire) * tickLength;
-            for (int i = 0; i <= size; i++)
+            for (int i = 0; i < size; i++)
             {
-                var scaleWidth = AxisHelper.GetScaleWidth(radiusAxis, radius, i);
+                var scaleWidth = AxisHelper.GetScaleWidth(radiusAxis, radius, i + 1);
                 var pos = ChartHelper.GetPos(cenPos, totalWidth + tickWidth, startAngle, true);
                 if (radiusAxis.show && radiusAxis.splitLine.show)
                 {
-                    var outsideRaidus = totalWidth + radiusAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth) * 2;
-                    var splitLineColor = radiusAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);
-                    UGL.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, Color.clear);
+                    if (CanDrawSplitLine(angleAxis, i, size))
+                    {
+                        var outsideRaidus = totalWidth + radiusAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth) * 2;
+                        var splitLineColor = radiusAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);
+                        UGL.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, Color.clear);
+                    }
                 }
                 if (radiusAxis.show && radiusAxis.axisTick.show)
                 {
@@ -184,6 +187,18 @@ namespace XCharts.Runtime
                 var lineEndPos = polar.context.center + dire * (polar.context.outsideRadius + 2 * tickWidth);
                 var lineWidth = radiusAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 UGL.DrawLine(vh, lineStartPos, lineEndPos, lineWidth, chart.theme.axis.lineColor);
+            }
+        }
+
+        private bool CanDrawSplitLine(AngleAxis angleAxis, int i, int size)
+        {
+            if (angleAxis.axisLine.show)
+            {
+                return i != size - 1 && i != 0;
+            }
+            else
+            {
+                return true;
             }
         }
     }

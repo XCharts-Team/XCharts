@@ -3,7 +3,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(BarHandler), true)]
     [SerieConvert(typeof(Line), typeof(Pie))]
-    [RequireChartComponent(typeof(GridCoord))]
+    [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
     [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]

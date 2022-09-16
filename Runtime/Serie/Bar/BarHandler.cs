@@ -7,7 +7,7 @@ using XUGL;
 namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
-    internal sealed class BarHandler : SerieHandler<Bar>
+    internal sealed partial class BarHandler : SerieHandler<Bar>
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
@@ -16,7 +16,10 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
+            if (serie.IsUseCoord<GridCoord>())
+                UpdateSerieGridContext();
+            else if (serie.IsUseCoord<PolarCoord>())
+                UpdateSeriePolarContext();
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -29,7 +32,14 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            DrawBarSerie(vh, serie, serie.context.colorIndex);
+            if (serie.IsUseCoord<PolarCoord>())
+            {
+                DrawPolarBar(vh, serie);
+            }
+            else if (serie.IsUseCoord<GridCoord>())
+            {
+                DrawBarSerie(vh, serie);
+            }
         }
 
         public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
@@ -57,7 +67,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateSerieContext()
+        private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
                 return;
@@ -119,7 +129,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawBarSerie(VertexHelper vh, Bar serie, int colorIndex)
+        private void DrawBarSerie(VertexHelper vh, Bar serie)
         {
             if (!serie.show || serie.animation.HasFadeOut())
                 return;

@@ -116,11 +116,12 @@ namespace XCharts.Runtime
             for (int i = 1; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(angleAxis, total, i);
-                var pos = ChartHelper.GetPos(cenPos, radius, currAngle, true);
+                var pos1 = ChartHelper.GetPos(cenPos, polar.context.insideRadius, currAngle, true);
+                var pos2 = ChartHelper.GetPos(cenPos, polar.context.outsideRadius, currAngle, true);
                 if (angleAxis.show && angleAxis.splitLine.show)
                 {
                     var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
-                    UGL.DrawLine(vh, cenPos, pos, lineWidth, splitLineColor);
+                    UGL.DrawLine(vh, pos1, pos2, lineWidth, splitLineColor);
                 }
                 if (angleAxis.show && angleAxis.axisTick.show)
                 {
@@ -130,7 +131,7 @@ namespace XCharts.Runtime
                     {
                         var tickY = radius + tickLength;
                         var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);
-                        UGL.DrawLine(vh, pos, tickPos, tickWidth, tickColor);
+                        UGL.DrawLine(vh, pos2, tickPos, tickWidth, tickColor);
                     }
                 }
                 currAngle += scaleWidth;

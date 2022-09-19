@@ -126,32 +126,63 @@ namespace XCharts.Runtime
                 SeriesHelper.UpdateStackDataList(chart.series, serie, null, m_StackSerieData);
 
             var barCount = chart.GetSerieBarRealCount<Bar>();
-            float categoryWidth = AxisHelper.GetDataWidth(m_AngleAxis, 360, datas.Count, null);
-            float barGap = chart.GetSerieBarGap<Bar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
-            float barWidth = serie.GetBarWidth(categoryWidth, barCount);
-            float offset = (categoryWidth - totalBarWidth) * 0.5f;
-            //var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
-            //float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
+            var categoryWidth = m_AngleAxis.IsCategory() ?
+                AxisHelper.GetDataWidth(m_AngleAxis, 360, datas.Count, null) :
+                AxisHelper.GetDataWidth(m_RadiusAxis, m_SeriePolar.context.radius, datas.Count, null);
+            var barGap = chart.GetSerieBarGap<Bar>();
+            var totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
+            var barWidth = serie.GetBarWidth(categoryWidth, barCount);
+            var offset = (categoryWidth - totalBarWidth) * 0.5f;
+            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
+            float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
             var interacting = false;
 
+            float start, end;
+            float inside, outside;
+            double radiusValue, angleValue;
             for (int i = 0; i < datas.Count; i++)
             {
                 if (serie.animation.CheckDetailBreak(i))
                     break;
                 var serieData = datas[i];
-                var value = serieData.GetData(1);
-                var start = startAngle + categoryWidth * i + offset;
-                var end = start + barWidth;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var borderWidth = itemStyle.borderWidth;
                 var borderColor = itemStyle.borderColor;
 
+                radiusValue = serieData.GetData(0);
+                angleValue = serieData.GetData(1);
+                if (m_AngleAxis.IsCategory())
+                {
+                    start = (float) (startAngle + categoryWidth * angleValue + gap);
+                    end = start + barWidth;
+                    inside = m_SeriePolar.context.insideRadius;
+                    if (isStack)
+                    {
+                        for (int n = 0; n < m_StackSerieData.Count - 1; n++)
+                            inside += m_StackSerieData[n][i].context.stackHeight;
+                    }
+                    outside = inside + m_RadiusAxis.GetValueLength(radiusValue, m_SeriePolar.context.radius);
+                    serieData.context.stackHeight = outside - inside;
+                }
+                else
+                {
+                    start = startAngle;
+                    if (isStack)
+                    {
+                        for (int n = 0; n < m_StackSerieData.Count - 1; n++)
+                            start += m_StackSerieData[n][i].context.stackHeight;
+                    }
+                    end = startAngle + m_AngleAxis.GetValueLength(angleValue, 360);
+                    serieData.context.stackHeight = end - start;
+                    inside = m_SeriePolar.context.insideRadius + categoryWidth * (float) radiusValue + gap;
+                    outside = inside + barWidth;
+                }
                 serieData.context.startAngle = start;
                 serieData.context.toAngle = end;
+                serieData.context.halfAngle = (start + end) / 2;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
                 {
@@ -159,13 +190,12 @@ namespace XCharts.Runtime
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
                 }
 
-                var inside = m_SeriePolar.context.insideRadius;
-                var outside = inside + m_RadiusAxis.GetValueLength(value, m_SeriePolar.context.radius);
                 var needRoundCap = serie.roundCap && inside > 0;
 
                 serieData.context.insideRadius = inside;
                 serieData.context.outsideRadius = outside;
-                serieData.context.position = ChartHelper.GetPosition(m_SeriePolar.context.center, (inside + outside) / 2, outside);
+                serieData.context.areaCenter = m_SeriePolar.context.center;
+                serieData.context.position = ChartHelper.GetPosition(m_SeriePolar.context.center, (start + end) / 2, (inside + outside) / 2);
 
                 UGL.DrawDoughnut(vh, m_SeriePolar.context.center, inside, outside, areaColor, areaToColor,
                     ColorUtil.clearColor32, start, end, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,

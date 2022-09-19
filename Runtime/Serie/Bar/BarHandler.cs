@@ -44,16 +44,37 @@ namespace XCharts.Runtime
 
         public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
         {
-            switch (label.position)
+            if (serie.IsUseCoord<PolarCoord>())
             {
-                case LabelStyle.Position.Bottom:
-                    var center = serieData.context.rect.center;
-                    return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
-                case LabelStyle.Position.Center:
-                case LabelStyle.Position.Inside:
-                    return serieData.context.rect.center;
-                default:
-                    return serieData.context.position;
+                switch (label.position)
+                {
+                    case LabelStyle.Position.Bottom:
+                        var center = serieData.context.areaCenter;
+                        var angle = serieData.context.halfAngle;
+                        var radius = serieData.context.insideRadius;
+                        return ChartHelper.GetPosition(center, angle, radius);
+                    case LabelStyle.Position.Top:
+                        center = serieData.context.areaCenter;
+                        angle = serieData.context.halfAngle;
+                        radius = serieData.context.outsideRadius;
+                        return ChartHelper.GetPosition(center, angle, radius);
+                    default:
+                        return serieData.context.position;
+                }
+            }
+            else
+            {
+                switch (label.position)
+                {
+                    case LabelStyle.Position.Bottom:
+                        var center = serieData.context.rect.center;
+                        return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
+                    case LabelStyle.Position.Center:
+                    case LabelStyle.Position.Inside:
+                        return serieData.context.rect.center;
+                    default:
+                        return serieData.context.position;
+                }
             }
         }
 
@@ -137,14 +158,15 @@ namespace XCharts.Runtime
             Axis axis;
             Axis relativedAxis;
             var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
-            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-
             if (axis == null)
                 return;
             if (relativedAxis == null)
                 return;
+
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
+
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             var showData = serie.GetDataList(dataZoom);
 

@@ -647,10 +647,10 @@ namespace XCharts.Runtime
             var lineWidth = tooltip.lineStyle.GetWidth(theme.tooltip.lineWidth);
             var cenPos = m_Polar.context.center;
             var radius = m_Polar.context.outsideRadius;
-            var sp = m_Polar.context.center;
             var tooltipAngle = m_AngleAxis.GetValueAngle(tooltip.context.angle);
 
-            var ep = ChartHelper.GetPos(sp, radius, tooltipAngle, true);
+            var sp = ChartHelper.GetPos(m_Polar.context.center, m_Polar.context.insideRadius, tooltipAngle, true);
+            var ep = ChartHelper.GetPos(m_Polar.context.center, m_Polar.context.outsideRadius, tooltipAngle, true);
 
             switch (tooltip.type)
             {

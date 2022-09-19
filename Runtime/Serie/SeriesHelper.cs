@@ -330,7 +330,7 @@ namespace XCharts.Runtime
             double max = double.MinValue;
             var series = chart.series;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(series);
-            if (!SeriesHelper.IsStack(series) || (isValueAxis && !yValue))
+            if (!SeriesHelper.IsStack(series))
             {
                 for (int i = 0; i < series.Count; i++)
                 {

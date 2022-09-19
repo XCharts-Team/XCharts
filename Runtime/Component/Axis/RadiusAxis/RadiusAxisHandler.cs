@@ -135,6 +135,10 @@ namespace XCharts.Runtime
             var tickLength = axis.axisTick.GetLength(chart.theme.axis.tickLength);
             var tickVector = ChartHelper.GetVertialDire(dire) *
                 (tickLength + axis.axisLabel.distance);
+            if (axis.IsCategory())
+            {
+                totalWidth += polar.context.radius / axis.data.Count / 2;
+            }
             return ChartHelper.GetPos(cenPos, totalWidth, startAngle, true) + tickVector;
         }
 

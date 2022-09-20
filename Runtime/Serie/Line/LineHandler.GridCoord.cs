@@ -185,7 +185,7 @@ namespace XCharts.Runtime
                 float symbolBorder = 0f;
                 float[] cornerRadius = null;
                 Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
-                SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, theme, serie.index);
+                SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, theme, serie.context.colorIndex);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, null, chart.theme, state);
                 if (isVisualMapGradient)
                 {
@@ -213,7 +213,7 @@ namespace XCharts.Runtime
             if (serie.context.dataPoints.Count < 2)
                 return;
 
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex);
             var startPos = Vector3.zero;
             var arrowPos = Vector3.zero;
             var lineArrow = serie.lineArrow.arrow;

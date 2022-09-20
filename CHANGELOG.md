@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.09.21) 优化`PolarChart`对`Line`热力图的支持
 * (2022.09.20) 增加`PolarChart`对`Heatmap`热力图的支持
 * (2022.09.19) 增加`PolarChart`对多柱图和堆叠柱图的支持
 * (2022.09.16) 增加`PolarChart`对`Bar`柱图的支持

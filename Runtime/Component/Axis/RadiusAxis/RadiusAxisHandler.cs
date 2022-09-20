@@ -167,7 +167,7 @@ namespace XCharts.Runtime
                 var pos = ChartHelper.GetPos(cenPos, totalWidth + tickWidth, startAngle, true);
                 if (radiusAxis.show && radiusAxis.splitLine.show)
                 {
-                    if (CanDrawSplitLine(angleAxis, i, size))
+                    if (CanDrawSplitLine(angleAxis, i, size) && radiusAxis.splitLine.NeedShow(i, size))
                     {
                         var outsideRaidus = totalWidth + radiusAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth) * 2;
                         var splitLineColor = radiusAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);

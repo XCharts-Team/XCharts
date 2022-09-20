@@ -120,8 +120,11 @@ namespace XCharts.Runtime
                 var pos2 = ChartHelper.GetPos(cenPos, polar.context.outsideRadius, currAngle, true);
                 if (angleAxis.show && angleAxis.splitLine.show)
                 {
-                    var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
-                    UGL.DrawLine(vh, pos1, pos2, lineWidth, splitLineColor);
+                    if (angleAxis.splitLine.NeedShow(i - 1, size - 1))
+                    {
+                        var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
+                        UGL.DrawLine(vh, pos1, pos2, lineWidth, splitLineColor);
+                    }
                 }
                 if (angleAxis.show && angleAxis.axisTick.show)
                 {

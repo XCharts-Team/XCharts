@@ -30,7 +30,9 @@ namespace XCharts.Runtime
             else if (index >= 0) m_Series.Insert(index, serie);
             else m_Series.Add(serie);
             ResetSeriesIndex();
+            InitSerieHandlers();
             SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
+            RefreshChart();
         }
 
         public bool MoveUpSerie(int serieIndex)

@@ -19,7 +19,9 @@ namespace XCharts.Runtime
         public T InsertSerie<T>(int index, string serieName = null, bool show = true) where T : Serie
         {
             if (!CanAddSerie<T>()) return null;
-            return InsertSerie(index, typeof(T), serieName, show) as T;
+            var serie = InsertSerie(index, typeof(T), serieName, show) as T;
+            InitSerieHandlers();
+            return serie;
         }
 
         public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)
@@ -30,9 +32,7 @@ namespace XCharts.Runtime
             else if (index >= 0) m_Series.Insert(index, serie);
             else m_Series.Add(serie);
             ResetSeriesIndex();
-            InitSerieHandlers();
             SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
-            RefreshChart();
         }
 
         public bool MoveUpSerie(int serieIndex)

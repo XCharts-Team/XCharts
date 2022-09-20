@@ -225,6 +225,10 @@ namespace XCharts.Runtime
                                     break;
                             }
                         }
+                        else
+                        {
+                            iconType = Legend.Type.Rect;
+                        }
                     }
                     else
                     {

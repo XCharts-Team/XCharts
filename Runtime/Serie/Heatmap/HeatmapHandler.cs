@@ -6,7 +6,7 @@ using XUGL;
 namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
-    internal sealed class HeatmapHandler : SerieHandler<Heatmap>
+    internal sealed partial class HeatmapHandler : SerieHandler<Heatmap>
     {
         private GridCoord m_SerieGrid;
         private Dictionary<int, int> m_CountDict = new Dictionary<int, int>();
@@ -27,7 +27,10 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
+            if (serie.IsUseCoord<GridCoord>())
+                UpdateSerieContext();
+            else if (serie.IsUseCoord<PolarCoord>())
+                UpdateSeriePolarContext();
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -35,7 +38,16 @@ namespace XCharts.Runtime
             if (serie.heatmapType == HeatmapType.Count)
                 DrawCountHeatmapSerie(vh, serie);
             else
-                DrawDataHeatmapSerie(vh, serie);
+            {
+                if (serie.IsUseCoord<PolarCoord>())
+                {
+                    DrawPolarHeatmap(vh, serie);
+                }
+                else if (serie.IsUseCoord<GridCoord>())
+                {
+                    DrawDataHeatmapSerie(vh, serie);
+                }
+            }
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -416,7 +428,7 @@ namespace XCharts.Runtime
 
                 var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
                     zeroY + (j + 0.5f) * yWidth);
-                
+
                 var rectWid = 0f;
                 var rectHig = 0f;
                 if (isRectSymbol)

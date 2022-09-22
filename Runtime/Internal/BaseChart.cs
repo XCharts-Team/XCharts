@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -740,6 +741,12 @@ namespace XCharts.Runtime
             m_Components.Sort();
             InitComponentHandlers();
             InitSerieHandlers();
+        }
+
+        private IEnumerator SaveAsImageSync(string imageType, string path)
+        {
+            yield return new WaitForEndOfFrame();
+            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
         }
     }
 }

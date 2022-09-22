@@ -16,6 +16,7 @@ namespace XCharts.Editor
             public static readonly GUIContent btnAddComponent = new GUIContent("Add Main Component", "");
             public static readonly GUIContent btnCovertXYAxis = new GUIContent("Covert XY Axis", "");
             public static readonly GUIContent btnRebuildChartObject = new GUIContent("Rebuild Chart Object", "");
+            public static readonly GUIContent btnSaveAsImage = new GUIContent("Save As Image", "");
             public static readonly GUIContent btnCheckWarning = new GUIContent("Check Warning", "");
             public static readonly GUIContent btnHideWarning = new GUIContent("Hide Warning", "");
         }
@@ -278,6 +279,10 @@ namespace XCharts.Editor
             if (GUILayout.Button(Styles.btnRebuildChartObject))
             {
                 m_Chart.RebuildChartObject();
+            }
+            if (GUILayout.Button(Styles.btnSaveAsImage))
+            {
+                m_Chart.SaveAsImage();
             }
             if (m_CheckWarning)
             {

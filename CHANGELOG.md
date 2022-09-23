@@ -58,6 +58,7 @@
 
 ## master
 
+* (2022.09.23) 优化`ParallelChart`
 * (2022.09.22) 增加`SaveAsImage()`接口保存图表到图片
 * (2022.09.21) 修复`InsertSerie()`接口不刷新图表的问题
 * (2022.09.21) 优化`PolarChart`对`Line`热力图的支持

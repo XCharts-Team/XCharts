@@ -448,7 +448,7 @@ namespace XCharts.Runtime
             var endLabelStyle = serie.endLabel;
             if (endLabelStyle == null)
                 return;
-            var dataCount = serie.context.drawPoints.Count;
+            var dataCount = serie.context.dataPoints.Count;
             var active = endLabelStyle.show && dataCount > 0;
             m_EndLabel.SetActive(active);
             if (active)

@@ -160,7 +160,7 @@ namespace XCharts.Runtime
 
         internal override float GetAxisLineXOrY()
         {
-            return component.context.y;
+            return component.context.x;
         }
     }
 }

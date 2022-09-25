@@ -935,7 +935,7 @@ namespace XCharts.Runtime
             Download(base64str, fileName);
             Debug.Log("SaveAsImage: download by brower:" + fileName);
             return tex;
-#endif
+#else
             if (string.IsNullOrEmpty(path))
             {
                 var dir = Application.persistentDataPath + "/SavedImage";
@@ -953,6 +953,7 @@ namespace XCharts.Runtime
             System.IO.File.WriteAllBytes(path, bytes);
             Debug.Log("SaveAsImage:" + path);
             return tex;
+#endif
         }
     }
 }

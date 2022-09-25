@@ -1009,7 +1009,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |--|--|--|--|
 |`show`|true||Whether to show the polor component.
 |`center`|||The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.
-|`radius`|0.35f||the radius of polar.
+|`radius`|||the radius of polar.
 |`backgroundColor`|||Background color of polar, which is transparent by default.
 
 ## `Radar`

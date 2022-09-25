@@ -1009,7 +1009,7 @@ Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieCo
 |--|--|--|--|
 |`show`|true||是否显示极坐标。
 |`center`|||极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
-|`radius`|0.35f||极坐标的半径。
+|`radius`|||半径。radius[0]表示内径，radius[1]表示外径。
 |`backgroundColor`|||极坐标的背景色，默认透明。
 
 ## `Radar`

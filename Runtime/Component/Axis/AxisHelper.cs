@@ -64,15 +64,10 @@ namespace XCharts.Runtime
 
                 if (axis.splitNumber <= 0)
                 {
-                    if (dataCount <= 10) return dataCount;
-                    else
-                    {
-                        for (int i = 4; i < 6; i++)
-                        {
-                            if (dataCount % i == 0) return i;
-                        }
-                        return 5;
-                    }
+                    var eachWid = coordinateWid / dataCount;
+                    if (eachWid > 40) return dataCount;
+                    for (int i = 2; i < dataCount / 2; i++)
+                        if (eachWid * i > 40) return dataCount / i;
                 }
                 else
                 {

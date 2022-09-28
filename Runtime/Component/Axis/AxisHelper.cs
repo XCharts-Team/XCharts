@@ -65,9 +65,9 @@ namespace XCharts.Runtime
                 if (axis.splitNumber <= 0)
                 {
                     var eachWid = coordinateWid / dataCount;
-                    if (eachWid > 40) return dataCount;
-                    for (int i = 2; i < dataCount / 2; i++)
-                        if (eachWid * i > 40) return dataCount / i;
+                    if (eachWid > 80) return dataCount;
+                    var tick = Mathf.CeilToInt(80 / eachWid);
+                    return (int) (dataCount / tick);
                 }
                 else
                 {
@@ -191,7 +191,8 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (axis.boundaryGap && coordinateWidth / dataCount > 5)
+                    var diff = newIndex - dataCount;
+                    if (axis.boundaryGap && ((diff > 0 && diff / rate < 0.4f) || dataCount >= axis.data.Count))
                         return string.Empty;
                     else
                         return axis.axisLabel.GetFormatterContent(dataCount - 1, showData[dataCount - 1]);
@@ -223,10 +224,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (dataCount < splitNum) scaleNum = splitNum;
-                    else scaleNum = dataCount > 2 && dataCount % splitNum == 0 ?
-                        splitNum :
-                        splitNum + 1;
+                    scaleNum = splitNum + 1;
                 }
                 return scaleNum;
             }

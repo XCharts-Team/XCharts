@@ -359,9 +359,11 @@ namespace XCharts.Runtime
                         }
                         else
                         {
+                            var performanceMode = serie.IsPerformanceMode();
                             foreach (var data in showData)
                             {
-                                var currData = data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
+                                var currData = performanceMode? data.GetData(yValue?1 : 0, inverse):
+                                    data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
                                 if (!serie.IsIgnoreValue(currData))
                                 {
                                     if (currData > max) max = currData;

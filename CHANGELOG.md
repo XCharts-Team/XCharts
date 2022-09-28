@@ -65,7 +65,10 @@
 
 * 优化图表细节，支持更多功能
 * 增加大量的Demo示例
-* 完善Editor下的操作，完善文档
+* 完善文档，修复若干问题
+* 新增PolarChart对Bar、Heatmap的支持
+* 新增HeatmapChart热力图类型
+* 完善Tooltip显示
 
 ### 日志详情
 

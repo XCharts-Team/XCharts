@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.3.0](#v3.3.0)  
 [v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
@@ -57,6 +58,54 @@
 [v0.1.0](#v0.1.0)  
 
 ## master
+
+## v3.3.0
+
+### Main points
+
+* Optimized chart details to support more functions
+* Add lots of Demo examples
+* Improved documentation and fixed several issues
+* Added PolarChart support for Bar and Heatmap
+* Added a HeatmapChart type
+* Improved Tooltip display
+
+### Log details
+
+* (2022.09.26) Optimizes the default number of segments for `Axis` at the category Axis
+* (2022.09.25) Fixed the problem that some interfaces in the `API` document were not exported
+* (2022.09.24) optimize `FunnelChart`
+* (2022.09.23) Optimizes `ParallelChart`
+* (2022.09.22) Added `SaveAsImage()` interface to save charts to images
+* (2022.09.21) Fixed an issue where the `InsertSerie()` interface did not refresh the graph
+* (2022.09.21) Optimized `PolarChart` for `Line` thermal map support
+* (2022.09.20) Added `PolarChart` support for `Heatmap`
+* (2022.09.19) Added `PolarChart` support for multi-bar graphs and stacked bar graphs
+* (2022.09.16) Added `PolarChart` support for `Bar` histogram
+* (2022.09.14) Added support for `PolarCoord` to set ring polar coordinates via `Radius`
+* (2022.09.09) Fixed an issue where some components of edit parameters in `Editor` might not refresh in real time
+* (2022.09.08) Added support for `RingChart` settable `LabelLine` bootline
+* (2022.09.06) Added support for `SerieSymbol` `minSize` and `maxSize` parameters to set maximum and minimum sizes
+* (2022.09.06) Added support for `showStartLine` and `showEndLine` parameters for `AxisSplitLine` to set whether to display the first splitter
+* (2022.09.06) Added `Heatmap` support for different patterns via `symbol`
+* (2022.09.05) added `Heatmap` `heatmapType` support for setting `Data` and `Count` two different mapping methods of Heatmap
+* (2022.09.05) Optimizes `Tooltip` when indicating numerical axis in thermograph
+* (2022.09.02) Added `onPointerEnterPie` callback support
+* (2022.09.02) Optimize the HeatmapChart `
+* (2022.08.30) optimizes` RadarChart `
+* (2022.08.30) Fixed `DataZoom` calculation range inaccuracies in some cases (#221)
+* (2022.08.29) optimizes the default behavior of `BarChart` when data is too dense
+* (2022.08.29) optimizes `YAxis` Max/min calculations when `DataZoom` is enabled
+* (2022.08.29) optimized `CandlestickChart` massive data rendering
+* (2022.08.28) fixed an issue where `LineChart` does not appear properly in the case of stacking and custom Y-axis range
+* (2022.08.26) added `Legend` new icon type `Candlestick`
+* (2022.08.26) optimizes` CandlestickChart `performance and adjusts related` AddData() `interface parameters
+* (2022.08.26) Added support for setting different display positions in Tooltip's `position` parameter
+* (2022.08.26) Delete the `fixedXEnable` and `fixedYEnable` arguments of Tooltip
+* (2022.08.25) EmphasisStyle `EmphasisStyle` has emphasised the support for `label`
+* (2022.08.25) Added support for `formatter` for `{d3}` specified percentage of dimension data
+* (2022.08.24) fixed the `label` of the `ScatterChart` not refreshing
+* (2022.08.24) fixed abnormal display of `label` of `MarkLine` in some cases
 
 ## v3.2.0
 

@@ -8,8 +8,6 @@ namespace XCharts.Runtime
     [UnityEngine.Scripting.Preserve]
     internal sealed class ParallelHandler : SerieHandler<Parallel>
     {
-        private List<Vector3> m_Points = new List<Vector3>();
-
         public override void Update()
         {
             base.Update();
@@ -38,7 +36,7 @@ namespace XCharts.Runtime
 
             var animationIndex = serie.animation.GetCurrIndex();
             var isHorizonal = parallel.orient == Orient.Horizonal;
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex);
+
             var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             float currDetailProgress = !isHorizonal ?
@@ -58,9 +56,11 @@ namespace XCharts.Runtime
             var isSmooth = serie.lineType == LineType.Smooth;
             foreach (var serieData in serie.data)
             {
-                m_Points.Clear();
                 var count = Mathf.Min(axisCount, serieData.data.Count);
                 var lp = Vector3.zero;
+                var colorIndex = serie.colorByData?serieData.index : serie.context.colorIndex;
+                var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
+                serieData.context.dataPoints.Clear();
                 for (int i = 0; i < count; i++)
                 {
                     if (animationIndex >= 0 && i > animationIndex) continue;
@@ -69,11 +69,11 @@ namespace XCharts.Runtime
                     {
                         if (isSmooth)
                         {
-                            m_Points.Add(pos);
+                            serieData.context.dataPoints.Add(pos);
                         }
                         else if (pos.x <= currProgress)
                         {
-                            m_Points.Add(pos);
+                            serieData.context.dataPoints.Add(pos);
                         }
                         else
                         {
@@ -82,9 +82,9 @@ namespace XCharts.Runtime
                             var intersectionPos = Vector3.zero;
 
                             if (UGLHelper.GetIntersection(lp, pos, currProgressStart, currProgressEnd, ref intersectionPos))
-                                m_Points.Add(intersectionPos);
+                                serieData.context.dataPoints.Add(intersectionPos);
                             else
-                                m_Points.Add(pos);
+                                serieData.context.dataPoints.Add(pos);
                             break;
                         }
                     }
@@ -92,11 +92,11 @@ namespace XCharts.Runtime
                     {
                         if (isSmooth)
                         {
-                            m_Points.Add(pos);
+                            serieData.context.dataPoints.Add(pos);
                         }
                         else if (pos.y <= currProgress)
                         {
-                            m_Points.Add(pos);
+                            serieData.context.dataPoints.Add(pos);
                         }
                         else
                         {
@@ -105,21 +105,21 @@ namespace XCharts.Runtime
                             var intersectionPos = Vector3.zero;
 
                             if (UGLHelper.GetIntersection(lp, pos, currProgressStart, currProgressEnd, ref intersectionPos))
-                                m_Points.Add(intersectionPos);
+                                serieData.context.dataPoints.Add(intersectionPos);
                             else
-                                m_Points.Add(pos);
+                                serieData.context.dataPoints.Add(pos);
                             break;
                         }
                     }
                     lp = pos;
                 }
                 if (isSmooth)
-                    UGL.DrawCurves(vh, m_Points, lineWidth, lineColor,
+                    UGL.DrawCurves(vh, serieData.context.dataPoints, lineWidth, lineColor,
                         chart.settings.lineSmoothStyle,
                         chart.settings.lineSmoothness,
                         UGL.Direction.XAxis, currProgress, isHorizonal);
                 else
-                    UGL.DrawLine(vh, m_Points, lineWidth, lineColor, isSmooth);
+                    UGL.DrawLine(vh, serieData.context.dataPoints, lineWidth, lineColor, isSmooth);
             }
             if (!serie.animation.IsFinish())
             {

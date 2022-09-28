@@ -300,10 +300,10 @@ namespace XCharts.Runtime
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public static void GetXMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, out double minVaule, out double maxValue, bool isPolar = false)
+        public static void GetXMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
+            bool inverse, out double minVaule, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
         {
-            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue, isPolar);
+            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue, isPolar, filterByDataZoom);
         }
 
         /// <summary>
@@ -313,21 +313,24 @@ namespace XCharts.Runtime
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public static void GetYMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, out double minVaule, out double maxValue, bool isPolar = false)
+        public static void GetYMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
+            bool inverse, out double minVaule, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
         {
-            GetMinMaxValue(series, dataZoom, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue, isPolar);
+            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue, isPolar, filterByDataZoom);
         }
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, double> _serieTotalValueForMinMax = new Dictionary<int, double>();
-        public static void GetMinMaxValue(List<Serie> series, DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            bool inverse, bool yValue, out double minVaule, out double maxValue, bool isPolar = false)
+        private static DataZoom xDataZoom, yDataZoom;
+        public static void GetMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
+            bool inverse, bool yValue, out double minVaule, out double maxValue, bool isPolar = false,
+            bool filterByDataZoom = true)
         {
             double min = double.MaxValue;
             double max = double.MinValue;
+            var series = chart.series;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(series);
-            if (!SeriesHelper.IsStack(series) || (isValueAxis && !yValue))
+            if (!SeriesHelper.IsStack(series))
             {
                 for (int i = 0; i < series.Count; i++)
                 {
@@ -343,21 +346,24 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var showData = serie.GetDataList(dataZoom);
-                        foreach (var data in showData)
+                        var showData = serie.GetDataList(filterByDataZoom?chart.GetXDataZoomOfSerie(serie) : null);
+                        if (serie is Candlestick || serie is SimplifiedCandlestick)
                         {
-
-                            if (serie is Candlestick)
+                            foreach (var data in showData)
                             {
-                                var dataMin = data.GetMinData(inverse);
-                                var dataMax = data.GetMaxData(inverse);
+                                double dataMin, dataMax;
+                                data.GetMinMaxData(1, inverse, out dataMin, out dataMax);
                                 if (dataMax > max) max = dataMax;
                                 if (dataMin < min) min = dataMin;
                             }
-                            else
+                        }
+                        else
+                        {
+                            var performanceMode = serie.IsPerformanceMode();
+                            foreach (var data in showData)
                             {
-                                //var currData = data.GetData(yValue ? 1 : 0, inverse);
-                                var currData = data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
+                                var currData = performanceMode? data.GetData(yValue?1 : 0, inverse):
+                                    data.GetCurrData(yValue ? 1 : 0, updateDuration, inverse);
                                 if (!serie.IsIgnoreValue(currData))
                                 {
                                     if (currData > max) max = currData;
@@ -380,7 +386,7 @@ namespace XCharts.Runtime
                         if ((isPolar && serie.polarIndex != axisIndex) ||
                             (!isPolar && serie.yAxisIndex != axisIndex) ||
                             !serie.show) continue;
-                        var showData = serie.GetDataList(dataZoom);
+                        var showData = serie.GetDataList(filterByDataZoom?chart.GetXDataZoomOfSerie(serie) : null);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {
                             for (int j = 0; j < showData.Count; j++)

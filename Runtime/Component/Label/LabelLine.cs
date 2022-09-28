@@ -141,5 +141,15 @@ namespace XCharts.Runtime
             get { return m_EndSymbol; }
             set { if (PropertyUtil.SetClass(ref m_EndSymbol, value)) SetVerticesDirty(); }
         }
+
+        public Vector3 GetStartSymbolOffset()
+        {
+            return m_StartSymbol != null && m_StartSymbol.show? m_StartSymbol.offset3 : Vector3.zero;
+        }
+
+        public Vector3 GetEndSymbolOffset()
+        {
+            return m_EndSymbol != null && m_EndSymbol.show? m_EndSymbol.offset3 : Vector3.zero;
+        }
     }
 }

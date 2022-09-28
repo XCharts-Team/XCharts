@@ -96,10 +96,16 @@ namespace XCharts.Runtime
         /// </summary>
         public CustomDrawGaugePointerFunction customDrawGaugePointerFunction { set { m_CustomDrawGaugePointerFunction = value; } get { return m_CustomDrawGaugePointerFunction; } }
         /// <summary>
-        /// the callback function of click pie area.
+        /// the callback function of pointer click pie area.
         /// |点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         public Action<PointerEventData, int, int> onPointerClickPie { set { m_OnPointerClickPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickPie; } }
+        /// <summary>
+        /// the callback function of pointer enter pie area.
+        /// |鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex
+        /// </summary>
+        [Since("v3.3.0")]
+        public Action<int, int> onPointerEnterPie { set { m_OnPointerEnterPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerEnterPie; } }
         /// <summary>
         /// the callback function of click bar.
         /// |点击柱形图柱条回调。参数：eventData, dataIndex
@@ -149,6 +155,11 @@ namespace XCharts.Runtime
             foreach (var painter in m_PainterList) painter.Refresh();
             if (m_PainterUpper) m_PainterUpper.Refresh();
             if (m_PainterTop) m_PainterTop.Refresh();
+        }
+
+        public override void RefreshGraph()
+        {
+            RefreshChart();
         }
 
         /// <summary>
@@ -576,6 +587,16 @@ namespace XCharts.Runtime
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, null, m_Theme);
             return color;
+        }
+
+        /// <summary>
+        /// 保存图表为图片。
+        /// </summary>
+        /// <param name="imageType">type of image: png, jpg, exr</param>
+        /// <param name="savePath">save path</param>
+        public void SaveAsImage(string imageType = "png", string savePath = "")
+        {
+            StartCoroutine(SaveAsImageSync(imageType, savePath));
         }
     }
 }

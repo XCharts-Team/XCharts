@@ -29,6 +29,11 @@ namespace XCharts.Runtime
             return (value + context.startAngle + 360) % 360;
         }
 
+        public float GetValueAngle(double value)
+        {
+            return (float) (value + context.startAngle + 360) % 360;
+        }
+
         public override void SetDefaultValue()
         {
             m_Show = true;

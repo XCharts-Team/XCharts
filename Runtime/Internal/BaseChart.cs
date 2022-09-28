@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -86,6 +87,7 @@ namespace XCharts.Runtime
         protected Action<VertexHelper, Serie> m_OnDrawSerieBefore;
         protected Action<VertexHelper, Serie> m_OnDrawSerieAfter;
         protected Action<PointerEventData, int, int> m_OnPointerClickPie;
+        protected Action<int, int> m_OnPointerEnterPie;
         protected Action<PointerEventData, int> m_OnPointerClickBar;
         protected Action<Axis, double> m_OnAxisPointerValueChanged;
         protected Action<Legend, int, string, bool> m_OnLegendClick;
@@ -578,23 +580,25 @@ namespace XCharts.Runtime
                 serie.context.dataIndexs.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
-                if (!serie.context.pointerEnter)
-                    serie.ResetInteract();
-
-                if (m_OnDrawSerieBefore != null)
+                if (serie.show && !serie.animation.HasFadeOut())
                 {
-                    m_OnDrawSerieBefore.Invoke(vh, serie);
-                }
-                DrawPainterSerie(vh, serie);
-                if (i >= 0 && i < m_SerieHandlers.Count)
-                {
-                    var handler = m_SerieHandlers[i];
-                    handler.DrawSerie(vh);
-                    handler.RefreshLabelNextFrame();
-                }
-                if (m_OnDrawSerieAfter != null)
-                {
-                    m_OnDrawSerieAfter(vh, serie);
+                    if (!serie.context.pointerEnter)
+                        serie.ResetInteract();
+                    if (m_OnDrawSerieBefore != null)
+                    {
+                        m_OnDrawSerieBefore.Invoke(vh, serie);
+                    }
+                    DrawPainterSerie(vh, serie);
+                    if (i >= 0 && i < m_SerieHandlers.Count)
+                    {
+                        var handler = m_SerieHandlers[i];
+                        handler.DrawSerie(vh);
+                        handler.RefreshLabelNextFrame();
+                    }
+                    if (m_OnDrawSerieAfter != null)
+                    {
+                        m_OnDrawSerieAfter(vh, serie);
+                    }
                 }
                 serie.context.vertCount = vh.currentVertCount;
             }
@@ -737,6 +741,12 @@ namespace XCharts.Runtime
             m_Components.Sort();
             InitComponentHandlers();
             InitSerieHandlers();
+        }
+
+        private IEnumerator SaveAsImageSync(string imageType, string path)
+        {
+            yield return new WaitForEndOfFrame();
+            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
         }
     }
 }

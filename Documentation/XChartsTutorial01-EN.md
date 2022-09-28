@@ -11,7 +11,7 @@ XCharts可通过以下任意一种方式导入到项目：
 
 - 直接将XCharts源码到项目
 
-   下载好XCharts源码后，直接将XCharts目录拷贝到Unity项目工程的Assets目录下。
+   下载好XCharts源码后，直接将XCharts目录拷贝到Unity项目工程的Assets目录或Packages目录下，编译通过后即可使用。
 
 - 通过`Assets/Import Package`导入XCharts
 
@@ -50,7 +50,7 @@ XCharts可通过以下任意一种方式导入到项目：
 
 ## 添加Serie组件
 
-Serie只自带了几个常见的组件，其他组件按需额外添加。比如，需要给折线图区域填充颜色，可单独给`Serie`添加`AreaStyle`组件：
+Serie只自带了几个常见的组件，其他组件要根据需求额外添加，不同的Serie支持不同的额外组件。比如，需要给折线图区域填充颜色，可单独给`Serie`添加`AreaStyle`组件：
 
 ![op_addseriecomponent](res/op_addseriecomponent.png)
 ![linechart3](res/linechart3.png)
@@ -80,7 +80,7 @@ Serie只自带了几个常见的组件，其他组件按需额外添加。比如
 2. 如果`Serie`的`ItemStyle`配置有非`0000`颜色值，则优先用这个颜色值。
 3. 否则颜色值取自主题`Theme`的`Color Palette`。
 
-通常颜色值为0000时表示用主题默认颜色，配置为0或null时表示用主题默认配置。
+通常配置的颜色值为0000时表示用主题默认颜色；配置参数的值为0或null时表示用主题默认配置。
 
 ## 用代码添加折线图
 
@@ -94,6 +94,7 @@ if (chart == null)
     chart.Init();
 }
 ```
+用代码生成的Chart需要调用一次Init()。
 
 调整大小：
 
@@ -170,7 +171,7 @@ for (int i = 0; i < 10; i++)
 
 XCharts内部有自动刷新机制，但也是在一定条件下。如果自己调用了内部组件的接口，碰到组件没有刷新，确实找不到原因的话，可以用以下两个接口强制刷新：
 
-1. `chart.RefreshAllComponent()`：刷新图表组件，会重新初始化所有组件，不建议频繁待用。
+1. `chart.RefreshAllComponent()`：刷新图表组件，会重新初始化所有组件，不建议频繁使用。
 2. `chart.RefreshChart()`：刷新图表绘制，只刷新绘制部分，不会刷新组件文本，位置等部分。
 
 ## 使用TextMeshPro

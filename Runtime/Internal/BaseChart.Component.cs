@@ -349,6 +349,22 @@ namespace XCharts.Runtime
             }
         }
 
+        public DataZoom GetXDataZoomOfSerie(Serie serie)
+        {
+            if (serie == null) return null;
+            foreach (var component in m_Components)
+            {
+                if (component is DataZoom)
+                {
+                    var dataZoom = component as DataZoom;
+                    if (!dataZoom.enable) continue;
+                    if (dataZoom.IsContainsXAxis(serie.xAxisIndex))
+                        return dataZoom;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// reutrn true when all the show axis is `Value` type.
         /// |纯数值坐标轴（数值轴或对数轴）。
@@ -427,6 +443,12 @@ namespace XCharts.Runtime
         internal bool GetSerieGridCoordAxis(Serie serie, out Axis axis, out Axis relativedAxis)
         {
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
+            if (yAxis == null)
+            {
+                axis = null;
+                relativedAxis = null;
+                return false;
+            }
             var isY = yAxis.IsCategory();
             if (isY)
             {

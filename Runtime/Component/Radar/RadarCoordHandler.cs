@@ -17,6 +17,7 @@ namespace XCharts.Runtime
 
         public override void Update()
         {
+            base.Update();
             if (!chart.isPointerInChart)
             {
                 component.context.isPointerEnter = false;
@@ -87,6 +88,7 @@ namespace XCharts.Runtime
             var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
             var splitLineColor = radar.splitLine.GetColor(chart.theme.axis.splitLineColor);
             var splitLineWidth = radar.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
+            splitLineWidth *= 2f;
             for (int i = 0; i < radar.splitNumber; i++)
             {
                 var color = radar.splitArea.GetColor(i, chart.theme.axis);
@@ -146,7 +148,7 @@ namespace XCharts.Runtime
                     {
                         UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, color);
                     }
-                    if (radar.splitLine.NeedShow(i))
+                    if (radar.splitLine.NeedShow(i, radar.splitNumber))
                     {
                         ChartDrawer.DrawLineStyle(vh, splitLineType, splitLineWidth, p2, p3, splitLineColor);
                     }

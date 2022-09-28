@@ -205,7 +205,9 @@ namespace XCharts.Runtime
                 }
                 else if (p == 'd' || p == 'D')
                 {
-                    var rate = total == 0 ? 0 : value / total * 100;
+                    var rate = pIndex >= 0 && serieData != null ?
+                        (value == 0 ? 0 : serieData.GetData(pIndex) / value * 100) :
+                        (total == 0 ? 0 : value / total * 100);
                     content = content.Replace(old, ChartCached.NumberToStr(rate, numericFormatter));
                 }
                 else if (p == 'c' || p == 'C')

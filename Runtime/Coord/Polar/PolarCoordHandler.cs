@@ -10,6 +10,7 @@ namespace XCharts.Runtime
     {
         public override void Update()
         {
+            base.Update();
             PolarHelper.UpdatePolarCenter(component, chart.chartPosition, chart.chartWidth, chart.chartHeight);
 
             if (chart.isPointerInChart)
@@ -26,9 +27,22 @@ namespace XCharts.Runtime
         private void DrawPolar(VertexHelper vh, PolarCoord polar)
         {
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            if (!ChartHelper.IsClearColor(polar.backgroundColor))
+            if (polar.show && !ChartHelper.IsClearColor(polar.backgroundColor))
             {
-                UGL.DrawCricle(vh, polar.context.center, polar.context.radius, polar.backgroundColor);
+                if (polar.context.insideRadius > 0)
+                {
+                    UGL.DrawDoughnut(vh, polar.context.center,
+                        polar.context.insideRadius,
+                        polar.context.outsideRadius,
+                        polar.backgroundColor,
+                        ColorUtil.clearColor32);
+                }
+                else
+                {
+                    UGL.DrawCricle(vh, polar.context.center,
+                        polar.context.outsideRadius,
+                        polar.backgroundColor);
+                }
             }
         }
     }

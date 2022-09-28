@@ -34,13 +34,16 @@ namespace XCharts.Runtime
             switch (data.label.position)
             {
                 case LabelStyle.Position.Start:
+                    if (data.runtimeStartPosition == Vector3.zero) return Vector3.zero;
                     if (horizontal) return data.runtimeStartPosition + data.label.offset + labelWidth / 2 * Vector3.left;
                     else return data.runtimeStartPosition + data.label.offset + labelHeight / 2 * Vector3.down;
                 case LabelStyle.Position.Middle:
+                    if (data.runtimeCurrentEndPosition == Vector3.zero) return Vector3.zero;
                     var center = (data.runtimeStartPosition + data.runtimeCurrentEndPosition) / 2;
                     if (horizontal) return center + data.label.offset + labelHeight / 2 * Vector3.up;
                     else return center + data.label.offset + labelWidth / 2 * Vector3.right;
                 default:
+                    if (data.runtimeCurrentEndPosition == Vector3.zero) return Vector3.zero;
                     if (horizontal) return data.runtimeCurrentEndPosition + data.label.offset + labelWidth / 2 * Vector3.right;
                     else return data.runtimeCurrentEndPosition + data.label.offset + labelHeight / 2 * Vector3.up;
             }

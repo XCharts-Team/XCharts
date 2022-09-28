@@ -80,9 +80,9 @@ namespace XCharts.Runtime
                 if (m_IsOnValidate)
                 {
                     m_IsOnValidate = false;
-                    m_RefreshChart = true;
                     CheckTextMeshPro();
                     InitComponent();
+                    RefreshGraph();
                 }
                 else
                 {

@@ -7,6 +7,7 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_ColorBy");
             PropertyField("m_XAxisIndex");
             PropertyField("m_YAxisIndex");
             PropertyFieldLimitMin("m_MinShow", 0);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -895,6 +896,64 @@ namespace XCharts.Runtime
         {
             if (valueOrRate >= -maxRate && valueOrRate <= maxRate) return valueOrRate * total;
             else return valueOrRate;
+        }
+
+        [DllImport("__Internal")]
+        private static extern void Download(string base64str, string fileName);
+
+        public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")
+        {
+            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            var pos = RectTransformUtility.WorldToScreenPoint(cam, rectTransform.position);
+            var width = rectTransform.rect.width * canvas.scaleFactor;
+            var height = rectTransform.rect.height * canvas.scaleFactor;
+            var posX = pos.x + rectTransform.rect.xMin * canvas.scaleFactor;
+            var posY = pos.y + rectTransform.rect.yMin * canvas.scaleFactor;
+            var rect = new Rect(posX, posY, width, height);
+            var tex = new Texture2D((int) width, (int) height, TextureFormat.RGBA32, false);
+            tex.ReadPixels(rect, 0, 0);
+            tex.Apply();
+            byte[] bytes;
+            switch (imageType)
+            {
+                case "png":
+                    bytes = tex.EncodeToPNG();
+                    break;
+                case "jpg":
+                    bytes = tex.EncodeToJPG();
+                    break;
+                case "exr":
+                    bytes = tex.EncodeToEXR();
+                    break;
+                default:
+                    Debug.LogError("SaveAsImage ERROR: not support image type:" + imageType);
+                    return null;
+            }
+            var fileName = rectTransform.name + "." + imageType;
+#if UNITY_WEBGL
+            string base64str = Convert.ToBase64String(bytes);
+            Download(base64str, fileName);
+            Debug.Log("SaveAsImage: download by brower:" + fileName);
+            return tex;
+#else
+            if (string.IsNullOrEmpty(path))
+            {
+                var dir = Application.persistentDataPath + "/SavedImage";
+#if UNITY_EDITOR
+                dir = Application.dataPath + "/../SavedImage";
+#else
+                dir = Application.persistentDataPath + "/SavedImage";
+#endif
+                if (!System.IO.Directory.Exists(dir))
+                {
+                    System.IO.Directory.CreateDirectory(dir);
+                }
+                path = dir + "/" + fileName;
+            }
+            System.IO.File.WriteAllBytes(path, bytes);
+            Debug.Log("SaveAsImage:" + path);
+            return tex;
+#endif
         }
     }
 }

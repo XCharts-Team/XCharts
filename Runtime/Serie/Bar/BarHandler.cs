@@ -7,7 +7,7 @@ using XUGL;
 namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
-    internal sealed class BarHandler : SerieHandler<Bar>
+    internal sealed partial class BarHandler : SerieHandler<Bar>
     {
         List<List<SerieData>> m_StackSerieData = new List<List<SerieData>>();
         private GridCoord m_SerieGrid;
@@ -16,7 +16,10 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
+            if (serie.IsUseCoord<GridCoord>())
+                UpdateSerieGridContext();
+            else if (serie.IsUseCoord<PolarCoord>())
+                UpdateSeriePolarContext();
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -29,21 +32,49 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            DrawBarSerie(vh, serie, serie.context.colorIndex);
+            if (serie.IsUseCoord<PolarCoord>())
+            {
+                DrawPolarBar(vh, serie);
+            }
+            else if (serie.IsUseCoord<GridCoord>())
+            {
+                DrawBarSerie(vh, serie);
+            }
         }
 
         public override Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
         {
-            switch (label.position)
+            if (serie.IsUseCoord<PolarCoord>())
             {
-                case LabelStyle.Position.Bottom:
-                    var center = serieData.context.rect.center;
-                    return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
-                case LabelStyle.Position.Center:
-                case LabelStyle.Position.Inside:
-                    return serieData.context.rect.center;
-                default:
-                    return serieData.context.position;
+                switch (label.position)
+                {
+                    case LabelStyle.Position.Bottom:
+                        var center = serieData.context.areaCenter;
+                        var angle = serieData.context.halfAngle;
+                        var radius = serieData.context.insideRadius;
+                        return ChartHelper.GetPosition(center, angle, radius);
+                    case LabelStyle.Position.Top:
+                        center = serieData.context.areaCenter;
+                        angle = serieData.context.halfAngle;
+                        radius = serieData.context.outsideRadius;
+                        return ChartHelper.GetPosition(center, angle, radius);
+                    default:
+                        return serieData.context.position;
+                }
+            }
+            else
+            {
+                switch (label.position)
+                {
+                    case LabelStyle.Position.Bottom:
+                        var center = serieData.context.rect.center;
+                        return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
+                    case LabelStyle.Position.Center:
+                    case LabelStyle.Position.Inside:
+                        return serieData.context.rect.center;
+                    default:
+                        return serieData.context.position;
+                }
             }
         }
 
@@ -57,7 +88,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateSerieContext()
+        private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
                 return;
@@ -119,7 +150,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawBarSerie(VertexHelper vh, Bar serie, int colorIndex)
+        private void DrawBarSerie(VertexHelper vh, Bar serie)
         {
             if (!serie.show || serie.animation.HasFadeOut())
                 return;
@@ -127,14 +158,15 @@ namespace XCharts.Runtime
             Axis axis;
             Axis relativedAxis;
             var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
-            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-
             if (axis == null)
                 return;
             if (relativedAxis == null)
                 return;
+
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
+
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             var showData = serie.GetDataList(dataZoom);
 

@@ -719,6 +719,8 @@ namespace XCharts.Runtime
             }
         }
 
+        
+
         /// <summary>
         /// 获得指定区域缩放的类目数据列表
         /// </summary>

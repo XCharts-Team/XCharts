@@ -177,15 +177,13 @@ namespace XCharts.Runtime
             return true;
         }
 
-        public static int GetDimension(VisualMap visualMap, int serieDataCount)
+        public static int GetDimension(VisualMap visualMap, int defaultDimension)
         {
-            var dimension = visualMap != null && visualMap.dimension >= 0 ?
-                visualMap.dimension : serieDataCount - 1;
+            if (visualMap == null || !visualMap.show)
+                return defaultDimension;
 
-            if (dimension > serieDataCount - 1)
-                dimension = serieDataCount - 1;
-
-            return dimension;
+            return visualMap != null && visualMap.dimension >= 0 ?
+                visualMap.dimension : defaultDimension;
         }
     }
 }

@@ -385,7 +385,7 @@ namespace XCharts.Runtime
             SetAllDirty();
         }
 
-        public RadarCoord.Indicator AddIndicator(string name, float min, float max)
+        public RadarCoord.Indicator AddIndicator(string name, double min, double max)
         {
             var indicator = new RadarCoord.Indicator();
             indicator.name = name;
@@ -396,7 +396,14 @@ namespace XCharts.Runtime
             return indicator;
         }
 
-        public bool UpdateIndicator(int indicatorIndex, string name, float min, float max)
+        [Since("v3.3.0")]
+        public void AddIndicatorList(List<string> nameList, double min = 0, double max = 0)
+        {
+            foreach (var name in nameList)
+                AddIndicator(name, min, max);
+        }
+
+        public bool UpdateIndicator(int indicatorIndex, string name, double min, double max)
         {
             var indicator = GetIndicator(indicatorIndex);
             if (indicator == null) return false;

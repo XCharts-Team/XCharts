@@ -23,6 +23,7 @@ namespace XCharts.Runtime
             splitLine.show = false;
             splitLine.lineStyle.type = LineStyle.Type.None;
             axisLabel.textLimit.enable = true;
+            axisName.labelStyle.offset = new Vector3(0, 25, 0);
         }
 
     }

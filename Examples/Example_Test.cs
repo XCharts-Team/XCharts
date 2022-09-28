@@ -51,15 +51,9 @@ namespace XCharts.Example
 
         void AddData()
         {
-            chart.ClearData();
-            int count = Random.Range(5, 100);
-            for (int i = 0; i < count; i++)
-            {
-                chart.AddXAxisData("x" + i);
-                if (Random.Range(1, 3) == 2)
-                    chart.AddData(0, Random.Range(-110, 200));
-                else
-                    chart.AddData(0, Random.Range(-100, 100));
+            var serie = chart.InsertSerie<Bar>(0);
+            for(int i=0;i<5;i++){
+                chart.AddData(serie.index, Random.Range(10,90));
             }
         }
     }

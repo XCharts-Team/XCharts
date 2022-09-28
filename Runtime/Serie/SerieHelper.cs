@@ -144,6 +144,11 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            if (min == double.MaxValue && max == double.MinValue)
+            {
+                min = 0;
+                max = 0;
+            }
         }
 
         /// <summary>
@@ -179,6 +184,11 @@ namespace XCharts.Runtime
                         }
                     }
                 }
+            }
+            if (min == double.MaxValue && max == double.MinValue)
+            {
+                min = 0;
+                max = 0;
             }
         }
 
@@ -433,7 +443,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.itemStyle : stateStyle.itemStyle;
+                return stateStyle == null || !stateStyle.show ? serie.itemStyle : stateStyle.itemStyle;
             }
         }
 
@@ -447,7 +457,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.label : stateStyle.label;
+                return stateStyle == null || !stateStyle.show ? serie.label : stateStyle.label;
             }
         }
 
@@ -461,7 +471,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.labelLine : stateStyle.labelLine;
+                return stateStyle == null || !stateStyle.show ? serie.labelLine : stateStyle.labelLine;
             }
         }
 
@@ -475,7 +485,7 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null?serie.symbol : stateStyle.symbol;
+                return stateStyle == null || !stateStyle.show ? serie.symbol : stateStyle.symbol;
             }
         }
 
@@ -533,7 +543,7 @@ namespace XCharts.Runtime
             Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
             bool fill;
-            return GetAreaColor(out color, out toColor, out fill,serie, serieData, theme, index);
+            return GetAreaColor(out color, out toColor, out fill, serie, serieData, theme, index);
         }
 
         public static bool GetAreaColor(out Color32 color, out Color32 toColor, out bool innerFill,
@@ -669,7 +679,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
-                size = symbol.GetSize(serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -683,7 +693,7 @@ namespace XCharts.Runtime
             else
             {
                 var symbol = stateStyle.symbol;
-                size = symbol.GetSize(serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
             }
             return size;
         }
@@ -821,13 +831,13 @@ namespace XCharts.Runtime
             int start = 0, end = 0;
             if (dataZoom.context.invert)
             {
-                end = Mathf.CeilToInt(data.Count * dataZoom.end / 100);
+                end = Mathf.RoundToInt(data.Count * dataZoom.end / 100);
                 start = end - range;
                 if (start < 0) start = 0;
             }
             else
             {
-                start = Mathf.FloorToInt(data.Count * dataZoom.start / 100);
+                start = Mathf.RoundToInt(data.Count * dataZoom.start / 100);
                 end = start + range;
                 if (end > data.Count) end = data.Count;
             }
@@ -845,8 +855,8 @@ namespace XCharts.Runtime
                         if (dataZoom.minShowNum > data.Count) range = data.Count;
                         else range = dataZoom.minShowNum;
                     }
-                    if (range > data.Count - start - 1)
-                        start = data.Count - range - 1;
+                    if (range > data.Count - start)
+                        start = data.Count - range;
                     if (start >= 0)
                     {
                         serie.context.dataZoomStartIndex = start;

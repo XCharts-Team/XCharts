@@ -241,7 +241,11 @@ namespace XCharts.Runtime
         private void UpdateAxisPointerDataIndex(Serie serie, XAxis xAxis, YAxis yAxis, GridCoord grid, bool isTriggerAxis)
         {
             serie.context.pointerAxisDataIndexs.Clear();
-            if (yAxis.IsCategory())
+            if (serie is Heatmap)
+            {
+                GetSerieDataByXYAxis(serie, xAxis, yAxis);
+            }
+            else if (yAxis.IsCategory())
             {
                 if (isTriggerAxis)
                 {
@@ -274,6 +278,32 @@ namespace XCharts.Runtime
                     GetSerieDataIndexByAxis(serie, xAxis, grid);
                 else
                     GetSerieDataIndexByItem(serie, xAxis, grid);
+            }
+        }
+
+        private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
+        {
+            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue);
+            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue);
+            serie.context.pointerItemDataIndex = -1;
+            if (serie is Heatmap)
+            {
+                var heatmap = serie as Heatmap;
+                if (heatmap.heatmapType == HeatmapType.Count)
+                {
+                    serie.context.pointerItemDataIndex = HeatmapHandler.GetGridKey(xAxisIndex, yAxisIndex);
+                    return;
+                }
+            }
+            foreach (var serieData in serie.data)
+            {
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0));
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1));
+                if (xAxisIndex == x && y == yAxisIndex)
+                {
+                    serie.context.pointerItemDataIndex = serieData.index;
+                    break;
+                }
             }
         }
 
@@ -418,7 +448,7 @@ namespace XCharts.Runtime
             {
                 var serie = series[i];
                 serie.context.isTriggerByAxis = isTriggerByAxis;
-                if (isTriggerByAxis && dataIndex >= 0)
+                if (isTriggerByAxis && dataIndex >= 0 && serie.context.pointerItemDataIndex < 0)
                     serie.context.pointerItemDataIndex = dataIndex;
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
@@ -616,11 +646,11 @@ namespace XCharts.Runtime
             var lineType = tooltip.lineStyle.GetType(theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(theme.tooltip.lineWidth);
             var cenPos = m_Polar.context.center;
-            var radius = m_Polar.context.radius;
-            var sp = m_Polar.context.center;
+            var radius = m_Polar.context.outsideRadius;
             var tooltipAngle = m_AngleAxis.GetValueAngle(tooltip.context.angle);
 
-            var ep = ChartHelper.GetPos(sp, radius, tooltipAngle, true);
+            var sp = ChartHelper.GetPos(m_Polar.context.center, m_Polar.context.insideRadius, tooltipAngle, true);
+            var ep = ChartHelper.GetPos(m_Polar.context.center, m_Polar.context.outsideRadius, tooltipAngle, true);
 
             switch (tooltip.type)
             {

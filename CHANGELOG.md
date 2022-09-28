@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.3.0](#v3.3.0)  
 [v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
 [v3.0.1](#v3.0.1)  
@@ -57,6 +58,54 @@
 [v0.1.0](#v0.1.0)  
 
 ## master
+
+## v3.3.0
+
+### 版本要点
+
+* 优化图表细节，支持更多功能
+* 增加大量的Demo示例
+* 完善文档，修复若干问题
+* 新增PolarChart对Bar、Heatmap的支持
+* 新增HeatmapChart热力图类型
+* 完善Tooltip显示
+
+### 日志详情
+
+* (2022.09.26) 优化`Axis`在类目轴时的默认分割段数
+* (2022.09.25) 修复`API`文档中部分接口没有导出的问题
+* (2022.09.24) 优化`FunnelChart`
+* (2022.09.23) 优化`ParallelChart`
+* (2022.09.22) 增加`SaveAsImage()`接口保存图表到图片
+* (2022.09.21) 修复`InsertSerie()`接口不刷新图表的问题
+* (2022.09.21) 优化`PolarChart`对`Line`热力图的支持
+* (2022.09.20) 增加`PolarChart`对`Heatmap`热力图的支持
+* (2022.09.19) 增加`PolarChart`对多柱图和堆叠柱图的支持
+* (2022.09.16) 增加`PolarChart`对`Bar`柱图的支持
+* (2022.09.14) 增加`PolarCoord`可通过`radius`设置环形极坐标的支持
+* (2022.09.09) 修复`Editor`下编辑参数部分组件可能不会实时刷新的问题
+* (2022.09.08) 增加`RingChart`可设置`LabelLine`引导线的支持
+* (2022.09.06) 增加`SerieSymbol`的`minSize`和`maxSize`参数设置最大最小尺寸的支持
+* (2022.09.06) 增加`AxisSplitLine`的`showStartLine`和`showEndLine`参数设置是否显示首位分割线的支持
+* (2022.09.06) 增加`Heatmap`通过`symbol`设置不同的图案的支持
+* (2022.09.05) 增加`Heatmap`的`heatmapType`支持设置`Data`和`Count`两种不同映射方式的热力图
+* (2022.09.05) 优化`Tooltip`在热力图为数值轴时的指示
+* (2022.09.02) 增加`onPointerEnterPie`回调支持
+* (2022.09.02) 优化`HeatmapChart`
+* (2022.08.30) 优化`RadarChart`
+* (2022.08.30) 修复`DataZoom`在某些情况下计算范围不准确的问题 (#221)
+* (2022.08.29) 优化`BarChart`在数据过密时的默认表现
+* (2022.08.29) 优化`YAxis`在开启`DataZoom`时的最大最小值计算
+* (2022.08.29) 优化`CandlestickChart`大量数据绘制
+* (2022.08.28) 修复`LineChart`在堆叠和自定义Y轴范围的情况下显示不正常的问题
+* (2022.08.26) 增加`Legend`新图标类型`Candlestick`
+* (2022.08.26) 优化`CandlestickChart`表现，调整相关的`AddData()`接口参数
+* (2022.08.26) 增加`Tooltip`的`position`参数支持设置移动平台不同的显示位置
+* (2022.08.26) 删除`Tooltip`的`fixedXEnable`和`fixedYEnable`参数
+* (2022.08.25) 优化`EmphasisStyle`对`label`的支持
+* (2022.08.25) 增加`formatter`对`{d3}`指定维度数据百分比的支持
+* (2022.08.24) 修复`ScatterChart`的`label`不刷新的问题
+* (2022.08.24) 修复`MarkLine`的`label`某些情况下显示异常的问题
 
 ## v3.2.0
 

@@ -35,6 +35,7 @@ namespace XCharts.Runtime
             {
                 DrawPolarLine(vh, serie);
                 DrawPolarLineSymbol(vh);
+                DrawPolarLineArrow(vh, serie);
             }
             else if (serie.IsUseCoord<GridCoord>())
             {

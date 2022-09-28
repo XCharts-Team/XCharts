@@ -41,6 +41,8 @@ namespace XCharts.Runtime
         [SerializeField] private int m_Interval;
         [SerializeField] private bool m_ForceShowLast = false;
         [SerializeField] private bool m_Repeat = false;
+        [SerializeField][Since("v3.3.0")] private float m_MinSize = 0f;
+        [SerializeField][Since("v3.3.0")] private float m_MaxSize = 0f;
 
         public override void Reset()
         {
@@ -53,6 +55,8 @@ namespace XCharts.Runtime
             m_Interval = 0;
             m_ForceShowLast = false;
             m_Repeat = false;
+            m_MinSize = 0f;
+            m_MaxSize = 0f;
         }
 
         /// <summary>
@@ -127,6 +131,25 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Repeat, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// Minimum symbol size.
+        /// |图形最小尺寸。只在sizeType为SymbolSizeType.FromData时有效。
+        /// </summary>
+        public float minSize
+        {
+            get { return m_MinSize; }
+            set { if (PropertyUtil.SetStruct(ref m_MinSize, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Maximum symbol size.
+        /// |图形最大尺寸。只在sizeType为SymbolSizeType.FromData时有效。
+        /// </summary>
+        public float maxSize
+        {
+            get { return m_MaxSize; }
+            set { if (PropertyUtil.SetStruct(ref m_MaxSize, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
         /// 根据指定的sizeType获得标记的大小
         /// </summary>
         /// <param name="data"></param>
@@ -140,7 +163,10 @@ namespace XCharts.Runtime
                 case SymbolSizeType.FromData:
                     if (data != null && dataIndex >= 0 && dataIndex < data.Count)
                     {
-                        return (float) data[dataIndex] * m_DataScale;
+                        var value = (float) data[dataIndex] * m_DataScale;
+                        if (m_MinSize != 0 && value < m_MinSize) value = m_MinSize;
+                        if (m_MaxSize != 0 && value > m_MaxSize) value = m_MaxSize;
+                        return value;
                     }
                     else
                     {

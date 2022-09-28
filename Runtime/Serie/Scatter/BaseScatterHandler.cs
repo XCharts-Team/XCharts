@@ -12,6 +12,7 @@ namespace XCharts.Runtime
 
         public override void Update()
         {
+            base.Update();
             UpdateSerieContext();
         }
 

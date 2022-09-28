@@ -357,6 +357,8 @@ Inherits or Implemented: [BaseLine](#BaseLine)
 |`interval`|||坐标轴分隔线的显示间隔。
 |`distance`|||刻度线与轴线的距离。
 |`autoColor`|||自动设置颜色。
+|`showStartLine`|true|v3.3.0|是否显示第一条分割线。
+|`showEndLine`|true|v3.3.0|是否显示最后一条分割线。
 
 ## `AxisTheme`
 
@@ -628,6 +630,9 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`heatmapType`||3.3.0|热力图类型。通过颜色映射划分。</br>`HeatmapType`:</br>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。</br>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。</br>|
 
 ## `IconStyle`
 
@@ -781,7 +786,7 @@ Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPr
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||是否显示图例组件。
-|`iconType`|||图例类型。</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`iconType`|||图例类型。</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>- `Candlestick`: 烛台（可用于K线图）。</br>|
 |`selectedMode`|||选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
 |`orient`|||布局方式是横还是竖。</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 |`location`|||图例显示的位置。 [Location](#Location)|
@@ -1004,7 +1009,7 @@ Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieCo
 |--|--|--|--|
 |`show`|true||是否显示极坐标。
 |`center`|||极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
-|`radius`|0.35f||极坐标的半径。
+|`radius`|||半径。radius[0]表示内径，radius[1]表示外径。
 |`backgroundColor`|||极坐标的背景色，默认透明。
 
 ## `Radar`
@@ -1169,6 +1174,8 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |`interval`|||显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
 |`forceShowLast`|false||是否强制显示最后一个图形标记。
 |`repeat`|false||图形是否重复。
+|`minSize`|0f|v3.3.0|图形最小尺寸。只在sizeType为SymbolSizeType.FromData时有效。
+|`maxSize`|0f|v3.3.0|图形最大尺寸。只在sizeType为SymbolSizeType.FromData时有效。
 
 ## `SerieTheme`
 
@@ -1422,6 +1429,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`show`|true||是否显示提示框组件。
 |`type`|||提示框指示器类型。</br>`Tooltip.Type`:</br>- `Line`: 直线指示器</br>- `Shadow`: 阴影指示器</br>- `None`: 无指示器</br>- `Corss`: 十字准星指示器。坐标轴显示Label和交叉线。</br>|
 |`trigger`|||触发类型。</br>`Tooltip.Trigger`:</br>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。</br>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。</br>- `None`: 什么都不触发。</br>|
+|`position`||v3.3.0|显示位置类型。</br>`Tooltip.Position`:</br>- `Auto`: 自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。</br>- `Custom`: 自定义。完全自定义显示位置(x,y)。</br>- `FixedX`: 只固定坐标X。Y跟随鼠标位置。</br>- `FixedY`: </br>|
 |`itemFormatter`|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用
 |`titleFormatter`|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。</br> {.}为当前所指示或index为0的serie的对应颜色的圆点。</br> {a}为当前所指示或index为0的serie的系列名name。</br> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br> {e}为当前所指示或index为0的serie的数据项serieData的name。</br> {f}为数据总和。</br> {g}为数据总个数。</br> {.1}表示指定index为1的serie对应颜色的圆点。</br> {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
 |`marker`|||serie的符号标志。
@@ -1441,10 +1449,8 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`backgroundType`|||提示框的背景图片显示类型。
 |`backgroundColor`|||提示框的背景颜色。
 |`borderWidth`|2f||边框线宽。
-|`fixedXEnable`|false||是否固定X位置。
 |`fixedX`|0f||固定X位置的坐标。
-|`fixedYEnable`|false||是否固定Y位置。
-|`fixedY`|0f||固定Y位置的坐标。
+|`fixedY`|0.7f||固定Y位置的坐标。
 |`titleHeight`|25f||标题文本的高。
 |`itemHeight`|25f||数据项文本的高。
 |`borderColor`|Color32(230, 230, 230, 255)||边框颜色。
@@ -1480,7 +1486,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |`selectedMode`|||选择模式。</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||影响的serie索引。
 |`min`|0||范围最小值
-|`max`|100||范围最大值
+|`max`|0||范围最大值
 |`range`|||指定手柄对应数值的位置。range 应在[min,max]范围内。
 |`text`|||两端的文本，如 ['High', 'Low']。
 |`textGap`|||两端文字主体之间的距离，单位为px。

@@ -1296,11 +1296,12 @@ namespace XCharts.Runtime
         /// <param name="dataName"></param>
         /// <param name="dataId">the unique id of data</param>
         /// <returns></returns>
-        public SerieData AddData(double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
+        public SerieData AddData(double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
             CheckMaxCache();
             var serieData = SerieDataPool.Get();
             serieData.data.Clear();
+            serieData.data.Add(indexOrTimestamp);
             serieData.data.Add(open);
             serieData.data.Add(close);
             serieData.data.Add(lowest);
@@ -1309,7 +1310,7 @@ namespace XCharts.Runtime
             serieData.index = m_Data.Count;
             serieData.id = dataId;
             AddSerieData(serieData);
-            m_ShowDataDimension = 4;
+            m_ShowDataDimension = 5;
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
@@ -1683,6 +1684,7 @@ namespace XCharts.Runtime
 
         public float GetBarWidth(float categoryWidth, int barCount = 0)
         {
+            if (categoryWidth < 2) return categoryWidth;
             if (m_BarWidth == 0)
             {
                 var width = ChartHelper.GetActualValue(0.6f, categoryWidth);

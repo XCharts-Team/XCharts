@@ -368,10 +368,6 @@ namespace XCharts
                 ((inside && axis.IsLeft()) || (!inside && axis.IsRight()) ?
                     TextAnchor.MiddleLeft :
                     TextAnchor.MiddleRight);
-
-            if (axis.IsCategory() && axis.boundaryGap)
-                splitNumber -= 1;
-
             for (int i = 0; i < splitNumber; i++)
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
@@ -817,11 +813,11 @@ namespace XCharts
                 }
                 if (axis.splitLine.show)
                 {
-                    if (axis.splitLine.NeedShow(i))
+                    if (axis.splitLine.NeedShow(i, size))
                     {
                         if (orient == Orient.Horizonal)
                         {
-                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.x))
+                            if (relativedAxis == null || !relativedAxis.axisLine.show || !MathUtil.Approximately(current, relativedAxis.context.x))
                             {
                                 ChartDrawer.DrawLineStyle(vh,
                                     lineType,
@@ -885,7 +881,7 @@ namespace XCharts
                         }
                         else
                         {
-                            if (relativedAxis == null || !MathUtil.Approximately(current, relativedAxis.context.y))
+                            if (relativedAxis == null || !relativedAxis.axisLine.show || !MathUtil.Approximately(current, relativedAxis.context.y))
                             {
                                 ChartDrawer.DrawLineStyle(vh,
                                     lineType,

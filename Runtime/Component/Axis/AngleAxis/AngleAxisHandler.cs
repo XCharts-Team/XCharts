@@ -29,7 +29,7 @@ namespace XCharts.Runtime
             if (axis.IsCategory() || !axis.show) return;
             double tempMinValue = 0;
             double tempMaxValue = 0;
-            SeriesHelper.GetYMinMaxValue(chart.series, null, axis.polarIndex, true, axis.inverse, out tempMinValue,
+            SeriesHelper.GetYMinMaxValue(chart, axis.polarIndex, true, axis.inverse, out tempMinValue,
                 out tempMaxValue, true);
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
             if (tempMinValue != axis.context.minValue || tempMaxValue != axis.context.maxValue)
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
             var polar = chart.GetChartComponent<PolarCoord>(axis.polarIndex);
             if (polar == null) return;
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            var radius = polar.context.radius;
+            var radius = polar.context.outsideRadius;
             axis.context.labelObjectList.Clear();
             axis.context.startAngle = 90 - axis.startAngle;
 
@@ -103,7 +103,7 @@ namespace XCharts.Runtime
         private void DrawAngleAxis(VertexHelper vh, AngleAxis angleAxis)
         {
             var polar = chart.GetChartComponent<PolarCoord>(angleAxis.polarIndex);
-            var radius = polar.context.radius;
+            var radius = polar.context.outsideRadius;
             var cenPos = polar.context.center;
             var total = 360;
             var size = AxisHelper.GetScaleNumber(angleAxis, total, null);
@@ -116,11 +116,15 @@ namespace XCharts.Runtime
             for (int i = 1; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(angleAxis, total, i);
-                var pos = ChartHelper.GetPos(cenPos, radius, currAngle, true);
+                var pos1 = ChartHelper.GetPos(cenPos, polar.context.insideRadius, currAngle, true);
+                var pos2 = ChartHelper.GetPos(cenPos, polar.context.outsideRadius, currAngle, true);
                 if (angleAxis.show && angleAxis.splitLine.show)
                 {
-                    var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
-                    UGL.DrawLine(vh, cenPos, pos, lineWidth, splitLineColor);
+                    if (angleAxis.splitLine.NeedShow(i - 1, size - 1))
+                    {
+                        var lineWidth = angleAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth);
+                        UGL.DrawLine(vh, pos1, pos2, lineWidth, splitLineColor);
+                    }
                 }
                 if (angleAxis.show && angleAxis.axisTick.show)
                 {
@@ -130,7 +134,7 @@ namespace XCharts.Runtime
                     {
                         var tickY = radius + tickLength;
                         var tickPos = ChartHelper.GetPos(cenPos, tickY, currAngle, true);
-                        UGL.DrawLine(vh, pos, tickPos, tickWidth, tickColor);
+                        UGL.DrawLine(vh, pos2, tickPos, tickWidth, tickColor);
                     }
                 }
                 currAngle += scaleWidth;
@@ -139,7 +143,13 @@ namespace XCharts.Runtime
             {
                 var lineWidth = angleAxis.axisLine.GetWidth(chart.theme.axis.lineWidth);
                 var outsideRaidus = radius + lineWidth * 2;
-                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, Color.clear);
+                UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, ColorUtil.clearColor32);
+                if (polar.context.insideRadius > 0)
+                {
+                    radius = polar.context.insideRadius;
+                    outsideRaidus = radius + lineWidth * 2;
+                    UGL.DrawDoughnut(vh, cenPos, radius, outsideRaidus, lineColor, ColorUtil.clearColor32);
+                }
             }
         }
 
@@ -158,7 +168,7 @@ namespace XCharts.Runtime
             var dir = (chart.pointerPos - new Vector2(polar.context.center.x, polar.context.center.y)).normalized;
             var angle = ChartHelper.GetAngle360(Vector2.up, dir);
             axis.context.pointerValue = (angle - component.context.startAngle + 360) % 360;
-            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.radius + 25);
+            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.outsideRadius + 25);
         }
     }
 }

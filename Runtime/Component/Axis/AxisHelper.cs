@@ -20,6 +20,22 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// 获得分割网格个数，包含次刻度
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public static int GetTotalSplitGridNum(Axis axis)
+        {
+            if (axis.IsCategory())
+                return axis.data.Count;
+            else
+            {
+                var splitNum = axis.splitNumber <= 0 ? GetSplitNumber(axis, 0, null) : axis.splitNumber;
+                return splitNum * axis.minorTick.splitNumber;
+            }
+        }
+
+        /// <summary>
         /// 获得分割段数
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -48,15 +64,10 @@ namespace XCharts.Runtime
 
                 if (axis.splitNumber <= 0)
                 {
-                    if (dataCount <= 10) return dataCount;
-                    else
-                    {
-                        for (int i = 4; i < 6; i++)
-                        {
-                            if (dataCount % i == 0) return i;
-                        }
-                        return 5;
-                    }
+                    var eachWid = coordinateWid / dataCount;
+                    if (eachWid > 80) return dataCount;
+                    var tick = Mathf.CeilToInt(80 / eachWid);
+                    return (int) (dataCount / tick);
                 }
                 else
                 {
@@ -180,7 +191,8 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (axis.boundaryGap && coordinateWidth / dataCount > 5)
+                    var diff = newIndex - dataCount;
+                    if (axis.boundaryGap && ((diff > 0 && diff / rate < 0.4f) || dataCount >= axis.data.Count))
                         return string.Empty;
                     else
                         return axis.axisLabel.GetFormatterContent(dataCount - 1, showData[dataCount - 1]);
@@ -212,10 +224,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (dataCount < splitNum) scaleNum = splitNum;
-                    else scaleNum = dataCount > 2 && dataCount % splitNum == 0 ?
-                        splitNum :
-                        splitNum + 1;
+                    scaleNum = splitNum + 1;
                 }
                 return scaleNum;
             }
@@ -519,6 +528,34 @@ namespace XCharts.Runtime
             return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true);
         }
 
+        /// <summary>
+        /// 获得数值value在坐标轴上对应的split索引
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)
+        {
+            if (axis.IsCategory())
+            {
+                return (int) value;
+            }
+            else
+            {
+                if (value == axis.context.minValue)
+                    return 0;
+                else
+                {
+                    if (totalSplitNumber == -1)
+                        totalSplitNumber = GetTotalSplitGridNum(axis);
+                    if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
+                        return Mathf.CeilToInt(((float) ((value - axis.min) / axis.max) * totalSplitNumber) - 1);
+                    else
+                        return Mathf.CeilToInt(((float) ((value - axis.context.minValue) / axis.context.minMaxRange) * totalSplitNumber) - 1);
+                }
+            }
+        }
+
         private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength)
         {
             var isY = axis is YAxis;
@@ -588,10 +625,6 @@ namespace XCharts.Runtime
             else if (yAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == yAxis.gridIndex)
                 startX += relativedAxis.context.offset;
             return startX;
-        }
-
-        public static void UpdateAxisOffset(){
-
         }
     }
 }

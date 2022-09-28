@@ -185,7 +185,7 @@ namespace XCharts.Runtime
                 float symbolBorder = 0f;
                 float[] cornerRadius = null;
                 Color32 symbolColor, symbolToColor, symbolEmptyColor, borderColor;
-                SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, theme, serie.index);
+                SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, theme, serie.context.colorIndex);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, null, chart.theme, state);
                 if (isVisualMapGradient)
                 {
@@ -213,7 +213,7 @@ namespace XCharts.Runtime
             if (serie.context.dataPoints.Count < 2)
                 return;
 
-            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.index);
+            var lineColor = SerieHelper.GetLineColor(serie, null, chart.theme, serie.context.colorIndex);
             var startPos = Vector3.zero;
             var arrowPos = Vector3.zero;
             var lineArrow = serie.lineArrow.arrow;
@@ -248,8 +248,6 @@ namespace XCharts.Runtime
 
         private void DrawLineSerie(VertexHelper vh, Line serie)
         {
-            if (!serie.show)
-                return;
             if (serie.animation.HasFadeOut())
                 return;
 
@@ -372,14 +370,12 @@ namespace XCharts.Runtime
             float xPos, yPos;
             var gridXY = isY ? grid.context.x : grid.context.y;
             var valueHig = 0f;
+            valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
+            valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
             if (isY)
             {
-                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 xPos = gridXY + valueHig;
                 yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
-
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -388,13 +384,8 @@ namespace XCharts.Runtime
             }
             else
             {
-
-                valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 yPos = gridXY + valueHig;
                 xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
-
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -402,7 +393,7 @@ namespace XCharts.Runtime
                 }
             }
             np = new Vector3(xPos, yPos);
-            return valueHig;
+            return AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
         }
     }
 }

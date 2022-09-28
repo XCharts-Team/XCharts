@@ -357,6 +357,8 @@ Split line of axis in grid area.
 |`interval`|||Interval of Axis splitLine.
 |`distance`|||The distance between the split line and axis line.
 |`autoColor`|||auto color.
+|`showStartLine`|true|v3.3.0|Whether to show the first split line.
+|`showEndLine`|true|v3.3.0|Whether to show the last split line.
 
 ## `AxisTheme`
 
@@ -628,6 +630,9 @@ Grid component.
 
 Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
 
+|field|default|since|comment|
+|--|--|--|--|
+|`heatmapType`||3.3.0|The mapping type of heatmap.</br>`HeatmapType`:</br>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.</br>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.</br>|
 
 ## `IconStyle`
 
@@ -781,7 +786,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |field|default|since|comment|
 |--|--|--|--|
 |`show`|true||Whether to show legend component.
-|`iconType`|||Type of legend.</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>|
+|`iconType`|||Type of legend.</br>`Legend.Type`:</br>- `Auto`: 自动匹配。</br>- `Custom`: 自定义图标。</br>- `EmptyCircle`: 空心圆。</br>- `Circle`: 圆形。</br>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。</br>- `Triangle`: 三角形。</br>- `Diamond`: 菱形。</br>- `Candlestick`: 烛台（可用于K线图）。</br>|
 |`selectedMode`|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.</br>`Legend.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>- `None`: 无法选择。</br>|
 |`orient`|||Specify whether the layout of legend component is horizontal or vertical.</br>`Orient`:</br>- `Horizonal`: 水平</br>- `Vertical`: 垂直</br>|
 |`location`|||The location of legend. [Location](#Location)|
@@ -1004,7 +1009,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |--|--|--|--|
 |`show`|true||Whether to show the polor component.
 |`center`|||The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.
-|`radius`|0.35f||the radius of polar.
+|`radius`|||the radius of polar.
 |`backgroundColor`|||Background color of polar, which is transparent by default.
 
 ## `Radar`
@@ -1169,6 +1174,8 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 |`interval`|||the interval of show symbol.
 |`forceShowLast`|false||whether to show the last symbol.
 |`repeat`|false||图形是否重复。
+|`minSize`|0f|v3.3.0|Minimum symbol size.
+|`maxSize`|0f|v3.3.0|Maximum symbol size.
 
 ## `SerieTheme`
 
@@ -1422,6 +1429,7 @@ Tooltip component.
 |`show`|true||Whether to show the tooltip component.
 |`type`|||Indicator type.</br>`Tooltip.Type`:</br>- `Line`: line indicator.</br>- `Shadow`: shadow crosshair indicator.</br>- `None`: no indicator displayed.</br>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.</br>|
 |`trigger`|||Type of triggering.</br>`Tooltip.Trigger`:</br>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.</br>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.</br>- `None`: Trigger nothing.</br>|
+|`position`||v3.3.0|Type of position.</br>`Tooltip.Position`:</br>- `Auto`: Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.</br>- `Custom`: Custom. Fully customize display position (x,y).</br>- `FixedX`: Just fix the coordinate X. Y follows the mouse position.</br>- `FixedY`: </br>|
 |`itemFormatter`|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.</br> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br> {a} is the series name of the serie that is currently indicated or whose index is 0.</br> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br> {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br> {f} is sum of data.</br> {.1} represents a dot from serie corresponding color that specifies index as 1.</br> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
 |`titleFormatter`|||The string template formatter for the tooltip title content. Support for wrapping lines with \n. The placeholder {I} can be set separately to indicate that the title is ignored and not displayed. Template see itemFormatter.
 |`marker`|||the marker of serie.
@@ -1441,10 +1449,8 @@ Tooltip component.
 |`backgroundType`|||The background type of tooltip.
 |`backgroundColor`|||The background color of tooltip.
 |`borderWidth`|2f||the width of tooltip border.
-|`fixedXEnable`|false||enable fixedX.
 |`fixedX`|0f||the x positionn of fixedX.
-|`fixedYEnable`|false||enable fixedY.
-|`fixedY`|0f||the y position of fixedY.
+|`fixedY`|0.7f||the y position of fixedY.
 |`titleHeight`|25f||height of title text.
 |`itemHeight`|25f||height of content text.
 |`borderColor`|Color32(230, 230, 230, 255)||the color of tooltip border.
@@ -1480,7 +1486,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |`selectedMode`|||the selected mode for Piecewise visualMap.</br>`VisualMap.SelectedMode`:</br>- `Multiple`: 多选。</br>- `Single`: 单选。</br>|
 |`serieIndex`|0||the serie index of visualMap.
 |`min`|0||范围最小值
-|`max`|100||范围最大值
+|`max`|0||范围最大值
 |`range`|||Specifies the position of the numeric value corresponding to the handle. Range should be within the range of [min,max].
 |`text`|||Text on both ends.
 |`textGap`|||The distance between the two text bodies.

@@ -130,12 +130,14 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 | `GetAxisValueDistance()` |public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上相对起点的距离 |
 | `GetAxisValueLength()` |public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上对应的长度 |
 | `GetAxisValuePosition()` |public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)</br>获得数值value在坐标轴上的坐标位置 |
+| `GetAxisValueSplitIndex()` |public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)</br>获得数值value在坐标轴上对应的split索引 |
 | `GetAxisXOrY()` |public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)</br> |
 | `GetDataWidth()` |public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)</br>获得一个类目数据在坐标系中代表的宽度 |
 | `GetEachWidth()` |public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br> |
 | `GetScaleNumber()` |public static int GetScaleNumber(Axis axis, float coordinateWidth, DataZoom dataZoom = null)</br>获得分割线条数 |
 | `GetScaleWidth()` |public static float GetScaleWidth(Axis axis, float coordinateWidth, int index, DataZoom dataZoom = null)</br>获得分割段宽度 |
 | `GetSplitNumber()` |public static int GetSplitNumber(Axis axis, float coordinateWid, DataZoom dataZoom)</br>获得分割段数 |
+| `GetTotalSplitGridNum()` |public static int GetTotalSplitGridNum(Axis axis)</br>获得分割网格个数，包含次刻度 |
 | `GetXAxisXOrY()` |public static float GetXAxisXOrY(GridCoord grid, Axis xAxis, Axis relativedAxis)</br> |
 | `GetYAxisXOrY()` |public static float GetYAxisXOrY(GridCoord grid, Axis yAxis, Axis relativedAxis)</br> |
 | `NeedShowSplit()` |public static bool NeedShowSplit(Axis axis)</br> |
@@ -151,16 +153,19 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 |public method|description|
 |--|--|
 | `AddChartComponent()` |public MainComponent AddChartComponent(Type type)</br> |
+| `AddChartComponent<T>()` |public T AddChartComponent<T>() where T : MainComponent</br> |
+| `AddChartComponentWhenNoExist<T>()` |public T AddChartComponentWhenNoExist<T>() where T : MainComponent</br> |
 | `AddData()` |public SerieData AddData(int serieIndex, DateTime time, double yValue, string dataName = null, string dataId = null)</br>添加（time,y）数据到指定的系列中。 |
 | `AddData()` |public SerieData AddData(int serieIndex, double data, string dataName = null, string dataId = null)</br>添加一个数据到指定的系列中。 |
-| `AddData()` |public SerieData AddData(int serieIndex, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
+| `AddData()` |public SerieData AddData(int serieIndex, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)</br>添加（x,y）数据到指定系列中。 |
 | `AddData()` |public SerieData AddData(int serieIndex, List<double> multidimensionalData, string dataName = null, string dataId = null)</br>添加多维数据（x,y,z...）到指定的系列中。 |
 | `AddData()` |public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)</br>添加（time,y）数据到指定的系列中。 |
 | `AddData()` |public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)</br>If serieName doesn't exist in legend,will be add to legend. |
-| `AddData()` |public SerieData AddData(string serieName, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
+| `AddData()` |public SerieData AddData(string serieName, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)</br> |
 | `AddData()` |public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)</br>添加（x,y）数据到指定系列中。 |
 | `AddData()` |public SerieData AddData(string serieName, List<double> multidimensionalData, string dataName = null, string dataId = null)</br>添加多维数据（x,y,z...）到指定的系列中。 |
+| `AddSerie<T>()` |public T AddSerie<T>(string serieName = null, bool show = true, bool addToHead = false) where T : Serie</br> |
 | `AddXAxisData()` |public void AddXAxisData(string category, int xAxisIndex = 0)</br>添加一个类目数据到指定的x轴。 |
 | `AddXAxisIcon()` |public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)</br>添加一个图标到指定的x轴。 |
 | `AddYAxisData()` |public void AddYAxisData(string category, int yAxisIndex = 0)</br>添加一个类目数据到指定的y轴。 |
@@ -173,17 +178,22 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `AnimationResume()` |public void AnimationResume()</br>继续动画。 |
 | `CanAddChartComponent()` |public bool CanAddChartComponent(Type type)</br> |
 | `CanAddSerie()` |public bool CanAddSerie(Type type)</br> |
+| `CanAddSerie<T>()` |public bool CanAddSerie<T>() where T : Serie</br> |
 | `CanMultipleComponent()` |public bool CanMultipleComponent(Type type)</br> |
 | `ClampInChart()` |public void ClampInChart(ref Vector3 pos)</br> |
 | `ClampInGrid()` |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)</br> |
 | `ClearData()` |public virtual void ClearData()</br>清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。 |
 | `ClickLegendButton()` |public void ClickLegendButton(int legendIndex, string legendName, bool show)</br>点击图例按钮 |
 | `CovertSerie()` |public bool CovertSerie(Serie serie, Type type)</br> |
+| `CovertSerie<T>()` |public bool CovertSerie<T>(Serie serie) where T : Serie</br> |
 | `CovertXYAxis()` |public void CovertXYAxis(int index)</br>转换X轴和Y轴的配置 |
 | `GenerateDefaultSerieName()` |public string GenerateDefaultSerieName()</br> |
 | `GetAllSerieDataCount()` |public int GetAllSerieDataCount()</br> |
 | `GetChartBackgroundColor()` |public Color32 GetChartBackgroundColor()</br> |
+| `GetChartComponent<T>()` |public T GetChartComponent<T>(int index = 0) where T : MainComponent</br> |
 | `GetChartComponentNum()` |public int GetChartComponentNum(Type type)</br> |
+| `GetChartComponentNum<T>()` |public int GetChartComponentNum<T>() where T : MainComponent</br> |
+| `GetChartComponents<T>()` |public List<MainComponent> GetChartComponents<T>() where T : MainComponent</br> |
 | `GetData()` |public double GetData(int serieIndex, int dataIndex, int dimension = 1)</br> |
 | `GetData()` |public double GetData(string serieName, int dataIndex, int dimension = 1)</br> |
 | `GetDataZoomOfAxis()` |public DataZoom GetDataZoomOfAxis(Axis axis)</br> |
@@ -195,20 +205,32 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `GetItemColor()` |public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)</br> |
 | `GetLegendRealShowNameColor()` |public Color32 GetLegendRealShowNameColor(string name)</br> |
 | `GetLegendRealShowNameIndex()` |public int GetLegendRealShowNameIndex(string name)</br> |
+| `GetOrAddChartComponent<T>()` |public T GetOrAddChartComponent<T>() where T : MainComponent</br> |
 | `GetPainter()` |public Painter GetPainter(int index)</br> |
 | `GetSerie()` |public Serie GetSerie(int serieIndex)</br> |
 | `GetSerie()` |public Serie GetSerie(string serieName)</br> |
+| `GetSerie<T>()` |public T GetSerie<T>() where T : Serie</br> |
+| `GetSerie<T>()` |public T GetSerie<T>(int serieIndex) where T : Serie</br> |
+| `GetSerieBarGap<T>()` |public float GetSerieBarGap<T>() where T : Serie</br> |
+| `GetSerieBarRealCount<T>()` |public int GetSerieBarRealCount<T>() where T : Serie</br> |
+| `GetSerieIndexIfStack<T>()` |public int GetSerieIndexIfStack<T>(Serie currSerie) where T : Serie</br> |
+| `GetSerieSameStackTotalValue<T>()` |public double GetSerieSameStackTotalValue<T>(string stack, int dataIndex) where T : Serie</br> |
 | `GetSeriesMinMaxValue()` |public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)</br> |
+| `GetSerieTotalGap<T>()` |public float GetSerieTotalGap<T>(float categoryWidth, float gap, int index) where T : Serie</br> |
+| `GetSerieTotalWidth<T>()` |public float GetSerieTotalWidth<T>(float categoryWidth, float gap, int realBarCount) where T : Serie</br> |
 | `GetTitlePosition()` |public Vector3 GetTitlePosition(Title title)</br> |
 | `GetVisualMapOfSerie()` |public VisualMap GetVisualMapOfSerie(Serie serie)</br> |
+| `GetXDataZoomOfSerie()` |public DataZoom GetXDataZoomOfSerie(Serie serie)</br> |
 | `GetXLerpColor()` |public Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, GridCoord grid)</br> |
 | `GetYLerpColor()` |public Color32 GetYLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, GridCoord grid)</br> |
 | `HasChartComponent()` |public bool HasChartComponent(Type type)</br> |
 | `HasChartComponent<T>()` |public bool HasChartComponent<T>()</br> |
 | `HasSerie()` |public bool HasSerie(Type type)</br> |
+| `HasSerie<T>()` |public bool HasSerie<T>() where T : Serie</br> |
 | `Init()` |public void Init(bool defaultChart = true)</br> |
-| `InitAxisRuntimeData()` |public virtual void InitAxisRuntimeData(Axis axis)</br> |
+| `InitAxisRuntimeData()` |public virtual void InitAxisRuntimeData(Axis axis) { }</br> |
 | `InsertSerie()` |public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)</br> |
+| `InsertSerie<T>()` |public T InsertSerie<T>(int index, string serieName = null, bool show = true) where T : Serie</br> |
 | `Internal_CheckAnimation()` |public void Internal_CheckAnimation()</br> |
 | `IsActiveByLegend()` |public virtual bool IsActiveByLegend(string legendName)</br>获得指定图例名字的系列是否显示。 |
 | `IsAllAxisCategory()` |public bool IsAllAxisCategory()</br>纯类目轴。 |
@@ -239,6 +261,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RefreshChart()` |public void RefreshChart(int serieIndex)</br>在下一帧刷新图表的指定serie。 |
 | `RefreshChart()` |public void RefreshChart(Serie serie)</br>在下一帧刷新图表的指定serie。 |
 | `RefreshDataZoom()` |public void RefreshDataZoom()</br>在下一帧刷新DataZoom |
+| `RefreshGraph()` |public override void RefreshGraph()</br> |
 | `RefreshPainter()` |public void RefreshPainter(int index)</br> |
 | `RefreshPainter()` |public void RefreshPainter(Serie serie)</br> |
 | `RefreshTopPainter()` |public void RefreshTopPainter()</br> |
@@ -255,8 +278,10 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `RemoveSerie()` |public void RemoveSerie(int serieIndex)</br> |
 | `RemoveSerie()` |public void RemoveSerie(Serie serie)</br> |
 | `RemoveSerie()` |public void RemoveSerie(string serieName)</br> |
+| `RemoveSerie<T>()` |public void RemoveSerie<T>() where T : Serie</br> |
 | `ReplaceSerie()` |public bool ReplaceSerie(Serie oldSerie, Serie newSerie)</br> |
 | `ResetDataIndex()` |public bool ResetDataIndex(int serieIndex)</br>重置serie的数据项索引。避免数据项索引异常。 |
+| `SaveAsImage()` |public void SaveAsImage(string imageType = "png", string savePath = "")</br>保存图表为图片。 |
 | `SetBasePainterMaterial()` |public void SetBasePainterMaterial(Material material)</br>设置Base Painter的材质球 |
 | `SetMaxCache()` |public void SetMaxCache(int maxCache)</br>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 | `SetPainterActive()` |public void SetPainterActive(int index, bool flag)</br> |
@@ -267,6 +292,8 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | `SetTopPainterMaterial()` |public void SetTopPainterMaterial(Material material)</br>设置Top Painter的材质球 |
 | `SetUpperPainterMaterial()` |public void SetUpperPainterMaterial(Material material)</br>设置Upper Painter的材质球 |
 | `TryAddChartComponent()` |public bool TryAddChartComponent(Type type)</br> |
+| `TryAddChartComponent<T>()` |public bool TryAddChartComponent<T>() where T : MainComponent</br> |
+| `TryAddChartComponent<T>()` |public bool TryAddChartComponent<T>(out T component) where T : MainComponent</br> |
 | `TryGetChartComponent<T>()` |public bool TryGetChartComponent<T>(out T component, int index = 0)</br> |
 | `UdpateXAxisIcon()` |public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)</br>更新X轴图标。 |
 | `UpdateData()` |public bool UpdateData(int serieIndex, int dataIndex, double value)</br>更新指定系列中的指定索引数据。 |
@@ -302,7 +329,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic),[IPointerDownHandle
 | `OnScroll()` |public virtual void OnScroll(PointerEventData eventData)</br> |
 | `RebuildChartObject()` |public void RebuildChartObject()</br>移除并重新创建所有图表的Object。 |
 | `RefreshAllComponent()` |public void RefreshAllComponent()</br> |
-| `RefreshGraph()` |public void RefreshGraph()</br>在下一帧刷新图形。 |
+| `RefreshGraph()` |public virtual void RefreshGraph()</br>在下一帧刷新图形。 |
 | `ScreenPointToChartPoint()` |public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)</br> |
 | `SetPainterDirty()` |public void SetPainterDirty()</br>重新初始化Painter |
 | `SetSize()` |public virtual void SetSize(float width, float height)</br>设置图形的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform） |
@@ -354,6 +381,8 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetMaxLogValue()` |public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
 | `GetMinDivisibleValue()` |public static double GetMinDivisibleValue(double min, double ceilRate)</br> |
 | `GetMinLogValue()` |public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)</br> |
+| `GetOrAddComponent<T>()` |public static T GetOrAddComponent<T>(GameObject gameObject) where T : Component</br> |
+| `GetOrAddComponent<T>()` |public static T GetOrAddComponent<T>(Transform transform) where T : Component</br> |
 | `GetPointList()` |public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)</br> |
 | `GetPos()` |public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)</br> |
 | `GetPosition()` |public static Vector3 GetPosition(Vector3 center, float angle, float radius)</br> |
@@ -380,6 +409,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `ParseStringFromString()` |public static List<string> ParseStringFromString(string jsonData)</br> |
 | `RemoveComponent<T>()` |public static void RemoveComponent<T>(GameObject gameObject)</br> |
 | `RotateRound()` |public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)</br> |
+| `SaveAsImage()` |public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")</br> |
 | `SetActive()` |public static void SetActive(GameObject gameObject, bool active)</br> |
 | `SetActive()` |public static void SetActive(Image image, bool active)</br> |
 | `SetActive()` |public static void SetActive(Text text, bool active)</br> |
@@ -458,6 +488,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
+| `Contains<T>()` |public bool Contains<T>() where T : CoordSystem</br> |
 | `CoordOptionsAttribute()` |public CoordOptionsAttribute(Type coord)</br> |
 | `CoordOptionsAttribute()` |public CoordOptionsAttribute(Type coord, Type coord2)</br> |
 | `CoordOptionsAttribute()` |public CoordOptionsAttribute(Type coord, Type coord2, Type coord3)</br> |
@@ -472,6 +503,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 |public method|description|
 |--|--|
 | `UpdateDataZoomRuntimeStartEndValue()` |public static void UpdateDataZoomRuntimeStartEndValue(DataZoom dataZoom, Serie serie)</br> |
+| `UpdateDataZoomRuntimeStartEndValue<T>()` |public static void UpdateDataZoomRuntimeStartEndValue<T>(BaseChart chart) where T : Serie</br> |
 
 ## `DateTimeUtil`
 
@@ -615,6 +647,26 @@ Inherits or Implemented: [ListFor](#ListFor)
 
 ## `MainComponentHandler`
 
+|public method|description|
+|--|--|
+| `CheckComponent()` |public virtual void CheckComponent(StringBuilder sb) { }</br> |
+| `DrawBase()` |public virtual void DrawBase(VertexHelper vh) { }</br> |
+| `DrawTop()` |public virtual void DrawTop(VertexHelper vh) { }</br> |
+| `DrawUpper()` |public virtual void DrawUpper(VertexHelper vh) { }</br> |
+| `InitComponent()` |public virtual void InitComponent() { }</br> |
+| `OnBeginDrag()` |public virtual void OnBeginDrag(PointerEventData eventData) { }</br> |
+| `OnDrag()` |public virtual void OnDrag(PointerEventData eventData) { }</br> |
+| `OnEndDrag()` |public virtual void OnEndDrag(PointerEventData eventData) { }</br> |
+| `OnPointerClick()` |public virtual void OnPointerClick(PointerEventData eventData) { }</br> |
+| `OnPointerDown()` |public virtual void OnPointerDown(PointerEventData eventData) { }</br> |
+| `OnPointerEnter()` |public virtual void OnPointerEnter(PointerEventData eventData) { }</br> |
+| `OnPointerExit()` |public virtual void OnPointerExit(PointerEventData eventData) { }</br> |
+| `OnPointerUp()` |public virtual void OnPointerUp(PointerEventData eventData) { }</br> |
+| `OnScroll()` |public virtual void OnScroll(PointerEventData eventData) { }</br> |
+| `OnSerieDataUpdate()` |public virtual void OnSerieDataUpdate(int serieIndex) { }</br> |
+| `RemoveComponent()` |public virtual void RemoveComponent() { }</br> |
+| `Update()` |public virtual void Update() { }</br> |
+
 ## `MainComponentHandler<T>`
 
 Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
@@ -679,8 +731,10 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 
 |public method|description|
 |--|--|
+| `SetClass<T>()` |public static bool SetClass<T>(ref T currentValue, T newValue, bool notNull = false) where T : class</br> |
 | `SetColor()` |public static bool SetColor(ref Color currentValue, Color newValue)</br> |
 | `SetColor()` |public static bool SetColor(ref Color32 currentValue, Color32 newValue)</br> |
+| `SetStruct<T>()` |public static bool SetStruct<T>(ref T currentValue, T newValue) where T : struct</br> |
 
 ## `RadarChart`
 
@@ -722,6 +776,8 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 | `GetAllAssemblyTypes()` |public static IEnumerable<Type> GetAllAssemblyTypes()</br> |
 | `GetAllTypesDerivedFrom()` |public static IEnumerable<Type> GetAllTypesDerivedFrom(Type type)</br> |
 | `GetAllTypesDerivedFrom<T>()` |public static IEnumerable<Type> GetAllTypesDerivedFrom<T>()</br> |
+| `GetAttribute<T>()` |public static T GetAttribute<T>(this MemberInfo type, bool check = true) where T : Attribute</br> |
+| `GetAttribute<T>()` |public static T GetAttribute<T>(this Type type, bool check = true) where T : Attribute</br> |
 | `HasSubclass()` |public static bool HasSubclass(Type type)</br> |
 
 ## `ScatterChart`
@@ -737,6 +793,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 |public method|description|
 |--|--|
 | `Contains()` |public bool Contains(Type type)</br> |
+| `Contains<T>()` |public bool Contains<T>() where T : Serie</br> |
 | `SerieConvertAttribute()` |public SerieConvertAttribute(Type serie)</br> |
 | `SerieConvertAttribute()` |public SerieConvertAttribute(Type serie, Type serie2)</br> |
 | `SerieConvertAttribute()` |public SerieConvertAttribute(Type serie, Type serie2, Type serie3)</br> |
@@ -755,6 +812,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 |public method|description|
 |--|--|
 | `Contains()` |public bool Contains(Type type)</br> |
+| `Contains<T>()` |public bool Contains<T>() where T : ISerieExtraComponent</br> |
 | `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute()</br> |
 | `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1)</br> |
 | `SerieDataExtraComponentAttribute()` |public SerieDataExtraComponentAttribute(Type type1, Type type2)</br> |
@@ -787,6 +845,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 |public method|description|
 |--|--|
 | `Contains()` |public bool Contains(Type type)</br> |
+| `Contains<T>()` |public bool Contains<T>() where T : ISerieExtraComponent</br> |
 | `SerieExtraComponentAttribute()` |public SerieExtraComponentAttribute()</br> |
 | `SerieExtraComponentAttribute()` |public SerieExtraComponentAttribute(Type type1)</br> |
 | `SerieExtraComponentAttribute()` |public SerieExtraComponentAttribute(Type type1, Type type2)</br> |
@@ -797,6 +856,31 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `SerieExtraComponentAttribute()` |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)</br> |
 
 ## `SerieHandler`
+
+|public method|description|
+|--|--|
+| `CheckComponent()` |public virtual void CheckComponent(StringBuilder sb) { }</br> |
+| `DrawBase()` |public virtual void DrawBase(VertexHelper vh) { }</br> |
+| `DrawSerie()` |public virtual void DrawSerie(VertexHelper vh) { }</br> |
+| `DrawTop()` |public virtual void DrawTop(VertexHelper vh) { }</br> |
+| `DrawUpper()` |public virtual void DrawUpper(VertexHelper vh) { }</br> |
+| `InitComponent()` |public virtual void InitComponent() { }</br> |
+| `OnBeginDrag()` |public virtual void OnBeginDrag(PointerEventData eventData) { }</br> |
+| `OnDrag()` |public virtual void OnDrag(PointerEventData eventData) { }</br> |
+| `OnEndDrag()` |public virtual void OnEndDrag(PointerEventData eventData) { }</br> |
+| `OnLegendButtonClick()` |public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }</br> |
+| `OnLegendButtonEnter()` |public virtual void OnLegendButtonEnter(int index, string legendName) { }</br> |
+| `OnLegendButtonExit()` |public virtual void OnLegendButtonExit(int index, string legendName) { }</br> |
+| `OnPointerClick()` |public virtual void OnPointerClick(PointerEventData eventData) { }</br> |
+| `OnPointerDown()` |public virtual void OnPointerDown(PointerEventData eventData) { }</br> |
+| `OnPointerEnter()` |public virtual void OnPointerEnter(PointerEventData eventData) { }</br> |
+| `OnPointerExit()` |public virtual void OnPointerExit(PointerEventData eventData) { }</br> |
+| `OnPointerUp()` |public virtual void OnPointerUp(PointerEventData eventData) { }</br> |
+| `OnScroll()` |public virtual void OnScroll(PointerEventData eventData) { }</br> |
+| `RefreshLabelInternal()` |public virtual void RefreshLabelInternal() { }</br> |
+| `RefreshLabelNextFrame()` |public virtual void RefreshLabelNextFrame() { }</br> |
+| `RemoveComponent()` |public virtual void RemoveComponent() { }</br> |
+| `Update()` |public virtual void Update() { }</br> |
 
 ## `SerieHandler<T>`
 
@@ -831,6 +915,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 |public method|description|
 |--|--|
+| `CloneSerie<T>()` |public static T CloneSerie<T>(Serie serie) where T : Serie</br> |
 | `CopySerie()` |public static void CopySerie(Serie oldSerie, Serie newSerie)</br> |
 | `GetAllMinMaxData()` |public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)</br> |
 | `GetAreaStyle()` |public static AreaStyle GetAreaStyle(Serie serie, SerieData serieData)</br> |
@@ -900,7 +985,10 @@ Inherits or Implemented: [Attribute](#Attribute)
 | `GetStackSeries()` |public static void GetStackSeries(List<Serie> series, ref Dictionary<int, List<Serie>> stackSeries)</br>获得堆叠系列列表 |
 | `IsAnyClipSerie()` |public static bool IsAnyClipSerie(List<Serie> series)</br>是否有需裁剪的serie。 |
 | `IsLegalLegendName()` |public static bool IsLegalLegendName(string name)</br> |
+| `IsPercentStack<T>()` |public static bool IsPercentStack<T>(List<Serie> series) where T : Serie</br>是否时百分比堆叠 |
+| `IsPercentStack<T>()` |public static bool IsPercentStack<T>(List<Serie> series, string stackName) where T : Serie</br>是否时百分比堆叠 |
 | `IsStack()` |public static bool IsStack(List<Serie> series)</br>是否由数据堆叠 |
+| `IsStack<T>()` |public static bool IsStack<T>(List<Serie> series, string stackName) where T : Serie</br>是否堆叠 |
 | `UpdateSerieNameList()` |public static void UpdateSerieNameList(BaseChart chart, ref List<string> serieNameList)</br>获得所有系列名，不包含空名字。 |
 | `UpdateStackDataList()` |public static void UpdateStackDataList(List<Serie> series, Serie currSerie, DataZoom dataZoom, List<List<SerieData>> dataList)</br> |
 
@@ -1038,7 +1126,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 |public method|description|
 |--|--|
 | `AutoSetLineMinMax()` |public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)</br> |
-| `GetDimension()` |public static int GetDimension(VisualMap visualMap, int serieDataCount)</br> |
+| `GetDimension()` |public static int GetDimension(VisualMap visualMap, int defaultDimension)</br> |
 | `IsNeedAreaGradient()` |public static bool IsNeedAreaGradient(VisualMap visualMap)</br> |
 | `IsNeedGradient()` |public static bool IsNeedGradient(VisualMap visualMap)</br> |
 | `IsNeedLineGradient()` |public static bool IsNeedLineGradient(VisualMap visualMap)</br> |

@@ -25,7 +25,7 @@ namespace XCharts.Runtime
 
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
-        public override SerieColorBy defaultColorBy { get { return radarType == RadarType.Multiple?SerieColorBy.Serie : SerieColorBy.Data; } }
+        public override SerieColorBy defaultColorBy { get { return radarType == RadarType.Multiple?SerieColorBy.Data : SerieColorBy.Serie; } }
         public override bool multiDimensionLabel { get { return radarType == RadarType.Multiple; } }
 
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)

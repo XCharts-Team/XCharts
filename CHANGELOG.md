@@ -59,6 +59,8 @@
 
 ## master
 
+* (2022.09.30) 修复`Chart`在很小尺寸时出现`DivideByZeroException`异常
+
 ## v3.3.0
 
 ### 版本要点

@@ -261,7 +261,7 @@ namespace XCharts.Runtime
             else
             {
                 var data = axis.GetDataList(dataZoom);
-                if (axis.IsCategory() && data.Count > 0)
+                if (axis.IsCategory() && data.Count > 0 && splitNum > 0)
                 {
                     var count = axis.boundaryGap ? data.Count : data.Count - 1;
                     int tick = count / splitNum;

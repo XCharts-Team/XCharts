@@ -59,6 +59,7 @@
 
 ## master
 
+* (2022.09.05) 修复`Serie`隐藏时`Tooltip`还显示信息的问题
 * (2022.09.30) 修复`Chart`在很小尺寸时出现`DivideByZeroException`异常
 
 ## v3.3.0

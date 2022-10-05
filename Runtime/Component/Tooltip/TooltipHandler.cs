@@ -447,6 +447,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < series.Count; i++)
             {
                 var serie = series[i];
+                if (!serie.show) continue;
                 serie.context.isTriggerByAxis = isTriggerByAxis;
                 if (isTriggerByAxis && dataIndex >= 0 && serie.context.pointerItemDataIndex < 0)
                     serie.context.pointerItemDataIndex = dataIndex;

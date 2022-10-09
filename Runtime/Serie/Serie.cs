@@ -247,6 +247,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_SampleAverage = 0;
 
         [SerializeField] private LineType m_LineType = LineType.Normal;
+        [SerializeField][Since("v3.3.1")] private bool m_SmoothLimit = true;
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0;
@@ -490,6 +491,16 @@ namespace XCharts.Runtime
         {
             get { return m_LineType; }
             set { if (PropertyUtil.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to restrict the curve. When true, the curve between two continuous data of the same value 
+        /// is restricted to not exceed the data point, and is flat to the data point.
+        /// |是否限制曲线。当为true时，两个连续相同数值的数据间的曲线会限制为不超出数据点，和数据点是平直的。
+        /// </summary>
+        public bool smoothLimit
+        {
+            get { return m_SmoothLimit; }
+            set { if (PropertyUtil.SetStruct(ref m_SmoothLimit, value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// the min pixel dist of sample.

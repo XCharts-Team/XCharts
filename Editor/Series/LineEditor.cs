@@ -18,6 +18,10 @@ namespace XCharts.Editor
                 PropertyField("m_YAxisIndex");
             }
             PropertyField("m_LineType");
+            if (serie.lineType == LineType.Smooth)
+            {
+                PropertyField("m_SmoothLimit");
+            }
             //PropertyField("m_Clip");
             PropertyFiledMore(() =>
             {

@@ -1,4 +1,4 @@
-# XCharts问答
+# 问答
 
 [XCharts主页](https://github.com/XCharts-Team/XCharts)  
 [XChartsAPI](XChartsAPI-ZH.md)  

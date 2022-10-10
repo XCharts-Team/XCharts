@@ -11,7 +11,7 @@ namespace XCharts.Runtime
     [SerieDataExtraField()]
     public class Radar : Serie, INeedSerieContainer
     {
-        [SerializeField][Since("3.2.0")] private bool m_Smooth = false;
+        [SerializeField][Since("v3.2.0")] private bool m_Smooth = false;
 
         /// <summary>
         /// Whether use smooth curve.

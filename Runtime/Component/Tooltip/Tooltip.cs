@@ -178,56 +178,56 @@ namespace XCharts.Runtime
         /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
         /// Template see itemFormatter.
         /// |提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
-        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。</br>
-        /// {.}为当前所指示或index为0的serie的对应颜色的圆点。</br>
-        /// {a}为当前所指示或index为0的serie的系列名name。</br>
-        /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。</br>
-        /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。</br>
-        /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。</br>
-        /// {e}为当前所指示或index为0的serie的数据项serieData的name。</br>
-        /// {f}为数据总和。</br>
-        /// {g}为数据总个数。</br>
-        /// {.1}表示指定index为1的serie对应颜色的圆点。</br>
-        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。</br>
-        /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。</br>
-        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。</br>
-        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。</br>
-        /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。</br>
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/>
+        /// {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/>
+        /// {a}为当前所指示或index为0的serie的系列名name。<br/>
+        /// {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/>
+        /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/>
+        /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/>
+        /// {e}为当前所指示或index为0的serie的数据项serieData的name。<br/>
+        /// {f}为数据总和。<br/>
+        /// {g}为数据总个数。<br/>
+        /// {.1}表示指定index为1的serie对应颜色的圆点。<br/>
+        /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/>
+        /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/>
+        /// {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/>
+        /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/>
+        /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/>
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
         /// </summary>
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
         /// a string template formatter for a single Serie or data item content. Support for wrapping lines with \n.
-        /// Template variables are {.}, {a}, {b}, {c}, {d}.</br>
-        /// {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.</br>
-        /// {a} is the series name of the serie that is currently indicated or whose index is 0.</br>
-        /// {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).</br>
-        /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.</br>
-        /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.</br>
-        /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.</br>
-        /// {f} is sum of data.</br>
-        /// {.1} represents a dot from serie corresponding color that specifies index as 1.</br>
-        /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.</br>
-        /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).</br>
-        /// {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).</br>
-        /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).</br>
-        /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).</br>
-        /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"</br>
+        /// Template variables are {.}, {a}, {b}, {c}, {d}.<br/>
+        /// {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/>
+        /// {a} is the series name of the serie that is currently indicated or whose index is 0.<br/>
+        /// {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/>
+        /// {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/>
+        /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/>
+        /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/>
+        /// {f} is sum of data.<br/>
+        /// {.1} represents a dot from serie corresponding color that specifies index as 1.<br/>
+        /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/>
+        /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/>
+        /// {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/>
+        /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/>
+        /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/>
+        /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
         /// |提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。
-        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。</br>
+        /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/>
         /// {i}或-表示忽略当前项。
-        /// {.}为当前所指示的serie或数据项的对应颜色的圆点。</br>
-        /// {a}为当前所指示的serie或数据项的系列名name。</br>
-        /// {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。</br>
-        /// {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。</br>
-        /// {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。</br>
-        /// {e}为当前所指示的serie或数据项的数据项serieData的name。</br>
-        /// {f}为当前所指示的serie的默认维度的数据总和。</br>
-        /// {g}为当前所指示的serie的数据总个数。</br>
-        /// {c0}表示当前数据项维度为0的数据。</br>
-        /// {c1}表示当前数据项维度为1的数据。</br>
-        /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。</br>
+        /// {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/>
+        /// {a}为当前所指示的serie或数据项的系列名name。<br/>
+        /// {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/>
+        /// {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/>
+        /// {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/>
+        /// {e}为当前所指示的serie或数据项的数据项serieData的name。<br/>
+        /// {f}为当前所指示的serie的默认维度的数据总和。<br/>
+        /// {g}为当前所指示的serie的数据总个数。<br/>
+        /// {c0}表示当前数据项维度为0的数据。<br/>
+        /// {c1}表示当前数据项维度为1的数据。<br/>
+        /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/>
         /// |表示多个列的分隔。<br>
         /// 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}"
         /// </summary>

@@ -59,6 +59,7 @@
 
 ## master
 
+* (2022.10.13) 修复`Download`的接口造成`iOS`平台打包失败的问题
 * (2022.10.12) 增加`Animation`的`UnscaledTime`支持设置动画是否受TimeScale的影响 (#223)
 * (2022.10.10) 调整文档格式
 * (2022.10.10) 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果

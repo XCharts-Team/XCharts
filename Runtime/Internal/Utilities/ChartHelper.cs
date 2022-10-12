@@ -898,8 +898,10 @@ namespace XCharts.Runtime
             else return valueOrRate;
         }
 
+#if UNITY_WEBGL
         [DllImport("__Internal")]
         private static extern void Download(string base64str, string fileName);
+#endif
 
         public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")
         {

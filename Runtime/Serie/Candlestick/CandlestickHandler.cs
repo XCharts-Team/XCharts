@@ -71,7 +71,7 @@ namespace XCharts.Runtime
                 param.columns.Clear();
 
                 param.columns.Add(param.marker);
-                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i-1));
+                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i - 1));
                 param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
 
                 paramList.Add(param);
@@ -100,6 +100,7 @@ namespace XCharts.Runtime
 
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             double yMinValue = yAxis.context.minValue;
             double yMaxValue = yAxis.context.maxValue;
             var isYAxis = false;
@@ -118,10 +119,10 @@ namespace XCharts.Runtime
                 var state = SerieHelper.GetSerieState(serie, serieData);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var startDataIndex = serieData.data.Count > 4 ? 1 : 0;
-                var open = serieData.GetCurrData(startDataIndex, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var close = serieData.GetCurrData(startDataIndex + 1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var lowest = serieData.GetCurrData(startDataIndex + 2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
-                var heighest = serieData.GetCurrData(startDataIndex + 3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue);
+                var open = serieData.GetCurrData(startDataIndex, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var close = serieData.GetCurrData(startDataIndex + 1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var lowest = serieData.GetCurrData(startDataIndex + 2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var heighest = serieData.GetCurrData(startDataIndex + 3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var isRise = yAxis.inverse ? close<open : close> open;
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.runtimeBorderWidth == 0 ? theme.serie.candlestickBorderWidth :

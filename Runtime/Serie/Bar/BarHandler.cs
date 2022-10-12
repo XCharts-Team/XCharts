@@ -221,7 +221,7 @@ namespace XCharts.Runtime
                 var state = SerieHelper.GetSerieState(serie, serieData);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
+                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;

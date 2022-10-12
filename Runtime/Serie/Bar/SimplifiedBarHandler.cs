@@ -162,7 +162,7 @@ namespace XCharts.Runtime
                 var highlight = serieData.context.highlight || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue);
+                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))

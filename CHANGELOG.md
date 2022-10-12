@@ -59,6 +59,7 @@
 
 ## master
 
+* (2022.10.12) 增加`Animation`的`UnscaledTime`支持设置动画是否受TimeScale的影响 (#223)
 * (2022.10.10) 调整文档格式
 * (2022.10.10) 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果
 * (2022.10.05) 修复`Serie`隐藏时`Tooltip`还显示信息的问题

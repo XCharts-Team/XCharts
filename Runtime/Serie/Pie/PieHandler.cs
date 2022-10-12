@@ -191,6 +191,7 @@ namespace XCharts.Runtime
                 sd.context.canShowLabel = false;
             }
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             bool isAllZeroValue = SerieHelper.IsAllZeroValue(serie, 1);
             var dataTotalFilterMinAngle = runtimePieDataTotal;
             if (isAllZeroValue)
@@ -208,7 +209,7 @@ namespace XCharts.Runtime
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
-                var value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
+                var value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration, unscaledTime);
                 serieData.context.startAngle = startDegree;
                 serieData.context.toAngle = startDegree;
                 serieData.context.halfAngle = startDegree;

@@ -381,9 +381,9 @@ namespace XCharts.Runtime
             else return 0;
         }
 
-        public double GetFirstData(float animationDuration = 500f)
+        public double GetFirstData(bool unscaledTime, float animationDuration = 500f)
         {
-            if (m_Data.Count > 0) return GetCurrData(0, animationDuration);
+            if (m_Data.Count > 0) return GetCurrData(0, animationDuration, unscaledTime);
             return 0;
         }
 
@@ -393,23 +393,23 @@ namespace XCharts.Runtime
             return 0;
         }
 
-        public double GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
+        public double GetCurrData(int index, float animationDuration = 500f, bool unscaledTime = false, bool inverse = false)
         {
-            return GetCurrData(index, animationDuration, inverse, 0, 0);
+            return GetCurrData(index, animationDuration, inverse, 0, 0, unscaledTime);
         }
 
-        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max)
+        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max, bool unscaledTime)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
-                var time = Time.time - m_DataUpdateTime[index];
+                var time = (unscaledTime ? Time.unscaledTime : Time.time) - m_DataUpdateTime[index];
                 var total = animationDuration / 1000;
 
                 var rate = time / total;
                 if (rate > 1) rate = 1;
                 if (rate < 1)
                 {
-                    CheckLastData();
+                    CheckLastData(unscaledTime);
                     var curr = MathUtil.Lerp(GetPreviousData(index), GetData(index), rate);
                     if (min != 0 || max != 0)
                     {
@@ -503,14 +503,14 @@ namespace XCharts.Runtime
             return total;
         }
 
-        public bool UpdateData(int dimension, double value, bool updateAnimation, float animationDuration = 500f)
+        public bool UpdateData(int dimension, double value, bool updateAnimation, bool unscaledTime, float animationDuration = 500f)
         {
             if (dimension >= 0 && dimension < data.Count)
             {
-                CheckLastData();
-                m_PreviousData[dimension] = GetCurrData(dimension, animationDuration);
+                CheckLastData(unscaledTime);
+                m_PreviousData[dimension] = GetCurrData(dimension, animationDuration, unscaledTime);
                 //m_PreviousData[dimension] = data[dimension];;
-                m_DataUpdateTime[dimension] = Time.time;
+                m_DataUpdateTime[dimension] = (unscaledTime ? Time.unscaledTime : Time.time);
                 m_DataUpdateFlag[dimension] = updateAnimation;
                 data[dimension] = value;
                 return true;
@@ -528,7 +528,7 @@ namespace XCharts.Runtime
             return false;
         }
 
-        private void CheckLastData()
+        private void CheckLastData(bool unscaledTime)
         {
             if (m_PreviousData.Count != m_Data.Count)
             {
@@ -538,7 +538,7 @@ namespace XCharts.Runtime
                 for (int i = 0; i < m_Data.Count; i++)
                 {
                     m_PreviousData.Add(m_Data[i]);
-                    m_DataUpdateTime.Add(Time.time);
+                    m_DataUpdateTime.Add((unscaledTime ? Time.unscaledTime : Time.time));
                     m_DataUpdateFlag.Add(false);
                 }
             }

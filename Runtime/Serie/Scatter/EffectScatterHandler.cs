@@ -11,9 +11,10 @@ namespace XCharts.Runtime
         {
             base.Update();
             var symbolSize = serie.symbol.GetSize(null, chart.theme.serie.scatterSymbolSize);
+            var deltaTime = serie.animation.unscaledTime? Time.unscaledDeltaTime : Time.deltaTime;
             for (int i = 0; i < serie.symbol.animationSize.Count; ++i)
             {
-                serie.symbol.animationSize[i] += m_EffectScatterSpeed * Time.deltaTime;
+                serie.symbol.animationSize[i] += m_EffectScatterSpeed * deltaTime;
                 if (serie.symbol.animationSize[i] > symbolSize)
                 {
                     serie.symbol.animationSize[i] = i * 5;

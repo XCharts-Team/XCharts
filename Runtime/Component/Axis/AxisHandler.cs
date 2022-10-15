@@ -368,6 +368,8 @@ namespace XCharts
                 ((inside && axis.IsLeft()) || (!inside && axis.IsRight()) ?
                     TextAnchor.MiddleLeft :
                     TextAnchor.MiddleRight);
+            if (axis.IsCategory() && axis.boundaryGap)
+                splitNumber -= 1;
             for (int i = 0; i < splitNumber; i++)
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);

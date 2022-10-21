@@ -300,6 +300,7 @@ namespace XCharts.Runtime
             base.SetAllComponentDirty();
             m_Theme.SetAllDirty();
             foreach (var com in m_Components) com.SetAllDirty();
+            foreach (var handler in m_SerieHandlers) handler.InitComponent();
             m_RefreshChart = true;
         }
 

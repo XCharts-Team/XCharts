@@ -691,7 +691,7 @@ namespace XCharts.Runtime
 
         public void OnBeforeSerialize()
         {
-#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+#if UNITY_EDITOR && UNITY_2019_3_OR_NEWER
             if (!UnityEditor.EditorUtility.IsDirty(this))
                 return;
             UnityEditor.EditorUtility.ClearDirty(this);

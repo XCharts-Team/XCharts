@@ -63,7 +63,7 @@
 - 支持内置图表的任意组合，同一图表中可同时显示多个相同或不同类型的图表。
 - 支持实线、曲线、阶梯线、虚线、点线、点划线、双点划线等线条。
 - 支持主题定制、导入和导出，内置两种默认主题。
-- 支持自定义图表内容绘制，提供绘制点、直线、曲线、三角形、四边形、圆形、环形、扇形、边框、箭头等强大的绘图API。
+- 支持自定义图表内容绘制，提供绘制点、线、面等其他图形的强大的绘图API。
 - 支持PC端和手机端上的数据筛选、视图缩放、细节展示等交互操作。
 - 支持万级大数据绘制。
 - 支持`TexMeshPro`。
@@ -74,7 +74,7 @@
 
 ![扩展图表](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
 
-更多示例请看 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) 仓库，也可以在浏览器查看`WebGL`下的运行效果 [在线Demo](https://xcharts-team.github.io/demo/) 。
+XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)，也可以在浏览器查看`WebGL`下的运行效果 [在线Demo](https://xcharts-team.github.io/demo/) 。
 
 ## `XCharts3.0`
 
@@ -107,7 +107,7 @@
 - `XCharts3.0` 不完全兼容 `XCharts2.0` 版本，建议旧项目可以继续使用`XCharts2.0`，新项目推荐使用`XCharts3.0`。
 - `XCharts2.0` 进入维护阶段，后续只修复严重`bug`，理论上不再加新功能。
 - `XCharts` 理论上支持`Unity 5.6`及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提`Issue`。
-- 本仓库只包含`XCharts`源码，不包含`Demo`示例部分。需要查看`Demo`示例请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)仓库。
+- 本仓库只包含`XCharts`源码，不包含`Demo`示例部分。需要查看`Demo`请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)仓库。
 
 ## 使用
 
@@ -115,9 +115,17 @@
 2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图。
 3. 在`Inspector`视图可以调整各个组件的参数，并在`Game`视图看到实时效果。
 
-更多教程请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+- 更多教程请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+- 首次使用，建议先认真看一遍教程。
 
-首次使用，建议先认真看一遍教程。
+## 分支
+
+- `master`：开发分支。最新的修改和新功能都先提交到`master`分支，一定时间后再从`master`分支`merge`到`3.0`分支，并发`release`。
+- `3.0`：XCharts 3.0的稳定分支。一般一个月一更新，从`master`分支`merge`最新改动过来，并发`release`版本。
+- `2.0`：XCharts 2.0的稳定分支。带Demo，目前基本不再维护，最多改一下严重bug。
+- `2.0-upm`：XCharts 2.0的稳定UMP分支。不带Demo，只包含Package部分，专门给UMP用，不再维护。
+- `1.0`：XCharts 1.0的稳定分支。带Demo，不再维护。
+- `1.0-upm`：XCharts 1.0的稳定UMP分支。不带Demo，不再维护。
 
 ## FAQ
 
@@ -132,21 +140,21 @@
 
 4. 锯齿怎么解决？支持多大量级的数据？  
    答：`XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考`问答16`和`问答27`。  
-   由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`大概支持`2万`左右的数据量，当然开采样可以支持更多数据，但可能会更消耗CPU。
+   由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`大概支持`2万`左右的数据量，当然开启采样可以支持更多数据的绘制，但可能会更消耗CPU。
 
 ## Licenses
 
-[MIT License](LICENSE.md)
-
-可免费商用，可二次开发
+- [MIT License](LICENSE.md)
+- 可免费商用，可二次开发
+- 扩展图表需单独购买授权
 
 ## 日志
 
-[更新日志](CHANGELOG.md)  
+- [更新日志](CHANGELOG.md)  
 
 ## 其他
 
-邮箱：`monitor1394@gmail.com`  
-QQ群：XCharts交流群（`202030963`）  
-VIP群：XCharts技术支持VIP群（`867291970`）  
-捐助、合作和技术支持：[☞ 看这里](Documentation/SUPPORT.md)
+- 邮箱：`monitor1394@gmail.com`  
+- QQ群：XCharts交流群（`202030963`）  
+- VIP群：XCharts技术支持VIP群（`867291970`）  
+- 捐助、合作和技术支持：[☞ 看这里](Documentation/SUPPORT.md)

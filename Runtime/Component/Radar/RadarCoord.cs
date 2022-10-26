@@ -108,6 +108,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_OutRangeColor = Color.red;
         [SerializeField] private bool m_ConnectCenter = false;
         [SerializeField] private bool m_LineGradient = true;
+        [SerializeField][Since("v3.4.0")] private float m_StartAngle;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
 
         public RadarCoordContext context = new RadarCoordContext();
@@ -262,6 +263,14 @@ namespace XCharts.Runtime
         {
             get { return m_LineGradient; }
             set { if (PropertyUtil.SetStruct(ref m_LineGradient, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+        /// </summary>
+        public float startAngle
+        {
+            get { return m_StartAngle; }
+            set { if (PropertyUtil.SetStruct(ref m_StartAngle, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the indicator list.

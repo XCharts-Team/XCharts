@@ -224,6 +224,7 @@ namespace XCharts.Runtime
             var unscaledTime = serie.animation.unscaledTime;
             SerieHelper.GetAllMinMaxData(serie, m_RadarCoord.ceilRate);
             Color32 areaColor, areaToColor;
+            var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -264,7 +265,7 @@ namespace XCharts.Runtime
                         }
                     }
                     var radius = (float) (m_RadarCoord.context.dataRadius * (value - min) / (max - min));
-                    var currAngle = (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
+                    var currAngle = startAngle + (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
                     {
@@ -365,6 +366,7 @@ namespace XCharts.Runtime
             var unscaledTime = serie.animation.unscaledTime;
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
+            var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
             SerieHelper.UpdateMinMaxData(serie, 1, m_RadarCoord.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
@@ -397,7 +399,7 @@ namespace XCharts.Runtime
                 }
                 var radius = (float) (max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
                     m_RadarCoord.context.dataRadius * value / max);
-                var currAngle = (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
+                var currAngle = startAngle + (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;
                 if (index == startIndex)
                 {

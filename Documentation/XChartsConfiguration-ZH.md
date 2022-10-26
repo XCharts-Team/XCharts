@@ -201,6 +201,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 |dataChangeEnable|true||是否开启数据变更动画。
 |dataChangeDuration|500||数据变更的动画时长（毫秒）。
 |actualDuration|||实际的动画时长（毫秒）。
+|unscaledTime||v3.4.0|动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
 
 ## AreaStyle
 
@@ -632,7 +633,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 |field|default|since|comment|
 |--|--|--|--|
-|heatmapType||3.3.0|热力图类型。通过颜色映射划分。<br/>`HeatmapType`:<br/>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。<br/>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。<br/>|
+|heatmapType||v3.3.0|热力图类型。通过颜色映射划分。<br/>`HeatmapType`:<br/>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。<br/>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。<br/>|
 
 ## IconStyle
 
@@ -692,6 +693,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |outRangeColor|Color.red||数值超出范围时显示的颜色。
 |connectCenter|false||数值是否连线到中心点。
 |lineGradient|true||数值线段是否需要渐变。
+|startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 |indicatorList|||指示器列表。
 
 ## ItemStyle
@@ -1018,7 +1020,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 |field|default|since|comment|
 |--|--|--|--|
-|smooth|false|3.2.0|是否平滑曲线。平滑曲线时不支持区域填充颜色。
+|smooth|false|v3.2.0|是否平滑曲线。平滑曲线时不支持区域填充颜色。
 
 ## RadarAxisTheme
 
@@ -1093,6 +1095,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |sampleType|||采样类型。当sampleDist大于0时有效。<br/>`SampleType`:<br/>- `Peak`: 取峰值。<br/>- `Average`: 取过滤点的平均值。<br/>- `Max`: 取过滤点的最大值。<br/>- `Min`: 取过滤点的最小值。<br/>- `Sum`: 取过滤点的和。<br/>|
 |sampleAverage|0||设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
 |lineType|||折线图样式类型。<br/>`LineType`:<br/>- `Normal`: 普通折线图。<br/>- `Smooth`: 平滑曲线。<br/>- `StepStart`: 阶梯线图：当前点。<br/>- `StepMiddle`: 阶梯线图：当前点和下一个点的中间。<br/>- `StepEnd`: 阶梯线图：下一个拐点。<br/>|
+|smoothLimit|true|v3.4.0|是否限制曲线。当为true时，两个连续相同数值的数据间的曲线会限制为不超出数据点，和数据点是平直的。
 |barType|||柱形图类型。<br/>`BarType`:<br/>- `Normal`: 普通柱形图。<br/>- `Zebra`: 斑马柱形图。<br/>- `Capsule`: 胶囊柱形图。<br/>|
 |barPercentStack|false||柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 |barWidth|0||柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。

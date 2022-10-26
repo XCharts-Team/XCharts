@@ -201,6 +201,7 @@ the animation of serie.
 |dataChangeEnable|true||是否开启数据变更动画。
 |dataChangeDuration|500||The milliseconds duration of the data change animation.
 |actualDuration|||The milliseconds actual duration of the first animation.
+|unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
 
 ## AreaStyle
 
@@ -632,7 +633,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 |field|default|since|comment|
 |--|--|--|--|
-|heatmapType||3.3.0|The mapping type of heatmap.<br/>`HeatmapType`:<br/>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.<br/>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.<br/>|
+|heatmapType||v3.3.0|The mapping type of heatmap.<br/>`HeatmapType`:<br/>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.<br/>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.<br/>|
 
 ## IconStyle
 
@@ -692,6 +693,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |outRangeColor|Color.red||The color displayed when data out of range.
 |connectCenter|false||Whether serie data connect to radar center with line.
 |lineGradient|true||Whether need gradient for data line.
+|startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 |indicatorList|||the indicator list.
 
 ## ItemStyle
@@ -1018,7 +1020,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 |field|default|since|comment|
 |--|--|--|--|
-|smooth|false|3.2.0|Whether use smooth curve.
+|smooth|false|v3.2.0|Whether use smooth curve.
 
 ## RadarAxisTheme
 
@@ -1093,6 +1095,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |sampleType|||the type of sample.<br/>`SampleType`:<br/>- `Peak`: Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', take the maximum value; If you do it the other way around, you get the minimum.<br/>- `Average`: Take the average of the filter points.<br/>- `Max`: Take the maximum value of the filter point.<br/>- `Min`: Take the minimum value of the filter point.<br/>- `Sum`: Take the sum of the filter points.<br/>|
 |sampleAverage|0||设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
 |lineType|||The type of line chart.<br/>`LineType`:<br/>- `Normal`: the normal line chart，<br/>- `Smooth`: the smooth line chart，<br/>- `StepStart`: step line.<br/>- `StepMiddle`: step line.<br/>- `StepEnd`: step line.<br/>|
+|smoothLimit|true|v3.4.0|Whether to restrict the curve. When true, the curve between two continuous data of the same value is restricted to not exceed the data point, and is flat to the data point.
 |barType|||柱形图类型。<br/>`BarType`:<br/>- `Normal`: normal bar.<br/>- `Zebra`: zebra bar.<br/>- `Capsule`: capsule bar.<br/>|
 |barPercentStack|false||柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 |barWidth|0||The width of the bar. Adaptive when default 0.

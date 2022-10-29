@@ -37,6 +37,7 @@ namespace XCharts.Editor
                 PropertyField("m_ShowAsPositiveNumber");
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
+                PropertyField("m_MarkColor");
             });
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");

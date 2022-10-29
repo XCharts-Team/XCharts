@@ -528,7 +528,7 @@ namespace XCharts.Runtime
             param.value = serieData.GetData(dimension);
             param.ignore = ignore;
             param.total = serie.yTotal;
-            param.color = chart.GetItemColor(serie, serieData);
+            param.color = chart.GetMarkColor(serie, serieData);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = itemFormatter;
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);

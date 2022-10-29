@@ -37,7 +37,7 @@ namespace XCharts.Runtime
             param.dimension = 1;
             param.dataCount = serie.dataCount;
             param.serieData = serieData;
-            param.color = chart.GetItemColor(serie, serieData);
+            param.color = chart.GetMarkColor(serie, serieData);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);

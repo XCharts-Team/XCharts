@@ -59,6 +59,7 @@
 
 ## master
 
+* (2022.10.29) 增加`Serie`的`markColor`可设置标识颜色用于`Legend`和`Tooltip`的展示 (#229)
 * (2022.10.26) 增加`RadarCoord`的`startAngle`可设置`Radar`起始角度
 * (2022.10.21) 修复`Chart`在受`Layout`控制时`Label`显示不正常的问题 (#231)
 * (2022.10.21) 修复`Unity2019.2`上的兼容问题

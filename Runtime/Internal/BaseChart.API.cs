@@ -568,6 +568,25 @@ namespace XCharts.Runtime
             return theme.GetBackgroundColor(background);
         }
 
+        [Since("v3.4.0")]
+        /// <summary>
+        /// 获得Serie的标识颜色。
+        /// </summary>
+        /// <param name="serie"></param>
+        /// <param name="serieData"></param>
+        /// <returns></returns>
+        public Color32 GetMarkColor(Serie serie, SerieData serieData)
+        {
+            if (ChartHelper.IsClearColor(serie.markColor))
+            {
+                return GetItemColor(serie, serieData);
+            }
+            else
+            {
+                return serie.markColor;
+            }
+        }
+
         public Color32 GetItemColor(Serie serie, SerieData serieData)
         {
             Color32 color, toColor;

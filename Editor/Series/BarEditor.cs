@@ -47,6 +47,7 @@ namespace XCharts.Editor
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
                 PropertyField("m_PlaceHolder");
+                PropertyField("m_MarkColor");
             });
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

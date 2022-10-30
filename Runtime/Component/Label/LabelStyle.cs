@@ -365,7 +365,7 @@ namespace XCharts.Runtime
             var timestamp = (int) value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var dateString = string.Empty;
-            if (string.IsNullOrEmpty(numericFormatter))
+            if (string.IsNullOrEmpty(numericFormatter) || numericFormatter.Equals("f2"))
             {
                 dateString = DateTimeUtil.GetDateTimeFormatString(dateTime, maxValue - minValue);
             }

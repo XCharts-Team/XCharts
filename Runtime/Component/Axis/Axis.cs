@@ -103,7 +103,7 @@ namespace XCharts.Runtime
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField][Since("v3.2.0")] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
         [SerializeField][Since("v3.2.0")] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
-        [SerializeField][Since("v3.4.0")] protected LabelStyle m_IndicatorLabel = new LabelStyle();
+        [SerializeField][Since("v3.4.0")] protected LabelStyle m_IndicatorLabel = new LabelStyle() { numericFormatter = "f2" };
 
         public AxisContext context = new AxisContext();
 

@@ -268,6 +268,7 @@ The axis in rectangular coordinate.
 |splitArea|||axis split area. [AxisSplitArea](#AxisSplitArea)|
 |minorTick||v3.2.0|axis minor tick. [AxisMinorTick](#AxisMinorTick)|
 |minorSplitLine||v3.2.0|axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
+|indicatorLabel||v3.4.0|Style of axis tooltip indicator label. [LabelStyle](#LabelStyle)|
 
 ## AxisLabel
 
@@ -1080,6 +1081,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |serieName|||Series name used for displaying in tooltip and filtering with legend.
 |state||v3.2.0|The default state of a serie.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |colorBy||v3.2.0|The policy to take color from theme.<br/>`SerieColorBy`:<br/>- `Default`: Select state.<br/>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.<br/>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..<br/>|
+|markColor||v3.4.0|Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
 |stack|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |xAxisIndex|0||the index of XAxis.
 |yAxisIndex|0||the index of YAxis.
@@ -1458,7 +1460,6 @@ Tooltip component.
 |itemHeight|25f||height of content text.
 |borderColor|Color32(230, 230, 230, 255)||the color of tooltip border.
 |lineStyle|||the line style of indicator line. [LineStyle](#LineStyle)|
-|indicatorLabelStyle|||the label style of tooltip axis indicator label. [LabelStyle](#LabelStyle)|
 |titleLabelStyle|||the textstyle of title. [LabelStyle](#LabelStyle)|
 |contentLabelStyles|||the textstyle list of content.
 

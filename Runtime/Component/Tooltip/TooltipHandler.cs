@@ -9,7 +9,7 @@ namespace XCharts.Runtime
     [UnityEngine.Scripting.Preserve]
     internal sealed class TooltipHandler : MainComponentHandler<Tooltip>
     {
-        private List<ChartLabel> m_IndicatorLabels = new List<ChartLabel>();
+        private Dictionary<string, ChartLabel> m_IndicatorLabels = new Dictionary<string, ChartLabel>();
         private GameObject m_LabelRoot;
         private ISerieContainer m_PointerContainer;
 
@@ -52,28 +52,35 @@ namespace XCharts.Runtime
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 ChartHelper.HideAllObject(m_LabelRoot);
                 m_IndicatorLabels.Clear();
-                for (int i = 0; i < 2; i++)
+                foreach (var com in chart.components)
                 {
-                    var labelName = "label_" + i;
-                    var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
-                        chart.theme, TextAnchor.MiddleCenter);
-                    item.SetActive(false);
-                    m_IndicatorLabels.Add(item);
+                    if (com is Axis)
+                    {
+                        var axis = com as Axis;
+                        var labelName = ChartCached.GetComponentObjectName(axis);
+                        var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
+                            chart.theme, axis.context.aligment, axis.indicatorLabel);
+                        item.SetActive(false);
+                        m_IndicatorLabels[labelName] = item;
+                    }
                 }
             };
             tooltip.refreshComponent();
         }
 
-        private ChartLabel GetIndicatorLabel(int index)
+        private ChartLabel GetIndicatorLabel(Axis axis)
         {
             if (m_LabelRoot == null) return null;
-            if (index < m_IndicatorLabels.Count) return m_IndicatorLabels[index];
+            var key = ChartCached.GetComponentObjectName(axis);
+            if (m_IndicatorLabels.ContainsKey(key))
+            {
+                return m_IndicatorLabels[key];
+            }
             else
             {
-                var labelName = "label_" + index;
-                var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
-                    chart.theme, TextAnchor.MiddleCenter);
-                m_IndicatorLabels.Add(item);
+                var item = ChartHelper.AddTooltipIndicatorLabel(component, key, m_LabelRoot.transform,
+                    chart.theme, TextAnchor.MiddleCenter, axis.indicatorLabel);
+                m_IndicatorLabels[key] = item;
                 return item;
             }
         }
@@ -138,7 +145,6 @@ namespace XCharts.Runtime
             {
                 if (tooltip.type == Tooltip.Type.Corss)
                 {
-                    var labelCount = 0;
                     if (m_PointerContainer is GridCoord)
                     {
                         var grid = m_PointerContainer as GridCoord;
@@ -150,7 +156,7 @@ namespace XCharts.Runtime
                                 var axis = component as Axis;
                                 if (axis.gridIndex == grid.index)
                                 {
-                                    var label = GetIndicatorLabel(labelCount++);
+                                    var label = GetIndicatorLabel(axis);
                                     SetTooltipIndicatorLabel(tooltip, axis, label);
                                 }
                             }
@@ -167,7 +173,7 @@ namespace XCharts.Runtime
                                 var axis = component as Axis;
                                 if (axis.polarIndex == polar.index)
                                 {
-                                    var label = GetIndicatorLabel(labelCount++);
+                                    var label = GetIndicatorLabel(axis);
                                     SetTooltipIndicatorLabel(tooltip, axis, label);
                                 }
                             }
@@ -183,16 +189,27 @@ namespace XCharts.Runtime
             if (double.IsNaN(axis.context.pointerValue)) return;
             label.SetActive(true);
             label.SetTextActive(true);
-            label.SetPosition(axis.context.pointerLabelPosition);
+            label.SetPosition(axis.context.pointerLabelPosition + axis.indicatorLabel.offset);
+
             if (axis.IsCategory())
-                label.SetText(axis.GetData((int) axis.context.pointerValue));
+            {
+                var index = (int) axis.context.pointerValue;
+                var category = axis.GetData(index);
+                label.SetText(axis.indicatorLabel.GetFormatterContent(index, category));
+            }
+            else if (axis.IsTime())
+            {
+                label.SetText(axis.indicatorLabel.GetFormatterDateTime(0, axis.context.pointerValue, axis.context.minValue, axis.context.maxValue));
+            }
             else
-                label.SetText(axis.context.pointerValue.ToString("f2"));
+            {
+                label.SetText(axis.indicatorLabel.GetFormatterContent(0, axis.context.pointerValue, axis.context.minValue, axis.context.maxValue, axis.IsLog()));
+            }
             var textColor = axis.axisLabel.textStyle.GetColor(chart.theme.axis.textColor);
-            if (ChartHelper.IsClearColor(tooltip.indicatorLabelStyle.background.color))
+            if (ChartHelper.IsClearColor(axis.indicatorLabel.background.color))
                 label.color = textColor;
             else
-                label.color = tooltip.indicatorLabelStyle.background.color;
+                label.color = axis.indicatorLabel.background.color;
             label.SetTextColor(Color.white);
         }
 

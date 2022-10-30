@@ -103,6 +103,7 @@ namespace XCharts.Runtime
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
         [SerializeField][Since("v3.2.0")] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
         [SerializeField][Since("v3.2.0")] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
+        [SerializeField][Since("v3.4.0")] protected LabelStyle m_IndicatorLabel = new LabelStyle();
 
         public AxisContext context = new AxisContext();
 
@@ -372,6 +373,15 @@ namespace XCharts.Runtime
             set { if (value != null) { m_MinorSplitLine = value; SetVerticesDirty(); } }
         }
         /// <summary>
+        /// Style of axis tooltip indicator label. 
+        /// |指示器文本的样式。Tooltip为Cross时使用。
+        /// </summary>
+        public LabelStyle indicatorLabel
+        {
+            get { return m_IndicatorLabel; }
+            set { if (value != null) { m_IndicatorLabel = value; SetComponentDirty(); } }
+        }
+        /// <summary>
         /// Whether to add new data at the head or at the end of the list.
         /// |添加新数据时是在列表的头部还是尾部加入。
         /// </summary>
@@ -401,7 +411,8 @@ namespace XCharts.Runtime
             {
                 return m_ComponentDirty ||
                     axisName.anyDirty ||
-                    axisLabel.anyDirty;
+                    axisLabel.anyDirty ||
+                    indicatorLabel.anyDirty;
             }
         }
 
@@ -410,6 +421,7 @@ namespace XCharts.Runtime
             base.ClearComponentDirty();
             axisName.ClearComponentDirty();
             axisLabel.ClearComponentDirty();
+            indicatorLabel.ClearComponentDirty();
         }
 
         public override void ClearVerticesDirty()
@@ -422,6 +434,7 @@ namespace XCharts.Runtime
             splitArea.ClearVerticesDirty();
             minorTick.ClearVerticesDirty();
             minorSplitLine.ClearVerticesDirty();
+            indicatorLabel.ClearComponentDirty();
         }
 
         public override void SetComponentDirty()
@@ -455,6 +468,7 @@ namespace XCharts.Runtime
             axis.splitArea = splitArea.Clone();
             axis.minorTick = minorTick.Clone();
             axis.minorSplitLine = minorSplitLine.Clone();
+            axis.indicatorLabel = indicatorLabel.Clone();
             axis.icons = new List<Sprite>();
             axis.data = new List<string>();
             ChartHelper.CopyList(axis.data, data);
@@ -485,6 +499,7 @@ namespace XCharts.Runtime
             splitArea.Copy(axis.splitArea);
             minorTick.Copy(axis.minorTick);
             minorSplitLine.Copy(axis.minorSplitLine);
+            indicatorLabel.Copy(axis.indicatorLabel);
             ChartHelper.CopyList(data, axis.data);
             ChartHelper.CopyList<Sprite>(icons, axis.icons);
         }
@@ -718,8 +733,6 @@ namespace XCharts.Runtime
                 return 0;
             }
         }
-
-        
 
         /// <summary>
         /// 获得指定区域缩放的类目数据列表

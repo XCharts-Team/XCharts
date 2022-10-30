@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -314,6 +315,86 @@ namespace XCharts.Runtime
             m_Background.Copy(label.m_Background);
             m_TextPadding = label.m_TextPadding;
             m_TextStyle.Copy(label.m_TextStyle);
+        }
+
+        public virtual string GetFormatterContent(int labelIndex, string category)
+        {
+            if (string.IsNullOrEmpty(category))
+                return GetFormatterFunctionContent(labelIndex, category, category);
+
+            if (string.IsNullOrEmpty(m_Formatter))
+            {
+                return GetFormatterFunctionContent(labelIndex, category, category);
+            }
+            else
+            {
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, category);
+                return GetFormatterFunctionContent(labelIndex, category, category);
+            }
+        }
+
+        public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
+        {
+            if (string.IsNullOrEmpty(m_Formatter))
+            {
+                if (isLog)
+                {
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
+                }
+                if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
+                {
+                    int minAcc = ChartHelper.GetFloatAccuracy(minValue);
+                    int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
+                    int curAcc = ChartHelper.GetFloatAccuracy(value);
+                    int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.FloatToStr(value, numericFormatter, acc));
+                }
+                return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
+            }
+            else
+            {
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
+                return GetFormatterFunctionContent(labelIndex, value, content);
+            }
+        }
+
+        public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
+        {
+            var timestamp = (int) value;
+            var dateTime = DateTimeUtil.GetDateTime(timestamp);
+            var dateString = string.Empty;
+            if (string.IsNullOrEmpty(numericFormatter))
+            {
+                dateString = DateTimeUtil.GetDateTimeFormatString(dateTime, maxValue - minValue);
+            }
+            else
+            {
+                dateString = dateTime.ToString(numericFormatter);
+            }
+            if (!string.IsNullOrEmpty(m_Formatter))
+            {
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString);
+                return GetFormatterFunctionContent(labelIndex, value, content);
+            }
+            else
+            {
+                return GetFormatterFunctionContent(labelIndex, value, dateString);
+            }
+        }
+
+        protected string GetFormatterFunctionContent(int labelIndex, string category, string currentContent)
+        {
+            return m_FormatterFunction == null ? currentContent :
+                m_FormatterFunction(labelIndex, labelIndex, category, currentContent);
+        }
+
+        protected string GetFormatterFunctionContent(int labelIndex, double value, string currentContent)
+        {
+            return m_FormatterFunction == null ? currentContent :
+                m_FormatterFunction(labelIndex, labelIndex, null, currentContent);
         }
     }
 }

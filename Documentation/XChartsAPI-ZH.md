@@ -204,6 +204,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | GetItemColor() |public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)|
 | GetLegendRealShowNameColor() |public Color32 GetLegendRealShowNameColor(string name)|
 | GetLegendRealShowNameIndex() |public int GetLegendRealShowNameIndex(string name)|
+| GetMarkColor() |public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
 | GetOrAddChartComponent&lt;T&gt;() |public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent|
 | GetPainter() |public Painter GetPainter(int index)|
 | GetSerie() |public Serie GetSerie(int serieIndex)|

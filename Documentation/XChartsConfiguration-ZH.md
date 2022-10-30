@@ -268,6 +268,7 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |splitArea|||坐标轴分割区域。 [AxisSplitArea](#AxisSplitArea)|
 |minorTick||v3.2.0|坐标轴次刻度。 [AxisMinorTick](#AxisMinorTick)|
 |minorSplitLine||v3.2.0|坐标轴次分割线。 [AxisMinorSplitLine](#AxisMinorSplitLine)|
+|indicatorLabel||v3.4.0|指示器文本的样式。Tooltip为Cross时使用。 [LabelStyle](#LabelStyle)|
 
 ## AxisLabel
 
@@ -1080,6 +1081,7 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |serieName|||系列名称，用于 tooltip 的显示，legend 的图例筛选。
 |state||v3.2.0|系列的默认状态。<br/>`SerieState`:<br/>- `Normal`: 正常状态。<br/>- `Emphasis`: 高亮状态。<br/>- `Blur`: 淡出状态。<br/>- `Select`: 选中状态。<br/>- `Auto`: 自动保持和父节点一致。一般用在SerieData。<br/>|
 |colorBy||v3.2.0|从主题中取色的策略。<br/>`SerieColorBy`:<br/>- `Default`: 默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略<br/>- `Serie`: 按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。<br/>- `Data`: 按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。<br/>|
+|markColor||v3.4.0|Serie的标识颜色。仅用于Legend和Tooltip的展示，不影响绘制颜色，默认为clear。
 |stack|||数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
 |xAxisIndex|0||使用X轴的index。
 |yAxisIndex|0||使用Y轴的index。
@@ -1458,7 +1460,6 @@ Inherits or Implemented: [MainComponent](#MainComponent)
 |itemHeight|25f||数据项文本的高。
 |borderColor|Color32(230, 230, 230, 255)||边框颜色。
 |lineStyle|||指示线样式。 [LineStyle](#LineStyle)|
-|indicatorLabelStyle|||提示框的坐标轴指示器文本的样式。 [LabelStyle](#LabelStyle)|
 |titleLabelStyle|||标题的文本样式。 [LabelStyle](#LabelStyle)|
 |contentLabelStyles|||内容部分的文本样式列表。和列一一对应。
 

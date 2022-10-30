@@ -120,7 +120,6 @@ namespace XCharts.Runtime
         [SerializeField] private float m_ItemHeight = 25f;
         [SerializeField] private Color32 m_BorderColor = new Color32(230, 230, 230, 255);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
-        [SerializeField] private LabelStyle m_IndicatorLabelStyle = new LabelStyle();
         [SerializeField]
         private LabelStyle m_TitleLabelStyle = new LabelStyle()
         {
@@ -378,15 +377,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the label style of tooltip axis indicator label.
-        /// |提示框的坐标轴指示器文本的样式。
-        /// </summary>
-        public LabelStyle indicatorLabelStyle
-        {
-            get { return m_IndicatorLabelStyle; }
-            set { if (value != null) { m_IndicatorLabelStyle = value; SetComponentDirty(); } }
-        }
-        /// <summary>
         /// the textstyle of title.
         /// |标题的文本样式。
         /// </summary>
@@ -420,14 +410,13 @@ namespace XCharts.Runtime
         /// </summary>
         public override bool componentDirty
         {
-            get { return m_ComponentDirty || lineStyle.componentDirty || indicatorLabelStyle.componentDirty; }
+            get { return m_ComponentDirty || lineStyle.componentDirty; }
         }
 
         public override void ClearComponentDirty()
         {
             base.ClearComponentDirty();
             lineStyle.ClearComponentDirty();
-            indicatorLabelStyle.ClearComponentDirty();
         }
         /// <summary>
         /// 当前提示框所指示的Serie索引（目前只对散点图有效）。

@@ -440,11 +440,11 @@ namespace XCharts.Runtime
         }
 
         internal static ChartLabel AddTooltipIndicatorLabel(Tooltip tooltip, string name, Transform parent,
-            ThemeStyle theme, TextAnchor alignment)
+            ThemeStyle theme, TextAnchor alignment, LabelStyle labelStyle)
         {
-            var label = ChartHelper.AddChartLabel(name, parent, tooltip.indicatorLabelStyle, theme.tooltip,
+            var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.tooltip,
                 "", Color.clear, alignment);
-            label.SetActive(tooltip.show && tooltip.indicatorLabelStyle.show);
+            label.SetActive(tooltip.show && labelStyle.show);
             return label;
         }
 

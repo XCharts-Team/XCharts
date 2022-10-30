@@ -78,6 +78,7 @@ namespace XCharts.Editor
             PropertyField("m_AxisLabel");
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
+            PropertyField("m_IndicatorLabel");
             if (type != Axis.AxisType.Category)
             {
                 PropertyField("m_MinorTick");

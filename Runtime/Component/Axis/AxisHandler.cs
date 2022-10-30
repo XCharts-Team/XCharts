@@ -373,6 +373,7 @@ namespace XCharts
                     TextAnchor.MiddleRight);
             if (axis.IsCategory() && axis.boundaryGap)
                 splitNumber -= 1;
+            axis.context.aligment = defaultAlignment;
             for (int i = 0; i < splitNumber; i++)
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);

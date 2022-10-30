@@ -159,11 +159,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | AddData() |public SerieData AddData(int serieIndex, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)|
 | AddData() |public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)<br/>Add a (x,y) data to serie. |
 | AddData() |public SerieData AddData(int serieIndex, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
+| AddData() |public SerieData AddData(int serieIndex, params double[] multidimensionalData)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 | AddData() |public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)<br/>Add a (time,y) data to serie. |
 | AddData() |public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)<br/>Add a data to serie. |
 | AddData() |public SerieData AddData(string serieName, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)|
 | AddData() |public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>Add a (x,y) data to serie. |
 | AddData() |public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
+| AddData() |public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 | AddSerie&lt;T&gt;() |public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 | AddXAxisData() |public void AddXAxisData(string category, int xAxisIndex = 0)<br/>Add a category data to xAxis. |
 | AddXAxisIcon() |public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>Add an icon to xAxis. |
@@ -181,7 +183,9 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | CanMultipleComponent() |public bool CanMultipleComponent(Type type)|
 | ClampInChart() |public void ClampInChart(ref Vector3 pos)|
 | ClampInGrid() |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
+| ClearComponentData() |public virtual void ClearComponentData()<br/>Clear the data of all components. |
 | ClearData() |public virtual void ClearData()<br/>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
+| ClearSerieData() |public virtual void ClearSerieData()<br/>Clear the data of all series. |
 | ClickLegendButton() |public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
 | CovertSerie() |public bool CovertSerie(Serie serie, Type type)|
 | CovertSerie&lt;T&gt;() |public bool CovertSerie&lt;T&gt;(Serie serie) where T : Serie|

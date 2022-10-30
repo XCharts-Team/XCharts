@@ -188,8 +188,30 @@ namespace XCharts.Runtime
         /// </summary>
         public virtual void ClearData()
         {
+            ClearSerieData();
+            ClearComponentData();
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Clear the data of all series.
+        /// |清空所有serie的数据。
+        /// </summary>
+        public virtual void ClearSerieData()
+        {
             foreach (var serie in m_Series)
                 serie.ClearData();
+            m_CheckAnimation = false;
+            RefreshChart();
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Clear the data of all components.
+        /// |清空所有组件的数据。
+        /// </summary>
+        public virtual void ClearComponentData()
+        {
             foreach (var component in m_Components)
                 component.ClearData();
             m_CheckAnimation = false;

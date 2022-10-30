@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.4.0](#v3.4.0)  
 [v3.3.0](#v3.3.0)  
 [v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
@@ -59,6 +60,9 @@
 
 ## master
 
+## v3.4.0
+
+* (2022.10.30) 增加`API`：`AddData()`、`ClearSerieData()`、`ClearComponentData()`
 * (2022.10.30) 增加`Axis`的`indicatorLabel`，移除`Tooltip`的`indicatorLabelStyle` (#226)
 * (2022.10.29) 增加`Serie`的`markColor`可设置标识颜色用于`Legend`和`Tooltip`的展示 (#229)
 * (2022.10.26) 增加`RadarCoord`的`startAngle`可设置`Radar`起始角度

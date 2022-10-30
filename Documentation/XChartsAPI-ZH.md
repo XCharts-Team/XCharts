@@ -159,11 +159,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | AddData() |public SerieData AddData(int serieIndex, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)|
 | AddData() |public SerieData AddData(int serieIndex, double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x,y）数据到指定系列中。 |
 | AddData() |public SerieData AddData(int serieIndex, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
+| AddData() |public SerieData AddData(int serieIndex, params double[] multidimensionalData)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
 | AddData() |public SerieData AddData(string serieName, DateTime time, double yValue, string dataName = null, string dataId = null)<br/>添加（time,y）数据到指定的系列中。 |
 | AddData() |public SerieData AddData(string serieName, double data, string dataName = null, string dataId = null)<br/>If serieName doesn't exist in legend,will be add to legend. |
 | AddData() |public SerieData AddData(string serieName, double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)|
 | AddData() |public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x,y）数据到指定系列中。 |
 | AddData() |public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
+| AddData() |public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
 | AddSerie&lt;T&gt;() |public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 | AddXAxisData() |public void AddXAxisData(string category, int xAxisIndex = 0)<br/>添加一个类目数据到指定的x轴。 |
 | AddXAxisIcon() |public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
@@ -181,7 +183,9 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | CanMultipleComponent() |public bool CanMultipleComponent(Type type)|
 | ClampInChart() |public void ClampInChart(ref Vector3 pos)|
 | ClampInGrid() |public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
+| ClearComponentData() |public virtual void ClearComponentData()<br/>清空所有组件的数据。 |
 | ClearData() |public virtual void ClearData()<br/>清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。 |
+| ClearSerieData() |public virtual void ClearSerieData()<br/>清空所有serie的数据。 |
 | ClickLegendButton() |public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
 | CovertSerie() |public bool CovertSerie(Serie serie, Type type)|
 | CovertSerie&lt;T&gt;() |public bool CovertSerie&lt;T&gt;(Serie serie) where T : Serie|

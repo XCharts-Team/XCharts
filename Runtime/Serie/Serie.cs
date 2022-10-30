@@ -1373,6 +1373,40 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// 添加任意维数据到系列中。
+        /// </summary>
+        /// <param name="values">任意维数据</param>
+        /// <returns></returns>
+        public SerieData AddData(params double[] values)
+        {
+            if (values == null || values.Length == 0) return null;
+            string dataName = null;
+            string dataId = null;
+            if (values.Length == 1)
+                return AddYData(values[0], dataName, dataId);
+            else if (values.Length == 2)
+                return AddXYData(values[0], values[1], dataName, dataId);
+            else
+            {
+                CheckMaxCache();
+                m_ShowDataDimension = values.Length;
+                var serieData = SerieDataPool.Get();
+                serieData.name = dataName;
+                serieData.index = m_Data.Count;
+                serieData.id = dataId;
+                for (int i = 0; i < values.Length; i++)
+                {
+                    serieData.data.Add(values[i]);
+                }
+                AddSerieData(serieData);
+                SetVerticesDirty();
+                CheckDataName(dataName);
+                labelDirty = true;
+                return serieData;
+            }
+        }
+
         public SerieData AddChildData(SerieData parent, double value, string name, string id)
         {
             var serieData = new SerieData();

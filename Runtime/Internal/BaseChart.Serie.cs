@@ -304,6 +304,46 @@ namespace XCharts.Runtime
             return null;
         }
 
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// </summary>
+        /// <param name="serieIndex">the index of serie</param>
+        /// <param name="multidimensionalData">the (x,y,z,...) data</param>
+        /// <returns></returns>
+        public SerieData AddData(int serieIndex, params double[] multidimensionalData)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                var serieData = serie.AddData(multidimensionalData);
+                RefreshPainter(serie.painter);
+                return serieData;
+            }
+            return null;
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Add an arbitray dimension data to serie,such as (x,y,z,...).
+        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// </summary>
+        /// <param name="serieName">the name of serie</param>
+        /// <param name="multidimensionalData">the (x,y,z,...) data</param>
+        /// <returns></returns>
+        public SerieData AddData(string serieName, params double[] multidimensionalData)
+        {
+            var serie = GetSerie(serieName);
+            if (serie != null)
+            {
+                var serieData = serie.AddData(multidimensionalData);
+                RefreshPainter(serie.painter);
+                return serieData;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Add a (x,y) data to serie.
         /// |添加（x,y）数据到指定系列中。

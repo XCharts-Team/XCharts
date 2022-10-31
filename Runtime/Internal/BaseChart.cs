@@ -300,6 +300,7 @@ namespace XCharts.Runtime
             base.SetAllComponentDirty();
             m_Theme.SetAllDirty();
             foreach (var com in m_Components) com.SetAllDirty();
+            foreach (var handler in m_SerieHandlers) handler.InitComponent();
             m_RefreshChart = true;
         }
 
@@ -691,7 +692,7 @@ namespace XCharts.Runtime
 
         public void OnBeforeSerialize()
         {
-#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+#if UNITY_EDITOR && UNITY_2019_3_OR_NEWER
             if (!UnityEditor.EditorUtility.IsDirty(this))
                 return;
             UnityEditor.EditorUtility.ClearDirty(this);

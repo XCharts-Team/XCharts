@@ -21,7 +21,11 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_FadeOutDelay");
                 PropertyField(prop, "m_DataChangeEnable");
                 PropertyField(prop, "m_DataChangeDuration");
-                PropertyField(prop, "m_ActualDuration");
+                PropertyField(prop, "m_UnscaledTime");
+                // using(new EditorGUI.DisabledGroupScope(true))
+                // {
+                //     PropertyField(prop, "m_ActualDuration");
+                // }
                 --EditorGUI.indentLevel;
             }
         }

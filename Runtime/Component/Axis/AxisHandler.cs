@@ -233,7 +233,9 @@ namespace XCharts
                     {
                         var each = GetTick(range);
                         tick = each;
-                        if (range / tick > 8)
+                        if (range / 4 % each == 0)
+                            tick = range / 4;
+                        else if (range / tick > 8)
                             tick = 2 * each;
                         else if (range / tick < 4)
                             tick = each / 2;
@@ -273,6 +275,7 @@ namespace XCharts
         private static double GetTick(double max)
         {
             if (max <= 1) return max / 5;
+            if (max > 1 && max < 10) return 1;
             var bigger = Math.Ceiling(Math.Abs(max));
             int n = 1;
             while (bigger / (Mathf.Pow(10, n)) > 10)
@@ -368,6 +371,9 @@ namespace XCharts
                 ((inside && axis.IsLeft()) || (!inside && axis.IsRight()) ?
                     TextAnchor.MiddleLeft :
                     TextAnchor.MiddleRight);
+            if (axis.IsCategory() && axis.boundaryGap)
+                splitNumber -= 1;
+            axis.context.aligment = defaultAlignment;
             for (int i = 0; i < splitNumber; i++)
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);

@@ -56,6 +56,7 @@ namespace XCharts.Runtime
         public double pointerValue;
         public Vector3 pointerLabelPosition;
         public double axisTooltipValue;
+        public TextAnchor aligment;
         public List<string> runtimeData { get { return m_RuntimeData; } }
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }

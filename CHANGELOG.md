@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.4.0](#v3.4.0)  
 [v3.3.0](#v3.3.0)  
 [v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
@@ -59,6 +60,37 @@
 
 ## master
 
+## v3.4.0
+
+### 版本要点
+
+* 增加`Axis`的`indicatorLabel`，可单独设置不同的指示文本样式
+* 增加`Serie`的`markColor`可设置标识颜色
+* 增加`RadarCoord`的`startAngle`可设置`Radar`起始角度
+* 优化`Axis`的数值间隔表现
+* 增加`DataZoom`对数值轴的支持
+* 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果
+
+### 日志详情
+
+* (2022.11.01) 发布`v3.4.0`版本
+* (2022.10.30) 增加`API`：`AddData()`、`ClearSerieData()`、`ClearComponentData()`
+* (2022.10.30) 增加`Axis`的`indicatorLabel`，移除`Tooltip`的`indicatorLabelStyle` (#226)
+* (2022.10.29) 增加`Serie`的`markColor`可设置标识颜色用于`Legend`和`Tooltip`的展示 (#229)
+* (2022.10.26) 增加`RadarCoord`的`startAngle`可设置`Radar`起始角度
+* (2022.10.21) 修复`Chart`在受`Layout`控制时`Label`显示不正常的问题 (#231)
+* (2022.10.21) 修复`Unity2019.2`上的兼容问题
+* (2022.10.18) 优化`Axis`的数值表现
+* (2022.10.15) 修复`Axis`的`Label`在`DataZoom`开启时可能显示不正常的问题 (#227)
+* (2022.10.14) 增加`DataZoom`对数值轴的支持
+* (2022.10.13) 修复`Pie`的环形饼图设置边框时效果异常的问题 (#225)
+* (2022.10.13) 修复`Download`的接口造成`iOS`平台打包失败的问题
+* (2022.10.12) 增加`Animation`的`UnscaledTime`支持设置动画是否受TimeScale的影响 (#223)
+* (2022.10.10) 优化`Documentation`文档格式
+* (2022.10.10) 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果
+* (2022.10.05) 修复`Serie`隐藏时`Tooltip`还显示信息的问题
+* (2022.09.30) 修复`Chart`在很小尺寸时出现`DivideByZeroException`异常的问题 (#230)
+
 ## v3.3.0
 
 ### 版本要点
@@ -72,6 +104,7 @@
 
 ### 日志详情
 
+* (2022.09.28) 发布`v3.3.0`版本
 * (2022.09.26) 优化`Axis`在类目轴时的默认分割段数
 * (2022.09.25) 修复`API`文档中部分接口没有导出的问题
 * (2022.09.24) 优化`FunnelChart`

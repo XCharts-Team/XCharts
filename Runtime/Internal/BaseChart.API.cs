@@ -188,8 +188,30 @@ namespace XCharts.Runtime
         /// </summary>
         public virtual void ClearData()
         {
+            ClearSerieData();
+            ClearComponentData();
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Clear the data of all series.
+        /// |清空所有serie的数据。
+        /// </summary>
+        public virtual void ClearSerieData()
+        {
             foreach (var serie in m_Series)
                 serie.ClearData();
+            m_CheckAnimation = false;
+            RefreshChart();
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// Clear the data of all components.
+        /// |清空所有组件的数据。
+        /// </summary>
+        public virtual void ClearComponentData()
+        {
             foreach (var component in m_Components)
                 component.ClearData();
             m_CheckAnimation = false;
@@ -566,6 +588,25 @@ namespace XCharts.Runtime
         {
             var background = GetChartComponent<Background>();
             return theme.GetBackgroundColor(background);
+        }
+
+        [Since("v3.4.0")]
+        /// <summary>
+        /// 获得Serie的标识颜色。
+        /// </summary>
+        /// <param name="serie"></param>
+        /// <param name="serieData"></param>
+        /// <returns></returns>
+        public Color32 GetMarkColor(Serie serie, SerieData serieData)
+        {
+            if (ChartHelper.IsClearColor(serie.markColor))
+            {
+                return GetItemColor(serie, serieData);
+            }
+            else
+            {
+                return serie.markColor;
+            }
         }
 
         public Color32 GetItemColor(Serie serie, SerieData serieData)

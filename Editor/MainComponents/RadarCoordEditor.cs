@@ -15,6 +15,7 @@ namespace XCharts.Editor
             PropertyTwoFiled("m_Center");
             PropertyField("m_Radius");
             PropertyField("m_SplitNumber");
+            PropertyField("m_StartAngle");
             PropertyField("m_CeilRate");
             PropertyField("m_IsAxisTooltip");
             PropertyField("m_OutRangeColor");

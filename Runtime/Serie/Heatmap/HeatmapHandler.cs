@@ -206,6 +206,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
@@ -242,7 +243,7 @@ namespace XCharts.Runtime
                 var isRectSymbol = symbol.type == SymbolType.Rect;
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
                 var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse,
-                    yAxis.context.minValue, yAxis.context.maxValue);
+                    yAxis.context.minValue, yAxis.context.maxValue, unscaledTime);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
                     zeroY + (j + 0.5f) * yWidth);

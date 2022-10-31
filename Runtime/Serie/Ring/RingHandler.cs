@@ -182,6 +182,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(serie.startAngle, serie.startAngle + 360);
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;
             var dataChanging = false;
             for (int j = 0; j < data.Count; j++)
@@ -189,7 +190,7 @@ namespace XCharts.Runtime
                 var serieData = data[j];
                 if (!serieData.show) continue;
                 if (serieData.IsDataChanged()) dataChanging = true;
-                var value = serieData.GetFirstData(dataChangeDuration);
+                var value = serieData.GetFirstData(unscaledTime, dataChangeDuration);
                 var max = serieData.GetLastData();
                 var degree = (float) (360 * value / max);
                 var startDegree = GetStartAngle(serie);

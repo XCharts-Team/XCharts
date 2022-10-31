@@ -61,6 +61,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_DataChangeEnable = true;
         [SerializeField] private float m_DataChangeDuration = 500;
         [SerializeField] private float m_ActualDuration;
+        [SerializeField][Since("v3.4.0")] private bool m_UnscaledTime;
         /// <summary>
         /// 自定义渐入动画延时函数。返回ms值。
         /// </summary>
@@ -132,6 +133,11 @@ namespace XCharts.Runtime
         /// |数据变更的动画时长（毫秒）。
         /// </summary>
         public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
+        /// <summary>
+        /// Animation updates independently of Time.timeScale.
+        /// |动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
+        /// </summary>
+        public bool unscaledTime { get { return m_UnscaledTime; } set { m_UnscaledTime = value; } }
         /// <summary>
         /// 渐入动画完成回调
         /// </summary>
@@ -464,7 +470,7 @@ namespace XCharts.Runtime
 
             m_ActualDuration = (int) ((Time.time - startTime) * 1000) - fadeInDelay;
             var duration = GetCurrAnimationDuration();
-            var delta = (float) (total / duration * Time.deltaTime);
+            var delta = (float) (total / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
             if (m_FadeOut)
             {
                 m_CurrDetailProgress -= delta;
@@ -522,7 +528,7 @@ namespace XCharts.Runtime
             else
             {
                 var duration = GetCurrAnimationDuration(dataIndex);
-                var delta = (destProgress - startProgress) / duration * Time.deltaTime;
+                var delta = (destProgress - startProgress) / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
                 currHig = currHig + (m_FadeOut ? -delta : delta);
                 if (m_FadeOut)
                 {
@@ -555,7 +561,7 @@ namespace XCharts.Runtime
                 return;
 
             var duration = GetCurrAnimationDuration();
-            var delta = dest / duration * Time.deltaTime;
+            var delta = dest / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
             if (m_FadeOut)
             {
                 m_CurrSymbolProgress -= delta;

@@ -39,7 +39,6 @@ namespace XCharts.Editor
                 PropertyField("m_IgnoreDataDefaultContent");
             });
             PropertyField("m_LineStyle");
-            PropertyField("m_IndicatorLabelStyle");
             PropertyField("m_TitleLabelStyle");
             PropertyListField("m_ContentLabelStyles");
             --EditorGUI.indentLevel;

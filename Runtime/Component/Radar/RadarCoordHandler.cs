@@ -124,7 +124,8 @@ namespace XCharts.Runtime
             int indicatorNum = radar.indicatorList.Count;
             Vector3 p1, p2, p3, p4;
             Vector3 p = radar.context.center;
-            float angle = 2 * Mathf.PI / indicatorNum;
+            var startAngle = radar.startAngle * Mathf.PI / 180;
+            var angle = 2 * Mathf.PI / indicatorNum;
             var lineColor = radar.axisLine.GetColor(chart.theme.axis.splitLineColor);
             var lineWidth = radar.axisLine.GetWidth(chart.theme.axis.lineWidth);
             var lineType = radar.axisLine.GetType(chart.theme.axis.lineType);
@@ -135,11 +136,11 @@ namespace XCharts.Runtime
             {
                 var color = radar.splitArea.GetColor(i, chart.theme.axis);
                 outsideRadius = insideRadius + block;
-                p1 = new Vector3(p.x + insideRadius * Mathf.Sin(0), p.y + insideRadius * Mathf.Cos(0));
-                p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(0), p.y + outsideRadius * Mathf.Cos(0));
+                p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle), p.y + insideRadius * Mathf.Cos(startAngle));
+                p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle), p.y + outsideRadius * Mathf.Cos(startAngle));
                 for (int j = 0; j <= indicatorNum; j++)
                 {
-                    float currAngle = j * angle;
+                    float currAngle = startAngle + j * angle;
                     p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                         p.y + outsideRadius * Mathf.Cos(currAngle));
                     p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
@@ -161,7 +162,7 @@ namespace XCharts.Runtime
             {
                 for (int j = 0; j <= indicatorNum; j++)
                 {
-                    float currAngle = j * angle;
+                    float currAngle = startAngle + j * angle;
                     p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
                         p.y + outsideRadius * Mathf.Cos(currAngle));
                     ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, p, p3, lineColor);

@@ -440,11 +440,11 @@ namespace XCharts.Runtime
         }
 
         internal static ChartLabel AddTooltipIndicatorLabel(Tooltip tooltip, string name, Transform parent,
-            ThemeStyle theme, TextAnchor alignment)
+            ThemeStyle theme, TextAnchor alignment, LabelStyle labelStyle)
         {
-            var label = ChartHelper.AddChartLabel(name, parent, tooltip.indicatorLabelStyle, theme.tooltip,
+            var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.tooltip,
                 "", Color.clear, alignment);
-            label.SetActive(tooltip.show && tooltip.indicatorLabelStyle.show);
+            label.SetActive(tooltip.show && labelStyle.show);
             return label;
         }
 
@@ -635,12 +635,20 @@ namespace XCharts.Runtime
                     n++;
                 }
                 double mm = bigger;
+                var pown = Mathf.Pow(10, n);
+                var powmax = Mathf.Pow(10, n + 1);
+                var aliquot = mm % pown == 0;
                 if (mm > 10 && n < 38)
                 {
-                    mm = bigger - bigger % (Mathf.Pow(10, n));
-                    mm += max > 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
+                    mm = bigger - bigger % pown;
+                    if (!aliquot)
+                        mm += max > 0 ? pown : -pown;
                 }
-                var mmm = mm - Mathf.Pow(10, n) / 2;
+                var mmm = mm;
+                if (max > 100 && !aliquot && (max / mm < 0.8f))
+                    mmm -= Mathf.Pow(10, n) / 2;
+                if (mmm >= (powmax - pown) && mmm < powmax)
+                    mmm = powmax;
                 if (max < 0) return -Math.Ceiling(mmm > -max ? mmm : mm);
                 else return Math.Ceiling(mmm > max ? mmm : mm);
             }
@@ -898,8 +906,10 @@ namespace XCharts.Runtime
             else return valueOrRate;
         }
 
+#if UNITY_WEBGL
         [DllImport("__Internal")]
         private static extern void Download(string base64str, string fileName);
+#endif
 
         public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")
         {

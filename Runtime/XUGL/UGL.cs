@@ -1695,10 +1695,14 @@ namespace XUGL
                 if (isGradient)
                 {
                     var tcolor = Color32.Lerp(color, toColor, i * 1.0f / segments);
+                    if (i == 0 && (needSpace || needBorder))
+                        UGL.DrawTriangle(vh, p1, p2, p3, color, tcolor, tcolor);
                     AddVertToVertexHelper(vh, p3, p4, tcolor, tcolor, i > 0);
                 }
                 else
                 {
+                    if (i == 0 && (needSpace || needBorder))
+                        UGL.DrawTriangle(vh, p1, p2, p3, color);
                     AddVertToVertexHelper(vh, p3, p4, color, color, i > 0);
                 }
                 p1 = p4;

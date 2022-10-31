@@ -14,7 +14,7 @@ namespace XCharts.Runtime
             {
                 if (axis is XAxis)
                 {
-                    SeriesHelper.GetXMinMaxValue(this, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                    SeriesHelper.GetXMinMaxValue(this, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, false, false);
                 }
                 else
                 {

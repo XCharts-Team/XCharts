@@ -30,7 +30,7 @@ namespace XCharts.Runtime
     [SerieDataExtraField()]
     public class Heatmap : Serie, INeedSerieContainer
     {
-        [SerializeField][Since("3.3.0")] private HeatmapType m_HeatmapType = HeatmapType.Data;
+        [SerializeField][Since("v3.3.0")] private HeatmapType m_HeatmapType = HeatmapType.Data;
 
         /// <summary>
         /// The mapping type of heatmap.

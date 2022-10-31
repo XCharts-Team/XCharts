@@ -230,6 +230,7 @@ namespace XCharts.Runtime
         [SerializeField] private string m_SerieName;
         [SerializeField][Since("v3.2.0")] private SerieState m_State = SerieState.Normal;
         [SerializeField][Since("v3.2.0")] private SerieColorBy m_ColorBy = SerieColorBy.Default;
+        [SerializeField][Since("v3.4.0")] private Color32 m_MarkColor;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_XAxisIndex = 0;
         [SerializeField] private int m_YAxisIndex = 0;
@@ -247,6 +248,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_SampleAverage = 0;
 
         [SerializeField] private LineType m_LineType = LineType.Normal;
+        [SerializeField][Since("v3.4.0")] private bool m_SmoothLimit = true;
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0;
@@ -373,6 +375,15 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ColorBy, value)) { SetAllDirty(); } }
         }
         /// <summary>
+        /// Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
+        /// |Serie的标识颜色。仅用于Legend和Tooltip的展示，不影响绘制颜色，默认为clear。
+        /// </summary>
+        public Color32 markColor
+        {
+            get { return m_MarkColor; }
+            set { if (PropertyUtil.SetStruct(ref m_MarkColor, value)) { SetAllDirty(); } }
+        }
+        /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
         /// |数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
         /// </summary>
@@ -490,6 +501,16 @@ namespace XCharts.Runtime
         {
             get { return m_LineType; }
             set { if (PropertyUtil.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to restrict the curve. When true, the curve between two continuous data of the same value 
+        /// is restricted to not exceed the data point, and is flat to the data point.
+        /// |是否限制曲线。当为true时，两个连续相同数值的数据间的曲线会限制为不超出数据点，和数据点是平直的。
+        /// </summary>
+        public bool smoothLimit
+        {
+            get { return m_SmoothLimit; }
+            set { if (PropertyUtil.SetStruct(ref m_SmoothLimit, value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// the min pixel dist of sample.
@@ -1125,10 +1146,11 @@ namespace XCharts.Runtime
                 else
                 {
                     var duration = animation.GetUpdateAnimationDuration();
+                    var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
                         if (sdata.show && !IsIgnoreValue(sdata.data[1]))
-                            total += sdata.GetCurrData(1, duration);
+                            total += sdata.GetCurrData(1, duration, unscaledTime);
                     }
                 }
                 return total;
@@ -1351,6 +1373,40 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// 添加任意维数据到系列中。
+        /// </summary>
+        /// <param name="values">任意维数据</param>
+        /// <returns></returns>
+        public SerieData AddData(params double[] values)
+        {
+            if (values == null || values.Length == 0) return null;
+            string dataName = null;
+            string dataId = null;
+            if (values.Length == 1)
+                return AddYData(values[0], dataName, dataId);
+            else if (values.Length == 2)
+                return AddXYData(values[0], values[1], dataName, dataId);
+            else
+            {
+                CheckMaxCache();
+                m_ShowDataDimension = values.Length;
+                var serieData = SerieDataPool.Get();
+                serieData.name = dataName;
+                serieData.index = m_Data.Count;
+                serieData.id = dataId;
+                for (int i = 0; i < values.Length; i++)
+                {
+                    serieData.data.Add(values[i]);
+                }
+                AddSerieData(serieData);
+                SetVerticesDirty();
+                CheckDataName(dataName);
+                labelDirty = true;
+                return serieData;
+            }
+        }
+
         public SerieData AddChildData(SerieData parent, double value, string name, string id)
         {
             var serieData = new SerieData();
@@ -1448,7 +1504,7 @@ namespace XCharts.Runtime
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration(), animation.unscaledTime);
                 if (showAsPositiveNumber)
                     value = Math.Abs(value);
                 return value;
@@ -1611,7 +1667,8 @@ namespace XCharts.Runtime
             {
                 var animationOpen = animation.enable;
                 var animationDuration = animation.GetUpdateAnimationDuration();
-                var flag = m_Data[index].UpdateData(dimension, value, animationOpen, animationDuration);
+                var unscaledTime = animation.unscaledTime;
+                var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
                 {
                     SetVerticesDirty();
@@ -1637,8 +1694,9 @@ namespace XCharts.Runtime
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
                 var animationDuration = animation.GetUpdateAnimationDuration();
+                var unscaledTime = animation.unscaledTime;
                 for (int i = 0; i < values.Count; i++)
-                    serieData.UpdateData(i, values[i], animationOpen, animationDuration);
+                    serieData.UpdateData(i, values[i], animationOpen, unscaledTime, animationDuration);
                 SetVerticesDirty();
                 dataDirty = true;
                 return true;

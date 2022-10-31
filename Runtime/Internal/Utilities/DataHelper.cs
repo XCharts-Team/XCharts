@@ -23,7 +23,7 @@ namespace XCharts.Runtime
 
         public static double SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
             int minCount, int maxCount, double totalAverage, int index, float dataChangeDuration,
-            ref bool dataChanging, Axis axis)
+            ref bool dataChanging, Axis axis, bool unscaledTime)
         {
             var inverse = axis.inverse;
             var minValue = axis.context.minValue;
@@ -33,7 +33,7 @@ namespace XCharts.Runtime
                 if (showData[index].IsDataChanged())
                     dataChanging = true;
 
-                return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
             }
             switch (sampleType)
             {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
                     for (int i = index; i > index - rate; i--)
                     {
                         count++;
-                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
                         if (showData[i].IsDataChanged())
                             dataChanging = true;
                     }
@@ -57,7 +57,7 @@ namespace XCharts.Runtime
                     double max = double.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
                         if (value > max)
                             max = value;
 
@@ -70,7 +70,7 @@ namespace XCharts.Runtime
                     double min = double.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
                         if (value < min)
                             min = value;
 
@@ -85,7 +85,7 @@ namespace XCharts.Runtime
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
                         total += value;
                         if (value < min)
                             min = value;
@@ -104,7 +104,7 @@ namespace XCharts.Runtime
             if (showData[index].IsDataChanged())
                 dataChanging = true;
 
-            return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue);
+            return showData[index].GetCurrData(1, dataChangeDuration, inverse, minValue, maxValue, unscaledTime);
         }
     }
 }

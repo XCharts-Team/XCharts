@@ -18,6 +18,10 @@ namespace XCharts.Editor
                 PropertyField("m_YAxisIndex");
             }
             PropertyField("m_LineType");
+            if (serie.lineType == LineType.Smooth)
+            {
+                PropertyField("m_SmoothLimit");
+            }
             //PropertyField("m_Clip");
             PropertyFiledMore(() =>
             {
@@ -33,6 +37,7 @@ namespace XCharts.Editor
                 PropertyField("m_ShowAsPositiveNumber");
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
+                PropertyField("m_MarkColor");
             });
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");

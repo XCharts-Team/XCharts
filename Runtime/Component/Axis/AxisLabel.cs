@@ -143,7 +143,7 @@ namespace XCharts.Runtime
             m_TextLimit.SetRelatedText(txt, labelWidth);
         }
 
-        public string GetFormatterContent(int labelIndex, string category)
+        public override string GetFormatterContent(int labelIndex, string category)
         {
             if (string.IsNullOrEmpty(category))
                 return GetFormatterFunctionContent(labelIndex, category, category);
@@ -160,71 +160,13 @@ namespace XCharts.Runtime
             }
         }
 
-        public string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
+        public override string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             if (showAsPositiveNumber && value < 0)
             {
                 value = Math.Abs(value);
             }
-            if (string.IsNullOrEmpty(m_Formatter))
-            {
-                if (isLog)
-                {
-                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
-                }
-                if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
-                {
-                    int minAcc = ChartHelper.GetFloatAccuracy(minValue);
-                    int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
-                    int curAcc = ChartHelper.GetFloatAccuracy(value);
-                    int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
-                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.FloatToStr(value, numericFormatter, acc));
-                }
-                return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
-            }
-            else
-            {
-                var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
-                return GetFormatterFunctionContent(labelIndex, value, content);
-            }
-        }
-
-        public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
-        {
-            var timestamp = (int) value;
-            var dateTime = DateTimeUtil.GetDateTime(timestamp);
-            var dateString = string.Empty;
-            if (string.IsNullOrEmpty(numericFormatter))
-            {
-                dateString = DateTimeUtil.GetDateTimeFormatString(dateTime, maxValue - minValue);
-            }
-            else
-            {
-                dateString = dateTime.ToString(numericFormatter);
-            }
-            if (!string.IsNullOrEmpty(m_Formatter))
-            {
-                var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString);
-                return GetFormatterFunctionContent(labelIndex, value, m_TextLimit.GetLimitContent(content));
-            }
-            else
-            {
-                return GetFormatterFunctionContent(labelIndex, value, m_TextLimit.GetLimitContent(dateString));
-            }
-        }
-
-        private string GetFormatterFunctionContent(int labelIndex, string category, string currentContent)
-        {
-            return m_FormatterFunction == null ? currentContent :
-                m_FormatterFunction(labelIndex, labelIndex, category, currentContent);
-        }
-
-        private string GetFormatterFunctionContent(int labelIndex, double value, string currentContent)
-        {
-            return m_FormatterFunction == null ? currentContent :
-                m_FormatterFunction(labelIndex, labelIndex, null, currentContent);
+            return base.GetFormatterContent(labelIndex, value, minValue, maxValue, isLog);
         }
     }
 }

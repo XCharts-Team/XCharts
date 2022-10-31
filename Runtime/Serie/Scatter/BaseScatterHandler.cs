@@ -37,7 +37,7 @@ namespace XCharts.Runtime
             param.dimension = 1;
             param.dataCount = serie.dataCount;
             param.serieData = serieData;
-            param.color = chart.GetItemColor(serie, serieData);
+            param.color = chart.GetMarkColor(serie, serieData);
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
@@ -135,6 +135,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
             var dataList = serie.GetDataList(xDataZoom);
@@ -157,8 +158,8 @@ namespace XCharts.Runtime
 
                 SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
-                double xValue = serieData.GetCurrData(0, dataChangeDuration, xAxis.inverse);
-                double yValue = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                double xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, xAxis.inverse);
+                double yValue = serieData.GetCurrData(1, dataChangeDuration, unscaledTime, yAxis.inverse);
 
                 if (serieData.IsDataChanged())
                     dataChanging = true;
@@ -238,6 +239,7 @@ namespace XCharts.Runtime
 
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var dataList = serie.GetDataList(xDataZoom);
             var isEffectScatter = serie is EffectScatter;
@@ -263,7 +265,7 @@ namespace XCharts.Runtime
                     dataChanging = true;
 
                 var pos = Vector3.zero;
-                var xValue = serieData.GetCurrData(0, dataChangeDuration, axis.inverse);
+                var xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, axis.inverse);
 
                 if (axis.orient == Orient.Horizonal)
                 {

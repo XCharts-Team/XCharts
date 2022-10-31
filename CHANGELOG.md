@@ -62,6 +62,18 @@
 
 ## v3.4.0
 
+### 版本要点
+
+* 增加`Axis`的`indicatorLabel`，可单独设置不同的指示文本样式
+* 增加`Serie`的`markColor`可设置标识颜色
+* 增加`RadarCoord`的`startAngle`可设置`Radar`起始角度
+* 优化`Axis`的数值间隔表现
+* 增加`DataZoom`对数值轴的支持
+* 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果
+
+### 日志详情
+
+* (2022.11.01) 发布`v3.4.0`版本
 * (2022.10.30) 增加`API`：`AddData()`、`ClearSerieData()`、`ClearComponentData()`
 * (2022.10.30) 增加`Axis`的`indicatorLabel`，移除`Tooltip`的`indicatorLabelStyle` (#226)
 * (2022.10.29) 增加`Serie`的`markColor`可设置标识颜色用于`Legend`和`Tooltip`的展示 (#229)

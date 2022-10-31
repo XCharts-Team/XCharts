@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.4.0](#v3.4.0)  
 [v3.3.0](#v3.3.0)  
 [v3.2.0](#v3.2.0)  
 [v3.1.0](#v3.1.0)  
@@ -59,9 +60,40 @@
 
 ## master
 
+## v3.4.0
+
+### Highlights
+
+* Added `indicatorLabel` of `Axis` to set different indicator text styles separately
+* Add `markColor` of `Serie` to set the logo color
+* Add `startAngle` of `RadarCoord` to set the starting Angle of `Radar`
+* Optimize the numerical interval representation of `Axis`
+* Added `DataZoom` support for numeric axes
+* Add `SmoothLimit` of `Line` to control different effects of smoothing curves
+
+### Details
+
+* (2022.11.01) Release `v3.4.0` version
+* (2022.10.30) adds API: `AddData()`, `ClearSerieData()`, `ClearComponentData()`
+* (2022.10.30) Added `Axis`'s `indicatorLabel`, removed `Tooltip`'s `indicatorLabelStyle` (#226)
+* (2022.10.29) Add `Serie` `markColor` to set logo colors for display of `Legend` and `Tooltip` (#229)
+* (2022.10.26) increase the startAngle of RadarCoord to set the startAngle of Radar
+* (2022.10.21) Fixed `Chart` not displaying `Label` properly when controlled by `Layout` (#231)
+* (2022.10.21) fixed compatibility issues on Unity2019.2
+* (2022.10.18) Optimize the numerical performance of `Axis`
+* (2022.10.15) Fixed an issue where `Axis` `Label` might not appear properly when `DataZoom` is enabled (#227)
+* (2022.10.14) Added `DataZoom` support for numeric axes
+* (2022.10.13) Fixed the `Pie` circle with abnormal border Settings (#225)
+* (2022.10.13) Fixed the `Download` interface causing the `iOS` platform packaging failure
+* (2022.10.12) Added support for `Animation` `UnscaledTime` to set whether the animation is affected by TimeScale (#223)
+* (2022.10.10) Optimizes the `Documentation` format
+* (2022.10.10) Add `Line` `SmoothLimit` to control different effects of smoothing curves
+* (2022.10.05) Fixed an issue where `Serie` hid information when `Tooltip` was also displayed
+* (2022.09.30) Fixed `DivideByZeroException` when Chart `is very small (#230)
+
 ## v3.3.0
 
-### Main points
+### Highlights
 
 * Optimized chart details to support more functions
 * Add lots of Demo examples
@@ -70,7 +102,7 @@
 * Added a HeatmapChart type
 * Improved Tooltip display
 
-### Log details
+### Details
 
 * (2022.09.26) Optimizes the default number of segments for `Axis` at the category Axis
 * (2022.09.25) Fixed the problem that some interfaces in the `API` document were not exported
@@ -109,7 +141,7 @@
 
 ## v3.2.0
 
-### Main points
+### Highlights
 
 * `Serie` supports highlighting, EmphasisStyle, EmphasisStyle, BlurStyle, and SelectStyle
 * `Axis` supports sub-scale and sub-partition of coordinate axes:`MinorTick` and `MinorSplitLine`
@@ -119,7 +151,7 @@
 * `DataZoom` supports timeline
 * Other optimizations and issue fixes
 
-### Log details
+### Details
 
 * (2022.08.16) Release `v3.2.0` version
 * (2022.08.15) optimized `Smooth` Bezier curve algorithm
@@ -274,7 +306,7 @@
 
 ## v2.4.0
 
-### Main points
+### Highlights
 
 * LineChart support the line of ignore data is disconnected or connected
 * LineChart support animation at a constant speed
@@ -299,7 +331,7 @@
 
 ## v2.3.0
 
-### Main points
+### Highlights
 
 * Data store upgraded from `float` to `double`
 * Added `MarkLine`

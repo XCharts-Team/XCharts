@@ -1,45 +1,45 @@
 <p align="center">
   <a href="">
-    <img src="" alt="" width="" height="">
+    <img src="" alt="" width="" height=""></img>
   </a>
 </p>
-<h2 align="center">XCharts</h3>
+<h2 align="center">XCharts</h2>
 <p align="center">
   A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br>
+  <br/>
   Unity数据可视化图表插件。
-  <br>
+  <br/>
   <a href="Documentation/README.md">English README</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts">
+    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts"></img>
   </a>
   <a href="https://github.com/XCharts-Team/XCharts/releases">
-    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases">
+    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/Unity-5.6+-green">
+    <img src="https://img.shields.io/badge/Unity-5.6+-green"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
+    <img src="https://img.shields.io/badge/TextMeshPro-YES-green"></img>
   </a>
 </p>
 <p align="center">
   <a href="">
-    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
+    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social"></img>
   </a>
 </p>
 
@@ -67,6 +67,7 @@
 - 支持PC端和手机端上的数据筛选、视图缩放、细节展示等交互操作。
 - 支持万级大数据量绘制，支持采样绘制。
 - 支持`TexMeshPro`。
+- 支持所有`5.6`以上的`Unity`版本。
 
 ## 截图
 
@@ -113,9 +114,9 @@ XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https:/
 
 1. 导入`XCharts`的`unitypackage`或者源码到项目。
 2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图。
-3. 在`Inspector`视图可以调整各个组件的参数，并在`Game`视图看到实时效果。
+3. 在`Inspector`视图可以调整各个组件的参数，`Game`视图可看到实时效果。
 
-- 更多教程请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+- 更多使用细节，请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
 - 首次使用，建议先认真看一遍教程。
 
 ## 分支
@@ -133,14 +134,14 @@ XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https:/
    答：`XCharts`使用`MIT`协议，可以免费使用。也可以订阅`VIP`享受更多增值服务。
 
 2. `XCharts`支持代码动态添加和修改数据吗？支持从`Excel`或数据库中获取数据吗？  
-   答：`XCharts`提供了各种数据操作的接口，支持代码动态添加和修改数据，但数据需要自己解析或获取，再调用`XCharts`的接口添加到`XCharts`。
+   答：`XCharts`提供了各种数据操作的接口，支持代码动态修改配置，添加和修改数据，但数据来源需要自己解析或获取，再调用`XCharts`的接口添加到`XCharts`。
 
 3. 这个插件除了用在`Unity`，还能用在其他平台（如`Winform`或`WPF`）吗？  
    答：目前只支持在`Unity`平台使用。理论上任何支持`UGUI`的`Unity`版本都能运行`XCharts`。
 
 4. 锯齿怎么解决？支持多大量级的数据？  
-   答：`XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考`问答16`和`问答27`。  
-   由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`大概支持不到`2万`的数据量，当然开启采样可以支持更多数据的绘制，但同时也会更消耗CPU。
+   答：`XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考[问答16](Documentation/XChartsFAQ-ZH.md)和[问答27](Documentation/XChartsFAQ-ZH.md)。  
+   由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`支持约`2万`的数据量，当然开启采样可以支持更多数据的绘制，但同时也会更消耗CPU。
 
 ## Licenses
 

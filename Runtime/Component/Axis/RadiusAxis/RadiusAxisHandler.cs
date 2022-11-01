@@ -26,6 +26,8 @@ namespace XCharts.Runtime
 
         protected override void UpdatePointerValue(Axis axis)
         {
+            if (axis == null)
+                return;
             var polar = chart.GetChartComponent<PolarCoord>(axis.polarIndex);
             if (polar == null)
                 return;
@@ -47,6 +49,7 @@ namespace XCharts.Runtime
 
         private void UpdateAxisMinMaxValue(RadiusAxis axis, bool updateChart = true)
         {
+            if (axis == null) return;
             if (axis.IsCategory() || !axis.show) return;
             double tempMinValue = 0;
             double tempMaxValue = 0;
@@ -70,6 +73,8 @@ namespace XCharts.Runtime
 
         internal void UpdateAxisLabelText(RadiusAxis axis)
         {
+            if (axis == null)
+                return;
             var polar = chart.GetChartComponent<PolarCoord>(axis.polarIndex);
             if (axis.context.labelObjectList.Count <= 0)
                 InitRadiusAxis(axis);
@@ -144,6 +149,9 @@ namespace XCharts.Runtime
 
         private void DrawRadiusAxis(VertexHelper vh, RadiusAxis radiusAxis)
         {
+            if (radiusAxis == null)
+                return;
+
             var polar = chart.GetChartComponent<PolarCoord>(radiusAxis.polarIndex);
             if (polar == null)
                 return;

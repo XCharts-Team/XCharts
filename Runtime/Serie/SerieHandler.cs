@@ -579,7 +579,7 @@ namespace XCharts.Runtime
             param.dataCount = serie.dataCount;
             param.value = serieData.GetData(param.dimension);
             param.ignore = ignore;
-            param.total = SerieHelper.GetMaxData(serie, dimension);
+            param.total = serie.multiDimensionLabel? serieData.GetTotalData() : serie.GetDataTotal(defaultDimension);
             param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = itemFormatter;

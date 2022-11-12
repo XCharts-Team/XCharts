@@ -59,7 +59,7 @@ namespace XCharts.Runtime
             {
                 var item = component.items[i];
                 var markStyle = component.GetMarkStyle(i);
-                if (!markStyle.show) continue;
+                if (markStyle == null || !markStyle.show) continue;
                 var color = ChartHelper.IsClearColor(markStyle.lineStyle.color) ?
                     chart.theme.axis.splitLineColor :
                     markStyle.lineStyle.color;

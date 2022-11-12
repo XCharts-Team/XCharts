@@ -105,7 +105,7 @@ namespace XCharts.Runtime
                     dataZoom.context.isCoordinateDrag = true;
                 }
             }
-            if (dataZoom.supportSelect)
+            if (dataZoom.supportMarquee)
             {
                 dataZoom.context.isMarqueeDrag = true;
                 dataZoom.context.marqueeStartPos = pos;
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
             var grid = chart.GetGridOfDataZoom(dataZoom);
-            if (dataZoom.supportSelect)
+            if (dataZoom.supportMarquee)
             {
                 Vector2 pos;
                 if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
@@ -199,7 +199,7 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
 
-            if (dataZoom.supportSelect)
+            if (dataZoom.supportMarquee)
             {
                 dataZoom.context.isMarqueeDrag = false;
                 if (dataZoom.marqueeStyle.apply)
@@ -676,7 +676,7 @@ namespace XCharts.Runtime
 
         private void DrawMarquee(VertexHelper vh, DataZoom dataZoom)
         {
-            if (!dataZoom.enable || !dataZoom.supportSelect)
+            if (!dataZoom.enable || !dataZoom.supportMarquee)
                 return;
             var areaColor = dataZoom.marqueeStyle.areaStyle.GetColor(chart.theme.dataZoom.dataAreaColor);
             UGL.DrawRectangle(vh, dataZoom.context.marqueeRect, areaColor);

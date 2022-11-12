@@ -65,7 +65,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_SupportInsideScroll = true;
         [SerializeField] private bool m_SupportInsideDrag = true;
         [SerializeField] private bool m_SupportSlider;
-        [SerializeField] private bool m_SupportSelect;
+        [SerializeField] private bool m_SupportMarquee;
         [SerializeField] private bool m_ShowDataShadow;
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
@@ -169,12 +169,13 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportSlider, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持框选。提供一个选框进行数据区域缩放。
+        /// Supported Box Selected. Provides a marquee for scaling the data area.
+        /// |是否支持框选。提供一个选框进行数据区域缩放。
         /// </summary>
-        public bool supportSelect
+        public bool supportMarquee
         {
-            get { return m_SupportSelect; }
-            set { if (PropertyUtil.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }
+            get { return m_SupportMarquee; }
+            set { if (PropertyUtil.SetStruct(ref m_SupportMarquee, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
@@ -534,7 +535,7 @@ namespace XCharts.Runtime
 
         public bool IsInMarqueeArea(Vector2 pos)
         {
-            if (!supportSelect) return false;
+            if (!supportMarquee) return false;
             return context.marqueeRect.Contains(pos);
         }
 

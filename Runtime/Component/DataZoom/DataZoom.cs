@@ -90,6 +90,7 @@ namespace XCharts.Runtime
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
+        [SerializeField][Since("v3.5.0")] private MarqueeStyle m_MarqueeStyle = new MarqueeStyle();
 
         public DataZoomContext context = new DataZoomContext();
 
@@ -141,7 +142,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持坐标系内滚动
+        /// Whether inside scrolling is supported.
+        /// |是否支持坐标系内滚动
         /// </summary>
         public bool supportInsideScroll
         {
@@ -149,7 +151,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportInsideScroll, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持坐标系内拖拽
+        /// Whether insde drag is supported.
+        /// |是否支持坐标系内拖拽
         /// </summary>
         public bool supportInsideDrag
         {
@@ -363,6 +366,14 @@ namespace XCharts.Runtime
             get { return m_AreaStyle; }
             set { if (PropertyUtil.SetClass(ref m_AreaStyle, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// 选取框样式。
+        /// </summary>
+        public MarqueeStyle marqueeStyle
+        {
+            get { return m_MarqueeStyle; }
+            set { if (PropertyUtil.SetClass(ref m_MarqueeStyle, value)) SetAllDirty(); }
+        }
 
         class AxisIndexValueInfo
         {
@@ -414,6 +425,7 @@ namespace XCharts.Runtime
                 show = true,
                 opacity = 0.3f
             };
+            m_MarqueeStyle = new MarqueeStyle();
         }
 
         /// <summary>
@@ -513,6 +525,17 @@ namespace XCharts.Runtime
                 default:
                     return false;
             }
+        }
+
+        public bool IsInMarqueeArea(SerieData serieData)
+        {
+            return IsInMarqueeArea(serieData.context.position);
+        }
+
+        public bool IsInMarqueeArea(Vector2 pos)
+        {
+            if (!supportSelect) return false;
+            return context.marqueeRect.Contains(pos);
         }
 
         public bool IsContainsAxis(Axis axis)

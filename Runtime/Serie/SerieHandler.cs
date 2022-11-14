@@ -593,5 +593,24 @@ namespace XCharts.Runtime
 
             paramList.Add(param);
         }
+
+        public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)
+        {
+            if (labelLine.startSymbol != null && labelLine.startSymbol.show)
+            {
+                DrawSymbol(vh, labelLine.startSymbol, startPos, defaultColor);
+            }
+            if (labelLine.endSymbol != null && labelLine.endSymbol.show)
+            {
+                DrawSymbol(vh, labelLine.endSymbol, endPos, defaultColor);
+            }
+        }
+
+        private void DrawSymbol(VertexHelper vh, SymbolStyle symbol, Vector3 pos, Color32 defaultColor)
+        {
+            var color = symbol.GetColor(defaultColor);
+            chart.DrawSymbol(vh, symbol.type, symbol.size, 1, pos,
+                color, color, ColorUtil.clearColor32, color, symbol.gap, null);
+        }
     }
 }

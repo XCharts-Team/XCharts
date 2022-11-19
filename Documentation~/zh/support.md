@@ -79,4 +79,4 @@ slug: /support
 如果这个项目对您有帮助，请右上方点 `Star` 予以支持！也欢迎任意金额的捐助，非常您的支持！
 
 ![alipay-qrcode](img/support_alipay.png)
-![support_wechat.png-qrcode](img/support_wechat.png.png)
+![wechat-qrcode](img/support_wechat.png)

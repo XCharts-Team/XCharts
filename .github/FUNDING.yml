@@ -10,4 +10,4 @@ liberapay: # Replace with a single Liberapay username
 issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
 lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
-custom: ['https://www.paypal.me/monitor1394','https://github.com/XCharts-Team/XCharts/blob/master/Documentation/res/alipay.png','https://github.com/XCharts-Team/XCharts/blob/master/Documentation/res/wechat.png']
+custom: ['https://www.paypal.me/monitor1394','https://github.com/XCharts-Team/XCharts/blob/master/Documentation~/img/support_alipay.png','https://github.com/XCharts-Team/XCharts/blob/master/Documentation~/img/support_wechat.png']

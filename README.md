@@ -9,7 +9,7 @@
   <br/>
   Unity数据可视化图表插件。
   <br/>
-  <a href="Documentation/README.md">English README</a>
+  <a href="README-en.md">English README</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -45,12 +45,12 @@
 
 一款基于`UGUI`的功能强大、简单易用的数据可视化图表插件。支持`折线图`、`柱状图`、`饼图`、`雷达图`、`散点图`、`热力图`、`环形图`、`K线图`、`极坐标`、`平行坐标`等十多种内置图表，以及`3D饼图`、`3D柱图`、`3D金字塔`、`漏斗图`、`仪表盘`、`水位图`、`象形柱图`、`甘特图`、`矩形树图`等扩展图表。
 
-[XCharts3.0 教程](Documentation/XChartsTutorial01-ZH.md)  
-[XCharts3.0 API](Documentation/XChartsAPI-ZH.md)  
-[XCharts3.0 问答](Documentation/XChartsFAQ-ZH.md)  
-[XCharts3.0 配置项手册](Documentation/XChartsConfiguration-ZH.md)  
-[XCharts3.0 更新日志](CHANGELOG.md)  
-[XCharts3.0 订阅服务](Documentation/SUPPORT.md)  
+[XCharts3.0 教程](Documentation~/zh/tutorial01.md)  
+[XCharts3.0 API](Documentation~/zh/api.md)  
+[XCharts3.0 问答](Documentation~/zh/faq.md)  
+[XCharts3.0 配置项手册](Documentation~/zh/configuration.md)  
+[XCharts3.0 更新日志](Documentation~/zh/changelog.md)  
+[XCharts3.0 订阅服务](Documentation~/zh/support.md)  
 
 ## 特性
 
@@ -71,9 +71,9 @@
 
 ## 截图
 
-![内置图表](https://github.com/XCharts-Team/XCharts-Demo/blob/master/buildinchart.png)
+![内置图表](Documentation~/zh/img/readme_buildinchart.png)
 
-![扩展图表](https://github.com/XCharts-Team/XCharts-Demo/blob/master/extendchart.png)
+![扩展图表](Documentation~/zh/img/readme_extendchart.png)
 
 XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)，也可以在浏览器查看`WebGL`下的运行效果 [在线Demo](https://xcharts-team.github.io/demo/) 。
 
@@ -101,7 +101,7 @@ XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https:/
 - 更高效的二次开发。
 - 更丰富的Demo示例。
 
-![XCharts 3.0和2.0的对比](Documentation/res/xcharts3.0.png)
+![XCharts 3.0和2.0的对比](Documentation~/zh/img/readme_xcharts3.png)
 
 ## 注意
 
@@ -116,7 +116,7 @@ XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https:/
 2. 在`Hierarchy`视图下右键选择`XCharts->LineChart`，即可创建一个默认的折线图。
 3. 在`Inspector`视图可以调整各个组件的参数，`Game`视图可看到实时效果。
 
-- 更多使用细节，请看：[XCharts教程：5分钟上手教程](Documentation/XChartsTutorial01-ZH.md)
+- 更多使用细节，请看：[XCharts教程：5分钟上手教程](Documentation~/zh/tutorial01.md)
 - 首次使用，建议先认真看一遍教程。
 
 ## 分支
@@ -140,22 +140,22 @@ XCharts不再内置Demo，Demo已独立出单独的仓库 [XCharts-Demo](https:/
    答：目前只支持在`Unity`平台使用。理论上任何支持`UGUI`的`Unity`版本都能运行`XCharts`。
 
 4. 锯齿怎么解决？支持多大量级的数据？  
-   答：`XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考[问答16](Documentation/XChartsFAQ-ZH.md)和[问答27](Documentation/XChartsFAQ-ZH.md)。  
+   答：`XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考[问答16](Documentation~/zh/faq.md)和[问答27](Documentation~/zh/faq.md)。  
    由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`支持约`2万`的数据量，当然开启采样可以支持更多数据的绘制，但同时也会更消耗CPU。
 
 ## Licenses
 
-- [MIT License](LICENSE.md)
+- [MIT License](https://github.com/XCharts-Team/XCharts/blob/master/LICENSE.md)
 - 可免费商用，可二次开发
 - 扩展图表需单独购买授权
 
 ## 日志
 
-- [更新日志](CHANGELOG.md)  
+- [更新日志](Documentation~/zh/changelog.md)  
 
 ## 其他
 
 - 邮箱：`monitor1394@gmail.com`  
 - QQ群：XCharts交流群（`202030963`）  
 - VIP群：XCharts技术支持VIP群（`867291970`）  
-- 捐助、合作和技术支持：[☞ 看这里](Documentation/SUPPORT.md)
+- 捐助、合作和技术支持：[☞ 看这里](Documentation~/zh/support.md)

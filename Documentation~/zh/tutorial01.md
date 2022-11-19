@@ -40,28 +40,28 @@ XCharts可通过以下任意一种方式导入到项目：
 
 在`Inspector`视图，找到`LineChart`的面板，通过`Add Serie`按钮，可以添加第二条`Line`折线：
 
-![op_addserie](img/tutorial01_addserie.pmg)
-![linechart2](img/tutorial01_linechart2.pmg)
+![op_addserie](img/tutorial01_addserie.png)
+![linechart2](img/tutorial01_linechart2.png)
 
 ## 添加其他组件
 
 默认图表没有`Legend`，需要`Legend`组件可通过`Add Component`按钮添加：
 
-![op_addcomponent](img/tutorial01_addcomponent.pmg)
+![op_addcomponent](img/tutorial01_addcomponent.png)
 
 ## 添加Serie组件
 
 Serie只自带了几个常见的组件，其他组件按需额外添加。比如，需要给折线图区域填充颜色，可单独给`Serie`添加`AreaStyle`组件：
 
-![op_addseriecomponent](img/tutorial01_addseriecomponent.pmg)
-![linechart3](img/tutorial01_linechart3.pmg)
+![op_addseriecomponent](img/tutorial01_addseriecomponent.png)
+![linechart3](img/tutorial01_linechart3.png)
 
 ## 添加SerieData组件
 
 如果需要个性化定制每个数据项的配置，可以单独给每个`SerieData`添加`Component`。比如我们给折线图的第二个数据单独显示`Label`：
 
-![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.pmg)
-![linechart4](img/tutorial01_linechart4.pmg)
+![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.png)
+![linechart4](img/tutorial01_linechart4.png)
 
 ## 更多组件和配置参数
 
@@ -179,11 +179,11 @@ XCharts内部有自动刷新机制，但也是在一定条件才会触发。如�
 
 XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换。可通过以下方式开启和关闭：
 
-![textmeshpro1](img/tutorial01_textmeshpro.pmg)
+![textmeshpro1](img/tutorial01_textmeshpro.png)
 
 开启后需要设置好TextMeshPro要用的全局字体，也可以在主题Theme里单独设置：
 
-![textmeshpro-font](img/tutorial01_textmeshpro_font.pmg)
+![textmeshpro-font](img/tutorial01_textmeshpro_font.png)
 
 建议在项目初就规划好是否使用TextMeshPro，并设置好字体。在已有很多图表的情况下切换TMP时，可能某些图表无法自动刷新，可以手动点击`Rebuild Chart Object`按钮来重建图表，即可正常初始化。
 

@@ -7,97 +7,42 @@ slug: /api
 
 ## All Class
 
-- [AnimationStyleHelper](#AnimationStyleHelper)
-- [AxisContext](#AxisContext)
-- [AxisHandler&lt;T&gt;](#AxisHandler&lt;T&gt;)
-- [AxisHelper](#AxisHelper)
-- [BarChart](#BarChart)
-- [BaseChart](#BaseChart)
-- [BaseGraph](#BaseGraph)
-- [CandlestickChart](#CandlestickChart)
-- [ChartCached](#ChartCached)
-- [ChartConst](#ChartConst)
-- [ChartDrawer](#ChartDrawer)
-- [ChartHelper](#ChartHelper)
-- [ChartLabel](#ChartLabel)
-- [ChartObject](#ChartObject)
-- [CheckHelper](#CheckHelper)
-- [ColorUtil](#ColorUtil)
-- [ComponentHandlerAttribute](#ComponentHandlerAttribute)
-- [ComponentHelper](#ComponentHelper)
-- [CoordOptionsAttribute](#CoordOptionsAttribute)
-- [DataZoomContext](#DataZoomContext)
-- [DataZoomHelper](#DataZoomHelper)
-- [DateTimeUtil](#DateTimeUtil)
-- [DefaultAnimationAttribute](#DefaultAnimationAttribute)
-- [DefineSymbolsUtil](#DefineSymbolsUtil)
-- [FormatterHelper](#FormatterHelper)
-- [GridCoordContext](#GridCoordContext)
-- [HeatmapChart](#HeatmapChart)
-- [IgnoreDoc](#IgnoreDoc)
-- [InteractData](#InteractData)
-- [LayerHelper](#LayerHelper)
-- [LegendContext](#LegendContext)
-- [LegendHelper](#LegendHelper)
-- [LegendItem](#LegendItem)
-- [LineChart](#LineChart)
-- [ListFor](#ListFor)
-- [ListForComponent](#ListForComponent)
-- [ListForSerie](#ListForSerie)
-- [MainComponentContext](#MainComponentContext)
-- [MainComponentHandler](#MainComponentHandler)
-- [MainComponentHandler&lt;T&gt;](#MainComponentHandler&lt;T&gt;)
-- [MathUtil](#MathUtil)
-- [Painter](#Painter)
-- [ParallelChart](#ParallelChart)
-- [ParallelCoordContext](#ParallelCoordContext)
-- [PieChart](#PieChart)
-- [PolarChart](#PolarChart)
-- [PolarCoordContext](#PolarCoordContext)
-- [ProgressBar](#ProgressBar)
-- [PropertyUtil](#PropertyUtil)
-- [RadarChart](#RadarChart)
-- [RadarCoordContext](#RadarCoordContext)
-- [ReflectionUtil](#ReflectionUtil)
-- [RequireChartComponentAttribute](#RequireChartComponentAttribute)
-- [RingChart](#RingChart)
-- [RuntimeUtil](#RuntimeUtil)
-- [ScatterChart](#ScatterChart)
-- [SerieContext](#SerieContext)
-- [SerieConvertAttribute](#SerieConvertAttribute)
-- [SerieDataContext](#SerieDataContext)
-- [SerieDataExtraComponentAttribute](#SerieDataExtraComponentAttribute)
-- [SerieDataExtraFieldAttribute](#SerieDataExtraFieldAttribute)
-- [SerieExtraComponentAttribute](#SerieExtraComponentAttribute)
-- [SerieHandler](#SerieHandler)
-- [SerieHandler&lt;T&gt;](#SerieHandler&lt;T&gt;)
-- [SerieHandlerAttribute](#SerieHandlerAttribute)
-- [SerieHelper](#SerieHelper)
-- [SerieLabelHelper](#SerieLabelHelper)
-- [SerieLabelPool](#SerieLabelPool)
-- [SerieParams](#SerieParams)
-- [SeriesHelper](#SeriesHelper)
-- [SimplifiedBarChart](#SimplifiedBarChart)
-- [SimplifiedCandlestickChart](#SimplifiedCandlestickChart)
-- [SimplifiedLineChart](#SimplifiedLineChart)
-- [Since](#Since)
-- [SVG](#SVG)
-- [SVGImage](#SVGImage)
-- [SVGPath](#SVGPath)
-- [SVGPathSeg](#SVGPathSeg)
-- [TooltipContext](#TooltipContext)
-- [TooltipData](#TooltipData)
-- [TooltipHelper](#TooltipHelper)
-- [TooltipView](#TooltipView)
-- [TooltipViewItem](#TooltipViewItem)
-- [UGL](#UGL)
-- [UGLExample](#UGLExample)
-- [UGLHelper](#UGLHelper)
-- [VisualMapContext](#VisualMapContext)
-- [VisualMapHelper](#VisualMapHelper)
-- [XChartsMgr](#XChartsMgr)
-- [XCResourceImporterWindow](#XCResourceImporterWindow)
-- [XCThemeMgr](#XCThemeMgr)
+
+## 所有类
+
+||||
+|--|--|--|
+|[AnimationStyleHelper](#animationstylehelper)|[AxisContext](#axiscontext)|[AxisHandler&lt;T&gt;](#axishandlert)|
+|[AxisHelper](#axishelper)|[BarChart](#barchart)|[BaseChart](#basechart)|
+|[BaseGraph](#basegraph)|[CandlestickChart](#candlestickchart)|[ChartCached](#chartcached)|
+|[ChartConst](#chartconst)|[ChartDrawer](#chartdrawer)|[ChartHelper](#charthelper)|
+|[ChartLabel](#chartlabel)|[ChartObject](#chartobject)|[CheckHelper](#checkhelper)|
+|[ColorUtil](#colorutil)|[ComponentHandlerAttribute](#componenthandlerattribute)|[ComponentHelper](#componenthelper)|
+|[CoordOptionsAttribute](#coordoptionsattribute)|[DataZoomContext](#datazoomcontext)|[DataZoomHelper](#datazoomhelper)|
+|[DateTimeUtil](#datetimeutil)|[DefaultAnimationAttribute](#defaultanimationattribute)|[DefineSymbolsUtil](#definesymbolsutil)|
+|[FormatterHelper](#formatterhelper)|[GridCoordContext](#gridcoordcontext)|[HeatmapChart](#heatmapchart)|
+|[IgnoreDoc](#ignoredoc)|[InteractData](#interactdata)|[LayerHelper](#layerhelper)|
+|[LegendContext](#legendcontext)|[LegendHelper](#legendhelper)|[LegendItem](#legenditem)|
+|[LineChart](#linechart)|[ListFor](#listfor)|[ListForComponent](#listforcomponent)|
+|[ListForSerie](#listforserie)|[MainComponentContext](#maincomponentcontext)|[MainComponentHandler](#maincomponenthandler)|
+|[MainComponentHandler&lt;T&gt;](#maincomponenthandlert)|[MathUtil](#mathutil)|[Painter](#painter)|
+|[ParallelChart](#parallelchart)|[ParallelCoordContext](#parallelcoordcontext)|[PieChart](#piechart)|
+|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|[ProgressBar](#progressbar)|
+|[PropertyUtil](#propertyutil)|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|
+|[ReflectionUtil](#reflectionutil)|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|
+|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|
+|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|
+|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|
+|[SerieHandler&lt;T&gt;](#seriehandlert)|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|
+|[SerieLabelHelper](#serielabelhelper)|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|
+|[SeriesHelper](#serieshelper)|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|
+|[SimplifiedLineChart](#simplifiedlinechart)|[Since](#since)|[SVG](#svg)|
+|[SVGImage](#svgimage)|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|
+|[TooltipContext](#tooltipcontext)|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|
+|[TooltipView](#tooltipview)|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|
+|[UGLExample](#uglexample)|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|
+|[VisualMapHelper](#visualmaphelper)|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|
+|[XCThemeMgr](#xcthememgr)|
 
 ## AnimationStyleHelper
 
@@ -110,11 +55,11 @@ slug: /api
 
 ## AxisContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## AxisHandler&lt;T&gt;
 
-Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
+Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## AxisHelper
 
@@ -144,11 +89,11 @@ Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
 
 ## BarChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## BaseChart
 
-Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver](#ISerializationCallbackReceiver)
+Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](#iserializationcallbackreceiver)
 
 |public method|description|
 |--|--|
@@ -300,7 +245,6 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | TryAddChartComponent&lt;T&gt;() |public bool TryAddChartComponent&lt;T&gt;() where T : MainComponent|
 | TryAddChartComponent&lt;T&gt;() |public bool TryAddChartComponent&lt;T&gt;(out T component) where T : MainComponent|
 | TryGetChartComponent&lt;T&gt;() |public bool TryGetChartComponent&lt;T&gt;(out T component, int index = 0)|
-| UpdateXAxisIcon() |public void UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)<br/>更新X轴图标。 |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, double value)<br/>更新指定系列中的指定索引数据。 |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, int dimension, double value)<br/>更新指定系列指定索引指定维数的数据。维数从0开始。 |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, List&lt;double&gt; multidimensionalData)<br/>更新指定系列指定索引的数据项的多维数据。 |
@@ -313,12 +257,13 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | UpdateTheme() |public bool UpdateTheme(ThemeType theme)<br/>切换内置主题。 |
 | UpdateTheme() |public void UpdateTheme(Theme theme)<br/>切换图表主题。 |
 | UpdateXAxisData() |public void UpdateXAxisData(int index, string category, int xAxisIndex = 0)<br/>更新X轴类目数据。 |
+| UpdateXAxisIcon() |public void UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)<br/>更新X轴图标。 |
 | UpdateYAxisData() |public void UpdateYAxisData(int index, string category, int yAxisIndex = 0)<br/>更新Y轴类目数据。 |
 | UpdateYAxisIcon() |public void UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)<br/>更新Y轴图标。 |
 
 ## BaseGraph
 
-Inherits or Implemented: [MaskableGraphic](#MaskableGraphic),[IPointerDownHandler](#IPointerDownHandler),[IPointerUpHandler](#IPointerUpHandler),[](#)
+Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandler](#ipointerdownhandler),[IPointerUpHandler](#ipointeruphandler),[](#)
 
 |public method|description|
 |--|--|
@@ -341,7 +286,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic),[IPointerDownHandle
 
 ## CandlestickChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## ChartCached
 
@@ -424,7 +369,7 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## ChartLabel
 
-Inherits or Implemented: [Image](#Image)
+Inherits or Implemented: [Image](#image)
 
 |public method|description|
 |--|--|
@@ -470,7 +415,7 @@ Inherits or Implemented: [Image](#Image)
 
 ## ComponentHandlerAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -489,7 +434,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## CoordOptionsAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -501,7 +446,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## DataZoomContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## DataZoomHelper
 
@@ -520,7 +465,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## DefaultAnimationAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -545,15 +490,15 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## GridCoordContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## HeatmapChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## IgnoreDoc
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -584,7 +529,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## LegendContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## LegendHelper
 
@@ -622,11 +567,11 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## LineChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## ListFor
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -634,7 +579,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## ListForComponent
 
-Inherits or Implemented: [ListFor](#ListFor)
+Inherits or Implemented: [ListFor](#listfor)
 
 |public method|description|
 |--|--|
@@ -642,7 +587,7 @@ Inherits or Implemented: [ListFor](#ListFor)
 
 ## ListForSerie
 
-Inherits or Implemented: [ListFor](#ListFor)
+Inherits or Implemented: [ListFor](#listfor)
 
 |public method|description|
 |--|--|
@@ -674,7 +619,7 @@ Inherits or Implemented: [ListFor](#ListFor)
 
 ## MainComponentHandler&lt;T&gt;
 
-Inherits or Implemented: [MainComponentHandler](#MainComponentHandler)
+Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## MathUtil
 
@@ -700,7 +645,7 @@ Inherits or Implemented: [new()](#new())
 
 ## Painter
 
-Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
+Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 |public method|description|
 |--|--|
@@ -710,27 +655,27 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 
 ## ParallelChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## ParallelCoordContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## PieChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## PolarChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## PolarCoordContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## ProgressBar
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## PropertyUtil
 
@@ -743,11 +688,11 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## RadarChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## RadarCoordContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## ReflectionUtil
 
@@ -762,7 +707,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## RequireChartComponentAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -772,7 +717,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## RingChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## RuntimeUtil
 
@@ -787,13 +732,13 @@ Inherits or Implemented: [BaseChart](#BaseChart)
 
 ## ScatterChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## SerieContext
 
 ## SerieConvertAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -812,7 +757,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SerieDataExtraComponentAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -829,7 +774,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SerieDataExtraFieldAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -845,7 +790,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SerieExtraComponentAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -889,10 +834,11 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SerieHandler&lt;T&gt;
 
-Inherits or Implemented: [SerieHandler where T](#SerieHandler where T),[Serie](#Serie)
+Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#serie)
 
 |public method|description|
 |--|--|
+| DrawLabelLineSymbol() |public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
 | GetSerieDataAutoColor() |public virtual Color GetSerieDataAutoColor(SerieData serieData)|
 | GetSerieDataLabelOffset() |public virtual Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)|
 | GetSerieDataLabelPosition() |public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)|
@@ -909,7 +855,7 @@ Inherits or Implemented: [SerieHandler where T](#SerieHandler where T),[Serie](#
 
 ## SerieHandlerAttribute
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -999,19 +945,19 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SimplifiedBarChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## SimplifiedCandlestickChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## SimplifiedLineChart
 
-Inherits or Implemented: [BaseChart](#BaseChart)
+Inherits or Implemented: [BaseChart](#basechart)
 
 ## Since
 
-Inherits or Implemented: [Attribute](#Attribute)
+Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
@@ -1027,7 +973,7 @@ Inherits or Implemented: [Attribute](#Attribute)
 
 ## SVGImage
 
-Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
+Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## SVGPath
 
@@ -1093,7 +1039,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 
 ## UGLExample
 
-Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
+Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## UGLHelper
 
@@ -1124,7 +1070,7 @@ Inherits or Implemented: [MaskableGraphic](#MaskableGraphic)
 
 ## VisualMapContext
 
-Inherits or Implemented: [MainComponentContext](#MainComponentContext)
+Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## VisualMapHelper
 
@@ -1158,7 +1104,7 @@ Inherits or Implemented: [MainComponentContext](#MainComponentContext)
 
 ## XCResourceImporterWindow
 
-Inherits or Implemented: [UnityEditor.EditorWindow](#UnityEditor.EditorWindow)
+Inherits or Implemented: [UnityEditor.EditorWindow](#unityeditor.editorwindow)
 
 |public method|description|
 |--|--|
@@ -1182,3 +1128,4 @@ Inherits or Implemented: [UnityEditor.EditorWindow](#UnityEditor.EditorWindow)
 | LoadTheme() |public static Theme LoadTheme(ThemeType type)|
 | ReloadThemeList() |public static void ReloadThemeList()<br/>重新加载主题列表 |
 | SwitchTheme() |public static void SwitchTheme(BaseChart chart, string themeName)|
+

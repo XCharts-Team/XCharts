@@ -7,170 +7,80 @@ slug: /configuration
 
 ## Serie
 
-- [Bar](#Bar)
-- [BaseScatter](#BaseScatter)
-- [Candlestick](#Candlestick)
-- [EffectScatter](#EffectScatter)
-- [Heatmap](#Heatmap)
-- [Line](#Line)
-- [Parallel](#Parallel)
-- [Pie](#Pie)
-- [Radar](#Radar)
-- [Ring](#Ring)
-- [Scatter](#Scatter)
-- [Serie](#Serie)
-- [SimplifiedBar](#SimplifiedBar)
-- [SimplifiedCandlestick](#SimplifiedCandlestick)
-- [SimplifiedLine](#SimplifiedLine)
+|||||
+|--|--|--|--|
+|[Bar](#bar)|[BaseScatter](#basescatter)|[Candlestick](#candlestick)|[EffectScatter](#effectscatter)|
+|[Heatmap](#heatmap)|[Line](#line)|[Parallel](#parallel)|[Pie](#pie)|
+|[Radar](#radar)|[Ring](#ring)|[Scatter](#scatter)|[Serie](#serie)|
+|[SimplifiedBar](#simplifiedbar)|[SimplifiedCandlestick](#simplifiedcandlestick)|[SimplifiedLine](#simplifiedline)|
 
 ## Theme
 
-- [AngleAxisTheme](#AngleAxisTheme)
-- [AxisTheme](#AxisTheme)
-- [BaseAxisTheme](#BaseAxisTheme)
-- [ComponentTheme](#ComponentTheme)
-- [DataZoomTheme](#DataZoomTheme)
-- [LegendTheme](#LegendTheme)
-- [PolarAxisTheme](#PolarAxisTheme)
-- [RadarAxisTheme](#RadarAxisTheme)
-- [RadiusAxisTheme](#RadiusAxisTheme)
-- [SerieTheme](#SerieTheme)
-- [SubTitleTheme](#SubTitleTheme)
-- [Theme](#Theme)
-- [ThemeStyle](#ThemeStyle)
-- [TitleTheme](#TitleTheme)
-- [TooltipTheme](#TooltipTheme)
-- [VisualMapTheme](#VisualMapTheme)
+|||||
+|--|--|--|--|
+|[AngleAxisTheme](#angleaxistheme)|[AxisTheme](#axistheme)|[BaseAxisTheme](#baseaxistheme)|[ComponentTheme](#componenttheme)|
+|[DataZoomTheme](#datazoomtheme)|[LegendTheme](#legendtheme)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|
+|[RadiusAxisTheme](#radiusaxistheme)|[SerieTheme](#serietheme)|[SubTitleTheme](#subtitletheme)|[Theme](#theme)|
+|[ThemeStyle](#themestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapTheme](#visualmaptheme)|
 
 ## MainComponent
 
-- [AngleAxis](#AngleAxis)
-- [Axis](#Axis)
-- [Background](#Background)
-- [CalendarCoord](#CalendarCoord)
-- [Comment](#Comment)
-- [CoordSystem](#CoordSystem)
-- [DataZoom](#DataZoom)
-- [GridCoord](#GridCoord)
-- [Legend](#Legend)
-- [MarkArea](#MarkArea)
-- [MarkLine](#MarkLine)
-- [ParallelAxis](#ParallelAxis)
-- [ParallelCoord](#ParallelCoord)
-- [PolarCoord](#PolarCoord)
-- [RadarCoord](#RadarCoord)
-- [RadiusAxis](#RadiusAxis)
-- [Settings](#Settings)
-- [SingleAxis](#SingleAxis)
-- [SingleAxisCoord](#SingleAxisCoord)
-- [Title](#Title)
-- [Tooltip](#Tooltip)
-- [VisualMap](#VisualMap)
-- [XAxis](#XAxis)
-- [YAxis](#YAxis)
+|||||
+|--|--|--|--|
+|[AngleAxis](#angleaxis)|[Axis](#axis)|[Background](#background)|[CalendarCoord](#calendarcoord)|
+|[Comment](#comment)|[CoordSystem](#coordsystem)|[DataZoom](#datazoom)|[GridCoord](#gridcoord)|
+|[Legend](#legend)|[MarkArea](#markarea)|[MarkLine](#markline)|[ParallelAxis](#parallelaxis)|
+|[ParallelCoord](#parallelcoord)|[PolarCoord](#polarcoord)|[RadarCoord](#radarcoord)|[RadiusAxis](#radiusaxis)|
+|[Settings](#settings)|[SingleAxis](#singleaxis)|[SingleAxisCoord](#singleaxiscoord)|[Title](#title)|
+|[Tooltip](#tooltip)|[VisualMap](#visualmap)|[XAxis](#xaxis)|[YAxis](#yaxis)|
 
 ## ChildComponent
 
-- [AngleAxisTheme](#AngleAxisTheme)
-- [AnimationStyle](#AnimationStyle)
-- [AreaStyle](#AreaStyle)
-- [ArrowStyle](#ArrowStyle)
-- [AxisLabel](#AxisLabel)
-- [AxisLine](#AxisLine)
-- [AxisMinorSplitLine](#AxisMinorSplitLine)
-- [AxisMinorTick](#AxisMinorTick)
-- [AxisName](#AxisName)
-- [AxisSplitArea](#AxisSplitArea)
-- [AxisSplitLine](#AxisSplitLine)
-- [AxisTheme](#AxisTheme)
-- [AxisTick](#AxisTick)
-- [BaseAxisTheme](#BaseAxisTheme)
-- [BaseLine](#BaseLine)
-- [BlurStyle](#BlurStyle)
-- [CommentItem](#CommentItem)
-- [CommentMarkStyle](#CommentMarkStyle)
-- [ComponentTheme](#ComponentTheme)
-- [DataZoomTheme](#DataZoomTheme)
-- [EmphasisStyle](#EmphasisStyle)
-- [EndLabelStyle](#EndLabelStyle)
-- [IconStyle](#IconStyle)
-- [ImageStyle](#ImageStyle)
-- [ItemStyle](#ItemStyle)
-- [LabelLine](#LabelLine)
-- [LabelStyle](#LabelStyle)
-- [LegendTheme](#LegendTheme)
-- [Level](#Level)
-- [LevelStyle](#LevelStyle)
-- [LineArrow](#LineArrow)
-- [LineStyle](#LineStyle)
-- [Location](#Location)
-- [MarkAreaData](#MarkAreaData)
-- [MarkLineData](#MarkLineData)
-- [Padding](#Padding)
-- [PolarAxisTheme](#PolarAxisTheme)
-- [RadarAxisTheme](#RadarAxisTheme)
-- [RadiusAxisTheme](#RadiusAxisTheme)
-- [SelectStyle](#SelectStyle)
-- [SerieData](#SerieData)
-- [SerieSymbol](#SerieSymbol)
-- [SerieTheme](#SerieTheme)
-- [StageColor](#StageColor)
-- [StateStyle](#StateStyle)
-- [SubTitleTheme](#SubTitleTheme)
-- [SymbolStyle](#SymbolStyle)
-- [TextLimit](#TextLimit)
-- [TextPadding](#TextPadding)
-- [TextStyle](#TextStyle)
-- [ThemeStyle](#ThemeStyle)
-- [TitleStyle](#TitleStyle)
-- [TitleTheme](#TitleTheme)
-- [TooltipTheme](#TooltipTheme)
-- [VisualMapRange](#VisualMapRange)
-- [VisualMapTheme](#VisualMapTheme)
+|||||
+|--|--|--|--|
+|[AngleAxisTheme](#angleaxistheme)|[AnimationStyle](#animationstyle)|[AreaStyle](#areastyle)|[ArrowStyle](#arrowstyle)|
+|[AxisLabel](#axislabel)|[AxisLine](#axisline)|[AxisMinorSplitLine](#axisminorsplitline)|[AxisMinorTick](#axisminortick)|
+|[AxisName](#axisname)|[AxisSplitArea](#axissplitarea)|[AxisSplitLine](#axissplitline)|[AxisTheme](#axistheme)|
+|[AxisTick](#axistick)|[BaseAxisTheme](#baseaxistheme)|[BaseLine](#baseline)|[BlurStyle](#blurstyle)|
+|[CommentItem](#commentitem)|[CommentMarkStyle](#commentmarkstyle)|[ComponentTheme](#componenttheme)|[DataZoomTheme](#datazoomtheme)|
+|[EmphasisStyle](#emphasisstyle)|[EndLabelStyle](#endlabelstyle)|[IconStyle](#iconstyle)|[ImageStyle](#imagestyle)|
+|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LegendTheme](#legendtheme)|
+|[Level](#level)|[LevelStyle](#levelstyle)|[LineArrow](#linearrow)|[LineStyle](#linestyle)|
+|[Location](#location)|[MarkAreaData](#markareadata)|[MarkLineData](#marklinedata)|[MarqueeStyle](#marqueestyle)|
+|[Padding](#padding)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|[RadiusAxisTheme](#radiusaxistheme)|
+|[SelectStyle](#selectstyle)|[SerieData](#seriedata)|[SerieSymbol](#seriesymbol)|[SerieTheme](#serietheme)|
+|[StageColor](#stagecolor)|[StateStyle](#statestyle)|[SubTitleTheme](#subtitletheme)|[SymbolStyle](#symbolstyle)|
+|[TextLimit](#textlimit)|[TextPadding](#textpadding)|[TextStyle](#textstyle)|[ThemeStyle](#themestyle)|
+|[TitleStyle](#titlestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapRange](#visualmaprange)|
+|[VisualMapTheme](#visualmaptheme)|
 
 ## ISerieExtraComponent
 
-- [AreaStyle](#AreaStyle)
-- [BlurStyle](#BlurStyle)
-- [EmphasisStyle](#EmphasisStyle)
-- [ImageStyle](#ImageStyle)
-- [LabelLine](#LabelLine)
-- [LabelStyle](#LabelStyle)
-- [LineArrow](#LineArrow)
-- [SelectStyle](#SelectStyle)
-- [TitleStyle](#TitleStyle)
+|||||
+|--|--|--|--|
+|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
+|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineArrow](#linearrow)|[SelectStyle](#selectstyle)|
+|[TitleStyle](#titlestyle)|
 
 ## ISerieDataComponent
 
-- [AreaStyle](#AreaStyle)
-- [BlurStyle](#BlurStyle)
-- [EmphasisStyle](#EmphasisStyle)
-- [ImageStyle](#ImageStyle)
-- [ItemStyle](#ItemStyle)
-- [LabelLine](#LabelLine)
-- [LabelStyle](#LabelStyle)
-- [LineStyle](#LineStyle)
-- [SelectStyle](#SelectStyle)
-- [SerieSymbol](#SerieSymbol)
-- [TitleStyle](#TitleStyle)
+|||||
+|--|--|--|--|
+|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
+|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineStyle](#linestyle)|
+|[SelectStyle](#selectstyle)|[SerieSymbol](#seriesymbol)|[TitleStyle](#titlestyle)|
 
-## Other
+## Other Component
 
-- [BaseSerie](#BaseSerie)
-- [ChartText](#ChartText)
-- [ChildComponent](#ChildComponent)
-- [DebugInfo](#DebugInfo)
-- [Indicator](#Indicator)
-- [Lang](#Lang)
-- [LangCandlestick](#LangCandlestick)
-- [LangTime](#LangTime)
-- [MainComponent](#MainComponent)
-- [XCResourcesImporter](#XCResourcesImporter)
-- [XCSettings](#XCSettings)
+|||||
+|--|--|--|--|
+|[BaseSerie](#baseserie)|[ChartText](#charttext)|[ChildComponent](#childcomponent)|[DebugInfo](#debuginfo)|
+|[Indicator](#indicator)|[Lang](#lang)|[LangCandlestick](#langcandlestick)|[LangTime](#langtime)|
+|[MainComponent](#maincomponent)|[XCResourcesImporter](#xcresourcesimporter)|[XCSettings](#xcsettings)|
 
 ## AngleAxis
 
-Inherits or Implemented: [Axis](#Axis)
+Inherits or Implemented: [Axis](#axis)
 
 Angle axis of Polar Coordinate.
 
@@ -180,12 +90,12 @@ Angle axis of Polar Coordinate.
 
 ## AngleAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#BaseAxisTheme)
+Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
 
 
 ## AnimationStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 the animation of serie.
 
@@ -206,7 +116,7 @@ the animation of serie.
 
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 The style of area.
 
@@ -221,7 +131,7 @@ The style of area.
 
 ## ArrowStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -233,7 +143,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## Axis
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 The axis in rectangular coordinate.
 
@@ -261,19 +171,19 @@ The axis in rectangular coordinate.
 |insertDataToHead|||Whether to add new data at the head or at the end of the list.
 |icons|||类目数据对应的图标。
 |data|||Category data, available in type: 'Category' axis.
-|axisLine|||axis Line. [AxisLine](#AxisLine)|
-|axisName|||axis name. [AxisName](#AxisName)|
-|axisTick|||axis tick. [AxisTick](#AxisTick)|
-|axisLabel|||axis label. [AxisLabel](#AxisLabel)|
-|splitLine|||axis split line. [AxisSplitLine](#AxisSplitLine)|
-|splitArea|||axis split area. [AxisSplitArea](#AxisSplitArea)|
-|minorTick||v3.2.0|axis minor tick. [AxisMinorTick](#AxisMinorTick)|
-|minorSplitLine||v3.2.0|axis minor split line. [AxisMinorSplitLine](#AxisMinorSplitLine)|
-|indicatorLabel||v3.4.0|Style of axis tooltip indicator label. [LabelStyle](#LabelStyle)|
+|axisLine|||axis Line. [AxisLine](#axisline)|
+|axisName|||axis name. [AxisName](#axisname)|
+|axisTick|||axis tick. [AxisTick](#axistick)|
+|axisLabel|||axis label. [AxisLabel](#axislabel)|
+|splitLine|||axis split line. [AxisSplitLine](#axissplitline)|
+|splitArea|||axis split area. [AxisSplitArea](#axissplitarea)|
+|minorTick||v3.2.0|axis minor tick. [AxisMinorTick](#axisminortick)|
+|minorSplitLine||v3.2.0|axis minor split line. [AxisMinorSplitLine](#axisminorsplitline)|
+|indicatorLabel||v3.4.0|Style of axis tooltip indicator label. [LabelStyle](#labelstyle)|
 
 ## AxisLabel
 
-Inherits or Implemented: [LabelStyle](#LabelStyle)
+Inherits or Implemented: [LabelStyle](#labelstyle)
 
 Settings related to axis label.
 
@@ -285,11 +195,11 @@ Settings related to axis label.
 |onZero|false||刻度标签显示在0刻度上。
 |showStartLabel|true||Whether to display the first label.
 |showEndLabel|true||Whether to display the last label.
-|textLimit|||文本限制。 [TextLimit](#TextLimit)|
+|textLimit|||文本限制。 [TextLimit](#textlimit)|
 
 ## AxisLine
 
-Inherits or Implemented: [BaseLine](#BaseLine)
+Inherits or Implemented: [BaseLine](#baseline)
 
 Settings related to axis line.
 
@@ -297,11 +207,11 @@ Settings related to axis line.
 |--|--|--|--|
 |onZero|||When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
 |showArrow|||Whether to show the arrow symbol of axis.
-|arrow|||the arrow of line. [ArrowStyle](#ArrowStyle)|
+|arrow|||the arrow of line. [ArrowStyle](#arrowstyle)|
 
 ## AxisMinorSplitLine
 
-Inherits or Implemented: [BaseLine](#BaseLine)
+Inherits or Implemented: [BaseLine](#baseline)
 
 > Since `v3.2.0`
 
@@ -314,7 +224,7 @@ Minor split line of axis in grid area.
 
 ## AxisMinorTick
 
-Inherits or Implemented: [BaseLine](#BaseLine)
+Inherits or Implemented: [BaseLine](#baseline)
 
 > Since `v3.2.0`
 
@@ -327,7 +237,7 @@ Settings related to axis minor tick.
 
 ## AxisName
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 the name of axis.
 
@@ -336,11 +246,11 @@ the name of axis.
 |show|||Whether to show axis name.
 |name|||the name of axis.
 |onZero||v3.1.0|Whether the axis name position are the same with 0 position of YAxis.
-|labelStyle|||The text style of axis name. [LabelStyle](#LabelStyle)|
+|labelStyle|||The text style of axis name. [LabelStyle](#labelstyle)|
 
 ## AxisSplitArea
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Split area of axis in grid area, not shown by default.
 
@@ -351,7 +261,7 @@ Split area of axis in grid area, not shown by default.
 
 ## AxisSplitLine
 
-Inherits or Implemented: [BaseLine](#BaseLine)
+Inherits or Implemented: [BaseLine](#baseline)
 
 Split line of axis in grid area.
 
@@ -365,12 +275,12 @@ Split line of axis in grid area.
 
 ## AxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#BaseAxisTheme)
+Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
 
 
 ## AxisTick
 
-Inherits or Implemented: [BaseLine](#BaseLine)
+Inherits or Implemented: [BaseLine](#baseline)
 
 Settings related to axis tick.
 
@@ -386,7 +296,7 @@ Settings related to axis tick.
 
 ## Background
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Background component.
 
@@ -400,12 +310,12 @@ Background component.
 
 ## Bar
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 
 ## BaseAxisTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -425,18 +335,18 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## BaseLine
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Settings related to base line.
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Set this to false to prevent the axis line from showing.
-|lineStyle|||线条样式 [LineStyle](#LineStyle)|
+|lineStyle|||线条样式 [LineStyle](#linestyle)|
 
 ## BaseScatter
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 
 ## BaseSerie
@@ -444,7 +354,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -453,12 +363,12 @@ Configurations of blur state.
 
 ## CalendarCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem),[IUpdateRuntimeData](#IUpdateRuntimeData),[ISerieContainer](#ISerieContainer)
+Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
 
 
 ## Candlestick
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 
 ## ChartText
@@ -469,20 +379,20 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## Comment
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 comment of chart.
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent the comment from showing.
-|labelStyle|||The text style of all comments. [LabelStyle](#LabelStyle)|
-|markStyle|||The text style of all comments. [CommentMarkStyle](#CommentMarkStyle)|
+|labelStyle|||The text style of all comments. [LabelStyle](#labelstyle)|
+|markStyle|||The text style of all comments. [CommentMarkStyle](#commentmarkstyle)|
 |items|||The items of comment.
 
 ## CommentItem
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 comment of chart.
 
@@ -492,23 +402,23 @@ comment of chart.
 |content|||content of comment.
 |position|||position of comment.
 |markRect|||the mark rect of comment.
-|markStyle|||the mark rect style. [CommentMarkStyle](#CommentMarkStyle)|
-|labelStyle|||The text style of all comments. [LabelStyle](#LabelStyle)|
+|markStyle|||the mark rect style. [CommentMarkStyle](#commentmarkstyle)|
+|labelStyle|||The text style of all comments. [LabelStyle](#labelstyle)|
 
 ## CommentMarkStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 the comment mark style.
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent this comment item from showing.
-|lineStyle|||line style of comment mark area. [LineStyle](#LineStyle)|
+|lineStyle|||line style of comment mark area. [LineStyle](#linestyle)|
 
 ## ComponentTheme
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -520,14 +430,14 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## CoordSystem
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Coordinate system component.
 
 
 ## DataZoom
 
-Inherits or Implemented: [MainComponent](#MainComponent),[IUpdateRuntimeData](#IUpdateRuntimeData)
+Inherits or Implemented: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
 
 DataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.
 
@@ -538,10 +448,10 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |xAxisIndexs|||Specify which xAxis is controlled by the dataZoom.
 |yAxisIndexs|||Specify which yAxis is controlled by the dataZoom.
 |supportInside|||Whether built-in support is supported. Built into the coordinate system to allow the user to zoom in and out of the coordinate system by mouse dragging, mouse wheel, finger swiping (on the touch screen).
-|supportInsideScroll|true||是否支持坐标系内滚动
-|supportInsideDrag|true||是否支持坐标系内拖拽
+|supportInsideScroll|true||Whether inside scrolling is supported.
+|supportInsideDrag|true||Whether insde drag is supported.
 |supportSlider|||Whether a slider is supported. There are separate sliders on which the user zooms or roams.
-|supportSelect|||是否支持框选。提供一个选框进行数据区域缩放。
+|supportMarquee|||Supported Box Selected. Provides a marquee for scaling the data area.
 |showDataShadow|||Whether to show data shadow, to indicate the data tendency in brief.
 |showDetail|||Whether to show detail, that is, show the detailed data information when dragging.
 |zoomLock|||Specify whether to lock the size of window (selected area).
@@ -559,13 +469,14 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |minShowNum|1||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
 |scrollSensitivity|1.1f||The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is.
 |orient|||Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
-|labelStyle|||label style. [LabelStyle](#LabelStyle)|
-|lineStyle|||阴影线条样式。 [LineStyle](#LineStyle)|
-|areaStyle|||阴影填充样式。 [AreaStyle](#AreaStyle)|
+|labelStyle|||label style. [LabelStyle](#labelstyle)|
+|lineStyle|||阴影线条样式。 [LineStyle](#linestyle)|
+|areaStyle|||阴影填充样式。 [AreaStyle](#areastyle)|
+|marqueeStyle||v3.5.0|选取框样式。 [MarqueeStyle](#marqueestyle)|
 
 ## DataZoomTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -585,16 +496,16 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 |showDebugInfo|false||
 |showAllChartObject|false||Whether show children components of chart in hierarchy view.
 |foldSeries|false||Whether to fold series in inspector view.
-|labelStyle||| [LabelStyle](#LabelStyle)|
+|labelStyle||| [LabelStyle](#labelstyle)|
 
 ## EffectScatter
 
-Inherits or Implemented: [BaseScatter](#BaseScatter)
+Inherits or Implemented: [BaseScatter](#basescatter)
 
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -608,12 +519,12 @@ Configurations of emphasis state.
 
 ## EndLabelStyle
 
-Inherits or Implemented: [LabelStyle](#LabelStyle)
+Inherits or Implemented: [LabelStyle](#labelstyle)
 
 
 ## GridCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem),[IUpdateRuntimeData](#IUpdateRuntimeData),[ISerieContainer](#ISerieContainer)
+Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
 
 Grid component.
 
@@ -631,7 +542,7 @@ Grid component.
 
 ## Heatmap
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -639,7 +550,7 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## IconStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -656,7 +567,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -683,10 +594,10 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |radius|100||the radius of radar.
 |splitNumber|5||Segments of indicator axis.
 |center|||the center of radar chart.
-|axisLine|||axis line. [AxisLine](#AxisLine)|
-|axisName|||Name options for radar indicators. [AxisName](#AxisName)|
-|splitLine|||split line. [AxisSplitLine](#AxisSplitLine)|
-|splitArea|||Split area of axis in grid area. [AxisSplitArea](#AxisSplitArea)|
+|axisLine|||axis line. [AxisLine](#axisline)|
+|axisName|||Name options for radar indicators. [AxisName](#axisname)|
+|splitLine|||split line. [AxisSplitLine](#axissplitline)|
+|splitArea|||Split area of axis in grid area. [AxisSplitArea](#axissplitarea)|
 |indicator|true||Whether to show indicator.
 |positionType|||The position type of indicator.
 |indicatorGap|10||The gap of indicator and radar.
@@ -700,7 +611,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 
 ## ItemStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 图形样式。
 
@@ -728,7 +639,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent]
 
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
 
@@ -742,12 +653,12 @@ Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent
 |lineGap|1.0f||the gap of container and guild line.
 |lineLength1|25f||The length of the first segment of visual guide line.
 |lineLength2|15f||The length of the second segment of visual guide line.
-|startSymbol|||The symbol of the start point of labelline. [SymbolStyle](#SymbolStyle)|
-|endSymbol|||The symbol of the end point of labelline. [SymbolStyle](#SymbolStyle)|
+|startSymbol|||The symbol of the start point of labelline. [SymbolStyle](#symbolstyle)|
+|endSymbol|||The symbol of the end point of labelline. [SymbolStyle](#symbolstyle)|
 
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 Text label of chart, to explain some data information about graphic item like value, name and so on.
 
@@ -763,14 +674,14 @@ Text label of chart, to explain some data information about graphic item like va
 |numericFormatter|||Standard numeric format strings.
 |width|0||the width of label. If set as default value 0, it means than the label width auto set as the text width.
 |height|0||the height of label. If set as default value 0, it means than the label height auto set as the text height.
-|icon|||the sytle of icon. [IconStyle](#IconStyle)|
-|background|||the sytle of background. [ImageStyle](#ImageStyle)|
-|textPadding|||the text padding of label. [TextPadding](#TextPadding)|
-|textStyle|||the sytle of text. [TextStyle](#TextStyle)|
+|icon|||the sytle of icon. [IconStyle](#iconstyle)|
+|background|||the sytle of background. [ImageStyle](#imagestyle)|
+|textPadding|||the text padding of label. [TextPadding](#textpadding)|
+|textStyle|||the sytle of text. [TextStyle](#textstyle)|
 
 ## Lang
 
-Inherits or Implemented: [ScriptableObject](#ScriptableObject)
+Inherits or Implemented: [ScriptableObject](#scriptableobject)
 
 Language.
 
@@ -783,7 +694,7 @@ Language.
 
 ## Legend
 
-Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPropertyChanged)
+Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
 Legend component.The legend component shows different sets of tags, colors, and names. You can control which series are not displayed by clicking on the legend.
 
@@ -793,7 +704,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |iconType|||Type of legend.<br/>`Legend.Type`:<br/>- `Auto`: 自动匹配。<br/>- `Custom`: 自定义图标。<br/>- `EmptyCircle`: 空心圆。<br/>- `Circle`: 圆形。<br/>- `Rect`: 正方形。可通过Setting的legendIconCornerRadius参数调整圆角。<br/>- `Triangle`: 三角形。<br/>- `Diamond`: 菱形。<br/>- `Candlestick`: 烛台（可用于K线图）。<br/>|
 |selectedMode|||Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.<br/>`Legend.SelectedMode`:<br/>- `Multiple`: 多选。<br/>- `Single`: 单选。<br/>- `None`: 无法选择。<br/>|
 |orient|||Specify whether the layout of legend component is horizontal or vertical.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
-|location|||The location of legend. [Location](#Location)|
+|location|||The location of legend. [Location](#location)|
 |itemWidth|25.0f||Image width of legend symbol.
 |itemHeight|12.0f||Image height of legend symbol.
 |itemGap|10f||The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
@@ -801,16 +712,16 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |itemOpacity|1||the opacity of item color.
 |formatter|||Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
 |numericFormatter|||Standard numeric format strings.
-|labelStyle|||the style of text. [LabelStyle](#LabelStyle)|
+|labelStyle|||the style of text. [LabelStyle](#labelstyle)|
 |data|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. If data is not specified, it will be auto collected from series.
 |icons|||自定义的图例标记图形。
 |colors|||the colors of legend item.
-|background||v3.1.0|the sytle of background. [ImageStyle](#ImageStyle)|
-|padding||v3.1.0|the paddinng of item and background. [Padding](#Padding)|
+|background||v3.1.0|the sytle of background. [ImageStyle](#imagestyle)|
+|padding||v3.1.0|the paddinng of item and background. [Padding](#padding)|
 
 ## LegendTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -818,17 +729,17 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## Level
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
-|label|||文本标签样式。 [LabelStyle](#LabelStyle)|
-|upperLabel|||上方的文本标签样式。 [LabelStyle](#LabelStyle)|
-|itemStyle|||数据项样式。 [ItemStyle](#ItemStyle)|
+|label|||文本标签样式。 [LabelStyle](#labelstyle)|
+|upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
+|itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
 
 ## LevelStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -837,22 +748,22 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## Line
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieExtraComponent](#ISerieExtraComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Whether to show the arrow.
 |position|||The position of arrow.<br/>`LineArrow.Position`:<br/>- `End`: 末端箭头<br/>- `Start`: 头端箭头<br/>|
-|arrow|||the arrow of line. [ArrowStyle](#ArrowStyle)|
+|arrow|||the arrow of line. [ArrowStyle](#arrowstyle)|
 
 ## LineStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 The style of line.
 
@@ -869,7 +780,7 @@ The style of line.
 
 ## Location
 
-Inherits or Implemented: [ChildComponent](#ChildComponent),[IPropertyChanged](#IPropertyChanged)
+Inherits or Implemented: [ChildComponent](#childcomponent),[IPropertyChanged](#ipropertychanged)
 
 Location type. Quick to set the general location.
 
@@ -883,12 +794,12 @@ Location type. Quick to set the general location.
 
 ## MainComponent
 
-Inherits or Implemented: [IComparable](#IComparable)
+Inherits or Implemented: [IComparable](#icomparable)
 
 
 ## MarkArea
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Used to mark an area in chart. For example, mark a time interval.
 
@@ -897,14 +808,14 @@ Used to mark an area in chart. For example, mark a time interval.
 |show|true||是否显示标域。
 |text|||The text of markArea. 标域显示的文本。
 |serieIndex|0||Serie index of markArea. 标域影响的Serie索引。
-|start|||标域范围的起始数据。 [MarkAreaData](#MarkAreaData)|
-|end|||标域范围的结束数据。 [MarkAreaData](#MarkAreaData)|
-|itemStyle|||标域样式。 [ItemStyle](#ItemStyle)|
-|label|||标域文本样式。 [LabelStyle](#LabelStyle)|
+|start|||标域范围的起始数据。 [MarkAreaData](#markareadata)|
+|end|||标域范围的结束数据。 [MarkAreaData](#markareadata)|
+|itemStyle|||标域样式。 [ItemStyle](#itemstyle)|
+|label|||标域文本样式。 [LabelStyle](#labelstyle)|
 
 ## MarkAreaData
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 标域的数据。
 
@@ -920,7 +831,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## MarkLine
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Use a line in the chart to illustrate.
 
@@ -928,12 +839,12 @@ Use a line in the chart to illustrate.
 |--|--|--|--|
 |show|true||Whether to display the marking line.
 |serieIndex|0||The serie index of markLine.
-|animation|||The animation of markline. [AnimationStyle](#AnimationStyle)|
+|animation|||The animation of markline. [AnimationStyle](#animationstyle)|
 |data|||A list of marked data. When the group of data item is 0, each data item represents a line; When the group is not 0, two data items of the same group represent the starting point and the ending point of the line respectively to form a line. In this case, the relevant style parameters of the line are the parameters of the starting point.
 
 ## MarkLineData
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Data of marking line.
 
@@ -948,14 +859,29 @@ Data of marking line.
 |yValue|||That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
 |group|0||Grouping. When the group is not 0, it means that this data is the starting point or end point of the marking line. Data consistent with the group form a marking line.
 |zeroPosition|false||Is the origin of the coordinate system.
-|startSymbol|||The symbol of the start point of markline. [SymbolStyle](#SymbolStyle)|
-|endSymbol|||The symbol of the end point of markline. [SymbolStyle](#SymbolStyle)|
-|lineStyle|||The line style of markline. [LineStyle](#LineStyle)|
-|label|||Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](#LabelStyle)|
+|startSymbol|||The symbol of the start point of markline. [SymbolStyle](#symbolstyle)|
+|endSymbol|||The symbol of the end point of markline. [SymbolStyle](#symbolstyle)|
+|lineStyle|||The line style of markline. [LineStyle](#linestyle)|
+|label|||Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](#labelstyle)|
+
+## MarqueeStyle
+
+Inherits or Implemented: [ChildComponent](#childcomponent)
+
+> Since `v3.5.0`
+
+Marquee style. It can be used for the DataZoom component. 选取框样式。可用于DataZoom组件。
+
+|field|default|since|comment|
+|--|--|--|--|
+|apply|false|v3.5.0|Check whether the scope is applied to the DataZoom. If this parameter is set to true, the range after the selection is complete is the DataZoom selection range.
+|realRect|false|v3.5.0|Whether to select the actual box selection area. When true, the actual range between the mouse's actual point and the end point is used as the box selection area.
+|areaStyle||v3.5.0|The area style of marquee. [AreaStyle](#areastyle)|
+|lineStyle||v3.5.0|The line style of marquee border. [LineStyle](#linestyle)|
 
 ## Padding
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 padding setting of item or text.
 
@@ -969,17 +895,17 @@ padding setting of item or text.
 
 ## Parallel
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 
 ## ParallelAxis
 
-Inherits or Implemented: [Axis](#Axis)
+Inherits or Implemented: [Axis](#axis)
 
 
 ## ParallelCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem),[IUpdateRuntimeData](#IUpdateRuntimeData),[ISerieContainer](#ISerieContainer)
+Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
 
 Grid component.
 
@@ -995,17 +921,17 @@ Grid component.
 
 ## Pie
 
-Inherits or Implemented: [Serie](#Serie)
+Inherits or Implemented: [Serie](#serie)
 
 
 ## PolarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#BaseAxisTheme)
+Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
 
 
 ## PolarCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieContainer)
+Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
 
 Polar coordinate can be used in scatter and line chart. Every polar coordinate has an angleAxis and a radiusAxis.
 
@@ -1018,7 +944,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 
 ## Radar
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1026,41 +952,41 @@ Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContai
 
 ## RadarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#BaseAxisTheme)
+Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
 
 
 ## RadarCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem),[ISerieContainer](#ISerieContainer)
+Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
 
 Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适用于雷达图。
 
 
 ## RadiusAxis
 
-Inherits or Implemented: [Axis](#Axis)
+Inherits or Implemented: [Axis](#axis)
 
 Radial axis of polar coordinate.
 
 
 ## RadiusAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#BaseAxisTheme)
+Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
 
 
 ## Ring
 
-Inherits or Implemented: [Serie](#Serie)
+Inherits or Implemented: [Serie](#serie)
 
 
 ## Scatter
 
-Inherits or Implemented: [BaseScatter](#BaseScatter)
+Inherits or Implemented: [BaseScatter](#basescatter)
 
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#StateStyle),[ISerieExtraComponent](#ISerieExtraComponent),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -1069,7 +995,7 @@ Configurations of select state.
 
 ## Serie
 
-Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
+Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 
 系列。
 
@@ -1140,15 +1066,15 @@ Inherits or Implemented: [BaseSerie](#BaseSerie),[IComparable](#IComparable)
 |top|||Distance between component and the top side of the container.
 |bottom|||Distance between component and the bottom side of the container.
 |insertDataToHead|||Whether to add new data at the head or at the end of the list.
-|lineStyle|||The style of line. [LineStyle](#LineStyle)|
-|symbol|||the symbol of serie data item. [SerieSymbol](#SerieSymbol)|
-|animation|||The start animation. [AnimationStyle](#AnimationStyle)|
-|itemStyle|||The style of data item. [ItemStyle](#ItemStyle)|
+|lineStyle|||The style of line. [LineStyle](#linestyle)|
+|symbol|||the symbol of serie data item. [SerieSymbol](#seriesymbol)|
+|animation|||The start animation. [AnimationStyle](#animationstyle)|
+|itemStyle|||The style of data item. [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
 
 ## SerieData
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 A data item of serie.
 
@@ -1166,7 +1092,7 @@ A data item of serie.
 
 ## SerieSymbol
 
-Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISerieDataComponent)
+Inherits or Implemented: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iseriedatacomponent)
 
 系列数据项的标记的图形
 
@@ -1185,7 +1111,7 @@ Inherits or Implemented: [SymbolStyle](#SymbolStyle),[ISerieDataComponent](#ISer
 
 ## SerieTheme
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1203,7 +1129,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## Settings
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Global parameter setting component. The default value can be used in general, and can be adjusted when necessary.
 
@@ -1226,22 +1152,22 @@ Global parameter setting component. The default value can be used in general, an
 
 ## SimplifiedBar
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer),[ISimplifiedSerie](#ISimplifiedSerie)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SimplifiedCandlestick
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer),[ISimplifiedSerie](#ISimplifiedSerie)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SimplifiedLine
 
-Inherits or Implemented: [Serie](#Serie),[INeedSerieContainer](#INeedSerieContainer),[ISimplifiedSerie](#ISimplifiedSerie)
+Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SingleAxis
 
-Inherits or Implemented: [Axis](#Axis),[IUpdateRuntimeData](#IUpdateRuntimeData)
+Inherits or Implemented: [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
 
 Single axis.
 
@@ -1257,12 +1183,12 @@ Single axis.
 
 ## SingleAxisCoord
 
-Inherits or Implemented: [CoordSystem](#CoordSystem)
+Inherits or Implemented: [CoordSystem](#coordsystem)
 
 
 ## StageColor
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1271,7 +1197,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## StateStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 > Since `v3.2.0`
 
@@ -1280,21 +1206,21 @@ the state style of serie.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否启用高亮样式。
-|label|||图形文本标签。 [LabelStyle](#LabelStyle)|
-|labelLine|||图形文本引导线样式。 [LabelLine](#LabelLine)|
-|itemStyle|||图形样式。 [ItemStyle](#ItemStyle)|
-|lineStyle|||折线样式。 [LineStyle](#LineStyle)|
-|areaStyle|||区域样式。 [AreaStyle](#AreaStyle)|
-|symbol|||标记样式。 [SerieSymbol](#SerieSymbol)|
+|label|||图形文本标签。 [LabelStyle](#labelstyle)|
+|labelLine|||图形文本引导线样式。 [LabelLine](#labelline)|
+|itemStyle|||图形样式。 [ItemStyle](#itemstyle)|
+|lineStyle|||折线样式。 [LineStyle](#linestyle)|
+|areaStyle|||区域样式。 [AreaStyle](#areastyle)|
+|symbol|||标记样式。 [SerieSymbol](#seriesymbol)|
 
 ## SubTitleTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 
 ## SymbolStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 系列数据项的标记的图形
 
@@ -1313,7 +1239,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## TextLimit
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Text character limitation and adaptation component. When the length of the text exceeds the set length, it is cropped and suffixes are appended to the end.Only valid in the category axis.
 
@@ -1326,14 +1252,14 @@ Text character limitation and adaptation component. When the length of the text 
 
 ## TextPadding
 
-Inherits or Implemented: [Padding](#Padding)
+Inherits or Implemented: [Padding](#padding)
 
 Settings related to text.
 
 
 ## TextStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Settings related to text.
 
@@ -1357,7 +1283,7 @@ Settings related to text.
 
 ## Theme
 
-Inherits or Implemented: [ScriptableObject](#ScriptableObject)
+Inherits or Implemented: [ScriptableObject](#scriptableobject)
 
 Theme.
 
@@ -1370,26 +1296,26 @@ Theme.
 |contrastColor|||the contrast color of chart.
 |backgroundColor|||the background color of chart.
 |colorPalette|||The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
-|common||| [ComponentTheme](#ComponentTheme)|
-|title||| [TitleTheme](#TitleTheme)|
-|subTitle||| [SubTitleTheme](#SubTitleTheme)|
-|legend||| [LegendTheme](#LegendTheme)|
-|axis||| [AxisTheme](#AxisTheme)|
-|tooltip||| [TooltipTheme](#TooltipTheme)|
-|dataZoom||| [DataZoomTheme](#DataZoomTheme)|
-|visualMap||| [VisualMapTheme](#VisualMapTheme)|
-|serie||| [SerieTheme](#SerieTheme)|
+|common||| [ComponentTheme](#componenttheme)|
+|title||| [TitleTheme](#titletheme)|
+|subTitle||| [SubTitleTheme](#subtitletheme)|
+|legend||| [LegendTheme](#legendtheme)|
+|axis||| [AxisTheme](#axistheme)|
+|tooltip||| [TooltipTheme](#tooltiptheme)|
+|dataZoom||| [DataZoomTheme](#datazoomtheme)|
+|visualMap||| [VisualMapTheme](#visualmaptheme)|
+|serie||| [SerieTheme](#serietheme)|
 
 ## ThemeStyle
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 Theme.
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||
-|sharedTheme|||the asset of theme. [Theme](#Theme)|
+|sharedTheme|||the asset of theme. [Theme](#theme)|
 |transparentBackground|false||Whether the background color is transparent. When true, the background color is not drawn.
 |enableCustomTheme|false||Whether to customize theme colors. When set to true, you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
 |customFont|||
@@ -1398,7 +1324,7 @@ Theme.
 
 ## Title
 
-Inherits or Implemented: [MainComponent](#MainComponent),[IPropertyChanged](#IPropertyChanged)
+Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
 Title component, including main title and subtitle.
 
@@ -1407,26 +1333,26 @@ Title component, including main title and subtitle.
 |show|true||[default:true] Set this to false to prevent the title from showing.
 |text|||The main title text, supporting \n for newlines.
 |subText|||Subtitle text, supporting for \n for newlines.
-|labelStyle|||The text style of main title. [LabelStyle](#LabelStyle)|
-|subLabelStyle|||The text style of sub title. [LabelStyle](#LabelStyle)|
+|labelStyle|||The text style of main title. [LabelStyle](#labelstyle)|
+|subLabelStyle|||The text style of sub title. [LabelStyle](#labelstyle)|
 |itemGap|0||[default:8] The gap between the main title and subtitle.
-|location|||The location of title component. [Location](#Location)|
+|location|||The location of title component. [Location](#location)|
 
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#LabelStyle),[ISerieDataComponent](#ISerieDataComponent),[ISerieExtraComponent](#ISerieExtraComponent)
+Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieExtraComponent](#iserieextracomponent)
 
 the title of serie.
 
 
 ## TitleTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 
 ## Tooltip
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 Tooltip component.
 
@@ -1460,13 +1386,13 @@ Tooltip component.
 |titleHeight|25f||height of title text.
 |itemHeight|25f||height of content text.
 |borderColor|Color32(230, 230, 230, 255)||the color of tooltip border.
-|lineStyle|||the line style of indicator line. [LineStyle](#LineStyle)|
-|titleLabelStyle|||the textstyle of title. [LabelStyle](#LabelStyle)|
+|lineStyle|||the line style of indicator line. [LineStyle](#linestyle)|
+|titleLabelStyle|||the textstyle of title. [LabelStyle](#labelstyle)|
 |contentLabelStyles|||the textstyle list of content.
 
 ## TooltipTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1479,7 +1405,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## VisualMap
 
-Inherits or Implemented: [MainComponent](#MainComponent)
+Inherits or Implemented: [MainComponent](#maincomponent)
 
 VisualMap component. Mapping data to visual elements such as colors.
 
@@ -1506,7 +1432,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 |hoverLink|true||When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram.
 |autoMinMax|true||Automatically set min, Max value 自动设置min，max的值
 |orient|||Specify whether the layout of component is horizontal or vertical.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
-|location|||The location of component. [Location](#Location)|
+|location|||The location of component. [Location](#location)|
 |workOnLine|true||Whether the visualmap is work on linestyle of linechart.
 |workOnArea|false||Whether the visualmap is work on areaStyle of linechart.
 |outOfRange|||Defines a visual color outside of the selected range.
@@ -1514,7 +1440,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 
 ## VisualMapRange
 
-Inherits or Implemented: [ChildComponent](#ChildComponent)
+Inherits or Implemented: [ChildComponent](#childcomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1525,7 +1451,7 @@ Inherits or Implemented: [ChildComponent](#ChildComponent)
 
 ## VisualMapTheme
 
-Inherits or Implemented: [ComponentTheme](#ComponentTheme)
+Inherits or Implemented: [ComponentTheme](#componenttheme)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1536,7 +1462,7 @@ Inherits or Implemented: [ComponentTheme](#ComponentTheme)
 
 ## XAxis
 
-Inherits or Implemented: [Axis](#Axis)
+Inherits or Implemented: [Axis](#axis)
 
 The x axis in cartesian(rectangular) coordinate.
 
@@ -1546,11 +1472,11 @@ The x axis in cartesian(rectangular) coordinate.
 
 ## XCSettings
 
-Inherits or Implemented: [ScriptableObject](#ScriptableObject)
+Inherits or Implemented: [ScriptableObject](#scriptableobject)
 
 |field|default|since|comment|
 |--|--|--|--|
-|lang||| [Lang](#Lang)|
+|lang||| [Lang](#lang)|
 |font|||
 |tMPFont|||
 |fontSizeLv1|28||一级字体大小。
@@ -1590,7 +1516,7 @@ Inherits or Implemented: [ScriptableObject](#ScriptableObject)
 
 ## YAxis
 
-Inherits or Implemented: [Axis](#Axis)
+Inherits or Implemented: [Axis](#axis)
 
 The x axis in cartesian(rectangular) coordinate.
 

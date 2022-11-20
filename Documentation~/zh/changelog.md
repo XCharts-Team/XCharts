@@ -64,6 +64,7 @@ slug: /changelog
 
 ## master
 
+* (2022.11.20) 调整`UdpateXAxisIcon()`接口重命名为`UpdateXAxisIcon()` (#235)
 * (2022.11.12) 增加`Pie`的`LabelLine`支持`Symbol`
 * (2022.11.12) 增加`DataZoom`的`MarqueeStyle`支持框选区域
 * (2022.11.10) 优化`Radar`在类型为`Single`时的区域颜色填充效果

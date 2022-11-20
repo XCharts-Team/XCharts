@@ -300,7 +300,7 @@ Inherits or Implemented: [BaseGraph](#BaseGraph),[ISerializationCallbackReceiver
 | TryAddChartComponent&lt;T&gt;() |public bool TryAddChartComponent&lt;T&gt;() where T : MainComponent|
 | TryAddChartComponent&lt;T&gt;() |public bool TryAddChartComponent&lt;T&gt;(out T component) where T : MainComponent|
 | TryGetChartComponent&lt;T&gt;() |public bool TryGetChartComponent&lt;T&gt;(out T component, int index = 0)|
-| UdpateXAxisIcon() |public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)<br/>Update xAxis icon. |
+| UpdateXAxisIcon() |public void UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)<br/>Update xAxis icon. |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, double value)<br/>Update serie data by serie index. |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, int dimension, double value)<br/>更新指定系列指定索引指定维数的数据。维数从0开始。 |
 | UpdateData() |public bool UpdateData(int serieIndex, int dataIndex, List&lt;double&gt; multidimensionalData)<br/>更新指定系列指定索引的数据项的多维数据。 |

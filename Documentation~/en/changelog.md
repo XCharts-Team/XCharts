@@ -62,7 +62,7 @@
 
 ## v3.4.0
 
-### Highlights
+Highlights:
 
 * Added `indicatorLabel` of `Axis` to set different indicator text styles separately
 * Add `markColor` of `Serie` to set the logo color
@@ -71,7 +71,7 @@
 * Added `DataZoom` support for numeric axes
 * Add `SmoothLimit` of `Line` to control different effects of smoothing curves
 
-### Details
+Details:
 
 * (2022.11.01) Release `v3.4.0` version
 * (2022.10.30) adds API: `AddData()`, `ClearSerieData()`, `ClearComponentData()`
@@ -93,7 +93,7 @@
 
 ## v3.3.0
 
-### Highlights
+Highlights:
 
 * Optimized chart details to support more functions
 * Add lots of Demo examples
@@ -102,7 +102,7 @@
 * Added a HeatmapChart type
 * Improved Tooltip display
 
-### Details
+Details:
 
 * (2022.09.26) Optimizes the default number of segments for `Axis` at the category Axis
 * (2022.09.25) Fixed the problem that some interfaces in the `API` document were not exported
@@ -141,7 +141,7 @@
 
 ## v3.2.0
 
-### Highlights
+Highlights:
 
 * `Serie` supports highlighting, EmphasisStyle, EmphasisStyle, BlurStyle, and SelectStyle
 * `Axis` supports sub-scale and sub-partition of coordinate axes:`MinorTick` and `MinorSplitLine`
@@ -151,7 +151,7 @@
 * `DataZoom` supports timeline
 * Other optimizations and issue fixes
 
-### Details
+Details:
 
 * (2022.08.16) Release `v3.2.0` version
 * (2022.08.15) optimized `Smooth` Bezier curve algorithm
@@ -258,6 +258,13 @@
 
 ## v3.0.0_preview1
 
+## v2.8.2
+
+* (2022.08.15) Release `v2.8.2` version
+* (2022.08.15) Added support for the `HeatmapChart` formatter for custom Tooltip
+* (2022.07.13) Fixed `SerieLabel` refresh exception #215
+* (2022.06.30) Optimize `Radar` so that the `Tooltip` layer is above `Indicator`
+
 ## v2.8.1
 
 * (2022.05.03) Added `onLegendClick`, `onLegendEnter` and `onLegendExit` delegate callbacks for `Legend`
@@ -306,13 +313,13 @@
 
 ## v2.4.0
 
-### Highlights
+Highlights:
 
 * LineChart support the line of ignore data is disconnected or connected
 * LineChart support animation at a constant speed
 * Other optimizations and bug fixes
 
-### Details
+Details:
 
 * (2021.08.31) Release `v2.4.0` version
 * (2021.08.31) Optimized the gradient effect of `RingChart`
@@ -331,7 +338,7 @@
 
 ## v2.3.0
 
-### Highlights
+Highlights:
 
 * Data store upgraded from `float` to `double`
 * Added `MarkLine`
@@ -341,11 +348,11 @@
 * `PieChart` optimization
 * Problem fixes
 
-### Upgrade Note
+Upgrade Note:
 
-Since the data type is upgraded to `double`, the implicit conversion of `float` to `double` may have precision problems, so it is recommended that all previous data types of `float` be manually changed to `double`.
+* Since the data type is upgraded to `double`, the implicit conversion of `float` to `double` may have precision problems, so it is recommended that all previous data types of `float` be manually changed to `double`.
 
-### Details
+Details:
 
 * (2021.07.24) Release `v2.3.0` version
 * (2021.07.22) Improved `SerieSymbol` to support `PictorialBarchart` extension

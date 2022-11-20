@@ -71,7 +71,7 @@ slug: /changelog
 
 ## v3.4.0
 
-### 版本要点
+版本要点：
 
 * 增加`Axis`的`indicatorLabel`，可单独设置不同的指示文本样式
 * 增加`Serie`的`markColor`可设置标识颜色
@@ -80,7 +80,7 @@ slug: /changelog
 * 增加`DataZoom`对数值轴的支持
 * 增加`Line`的`SmoothLimit`可控制平滑曲线不同效果
 
-### 日志详情
+日志详情：
 
 * (2022.11.01) 发布`v3.4.0`版本
 * (2022.10.30) 增加`API`：`AddData()`、`ClearSerieData()`、`ClearComponentData()`
@@ -102,7 +102,7 @@ slug: /changelog
 
 ## v3.3.0
 
-### 版本要点
+版本要点：
 
 * 优化图表细节，支持更多功能
 * 增加大量的Demo示例
@@ -111,7 +111,7 @@ slug: /changelog
 * 新增HeatmapChart热力图类型
 * 完善Tooltip显示
 
-### 日志详情
+日志详情：
 
 * (2022.09.28) 发布`v3.3.0`版本
 * (2022.09.26) 优化`Axis`在类目轴时的默认分割段数
@@ -151,7 +151,7 @@ slug: /changelog
 
 ## v3.2.0
 
-### 版本要点
+版本要点：
 
 * `Serie`支持高亮，淡出和选中三状态配置：`EmphasisStyle`,`BlurStyle`和`SelectStyle`
 * `Axis`支持坐标轴次刻度和次分割线：`MinorTick`和`MinorSplitLine`
@@ -161,7 +161,7 @@ slug: /changelog
 * `DataZoom`支持时间轴
 * 其他优化和修复
 
-### 日志详情
+日志详情：
 
 * (2022.08.16) 发布`v3.2.0`版本
 * (2022.08.15) 优化`Smooth`贝塞尔曲线算法
@@ -193,7 +193,7 @@ slug: /changelog
 
 ## v3.1.0
 
-### 版本要点
+版本要点：
 
 * 优化`Axis`
 * 优化`Tooltip`
@@ -202,7 +202,7 @@ slug: /changelog
 * 完善配置项手册
 * 修复若干问题
 
-### 日志详情
+日志详情：
 
 * (2022.07.12) 发布`v3.1.0`版本
 * (2022.07.12) 修复`Serie`的`ignoreLineBreak`不生效的问题
@@ -321,6 +321,13 @@ slug: /changelog
 
 * (2022.01.07) 发布`v3.0.0-preivew1`版本
 
+## v2.8.2
+
+* (2022.08.15) 发布`v2.8.2`版本
+* (2022.08.15) 增加`HeatmapChart`对自定义`Tooltip`的`formatter`的支持
+* (2022.07.13) 修复`SerieLabel`刷新异常的问题 #215
+* (2022.06.30) 优化`Radar`让`Tooltip`的层在`Indicator`之上
+
 ## v2.8.1
 
 * (2022.05.06) 发布`v2.8.1`版本
@@ -371,13 +378,13 @@ slug: /changelog
 
 ## v2.4.0
 
-### 版本要点
+版本要点：
 
 * 折线图支持忽略数据的连线是断开还是连接
 * 折线图支持轨迹匀速动画
 * 其他优化和问题修复
 
-### 日志详情
+日志详情：
 
 * (2021.08.31) 发布`v2.4.0`版本
 * (2021.08.31) 优化`RingChart`的渐变效果
@@ -396,7 +403,7 @@ slug: /changelog
 
 ## v2.3.0
 
-### 版本要点
+版本要点：
 
 * 数据存储由`float`升级为`double`
 * 新增`MarkLine`标线
@@ -406,11 +413,11 @@ slug: /changelog
 * `PieChart`优化
 * 问题修复
 
-### 升级注意
+升级注意：
 
-由于数据类型升级为了`double`，`float`隐式转`double`可能有精度问题，所以建议之前为`float`的数据类型都手动改为`double`类型。
+* 由于数据类型升级为了`double`，`float`隐式转`double`可能有精度问题，所以建议之前为`float`的数据类型都手动改为`double`类型。
 
-### 日志详情
+日志详情：
 
 * (2021.07.24) 发布`v2.3.0`版本
 * (2021.07.22) 完善`SerieSymbol`以支持象形柱图`PictorialBarChart`扩展

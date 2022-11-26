@@ -536,7 +536,15 @@ namespace XCharts.Runtime
         public bool IsInMarqueeArea(Vector2 pos)
         {
             if (!supportMarquee) return false;
-            return context.marqueeRect.Contains(pos);
+            if (context.marqueeRect.width >= 0)
+            {
+                return context.marqueeRect.Contains(pos);
+            }
+            else
+            {
+                var rect = context.marqueeRect;
+                return (new Rect(rect.x + rect.width, rect.y, -rect.width, rect.height)).Contains(pos);
+            }
         }
 
         public bool IsContainsAxis(Axis axis)

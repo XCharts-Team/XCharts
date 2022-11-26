@@ -360,8 +360,10 @@ namespace XCharts.Runtime
         /// fadeIn animation.
         /// |开始渐入动画。
         /// </summary>
-        public void AnimationFadeIn()
+        public void AnimationFadeIn(bool reset = true)
         {
+            if (reset)
+                AnimationReset();
             foreach (var serie in m_Series) serie.AnimationFadeIn();
         }
 

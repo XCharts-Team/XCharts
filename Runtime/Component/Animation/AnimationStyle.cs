@@ -275,8 +275,6 @@ namespace XCharts.Runtime
         {
             if (m_IsInit || m_IsEnd)
                 return;
-            if (curr > dest)
-                return;
 
             m_IsInit = true;
             m_TotalDetailProgress = dest - curr;

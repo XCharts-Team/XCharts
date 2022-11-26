@@ -36,8 +36,8 @@ namespace XCharts.Runtime
         [SerializeField] private float m_LineGap = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
-        [SerializeField] private SymbolStyle m_StartSymbol = new SymbolStyle() { type = SymbolType.Circle, size = 3 };
-        [SerializeField] private SymbolStyle m_EndSymbol = new SymbolStyle() { type = SymbolType.Circle, size = 3 };
+        [SerializeField] private SymbolStyle m_StartSymbol = new SymbolStyle() { show = false, type = SymbolType.Circle, size = 3 };
+        [SerializeField] private SymbolStyle m_EndSymbol = new SymbolStyle() { show = false, type = SymbolType.Circle, size = 3 };
 
         public void Reset()
         {

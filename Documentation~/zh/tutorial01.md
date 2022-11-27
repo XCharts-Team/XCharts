@@ -1,5 +1,5 @@
 ---
-title: 入门教程
+title: 入门教程：5分钟上手 XCharts 3.0
 sidebar_position: 1
 slug: /tutorial01
 ---

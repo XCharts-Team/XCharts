@@ -102,7 +102,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |field|default|since|comment|
 |--|--|--|--|
 |enable|true||是否开启动画效果。
-|type|||动画类型。<br/>`AnimationType`:<br/>- `Default`: 默认。内部会根据实际情况选择一种动画播放方式。<br/>- `LeftToRight`: 从左往右播放动画。<br/>- `BottomToTop`: 从下往上播放动画。<br/>- `InsideOut`: 由内到外播放动画。<br/>- `AlongPath`: 沿着路径播放动画。<br/>- `Clockwise`: 顺时针播放动画。<br/>|
+|type|||动画类型。<br/>`AnimationType`:<br/>- `Default`: 默认。内部会根据实际情况选择一种动画播放方式。<br/>- `LeftToRight`: 从左往右播放动画。<br/>- `BottomToTop`: 从下往上播放动画。<br/>- `InsideOut`: 由内到外播放动画。<br/>- `AlongPath`: 沿着路径播放动画。当折线图从左到右无序或有折返时，可以使用该模式。<br/>- `Clockwise`: 顺时针播放动画。<br/>|
 |easting|||动画的缓动效果。<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
 |fadeInDuration|1000||设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。

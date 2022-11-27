@@ -64,6 +64,10 @@ slug: /changelog
 
 ## master
 
+* (2022.11.27) 优化`Tooltip`的`LineStyle`支持设置`Shadow`时的颜色
+* (2022.11.26) 优化`LabelLine`的`symbol`默认不显示
+* (2022.11.26) 修复`LineChart`在`XY`都为数值轴时添加无序数据显示异常的问题
+* (2022.11.26) 修复`DataZoom`从右往左框选时异常的问题
 * (2022.11.20) 调整`UdpateXAxisIcon()`接口重命名为`UpdateXAxisIcon()` (#235)
 * (2022.11.12) 增加`Pie`的`LabelLine`支持`Symbol`
 * (2022.11.12) 增加`DataZoom`的`MarqueeStyle`支持框选区域

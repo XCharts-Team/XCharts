@@ -7,9 +7,6 @@ slug: /api
 
 ## All Class
 
-
-## All Class
-
 ||||
 |--|--|--|
 |[AnimationStyleHelper](#animationstylehelper)|[AxisContext](#axiscontext)|[AxisHandler&lt;T&gt;](#axishandlert)|
@@ -118,7 +115,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | AddYAxisData() |public void AddYAxisData(string category, int yAxisIndex = 0)<br/>Add a category data to yAxis. |
 | AddYAxisIcon() |public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>Add an icon to yAxis. |
 | AnimationEnable() |public void AnimationEnable(bool flag)<br/>Whether series animation enabel. |
-| AnimationFadeIn() |public void AnimationFadeIn()<br/>fadeIn animation. |
+| AnimationFadeIn() |public void AnimationFadeIn(bool reset = true)<br/>fadeIn animation. |
 | AnimationFadeOut() |public void AnimationFadeOut()<br/>fadeIn animation. |
 | AnimationPause() |public void AnimationPause()<br/>Pause animation. |
 | AnimationReset() |public void AnimationReset()<br/>Reset animation. |

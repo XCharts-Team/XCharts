@@ -3,10 +3,7 @@ sidebar_position: 3
 slug: /api
 ---
 
-# API
-
-## All Class
-
+# API手册
 
 ## 所有类
 
@@ -118,7 +115,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | AddYAxisData() |public void AddYAxisData(string category, int yAxisIndex = 0)<br/>添加一个类目数据到指定的y轴。 |
 | AddYAxisIcon() |public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>添加一个图标到指定的y轴。 |
 | AnimationEnable() |public void AnimationEnable(bool flag)<br/>启用或关闭起始动画。 |
-| AnimationFadeIn() |public void AnimationFadeIn()<br/>开始渐入动画。 |
+| AnimationFadeIn() |public void AnimationFadeIn(bool reset = true)<br/>开始渐入动画。 |
 | AnimationFadeOut() |public void AnimationFadeOut()<br/>开始渐出动画。 |
 | AnimationPause() |public void AnimationPause()<br/>暂停动画。 |
 | AnimationReset() |public void AnimationReset()<br/>重置动画。 |

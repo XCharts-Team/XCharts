@@ -12,6 +12,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             var comment = component;
+            comment.OnChanged();
             comment.painter = null;
             comment.refreshComponent = delegate()
             {
@@ -30,10 +31,12 @@ namespace XCharts.Runtime
                 {
                     var item = comment.items[i];
                     var labelStyle = comment.GetLabelStyle(i);
+                    var labelPos = chart.chartPosition + item.location.GetPosition(chart.chartWidth, chart.chartHeight);
                     var label = ChartHelper.AddChartLabel(s_CommentObjectName + i, commentObj.transform, labelStyle, chart.theme.common,
                         GetContent(item), Color.clear, TextAnchor.MiddleCenter);
                     label.SetActive(comment.show && item.show);
-                    label.SetPosition(item.position + labelStyle.offset);
+                    label.SetPosition(labelPos);
+                    label.text.SetLocalPosition(labelStyle.offset);
                 }
             };
             comment.refreshComponent();

@@ -12,21 +12,17 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private string m_Content = "comment";
-        [SerializeField] private Vector3 m_Position;
         [SerializeField] private Rect m_MarkRect;
         [SerializeField] private CommentMarkStyle m_MarkStyle = new CommentMarkStyle() { show = false };
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle() { show = false };
+        [SerializeField] [Since("v3.5.0")]private Location m_Location = new Location() { align = Location.Align.TopLeft, top = 0.125f };
+
 
         /// <summary>
         /// Set this to false to prevent this comment item from showing.
         /// |是否显示当前注解项。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
-        /// <summary>
-        /// position of comment.
-        /// |注解项的位置坐标。
-        /// </summary>
-        public Vector3 position { get { return m_Position; } set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetComponentDirty(); } }
         /// <summary>
         /// content of comment.
         /// |注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
@@ -50,6 +46,15 @@ namespace XCharts.Runtime
         {
             get { return m_LabelStyle; }
             set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The location of comment.
+        /// |Comment显示的位置。
+        /// </summary>
+        public Location location
+        {
+            get { return m_Location; }
+            set { if (PropertyUtil.SetClass(ref m_Location, value)) SetComponentDirty(); }
         }
     }
 }

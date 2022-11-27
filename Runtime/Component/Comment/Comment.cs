@@ -10,7 +10,7 @@ namespace XCharts.Runtime
     /// </summary>
     [Serializable]
     [ComponentHandler(typeof(CommentHander), true)]
-    public class Comment : MainComponent
+    public class Comment : MainComponent, IPropertyChanged
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
@@ -64,6 +64,18 @@ namespace XCharts.Runtime
                 if (markStyle.show) return markStyle;
             }
             return m_MarkStyle;
+        }
+
+        /// <summary>
+        /// Callback handling when parameters change.
+        /// |参数变更时的回调处理。
+        /// </summary>
+        public void OnChanged()
+        {
+            foreach (var item in items)
+            {
+                item.location.OnChanged();
+            }
         }
     }
 }

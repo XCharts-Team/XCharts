@@ -87,7 +87,7 @@ namespace XCharts.Runtime
             else return tooltip.numericFormatter;
         }
 
-        public static Color32 GetLineColor(Tooltip tooltip, ThemeStyle theme)
+        public static Color32 GetLineColor(Tooltip tooltip, Color32 defaultColor)
         {
             var lineStyle = tooltip.lineStyle;
             if (!ChartHelper.IsClearColor(lineStyle.color))
@@ -96,7 +96,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                var color = theme.tooltip.lineColor;
+                var color = defaultColor;
                 ChartHelper.SetColorOpacity(ref color, lineStyle.opacity);
                 return color;
             }

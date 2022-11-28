@@ -64,6 +64,7 @@ slug: /changelog
 
 ## master
 
+* (2022.11.27) 优化`Axis`的`AxisName`的偏移设置
 * (2022.11.27) 优化`Comment`的位置，用`Location代替Position`
 * (2022.11.27) 优化`Tooltip`的`LineStyle`支持设置`Shadow`时的颜色
 * (2022.11.26) 优化`LabelLine`的`symbol`默认不显示

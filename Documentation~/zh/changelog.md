@@ -64,7 +64,8 @@ slug: /changelog
 
 ## master
 
-* (2022.11.19) 修复`Tooltip`指示的`Serie`数据项索引异常的问题
+* (2022.11.30) 优化`Tooltip`的`Shadow`绘制不超出图表范围
+* (2022.11.29) 修复`Tooltip`指示的`Serie`数据项索引异常的问题
 * (2022.11.27) 优化`Axis`的`AxisName`的偏移设置
 * (2022.11.27) 优化`Comment`的位置，用`Location代替Position`
 * (2022.11.27) 优化`Tooltip`的`LineStyle`支持设置`Shadow`时的颜色

@@ -582,10 +582,10 @@ namespace XCharts.Runtime
                                 if (pX < grid.context.x)
                                     break;
                                 float pY = grid.context.y + grid.context.height;
-                                Vector3 p1 = new Vector3(pX, grid.context.y);
-                                Vector3 p2 = new Vector3(pX, pY);
-                                Vector3 p3 = new Vector3(pX + tooltipSplitWid, pY);
-                                Vector3 p4 = new Vector3(pX + tooltipSplitWid, grid.context.y);
+                                Vector3 p1 = chart.ClampInGrid(grid,new Vector3(pX, grid.context.y));
+                                Vector3 p2 = chart.ClampInGrid(grid,new Vector3(pX, pY));
+                                Vector3 p3 = chart.ClampInGrid(grid,new Vector3(pX + tooltipSplitWid, pY));
+                                Vector3 p4 = chart.ClampInGrid(grid,new Vector3(pX + tooltipSplitWid, grid.context.y));
                                 var areaColor = TooltipHelper.GetLineColor(tooltip, chart.theme.tooltip.areaColor);
                                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, areaColor);
                             }

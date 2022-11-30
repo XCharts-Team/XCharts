@@ -252,6 +252,7 @@ namespace XCharts.Runtime
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0;
+        [SerializeField][Since("v3.5.0")] private float m_BarMaxWidth = 0;
         [SerializeField] private float m_BarGap = 0.1f;
         [SerializeField] private float m_BarZebraWidth = 4f;
         [SerializeField] private float m_BarZebraGap = 2f;
@@ -571,6 +572,15 @@ namespace XCharts.Runtime
         {
             get { return m_BarWidth; }
             set { if (PropertyUtil.SetStruct(ref m_BarWidth, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The max width of the bar. Adaptive when default 0.
+        /// |柱条的最大宽度，默认为0为不限制最大宽度。支持设置成相对于类目宽度的百分比。
+        /// </summary>
+        public float barMaxWidth
+        {
+            get { return m_BarMaxWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BarMaxWidth, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
@@ -1742,17 +1752,32 @@ namespace XCharts.Runtime
 
         public float GetBarWidth(float categoryWidth, int barCount = 0)
         {
-            if (categoryWidth < 2) return categoryWidth;
-            if (m_BarWidth == 0)
+            var realWidth = 0f;
+            if (categoryWidth < 2)
+            {
+                realWidth = categoryWidth;
+            }
+            else if (m_BarWidth == 0)
             {
                 var width = ChartHelper.GetActualValue(0.6f, categoryWidth);
                 if (barCount == 0)
-                    return width < 1 ? categoryWidth : width;
+                    realWidth = width < 1 ? categoryWidth : width;
                 else
-                    return width / barCount;
+                    realWidth = width / barCount;
             }
             else
-                return ChartHelper.GetActualValue(m_BarWidth, categoryWidth);
+            {
+                realWidth = ChartHelper.GetActualValue(m_BarWidth, categoryWidth);
+            }
+            if (m_BarMaxWidth == 0)
+            {
+                return realWidth;
+            }
+            else
+            {
+                var maxWidth = ChartHelper.GetActualValue(m_BarMaxWidth, categoryWidth);
+                return realWidth > maxWidth ? maxWidth : realWidth;
+            }
         }
 
         public bool IsIgnoreIndex(int index, int dimension = 1)

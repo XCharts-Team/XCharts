@@ -379,7 +379,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## Comment
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
 图表注解组件。
 
@@ -400,10 +400,10 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |--|--|--|--|
 |show|true||是否显示当前注解项。
 |content|||注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
-|position|||注解项的位置坐标。
 |markRect|||注解区域。
 |markStyle|||注解标记区域样式。 [CommentMarkStyle](#commentmarkstyle)|
 |labelStyle|||注解项的文本样式。 [LabelStyle](#labelstyle)|
+|location||v3.5.0|Comment显示的位置。 [Location](#location)|
 
 ## CommentMarkStyle
 
@@ -1028,6 +1028,7 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |barType|||柱形图类型。<br/>`BarType`:<br/>- `Normal`: 普通柱形图。<br/>- `Zebra`: 斑马柱形图。<br/>- `Capsule`: 胶囊柱形图。<br/>|
 |barPercentStack|false||柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 |barWidth|0||柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
+|barMaxWidth|0|v3.5.0|柱条的最大宽度，默认为0为不限制最大宽度。支持设置成相对于类目宽度的百分比。
 |barGap|0.1f||不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%） 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
 |barZebraWidth|4f||斑马线的粗细。
 |barZebraGap|2f||斑马线的间距。

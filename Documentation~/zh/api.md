@@ -995,7 +995,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 |public method|description|
 |--|--|
 | GetItemNumericFormatter() |public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)|
-| GetLineColor() |public static Color32 GetLineColor(Tooltip tooltip, ThemeStyle theme)|
+| GetLineColor() |public static Color32 GetLineColor(Tooltip tooltip, Color32 defaultColor)|
 | IsIgnoreFormatter() |public static bool IsIgnoreFormatter(string itemFormatter)|
 | LimitInRect() |public static void LimitInRect(Tooltip tooltip, Rect chartRect)|
 

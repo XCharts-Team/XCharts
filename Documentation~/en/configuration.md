@@ -379,7 +379,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## Comment
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
 comment of chart.
 
@@ -400,10 +400,10 @@ comment of chart.
 |--|--|--|--|
 |show|true||Set this to false to prevent this comment item from showing.
 |content|||content of comment.
-|position|||position of comment.
 |markRect|||the mark rect of comment.
 |markStyle|||the mark rect style. [CommentMarkStyle](#commentmarkstyle)|
 |labelStyle|||The text style of all comments. [LabelStyle](#labelstyle)|
+|location||v3.5.0|The location of comment. [Location](#location)|
 
 ## CommentMarkStyle
 
@@ -1028,6 +1028,7 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |barType|||柱形图类型。<br/>`BarType`:<br/>- `Normal`: normal bar.<br/>- `Zebra`: zebra bar.<br/>- `Capsule`: capsule bar.<br/>|
 |barPercentStack|false||柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 |barWidth|0||The width of the bar. Adaptive when default 0.
+|barMaxWidth|0|v3.5.0|The max width of the bar. Adaptive when default 0.
 |barGap|0.1f||The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background. In a single coodinate system, this attribute is shared by multiple 'bar' series. This attribute should be set on the last 'bar' series in the coodinate system, then it will be adopted by all 'bar' series in the coordinate system.
 |barZebraWidth|4f||斑马线的粗细。
 |barZebraGap|2f||斑马线的间距。

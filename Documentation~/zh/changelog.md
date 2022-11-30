@@ -64,6 +64,7 @@ slug: /changelog
 
 ## master
 
+* (2022.11.30) 增加`Serie`的`barMaxWidth`可设置`Bar`的最大宽度
 * (2022.11.30) 优化`Tooltip`的`Shadow`绘制不超出图表范围
 * (2022.11.29) 修复`Tooltip`指示的`Serie`数据项索引异常的问题
 * (2022.11.27) 优化`Axis`的`AxisName`的偏移设置

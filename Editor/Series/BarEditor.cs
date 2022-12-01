@@ -21,6 +21,7 @@ namespace XCharts.Editor
             PropertyField("m_BarType");
             PropertyField("m_BarWidth");
             PropertyField("m_BarGap");
+            PropertyField("m_BarMaxWidth");
             if (serie.IsUseCoord<PolarCoord>())
             {
                 PropertyField("m_RoundCap");

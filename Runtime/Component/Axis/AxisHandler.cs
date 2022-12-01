@@ -421,7 +421,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(zeroPos.x - offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
-                                new Vector2(zeroPos.x - offset.x, posY));
+                                new Vector2(zeroPos.x - offset.x, posY + offset.y));
                             break;
 
                         case LabelStyle.Position.Middle:
@@ -431,7 +431,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY + relativedLength - offset.y + axis.offset) :
-                                new Vector2(axisStartX + axisLength / 2 + offset.x, posY));
+                                new Vector2(axisStartX + axisLength / 2 + offset.x, posY + offset.y));
                             break;
 
                         default:
@@ -441,7 +441,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength + offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
-                                new Vector2(axisStartX + axisLength + offset.x, posY));
+                                new Vector2(axisStartX + axisLength + offset.x, posY + offset.y));
                             break;
                     }
                 }
@@ -458,7 +458,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY - offset.y) :
-                                new Vector2(posX, axisStartY - offset.y));
+                                new Vector2(posX + offset.x, axisStartY - offset.y));
                             break;
 
                         case LabelStyle.Position.Middle:
@@ -468,7 +468,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength - offset.x + axis.offset, axisStartY + axisLength / 2 + offset.y) :
-                                new Vector2(posX, axisStartY + axisLength / 2 + offset.y));
+                                new Vector2(posX + offset.x, axisStartY + axisLength / 2 + offset.y));
                             break;
 
                         default:
@@ -478,7 +478,7 @@ namespace XCharts
                             label.SetActive(axis.axisName.labelStyle.show);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY + axisLength + offset.y) :
-                                new Vector2(posX, axisStartY + axisLength + offset.y));
+                                new Vector2(posX + offset.x, axisStartY + axisLength + offset.y));
                             break;
                     }
                 }

@@ -65,7 +65,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_SupportInsideScroll = true;
         [SerializeField] private bool m_SupportInsideDrag = true;
         [SerializeField] private bool m_SupportSlider;
-        [SerializeField] private bool m_SupportSelect;
+        [SerializeField] private bool m_SupportMarquee;
         [SerializeField] private bool m_ShowDataShadow;
         [SerializeField] private bool m_ShowDetail;
         [SerializeField] private bool m_ZoomLock;
@@ -90,6 +90,7 @@ namespace XCharts.Runtime
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
+        [SerializeField][Since("v3.5.0")] private MarqueeStyle m_MarqueeStyle = new MarqueeStyle();
 
         public DataZoomContext context = new DataZoomContext();
 
@@ -141,7 +142,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportInside, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持坐标系内滚动
+        /// Whether inside scrolling is supported.
+        /// |是否支持坐标系内滚动
         /// </summary>
         public bool supportInsideScroll
         {
@@ -149,7 +151,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportInsideScroll, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持坐标系内拖拽
+        /// Whether insde drag is supported.
+        /// |是否支持坐标系内拖拽
         /// </summary>
         public bool supportInsideDrag
         {
@@ -166,12 +169,13 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_SupportSlider, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否支持框选。提供一个选框进行数据区域缩放。
+        /// Supported Box Selected. Provides a marquee for scaling the data area.
+        /// |是否支持框选。提供一个选框进行数据区域缩放。
         /// </summary>
-        public bool supportSelect
+        public bool supportMarquee
         {
-            get { return m_SupportSelect; }
-            set { if (PropertyUtil.SetStruct(ref m_SupportSelect, value)) SetVerticesDirty(); }
+            get { return m_SupportMarquee; }
+            set { if (PropertyUtil.SetStruct(ref m_SupportMarquee, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show data shadow, to indicate the data tendency in brief.
@@ -363,6 +367,14 @@ namespace XCharts.Runtime
             get { return m_AreaStyle; }
             set { if (PropertyUtil.SetClass(ref m_AreaStyle, value)) SetComponentDirty(); }
         }
+        /// <summary>
+        /// 选取框样式。
+        /// </summary>
+        public MarqueeStyle marqueeStyle
+        {
+            get { return m_MarqueeStyle; }
+            set { if (PropertyUtil.SetClass(ref m_MarqueeStyle, value)) SetAllDirty(); }
+        }
 
         class AxisIndexValueInfo
         {
@@ -414,6 +426,7 @@ namespace XCharts.Runtime
                 show = true,
                 opacity = 0.3f
             };
+            m_MarqueeStyle = new MarqueeStyle();
         }
 
         /// <summary>
@@ -512,6 +525,25 @@ namespace XCharts.Runtime
                     return ChartHelper.IsInRect(pos, context.x, context.x + context.width, end - 10, end + 10);
                 default:
                     return false;
+            }
+        }
+
+        public bool IsInMarqueeArea(SerieData serieData)
+        {
+            return IsInMarqueeArea(serieData.context.position);
+        }
+
+        public bool IsInMarqueeArea(Vector2 pos)
+        {
+            if (!supportMarquee) return false;
+            if (context.marqueeRect.width >= 0)
+            {
+                return context.marqueeRect.Contains(pos);
+            }
+            else
+            {
+                var rect = context.marqueeRect;
+                return (new Rect(rect.x + rect.width, rect.y, -rect.width, rect.height)).Contains(pos);
             }
         }
 

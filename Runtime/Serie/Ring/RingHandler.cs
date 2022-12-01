@@ -407,22 +407,8 @@ namespace XCharts.Runtime
                         UGL.DrawLine(vh, pos1, pos5, labelLine.lineWidth, color);
                         break;
                 }
-                if (labelLine.startSymbol != null && labelLine.startSymbol.show)
-                {
-                    DrawSymbol(vh, labelLine.startSymbol, pos1, color);
-                }
-                if (labelLine.endSymbol != null && labelLine.endSymbol.show)
-                {
-                    DrawSymbol(vh, labelLine.endSymbol, pos5, color);
-                }
+                DrawLabelLineSymbol(vh, labelLine, pos1, pos5, color);
             }
-        }
-
-        private void DrawSymbol(VertexHelper vh, SymbolStyle symbol, Vector3 pos, Color32 defaultColor)
-        {
-            var color = symbol.GetColor(defaultColor);
-            chart.DrawSymbol(vh, symbol.type, symbol.size, 1, pos,
-                color, color, ColorUtil.clearColor32, color, symbol.gap, null);
         }
     }
 }

@@ -381,7 +381,7 @@ namespace XCharts.Runtime
                 var lineStyle = SerieHelper.GetLineStyle(serie, serieData);
                 Color32 areaColor, areaToColor;
                 var colorIndex = serie.colorByData?j : serie.context.colorIndex;
-                var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex);
+                var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex - 1);
                 var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
                 int dataCount = m_RadarCoord.indicatorList.Count;
                 var index = serieData.index;
@@ -435,6 +435,7 @@ namespace XCharts.Runtime
 
                 if (showArea && j == endIndex && !serie.smooth)
                 {
+                    SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex);
                     UGL.DrawTriangle(vh, startPoint, firstPoint, centerPos, areaColor, areaColor, areaToColor);
                 }
                 if (lineStyle.show && j == endIndex && !serie.smooth)

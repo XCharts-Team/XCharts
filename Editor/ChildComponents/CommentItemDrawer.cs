@@ -15,7 +15,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Content");
-                PropertyField(prop, "m_Position");
+                PropertyField(prop, "m_Location");
                 //PropertyField(prop, "m_MarkRect");
                 //PropertyField(prop, "m_MarkStyle");
                 PropertyField(prop, "m_LabelStyle");

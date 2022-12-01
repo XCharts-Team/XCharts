@@ -50,3 +50,5 @@ MonoBehaviour:
   m_CustomThemes:
   - {fileID: 11400000, guid: 289d2fc7f4ce24f73b9ed8ec52639f72, type: 2}
   - {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
+  - {fileID: 11400000, guid: f917f38ce737f4563a377883dccaff8f, type: 2}
+  - {fileID: 11400000, guid: 376d15d5e9b694d75965c837a0fe1222, type: 2}

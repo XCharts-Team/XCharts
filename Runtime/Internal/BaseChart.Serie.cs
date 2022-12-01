@@ -705,7 +705,7 @@ namespace XCharts.Runtime
         /// <param name="index"></param>
         /// <param name="icon"></param>
         /// <param name="xAxisIndex"></param>
-        public void UdpateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)
+        public void UpdateXAxisIcon(int index, Sprite icon, int xAxisIndex = 0)
         {
             var xAxis = GetChartComponent<XAxis>(xAxisIndex);
             if (xAxis != null)

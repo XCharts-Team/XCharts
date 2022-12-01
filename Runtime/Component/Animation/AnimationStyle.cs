@@ -28,7 +28,7 @@ namespace XCharts.Runtime
         InsideOut,
         /// <summary>
         /// Play the animation along the path.
-        /// |沿着路径播放动画。
+        /// |沿着路径播放动画。当折线图从左到右无序或有折返时，可以使用该模式。
         /// </summary>
         AlongPath,
         /// <summary>
@@ -274,8 +274,6 @@ namespace XCharts.Runtime
         public void InitProgress(float curr, float dest)
         {
             if (m_IsInit || m_IsEnd)
-                return;
-            if (curr > dest)
                 return;
 
             m_IsInit = true;

@@ -516,6 +516,7 @@ namespace XCharts.Runtime
                             break;
                     }
                 }
+                DrawLabelLineSymbol(vh, labelLine, pos1, pos5, color);
             }
         }
 

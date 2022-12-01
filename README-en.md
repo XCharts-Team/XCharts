@@ -10,6 +10,7 @@
   Unity数据可视化图表插件。
   <br>
   <a href="https://github.com/XCharts-Team/XCharts">中文</a>
+  <a href="https://github.com/XCharts-Team/XCharts">中文</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -44,6 +45,8 @@
 </p>
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, liquid and other common chart. Also support 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap and ther extended chart.
+
+[XCharts Homepage](https://xcharts-team.github.io)
 
 [XCharts3.0 Tutorial](Documentation~/en/tutorial01.md)  
 [XCharts3.0 API](Documentation~/en/api.md)  

@@ -46,7 +46,7 @@
 
 A powerful, easy-to-use, configurable charting and data visualization library for Unity.  Supporting line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, liquid and other common chart. Also support 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap and ther extended chart.
 
-[XCharts Homepage](https://xcharts-team.github.io)
+[XCharts3.0 Homepage](https://xcharts-team.github.io)
 
 [XCharts3.0 Tutorial](Documentation~/en/tutorial01.md)  
 [XCharts3.0 API](Documentation~/en/api.md)  

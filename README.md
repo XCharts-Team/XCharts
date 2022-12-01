@@ -45,7 +45,7 @@
 
 一款基于`UGUI`的功能强大、简单易用的数据可视化图表插件。支持`折线图`、`柱状图`、`饼图`、`雷达图`、`散点图`、`热力图`、`环形图`、`K线图`、`极坐标`、`平行坐标`等十多种内置图表，以及`3D饼图`、`3D柱图`、`3D金字塔`、`漏斗图`、`仪表盘`、`水位图`、`象形柱图`、`甘特图`、`矩形树图`等扩展图表。
 
-[XCharts 官方主页](https://xcharts-team.github.io)
+[XCharts3.0 官方主页](https://xcharts-team.github.io)
 
 [XCharts3.0 教程](Documentation~/zh/tutorial01.md)  
 [XCharts3.0 API](Documentation~/zh/api.md)  

@@ -62,7 +62,35 @@
 
 ## v3.5.0
 
-* (2022.12.01) Release `v3.5.0` version
+Highlights:
+
+* Updated documentation structure, added [Official XCharts Homepage](https://xcharts-team.github.io)
+* Added support for the DataZoom box selected.
+* Added support for maximum width Settings for bars.
+* Other optimizations.
+
+Upgrade Note:
+
+* Due to the adjustment of the document directory structure, it is recommended to back up the files before upgrading and delete the original XCharts before upgrading them.
+
+Log details:
+
+* (2022.12.01) Release v3.5.0
+* (2022.11.30) Increase `Serie` `barMaxWidth` can set the maximum width of `Bar`
+* (2022.11.30) Optimize `Tooltip`s` Shadow `drawing to stay within chart scope
+* (2022.11.29) Fix an issue with `Serie` data item index exception indicated by `Tooltip`
+* (2022.11.27) Optimizes the offset Settings for `Axis` `AxisName`
+* (2022.11.27) Optimize the Position of `Comment` by replacing position with `Location`
+* (2022.11.27) Optimizes` Tooltip ` `LineStyle` to support setting `Shadow` when using color
+* (2022.11.27) Adjust the Documentation structure
+* (2022.11.26) Optimizes LabelLine's `symbol` not to be displayed by default
+* (2022.11.26) Fixed `LineChart` adding unordered data display exception when `XY` is numeric axis
+* (2022.11.26) Fixed an exception when selecting `DataZoom` from right to left
+* (2022.11.20) Rename `UdpateXAxisIcon()` interface to `UpdateXAxisIcon()` (#235)
+* (2022.11.12) Added `Pie` `LabelLine` support `Symbol`
+* (2022.11.12) added `DataZoom` `MarqueeStyle` support box selection area
+* (2022.11.10) Optimized area color fill effect for `Radar` when type is` Single `
+* (2022.11.04) Fixed exception after itemFormatter `Tooltip` set wildcard `{d}`
 
 ## v3.4.0
 

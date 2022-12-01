@@ -67,6 +67,19 @@ slug: /changelog
 
 ## v3.5.0
 
+版本要点：
+
+* 调整文档结构，增加[XCharts官方主页](https://xcharts-team.github.io)
+* 增加DataZoom框选支持
+* 增加Bar的最大宽度设置支持
+* 其他优化
+
+升级注意：
+
+* 由于调整了文档目录结构，升级前建议先备份，再删除原XCharts后再升级
+
+日志详情：
+
 * (2022.12.01) 发布`v3.5.0`版本
 * (2022.11.30) 增加`Serie`的`barMaxWidth`可设置`Bar`的最大宽度
 * (2022.11.30) 优化`Tooltip`的`Shadow`绘制不超出图表范围

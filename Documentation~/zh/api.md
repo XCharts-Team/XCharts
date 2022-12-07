@@ -24,22 +24,21 @@ slug: /api
 |[ListForSerie](#listforserie)|[MainComponentContext](#maincomponentcontext)|[MainComponentHandler](#maincomponenthandler)|
 |[MainComponentHandler&lt;T&gt;](#maincomponenthandlert)|[MathUtil](#mathutil)|[Painter](#painter)|
 |[ParallelChart](#parallelchart)|[ParallelCoordContext](#parallelcoordcontext)|[PieChart](#piechart)|
-|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|[ProgressBar](#progressbar)|
-|[PropertyUtil](#propertyutil)|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|
-|[ReflectionUtil](#reflectionutil)|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|
-|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|
-|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|
-|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|
-|[SerieHandler&lt;T&gt;](#seriehandlert)|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|
-|[SerieLabelHelper](#serielabelhelper)|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|
-|[SeriesHelper](#serieshelper)|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|
-|[SimplifiedLineChart](#simplifiedlinechart)|[Since](#since)|[SVG](#svg)|
-|[SVGImage](#svgimage)|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|
-|[TooltipContext](#tooltipcontext)|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|
-|[TooltipView](#tooltipview)|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|
-|[UGLExample](#uglexample)|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|
-|[VisualMapHelper](#visualmaphelper)|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|
-|[XCThemeMgr](#xcthememgr)|
+|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|[PropertyUtil](#propertyutil)|
+|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|[ReflectionUtil](#reflectionutil)|
+|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|[RuntimeUtil](#runtimeutil)|
+|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|[SerieConvertAttribute](#serieconvertattribute)|
+|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|
+|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|[SerieHandler&lt;T&gt;](#seriehandlert)|
+|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|[SerieLabelHelper](#serielabelhelper)|
+|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|[SeriesHelper](#serieshelper)|
+|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|[SimplifiedLineChart](#simplifiedlinechart)|
+|[Since](#since)|[SVG](#svg)|[SVGImage](#svgimage)|
+|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|[TooltipContext](#tooltipcontext)|
+|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|[TooltipView](#tooltipview)|
+|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|[UGLExample](#uglexample)|
+|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|[VisualMapHelper](#visualmaphelper)|
+|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|[XCThemeMgr](#xcthememgr)|
 
 ## AnimationStyleHelper
 
@@ -669,10 +668,6 @@ Inherits or Implemented: [BaseChart](#basechart)
 ## PolarCoordContext
 
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
-
-## ProgressBar
-
-Inherits or Implemented: [BaseChart](#basechart)
 
 ## PropertyUtil
 

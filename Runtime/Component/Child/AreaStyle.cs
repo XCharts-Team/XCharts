@@ -38,6 +38,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_ToColor;
         [SerializeField][Range(0, 1)] private float m_Opacity = 0.6f;
         [SerializeField][Since("v3.2.0")] private bool m_InnerFill;
+        [SerializeField][Since("v3.6.0")] private bool m_ToTop = true;
 
         /// <summary>
         /// Set this to false to prevent the areafrom showing.
@@ -92,6 +93,16 @@ namespace XCharts.Runtime
         {
             get { return m_InnerFill; }
             set { if (PropertyUtil.SetStruct(ref m_InnerFill, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to fill the gradient color to the top. The default is true, which means that the gradient color is filled to the top. 
+        /// If it is false, the gradient color is filled to the actual position.
+        /// |渐变色是到顶部还是到实际位置。默认为true到顶部。
+        /// </summary>
+        public bool toTop
+        {
+            get { return m_ToTop; }
+            set { if (PropertyUtil.SetStruct(ref m_ToTop, value)) SetVerticesDirty(); }
         }
 
         public Color32 GetColor()

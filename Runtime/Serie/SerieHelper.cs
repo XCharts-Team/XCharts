@@ -542,16 +542,17 @@ namespace XCharts.Runtime
         public static bool GetAreaColor(out Color32 color, out Color32 toColor,
             Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
-            bool fill;
-            return GetAreaColor(out color, out toColor, out fill, serie, serieData, theme, index);
+            bool fill, toTop;
+            return GetAreaColor(out color, out toColor, out fill, out toTop, serie, serieData, theme, index);
         }
 
         public static bool GetAreaColor(out Color32 color, out Color32 toColor, out bool innerFill,
-            Serie serie, SerieData serieData, ThemeStyle theme, int index)
+            out bool toTop, Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
             color = ChartConst.clearColor32;
             toColor = ChartConst.clearColor32;
             innerFill = false;
+            toTop = true;
             var state = GetSerieState(serie, serieData);
             var stateStyle = GetStateStyle(serie, serieData, state);
             if (stateStyle == null)
@@ -559,6 +560,7 @@ namespace XCharts.Runtime
                 var areaStyle = GetAreaStyle(serie, serieData);
                 if (areaStyle == null || !areaStyle.show) return false;
                 innerFill = areaStyle.innerFill;
+                toTop = areaStyle.toTop;
                 GetColor(ref color, areaStyle.color, serie.itemStyle.color, areaStyle.opacity, theme, index);
                 GetColor(ref toColor, areaStyle.toColor, color, areaStyle.opacity, theme, index);
                 switch (state)
@@ -584,6 +586,7 @@ namespace XCharts.Runtime
                 if (stateStyle.areaStyle.show)
                 {
                     innerFill = stateStyle.areaStyle.innerFill;
+                    toTop = stateStyle.areaStyle.toTop;
                     GetColor(ref color, stateStyle.areaStyle.color, stateStyle.itemStyle.color, stateStyle.areaStyle.opacity, theme, index);
                     GetColor(ref color, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
                 }

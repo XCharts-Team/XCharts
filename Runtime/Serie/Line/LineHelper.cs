@@ -25,8 +25,8 @@ namespace XCharts.Runtime
             ThemeStyle theme, VisualMap visualMap, bool isY, Axis axis, Axis relativedAxis, GridCoord grid)
         {
             Color32 areaColor, areaToColor;
-            bool innerFill;
-            if (!SerieHelper.GetAreaColor(out areaColor, out areaToColor, out innerFill, serie, null, theme, serie.context.colorIndex))
+            bool innerFill, toTop;
+            if (!SerieHelper.GetAreaColor(out areaColor, out areaToColor, out innerFill, out toTop, serie, null, theme, serie.context.colorIndex))
             {
                 return;
             }
@@ -47,7 +47,8 @@ namespace XCharts.Runtime
                     visualMap,
                     axis,
                     relativedAxis,
-                    grid);
+                    grid,
+                    toTop);
             }
             else
             {
@@ -57,13 +58,14 @@ namespace XCharts.Runtime
                     gridXY + (isY ? grid.context.width : grid.context.height),
                     areaColor,
                     areaToColor,
-                    visualMap);
+                    visualMap,
+                    toTop);
             }
         }
 
         private static void DrawSerieLineNormalArea(VertexHelper vh, Serie serie, bool isY,
             float zero, float min, float max, Color32 areaColor, Color32 areaToColor,
-            VisualMap visualMap, Axis axis, Axis relativedAxis, GridCoord grid)
+            VisualMap visualMap, Axis axis, Axis relativedAxis, GridCoord grid, bool toTop)
         {
             var points = serie.context.drawPoints;
             var count = points.Count;
@@ -117,7 +119,7 @@ namespace XCharts.Runtime
                         if (UGLHelper.GetIntersection(lp, tp, zsp, zep, ref ip))
                         {
                             if (lerp)
-                                AddVertToVertexHelperWithLerpColor(vh, ip, ip, color, toColor, isY, min, max, i > 0);
+                                AddVertToVertexHelperWithLerpColor(vh, ip, ip, color, toColor, isY, min, max, i > 0, toTop);
                             else
                             {
                                 if (lastDataIsIgnore)
@@ -133,7 +135,7 @@ namespace XCharts.Runtime
                 }
 
                 if (lerp)
-                    AddVertToVertexHelperWithLerpColor(vh, tp, zp, color, toColor, isY, min, max, i > 0);
+                    AddVertToVertexHelperWithLerpColor(vh, tp, zp, color, toColor, isY, min, max, i > 0, toTop);
                 else
                 {
                     if (lastDataIsIgnore)
@@ -152,7 +154,7 @@ namespace XCharts.Runtime
         }
 
         private static void DrawSerieLineStackArea(VertexHelper vh, Serie serie, Serie lastStackSerie, bool isY,
-            float zero, float min, float max, Color32 color, Color32 toColor, VisualMap visualMap)
+            float zero, float min, float max, Color32 color, Color32 toColor, VisualMap visualMap, bool toTop)
         {
             if (lastStackSerie == null)
                 return;
@@ -170,7 +172,7 @@ namespace XCharts.Runtime
             var lbp = downPoints[0].position;
 
             if (lerp)
-                AddVertToVertexHelperWithLerpColor(vh, ltp, lbp, color, toColor, isY, min, max, false);
+                AddVertToVertexHelperWithLerpColor(vh, ltp, lbp, color, toColor, isY, min, max, false, toTop);
             else
                 UGL.AddVertToVertexHelper(vh, ltp, lbp, color, false);
 
@@ -216,7 +218,7 @@ namespace XCharts.Runtime
                 }
 
                 if (lerp)
-                    AddVertToVertexHelperWithLerpColor(vh, tp, bp, color, toColor, isY, min, max, true);
+                    AddVertToVertexHelperWithLerpColor(vh, tp, bp, color, toColor, isY, min, max, true, toTop);
                 else
                     UGL.AddVertToVertexHelper(vh, tp, bp, color, true);
                 u++;
@@ -234,12 +236,20 @@ namespace XCharts.Runtime
         }
 
         private static void AddVertToVertexHelperWithLerpColor(VertexHelper vh, Vector3 tp, Vector3 bp,
-            Color32 color, Color32 toColor, bool isY, float min, float max, bool needTriangle)
+            Color32 color, Color32 toColor, bool isY, float min, float max, bool needTriangle, bool toTop)
         {
-            var range = max - min;
-            var color1 = Color32.Lerp(color, toColor, ((isY ? tp.x : tp.y) - min) / range);
-            var color2 = Color32.Lerp(color, toColor, ((isY ? bp.x : bp.y) - min) / range);
-            UGL.AddVertToVertexHelper(vh, tp, bp, color1, color2, needTriangle);
+            if (toTop)
+            {
+                var range = max - min;
+                var color1 = Color32.Lerp(color, toColor, ((isY ? tp.x : tp.y) - min) / range);
+                var color2 = Color32.Lerp(color, toColor, ((isY ? bp.x : bp.y) - min) / range);
+
+                UGL.AddVertToVertexHelper(vh, tp, bp, color1, color2, needTriangle);
+            }
+            else
+            {
+                UGL.AddVertToVertexHelper(vh, tp, bp, toColor, color, needTriangle);
+            }
         }
 
         internal static void DrawSerieLine(VertexHelper vh, ThemeStyle theme, Serie serie, VisualMap visualMap,

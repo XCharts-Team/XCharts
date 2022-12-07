@@ -10,9 +10,7 @@ namespace XCharts.Runtime
         IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
         IDragHandler, IEndDragHandler, IScrollHandler
         {
-
             [SerializeField] protected bool m_EnableTextMeshPro = false;
-            [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
 
             protected Painter m_Painter;
             protected int m_SiblingIndex;
@@ -45,11 +43,8 @@ namespace XCharts.Runtime
             protected Action<PointerEventData, BaseGraph> m_OnEndDrag;
             protected Action<PointerEventData, BaseGraph> m_OnScroll;
 
-            protected Vector2 graphAnchorMax { get { return m_GraphMinAnchor; } }
-            protected Vector2 graphAnchorMin { get { return m_GraphMaxAnchor; } }
-            protected Vector2 graphPivot { get { return m_GraphPivot; } }
-            public HideFlags chartHideFlags { get { return m_DebugInfo.showAllChartObject ? HideFlags.None : HideFlags.HideInHierarchy; } }
-            public DebugInfo debug { get { return m_DebugInfo; } }
+            public virtual HideFlags chartHideFlags { get { return HideFlags.None; } }
+
             private ScrollRect m_ScrollRect;
 
             public Painter painter { get { return m_Painter; } }
@@ -128,8 +123,7 @@ namespace XCharts.Runtime
             }
 
 #if UNITY_EDITOR
-            protected override void Reset()
-            { }
+            protected override void Reset() { }
 
             protected override void OnValidate()
             {
@@ -253,16 +247,14 @@ namespace XCharts.Runtime
                 m_RefreshChart = true;
             }
 
-            protected virtual void OnLocalPositionChanged()
-            { }
+            protected virtual void OnLocalPositionChanged() { }
 
             protected virtual void OnDrawPainterBase(VertexHelper vh, Painter painter)
             {
                 DrawPainterBase(vh);
             }
 
-            protected virtual void DrawPainterBase(VertexHelper vh)
-            { }
+            protected virtual void DrawPainterBase(VertexHelper vh) { }
 
             public virtual void OnPointerClick(PointerEventData eventData)
             {

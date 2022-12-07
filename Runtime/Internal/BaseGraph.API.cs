@@ -36,6 +36,11 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 graphPosition { get { return m_GraphPosition; } }
         public Rect graphRect { get { return m_GraphRect; } }
+        public Vector2 graphSizeDelta { get { return m_GraphSizeDelta; } }
+        public Vector2 graphPivot { get { return m_GraphPivot; } }
+        public Vector2 graphMinAnchor { get { return m_GraphMinAnchor; } }
+        public Vector2 graphMaxAnchor { get { return m_GraphMaxAnchor; } }
+        public Vector2 graphAnchoredPosition { get { return m_GraphAnchoredPosition; } }
         /// <summary>
         /// The postion of pointer.
         /// |鼠标位置。

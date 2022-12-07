@@ -6,8 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Background component.
-    /// |
-    /// 背景组件。
+    /// |背景组件。
     /// </summary>
     [Serializable]
     [DisallowMultipleComponent]
@@ -27,7 +26,7 @@ namespace XCharts.Runtime
         public bool show
         {
             get { return m_Show; }
-            internal set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the image of background.

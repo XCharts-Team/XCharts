@@ -57,23 +57,29 @@ namespace XCharts.Editor
 
         public static T AddChart<T>(string chartName) where T : BaseChart
         {
+            XCThemeMgr.CheckReloadTheme();
+            return AddGraph<T>(chartName);
+        }
+
+        public static T AddGraph<T>(string graphName) where T : BaseGraph
+        {
             var parent = GetParent();
             if (parent == null) return null;
             XCThemeMgr.CheckReloadTheme();
-            var chart = new GameObject();
-            chart.name = GetName(parent, chartName);
-            chart.layer = LayerMask.NameToLayer("UI");
-            var t = chart.AddComponent<T>();
-            chart.transform.SetParent(parent);
-            chart.transform.localScale = Vector3.one;
-            chart.transform.localPosition = Vector3.zero;
-            chart.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            var rect = chart.GetComponent<RectTransform>();
+            var obj = new GameObject();
+            obj.name = GetName(parent, graphName);
+            obj.layer = LayerMask.NameToLayer("UI");
+            var t = obj.AddComponent<T>();
+            obj.transform.SetParent(parent);
+            obj.transform.localScale = Vector3.one;
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            var rect = obj.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
-            Selection.activeGameObject = chart;
-            EditorUtility.SetDirty(chart);
+            Selection.activeGameObject = obj;
+            EditorUtility.SetDirty(obj);
             return t;
         }
 

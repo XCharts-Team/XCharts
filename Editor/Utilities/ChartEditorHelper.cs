@@ -539,7 +539,7 @@ namespace XCharts.Editor
             return HEADER_HEIGHT;
         }
 
-        internal static bool DrawHeader(string title, bool state, bool drawBackground, SerializedProperty activeField,
+        public static bool DrawHeader(string title, bool state, bool drawBackground, SerializedProperty activeField,
             Action<Rect> drawCallback, params HeaderMenuInfo[] menus)
         {
             var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);

@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     public static class FormatterHelper
     {
         public const string PH_NN = "\n";
-        private static Regex s_Regex = new Regex(@"{([a-g|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_Regex = new Regex(@"{([a-h|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSub = new Regex(@"(0\.#*)|(\d+-\d+)|(\w+)|(\.)", RegexOptions.IgnoreCase);
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
@@ -16,8 +16,8 @@ namespace XCharts.Runtime
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-g|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-g]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -64,7 +64,7 @@ namespace XCharts.Runtime
                     targetIndex = 0;
                 }
                 if (serie == null) continue;
-                if (p == '.')
+                if (p == '.' || p == 'h' || p == 'H')
                 {
                     var bIndex = targetIndex;
                     if (argsCount >= 2)
@@ -72,8 +72,15 @@ namespace XCharts.Runtime
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    content = content.Replace(old, ChartCached.ColorToDotStr(chart.theme.GetColor(bIndex)));
-                    foundDot = true;
+                    if (p == '.')
+                    {
+                        content = content.Replace(old, ChartCached.ColorToDotStr(chart.theme.GetColor(bIndex)));
+                        foundDot = true;
+                    }
+                    else
+                    {
+                        content = content.Replace(old, "#" + ChartCached.ColorToStr(chart.theme.GetColor(bIndex)));
+                    }
                 }
                 else if (p == 'a' || p == 'A')
                 {
@@ -224,6 +231,10 @@ namespace XCharts.Runtime
                 else if (p == 'g' || p == 'G')
                 {
                     content = content.Replace(old, ChartCached.NumberToStr(dataCount, numericFormatter));
+                }
+                else if (p == 'h' || p == 'H')
+                {
+                    content = content.Replace(old, "#" + ChartCached.ColorToStr(color));
                 }
             }
             content = TrimAndReplaceLine(content);

@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2022.12.12) 修复`Legend`的`formatter`设置为固定值时显示不正常的问题
 * (2022.12.08) 增加`AreaStyle`的`toTop`参数可设置折线图渐变色是到顶部还是到实际位置
 * (2022.12.07) 增加`Formatter`的文本通配符`{h}`支持设置当前颜色值
 

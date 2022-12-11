@@ -123,14 +123,14 @@ namespace XCharts.Runtime
                 GameObject.DestroyImmediate(go.gameObject, true);
             }
         }
-        public static void DestoryGameObjectByMatch(Transform parent, string match)
+        public static void DestoryGameObjectByMatch(Transform parent, string containString)
         {
             if (parent == null) return;
             var childCount = parent.childCount;
             for (int i = childCount - 1; i >= 0; i--)
             {
                 var go = parent.GetChild(i);
-                if (go != null && go.name.StartsWith(match))
+                if (go != null && go.name.Contains(containString))
                 {
                     GameObject.DestroyImmediate(go.gameObject, true);
                 }
@@ -281,7 +281,7 @@ namespace XCharts.Runtime
             return chartText;
         }
 
-        internal static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+        public static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
         {
             var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
@@ -356,6 +356,41 @@ namespace XCharts.Runtime
             var alignment = textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
+                sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
+            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
+            label.SetSize(labelStyle.width, labelStyle.height);
+            label.SetTextPadding(labelStyle.textPadding);
+            label.SetText(content);
+            label.UpdateIcon(labelStyle.icon);
+            if (labelStyle.background.show)
+            {
+                label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
+                    labelStyle.background.color : autoColor;
+                label.sprite = labelStyle.background.sprite;
+                label.type = labelStyle.background.type;
+            }
+            else
+            {
+                label.color = Color.clear;
+                label.sprite = null;
+            }
+            label.transform.localEulerAngles = new Vector3(0, 0, labelStyle.rotate);
+            label.transform.localPosition = labelStyle.offset;
+            return label;
+        }
+
+        public static ChartLabel AddChartLabel2(string name, Transform parent, LabelStyle labelStyle,
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+        {
+            Vector2 anchorMin, anchorMax, pivot;
+            var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
+            var textStyle = labelStyle.textStyle;
+            var alignment = textStyle.GetAlignment(autoAlignment);
+            UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
+            var vector0_5 = new Vector2(0.5f, 0.5f);
+            var labelObj = AddObject(name, parent, vector0_5, vector0_5, vector0_5, sizeDelta);
             var label = GetOrAddComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);

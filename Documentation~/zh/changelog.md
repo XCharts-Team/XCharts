@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2022.12.12) 修复`Axis`的`Value`轴在某些情况下计算数值范围不准确的问题
 * (2022.12.12) 优化`Legend`的`formatter`支持`{h}`通配符
 * (2022.12.12) 修复`Legend`的`formatter`设置为固定值时显示不正常的问题
 * (2022.12.08) 增加`AreaStyle`的`toTop`参数可设置折线图渐变色是到顶部还是到实际位置

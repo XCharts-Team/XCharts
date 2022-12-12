@@ -713,7 +713,7 @@ namespace XCharts.Runtime
             }
             if (ceilRate == 0)
             {
-                var bigger = Math.Floor(Math.Abs(min));
+                var bigger = min < 0 ? Math.Ceiling(Math.Abs(min)) : Math.Floor(Math.Abs(min));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {

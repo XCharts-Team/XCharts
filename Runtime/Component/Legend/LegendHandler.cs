@@ -156,7 +156,7 @@ namespace XCharts.Runtime
                 var content = legend.formatter.Replace("{name}", category);
                 content = content.Replace("{value}", category);
                 var serie = chart.GetSerie(0);
-                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart);
+                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart, category);
                 return content;
             }
         }

@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。
+        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}、{h}。
         /// </summary>
         /// <param name="content">要替换的字符串</param>
         /// <param name="dataIndex">选中的数据项serieData索引</param>
@@ -34,10 +34,9 @@ namespace XCharts.Runtime
         /// <param name="series">所有serie</param>
         /// <param name="theme">用来获取指定index的颜色</param>
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
-        /// <param name="dataZoom">dataZoom</param>
         /// <returns></returns>
         public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie,
-            BaseChart chart, DataZoom dataZoom = null)
+            BaseChart chart, string colorName = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -66,20 +65,23 @@ namespace XCharts.Runtime
                 if (serie == null) continue;
                 if (p == '.' || p == 'h' || p == 'H')
                 {
-                    var bIndex = targetIndex;
+                    var bIndex = dataIndex;
                     if (argsCount >= 2)
                     {
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
+                    var color = string.IsNullOrEmpty(colorName) ?
+                        (Color) chart.GetMarkColor(serie, serie.GetSerieData(bIndex)) :
+                        SeriesHelper.GetNameColor(chart, bIndex, colorName);
                     if (p == '.')
                     {
-                        content = content.Replace(old, ChartCached.ColorToDotStr(chart.theme.GetColor(bIndex)));
+                        content = content.Replace(old, ChartCached.ColorToDotStr(color));
                         foundDot = true;
                     }
                     else
                     {
-                        content = content.Replace(old, "#" + ChartCached.ColorToStr(chart.theme.GetColor(bIndex)));
+                        content = content.Replace(old, "#" + ChartCached.ColorToStr(color));
                     }
                 }
                 else if (p == 'a' || p == 'A')
@@ -100,12 +102,12 @@ namespace XCharts.Runtime
                     var needCategory = (p != 'e' && p != 'E') && (serie is Line || serie is Bar);
                     if (needCategory)
                     {
-                        var category = chart.GetTooltipCategory(dataIndex, serie, dataZoom);
+                        var category = chart.GetTooltipCategory(dataIndex, serie);
                         content = content.Replace(old, category);
                     }
                     else
                     {
-                        var serieData = serie.GetSerieData(bIndex, dataZoom);
+                        var serieData = serie.GetSerieData(bIndex);
                         content = content.Replace(old, serieData.name);
                     }
                 }
@@ -151,7 +153,7 @@ namespace XCharts.Runtime
                     {
                         numericFormatter = SerieHelper.GetNumericFormatter(serie, serie.GetSerieData(bIndex), "");
                     }
-                    var value = serie.GetData(bIndex, dimensionIndex, dataZoom);
+                    var value = serie.GetData(bIndex, dimensionIndex);
                     if (isPercent)
                     {
                         var total = serie.GetDataTotal(dimensionIndex, serie.GetSerieData(bIndex));

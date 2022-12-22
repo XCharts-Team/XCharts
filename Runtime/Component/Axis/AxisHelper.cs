@@ -65,8 +65,9 @@ namespace XCharts.Runtime
                 if (axis.splitNumber <= 0)
                 {
                     var eachWid = coordinateWid / dataCount;
-                    if (eachWid > 80) return dataCount;
-                    var tick = Mathf.CeilToInt(80 / eachWid);
+                    var min = axis is YAxis ? 20 : 80;
+                    if (eachWid > min) return dataCount;
+                    var tick = Mathf.CeilToInt(min / eachWid);
                     return (int) (dataCount / tick);
                 }
                 else

@@ -324,14 +324,20 @@ namespace XCharts.Runtime
             if (background == null) return;
             if (imageStyle.show)
             {
+                background.gameObject.SetActive(true);
                 background.sprite = imageStyle.sprite;
                 background.color = imageStyle.color;
                 background.type = imageStyle.type;
+                if (imageStyle.width > 0 && imageStyle.height > 0)
+                {
+                    background.rectTransform.sizeDelta = new Vector2(imageStyle.width, imageStyle.height);
+                }
             }
             else
             {
                 background.sprite = null;
                 background.color = Color.clear;
+                background.gameObject.SetActive(false);
             }
         }
 

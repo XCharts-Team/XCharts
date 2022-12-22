@@ -631,15 +631,5 @@ namespace XCharts.Runtime
             SerieHelper.GetItemColor(out color, out toColor, serie, null, m_Theme);
             return color;
         }
-
-        /// <summary>
-        /// 保存图表为图片。
-        /// </summary>
-        /// <param name="imageType">type of image: png, jpg, exr</param>
-        /// <param name="savePath">save path</param>
-        public void SaveAsImage(string imageType = "png", string savePath = "")
-        {
-            StartCoroutine(SaveAsImageSync(imageType, savePath));
-        }
     }
 }

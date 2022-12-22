@@ -40,6 +40,7 @@ namespace XCharts.Runtime
         public bool hideIconIfTextEmpty { set { m_HideIconIfTextEmpty = value; } }
         public bool isIconActive { get; private set; }
         public bool isAnimationEnd { get; internal set; }
+        public Rect rect { get; set; }
 
         internal RectTransform objectRect
         {

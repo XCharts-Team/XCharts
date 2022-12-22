@@ -746,11 +746,5 @@ namespace XCharts.Runtime
             InitComponentHandlers();
             InitSerieHandlers();
         }
-
-        private IEnumerator SaveAsImageSync(string imageType, string path)
-        {
-            yield return new WaitForEndOfFrame();
-            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
-        }
     }
 }

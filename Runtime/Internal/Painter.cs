@@ -51,7 +51,7 @@ namespace XCharts.Runtime
             Init();
         }
 
-        internal void CheckRefresh()
+        public void CheckRefresh()
         {
             if (m_Refresh && gameObject.activeSelf)
             {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -169,6 +170,22 @@ namespace XCharts.Runtime
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// 保存图表为图片。
+        /// </summary>
+        /// <param name="imageType">type of image: png, jpg, exr</param>
+        /// <param name="savePath">save path</param>
+        public void SaveAsImage(string imageType = "png", string savePath = "")
+        {
+            StartCoroutine(SaveAsImageSync(imageType, savePath));
+        }
+
+        private IEnumerator SaveAsImageSync(string imageType, string path)
+        {
+            yield return new WaitForEndOfFrame();
+            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
         }
     }
 }

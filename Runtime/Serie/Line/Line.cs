@@ -38,7 +38,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static Line CovertSerie(Serie serie)
+        public static Line ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<Line>();
             return newSerie;

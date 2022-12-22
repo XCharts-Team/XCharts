@@ -65,7 +65,8 @@ slug: /changelog
 
 ## master
 
-* (2022.12.22) 修复`Covert XY Axis`后Y轴的`Label`显示异常的问题
+* (2022.12.22) 调整`Covert`重命名为`Convert`，涉及的接口有：`ConvertXYAxis()`，`CovertSerie()`等
+* (2022.12.22) 修复`Convert XY Axis`后Y轴的`Label`显示异常的问题
 * (2022.12.12) 修复`Axis`的`Value`轴在某些情况下计算数值范围不准确的问题
 * (2022.12.12) 优化`Legend`的`formatter`支持`{h}`通配符
 * (2022.12.12) 修复`Legend`的`formatter`设置为固定值时显示不正常的问题
@@ -680,7 +681,7 @@ slug: /changelog
 * (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
 * (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
 * (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数
-* (2020.04.18) 增加`Covert XY Axis`互换XY轴配置
+* (2020.04.18) 增加`Convert XY Axis`互换XY轴配置
 * (2020.04.17) 增加`Axis`可通过`inverse`参数设置坐标轴反转
 * (2020.04.16) 修复`Check warning`在`Unity2019.3`上的显示问题
 * (2020.04.16) 修复`PieChart`在设置`Space`参数后动画绘制异常的问题

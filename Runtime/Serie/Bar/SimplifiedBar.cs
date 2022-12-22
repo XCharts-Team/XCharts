@@ -32,7 +32,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static SimplifiedBar CovertSerie(Serie serie)
+        public static SimplifiedBar ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedBar>();
             return newSerie;

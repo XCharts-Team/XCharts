@@ -464,7 +464,7 @@ namespace XCharts.Runtime
         /// 转换X轴和Y轴的配置
         /// </summary>
         /// <param name="index">坐标轴索引，0或1</param>
-        public void CovertXYAxis(int index)
+        public void ConvertXYAxis(int index)
         {
             List<MainComponent> m_XAxes;
             List<MainComponent> m_YAxes;

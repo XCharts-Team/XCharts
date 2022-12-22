@@ -30,7 +30,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static SimplifiedCandlestick CovertSerie(Serie serie)
+        public static SimplifiedCandlestick ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedCandlestick>();
             return newSerie;

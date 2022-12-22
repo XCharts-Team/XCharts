@@ -129,9 +129,9 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | ClearData() |public virtual void ClearData()<br/>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
 | ClearSerieData() |public virtual void ClearSerieData()<br/>Clear the data of all series. |
 | ClickLegendButton() |public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
-| CovertSerie() |public bool CovertSerie(Serie serie, Type type)|
-| CovertSerie&lt;T&gt;() |public bool CovertSerie&lt;T&gt;(Serie serie) where T : Serie|
-| CovertXYAxis() |public void CovertXYAxis(int index)<br/>转换X轴和Y轴的配置 |
+| ConvertSerie() |public bool ConvertSerie(Serie serie, Type type)|
+| ConvertSerie&lt;T&gt;() |public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
+| ConvertXYAxis() |public void ConvertXYAxis(int index)<br/>转换X轴和Y轴的配置 |
 | GenerateDefaultSerieName() |public string GenerateDefaultSerieName()|
 | GetAllSerieDataCount() |public int GetAllSerieDataCount()|
 | GetChartBackgroundColor() |public Color32 GetChartBackgroundColor()|
@@ -227,7 +227,6 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | RemoveSerie&lt;T&gt;() |public void RemoveSerie&lt;T&gt;() where T : Serie|
 | ReplaceSerie() |public bool ReplaceSerie(Serie oldSerie, Serie newSerie)|
 | ResetDataIndex() |public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
-| SaveAsImage() |public void SaveAsImage(string imageType = "png", string savePath = "")<br/>保存图表为图片。 |
 | SetBasePainterMaterial() |public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
 | SetMaxCache() |public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 | SetPainterActive() |public void SetPainterActive(int index, bool flag)|
@@ -276,6 +275,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandle
 | RebuildChartObject() |public void RebuildChartObject()<br/>移除并重新创建所有图表的Object。 |
 | RefreshAllComponent() |public void RefreshAllComponent()|
 | RefreshGraph() |public virtual void RefreshGraph()<br/>Redraw graph in next frame. |
+| SaveAsImage() |public void SaveAsImage(string imageType = "png", string savePath = "")<br/>保存图表为图片。 |
 | ScreenPointToChartPoint() |public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)|
 | SetPainterDirty() |public void SetPainterDirty()<br/>重新初始化Painter |
 | SetSize() |public virtual void SetSize(float width, float height)<br/>设置图形的宽高（在非stretch pivot下才有效，其他情况需要自己调整RectTransform） |
@@ -312,7 +312,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 | CopyList&lt;T&gt;() |public static bool CopyList&lt;T&gt;(List&lt;T&gt; toList, List&lt;T&gt; fromList)|
 | DestoryGameObject() |public static void DestoryGameObject(GameObject go)|
 | DestoryGameObject() |public static void DestoryGameObject(Transform parent, string childName)|
-| DestoryGameObjectByMatch() |public static void DestoryGameObjectByMatch(Transform parent, string match)|
+| DestoryGameObjectByMatch() |public static void DestoryGameObjectByMatch(Transform parent, string containString)|
 | DestroyAllChildren() |public static void DestroyAllChildren(Transform parent)|
 | GetActualValue() |public static float GetActualValue(float valueOrRate, float total, float maxRate = 1.5f)|
 | GetAngle360() |public static float GetAngle360(Vector2 from, Vector2 to)<br/>获得0-360的角度（12点钟方向为0度） |
@@ -645,6 +645,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 |public method|description|
 |--|--|
+| CheckRefresh() |public void CheckRefresh()|
 | Init() |public void Init()|
 | Refresh() |public void Refresh()|
 | SetActive() |public void SetActive(bool flag, bool isDebugMode = false)|

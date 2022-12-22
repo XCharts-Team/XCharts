@@ -21,7 +21,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static Pie CovertSerie(Serie serie)
+        public static Pie ConvertSerie(Serie serie)
         {
             var newSerie = SerieHelper.CloneSerie<Pie>(serie);
             return newSerie;

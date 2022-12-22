@@ -610,7 +610,7 @@ Details:
 * (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
 * (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
 * (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数
-* (2020.04.18) 增加`Covert XY Axis`互换XY轴配置
+* (2020.04.18) 增加`Convert XY Axis`互换XY轴配置
 * (2020.04.17) 增加`Axis`可通过`inverse`参数设置坐标轴反转
 * (2020.04.16) 修复`Check warning`在`Unity2019.3`上的显示问题
 * (2020.04.16) 修复`PieChart`在设置`Space`参数后动画绘制异常的问题

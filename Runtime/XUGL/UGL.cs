@@ -1323,7 +1323,8 @@ namespace XUGL
             float smoothness, int gradientType = 0, bool isYAxis = false)
         {
             if (radius == 0) return;
-            if (gap > 0 && Mathf.Abs(toDegree - startDegree) >= 360) gap = 0;
+            var isCircle = Mathf.Abs(toDegree - startDegree) >= 360;
+            if (gap > 0 && isCircle) gap = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
             int segments = (int) ((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
@@ -1363,7 +1364,7 @@ namespace XUGL
                     if (realToAngle < realStartAngle) realToAngle = realStartAngle;
                     p2 = UGLHelper.GetPos(center, radius, realStartAngle);
                 }
-                if (needBorder)
+                if (needBorder && !isCircle)
                 {
                     borderDiff = borderLineWidth / Mathf.Sin(halfAngle);
                     realCenter += borderDiff * middleDire;
@@ -1514,6 +1515,7 @@ namespace XUGL
             insideRadius += borderWidth;
             smoothness = smoothness < 0 ? 2f : smoothness;
             Vector3 p1, p2, p3, p4, e1, e2;
+            var isCircle = Mathf.Abs(toDegree - startDegree) >= 360;
             var needBorder = borderWidth != 0;
             var needSpace = gap != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
@@ -1581,7 +1583,7 @@ namespace XUGL
                     p2 = UGLHelper.GetPos(center, outsideRadius, realStartOutAngle, false);
                     e2 = UGLHelper.GetPos(center, outsideRadius, realToOutAngle, false);
                 }
-                if (needBorder)
+                if (needBorder && !isCircle)
                 {
                     var borderDiff = borderWidth / Mathf.Sin(halfAngle);
                     realCenter += Mathf.Abs(borderDiff) * middleDire;

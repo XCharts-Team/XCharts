@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2022.12.28) 修复`Pie`只有一个数据时设置`border`后显示异常的问题 (#237)
 * (2022.12.22) 调整`Covert`重命名为`Convert`，涉及的接口有：`ConvertXYAxis()`，`CovertSerie()`等
 * (2022.12.22) 修复`Convert XY Axis`后Y轴的`Label`显示异常的问题
 * (2022.12.12) 修复`Axis`的`Value`轴在某些情况下计算数值范围不准确的问题

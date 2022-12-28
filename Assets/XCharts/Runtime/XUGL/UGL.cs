@@ -34,7 +34,7 @@ namespace XUGL
         /// <param name="dent">箭头凹度</param>
         /// <param name="color">颜色</param>
         public static void DrawArrow(VertexHelper vh, Vector3 startPoint, Vector3 arrowPoint, float width,
-           float height, float offset, float dent, Color32 color)
+            float height, float offset, float dent, Color32 color)
         {
             var dir = (arrowPoint - startPoint).normalized;
             var sharpPos = arrowPoint + (offset + height / 4) * dir;
@@ -435,7 +435,7 @@ namespace XUGL
         /// <param name="color">颜色</param>
         /// <param name="vertical">是否垂直方向</param>
         public static void DrawRectangle(VertexHelper vh, Vector3 p, float xRadius, float yRadius,
-                Color32 color, bool vertical = true)
+            Color32 color, bool vertical = true)
         {
             DrawRectangle(vh, p, xRadius, yRadius, color, color, vertical);
         }
@@ -1063,7 +1063,7 @@ namespace XUGL
         }
 
         public static void DrawTriangle(VertexHelper vh, Vector3 p1,
-           Vector3 p2, Vector3 p3, Color32 color, Color32 color2, Color32 color3)
+            Vector3 p2, Vector3 p3, Color32 color, Color32 color2, Color32 color3)
         {
             UIVertex v1 = new UIVertex();
             v1.position = p1;
@@ -1091,7 +1091,7 @@ namespace XUGL
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 center, float radius, Color32 color,
-           Color32 toColor, float smoothness = 2f)
+            Color32 toColor, float smoothness = 2f)
         {
             DrawSector(vh, center, radius, color, toColor, 0, 360, 0, s_ClearColor32, smoothness);
         }
@@ -1138,13 +1138,13 @@ namespace XUGL
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 center, float radius, Color32 color,
-                    float startDegree, float toDegree, float smoothness = 2f)
+            float startDegree, float toDegree, float smoothness = 2f)
         {
             DrawSector(vh, center, radius, color, color, startDegree, toDegree, 0, s_ClearColor32, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 center, float radius, Color32 color, Color32 toColor,
-                    float startDegree, float toDegree, int gradientType = 0, bool isYAxis = false, float smoothness = 2f)
+            float startDegree, float toDegree, int gradientType = 0, bool isYAxis = false, float smoothness = 2f)
         {
             DrawSector(vh, center, radius, color, toColor, startDegree, toDegree, 0, s_ClearColor32, 0, smoothness,
                 gradientType, isYAxis);
@@ -1183,10 +1183,11 @@ namespace XUGL
             float smoothness, int gradientType = 0, bool isYAxis = false)
         {
             if (radius == 0) return;
-            if (space > 0 && Mathf.Abs(toDegree - startDegree) >= 360) space = 0;
+            var isCircle = Mathf.Abs(toDegree - startDegree) >= 360;
+            if (space > 0 && isCircle) space = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
-            int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
+            int segments = (int) ((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1223,7 +1224,7 @@ namespace XUGL
                     if (realToAngle < realStartAngle) realToAngle = realStartAngle;
                     p2 = UGLHelper.GetPos(center, radius, realStartAngle);
                 }
-                if (needBorder)
+                if (needBorder && !isCircle)
                 {
                     borderDiff = borderLineWidth / Mathf.Sin(halfAngle);
                     realCenter += borderDiff * middleDire;
@@ -1259,9 +1260,9 @@ namespace XUGL
                     {
                         p4 = new Vector3(p3.x, realCenter.y);
                         var dist = p4.x - realCenter.x;
-                        var tcolor = Color32.Lerp(color, toColor, dist >= 0
-                            ? dist / radius
-                            : Mathf.Min(radius + dist, radius) / radius);
+                        var tcolor = Color32.Lerp(color, toColor, dist >= 0 ?
+                            dist / radius :
+                            Mathf.Min(radius + dist, radius) / radius);
                         if (isLeft && (i == segments || i == 0)) tcolor = toColor;
                         DrawQuadrilateral(vh, lastP4, p2, p3, p4, lastColor, tcolor);
                         lastP4 = p4;
@@ -1374,11 +1375,12 @@ namespace XUGL
             insideRadius += borderWidth;
             smoothness = smoothness < 0 ? 2f : smoothness;
             Vector3 p1, p2, p3, p4, e1, e2;
+            var isCircle = Mathf.Abs(toDegree - startDegree) >= 360;
             var needBorder = borderWidth != 0;
             var needSpace = space != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
 
-            int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
+            int segments = (int) ((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1441,7 +1443,7 @@ namespace XUGL
                     p2 = UGLHelper.GetPos(center, outsideRadius, realStartOutAngle, false);
                     e2 = UGLHelper.GetPos(center, outsideRadius, realToOutAngle, false);
                 }
-                if (needBorder)
+                if (needBorder && !isCircle)
                 {
                     var borderDiff = borderWidth / Mathf.Sin(halfAngle);
                     realCenter += Mathf.Abs(borderDiff) * middleDire;
@@ -1624,7 +1626,7 @@ namespace XUGL
             float lineWidth, Color32 lineColor, float smoothness)
         {
             var dist = Vector3.Distance(sp, ep);
-            var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
+            var segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
             UGLHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
             if (s_CurvesPosList.Count > 1)
             {

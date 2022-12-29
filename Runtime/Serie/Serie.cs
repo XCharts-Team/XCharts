@@ -1658,7 +1658,7 @@ namespace XCharts.Runtime
         /// <param name="index"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public bool UpdateXYData(int index, float xValue, float yValue)
+        public bool UpdateXYData(int index, double xValue, double yValue)
         {
             var flag1 = UpdateData(index, 0, xValue);
             var flag2 = UpdateData(index, 1, yValue);

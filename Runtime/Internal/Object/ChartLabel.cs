@@ -21,6 +21,7 @@ namespace XCharts.Runtime
         private Vector3 m_IconOffest;
         private Align m_Align = Align.Left;
         private Image m_IconImage;
+        private bool m_Active = true;
 
         public Image icon
         {
@@ -188,9 +189,18 @@ namespace XCharts.Runtime
             return transform.localPosition;
         }
 
+        public override bool IsActive()
+        {
+            return m_Active;
+        }
+
         public void SetActive(bool flag)
         {
-            ChartHelper.SetActive(gameObject, flag);
+            if (m_Active != flag)
+            {
+                m_Active = flag;
+                ChartHelper.SetActive(gameObject, flag);
+            }
         }
         public void SetTextActive(bool flag)
         {

@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2022.12.29) 增加`Editor`对`List`的`+`添加编辑功能
 * (2022.12.29) 修复`UpdateXYData()`接口影响数据精度的问题 (#238)
 * (2022.12.28) 修复`Pie`只有一个数据时设置`border`后显示异常的问题 (#237)
 * (2022.12.22) 调整`Covert`重命名为`Convert`，涉及的接口有：`ConvertXYAxis()`，`CovertSerie()`等

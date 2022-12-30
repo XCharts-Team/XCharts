@@ -318,8 +318,8 @@ namespace XCharts.Editor
         {
             EditorGUI.indentLevel++;
             var listSize = listProp.arraySize;
-            var iconWidth = 14;
-            var iconGap = 3f;
+            var iconWidth = 10;
+            var iconGap = 0f;
 
             if (showSize)
             {
@@ -383,19 +383,24 @@ namespace XCharts.Editor
                         var isSerie = "Serie".Equals(element.type);
                         var elementRect = isSerie ?
                             new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * iconGap, drawRect.height) :
-                            new Rect(drawRect.x, drawRect.y, drawRect.width - 3 * iconWidth, drawRect.height);
+                            new Rect(drawRect.x, drawRect.y, drawRect.width - 4 * iconWidth, drawRect.height);
                         EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
-                        var iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
+                        var iconRect = new Rect(drawRect.width - 4 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                         var oldColor = GUI.contentColor;
                         GUI.contentColor = Color.black;
                         if (GUI.Button(iconRect, EditorCustomStyles.iconUp, EditorCustomStyles.invisibleButton))
                         {
                             if (i > 0) listProp.MoveArrayElement(i, i - 1);
                         }
-                        iconRect = new Rect(drawRect.width - 2 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
+                        iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                         if (GUI.Button(iconRect, EditorCustomStyles.iconDown, EditorCustomStyles.invisibleButton))
                         {
                             if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
+                        }
+                        iconRect = new Rect(drawRect.width - 2 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
+                        if (GUI.Button(iconRect, EditorCustomStyles.iconAdd, EditorCustomStyles.invisibleButton))
+                        {
+                            if (i < listProp.arraySize && i >= 0) listProp.InsertArrayElementAtIndex(i);
                         }
                         iconRect = new Rect(drawRect.width - iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
                         if (GUI.Button(iconRect, EditorCustomStyles.iconRemove, EditorCustomStyles.invisibleButton))

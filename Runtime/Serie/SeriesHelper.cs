@@ -106,7 +106,8 @@ namespace XCharts.Runtime
                     break;
                 }
             }
-            if (ChartHelper.IsClearColor(destSerie.markColor))
+            var itemStyle = SerieHelper.GetItemStyle(destSerie, destSerieData, SerieState.Normal);
+            if (ChartHelper.IsClearColor(itemStyle.markColor))
             {
                 Color32 color, toColor;
                 SerieHelper.GetItemColor(out color, out toColor, destSerie, destSerieData, chart.theme, index, SerieState.Normal);
@@ -114,7 +115,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                return destSerie.markColor;
+                return itemStyle.markColor;
             }
         }
 

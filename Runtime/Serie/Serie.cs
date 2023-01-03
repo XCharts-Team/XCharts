@@ -230,7 +230,6 @@ namespace XCharts.Runtime
         [SerializeField] private string m_SerieName;
         [SerializeField][Since("v3.2.0")] private SerieState m_State = SerieState.Normal;
         [SerializeField][Since("v3.2.0")] private SerieColorBy m_ColorBy = SerieColorBy.Default;
-        [SerializeField][Since("v3.4.0")] private Color32 m_MarkColor;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_XAxisIndex = 0;
         [SerializeField] private int m_YAxisIndex = 0;
@@ -374,15 +373,6 @@ namespace XCharts.Runtime
             //get { return m_ColorBy; }
             get { return m_ColorBy == SerieColorBy.Default?defaultColorBy : m_ColorBy; }
             set { if (PropertyUtil.SetStruct(ref m_ColorBy, value)) { SetAllDirty(); } }
-        }
-        /// <summary>
-        /// Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
-        /// |Serie的标识颜色。仅用于Legend和Tooltip的展示，不影响绘制颜色，默认为clear。
-        /// </summary>
-        public Color32 markColor
-        {
-            get { return m_MarkColor; }
-            set { if (PropertyUtil.SetStruct(ref m_MarkColor, value)) { SetAllDirty(); } }
         }
         /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.

@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.01.03) 删除`Serie`的`MarkColor`，增加`ItemStyle`的`MarkColor`
 * (2022.12.29) 增加`Editor`对`List`的`+`添加编辑功能
 * (2022.12.29) 修复`UpdateXYData()`接口影响数据精度的问题 (#238)
 * (2022.12.28) 修复`Pie`只有一个数据时设置`border`后显示异常的问题 (#237)

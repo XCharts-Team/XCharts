@@ -601,13 +601,14 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public Color32 GetMarkColor(Serie serie, SerieData serieData)
         {
-            if (ChartHelper.IsClearColor(serie.markColor))
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (ChartHelper.IsClearColor(itemStyle.markColor))
             {
                 return GetItemColor(serie, serieData);
             }
             else
             {
-                return serie.markColor;
+                return itemStyle.markColor;
             }
         }
 

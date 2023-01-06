@@ -23,7 +23,7 @@ namespace XCharts.Runtime
         public Type type { get { return m_Type; } set { m_Type = value; } }
         public void Refresh()
         {
-            if (gameObject == null) return;
+            if (null == this || gameObject == null) return;
             if (!gameObject.activeSelf) return;
             m_Refresh = true;
         }

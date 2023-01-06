@@ -491,8 +491,9 @@ namespace XCharts.Runtime
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
                     pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos5X = (currAngle - startAngle) % 360 > 180 ?
-                    pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
+                var diffAngle = (currAngle - startAngle) % 360;
+                var isLeft = diffAngle > 180 || (diffAngle == 0 && serieData.context.startAngle > 0);
+                var pos5X = isLeft?pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
                 var pos5 = new Vector3(pos5X, pos2.y);
                 var angle = Vector3.Angle(pos1 - center, pos2 - pos1);
                 if (angle > 15)

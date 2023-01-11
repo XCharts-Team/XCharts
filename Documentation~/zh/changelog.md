@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.01.11) 修复`Inspector`上移除`Component`后图表没有及时刷新的问题 (#241)
 * (2023.01.06) 修复`Pie`在最后的几个数据都为0时`Label`显示不正常的问题 (#240)
 * (2023.01.03) 删除`Serie`的`MarkColor`，增加`ItemStyle`的`MarkColor`
 * (2022.12.29) 增加`Editor`对`List`的`+`添加编辑功能

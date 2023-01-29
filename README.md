@@ -70,6 +70,7 @@
 - 支持万级大数据量绘制，支持采样绘制。
 - 支持`TexMeshPro`。
 - 支持所有`5.6`以上的`Unity`版本。
+- 支持 Input System （[如何从 Input Manager 转 Input System](Documentation~/zh/inputsystem.md)）。
 
 ## 截图
 

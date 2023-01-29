@@ -11,7 +11,7 @@ namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/EmptyChart", 10)]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(RectTransform))]
+    [RequireComponent(typeof(RectTransform),typeof(CanvasRenderer))]
     [DisallowMultipleComponent]
     public partial class BaseChart : BaseGraph, ISerializationCallbackReceiver
     {

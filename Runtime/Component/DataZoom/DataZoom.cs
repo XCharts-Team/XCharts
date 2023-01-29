@@ -631,12 +631,12 @@ namespace XCharts.Runtime
 
         internal void UpdateStartLabelPosition(Vector3 pos)
         {
-            m_StartLabel.SetPosition(pos);
+            if (m_StartLabel != null) m_StartLabel.SetPosition(pos);
         }
 
         internal void UpdateEndLabelPosition(Vector3 pos)
         {
-            m_EndLabel.SetPosition(pos);
+            if (m_EndLabel != null) m_EndLabel.SetPosition(pos);
         }
 
         public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)

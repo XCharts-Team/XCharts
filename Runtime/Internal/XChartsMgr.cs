@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 #if UNITY_EDITOR
-using UnityEditor;
+using ADB = UnityEditor.AssetDatabase;
 #endif
 
 namespace XCharts.Runtime
@@ -127,6 +128,7 @@ namespace XCharts.Runtime
         }
 
 #if UNITY_EDITOR
+
         public static string GetPackageFullPath()
         {
             string packagePath = Path.GetFullPath("Packages/com.monitor1394.xcharts");
@@ -134,38 +136,13 @@ namespace XCharts.Runtime
             {
                 return packagePath;
             }
-            packagePath = Path.GetFullPath("Assets/..");
-            if (Directory.Exists(packagePath))
-            {
-                if (File.Exists(packagePath + "/Assets/Packages/XCharts/package.json"))
-                {
-                    return packagePath + "/Assets/Packages/XCharts";
-                }
-
-                if (File.Exists(packagePath + "/Assets/XCharts/package.json"))
-                {
-                    return packagePath + "/Assets/XCharts";
-                }
-
-                string[] matchingPaths = Directory.GetDirectories(packagePath, "XCharts", SearchOption.AllDirectories);
-                string path = ValidateLocation(matchingPaths, packagePath);
-                if (path != null) return Path.Combine(packagePath, path);
-            }
-            return null;
-        }
-
-        private static string ValidateLocation(string[] paths, string projectPath)
-        {
-            for (int i = 0; i < paths.Length; i++)
-            {
-                if (File.Exists(paths[i] + "/package.json"))
-                {
-                    string folderPath = paths[i].Replace(projectPath, "");
-                    folderPath = folderPath.TrimStart('\\', '/');
-                    return folderPath;
-                }
-            }
-            return null;
+            packagePath = ADB.FindAssets("t:Script")
+                                              .Where(v => Path.GetFileNameWithoutExtension(ADB.GUIDToAssetPath(v)) == "XChartsMgr")
+                                              .Select(id => ADB.GUIDToAssetPath(id))
+                                              .FirstOrDefault();
+            packagePath = Path.GetDirectoryName(packagePath);
+            packagePath = packagePath.Substring(0, packagePath.LastIndexOf("Runtime"));
+            return packagePath;
         }
 
         [UnityEditor.Callbacks.DidReloadScripts]
@@ -183,133 +160,6 @@ namespace XCharts.Runtime
                     chart.InitComponentHandlers();
                     chart.InitSerieHandlers();
                 }
-            }
-        }
-
-        public static void EnableTextMeshPro()
-        {
-            DefineSymbolsUtil.AddGlobalDefine("dUI_TextMeshPro");
-            RemoveAllChartObject();
-        }
-
-        public static void DisableTextMeshPro()
-        {
-            DefineSymbolsUtil.RemoveGlobalDefine("dUI_TextMeshPro");
-            RemoveAllChartObject();
-        }
-
-        public static bool IsExistTMPAssembly()
-        {
-
-#if UNITY_2018_1_OR_NEWER
-            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies(UnityEditor.Compilation.AssembliesType.Player))
-            {
-                if (assembly.name.Equals("Unity.TextMeshPro")) return true;
-            }
-#elif UNITY_2017_3_OR_NEWER
-            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies())
-            {
-                if (assembly.name.Equals("Unity.TextMeshPro")) return true;
-            }
-#endif
-            return false;
-        }
-
-        public static bool ModifyTMPRefence(bool removeTMP = false)
-        {
-            var packagePath = GetPackageFullPath();
-            if (!ModifyTMPRefence(packagePath + "/Runtime/XCharts.Runtime.asmdef", removeTMP)) return false;
-            if (!ModifyTMPRefence(packagePath + "/Editor/XCharts.Editor.asmdef", removeTMP)) return false;
-            return true;
-        }
-
-        private static bool ModifyTMPRefence(string asmdefPath, bool removeTMP = false)
-        {
-            if (!File.Exists(asmdefPath))
-            {
-                Debug.LogError("AddTMPRefence ERROR: can't find: " + asmdefPath);
-                return false;
-            }
-            try
-            {
-                var dest = new List<string>();
-                var refs = new List<string>();
-                var lines = File.ReadAllLines(asmdefPath);
-                var referencesStart = false;
-                var addedTMP = false;
-                var removedTMP = false;
-                var tmpName = "\"Unity.TextMeshPro\"";
-                var refCount = 0;
-                foreach (var line in lines)
-                {
-                    if (string.IsNullOrEmpty(line)) continue;
-                    if (line.Contains("\"references\": ["))
-                    {
-                        dest.Add(line);
-                        referencesStart = true;
-                    }
-                    else if (referencesStart)
-                    {
-                        if (line.Contains("],"))
-                        {
-                            referencesStart = false;
-                            if (refCount > 0)
-                            {
-                                var old = dest[dest.Count - 1];
-                                if (old.EndsWith(","))
-                                    dest[dest.Count - 1] = old.Substring(0, old.Length - 1);
-                            }
-                            if (!removeTMP && !refs.Contains(tmpName))
-                            {
-                                if (refs.Count > 0)
-                                    dest[dest.Count - 1] = dest[dest.Count - 1] + ",";
-                                dest.Add("        " + tmpName);
-                                dest.Add(line);
-                                addedTMP = true;
-                            }
-                            else
-                            {
-                                dest.Add(line);
-                            }
-                        }
-                        else
-                        {
-                            if (removeTMP)
-                            {
-                                if (!line.Contains(tmpName))
-                                {
-                                    dest.Add(line);
-                                    refCount++;
-                                }
-                                else
-                                {
-                                    removedTMP = true;
-                                }
-                            }
-                            else
-                            {
-                                dest.Add(line);
-                                refs.Add(line.Trim());
-                            }
-                        }
-                    }
-                    else
-                    {
-                        dest.Add(line);
-                    }
-                }
-                if (addedTMP || removedTMP)
-                {
-                    File.WriteAllText(asmdefPath, string.Join("\n", dest.ToArray()));
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
-                return true;
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError("AddTMPRefence ERROR:" + e.Message);
-                return false;
             }
         }
 #endif

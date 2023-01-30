@@ -1,8 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XCharts.Runtime;
+using ADB = UnityEditor.AssetDatabase;
+
 
 namespace XCharts.Editor
 {
@@ -22,7 +28,7 @@ namespace XCharts.Editor
                     canvas = canvasObject.AddComponent<Canvas>();
                     canvas.renderMode = RenderMode.ScreenSpaceCamera;
                     var mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-                    canvas.worldCamera = mainCamera == null? null : mainCamera.GetComponent<Camera>();
+                    canvas.worldCamera = mainCamera == null ? null : mainCamera.GetComponent<Camera>();
                     canvasObject.AddComponent<CanvasScaler>();
                     canvasObject.AddComponent<GraphicRaycaster>();
                     if (GameObject.Find("EventSystem") == null)
@@ -188,23 +194,155 @@ namespace XCharts.Editor
             XCThemeMgr.ReloadThemeList();
         }
 
+        #region Text mesh pro support
+#if UNITY_2017_1_OR_NEWER
+        const string SYMBOL_TMP = "dUI_TextMeshPro";
+        const string ASMDEF_TMP = "Unity.TextMeshPro";
+
         [MenuItem("XCharts/TextMeshPro Enable")]
         public static void EnableTextMeshPro()
         {
-            if (!XChartsMgr.IsExistTMPAssembly())
+            if (!IsSpecifyAssemblyExist(ASMDEF_TMP))
             {
                 Debug.LogError("TextMeshPro is not in the project, please import TextMeshPro package first.");
                 return;
             }
-            XChartsMgr.EnableTextMeshPro();
-            XChartsMgr.ModifyTMPRefence();
+            DefineSymbolsUtil.AddGlobalDefine(SYMBOL_TMP);
+            XChartsMgr.RemoveAllChartObject();
+            InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_TMP);
+            InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_TMP);
         }
 
         [MenuItem("XCharts/TextMeshPro Disable")]
         public static void DisableTextMeshPro()
         {
-            XChartsMgr.ModifyTMPRefence(true);
-            XChartsMgr.DisableTextMeshPro();
+            RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_TMP);
+            RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_TMP);
+            DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_TMP);
+            XChartsMgr.RemoveAllChartObject();
         }
+#endif
+        #endregion
+
+        #region InputSystem Support
+#if UNITY_2019_1_OR_NEWER
+        //As InputSystem is released in 2019.1+ ,when unity version is 2019.1+ , enable InputSystem Support
+        const string SYMBOL_I_S = "INPUT_SYSTEM_ENABLED";
+        const string ASMDEF_I_S = "Unity.InputSystem";
+        [MenuItem("XCharts/InputSystem Enable")]
+        public static void EnableInputSystem()
+        {
+            if (!IsSpecifyAssemblyExist(ASMDEF_I_S))
+            {
+                Debug.LogError("InputSystem is not in the project, please import InputSystem package first.");
+                return;
+            }
+            // insert input system package into editor and runtime assembly
+            InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_I_S);
+            InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_I_S);
+            // add scripting define symbols
+            DefineSymbolsUtil.AddGlobalDefine(SYMBOL_I_S);
+        }
+        [MenuItem("XCharts/InputSystem Disable")]
+        public static void DisableInputSystem()
+        {
+            // remove input system package into editor and runtime assembly
+            RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_I_S);
+            RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_I_S);
+            // remove scripting define symbols
+            DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_I_S);
+        }
+#endif
+        #endregion
+
+        #region Assistant members
+#if UNITY_2017_1_OR_NEWER
+        // as text mesh pro is released in 2017.1, so we may use these function and types in 2017.1 or later
+        private static void InsertSpecifyReferenceIntoAssembly(Platform platform, string reference)
+        {
+            var file = GetPackageAssemblyDefinitionPath(platform);
+            var content = File.ReadAllText(file);
+            var data = new AssemblyDefinitionData();
+            EditorJsonUtility.FromJsonOverwrite(content, data);
+            if (!data.references.Contains(reference))
+            {
+                data.references.Add(reference);
+                var json = EditorJsonUtility.ToJson(data, true);
+                File.WriteAllText(file, json);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+        }
+
+        private static void RemoveSpecifyReferenceFromAssembly(Platform platform, string reference)
+        {
+            var file = GetPackageAssemblyDefinitionPath(platform);
+            var content = File.ReadAllText(file);
+            var data = new AssemblyDefinitionData();
+            EditorJsonUtility.FromJsonOverwrite(content, data);
+            if (data.references.Contains(reference))
+            {
+                data.references.Remove(reference);
+                var json = EditorJsonUtility.ToJson(data, true);
+                File.WriteAllText(file, json);
+            }
+        }
+
+        public enum Platform { Editor, Runtime }
+        public static string GetPackageAssemblyDefinitionPath(Platform platform)
+        {
+            var p = platform == Platform.Editor ? "Editor" : "Runtime";
+            var f = "XCharts." + p + ".asmdef";
+            var sub = Path.Combine(p, f);
+            string packagePath = Path.GetFullPath("Packages/com.monitor1394.xcharts");
+            if (!Directory.Exists(packagePath))
+            {
+                packagePath = ADB.FindAssets("t:Script")
+                                                   .Where(v => Path.GetFileNameWithoutExtension(ADB.GUIDToAssetPath(v)) == "XChartsMgr")
+                                                   .Select(id => ADB.GUIDToAssetPath(id))
+                                                   .FirstOrDefault();
+                packagePath = Path.GetDirectoryName(packagePath);
+                packagePath = packagePath.Substring(0, packagePath.LastIndexOf("Runtime"));
+            }
+            return Path.Combine(packagePath, sub);
+        }
+
+        public static bool IsSpecifyAssemblyExist(string name)
+        {
+#if UNITY_2018_1_OR_NEWER
+            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies(UnityEditor.Compilation.AssembliesType.Player))
+            {
+                if (assembly.name.Equals(name)) return true;
+            }
+#elif UNITY_2017_3_OR_NEWER
+            foreach (var assembly in UnityEditor.Compilation.CompilationPipeline.GetAssemblies())
+            {
+                if (assembly.name.Equals(name)) return true;
+            }
+#endif
+            return false;
+        }
+
+        [Serializable]
+        class AssemblyDefinitionData
+        {
+#pragma warning disable 649
+            public string name;
+            public List<string> references;
+            public List<string> includePlatforms;
+            public List<string> excludePlatforms;
+            public bool allowUnsafeCode;
+            public bool overrideReferences;
+            public List<string> precompiledReferences;
+            public bool autoReferenced;
+            public List<string> defineConstraints;
+            public List<string> versionDefines;
+            public bool noEngineReferences;
+#pragma warning restore 649
+        }
+#endif
+        #endregion
+
+
     }
 }

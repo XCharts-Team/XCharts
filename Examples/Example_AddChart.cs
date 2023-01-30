@@ -1,5 +1,8 @@
 using UnityEngine;
 using XCharts.Runtime;
+#if INPUT_SYSTEM_ENABLED
+using Input = XCharts.Runtime.InputHelper;
+#endif
 
 namespace XCharts.Example
 {

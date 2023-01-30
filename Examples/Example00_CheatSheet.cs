@@ -11,42 +11,33 @@ namespace XCharts.Example
         private LineChart chart;
         private float speed = 100f;
 
-        void Awake()
-        {
-            LoopDemo();
-        }
-
         private void OnEnable()
         {
-            LoopDemo();
-        }
-
-        void LoopDemo()
-        {
-            StopAllCoroutines();
             StartCoroutine(CheatSheet());
         }
 
         IEnumerator CheatSheet()
         {
             StartCoroutine(InitChart());
-            StartCoroutine(ComponentTitle());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ComponentAxis());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ComponentGrid());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ComponentSerie());
-            yield return new WaitForSeconds(4);
-            StartCoroutine(ComponentLegend());
-            yield return new WaitForSeconds(4);
-            StartCoroutine(ComponentTheme());
-            yield return new WaitForSeconds(4);
-            StartCoroutine(ComponentDataZoom());
-            yield return new WaitForSeconds(5);
-            StartCoroutine(ComponentVisualMap());
-            yield return new WaitForSeconds(3);
-            LoopDemo();
+            while (true)
+            {
+                StartCoroutine(ComponentTitle());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(ComponentAxis());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(ComponentGrid());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(ComponentSerie());
+                yield return new WaitForSeconds(4);
+                StartCoroutine(ComponentLegend());
+                yield return new WaitForSeconds(4);
+                StartCoroutine(ComponentTheme());
+                yield return new WaitForSeconds(4);
+                StartCoroutine(ComponentDataZoom());
+                yield return new WaitForSeconds(5);
+                StartCoroutine(ComponentVisualMap());
+                yield return new WaitForSeconds(3);
+            }
         }
 
         IEnumerator InitChart()
@@ -54,8 +45,8 @@ namespace XCharts.Example
             chart = gameObject.GetComponent<LineChart>();
             if (chart == null) gameObject.AddComponent<LineChart>();
 
-            chart.GetChartComponent<Title>().show = true;
-            chart.GetChartComponent<Title>().text = "术语解析-组件";
+            chart.GetOrAddChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().text = "术语解析-组件";
 
             var grid = chart.GetOrAddChartComponent<GridCoord>();
             grid.bottom = 30;
@@ -81,31 +72,31 @@ namespace XCharts.Example
 
         IEnumerator ComponentTitle()
         {
-            chart.GetChartComponent<Title>().text = "术语解析 - 组件";
-            chart.GetChartComponent<Title>().subText = "Title 标题：可指定主标题和子标题";
-            chart.GetChartComponent<XAxis>().show = true;
-            chart.GetChartComponent<YAxis>().show = true;
-            chart.GetChartComponent<Legend>().show = false;
+            chart.EnsureChartComponent<Title>().text = "术语解析 - 组件";
+            chart.EnsureChartComponent<Title>().subText = "Title 标题：可指定主标题和子标题";
+            chart.EnsureChartComponent<XAxis>().show = true;
+            chart.EnsureChartComponent<YAxis>().show = true;
+            chart.EnsureChartComponent<Legend>().show = false;
             chart.series[0].show = false;
             chart.series[1].show = false;
 
             for (int i = 0; i < 4; i++)
             {
-                chart.GetChartComponent<Title>().show = !chart.GetChartComponent<Title>().show;
+                chart.EnsureChartComponent<Title>().show = !chart.EnsureChartComponent<Title>().show;
                 chart.RefreshChart();
                 yield return new WaitForSeconds(0.2f);
             }
-            chart.GetChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().show = true;
             chart.RefreshChart();
         }
 
         IEnumerator ComponentAxis()
         {
-            chart.GetChartComponent<Title>().subText = "Axis 坐标轴：配置X和Y轴的轴线、刻度、标签等样式外观配置";
+            chart.EnsureChartComponent<Title>().subText = "Axis 坐标轴：配置X和Y轴的轴线、刻度、标签等样式外观配置";
             chart.series[0].show = false;
             chart.series[1].show = false;
-            var xAxis = chart.GetChartComponent<XAxis>();
-            var yAxis = chart.GetChartComponent<YAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
+            var yAxis = chart.EnsureChartComponent<YAxis>();
             for (int i = 0; i < 4; i++)
             {
                 xAxis.show = !xAxis.show;
@@ -121,8 +112,8 @@ namespace XCharts.Example
 
         IEnumerator ComponentGrid()
         {
-            chart.GetChartComponent<Title>().subText = "Grid 网格：调整坐标系边距和颜色等";
-            var grid = chart.GetChartComponent<GridCoord>();
+            chart.EnsureChartComponent<Title>().subText = "Grid 网格：调整坐标系边距和颜色等";
+            var grid = chart.EnsureChartComponent<GridCoord>();
             for (int i = 0; i < 4; i++)
             {
                 grid.backgroundColor = i % 2 == 0 ? Color.clear : Color.grey;
@@ -136,7 +127,7 @@ namespace XCharts.Example
 
         IEnumerator ComponentSerie()
         {
-            chart.GetChartComponent<Title>().subText = "Serie 系列：调整坐标系边距和颜色等";
+            chart.EnsureChartComponent<Title>().subText = "Serie 系列：调整坐标系边距和颜色等";
             chart.series[0].show = true;
             chart.series[1].show = true;
             chart.AnimationReset();
@@ -157,10 +148,10 @@ namespace XCharts.Example
 
         IEnumerator ComponentLegend()
         {
-            chart.GetChartComponent<Title>().subText = "Legend 图例：展示不同系列的名字和颜色，可控制系列显示等";
-            var legend = chart.GetChartComponent<Legend>();
+            chart.EnsureChartComponent<Title>().subText = "Legend 图例：展示不同系列的名字和颜色，可控制系列显示等";
+            var legend = chart.EnsureChartComponent<Legend>();
             legend.show = true;
-            var grid = chart.GetChartComponent<GridCoord>();
+            var grid = chart.EnsureChartComponent<GridCoord>();
             grid.top = 80;
             legend.location.top = 50;
             chart.RefreshChart();
@@ -187,23 +178,23 @@ namespace XCharts.Example
 
         IEnumerator ComponentTheme()
         {
-            chart.GetChartComponent<Title>().subText = "Theme 主题：可从全局上配置图表的颜色、字体等效果，支持默认主题切换";
+            chart.EnsureChartComponent<Title>().subText = "Theme 主题：可从全局上配置图表的颜色、字体等效果，支持默认主题切换";
             yield return new WaitForSeconds(1f);
-            chart.GetChartComponent<Title>().subText = "Theme 主题：Light主题";
+            chart.EnsureChartComponent<Title>().subText = "Theme 主题：Light主题";
             chart.UpdateTheme(ThemeType.Light);
             yield return new WaitForSeconds(1f);
-            chart.GetChartComponent<Title>().subText = "Theme 主题：Dark主题";
+            chart.EnsureChartComponent<Title>().subText = "Theme 主题：Dark主题";
             chart.UpdateTheme(ThemeType.Dark);
             yield return new WaitForSeconds(1f);
-            chart.GetChartComponent<Title>().subText = "Theme 主题：Default主题";
+            chart.EnsureChartComponent<Title>().subText = "Theme 主题：Default主题";
             chart.UpdateTheme(ThemeType.Default);
             yield return new WaitForSeconds(1f);
         }
 
         IEnumerator ComponentDataZoom()
         {
-            chart.GetChartComponent<Title>().subText = "DataZoom 区域缩放：可通过拖、拽、缩小、放大来观察细节数据";
-            var grid = chart.GetChartComponent<GridCoord>();
+            chart.EnsureChartComponent<Title>().subText = "DataZoom 区域缩放：可通过拖、拽、缩小、放大来观察细节数据";
+            var grid = chart.EnsureChartComponent<GridCoord>();
             grid.bottom = 70;
 
             var dataZoom = chart.GetOrAddChartComponent<DataZoom>();
@@ -265,7 +256,7 @@ namespace XCharts.Example
 
         IEnumerator ComponentVisualMap()
         {
-            chart.GetChartComponent<Title>().subText = "VisualMap 视觉映射：可从全局上配置图表的颜色、字体等效果，支持默认主题切换";
+            chart.EnsureChartComponent<Title>().subText = "VisualMap 视觉映射：可从全局上配置图表的颜色、字体等效果，支持默认主题切换";
 
             var visualMap = chart.GetOrAddChartComponent<VisualMap>();
             visualMap.show = true;
@@ -292,7 +283,7 @@ namespace XCharts.Example
                 "#a50026"
             };
             visualMap.AddColors(colors);
-            var grid = chart.GetChartComponent<GridCoord>();
+            var grid = chart.EnsureChartComponent<GridCoord>();
             grid.left = 80;
             grid.bottom = 100;
             chart.RefreshChart();

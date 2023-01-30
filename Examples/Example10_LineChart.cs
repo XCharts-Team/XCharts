@@ -11,39 +11,30 @@ namespace XCharts.Example
         private Serie serie;
         private int m_DataNum = 8;
 
-        void Awake()
-        {
-            LoopDemo();
-        }
-
         private void OnEnable()
         {
-            LoopDemo();
-        }
-
-        void LoopDemo()
-        {
-            StopAllCoroutines();
             StartCoroutine(PieDemo());
         }
 
         IEnumerator PieDemo()
         {
-            StartCoroutine(AddSimpleLine());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ChangeLineType());
-            yield return new WaitForSeconds(8);
-            StartCoroutine(LineAreaStyleSettings());
-            yield return new WaitForSeconds(5);
-            StartCoroutine(LineArrowSettings());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(LineSymbolSettings());
-            yield return new WaitForSeconds(7);
-            StartCoroutine(LineLabelSettings());
-            yield return new WaitForSeconds(3);
-            StartCoroutine(LineMutilSerie());
-            yield return new WaitForSeconds(5);
-            LoopDemo();
+            while (true)
+            {
+                StartCoroutine(AddSimpleLine());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(ChangeLineType());
+                yield return new WaitForSeconds(8);
+                StartCoroutine(LineAreaStyleSettings());
+                yield return new WaitForSeconds(5);
+                StartCoroutine(LineArrowSettings());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(LineSymbolSettings());
+                yield return new WaitForSeconds(7);
+                StartCoroutine(LineLabelSettings());
+                yield return new WaitForSeconds(3);
+                StartCoroutine(LineMutilSerie());
+                yield return new WaitForSeconds(5);
+            }
         }
 
         IEnumerator AddSimpleLine()

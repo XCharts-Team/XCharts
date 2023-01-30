@@ -13,45 +13,37 @@ namespace XCharts.Example
         private float m_RadiusSpeed = 100f;
         private float m_CenterSpeed = 1f;
 
-        void Awake()
-        {
-            LoopDemo();
-        }
-
         private void OnEnable()
         {
-            LoopDemo();
-        }
-
-        void LoopDemo()
-        {
-            StopAllCoroutines();
             StartCoroutine(PieDemo());
         }
 
         IEnumerator PieDemo()
         {
-            StartCoroutine(PieAdd());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(PieShowLabel());
-            yield return new WaitForSeconds(4);
-            StartCoroutine(Doughnut());
-            yield return new WaitForSeconds(3);
-            StartCoroutine(DoublePie());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(RosePie());
-            yield return new WaitForSeconds(5);
-            LoopDemo();
+            while (true)
+            {
+                StartCoroutine(PieAdd());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(PieShowLabel());
+                yield return new WaitForSeconds(4);
+                StartCoroutine(Doughnut());
+                yield return new WaitForSeconds(3);
+                StartCoroutine(DoublePie());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(RosePie());
+                yield return new WaitForSeconds(5);
+            }
         }
 
         IEnumerator PieAdd()
         {
             chart = gameObject.GetComponent<PieChart>();
             if (chart == null) chart = gameObject.AddComponent<PieChart>();
+            yield return null;
             chart.GetChartComponent<Title>().text = "PieChart - 饼图";
             chart.GetChartComponent<Title>().subText = "基础饼图";
 
-            var legend = chart.GetChartComponent<Legend>();
+            var legend = chart.EnsureChartComponent<Legend>();
             legend.show = true;
             legend.location.align = Location.Align.TopLeft;
             legend.location.top = 60;
@@ -72,7 +64,7 @@ namespace XCharts.Example
             chart.AddData(0, 135, "视频广告");
             chart.AddData(0, 1548, "搜索引擎");
 
-            chart.onPointerClickPie = delegate(PointerEventData e, int serieIndex, int dataIndex)
+            chart.onPointerClickPie = delegate (PointerEventData e, int serieIndex, int dataIndex)
             {
 
             };
@@ -81,7 +73,7 @@ namespace XCharts.Example
 
         IEnumerator PieShowLabel()
         {
-            chart.GetChartComponent<Title>().subText = "显示文本标签";
+            chart.EnsureChartComponent<Title>().subText = "显示文本标签";
 
             serie.AddExtraComponent<LabelStyle>();
             serie.label.show = true;
@@ -105,7 +97,7 @@ namespace XCharts.Example
 
         IEnumerator Doughnut()
         {
-            chart.GetChartComponent<Title>().subText = "圆环图";
+            chart.EnsureChartComponent<Title>().subText = "圆环图";
             serie.radius[0] = 2f;
             while (serie.radius[0] < serie.radius[1] * 0.7f)
             {
@@ -129,8 +121,7 @@ namespace XCharts.Example
 
         IEnumerator DoublePie()
         {
-            chart.GetChartComponent<Title>().subText = "多图组合";
-
+            chart.EnsureChartComponent<Title>().subText = "多图组合";
             serie1 = chart.AddSerie<Pie>("访问来源2");
             chart.AddData(1, 335, "直达");
             chart.AddData(1, 679, "营销广告");
@@ -146,7 +137,14 @@ namespace XCharts.Example
                 chart.RefreshChart();
                 yield return null;
             }
-
+            if (null == serie.label)
+            {
+                serie.AddExtraComponent<LabelStyle>();
+            }
+            if (null == serie1.label)
+            {
+                serie1.AddExtraComponent<LabelStyle>();
+            }
             serie1.label.show = true;
             serie1.label.position = LabelStyle.Position.Inside;
             serie1.label.textStyle.color = Color.white;
@@ -158,8 +156,8 @@ namespace XCharts.Example
 
         IEnumerator RosePie()
         {
-            chart.GetChartComponent<Title>().subText = "玫瑰图";
-            chart.GetChartComponent<Legend>().show = false;
+            chart.EnsureChartComponent<Title>().subText = "玫瑰图";
+            chart.EnsureChartComponent<Legend>().show = false;
             serie1.ClearData();
             serie.ClearData();
             serie1.radius = serie.radius = new float[2] { 0, 80 };

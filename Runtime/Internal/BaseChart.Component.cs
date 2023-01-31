@@ -253,7 +253,15 @@ namespace XCharts.Runtime
             else
                 return component;
         }
-
+        public T EnsureChartComponent<T>() where T : MainComponent
+        {
+            var component = GetChartComponent<T>();
+            if (component == null)
+                return AddChartComponent<T>();
+            else
+                return component;
+        }
+        
         public bool TryGetChartComponent<T>(out T component, int index = 0)
         where T : MainComponent
         {

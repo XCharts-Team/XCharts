@@ -4,7 +4,6 @@ using XCharts.Runtime;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    [ExecuteInEditMode]
     public class Example11_AddSinCurve : MonoBehaviour
     {
         private float time;
@@ -18,14 +17,14 @@ namespace XCharts.Example
             {
                 chart = gameObject.AddComponent<LineChart>();
             }
-            chart.GetChartComponent<Title>().show = true;
-            chart.GetChartComponent<Title>().text = "Sin Curve";
+            chart.EnsureChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().text = "Sin Curve";
 
-            chart.GetChartComponent<Tooltip>().show = true;
-            chart.GetChartComponent<Legend>().show = false;
+            chart.EnsureChartComponent<Tooltip>().show = true;
+            chart.EnsureChartComponent<Legend>().show = false;
 
-            var xAxis = chart.GetChartComponent<XAxis>();
-            var yAxis = chart.GetChartComponent<YAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
+            var yAxis = chart.EnsureChartComponent<YAxis>();
 
             xAxis.show = true;
             yAxis.show = true;

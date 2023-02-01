@@ -79,7 +79,8 @@ namespace XCharts.Runtime
         public static bool ContainsChart(string chartName)
         {
             if (string.IsNullOrEmpty(chartName)) return false;
-            return GetCharts(chartName) != null;
+            var list = GetCharts(chartName);
+            return list != null && list.Count > 0;
         }
 
         public static bool ContainsChart(BaseChart chart)

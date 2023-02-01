@@ -371,7 +371,7 @@ namespace XCharts.Runtime
         public SerieColorBy colorBy
         {
             //get { return m_ColorBy; }
-            get { return m_ColorBy == SerieColorBy.Default?defaultColorBy : m_ColorBy; }
+            get { return m_ColorBy == SerieColorBy.Default ? defaultColorBy : m_ColorBy; }
             set { if (PropertyUtil.SetStruct(ref m_ColorBy, value)) { SetAllDirty(); } }
         }
         /// <summary>
@@ -1061,7 +1061,7 @@ namespace XCharts.Runtime
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]) && sdata.data[1] > max)
                     {
                         max = sdata.data[1];
                     }
@@ -1080,7 +1080,7 @@ namespace XCharts.Runtime
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[0]) && sdata.data[0] > max)
                     {
                         max = sdata.data[0];
                     }
@@ -1099,7 +1099,7 @@ namespace XCharts.Runtime
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]) && sdata.data[1] < min)
                     {
                         min = sdata.data[1];
                     }
@@ -1118,7 +1118,7 @@ namespace XCharts.Runtime
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[0]) && sdata.data[0] < min)
                     {
                         min = sdata.data[0];
                     }
@@ -1139,7 +1139,7 @@ namespace XCharts.Runtime
                 {
                     foreach (var sdata in data)
                     {
-                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                        if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                             total += sdata.data[1];
                     }
                 }
@@ -1149,7 +1149,7 @@ namespace XCharts.Runtime
                     var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
-                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                        if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                             total += sdata.GetCurrData(1, duration, unscaledTime);
                     }
                 }
@@ -1167,7 +1167,7 @@ namespace XCharts.Runtime
                 double total = 0;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                         total += sdata.data[0];
                 }
                 return total;
@@ -1780,12 +1780,17 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(SerieData serieData, int dimension = 1)
         {
-            return serieData.ignore || IsIgnoreValue(serieData.GetData(dimension));
+            return IsIgnoreValue(serieData, serieData.GetData(dimension));
         }
 
         public bool IsIgnoreValue(double value)
         {
             return m_Ignore && MathUtil.Approximately(value, m_IgnoreValue);
+        }
+
+        public bool IsIgnoreValue(SerieData serieData, double value)
+        {
+            return serieData.ignore || IsIgnoreValue(value);
         }
 
         public bool IsIgnorePoint(int index)

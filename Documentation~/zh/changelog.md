@@ -65,6 +65,9 @@ slug: /changelog
 
 ## master
 
+* (2023.02.02) 优化`SerieData`的`ignore`设置时的忽略数据判断
+* (2023.02.01) 修复`XChartsMgr.ContainsChart()`接口异常
+* (2023.01.31) 增加`InputSystem`的支持 (#242) (by Bian-Sh)
 * (2023.01.11) 修复`Inspector`上移除`Component`后图表没有及时刷新的问题 (#241)
 * (2023.01.06) 修复`Pie`在最后的几个数据都为0时`Label`显示不正常的问题 (#240)
 * (2023.01.03) 删除`Serie`的`MarkColor`，增加`ItemStyle`的`MarkColor`

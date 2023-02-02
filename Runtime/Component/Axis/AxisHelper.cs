@@ -219,7 +219,7 @@ namespace XCharts.Runtime
 
                 if (axis.boundaryGap)
                 {
-                    scaleNum = dataCount > 2 && dataCount % splitNum == 0 ?
+                    scaleNum = dataCount > 1 && dataCount % splitNum == 0 ?
                         splitNum + 1 :
                         splitNum + 2;
                 }

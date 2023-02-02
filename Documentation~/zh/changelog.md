@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.02.02) 修复`DataZoom`开启时`X轴`的`Label`可能会显示在图表外的问题
 * (2023.02.02) 优化`SerieData`的`ignore`设置时的忽略数据判断
 * (2023.02.01) 修复`XChartsMgr.ContainsChart()`接口异常
 * (2023.01.31) 增加`InputSystem`的支持 (#242) (by Bian-Sh)

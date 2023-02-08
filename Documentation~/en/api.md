@@ -18,27 +18,28 @@ slug: /api
 |[CoordOptionsAttribute](#coordoptionsattribute)|[DataZoomContext](#datazoomcontext)|[DataZoomHelper](#datazoomhelper)|
 |[DateTimeUtil](#datetimeutil)|[DefaultAnimationAttribute](#defaultanimationattribute)|[DefineSymbolsUtil](#definesymbolsutil)|
 |[FormatterHelper](#formatterhelper)|[GridCoordContext](#gridcoordcontext)|[HeatmapChart](#heatmapchart)|
-|[IgnoreDoc](#ignoredoc)|[InteractData](#interactdata)|[LayerHelper](#layerhelper)|
-|[LegendContext](#legendcontext)|[LegendHelper](#legendhelper)|[LegendItem](#legenditem)|
-|[LineChart](#linechart)|[ListFor](#listfor)|[ListForComponent](#listforcomponent)|
-|[ListForSerie](#listforserie)|[MainComponentContext](#maincomponentcontext)|[MainComponentHandler](#maincomponenthandler)|
-|[MainComponentHandler&lt;T&gt;](#maincomponenthandlert)|[MathUtil](#mathutil)|[Painter](#painter)|
-|[ParallelChart](#parallelchart)|[ParallelCoordContext](#parallelcoordcontext)|[PieChart](#piechart)|
-|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|[PropertyUtil](#propertyutil)|
-|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|[ReflectionUtil](#reflectionutil)|
-|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|[RuntimeUtil](#runtimeutil)|
-|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|[SerieConvertAttribute](#serieconvertattribute)|
-|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|
-|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|[SerieHandler&lt;T&gt;](#seriehandlert)|
-|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|[SerieLabelHelper](#serielabelhelper)|
-|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|[SeriesHelper](#serieshelper)|
-|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|[SimplifiedLineChart](#simplifiedlinechart)|
-|[Since](#since)|[SVG](#svg)|[SVGImage](#svgimage)|
-|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|[TooltipContext](#tooltipcontext)|
-|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|[TooltipView](#tooltipview)|
-|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|[UGLExample](#uglexample)|
-|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|[VisualMapHelper](#visualmaphelper)|
-|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|[XCThemeMgr](#xcthememgr)|
+|[IgnoreDoc](#ignoredoc)|[InputHelper](#inputhelper)|[InteractData](#interactdata)|
+|[LayerHelper](#layerhelper)|[LegendContext](#legendcontext)|[LegendHelper](#legendhelper)|
+|[LegendItem](#legenditem)|[LineChart](#linechart)|[ListFor](#listfor)|
+|[ListForComponent](#listforcomponent)|[ListForSerie](#listforserie)|[MainComponentContext](#maincomponentcontext)|
+|[MainComponentHandler](#maincomponenthandler)|[MainComponentHandler&lt;T&gt;](#maincomponenthandlert)|[MathUtil](#mathutil)|
+|[Painter](#painter)|[ParallelChart](#parallelchart)|[ParallelCoordContext](#parallelcoordcontext)|
+|[PieChart](#piechart)|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|
+|[PropertyUtil](#propertyutil)|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|
+|[ReflectionUtil](#reflectionutil)|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|
+|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|
+|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|
+|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|
+|[SerieHandler&lt;T&gt;](#seriehandlert)|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|
+|[SerieLabelHelper](#serielabelhelper)|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|
+|[SeriesHelper](#serieshelper)|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|
+|[SimplifiedLineChart](#simplifiedlinechart)|[Since](#since)|[SVG](#svg)|
+|[SVGImage](#svgimage)|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|
+|[TooltipContext](#tooltipcontext)|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|
+|[TooltipView](#tooltipview)|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|
+|[UGLExample](#uglexample)|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|
+|[VisualMapHelper](#visualmaphelper)|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|
+|[XCThemeMgr](#xcthememgr)|
 
 ## AnimationStyleHelper
 
@@ -132,6 +133,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | ConvertSerie() |public bool ConvertSerie(Serie serie, Type type)|
 | ConvertSerie&lt;T&gt;() |public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
 | ConvertXYAxis() |public void ConvertXYAxis(int index)<br/>转换X轴和Y轴的配置 |
+| EnsureChartComponent&lt;T&gt;() |public T EnsureChartComponent&lt;T&gt;() where T : MainComponent|
 | GenerateDefaultSerieName() |public string GenerateDefaultSerieName()|
 | GetAllSerieDataCount() |public int GetAllSerieDataCount()|
 | GetChartBackgroundColor() |public Color32 GetChartBackgroundColor()|
@@ -374,6 +376,7 @@ Inherits or Implemented: [Image](#image)
 | GetTextHeight() |public float GetTextHeight()|
 | GetTextWidth() |public float GetTextWidth()|
 | GetWidth() |public float GetWidth()|
+| IsActive() |public override bool IsActive()|
 | SetActive() |public void SetActive(bool flag)|
 | SetIcon() |public void SetIcon(Image image)|
 | SetIconActive() |public void SetIconActive(bool flag)|
@@ -499,6 +502,13 @@ Inherits or Implemented: [Attribute](#attribute)
 |public method|description|
 |--|--|
 | IgnoreDoc() |public IgnoreDoc()|
+
+## InputHelper
+
+|public method|description|
+|--|--|
+| GetKeyDown() |public static bool GetKeyDown(KeyCode keyCode)|
+| GetTouch() |public static Touch GetTouch(int v)|
 
 ## InteractData
 
@@ -1083,15 +1093,11 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 | AddChart() |public static void AddChart(BaseChart chart)|
 | ContainsChart() |public static bool ContainsChart(BaseChart chart)|
 | ContainsChart() |public static bool ContainsChart(string chartName)|
-| DisableTextMeshPro() |public static void DisableTextMeshPro()|
-| EnableTextMeshPro() |public static void EnableTextMeshPro()|
 | GetChart() |public static BaseChart GetChart(string chartName)|
 | GetCharts() |public static List&lt;BaseChart&gt; GetCharts(string chartName)|
 | GetPackageFullPath() |public static string GetPackageFullPath()|
 | GetRepeatChartNameInfo() |public static string GetRepeatChartNameInfo(BaseChart chart, string chartName)|
-| IsExistTMPAssembly() |public static bool IsExistTMPAssembly()|
 | IsRepeatChartName() |public static bool IsRepeatChartName(BaseChart chart, string chartName = null)|
-| ModifyTMPRefence() |public static bool ModifyTMPRefence(bool removeTMP = false)|
 | RemoveAllChartObject() |public static void RemoveAllChartObject()|
 | RemoveChart() |public static void RemoveChart(string chartName)|
 

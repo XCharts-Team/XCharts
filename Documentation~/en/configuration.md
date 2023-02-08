@@ -474,6 +474,8 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |lineStyle|||阴影线条样式。 [LineStyle](#linestyle)|
 |areaStyle|||阴影填充样式。 [AreaStyle](#areastyle)|
 |marqueeStyle||v3.5.0|选取框样式。 [MarqueeStyle](#marqueestyle)|
+|startLock||v3.6.0|Lock start value.
+|endLock||v3.6.0|Lock end value.
 
 ## DataZoomTheme
 
@@ -623,6 +625,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 |color0|||数据项颜色。
 |toColor|||Gradient color1.
 |toColor2|||Gradient color2.Only valid in line diagrams.
+|markColor||v3.6.0|Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
 |backgroundColor|||数据项背景颜色。
 |backgroundWidth|||数据项背景宽度。
 |centerColor|||中心区域颜色。
@@ -1009,7 +1012,6 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |serieName|||Series name used for displaying in tooltip and filtering with legend.
 |state||v3.2.0|The default state of a serie.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |colorBy||v3.2.0|The policy to take color from theme.<br/>`SerieColorBy`:<br/>- `Default`: Select state.<br/>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.<br/>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..<br/>|
-|markColor||v3.4.0|Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
 |stack|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |xAxisIndex|0||the index of XAxis.
 |yAxisIndex|0||the index of YAxis.

@@ -78,5 +78,9 @@ slug: /support
 
 如果这个项目对您有帮助，请右上方点 `Star` 予以支持！也欢迎任意金额的捐助，非常您的支持！
 
+## 二维码
+
+如果看不到二维码图片，可以加QQ`XCharts技术支持:3525422251`或邮件`monitor1394@gmail.com`咨询。
+
 ![alipay-qrcode](img/support_alipay.png)
 ![wechat-qrcode](img/support_wechat.png)

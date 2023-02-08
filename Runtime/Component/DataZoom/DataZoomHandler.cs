@@ -22,7 +22,7 @@ namespace XCharts.Runtime
         {
             var dataZoom = component;
             dataZoom.painter = chart.m_PainterUpper;
-            dataZoom.refreshComponent = delegate()
+            dataZoom.refreshComponent = delegate ()
             {
                 var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + dataZoom.index, chart.transform,
                     chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -398,8 +398,10 @@ namespace XCharts.Runtime
             if (end < start)
                 end = start;
 
-            dataZoom.start = start;
-            dataZoom.end = end;
+            if (!dataZoom.startLock)
+                dataZoom.start = start;
+            if (!dataZoom.endLock)
+                dataZoom.end = end;
             if (dataZoom.realtime)
             {
                 chart.OnDataZoomRangeChanged(dataZoom);
@@ -466,8 +468,8 @@ namespace XCharts.Runtime
             {
                 m_CheckDataZoomLabel = false;
                 var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
-                var startIndex = (int) ((xAxis.data.Count - 1) * dataZoom.start / 100);
-                var endIndex = (int) ((xAxis.data.Count - 1) * dataZoom.end / 100);
+                var startIndex = (int)((xAxis.data.Count - 1) * dataZoom.start / 100);
+                var endIndex = (int)((xAxis.data.Count - 1) * dataZoom.end / 100);
 
                 if (m_DataZoomLastStartIndex != startIndex || m_DataZoomLastEndIndex != endIndex)
                 {
@@ -532,7 +534,7 @@ namespace XCharts.Runtime
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;
                 if (sampleDist > 0)
-                    rate = (int) ((maxCount - serie.minShow) / (dataZoom.context.width / sampleDist));
+                    rate = (int)((maxCount - serie.minShow) / (dataZoom.context.width / sampleDist));
                 if (rate < 1)
                     rate = 1;
 
@@ -547,7 +549,7 @@ namespace XCharts.Runtime
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                         animationDuration, ref dataChanging, axis, unscaledTime);
                     float pX = dataZoom.context.x + i * scaleWid;
-                    float dataHig = (float) ((maxValue - minValue) == 0 ? 0 :
+                    float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
                     np = new Vector3(pX, chart.chartY + dataZoom.bottom + dataHig);
                     if (i > 0)
@@ -623,7 +625,7 @@ namespace XCharts.Runtime
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;
                 if (sampleDist > 0)
-                    rate = (int) ((maxCount - serie.minShow) / (dataZoom.context.height / sampleDist));
+                    rate = (int)((maxCount - serie.minShow) / (dataZoom.context.height / sampleDist));
                 if (rate < 1)
                     rate = 1;
 
@@ -639,7 +641,7 @@ namespace XCharts.Runtime
                         animationDuration, ref dataChanging, axis, unscaledTime);
                     float pY = dataZoom.context.y + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
-                        (float) ((value - minValue) / (maxValue - minValue) * dataZoom.context.width);
+                        (float)((value - minValue) / (maxValue - minValue) * dataZoom.context.width);
                     np = new Vector3(chart.chartX + chart.chartWidth - dataZoom.right - dataHig, pY);
                     if (i > 0)
                     {

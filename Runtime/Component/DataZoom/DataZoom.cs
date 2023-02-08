@@ -81,8 +81,6 @@ namespace XCharts.Runtime
         [SerializeField] private RangeMode m_RangeMode;
         [SerializeField] private float m_Start;
         [SerializeField] private float m_End;
-        //[SerializeField] private float m_StartValue;
-        //[SerializeField] private float m_EndValue;
         [SerializeField] private int m_MinShowNum = 1;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
@@ -91,6 +89,8 @@ namespace XCharts.Runtime
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid);
         [SerializeField] private AreaStyle m_AreaStyle = new AreaStyle();
         [SerializeField][Since("v3.5.0")] private MarqueeStyle m_MarqueeStyle = new MarqueeStyle();
+        [SerializeField][Since("v3.6.0")] private bool m_StartLock;
+        [SerializeField][Since("v3.6.0")] private bool m_EndLock;
 
         public DataZoomContext context = new DataZoomContext();
 
@@ -303,6 +303,24 @@ namespace XCharts.Runtime
         {
             get { return m_Start; }
             set { m_Start = value; if (m_Start < 0) m_Start = 0; if (m_Start > 100) m_Start = 100; SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Lock start value.
+        /// |固定起始值，不让改变。
+        /// </summary>
+        public bool startLock
+        {
+            get { return m_StartLock; }
+            set { if (PropertyUtil.SetStruct(ref m_StartLock, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Lock end value.
+        /// |固定结束值，不让改变。
+        /// </summary>
+        public bool endLock
+        {
+            get { return m_EndLock; }
+            set { if (PropertyUtil.SetStruct(ref m_EndLock, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.

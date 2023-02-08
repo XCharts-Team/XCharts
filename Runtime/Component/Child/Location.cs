@@ -125,10 +125,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.CenterLeft,
-                        left = 0.03f,
-                        right = 0,
-                        top = 0,
-                        bottom = 0
+                    left = 0.03f,
+                    right = 0,
+                    top = 0,
+                    bottom = 0
                 };
             }
         }
@@ -140,10 +140,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.CenterRight,
-                        left = 0,
-                        right = 0.03f,
-                        top = 0,
-                        bottom = 0
+                    left = 0,
+                    right = 0.03f,
+                    top = 0,
+                    bottom = 0
                 };
             }
         }
@@ -155,10 +155,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.TopCenter,
-                        left = 0,
-                        right = 0,
-                        top = 0.03f,
-                        bottom = 0
+                    left = 0,
+                    right = 0,
+                    top = 0.03f,
+                    bottom = 0
                 };
             }
         }
@@ -170,10 +170,10 @@ namespace XCharts.Runtime
                 return new Location()
                 {
                     align = Align.BottomCenter,
-                        left = 0,
-                        right = 0,
-                        top = 0,
-                        bottom = 0.03f
+                    left = 0,
+                    right = 0,
+                    top = 0,
+                    bottom = 0.03f
                 };
             }
         }
@@ -265,6 +265,60 @@ namespace XCharts.Runtime
                     break;
                 default:
                     break;
+            }
+        }
+
+        public bool IsBottom()
+        {
+            switch (m_Align)
+            {
+                case Align.BottomCenter:
+                case Align.BottomLeft:
+                case Align.BottomRight:
+#if dUI_TextMeshPro
+                case TextAlignmentOptions.Bottom:
+                case TextAlignmentOptions.BottomLeft:
+                case TextAlignmentOptions.BottomRight:
+#endif
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool IsTop()
+        {
+            switch (m_Align)
+            {
+                case Align.TopCenter:
+                case Align.TopLeft:
+                case Align.TopRight:
+#if dUI_TextMeshPro
+                case TextAlignmentOptions.Top:
+                case TextAlignmentOptions.TopLeft:
+                case TextAlignmentOptions.TopRight:
+#endif
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool IsCenter()
+        {
+            switch (m_Align)
+            {
+                case Align.Center:
+                case Align.CenterLeft:
+                case Align.CenterRight:
+#if dUI_TextMeshPro
+                case TextAlignmentOptions.Center:
+                case TextAlignmentOptions.CenterLeft:
+                case TextAlignmentOptions.CenterRight:
+#endif
+                    return true;
+                default:
+                    return false;
             }
         }
 

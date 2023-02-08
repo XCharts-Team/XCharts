@@ -29,6 +29,8 @@ namespace XCharts.Editor
             PropertyField("m_RangeMode");
             PropertyField(m_Start);
             PropertyField(m_End);
+            PropertyField("m_StartLock");
+            PropertyField("m_EndLock");
             PropertyField(m_MinShowNum);
             if (m_Start.floatValue < 0) m_Start.floatValue = 0;
             if (m_End.floatValue > 100) m_End.floatValue = 100;

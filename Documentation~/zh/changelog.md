@@ -65,11 +65,13 @@ slug: /changelog
 
 ## master
 
+* (2023.02.10) 修复`Axis`在`Log`轴时某些情况下最小值不正确的问题
+* (2023.02.10) 优化`Axis`的数值`Label`的默认显示格式
 * (2023.02.08) 增加`DataZoom`的`startLock`和`endLock`参数支持锁定
 * (2023.02.02) 修复`DataZoom`开启时`X轴`的`Label`可能会显示在图表外的问题
 * (2023.02.02) 优化`SerieData`的`ignore`设置时的忽略数据判断
 * (2023.02.01) 修复`XChartsMgr.ContainsChart()`接口异常
-* (2023.01.31) 增加`InputSystem`的支持 (#242) (by Bian-Sh)
+* (2023.01.31) 增加`InputSystem`的支持 (#242) (by __Bian-Sh__)
 * (2023.01.11) 修复`Inspector`上移除`Component`后图表没有及时刷新的问题 (#241)
 * (2023.01.06) 修复`Pie`在最后的几个数据都为0时`Label`显示不正常的问题 (#240)
 * (2023.01.03) 删除`Serie`的`MarkColor`，增加`ItemStyle`的`MarkColor`

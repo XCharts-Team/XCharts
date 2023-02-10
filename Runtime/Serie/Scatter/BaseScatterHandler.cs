@@ -191,7 +191,7 @@ namespace XCharts.Runtime
                     for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
                         var nowSize = symbol.animationSize[count];
-                        color.a = (byte) (255 * (symbolSize - nowSize) / symbolSize);
+                        color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
                         chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
                             color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -293,7 +293,7 @@ namespace XCharts.Runtime
                     for (int count = 0; count < symbol.animationSize.Count; count++)
                     {
                         var nowSize = symbol.animationSize[count];
-                        color.a = (byte) (255 * (symbolSize - nowSize) / symbolSize);
+                        color.a = (byte)(255 * (symbolSize - nowSize) / symbolSize);
                         chart.DrawSymbol(vh, symbol.type, nowSize, symbolBorder, pos,
                             color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                     }
@@ -321,25 +321,25 @@ namespace XCharts.Runtime
         {
             if (axis.IsLog())
             {
-                int minIndex = axis.GetLogMinIndex();
-                float nowIndex = axis.GetLogValue(value);
-                return (nowIndex - minIndex) / axis.splitNumber * totalWidth;
+                var minIndex = axis.GetLogMinIndex();
+                var nowIndex = axis.GetLogValue(value);
+                return (float)((nowIndex - minIndex) / axis.splitNumber * totalWidth);
             }
             else if (axis.IsCategory())
             {
                 if (axis.boundaryGap)
                 {
-                    float tick = (float) (totalWidth / (axis.context.minMaxRange + 1));
-                    return tick / 2 + (float) (value - axis.context.minValue) * tick;
+                    float tick = (float)(totalWidth / (axis.context.minMaxRange + 1));
+                    return tick / 2 + (float)(value - axis.context.minValue) * tick;
                 }
                 else
                 {
-                    return (float) ((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
+                    return (float)((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
                 }
             }
             else
             {
-                return (float) ((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
+                return (float)((value - axis.context.minValue) / axis.context.minMaxRange * totalWidth);
             }
         }
     }

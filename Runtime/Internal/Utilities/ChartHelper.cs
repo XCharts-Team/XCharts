@@ -782,19 +782,7 @@ namespace XCharts.Runtime
             return min;
         }
 
-        public static int GetFloatAccuracy(double value)
-        {
-            if (value > 1 || value < -1) return 0;
-            int count = 1;
-            int intvalue = (int) (value * Mathf.Pow(10, count));
-            while (intvalue == 0 && count < 38)
-            {
-                count++;
-                intvalue = (int) (value * Mathf.Pow(10, count));
-            }
-            if (count == 38 && (value == 0 || value == 1)) return 1;
-            else return count;
-        }
+        
 
         public static void AddEventListener(GameObject obj, EventTriggerType type,
             UnityEngine.Events.UnityAction<BaseEventData> call)

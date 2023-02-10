@@ -53,10 +53,7 @@ namespace XCharts.Runtime
             {
                 if (string.IsNullOrEmpty(formatter))
                 {
-                    if (value - (int) value == 0)
-                        s_NumberToStr[value][formatter] = ((int) value).ToString();
-                    else
-                        s_NumberToStr[value][formatter] = value.ToString();
+                    s_NumberToStr[value][formatter] = value.ToString();
                 }
                 else if (formatter.StartsWith(NUMERIC_FORMATTER_D) ||
                     formatter.StartsWith(NUMERIC_FORMATTER_d) ||
@@ -64,7 +61,7 @@ namespace XCharts.Runtime
                     formatter.StartsWith(NUMERIC_FORMATTER_x)
                 )
                 {
-                    s_NumberToStr[value][formatter] = ((int) value).ToString(formatter, ci);
+                    s_NumberToStr[value][formatter] = ((int)value).ToString(formatter, ci);
                 }
                 else
                 {

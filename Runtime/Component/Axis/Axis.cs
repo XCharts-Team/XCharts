@@ -827,18 +827,18 @@ namespace XCharts.Runtime
                 return logBaseE ? (float) Math.Log(value) : (float) Math.Log(value, logBase);
         }
 
-        public int GetLogMinIndex()
+        public double GetLogMinIndex()
         {
             return logBaseE ?
-                (int) Math.Log(context.minValue) :
-                (int) Math.Log(context.minValue, logBase);
+                Math.Log(context.minValue) :
+                Math.Log(context.minValue, logBase);
         }
 
-        public int GetLogMaxIndex()
+        public double GetLogMaxIndex()
         {
             return logBaseE ?
-                (int) Math.Log(context.maxValue) :
-                (int) Math.Log(context.maxValue, logBase);
+                Math.Log(context.maxValue) :
+                Math.Log(context.maxValue, logBase);
         }
 
         public double GetLabelValue(int index)

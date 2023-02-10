@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace XCharts.Runtime
 {
@@ -40,6 +35,24 @@ namespace XCharts.Runtime
         public static double Lerp(double a, double b, double t)
         {
             return a + (b - a) * Clamp01(t);
+        }
+
+        public static bool IsInteger(double value)
+        {
+            return Math.Abs(value % 1) <= (Double.Epsilon * 100);
+        }
+
+        public static int GetPrecision(double value)
+        {
+            if (IsInteger(value)) return 0;
+            int count = 1;
+            double intvalue = value * Mathf.Pow(10, count);
+            while (!IsInteger(intvalue) && count < 38)
+            {
+                count++;
+                intvalue = value * Mathf.Pow(10, count);
+            }
+            return count;
         }
     }
 }

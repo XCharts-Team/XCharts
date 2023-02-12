@@ -33,22 +33,22 @@ namespace XCharts.Example
                 chart.Init();
                 chart.SetSize(1200, 600);
             }
-            var title = chart.GetOrAddChartComponent<Title>();
+            var title = chart.EnsureChartComponent<Title>();
             title.text = "Simple LineChart";
             title.subText = "normal line";
 
-            var tooltip = chart.GetOrAddChartComponent<Tooltip>();
+            var tooltip = chart.EnsureChartComponent<Tooltip>();
             tooltip.show = true;
 
-            var legend = chart.GetOrAddChartComponent<Legend>();
+            var legend = chart.EnsureChartComponent<Legend>();
             legend.show = false;
 
-            var xAxis = chart.GetOrAddChartComponent<XAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
             xAxis.splitNumber = 10;
             xAxis.boundaryGap = true;
             xAxis.type = Axis.AxisType.Category;
 
-            var yAxis = chart.GetOrAddChartComponent<YAxis>();
+            var yAxis = chart.EnsureChartComponent<YAxis>();
             yAxis.type = Axis.AxisType.Value;
 
             chart.RemoveData();

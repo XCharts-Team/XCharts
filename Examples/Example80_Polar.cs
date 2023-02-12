@@ -19,7 +19,7 @@ namespace XCharts.Example
             {
                 chart = gameObject.AddComponent<BaseChart>();
             }
-            chart.GetOrAddChartComponent<PolarCoord>();
+            chart.EnsureChartComponent<PolarCoord>();
         }
 
         void Update()

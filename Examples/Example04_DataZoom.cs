@@ -38,11 +38,11 @@ namespace XCharts.Example
             {
                 if (dataZoom.IsInMarqueeArea(serieData))
                 {
-                    serieData.GetOrAddComponent<ItemStyle>().color = Color.red;
+                    serieData.EnsureComponent<ItemStyle>().color = Color.red;
                 }
                 else
                 {
-                    serieData.GetOrAddComponent<ItemStyle>().color = Color.clear;
+                    serieData.EnsureComponent<ItemStyle>().color = Color.clear;
                 }
             }
         }

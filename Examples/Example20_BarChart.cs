@@ -130,7 +130,7 @@ namespace XCharts.Example
             serie.barPercentStack = true;
             if (null == serie.label)
             {
-                serie.AddExtraComponent<LabelStyle>();
+                serie.EnsureComponent<LabelStyle>();
             }
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Center;
@@ -139,7 +139,7 @@ namespace XCharts.Example
 
             if (null == serie2.label)
             {
-                serie2.AddExtraComponent<LabelStyle>();
+                serie2.EnsureComponent<LabelStyle>();
             }
             serie2.label.show = true;
             serie2.label.position = LabelStyle.Position.Center;

@@ -75,7 +75,7 @@ namespace XCharts.Example
         {
             chart.EnsureChartComponent<Title>().subText = "显示文本标签";
 
-            serie.AddExtraComponent<LabelStyle>();
+            serie.EnsureComponent<LabelStyle>();
             serie.label.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1);
@@ -139,11 +139,11 @@ namespace XCharts.Example
             }
             if (null == serie.label)
             {
-                serie.AddExtraComponent<LabelStyle>();
+                serie.EnsureComponent<LabelStyle>();
             }
             if (null == serie1.label)
             {
-                serie1.AddExtraComponent<LabelStyle>();
+                serie1.EnsureComponent<LabelStyle>();
             }
             serie1.label.show = true;
             serie1.label.position = LabelStyle.Position.Inside;

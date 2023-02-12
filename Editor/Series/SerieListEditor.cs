@@ -176,15 +176,15 @@ namespace XCharts.Editor
                     ConvertSerie(editor.serie, type);
                 }));
             }
-            if (editor.serie.GetType().IsDefined(typeof(SerieExtraComponentAttribute), false))
+            if (editor.serie.GetType().IsDefined(typeof(SerieComponentAttribute), false))
             {
-                var attribute = editor.serie.GetType().GetAttribute<SerieExtraComponentAttribute>();
+                var attribute = editor.serie.GetType().GetAttribute<SerieComponentAttribute>();
                 foreach (var type in attribute.types)
                 {
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
                     {
-                        editor.serie.AddExtraComponent(type);
+                        editor.serie.EnsureComponent(type);
                         RefreshEditors();
                         chart.RefreshAllComponent();
                         EditorUtility.SetDirty(chart);
@@ -195,7 +195,7 @@ namespace XCharts.Editor
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Remove " + type.Name, () =>
                     {
-                        editor.serie.RemoveExtraComponent(type);
+                        editor.serie.RemoveComponent(type);
                         RefreshEditors();
                         chart.RefreshAllComponent();
                         EditorUtility.SetDirty(chart);

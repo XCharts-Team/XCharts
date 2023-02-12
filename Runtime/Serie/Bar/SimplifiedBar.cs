@@ -8,8 +8,8 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(SimplifiedLine), typeof(Bar))]
     [CoordOptions(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.LeftToRight)]
-    [SerieExtraComponent()]
-    [SerieDataExtraComponent()]
+    [SerieComponent()]
+    [SerieDataComponent()]
     [SerieDataExtraField()]
     public class SimplifiedBar : Serie, INeedSerieContainer, ISimplifiedSerie
     {

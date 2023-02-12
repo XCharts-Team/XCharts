@@ -21,7 +21,7 @@ namespace XCharts.Example
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
-            serie.AddExtraComponent<LabelStyle>();
+            serie.EnsureComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Outside;
         }

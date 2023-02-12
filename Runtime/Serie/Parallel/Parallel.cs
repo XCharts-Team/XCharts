@@ -6,8 +6,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(ParallelHandler), true)]
     [RequireChartComponent(typeof(ParallelCoord))]
-    [SerieExtraComponent(typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Parallel : Serie, INeedSerieContainer
     {

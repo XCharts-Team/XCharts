@@ -45,10 +45,10 @@ namespace XCharts.Example
             chart = gameObject.GetComponent<LineChart>();
             if (chart == null) gameObject.AddComponent<LineChart>();
 
-            chart.GetOrAddChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "术语解析-组件";
 
-            var grid = chart.GetOrAddChartComponent<GridCoord>();
+            var grid = chart.EnsureChartComponent<GridCoord>();
             grid.bottom = 30;
             grid.right = 30;
             grid.left = 50;
@@ -197,7 +197,7 @@ namespace XCharts.Example
             var grid = chart.EnsureChartComponent<GridCoord>();
             grid.bottom = 70;
 
-            var dataZoom = chart.GetOrAddChartComponent<DataZoom>();
+            var dataZoom = chart.EnsureChartComponent<DataZoom>();
             dataZoom.enable = true;
             dataZoom.supportInside = true;
             dataZoom.supportSlider = true;
@@ -258,7 +258,7 @@ namespace XCharts.Example
         {
             chart.EnsureChartComponent<Title>().subText = "VisualMap 视觉映射：可从全局上配置图表的颜色、字体等效果，支持默认主题切换";
 
-            var visualMap = chart.GetOrAddChartComponent<VisualMap>();
+            var visualMap = chart.EnsureChartComponent<VisualMap>();
             visualMap.show = true;
             visualMap.showUI = true;
             visualMap.orient = Orient.Vertical;

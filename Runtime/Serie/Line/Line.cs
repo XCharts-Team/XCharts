@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.LeftToRight)]
-    [SerieExtraComponent(
+    [SerieComponent(
         typeof(LabelStyle),
         typeof(EndLabelStyle),
         typeof(LineArrow),
@@ -15,7 +15,7 @@ namespace XCharts.Runtime
         typeof(EmphasisStyle),
         typeof(BlurStyle),
         typeof(SelectStyle))]
-    [SerieDataExtraComponent(
+    [SerieDataComponent(
         typeof(ItemStyle),
         typeof(LabelStyle),
         typeof(SerieSymbol),

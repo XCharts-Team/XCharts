@@ -5,8 +5,8 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Ignore")]
     public class Bar : Serie, INeedSerieContainer
     {

@@ -69,7 +69,15 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
+        /// <summary>
+        /// The callback function of chart init.
+        /// |图表的初始化完成回调。
+        /// </summary>
         public Action onInit { set { m_OnInit = value; } }
+        /// <summary>
+        /// The callback function of chart update.
+        /// |图表的Update回调。
+        /// </summary>
         public Action onUpdate { set { m_OnUpdate = value; } }
         /// <summary>
         /// 自定义绘制回调。在绘制Serie前调用。

@@ -4,8 +4,8 @@ namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(RingHandler), true)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Ring : Serie
     {
@@ -17,14 +17,14 @@ namespace XCharts.Runtime
             serie.gap = 10;
             serie.radius = new float[] { 0.3f, 0.35f };
 
-            var label = serie.AddExtraComponent<LabelStyle>();
+            var label = serie.EnsureComponent<LabelStyle>();
             label.show = true;
             label.position = LabelStyle.Position.Center;
             label.formatter = "{d:f0}%";
             label.textStyle.autoColor = true;
             label.textStyle.fontSize = 28;
 
-            var titleStyle = serie.AddExtraComponent<TitleStyle>();
+            var titleStyle = serie.EnsureComponent<TitleStyle>();
             titleStyle.show = false;
             titleStyle.offset = new Vector2(0, 30);
 

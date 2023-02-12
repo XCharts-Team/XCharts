@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]
-    public class EmphasisStyle : StateStyle, ISerieExtraComponent, ISerieDataComponent
+    public class EmphasisStyle : StateStyle, ISerieComponent, ISerieDataComponent
     {
         /// <summary>
         /// focus type. 

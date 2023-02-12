@@ -5,8 +5,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(EffectScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Radius")]
     public class EffectScatter : BaseScatter
     {

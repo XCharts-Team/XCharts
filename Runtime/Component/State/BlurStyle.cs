@@ -8,6 +8,6 @@ namespace XCharts.Runtime
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]
-    public class BlurStyle : StateStyle, ISerieExtraComponent, ISerieDataComponent
+    public class BlurStyle : StateStyle, ISerieComponent, ISerieDataComponent
     { }
 }

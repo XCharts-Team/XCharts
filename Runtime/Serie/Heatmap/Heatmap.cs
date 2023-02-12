@@ -25,8 +25,8 @@ namespace XCharts.Runtime
     [DefaultAnimation(AnimationType.LeftToRight)]
     [RequireChartComponent(typeof(VisualMap))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]
     public class Heatmap : Serie, INeedSerieContainer
     {

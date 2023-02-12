@@ -15,15 +15,15 @@ namespace XCharts.Runtime
             tooltip.type = Tooltip.Type.None;
             tooltip.trigger = Tooltip.Trigger.Axis;
 
-            var grid = GetOrAddChartComponent<GridCoord>();
+            var grid = EnsureChartComponent<GridCoord>();
             grid.left = 0.12f;
 
-            var xAxis = GetOrAddChartComponent<XAxis>();
+            var xAxis = EnsureChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Category;
             xAxis.boundaryGap = true;
             xAxis.splitNumber = 10;
 
-            var yAxis = GetOrAddChartComponent<YAxis>();
+            var yAxis = EnsureChartComponent<YAxis>();
             yAxis.type = Axis.AxisType.Category;
             yAxis.boundaryGap = true;
             yAxis.splitNumber = 10;
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
 
             Heatmap.AddDefaultSerie(this, GenerateDefaultSerieName());
 
-            var visualMap = GetOrAddChartComponent<VisualMap>();
+            var visualMap = EnsureChartComponent<VisualMap>();
             visualMap.autoMinMax = true;
             visualMap.orient = Orient.Vertical;
             visualMap.calculable = true;

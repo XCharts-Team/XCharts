@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     /// 标签的引导线
     /// </summary>
     [System.Serializable]
-    public class LabelLine : ChildComponent, ISerieExtraComponent, ISerieDataComponent
+    public class LabelLine : ChildComponent, ISerieComponent, ISerieDataComponent
     {
         /// <summary>
         /// 标签视觉引导线类型

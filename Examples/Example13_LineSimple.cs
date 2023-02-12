@@ -32,14 +32,14 @@ namespace XCharts.Example
                 chart.Init();
                 chart.SetSize(580, 300);
             }
-            chart.GetOrAddChartComponent<Title>().show = true;
-            chart.GetOrAddChartComponent<Title>().text = "Line Simple";
+            chart.EnsureChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().text = "Line Simple";
 
-            chart.GetOrAddChartComponent<Tooltip>().show = true;
-            chart.GetOrAddChartComponent<Legend>().show = false;
+            chart.EnsureChartComponent<Tooltip>().show = true;
+            chart.EnsureChartComponent<Legend>().show = false;
 
-            var xAxis = chart.GetOrAddChartComponent<XAxis>();
-            var yAxis = chart.GetOrAddChartComponent<YAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
+            var yAxis = chart.EnsureChartComponent<YAxis>();
             xAxis.show = true;
             yAxis.show = true;
             xAxis.type = Axis.AxisType.Category;

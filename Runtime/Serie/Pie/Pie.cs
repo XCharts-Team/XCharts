@@ -4,8 +4,8 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Bar))]
     [SerieHandler(typeof(PieHandler), true)]
     [DefaultAnimation(AnimationType.Clockwise)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(LabelLine), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(LabelLine), typeof(TitleStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(LabelLine), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Ignore", "m_Selected", "m_Radius")]
     public class Pie : Serie
     {

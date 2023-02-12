@@ -189,7 +189,7 @@ namespace XCharts.Runtime
         {
             if (m_SerieRoot != null)
             {
-                var rect = ChartHelper.GetOrAddComponent<RectTransform>(m_SerieRoot);
+                var rect = ChartHelper.EnsureComponent<RectTransform>(m_SerieRoot);
                 rect.localPosition = Vector3.zero;
                 rect.sizeDelta = chart.chartSizeDelta;
                 rect.anchorMin = chart.chartMinAnchor;

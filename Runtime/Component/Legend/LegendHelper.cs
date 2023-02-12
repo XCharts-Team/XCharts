@@ -50,11 +50,11 @@ namespace XCharts.Runtime
             var objPivot = new Vector2(0, 1);
             var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
-            var img = ChartHelper.GetOrAddComponent<Image>(btnObj);
+            var img = ChartHelper.EnsureComponent<Image>(btnObj);
             img.color = Color.clear;
             img.raycastTarget = true;
-            ChartHelper.GetOrAddComponent<Button>(btnObj);
-            ChartHelper.GetOrAddComponent<Image>(iconObj);
+            ChartHelper.EnsureComponent<Button>(btnObj);
+            ChartHelper.EnsureComponent<Image>(iconObj);
 
             var label = ChartHelper.AddChartLabel("content", btnObj.transform, legend.labelStyle, theme.legend,
                 content, contentColor, TextAnchor.MiddleLeft);

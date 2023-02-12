@@ -169,12 +169,39 @@ namespace XCharts.Runtime
 #endif
             }
         }
+
+        [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(Transform transform) where T : Component
         {
-            return GetOrAddComponent<T>(transform.gameObject);
+            return EnsureComponent<T>(transform.gameObject);
         }
 
+        [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(GameObject gameObject) where T : Component
+        {
+            return EnsureComponent<T>(gameObject);
+        }
+
+        /// <summary>
+        /// Ensure that the transform has the specified component, add it if not.
+        /// |确保对象有指定的组件，如果没有则添加。
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T EnsureComponent<T>(Transform transform) where T : Component
+        {
+            return EnsureComponent<T>(transform.gameObject);
+        }
+
+        /// <summary>
+        /// Ensure that the game object has the specified component, add it if not.
+        /// | 确保对象有指定的组件，如果没有则添加。
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T EnsureComponent<T>(GameObject gameObject) where T : Component
         {
             if (gameObject.GetComponent<T>() == null)
             {
@@ -214,7 +241,7 @@ namespace XCharts.Runtime
                 obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 obj.layer = parent.gameObject.layer;
             }
-            RectTransform rect = GetOrAddComponent<RectTransform>(obj);
+            RectTransform rect = EnsureComponent<RectTransform>(obj);
             rect.localPosition = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
@@ -228,7 +255,7 @@ namespace XCharts.Runtime
             Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
         {
             if (obj == null) return;
-            RectTransform rect = GetOrAddComponent<RectTransform>(obj);
+            RectTransform rect = EnsureComponent<RectTransform>(obj);
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -253,7 +280,7 @@ namespace XCharts.Runtime
             chartText.tmpText.raycastTarget = false;
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
 #else
-            chartText.text = GetOrAddComponent<Text>(txtObj);
+            chartText.text = EnsureComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
             chartText.text.fontStyle = textStyle.fontStyle;
             chartText.text.horizontalOverflow = textStyle.autoWrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
@@ -272,7 +299,7 @@ namespace XCharts.Runtime
             chartText.SetLineSpacing(textStyle.lineSpacing);
             chartText.SetActive(textStyle.show);
 
-            RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
+            RectTransform rect = EnsureComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
@@ -287,7 +314,7 @@ namespace XCharts.Runtime
             var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
-            return ChartHelper.GetOrAddComponent<Painter>(painterObj);
+            return ChartHelper.EnsureComponent<Painter>(painterObj);
         }
 
         public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)
@@ -303,7 +330,7 @@ namespace XCharts.Runtime
             var pivot = new Vector2(0.5f, 0.5f);
             var sizeDelta = new Vector2(width, height);
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var img = GetOrAddComponent<Image>(iconObj);
+            var img = EnsureComponent<Image>(iconObj);
             if (img.raycastTarget != false)
                 img.raycastTarget = false;
             if (img.type != type)
@@ -362,7 +389,7 @@ namespace XCharts.Runtime
             var alignment = textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            var label = EnsureComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
@@ -397,7 +424,7 @@ namespace XCharts.Runtime
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var vector0_5 = new Vector2(0.5f, 0.5f);
             var labelObj = AddObject(name, parent, vector0_5, vector0_5, vector0_5, sizeDelta);
-            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            var label = EnsureComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
@@ -787,7 +814,7 @@ namespace XCharts.Runtime
         public static void AddEventListener(GameObject obj, EventTriggerType type,
             UnityEngine.Events.UnityAction<BaseEventData> call)
         {
-            EventTrigger trigger = GetOrAddComponent<EventTrigger>(obj.gameObject);
+            EventTrigger trigger = EnsureComponent<EventTrigger>(obj.gameObject);
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = type;
             entry.callback = new EventTrigger.TriggerEvent();

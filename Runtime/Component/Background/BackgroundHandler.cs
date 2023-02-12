@@ -19,7 +19,7 @@ namespace XCharts.Runtime
                 component.gameObject = backgroundObj;
                 backgroundObj.hideFlags = chart.chartHideFlags;
 
-                var backgroundImage = ChartHelper.GetOrAddComponent<Image>(backgroundObj);
+                var backgroundImage = ChartHelper.EnsureComponent<Image>(backgroundObj);
                 ChartHelper.UpdateRectTransform(backgroundObj, chart.chartMinAnchor,
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 backgroundImage.sprite = component.image;

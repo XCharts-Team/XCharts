@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 61
 slug: /changelog
 ---
 
@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.02.12) 重构`Component`相关代码，调整API接口
 * (2023.02.10) 修复`Axis`在`Log`轴时某些情况下最小值不正确的问题
 * (2023.02.10) 优化`Axis`的数值`Label`的默认显示格式
 * (2023.02.08) 增加`DataZoom`的`startLock`和`endLock`参数支持锁定

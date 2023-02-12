@@ -27,9 +27,9 @@ slug: /api
 |[PieChart](#piechart)|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|
 |[PropertyUtil](#propertyutil)|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|
 |[ReflectionUtil](#reflectionutil)|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|
-|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieContext](#seriecontext)|
-|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataContext](#seriedatacontext)|[SerieDataExtraComponentAttribute](#seriedataextracomponentattribute)|
-|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieExtraComponentAttribute](#serieextracomponentattribute)|[SerieHandler](#seriehandler)|
+|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieComponentAttribute](#seriecomponentattribute)|
+|[SerieContext](#seriecontext)|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataComponentAttribute](#seriedatacomponentattribute)|
+|[SerieDataContext](#seriedatacontext)|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieHandler](#seriehandler)|
 |[SerieHandler&lt;T&gt;](#seriehandlert)|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|
 |[SerieLabelHelper](#serielabelhelper)|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|
 |[SeriesHelper](#serieshelper)|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|
@@ -133,7 +133,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 | ConvertSerie() |public bool ConvertSerie(Serie serie, Type type)|
 | ConvertSerie&lt;T&gt;() |public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
 | ConvertXYAxis() |public void ConvertXYAxis(int index)<br/>转换X轴和Y轴的配置 |
-| EnsureChartComponent&lt;T&gt;() |public T EnsureChartComponent&lt;T&gt;() where T : MainComponent|
+| EnsureChartComponent&lt;T&gt;() |public T EnsureChartComponent&lt;T&gt;() where T : MainComponent<br/>Ensure the chart has the component, if not, add it. Note: it may fail to add. |
 | GenerateDefaultSerieName() |public string GenerateDefaultSerieName()|
 | GetAllSerieDataCount() |public int GetAllSerieDataCount()|
 | GetChartBackgroundColor() |public Color32 GetChartBackgroundColor()|
@@ -321,7 +321,6 @@ Inherits or Implemented: [BaseChart](#basechart)
 | GetBlurColor() |public static Color32 GetBlurColor(Color32 color, float a = 0.3f)|
 | GetColor() |public static Color32 GetColor(string hexColorStr)|
 | GetDire() |public static Vector3 GetDire(float angle, bool isDegree = false)|
-| GetFloatAccuracy() |public static int GetFloatAccuracy(double value)|
 | GetFullName() |public static string GetFullName(Transform transform)|
 | GetHighlightColor() |public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)|
 | GetLastValue() |public static Vector3 GetLastValue(List&lt;Vector3&gt; list)|
@@ -635,6 +634,8 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 | Approximately() |public static bool Approximately(double a, double b)|
 | Clamp() |public static double Clamp(double d, double min, double max)|
 | Clamp01() |public static double Clamp01(double value)|
+| GetPrecision() |public static int GetPrecision(double value)|
+| IsInteger() |public static bool IsInteger(double value)|
 | Lerp() |public static double Lerp(double a, double b, double t)|
 
 ## ObjectPool&lt;T&gt; where T
@@ -737,6 +738,23 @@ Inherits or Implemented: [BaseChart](#basechart)
 
 Inherits or Implemented: [BaseChart](#basechart)
 
+## SerieComponentAttribute
+
+Inherits or Implemented: [Attribute](#attribute)
+
+|public method|description|
+|--|--|
+| Contains() |public bool Contains(Type type)|
+| Contains&lt;T&gt;() |public bool Contains&lt;T&gt;() where T : ISerieComponent|
+| SerieComponentAttribute() |public SerieComponentAttribute()|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2, Type type3)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2, Type type3, Type type4)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)|
+| SerieComponentAttribute() |public SerieComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)|
+
 ## SerieContext
 
 ## SerieConvertAttribute
@@ -752,28 +770,28 @@ Inherits or Implemented: [Attribute](#attribute)
 | SerieConvertAttribute() |public SerieConvertAttribute(Type serie, Type serie2, Type serie3)|
 | SerieConvertAttribute() |public SerieConvertAttribute(Type serie, Type serie2, Type serie3, Type serie4)|
 
-## SerieDataContext
-
-|public method|description|
-|--|--|
-| Reset() |public void Reset()|
-
-## SerieDataExtraComponentAttribute
+## SerieDataComponentAttribute
 
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|description|
 |--|--|
 | Contains() |public bool Contains(Type type)|
-| Contains&lt;T&gt;() |public bool Contains&lt;T&gt;() where T : ISerieExtraComponent|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute()|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)|
-| SerieDataExtraComponentAttribute() |public SerieDataExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)|
+| Contains&lt;T&gt;() |public bool Contains&lt;T&gt;() where T : ISerieComponent|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute()|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2, Type type3)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2, Type type3, Type type4)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)|
+| SerieDataComponentAttribute() |public SerieDataComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)|
+
+## SerieDataContext
+
+|public method|description|
+|--|--|
+| Reset() |public void Reset()|
 
 ## SerieDataExtraFieldAttribute
 
@@ -790,23 +808,6 @@ Inherits or Implemented: [Attribute](#attribute)
 | SerieDataExtraFieldAttribute() |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5)|
 | SerieDataExtraFieldAttribute() |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)|
 | SerieDataExtraFieldAttribute() |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)|
-
-## SerieExtraComponentAttribute
-
-Inherits or Implemented: [Attribute](#attribute)
-
-|public method|description|
-|--|--|
-| Contains() |public bool Contains(Type type)|
-| Contains&lt;T&gt;() |public bool Contains&lt;T&gt;() where T : ISerieExtraComponent|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute()|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6)|
-| SerieExtraComponentAttribute() |public SerieExtraComponentAttribute(Type type1, Type type2, Type type3, Type type4, Type type5, Type type6, Type type7)|
 
 ## SerieHandler
 

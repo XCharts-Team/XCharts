@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 31
 slug: /configuration
 ---
 
@@ -54,7 +54,7 @@ slug: /configuration
 |[TitleStyle](#titlestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapRange](#visualmaprange)|
 |[VisualMapTheme](#visualmaptheme)|
 
-## ISerieExtraComponent 系列的额外组件
+## ISerieComponent 可添加到Serie的组件
 
 |||||
 |--|--|--|--|
@@ -62,7 +62,7 @@ slug: /configuration
 |[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineArrow](#linearrow)|[SelectStyle](#selectstyle)|
 |[TitleStyle](#titlestyle)|
 
-## ISerieDataComponent 数据项的额外组件
+## ISerieDataComponent 可添加到SerieData的组件
 
 |||||
 |--|--|--|--|
@@ -116,7 +116,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 区域填充样式。
 
@@ -355,7 +355,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -508,7 +508,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -570,7 +570,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -643,7 +643,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
 
@@ -662,7 +662,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent
 
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
 
@@ -757,7 +757,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -990,7 +990,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -1344,7 +1344,7 @@ Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipr
 
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
 
 标题相关设置。
 

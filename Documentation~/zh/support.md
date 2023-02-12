@@ -1,5 +1,6 @@
 ---
-sidebar_position: 6
+title: 技术支持和订阅服务
+sidebar_position: 21
 slug: /support
 ---
 

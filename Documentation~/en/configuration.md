@@ -54,7 +54,7 @@ slug: /configuration
 |[TitleStyle](#titlestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapRange](#visualmaprange)|
 |[VisualMapTheme](#visualmaptheme)|
 
-## ISerieExtraComponent
+## ISerieComponent
 
 |||||
 |--|--|--|--|
@@ -116,7 +116,7 @@ the animation of serie.
 
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 The style of area.
 
@@ -355,7 +355,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -508,7 +508,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -570,7 +570,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -643,7 +643,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
 
@@ -662,7 +662,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent
 
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 Text label of chart, to explain some data information about graphic item like value, name and so on.
 
@@ -757,7 +757,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -990,7 +990,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -1344,7 +1344,7 @@ Title component, including main title and subtitle.
 
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
 
 the title of serie.
 

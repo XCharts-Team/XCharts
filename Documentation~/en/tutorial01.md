@@ -100,29 +100,29 @@ chart.SetSize(580, 300);//代码动态设置尺寸，或直接操作chart.rectTr
 设置标题：
 
 ```C#
-var title = chart.GetOrAddChartComponent<Title>();
+var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple Line";
 ```
 
 设置提示框和图例是否显示：
 
 ```C#
-var tooltip = chart.GetOrAddChartComponent<Tooltip>();
+var tooltip = chart.EnsureChartComponent<Tooltip>();
 tooltip.show = true;
 
-var legend = chart.GetOrAddChartComponent<Legend>();
+var legend = chart.EnsureChartComponent<Legend>();
 legend.show = false;
 ```
 
 设置坐标轴：
 
 ```C#
-var xAxis = chart.GetOrAddChartComponent<XAxis>();
+var xAxis = chart.EnsureChartComponent<XAxis>();
 xAxis.splitNumber = 10;
 xAxis.boundaryGap = true;
 xAxis.type =  Axis.AxisType.Category;
 
-var yAxis = chart.GetOrAddChartComponent<YAxis>();
+var yAxis = chart.EnsureChartComponent<YAxis>();
 yAxis.type =  Axis.AxisType.Value;
 ```
 
@@ -195,11 +195,11 @@ XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换�
 需要先获取组件，再修改里面的参数：
 
 ```C#
-var title = chart.GetOrAddChartComponent<Title>();
+var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple LineChart";
 title.subText = "normal line";
 
-var xAxis = chart.GetOrAddChartComponent<XAxis>();
+var xAxis = chart.EnsureChartComponent<XAxis>();
 xAxis.splitNumber = 10;
 xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
@@ -234,9 +234,9 @@ serie.roundCap = true;
 给Serie添加额外组件：
 
 ```C#
-serie.AddExtraComponent<AreaStyle>();
+serie.EnsureComponent<AreaStyle>();
 
-var label = serie1.AddExtraComponent<LabelStyle>();
+var label = serie1.EnsureComponent<LabelStyle>();
 label.offset = new Vector3(0,20,0);
 ```
 
@@ -247,7 +247,7 @@ var serieData = chart.AddData(0, 20);
 //var serieData = serie.GetSerieData(0); //从已有数据中获取
 serieData.radius = 10;
 
-var itemStyle = serieData.GetOrAddComponent<ItemStyle>(); //给数据项添加ItemStyle组件
+var itemStyle = serieData.EnsureComponent<ItemStyle>(); //给数据项添加ItemStyle组件
 itemStyle.color = Color.blue;
 
 ```

@@ -7,76 +7,174 @@ slug: /configuration
 
 ## Serie 系列
 
-|||||
-|--|--|--|--|
-|[Bar](#bar)|[BaseScatter](#basescatter)|[Candlestick](#candlestick)|[EffectScatter](#effectscatter)|
-|[Heatmap](#heatmap)|[Line](#line)|[Parallel](#parallel)|[Pie](#pie)|
-|[Radar](#radar)|[Ring](#ring)|[Scatter](#scatter)|[Serie](#serie)|
-|[SimplifiedBar](#simplifiedbar)|[SimplifiedCandlestick](#simplifiedcandlestick)|[SimplifiedLine](#simplifiedline)|
+- [Bar](#bar)
+- [BaseScatter](#basescatter)
+- [Candlestick](#candlestick)
+- [EffectScatter](#effectscatter)
+- [Heatmap](#heatmap)
+- [Line](#line)
+- [Parallel](#parallel)
+- [Pie](#pie)
+- [Radar](#radar)
+- [Ring](#ring)
+- [Scatter](#scatter)
+- [Serie](#serie)
+- [SimplifiedBar](#simplifiedbar)
+- [SimplifiedCandlestick](#simplifiedcandlestick)
+- [SimplifiedLine](#simplifiedline)
+
 
 ## Theme 主题
 
-|||||
-|--|--|--|--|
-|[AngleAxisTheme](#angleaxistheme)|[AxisTheme](#axistheme)|[BaseAxisTheme](#baseaxistheme)|[ComponentTheme](#componenttheme)|
-|[DataZoomTheme](#datazoomtheme)|[LegendTheme](#legendtheme)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|
-|[RadiusAxisTheme](#radiusaxistheme)|[SerieTheme](#serietheme)|[SubTitleTheme](#subtitletheme)|[Theme](#theme)|
-|[ThemeStyle](#themestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapTheme](#visualmaptheme)|
+- [AngleAxisTheme](#angleaxistheme)
+- [AxisTheme](#axistheme)
+- [BaseAxisTheme](#baseaxistheme)
+- [ComponentTheme](#componenttheme)
+- [DataZoomTheme](#datazoomtheme)
+- [LegendTheme](#legendtheme)
+- [PolarAxisTheme](#polaraxistheme)
+- [RadarAxisTheme](#radaraxistheme)
+- [RadiusAxisTheme](#radiusaxistheme)
+- [SerieTheme](#serietheme)
+- [SubTitleTheme](#subtitletheme)
+- [Theme](#theme)
+- [ThemeStyle](#themestyle)
+- [TitleTheme](#titletheme)
+- [TooltipTheme](#tooltiptheme)
+- [VisualMapTheme](#visualmaptheme)
+
 
 ## MainComponent 主组件
 
-|||||
-|--|--|--|--|
-|[AngleAxis](#angleaxis)|[Axis](#axis)|[Background](#background)|[CalendarCoord](#calendarcoord)|
-|[Comment](#comment)|[CoordSystem](#coordsystem)|[DataZoom](#datazoom)|[GridCoord](#gridcoord)|
-|[Legend](#legend)|[MarkArea](#markarea)|[MarkLine](#markline)|[ParallelAxis](#parallelaxis)|
-|[ParallelCoord](#parallelcoord)|[PolarCoord](#polarcoord)|[RadarCoord](#radarcoord)|[RadiusAxis](#radiusaxis)|
-|[Settings](#settings)|[SingleAxis](#singleaxis)|[SingleAxisCoord](#singleaxiscoord)|[Title](#title)|
-|[Tooltip](#tooltip)|[VisualMap](#visualmap)|[XAxis](#xaxis)|[YAxis](#yaxis)|
+- [AngleAxis](#angleaxis)
+- [Axis](#axis)
+- [Background](#background)
+- [CalendarCoord](#calendarcoord)
+- [Comment](#comment)
+- [CoordSystem](#coordsystem)
+- [DataZoom](#datazoom)
+- [GridCoord](#gridcoord)
+- [Legend](#legend)
+- [MarkArea](#markarea)
+- [MarkLine](#markline)
+- [ParallelAxis](#parallelaxis)
+- [ParallelCoord](#parallelcoord)
+- [PolarCoord](#polarcoord)
+- [RadarCoord](#radarcoord)
+- [RadiusAxis](#radiusaxis)
+- [Settings](#settings)
+- [SingleAxis](#singleaxis)
+- [SingleAxisCoord](#singleaxiscoord)
+- [Title](#title)
+- [Tooltip](#tooltip)
+- [VisualMap](#visualmap)
+- [XAxis](#xaxis)
+- [YAxis](#yaxis)
+
 
 ## ChildComponent 子组件
 
-|||||
-|--|--|--|--|
-|[AngleAxisTheme](#angleaxistheme)|[AnimationStyle](#animationstyle)|[AreaStyle](#areastyle)|[ArrowStyle](#arrowstyle)|
-|[AxisLabel](#axislabel)|[AxisLine](#axisline)|[AxisMinorSplitLine](#axisminorsplitline)|[AxisMinorTick](#axisminortick)|
-|[AxisName](#axisname)|[AxisSplitArea](#axissplitarea)|[AxisSplitLine](#axissplitline)|[AxisTheme](#axistheme)|
-|[AxisTick](#axistick)|[BaseAxisTheme](#baseaxistheme)|[BaseLine](#baseline)|[BlurStyle](#blurstyle)|
-|[CommentItem](#commentitem)|[CommentMarkStyle](#commentmarkstyle)|[ComponentTheme](#componenttheme)|[DataZoomTheme](#datazoomtheme)|
-|[EmphasisStyle](#emphasisstyle)|[EndLabelStyle](#endlabelstyle)|[IconStyle](#iconstyle)|[ImageStyle](#imagestyle)|
-|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LegendTheme](#legendtheme)|
-|[Level](#level)|[LevelStyle](#levelstyle)|[LineArrow](#linearrow)|[LineStyle](#linestyle)|
-|[Location](#location)|[MarkAreaData](#markareadata)|[MarkLineData](#marklinedata)|[MarqueeStyle](#marqueestyle)|
-|[Padding](#padding)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|[RadiusAxisTheme](#radiusaxistheme)|
-|[SelectStyle](#selectstyle)|[SerieData](#seriedata)|[SerieSymbol](#seriesymbol)|[SerieTheme](#serietheme)|
-|[StageColor](#stagecolor)|[StateStyle](#statestyle)|[SubTitleTheme](#subtitletheme)|[SymbolStyle](#symbolstyle)|
-|[TextLimit](#textlimit)|[TextPadding](#textpadding)|[TextStyle](#textstyle)|[ThemeStyle](#themestyle)|
-|[TitleStyle](#titlestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapRange](#visualmaprange)|
-|[VisualMapTheme](#visualmaptheme)|
+- [AngleAxisTheme](#angleaxistheme)
+- [AnimationStyle](#animationstyle)
+- [AreaStyle](#areastyle)
+- [ArrowStyle](#arrowstyle)
+- [AxisLabel](#axislabel)
+- [AxisLine](#axisline)
+- [AxisMinorSplitLine](#axisminorsplitline)
+- [AxisMinorTick](#axisminortick)
+- [AxisName](#axisname)
+- [AxisSplitArea](#axissplitarea)
+- [AxisSplitLine](#axissplitline)
+- [AxisTheme](#axistheme)
+- [AxisTick](#axistick)
+- [BaseAxisTheme](#baseaxistheme)
+- [BaseLine](#baseline)
+- [BlurStyle](#blurstyle)
+- [CommentItem](#commentitem)
+- [CommentMarkStyle](#commentmarkstyle)
+- [ComponentTheme](#componenttheme)
+- [DataZoomTheme](#datazoomtheme)
+- [EmphasisStyle](#emphasisstyle)
+- [EndLabelStyle](#endlabelstyle)
+- [IconStyle](#iconstyle)
+- [ImageStyle](#imagestyle)
+- [ItemStyle](#itemstyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LegendTheme](#legendtheme)
+- [Level](#level)
+- [LevelStyle](#levelstyle)
+- [LineArrow](#linearrow)
+- [LineStyle](#linestyle)
+- [Location](#location)
+- [MarkAreaData](#markareadata)
+- [MarkLineData](#marklinedata)
+- [MarqueeStyle](#marqueestyle)
+- [Padding](#padding)
+- [PolarAxisTheme](#polaraxistheme)
+- [RadarAxisTheme](#radaraxistheme)
+- [RadiusAxisTheme](#radiusaxistheme)
+- [SelectStyle](#selectstyle)
+- [SerieData](#seriedata)
+- [SerieSymbol](#seriesymbol)
+- [SerieTheme](#serietheme)
+- [StageColor](#stagecolor)
+- [StateStyle](#statestyle)
+- [SubTitleTheme](#subtitletheme)
+- [SymbolStyle](#symbolstyle)
+- [TextLimit](#textlimit)
+- [TextPadding](#textpadding)
+- [TextStyle](#textstyle)
+- [ThemeStyle](#themestyle)
+- [TitleStyle](#titlestyle)
+- [TitleTheme](#titletheme)
+- [TooltipTheme](#tooltiptheme)
+- [VisualMapRange](#visualmaprange)
+- [VisualMapTheme](#visualmaptheme)
+
 
 ## ISerieComponent 可添加到Serie的组件
 
-|||||
-|--|--|--|--|
-|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
-|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineArrow](#linearrow)|[SelectStyle](#selectstyle)|
-|[TitleStyle](#titlestyle)|
+- [AreaStyle](#areastyle)
+- [BlurStyle](#blurstyle)
+- [EmphasisStyle](#emphasisstyle)
+- [ImageStyle](#imagestyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LineArrow](#linearrow)
+- [SelectStyle](#selectstyle)
+- [TitleStyle](#titlestyle)
+
 
 ## ISerieDataComponent 可添加到SerieData的组件
 
-|||||
-|--|--|--|--|
-|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
-|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineStyle](#linestyle)|
-|[SelectStyle](#selectstyle)|[SerieSymbol](#seriesymbol)|[TitleStyle](#titlestyle)|
+- [AreaStyle](#areastyle)
+- [BlurStyle](#blurstyle)
+- [EmphasisStyle](#emphasisstyle)
+- [ImageStyle](#imagestyle)
+- [ItemStyle](#itemstyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LineStyle](#linestyle)
+- [SelectStyle](#selectstyle)
+- [SerieSymbol](#seriesymbol)
+- [TitleStyle](#titlestyle)
+
 
 ## Other 其他组件
 
-|||||
-|--|--|--|--|
-|[BaseSerie](#baseserie)|[ChartText](#charttext)|[ChildComponent](#childcomponent)|[DebugInfo](#debuginfo)|
-|[Indicator](#indicator)|[Lang](#lang)|[LangCandlestick](#langcandlestick)|[LangTime](#langtime)|
-|[MainComponent](#maincomponent)|[XCResourcesImporter](#xcresourcesimporter)|[XCSettings](#xcsettings)|
+- [BaseSerie](#baseserie)
+- [ChartText](#charttext)
+- [ChildComponent](#childcomponent)
+- [DebugInfo](#debuginfo)
+- [Indicator](#indicator)
+- [Lang](#lang)
+- [LangCandlestick](#langcandlestick)
+- [LangTime](#langtime)
+- [MainComponent](#maincomponent)
+- [XCResourcesImporter](#xcresourcesimporter)
+- [XCSettings](#xcsettings)
+
 
 ## AngleAxis
 

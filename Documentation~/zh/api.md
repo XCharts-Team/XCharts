@@ -7,39 +7,98 @@ slug: /api
 
 ## 所有类
 
-||||
-|--|--|--|
-|[AnimationStyleHelper](#animationstylehelper)|[AxisContext](#axiscontext)|[AxisHandler&lt;T&gt;](#axishandlert)|
-|[AxisHelper](#axishelper)|[BarChart](#barchart)|[BaseChart](#basechart)|
-|[BaseGraph](#basegraph)|[CandlestickChart](#candlestickchart)|[ChartCached](#chartcached)|
-|[ChartConst](#chartconst)|[ChartDrawer](#chartdrawer)|[ChartHelper](#charthelper)|
-|[ChartLabel](#chartlabel)|[ChartObject](#chartobject)|[CheckHelper](#checkhelper)|
-|[ColorUtil](#colorutil)|[ComponentHandlerAttribute](#componenthandlerattribute)|[ComponentHelper](#componenthelper)|
-|[CoordOptionsAttribute](#coordoptionsattribute)|[DataZoomContext](#datazoomcontext)|[DataZoomHelper](#datazoomhelper)|
-|[DateTimeUtil](#datetimeutil)|[DefaultAnimationAttribute](#defaultanimationattribute)|[DefineSymbolsUtil](#definesymbolsutil)|
-|[FormatterHelper](#formatterhelper)|[GridCoordContext](#gridcoordcontext)|[HeatmapChart](#heatmapchart)|
-|[IgnoreDoc](#ignoredoc)|[InputHelper](#inputhelper)|[InteractData](#interactdata)|
-|[LayerHelper](#layerhelper)|[LegendContext](#legendcontext)|[LegendHelper](#legendhelper)|
-|[LegendItem](#legenditem)|[LineChart](#linechart)|[ListFor](#listfor)|
-|[ListForComponent](#listforcomponent)|[ListForSerie](#listforserie)|[MainComponentContext](#maincomponentcontext)|
-|[MainComponentHandler](#maincomponenthandler)|[MainComponentHandler&lt;T&gt;](#maincomponenthandlert)|[MathUtil](#mathutil)|
-|[Painter](#painter)|[ParallelChart](#parallelchart)|[ParallelCoordContext](#parallelcoordcontext)|
-|[PieChart](#piechart)|[PolarChart](#polarchart)|[PolarCoordContext](#polarcoordcontext)|
-|[PropertyUtil](#propertyutil)|[RadarChart](#radarchart)|[RadarCoordContext](#radarcoordcontext)|
-|[ReflectionUtil](#reflectionutil)|[RequireChartComponentAttribute](#requirechartcomponentattribute)|[RingChart](#ringchart)|
-|[RuntimeUtil](#runtimeutil)|[ScatterChart](#scatterchart)|[SerieComponentAttribute](#seriecomponentattribute)|
-|[SerieContext](#seriecontext)|[SerieConvertAttribute](#serieconvertattribute)|[SerieDataComponentAttribute](#seriedatacomponentattribute)|
-|[SerieDataContext](#seriedatacontext)|[SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)|[SerieHandler](#seriehandler)|
-|[SerieHandler&lt;T&gt;](#seriehandlert)|[SerieHandlerAttribute](#seriehandlerattribute)|[SerieHelper](#seriehelper)|
-|[SerieLabelHelper](#serielabelhelper)|[SerieLabelPool](#serielabelpool)|[SerieParams](#serieparams)|
-|[SeriesHelper](#serieshelper)|[SimplifiedBarChart](#simplifiedbarchart)|[SimplifiedCandlestickChart](#simplifiedcandlestickchart)|
-|[SimplifiedLineChart](#simplifiedlinechart)|[Since](#since)|[SVG](#svg)|
-|[SVGImage](#svgimage)|[SVGPath](#svgpath)|[SVGPathSeg](#svgpathseg)|
-|[TooltipContext](#tooltipcontext)|[TooltipData](#tooltipdata)|[TooltipHelper](#tooltiphelper)|
-|[TooltipView](#tooltipview)|[TooltipViewItem](#tooltipviewitem)|[UGL](#ugl)|
-|[UGLExample](#uglexample)|[UGLHelper](#uglhelper)|[VisualMapContext](#visualmapcontext)|
-|[VisualMapHelper](#visualmaphelper)|[XChartsMgr](#xchartsmgr)|[XCResourceImporterWindow](#xcresourceimporterwindow)|
-|[XCThemeMgr](#xcthememgr)|
+- [AnimationStyleHelper](#animationstylehelper)
+- [AxisContext](#axiscontext)
+- [AxisHandler&lt;T&gt;](#axishandlert)
+- [AxisHelper](#axishelper)
+- [BarChart](#barchart)
+- [BaseChart](#basechart)
+- [BaseGraph](#basegraph)
+- [CandlestickChart](#candlestickchart)
+- [ChartCached](#chartcached)
+- [ChartConst](#chartconst)
+- [ChartDrawer](#chartdrawer)
+- [ChartHelper](#charthelper)
+- [ChartLabel](#chartlabel)
+- [ChartObject](#chartobject)
+- [CheckHelper](#checkhelper)
+- [ColorUtil](#colorutil)
+- [ComponentHandlerAttribute](#componenthandlerattribute)
+- [ComponentHelper](#componenthelper)
+- [CoordOptionsAttribute](#coordoptionsattribute)
+- [DataZoomContext](#datazoomcontext)
+- [DataZoomHelper](#datazoomhelper)
+- [DateTimeUtil](#datetimeutil)
+- [DefaultAnimationAttribute](#defaultanimationattribute)
+- [DefineSymbolsUtil](#definesymbolsutil)
+- [FormatterHelper](#formatterhelper)
+- [GridCoordContext](#gridcoordcontext)
+- [HeatmapChart](#heatmapchart)
+- [IgnoreDoc](#ignoredoc)
+- [InputHelper](#inputhelper)
+- [InteractData](#interactdata)
+- [LayerHelper](#layerhelper)
+- [LegendContext](#legendcontext)
+- [LegendHelper](#legendhelper)
+- [LegendItem](#legenditem)
+- [LineChart](#linechart)
+- [ListFor](#listfor)
+- [ListForComponent](#listforcomponent)
+- [ListForSerie](#listforserie)
+- [MainComponentContext](#maincomponentcontext)
+- [MainComponentHandler](#maincomponenthandler)
+- [MainComponentHandler&lt;T&gt;](#maincomponenthandlert)
+- [MathUtil](#mathutil)
+- [Painter](#painter)
+- [ParallelChart](#parallelchart)
+- [ParallelCoordContext](#parallelcoordcontext)
+- [PieChart](#piechart)
+- [PolarChart](#polarchart)
+- [PolarCoordContext](#polarcoordcontext)
+- [PropertyUtil](#propertyutil)
+- [RadarChart](#radarchart)
+- [RadarCoordContext](#radarcoordcontext)
+- [ReflectionUtil](#reflectionutil)
+- [RequireChartComponentAttribute](#requirechartcomponentattribute)
+- [RingChart](#ringchart)
+- [RuntimeUtil](#runtimeutil)
+- [ScatterChart](#scatterchart)
+- [SerieComponentAttribute](#seriecomponentattribute)
+- [SerieContext](#seriecontext)
+- [SerieConvertAttribute](#serieconvertattribute)
+- [SerieDataComponentAttribute](#seriedatacomponentattribute)
+- [SerieDataContext](#seriedatacontext)
+- [SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)
+- [SerieHandler](#seriehandler)
+- [SerieHandler&lt;T&gt;](#seriehandlert)
+- [SerieHandlerAttribute](#seriehandlerattribute)
+- [SerieHelper](#seriehelper)
+- [SerieLabelHelper](#serielabelhelper)
+- [SerieLabelPool](#serielabelpool)
+- [SerieParams](#serieparams)
+- [SeriesHelper](#serieshelper)
+- [SimplifiedBarChart](#simplifiedbarchart)
+- [SimplifiedCandlestickChart](#simplifiedcandlestickchart)
+- [SimplifiedLineChart](#simplifiedlinechart)
+- [Since](#since)
+- [SVG](#svg)
+- [SVGImage](#svgimage)
+- [SVGPath](#svgpath)
+- [SVGPathSeg](#svgpathseg)
+- [TooltipContext](#tooltipcontext)
+- [TooltipData](#tooltipdata)
+- [TooltipHelper](#tooltiphelper)
+- [TooltipView](#tooltipview)
+- [TooltipViewItem](#tooltipviewitem)
+- [UGL](#ugl)
+- [UGLExample](#uglexample)
+- [UGLHelper](#uglhelper)
+- [VisualMapContext](#visualmapcontext)
+- [VisualMapHelper](#visualmaphelper)
+- [XChartsMgr](#xchartsmgr)
+- [XCResourceImporterWindow](#xcresourceimporterwindow)
+- [XCThemeMgr](#xcthememgr)
+
 
 ## AnimationStyleHelper
 
@@ -316,6 +375,8 @@ Inherits or Implemented: [BaseChart](#basechart)
 | DestoryGameObject() |public static void DestoryGameObject(Transform parent, string childName)|
 | DestoryGameObjectByMatch() |public static void DestoryGameObjectByMatch(Transform parent, string containString)|
 | DestroyAllChildren() |public static void DestroyAllChildren(Transform parent)|
+| EnsureComponent&lt;T&gt;() |public static T EnsureComponent&lt;T&gt;(GameObject gameObject) where T : Component<br/>确保对象有指定的组件，如果没有则添加。 |
+| EnsureComponent&lt;T&gt;() |public static T EnsureComponent&lt;T&gt;(Transform transform) where T : Component<br/>确保对象有指定的组件，如果没有则添加。 |
 | GetActualValue() |public static float GetActualValue(float valueOrRate, float total, float maxRate = 1.5f)|
 | GetAngle360() |public static float GetAngle360(Vector2 from, Vector2 to)<br/>获得0-360的角度（12点钟方向为0度） |
 | GetBlurColor() |public static Color32 GetBlurColor(Color32 color, float a = 0.3f)|

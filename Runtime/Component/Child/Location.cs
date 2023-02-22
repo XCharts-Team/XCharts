@@ -275,11 +275,7 @@ namespace XCharts.Runtime
                 case Align.BottomCenter:
                 case Align.BottomLeft:
                 case Align.BottomRight:
-#if dUI_TextMeshPro
-                case TextAlignmentOptions.Bottom:
-                case TextAlignmentOptions.BottomLeft:
-                case TextAlignmentOptions.BottomRight:
-#endif
+
                     return true;
                 default:
                     return false;
@@ -293,11 +289,6 @@ namespace XCharts.Runtime
                 case Align.TopCenter:
                 case Align.TopLeft:
                 case Align.TopRight:
-#if dUI_TextMeshPro
-                case TextAlignmentOptions.Top:
-                case TextAlignmentOptions.TopLeft:
-                case TextAlignmentOptions.TopRight:
-#endif
                     return true;
                 default:
                     return false;
@@ -311,11 +302,6 @@ namespace XCharts.Runtime
                 case Align.Center:
                 case Align.CenterLeft:
                 case Align.CenterRight:
-#if dUI_TextMeshPro
-                case TextAlignmentOptions.Center:
-                case TextAlignmentOptions.CenterLeft:
-                case TextAlignmentOptions.CenterRight:
-#endif
                     return true;
                 default:
                     return false;

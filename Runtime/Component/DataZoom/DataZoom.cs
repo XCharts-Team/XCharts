@@ -93,6 +93,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.6.0")] private bool m_EndLock;
 
         public DataZoomContext context = new DataZoomContext();
+        private CustomDataZoomStartEndFunction m_StartEndFunction;
 
         /// <summary>
         /// Whether to show dataZoom.
@@ -393,6 +394,10 @@ namespace XCharts.Runtime
             get { return m_MarqueeStyle; }
             set { if (PropertyUtil.SetClass(ref m_MarqueeStyle, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// start和end变更委托。
+        /// </summary>
+        public CustomDataZoomStartEndFunction startEndFunction { get { return m_StartEndFunction; } set { m_StartEndFunction = value; } }
 
         class AxisIndexValueInfo
         {

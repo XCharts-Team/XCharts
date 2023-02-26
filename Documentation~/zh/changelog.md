@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.02.26) 增加`DataZoom`的`startEndFunction`委托
 * (2023.02.12) 重构`Component`相关代码，调整API接口
 * (2023.02.10) 修复`Axis`在`Log`轴时某些情况下最小值不正确的问题
 * (2023.02.10) 优化`Axis`的数值`Label`的默认显示格式

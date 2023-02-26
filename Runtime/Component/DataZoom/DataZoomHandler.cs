@@ -397,6 +397,8 @@ namespace XCharts.Runtime
 
             if (end < start)
                 end = start;
+            if (dataZoom.startEndFunction != null)
+                dataZoom.startEndFunction(ref start, ref end);
 
             if (!dataZoom.startLock)
                 dataZoom.start = start;

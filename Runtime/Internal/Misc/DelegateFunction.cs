@@ -22,4 +22,10 @@ namespace XCharts.Runtime
     /// <returns></returns>
     public delegate float SymbolSizeFunction(List<double> data);
     public delegate void CustomDrawGaugePointerFunction(VertexHelper vh, int serieIndex, int dataIndex, float currentAngle);
+    /// <summary>
+    /// DataZoom的start和end变更时的委托方法。
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    public delegate void CustomDataZoomStartEndFunction(ref float start, ref float end);
 }

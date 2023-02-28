@@ -647,6 +647,7 @@ namespace XCharts.Runtime
         public void SetSerieActive(Serie serie, bool active)
         {
             serie.show = active;
+            serie.RefreshLabel();
             serie.AnimationReset();
             if (active) serie.AnimationFadeIn();
             UpdateLegendColor(serie.serieName, active);

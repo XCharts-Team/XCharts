@@ -385,6 +385,7 @@ namespace XCharts.Runtime
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 if (serie.show &&
                     currLabel != null &&
+                    currLabel.show &&
                     serieData.context.canShowLabel &&
                     !isIgnore)
                 {

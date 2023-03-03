@@ -622,7 +622,7 @@ namespace XCharts.Runtime
 
         public float GetUpdateAnimationDuration()
         {
-            if (m_Enable && m_DataChangeEnable && IsFinish())
+            if (m_Enable && m_DataChangeEnable)
                 return m_DataChangeDuration;
             else
                 return 0;

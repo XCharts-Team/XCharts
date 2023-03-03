@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.03.03) 修复`Animation`变更动画可能无效的问题
 * (2023.02.28) 修复`Legend`点击时`Serie`的`Label`不刷新的问题
 * (2023.02.26) 增加`DataZoom`的`startEndFunction`委托
 * (2023.02.12) 重构`Component`相关代码，调整API接口

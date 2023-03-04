@@ -820,6 +820,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |colors|||the colors of legend item.
 |background||v3.1.0|the sytle of background. [ImageStyle](#imagestyle)|
 |padding||v3.1.0|the paddinng of item and background. [Padding](#padding)|
+|positions||v3.6.0|the custom positions of legend item.
 
 ## LegendTheme
 

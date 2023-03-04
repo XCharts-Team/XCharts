@@ -1,5 +1,5 @@
 ---
-sidebar_position: 21
+sidebar_position: 31
 slug: /configuration
 ---
 
@@ -820,6 +820,7 @@ Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipr
 |colors|||图例标记的颜色列表。
 |background||v3.1.0|背景图样式。 [ImageStyle](#imagestyle)|
 |padding||v3.1.0|图例标记和背景的间距。 [Padding](#padding)|
+|positions||v3.6.0|图例标记的自定义位置列表。
 
 ## LegendTheme
 

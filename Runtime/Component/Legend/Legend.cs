@@ -86,6 +86,7 @@ namespace XCharts.Runtime
         [SerializeField] private List<Color> m_Colors = new List<Color>();
         [SerializeField][Since("v3.1.0")] protected ImageStyle m_Background = new ImageStyle() { show = false };
         [SerializeField][Since("v3.1.0")] protected Padding m_Padding = new Padding();
+        [SerializeField][Since("v3.6.0")] private List<Vector3> m_Positions = new List<Vector3>();
 
         public LegendContext context = new LegendContext();
 
@@ -257,6 +258,15 @@ namespace XCharts.Runtime
             set { if (value != null) { m_Colors = value; SetAllDirty(); } }
         }
         /// <summary>
+        /// the custom positions of legend item.
+        /// |图例标记的自定义位置列表。
+        /// </summary>
+        public List<Vector3> positions
+        {
+            get { return m_Positions; }
+            set { if (value != null) { m_Positions = value; SetAllDirty(); } }
+        }
+        /// <summary>
         /// 图表是否需要刷新（图例组件不需要刷新图表）
         /// </summary>
         public override bool vertsDirty { get { return false; } }
@@ -426,6 +436,14 @@ namespace XCharts.Runtime
                 return m_Colors[index];
             else
                 return Color.white;
+        }
+
+        public Vector3 GetPosition(int index, Vector3 defaultPos)
+        {
+            if (index >= 0 && index < m_Positions.Count)
+                return m_Positions[index];
+            else
+                return defaultPos;
         }
 
         /// <summary>

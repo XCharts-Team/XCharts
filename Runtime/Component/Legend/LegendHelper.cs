@@ -156,6 +156,7 @@ namespace XCharts.Runtime
             var currHeight = 0f;
             var offsetX = 0f;
             var row = 0;
+            var index = 0;
             foreach (var kv in legend.context.buttonList)
             {
                 var item = kv.Value;
@@ -165,7 +166,7 @@ namespace XCharts.Runtime
                     offsetX += legend.context.eachWidthDict[row];
                     row++;
                 }
-                item.SetPosition(new Vector3(startX + offsetX, startY - currHeight));
+                item.SetPosition(legend.GetPosition(index++, new Vector3(startX + offsetX, startY - currHeight)));
                 currHeight += item.height + legend.itemGap;
             }
         }
@@ -173,6 +174,7 @@ namespace XCharts.Runtime
         {
             var currWidth = 0f;
             var offsetY = 0f;
+            var index = 0;
             foreach (var kv in legend.context.buttonList)
             {
                 var item = kv.Value;
@@ -181,7 +183,7 @@ namespace XCharts.Runtime
                     currWidth = 0;
                     offsetY += legend.context.eachHeight;
                 }
-                item.SetPosition(new Vector3(startX + currWidth, startY - offsetY));
+                item.SetPosition(legend.GetPosition(index++, new Vector3(startX + currWidth, startY - offsetY)));
                 currWidth += item.width + legend.itemGap;
             }
         }

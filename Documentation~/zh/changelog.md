@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.03.04) 增加`Legend`的`Positions`可自定义图例的位置
 * (2023.03.03) 修复`Animation`变更动画可能无效的问题
 * (2023.02.28) 修复`Legend`点击时`Serie`的`Label`不刷新的问题
 * (2023.02.26) 增加`DataZoom`的`startEndFunction`委托

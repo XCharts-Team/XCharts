@@ -155,6 +155,24 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 
 |public method|description|
 |--|--|
+| onAxisPointerValueChanged |public Action&lt;Axis, double&gt; onAxisPointerValueChanged<br/>坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue |
+| onDraw |public Action&lt;VertexHelper&gt; onDraw<br/>自定义绘制回调。在绘制Serie前调用。 |
+| onDrawAfterSerie |public Action&lt;VertexHelper, Serie&gt; onDrawAfterSerie<br/>自定义Serie绘制回调。在每个Serie绘制完后调用。 |
+| onDrawBeforeSerie |public Action&lt;VertexHelper, Serie&gt; onDrawBeforeSerie<br/>自定义Serie绘制回调。在每个Serie绘制完前调用。 |
+| onDrawTop |public Action&lt;VertexHelper&gt; onDrawTop<br/>自定义Top层绘制回调。在绘制Tooltip前调用。 |
+| onDrawUpper |public Action&lt;VertexHelper&gt; onDrawUpper<br/>自定义Upper层绘制回调。在绘制Tooltip前调用。 |
+| onInit |public Action onInit<br/>The callback function of chart init. |
+| onLegendClick |public Action&lt;Legend, int, string, bool&gt; onLegendClick<br/>the callback function of click legend. |
+| onLegendEnter |public Action&lt;Legend, int, string&gt; onLegendEnter<br/>the callback function of enter legend. |
+| onLegendExit |public Action&lt;Legend, int, string&gt; onLegendExit<br/>the callback function of exit legend. |
+| onPointerClickBar |public Action&lt;PointerEventData, int&gt; onPointerClickBar<br/>the callback function of click bar. |
+| onPointerClickPie |public Action&lt;PointerEventData, int, int&gt; onPointerClickPie<br/>the callback function of pointer click pie area. |
+| onPointerEnterPie |public Action&lt;int, int&gt; onPointerEnterPie<br/>the callback function of pointer enter pie area. |
+| onSerieClick |public Action&lt;SerieEventData&gt; onSerieClick<br/>the callback function of pointer click serie. |
+| onSerieDown |public Action&lt;SerieEventData&gt; onSerieDown<br/>the callback function of pointer down serie. |
+| onSerieEnter |public Action&lt;SerieEventData&gt; onSerieEnter<br/>the callback function of pointer enter serie. |
+| onSerieExit |public Action&lt;SerieEventData&gt; onSerieExit<br/>the callback function of pointer exit serie. |
+| onUpdate |public Action onUpdate<br/>The callback function of chart update. |
 | AddChartComponent() |public MainComponent AddChartComponent(Type type)|
 | AddChartComponent&lt;T&gt;() |public T AddChartComponent&lt;T&gt;() where T : MainComponent|
 | AddChartComponentWhenNoExist&lt;T&gt;() |public T AddChartComponentWhenNoExist&lt;T&gt;() where T : MainComponent|
@@ -325,6 +343,15 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandle
 
 |public method|description|
 |--|--|
+| onBeginDrag |public Action&lt;PointerEventData, BaseGraph&gt; onBeginDrag<br/>鼠标开始拖拽回调。 |
+| onDrag |public Action&lt;PointerEventData, BaseGraph&gt; onDrag<br/>鼠标拖拽回调。 |
+| onEndDrag |public Action&lt;PointerEventData, BaseGraph&gt; onEndDrag<br/>鼠标结束拖拽回调。 |
+| onPointerClick |public Action&lt;PointerEventData, BaseGraph&gt; onPointerClick<br/>鼠标点击回调。 |
+| onPointerDown |public Action&lt;PointerEventData, BaseGraph&gt; onPointerDown<br/>鼠标按下回调。 |
+| onPointerEnter |public Action&lt;PointerEventData, BaseGraph&gt; onPointerEnter<br/>鼠标进入回调。 |
+| onPointerExit |public Action&lt;PointerEventData, BaseGraph&gt; onPointerExit<br/>鼠标退出回调。 |
+| onPointerUp |public Action&lt;PointerEventData, BaseGraph&gt; onPointerUp<br/>鼠标弹起回调。 |
+| onScroll |public Action&lt;PointerEventData, BaseGraph&gt; onScroll<br/>鼠标滚动回调。 |
 | CheckWarning() |public string CheckWarning()<br/>检测警告信息。 |
 | OnBeginDrag() |public virtual void OnBeginDrag(PointerEventData eventData)|
 | OnDrag() |public virtual void OnDrag(PointerEventData eventData)|
@@ -719,6 +746,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 |public method|description|
 |--|--|
+| onPopulateMesh |public Action&lt;VertexHelper, Painter&gt; onPopulateMesh|
 | CheckRefresh() |public void CheckRefresh()|
 | Init() |public void Init()|
 | Refresh() |public void Refresh()|

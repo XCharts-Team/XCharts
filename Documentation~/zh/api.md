@@ -155,6 +155,24 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 
 |public method|description|
 |--|--|
+| onAxisPointerValueChanged |public Action&lt;Axis, double&gt; onAxisPointerValueChanged<br/>坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue |
+| onDraw |public Action&lt;VertexHelper&gt; onDraw<br/>自定义绘制回调。在绘制Serie前调用。 |
+| onDrawAfterSerie |public Action&lt;VertexHelper, Serie&gt; onDrawAfterSerie<br/>自定义Serie绘制回调。在每个Serie绘制完后调用。 |
+| onDrawBeforeSerie |public Action&lt;VertexHelper, Serie&gt; onDrawBeforeSerie<br/>自定义Serie绘制回调。在每个Serie绘制完前调用。 |
+| onDrawTop |public Action&lt;VertexHelper&gt; onDrawTop<br/>自定义Top层绘制回调。在绘制Tooltip前调用。 |
+| onDrawUpper |public Action&lt;VertexHelper&gt; onDrawUpper<br/>自定义Upper层绘制回调。在绘制Tooltip前调用。 |
+| onInit |public Action onInit<br/>图表的初始化完成回调。 |
+| onLegendClick |public Action&lt;Legend, int, string, bool&gt; onLegendClick<br/>点击图例按钮回调。参数：legendIndex, legendName, show |
+| onLegendEnter |public Action&lt;Legend, int, string&gt; onLegendEnter<br/>鼠标进入图例回调。参数：legendIndex, legendName |
+| onLegendExit |public Action&lt;Legend, int, string&gt; onLegendExit<br/>鼠标退出图例回调。参数：legendIndex, legendName |
+| onPointerClickBar |public Action&lt;PointerEventData, int&gt; onPointerClickBar<br/>点击柱形图柱条回调。参数：eventData, dataIndex |
+| onPointerClickPie |public Action&lt;PointerEventData, int, int&gt; onPointerClickPie<br/>点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex |
+| onPointerEnterPie |public Action&lt;int, int&gt; onPointerEnterPie<br/>鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex |
+| onSerieClick |public Action&lt;SerieEventData&gt; onSerieClick<br/>鼠标点击Serie回调。 |
+| onSerieDown |public Action&lt;SerieEventData&gt; onSerieDown<br/>鼠标按下Serie回调。 |
+| onSerieEnter |public Action&lt;SerieEventData&gt; onSerieEnter<br/>鼠标进入Serie回调。 |
+| onSerieExit |public Action&lt;SerieEventData&gt; onSerieExit<br/>鼠标离开Serie回调。 |
+| onUpdate |public Action onUpdate<br/>图表的Update回调。 |
 | AddChartComponent() |public MainComponent AddChartComponent(Type type)|
 | AddChartComponent&lt;T&gt;() |public T AddChartComponent&lt;T&gt;() where T : MainComponent|
 | AddChartComponentWhenNoExist&lt;T&gt;() |public T AddChartComponentWhenNoExist&lt;T&gt;() where T : MainComponent|
@@ -325,6 +343,15 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandle
 
 |public method|description|
 |--|--|
+| onBeginDrag |public Action&lt;PointerEventData, BaseGraph&gt; onBeginDrag<br/>鼠标开始拖拽回调。 |
+| onDrag |public Action&lt;PointerEventData, BaseGraph&gt; onDrag<br/>鼠标拖拽回调。 |
+| onEndDrag |public Action&lt;PointerEventData, BaseGraph&gt; onEndDrag<br/>鼠标结束拖拽回调。 |
+| onPointerClick |public Action&lt;PointerEventData, BaseGraph&gt; onPointerClick<br/>鼠标点击回调。 |
+| onPointerDown |public Action&lt;PointerEventData, BaseGraph&gt; onPointerDown<br/>鼠标按下回调。 |
+| onPointerEnter |public Action&lt;PointerEventData, BaseGraph&gt; onPointerEnter<br/>鼠标进入回调。 |
+| onPointerExit |public Action&lt;PointerEventData, BaseGraph&gt; onPointerExit<br/>鼠标退出回调。 |
+| onPointerUp |public Action&lt;PointerEventData, BaseGraph&gt; onPointerUp<br/>鼠标弹起回调。 |
+| onScroll |public Action&lt;PointerEventData, BaseGraph&gt; onScroll<br/>鼠标滚动回调。 |
 | CheckWarning() |public string CheckWarning()<br/>检测警告信息。 |
 | OnBeginDrag() |public virtual void OnBeginDrag(PointerEventData eventData)|
 | OnDrag() |public virtual void OnDrag(PointerEventData eventData)|
@@ -719,6 +746,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 |public method|description|
 |--|--|
+| onPopulateMesh |public Action&lt;VertexHelper, Painter&gt; onPopulateMesh|
 | CheckRefresh() |public void CheckRefresh()|
 | Init() |public void Init()|
 | Refresh() |public void Refresh()|

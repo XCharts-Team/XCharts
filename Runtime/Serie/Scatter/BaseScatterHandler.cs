@@ -13,7 +13,6 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -63,7 +62,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateSerieContext()
+        public override void UpdateSerieContext()
         {
             var needCheck = m_LegendEnter || (chart.isPointerInChart && (m_Grid == null || m_Grid.IsPointerEnter()));
 

@@ -18,27 +18,27 @@
   <a href="https://github.com/XCharts-Team/XCharts/releases">
     <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases"></img>
   </a>
-  <a href="">
+  <a href="https://github.com/XCharts-Team/XCharts">
     <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
-  <a href="">
+  <a href="https://github.com/XCharts-Team/XCharts">
     <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
-  <a href="">
+  <a href="https://xcharts-team.github.io/docs/tutorial01">
     <img src="https://img.shields.io/badge/Unity-5.6+-green"></img>
   </a>
-  <a href="">
+  <a href="https://xcharts-team.github.io/docs/tutorial01">
     <img src="https://img.shields.io/badge/TextMeshPro-YES-green"></img>
   </a>
 </p>
 <p align="center">
-  <a href="">
+  <a href="https://github.com/XCharts-Team/XCharts/stargazers">
     <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social"></img>
   </a>
-  <a href="">
+  <a href="https://github.com/XCharts-Team/XCharts/forks">
     <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social"></img>
   </a>
-  <a href="">
+  <a href="https://github.com/XCharts-Team/XCharts/issues">
     <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social"></img>
   </a>
 </p>

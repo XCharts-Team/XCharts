@@ -228,7 +228,7 @@ namespace XCharts.Runtime
 
         protected virtual void CheckRefreshChart()
         {
-            if (m_RefreshChart)
+            if (m_RefreshChart && m_Painter != null)
             {
                 m_Painter.Refresh();
                 m_RefreshChart = false;
@@ -237,6 +237,7 @@ namespace XCharts.Runtime
 
         protected virtual void CheckRefreshPainter()
         {
+            if (m_Painter == null) return;
             m_Painter.CheckRefresh();
         }
 

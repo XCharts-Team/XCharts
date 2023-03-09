@@ -104,21 +104,48 @@ namespace XCharts.Runtime
         /// </summary>
         public CustomDrawGaugePointerFunction customDrawGaugePointerFunction { set { m_CustomDrawGaugePointerFunction = value; } get { return m_CustomDrawGaugePointerFunction; } }
         /// <summary>
+        /// the callback function of pointer click serie.
+        /// |鼠标点击Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieClick { set { m_OnSerieClick = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieClick; } }
+        /// <summary>
+        /// the callback function of pointer down serie.
+        /// |鼠标按下Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieDown { set { m_OnSerieDown = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieDown; } }
+        /// <summary>
+        /// the callback function of pointer enter serie.
+        /// |鼠标进入Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieEnter { set { m_OnSerieEnter = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieEnter; } }
+        /// <summary>
+        /// the callback function of pointer exit serie.
+        /// |鼠标离开Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieExit { set { m_OnSerieExit = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieExit; } }
+        /// <summary>
         /// the callback function of pointer click pie area.
         /// |点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
-        public Action<PointerEventData, int, int> onPointerClickPie { set { m_OnPointerClickPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickPie; } }
+        [Obsolete("Use \"onSerieClick\" instead", true)]
+        public Action<PointerEventData, int, int> onPointerClickPie { get; set; }
         /// <summary>
         /// the callback function of pointer enter pie area.
         /// |鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         [Since("v3.3.0")]
+        [Obsolete("Use \"onSerieEnter\" instead", true)]
         public Action<int, int> onPointerEnterPie { set { m_OnPointerEnterPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerEnterPie; } }
         /// <summary>
         /// the callback function of click bar.
         /// |点击柱形图柱条回调。参数：eventData, dataIndex
         /// </summary>
-        public Action<PointerEventData, int> onPointerClickBar { set { m_OnPointerClickBar = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickBar; } }
+        [Obsolete("Use \"onSerieClick\" instead", true)]
+        public Action<PointerEventData, int> onPointerClickBar { get; set; }
         /// <summary>
         /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
         /// </summary>

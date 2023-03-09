@@ -310,6 +310,27 @@ namespace XCharts.Runtime
         [NonSerialized] private bool m_NameDirty;
 
         /// <summary>
+        /// event callback when click serie.
+        /// |点击系列时的回调。
+        /// </summary>
+        public Action<SerieEventData> onClick { get; set; }
+        /// <summary>
+        /// event callback when mouse down on serie.
+        /// |鼠标按下时的回调。
+        /// </summary>
+        public Action<SerieEventData> onDown { get; set; }
+        /// <summary>
+        /// event callback when mouse enter serie.
+        /// |鼠标进入时的回调。
+        /// </summary>
+        public Action<SerieEventData> onEnter { get; set; }
+        /// <summary>
+        /// event callback when mouse leave serie.
+        /// |鼠标离开时的回调。
+        /// </summary>
+        public Action<SerieEventData> onExit { get; set; }
+
+        /// <summary>
         /// The index of serie.
         /// |系列索引。
         /// </summary>

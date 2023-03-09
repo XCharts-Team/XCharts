@@ -15,7 +15,6 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
         public override void UpdateTooltipSerieParams(int dataIndex, bool showCategory, string category,
@@ -31,7 +30,7 @@ namespace XCharts.Runtime
             DrawLineSerie(vh, serie);
         }
 
-        private void UpdateSerieContext()
+        public override void UpdateSerieContext()
         {
             if (m_SerieGrid == null)
                 return;

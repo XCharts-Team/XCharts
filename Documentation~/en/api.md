@@ -69,6 +69,8 @@ slug: /api
 - [SerieDataComponentAttribute](#seriedatacomponentattribute)
 - [SerieDataContext](#seriedatacontext)
 - [SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)
+- [SerieEventData](#serieeventdata)
+- [SerieEventDataPool](#serieeventdatapool)
 - [SerieHandler](#seriehandler)
 - [SerieHandler&lt;T&gt;](#seriehandlert)
 - [SerieHandlerAttribute](#seriehandlerattribute)
@@ -870,6 +872,19 @@ Inherits or Implemented: [Attribute](#attribute)
 | SerieDataExtraFieldAttribute() |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)|
 | SerieDataExtraFieldAttribute() |public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)|
 
+## SerieEventData
+
+|public method|description|
+|--|--|
+| Reset() |public void Reset()|
+
+## SerieEventDataPool
+
+|public method|description|
+|--|--|
+| Get() |public static SerieEventData Get(Vector3 pos, int serieIndex, int dataIndex, int dimension, double value)|
+| Release() |public static void Release(SerieEventData toRelease)|
+
 ## SerieHandler
 
 |public method|description|
@@ -896,6 +911,7 @@ Inherits or Implemented: [Attribute](#attribute)
 | RefreshLabelNextFrame() |public virtual void RefreshLabelNextFrame() { }|
 | RemoveComponent() |public virtual void RemoveComponent() { }|
 | Update() |public virtual void Update() { }|
+| UpdateSerieContext() |public virtual void UpdateSerieContext() { }|
 
 ## SerieHandler&lt;T&gt;
 
@@ -904,6 +920,8 @@ Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#
 |public method|description|
 |--|--|
 | DrawLabelLineSymbol() |public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
+| GetPointerItemDataDimension() |public override int GetPointerItemDataDimension()|
+| GetPointerItemDataIndex() |public override int GetPointerItemDataIndex()|
 | GetSerieDataAutoColor() |public virtual Color GetSerieDataAutoColor(SerieData serieData)|
 | GetSerieDataLabelOffset() |public virtual Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)|
 | GetSerieDataLabelPosition() |public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)|
@@ -912,6 +930,8 @@ Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#
 | OnLegendButtonClick() |public override void OnLegendButtonClick(int index, string legendName, bool show)|
 | OnLegendButtonEnter() |public override void OnLegendButtonEnter(int index, string legendName)|
 | OnLegendButtonExit() |public override void OnLegendButtonExit(int index, string legendName)|
+| OnPointerClick() |public override void OnPointerClick(PointerEventData eventData)|
+| OnPointerDown() |public override void OnPointerDown(PointerEventData eventData)|
 | RefreshEndLabelInternal() |public virtual void RefreshEndLabelInternal()|
 | RefreshLabelInternal() |public override void RefreshLabelInternal()|
 | RefreshLabelNextFrame() |public override void RefreshLabelNextFrame()|

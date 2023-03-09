@@ -64,7 +64,7 @@ namespace XCharts.Example
             chart.AddData(0, 135, "视频广告");
             chart.AddData(0, 1548, "搜索引擎");
 
-            chart.onPointerClickPie = delegate (PointerEventData e, int serieIndex, int dataIndex)
+            chart.onSerieClick = delegate (SerieEventData data)
             {
 
             };

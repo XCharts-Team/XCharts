@@ -65,6 +65,8 @@ slug: /changelog
 
 ## master
 
+* (2023.03.09) 增加`Chart`的`onSerieClick`，`onSerieDown`，`onSerieEnter`和`onSerieExit`回调
+* (2023.03.09) 修复`Pie`的点击选中偏移不生效的问题
 * (2023.03.04) 增加`Legend`的`Positions`可自定义图例的位置
 * (2023.03.03) 修复`Animation`变更动画可能无效的问题
 * (2023.02.28) 修复`Legend`点击时`Serie`的`Label`不刷新的问题

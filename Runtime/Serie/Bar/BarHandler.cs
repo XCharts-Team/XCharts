@@ -78,16 +78,6 @@ namespace XCharts.Runtime
             }
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            if (!serie.context.pointerEnter) return;
-            if (serie.context.pointerItemDataIndex < 0) return;
-            if (chart.onPointerClickBar != null)
-            {
-                chart.onPointerClickBar(eventData, serie.context.pointerItemDataIndex);
-            }
-        }
-
         private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
@@ -240,7 +230,7 @@ namespace XCharts.Runtime
                 if (isPercentStack)
                 {
                     var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
-                    barHig = valueTotal != 0 ? (float) (relativedValue / valueTotal * relativedAxisLength) : 0;
+                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * relativedAxisLength) : 0;
                 }
                 else
                 {
@@ -314,7 +304,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
                     else
                     {
-                        var valueLen = (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.height;
+                        var valueLen = (float)((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.height;
                         pY = grid.context.y + valueLen - categoryWidth * 0.5f;
                     }
                 }
@@ -336,7 +326,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
                     else
                     {
-                        var valueLen = (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.width;
+                        var valueLen = (float)((value - axis.context.minValue) / axis.context.minMaxRange) * grid.context.width;
                         pX = grid.context.x + valueLen - categoryWidth * 0.5f;
                     }
                 }

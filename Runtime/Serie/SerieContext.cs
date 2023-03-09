@@ -26,6 +26,10 @@ namespace XCharts.Runtime
         /// </summary>
         public int pointerItemDataIndex = -1;
         /// <summary>
+        /// 鼠标当前指示的数据项维度
+        /// </summary>
+        public int pointerItemDataDimension = 1;
+        /// <summary>
         /// 鼠标所在轴线上的数据项索引（可能有多个）
         /// </summary>
         public List<int> pointerAxisDataIndexs = new List<int>();

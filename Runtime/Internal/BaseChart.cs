@@ -89,9 +89,11 @@ namespace XCharts.Runtime
         protected Action<VertexHelper> m_OnDrawTop;
         protected Action<VertexHelper, Serie> m_OnDrawSerieBefore;
         protected Action<VertexHelper, Serie> m_OnDrawSerieAfter;
-        protected Action<PointerEventData, int, int> m_OnPointerClickPie;
+        protected Action<SerieEventData> m_OnSerieClick;
+        protected Action<SerieEventData> m_OnSerieDown;
+        protected Action<SerieEventData> m_OnSerieEnter;
+        protected Action<SerieEventData> m_OnSerieExit;
         protected Action<int, int> m_OnPointerEnterPie;
-        protected Action<PointerEventData, int> m_OnPointerClickBar;
         protected Action<Axis, double> m_OnAxisPointerValueChanged;
         protected Action<Legend, int, string, bool> m_OnLegendClick;
         protected Action<Legend, int, string> m_OnLegendEnter;
